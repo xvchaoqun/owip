@@ -27,7 +27,7 @@
     <result column="special_type" jdbcType="TINYINT" property="specialType" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
     <result column="user_type" jdbcType="TINYINT" property="userType" />
-    <result column="no" jdbcType="SMALLINT" property="no" />
+    <result column="cert_no" jdbcType="SMALLINT" property="certNo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -91,7 +91,7 @@
     id, year, user_id, trainee_type_id, other_trainee_type, title, start_date, end_date, 
     name, type, source_id, source_type, cet_party_id, organizer, period, online_period, 
     should_finish_period, is_graduate, is_valid, remark, archive_time, is_deleted, special_type, 
-    project_type, user_type, no
+    project_type, user_type, cert_no
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">
     select
@@ -134,7 +134,7 @@
       period, online_period, should_finish_period, 
       is_graduate, is_valid, remark, 
       archive_time, is_deleted, special_type, 
-      project_type, user_type, no
+      project_type, user_type, cert_no
       )
     values (#{year,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{otherTraineeType,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
@@ -143,7 +143,7 @@
       #{period,jdbcType=DECIMAL}, #{onlinePeriod,jdbcType=DECIMAL}, #{shouldFinishPeriod,jdbcType=DECIMAL}, 
       #{isGraduate,jdbcType=BIT}, #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
       #{archiveTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, #{specialType,jdbcType=TINYINT}, 
-      #{projectType,jdbcType=INTEGER}, #{userType,jdbcType=TINYINT}, #{no,jdbcType=SMALLINT}
+      #{projectType,jdbcType=INTEGER}, #{userType,jdbcType=TINYINT}, #{certNo,jdbcType=SMALLINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetRecord">
@@ -224,8 +224,8 @@
       <if test="userType != null">
         user_type,
       </if>
-      <if test="no != null">
-        no,
+      <if test="certNo != null">
+        cert_no,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -301,8 +301,8 @@
       <if test="userType != null">
         #{userType,jdbcType=TINYINT},
       </if>
-      <if test="no != null">
-        #{no,jdbcType=SMALLINT},
+      <if test="certNo != null">
+        #{certNo,jdbcType=SMALLINT},
       </if>
     </trim>
   </insert>
@@ -390,8 +390,8 @@
       <if test="record.userType != null">
         user_type = #{record.userType,jdbcType=TINYINT},
       </if>
-      <if test="record.no != null">
-        no = #{record.no,jdbcType=SMALLINT},
+      <if test="record.certNo != null">
+        cert_no = #{record.certNo,jdbcType=SMALLINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -425,7 +425,7 @@
       special_type = #{record.specialType,jdbcType=TINYINT},
       project_type = #{record.projectType,jdbcType=INTEGER},
       user_type = #{record.userType,jdbcType=TINYINT},
-      no = #{record.no,jdbcType=SMALLINT}
+      cert_no = #{record.certNo,jdbcType=SMALLINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -505,8 +505,8 @@
       <if test="userType != null">
         user_type = #{userType,jdbcType=TINYINT},
       </if>
-      <if test="no != null">
-        no = #{no,jdbcType=SMALLINT},
+      <if test="certNo != null">
+        cert_no = #{certNo,jdbcType=SMALLINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -537,7 +537,7 @@
       special_type = #{specialType,jdbcType=TINYINT},
       project_type = #{projectType,jdbcType=INTEGER},
       user_type = #{userType,jdbcType=TINYINT},
-      no = #{no,jdbcType=SMALLINT}
+      cert_no = #{certNo,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">

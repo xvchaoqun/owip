@@ -94,8 +94,7 @@
         rownumbers:true,
         multiselect:false,
         pager: "jqGridPager2",
-        <c:if test="${cetProject.type== CET_PROJECT_TYPE_SPECIAL
-                || cetProject.type== CET_PROJECT_TYPE_DAILY}">
+        <c:if test="${!cetProject.isPartyProject}">
         url: '${ctx}/user/cet/cetProjectPlan_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '详情',name: '_detail', width: 110, formatter: function (cellvalue, options, rowObject) {
@@ -147,8 +146,7 @@
             }}
         ]
         </c:if>
-        <c:if test="${cetProject.type== CET_PROJECT_TYPE_PARTY_SPECIAL
-                || cetProject.type== CET_PROJECT_TYPE_PARTY_DAILY}">
+        <c:if test="${cetProject.isPartyProject}">
         url: '${ctx}/user/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '选课情况', name: '_selected', width: 80, formatter: function (cellvalue, options, rowObject) {

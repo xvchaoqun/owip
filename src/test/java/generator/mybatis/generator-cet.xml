@@ -88,8 +88,8 @@
                enableDeleteByExample="false">
         </table>-->
 
-        <!--<table tableName="cet_project_type" domainObjectName="cet.CetProjectType" mapperName="cet.CetProjectTypeMapper">
-        </table>-->
+        <table tableName="cet_project_type" domainObjectName="cet.CetProjectType" mapperName="cet.CetProjectTypeMapper">
+        </table>
         <!--<table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -148,11 +148,11 @@
         <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 
-        <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+        <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="eva_note" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>-->

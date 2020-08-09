@@ -11,6 +11,18 @@
           left join cet_project p on po.project_id=p.id where p.is_deleted=0 and p.status=2 and po.is_quit=0) and source_type = 2;
     </delete>
 
+    <select id="getUnArchiveProjectObjIds" parameterType="map" resultType="java.lang.Integer">
+        select po.id from cet_project_obj po
+            left join cet_project p on p.id=po.project_id
+            left join cet_record r on po.id=r.source_id and r.source_type =2
+        <where>
+            <if test="projectId!=null">
+                and po.project_id=#{projectId}
+            </if>
+            and po.is_quit=0 and (po.update_time > r.archive_time or r.id is null)
+        </where>
+    </select>
+
     <sql id="sql_updateProjectPeriod">
         update cet_project cp
             left join

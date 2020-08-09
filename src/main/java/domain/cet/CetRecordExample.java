@@ -1683,63 +1683,63 @@ public class CetRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andNoIsNull() {
-            addCriterion("no is null");
+        public Criteria andCertNoIsNull() {
+            addCriterion("cert_no is null");
             return (Criteria) this;
         }
 
-        public Criteria andNoIsNotNull() {
-            addCriterion("no is not null");
+        public Criteria andCertNoIsNotNull() {
+            addCriterion("cert_no is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNoEqualTo(Short value) {
-            addCriterion("no =", value, "no");
+        public Criteria andCertNoEqualTo(Short value) {
+            addCriterion("cert_no =", value, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoNotEqualTo(Short value) {
-            addCriterion("no <>", value, "no");
+        public Criteria andCertNoNotEqualTo(Short value) {
+            addCriterion("cert_no <>", value, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoGreaterThan(Short value) {
-            addCriterion("no >", value, "no");
+        public Criteria andCertNoGreaterThan(Short value) {
+            addCriterion("cert_no >", value, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoGreaterThanOrEqualTo(Short value) {
-            addCriterion("no >=", value, "no");
+        public Criteria andCertNoGreaterThanOrEqualTo(Short value) {
+            addCriterion("cert_no >=", value, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoLessThan(Short value) {
-            addCriterion("no <", value, "no");
+        public Criteria andCertNoLessThan(Short value) {
+            addCriterion("cert_no <", value, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoLessThanOrEqualTo(Short value) {
-            addCriterion("no <=", value, "no");
+        public Criteria andCertNoLessThanOrEqualTo(Short value) {
+            addCriterion("cert_no <=", value, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoIn(List<Short> values) {
-            addCriterion("no in", values, "no");
+        public Criteria andCertNoIn(List<Short> values) {
+            addCriterion("cert_no in", values, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoNotIn(List<Short> values) {
-            addCriterion("no not in", values, "no");
+        public Criteria andCertNoNotIn(List<Short> values) {
+            addCriterion("cert_no not in", values, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoBetween(Short value1, Short value2) {
-            addCriterion("no between", value1, value2, "no");
+        public Criteria andCertNoBetween(Short value1, Short value2) {
+            addCriterion("cert_no between", value1, value2, "certNo");
             return (Criteria) this;
         }
 
-        public Criteria andNoNotBetween(Short value1, Short value2) {
-            addCriterion("no not between", value1, value2, "no");
+        public Criteria andCertNoNotBetween(Short value1, Short value2) {
+            addCriterion("cert_no not between", value1, value2, "certNo");
             return (Criteria) this;
         }
     }

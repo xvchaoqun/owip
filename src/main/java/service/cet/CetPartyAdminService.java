@@ -23,7 +23,7 @@ public class CetPartyAdminService extends CetBaseMapper {
     private SysUserService sysUserService;
 
     //根据partyId得到管理员
-    public List<CetPartyAdmin> findByPartyId(Integer cetPartyId) {
+    public List<CetPartyAdmin> findByPartyId(int cetPartyId) {
 
         CetPartyAdminExample example = new CetPartyAdminExample();
         example.createCriteria().andCetPartyIdEqualTo(cetPartyId);
@@ -31,7 +31,7 @@ public class CetPartyAdminService extends CetBaseMapper {
         return cetPartyAdminMapper.selectByExample(example);
     }
 
-    public CetPartyAdmin get(Integer cetPartyId, Integer userId) {
+    public CetPartyAdmin get(int cetPartyId, int userId) {
 
         CetPartyAdminExample example = new CetPartyAdminExample();
         CetPartyAdminExample.Criteria criteria =

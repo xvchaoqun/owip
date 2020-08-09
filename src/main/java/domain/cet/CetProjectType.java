@@ -9,6 +9,8 @@ public class CetProjectType implements Serializable {
 
     private Byte type;
 
+    private Boolean isPartyProject;
+
     private String code;
 
     private Integer sortOrder;
@@ -41,6 +43,14 @@ public class CetProjectType implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getIsPartyProject() {
+        return isPartyProject;
+    }
+
+    public void setIsPartyProject(Boolean isPartyProject) {
+        this.isPartyProject = isPartyProject;
     }
 
     public String getCode() {

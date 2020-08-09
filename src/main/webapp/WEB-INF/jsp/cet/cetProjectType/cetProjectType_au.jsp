@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetProjectType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <input type="hidden" name="cls" value="${param.cls}">
         <input type="hidden" name="id" value="${cetProjectType.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>

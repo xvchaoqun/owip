@@ -24,17 +24,15 @@ public class CetRecordService extends CetBaseMapper {
 
     @Autowired
     private CetProjectObjService cetProjectObjService;
-    @Autowired
-    private CetProjectTypeService cetProjectTypeService;
 
     // 获取或更新证书编码
-    public String selectOrUpdateNo(int recordId){
+    public String selectOrUpdateCertNo(int recordId){
 
         CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(recordId);
-        return selectOrUpdateNo(cetRecord);
+        return selectOrUpdateCertNo(cetRecord);
     }
 
-    public String selectOrUpdateNo(CetRecord cetRecord){
+    public String selectOrUpdateCertNo(CetRecord cetRecord){
 
         Integer recordId = cetRecord.getId();
         if(recordId==null) return null;
@@ -42,27 +40,25 @@ public class CetRecordService extends CetBaseMapper {
         byte userType = cetRecord.getUserType();
         Byte specialType = cetRecord.getSpecialType();
         Integer projectType = cetRecord.getProjectType();
-        Short no = cetRecord.getNo();
+        Short certNo = cetRecord.getCertNo();
 
         if(specialType==null || projectType==null) return null;
 
         String projectTypeCode = null;
-        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll(specialType);
-        CetProjectType cetProjectType = projectTypeMap.get(projectType);
+        CetProjectType cetProjectType = cetProjectTypeMapper.selectByPrimaryKey(projectType);
         if(cetProjectType!=null){
             projectTypeCode = cetProjectType.getCode();
         }
-
         if(projectTypeCode==null) return null;
 
-        if(no==null){
+        if(certNo==null){
 
-            no = iCetMapper.getNextCertNo(year, userType, specialType, projectType);
-            no = (no==null)?1:no;
+            certNo = iCetMapper.getNextCertNo(year, userType, specialType, projectType);
+            certNo = (certNo==null)?1:certNo;
 
-            if(no>9999) return null; // 证书编号最多四位数
+            if(certNo>9999) return null; // 证书编号最多四位数
 
-            int update = iCetMapper.updateCertNo(recordId, no, year, userType, specialType, projectType);
+            int update = iCetMapper.updateCertNo(recordId, certNo, year, userType, specialType, projectType);
 
             if(update==0) return null; // 更新证书编号失败
         }
@@ -72,13 +68,13 @@ public class CetRecordService extends CetBaseMapper {
                 userType==SystemConstants.USER_TYPE_JZG?"T":"S",
                 year,
                 projectTypeCode,
-                no);
+                certNo);
     }
 
     // 增量同步上级调训（含党校其他培训）
     public void syncAllUpperTrain(){
 
-        List<Integer> upperTrainIds = iCetMapper.unArchiveUpperTrainIds();
+        List<Integer> upperTrainIds = iCetMapper.getUnArchiveUpperTrainIds();
 
         for (Integer upperTrainId : upperTrainIds) {
             syncUpperTrain(upperTrainId);
@@ -88,21 +84,24 @@ public class CetRecordService extends CetBaseMapper {
     // 增量同步二级党委培训
     public void syncAllUnitTrian(){
 
-        List<Integer> unitTrainIds = iCetMapper.unArchiveUnitTrainIds();
+        List<Integer> unitTrainIds = iCetMapper.getUnArchiveUnitTrainIds();
 
         for (Integer unitTrainId : unitTrainIds) {
             syncUnitTrain(unitTrainId);
         }
     }
 
-    // 增量同步党校培训
-    public void syncAllProjectObj(){
+    // 增量同步过程培训记录
+    public void syncAllProjectObj(Integer projectId){
 
         {
             // 第一步：删除已退出参训人员的培训记录
             List<Integer> quitObjIds = new ArrayList<>();
             CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andIsQuitEqualTo(true);
+            CetProjectObjExample.Criteria criteria = example.createCriteria().andIsQuitEqualTo(true);
+            if(projectId!=null){
+                criteria.andProjectIdEqualTo(projectId);
+            }
             List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
             for (CetProjectObj cetProjectObj : cetProjectObjs) {
                 quitObjIds.add(cetProjectObj.getId());
@@ -120,7 +119,7 @@ public class CetRecordService extends CetBaseMapper {
 
         {
             // 第二步：同步未退出参训人员的培训记录
-            List<Integer> objIds = iCetMapper.unArchiveProjectObjIds();
+            List<Integer> objIds = iCetMapper.getUnArchiveProjectObjIds(projectId);
             for (Integer objId : objIds) {
                 sysProjectObj(objId);
             }
@@ -192,7 +191,7 @@ public class CetRecordService extends CetBaseMapper {
             cetRecordMapper.updateByPrimaryKeySelective(r);
         }
 
-        selectOrUpdateNo(r);
+        selectOrUpdateCertNo(r);
     }
 
     // 将一条二级党委培训记录同步至培训记录
@@ -261,10 +260,10 @@ public class CetRecordService extends CetBaseMapper {
             cetRecordMapper.updateByPrimaryKeySelective(r);
         }
 
-        selectOrUpdateNo(r);
+        selectOrUpdateCertNo(r);
     }
 
-    // 同步党校培训记录至培训记录
+    // 同步过程培训记录至培训记录
     @Transactional
     public void sysProjectObj(int projectObjId){
 
@@ -278,12 +277,16 @@ public class CetRecordService extends CetBaseMapper {
         if(p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY){
 
             type = CetConstants.CET_TYPE_DAILY;
-        }else if(p.getType()==CetConstants.CET_PROJECT_TYPE_PARTY_SPECIAL){
+        }
+
+        if(p.getIsPartyProject()){
 
             type = CetConstants.CET_TYPE_PARTY_SPECIAL;
-        }else if(p.getType()==CetConstants.CET_PROJECT_TYPE_PARTY_DAILY){
 
-            type = CetConstants.CET_TYPE_PARTY_DAILY;
+            if(p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY){
+
+                type = CetConstants.CET_TYPE_PARTY_DAILY;
+            }
         }
 
         // 已退出培训不计入
@@ -298,7 +301,7 @@ public class CetRecordService extends CetBaseMapper {
         BigDecimal finishPeriod = finishPeriodMap.get(0);
 
         // 还没有完成学时不计入
-        if(finishPeriod.compareTo(BigDecimal.ZERO)<=0){
+        if(BooleanUtils.isNotTrue(o.getIsGraduate())){
 
             delByType(sourceType, projectObjId);
             return;
@@ -321,8 +324,7 @@ public class CetRecordService extends CetBaseMapper {
         r.setSourceType(sourceType);
         r.setSourceId(projectObjId);
 
-        if(p.getType()==CetConstants.CET_PROJECT_TYPE_SPECIAL
-                || p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY) {
+        if(!p.getIsPartyProject()) {
 
             r.setOrganizer("党委组织部");
 
@@ -336,9 +338,12 @@ public class CetRecordService extends CetBaseMapper {
             r.setOnlinePeriod(onlinePeriod);
 
         }else{
+
             CetParty cetParty = p.getCetParty();
             String organizer = (cetParty==null)?"":cetParty.getName();
             r.setOrganizer(organizer);
+
+            r.setCetPartyId(p.getCetPartyId());
 
             BigDecimal onlinePeriod = NumberUtils.trimToZero(iCetMapper.getOnlineFinishPeriod(userId, projectId));
             r.setOnlinePeriod(onlinePeriod);
@@ -366,7 +371,7 @@ public class CetRecordService extends CetBaseMapper {
             cetRecordMapper.updateByPrimaryKeySelective(r);
         }
 
-        selectOrUpdateNo(r);
+        selectOrUpdateCertNo(r);
     }
 
     // 根据类型 和 类型的主键 查找培训记录

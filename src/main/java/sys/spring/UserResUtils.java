@@ -193,7 +193,7 @@ public class UserResUtils {
 
             int len = strs.length;
             if (len == 0) {
-                throw new IllegalUserResException("签名校验失败");
+                throw new IllegalUserResException("校验失败");
             }
 
             UserRes bean = new UserRes();
@@ -228,7 +228,7 @@ public class UserResUtils {
         } catch (Exception e) {
 
             logger.error(HttpResponseMethod.accessLog("decode failed:" + signRes), e);
-            throw new IllegalUserResException("签名校验失败");
+            throw new IllegalUserResException("校验失败");
         }
     }
 }

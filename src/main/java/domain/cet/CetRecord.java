@@ -63,7 +63,7 @@ public class CetRecord implements Serializable {
 
     private Byte userType;
 
-    private Short no;
+    private Short certNo;
 
     private static final long serialVersionUID = 1L;
 
@@ -267,11 +267,11 @@ public class CetRecord implements Serializable {
         this.userType = userType;
     }
 
-    public Short getNo() {
-        return no;
+    public Short getCertNo() {
+        return certNo;
     }
 
-    public void setNo(Short no) {
-        this.no = no;
+    public void setCertNo(Short certNo) {
+        this.certNo = certNo;
     }
 }

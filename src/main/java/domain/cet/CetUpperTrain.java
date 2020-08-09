@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class CetUpperTrain implements Serializable {
 
-    public Short getNo(){
+    public Short getCertNo(){
 
         if(id==null || type!=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL) return null;
 
@@ -23,7 +23,7 @@ public class CetUpperTrain implements Serializable {
         CetRecord cetRecord = cetRecordService.get(CetConstants.CET_SOURCE_TYPE_UPPER, id);
         if(cetRecord==null) return null;
 
-        return cetRecord.getNo();
+        return cetRecord.getCertNo();
     }
 
     public SysUserView getUser(){

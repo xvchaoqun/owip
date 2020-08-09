@@ -21,8 +21,7 @@
                        data-url="${ctx}/cet/cetProject_detail_obj?cls=1&projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-pencil-square-o bigger-120"></i> 培训对象管理</a>
                 </li>
-                <c:if test="${cetProject.type== CET_PROJECT_TYPE_SPECIAL
-                || cetProject.type== CET_PROJECT_TYPE_DAILY}">
+                <c:if test="${!cetProject.isPartyProject}">
                 <li class="${param.cls==2?'active':''}">
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
@@ -36,8 +35,7 @@
                         <i class="green ace-icon fa fa-history bigger-120"></i> 开班仪式和通知</a>
                 </li>
                 </c:if>
-                <c:if test="${cetProject.type== CET_PROJECT_TYPE_PARTY_SPECIAL
-                || cetProject.type== CET_PROJECT_TYPE_PARTY_DAILY}">
+                <c:if test="${cetProject.isPartyProject}">
                 <li class="${param.cls==2?'active':''}">
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"

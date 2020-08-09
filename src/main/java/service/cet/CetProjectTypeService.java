@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.constants.CetConstants;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -20,7 +21,10 @@ public class CetProjectTypeService extends CetBaseMapper {
     @CacheEvict(value="CetProjectType", allEntries = true)
     public void insertSelective(CetProjectType record){
 
-        record.setSortOrder(getNextSortOrder("cet_project_type", "type=" +  record.getType()));
+        record.setSortOrder(getNextSortOrder("cet_project_type",
+                "type=" +  record.getType()
+                        + " and is_party_project=" + record.getIsPartyProject()));
+
         cetProjectTypeMapper.insertSelective(record);
     }
 
@@ -42,11 +46,17 @@ public class CetProjectTypeService extends CetBaseMapper {
         return cetProjectTypeMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="CetProjectType", key = "#type")
-    public Map<Integer, CetProjectType> findAll(Byte type) {
+    @Cacheable(value="CetProjectType", key = "#cls")
+    public Map<Integer, CetProjectType> findAll(byte cls) {
+
+        boolean isPartyProject = (cls==3 || cls==4);
+        byte type = CetConstants.CET_PROJECT_TYPE_SPECIAL;
+        if(cls==2 || cls==4) {
+            type = CetConstants.CET_PROJECT_TYPE_DAILY;
+        }
 
         CetProjectTypeExample example = new CetProjectTypeExample();
-        example.createCriteria().andTypeEqualTo(type);
+        example.createCriteria().andIsPartyProjectEqualTo(isPartyProject).andTypeEqualTo(type);
         example.setOrderByClause("sort_order asc");
         List<CetProjectType> records = cetProjectTypeMapper.selectByExample(example);
         Map<Integer, CetProjectType> map = new LinkedHashMap<>();
@@ -68,7 +78,9 @@ public class CetProjectTypeService extends CetBaseMapper {
 
         CetProjectType cetProjectType = cetProjectTypeMapper.selectByPrimaryKey(id);
         byte type = cetProjectType.getType();
+        boolean isPartyProject = cetProjectType.getIsPartyProject();
 
-        changeOrder("cet_project_type", "type=" + type, ORDER_BY_ASC, id, addNum);
+        changeOrder("cet_project_type",
+                "type=" + type + " and is_party_project=" + isPartyProject, ORDER_BY_ASC, id, addNum);
     }
 }

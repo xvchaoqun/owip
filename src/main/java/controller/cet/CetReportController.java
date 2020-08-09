@@ -2,7 +2,6 @@ package controller.cet;
 
 import bean.UserBean;
 import domain.cet.CetRecord;
-import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -13,10 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
-import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.CurrentUser;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +35,9 @@ public class CetReportController extends CetBaseController {
 
     // 结业证书
     @RequestMapping(value = "/cet_cert")
-    public String cet_cert(@CurrentUser SysUserView loginUser,
-                               HttpServletRequest request, HttpServletResponse response,
+    public String cet_cert(HttpServletRequest request, HttpServletResponse response,
                                Byte sourceType,
-                               @RequestParam(value = "ids[]") Integer[] ids,
+                               @RequestParam(value = "ids") Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                @RequestParam(required = false, defaultValue = "0") Boolean download,
@@ -50,31 +46,26 @@ public class CetReportController extends CetBaseController {
 
         int currentUserId = ShiroHelper.getCurrentUserId();
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_ADMIN);
-        boolean isPartyAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_PARTY);
 
         String fileName = "cet_cert";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
 
-            CetRecord record = null;
+            CetRecord cetRecord = null;
             if(sourceType==null){
-                record = cetRecordMapper.selectByPrimaryKey(id);
+                cetRecord = cetRecordMapper.selectByPrimaryKey(id);
             }else{
-                record = cetRecordService.get(sourceType, id);
+                cetRecord = cetRecordService.get(sourceType, id);
             }
 
-            if(currentUserId!=record.getUserId() && !isAdmin){
+            // 本人、培训管理员、系统管理员、二级党委管理员
+            if(currentUserId!=cetRecord.getUserId() && !isAdmin
+                && cetPartyAdminService.get(cetRecord.getCetPartyId(), currentUserId)==null){
 
-                if(!isPartyAdmin
-                        || record.getSourceType() != CetConstants.CET_SOURCE_TYPE_UNIT
-                        || record.getCetPartyId()==null
-                        || cetPartyAdminService.get(record.getCetPartyId(), currentUserId)==null){
-
-                    throw new UnauthorizedException();
-                }
+                throw new UnauthorizedException();
             }
 
-            Map<String, Object> map = getCetGraduateInfoMap(record);
+            Map<String, Object> map = getCetGraduateInfoMap(cetRecord);
             map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + fileName + ".jpg");
             data.add(map);
         }
@@ -96,7 +87,7 @@ public class CetReportController extends CetBaseController {
         if (print) {
 
             logger.info("党校培训结业证书打印 {}, {}, {}, {}, {}, {}",
-                    new Object[]{loginUser.getUsername(), request.getRequestURI(),
+                    new Object[]{ShiroHelper.getCurrentUsername(), request.getRequestURI(),
                             request.getMethod(),
                             JSONUtils.toString(request.getParameterMap(), false),
                             RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});
@@ -134,7 +125,7 @@ public class CetReportController extends CetBaseController {
         map.put("organizer", record.getOrganizer());
         map.put("train_name", record.getName());
 
-        map.put("sn", cetRecordService.selectOrUpdateNo(record));
+        map.put("sn", cetRecordService.selectOrUpdateCertNo(record));
         map.put("idcard", userBean.getIdcard());
 
         if(record.getEndDate()!=null) {

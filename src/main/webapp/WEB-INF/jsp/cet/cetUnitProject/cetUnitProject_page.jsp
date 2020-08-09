@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT%>" var="_UNREPORT"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_REPORT%>" var="_REPORT"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="_PASS"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS%>" var="_UNPASS"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_DELETE%>" var="_DELETE"/>
-<c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -49,17 +49,15 @@ pageEncoding="UTF-8" %>
                             class="fa fa-trash"></i> 已删除(${cm:trimToZero(statusCountMap.get(_DELETE))})</a>
                 </li>
                 </shiro:hasRole>
-                <%--<div class="buttons pull-left" style="left:20px; position: relative">
-
-                </div>--%>
+                <div class="buttons pull-left" style="left:20px; position: relative">
+                <button class="popupBtn btn btn-success btn-sm" data-width="900"
+                            data-url="${ctx}/cet/cetUnitProject_au?addType=${param.addType}">
+                        <i class="fa fa-plus"></i> 添加</button>
+                </div>
             </ul>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
-                <c:if test="${(cm:hasRole(ROLE_CET_ADMIN) && cls==1)||(!cm:hasRole(ROLE_CET_ADMIN) && cls==2)}">
-                <button class="popupBtn btn btn-success btn-sm" data-width="900"
-                            data-url="${ctx}/cet/cetUnitProject_au">
-                        <i class="fa fa-plus"></i> 添加</button>
-                </c:if>
+
                 <c:if test="${cls!=5 && (cm:hasRole(ROLE_CET_ADMIN) || (cls==2))}">
                 <shiro:hasPermission name="cetUnitProject:edit">
                     <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
@@ -271,7 +269,7 @@ pageEncoding="UTF-8" %>
 <script>
     $.register.date($('.date-picker'));
     function _report(){
-        $("#jqGrid").trigger("reloadGrid");
+        $.loadPage({url:"${ctx}/cet/cetUnitProject?cls=2&addType=${param.addType}"})
     }
 
     var specialProjectTypeMap = ${cm:toJSONObject(specialProjectTypeMap)};
@@ -308,7 +306,7 @@ pageEncoding="UTF-8" %>
                 {
                     label: '培训班类型', name: 'projectTypeId', width: 130, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--'
-                        if(rowObject.specialType==<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>) {
+                        if(rowObject.specialType==${CET_PROJECT_TYPE_SPECIAL}) {
                             if (specialProjectTypeMap[cellvalue] == undefined) return '--'
                             return specialProjectTypeMap[cellvalue].name
                         }else{

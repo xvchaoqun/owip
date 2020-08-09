@@ -8,6 +8,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
@@ -52,21 +55,25 @@ public class CetProjectController extends CetBaseController {
     @ResponseBody
     public Map archiveProject( int projectId, ModelMap modelMap) {
 
+        iCetMapper.refreshProjectObjs(projectId);
+
         cetProjectObjService.archiveProject(projectId);
-        
+
+        cetRecordService.syncAllProjectObj(projectId);
+
         return success();
     }
     
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject")
-    public String cetProject(@RequestParam(defaultValue = "1") Integer cls, // 1：正常  2： 已删除
-                             byte type,
+    public String cetProject(
+                            // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
+                            @RequestParam(defaultValue = "1") byte cls,
                              ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        modelMap.put("type", type);
 
-        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(type);
+        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(cls);
         modelMap.put("cetProjectTypeMap", cetProjectTypeMap);
 
         return "cet/cetProject/cetProject_page";
@@ -75,8 +82,8 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject_data")
     public void cetProject_data(HttpServletResponse response,
-                                @RequestParam(defaultValue = "1") Integer cls, // 1：正常  2： 已删除
-                                byte type,
+                                // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
+                                @RequestParam(defaultValue = "1") byte cls,
                                 Integer year,
                                 String name,
                                 Integer projectTypeId,
@@ -95,16 +102,29 @@ public class CetProjectController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        boolean isPartyProject = (cls==3 || cls==4);
+        byte type = CetConstants.CET_PROJECT_TYPE_SPECIAL;
+        if(cls==2 || cls==4) {
+            type = CetConstants.CET_PROJECT_TYPE_DAILY;
+        }
+
         CetProjectExample example = new CetProjectExample();
-        CetProjectExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+        CetProjectExample.Criteria criteria = example.createCriteria()
+                .andIsPartyProjectEqualTo(isPartyProject).andTypeEqualTo(type).andIsDeletedEqualTo(false);
         example.setOrderByClause("year desc, id desc");
 
-        if(cls==1){
-            criteria.andIsDeletedEqualTo(false);
-        }else if(cls==2){
-            criteria.andIsDeletedEqualTo(true);
-        }else {
-            criteria.andIdIsNull();
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (isPartyProject) {
+
+                List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                if (adminPartyIdList.size() == 0) {
+                    criteria.andIdIsNull();
+                } else {
+                    criteria.andCetPartyIdIn(adminPartyIdList);
+                }
+            }else{
+                criteria.andIdIsNull();
+            }
         }
 
         if (year!=null) {
@@ -157,11 +177,32 @@ public class CetProjectController extends CetBaseController {
     @RequestMapping(value = "/cetProject_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProject_au(CetProject record,
+                                // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
+                                @RequestParam(defaultValue = "1") byte cls,
                                 @RequestParam(value = "_traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
                                 Integer otherTypeId,
                                 String otherTraineeType,
                                 MultipartFile _wordFilePath,
                                 HttpServletRequest request) throws IOException, InterruptedException {
+
+        boolean isPartyProject = (cls==3 || cls==4);
+        byte type = CetConstants.CET_PROJECT_TYPE_SPECIAL;
+        if(cls==2 || cls==4) {
+            type = CetConstants.CET_PROJECT_TYPE_DAILY;
+        }
+
+        record.setIsPartyProject(isPartyProject);
+        record.setType(type);
+
+        if(isPartyProject && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            HashSet<Integer> adminPartyIdSet = new HashSet<>(adminPartyIdList);
+            if(!adminPartyIdSet.contains(record.getCetPartyId())){
+
+                throw new UnauthorizedException();
+            }
+        }
 
         Integer id = record.getId();
 
@@ -208,6 +249,30 @@ public class CetProjectController extends CetBaseController {
     }
 
     @RequiresPermissions("cetProject:edit")
+    @RequestMapping("/cetProject_au")
+    public String cetProject_au(Integer id,
+                                byte cls,
+                                ModelMap modelMap) {
+
+        if (id != null) {
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
+            modelMap.put("cetProject", cetProject);
+            if(cetProject!=null){
+
+                modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetProject.getCetPartyId()));
+                modelMap.put("unit", unitService.findAll().get(cetProject.getUnitId()));
+            }
+            Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
+            modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
+        }
+
+        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(cls);
+        modelMap.put("cetProjectTypes", cetProjectTypeMap.values());
+
+        return "cet/cetProject/cetProject_au";
+    }
+
+        @RequiresPermissions("cetProject:edit")
     @RequestMapping(value = "/cetProject_upload", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProject_upload(MultipartFile file) throws InterruptedException, IOException {
@@ -226,33 +291,6 @@ public class CetProjectController extends CetBaseController {
         resultMap.put("pdfFilePath", UserResUtils.sign(savePath));
 
         return resultMap;
-    }
-
-    @RequiresPermissions("cetProject:edit")
-    @RequestMapping("/cetProject_au")
-    public String cetProject_au(Integer id,
-                                Byte _type,
-                                ModelMap modelMap) {
-
-        if (id != null) {
-            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
-            modelMap.put("cetProject", cetProject);
-            if(cetProject!=null){
-                _type = cetProject.getType();
-
-                modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetProject.getCetPartyId()));
-                modelMap.put("unit", unitService.findAll().get(cetProject.getUnitId()));
-            }
-            Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
-            modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
-        }
-
-        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(_type);
-        modelMap.put("cetProjectTypes", cetProjectTypeMap.values());
-
-        modelMap.put("type", _type);
-
-        return "cet/cetProject/cetProject_au";
     }
 
     @RequiresPermissions("cetProject:del")

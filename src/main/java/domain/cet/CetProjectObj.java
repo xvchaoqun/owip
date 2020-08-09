@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class CetProjectObj implements Serializable {
 
-    public Short getNo(){
+    public Short getCertNo(){
 
         if(id==null) return null;
 
@@ -29,7 +29,7 @@ public class CetProjectObj implements Serializable {
         CetRecord cetRecord = cetRecordService.get(CetConstants.CET_SOURCE_TYPE_PROJECT, id);
         if(cetRecord==null) return null;
 
-        return cetRecord.getNo();
+        return cetRecord.getCertNo();
     }
 
     public SysUserView getUser(){

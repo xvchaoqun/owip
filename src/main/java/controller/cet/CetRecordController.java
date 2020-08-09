@@ -53,9 +53,14 @@ public class CetRecordController extends CetBaseController {
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
-        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        Map<Integer, CetProjectType> specialProjectTypeMap =
+                cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_1);
+        specialProjectTypeMap.putAll(cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_3));
         modelMap.put("specialProjectTypeMap", specialProjectTypeMap);
-        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+
+        Map<Integer, CetProjectType>  dailyProjectTypeMap =
+                cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_2);
+        dailyProjectTypeMap.putAll(cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_4));
         modelMap.put("dailyProjectTypeMap", dailyProjectTypeMap);
 
         return "cet/cetRecord/cetRecord_page";

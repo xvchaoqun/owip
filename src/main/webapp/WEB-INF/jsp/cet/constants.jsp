@@ -70,7 +70,9 @@
 <c:set var="CET_PROJECT_TYPE_MAP" value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>"/>
 <c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
 <c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
-<c:set var="CET_PROJECT_TYPE_PARTY_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_PARTY_SPECIAL%>"/>
-<c:set var="CET_PROJECT_TYPE_PARTY_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_PARTY_DAILY%>"/>
 
 <c:set var="CET_TYPE_UPPER" value="<%=CetConstants.CET_TYPE_UPPER%>"/>
+
+<c:set var="CET_TYPE_T_MAP" value="<%=CetConstants.CET_TYPE_T_MAP%>"/>
+<c:set var="CET_TYPE_T_PARTY_SCHOOL" value="<%=CetConstants.CET_TYPE_T_PARTY_SCHOOL%>"/>
+<c:set var="CET_TYPE_T_PARTY" value="<%=CetConstants.CET_TYPE_T_PARTY%>"/>

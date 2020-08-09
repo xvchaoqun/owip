@@ -86,9 +86,9 @@ public class CetUnitProjectController extends CetBaseController {
 
         modelMap.put("statusCountMap", statusCountMap);
 
-        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_3);
         modelMap.put("specialProjectTypeMap", specialProjectTypeMap);
-        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_4);
         modelMap.put("dailyProjectTypeMap", dailyProjectTypeMap);
 
         return "cet/cetUnitProject/cetUnitProject_page";
@@ -191,9 +191,10 @@ public class CetUnitProjectController extends CetBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
-                throw new UnauthorizedException();
+                criteria.andIdIsNull();
+            }else {
+                criteria.andCetPartyIdIn(adminPartyIdList);
             }
-            criteria.andCetPartyIdIn(adminPartyIdList);
         }
 
         if (cls == 1) {
@@ -295,9 +296,9 @@ public class CetUnitProjectController extends CetBaseController {
             modelMap.put("unit", unitService.findAll().get(cetUnitProject.getUnitId()));
         }
 
-        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_3);
         modelMap.put("specialProjectTypes", new ArrayList<>(specialProjectTypeMap.values()));
-        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_4);
         modelMap.put("dailyProjectTypes", new ArrayList<>(dailyProjectTypeMap.values()));
 
         return "cet/cetUnitProject/cetUnitProject_au";

@@ -54,9 +54,10 @@ public class CetArchive implements Job {
 
             iCetMapper.removeDeletedCetRecords();
             cetRecordService.syncAllUpperTrain();
-            cetRecordService.syncAllProjectObj();
+            cetRecordService.syncAllProjectObj(null);
             cetRecordService.syncAllUnitTrian();
 
+            // 更新年度学习档案
             List<CetAnnual> cetAnnuals = cetAnnualMapper.selectByExample(new CetAnnualExample());
             for (CetAnnual cetAnnual : cetAnnuals) {
                 cetAnnualObjService.archiveFinishPeriod(cetAnnual.getId());

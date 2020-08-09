@@ -67,6 +67,47 @@ ALTER TABLE `cet_train`
 
 -- 更新utils
 
+update sys_resource set name='过程培训管理' where permission='cetProject:*';
+
+update sys_resource set permission='cetProject:list1' where permission='cetProject:list';
+
+update sys_resource set permission='cetProject:list2' where permission='cetAnnual:list';
+
+ALTER TABLE `cet_unit_project`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班主办方' AFTER `cet_party_id`;
+
+ALTER TABLE `cet_record`
+	CHANGE COLUMN `no` `cert_no` SMALLINT(5) UNSIGNED NULL DEFAULT NULL COMMENT '证书编号，结业情况下，生成证书编号。培训大类、身份类别、年份、培训子类相同时，从0001算起' AFTER `user_type`;
+
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训' AFTER `id`,
+	ADD COLUMN `is_party_project` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否二级党委培训' AFTER `type`;
+
+ALTER TABLE `cet_project_type`
+	ADD COLUMN `is_party_project` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否二级党委培训' AFTER `type`;
+
+delete from sys_resource where permission='cetProjectType:*';
+update sys_resource set permission='cetProjectType:*' where permission='cetProjectType:list';
+
+update sys_resource set url='/cet/cetProject?cls=1' where permission='cetProject:list1';
+update sys_resource set url='/cet/cetProject?cls=2' where permission='cetProject:list2';
+update sys_resource set url='/cet/cetProject?cls=3' where permission='cetProject:list3';
+update sys_resource set url='/cet/cetProject?cls=4' where permission='cetProject:list4';
+
+
+delete from cet_project_type  where type>2 or is_party_project=1;
+
+insert into cet_project_type
+select id+200 as id, name, type, 1 as is_party_project, code, sort_order, remark, is_deleted from cet_project_type where type=1;
+
+insert into cet_project_type
+select id+200 as id, name, type, 1 as is_party_project, code, sort_order, remark, is_deleted from cet_project_type where type=2;
+
+update cet_unit_project set project_type_id = project_type_id+200;
+
+
+-- 二级党委培训管理员添加权限 cetProject:* cetProjectObj:*  cetTrain:*  cetTrainObj:*  cetTrainCourse:* cetTrainee:*
+
 20200730
 吉大 -- 北师大
 

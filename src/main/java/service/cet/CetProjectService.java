@@ -2,10 +2,10 @@ package service.cet;
 
 import controller.global.OpException;
 import domain.cet.CetProject;
-import domain.cet.CetProjectExample;
 import domain.cet.CetProjectObjExample;
 import domain.cet.CetTraineeType;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +43,30 @@ public class CetProjectService extends CetBaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        CetProjectExample example = new CetProjectExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        CetProject record = new CetProject();
-        record.setIsDeleted(true);
-        cetProjectMapper.updateByExampleSelective(record, example);
+        HashSet<Integer> adminPartyIdSet = new HashSet<>();
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            adminPartyIdSet.addAll(adminPartyIdList);
+        }
+
+        for (Integer id : ids) {
+
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
+            boolean isPartyProject = cetProject.getIsPartyProject();
+
+            if(isPartyProject && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+
+                if(!adminPartyIdSet.contains(cetProject.getCetPartyId())){
+                    throw new UnauthorizedException();
+                }
+            }
+
+            CetProject record = new CetProject();
+            record.setId(id);
+            record.setIsDeleted(true);
+            cetProjectMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
 

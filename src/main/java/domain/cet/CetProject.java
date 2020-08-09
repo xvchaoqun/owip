@@ -58,6 +58,8 @@ public class CetProject implements Serializable {
 
     private Byte type;
 
+    private Boolean isPartyProject;
+
     private Integer cetPartyId;
 
     private Integer unitId;
@@ -136,6 +138,14 @@ public class CetProject implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getIsPartyProject() {
+        return isPartyProject;
+    }
+
+    public void setIsPartyProject(Boolean isPartyProject) {
+        this.isPartyProject = isPartyProject;
     }
 
     public Integer getCetPartyId() {

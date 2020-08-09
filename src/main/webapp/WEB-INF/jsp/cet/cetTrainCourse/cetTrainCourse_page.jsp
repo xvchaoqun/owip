@@ -5,8 +5,7 @@
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cls==1}">
 
-        <c:if test="${cetProject.type==CET_PROJECT_TYPE_SPECIAL
-            || cetProject.type==CET_PROJECT_TYPE_DAILY}">
+        <c:if test="${!cetProject.isPartyProject}">
         <button class="popupBtn btn btn-info btn-sm"
            data-width="1200"
            data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}"><i
@@ -27,8 +26,7 @@
            data-grid-id="#jqGrid2"
            data-id-name="trainCourseId"><i class="fa fa-hourglass-1"></i> 选课/退课状态</button>
 
-        <c:if test="${cetProject.type==CET_PROJECT_TYPE_SPECIAL
-            || cetProject.type==CET_PROJECT_TYPE_DAILY}">
+        <c:if test="${!cetProject.isPartyProject}">
         <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_applyMsg?projectId=${cetProject.id}"
            data-grid-id="#jqGrid2"

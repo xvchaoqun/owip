@@ -43,12 +43,12 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#detail-content2"
+                       data-target="#detail-content${empty param.trainId?'':'2'}"
                        data-form="#searchForm2"
                        data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${param.projectId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                data-target="#detail-content2"
+                                data-target="#detail-content${empty param.trainId?'':'2'}"
                                 data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>

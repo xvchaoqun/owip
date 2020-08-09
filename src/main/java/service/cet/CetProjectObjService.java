@@ -26,6 +26,7 @@ import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
+import sys.utils.NumberUtils;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -509,7 +510,7 @@ public class CetProjectObjService extends CetBaseMapper {
             int planId = cetProjectPlan.getId();
             byte type = cetProjectPlan.getType();
             BigDecimal planFinishPeriod = getRealObjPlanFinishPeriod(planId, type, objId);
-            periodMap.put(cetProjectPlan.getId(), planFinishPeriod);
+            periodMap.put(cetProjectPlan.getId(), NumberUtils.trimToZero(planFinishPeriod));
             if (planFinishPeriod != null) {
                 finishPeriod = finishPeriod.add(planFinishPeriod);
             }
@@ -518,7 +519,7 @@ public class CetProjectObjService extends CetBaseMapper {
         if(cetProjectPlanMap.size()==0) { // 无培训方案的总学时，针对二级党委培训
             finishPeriod = iCetMapper.getTrainObjFinishPeriod(null, objId);
         }
-        periodMap.put(0, finishPeriod); // 汇总
+        periodMap.put(0, NumberUtils.trimToZero(finishPeriod)); // 汇总
 
         return periodMap;
     }

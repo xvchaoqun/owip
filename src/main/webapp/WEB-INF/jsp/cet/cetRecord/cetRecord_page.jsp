@@ -122,7 +122,7 @@
                 if(!rowObject.isGraduate ||rowObject.type=='${CET_TYPE_UPPER}') return '--'
                 return $.button.modal({
                             style:"btn-success",
-                            url:"${ctx}/cet/cert?ids[]="+rowObject.id,
+                            url:"${ctx}/cet/cert?ids="+rowObject.id,
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},

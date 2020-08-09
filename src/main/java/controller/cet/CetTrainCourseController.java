@@ -184,7 +184,7 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_selectCourses";
     }
 
-    @RequiresPermissions("cetCourse:list")
+    @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse_selectCourses_data")
     public void cetTrainCourse_selectCourses_data(HttpServletResponse response,
                                                   int trainId, Byte planType,
@@ -255,7 +255,7 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_trainee_page";
     }
 
-    @RequiresPermissions("cetCourse:list")
+    @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse_trainee_data")
     public void cetTrainCourse_trainee_data(HttpServletResponse response,
                                                   int trainCourseId,

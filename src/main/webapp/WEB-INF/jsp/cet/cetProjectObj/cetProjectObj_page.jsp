@@ -92,8 +92,7 @@
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 同步学员信息
         </button>--%>
-        <c:if test="${cetProject.type== CET_PROJECT_TYPE_SPECIAL
-                || cetProject.type== CET_PROJECT_TYPE_DAILY}">
+        <c:if test="${!cetProject.isPartyProject}">
         <button class="downloadBtn btn btn-success btn-sm"
                 data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="prompt fa fa-question-circle" data-prompt="导出列表中所有的人员"></i> 导出学时情况</button>
@@ -795,11 +794,11 @@
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
             <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.no==undefined) return '--'
+                if(rowObject.certNo==undefined) return '--'
                 if(!rowObject.isGraduate) return '--'
                 return $.button.modal({
                             style:"btn-success",
-                            url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_PROJECT%>&format=image&ids[]="+rowObject.id,
+                            url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_PROJECT%>&format=image&ids="+rowObject.id,
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},

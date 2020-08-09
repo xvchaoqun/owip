@@ -13,8 +13,7 @@
         <input type="hidden" name="projectId" value="${projectId}">
         <input type="hidden" name="trainId" value="${trainId}">
 
-        <c:if test="${cetProject.type== CET_PROJECT_TYPE_PARTY_SPECIAL
-                || cetProject.type== CET_PROJECT_TYPE_PARTY_DAILY}">
+        <c:if test="${cetProject.isPartyProject}">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>培训形式</label>
             <div class="col-xs-6">

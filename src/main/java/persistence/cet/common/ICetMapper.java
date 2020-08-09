@@ -23,15 +23,15 @@ public interface ICetMapper {
     int countObjList(@Param("projectId") int projectId, @Param("search") String search);
 
     // 刷新参训人员数量
-    @Update("update cet_project p, " +
-            "(select project_id, count(*) as obj_count from cet_project_obj where project_id=#{projectId} group by project_id) tmp " +
-            "set p.obj_count=tmp.obj_count where p.id=tmp.project_id and p.id=#{projectId}")
+    @Update("update cet_project p left join" +
+            "(select project_id, count(*) as obj_count from cet_project_obj group by project_id) tmp on p.id=tmp.project_id " +
+            "set p.obj_count=tmp.obj_count where p.id=#{projectId}")
     int refreshObjCount(@Param("projectId") Integer projectId);
 
     // 刷新已退出参训人员数量
-    @Update("update cet_project p, " +
-            "(select project_id, count(*) as quit_count from cet_project_obj where project_id=#{projectId} and is_quit=1 group by project_id) tmp " +
-            "set p.quit_count=tmp.quit_count where p.id=tmp.project_id and p.id=#{projectId}")
+    @Update("update cet_project p " +
+            "left join (select project_id, count(*) as quit_count from cet_project_obj where is_quit=1 group by project_id) tmp on p.id=tmp.project_id " +
+            "set p.quit_count=tmp.quit_count where p.id=#{projectId}")
     int refreshQuitCount(@Param("projectId") Integer projectId);
 
     // 按类别读取参训人数量
@@ -67,21 +67,20 @@ public interface ICetMapper {
     @Select("select ut.id from cet_upper_train ut " +
             "left join cet_record r on ut.id=r.source_id and r.source_type =1 " +
             "where ut.is_deleted=0 and ut.status=1 and (ut.update_time > r.archive_time or r.id is null)")
-    List<Integer> unArchiveUpperTrainIds();
+    List<Integer> getUnArchiveUpperTrainIds();
 
     // 已报送的、审批通过的、还未归档的二级党委培训记录
     @Select("select ut.id from cet_unit_train ut " +
             "left join cet_unit_project up on up.id=ut.project_id " +
             "left join cet_record r on ut.id=r.source_id and r.source_type =3 " +
             "where up.status=2 and ut.status=0 and (ut.update_time > r.archive_time or r.id is null)")
-    List<Integer> unArchiveUnitTrainIds();
+    List<Integer> getUnArchiveUnitTrainIds();
 
     // 未退出的、还未归档的记录党校过程培训记录
-    @Select("select po.id from cet_project_obj po " +
-            "left join cet_project p on p.id=po.project_id " +
-            "left join cet_record r on po.id=r.source_id and r.source_type =2 " +
-            "where po.is_quit=0 and (po.update_time > r.archive_time or r.id is null)")
-    List<Integer> unArchiveProjectObjIds();
+    List<Integer> getUnArchiveProjectObjIds(@Param("projectId") Integer projectId);
+
+    @Update("update  cet_project_obj set update_time = now() where project_id=#{projectId}")
+    void refreshProjectObjs(@Param("projectId") int projectId);
 
     // 获取最大编码（为了获取不重复编码，此处包含已删除的记录）
     @Select("select max(no)+1 from cet_record " +

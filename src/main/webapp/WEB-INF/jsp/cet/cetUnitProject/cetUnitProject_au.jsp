@@ -144,10 +144,13 @@
                         <script>
                             $.register.del_select($("#modalForm select[name=cetPartyId]"))
                         </script>
+                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                        <span class="help-block">注：请在【通用设置-二级党委】中维护二级党委及其管理员信息</span>
+                        </shiro:hasRole>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>主办单位</label>
+                    <label class="col-xs-4 control-label">主办单位</label>
                     <div class="col-xs-7">
                         <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                  data-width="223" data-placeholder="请选择单位">
@@ -245,7 +248,13 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
+
+                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
                         $("#jqGrid").trigger("reloadGrid");
+                        </shiro:hasRole>
+                        <shiro:lacksRole name="${ROLE_CET_ADMIN}">
+                        $.loadPage({url:"${ctx}/cet/cetUnitProject?cls=2&addType=${param.addType}"})
+                        </shiro:lacksRole>
                     }
                     $btn.button('reset');
                 }

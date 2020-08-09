@@ -47,9 +47,10 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <form class="form-horizontal" action="${ctx}/cet/cetProject_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+                        <form class="form-horizontal" action="${ctx}/cet/cetProject_au" 
+                              autocomplete="off" disableautocomplete id="projectForm" method="post">
                             <input type="hidden" name="id" value="${cetProject.id}">
-                            <input type="hidden" name="type" value="${type}">
+                            <input type="hidden" name="cls" value="${param.cls}">
                             <input type="hidden" name="fileName" value="${cetProject.fileName}">
                             <input type="hidden" name="pdfFilePath" value="${cm:sign(cetProject.pdfFilePath)}">
                             <div class="form-group">
@@ -102,12 +103,11 @@
                                         </c:forEach>
                                     </select>
                                     <script>
-                                        $("#modalForm select[name=projectTypeId]").val("${cetProject.projectTypeId}");
+                                        $("#projectForm select[name=projectTypeId]").val("${cetProject.projectTypeId}");
                                     </script>
                                 </div>
                             </div>
-                            <c:if test="${type== CET_PROJECT_TYPE_PARTY_SPECIAL
-                                    || type== CET_PROJECT_TYPE_PARTY_DAILY}">
+                            <c:if test="${param.cls==3 || param.cls==4}">
                              <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>培训班主办方</label>
                                 <div class="col-xs-8">
@@ -116,7 +116,7 @@
                                         <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                                     </select>
                                     <script>
-                                        $.register.del_select($("#modalForm select[name=cetPartyId]"))
+                                        $.register.del_select($("#projectForm select[name=cetPartyId]"))
                                     </script>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                                 delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                     </select>
                                     <script>
-                                        $.register.del_select($("#modalForm select[name=unitId]"))
+                                        $.register.del_select($("#projectForm select[name=unitId]"))
                                     </script>
                                 </div>
                             </div>
@@ -142,7 +142,7 @@
                                             <c:import url="/metaTypes?__code=mc_cet_project_category"/>
                                         </select>
                                         <script type="text/javascript">
-                                            $.register.multiselect($('#modalForm select[name=category]'), '${cetProject.category}'.split(","));
+                                            $.register.multiselect($('#projectForm select[name=category]'), '${cetProject.category}'.split(","));
                                         </script>
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@
                         </form>
                         <div class="modal-footer center">
                             <%--<a href="#" data-dismiss="modal" class="btn btn-default">取消</a>--%>
-                            <button id="submitBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+                            <button id="projectSubmitBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
                                 <i class="fa fa-check"></i> <c:if test="${cetProject!=null}">确定</c:if><c:if test="${cetProject==null}">添加</c:if></button>
                         </div>
                     </div>
@@ -249,8 +249,8 @@
                     if (ret.success) {
                         //console.log(ret)
                         $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.pdfFilePath);
-                        $("#modalForm input[name=fileName]").val(ret.fileName);
-                        $("#modalForm input[name=pdfFilePath]").val(ret.pdfFilePath);
+                        $("#projectForm input[name=fileName]").val(ret.fileName);
+                        $("#projectForm input[name=pdfFilePath]").val(ret.pdfFilePath);
                     } else {
                         $("#dispatch-file-view").html(viewHtml)
                     }
@@ -266,55 +266,50 @@
     $.each(traineeTypeIds, function (i, item) {
         //console.log(item)
         if (item==0){
-            $("#modalForm input[name=otherTypeId]").prop("checked", true);
-            $("#modalForm #otherTraineeType").removeClass("hidden");
+            $("#projectForm input[name=otherTypeId]").prop("checked", true);
+            $("#projectForm #otherTraineeType").removeClass("hidden");
             $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).prop("required", "required");
         }
-        $('#modalForm input[name="_traineeTypeIds[]"][value="'+ item +'"]').prop("checked", true);
+        $('#projectForm input[name="_traineeTypeIds[]"][value="'+ item +'"]').prop("checked", true);
     })
-    $("#submitBtn").click(function(){
-        if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#modalForm input[name="otherTypeId"]:checked')){
+    $("#projectSubmitBtn").click(function(){
+        if($('#projectForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#projectForm input[name="otherTypeId"]:checked')){
             $.tip({
                 $target: $("#traineeTypeDiv"),
                 /*at: 'right center', my: 'left center',*/
                 msg: "请选择参训人员类型。"
             });
         }
-        $("#modalForm").submit();return false;
+        $("#projectForm").submit();return false;
     });
-    $("#modalForm").validate({
+    $("#projectForm").validate({
         submitHandler: function (form) {
 
-            if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#modalForm input[name="otherTypeId"]:checked')){
+            if($('#projectForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#projectForm input[name="otherTypeId"]:checked')){
                 return false;
             }
 
-            var $btn = $("#submitBtn").button('loading');
+            var $btn = $("#projectSubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-
-                        /*SysMsg.success("提交成功。",function(){
-                            $.hideView();
-                        })*/
                         $.hideView();
                         //$("#jqGrid").trigger("reloadGrid");
-                    }else{
-                        $btn.button('reset');
                     }
+                    $btn.button('reset');
                 }
             });
         }
     });
-    $("#modalForm input[name=isValid]").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
+    $("#projectForm input[name=isValid]").bootstrapSwitch();
+    $('#projectForm [data-rel="select2"]').select2();
     $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();
-    $.fileInput($("#modalForm input[name=_pdfFilePath]"),{
+    $.fileInput($("#projectForm input[name=_pdfFilePath]"),{
         allowExt: ['pdf'],
         allowMime: ['application/pdf']
     });
-    $.fileInput($("#modalForm input[name=_wordFilePath]"),{
+    $.fileInput($("#projectForm input[name=_wordFilePath]"),{
         allowExt: ['doc', 'docx'],
         allowMime: ['application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
     });

@@ -253,6 +253,66 @@ public class CetProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsPartyProjectIsNull() {
+            addCriterion("is_party_project is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectIsNotNull() {
+            addCriterion("is_party_project is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectEqualTo(Boolean value) {
+            addCriterion("is_party_project =", value, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectNotEqualTo(Boolean value) {
+            addCriterion("is_party_project <>", value, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectGreaterThan(Boolean value) {
+            addCriterion("is_party_project >", value, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_party_project >=", value, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectLessThan(Boolean value) {
+            addCriterion("is_party_project <", value, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_party_project <=", value, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectIn(List<Boolean> values) {
+            addCriterion("is_party_project in", values, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectNotIn(List<Boolean> values) {
+            addCriterion("is_party_project not in", values, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_party_project between", value1, value2, "isPartyProject");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyProjectNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_party_project not between", value1, value2, "isPartyProject");
+            return (Criteria) this;
+        }
+
         public Criteria andCetPartyIdIsNull() {
             addCriterion("cet_party_id is null");
             return (Criteria) this;

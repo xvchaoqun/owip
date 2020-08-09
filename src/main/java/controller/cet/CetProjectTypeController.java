@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -33,10 +34,10 @@ public class CetProjectTypeController extends CetBaseController {
 
     @RequiresPermissions("cetProjectType:list")
     @RequestMapping("/cetProjectType")
-    public String cetProjectType(@RequestParam(required = false, defaultValue = "1") Byte type,
+    public String cetProjectType(@RequestParam(required = false, defaultValue = "1") byte cls,
                                  ModelMap modelMap) {
 
-        modelMap.put("type", type);
+        modelMap.put("cls", cls);
 
         return "cet/cetProjectType/cetProjectType_page";
     }
@@ -44,7 +45,8 @@ public class CetProjectTypeController extends CetBaseController {
     @RequiresPermissions("cetProjectType:list")
     @RequestMapping("/cetProjectType_data")
     public void cetProjectType_data(HttpServletResponse response,
-                                    @RequestParam(defaultValue = "1") Byte type,
+                                    // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
+                                    @RequestParam(defaultValue = "1") byte cls,
                                     String name,
                                     String code,
                                     @RequestParam(required = false, defaultValue = "0") int export,
@@ -59,8 +61,15 @@ public class CetProjectTypeController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        boolean isPartyProject = (cls==3 || cls==4);
+        byte type = CetConstants.CET_PROJECT_TYPE_SPECIAL;
+        if(cls==2 || cls==4) {
+            type = CetConstants.CET_PROJECT_TYPE_DAILY;
+        }
+
         CetProjectTypeExample example = new CetProjectTypeExample();
-        CetProjectTypeExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+        CetProjectTypeExample.Criteria criteria =
+                example.createCriteria().andIsPartyProjectEqualTo(isPartyProject).andTypeEqualTo(type);
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -100,9 +109,20 @@ public class CetProjectTypeController extends CetBaseController {
     @RequiresPermissions("cetProjectType:edit")
     @RequestMapping(value = "/cetProjectType_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectType_au(CetProjectType record, HttpServletRequest request) {
+    public Map do_cetProjectType_au(CetProjectType record,
+                                    // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
+                                    @RequestParam(defaultValue = "1") byte cls,
+                                    HttpServletRequest request) {
 
         Integer id = record.getId();
+
+        boolean isPartyProject = (cls==3 || cls==4);
+        byte type = CetConstants.CET_PROJECT_TYPE_SPECIAL;
+        if(cls==2 || cls==4) {
+            type = CetConstants.CET_PROJECT_TYPE_DAILY;
+        }
+        record.setIsPartyProject(isPartyProject);
+        record.setType(type);
 
         if (id == null) {
             cetProjectTypeService.insertSelective(record);

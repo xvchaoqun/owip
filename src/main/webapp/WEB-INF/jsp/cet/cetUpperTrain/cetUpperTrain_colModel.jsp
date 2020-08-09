@@ -120,11 +120,11 @@
     <c:if test="${_p_cetSupportCert}">
     {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
-        if(rowObject.no==undefined) return '--'
+        if(rowObject.certNo==undefined) return '--'
         if(!rowObject.isGraduate) return '--'
         return $.button.modal({
                     style:"btn-success",
-                    url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_UPPER%>&ids[]="+rowObject.id,
+                    url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_UPPER%>&ids="+rowObject.id,
                     icon:"fa-search",
                     label:"查看", attr:"data-width='850'"})
     }},

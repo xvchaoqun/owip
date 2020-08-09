@@ -83,9 +83,9 @@ public class CetUpperTrainController extends CetBaseController {
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
-         Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+         Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_1);
         modelMap.put("specialProjectTypeMap", specialProjectTypeMap);
-        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_2);
         modelMap.put("dailyProjectTypeMap", dailyProjectTypeMap);
 
         return "cet/cetUpperTrain/cetUpperTrain_page";
@@ -506,9 +506,9 @@ public class CetUpperTrainController extends CetBaseController {
 
         }
 
-        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_1);
         modelMap.put("specialProjectTypes", new ArrayList<>(specialProjectTypeMap.values()));
-        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_CLS_2);
         modelMap.put("dailyProjectTypes", new ArrayList<>(dailyProjectTypeMap.values()));
 
         return "cet/cetUpperTrain/cetUpperTrain_au";

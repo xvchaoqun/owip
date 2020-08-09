@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CET_TYPE_T_MAP" value="<%=CetConstants.CET_TYPE_T_MAP%>"/>
-<c:set var="CET_TYPE_T_PARTY_SCHOOL" value="<%=CetConstants.CET_TYPE_T_PARTY_SCHOOL%>"/>
-<c:set var="CET_TYPE_T_PARTY" value="<%=CetConstants.CET_TYPE_T_PARTY%>"/>
-<c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
-<c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>批量转移</h3>

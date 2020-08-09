@@ -16,7 +16,8 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <form class="form-horizontal no-footer" action="${ctx}/cet/cetProjectFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+                        <form class="form-horizontal no-footer" action="${ctx}/cet/cetProjectFile_au"
+                              autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="projectId" value="${param.projectId}">
                             <div class="form-group">
                                 <label class="col-xs-4 control-label"> 课件名称</label>

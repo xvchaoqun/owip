@@ -11,21 +11,21 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetProject:edit">
                     <button class="openView btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetProject_au?_type=${param.type}">
+                            data-url="${ctx}/cet/cetProject_au?cls=${cls}&_type=${param.type}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetProject_au"
+                       data-url="${ctx}/cet/cetProject_au?cls=${cls}"
                             data-open-by="page"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cetProject:del">
                     <button data-url="${ctx}/cet/cetProject_batchDel"
-                            data-title="彻底删除"
-                            data-msg="确定删除这{0}条数据？（该培训班下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
+                            data-title="删除"
+                            data-msg="删除这{0}条数据？（该培训班下的所有数据均将删除，删除后无法恢复，请谨慎操作！）"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 彻底删除
+                        <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasRole name="${ROLE_SUPER}">
@@ -155,8 +155,7 @@ pageEncoding="UTF-8" %>
                 if(cetProjectTypeMap[cellvalue]==undefined) return '--'
                 return cetProjectTypeMap[cellvalue].name
             }},
-            <c:if test="${type== CET_PROJECT_TYPE_PARTY_SPECIAL
-                                    || type== CET_PROJECT_TYPE_PARTY_DAILY}">
+            <c:if test="${cls==3 || cls==4}">
             { label: '培训班主办方',name: 'cetParty.name', align:'left', width: 310},
             { label: '主办单位',name: 'unitId', width: 150, align:'left', formatter: $.jgrid.formatter.unit},
             </c:if>

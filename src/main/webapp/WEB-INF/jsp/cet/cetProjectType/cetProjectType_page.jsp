@@ -12,17 +12,24 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.name || not empty param.code}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <c:forEach var="entity" items="${CET_PROJECT_TYPE_MAP}">
-                            <li class="<c:if test="${type==entity.key}">active</c:if>">
-                                <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?type=${entity.key}"><i class="fa fa-list"></i> ${entity.value}</a>
-                            </li>
-                        </c:forEach>
+                        <li class="<c:if test="${cls==1}">active</c:if>">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?cls=1"><i class="fa fa-list"></i> 党校专题培训</a>
+                        </li>
+                        <li class="<c:if test="${cls==2}">active</c:if>">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?cls=2"><i class="fa fa-list"></i> 党校日常培训</a>
+                        </li>
+                        <li class="<c:if test="${cls==3}">active</c:if>">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?cls=3"><i class="fa fa-list"></i> 二级党委专题培训</a>
+                        </li>
+                        <li class="<c:if test="${cls==4}">active</c:if>">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?cls=4"><i class="fa fa-list"></i> 二级党委日常培训</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active multi-row-head-table">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetProjectType:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetProjectType_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetProjectType_au?cls=${cls}"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cet/cetProjectType_au"
                        data-grid-id="#jqGrid"

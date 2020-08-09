@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class CetUnitTrain implements Serializable {
 
-    public Short getNo(){
+    public Short getCertNo(){
 
         if(id==null) return null;
 
@@ -21,7 +21,7 @@ public class CetUnitTrain implements Serializable {
         CetRecord cetRecord = cetRecordService.get(CetConstants.CET_SOURCE_TYPE_UNIT, id);
         if(cetRecord==null) return null;
 
-        return cetRecord.getNo();
+        return cetRecord.getCertNo();
     }
 
     public SysUserView getUser(){

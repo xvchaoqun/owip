@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_party_project" jdbcType="BIT" property="isPartyProject" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, type, code, sort_order, remark, is_deleted
+    id, name, type, is_party_project, code, sort_order, remark, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectTypeExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetProjectType">
     insert into cet_project_type (id, name, type, 
-      code, sort_order, remark, 
-      is_deleted)
+      is_party_project, code, sort_order, 
+      remark, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{code,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=BIT})
+      #{isPartyProject,jdbcType=BIT}, #{code,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectType">
     insert into cet_project_type
@@ -120,6 +121,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="isPartyProject != null">
+        is_party_project,
       </if>
       <if test="code != null">
         code,
@@ -143,6 +147,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isPartyProject != null">
+        #{isPartyProject,jdbcType=BIT},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
@@ -176,6 +183,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.isPartyProject != null">
+        is_party_project = #{record.isPartyProject,jdbcType=BIT},
+      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -198,6 +208,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
+      is_party_project = #{record.isPartyProject,jdbcType=BIT},
       code = #{record.code,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -214,6 +225,9 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isPartyProject != null">
+        is_party_project = #{isPartyProject,jdbcType=BIT},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
@@ -234,6 +248,7 @@
     update cet_project_type
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
+      is_party_project = #{isPartyProject,jdbcType=BIT},
       code = #{code,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
