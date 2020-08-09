@@ -145,7 +145,7 @@ public class CetTrainController extends CetBaseController {
         return "cet/cetTrain/cetTrain_au_off";
     }
 
-
+    // TODO
     //@RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_summary")
     public String cetTrain_summary(Integer id, Boolean view, ModelMap modelMap) {
@@ -218,15 +218,7 @@ public class CetTrainController extends CetBaseController {
     public Map do_cetTrain_evaCloseTime(int trainId, Boolean evaClosed, String _evaCloseTime) {
 
         Date evaCloseTime = DateUtils.parseDate(_evaCloseTime, DateUtils.YYYY_MM_DD_HH_MM);
-
-        /*if(BooleanUtils.isFalse(evaClosed)){
-            if(openTime!=null && closeTime!=null && openTime.after(closeTime)){
-                return failed("评课开启时间不能晚于关闭时间");
-            }
-        }*/
-
         cetTrainService.updateEvaCloseTime(trainId, BooleanUtils.isTrue(evaClosed), evaCloseTime);
-        //logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训评课关闭时间：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
