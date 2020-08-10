@@ -40,6 +40,7 @@ public class LogConstants {
     public static final int LOG_SC_PASSPORT = 190; // 干部选拔任用-新提任干部交证件
     public static final int LOG_SC_SUBSIDY = 195; // 干部选拔任用-干部津贴变动
     public static final int LOG_SC_BORDER = 198; // 干部选拔任用-出入境备案
+    public static final int LOG_SC_SHIFT = 200; // 干部选拔任用-交流轮岗
 
     public static final int LOG_CET = 500; // 干部教育培训
     public static final int LOG_CET_INSPECTOR = 501; // 干部教育培训评课
@@ -86,6 +87,7 @@ public class LogConstants {
         LOG_MAP.put(LOG_SC_AD, "干部任免审批表");
         LOG_MAP.put(LOG_SC_PASSPORT, "新提任干部交证件");
         LOG_MAP.put(LOG_SC_SUBSIDY, "干部津贴变动");
+        LOG_MAP.put(LOG_SC_SHIFT, "交流轮岗");
 
         LOG_MAP.put(LOG_CET, "干部教育培训");
         LOG_MAP.put(LOG_CET_INSPECTOR, "干部教育培训评课");

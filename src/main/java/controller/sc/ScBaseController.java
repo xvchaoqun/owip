@@ -29,6 +29,7 @@ import service.sc.scPassport.ScPassportService;
 import service.sc.scPublic.ScPublicService;
 import service.sc.scPublic.ScPublicUserService;
 import service.sc.scRecord.ScRecordService;
+import service.sc.scShift.ScShiftService;
 import service.sc.scSubsidy.ScSubsidyCadreService;
 import service.sc.scSubsidy.ScSubsidyDcService;
 import service.sc.scSubsidy.ScSubsidyDispatchService;
@@ -150,4 +151,7 @@ public class ScBaseController extends ScBaseMapper implements HttpResponseMethod
     protected ScSubsidyDcService scSubsidyDcService;
     @Autowired
     protected ScSubsidyDispatchService scSubsidyDispatchService;
+
+    @Autowired
+    protected ScShiftService scShiftService;
 }

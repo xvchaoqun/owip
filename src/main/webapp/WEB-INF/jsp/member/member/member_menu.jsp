@@ -64,6 +64,11 @@
         </ul>
     </div>
     </shiro:hasPermission>
+    <shiro:hasPermission name="member:list">
+      <a class="popupBtn btn btn-primary btn-sm"
+         data-rel="tooltip" data-placement="bottom" title="组织关系批量调整"
+         data-url="${ctx}/member_update"><i class="fa fa-refresh"></i> 组织关系批量调整</a>
+    </shiro:hasPermission>
   </div>
   </li>
 </ul>

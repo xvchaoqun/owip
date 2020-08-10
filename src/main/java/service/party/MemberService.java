@@ -844,4 +844,14 @@ public class MemberService extends MemberBaseMapper {
         return isAdd;
 
     }
+
+    //用于组织关系调整
+    @Transactional
+    public void batchUpdate(List<Member> records){
+
+        for (Member member : records){
+
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
+    }
 }

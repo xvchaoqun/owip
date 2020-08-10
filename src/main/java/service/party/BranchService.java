@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
 import java.math.BigDecimal;
@@ -346,5 +347,24 @@ public class BranchService extends BaseMapper {
         branch.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
 
         branchMapper.updateByPrimaryKeySelective(branch);
+    }
+
+    @Transactional
+    public Branch insertBranchByName(Integer partyId,String branchName){
+
+        Branch branch = new Branch();
+        branch.setCode(genCode(partyId));
+        branch.setName(branchName);
+        branch.setShortName(branchName);
+        branch.setPartyId(partyId);
+        branch.setUnitTypeId(CmTag.getMetaTypeByCode("mt_swerju").getId());
+        branch.setIsEnterpriseBig(false);
+        branch.setIsEnterpriseNationalized(false);
+        branch.setIsUnion(false);
+        branch.setCreateTime(new Date());
+
+        branchMapper.insertSelective(branch);
+
+        return branch;
     }
 }

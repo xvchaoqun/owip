@@ -2,6 +2,7 @@ package service.sc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.sc.IScMapper;
+import persistence.sc.ScShift.ScShiftMapper;
 import persistence.sc.scAd.ScAdArchiveMapper;
 import persistence.sc.scAd.ScAdArchiveViewMapper;
 import persistence.sc.scAd.ScAdArchiveVoteMapper;
@@ -218,4 +219,10 @@ public class ScBaseMapper extends CoreBaseMapper {
     protected ScMatterTransferMapper scMatterTransferMapper;
     @Autowired(required = false)
     protected IScMapper iScMapper;
+
+    /**
+     * 干部选拔-交流轮岗
+     */
+    @Autowired(required = false)
+    protected ScShiftMapper scShiftMapper;
 }

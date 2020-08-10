@@ -16,8 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -38,6 +37,7 @@ import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -1538,5 +1538,136 @@ public class MemberController extends MemberBaseController {
         MemberView memberView = iMemberMapper.getMemberView(memberId);
         memberService.checkIntegrity(memberView);
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("member:list")
+    @RequestMapping("/member_update")
+    public String memberUpdate_import(ModelMap modelMap){
+
+        return "member/member/member_update";
+    }
+
+    @RequiresPermissions("member:list")
+    @RequestMapping(value = "/member_update", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dpMember_update(HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
+
+        Map<Integer,Party> partyMap = partyService.findAll();
+        Map<String, Party> runPartyMap = new HashMap<>();
+        for (Party party : partyMap.values()){
+            if (BooleanUtils.isNotTrue(party.getIsDeleted()) && !runPartyMap.containsKey(party.getName())){
+                runPartyMap.put(party.getName(),party);
+            }
+        }
+
+        Map<Integer,Branch> branchMap = branchService.findAll();
+        Map<String, Branch>runBranchMap = new HashMap<>();
+        for (Branch branch : branchMap.values()){
+            if (BooleanUtils.isNotTrue(branch.getIsDeleted()) && !runBranchMap.containsKey(branch.getName())){
+                runBranchMap.put(branch.getName(),branch);
+            }
+        }
+
+        MultipartHttpServletRequest multiPartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multiPartRequest.getFile("xlsx");
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook wb = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+        int row = 0;
+        //获取excel表的第 row+1 行
+        XSSFRow contentRow = sheet.getRow(0);
+        //获取excel表总列数
+        Integer coloumNum = contentRow.getPhysicalNumberOfCells();
+        //得到第 row+1 行最后一列的样式
+        XSSFCellStyle headStyle = contentRow.getCell(coloumNum - 1).getCellStyle();
+        //在原excel的最后一列再添加一列
+        XSSFCell cententCell = contentRow.createCell(coloumNum);
+        //设置新增列的列宽（用于导出结果表）
+        int columnWidth = sheet.getColumnWidth(3);
+        sheet.setColumnWidth(coloumNum,(short)(35.7 * 300));
+        //设置新增列的值
+        cententCell.setCellValue("数据存在的问题");
+        //设置新增列的样式(和最后一列保持一致)
+        cententCell.setCellStyle(headStyle);
+
+        List<Member> records = new ArrayList<>();
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row ++;
+            contentRow = sheet.getRow(row);
+
+            //获取第 row+1 行最后一列的样式
+            XSSFCellStyle bodyStyle = wb.createCellStyle();
+            bodyStyle.cloneStyleFrom(contentRow.getCell(coloumNum - 1).getCellStyle());
+
+            //设置内容字体颜色为红色
+            //bodyStyle.getFont().setColor(IndexedColors.RED.getIndex());
+            //在原excel的最后一列再添加一列
+            cententCell = contentRow.createCell(4);
+            //设置新增列样式
+            cententCell.setCellStyle(bodyStyle);
+
+            Member record = new Member();
+
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+            String partyName = StringUtils.trimToNull(xlsRow.get(2));
+            String branchName = StringUtils.trimToNull(xlsRow.get(3));
+
+            SysUserView sysUserView = CmTag.getUserByCode(code);
+            if (sysUserView == null) {
+
+                cententCell.setCellValue("该用户不在系统账号中");
+                continue;
+            }
+            if (memberMapper.selectByPrimaryKey(sysUserView.getUserId()) == null){
+
+                cententCell.setCellValue("该用户不在党员库中");
+                continue;
+            }
+
+            Party party = runPartyMap.get(partyName);
+            Branch branch = runBranchMap.get(branchName);
+
+            if (party == null){
+
+                cententCell.setCellValue("该基层党组织不存在");
+                continue;
+            }
+            if (!partyService.isDirectBranch(party.getId()) && branchName == null){
+
+                cententCell.setCellValue("该二级党委不是直属党支部，党支部不能为空");
+                continue;
+            }
+
+            if (branch == null){
+
+                branch = branchService.insertBranchByName(party.getId(),branchName);
+                runBranchMap.put(branchName,branch);
+            }
+
+            record.setUserId(sysUserView.getUserId());
+            record.setPartyId(party.getId());
+            record.setBranchId(branch.getId());
+
+            records.add(record);
+
+            cententCell.setCellValue("");
+        }
+
+        memberService.batchUpdate(records);
+
+        String savePath = FILE_SEPARATOR + "_filterExport"
+                + FILE_SEPARATOR + DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + ".xlsx";
+        FileUtils.mkdirs(springProps.uploadPath + savePath, true);
+
+        ExportHelper.save(wb, springProps.uploadPath + savePath);
+
+        String fileName = "组织关系批量调整结果表.xlsx";
+        Map<String, Object> resultMap = success();
+        resultMap.put("file", UserResUtils.sign(savePath));
+        resultMap.put("filename", fileName);
+
+        return resultMap;
     }
 }

@@ -1,0 +1,19 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scShift",
+  "resFolder": "sc",
+  "tables": [
+    {
+      "table": "sc_shift",
+      "key": "id",
+      "searchColumns": "user_id,post_id,assign_post_id",
+      "showColumns": "user_id,post_id,assign_post_id,unit_name,unit_type_id,is_principal,leader_type,admin_level,post_type",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_SHIFT",
+      "ignore": false
+    }
+  ]
+}

@@ -133,15 +133,20 @@
         </table>-->
 
         <!--干部选拔-任职公示-->
-        <table tableName="sc_public" domainObjectName="sc.scPublic.ScPublic"
+        <!--<table tableName="sc_public" domainObjectName="sc.scPublic.ScPublic"
                mapperName="sc.scPublic.ScPublicMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
         <!--<table tableName="sc_public_user" domainObjectName="sc.scPublic.ScPublicUser"
                mapperName="sc.scPublic.ScPublicUserMapper">
         </table>-->
 
+        <!--干部交流轮岗-->
+        <table tableName="sc_shift" domainObjectName="sc.scShift.ScShift"
+               mapperName="sc.ScShift.ScShiftMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
         <!--干部选拔-党委常委会议题-->
         <!--<table tableName="sc_committee" domainObjectName="sc.scCommittee.ScCommittee"
