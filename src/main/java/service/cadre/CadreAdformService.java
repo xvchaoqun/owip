@@ -784,8 +784,12 @@ public class CadreAdformService extends BaseMapper {
         {
             CadreViewExample example = new CadreViewExample();
             CadreViewExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(realname);
-            if (StringUtils.isNotBlank(idcard)) {
-                criteria.andIdcardEqualTo(idcard);
+            SysUserViewExample userExample = new SysUserViewExample();
+            userExample.createCriteria().andIdcardEqualTo(idcard).andLockedEqualTo(false);
+            if (sysUserViewMapper.selectByExample(userExample).size() > 0) {
+                if (StringUtils.isNotBlank(idcard)) {
+                    criteria.andIdcardEqualTo(idcard);
+                }
             }
             List<CadreView> cadreViews = cadreViewMapper.selectByExample(example);
 
@@ -1134,11 +1138,33 @@ public class CadreAdformService extends BaseMapper {
                 cadreEdu.setIsHighEdu(false);
                 cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
 
-                if (resumeRow.fRow == null) {
-                    cadreEdu.setSchool(resumeRow.desc); // 全日制描述放入学校字段，需要手动编辑
-                } else {
-                    cadreEdu.setRemark(resumeRow.desc); // 在职描述放入备注字段，需要手动编辑
+                //处理学校/学院/专业字段
+                String str = resumeRow.desc;
+                String school = PatternUtils.withdraw("[.*攻读]?(.*大学).*", str);
+                String dep = PatternUtils.withdraw("[.*大学]?(.*学院|.*系).*", str);
+                String major = PatternUtils.withdraw("[.*大学|\\s][.*学院|.*系\\s](.*专业).*", str);
+
+                if (StringUtils.isNotBlank(school)) {
+                    cadreEdu.setSchool(school);
                 }
+                if (StringUtils.isNotBlank(dep)) {
+                    if(StringUtils.isNotBlank(school)){
+                        dep = dep.replaceAll(school, "");
+                    }
+                    cadreEdu.setDep(dep);
+                }
+                if (StringUtils.isNotBlank(major)) {
+                    if (StringUtils.isNotBlank(dep)){
+                        major = major.replaceAll(dep, "");
+                    }
+                    cadreEdu.setMajor(major);
+                }
+
+               /* if (resumeRow.fRow == null) {
+                    cadreEdu.setSchool(resumeRow.desc); // 全日制描述放入学校字段，需要手动编辑
+                } else {*/
+                cadreEdu.setRemark(resumeRow.desc); // 在职描述放入备注字段，需要手动编辑
+                //}
 
                 byte schoolType = CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC;
                 if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {

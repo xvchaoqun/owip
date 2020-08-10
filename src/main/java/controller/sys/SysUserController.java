@@ -965,7 +965,8 @@ public class SysUserController extends BaseController {
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
-        Map<SysUserView, TeacherInfo> records = new HashMap<>();
+        Map<String, SysUserView> userMap = new HashMap<>();
+        Map<String, TeacherInfo> teacherMap = new HashMap<>();
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
@@ -1023,10 +1024,10 @@ public class SysUserController extends BaseController {
             uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(8)));
             uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(9)));
             uv.setHousehold(StringUtils.trimToNull(xlsRow.get(10)));
-            uv.setMobile(StringUtils.trimToNull(xlsRow.get(13)));
-            uv.setEmail(StringUtils.trimToNull(xlsRow.get(14)));
-            uv.setPhone(StringUtils.trimToNull(xlsRow.get(15)));
-            uv.setUnit(StringUtils.trimToNull(xlsRow.get(16)));
+            uv.setMobile(StringUtils.trimToNull(xlsRow.get(17)));
+            uv.setEmail(StringUtils.trimToNull(xlsRow.get(18)));
+            uv.setPhone(StringUtils.trimToNull(xlsRow.get(19)));
+            uv.setUnit(StringUtils.trimToNull(xlsRow.get(20)));
 
             TeacherInfo teacherInfo = new TeacherInfo();
             if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
@@ -1035,16 +1036,25 @@ public class SysUserController extends BaseController {
                 }
                 teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(11)));
                 teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(12)));
+                teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
+                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(14)));
+                teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(15))));
+                Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(16)));
+                teacherInfo.setIsRetire(retireTime != null ? retireTime.before(new Date()) : true);
+                teacherInfo.setRetireTime(retireTime);
+
+
             }
 
-            records.put(uv,teacherInfo);
+            userMap.put(userCode, uv);
+            teacherMap.put(userCode, teacherInfo);
         }
 
-        sysUserService.batchImport(records);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "导入系统账号数目：%s", records.size()));
+        sysUserService.batchImport(userMap, teacherMap);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "导入系统账号数目：%s", userMap.size()));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("total", records.size());
+        resultMap.put("total", userMap.size());
         return resultMap;
     }
 }

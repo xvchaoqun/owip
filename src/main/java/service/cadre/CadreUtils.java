@@ -62,7 +62,7 @@ public class CadreUtils {
                 newRow.row = row++;
 
                 // 提取其间经历
-                subLine = PatternUtils.withdraw(".*([（|\\(].*[0-9]{4}\\.[0-9]{1,2}[\\-—～－]{0,2}.*[）|\\)]).*", line);
+                subLine = PatternUtils.withdraw("([（|\\(]([其|期]间[：|:])?[0-9]{4}\\.[0-9]{1,2}[\\-—～－]{1,2}.+[）|\\)])[;|；|\\s]?", line);
                 if (StringUtils.isNotBlank(subLine)) {
                     line = line.replace(subLine, "");
                 }
@@ -76,6 +76,7 @@ public class CadreUtils {
                 subLine = subLine.trim();
 
                 subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{2})?([\\-—～－]{1,2})?.*)[）|\\)]", subLine);
+                subLine = subLine.replaceAll("[)|）][(|（]", "；");
                 String[] subLines = subLine.split("；");
                 for (String sub : subLines) {
 
@@ -123,6 +124,7 @@ public class CadreUtils {
 
         String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{2})?\\s*(.*)",
                 content, 2);
+        desc = desc.replaceAll("[——|——现在]","");
         Pattern c = Pattern.compile("至今");
         Matcher mc=c.matcher(desc);
         if (mc.find()){

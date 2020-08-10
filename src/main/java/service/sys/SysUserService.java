@@ -104,12 +104,11 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    public void batchImport(Map<SysUserView, TeacherInfo> records) throws ReflectiveOperationException {
+    public void batchImport(Map<String, SysUserView> userMap, Map<String, TeacherInfo> teacherMap) throws ReflectiveOperationException {
 
-        for (Map.Entry<SysUserView, TeacherInfo> entry: records.entrySet()){
+        for (String userCode : userMap.keySet()){
 
-            SysUserView record = entry.getKey();
-            TeacherInfo teacherInfo = entry.getValue();
+            SysUserView record = userMap.get(userCode);
 
             SysUser user = new SysUser();
             SysUserInfo userInfo = new SysUserInfo();
@@ -131,10 +130,10 @@ public class SysUserService extends BaseMapper {
 
             if (record.getType() == SystemConstants.USER_TYPE_JZG) {
 
+                TeacherInfo teacherInfo = teacherMap.get(userCode);
                 addRole(userId, RoleConstants.ROLE_TEACHER);
                 if (teacherInfo.getUserId() == null) {
                     teacherInfo.setUserId(userId);
-                    teacherInfo.setIsRetire(false);
                     teacherInfoMapper.insertSelective(teacherInfo);
                 } else {
                     TeacherInfoExample example = new TeacherInfoExample();
