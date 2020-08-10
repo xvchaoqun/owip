@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.ScShift.ScShiftMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scShift.ScShift">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="assign_post_id" jdbcType="INTEGER" property="assignPostId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
+    <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
+    <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, post_id, assign_post_id, unit_name, unit_type_id, is_principal, leader_type, 
+    admin_level, post_type, type, record_id, record_user_id, create_time, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scShift.ScShiftExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_shift
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_shift
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_shift
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.scShift.ScShiftExample">
+    delete from sc_shift
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.scShift.ScShift">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sc_shift (user_id, post_id, assign_post_id, 
+      unit_name, unit_type_id, is_principal, 
+      leader_type, admin_level, post_type, 
+      type, record_id, record_user_id, 
+      create_time, remark)
+    values (#{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{assignPostId,jdbcType=INTEGER}, 
+      #{unitName,jdbcType=VARCHAR}, #{unitTypeId,jdbcType=INTEGER}, #{isPrincipal,jdbcType=BIT}, 
+      #{leaderType,jdbcType=TINYINT}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{recordUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.scShift.ScShift">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sc_shift
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="assignPostId != null">
+        assign_post_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="unitTypeId != null">
+        unit_type_id,
+      </if>
+      <if test="isPrincipal != null">
+        is_principal,
+      </if>
+      <if test="leaderType != null">
+        leader_type,
+      </if>
+      <if test="adminLevel != null">
+        admin_level,
+      </if>
+      <if test="postType != null">
+        post_type,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="assignPostId != null">
+        #{assignPostId,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitTypeId != null">
+        #{unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isPrincipal != null">
+        #{isPrincipal,jdbcType=BIT},
+      </if>
+      <if test="leaderType != null">
+        #{leaderType,jdbcType=TINYINT},
+      </if>
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.scShift.ScShiftExample" resultType="java.lang.Long">
+    select count(*) from sc_shift
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_shift
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.assignPostId != null">
+        assign_post_id = #{record.assignPostId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitName != null">
+        unit_name = #{record.unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitTypeId != null">
+        unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isPrincipal != null">
+        is_principal = #{record.isPrincipal,jdbcType=BIT},
+      </if>
+      <if test="record.leaderType != null">
+        leader_type = #{record.leaderType,jdbcType=TINYINT},
+      </if>
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_shift
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      assign_post_id = #{record.assignPostId,jdbcType=INTEGER},
+      unit_name = #{record.unitName,jdbcType=VARCHAR},
+      unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
+      is_principal = #{record.isPrincipal,jdbcType=BIT},
+      leader_type = #{record.leaderType,jdbcType=TINYINT},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scShift.ScShift">
+    update sc_shift
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="assignPostId != null">
+        assign_post_id = #{assignPostId,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitTypeId != null">
+        unit_type_id = #{unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isPrincipal != null">
+        is_principal = #{isPrincipal,jdbcType=BIT},
+      </if>
+      <if test="leaderType != null">
+        leader_type = #{leaderType,jdbcType=TINYINT},
+      </if>
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.scShift.ScShift">
+    update sc_shift
+    set user_id = #{userId,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=INTEGER},
+      assign_post_id = #{assignPostId,jdbcType=INTEGER},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      unit_type_id = #{unitTypeId,jdbcType=INTEGER},
+      is_principal = #{isPrincipal,jdbcType=BIT},
+      leader_type = #{leaderType,jdbcType=TINYINT},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scShift.ScShiftExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_shift
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
