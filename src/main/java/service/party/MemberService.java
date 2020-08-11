@@ -590,7 +590,7 @@ public class MemberService extends MemberBaseMapper {
 
             row++;
             Member record = new Member();
-            String userCode = StringUtils.trim(xlsRow.get(0));
+            String userCode = StringUtil.trimAll(xlsRow.get(0));
             String idcard = StringUtil.trimAll(xlsRow.get(2));
             Map<String, List<String>> codeMap = new HashMap<>();
             if (StringUtils.isBlank(userCode)) {

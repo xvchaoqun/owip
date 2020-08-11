@@ -301,6 +301,7 @@ public class BranchService extends BaseMapper {
 
     //校验党支部信息完整度
     @Transactional
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
     public void updateIntegrity(){
 
         BranchViewExample example = new BranchViewExample();
@@ -350,6 +351,7 @@ public class BranchService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
     public Branch insertBranchByName(Integer partyId,String branchName){
 
         Branch branch = new Branch();
@@ -357,7 +359,8 @@ public class BranchService extends BaseMapper {
         branch.setName(branchName);
         branch.setShortName(branchName);
         branch.setPartyId(partyId);
-        branch.setUnitTypeId(CmTag.getMetaTypeByCode("mt_swerju").getId());
+        // 事业单位
+        branch.setUnitTypeId(CmTag.getMetaTypeByCode("mt_branch_institution").getId());
         branch.setIsEnterpriseBig(false);
         branch.setIsEnterpriseNationalized(false);
         branch.setIsUnion(false);

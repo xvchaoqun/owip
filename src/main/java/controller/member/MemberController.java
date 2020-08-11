@@ -1550,7 +1550,7 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("member:list")
     @RequestMapping(value = "/member_update", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpMember_update(HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
+    public Map member_update(HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
 
         Map<Integer,Party> partyMap = partyService.findAll();
         Map<String, Party> runPartyMap = new HashMap<>();
@@ -1597,7 +1597,7 @@ public class MemberController extends MemberBaseController {
             row ++;
             contentRow = sheet.getRow(row);
 
-            //获取第 row+1 行最后一列的样式
+            /*//获取第 row+1 行最后一列的样式
             XSSFCellStyle bodyStyle = wb.createCellStyle();
             bodyStyle.cloneStyleFrom(contentRow.getCell(coloumNum - 1).getCellStyle());
 
@@ -1606,18 +1606,18 @@ public class MemberController extends MemberBaseController {
             //在原excel的最后一列再添加一列
             cententCell = contentRow.createCell(4);
             //设置新增列样式
-            cententCell.setCellStyle(bodyStyle);
+            cententCell.setCellStyle(bodyStyle);*/
 
             Member record = new Member();
 
-            String code = StringUtils.trimToNull(xlsRow.get(0));
-            String partyName = StringUtils.trimToNull(xlsRow.get(2));
-            String branchName = StringUtils.trimToNull(xlsRow.get(3));
+            String code = StringUtil.trimAll(xlsRow.get(0));
+            String partyName = StringUtil.trimAll(xlsRow.get(2));
+            String branchName = StringUtil.trimAll(xlsRow.get(3));
 
             SysUserView sysUserView = CmTag.getUserByCode(code);
             if (sysUserView == null) {
 
-                cententCell.setCellValue("该用户不在系统账号中");
+                cententCell.setCellValue("该用户不在系统账号库中");
                 continue;
             }
             if (memberMapper.selectByPrimaryKey(sysUserView.getUserId()) == null){

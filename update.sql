@@ -113,7 +113,10 @@ ALTER TABLE `cet_train`
 
 delete from sys_scheduler_job where clazz='job.cet.CetAutoAdjust';
 
+update base_meta_type set code='mt_branch_institution' where  class_id=25 and name='事业单位';
 
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `unit_type_id` `unit_type_id` INT(10) UNSIGNED NULL COMMENT '单位属性，关联元数据，企业、事业单位' AFTER `is_base_team`;
 
 20200730
 吉大 -- 北师大

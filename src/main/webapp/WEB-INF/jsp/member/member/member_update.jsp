@@ -22,8 +22,9 @@
         </div>
   </div>
   <div class="modal-footer">
+      <div class="note">注：导入成功后，请根据导出的excel表查看导入结果明细</div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-	  <button id="submitBtn" type="button" class="btn btn-primary"
+	  <button id="submitBtn" type="button" class="btn btn-primary" data-success-text="导入成功"
 			  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">确定</button>
   </div>
 
@@ -33,12 +34,6 @@
 
 		$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 		$("#modalForm").validate({
-				messages: {
-                    "xlsx": {
-                        required: "请选择文件",
-                        extension: "请上传 xlsx格式的文件"
-                    }
-                },
 				submitHandler: function (form) {
 					var $btn = $("#submitBtn").button('loading');
 					$(form).ajaxSubmit({
@@ -49,12 +44,14 @@
                                 var url = ("${ctx}/attach_download?path={0}&filename={1}")
                                     .format(ret.file, ret.filename)
                                 $btn.download(url);
-                                $btn.button('reset');
+
                                 $.reloadMetaData(function () {
                                     $("#modal").modal("hide")
                                     $("#jqGrid").trigger("reloadGrid");
                                 });
                             }
+
+                            $btn.button('reset');
 						}
 					});
 				}
