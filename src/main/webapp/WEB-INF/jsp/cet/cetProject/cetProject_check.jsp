@@ -6,10 +6,10 @@ pageEncoding="UTF-8"%>
     <h3>审批</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnitProject_check"
+    <form class="form-horizontal" action="${ctx}/cet/cetProject_check"
 		  autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="ids[]" value="${param['ids[]']}">
-			<c:if test="${empty cetUnitProject}">
+			<c:if test="${empty cetProject}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">审批记录数</label>
 				<div class="col-xs-6 label-text">
@@ -17,11 +17,11 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			</c:if>
-			<c:if test="${not empty cetUnitProject}">
+			<c:if test="${not empty cetProject}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">培训班名称</label>
 				<div class="col-xs-6 label-text">
-					${cetUnitProject.projectName}
+					${cetProject.name}
 				</div>
 			</div>
 			</c:if>

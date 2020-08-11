@@ -1,6 +1,8 @@
 package controller.cet;
 
 import bean.UserBean;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cet.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -39,6 +41,66 @@ import java.util.*;
 public class CetProjectObjController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("cetProjectObj:list")
+    @RequestMapping("/cetProjectObj_list_page")
+    public String cetProjectObj_list_page(int projectId,
+                                        /** cls=1 培训对象
+                                         *  cls=2 培训班选择学员
+                                         *  cls=3 培训方案选择学员
+                                         *  cls=4 撰写心得体会
+                                         *  cls=5 设置小组成员（分组讨论）
+                                         *  cls=6 自主学习
+                                         */
+                            @RequestParam(defaultValue = "1") Integer cls, // 同 /cetProjectObj 的cls
+                            Integer trainCourseId, // 培训班选课
+                            Integer planCourseId,  // 培训方案选课
+                            Integer discussGroupId,  // 讨论小组
+                            ModelMap modelMap) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        modelMap.put("cetProject", cetProject);
+
+        if(trainCourseId!=null){
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+            modelMap.put("cetTrainCourse", cetTrainCourse);
+            Integer trainId = cetTrainCourse.getTrainId();
+            if(trainId!=null) {
+                CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+                modelMap.put("cetTrain", cetTrain);
+                Integer planId = cetTrain.getPlanId();
+                if (planId != null) {
+                    CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                    modelMap.put("cetProjectPlan", cetProjectPlan);
+                }
+            }
+
+        }else if(planCourseId!=null){
+
+            CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(planCourseId);
+            modelMap.put("cetPlanCourse", cetPlanCourse);
+            Integer planId = cetPlanCourse.getPlanId();
+            if(planId!=null){
+                CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                modelMap.put("cetProjectPlan", cetProjectPlan);
+            }
+        }else if(discussGroupId!=null){
+
+            CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
+            modelMap.put("cetDiscussGroup", cetDiscussGroup);
+
+            Integer discussId = cetDiscussGroup.getDiscussId();
+            CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
+            modelMap.put("cetDiscuss", cetDiscuss);
+
+            /*CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(cetDiscuss.getPlanId());
+            modelMap.put("cetProjectPlan", cetProjectPlan);*/
+        }
+
+        modelMap.put("cls", cls);
+
+        return "cet/cetProjectObj/cetProjectObj_list_page";
+    }
 
     @RequiresPermissions("cetProjectObj:list")
     @RequestMapping("/cetProjectObj")
@@ -501,6 +563,89 @@ public class CetProjectObjController extends CetBaseController {
         modelMap.put("traineeTypeId", traineeTypeId);
 
         return "cet/cetProjectObj/cetProjectObj_au";
+    }
+
+    // 批量导入培训对象
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_import")
+    public String cetProjectObj_import(Integer projectId, ModelMap modelMap){
+
+        modelMap.put("projectId", projectId);
+
+        List<CetTraineeType> cetTraineeTypes = cetProjectService.getCetTraineeTypes(projectId);
+
+        modelMap.put("cetTraineeTypes", cetTraineeTypes);
+
+        return "cet/cetProjectObj/cetProjectObj_import";
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_import(int projectId, int traineeTypeId, HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook wb = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<CetProjectObj> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows){
+            CetProjectObj record = new CetProjectObj();
+            row++;
+            record.setProjectId(projectId);
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)){
+                throw new OpException("Excel中第{0}行学工号不能为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getUserId());
+            record.setTraineeTypeId(traineeTypeId);
+
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
+
+            MetaType metaType = metaTypeService.findByName("mc_post", xlsRow.get(3));
+            if (metaType != null){
+                record.setPostType(metaType.getId());
+            }
+            String _identity = StringUtils.trim(xlsRow.get(4));
+            if (StringUtils.isNotBlank(_identity)) {
+                String[] identities = _identity.split(",|，|、");
+                List<Integer> identityList = new ArrayList<>();
+                for (String s : identities) {
+                    MetaType metaType1 = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType1 != null) {
+                        identityList.add(metaType1.getId());
+                    }
+                }
+                if(identityList.size()>0) {
+                    record.setIdentity("," + StringUtils.join(identityList, ",") + ",");
+                }
+            }else {
+                record.setIdentity(""); // 为了更新时覆盖
+            }
+
+            records.add(record);
+        }
+        Collections.reverse(records);
+        int successCount = cetProjectObjService.importCetProjectObj(projectId, records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        logger.info(log(LogConstants.LOG_CET,
+                "导入培训对象及学习情况成功，总共{0}条记录，其中成功导入{1}条记录",
+                records.size(), successCount));
+
+        return resultMap;
     }
 
     @RequiresPermissions("cetProjectObj:edit")

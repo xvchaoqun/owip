@@ -255,8 +255,6 @@ pageEncoding="UTF-8" %>
             <c:if test="${_p_owCheckIntegrity}">
             {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
-                    if(Math.trimToZero(rowObject.integrity)==0)
-                        return '--'
                     var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
                     return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/party_integrity_view" data-id-name="partyId">' +
                         '<div class="progress progress-striped pos-rel" data-percent="{0}">' +

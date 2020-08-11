@@ -60,7 +60,7 @@ public interface ICetMapper {
                              @Param("periodOnline") BigDecimal periodOnline,
                              @Param("ids") String ids);
 
-    // 批量删除已删除的培训记录（假删除）
+    // 批量删除无效的培训记录（假删除，无效指已删除或未审批或退出学习的记录）
     int removeDeletedCetRecords();
 
     // 没有删除的、审批通过的、还未归档的上级调训记录ID
@@ -365,7 +365,7 @@ public interface ICetMapper {
 
     // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
     @Select("select user_id as userId, sum(period) as yearPeriod from cet_train_obj_view  " +
-            "where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct " +
+            "where year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct " +
             "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id) " +
             "and train_id=#{trainId} group by user_id")
     List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
@@ -377,6 +377,10 @@ public interface ICetMapper {
             "ic.train_course_id=result.train_course_id and ic.inspector_id=result.inspector_id " +
             "group by result.inspector_id, result.train_course_id")
     List<StatTrainBean> stat(@Param("trainId") int trainId);
+
+    // 二级党委过程培训数量统计
+    List<Map> projectGroupByStatus(@Param("type") byte type, @Param("addPermits") Boolean addPermits,
+                                 @Param("adminPartyIdList") List<Integer> adminPartyIdList);
 
     // 二级党委培训数量统计
     List<Map> unitProjectGroupByStatus(@Param("addPermits") Boolean addPermits,

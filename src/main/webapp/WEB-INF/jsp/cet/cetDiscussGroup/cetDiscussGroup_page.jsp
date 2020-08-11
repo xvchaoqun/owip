@@ -41,7 +41,7 @@
                     </button>
                     <%--<button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-open-by="page"
-                            data-url="${ctx}/cet/cetProject_detail_obj?cls=5&projectId=${cetProject.id}"
+                            data-url="${ctx}/cet/cetProjectObj_list_page?cls=5&projectId=${cetProject.id}"
                             data-id-name="discussGroupId"
                             data-grid-id="#jqGrid2"><i class="fa fa-users"></i>
                         设置小组成员
@@ -73,7 +73,7 @@
         colModel: [
             {label: '小组成员', name: 'objCount',width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail_obj?cls=5&projectId=${cetProject.id}&discussGroupId={0}"><i class="fa fa-search"></i> 详情</button>')
+                'data-url="${ctx}/cet/cetProjectObj_list_page?cls=5&projectId=${cetProject.id}&discussGroupId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
             /*{label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {

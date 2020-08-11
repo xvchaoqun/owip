@@ -73,7 +73,7 @@ public class MemberController extends MemberBaseController {
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
         if (sysUser == null) {
-            msg = "该用户不存在";
+            msg = "账号不存在";
         } else {
             code = sysUser.getCode();
             userType = sysUser.getType();
@@ -81,7 +81,7 @@ public class MemberController extends MemberBaseController {
             unit = extService.getUnit(userId);
             Member member = memberService.get(userId);
             if (member == null) {
-                msg = "该用户不是党员";
+                msg = "此账号不在党员库中";
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 if (memberApply != null && memberApply.getStage() > OwConstants.OW_APPLY_STAGE_DENY) {
 

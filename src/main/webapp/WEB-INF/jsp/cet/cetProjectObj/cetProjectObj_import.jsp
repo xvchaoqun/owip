@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
-          enctype="multipart/form-data" action="${ctx}/cet/cetProject_detail_import?projectId=${projectId}" method="post">
+          enctype="multipart/form-data" action="${ctx}/cet/cetProjectObj_import?projectId=${projectId}" method="post">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>参训人员类型</label>
             <div class="col-xs-6">
@@ -17,6 +17,9 @@
                         <option value="${cetTraineeType.id}">${cetTraineeType.name}</option>
                     </c:forEach>
                 </select>
+                <script>
+                    $("#modalForm select[name=traineeTypeId]").val('${param.traineeTypeId}')
+                </script>
             </div>
         </div>
         <div class="form-group">
@@ -28,8 +31,8 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
-            <a href="${ctx}/attach?code=sample_cetProject_detail">
-                培训对象及学习情况导入样表.xlsx</a>（点击下载）的数据格式</span>
+            <a href="${ctx}/attach?code=sample_cet_project_obj">
+                培训对象导入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">
@@ -51,10 +54,11 @@
 						dataType:"json",
 						success:function(ret){
 							if(ret && ret.successCount>=0){
+							    $("#modal").modal('hide');
+							    $("#jqGrid2").trigger("reloadGrid");
+
 								var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条已存在</font>';
-								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功',function(){
-									page_reload();
-								});
+								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功');
 							}
 							$btn.button('reset');
 						}

@@ -105,12 +105,6 @@ public class CetTrainController extends CetBaseController {
 
         Integer id = record.getId();
         record.setIsOnCampus(BooleanUtils.isTrue(record.getIsOnCampus()));
-        record.setIsFinished(BooleanUtils.isTrue(record.getIsFinished()));
-
-        /*if(record.getEndDate()!=null && record.getEndDate().before(new Date())
-        && !record.getIsFinished()){
-            return failed("结课日期已过，不可变更为未结课状态。");
-        }*/
 
         if (id == null) {
 
@@ -231,26 +225,6 @@ public class CetTrainController extends CetBaseController {
             modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(id));
         }
         return "cet/cetTrain/cetTrain_inspectors";
-    }
-
-    @RequiresPermissions("cetTrain:pub")
-    @RequestMapping(value = "/cetTrain_finish", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetTrain_finish(HttpServletRequest request,
-                                  @RequestParam(required = false, defaultValue = "1") Boolean isFinished, Integer id) {
-
-        if (id != null) {
-
-            CetTrain record = new CetTrain();
-            record.setId(id);
-            record.setIsFinished(BooleanUtils.isTrue(isFinished));
-            cetTrainMapper.updateByPrimaryKeySelective(record);
-
-            logger.info(addLog(LogConstants.LOG_CET,
-                    "培训班结课：%s %s", id, isFinished));
-        }
-
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetTrain:del")

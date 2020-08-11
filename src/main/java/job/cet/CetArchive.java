@@ -43,6 +43,7 @@ public class CetArchive implements Job {
 
         logger.info("归档培训学时...");
         try {
+            // 过程培训数据归档
             CetProjectExample example = new CetProjectExample();
             example.createCriteria().andIsDeletedEqualTo(false)
                     .andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_PASS)
@@ -52,9 +53,13 @@ public class CetArchive implements Job {
                 cetProjectObjService.archiveProject(cetProject.getId());
             }
 
+            // 删除无效培训记录
             iCetMapper.removeDeletedCetRecords();
+            // 同步上级调训数据（含党校其他培训）
             cetRecordService.syncAllUpperTrain();
+            // 同步过程培训数据
             cetRecordService.syncAllProjectObj(null);
+            // 同步二级党委培训数据
             cetRecordService.syncAllUnitTrian();
 
             // 更新年度学习档案

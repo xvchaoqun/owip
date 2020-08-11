@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <div class="imgDiv">
         <img width="800"
-          src="${ctx}/report/cet_cert?sourceType=${param.sourceType}&ids=${param.ids}&format=image&_=<%=System.currentTimeMillis()%>"/>
+          src="${ctx}/report/cet_cert?sourceType=${param.sourceType}&ids=${cm:sign(param.ids)}&format=image&_=<%=System.currentTimeMillis()%>"/>
     </div>
 </div>
 <div class="modal-footer">

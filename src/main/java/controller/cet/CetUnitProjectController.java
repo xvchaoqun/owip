@@ -346,10 +346,6 @@ public class CetUnitProjectController extends CetBaseController {
             example.createCriteria().andIdIn(Arrays.asList(ids))
                     .andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_REPORT);
             cetUnitProjectMapper.updateByExampleSelective(record, example);
-
-            if (BooleanUtils.isTrue(pass)) {
-                commonMapper.excuteSql("update cet_unit_project set back_reason=null where id in (" + StringUtils.join(ids, ",") + ")");
-            }
         }
 
         return success(FormUtils.SUCCESS);

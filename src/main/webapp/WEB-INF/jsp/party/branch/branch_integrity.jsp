@@ -53,7 +53,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <div class="note">注：系统每天会统一进行一次校验更新，如需查看最新信息完整度，请点击立即刷新按钮。</div>
+    <div class="note">注：系统每日自动校验信息完整度，如需查看最新结果，请点击立即刷新按钮。</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"

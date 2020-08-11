@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
                 <li class="<c:if test="${cls==1}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/cet/cetUnitProject?cls=1"><i
-                            class="fa fa-list"></i> 培训信息汇总(${cm:trimToZero(statusCountMap.get(_PASS))})
+                            class="fa fa-list"></i> 已审批(${cm:trimToZero(statusCountMap.get(_PASS))})
                     </a>
                 </li>
                 <li class="<c:if test="${cls==2}">active</c:if>">
@@ -279,6 +279,9 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cet/cetUnitProject_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+                <c:if test="${cls==4}">
+                { label: '退回原因',name: 'backReason', width:120, frozen:true},
+                </c:if>
                 <c:if test="${cls==2}">
                 { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
                   return ('<button class="confirm btn btn-success btn-xs" data-msg="报送后不可修改，请核实后确认。" ' +

@@ -2,6 +2,7 @@ package service.cet;
 
 import controller.global.OpException;
 import domain.cet.CetProject;
+import domain.cet.CetProjectExample;
 import domain.cet.CetProjectObjExample;
 import domain.cet.CetTraineeType;
 import org.apache.commons.lang3.StringUtils;
@@ -9,9 +10,11 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +24,8 @@ public class CetProjectService extends CetBaseMapper {
 
     @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
 
     @Transactional
     public void insertSelective(CetProject record, List<Integer> traineeTypeIdList){
@@ -36,6 +41,11 @@ public class CetProjectService extends CetBaseMapper {
         cetProjectMapper.insertSelective(record);
 
         updateTrainTypes(record.getId(), traineeTypeIdList);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
+                    "创建", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     @Transactional
@@ -66,6 +76,11 @@ public class CetProjectService extends CetBaseMapper {
             record.setId(id);
             record.setIsDeleted(true);
             cetProjectMapper.updateByPrimaryKeySelective(record);
+
+            sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
+                    "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
     }
 
@@ -76,6 +91,56 @@ public class CetProjectService extends CetBaseMapper {
         cetProjectMapper.updateByPrimaryKeySelective(record);
 
         updateTrainTypes(record.getId(), traineeTypeIdList);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
+                    "更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+    }
+
+    // 返回待报送
+    @Transactional
+    public void back(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+
+            sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
+                    "返回待报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+        }
+
+        CetProjectExample example = new CetProjectExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        CetProject record = new CetProject();
+        record.setStatus(CetConstants.CET_PROJECT_STATUS_UNREPORT);
+        cetProjectMapper.updateByExampleSelective(record, example);
+    }
+
+    // 报送
+    @Transactional
+    public void report(int id) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            if (!adminPartyIdList.contains(cetProject.getCetPartyId())) {
+                throw new OpException("没有权限。");
+            }
+        }
+
+        CetProject record = new CetProject();
+        record.setId(id);
+        record.setStatus(CetConstants.CET_PROJECT_STATUS_REPORT);
+        cetProjectMapper.updateByPrimaryKeySelective(record);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
+                    "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 已选参训人类型

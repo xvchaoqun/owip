@@ -83,7 +83,7 @@
                 label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProjectObj_list_page?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, width: 130, frozen:true},
             <c:if test="${empty cetProjectPlan || cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
@@ -159,7 +159,7 @@
                 label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProjectObj_list_page?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, width: 130, frozen:true},
             {

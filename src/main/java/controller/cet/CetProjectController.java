@@ -1,6 +1,7 @@
 package controller.cet;
 
 import controller.global.OpException;
+import domain.base.ContentTpl;
 import domain.cet.CetProject;
 import domain.cet.CetProjectExample;
 import domain.cet.CetProjectType;
@@ -10,8 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
+import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -69,9 +74,45 @@ public class CetProjectController extends CetBaseController {
     public String cetProject(
                             // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
                             @RequestParam(defaultValue = "1") byte cls,
+                            Byte status, // 二级党委报送状态
                              ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        Map<Byte, Integer> statusCountMap = new HashMap<>();
+        if(cls==3||cls==4){
+
+            byte type = CetConstants.CET_PROJECT_TYPE_SPECIAL;
+            if(cls==4) {
+                type = CetConstants.CET_PROJECT_TYPE_DAILY;
+            }
+            boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+            List<Integer> adminPartyIdList = new ArrayList<>();
+            if(addPermits) {
+                adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            }
+            List<Map> mapList = iCetMapper.projectGroupByStatus(type, addPermits, adminPartyIdList);
+
+            for (Map resultMap : mapList) {
+                byte st = ((Integer) resultMap.get("status")).byteValue();
+                int num = ((Long) resultMap.get("num")).intValue();
+                statusCountMap.put(st, num);
+            }
+
+            modelMap.put("statusCountMap", statusCountMap);
+        }
+
+        if(status==null) {
+            int passCount = NumberUtils.trimToZero(statusCountMap.get(CetConstants.CET_PROJECT_STATUS_PASS));
+            int unReportCount = NumberUtils.trimToZero(statusCountMap.get(CetConstants.CET_PROJECT_STATUS_UNREPORT));
+            if (passCount == 0 || unReportCount > 0) {
+                status = CetConstants.CET_PROJECT_STATUS_UNREPORT;
+            } else {
+                status = CetConstants.CET_PROJECT_STATUS_PASS;
+            }
+        }
+
+        modelMap.put("status", status);
 
         Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(cls);
         modelMap.put("cetProjectTypeMap", cetProjectTypeMap);
@@ -84,6 +125,7 @@ public class CetProjectController extends CetBaseController {
     public void cetProject_data(HttpServletResponse response,
                                 // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
                                 @RequestParam(defaultValue = "1") byte cls,
+                                Byte status, // 二级党委报送状态
                                 Integer year,
                                 String name,
                                 Integer projectTypeId,
@@ -125,6 +167,10 @@ public class CetProjectController extends CetBaseController {
             }else{
                 criteria.andIdIsNull();
             }
+        }
+        if(isPartyProject){
+            if(status==null) status=0;
+            criteria.andStatusEqualTo(status);
         }
 
         if (year!=null) {
@@ -291,6 +337,110 @@ public class CetProjectController extends CetBaseController {
         resultMap.put("pdfFilePath", UserResUtils.sign(savePath));
 
         return resultMap;
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping("/cetProject_detail")
+    public String cetProject_detail(Integer projectId, ModelMap modelMap) {
+
+        if (projectId != null) {
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            modelMap.put("cetProject", cetProject);
+        }
+        return "cet/cetProject/cetProject_detail";
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping("/cetProject_begin")
+    public String cetProject_begin(int projectId, ModelMap modelMap) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        modelMap.put("cetProject", cetProject);
+
+        List<ContentTpl> tplList = new ArrayList<>();
+        tplList.add(CmTag.getContentTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_1));
+        modelMap.put("tplList", tplList);
+
+        return "cet/cetProject/cetProject_begin";
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_begin", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProject_begin(int projectId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")Date openTime,
+                                          String openAddress) {
+
+        CetProject record = new CetProject();
+        record.setId(projectId);
+        record.setOpenTime(openTime);
+        record.setOpenAddress(openAddress);
+
+        cetProjectMapper.updateByPrimaryKeySelective(record);
+
+        logger.info(addLog(LogConstants.LOG_CET, "更新开班仪式设置：%s~%s",
+                openTime, openAddress));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_report", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProject_report(int id, ModelMap modelMap) {
+
+        cetProjectService.report(id);
+        logger.info(addLog(LogConstants.LOG_CET, "二级党委过程培训报送：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping("/cetProject_check")
+    public String cetProject_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1)
+            modelMap.put("cetProject", cetProjectMapper.selectByPrimaryKey(ids[0]));
+
+        return "cet/cetProject/cetProject_check";
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProject_check(HttpServletRequest request,
+                                       @RequestParam(value = "ids[]") Integer[] ids,
+                                       Boolean pass, Boolean isValid, String backReason, ModelMap modelMap) {
+
+        if (ids != null && ids.length > 0) {
+
+            CetProject record = new CetProject();
+            record.setStatus(BooleanUtils.isTrue(pass) ? CetConstants.CET_PROJECT_STATUS_PASS
+                    : CetConstants.CET_PROJECT_STATUS_UNPASS);
+            record.setBackReason(backReason);
+            record.setIsValid(BooleanUtils.isTrue(isValid));
+
+            CetProjectExample example = new CetProjectExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids))
+                    .andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_REPORT);
+            cetProjectMapper.updateByExampleSelective(record, example);
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProject_back(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+            cetProjectService.back(ids);
+            logger.info(addLog(LogConstants.LOG_CET, "返回报送二级党委过程培训：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetProject:del")

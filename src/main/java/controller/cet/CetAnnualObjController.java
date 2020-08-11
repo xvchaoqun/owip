@@ -299,7 +299,7 @@ public class CetAnnualObjController extends CetBaseController {
 
     @RequiresPermissions("cetAnnualObj:edit")
     @RequestMapping("/cetAnnualObj_import")
-    public String cetProjectObj_import(Integer annualId, ModelMap modelMap){
+    public String cetAnnualObj_import(Integer annualId, ModelMap modelMap){
 
          CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         modelMap.put("cetAnnual", cetAnnual);
@@ -312,7 +312,7 @@ public class CetAnnualObjController extends CetBaseController {
     @RequiresPermissions("cetAnnualObj:edit")
     @RequestMapping(value = "/cetAnnualObj_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_import(int annualId, HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_cetAnnualObj_import(int annualId, HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");

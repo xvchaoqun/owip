@@ -369,6 +369,26 @@
         and cpco.obj_id=cpo.id order by cpo.id asc
     </select>
 
+    <select id="projectGroupByStatus" parameterType="map" resultType="map">
+        SELECT status, COUNT(*) num FROM cet_project
+        <where>
+        type=#{type} and is_party_project=1 and is_deleted=0
+        <if test="addPermits">
+            <if test="adminPartyIdList!=null and adminPartyIdList.size>0">
+                and cet_party_id in
+                <foreach collection="adminPartyIdList" item="st"
+                         index="index" open="(" close=")" separator=",">
+                    #{st}
+                </foreach>
+            </if>
+          <if test="adminPartyIdList==null or adminPartyIdList.size==0">
+                and cet_party_id is null
+            </if>
+        </if>
+        </where>
+        GROUP BY STATUS
+    </select>
+
     <select id="unitProjectGroupByStatus" parameterType="map" resultType="map">
         SELECT status, COUNT(*) num FROM cet_unit_project
         <if test="addPermits">

@@ -119,6 +119,8 @@
                     <label class="col-xs-4 control-label"><span class="star">*</span>职务</label>
                     <div class="col-xs-8">
                         <textarea required class="form-control noEnter" name="post">${cadrePost.post}</textarea>
+
+                        <span class="help-block blue">注：此处为任职职务的全称</span>
                     </div>
                 </div>
                 <div class="form-group">

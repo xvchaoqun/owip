@@ -68,7 +68,7 @@
                 <c:if test="${cetProjectPlan.type == CET_PROJECT_PLAN_TYPE_SPECIAL}">var cls = 3;</c:if>
                 <c:if test="${cetProjectPlan.type == CET_PROJECT_PLAN_TYPE_SELF}">var cls = 6;</c:if>
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail_obj?cls={4}&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProjectObj_list_page?cls={4}&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount, cls);
 
             }},
@@ -93,7 +93,7 @@
                 label: '学习情况', name: 'selectedCount', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail_obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProjectObj_list_page?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, frozen: true},
             {label: '网上专题培训班名称', name: 'name', width: 300, align: 'left', frozen: true},

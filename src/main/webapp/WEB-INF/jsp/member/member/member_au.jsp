@@ -28,6 +28,9 @@
                                                                                    data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
+                    <span class="help-block">
+                         <a href="javascript:;" class="popupBtn" data-url="${ctx}/member/search">找不到？可能已在党员库中，点此查询</a>
+                    </span>
                 </div>
             </div>
             <div class="form-group">

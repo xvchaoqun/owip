@@ -157,7 +157,7 @@ public class CetProjectPlanController extends CetBaseController {
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE:
                 Integer projectId = cetProjectPlan.getProjectId();
-                return "forward:/cet/cetProject_detail_obj?cls=4&projectId="+projectId + "&planId="+planId;
+                return "forward:/cet/cetProjectObj_list_page?cls=4&projectId="+projectId + "&planId="+planId;
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_GROUP: // 分组研讨
                 return "forward:/cet/cetDiscuss";

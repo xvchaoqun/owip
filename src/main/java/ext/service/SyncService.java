@@ -611,7 +611,6 @@ public class SyncService extends BaseMapper {
         // 教工信息
         TeacherInfo record = new TeacherInfo();
         record.setUserId(userId);
-        record.setIsRetire(false); // 此值不能为空
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if (extJzg != null) {
@@ -668,20 +667,12 @@ public class SyncService extends BaseMapper {
             // teacher.setAddress(extJzg.getjz); 居住地址
             // teacher.setMaritalStatus(); 婚姻状况
 
-            // 是否退休 :在岗，退休，病休，离校，待聘,内退,离休, NULL
-            //teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
-
-            // 人员状态：在职、离退、离校、离世、NULL
-            /*teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
-                    || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
-                    || StringUtils.equals(extJzg.getSfzg(), "退休")); 2017-11-15 */
-
             // 状态已经变更为退休状态的，不再同步人事库
             if(teacherInfo!=null && BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
                 record.setIsRetire(true);
             }else{
-                record.setIsRetire(StringUtils.containsAny(extJzg.getRyzt(),
-                        "离退", "内退", "退休", "离世"));
+                record.setIsRetire(StringUtils.containsAny(record.getStaffStatus(),
+                        "离退", "内退", "退休", "离休", "离世"));
             }
 
             //teacher.setRetireTime(); 退休时间

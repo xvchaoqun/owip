@@ -36,27 +36,6 @@
                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改
                     </button>
-
-                    <button id="finishBtn" class="jqItemBtn btn btn-warning btn-sm"
-                            data-url="${ctx}/cet/cetTrain_finish?isFinished=1"
-                            data-title="结课"
-                            data-msg="确定培训班结课？"
-                            data-callback="_reload3"
-                            data-grid-id="#jqGrid2">
-                        <i class="prompt fa fa-question-circle"
-                           data-prompt="结课后，该培训班将不显示在参训人员的[学习培训中心-选课中心]"></i>
-                        结课
-                    </button>
-
-                    <button id="unfinishBtn" class="jqItemBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetTrain_finish?isFinished=0"
-                            data-title="未结课"
-                            data-msg="确定培训班未结课？"
-                            data-callback="_reload3"
-                            data-grid-id="#jqGrid2">
-                        <i class="fa fa-reply"></i>
-                        未结课
-                    </button>
                 </shiro:hasPermission>
 
                 <button data-url="${ctx}/cet/cetTrain_batchDel?planId=${param.planId}"
@@ -90,11 +69,6 @@
                         .format(rowObject.id);
             }, frozen: true
             },
-
-            {
-                label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.isFinished ? '已结课' : '未结课';
-            }, frozen: true},
             {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
             {label: '可选课人数', name: 'objCount', width: 90},
             {

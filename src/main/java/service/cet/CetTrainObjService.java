@@ -104,7 +104,8 @@ public class CetTrainObjService extends CetBaseMapper {
         if(trainId!=null) {
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
             modelMap.put("cetTrain", cetTrain);
-            modelMap.put("isFinished", cetTrain.getIsFinished());
+            // 是否结课
+            modelMap.put("isFinished", DateUtils.compareDate(new Date(), cetTrain.getEndTime()));
             modelMap.put("isApplyOpen", cetTrain.getIsApplyOpen());
 
             Integer planId = cetTrain.getPlanId();

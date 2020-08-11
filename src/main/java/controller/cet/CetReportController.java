@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/1/12.
@@ -37,19 +35,23 @@ public class CetReportController extends CetBaseController {
     @RequestMapping(value = "/cet_cert")
     public String cet_cert(HttpServletRequest request, HttpServletResponse response,
                                Byte sourceType,
-                               @RequestParam(value = "ids") Integer[] ids,
+                               String ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                @RequestParam(required = false, defaultValue = "0") Boolean download,
                                String filename,
-                               Model model) throws IOException {
+                               Model model) {
 
         int currentUserId = ShiroHelper.getCurrentUserId();
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_ADMIN);
 
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
         String fileName = "cet_cert";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (Integer id : ids) {
+        for (Integer id : idSet) {
 
             CetRecord cetRecord = null;
             if(sourceType==null){

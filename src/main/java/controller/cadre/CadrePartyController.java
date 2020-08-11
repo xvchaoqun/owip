@@ -252,13 +252,25 @@ public class CadrePartyController extends BaseController {
             }
 
         }else if(type== CadreConstants.CADRE_PARTY_TYPE_DP) {
+
+            Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_democratic_party");
+
             for (Map<Integer, String> xlsRow : xlsRows) {
 
                 row++;
                 String _code = StringUtils.trimToNull(xlsRow.get(0));
                 String _dpName = StringUtils.trimToNull(xlsRow.get(2));
 
-                MetaType dpType = metaTypeService.findByName("mc_democratic_party", _dpName);
+                MetaType dpType = null;
+                for (MetaType metaType : metaTypeMap.values()) {
+
+                    if(StringUtils.equalsIgnoreCase(metaType.getName(), _dpName)
+                        || StringUtils.equalsIgnoreCase(metaType.getExtraAttr(), _dpName)){
+
+                        dpType = metaType;
+                    }
+                }
+
                 if(dpType==null){
                     throw new OpException("第{0}行民主党派[{1}]不存在", row, _dpName);
                 }

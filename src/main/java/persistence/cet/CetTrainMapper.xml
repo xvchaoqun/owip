@@ -20,7 +20,6 @@
     <result column="eva_close_time" jdbcType="TIMESTAMP" property="evaCloseTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
-    <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -84,7 +83,7 @@
   <sql id="Base_Column_List">
     id, plan_id, is_on_campus, name, has_summary, summary, start_date, end_date, start_time, 
     end_time, course_num, eva_count, eva_anonymous, eva_note, eva_closed, eva_close_time, 
-    remark, is_deleted, is_finished, create_time
+    remark, is_deleted, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
@@ -125,15 +124,15 @@
       end_date, start_time, end_time, 
       course_num, eva_count, eva_anonymous, 
       eva_note, eva_closed, eva_close_time, 
-      remark, is_deleted, is_finished, 
-      create_time)
+      remark, is_deleted, create_time
+      )
     values (#{planId,jdbcType=INTEGER}, #{isOnCampus,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{courseNum,jdbcType=INTEGER}, #{evaCount,jdbcType=INTEGER}, #{evaAnonymous,jdbcType=BIT}, 
       #{evaNote,jdbcType=VARCHAR}, #{evaClosed,jdbcType=BIT}, #{evaCloseTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -192,9 +191,6 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
-      <if test="isFinished != null">
-        is_finished,
-      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -250,9 +246,6 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
-      </if>
-      <if test="isFinished != null">
-        #{isFinished,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -322,9 +315,6 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
-      <if test="record.isFinished != null">
-        is_finished = #{record.isFinished,jdbcType=BIT},
-      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -353,7 +343,6 @@
       eva_close_time = #{record.evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
-      is_finished = #{record.isFinished,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -413,9 +402,6 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
-      <if test="isFinished != null">
-        is_finished = #{isFinished,jdbcType=BIT},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -441,7 +427,6 @@
       eva_close_time = #{evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
-      is_finished = #{isFinished,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -108,6 +108,13 @@ update cet_unit_project set project_type_id = project_type_id+200;
 
 -- 二级党委培训管理员添加权限 cetProject:* cetProjectObj:*  cetTrain:*  cetTrainObj:*  cetTrainCourse:* cetTrainee:*
 
+ALTER TABLE `cet_train`
+	DROP COLUMN `is_finished`;
+
+delete from sys_scheduler_job where clazz='job.cet.CetAutoAdjust';
+
+
+
 20200730
 吉大 -- 北师大
 

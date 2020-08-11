@@ -67,8 +67,6 @@ public class CetTrain implements Serializable {
 
     private Boolean isDeleted;
 
-    private Boolean isFinished;
-
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -215,14 +213,6 @@ public class CetTrain implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public Boolean getIsFinished() {
-        return isFinished;
-    }
-
-    public void setIsFinished(Boolean isFinished) {
-        this.isFinished = isFinished;
     }
 
     public Date getCreateTime() {
