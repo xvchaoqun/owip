@@ -18,12 +18,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.jasper.JasperReportsImageView;
 import sys.shiro.CurrentUser;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
@@ -43,11 +44,14 @@ public class AbroadReportController extends AbroadBaseController {
 
     // 确认取消集中管理
     @RequestMapping(value = "/cancel")
-    public String cancel(Integer id,
+    public String cancel(String id,
                          @RequestParam(defaultValue = "image") String format,
                          Model model) throws IOException {
 
-        Passport passport = passportMapper.selectByPrimaryKey(id);
+        UserRes verify = UserResUtils.verify(id);
+        Integer idInt = Integer.parseInt(verify.getRes());
+
+        Passport passport = passportMapper.selectByPrimaryKey(idInt);
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
         CadreView cadre = iCadreMapper.getCadre(passport.getCadreId());
         SysUserView user = sysUserService.findById(cadre.getUserId());

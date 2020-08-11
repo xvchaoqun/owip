@@ -28,7 +28,7 @@
         </div>
     </ul>
     <div class="preview" style="margin: 20px 5px 50px 0px;">
-        <img data-src="${ctx}/report/cancel?id=${param.id}" src="${ctx}/img/loading.gif"
+        <img data-src="${ctx}/report/cancel?id=${cm:sign(param.id)}" src="${ctx}/img/loading.gif"
              onload="lzld(this)"/>
     </div>
     <div class="info" style="margin-top: 20px; margin-bottom: 50px; padding-left: 5px;width: 850px">
@@ -131,7 +131,7 @@
 
 
     $("#print").click(function(){
-        $.print("${ctx}/report/cancel?id=${param.id}&format=pdf");
+        $.print("${ctx}/report/cancel?id=${cm:sign(param.id)}&format=pdf");
     });
     $("#print_proof").click(function(){
         $.print('${ctx}/pic?path=${cm:sign(passport.cancelPic)}');
