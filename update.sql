@@ -118,6 +118,9 @@ update base_meta_type set code='mt_branch_institution' where  class_id=25 and na
 ALTER TABLE `ow_branch`
 	CHANGE COLUMN `unit_type_id` `unit_type_id` INT(10) UNSIGNED NULL COMMENT '单位属性，关联元数据，企业、事业单位' AFTER `is_base_team`;
 
+ALTER TABLE `cet_annual_obj`
+	ADD COLUMN `trainee_type_id` INT(10) UNSIGNED NOT NULL COMMENT '培训对象类型，冗余字段' AFTER `year`;
+update cet_annual_obj cao, cet_annual ca set cao.trainee_type_id=ca.trainee_type_id where ca.id=cao.annual_id;
 20200730
 吉大 -- 北师大
 

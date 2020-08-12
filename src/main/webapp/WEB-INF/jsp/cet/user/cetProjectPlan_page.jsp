@@ -62,6 +62,12 @@
                                 ${cetProjectObj.isGraduate?'<span class="result graduate">已结业</span>'
                                                     :'<span class="result">未结业</span>'}
                             </c:if>
+                            <c:if test="${_p_cetSupportCert && cetProjectObj.isGraduate && not empty cetProjectObj.certNo}">
+                            <label>结业证书：</label>
+                                <button class="popupBtn btn btn-sm btn-success" data-width="850"
+                                        data-url="${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_PROJECT%>&format=image&ids=${cetProjectObj.id}">
+                                    <i class="fa fa-search"></i> 查看</button>
+                            </c:if>
                         </div>
                     </div>
                 </div>

@@ -49,7 +49,7 @@ public class CetAnnualObjController extends CetBaseController {
     
     //@RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj_detail")
-    public String cetAnnualObj_detail(Integer objId, Integer year, ModelMap modelMap) {
+    public String cetAnnualObj_detail(Integer objId, Integer year, Integer traineeTypeId, ModelMap modelMap) {
 
         CetAnnualObj cetAnnualObj = null;
         CetAnnual cetAnnual = null;
@@ -61,17 +61,22 @@ public class CetAnnualObjController extends CetBaseController {
         }else{
             // 本人查看
             Integer userId = ShiroHelper.getCurrentUserId();
-            List<Integer> annualYears = iCetMapper.getAnnualYears(userId);
-            modelMap.put("years", annualYears);
-            if(year == null && annualYears.size()>0){
-                year = annualYears.get(0);
+            List<Map> yearTraineeTypeIds = iCetMapper.getYearTraineeTypeIds(userId);
+            modelMap.put("yearTraineeTypeIds", yearTraineeTypeIds);
+
+            if ((year == null || traineeTypeId==null) && yearTraineeTypeIds.size()>0) {
+                Map map = yearTraineeTypeIds.get(0);
+                year = ((Long) map.get("year")).intValue();
+                traineeTypeId = ((Long) map.get("traineeTypeId")).intValue();
             }
+
             if(year!=null) {
-                cetAnnualObj = iCetMapper.getCetAnnualObj(userId, year);
+                cetAnnualObj = iCetMapper.getCetAnnualObj(userId, year, traineeTypeId);
             }
         }
 
         modelMap.put("year", year);
+        modelMap.put("traineeTypeId", traineeTypeId);
         modelMap.put("cetAnnualObj", cetAnnualObj);
 
         if(cetAnnualObj!=null) {

@@ -46,13 +46,15 @@ public interface ICetMapper {
     int refreshFileCount(@Param("projectId") Integer projectId);
 
     // 获取个人的进入年度学习档案的所有年度
-    @Select("select year from cet_annual_obj where user_id=#{userId} order by year desc")
-    List<Integer> getAnnualYears(@Param("userId") Integer userId);
+    @Select("select distinct cao.year, cao.trainee_type_id as traineeTypeId " +
+            "from cet_annual_obj cao, cet_trainee_type ctt where cao.trainee_type_id=ctt.id " +
+            "and cao.user_id=#{userId} order by cao.year desc, ctt.sort_order asc")
+    List<Map> getYearTraineeTypeIds(@Param("userId") Integer userId);
 
     // 获取个人的年度学习档案
     @ResultMap("persistence.cet.CetAnnualObjMapper.BaseResultMap")
-    @Select("select * from cet_annual_obj where user_id=#{userId} and year = #{year}")
-    CetAnnualObj getCetAnnualObj(@Param("userId") Integer userId, @Param("year") Integer year);
+    @Select("select * from cet_annual_obj where user_id=#{userId} and year = #{year} and trainee_type_id=#{traineeTypeId}")
+    CetAnnualObj getCetAnnualObj(@Param("userId") int userId, @Param("year") int year, @Param("traineeTypeId") int traineeTypeId);
 
     // 设定年度学习任务
     @Update("update cet_annual_obj set period_offline=#{periodOffline}, period_online=#{periodOnline} where id in(${ids})")

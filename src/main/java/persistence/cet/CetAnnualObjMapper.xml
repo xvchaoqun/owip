@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetAnnualObj">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="annual_id" jdbcType="INTEGER" property="annualId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -84,10 +85,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, annual_id, user_id, title, admin_level, need_update_require, post_type, 
-    identity, lp_work_time, period_offline, period_online, finish_period_offline, finish_period_online, 
-    special_period, daily_period, unit_period, upper_period, has_archived, is_quit, sort_order, 
-    remark
+    id, year, trainee_type_id, annual_id, user_id, title, admin_level, need_update_require, 
+    post_type, identity, lp_work_time, period_offline, period_online, finish_period_offline, 
+    finish_period_online, special_period, daily_period, unit_period, upper_period, has_archived, 
+    is_quit, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetAnnualObjExample" resultMap="BaseResultMap">
     select
@@ -123,22 +124,22 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_annual_obj (year, annual_id, user_id, 
-      title, admin_level, need_update_require, 
-      post_type, identity, lp_work_time, 
-      period_offline, period_online, finish_period_offline, 
-      finish_period_online, special_period, daily_period, 
-      unit_period, upper_period, has_archived, 
-      is_quit, sort_order, remark
-      )
-    values (#{year,jdbcType=INTEGER}, #{annualId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, #{needUpdateRequire,jdbcType=BIT}, 
-      #{postType,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, #{lpWorkTime,jdbcType=DATE}, 
-      #{periodOffline,jdbcType=DECIMAL}, #{periodOnline,jdbcType=DECIMAL}, #{finishPeriodOffline,jdbcType=DECIMAL}, 
-      #{finishPeriodOnline,jdbcType=DECIMAL}, #{specialPeriod,jdbcType=DECIMAL}, #{dailyPeriod,jdbcType=DECIMAL}, 
-      #{unitPeriod,jdbcType=DECIMAL}, #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, 
-      #{isQuit,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+    insert into cet_annual_obj (year, trainee_type_id, annual_id, 
+      user_id, title, admin_level, 
+      need_update_require, post_type, identity, 
+      lp_work_time, period_offline, period_online, 
+      finish_period_offline, finish_period_online, 
+      special_period, daily_period, unit_period, 
+      upper_period, has_archived, is_quit, 
+      sort_order, remark)
+    values (#{year,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, #{annualId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
+      #{needUpdateRequire,jdbcType=BIT}, #{postType,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, 
+      #{lpWorkTime,jdbcType=DATE}, #{periodOffline,jdbcType=DECIMAL}, #{periodOnline,jdbcType=DECIMAL}, 
+      #{finishPeriodOffline,jdbcType=DECIMAL}, #{finishPeriodOnline,jdbcType=DECIMAL}, 
+      #{specialPeriod,jdbcType=DECIMAL}, #{dailyPeriod,jdbcType=DECIMAL}, #{unitPeriod,jdbcType=DECIMAL}, 
+      #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, #{isQuit,jdbcType=BIT}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetAnnualObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -148,6 +149,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="year != null">
         year,
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id,
       </if>
       <if test="annualId != null">
         annual_id,
@@ -213,6 +217,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="year != null">
         #{year,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeId != null">
+        #{traineeTypeId,jdbcType=INTEGER},
       </if>
       <if test="annualId != null">
         #{annualId,jdbcType=INTEGER},
@@ -291,6 +298,9 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
+      <if test="record.traineeTypeId != null">
+        trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      </if>
       <if test="record.annualId != null">
         annual_id = #{record.annualId,jdbcType=INTEGER},
       </if>
@@ -360,6 +370,7 @@
     update cet_annual_obj
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
+      trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       annual_id = #{record.annualId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
@@ -389,6 +400,9 @@
     <set>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       </if>
       <if test="annualId != null">
         annual_id = #{annualId,jdbcType=INTEGER},
@@ -456,6 +470,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetAnnualObj">
     update cet_annual_obj
     set year = #{year,jdbcType=INTEGER},
+      trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       annual_id = #{annualId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
