@@ -1,4 +1,7 @@
 
+
+20200812
+
 ALTER TABLE `cet_project`
 	COMMENT='培训项目，包含专题培训和年度培训',
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训 3 二级党委专题培训 4 二级党委日常培训' AFTER `id`;
@@ -138,7 +141,7 @@ INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `cod
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '党务', 'mt_6o4qyy', NULL, '', '', 1, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '行政', 'mt_zkdnwg', NULL, '', '', 2, 1);
 
--- 查询一下实际情况
+-- 查询一下实际情况 select distinct attr from dispatch_type;
 update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_6o4qyy')
 where attr =  '党务' or attr =  '党委';
 update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_zkdnwg')
@@ -158,7 +161,7 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处与学院之间轮岗', 'mt_ut5hjb', NULL, NULL, '', 3, 0);
 
 -- 更新系统资源
-UPDATE `db_owip`.`sys_resource` SET `type`='menu', `url`=NULL WHERE  `id`=893;
+UPDATE `sys_resource` SET `type`='menu', `url`=NULL WHERE  `id`=893;
 
 -- 添加系统资源
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3042, 0, '参数设置', '', 'url', '', '/metaClass_type_list?cls=mc_sc_shift', 893, '0/1/339/893/', 1, 'mc_sc_shift:*', NULL, NULL, NULL, 1, NULL);
@@ -166,7 +169,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 
 20200730
-吉大 -- 北师大
+吉大
 
 ALTER TABLE `cet_train_course`
 	DROP INDEX `train_id_course_id`,
@@ -260,7 +263,7 @@ ALTER TABLE `sys_property`
 北化工
 
 2020.7.27
-西工大  -- 北师大
+西工大
 
 
 -- 更新Utils
