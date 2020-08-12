@@ -9,9 +9,11 @@
   <li class="<c:if test="${cls==2}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/metaType"><i class="fa fa-bars"></i> 元数据属性</a>
   </li>
+  <shiro:hasRole name="${ROLE_SUPER}">
   <shiro:hasPermission name="metaClass:del">
     <li class="<c:if test="${cls==3}">active</c:if>">
       <a href="javascript:;" class="loadPage" data-url="${ctx}/metaClass?cls=3&isDeleted=1"><i class="fa fa-bars"></i> 已删除</a>
     </li>
   </shiro:hasPermission>
+    </shiro:hasRole>
 </ul>

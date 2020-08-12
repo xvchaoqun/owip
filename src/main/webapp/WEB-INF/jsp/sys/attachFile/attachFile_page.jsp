@@ -11,6 +11,7 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query"
                        value="${not empty param.type || not empty param.code || not empty param.filename}"/>
+                <shiro:hasRole name="${ROLE_SUPER}">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isDeleted}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
@@ -22,6 +23,7 @@
                            data-url="${ctx}/attachFile?isDeleted=1"><i class="fa fa-times"></i> 已删除</a>
                     </li>
                 </ul>
+                </shiro:hasRole>
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="attachFile:edit">
