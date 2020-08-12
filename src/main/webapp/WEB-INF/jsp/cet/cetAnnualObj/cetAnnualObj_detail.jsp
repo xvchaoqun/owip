@@ -25,11 +25,13 @@
         </div>
     </div>
     </c:if>
-    <c:if test="${empty param.objId && fn:length(years)>1}">
+    <c:if test="${empty param.objId && fn:length(yearTraineeTypeIds)>1}">
         <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-          <c:forEach items="${years}" var="_year" varStatus="vs">
-          <li class="<c:if test="${year==_year || (empty year && vs.first)}">active</c:if>">
-            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetAnnualObj_detail?year=${_year}"><i class="fa fa-list"></i> ${_year}年度</a>
+          <c:forEach items="${yearTraineeTypeIds}" var="_yearTraineeTypeId" varStatus="vs">
+          <li class="<c:if test="${(year==_yearTraineeTypeId.year && traineeTypeId==_yearTraineeTypeId.traineeTypeId)
+          || ((empty year || empty traineeTypeId) && vs.first)}">active</c:if>">
+            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetAnnualObj_detail?year=${_yearTraineeTypeId.year}&traineeTypeId=${_yearTraineeTypeId.traineeTypeId}">
+                <i class="fa fa-list"></i> ${_yearTraineeTypeId.year}年度(${traineeTypeMap.get(cm:toInt(_yearTraineeTypeId.traineeTypeId)).name})</a>
           </li>
           </c:forEach>
         </ul>

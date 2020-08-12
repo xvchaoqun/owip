@@ -75,7 +75,8 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         int year = cetAnnual.getYear();
-        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(cetAnnual.getTraineeTypeId());
+        int traineeTypeId = cetAnnual.getTraineeTypeId();
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
         String code = cetTraineeType.getCode();
 
         // 已选人员
@@ -88,6 +89,7 @@ public class CetAnnualObjService extends CetBaseMapper {
         }
 
             record.setYear(year);
+            record.setTraineeTypeId(traineeTypeId);
             record.setAnnualId(annualId);
             record.setSortOrder(getNextSortOrder("cet_annual_obj","annual_id="+annualId));
 

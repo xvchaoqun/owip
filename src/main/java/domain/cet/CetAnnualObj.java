@@ -27,6 +27,8 @@ public class CetAnnualObj implements Serializable {
 
     private Integer year;
 
+    private Integer traineeTypeId;
+
     private Integer annualId;
 
     private Integer userId;
@@ -83,6 +85,14 @@ public class CetAnnualObj implements Serializable {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public Integer getTraineeTypeId() {
+        return traineeTypeId;
+    }
+
+    public void setTraineeTypeId(Integer traineeTypeId) {
+        this.traineeTypeId = traineeTypeId;
     }
 
     public Integer getAnnualId() {
