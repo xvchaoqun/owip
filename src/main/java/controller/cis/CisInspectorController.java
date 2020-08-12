@@ -49,7 +49,7 @@ public class CisInspectorController extends CisBaseController {
                                   @RequestParam(required = false,
                                           defaultValue = CisConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -129,7 +129,7 @@ public class CisInspectorController extends CisBaseController {
     @RequiresPermissions("cisInspector:edit")
     @RequestMapping(value = "/cisInspector_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cisInspector_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_cisInspector_abolish(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 
@@ -143,7 +143,7 @@ public class CisInspectorController extends CisBaseController {
     @RequiresPermissions("cisInspector:edit")
     @RequestMapping(value = "/cisInspector_reuse", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cisInspector_reuse(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_cisInspector_reuse(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 
@@ -158,7 +158,7 @@ public class CisInspectorController extends CisBaseController {
     @RequiresPermissions("cisInspector:del")
     @RequestMapping(value = "/cisInspector_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

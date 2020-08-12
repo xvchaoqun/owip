@@ -55,7 +55,7 @@ public class ScBorderController extends ScBaseController {
     public void scBorder_data(HttpServletResponse response,
                                     Integer year,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -147,7 +147,7 @@ public class ScBorderController extends ScBaseController {
     @ResponseBody
     public Map do_scBorder_selectCadres(Integer borderId,
                                   byte type,
-                                  @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds,
+                                  Integer[] cadreIds,
                                   HttpServletRequest request) {
 
         scBorderService.updateCadreIds(borderId, type, cadreIds);
@@ -189,7 +189,7 @@ public class ScBorderController extends ScBaseController {
     @RequiresPermissions("scBorder:del")
     @RequestMapping(value = "/scBorder_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scBorder_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scBorder_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

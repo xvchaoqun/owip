@@ -167,7 +167,7 @@ public class CadrePositionReportController extends BaseController {
     @RequiresPermissions("cadrePositionReport:edit")
     @RequestMapping(value = "/cadrePositionReport_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cadrePositionReport_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cadrePositionReport_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

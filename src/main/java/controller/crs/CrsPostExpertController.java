@@ -57,9 +57,9 @@ public class CrsPostExpertController extends CrsBaseController {
     @RequestMapping(value = "/crsPostExperts", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPostExperts(Integer postId,
-                                 @RequestParam(value = "headUserIds[]", required = false) Integer[] headUserIds,
-                                 @RequestParam(value = "leaderUserIds[]", required = false) Integer[] leaderUserIds,
-                                 @RequestParam(value = "memberUserIds[]", required = false) Integer[] memberUserIds) {
+                                 Integer[] headUserIds,
+                                 Integer[] leaderUserIds,
+                                 Integer[] memberUserIds) {
 
         crsPostExpertService.updateExpertUserIds(postId, headUserIds, leaderUserIds, memberUserIds);
         return success(FormUtils.SUCCESS);
@@ -171,7 +171,7 @@ public class CrsPostExpertController extends CrsBaseController {
     @RequiresPermissions("crsPostExpert:del")
     @RequestMapping(value = "/crsPostExpert_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map crsPostExpert_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map crsPostExpert_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
 

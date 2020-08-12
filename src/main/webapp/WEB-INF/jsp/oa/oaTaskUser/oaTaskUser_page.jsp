@@ -31,7 +31,7 @@
                         催促未报送对象</a>
                     <a class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                        data-querystr="taskId=${oaTask.id}"
-                       data-ids-name="taskUserIds[]"
+                       data-ids-name="taskUserIds"
                        data-grid-id="#jqGrid2"
                        data-url="${ctx}/oa/oaTaskUser_check"><i class="fa fa-check-square-o"></i> 批量审批</a>
                     </c:if>
@@ -176,7 +176,7 @@
                 if(cellvalue==undefined) return '--'
                 if(cellvalue=='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>'){
                     return '<button class="popupBtn btn btn-primary btn-xs"' +
-                            'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
+                            'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
                                     .format(rowObject.taskId, rowObject.userId)
                 }
 

@@ -105,7 +105,7 @@ public class PsInfoController extends PsBaseController {
                                  Integer partyId,
                                  @RequestParam(required = false, defaultValue = "0") boolean isHistory,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -204,7 +204,7 @@ public class PsInfoController extends PsBaseController {
     @RequiresPermissions("psInfo:history")
     @RequestMapping(value = "/psInfo_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_psInfo_history(Integer[] ids,
                                  Boolean isHistory,  @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date _abolishDate) {
 
         if (null != ids && ids.length>0){
@@ -226,7 +226,7 @@ public class PsInfoController extends PsBaseController {
     @RequiresPermissions("psInfo:del")
     @RequestMapping(value = "/psInfo_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map psInfo_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map psInfo_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

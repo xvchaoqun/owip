@@ -260,7 +260,7 @@
     }
     function apply_pass(id, type, goToNext) {
         if(type==1){
-            $.loadModal("${ctx}/memberIn_party_check?ids[]="+id + "&type=" + type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"))
+            $.loadModal("${ctx}/memberIn_party_check?ids="+id + "&type=" + type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"))
         } else if(type==2){ // 组织部审核通过
             $.post("${ctx}/memberIn_check", {ids: [id]}, function (ret) {
                 if (ret.success) {
@@ -362,7 +362,7 @@
                     return ;
                 }
 
-                $.loadModal("${ctx}/memberIn_party_check?ids[]={0}".format(ids))
+                $.loadModal("${ctx}/memberIn_party_check?ids={0}".format(ids))
             }
         });
         </c:if>
@@ -393,7 +393,7 @@
                     if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
                 })
 
-                $.loadModal("${ctx}/memberIn_back?ids[]={0}&status={1}".format(ids, minStatus))
+                $.loadModal("${ctx}/memberIn_back?ids={0}&status={1}".format(ids, minStatus))
             }
         });
         </c:if>
@@ -415,7 +415,7 @@
                     if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
                 })
 
-                $.loadModal("${ctx}/memberIn_back?ids[]={0}&status={1}".format(ids, minStatus))
+                $.loadModal("${ctx}/memberIn_back?ids={0}&status={1}".format(ids, minStatus))
             }
         });
         </shiro:hasRole>

@@ -51,7 +51,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
                                     Byte type,
                                     Integer cadreId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -174,7 +174,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
     @RequiresPermissions("verifyWorkTime:del")
     @RequestMapping(value = "/verifyWorkTime_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

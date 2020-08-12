@@ -62,7 +62,7 @@ public class CadreEvaController extends BaseController {
     public void cadreEva_data(HttpServletResponse response,
                               Integer cadreId,
                               @RequestParam(required = false, defaultValue = "0") int export, // 导出近五年考核结果
-                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
+                              Integer[] ids, // 导出的记录（干部id)
                               Integer pageSize, Integer pageNo,
                               @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
                               Integer reserveType // 年轻干部类别
@@ -268,7 +268,7 @@ public class CadreEvaController extends BaseController {
     @RequiresPermissions("cadreEva:del")
     @RequestMapping(value = "/cadreEva_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cadreEva_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cadreEva_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

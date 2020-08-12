@@ -90,7 +90,7 @@ public class PmMeeting2Controller extends PmBaseController {
                                 Integer month,
                                 Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -255,7 +255,7 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequiresPermissions("pmMeeting2:edit")
     @RequestMapping(value = "/pmMeeting2_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmMeeting2_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map pmMeeting2_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -276,7 +276,7 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequiresPermissions("pmMeeting2:approve")
     @RequestMapping(value = "/pmMeeting2_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmMeeting2_check(@RequestParam(value = "ids[]") Integer[] ids,Boolean check,Boolean hasPass,String reason,HttpServletRequest request) {
+    public Map do_pmMeeting2_check(Integer[] ids,Boolean check,Boolean hasPass,String reason,HttpServletRequest request) {
 
         Byte status=PM_MEETING_STATUS_INIT;
         Boolean isBack=false;
@@ -421,7 +421,7 @@ public class PmMeeting2Controller extends PmBaseController {
                                 Integer partyId,
                                 Integer branchId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer[] ids, // 导出的记录
                                 Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {

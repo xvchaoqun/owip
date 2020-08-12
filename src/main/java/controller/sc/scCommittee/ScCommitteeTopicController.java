@@ -38,7 +38,7 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequiresPermissions("scCommitteeTopic:list")
     @RequestMapping("/scCommitteeTopic")
     public String scCommitteeTopic(@RequestParam(defaultValue = "1") Integer cls,
-                                   @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+                                   Integer[] unitIds,
                                    ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -64,9 +64,9 @@ public class ScCommitteeTopicController extends ScBaseController {
                                       Integer committeeId,
                                       @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                       String name,
-                                      @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+                                      Integer[] unitIds,
                                       @RequestParam(required = false, defaultValue = "0") int export,
-                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -120,7 +120,7 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequestMapping(value = "/scCommitteeTopic_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scCommitteeTopic_au(ScCommitteeTopic record,
-                                      @RequestParam(value = "selectedUnitIds[]", required = false) Integer[] selectedUnitIds,
+                                      Integer[] selectedUnitIds,
                                       MultipartFile _voteFilePath,
                                       HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -230,7 +230,7 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequiresPermissions("scCommitteeTopic:del")
     @RequestMapping(value = "/scCommitteeTopic_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

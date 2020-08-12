@@ -58,7 +58,7 @@ public class CetPartyController extends CetBaseController {
                               String name,
                               @RequestParam(required = false, defaultValue = "0") Byte cls,
                               @RequestParam(required = false, defaultValue = "0") int export,
-                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer[] ids, // 导出的记录
                               Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -114,7 +114,7 @@ public class CetPartyController extends CetBaseController {
     @RequestMapping(value = "/cetParty_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetParty_au(CetParty record,
-                              @RequestParam(value="partyIds[]",required=false) Integer[] partyIds,
+                              Integer[] partyIds,
                               HttpServletRequest request) {
 
 
@@ -188,7 +188,7 @@ public class CetPartyController extends CetBaseController {
     @RequiresPermissions("cetParty:edit")
     @RequestMapping(value = "/cetParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_cetParty_batchDel(HttpServletRequest request, Integer[] ids,
                                     Boolean isDeleted,
                                     ModelMap modelMap) {
 

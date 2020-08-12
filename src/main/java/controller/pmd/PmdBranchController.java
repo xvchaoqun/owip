@@ -269,7 +269,7 @@ public class PmdBranchController extends PmdBaseController {
     @RequiresPermissions("pmdBranch:del")
     @RequestMapping(value = "/pmdBranch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmdBranch_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map pmdBranch_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -30,7 +30,7 @@
         <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_applyMsg?projectId=${cetProject.id}"
            data-grid-id="#jqGrid2"
-           data-ids-name="trainCourseIds[]"><i class="fa fa-send"></i>
+           data-ids-name="trainCourseIds"><i class="fa fa-send"></i>
             补选课通知</button>
         <button data-url="${ctx}/cet/cetTrain_detail/msg_list?tplKey=cet_tc_apply_msg"
                 data-width="800"

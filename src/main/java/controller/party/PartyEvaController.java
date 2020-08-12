@@ -244,7 +244,7 @@ public class PartyEvaController extends BaseController {
     @RequiresPermissions("partyEva:del")
     @RequestMapping(value = "/partyEva_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyEva_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map partyEva_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

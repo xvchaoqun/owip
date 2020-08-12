@@ -71,7 +71,7 @@ public class ScShiftController extends ScBaseController {
                                     Integer assignPostId,
                                 
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -170,7 +170,7 @@ public class ScShiftController extends ScBaseController {
     @RequiresPermissions("scShift:del")
     @RequestMapping(value = "/scShift_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scShift_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scShift_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

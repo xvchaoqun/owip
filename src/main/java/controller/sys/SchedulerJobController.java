@@ -103,7 +103,7 @@ public class SchedulerJobController extends BaseController {
     @RequestMapping(value="/schedulerJob_au", method= RequestMethod.POST)
     @ResponseBody
     public Map do_schedulerJob_au(SchedulerJob record,
-                             @RequestParam(value="resIds[]",required=false) Integer[] resIds,
+                             Integer[] resIds,
                              HttpServletRequest request) {
 
         String name = StringUtils.trimToNull(StringUtils.lowerCase(record.getName()));
@@ -146,7 +146,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:del")
     @RequestMapping(value="/schedulerJob_del", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_schedulerJob_del(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_schedulerJob_del(Integer[] ids) {
 
         schedulerJobService.batchDel(ids);
         logger.info(addLog(LogConstants.LOG_ADMIN, "删除定时任务：%s", StringUtils.join(ids, ",")));
@@ -158,7 +158,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:del")
     @RequestMapping(value="/schedulerJob_doBatchDel", method=RequestMethod.POST)
     @ResponseBody
-    public Map doBatchDel(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map doBatchDel(Integer[] ids) {
 
         schedulerJobService.doBatchDel(ids);
         logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除定时任务：%s", StringUtils.join(ids, ",")));
@@ -170,7 +170,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:del")
     @RequestMapping(value="/schedulerJob_batchUnDel", method=RequestMethod.POST)
     @ResponseBody
-    public Map batchUnDel(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map batchUnDel(Integer[] ids) {
 
         schedulerJobService.batchUnDel(ids);
         logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除定时任务：%s", StringUtils.join(ids, ",")));
@@ -197,7 +197,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:start")
     @RequestMapping(value="/schedulerJob_start", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_schedulerJob_start(@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request) {
+    public Map do_schedulerJob_start(Integer[] ids, HttpServletRequest request) {
 
         if(ids!=null){
             for (Integer id : ids) {
@@ -214,7 +214,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:stop")
     @RequestMapping(value="/schedulerJob_stop", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_schedulerJob_stop(@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request) {
+    public Map do_schedulerJob_stop(Integer[] ids, HttpServletRequest request) {
 
         if(ids!=null) {
             for (Integer id : ids) {
@@ -286,7 +286,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:edit")
     @RequestMapping(value="/schedulerJob_changeIsStarted", method=RequestMethod.POST)
     @ResponseBody
-    public Map changeIsStarted(@RequestParam(value = "ids[]") Integer[] ids,Boolean isStarted) {
+    public Map changeIsStarted(Integer[] ids,Boolean isStarted) {
 
         isStarted = BooleanUtils.isTrue(isStarted);
         schedulerJobService.changeIsStarted(ids,isStarted);

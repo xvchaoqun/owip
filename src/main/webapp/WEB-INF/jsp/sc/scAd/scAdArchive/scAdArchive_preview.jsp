@@ -38,7 +38,7 @@
 <script>
   $("#saveBtn").click(function(){
 
-    $.post("${ctx}/sc/scAdArchive_save", {archiveId:'${param.archiveId}', 'voteIds[]': "${param['voteIds[]']}"}, function (ret) {
+    $.post("${ctx}/sc/scAdArchive_save", {archiveId:'${param.archiveId}', 'voteIds': "${param['voteIds']}"}, function (ret) {
       if (ret.success) {
         $.hideView();
       }

@@ -108,7 +108,7 @@ public class UserCetUpperTrainController extends CetBaseController {
     @RequiresPermissions("userCetUpperTrain:del")
     @RequestMapping(value = "/cetUpperTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetUpperTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetUpperTrain_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

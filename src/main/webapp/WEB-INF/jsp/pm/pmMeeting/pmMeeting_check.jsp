@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmMeeting_check?check=${param.check}" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <input type="hidden" name="ids" value="${param.ids}">
 
         <c:if test="${param.check}">
             <div class="form-group">

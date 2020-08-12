@@ -16,7 +16,7 @@
         { label: '介绍信打印', width: 110, formatter:function(cellvalue, options, rowObject){
 
                 var html = '<button class="openView btn btn-primary btn-xs"'
-                    +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids[]={0}"><i class="fa fa-print"></i> 打印</button>'
+                    +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids={0}"><i class="fa fa-print"></i> 打印</button>'
                         .format(rowObject.id);
                 return html;
             }},

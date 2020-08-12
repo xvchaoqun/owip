@@ -76,7 +76,7 @@ public class CetRecordController extends CetBaseController {
                                Integer traineeTypeId,
                                @RequestDateRange DateRange trainDate,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {

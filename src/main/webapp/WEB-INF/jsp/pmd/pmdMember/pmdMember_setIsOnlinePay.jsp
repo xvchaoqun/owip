@@ -7,8 +7,8 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdMember_setIsOnlinePay" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
-        <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>
+        <input type="hidden" name="ids" value="${param.ids}">
+        <c:set var="num" value='${fn:length(fn:split(param.ids,","))}'/>
         <c:if test="${num==1}">
             <div class="form-group">
                 <label class="col-xs-4 control-label">姓名</label>

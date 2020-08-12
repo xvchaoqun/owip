@@ -47,7 +47,7 @@ public class ScLetterItemController extends ScBaseController {
     public void scLetterItem_data(HttpServletResponse response,
                                     Integer letterId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -119,7 +119,7 @@ public class ScLetterItemController extends ScBaseController {
     @RequiresPermissions("scLetterItem:del")
     @RequestMapping(value = "/scLetterItem_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -144,7 +144,7 @@ public class ScLetterItemController extends ScBaseController {
     @RequiresPermissions("scLetterItem:edit")
     @RequestMapping(value = "/scLetterItem_reuse", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scLetterItem_reuse(int itemId, @RequestParam(value = "recordIds[]", required = false) Integer[] recordIds,
+    public Map do_scLetterItem_reuse(int itemId, Integer[] recordIds,
                                       HttpServletRequest request) {
 
         scLetterItemService.reuse(itemId, recordIds);

@@ -122,7 +122,7 @@ public class SysResourceController extends BaseController {
     @RequiresPermissions("sysResource:edit")
     @RequestMapping(value = "/sysResource_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysResource_au(@RequestParam(required = false, value = "countCacheKeys") Byte[] countCacheKeys,
+    public Map do_sysResource_au(Byte[] countCacheKeys,
                                  SysResource record, HttpServletRequest request) {
 
         if (countCacheKeys != null && countCacheKeys.length > 0) {

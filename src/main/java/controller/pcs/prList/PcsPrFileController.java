@@ -71,7 +71,7 @@ public class PcsPrFileController extends PcsBaseController {
     //@RequiresPermissions("pcsPrFile:edit")
     @RequestMapping(value = "/pcsPrList_sort", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPrList_sort(Integer partyId, @RequestParam(value = "userIds[]") Integer[] userIds) throws IOException, InterruptedException {
+    public Map do_pcsPrList_sort(Integer partyId, Integer[] userIds) throws IOException, InterruptedException {
 
 
         if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {

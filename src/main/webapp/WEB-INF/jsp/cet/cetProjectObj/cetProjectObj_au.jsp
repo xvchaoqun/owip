@@ -70,7 +70,7 @@
                     <div class="input-group">
                         <c:forEach items="${cm:getMetaTypes('mc_cet_identity')}" var="entity">
                             <div class="checkbox checkbox-inline checkbox-sm">
-                                <input type="checkbox" name="identities[]" id="identity${entity.key}" value="${entity.key}">
+                                <input type="checkbox" name="identities" id="identity${entity.key}" value="${entity.key}">
                                 <label for="identity${entity.key}">${entity.value.name}</label>
                             </div>
                         </c:forEach>
@@ -80,7 +80,7 @@
                         var identity = '${cetProjectObj.identity}';
                         var identities = identity.split(',');
                         $.each(identities, function (i, item) {
-                            $('#modalForm input[name="identities[]"][value="'+ item +'"]').prop("checked", true);
+                            $('#modalForm input[name="identities"][value="'+ item +'"]').prop("checked", true);
                         })
                         //console.log(identities);
                         </c:if>

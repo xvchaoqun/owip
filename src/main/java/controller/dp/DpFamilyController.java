@@ -50,7 +50,7 @@ public class DpFamilyController extends DpBaseController {
                                     Integer userId,
                                 Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class DpFamilyController extends DpBaseController {
     @RequiresPermissions("dpFamily:del")
     @RequestMapping(value = "/dpFamily_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpFamily_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpFamily_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

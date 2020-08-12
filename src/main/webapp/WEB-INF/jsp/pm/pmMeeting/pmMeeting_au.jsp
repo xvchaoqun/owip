@@ -353,7 +353,7 @@
                         <c:if test="${edit}">
                         <div id="fileDiv">
                             <div class="files">
-                                <input class="form-control" type="file" name="_files[]"/>
+                                <input class="form-control" type="file" name="_files"/>
                             </div>
                             <div id="fileButton"style="padding-left: 50px">
                                 <div style="padding-left: 50px">
@@ -593,7 +593,7 @@
     var i = 1;
     function addFile() {
         i++;
-       var _file = $('<div id="file'+i+'"><input  class="form-control" type="file" name="_files[]" /></div>');
+       var _file = $('<div id="file'+i+'"><input  class="form-control" type="file" name="_files" /></div>');
       $(".files").append(_file);
        var _fileButton = $('<div id="btn'+i+'" style="padding-top: 35px"><button type="button" data-i="'+i+'" onclick="delfileInput(this)"class="addFileBtn btn btn-default btn-xs"><i class="fa fa-trash"></i></button></div>');
       $("#fileButton").append(_fileButton);

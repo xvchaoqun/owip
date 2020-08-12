@@ -66,7 +66,7 @@ public class PartyReportController extends BaseController {
                                  Integer branchId,
                                  Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -186,7 +186,7 @@ public class PartyReportController extends BaseController {
     @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyReport_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map partyReport_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -200,7 +200,7 @@ public class PartyReportController extends BaseController {
     @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyReport_report(@RequestParam(value = "ids[]") Integer[] ids, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {
+    public Map partyReport_report(Integer[] ids, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {
 
         Byte status=null;
         if (ids != null) {

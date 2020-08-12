@@ -338,7 +338,7 @@
                 data-url="${ctx}/cet/cetProjectObj_uploadWriteMsg?projectId=${cetProject.id}"
                 data-grid-id="#jqGrid2"
                 data-need-id="false"
-                data-ids-name="objIds[]"><i class="fa fa-send"></i>
+                data-ids-name="objIds"><i class="fa fa-send"></i>
             短信提醒</button>
         <button data-url="${ctx}/cet/cetTrain_detail/msg_list?tplKey=cet_upload_write_msg&recordId=${cetProject.id}"
                 data-width="800"

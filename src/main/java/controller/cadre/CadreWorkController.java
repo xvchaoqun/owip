@@ -82,7 +82,7 @@ public class CadreWorkController extends BaseController {
                                Boolean isCadre,
                                Integer unitId, // 所属内设机构
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（exportType=0时为现任干部id)
+                               Integer[] ids, // 导出的记录（exportType=0时为现任干部id)
                                @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
                                Integer reserveType // 年轻干部类别
     ) throws IOException {
@@ -300,7 +300,7 @@ public class CadreWorkController extends BaseController {
     @RequestMapping(value = "/cadreWork_updateUnitId", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreWork_updateUnitId(int id,
-                                         @RequestParam(value = "unitIds[]") Integer[] unitIds,
+                                         Integer[] unitIds,
                                          HttpServletRequest request) {
 
         if (unitIds == null || unitIds.length == 0) {
@@ -385,7 +385,7 @@ public class CadreWorkController extends BaseController {
     @ResponseBody
     public Map cadreWork_batchDel(HttpServletRequest request,
                                   int cadreId, // 干部信息本人直接修改数据校验
-                                  @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                  Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -431,7 +431,7 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_addDispatchs", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreWork_addDispatchs(HttpServletRequest request, int id, @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_cadreWork_addDispatchs(HttpServletRequest request, int id, Integer[] ids, ModelMap modelMap) {
 
         DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
         //if (ids != null && ids.length > 0) { // 可以删除

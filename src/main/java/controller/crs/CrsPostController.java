@@ -70,7 +70,7 @@ public class CrsPostController extends CrsBaseController {
                              @RequestDateRange DateRange meetingTime,
                              @RequestParam(required = false, defaultValue = "1") Byte status,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                             Integer[] ids, // 导出的记录
                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -300,7 +300,7 @@ public class CrsPostController extends CrsBaseController {
     @RequestMapping(value = "/crsPost_publish", method = RequestMethod.POST)
     @ResponseBody
     public Map crsPost_publish(HttpServletRequest request,
-                               @RequestParam(value = "ids[]") Integer[] ids,
+                               Integer[] ids,
                                Boolean publish, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
@@ -344,7 +344,7 @@ public class CrsPostController extends CrsBaseController {
     @ResponseBody
     public Map crsPost_updateStatus(HttpServletRequest request,
                                     byte status,
-                                    @RequestParam(value = "ids[]") Integer[] ids,
+                                    Integer[] ids,
                                     ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
@@ -359,7 +359,7 @@ public class CrsPostController extends CrsBaseController {
     @RequiresPermissions("crsPost:del")
     @RequestMapping(value = "/crsPost_realDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map crsPost_realDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map crsPost_realDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             crsPostService.realDel(ids);

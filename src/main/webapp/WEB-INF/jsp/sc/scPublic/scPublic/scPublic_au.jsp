@@ -257,7 +257,7 @@
                 return;
             }
 
-            $.loadModal("${ctx}/sc/scPublic_process?export=0&voteIds[]=" + voteIds + "&" + $("#modalForm").serialize(), 700);
+            $.loadModal("${ctx}/sc/scPublic_process?export=0&voteIds=" + voteIds + "&" + $("#modalForm").serialize(), 700);
         }
     }
 
@@ -274,7 +274,7 @@
                 return;
             }
 
-            var url = "${ctx}/sc/scPublic_process?export=1&voteIds[]=" + voteIds + "&" + $("#modalForm").serialize();
+            var url = "${ctx}/sc/scPublic_process?export=1&voteIds=" + voteIds + "&" + $("#modalForm").serialize();
             $(btn).download(url);
         }
     }

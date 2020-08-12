@@ -146,7 +146,7 @@ public class HtmlFragmentController extends BaseController {
     @RequiresPermissions("htmlFragment:edit")
     @RequestMapping(value = "/htmlFragment_batchUnDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchUnDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             htmlFragmentService.batchUnDel(ids);
@@ -159,7 +159,7 @@ public class HtmlFragmentController extends BaseController {
     @RequiresPermissions("htmlFragment:del")
     @RequestMapping(value = "/htmlFragment_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             htmlFragmentService.batchDel(ids);
@@ -172,7 +172,7 @@ public class HtmlFragmentController extends BaseController {
     @RequiresPermissions("htmlFragment:del")
     @RequestMapping(value = "/htmlFragment_doBatchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map doBatchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             htmlFragmentService.doBatchDel(ids);

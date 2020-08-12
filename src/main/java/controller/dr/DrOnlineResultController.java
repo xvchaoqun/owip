@@ -35,7 +35,7 @@ public class DrOnlineResultController extends DrBaseController {
     @RequiresPermissions("drOnlineResult:list")
     @RequestMapping("/drOnlineResult")
     public String drOnlineResult(Integer onlineId,
-                                 @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                 Integer[] typeIds,
                                  ModelMap modelMap) {
 
         List<Unit> unitList = iDrMapper.getInspectorUnits(onlineId);
@@ -60,7 +60,7 @@ public class DrOnlineResultController extends DrBaseController {
                                     Integer onlineId,
                                     Integer postId,
                                     Integer unitId,
-                                    @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                    Integer[] typeIds,
                                     String realname, //推荐人选姓名
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {

@@ -73,7 +73,7 @@ public class UnitCadreTransferController extends BaseController {
     @ResponseBody
     public Map do_unitCadreTransfer_addDispatchs(HttpServletRequest request,
                                                  int id,
-                                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                                 Integer[] ids, ModelMap modelMap) {
 
         UnitCadreTransfer record = new UnitCadreTransfer();
         record.setId(id);
@@ -234,7 +234,7 @@ public class UnitCadreTransferController extends BaseController {
     @RequiresPermissions("unitCadreTransfer:del")
     @RequestMapping(value = "/unitCadreTransfer_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

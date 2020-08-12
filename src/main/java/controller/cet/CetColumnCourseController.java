@@ -47,7 +47,7 @@ public class CetColumnCourseController extends CetBaseController {
                                     Integer columnId,
                                     Integer courseId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -133,7 +133,7 @@ public class CetColumnCourseController extends CetBaseController {
     @RequiresPermissions("cetColumn:course")
     @RequestMapping(value = "/cetColumnCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetColumnCourse_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetColumnCourse_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

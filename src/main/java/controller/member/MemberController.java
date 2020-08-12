@@ -734,7 +734,7 @@ public class MemberController extends MemberBaseController {
     }
 
     @RequestMapping("/member_changeBranch")
-    public String member_changeBranch(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]") Integer[] ids,
+    public String member_changeBranch(@CurrentUser SysUserView loginUser, Integer[] ids,
                                       int partyId, ModelMap modelMap) {
 
         // 判断是分党委管理员
@@ -766,7 +766,7 @@ public class MemberController extends MemberBaseController {
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeBranch(@CurrentUser SysUserView loginUser, HttpServletRequest request,
-                                   @RequestParam(value = "ids[]") Integer[] ids,
+                                   Integer[] ids,
                                    int partyId, // 用于校验
                                    int branchId,
                                    ModelMap modelMap) {
@@ -797,7 +797,7 @@ public class MemberController extends MemberBaseController {
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
-                                  @RequestParam(value = "ids[]") Integer[] ids,
+                                  Integer[] ids,
                                   int partyId,
                                   Integer branchId,
                                   ModelMap modelMap) {
@@ -814,7 +814,7 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map member_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map member_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
 
@@ -839,8 +839,8 @@ public class MemberController extends MemberBaseController {
                          Integer userId,
                          Integer partyId,
                          Integer branchId,
-                         @RequestParam(required = false, value = "nation") String[] nation,
-                         @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                         String[] nation,
+                         String[] nativePlace,
 
                          // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
                          Integer cls,
@@ -957,8 +957,8 @@ public class MemberController extends MemberBaseController {
                             Byte politicalStatus,
                             Byte gender,
                             Byte age,
-                            @RequestParam(required = false, value = "nation") String[] nation,
-                            @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                            String[] nation,
+                            String[] nativePlace,
                             @RequestDateRange DateRange _growTime,
                             @RequestDateRange DateRange _positiveTime,
                             @RequestDateRange DateRange _outHandleTime,
@@ -979,7 +979,7 @@ public class MemberController extends MemberBaseController {
                             //Boolean isHonorRetire,
 
                             @RequestParam(required = false, defaultValue = "0") int export,
-                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                            Integer[] ids, // 导出的记录
                             @RequestParam(required = false) Integer[] cols, // 选择导出的列
                             Integer pageSize, Integer pageNo) throws IOException {
 

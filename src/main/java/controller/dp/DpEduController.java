@@ -54,7 +54,7 @@ public class DpEduController extends DpBaseController {
                                     Integer userId,
                                 Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -182,7 +182,7 @@ public class DpEduController extends DpBaseController {
     @RequiresPermissions("dpEdu:del")
     @RequestMapping(value = "/dpEdu_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpEdu_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpEdu_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

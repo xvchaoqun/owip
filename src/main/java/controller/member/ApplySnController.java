@@ -37,7 +37,7 @@ public class ApplySnController extends MemberBaseController {
     @RequiresPermissions("applySnRange:abolish")
     @RequestMapping(value = "/applySn_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySn_abolish(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_applySn_abolish(Integer[] ids,
                                   boolean isAbolish, // 0: 恢复已作废的编码  1： 作废未使用的编码
                                   HttpServletRequest request) {
 
@@ -148,7 +148,7 @@ public class ApplySnController extends MemberBaseController {
                              Integer branchId,
                              Boolean isAbolished,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                             Integer[] ids, // 导出的记录
                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {

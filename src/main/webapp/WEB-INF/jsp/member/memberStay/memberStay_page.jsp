@@ -384,7 +384,7 @@
     }
     function apply_pass(id, type, goToNext) {
         if (type == 2) {
-            $.loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(id) + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"))
+            $.loadModal("${ctx}/memberStay_transfer?ids={0}".format(id) + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"))
         } else {
             $.post("${ctx}/memberStay_check", {ids: [id], type: type}, function (ret) {
                 if (ret.success) {
@@ -418,7 +418,7 @@
                 label: '打印审批表', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 var html = '<button class="openView btn btn-success btn-xs"'
-                        + ' data-url="${ctx}/report/printPreview?type=${param.type==MEMBER_STAY_TYPE_ABROAD?JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD:JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}&ids[]={0}"><i class="fa fa-print"></i> 打印审批表</button>'
+                        + ' data-url="${ctx}/report/printPreview?type=${param.type==MEMBER_STAY_TYPE_ABROAD?JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD:JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}&ids={0}"><i class="fa fa-print"></i> 打印审批表</button>'
                                 .format(rowObject.id);
                 return html;
             }
@@ -593,7 +593,7 @@
                 return;
             }
 
-            $.loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(ids))
+            $.loadModal("${ctx}/memberStay_transfer?ids={0}".format(ids))
         }
     });
     </c:if>
@@ -622,7 +622,7 @@
                 if (minStatus == undefined || minStatus > rowData.status) minStatus = rowData.status;
             }
 
-            $.loadModal("${ctx}/memberStay_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberStay_back?ids={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

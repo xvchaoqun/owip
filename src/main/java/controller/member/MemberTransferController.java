@@ -131,7 +131,7 @@ public class MemberTransferController extends MemberBaseController {
                                     Integer toBranchId,
                                     @RequestDateRange DateRange _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -278,7 +278,7 @@ public class MemberTransferController extends MemberBaseController {
     @ResponseBody
     public Map do_memberTransfer_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                    byte type, // 1:转出分党委审核 2：转入分党委审核
-                                   @RequestParam(value = "ids[]") Integer[] ids) {
+                                   Integer[] ids) {
 
 
         memberTransferService.memberTransfer_check(ids, type, loginUser.getId());
@@ -299,7 +299,7 @@ public class MemberTransferController extends MemberBaseController {
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_back(@CurrentUser SysUserView loginUser,
-                                  @RequestParam(value = "ids[]") Integer[] ids,
+                                  Integer[] ids,
                                   byte status,
                                   String reason) {
 
@@ -457,7 +457,7 @@ public class MemberTransferController extends MemberBaseController {
     @RequiresPermissions("memberTransfer:del")
     @RequestMapping(value = "/memberTransfer_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

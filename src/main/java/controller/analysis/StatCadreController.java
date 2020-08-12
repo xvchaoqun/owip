@@ -42,8 +42,8 @@ public class StatCadreController extends BaseController {
     @RequiresPermissions("statCadre:list")
     @RequestMapping("/stat_cadre")
     public String stat_cadre(String unitTypeGroup,
-                             @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                             @RequestParam(required = false, value = "labels") Integer[] labels,
+                             Integer[] adminLevels,
+                             Integer[] labels,
                              @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,
                              Boolean isPrincipal, // 是否正职
                              //是否为保留待遇干部信息，指第一主职无关联岗位的干部

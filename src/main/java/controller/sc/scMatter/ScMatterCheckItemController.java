@@ -66,7 +66,7 @@ public class ScMatterCheckItemController extends ScBaseController {
                                        Integer userId,
                                        Byte confirmType,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -229,7 +229,7 @@ public class ScMatterCheckItemController extends ScBaseController {
     @RequiresPermissions("scMatterCheckItem:del")
     @RequestMapping(value = "/scMatterCheckItem_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scMatterCheckItem_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scMatterCheckItem_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -254,7 +254,7 @@ public class ScMatterCheckItemController extends ScBaseController {
     @RequiresPermissions("scMatterCheckItem:edit")
     @RequestMapping(value = "/scMatterCheckItem_reuse", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scMatterCheckItem_reuse(int itemId, @RequestParam(value = "recordIds[]", required = false) Integer[] recordIds,
+    public Map do_scMatterCheckItem_reuse(int itemId, Integer[] recordIds,
                                       HttpServletRequest request) {
 
         scMatterCheckItemService.reuse(itemId, recordIds);

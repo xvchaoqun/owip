@@ -122,7 +122,7 @@ public class PartyController extends BaseController {
                                     Boolean isBg,
                                     @RequestDateRange DateRange _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -266,7 +266,7 @@ public class PartyController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
                         @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
-                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                        Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

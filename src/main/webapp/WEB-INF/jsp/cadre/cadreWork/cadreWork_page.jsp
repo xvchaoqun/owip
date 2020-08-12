@@ -186,7 +186,7 @@
 <shiro:hasPermission name="cadreWork:del">
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
-            data-url="${ctx}/cadreWork_batchDel?ids[]={{=id}}&cadreId=${param.cadreId}"
+            data-url="${ctx}/cadreWork_batchDel?ids={{=id}}&cadreId=${param.cadreId}"
             data-msg="确定删除该工作经历？"
             data-callback="_callback"><i class="fa fa-times"></i> 删除
     </button>

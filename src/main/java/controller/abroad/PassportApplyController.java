@@ -143,7 +143,7 @@ public class PassportApplyController extends AbroadBaseController {
                                    String code, // 已交证件的证件号码
                                    Integer year,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
 
 
@@ -282,7 +282,7 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:del")
     @RequestMapping(value = "/passportApply_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -328,7 +328,7 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:del")
     @RequestMapping(value = "/passportApply_batchUnDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchUnDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -343,7 +343,7 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:del")
     @RequestMapping(value = "/passportApply_doBatchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportApply_doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map passportApply_doBatchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -358,7 +358,7 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:abolish")
     @RequestMapping(value = "/passportApply_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_passportApply_abolish(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 

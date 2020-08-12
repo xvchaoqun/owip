@@ -40,7 +40,7 @@ public class PmExcludeBranchController extends PmBaseController {
 //    @RequiresPermissions("partyBranchMeeting:edit")
     @RequestMapping(value = "/pmExcludeBranch_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmExcludeBranch_au(Integer partyId,@RequestParam(value = "ids[]") Integer[] ids,ModelMap modelMap) {
+    public Map pmExcludeBranch_au(Integer partyId,Integer[] ids,ModelMap modelMap) {
 
         Integer loginUserId = ShiroHelper.getCurrentUserId();
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
@@ -72,7 +72,7 @@ public class PmExcludeBranchController extends PmBaseController {
 
     @RequestMapping(value = "/pmExcludeBranch_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partyBranchMeeting_del(Integer partyId,@RequestParam(value = "ids[]") Integer[] ids,ModelMap modelMap) {
+    public Map do_partyBranchMeeting_del(Integer partyId,Integer[] ids,ModelMap modelMap) {
         Integer loginUserId = ShiroHelper.getCurrentUserId();
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {

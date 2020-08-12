@@ -50,7 +50,7 @@ public class CgLeaderController extends CgBaseController {
                                     Date confirmDate,
                                 
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -180,7 +180,7 @@ public class CgLeaderController extends CgBaseController {
     @RequiresPermissions("cgLeader:del")
     @RequestMapping(value = "/cgLeader_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgLeader_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cgLeader_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             cgLeaderService.batchDel(ids);
@@ -214,7 +214,7 @@ public class CgLeaderController extends CgBaseController {
 
     @RequestMapping(value = "/cgLeader_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgLeader_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent){
+    public Map cgLeader_plan(Integer[] ids, Boolean isCurrent){
 
         if (null != ids && ids.length>0){
             cgLeaderService.updatecgLeaderStatus(ids, BooleanUtils.isTrue(isCurrent));

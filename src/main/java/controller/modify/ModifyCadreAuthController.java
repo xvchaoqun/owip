@@ -40,7 +40,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequiresPermissions("modifyCadreAuth:list")
     @RequestMapping("/modifyCadreAuth")
     public String modifyCadreAuth(Integer userId,
-                                  @RequestParam(required = false, value = "cadreStatus") Byte[] cadreStatus,
+                                  Byte[] cadreStatus,
                                   ModelMap modelMap) {
 
         if(userId!=null) {
@@ -58,7 +58,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequestMapping("/modifyCadreAuth_data")
     public void modifyCadreAuth_data(HttpServletResponse response,
                                     Integer userId,
-                                     @RequestParam(required = false, value = "cadreStatus") Byte[] cadreStatus,
+                                     Byte[] cadreStatus,
                                      Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequiresPermissions("modifyCadreAuth:edit")
     @RequestMapping(value = "/modifyCadreAuth_batchAdd", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyCadreAuth_batchAdd(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds,
+    public Map do_modifyCadreAuth_batchAdd(Integer[] cadreIds,
                                            String _startTime, String _endTime, Boolean isUnlimited) {
 
         Date start = DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD);
@@ -204,7 +204,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequiresPermissions("modifyCadreAuth:del")
     @RequestMapping(value = "/modifyCadreAuth_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

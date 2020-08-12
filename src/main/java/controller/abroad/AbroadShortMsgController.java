@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -60,7 +59,7 @@ public class AbroadShortMsgController extends AbroadBaseController {
     @RequiresPermissions("ShortMsg:send")
     @RequestMapping(value = "/shortMsg_batch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_shortMsg_batch(String type, @RequestParam(name = "ids[]", required = false) Integer[] ids, HttpServletRequest request) {
+    public Map do_shortMsg_batch(String type, Integer[] ids, HttpServletRequest request) {
 
         int userId = ShiroHelper.getCurrentUserId();
         List<SysUserView> failedUsers = new ArrayList<>();

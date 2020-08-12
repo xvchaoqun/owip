@@ -112,7 +112,7 @@ public class PartyRewardController extends BaseController {
                                  String proofFilename,
                                  @RequestParam(required = false, defaultValue = "1") Integer cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo , ModelMap modelMap)  throws IOException{
 
         if (null == pageSize) {
@@ -290,7 +290,7 @@ public class PartyRewardController extends BaseController {
     @RequiresPermissions("partyReward:edit")
     @RequestMapping(value = "/party/partyReward_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyReward_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map partyReward_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             partyRewardService.batchDel(ids);

@@ -45,7 +45,7 @@ public class CrsRequireRuleController extends CrsBaseController {
     public void crsRequireRule_data(HttpServletResponse response,
                                     int postRequireId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -137,7 +137,7 @@ public class CrsRequireRuleController extends CrsBaseController {
     @RequiresPermissions("crsRequireRule:del")
     @RequestMapping(value = "/crsRequireRule_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

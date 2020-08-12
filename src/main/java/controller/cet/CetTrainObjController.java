@@ -58,7 +58,7 @@ public class CetTrainObjController extends CetBaseController {
     public void cetTrainObj_data(HttpServletResponse response,
                                     Integer trainCourseId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -143,7 +143,7 @@ public class CetTrainObjController extends CetBaseController {
     @RequiresPermissions("cetTrainObj:del")
     @RequestMapping(value = "/cetTrainObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTrainObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetTrainObj_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -275,7 +275,7 @@ public class CetTrainObjController extends CetBaseController {
     @RequiresPermissions("cetTrainObj:sign")
     @RequestMapping(value = "/cetTrainObj_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTrainObj_sign(Integer trainCourseId, @RequestParam(value = "ids[]", required = false) Integer[] ids,
+    public Map cetTrainObj_sign(Integer trainCourseId, Integer[] ids,
                                      Boolean sign) {
 
         Date signTime = new Date();

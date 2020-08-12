@@ -7,9 +7,9 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_evaTable" autocomplete="off" disableautocomplete id="modalForm" method="post">
-		<input type="hidden" name="ids[]" value="${param['ids[]']}">
+		<input type="hidden" name="ids" value="${param.ids}">
 		<input type="hidden" name="trainId" value="${param.trainId}">
-		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+		<c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训班次</label>

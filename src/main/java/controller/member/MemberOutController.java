@@ -242,7 +242,7 @@ public class MemberOutController extends MemberBaseController {
                                String fromUnit,
                                @RequestDateRange DateRange _handleTime,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -434,7 +434,7 @@ public class MemberOutController extends MemberBaseController {
     @ResponseBody
     public Map do_memberOut_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                   byte type, // 1:分党委审核 2：组织部审核
-                                  @RequestParam(value = "ids[]") Integer[] ids) {
+                                  Integer[] ids) {
 
 
         memberOutService.memberOut_check(ids, type, loginUser.getId());
@@ -455,7 +455,7 @@ public class MemberOutController extends MemberBaseController {
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_back(@CurrentUser SysUserView loginUser,
-                                 @RequestParam(value = "ids[]") Integer[] ids,
+                                 Integer[] ids,
                                  byte status,
                                  String reason) {
 
@@ -733,7 +733,7 @@ public class MemberOutController extends MemberBaseController {
     @RequiresPermissions("memberOutSelfPrint:edit")
     @RequestMapping(value = "/memberOut/memberOut_selfPrint", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_selfPrint(@RequestParam(value = "ids[]")Integer[] ids, Boolean isSelfPrint) {
+    public Map do_memberOut_selfPrint(Integer[] ids, Boolean isSelfPrint) {
 
         if (ids != null) {
 
@@ -760,7 +760,7 @@ public class MemberOutController extends MemberBaseController {
     @RequiresPermissions("memberOut:del")
     @RequestMapping(value = "/memberOut_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

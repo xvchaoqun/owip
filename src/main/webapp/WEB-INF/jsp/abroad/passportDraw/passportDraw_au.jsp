@@ -226,7 +226,7 @@
                     <label class="col-xs-4 control-label">批件</label>
                     <div class="col-xs-7">
                         <div class="files">
-                            <input class="form-control" type="file" name="_files[]"/>
+                            <input class="form-control" type="file" name="_files"/>
                         </div>
                         <button type="button" onclick="addFile()" class="btn btn-default btn-xs"><i
                                 class="fa fa-plus"></i></button>
@@ -442,10 +442,10 @@
         }
     }).change();
 
-    $.fileInput($('input[type=file][name="_files[]"]'))
+    $.fileInput($('input[type=file][name="_files"]'))
 
     function addFile() {
-        var _file = $('<input class="form-control" type="file" name="_files[]" />');
+        var _file = $('<input class="form-control" type="file" name="_files" />');
         $(".files").append(_file);
         $.fileInput(_file)
         return false;

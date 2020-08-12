@@ -297,7 +297,7 @@
                             data-callback="_reload2"
                             data-title="删除"
                             data-msg="确定删除该条记录(${user.realname})"
-                            data-url="${ctx}/sc/scCommitteeVote_batchDel?ids[]=${scCommitteeVote.id}">
+                            data-url="${ctx}/sc/scCommitteeVote_batchDel?ids=${scCommitteeVote.id}">
                         <i class="fa fa-times"></i>
                         删除</button>
                 </td>

@@ -114,9 +114,9 @@ public class CetProjectObjController extends CetBaseController {
             Integer planId, // 上传心得体会页面时传入
             Integer discussGroupId, // 选择小组学员页面时传入（分组研讨）
 
-            @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
-            @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-            @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+            Integer[] dpTypes,
+            Integer[] adminLevels,
+            Integer[] postTypes,
             @RequestParam(defaultValue = "1") Integer cls, //
             @RequestParam(defaultValue = "0") Boolean isQuit,
             ModelMap modelMap) {
@@ -197,12 +197,12 @@ public class CetProjectObjController extends CetBaseController {
                                    Boolean isCurrentGroup, // 是否本组 （分组讨论）
                                    Boolean isFinish, // 学习情况 （自主学习）、分组讨论（是否参会）
                                    Boolean hasUploadWrite, // 是否撰写心得体会
-                                   @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
-                                   @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                                   @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                                   Integer[] dpTypes,
+                                   Integer[] adminLevels,
+                                   Integer[] postTypes,
                                    Integer traineeTypeId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    HttpServletRequest request,
                                    Integer pageSize, Integer pageNo) throws IOException {
 
@@ -386,7 +386,7 @@ public class CetProjectObjController extends CetBaseController {
     // 设置应完成学时
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_shouldFinishPeriod")
-    public String cetProjectObj_shouldFinishPeriod(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cetProjectObj_shouldFinishPeriod(Integer[] ids, ModelMap modelMap) {
 
         if (ids.length == 1) {
             modelMap.put("cetProjectObj", cetProjectObjMapper.selectByPrimaryKey(ids[0]));
@@ -399,7 +399,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequestMapping(value = "/cetProjectObj_shouldFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProjectObj_shouldFinishPeriod(int projectId,
-                                                   @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                                   Integer[] ids,
                                                    BigDecimal shouldFinishPeriod) {
 
         if (shouldFinishPeriod != null && shouldFinishPeriod.compareTo(BigDecimal.ZERO) <= 0) {
@@ -417,7 +417,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequestMapping(value = "/cetProjectObj_quit", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProjectObj_quit(int projectId, boolean isQuit,
-                                    @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                    Integer[] ids,
                                     HttpServletRequest request) {
 
         cetProjectObjService.quit(projectId, isQuit, ids);
@@ -441,7 +441,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequestMapping(value = "/cetProjectObj_apply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProjectObj_apply(byte opType, int trainCourseId, int projectId, int traineeTypeId,
-                                        @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                        Integer[] ids,
                                         HttpServletRequest request) {
 
         cetProjectObjService.apply(projectId, traineeTypeId, ids, opType, trainCourseId);
@@ -507,7 +507,7 @@ public class CetProjectObjController extends CetBaseController {
     // 手动结业
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_forceGraduate")
-    public String cetProjectObj_forceGraduate(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cetProjectObj_forceGraduate(Integer[] ids, ModelMap modelMap) {
 
         if (ids.length == 1) {
             CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(ids[0]);
@@ -520,7 +520,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_forceGraduate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_forceGraduate(@RequestParam(value = "ids[]") Integer[] ids, Boolean isGraduate, String remark) {
+    public Map do_cetProjectObj_forceGraduate(Integer[] ids, Boolean isGraduate, String remark) {
 
         cetProjectObjService.forceGraduate(ids, BooleanUtils.isTrue(isGraduate), remark);
         logger.info(addLog(LogConstants.LOG_CET, "手动结业： %s, %s",
@@ -533,7 +533,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequestMapping(value = "/cetProjectObj_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProjectObj_au(CetProjectObj record,
-                                    @RequestParam(value = "identities[]", required = false) Integer[] identities) {
+                                    Integer[] identities) {
 
         cetProjectObjService.addOrUpdate(record, identities);
         logger.info(addLog(LogConstants.LOG_CET, "添加培训对象： %s, %s, %s", record.getProjectId(), record.getTraineeTypeId(), record.getUserId()));
@@ -687,7 +687,7 @@ public class CetProjectObjController extends CetBaseController {
     @ResponseBody
     public Map do_cetProjectObj_uploadWriteMsg(
             int projectId,
-            @RequestParam(value = "objIds[]", required = false) Integer[] objIds,
+            Integer[] objIds,
             String mobile,
             String msg,
             Boolean addSuffix,
@@ -712,7 +712,7 @@ public class CetProjectObjController extends CetBaseController {
 
     @RequiresPermissions("cetProjectObj:list")
     @RequestMapping("/cetProjectObj_uploadWriteMsg")
-    public String cetProjectObj_uploadWriteMsg(int projectId, @RequestParam(value = "objIds[]", required = false) Integer[] objIds,
+    public String cetProjectObj_uploadWriteMsg(int projectId, Integer[] objIds,
                                                ModelMap modelMap) {
 
         List<Integer> userIds = iCetMapper.notUploadWriteUserIds(projectId, objIds);
@@ -726,7 +726,7 @@ public class CetProjectObjController extends CetBaseController {
     @ResponseBody
     public Map cetProjectObj_batchDel(HttpServletRequest request,
                                       int projectId,
-                                      @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                      Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -740,7 +740,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:clearWrite")
     @RequestMapping(value = "/cetProjectObj_clearWrite", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetProjectObj_clearWrite(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetProjectObj_clearWrite(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cetProjectObjService.clearWrite(ids);

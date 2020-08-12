@@ -62,7 +62,7 @@ public class PartyMemberGroupController extends BaseController {
     public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
                                    Integer partyId,
                                    Integer userId,
-                                   @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                   Integer[] typeIds,
                                    ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -96,7 +96,7 @@ public class PartyMemberGroupController extends BaseController {
                                        @RequestDateRange DateRange _tranTime,
                                        Byte isTranTime,
                                       @RequestParam(required = false, defaultValue = "0") int export,
-                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -346,7 +346,7 @@ public class PartyMemberGroupController extends BaseController {
     @ResponseBody
     public Map partyMemberGroup_batchDel(HttpServletRequest request,
                                          @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
-                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                         Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             partyMemberGroupService.batchDel(ids, isDeleted);
@@ -361,7 +361,7 @@ public class PartyMemberGroupController extends BaseController {
     @RequestMapping(value = "/partyMemberGroup_realDel", method = RequestMethod.POST)
     @ResponseBody
     public Map partyMemberGroup_realDel(HttpServletRequest request,
-                                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                        Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             partyMemberGroupService.realDel(ids);

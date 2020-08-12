@@ -114,7 +114,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
     @RequestMapping(value = "/modifyBaseApply_fakeDel", method = RequestMethod.POST)
     @ResponseBody
     public Map modifyBaseApply_fakeDel(@CurrentUser SysUserView loginUser,
-                      @RequestParam(value = "ids[]") Integer[] ids,
+                      Integer[] ids,
                       HttpServletRequest request){
 
         if (null != ids && ids.length>0){
@@ -129,7 +129,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
     @RequiresPermissions("modifyBaseApply:del")
     @RequestMapping(value = "/modifyBaseApply_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map modifyBaseApply_batchDel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map modifyBaseApply_batchDel(Integer[] ids,
                                          HttpServletRequest request) {
 
         if (null != ids && ids.length > 0) {
@@ -152,7 +152,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
     @RequestMapping(value = "/modifyBaseApply_approval", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseApply_approval(
-                                   @RequestParam(value = "ids[]") Integer[] ids,
+                                   Integer[] ids,
                                    Boolean status,
                                    String checkRemark,
                                    String checkReason) {

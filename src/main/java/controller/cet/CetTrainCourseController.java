@@ -90,7 +90,7 @@ public class CetTrainCourseController extends CetBaseController {
                                  Integer projectId, Integer trainId, String name,
                                     Integer userId, // 学习详情 页面
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                     HttpServletRequest request,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -156,7 +156,7 @@ public class CetTrainCourseController extends CetBaseController {
     @RequestMapping(value = "/cetTrainCourse_selectCourses", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrainCourse_selectCourses(int trainId,
-                                               @RequestParam(value = "courseIds[]") Integer[] courseIds,
+                                               Integer[] courseIds,
                                                HttpServletRequest request) {
 
         cetTrainCourseService.selectCourses(trainId, courseIds);
@@ -388,7 +388,7 @@ public class CetTrainCourseController extends CetBaseController {
     @ResponseBody
     public Map do_cetTrainCourse_applyMsg(
                                 int projectId,
-                                @RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds,
+                                Integer[] trainCourseIds,
                                String mobile,
                                String msg,
                                 Boolean addSuffix,
@@ -411,7 +411,7 @@ public class CetTrainCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_applyMsg")
-    public String cetTrainCourse_applyMsg(int projectId, @RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds,
+    public String cetTrainCourse_applyMsg(int projectId, Integer[] trainCourseIds,
                                           ModelMap modelMap) {
 
         CetTrainCourseExample example = new CetTrainCourseExample();
@@ -429,7 +429,7 @@ public class CetTrainCourseController extends CetBaseController {
     @RequestMapping(value = "/cetTrainCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetTrainCourse_batchDel(HttpServletRequest request, Integer projectId, Integer trainId,
-                                       @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                       Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cetTrainCourseService.batchDel(ids, projectId, trainId);
@@ -552,7 +552,7 @@ public class CetTrainCourseController extends CetBaseController {
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping(value = "/cetTrainCourse_evaTable", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainCourse_evaTable(int trainId, @RequestParam(value = "ids[]") Integer[] ids, int evaTableId) {
+    public Map do_cetTrainCourse_evaTable(int trainId, Integer[] ids, int evaTableId) {
 
         cetTrainCourseService.evaTable(trainId, ids, evaTableId);
         //logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训课程评估表：%s", id));

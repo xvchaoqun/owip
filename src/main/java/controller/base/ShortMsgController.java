@@ -39,7 +39,7 @@ public class ShortMsgController extends BaseController {
     @RequiresPermissions("shortMsg:repeat")
     @RequestMapping(value = "/shortMsg_repeat", method = RequestMethod.POST)
     @ResponseBody
-    public Map shortMsg_repeat(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map shortMsg_repeat(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

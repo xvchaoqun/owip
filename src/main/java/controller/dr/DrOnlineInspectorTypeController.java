@@ -65,7 +65,7 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
                                            String type,
                                            Byte status,
                                            @RequestParam(required = false, defaultValue = "0") int export,
-                                           @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                           Integer[] ids, // 导出的记录
                                            Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -146,7 +146,7 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
     @ResponseBody
     public Map drOnlineInspectorType_change(Byte status,
                                             HttpServletRequest request,
-                                            @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                            Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -160,7 +160,7 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
     @RequiresPermissions("drOnlineInspectorType:del")
     @RequestMapping(value = "/drOnlineInspectorType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOnlineInspectorType_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map drOnlineInspectorType_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

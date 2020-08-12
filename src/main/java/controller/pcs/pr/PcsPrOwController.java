@@ -167,7 +167,7 @@ public class PcsPrOwController extends PcsBaseController {
 
     @RequiresPermissions("pcsPrOw:check")
     @RequestMapping("/pcsPrOw_check")
-    public String pcsPrOw_check(@RequestParam(value = "partyIds[]") Integer[] partyIds, ModelMap modelMap) {
+    public String pcsPrOw_check(Integer[] partyIds, ModelMap modelMap) {
 
         if (partyIds.length == 1) {
             modelMap.put("party", partyService.findAll().get(partyIds[0]));
@@ -179,7 +179,7 @@ public class PcsPrOwController extends PcsBaseController {
     @RequiresPermissions("pcsPrOw:check")
     @RequestMapping(value = "/pcsPrOw_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPrOw_check(@RequestParam(value = "partyIds[]") Integer[] partyIds, byte stage, Boolean status, String remark) {
+    public Map do_pcsPrOw_check(Integer[] partyIds, byte stage, Boolean status, String remark) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();

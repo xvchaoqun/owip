@@ -41,7 +41,7 @@ public class UserOaTaskUserController extends OaBaseController {
     @RequestMapping(value = "/oaTaskUser_report", method = RequestMethod.POST)
     @ResponseBody
     public Map do_oaTaskUser_report(int taskId, String content,
-                             @RequestParam(value = "_files[]", required = false) MultipartFile[] _files,
+                             MultipartFile[] _files,
                              String remark, HttpServletRequest request) throws IOException, InterruptedException {
 
         oaTaskUserService.report(taskId, content, _files, remark);
@@ -81,7 +81,7 @@ public class UserOaTaskUserController extends OaBaseController {
     @RequiresPermissions("userOaTask:delFile")
     @RequestMapping(value = "/oaTaskUser_batchDelFiles", method = RequestMethod.POST)
     @ResponseBody
-    public Map oaTaskUser_batchDelFiles(@RequestParam(value = "ids[]") Integer[] ids) throws IOException, InterruptedException {
+    public Map oaTaskUser_batchDelFiles(Integer[] ids) throws IOException, InterruptedException {
 
         if (null != ids && ids.length > 0) {
 

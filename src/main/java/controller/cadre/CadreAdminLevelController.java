@@ -100,7 +100,7 @@ public class CadreAdminLevelController extends BaseController {
     @RequiresPermissions("cadreAdminLevel:del")
     @RequestMapping(value = "/cadreAdminLevel_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

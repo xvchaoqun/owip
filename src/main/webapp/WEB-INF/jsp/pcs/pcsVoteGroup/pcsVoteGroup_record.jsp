@@ -350,7 +350,7 @@
             return;
         }
 
-        $.post("${ctx}/pcsVoteGroup_selectUser", {"userIds[]": userId, type:'${param.type}'}, function (ret) {
+        $.post("${ctx}/pcsVoteGroup_selectUser", {"userIds": userId, type:'${param.type}'}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
                 $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");

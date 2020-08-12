@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_uploadWriteMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="objIds[]" value="${param["objIds[]"]}">
+        <input type="hidden" name="objIds" value="${param["objIds"]}">
         <input type="hidden" name="projectId" value="${param.projectId}">
         <div class="form-group">
             <label class="col-xs-3 control-label">发送人数</label>

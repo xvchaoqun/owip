@@ -72,7 +72,7 @@ public class ScSubsidyController extends ScBaseController {
                                  Integer feType,
                                     Integer feNum,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -134,7 +134,7 @@ public class ScSubsidyController extends ScBaseController {
     @RequestMapping(value = "/scSubsidy_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scSubsidy_au(ScSubsidy record,
-                               @RequestParam(value = "dispatchIds[]", required = false) Integer[] dispatchIds,
+                               Integer[] dispatchIds,
                                HttpServletRequest request) {
 
         if(dispatchIds==null || dispatchIds.length==0){
@@ -239,7 +239,7 @@ public class ScSubsidyController extends ScBaseController {
     @RequiresPermissions("scSubsidy:del")
     @RequestMapping(value = "/scSubsidy_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scSubsidy_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scSubsidy_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

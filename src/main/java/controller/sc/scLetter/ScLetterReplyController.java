@@ -54,7 +54,7 @@ public class ScLetterReplyController extends ScBaseController {
                                     Integer letterType,
                                     Integer letterNum,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -168,7 +168,7 @@ public class ScLetterReplyController extends ScBaseController {
     @RequiresPermissions("scLetterReply:del")
     @RequestMapping(value = "/scLetterReply_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

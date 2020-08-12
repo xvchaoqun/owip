@@ -41,7 +41,7 @@ public class PcsProposalController extends PcsBaseController {
     @RequestMapping("/pcsProposal")
     public String pcsProposal(
                                Integer userId,
-                               @RequestParam(required = false, value = "types") Integer[] types,
+                               Integer[] types,
                               @RequestParam(required = false, defaultValue = "1") byte cls,
                               @RequestParam(required = false, defaultValue = "1") byte module,
                               ModelMap modelMap) {
@@ -98,14 +98,14 @@ public class PcsProposalController extends PcsBaseController {
                                  @RequestParam(required = false, defaultValue = "1") byte module,
                                  String code,
                                  Integer userId,
-                                 @RequestParam(required = false, value = "types") Integer[] types,
+                                 Integer[] types,
                                  String name,
                                  String keywords,
                                  Boolean displayInvite,
                                  Byte status,
                                  Byte orderType,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (NumberUtils.contains(cls, (byte) 1, (byte) 2, (byte) 3)) {
@@ -209,8 +209,8 @@ public class PcsProposalController extends PcsBaseController {
     @RequestMapping(value = "/pcsProposal_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsProposal_au(PcsProposal record,
-                                 @RequestParam(value = "_files[]", required = false) MultipartFile[] _files, // 附件
-                                 @RequestParam(value = "inviteIds[]", required = false) Integer[] inviteIds, // 邀请附议人
+                                 MultipartFile[] _files, // 附件
+                                 Integer[] inviteIds, // 邀请附议人
                                  HttpServletRequest request) throws IOException, InterruptedException {
 
         if (!ShiroHelper.isPermitted("pcsProposalPr:*")
@@ -357,7 +357,7 @@ public class PcsProposalController extends PcsBaseController {
     //@RequiresPermissions("pcsProposal:del")
     @RequestMapping(value = "/pcsProposal_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsProposal_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map pcsProposal_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted("pcsProposalPr:*")
                 && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
@@ -376,7 +376,7 @@ public class PcsProposalController extends PcsBaseController {
     @RequestMapping(value = "/pcsProposal_batchDelFiles", method = RequestMethod.POST)
     @ResponseBody
     public Map pcsProposal_batchDelFiles(HttpServletRequest request,
-                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                         Integer[] ids, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted("pcsProposalPr:*")
                 && !ShiroHelper.isPermitted("pcsProposalOw:*")) {

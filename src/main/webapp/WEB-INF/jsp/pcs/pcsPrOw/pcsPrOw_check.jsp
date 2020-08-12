@@ -7,9 +7,9 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcsPrOw_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="partyIds[]" value="${param['partyIds[]']}">
+        <input type="hidden" name="partyIds" value="${param['partyIds']}">
         <input type="hidden" name="stage" value="${param.stage}">
-        <c:set var="num" value='${fn:length(fn:split(param["partyIds[]"],","))}'/>
+        <c:set var="num" value='${fn:length(fn:split(param["partyIds"],","))}'/>
         <c:if test="${num==1}">
         <div class="form-group">
             <label class="col-xs-4 control-label">${_p_partyName}名称</label>

@@ -53,7 +53,7 @@ public class ScMatterController extends ScBaseController {
                                     Integer year,
                                    Boolean type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -101,7 +101,7 @@ public class ScMatterController extends ScBaseController {
     @RequestMapping(value = "/scMatter_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scMatter_au(ScMatter record,
-                              @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
+                              Integer[] userIds,
                               HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -142,7 +142,7 @@ public class ScMatterController extends ScBaseController {
     @RequestMapping(value = "/scMatter_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
-                        @RequestParam(value = "ids[]") Integer[] ids,
+                        Integer[] ids,
                         ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
@@ -176,7 +176,7 @@ public class ScMatterController extends ScBaseController {
     @RequestMapping(value = "/scMatter_selectCadres", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scMatter_selectCadres(Integer id,
-                                        @RequestParam(value = "userIds[]", required = false) Integer[] userIds) {
+                                        Integer[] userIds) {
 
         scMatterService.updateUserIds(id, userIds);
         return success(FormUtils.SUCCESS);

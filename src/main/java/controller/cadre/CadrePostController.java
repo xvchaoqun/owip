@@ -199,7 +199,7 @@ public class CadrePostController extends BaseController {
     @RequiresPermissions("cadrePost:del")
     @RequestMapping(value = "/cadrePost_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -255,7 +255,7 @@ public class CadrePostController extends BaseController {
     @ResponseBody
     public Map do_cadrePost_addDispatchs(HttpServletRequest request,
                                          int id,
-                                         @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                         Integer[] ids, ModelMap modelMap) {
 
         DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
         dispatchCadreRelateService.updateDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST, ids);

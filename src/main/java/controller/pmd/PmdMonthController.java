@@ -276,7 +276,7 @@ public class PmdMonthController extends PmdBaseController {
     @RequiresPermissions("pmdMonth:del")
     @RequestMapping(value = "/pmdMonth_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

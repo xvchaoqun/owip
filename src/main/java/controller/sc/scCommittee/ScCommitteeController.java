@@ -67,7 +67,7 @@ public class ScCommitteeController extends ScBaseController {
                                     Integer year,
                                  @DateTimeFormat(pattern = DateUtils.YYYYMMDD) Date holdDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -205,7 +205,7 @@ public class ScCommitteeController extends ScBaseController {
     @RequiresPermissions("scCommittee:del")
     @RequestMapping(value = "/scCommittee_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scCommittee_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scCommittee_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -219,7 +219,7 @@ public class ScCommitteeController extends ScBaseController {
     @RequiresPermissions("scCommittee:list")
     @RequestMapping("/scCommittee_select")
     @ResponseBody
-    public Map scCommittee_select(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map scCommittee_select(Integer[] ids) {
 
         ScCommitteeViewExample example = new ScCommitteeViewExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

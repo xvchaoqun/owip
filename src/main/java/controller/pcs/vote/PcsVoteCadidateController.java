@@ -55,7 +55,7 @@ public class PcsVoteCadidateController extends PcsBaseController {
     @RequiresPermissions("pcsVoteStat:candidate")
     @RequestMapping(value = "/pcsVoteCandidate_choose", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsVoteCandidate_choose(@RequestParam(value = "ids[]") Integer[] ids, // userIds
+    public Map do_pcsVoteCandidate_choose(Integer[] ids, // userIds
                                byte type, Boolean isChosen) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();

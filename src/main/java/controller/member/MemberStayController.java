@@ -187,7 +187,7 @@ public class MemberStayController extends MemberBaseController {
                                     @RequestDateRange DateRange  _payTime,
                                     String mobile,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
@@ -407,7 +407,7 @@ public class MemberStayController extends MemberBaseController {
     @ResponseBody
     public Map do_memberStay_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                        byte type, // 1:支部审核 2:分党委审核 3：组织部审核
-                                       @RequestParam(value = "ids[]") Integer[] ids) {
+                                       Integer[] ids) {
 
 
         memberStayService.memberStay_check(ids, type, null, null, null, loginUser.getId());
@@ -428,7 +428,7 @@ public class MemberStayController extends MemberBaseController {
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_back(@CurrentUser SysUserView loginUser,
-                                      @RequestParam(value = "ids[]") Integer[] ids,
+                                      Integer[] ids,
                                       byte status,
                                       String reason) {
 
@@ -441,7 +441,7 @@ public class MemberStayController extends MemberBaseController {
 
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_transfer")
-    public String memberStay_transfer(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String memberStay_transfer(Integer[] ids, ModelMap modelMap) {
 
         int id = ids[0]; /// 分党委审核时必须在同一个分党委内部审核
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
@@ -460,7 +460,7 @@ public class MemberStayController extends MemberBaseController {
     @RequestMapping(value = "/memberStay_transfer", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_transfer(@CurrentUser SysUserView loginUser,
-                                          @RequestParam(value = "ids[]") Integer[] ids,
+                                          Integer[] ids,
                                           Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone) {
 
 
@@ -554,7 +554,7 @@ public class MemberStayController extends MemberBaseController {
     @RequiresPermissions({"memberStay:del", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/memberStay_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
 

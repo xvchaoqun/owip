@@ -54,7 +54,7 @@ public class PsAdminController extends PsBaseController {
                              Integer userId,
                              @RequestParam(required = false, defaultValue = "0")Boolean isHistory,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                             Integer[] ids, // 导出的记录
                              Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -188,7 +188,7 @@ public class PsAdminController extends PsBaseController {
     @RequiresPermissions("psAdmin:del")
     @RequestMapping(value = "/psAdmin_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map psAdmin_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map psAdmin_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -291,7 +291,7 @@ public class PsAdminController extends PsBaseController {
     @RequiresPermissions("psAdmin:history")
     @RequestMapping(value = "/psAdmin_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _endDate) {
+    public Map do_psInfo_history(Integer[] ids,String _endDate) {
 
         if (null != ids && ids.length>0){
             psAdminService.updateAdminStatus(ids,_endDate,true);

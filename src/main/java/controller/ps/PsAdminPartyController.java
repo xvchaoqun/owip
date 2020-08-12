@@ -63,7 +63,7 @@ public class PsAdminPartyController extends PsBaseController {
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ps_admin_party") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -167,7 +167,7 @@ public class PsAdminPartyController extends PsBaseController {
 
     @RequiresPermissions("psAdmin:edit")
     @RequestMapping(value = "/psAdminParty_batchDel", method = RequestMethod.POST)
-    public String psAdminParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String psAdminParty_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             psAdminPartyService.batchDel(ids);

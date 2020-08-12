@@ -273,7 +273,7 @@ public class UnitTeamController extends BaseController {
     @RequiresPermissions("unitTeam:del")
     @RequestMapping(value = "/unitTeam_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map unitTeam_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map unitTeam_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
         
         if (null != ids && ids.length > 0) {
             unitTeamService.batchDel(ids);

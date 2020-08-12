@@ -73,7 +73,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
                                       @RequestParam(required = false, value = "workTypes")Integer[] workTypes,
                                       @RequestParam(required = false, value = "privacyTypes")Integer[] privacyTypes,
                                       @RequestParam(required = false, defaultValue = "0") int export,
-                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -159,7 +159,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:auth")
     @RequestMapping(value = "/dispatchWorkFileAuth", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatchWorkFileAuth(Integer id, @RequestParam(value = "postTypes[]", required = false) Integer[] postTypes) {
+    public Map do_dispatchWorkFileAuth(Integer id, Integer[] postTypes) {
 
         dispatchWorkFileService.updatePostTypes(id, postTypes);
         return success(FormUtils.SUCCESS);
@@ -270,7 +270,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:del")
     @RequestMapping(value = "/dispatchWorkFile_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map dispatchWorkFile_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dispatchWorkFile_abolish(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -291,7 +291,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatchWorkFile_transfer(@RequestParam(value = "ids[]") Integer[] ids, int type ) {
+    public Map do_dispatchWorkFile_transfer(Integer[] ids, int type ) {
 
         dispatchWorkFileService.batchTransfer(ids, type);
         logger.info(addLog(LogConstants.LOG_ADMIN, "批量转移干部工作文件：%s", StringUtils.join(ids, ",")));
@@ -301,7 +301,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:del")
     @RequestMapping(value = "/dispatchWorkFile_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -107,7 +107,7 @@ public class ClaApplicatTypeController extends ClaBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/claApplicatType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_selectCadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_selectCadres(Integer id, Integer[] cadreIds) {
 
         claApplicatTypeService.updateCadreIds(id, cadreIds);
         return success(FormUtils.SUCCESS);
@@ -298,7 +298,7 @@ public class ClaApplicatTypeController extends ClaBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/claApplicatType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claApplicatType_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claApplicatType_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

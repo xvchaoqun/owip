@@ -9,11 +9,11 @@
     <form class="form-horizontal" action="${ctx}/modifyTableApply_approval" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
 
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <input type="hidden" name="ids" value="${param.ids}">
         <div class="form-group">
             <label class="col-xs-3 control-label">已选记录</label>
             <div class="col-xs-8 label-text">
-                ${fn:length(fn:split(param['ids[]'],","))} 条
+                ${fn:length(fn:split(param.ids,","))} 条
             </div>
         </div>
         <div class="form-group">

@@ -17,7 +17,7 @@
                 ${cgTeamBase.cgTeam.name}概况
             </span>
             <a href="javascript:;" class="downloadBtn btn btn-primary" 
-               data-url="${ctx}/cg/cgTeam_download?ids[]=${cgTeamBase.cgTeam.id}">
+               data-url="${ctx}/cg/cgTeam_download?ids=${cgTeamBase.cgTeam.id}">
                 <i class="ace-icon fa fa-download "></i>导出</a>
         </div>
         <table style="border: 1px solid #151515; font-size: 16px;width: 800px">

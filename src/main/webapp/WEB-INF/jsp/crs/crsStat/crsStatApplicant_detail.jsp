@@ -87,7 +87,7 @@
                 if(_applyStatus(rowObject)!='参加招聘会') return "-";
 
                 return '<button class="downloadBtn btn btn-success btn-xs" ' +
-                        'data-url="${ctx}/crsApplicant_export?ids[]={0}"><i class="fa fa-download"></i> 导出</button>'
+                        'data-url="${ctx}/crsApplicant_export?ids={0}"><i class="fa fa-download"></i> 导出</button>'
                                 .format(rowObject.id)
             }},
             {label: '应聘PPT', name: 'ppt', formatter: function (cellvalue, options, rowObject) {

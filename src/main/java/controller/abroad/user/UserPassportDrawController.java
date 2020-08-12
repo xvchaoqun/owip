@@ -364,7 +364,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      String _endDate,
                                      String reason,
                                      String costSource,
-                                       @RequestParam(value = "_files[]") MultipartFile[] _files,
+                                       MultipartFile[] _files,
                                        @RequestParam(required = false, defaultValue = "0")boolean needSign,
                                        HttpServletRequest request) {
         boolean isSelf = false;
@@ -480,7 +480,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      String _startDate,
                                      String _endDate,
                                      String reason,
-                                     @RequestParam(value = "_files[]") MultipartFile[] _files,
+                                     MultipartFile[] _files,
                                      String remark,
                                      HttpServletRequest request) {
 

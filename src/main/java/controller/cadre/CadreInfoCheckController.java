@@ -43,7 +43,7 @@ public class CadreInfoCheckController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadreInfoCheck_batchUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreInfoCheck_batchUpdate(@RequestParam(required = false, value = "ids[]" ) Integer[] cadreIds,
+    public Map do_cadreInfoCheck_batchUpdate(@RequestParam(required = false, value = "ids" ) Integer[] cadreIds,
                                              byte status, HttpServletRequest request) {
 
         CadreExample example = new CadreExample();

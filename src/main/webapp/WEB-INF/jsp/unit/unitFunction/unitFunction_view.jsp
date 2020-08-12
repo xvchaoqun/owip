@@ -10,7 +10,7 @@
            data-url="${ctx}/unitFunction?unitId=${unitId}&funId=${unitFunction.id}&isEdit=1">
             <i class="fa fa-edit"></i> 编辑
         </a>
-        <button data-url="${ctx}/unitFunction_batchDel?ids[]=${unitFunction.id}"
+        <button data-url="${ctx}/unitFunction_batchDel?ids=${unitFunction.id}"
                 data-title="删除"
                 data-msg="确定删除此单位职能？"
                 data-callback="_reloadUnitFunction"

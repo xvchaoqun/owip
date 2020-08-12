@@ -46,7 +46,7 @@ public class UnitPostGroupController extends BaseController {
     @ResponseBody
     public void unitPostGroup_data(HttpServletResponse response, String name,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -129,7 +129,7 @@ public class UnitPostGroupController extends BaseController {
     @RequiresPermissions("unitPostGroup:edit")
     @RequestMapping(value = "/unitPostGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map unitPostGroup_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map unitPostGroup_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -247,7 +247,7 @@ public class UnitPostGroupController extends BaseController {
     @ResponseBody
     public Map do_unitPostGroup_addPost(HttpServletRequest request,
                                         int id,
-                                        @RequestParam(required = false, value = "postIds[]") Integer[] postIds, ModelMap modelMap) {
+                                        Integer[] postIds, ModelMap modelMap) {
 
         unitPostGroupService.updatePostAndGroupId(id, postIds);
         logger.info(addLog(LogConstants.LOG_ADMIN, "修改岗位分组%s-关联岗位：%s", id, StringUtils.join(postIds, ",")));

@@ -121,8 +121,8 @@ public class SysRoleController extends BaseController {
 	@ResponseBody
 	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
 			SysRole sysRole, 
-			@RequestParam(value="resIds[]",required=false) Integer[] resIds,
-			@RequestParam(value="m_resIds[]",required=false) Integer[] m_resIds,
+			Integer[] resIds,
+			Integer[] m_resIds,
 			HttpServletRequest request) {
 
 		String code = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getCode()));
@@ -290,7 +290,7 @@ public class SysRoleController extends BaseController {
 	@RequiresPermissions("sysRole:del")
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_del(@RequestParam(value = "ids[]") Integer[] ids,
+	public Map do_sysRole_del(Integer[] ids,
 							  HttpServletRequest request) {
 		
 		sysRoleService.batchDel(ids);

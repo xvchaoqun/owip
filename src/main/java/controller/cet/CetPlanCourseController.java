@@ -51,7 +51,7 @@ public class CetPlanCourseController extends CetBaseController {
     public void cetPlanCourse_data(HttpServletResponse response,
                                     Integer planId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -101,7 +101,7 @@ public class CetPlanCourseController extends CetBaseController {
     @RequestMapping(value = "/cetPlanCourse_selectCourses", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetPlanCourse_selectCourses(int planId,
-                                               @RequestParam(value = "courseIds[]") Integer[] courseIds,
+                                               Integer[] courseIds,
                                                HttpServletRequest request) {
 
         cetPlanCourseService.selectCourses(planId, courseIds);
@@ -125,7 +125,7 @@ public class CetPlanCourseController extends CetBaseController {
     @RequestMapping(value = "/cetPlanCourse_selectObjs", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetPlanCourse_selectObjs(boolean select, int projectId, int planCourseId,
-                                        @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                        Integer[] ids ,
                                         HttpServletRequest request) {
 
         cetPlanCourseService.selectObjs(ids, select, projectId, planCourseId);
@@ -242,7 +242,7 @@ public class CetPlanCourseController extends CetBaseController {
     @RequestMapping(value = "/cetPlanCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetPlanCourse_batchDel(HttpServletRequest request, int planId,
-                                      @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                      Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

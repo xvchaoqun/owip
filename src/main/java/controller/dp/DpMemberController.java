@@ -63,10 +63,10 @@ public class DpMemberController extends DpBaseController {
                            Integer unitId,
                            //2 教职工 7 已转出教职工 10 全部
                            @RequestParam(defaultValue = "2")Integer cls,
-                           @RequestParam(required = false, value = "post") String[] post,
-                           @RequestParam(required = false, value = "adminLevel") Integer[] adminLevel,
-                           @RequestParam(required = false, value = "nation") String[] nation,
-                           @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                           String[] post,
+                           Integer[] adminLevel,
+                           String[] nation,
+                           String[] nativePlace,
                            ModelMap modelMap) {
 
         if (unitId != null){
@@ -155,10 +155,10 @@ public class DpMemberController extends DpBaseController {
                                     Byte age,
                                     String edu,
                                     String degree,
-                                    @RequestParam(required = false, value = "post") String[] post,
-                                    @RequestParam(required = false, value = "adminLevel") Integer[] adminLevel,
-                                    @RequestParam(required = false, value = "nation") String[] nation,//
-                                    @RequestParam(required = false, value = "nativePlace") String[] nativePlace,//
+                                    String[] post,
+                                    Integer[] adminLevel,
+                                    String[] nation,//
+                                    String[] nativePlace,//
                                     @RequestDateRange DateRange _dpGrowTime,
                                     Byte userSource, //账号来源
 
@@ -167,7 +167,7 @@ public class DpMemberController extends DpBaseController {
                                     Boolean isPartyMember,
                                     Boolean isHonorRetire,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  @RequestParam(required = false) Integer[] cols, // 选择导出的列
                                  Integer pageSize, Integer pageNo)  throws IOException {
 
@@ -423,7 +423,7 @@ public class DpMemberController extends DpBaseController {
     @RequiresPermissions("dpMember:del")
     @RequestMapping(value = "/dpMember_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpMember_recover(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map dpMember_recover(Integer[] ids,
                                 Byte status){
 
         if(ids != null){
@@ -448,7 +448,7 @@ public class DpMemberController extends DpBaseController {
     @RequiresPermissions("dpMember:del")
     @RequestMapping(value = "/dpMember_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpMember_out(@RequestParam(value = "ids[]") Integer[] userIds,
+    public Map do_dpMember_out(Integer[] userIds,
                               String outTime){
 
         if (null != userIds && userIds.length>0){
@@ -486,7 +486,7 @@ public class DpMemberController extends DpBaseController {
     @RequiresPermissions("dpMember:del")
     @RequestMapping(value = "/dpMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] userIds, ModelMap modelMap) {
+    public Map dpMember_batchDel(HttpServletRequest request, Integer[] userIds, ModelMap modelMap) {
 
 
         if (null != userIds && userIds.length>0){
@@ -539,7 +539,7 @@ public class DpMemberController extends DpBaseController {
                                 Byte type,//党派成员类别
                                 Boolean isRetire,
                                 Byte politicalStatus,
-                                @RequestParam(required = false, value = "status") Byte[] status,//党派成员状态
+                                Byte[] status,//党派成员状态
                                 Boolean noAuth,//默认需要读取权限
                                 @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                                 String searchStr) throws IOException {

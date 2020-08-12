@@ -96,7 +96,7 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/approverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_cadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) String[] cadreIds) {
+    public Map do_select_cadres(Integer id, String[] cadreIds) {
 
         ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
         byte type = approverType.getType();
@@ -168,7 +168,7 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequestMapping(value = "/approverType_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_approverType_au(ApproverType record,
-                                  @RequestParam(required = false, value = "auth") Byte[] auth,
+                                  Byte[] auth,
                                   HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -225,7 +225,7 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/approverType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

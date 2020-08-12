@@ -108,7 +108,7 @@ public class CgTeamController extends CgBaseController {
                             Integer userId,
                             @RequestParam(required = false, defaultValue = "1") Boolean isCurrent,
                             @RequestParam(required = false, defaultValue = "0") int export,
-                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                            Integer[] ids, // 导出的记录
                             Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -236,7 +236,7 @@ public class CgTeamController extends CgBaseController {
     @RequiresPermissions("cgTeam:del")
     @RequestMapping(value = "/cgTeam_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgTeam_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cgTeam_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             cgTeamService.batchDel(ids);
@@ -327,7 +327,7 @@ public class CgTeamController extends CgBaseController {
     @RequiresPermissions("cgTeam:plan")
     @RequestMapping(value = "/cgTeam_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgTeam_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
+    public Map cgTeam_plan(Integer[] ids, Boolean isCurrent) {
 
         if (null != ids && ids.length>0){
             cgTeamService.updateTeamStatus(ids,isCurrent);
@@ -408,7 +408,7 @@ public class CgTeamController extends CgBaseController {
     }
 
     @RequestMapping("/cgTeam_download")
-    public void cgTeam_download(@RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public void cgTeam_download(Integer[] ids,
                                 @RequestParam(required = false, value = "isWord", defaultValue = "1") Boolean isWord,
                                 HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
@@ -433,7 +433,7 @@ public class CgTeamController extends CgBaseController {
 
     @RequiresPermissions("cgMember:plan")
     @RequestMapping("/cgTeam_updateUser")
-    public String cgMember_updateUser(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cgMember_updateUser(Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             //获取委员会和领导小组中需要更新席位制的人员

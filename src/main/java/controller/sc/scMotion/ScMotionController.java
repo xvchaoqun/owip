@@ -79,7 +79,7 @@ public class ScMotionController extends ScBaseController {
                                     Integer unitId,
                                     Integer unitPostId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -203,7 +203,7 @@ public class ScMotionController extends ScBaseController {
     @RequiresPermissions("scMotion:del")
     @RequestMapping(value = "/scMotion_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scMotion_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scMotion_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

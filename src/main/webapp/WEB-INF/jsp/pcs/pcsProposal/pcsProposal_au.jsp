@@ -102,12 +102,12 @@
                                 <div class="file">
                                     <t:preview filePath="${file.filePath}" fileName="${file.fileName}" label="${cm:substr(file.fileName, 0, 15, '...')}"/>
                                     <a href="javascript:;" class="confirm"
-                                       data-url="${ctx}/pcsProposal_batchDelFiles?ids[]=${file.id}"
+                                       data-url="${ctx}/pcsProposal_batchDelFiles?ids=${file.id}"
                                        data-msg="确认删除该附件？"
                                        data-callback="_delFileCallback">删除</a></div>
                             </c:forEach>
                             <div class="files">
-                                <input class="form-control" type="file" name="_files[]"/>
+                                <input class="form-control" type="file" name="_files"/>
                             </div>
                             <button type="button" onclick="addFile()"
                                     class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
@@ -214,7 +214,7 @@
     });
 
     function addFile() {
-        var _file = $('<input class="form-control" type="file" name="_files[]" />');
+        var _file = $('<input class="form-control" type="file" name="_files" />');
         $(".files").append(_file);
         $.fileInput(_file, {
             no_file: '请上传pdf或图片文件...',

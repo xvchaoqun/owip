@@ -85,7 +85,7 @@
             return;
         }
         var $btn = $(btn).button('loading');
-        $.post("${ctx}/sysUser_addOrDelRole?roleId=${param.roleId}",{'ids[]':userId}, function (ret) {
+        $.post("${ctx}/sysUser_addOrDelRole?roleId=${param.roleId}",{ids:userId}, function (ret) {
             if(ret.success){
                 _reload2()
             }

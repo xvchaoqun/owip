@@ -152,7 +152,7 @@ public class ClaApproverController extends ClaBaseController {
     @RequiresPermissions("claApprovalAuth:*")
     @RequestMapping(value = "/claApprover_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claApprover_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claApprover_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

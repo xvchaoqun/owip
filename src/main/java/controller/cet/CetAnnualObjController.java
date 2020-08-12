@@ -110,8 +110,8 @@ public class CetAnnualObjController extends CetBaseController {
     @RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj")
     public String cetAnnualObj(Integer userId, @RequestParam(defaultValue = "0") Boolean isQuit,
-                               @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                               @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                               Integer[] adminLevels,
+                               Integer[] postTypes,
                                ModelMap modelMap) {
         
         modelMap.put("isQuit", isQuit);
@@ -137,8 +137,8 @@ public class CetAnnualObjController extends CetBaseController {
                                   int annualId,
                                   Integer userId,
                                   @RequestParam(defaultValue = "0") Boolean isQuit,
-                                  @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                                  @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                                  Integer[] adminLevels,
+                                  Integer[] postTypes,
                                   Boolean isFinishedOffline,
                                   Boolean isFinishedOnline,
                                   Boolean needUpdateRequire,
@@ -146,7 +146,7 @@ public class CetAnnualObjController extends CetBaseController {
                                   Boolean displayFinishedOffline,
                                   Boolean displayFinishedOnline,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
         
         if (null == pageSize) {
@@ -239,7 +239,7 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping(value = "/archiveObjFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
     public Map do_archiveObjFinishPeriod(int annualId,
-                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                         Integer[] ids,
                                          //boolean isQuit,
                                          HttpServletRequest request) {
 
@@ -269,7 +269,7 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping(value = "/cetAnnualObj_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetAnnualObj_au(CetAnnualObj cetAnnualObj,HttpServletRequest request,
-                                   @RequestParam(value = "identities[]", required = false) Integer[] identities) {
+                                   Integer[] identities) {
 
         cetAnnualObj.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null ?
                 "" : StringUtils.join(identities, ","));
@@ -390,7 +390,7 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping(value = "/cetAnnualObj_quit", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetAnnualObj_quit(boolean isQuit,
-                                    @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                    Integer[] ids,
                                     HttpServletRequest request) {
         
         cetAnnualObjService.quit(isQuit, ids);
@@ -404,7 +404,7 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping(value = "/cetAnnualObj_updateRequire", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetAnnualObj_updateRequire(BigDecimal periodOffline, BigDecimal periodOnline,
-                                             @RequestParam(value = "ids[]") Integer[] ids) {
+                                             Integer[] ids) {
         
         cetAnnualObjService.updateRequire(periodOffline, periodOnline, ids);
         logger.info(addLog(LogConstants.LOG_CET, "设定年度学习任务：periodOffline=%s, periodOnline=%s, %s",
@@ -424,7 +424,7 @@ public class CetAnnualObjController extends CetBaseController {
     @RequiresPermissions("cetAnnualObj:del")
     @RequestMapping(value = "/cetAnnualObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetAnnualObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetAnnualObj_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
         
         
         if (null != ids && ids.length > 0) {

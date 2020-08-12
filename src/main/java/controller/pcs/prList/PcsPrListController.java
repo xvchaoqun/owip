@@ -252,7 +252,7 @@ public class PcsPrListController extends PcsBaseController {
 
     @RequiresPermissions("pcsPrList:edit")
     @RequestMapping(value = "/pcsPrList_selectUser", method = RequestMethod.POST)
-    public void do_pcsPrList_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
+    public void do_pcsPrList_selectUser(Integer[] userIds,
                                          HttpServletResponse response) throws IOException {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());

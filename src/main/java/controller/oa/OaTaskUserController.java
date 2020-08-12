@@ -70,7 +70,7 @@ public class OaTaskUserController extends OaBaseController {
                                 Integer type,
                                 String name,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录, userId
+                                Integer[] ids, // 导出的记录, userId
                                 Integer pageSize,
                                 Integer pageNo) throws IOException {
 
@@ -151,7 +151,7 @@ public class OaTaskUserController extends OaBaseController {
     @RequiresPermissions("oaTaskUser:check")
     @RequestMapping("/oaTaskUser_check")
     public String oaTaskUser_check(int taskId,
-                                   @RequestParam(value = "taskUserIds[]") Integer[] taskUserIds,
+                                   Integer[] taskUserIds,
                                    ModelMap modelMap) {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
@@ -167,7 +167,7 @@ public class OaTaskUserController extends OaBaseController {
     @RequiresPermissions("oaTaskUser:check")
     @RequestMapping(value = "/oaTaskUser_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_oaTaskUser_check(int taskId, @RequestParam(value = "taskUserIds[]") Integer[] taskUserIds,
+    public Map do_oaTaskUser_check(int taskId, Integer[] taskUserIds,
                                    Boolean pass, String remark) {
 
         oaTaskUserService.check(taskId, taskUserIds,

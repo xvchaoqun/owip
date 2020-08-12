@@ -104,8 +104,7 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map back(@RequestParam(required = false, value = "ids[]")Integer[] ids,
-                      HttpServletRequest request){
+    public Map back(Integer[] ids, HttpServletRequest request){
 
         try {
             modifyBaseApplyService.back(ids);

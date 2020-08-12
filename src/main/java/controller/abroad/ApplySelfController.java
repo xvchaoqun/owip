@@ -533,7 +533,7 @@ public class ApplySelfController extends AbroadBaseController {
     @ResponseBody
     public Map do_applySelf_batchDel(HttpServletRequest request,
                           boolean isDeleted,
-                          @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                          Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             applySelfService.batchDel(ids, isDeleted);
@@ -548,7 +548,7 @@ public class ApplySelfController extends AbroadBaseController {
     @RequiresPermissions("applySelf:del")
     @RequestMapping(value = "/applySelf_doBatchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map applySelf_doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map applySelf_doBatchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

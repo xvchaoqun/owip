@@ -78,7 +78,7 @@
     </button>
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
-            data-url="${ctx}/cet/cetTrainEvaNorm_batchDel?ids[]={{=id}}"
+            data-url="${ctx}/cet/cetTrainEvaNorm_batchDel?ids={{=id}}"
             data-msg="确定删除该指标？"
             data-callback="_delCallback"><i class="fa fa-times"></i> 删除
     </button>

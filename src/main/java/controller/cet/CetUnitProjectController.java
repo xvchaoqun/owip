@@ -113,7 +113,7 @@ public class CetUnitProjectController extends CetBaseController {
                                     BigDecimal subPeriod,
                                     String address,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (cls == null) {
@@ -318,7 +318,7 @@ public class CetUnitProjectController extends CetBaseController {
     @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitProject_check")
-    public String cetUnitProject_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cetUnitProject_check(Integer[] ids, ModelMap modelMap) {
 
         if (ids != null && ids.length == 1)
             modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(ids[0]));
@@ -331,7 +331,7 @@ public class CetUnitProjectController extends CetBaseController {
     @RequestMapping(value = "/cetUnitProject_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitProject_check(HttpServletRequest request,
-                                       @RequestParam(value = "ids[]") Integer[] ids,
+                                       Integer[] ids,
                                        Boolean pass, Boolean isValid, String backReason, ModelMap modelMap) {
 
         if (ids != null && ids.length > 0) {
@@ -366,7 +366,7 @@ public class CetUnitProjectController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitProject_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnitProject_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_cetUnitProject_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN);
 
@@ -381,7 +381,7 @@ public class CetUnitProjectController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitProject_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnitProject_back(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_cetUnitProject_back(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cetUnitProjectService.back(ids);

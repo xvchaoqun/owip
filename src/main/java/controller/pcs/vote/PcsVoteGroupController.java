@@ -132,7 +132,7 @@ public class PcsVoteGroupController extends PcsBaseController {
     @RequiresPermissions("pcsVoteGroup:del")
     @RequestMapping(value = "/pcsVoteGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -189,7 +189,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
     @RequiresPermissions("pcsVoteGroup:record")
     @RequestMapping(value = "/pcsVoteGroup_selectUser", method = RequestMethod.POST)
-    public void do_pcsVoteGroup_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
+    public void do_pcsVoteGroup_selectUser(Integer[] userIds,
                                            byte type,
                                            HttpServletResponse response) throws IOException {
 

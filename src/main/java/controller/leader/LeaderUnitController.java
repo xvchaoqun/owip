@@ -62,7 +62,7 @@ public class LeaderUnitController extends BaseController {
                                 Integer typeId,
                                 String job,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer[] ids, // 导出的记录
                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -183,7 +183,7 @@ public class LeaderUnitController extends BaseController {
     @RequiresPermissions("leaderUnit:del")
     @RequestMapping(value = "/leaderUnit_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -138,7 +138,7 @@ public class AbroadAdditionalPostController extends AbroadBaseController {
     @RequiresPermissions("abroadAdditionalPost:del")
     @RequestMapping(value = "/abroadAdditionalPost_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map abroadAdditionalPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map abroadAdditionalPost_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             abroadAdditionalPostService.batchDel(ids);

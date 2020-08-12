@@ -174,7 +174,7 @@ public class UserPmdPayController extends PmdBaseController {
     // 批量缴费订单确认
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping("/payConfirm_batch")
-    public String payConfirm_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay, ModelMap modelMap) {
+    public String payConfirm_batch(@RequestParam(name = "ids")Integer[] ids, boolean isDelay, ModelMap modelMap) {
 
         BigDecimal duePay = BigDecimal.ZERO;
         for (Integer id : ids) {
@@ -195,7 +195,7 @@ public class UserPmdPayController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping(value = "/payConfirm_batch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay,
+    public Map do_payConfirm_batch(@RequestParam(name = "ids")Integer[] ids, boolean isDelay,
                                    HttpServletRequest request) throws UnsupportedEncodingException {
 
         for (Integer id : ids) {

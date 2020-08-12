@@ -108,7 +108,7 @@ public class CadreReserveController extends BaseController {
     // 转移
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping("/cadreReserve_transfer")
-    public String cadreReserve_transfer(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cadreReserve_transfer(Integer[] ids, ModelMap modelMap) {
 
         if (ids != null && ids.length == 1) {
             CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(ids[0]);
@@ -123,7 +123,7 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping(value = "/cadreReserve_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreReserve_transfer(@RequestParam(value = "ids[]") Integer[] ids, int type) {
+    public Map do_cadreReserve_transfer(Integer[] ids, int type) {
 
         Map<Integer, MetaType> reserveTypeMap = CmTag.getMetaTypes("mc_cadre_reserve_type");
         if (!reserveTypeMap.containsKey(type)) {
@@ -150,20 +150,20 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
     public String cadreReserve(Byte reserveStatus, Integer reserveType,
-                               @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
-                               @RequestParam(required = false, value = "staffTypes") String[] staffTypes,
-                               @RequestParam(required = false, value = "nation") String[] nation,
-                               @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
-                               @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
-                               @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
-                               @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
-                               @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                               @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus,
-                               @RequestParam(required = false, value = "proPosts") String[] proPosts,
-                               @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
-                               @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
-                               @RequestParam(required = false, value = "workTypes") Integer[] workTypes,
-                               @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
+                               Integer[] dpTypes,
+                               String[] staffTypes,
+                               String[] nation,
+                               Integer[] labels, // 标签
+                               String[] authorizedTypes,
+                               Integer[] unitTypes,
+                               Integer[] unitIds,
+                               Integer[] adminLevels,
+                               Integer[] maxEdus,
+                               String[] proPosts,
+                               Integer[] postTypes,
+                               String[] proPostLevels,
+                               Integer[] workTypes,
+                               Byte[] leaderTypes,
 
                                Integer cadreId, ModelMap modelMap) {
 
@@ -312,30 +312,30 @@ public class CadreReserveController extends BaseController {
     @RequestMapping("/cadreReserve_data")
     public void cadreReserve_data(HttpServletResponse response, HttpServletRequest request, Byte reserveStatus, Integer reserveType,
                                   Byte gender,
-                                  @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
-                                  @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
-                                  @RequestParam(required = false, value = "nation") String[] nation,
+                                  Integer[] dpTypes, // 党派
+                                  String[] staffTypes, // 标签
+                                  String[] nation,
                                   String title,
-                                  @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
+                                  Integer[] labels, // 标签
                                   Integer state,
-                                  @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
-                                  @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
+                                  String[] authorizedTypes, // 标签
+                                  Integer[] unitTypes, // 部门属性
                                   @RequestDateRange DateRange _birth,
                                   @RequestDateRange DateRange _cadreGrowTime,
-                                  @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所在单位
+                                  Integer[] unitIds, // 所在单位
                                   Integer startAge,
                                   Integer endAge,
                                   Integer startDpAge, // 党龄
                                   Integer endDpAge, // 党龄
-                                  @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
-                                  @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                                  Integer[] adminLevels, // 行政级别
+                                  Integer[] maxEdus, // 最高学历
                                   Byte degreeType,
                                   String major, // 所学专业
-                                  @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
-                                  @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
+                                  String[] proPosts, // 专业技术职务
+                                  Integer[] postTypes, // 职务属性
                                   Integer startNowPostAge,
                                   Integer endNowPostAge,
-                                  @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
+                                  String[] proPostLevels, // 职称级别
                                   Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
                                   Boolean isPrincipal, // 是否正职
                                   Integer startNowLevelAge,
@@ -343,7 +343,7 @@ public class CadreReserveController extends BaseController {
                                   Boolean isDouble, // 是否双肩挑
                                   Boolean andWorkTypes,
                                   Integer[] workTypes,
-                                  @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
+                                  Byte[] leaderTypes, // 是否班子负责人
                                   Boolean isDep,
                                   Boolean hasCrp, // 是否有干部挂职经历
                                   Boolean hasAbroadEdu, // 是否有国外学习经历
@@ -352,7 +352,7 @@ public class CadreReserveController extends BaseController {
                                   String isTemp,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   @RequestParam(required = false) Integer[] cols, // 选择导出的列
                                   Integer pageSize, Integer pageNo) throws IOException, TemplateException, DocumentException {
 
@@ -653,7 +653,7 @@ public class CadreReserveController extends BaseController {
     /*@RequiresPermissions("cadreReserve:del")
     @RequestMapping(value = "/cadreReserve_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cadreReserve_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cadreReserve_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
@@ -755,7 +755,7 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:del")
     @RequestMapping(value = "/cadreReserve_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cadreReserve_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cadreReserve_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
@@ -767,7 +767,7 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:del")
     @RequestMapping(value = "/cadreReserve_batchDelPass", method = RequestMethod.POST)
     @ResponseBody
-    public Map cadreReserve_batchDelPass(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cadreReserve_batchDelPass(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             cadreReserveService.batchDelPass(ids);

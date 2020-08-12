@@ -46,7 +46,7 @@ public class DrOnlineNoticeController extends DrBaseController {
     public void drOnlineNotice_data(HttpServletResponse response,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -140,7 +140,7 @@ public class DrOnlineNoticeController extends DrBaseController {
     @RequiresPermissions("drOnlineNotice:del")
     @RequestMapping(value = "/drOnlineNotice_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOnlineNotice_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map drOnlineNotice_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

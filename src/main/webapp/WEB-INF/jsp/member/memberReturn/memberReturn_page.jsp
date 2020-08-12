@@ -381,7 +381,7 @@
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             })
 
-            $.loadModal("${ctx}/memberReturn_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberReturn_back?ids={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

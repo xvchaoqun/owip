@@ -169,7 +169,7 @@ public class ContentTplController extends BaseController {
     @RequiresPermissions("contentTpl:del")
     @RequestMapping(value = "/contentTpl_batchUnDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchUnDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             contentTplService.batchUnDel(ids);
@@ -183,7 +183,7 @@ public class ContentTplController extends BaseController {
     @RequiresPermissions("contentTpl:del")
     @RequestMapping(value = "/contentTpl_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             contentTplService.batchDel(ids);
@@ -197,7 +197,7 @@ public class ContentTplController extends BaseController {
     @RequiresPermissions("contentTpl:del")
     @RequestMapping(value = "/contentTpl_doBatchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map doBatchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             contentTplService.doBatchUnDel(ids);

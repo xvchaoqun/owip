@@ -72,7 +72,7 @@ public class DpPartyController extends DpBaseController {
                              @RequestDateRange DateRange _foundTime,
                              @RequestDateRange DateRange deleteTime,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                             Integer[] ids, // 导出的记录
                              Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -204,7 +204,7 @@ public class DpPartyController extends DpBaseController {
     @RequiresPermissions("dpParty:del")
     @RequestMapping(value = "/dpParty_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpParty_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpParty_cancel(Integer[] ids,
                               String deleteTime){
 
         if (null != ids && ids.length>0){
@@ -228,7 +228,7 @@ public class DpPartyController extends DpBaseController {
     @RequiresPermissions("dpParty:del")
     @RequestMapping(value = "/dpParty_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpParty_del(HttpServletRequest request, @RequestParam(value = "ids[]")Integer[] ids) {
+    public Map do_dpParty_del(HttpServletRequest request, @RequestParam(value = "ids")Integer[] ids) {
 
         if (ids != null && ids.length > 0) {
             List<Integer> partyIds = new ArrayList<>();
@@ -247,7 +247,7 @@ public class DpPartyController extends DpBaseController {
     @ResponseBody
     public Map dpParty_batchDel(HttpServletRequest request,
                                 @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 ModelMap modelMap) {
 
 

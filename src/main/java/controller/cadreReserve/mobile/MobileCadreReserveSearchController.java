@@ -39,7 +39,7 @@ public class MobileCadreReserveSearchController extends BaseController {
 
 	@RequiresPermissions("m:cadreReserve:list")
 	@RequestMapping("/cadreReserve_compare")
-	public String cadreReserve_compare(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds, ModelMap modelMap) {
+	public String cadreReserve_compare(Integer[] cadreIds, ModelMap modelMap) {
 
 		if(cadreIds!=null && cadreIds.length>0) {
 			CadreViewExample example = new CadreViewExample();
@@ -53,7 +53,7 @@ public class MobileCadreReserveSearchController extends BaseController {
 
 	@RequiresPermissions("m:cadreReserve:list")
 	@RequestMapping("/cadreReserve_compare_result")
-	public String cadreReserve_compare_result(@RequestParam(value = "cadreIds[]") Integer[] cadreIds, ModelMap modelMap) {
+	public String cadreReserve_compare_result(Integer[] cadreIds, ModelMap modelMap) {
 
 		if(cadreIds!=null && cadreIds.length>0) {
 			CadreViewExample example = new CadreViewExample();

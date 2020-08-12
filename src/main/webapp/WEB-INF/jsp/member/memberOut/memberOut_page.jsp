@@ -426,12 +426,12 @@
                 var isFillPrint = _cMap.metaTypeMap[rowObject.type].boolAttr;
                 if(!isFillPrint){
                     var html = '<button class="openView btn btn-primary btn-xs"'
-                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_LETTER_PRINT}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
+                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_LETTER_PRINT}&ids={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
                                     .format(rowObject.id);
                     return html;
                 }else{
                     var html = '<button class="openView btn btn-warning btn-xs"'
-                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
+                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}&ids={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
                                     .format(rowObject.id);
                     return html;
                 }
@@ -553,7 +553,7 @@
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             })
 
-            $.loadModal("${ctx}/memberOut_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberOut_back?ids={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

@@ -60,7 +60,7 @@ public class CgMemberController extends CgBaseController {
                                     Integer userId,
                                     @RequestParam(required = false, defaultValue = "1")Boolean isCurrent,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -124,7 +124,7 @@ public class CgMemberController extends CgBaseController {
     @RequiresPermissions("cgMember:edit")
     @RequestMapping(value = "/cgMember_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgMember_au(@RequestParam(value = "userIdsList[]", required = false) Integer[] userIds,
+    public Map do_cgMember_au(Integer[] userIds,
                               CgMember record,HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -193,7 +193,7 @@ public class CgMemberController extends CgBaseController {
     @RequiresPermissions("cgMember:del")
     @RequestMapping(value = "/cgMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cgMember_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -240,7 +240,7 @@ public class CgMemberController extends CgBaseController {
     @RequiresPermissions("cgMember:plan")
     @RequestMapping(value = "/cgMember_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgTeam_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
+    public Map do_cgTeam_plan(Integer[] ids, Boolean isCurrent) {
 
         if (null != ids && ids.length>0){
 
@@ -253,7 +253,7 @@ public class CgMemberController extends CgBaseController {
 
     @RequiresPermissions("cgMember:plan")
     @RequestMapping("/cgMember_updateUser")
-    public String cgMember_updateUser(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cgMember_updateUser(Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
 
@@ -267,7 +267,7 @@ public class CgMemberController extends CgBaseController {
     @RequiresPermissions("cgMember:plan")
     @RequestMapping(value = "/cgMember_updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgMember_updateUser(@RequestParam(required = false,value = "ids[]") Integer[] ids) {
+    public Map do_cgMember_updateUser(@RequestParam(required = false,value = "ids") Integer[] ids) {
 
         if (null != ids && ids.length>0){
 

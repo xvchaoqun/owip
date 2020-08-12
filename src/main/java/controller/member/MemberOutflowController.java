@@ -120,7 +120,7 @@ public class MemberOutflowController extends MemberBaseController {
                                     Byte orStatus,
                                    @RequestDateRange DateRange  _createTime,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -301,7 +301,7 @@ public class MemberOutflowController extends MemberBaseController {
     @ResponseBody
     public Map do_memberOutflow_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  byte type, // 1:支部审核 2：分党委审核
-                                 @RequestParam(value = "ids[]") Integer[] ids) {
+                                 Integer[] ids) {
 
 
         memberOutflowService.memberOutflow_check(ids, type, loginUser.getId());
@@ -322,7 +322,7 @@ public class MemberOutflowController extends MemberBaseController {
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOutflow_back(@CurrentUser SysUserView loginUser,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 byte status,
                                 String reason) {
 
@@ -418,7 +418,7 @@ public class MemberOutflowController extends MemberBaseController {
     @RequiresPermissions("memberOutflow:del")
     @RequestMapping(value = "/memberOutflow_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

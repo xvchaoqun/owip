@@ -75,22 +75,22 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre")
     public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_CJ + "") Byte status,
-                             @RequestParam(required = false, value = "nation") String[] nation,
-                             @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
-                             @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
-                             @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
-                             @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                             @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus,
-                             @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
-                             @RequestParam(required = false, value = "proPosts") String[] proPosts,
-                             @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
-                             @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
-                             @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
-                             @RequestParam(required = false, value = "staffTypes") String[] staffTypes,
-                            @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
+                             String[] nation,
+                             Integer[] dpTypes,
+                             Integer[] unitIds,
+                             Integer[] unitTypes,
+                             Integer[] adminLevels,
+                             Integer[] maxEdus,
+                             Integer[] postTypes,
+                             String[] proPosts,
+                             String[] proPostLevels,
+                             Byte[] leaderTypes,
+                             Integer[] labels, // 标签
+                             String[] staffTypes,
+                            String[] authorizedTypes,
                              @RequestParam(required = false, defaultValue = "0")Boolean isEngage, //是否聘任制干部，指无行政级别的干部
                              @RequestParam(required = false, defaultValue = "0")Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
-                             @RequestParam(required = false, value = "workTypes") Integer[] workTypes,
+                             Integer[] workTypes,
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -219,23 +219,23 @@ public class CadreController extends BaseController {
                            Integer endNowLevelAge,
                            Integer[] workTypes,
                            Boolean andWorkTypes,
-                           @RequestParam(required = false, value = "nation") String[] nation,
-                           @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
+                           String[] nation,
+                           Integer[] dpTypes, // 党派
                            @RequestDateRange DateRange _birth,
                            @RequestDateRange DateRange _cadreGrowTime,
-                           @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所在单位
-                           @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
-                           @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
-                           @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                           Integer[] unitIds, // 所在单位
+                           Integer[] unitTypes, // 部门属性
+                           Integer[] adminLevels, // 行政级别
+                           Integer[] maxEdus, // 最高学历
                            String major, // 所学专业
-                           @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
-                           @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
-                           @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
+                           Integer[] postTypes, // 职务属性
+                           String[] proPosts, // 专业技术职务
+                           String[] proPostLevels, // 职称级别
                            Boolean isPrincipal, // 是否正职
-                           @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
-                           @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
-                           @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
-                           @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
+                           Byte[] leaderTypes, // 是否班子负责人
+                           Integer[] labels, // 标签
+                           String[] staffTypes, // 标签
+                           String[] authorizedTypes, // 标签
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
                            Boolean hasAbroadEdu, // 是否有国外学习经历
@@ -251,7 +251,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") Boolean isEngage,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
-                           @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                           Integer[] ids, // 导出的记录
                            @RequestParam(required = false) Integer[] cols, // 选择导出的列
                            Integer pageSize, Integer pageNo) throws IOException, TemplateException, DocumentException {
 
@@ -832,7 +832,7 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_leave(int id, String title, Integer dispatchCadreId,
                               String _deposeDate, String _appointDate, String originalPost,
-                              @RequestParam(value = "postIds[]", required = false) Integer[] postIds,
+                              Integer[] postIds,
                               HttpServletRequest request) {
 
         // if(status==null) status=CadreConstants.CADRE_STATUS_LEAVE;
@@ -862,7 +862,7 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_re_assign", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_re_assign(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_cadre_re_assign(Integer[] ids) {
 
         cadreService.re_assign(ids);
 
@@ -874,7 +874,7 @@ public class CadreController extends BaseController {
     @RequestMapping(value = "/cadre_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadre_au(Cadre record,
-                           @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
+                           Integer[] unitIds,
                            HttpServletRequest request) {
 
         record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
@@ -1005,7 +1005,7 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:del")
     @RequestMapping(value = "/cadre_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             cadreService.batchDel(ids);

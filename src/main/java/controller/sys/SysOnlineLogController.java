@@ -94,7 +94,7 @@ public class SysOnlineLogController extends BaseController {
     @RequiresPermissions("sysOnlineLog:kickout")
     @RequestMapping(value = "/sysOnlineLog_kickout", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysOnlineLog_kickout(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]")String[] ids) {
+    public Map do_sysOnlineLog_kickout(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids")String[] ids) {
 
         String currentUsername = loginUser.getUsername();
         Set<String> usernames = new HashSet<>();

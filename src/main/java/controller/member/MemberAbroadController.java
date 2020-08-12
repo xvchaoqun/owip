@@ -74,7 +74,7 @@ public class MemberAbroadController extends MemberBaseController {
                                   Integer partyId,
                                   Integer branchId,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -203,7 +203,7 @@ public class MemberAbroadController extends MemberBaseController {
     @RequiresPermissions("memberAbroad:del")
     @RequestMapping(value = "/memberAbroad_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] userIds, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] userIds, ModelMap modelMap) {
 
 
         if (null != userIds && userIds.length>0){

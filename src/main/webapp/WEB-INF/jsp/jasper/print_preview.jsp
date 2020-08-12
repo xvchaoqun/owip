@@ -12,19 +12,19 @@
 <div class="row passport_apply">
     <div class="preview">
         <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_PRINT}">
-            <c:set var="url" value="${ctx}/report/letter_print?ids[]=${param['ids[]']}"/>
+            <c:set var="url" value="${ctx}/report/letter_print?ids=${param.ids}"/>
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_FILL_PRINT}">
-            <c:set var="url" value="${ctx}/report/letter_fill_print?ids[]=${param['ids[]']}"/>
+            <c:set var="url" value="${ctx}/report/letter_fill_print?ids=${param.ids}"/>
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD}">
-            <c:set var="url" value="${ctx}/report/member_stay?type=${MEMBER_STAY_TYPE_ABROAD}&ids[]=${param['ids[]']}"/>
+            <c:set var="url" value="${ctx}/report/member_stay?type=${MEMBER_STAY_TYPE_ABROAD}&ids=${param.ids}"/>
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}">
-            <c:set var="url" value="${ctx}/report/member_stay?type=${MEMBER_STAY_TYPE_INTERNAL}&ids[]=${param['ids[]']}"/>
+            <c:set var="url" value="${ctx}/report/member_stay?type=${MEMBER_STAY_TYPE_INTERNAL}&ids=${param.ids}"/>
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_CERTIFY}">
-            <c:set var="url" value="${ctx}/report/member_certify?type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids[]=${param['ids[]']}"/>
+            <c:set var="url" value="${ctx}/report/member_certify?type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids=${param.ids}"/>
         </c:if>
         <iframe id="myframe" src="${url}" width="595" height="842" frameborder="0" border="0" marginwidth="0"
                 marginheight="0"></iframe>
@@ -43,19 +43,19 @@
 <script>
     $("#print").click(function () {
         <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_PRINT}">
-        $.print("${ctx}/report/letter_print?print=1&ids[]=${param['ids[]']}");
+        $.print("${ctx}/report/letter_print?print=1&ids=${param.ids}");
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_FILL_PRINT}">
-        $.print("${ctx}/report/letter_fill_print?print=1&ids[]=${param['ids[]']}&type=1");
+        $.print("${ctx}/report/letter_fill_print?print=1&ids=${param.ids}&type=1");
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD}">
-        $.print("${ctx}/report/member_stay?print=1&type=${MEMBER_STAY_TYPE_ABROAD}&ids[]=${param['ids[]']}");
+        $.print("${ctx}/report/member_stay?print=1&type=${MEMBER_STAY_TYPE_ABROAD}&ids=${param.ids}");
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}">
-        $.print("${ctx}/report/member_stay?print=1&type=${MEMBER_STAY_TYPE_INTERNAL}&ids[]=${param['ids[]']}");
+        $.print("${ctx}/report/member_stay?print=1&type=${MEMBER_STAY_TYPE_INTERNAL}&ids=${param.ids}");
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_CERTIFY}">
-        $.print("${ctx}/report/member_certify?print=1&type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids[]=${param['ids[]']}");
+        $.print("${ctx}/report/member_certify?print=1&type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids=${param.ids}");
         </c:if>
     });
 </script>

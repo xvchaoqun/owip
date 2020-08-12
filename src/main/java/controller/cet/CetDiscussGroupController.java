@@ -51,7 +51,7 @@ public class CetDiscussGroupController extends CetBaseController {
                                     int discussId,
                                     String subject,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class CetDiscussGroupController extends CetBaseController {
     @RequestMapping(value = "/cetDiscussGroup_selectObjs", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscussGroup_selectObjs(boolean select, int discussGroupId,
-                                           @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                           Integer[] ids ,
                                            HttpServletRequest request) {
 
         cetDiscussGroupService.selectObjs(ids, select, discussGroupId);
@@ -167,7 +167,7 @@ public class CetDiscussGroupController extends CetBaseController {
     @RequestMapping(value = "/cetDiscussGroup_finish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscussGroup_finish(boolean finish, int discussGroupId,
-                                           @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                           Integer[] ids ,
                                            HttpServletRequest request) {
 
         cetDiscussGroupService.finish(ids, finish, discussGroupId);
@@ -193,7 +193,7 @@ public class CetDiscussGroupController extends CetBaseController {
     @RequiresPermissions("cetDiscussGroup:del")
     @RequestMapping(value = "/cetDiscussGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetDiscussGroup_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetDiscussGroup_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

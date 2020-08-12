@@ -167,7 +167,7 @@ public class UserCetUnitTrainController extends CetBaseController {
     @RequiresPermissions("userCetUnitTrain:edit")
     @RequestMapping(value = "/cetUnitTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnitTrain_batchDel( @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_cetUnitTrain_batchDel( Integer[] ids,
                                          HttpServletRequest request) {
 
         if (null != ids && ids.length > 0) {

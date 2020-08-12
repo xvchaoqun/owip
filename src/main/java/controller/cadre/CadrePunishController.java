@@ -150,7 +150,7 @@ public class CadrePunishController extends BaseController {
     @RequestMapping(value = "/cadrePunish_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
-                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                        Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cadrePunishService.batchDel(ids);

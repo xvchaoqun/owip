@@ -86,7 +86,7 @@ public class MemberCheckController extends MemberBaseController {
                                  // 1：本人申请列表  2: 待审批 3：审批通过 4：返回修改  5：全部申请
                                  @RequestParam(defaultValue = "1") byte cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -270,7 +270,7 @@ public class MemberCheckController extends MemberBaseController {
     //@RequiresPermissions("memberCheck:del")
     @RequestMapping(value = "/memberCheck_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberCheck_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map memberCheck_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             memberCheckService.batchDel(ids);

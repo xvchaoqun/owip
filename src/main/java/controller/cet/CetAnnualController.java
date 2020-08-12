@@ -56,7 +56,7 @@ public class CetAnnualController extends CetBaseController {
                                     Integer year,
                                     Integer traineeTypeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -153,7 +153,7 @@ public class CetAnnualController extends CetBaseController {
     @RequiresPermissions("cetAnnual:del")
     @RequestMapping(value = "/cetAnnual_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetAnnual_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetAnnual_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -167,7 +167,7 @@ public class CetAnnualController extends CetBaseController {
     // 导出学时情况统计表
     @RequiresPermissions("cetAnnual:list")
     @RequestMapping("/cetAnnual_exportObjs")
-    public void cetAnnual_exportObjs(int annualId, @RequestParam(value = "ids[]") Integer[] ids, HttpServletResponse response) throws IOException {
+    public void cetAnnual_exportObjs(int annualId, Integer[] ids, HttpServletResponse response) throws IOException {
     
         cetExportService.cetAnnual_exportObjs(annualId, ids, response);
         return;

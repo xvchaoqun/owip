@@ -63,7 +63,7 @@ public class CetUpperTrainController extends CetBaseController {
                                 byte addType,
                                 Integer unitId,
                                 Integer userId,
-                                @RequestParam(required = false, value = "identities") Integer[] identities,
+                                Integer[] identities,
                                 ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted("cetUpperTrain:list")
@@ -105,7 +105,7 @@ public class CetUpperTrainController extends CetBaseController {
                                    BigDecimal prePeriod,
                                    BigDecimal subPeriod,
                                    String trainName,
-                                   @RequestParam(required = false, value = "identities") Integer[] identities,
+                                   Integer[] identities,
                                    Integer unitId,
                                    Integer userId,
                                    Integer postType,
@@ -113,7 +113,7 @@ public class CetUpperTrainController extends CetBaseController {
                                    Integer trainType,
                                    Byte specialType,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -281,7 +281,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping(value = "/cetUpperTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUpperTrain_au(CetUpperTrain record,
-                                   @RequestParam(value = "identities[]", required = false) Integer[] identities,
+                                   Integer[] identities,
                                    MultipartFile _word, MultipartFile _pdf,
                                    Boolean check,// 审批
                                    Byte auType,//添加方式
@@ -518,7 +518,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping(value = "/cetUpperTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetUpperTrain_batchDel(HttpServletRequest request,
-                                      @RequestParam(value = "ids[]") Integer[] ids,
+                                      Integer[] ids,
                                       Boolean real,
                                       ModelMap modelMap) {
 
@@ -535,7 +535,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping(value = "/cetUpperTrain_batchTransfer", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUpperTrain_batchTransfer(HttpServletRequest request,
-                                              @RequestParam(value = "ids[]") Integer[] ids,
+                                              Integer[] ids,
                                               Byte cetType,
                                               Byte specialType,
                                               Integer projectId) {

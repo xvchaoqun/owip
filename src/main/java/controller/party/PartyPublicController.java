@@ -100,7 +100,7 @@ public class PartyPublicController extends BaseController {
     @RequiresPermissions("partyPublic:pub")
     @RequestMapping(value = "/partyPublic_pub", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partyPublic_pub(@RequestParam(value = "ids[]") Integer[] ids, Boolean publish) {
+    public Map do_partyPublic_pub(Integer[] ids, Boolean publish) {
 
         publish = BooleanUtils.isTrue(publish);
         if (ids != null && ids.length > 0) {
@@ -170,7 +170,7 @@ public class PartyPublicController extends BaseController {
                                  Integer pubUserId,
                                  Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -246,7 +246,7 @@ public class PartyPublicController extends BaseController {
     @RequestMapping(value = "/partyPublic_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyPublic_au(PartyPublic record,
-                                 @RequestParam(required = false, value = "voteIds[]") Integer[] userIds,
+                                 Integer[] userIds,
                                  HttpServletRequest request) {
 
         // 权限控制
@@ -375,7 +375,7 @@ public class PartyPublicController extends BaseController {
     @RequiresPermissions("partyPublic:edit")
     @RequestMapping(value = "/partyPublic_selectUser", method = RequestMethod.POST)
     public void do_partyPublic_selectUser(
-            @RequestParam(value = "userIds[]") Integer[] userIds,
+            Integer[] userIds,
             HttpServletResponse response) throws IOException {
 
         List<MemberApplyView> votes = new ArrayList<>();
@@ -395,7 +395,7 @@ public class PartyPublicController extends BaseController {
     @RequiresPermissions("partyPublic:del")
     @RequestMapping(value = "/partyPublic_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyPublic_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map partyPublic_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

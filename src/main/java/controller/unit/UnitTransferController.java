@@ -69,7 +69,7 @@ public class UnitTransferController extends BaseController {
     @ResponseBody
     public Map do_unitTransfer_addDispatchs(HttpServletRequest request,
                                             int id,
-                                            @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                            Integer[] ids, ModelMap modelMap) {
 
         UnitTransfer record = new UnitTransfer();
         record.setId(id);
@@ -199,7 +199,7 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:del")
     @RequestMapping(value = "/unitTransfer_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

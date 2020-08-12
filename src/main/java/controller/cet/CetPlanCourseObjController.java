@@ -48,7 +48,7 @@ public class CetPlanCourseObjController extends CetBaseController {
     public void cetPlanCourseObj_data(HttpServletResponse response,
                                     Integer planCourseId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -168,7 +168,7 @@ public class CetPlanCourseObjController extends CetBaseController {
     @RequestMapping(value = "/cetPlanCourseObj_finish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetPlanCourseObj_finish(boolean finish, int projectId, int planCourseId,
-                                         @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                         Integer[] ids ,
                                          HttpServletRequest request) {
 
         cetPlanCourseObjService.finish(ids, finish, projectId, planCourseId);

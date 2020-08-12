@@ -148,7 +148,7 @@ public class CadreParttimeController extends BaseController {
                                    @OrderParam(required = false, defaultValue = "desc") String order,
                                    Integer cadreId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
+                                   Integer[] ids, // 导出的记录（干部id)
                                    @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
                                    Integer reserveType, // 年轻干部类别
                                    Integer pageSize, Integer pageNo) throws IOException {
@@ -276,7 +276,7 @@ public class CadreParttimeController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
                         int cadreId, // 干部直接修改权限校验用
-                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                        Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cadreParttimeService.batchDel(ids, cadreId);

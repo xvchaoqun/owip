@@ -99,7 +99,7 @@ public class OrganizerController extends BaseController {
                                Integer unitId,
                                String unit,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -354,7 +354,7 @@ public class OrganizerController extends BaseController {
     @RequiresPermissions("organizer:del")
     @RequestMapping(value = "/organizer_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map organizer_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map organizer_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -48,7 +48,7 @@ public class QyYearController extends QyBaseController {
     public void qyYear_data(HttpServletResponse response,
                                     Integer year,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -201,7 +201,7 @@ public class QyYearController extends QyBaseController {
     @RequiresPermissions("qyReward:edit")
     @RequestMapping(value = "/qyYear_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map qyYear_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map qyYear_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

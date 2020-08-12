@@ -174,7 +174,7 @@
                     return '<button data-url="${ctx}/member/memberCheck_au" class="openView btn btn-primary btn-xs">'
                         + '<i class="fa fa-edit"></i> 修改</button> &nbsp;'
                     +
-                    '<button data-url="${ctx}/member/memberCheck_batchDel?ids[]={0}" data-msg="确定撤销申请？" data-callback="_reload" class="confirm btn btn-danger btn-xs">'
+                    '<button data-url="${ctx}/member/memberCheck_batchDel?ids={0}" data-msg="确定撤销申请？" data-callback="_reload" class="confirm btn btn-danger btn-xs">'
                             .format(rowObject.id)
                         + '<i class="fa fa-times"></i> 撤销</button>'
                 }

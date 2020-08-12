@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label">卸任岗位</label>
             <div class="col-xs-8 label-text">
                 <c:forEach items="${cadrePosts}" var="cadrePost">
-                    <div><input type="checkbox" value="${cadrePost.id}" class="big" name="postIds[]">
+                    <div><input type="checkbox" value="${cadrePost.id}" class="big" name="postIds">
                             ${cadrePost.post}(${cadrePost.isMainPost?"主职":"兼职"})</div>
                 </c:forEach>
                 <span class="red bolder padding-4">注：勾选后，将取消相关岗位的关联（即成为空岗）。</span>

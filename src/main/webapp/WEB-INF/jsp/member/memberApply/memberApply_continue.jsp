@@ -396,14 +396,14 @@
     }
 
     function apply_active(userId, gotoNext) {
-        var url = "${ctx}/apply_active?ids[]=" + userId;
+        var url = "${ctx}/apply_active?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url);
     }
 
     function apply_candidate(userId, gotoNext) {
-        var url = "${ctx}/apply_candidate?ids[]=" + userId;
+        var url = "${ctx}/apply_candidate?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url);
@@ -424,7 +424,7 @@
 
     function apply_plan(userId, gotoNext) {
 
-        var url = "${ctx}/apply_plan?ids[]=" + userId;
+        var url = "${ctx}/apply_plan?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url);
@@ -444,14 +444,14 @@
 
     function apply_draw(userId, gotoNext) {
 
-        var url = "${ctx}/apply_draw?ids[]=" + userId;
+        var url = "${ctx}/apply_draw?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url);
     }
 
     function apply_grow(userId, gotoNext) {
-        var url = "${ctx}/apply_grow?ids[]=" + userId;
+        var url = "${ctx}/apply_grow?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url);
@@ -471,14 +471,14 @@
 
     function apply_grow_od_check(userId, gotoNext) {
 
-        var url = "${ctx}/apply_grow_od_check?ids[]=" + userId;
+        var url = "${ctx}/apply_grow_od_check?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url);
     }
 
     function apply_positive(userId, gotoNext) {
-        var url = "${ctx}/apply_positive?ids[]=" + userId;
+        var url = "${ctx}/apply_positive?ids=" + userId;
         if (gotoNext != undefined)
             url += "&gotoNext=" + gotoNext;
         $.loadModal(url)

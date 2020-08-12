@@ -97,7 +97,7 @@
 
         if(rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET}){
             return ('<button class="popupBtn btn btn-success btn-xs" ' +
-            'data-url="${ctx}/pmd/pmdMember_selectMemberType?ids[]={0}&configMemberType={1}&confirm=1&auth=${cls==5?1:0}"><i class="fa fa-rmb"></i> 确认额度</button>')
+            'data-url="${ctx}/pmd/pmdMember_selectMemberType?ids={0}&configMemberType={1}&confirm=1&auth=${cls==5?1:0}"><i class="fa fa-rmb"></i> 确认额度</button>')
                     .format(rowObject.id, rowObject.type)
         }
 

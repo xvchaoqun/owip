@@ -367,7 +367,7 @@
             return item.id;
         }).join(",");
 
-        $.loadModal("${ctx}/sc/scDispatch_users?committeeIds[]=" + committeeIds, 1200);
+        $.loadModal("${ctx}/sc/scDispatch_users?committeeIds=" + committeeIds, 1200);
     }
 
     /*function _download() {
@@ -382,7 +382,7 @@
      return;
      }
 
-     location.href = "${ctx}/sc/scDispatchUser_export?voteIds[]=" + voteIds;
+     location.href = "${ctx}/sc/scDispatchUser_export?voteIds=" + voteIds;
      }
      }*/
 

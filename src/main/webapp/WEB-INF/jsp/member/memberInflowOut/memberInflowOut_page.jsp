@@ -402,7 +402,7 @@
                 if(minStatus==undefined || minStatus>rowData.outStatus) minStatus = rowData.outStatus;
             })
 
-            $.loadModal("${ctx}/memberInflowOut_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberInflowOut_back?ids={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

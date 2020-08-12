@@ -50,7 +50,7 @@ public class DrMemberController extends DrBaseController {
                                   @RequestParam(required = false,
                                           defaultValue = DrConstants.DR_MEMBER_STATUS_NOW + "") Byte status,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -130,7 +130,7 @@ public class DrMemberController extends DrBaseController {
     @RequiresPermissions("drMember:edit")
     @RequestMapping(value = "/drMember_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drMember_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_drMember_abolish(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 
@@ -144,7 +144,7 @@ public class DrMemberController extends DrBaseController {
     @RequiresPermissions("drMember:edit")
     @RequestMapping(value = "/drMember_reuse", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drMember_reuse(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_drMember_reuse(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 
@@ -159,7 +159,7 @@ public class DrMemberController extends DrBaseController {
     @RequiresPermissions("drMember:del")
     @RequestMapping(value = "/drMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

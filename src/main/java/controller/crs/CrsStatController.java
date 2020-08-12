@@ -32,8 +32,8 @@ public class CrsStatController extends CrsBaseController {
     @RequiresPermissions("crsStat:*")
     @RequestMapping("/crsStat")
     public String crsStat(@RequestParam(required = false, defaultValue = "1") Byte cls,
-                          @RequestParam(required = false, value = "dpTypes") Long[] dpTypes, // 党派
-                          @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                          Long[] dpTypes, // 党派
+                          Integer[] maxEdus, // 最高学历
                           ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -58,8 +58,8 @@ public class CrsStatController extends CrsBaseController {
                                     Boolean isFirst,
                                   Integer startAge,
                                   Integer endAge,
-                                  @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
-                                  @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                                  Integer[] dpTypes, // 党派
+                                  Integer[] maxEdus, // 最高学历
                                   Boolean isMiddle, // 是否现任干部
                                     Integer pageSize, Integer pageNo) throws IOException {
 
@@ -127,8 +127,8 @@ public class CrsStatController extends CrsBaseController {
                                     Boolean isFirst,
                                   Integer startAge,
                                   Integer endAge,
-                                  @RequestParam(required = false, value = "dpTypes") Long[] dpTypes, // 党派
-                                  @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                                  Long[] dpTypes, // 党派
+                                  Integer[] maxEdus, // 最高学历
                                   Boolean isMiddle,
                                     Integer pageSize, Integer pageNo) throws IOException {
 

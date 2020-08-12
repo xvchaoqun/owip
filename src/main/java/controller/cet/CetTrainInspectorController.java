@@ -47,7 +47,7 @@ public class CetTrainInspectorController extends CetBaseController {
     public String cetTrainInspector_list(HttpServletResponse response, int trainId, Integer type, Integer pageSize,
                                       Integer pageNo,  ModelMap modelMap,
                                       @RequestParam(required = false, defaultValue = "0") int export,
-                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer[] ids, // 导出的记录
                                       HttpServletRequest request) throws IOException {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
@@ -247,7 +247,7 @@ public class CetTrainInspectorController extends CetBaseController {
     @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequestMapping(value="/cetTrainInspector_batchDel", method=RequestMethod.POST)
     @ResponseBody
-    public Map cetTrainInspector_batchDel(int trainId,@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request){
+    public Map cetTrainInspector_batchDel(int trainId,Integer[] ids, HttpServletRequest request){
 
         cetTrainInspectorService.batchDel(trainId, ids);
 

@@ -96,7 +96,7 @@ public class ClaApproverTypeController extends ClaBaseController {
     @RequiresPermissions("claApprovalAuth:*")
     @RequestMapping(value = "/claApproverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_selectCadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_selectCadres(Integer id, byte type, Integer[] cadreIds) {
 
         if(type==ClaConstants.CLA_APPROVER_TYPE_UNIT){
             // 本单位正职身份
@@ -228,7 +228,7 @@ public class ClaApproverTypeController extends ClaBaseController {
     @RequiresPermissions("claApprovalAuth:*")
     @RequestMapping(value = "/claApproverType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claApproverType_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claApproverType_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

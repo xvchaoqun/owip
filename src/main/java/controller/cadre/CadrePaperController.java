@@ -184,7 +184,7 @@ public class CadrePaperController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
                         int cadreId, // 干部直接修改权限校验用
-                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                        Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -50,7 +50,7 @@ public class PmdSpecialUserController extends PmdBaseController {
                                     String code,
                                     String realname,
                                     String unit,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     Integer pageSize, Integer pageNo) throws IOException {
 
@@ -193,7 +193,7 @@ public class PmdSpecialUserController extends PmdBaseController {
     @RequiresPermissions("pmdSpecialUser:del")
     @RequestMapping(value = "/pmdSpecialUser_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -83,7 +83,7 @@ public class PartyMemberController extends BaseController {
     public void partyMember_data(HttpServletResponse response,
                                  Integer groupId,
                                  Integer userId,
-                                 @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                 Integer[] typeIds,
                                  Integer postId,
                                  Integer unitId,
                                  Integer classId,
@@ -93,7 +93,7 @@ public class PartyMemberController extends BaseController {
                                  Boolean isPresent,
                                  Boolean isHistory,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
@@ -175,7 +175,7 @@ public class PartyMemberController extends BaseController {
     @RequestMapping(value = "/partyMember_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyMember_au(PartyMember record,
-                                 @RequestParam(required = false, value = "_typeIds") Integer[] _typeIds,
+                                 Integer[] _typeIds,
                                  HttpServletRequest request) {
 
 
@@ -322,7 +322,7 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partyMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_partyMember_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

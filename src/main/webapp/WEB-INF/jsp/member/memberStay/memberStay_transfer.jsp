@@ -7,8 +7,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberStay_transfer" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
-        <c:set var="len" value="${fn:length(fn:split(param['ids[]'],','))}"/>
+        <input type="hidden" name="ids" value="${param.ids}">
+        <c:set var="len" value="${fn:length(fn:split(param.ids,','))}"/>
         <c:if test="${len>1}">
         <div class="form-group">
             <label class="col-xs-4 control-label">申请记录</label>

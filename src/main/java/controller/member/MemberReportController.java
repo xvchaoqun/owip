@@ -72,7 +72,7 @@ public class MemberReportController extends MemberBaseController {
                                   Integer userId,
                                   Byte status,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -209,7 +209,7 @@ public class MemberReportController extends MemberBaseController {
     @RequiresPermissions("memberReport:edit")
     @RequestMapping(value = "/memberReport_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberReport_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map memberReport_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -223,7 +223,7 @@ public class MemberReportController extends MemberBaseController {
     @RequiresPermissions("memberReport:edit")
     @RequestMapping(value = "/memberReport_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberReport_report(@RequestParam(value = "ids[]") Integer[] ids, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {
+    public Map memberReport_report(Integer[] ids, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {
         Byte status=null;
         if (ids != null) {
             if (back == 1) {

@@ -91,7 +91,7 @@ public class MemberReturnController extends MemberBaseController {
                                   @RequestDateRange DateRange  _positiveTime,
                                     Byte politicalStatus,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -334,7 +334,7 @@ public class MemberReturnController extends MemberBaseController {
     @ResponseBody
     public Map do_memberReturn_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  byte type, // 1:分党委审核 3：组织部审核
-                                 @RequestParam(value = "ids[]") Integer[] ids) {
+                                 Integer[] ids) {
 
 
         memberReturnService.memberReturn_check(ids, type, loginUser.getId());
@@ -355,7 +355,7 @@ public class MemberReturnController extends MemberBaseController {
     @RequestMapping(value = "/memberReturn_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn_back(@CurrentUser SysUserView loginUser,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 byte status,
                                 String reason) {
 
@@ -406,7 +406,7 @@ public class MemberReturnController extends MemberBaseController {
     @RequiresPermissions("memberReturn:del")
     @RequestMapping(value = "/memberReturn_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

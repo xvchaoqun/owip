@@ -57,8 +57,8 @@ public class UserApplicantAdjustController extends CrsBaseController {
     @RequiresPermissions("userApplyCrsPost:*")
     @RequestMapping(value = "/crsApplicantAdjust", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsApplicantAdjust(@RequestParam(value = "applyPostIds[]") Integer[] applyPostIds,
-                                     @RequestParam(value = "selectablePostIds[]") Integer[] selectablePostIds,
+    public Map do_crsApplicantAdjust(Integer[] applyPostIds,
+                                     Integer[] selectablePostIds,
                                      HttpServletRequest request) {
 
         crsApplicantService.adjust(applyPostIds, selectablePostIds, ShiroHelper.getCurrentUserId());

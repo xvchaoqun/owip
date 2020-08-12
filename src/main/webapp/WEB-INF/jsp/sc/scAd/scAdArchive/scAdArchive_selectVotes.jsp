@@ -54,7 +54,7 @@
         $.post("${ctx}/sc/scAdArchive_checkVotes", {archiveId:'${param.archiveId}', voteIds: voteIds}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');
-                $.openView("${ctx}/sc/scAdArchive_preview?archiveId=${param.archiveId}&voteIds[]=" + voteIds);
+                $.openView("${ctx}/sc/scAdArchive_preview?archiveId=${param.archiveId}&voteIds=" + voteIds);
             }
         })
     });

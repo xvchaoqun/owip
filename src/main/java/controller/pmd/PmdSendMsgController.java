@@ -131,7 +131,7 @@ public class PmdSendMsgController extends PmdBaseController {
     // 通知某个支部的所有未缴费党员
     @RequiresPermissions("pmdSendMsg:notify")
     @RequestMapping("/pmdSendMsg_urgeMembers")
-    public String pmdSendMsg_urgeMembers(@RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public String pmdSendMsg_urgeMembers(Integer[] ids,
                                          int partyId, Integer branchId, ModelMap modelMap) {
 
         Party party = partyService.findAll().get(partyId);
@@ -173,7 +173,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @RequiresPermissions("pmdSendMsg:notify")
     @RequestMapping(value = "/pmdSendMsg_urgeMembers", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdSendMsg_urgeMembers(@RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public Map do_pmdSendMsg_urgeMembers(Integer[] ids,
                                          int partyId, Integer branchId, HttpServletRequest request) {
 
         if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {

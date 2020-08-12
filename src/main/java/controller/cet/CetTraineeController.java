@@ -82,7 +82,7 @@ public class CetTraineeController extends CetBaseController {
                                 int traineeTypeId,
                                 Integer userId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer[] ids, // 导出的记录
                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {

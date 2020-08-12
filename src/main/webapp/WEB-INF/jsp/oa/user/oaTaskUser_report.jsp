@@ -63,7 +63,7 @@
                                        title="${file.fileName}">${cm:cnsubstr(file.fileName, 40, '...')}</a>
                                     <c:if test="${oaTaskUser.status!=OA_TASK_USER_STATUS_PASS}">
                                         <a href="javascript:;" class="confirm"
-                                           data-url="${ctx}/user/oa/oaTaskUser_batchDelFiles?ids[]=${file.id}"
+                                           data-url="${ctx}/user/oa/oaTaskUser_batchDelFiles?ids=${file.id}"
                                            data-msg="确认删除该附件？"
                                            data-callback="_delFileCallback">删除</a>
                                     </c:if>
@@ -71,7 +71,7 @@
                             </c:forEach>
                             <c:if test="${oaTaskUser.status!=OA_TASK_USER_STATUS_PASS}">
                                 <div class="files">
-                                    <input class="form-control" type="file" name="_files[]"/>
+                                    <input class="form-control" type="file" name="_files"/>
                                 </div>
                                 <button type="button" onclick="addFile()"
                                         class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
@@ -153,7 +153,7 @@
     });
 
     function addFile() {
-        var _file = $('<input class="form-control" type="file" name="_files[]" />');
+        var _file = $('<input class="form-control" type="file" name="_files" />');
         $(".files").append(_file);
         $.fileInput(_file, {
             no_file: '请上传附件...'

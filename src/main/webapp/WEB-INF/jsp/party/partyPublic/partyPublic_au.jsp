@@ -295,7 +295,7 @@
             return;
         }
 
-        $.loadModal("${ctx}/sc/scPublic_process?export=0&voteIds[]=" + voteIds + "&" + $("#modalForm").serialize(), 700);
+        $.loadModal("${ctx}/sc/scPublic_process?export=0&voteIds=" + voteIds + "&" + $("#modalForm").serialize(), 700);
     }
 
     $(".submitBtn").click(function () {

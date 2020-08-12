@@ -36,7 +36,7 @@ public class ReportController extends BaseController {
 
         Map<String, String[]> parameterMap = request.getParameterMap();
 
-        _key = StringUtils.defaultString(_key, "ids[]");
+        _key = StringUtils.defaultString(_key, "ids");
         String[] ids = parameterMap.get(_key);
         if(ids!=null && ids.length>0) {
             parameterMap.put(_key, new String[]{UserResUtils.sign(StringUtils.join(ids, ","))});

@@ -402,7 +402,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
     @RequiresPermissions("modifyTableApply:fakeDel")
     @RequestMapping(value = "/modifyTableApply_fakeDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map modifyTableApply_fakeDel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map modifyTableApply_fakeDel(Integer[] ids,
                       HttpServletRequest request) {
 
         if (null != ids && ids.length > 0) {
@@ -417,7 +417,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
     @RequiresPermissions("modifyTableApply:del")
     @RequestMapping(value = "/modifyTableApply_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map modifyTableApply_batchDel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map modifyTableApply_batchDel(Integer[] ids,
                       HttpServletRequest request) {
 
         if (null != ids && ids.length > 0) {
@@ -441,7 +441,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
     @RequestMapping(value = "/modifyTableApply_approval", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyTableApply_approval(Integer id, // 单个审批
-                                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 批量审批
+                                            Integer[] ids, // 批量审批
                                             Boolean status,
                                             String checkRemark,
                                             String checkReason){

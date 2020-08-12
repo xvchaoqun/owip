@@ -57,7 +57,7 @@ public class MobileCadreSearchController extends BaseController {
 
 	@RequiresPermissions("m:cadre:list")
 	@RequestMapping("/cadre_compare")
-	public String cadre_compare(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds, ModelMap modelMap) {
+	public String cadre_compare(Integer[] cadreIds, ModelMap modelMap) {
 
 		if(cadreIds!=null && cadreIds.length>0) {
 			CadreViewExample example = new CadreViewExample();
@@ -71,7 +71,7 @@ public class MobileCadreSearchController extends BaseController {
 
 	@RequiresPermissions("m:cadre:list")
 	@RequestMapping("/cadre_compare_result")
-	public String cadre_compare_result(@RequestParam(value = "cadreIds[]") Integer[] cadreIds, ModelMap modelMap) {
+	public String cadre_compare_result(Integer[] cadreIds, ModelMap modelMap) {
 
 		if(cadreIds!=null && cadreIds.length>0) {
 			CadreViewExample example = new CadreViewExample();
@@ -207,20 +207,20 @@ public class MobileCadreSearchController extends BaseController {
 	@RequiresPermissions("m:cadre:list")
 	@RequestMapping("/cadre_advanced_search")
 	public String cadre_advanced_search(Integer cadreId,
-										@RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
-										@RequestParam(required = false, value = "nation") String[] nation,
-										@RequestParam(required = false, value = "staffTypes") String[] staffTypes,
-										@RequestParam(required = false, value = "labels") Integer[] labels,
-										@RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
-										@RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
-										@RequestParam(required = false, value = "unitIds") Integer[] unitIds,
-										@RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-										@RequestParam(required = false, value = "maxEdus") Integer[] maxEdus,
-										@RequestParam(required = false, value = "postTypes") Integer[] postTypes,
-										@RequestParam(required = false, value = "proPosts") String[] proPosts,
-										@RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
-										@RequestParam(required = false, value = "workTypes") Integer[] workTypes,
-										@RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
+										Integer[] dpTypes,
+										String[] nation,
+										String[] staffTypes,
+										Integer[] labels,
+										String[] authorizedTypes,
+										Integer[] unitTypes,
+										Integer[] unitIds,
+										Integer[] adminLevels,
+										Integer[] maxEdus,
+										Integer[] postTypes,
+										String[] proPosts,
+										String[] proPostLevels,
+										Integer[] workTypes,
+										Byte[] leaderTypes,
 
 										ModelMap modelMap) {
 
@@ -336,19 +336,19 @@ public class MobileCadreSearchController extends BaseController {
 											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date endBirth,
 											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date startCadreGrowTime,
 											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date endCadreGrowTime,
-											   @RequestParam(required = false, value = "nation") String[] nation,
-											   @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
-											   @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所在单位
-											   @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
-											   @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
-											   @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
-											   @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
-											   @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
-											   @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
-											   @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
-											   @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
-											   @RequestParam(required = false, value = "staffTypes") String[] staffTypes,
-											   @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
+											   String[] nation,
+											   Integer[] dpTypes, // 党派
+											   Integer[] unitIds, // 所在单位
+											   Integer[] unitTypes, // 部门属性
+											   Integer[] adminLevels, // 行政级别
+											   Integer[] maxEdus, // 最高学历
+											   Integer[] postTypes, // 职务属性
+											   String[] proPosts, // 专业技术职务
+											   String[] proPostLevels, // 职称级别
+											   Byte[] leaderTypes, // 是否班子负责人
+											   Integer[] labels, // 标签
+											   String[] staffTypes,
+											   String[] authorizedTypes,
 											   //是否为保留待遇干部信息，指第一主职无关联岗位的干部
 											   @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,
 											   //是否聘任制干部，指无行政级别的干部

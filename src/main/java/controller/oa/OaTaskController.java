@@ -199,7 +199,7 @@ public class OaTaskController extends OaBaseController {
     @RequiresPermissions("oaTask:del")
     @RequestMapping(value = "/oaTask_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -295,7 +295,7 @@ public class OaTaskController extends OaBaseController {
     @RequiresPermissions("oaTask:edit")
     @RequestMapping(value = "/oaTask_selectCadres", method = RequestMethod.POST)
     public void do_oaTask_selectCadres(
-            @RequestParam(value = "userIds[]") Integer[] userIds,
+            Integer[] userIds,
             HttpServletResponse response) throws IOException {
 
         List<CadreView> cadres = new ArrayList<>();
@@ -503,7 +503,7 @@ public class OaTaskController extends OaBaseController {
     @RequestMapping(value = "/oaTask_abolish", method = RequestMethod.POST)
     @ResponseBody
     public Map oaTask_abolish(HttpServletRequest request,
-                              @RequestParam(value = "ids[]") Integer[] ids,
+                              Integer[] ids,
                               @RequestParam(required = false, defaultValue = "1") Boolean isAbolish,
                               ModelMap modelMap) {
 

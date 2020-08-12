@@ -46,8 +46,8 @@ public class DpPrCmController extends DpBaseController {
     @RequiresPermissions("dpPrCm:list")
     @RequestMapping("/dpPrCm")
     public String dpPrCm(Integer userId,
-                         @RequestParam(required = false, value = "type") Integer[] type,
-                         @RequestParam(required = false, value = "nation") String[] nation,
+                         Integer[] type,
+                         String[] nation,
                          @RequestParam(defaultValue = "1") int cls,
                          ModelMap modelMap) {
         modelMap.put("cls", cls);
@@ -82,12 +82,12 @@ public class DpPrCmController extends DpBaseController {
                             @RequestParam(defaultValue = "1") int cls,
                             @RequestDateRange DateRange electTime,
                             @RequestDateRange DateRange endTime,
-                            @RequestParam(required = false, value = "type") Integer[] type,
-                            @RequestParam(required = false, value = "nation") String[] nation,
+                            Integer[] type,
+                            String[] nation,
                             Boolean status,
                             String electSession,
                             @RequestParam(required = false, defaultValue = "0") int export,
-                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                            Integer[] ids, // 导出的记录
                             Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -232,7 +232,7 @@ public class DpPrCmController extends DpBaseController {
     @RequiresPermissions("dpPrCm:del")
     @RequestMapping(value = "/dpPrCm_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpPrCm_recover(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map dpPrCm_recover(Integer[] ids,
                               HttpServletRequest request){
 
         if (null != ids && ids.length>0){
@@ -257,7 +257,7 @@ public class DpPrCmController extends DpBaseController {
     @RequiresPermissions("dpPrCm:del")
     @RequestMapping(value = "/dpPrCm_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpPrCm_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpPrCm_cancel(Integer[] ids,
                                 String endTime,
                                 Integer electSession){
 
@@ -326,7 +326,7 @@ public class DpPrCmController extends DpBaseController {
     @RequiresPermissions("dpPrCm:del")
     @RequestMapping(value = "/dpPrCm_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpPrCm_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpPrCm_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

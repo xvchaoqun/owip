@@ -47,7 +47,7 @@ public class DpNprController extends DpBaseController {
     @RequiresPermissions("dpNpr:list")
     @RequestMapping("/dpNpr")
     public String dpNpr(@RequestParam(required = false, defaultValue = "1")int cls,
-                        @RequestParam(required = false, value = "nation") String[] nation,
+                        String[] nation,
                         Integer userId,
                         ModelMap modelMap) {
         modelMap.put("cls", cls);
@@ -80,7 +80,7 @@ public class DpNprController extends DpBaseController {
                                     @RequestDateRange DateRange transferTime,
                                  @RequestParam(defaultValue = "1") int cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -228,7 +228,7 @@ public class DpNprController extends DpBaseController {
     @RequiresPermissions("dpNpr:del")
     @RequestMapping(value = "/dpNpr_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpNpr_rcover(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map dpNpr_rcover(Integer[] ids,
                             HttpServletRequest request){
 
         if (null != ids && ids.length>0) {
@@ -252,7 +252,7 @@ public class DpNprController extends DpBaseController {
     @RequiresPermissions("dpNpr:del")
     @RequestMapping(value = "/dpNpr_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpNpr_cancel(@RequestParam(value = "ids[]") Integer[] ids, String transferTime){
+    public Map do_dpNpr_cancel(Integer[] ids, String transferTime){
 
         if (null != ids && ids.length>0){
             DpNprExample example = new DpNprExample();
@@ -316,7 +316,7 @@ public class DpNprController extends DpBaseController {
     @RequiresPermissions("dpNpr:del")
     @RequestMapping(value = "/dpNpr_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpNpr_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpNpr_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

@@ -127,7 +127,7 @@ public class UnitController extends BaseController {
                           String name,
                           Integer typeId,
                           @RequestParam(required = false, defaultValue = "0") int export,
-                          @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                          Integer[] ids, // 导出的记录
                           Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -271,7 +271,7 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:abolish")
     @RequestMapping(value = "/unit_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_abolish(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_unit_abolish(Integer[] ids,
                                @RequestParam(required = false, defaultValue = "1") boolean isAbolish) {
 
         unitService.abolish(ids, isAbolish);
@@ -285,7 +285,7 @@ public class UnitController extends BaseController {
     @ResponseBody
     public Map unit_batchDel(HttpServletRequest request,
                              @RequestParam(defaultValue = "1")boolean isDeleted,
-                             @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                             Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
 
@@ -609,7 +609,7 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:abolish")
     @RequestMapping(value = "/unit_not_stat_post", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_not_stat_post(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_not_stat_post(Integer[] ids,
                                @RequestParam(required = false, defaultValue = "1") boolean notStatPost) {
 
         unitService.updateNotStatPost(ids, notStatPost);

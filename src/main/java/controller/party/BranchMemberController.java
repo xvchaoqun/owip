@@ -71,7 +71,7 @@ public class BranchMemberController extends BaseController {
                                   Boolean isHistory,
                                   Boolean isDoubleLeader,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
@@ -219,7 +219,7 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

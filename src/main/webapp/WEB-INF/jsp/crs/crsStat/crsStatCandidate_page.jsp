@@ -188,7 +188,7 @@
         }},
         {label: '应聘报名表', name: '_table', formatter: function (cellvalue, options, rowObject) {
             return '<button class="downloadBtn btn btn-success btn-xs" ' +
-                    'data-url="${ctx}/crsApplicant_export?ids[]={0}"><i class="fa fa-download"></i> 导出</button>'
+                    'data-url="${ctx}/crsApplicant_export?ids={0}"><i class="fa fa-download"></i> 导出</button>'
                             .format(rowObject.applicantId)
         }},
         {label: '应聘PPT', name: 'ppt', formatter: function (cellvalue, options, rowObject) {

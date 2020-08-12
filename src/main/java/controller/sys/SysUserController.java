@@ -189,7 +189,7 @@ public class SysUserController extends BaseController {
                              Integer userId,
                              String username, String realname, String code, String idcard,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                              Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
 
         if (null == pageSize) {
@@ -458,7 +458,7 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:auth")
     @RequestMapping(value = "/sysUser_lock", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_lock(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
+    public Map do_sysUser_lock(Integer[] ids, boolean locked, HttpServletRequest request) {
 
         for (Integer id : ids) {
             SysUserView sysUser = sysUserService.findById(id);
@@ -474,7 +474,7 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:auth")
     @RequestMapping(value = "/sysUser_addOrDelRole", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_addOrDelRole( @RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public Map do_sysUser_addOrDelRole( Integer[] ids,
                                       int roleId, Boolean del) {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
@@ -530,7 +530,7 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/sysUser_updateRoles", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_updateRoles(SysUser record,
-                              @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
+                              Integer[] rIds,
                               HttpServletRequest request) {
 
         List<Integer> roleIds = new ArrayList<>();
@@ -586,10 +586,10 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public Map do_sysUser_updatePermission(@CurrentUser SysUserView loginUser,
                              SysUserInfo sysUserInfo,
-                             @RequestParam(value="addIds[]",required=false) Integer[] addIds,
-                             @RequestParam(value="mAddIds[]",required=false) Integer[] mAddIds,
-                             @RequestParam(value="minusIds[]",required=false) Integer[] minusIds,
-                             @RequestParam(value="mMinusIds[]",required=false) Integer[] mMinusIds,
+                             Integer[] addIds,
+                             Integer[] mAddIds,
+                             Integer[] minusIds,
+                             Integer[] mMinusIds,
                              HttpServletRequest request) {
 
         if(!CmTag.isSuperAccount(loginUser.getUsername())||!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {

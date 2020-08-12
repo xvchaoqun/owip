@@ -59,7 +59,7 @@ public class CisObjInspectorController extends CisBaseController {
     @RequiresPermissions("cisObjInspector:edit")
     @RequestMapping(value = "/cisObjInspectors", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_Inspectors(Integer objId, @RequestParam(value = "inspectorIds[]", required = false) Integer[] inspectorIds) {
+    public Map do_select_Inspectors(Integer objId, Integer[] inspectorIds) {
 
         cisObjInspectorService.updateInspectIds(objId, inspectorIds);
         return success(FormUtils.SUCCESS);
@@ -77,7 +77,7 @@ public class CisObjInspectorController extends CisBaseController {
     public void cisObjInspector_data(HttpServletResponse response,
                                      Integer objId,
                                      @RequestParam(required = false, defaultValue = "0") int export,
-                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                     Integer[] ids, // 导出的记录
                                      Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -162,7 +162,7 @@ public class CisObjInspectorController extends CisBaseController {
     @RequiresPermissions("cisObjInspector:del")
     @RequestMapping(value = "/cisObjInspector_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

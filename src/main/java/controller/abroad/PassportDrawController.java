@@ -155,7 +155,7 @@ public class PassportDrawController extends AbroadBaseController {
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
                                   @RequestParam(required = false, defaultValue = "1") byte exportType,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -252,7 +252,7 @@ public class PassportDrawController extends AbroadBaseController {
                                   Byte dateType,
                                   String toCountry,
                                   String peerStaff,
-                                     @RequestParam(value = "_files[]") MultipartFile[] _files,
+                                     MultipartFile[] _files,
                                   MultipartFile _attachment,
                                   HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -808,7 +808,7 @@ public class PassportDrawController extends AbroadBaseController {
     public Map batchDel(HttpServletRequest request,
                         Boolean isDeleted,
                         Boolean isReal, // 是否真删除
-                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                        Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

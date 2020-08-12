@@ -133,7 +133,7 @@ public class ScDispatchUserController extends ScBaseController {
     @RequiresPermissions("scDispatch:del")
     @RequestMapping(value = "/scDispatchUser_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scDispatchUser_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scDispatchUser_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -156,7 +156,7 @@ public class ScDispatchUserController extends ScBaseController {
 
     @RequiresPermissions("scDispatch:edit")
     @RequestMapping("/scDispatchUser_export")
-    public void scDispatchUser_export(Integer dispatchId, @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
+    public void scDispatchUser_export(Integer dispatchId, Integer[] voteIds,
                                       HttpServletResponse response) {
 
         if (dispatchId==null && (voteIds == null || voteIds.length == 0)) {

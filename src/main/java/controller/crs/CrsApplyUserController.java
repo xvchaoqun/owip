@@ -87,7 +87,7 @@ public class CrsApplyUserController extends CrsBaseController {
     @RequestMapping(value = "/crsApplyUser_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplyUser_au(CrsApplyUser record,
-                                  @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
+                                  Integer[] userIds,
                                   HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -129,7 +129,7 @@ public class CrsApplyUserController extends CrsBaseController {
     @RequestMapping(value = "/crsApplyUser_status", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplyUser_status(HttpServletRequest request, byte status,
-                                      @RequestParam(value = "ids[]") Integer[] ids) {
+                                      Integer[] ids) {
 
         if (null != ids && ids.length>0) {
 
@@ -150,7 +150,7 @@ public class CrsApplyUserController extends CrsBaseController {
     @RequiresPermissions("crsApplyUser:del")
     @RequestMapping(value = "/crsApplyUser_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map crsApplyUser_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map crsApplyUser_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

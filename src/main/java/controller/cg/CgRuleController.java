@@ -51,7 +51,7 @@ public class CgRuleController extends CgBaseController {
                                     String filePath,
                                     Boolean isCurrent,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -172,7 +172,7 @@ public class CgRuleController extends CgBaseController {
     @RequiresPermissions("cgRule:del")
     @RequestMapping(value = "/cgRule_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgRule_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cgRule_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             cgRuleService.batchDel(ids);
@@ -218,7 +218,7 @@ public class CgRuleController extends CgBaseController {
     @RequiresPermissions("cgRule:plan")
     @RequestMapping(value = "/cgRule_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
+    public Map do_psInfo_history(Integer[] ids, Boolean isCurrent) {
 
         //
         CgRuleExample cgRuleExample = new CgRuleExample();

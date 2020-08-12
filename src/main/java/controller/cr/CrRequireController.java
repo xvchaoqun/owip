@@ -36,7 +36,7 @@ public class CrRequireController extends CrBaseController {
     public String crRequire(HttpServletResponse response,
         String name,
     @RequestParam(required = false, defaultValue = "0") int export,
-    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+    Integer[] ids, // 导出的记录
     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         return "cr/crRequire/crRequire_page";
@@ -47,7 +47,7 @@ public class CrRequireController extends CrBaseController {
     public void crRequire_data(HttpServletResponse response,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class CrRequireController extends CrBaseController {
     @RequiresPermissions("crRequire:edit")
     @RequestMapping(value = "/crRequire_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

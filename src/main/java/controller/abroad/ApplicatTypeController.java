@@ -108,7 +108,7 @@ public class ApplicatTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/applicatType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_selectCadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_selectCadres(Integer id, Integer[] cadreIds) {
 
         applicatTypeService.updateCadreIds(id, cadreIds);
         return success(FormUtils.SUCCESS);
@@ -141,7 +141,7 @@ public class ApplicatTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/applicatType/select_posts", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_posts(Integer id, @RequestParam(value = "postIds[]", required = false) Integer[] postIds) {
+    public Map do_select_posts(Integer id, Integer[] postIds) {
 
         applicatTypeService.updatePostIds(id, postIds);
         return success(FormUtils.SUCCESS);
@@ -332,7 +332,7 @@ public class ApplicatTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/applicatType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

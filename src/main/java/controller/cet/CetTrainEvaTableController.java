@@ -37,7 +37,7 @@ public class CetTrainEvaTableController extends CetBaseController {
     public String cetTrainEvaTable(HttpServletResponse response,
         String name,
     @RequestParam(required = false, defaultValue = "0") int export,
-    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+    Integer[] ids, // 导出的记录
     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         return "cet/cetTrainEvaTable/cetTrainEvaTable_page";
@@ -48,7 +48,7 @@ public class CetTrainEvaTableController extends CetBaseController {
     public void cetTrainEvaTable_data(HttpServletResponse response,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class CetTrainEvaTableController extends CetBaseController {
     @RequiresPermissions("cetTrainEvaTable:del")
     @RequestMapping(value = "/cetTrainEvaTable_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

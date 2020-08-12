@@ -103,7 +103,7 @@ public class PartyPunishController extends BaseController {
                                  Integer userPartyId,
                                  String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -266,7 +266,7 @@ public class PartyPunishController extends BaseController {
     @RequiresPermissions("partyPunish:edit")
     @RequestMapping(value = "/party/partyPunish_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyPunish_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map partyPunish_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

@@ -231,7 +231,7 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPostList")
     public String unitPostList(@RequestParam(required = false, defaultValue = "1")Byte cls,
-                               @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+                               Integer[] unitTypes,
                                Byte displayType,
                                Integer startNowPostAge,
                                Integer endNowPostAge,
@@ -268,8 +268,8 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPost")
     public String unitPost(@RequestParam(required = false, defaultValue = "1")Byte cls,
-                           @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
-                           @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                           Integer[] unitTypes,
+                           Integer[] adminLevels,
                            Integer cadreId,
                            Integer unitId, ModelMap modelMap) {
 
@@ -324,12 +324,12 @@ public class UnitPostController extends BaseController {
                               Integer startNowLevelAge,
                               Integer endNowLevelAge,
                               String sortBy,//自定义排序
-                              @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
-                              @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
+                              Integer[] unitTypes, // 部门属性
+                              Integer[] adminLevels, // 行政级别
 
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, defaultValue = "0") int exportType,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -612,7 +612,7 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:edit")
     @RequestMapping("/unitPost_abolish")
-    public String unitPost_abolish(@RequestParam(value = "ids[]") Integer[] ids,  ModelMap modelMap) {
+    public String unitPost_abolish(Integer[] ids,  ModelMap modelMap) {
 
         int id = ids[0];
         UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
@@ -624,7 +624,7 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_unitPost_abolish(HttpServletRequest request, Integer[] ids,
                                    @DateTimeFormat(pattern= DateUtils.YYYY_MM_DD)Date abolishDate) {
 
         if (null != ids && ids.length>0) {
@@ -636,7 +636,7 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_unabolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_unabolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_unitPost_unabolish(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0) {
             unitPostService.unabolish(ids);
@@ -659,7 +659,7 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:del")
     @RequestMapping(value = "/unitPost_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map unitPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map unitPost_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
 

@@ -49,7 +49,7 @@ public class ApplySnRangeController extends MemberBaseController {
                                      Long startSn,
                                      Long endSn,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class ApplySnRangeController extends MemberBaseController {
     @RequiresPermissions("applySnRange:del")
     @RequestMapping(value = "/applySnRange_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map applySnRange_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map applySnRange_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

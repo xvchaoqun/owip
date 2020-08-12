@@ -38,7 +38,7 @@ public class MemberStayReportController extends MemberBaseController {
     @RequestMapping(value = "/member_stay")
     public String member_stay(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                               byte type,
-                              @RequestParam(value = "ids[]") Integer[] ids,
+                              Integer[] ids,
                               @RequestParam(required = false, defaultValue = "0") Boolean print,
                               @RequestParam(defaultValue = "pdf") String format,
                               Model model) throws IOException {

@@ -138,7 +138,7 @@ public class ClaAdditionalPostController extends ClaBaseController {
     @RequiresPermissions("claAdditionalPost:del")
     @RequestMapping(value = "/claAdditionalPost_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claAdditionalPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claAdditionalPost_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             claAdditionalPostService.batchDel(ids);

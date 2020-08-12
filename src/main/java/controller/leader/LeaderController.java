@@ -1,11 +1,9 @@
 package controller.leader;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.leader.*;
 import domain.sys.SysUserView;
-import mixin.CadreMixin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -83,7 +81,7 @@ public class LeaderController extends BaseController {
                             Integer typeId,
                             String job,
                             @RequestParam(required = false, defaultValue = "0") int export,
-                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                            Integer[] ids, // 导出的记录
                             Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -147,7 +145,7 @@ public class LeaderController extends BaseController {
     @RequestMapping(value = "/leader_fromLeader", method = RequestMethod.POST)
     @ResponseBody
     public Map do_leader_fromLeader(HttpServletRequest request,
-                                    @RequestParam(value = "cadreIds[]") Integer[] cadreIds, ModelMap modelMap) {
+                                    Integer[] cadreIds, ModelMap modelMap) {
 
         if (null != cadreIds && cadreIds.length > 0) {
 
@@ -171,7 +169,7 @@ public class LeaderController extends BaseController {
     @RequestMapping(value = "/leader_fromCm", method = RequestMethod.POST)
     @ResponseBody
     public Map do_leader_fromCm(HttpServletRequest request,
-                                @RequestParam(value = "memberIds[]") Integer[] memberIds, ModelMap modelMap) {
+                                Integer[] memberIds, ModelMap modelMap) {
 
         if (null != memberIds && memberIds.length > 0) {
 
@@ -233,7 +231,7 @@ public class LeaderController extends BaseController {
     @RequiresPermissions("leader:del")
     @RequestMapping(value = "/leader_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             leaderService.batchDel(ids);

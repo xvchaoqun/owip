@@ -60,7 +60,7 @@
     <label class="col-xs-3 control-label">其他说明材料</label>
     <div class="col-xs-2 file right-put">
       <div class="files right-put">
-        <input class="form-control" type="file" name="_files[]" />
+        <input class="form-control" type="file" name="_files" />
       </div>
       <button type="button" onclick="addFile()" class="btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
     </div>
@@ -118,7 +118,7 @@
   $.fileInput($('input[type=file]'))
 
   function addFile(){
-    var _file = $('<input class="form-control" type="file" name="_files[]" />');
+    var _file = $('<input class="form-control" type="file" name="_files" />');
     $(".files").append(_file);
     $.fileInput(_file)
     return false;

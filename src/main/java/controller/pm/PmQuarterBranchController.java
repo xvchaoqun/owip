@@ -62,7 +62,7 @@ public class PmQuarterBranchController extends PmBaseController {
                                     Integer partyId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -159,7 +159,7 @@ public class PmQuarterBranchController extends PmBaseController {
 //    @RequiresPermissions("pmQuarterBranch:del")
     @RequestMapping(value = "/pmQuarterBranch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmQuarterBranch_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map pmQuarterBranch_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

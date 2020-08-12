@@ -72,7 +72,7 @@ public class CrsExpertController extends CrsBaseController {
     @RequiresPermissions("crsExpert:edit")
     @RequestMapping(value = "/crsExpert/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_posts(@RequestParam(value = "userIds[]", required = false) Integer[] userIds) {
+    public Map do_select_posts(Integer[] userIds) {
 
         crsExpertService.batchAdd(userIds);
         return success(FormUtils.SUCCESS);
@@ -100,7 +100,7 @@ public class CrsExpertController extends CrsBaseController {
                                @RequestDateRange DateRange meetingTime,
                                Byte orderType,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -175,7 +175,7 @@ public class CrsExpertController extends CrsBaseController {
     @RequiresPermissions("crsExpert:edit")
     @RequestMapping(value = "/crsExpert_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsExpert_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_crsExpert_abolish(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 
@@ -189,7 +189,7 @@ public class CrsExpertController extends CrsBaseController {
     @RequiresPermissions("crsExpert:edit")
     @RequestMapping(value = "/crsExpert_reuse", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsExpert_reuse(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_crsExpert_reuse(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length > 0) {
 
@@ -204,7 +204,7 @@ public class CrsExpertController extends CrsBaseController {
     @RequiresPermissions("crsExpert:del")
     @RequestMapping(value = "/crsExpert_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

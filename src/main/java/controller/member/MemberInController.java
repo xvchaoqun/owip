@@ -90,7 +90,7 @@ public class MemberInController extends MemberBaseController {
                               @RequestDateRange DateRange fromHandleTime,
                               @RequestDateRange DateRange handleTime,
                               @RequestParam(required = false, defaultValue = "0") int export,
-                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer[] ids, // 导出的记录
                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -334,7 +334,7 @@ public class MemberInController extends MemberBaseController {
     @ResponseBody
     public Map do_memberIn_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                  //byte type, // 1:分党委审核 2：组织部审核
-                                 @RequestParam(value = "ids[]") Integer[] ids) {
+                                 Integer[] ids) {
 
         memberInService.memberIn_check(ids, null, (byte) 2, loginUser.getId());
         logger.info(addLog(LogConstants.LOG_MEMBER, "组织关系转入申请-组织部审核通过：%s", StringUtils.join(ids, ",")));
@@ -344,7 +344,7 @@ public class MemberInController extends MemberBaseController {
 
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_party_check")
-    public String memberIn_party_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String memberIn_party_check(Integer[] ids, ModelMap modelMap) {
 
         int id = ids[0];
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
@@ -357,7 +357,7 @@ public class MemberInController extends MemberBaseController {
     @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_party_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
-                                       @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
+                                       Integer[] ids, Boolean hasReceipt) {
 
         memberInService.memberIn_check(ids, hasReceipt, (byte) 1, loginUser.getId());
         logger.info(addLog(LogConstants.LOG_MEMBER, "组织关系转入申请-分党委审核通过：%s", StringUtils.join(ids, ",")));
@@ -376,7 +376,7 @@ public class MemberInController extends MemberBaseController {
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_back(@CurrentUser SysUserView loginUser,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 byte status,
                                 String reason) {
 
@@ -427,7 +427,7 @@ public class MemberInController extends MemberBaseController {
     @RequiresPermissions("memberIn:del")
     @RequestMapping(value = "/memberIn_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

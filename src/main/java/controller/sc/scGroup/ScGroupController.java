@@ -64,7 +64,7 @@ public class ScGroupController extends ScBaseController {
                                     Integer year,
                                  @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -141,7 +141,7 @@ public class ScGroupController extends ScBaseController {
     public Map do_scGroup_au(ScGroup record,
                              MultipartFile _wordFilePath,
                              MultipartFile _logFile,
-                             @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
+                             Integer[] userIds,
                              HttpServletRequest request) throws IOException, InterruptedException {
 
         if(record.getFilePath()!=null) {
@@ -188,7 +188,7 @@ public class ScGroupController extends ScBaseController {
     @RequiresPermissions("scGroup:del")
     @RequestMapping(value = "/scGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

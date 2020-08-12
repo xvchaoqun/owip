@@ -57,7 +57,7 @@ public class VerifyGrowTimeController extends VerifyBaseController {
     public void verifyGrowTime_data(HttpServletResponse response,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -169,7 +169,7 @@ public class VerifyGrowTimeController extends VerifyBaseController {
     @RequiresPermissions("verifyGrowTime:del")
     @RequestMapping(value = "/verifyGrowTime_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map verifyGrowTime_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map verifyGrowTime_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

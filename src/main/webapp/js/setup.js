@@ -259,6 +259,7 @@ $(document).on("dblclick", ".mask", (function(){
 
 var _no_login = false;
 $.ajaxSetup({
+    traditional:true,
     cache: false,
     dataFilter: function (data, type) {
         var ret;
@@ -707,7 +708,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     if (needId == undefined) needId = true;
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
-    var idsName = $(this).data("ids-name") || 'ids[]';
+    var idsName = $(this).data("ids-name") || 'ids';
     var ids = grid.getGridParam("selarrrow");
     if (needId && ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
@@ -765,7 +766,7 @@ $(document).on("click", ".jqLinkBtn", function (e) {
     if (needId == undefined) needId = true;
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
-    var idsName = $(this).data("ids-name") || 'ids[]';
+    var idsName = $(this).data("ids-name") || 'ids';
     var ids = grid.getGridParam("selarrrow");
     if (needId && ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
@@ -833,7 +834,7 @@ $(document).on("click", ".jqExportBtn", function (e) {
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids = grid.getGridParam("selarrrow");
-    var idsName = $this.data("ids-name") || 'ids[]';
+    var idsName = $this.data("ids-name") || 'ids';
     var _export = $this.data("export") || '1';
     var type = $this.data("type") || 'export';
     var method = $this.data("method");

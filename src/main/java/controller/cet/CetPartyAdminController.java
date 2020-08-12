@@ -62,7 +62,7 @@ public class CetPartyAdminController extends CetBaseController{
     @RequiresPermissions("cetParty:edit")
     @RequestMapping(value = "/cetPartyAdmin_sync", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetParty_sync(@RequestParam(required = false, value = "ids[]" ) Integer[] ids) {
+    public Map cetParty_sync(@RequestParam(required = false, value = "ids" ) Integer[] ids) {
 
         cetPartyService.batchSync(ids);
         logger.info(addLog(LogConstants.LOG_CET, "同步分党委管理员为二级党委培训管理员，%s", StringUtils.join(ids, ",")));

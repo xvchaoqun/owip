@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_applyMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="trainCourseIds[]" value="${param["trainCourseIds[]"]}">
+        <input type="hidden" name="trainCourseIds" value="${param["trainCourseIds"]}">
         <input type="hidden" name="projectId" value="${param.projectId}">
         <div class="form-group">
             <label class="col-xs-3 control-label">实践教学名称</label>

@@ -61,7 +61,7 @@ public class PsTaskController extends PsBaseController {
                                     Integer year,
                                     String psIds,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -184,7 +184,7 @@ public class PsTaskController extends PsBaseController {
     @RequiresPermissions("psTask:del")
     @RequestMapping(value = "/psTask_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map psTask_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map psTask_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

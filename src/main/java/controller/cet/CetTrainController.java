@@ -46,7 +46,7 @@ public class CetTrainController extends CetBaseController {
                                     Integer planId, // 对外培训为空
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -232,7 +232,7 @@ public class CetTrainController extends CetBaseController {
     @ResponseBody
     public Map cetTrain_batchDel(HttpServletRequest request,
                                  Integer planId,
-                                 @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                 Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

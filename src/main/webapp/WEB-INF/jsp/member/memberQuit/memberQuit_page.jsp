@@ -370,7 +370,7 @@
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             })
 
-            $.loadModal("${ctx}/memberQuit_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberQuit_back?ids={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

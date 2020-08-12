@@ -42,7 +42,7 @@ public class MemberOutReportController extends MemberBaseController {
     @RequestMapping(value = "/letter_fill_print")
     public String letter_fill_print(@CurrentUser SysUserView loginUser,
                                     HttpServletRequest request, HttpServletResponse response,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 @RequestParam(required = false, defaultValue = "0") Boolean print,
                                 Integer type,
                                 @RequestParam(defaultValue = "pdf") String format,
@@ -109,7 +109,7 @@ public class MemberOutReportController extends MemberBaseController {
     @RequestMapping(value = "/letter_print")
     public String letter_print(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
-                               @RequestParam(value = "ids[]") Integer[] ids,
+                               Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                Model model) throws IOException {

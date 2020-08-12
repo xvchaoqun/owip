@@ -48,7 +48,7 @@ public class DpOmController extends DpBaseController {
     @RequestMapping("/dpOm")
     public String dpOm(ModelMap modelMap,
                        Integer userId,
-                       @RequestParam(required = false, value = "nation") String[] nation,
+                       String[] nation,
                        @RequestParam(required = false, defaultValue = "1") int cls) {
 
         modelMap.put("cls", cls);
@@ -80,7 +80,7 @@ public class DpOmController extends DpBaseController {
                                     @RequestDateRange DateRange transferTime,
                                  @RequestParam(defaultValue = "1") int cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -221,7 +221,7 @@ public class DpOmController extends DpBaseController {
     @RequiresPermissions("dpOm:del")
     @RequestMapping(value = "/dpOm_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpOm_recover(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map dpOm_recover(Integer[] ids,
                             HttpServletRequest request){
         if (null != ids && ids.length>0){
             Boolean isDeleted = false;
@@ -244,7 +244,7 @@ public class DpOmController extends DpBaseController {
     @RequiresPermissions("dpOm:del")
     @RequestMapping(value = "/dpOm_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpOm_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpOm_cancel(Integer[] ids,
                               String transferTime){
 
         if (null != ids && ids.length>0){
@@ -281,7 +281,7 @@ public class DpOmController extends DpBaseController {
     @RequiresPermissions("dpOm:del")
     @RequestMapping(value = "/dpOm_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpOm_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpOm_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

@@ -91,7 +91,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequestMapping("/dpPartyMember_data")
     public void dpPartyMember_data(HttpServletResponse response,
                                    @RequestParam(required = false, defaultValue = "1") Byte cls,
-                                   @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                   Integer[] typeIds,
                                    Integer userId,
                                    Integer groupId,
                                    Integer postId,
@@ -101,7 +101,7 @@ public class DpPartyMemberController extends DpBaseController {
                                    Boolean isDeleted,
                                    Boolean isPresent,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -182,7 +182,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequestMapping(value = "/dpPartyMember_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpPartyMember_au(DpPartyMember record,
-                                   @RequestParam(required = false, value = "_typeIds") Integer[] _typeIds,
+                                   Integer[] _typeIds,
                                    HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -262,7 +262,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequiresPermissions("dpPartyMember:del")
     @RequestMapping(value = "/dpPartyMember_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpPartyMember_recover(@RequestParam(value = "ids[]") Integer[] ids){
+    public Map do_dpPartyMember_recover(Integer[] ids){
 
         if (null != ids && ids.length>0){
             DpPartyMemberExample example = new DpPartyMemberExample();
@@ -288,7 +288,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequiresPermissions("dpPartyMember:del")
     @RequestMapping(value = "/dpPartyMember_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpPartyMember_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpPartyMember_cancel(Integer[] ids,
                               String deleteTime){
 
         if (null != ids && ids.length>0){
@@ -318,7 +318,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequestMapping(value = "/dpPartyMember_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpPartyMember_del(HttpServletRequest request,
-                                    @RequestParam(value = "ids[]") Integer[] ids) {
+                                    Integer[] ids) {
 
         if (ids != null) {
 
@@ -331,7 +331,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequiresPermissions("dpPartyMember:del")
     @RequestMapping(value = "/dpPartyMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpPartyMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpPartyMember_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             for (Integer id : ids){
@@ -422,7 +422,7 @@ public class DpPartyMemberController extends DpBaseController {
                                      Integer pageNo,
                                      Integer userId,
                                      Integer partyId,
-                                     @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                     Integer[] typeIds,
                                      Boolean isPresent,
                                      Boolean isDeleted) throws IOException {
 

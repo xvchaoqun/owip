@@ -176,7 +176,7 @@
 
                 if(cellvalue) return '已确认'
                 return ('<button class="confirm btn btn-primary btn-xs" ' +
-                        'data-url="${ctx}/sc/scPublic_confirm?ids[]={0}" data-callback="_reload" data-msg="确认公示结束?">'+
+                        'data-url="${ctx}/sc/scPublic_confirm?ids={0}" data-callback="_reload" data-msg="确认公示结束?">'+
                         '<i class="fa fa-check-square-o"></i> 确认</button>').format(rowObject.id);
             }}*/
         ],

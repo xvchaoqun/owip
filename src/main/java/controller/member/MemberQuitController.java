@@ -92,7 +92,7 @@ public class MemberQuitController extends MemberBaseController {
                                     Integer partyId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -253,7 +253,7 @@ public class MemberQuitController extends MemberBaseController {
     @ResponseBody
     public Map do_memberQuit_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                                   byte type, // 1:支部审核 2:分党委审核 3：组织部审核
-                                  @RequestParam(value = "ids[]") Integer[] ids) {
+                                  Integer[] ids) {
 
 
         memberQuitService.memberQuit_check(ids, type, loginUser.getId());
@@ -274,7 +274,7 @@ public class MemberQuitController extends MemberBaseController {
     @RequestMapping(value = "/memberQuit_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberQuit_back(@CurrentUser SysUserView loginUser,
-                                   @RequestParam(value = "ids[]") Integer[] ids,
+                                   Integer[] ids,
                                    byte status,
                                    String reason) {
 
@@ -289,7 +289,7 @@ public class MemberQuitController extends MemberBaseController {
     @RequiresRoles(RoleConstants.ROLE_ODADMIN)
     @RequestMapping(value = "/memberQuit_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberQuit_abolish(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_memberQuit_abolish(Integer[] ids) {
 
         memberQuitService.memberQuit_abolish(ids);
 

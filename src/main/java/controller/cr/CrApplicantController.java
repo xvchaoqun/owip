@@ -44,7 +44,7 @@ public class CrApplicantController extends CrBaseController {
     @RequiresPermissions("crApplicant:list")
     @RequestMapping("/crApplicant")
     public String crApplicant(Integer infoId, Integer userId,
-                              @RequestParam(required = false, value = "postId") Integer[] postId,
+                              Integer[] postId,
                               ModelMap modelMap) {
 
         modelMap.put("crInfo", crInfoMapper.selectByPrimaryKey(infoId));
@@ -72,9 +72,9 @@ public class CrApplicantController extends CrBaseController {
                                  Integer firstPostId,
                                  Integer secondPostId,
                                  Boolean hasReport,
-                                 @RequestParam(required = false, value = "postId") Integer[] postId,
+                                 Integer[] postId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException, TemplateException {
 
         if (null == pageSize) {
@@ -210,7 +210,7 @@ public class CrApplicantController extends CrBaseController {
     @RequiresPermissions("crApplicant:del")
     @RequestMapping(value = "/crApplicant_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map crApplicant_batchDel(HttpServletRequest request, int infoId, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map crApplicant_batchDel(HttpServletRequest request, int infoId, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -225,7 +225,7 @@ public class CrApplicantController extends CrBaseController {
     @RequestMapping(value = "/crApplicant_report", method = RequestMethod.POST)
     @ResponseBody
     public Map crApplicant_report(HttpServletRequest request, int infoId,
-                                  @RequestParam(value = "ids[]") Integer[] ids,
+                                  Integer[] ids,
                                   Boolean hasReport,
                                   ModelMap modelMap) {
 
@@ -252,7 +252,7 @@ public class CrApplicantController extends CrBaseController {
     // 导出应聘人报名表
     @RequiresPermissions("crApplicant:export")
     @RequestMapping("/crApplicant_export")
-    public void crApplicant_export(int infoId, @RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public void crApplicant_export(int infoId, Integer[] ids,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         CrInfo crInfo = crInfoMapper.selectByPrimaryKey(infoId);

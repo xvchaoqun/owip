@@ -57,7 +57,7 @@ public class DpWorkController extends DpBaseController {
                                     Boolean isCadre,
                                 Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -216,7 +216,7 @@ public class DpWorkController extends DpBaseController {
     @ResponseBody
     public Map dpWork_batchDel(HttpServletRequest request,
                                Integer userId,
-                               @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                               Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

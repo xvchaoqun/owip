@@ -7,8 +7,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dp/dpNpm_transfer" autocomplete="off" disableautocomplete id="modalForm" method="post">
-		<input type="hidden" name="ids[]" value="${param['ids[]']}">
-		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+		<input type="hidden" name="ids" value="${param.ids}">
+		<c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
 		<c:if test="${count>=1}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">无党派人士转出</label>

@@ -180,7 +180,7 @@ public class AttachFileController extends BaseController {
     @RequiresPermissions("attachFile:del")
     @RequestMapping(value = "/attachFile_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             attachFileService.batchDel(ids);
@@ -194,7 +194,7 @@ public class AttachFileController extends BaseController {
     @RequiresPermissions("attachFile:del")
     @RequestMapping(value = "/attachFile_doBatchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map doBatchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             attachFileService.doBatchDel(ids);
@@ -208,7 +208,7 @@ public class AttachFileController extends BaseController {
     @RequiresPermissions("attachFile:del")
     @RequestMapping(value = "/attachFile_batchUnDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchUnDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             attachFileService.batchUnDel(ids);

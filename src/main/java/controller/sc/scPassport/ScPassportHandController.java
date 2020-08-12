@@ -64,7 +64,7 @@ public class ScPassportHandController extends ScBaseController {
                                     @RequestParam(required = false, defaultValue = "1") Byte cls,
                                     Integer cadreId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -215,7 +215,7 @@ public class ScPassportHandController extends ScBaseController {
     @RequiresPermissions("scPassportHand:del")
     @RequestMapping(value = "/scPassportHand_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scPassportHand_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scPassportHand_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -271,7 +271,7 @@ public class ScPassportHandController extends ScBaseController {
     @RequiresPermissions("scPassportHand:edit")
     @RequestMapping(value = "/scPassportHand_dispatch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scPassportHand_dispatch(@RequestParam(value = "dispatchCadreIds[]", required = false) Integer[] dispatchCadreIds) {
+    public Map do_scPassportHand_dispatch(Integer[] dispatchCadreIds) {
 
         scPassportHandService.addDispatchCadres(dispatchCadreIds);
         return success(FormUtils.SUCCESS);
@@ -287,7 +287,7 @@ public class ScPassportHandController extends ScBaseController {
     @RequiresPermissions("scPassportHand:edit")
     @RequestMapping(value = "/scPassportHand_selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scPassportHand_selectCadres(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_scPassportHand_selectCadres(Integer[] cadreIds) {
 
         scPassportHandService.addCadres(cadreIds);
         return success(FormUtils.SUCCESS);

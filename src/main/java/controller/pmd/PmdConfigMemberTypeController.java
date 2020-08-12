@@ -134,7 +134,7 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
     @RequiresPermissions("pmdConfigMemberType:del")
     @RequestMapping(value = "/pmdConfigMemberType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

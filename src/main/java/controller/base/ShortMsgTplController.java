@@ -145,7 +145,7 @@ public class ShortMsgTplController extends BaseController {
     public void shortMsgTpl_data(HttpServletResponse response,
                                  String content,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -250,7 +250,7 @@ public class ShortMsgTplController extends BaseController {
                                    String wxTitle,
                                    String content,
                                    String type,
-                                   @RequestParam(value="userIds[]", required = false) List<Integer> userIds,
+                                   List<Integer> userIds,
                                    HttpServletRequest request) {
 
         ShortMsgTpl tpl = shortMsgTplMapper.selectByPrimaryKey(tplId);
@@ -328,7 +328,7 @@ public class ShortMsgTplController extends BaseController {
     @RequiresPermissions("shortMsgTpl:del")
     @RequestMapping(value = "/shortMsgTpl_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -19,7 +19,7 @@
                                data-url="${ctx}/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
                             <a class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                data-querystr="stage=${PCS_STAGE_THIRD}"
-                               data-ids-name="partyIds[]"
+                               data-ids-name="partyIds"
                                data-url="${ctx}/pcsPrOw_check"><i class="fa fa-check-square"></i> 批量审批</a>
 
                         <span style="margin-left: 20px;">
@@ -104,7 +104,7 @@
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_PASS}') return '<span class="text-success">审核通过</span>';
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_DENY}') return '<span class="text-danger">审核不通过</span>';
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsPrOw_check?stage=${PCS_STAGE_THIRD}&partyIds[]={0}"><i class="fa fa-check-square-o"></i> 审核</button>')
+                'data-url="${ctx}/pcsPrOw_check?stage=${PCS_STAGE_THIRD}&partyIds={0}"><i class="fa fa-check-square-o"></i> 审核</button>')
                         .format(rowObject.id);
             }},
             { label: '短信提醒',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {

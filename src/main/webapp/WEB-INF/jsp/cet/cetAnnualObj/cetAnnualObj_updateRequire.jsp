@@ -7,11 +7,11 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_updateRequire" autocomplete="off" disableautocomplete id="modalForm" method="post">
-		 	<input type="hidden" name="ids[]" value="${param['ids[]']}">
+		 	<input type="hidden" name="ids" value="${param.ids}">
 			<div class="form-group">
 			<label class="col-xs-5 control-label">已选培训对象</label>
 				<div class="col-xs-3">
-                    ${fn:length(fn:split(param['ids[]'],","))} 人
+                    ${fn:length(fn:split(param.ids,","))} 人
 				</div>
 			</div>
 			<div class="form-group">

@@ -53,6 +53,6 @@
     })
     if(cadreIds.length==0) return ;
     //console.log(cadreIds)
-    $.openView("${ctx}/m/cadre_compare_result?cadreIds[]="+cadreIds);
+    $.openView("${ctx}/m/cadre_compare_result?cadreIds="+cadreIds);
   });
 </script>

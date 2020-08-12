@@ -60,7 +60,7 @@ public class ScMatterAccessController extends ScBaseController {
                                     Integer matterItemId,
                                     Boolean isCopy,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -112,7 +112,7 @@ public class ScMatterAccessController extends ScBaseController {
     @RequestMapping(value = "/scMatterAccess_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scMatterAccess_au(ScMatterAccess record,
-                                    @RequestParam(value = "matterItemIds[]", required = false) Integer[] matterItemIds,
+                                    Integer[] matterItemIds,
                                     HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -303,7 +303,7 @@ public class ScMatterAccessController extends ScBaseController {
     @RequiresPermissions("scMatterAccess:del")
     @RequestMapping(value = "/scMatterAccess_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

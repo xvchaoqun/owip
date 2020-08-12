@@ -309,7 +309,7 @@
                     if(cellvalue==undefined) return '--'
                     if(cellvalue=='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>'){
                         return '<button class="popupBtn btn btn-primary btn-xs"' +
-                            'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
+                            'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
                                 .format(rowObject.taskId, rowObject.userId)
                     }
 

@@ -538,7 +538,7 @@
             return;
         }
 
-        $.post("${ctx}/pcsPrParty_selectUser", {"userIds[]": userId, stage:${param.stage}}, function (ret) {
+        $.post("${ctx}/pcsPrParty_selectUser", {"userIds": userId, stage:${param.stage}}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
                 $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");

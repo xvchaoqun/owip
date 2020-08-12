@@ -233,7 +233,7 @@ public class PcsOwController extends PcsBaseController {
     @RequiresPermissions("pcsOw:admin")
     @RequestMapping(value = "/pcsOw_choose", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsOw_choose(@RequestParam(value = "ids[]") Integer[] ids, // userIds
+    public Map do_pcsOw_choose(Integer[] ids, // userIds
                                byte stage,
                                byte type,
                                Boolean isChosen) {
@@ -530,7 +530,7 @@ public class PcsOwController extends PcsBaseController {
                                         byte stage,
                                         Integer branchId,
                                         @RequestParam(required = false, defaultValue = "0") int export,
-                                        @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                        Integer[] ids, // 导出的记录
                                         Integer pageSize, Integer pageNo) throws IOException {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();

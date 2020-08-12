@@ -43,7 +43,7 @@ public class CmMemberController extends CmBaseController {
     public String cmMember(
             @RequestParam(required = false, defaultValue = "1") byte type,
             @RequestParam(required = false, defaultValue = "0") boolean isQuit,
-            @RequestParam(required = false, value = "nation") String[] nation,
+            String[] nation,
             Integer userId,
             ModelMap modelMap) {
 
@@ -71,9 +71,9 @@ public class CmMemberController extends CmBaseController {
                                   Integer userId,
                                   Integer post,
                                   Byte gender,
-                                  @RequestParam(required = false, value = "nation") String[] nation,
+                                  String[] nation,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -205,7 +205,7 @@ public class CmMemberController extends CmBaseController {
     @RequestMapping(value = "/cmMember_draw", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cmMember_draw(HttpServletRequest request,
-                                @RequestParam(value = "memberIds[]") Integer[] memberIds, ModelMap modelMap) {
+                                Integer[] memberIds, ModelMap modelMap) {
 
         if (null != memberIds && memberIds.length > 0) {
             cmMemberService.draw(memberIds);
@@ -259,7 +259,7 @@ public class CmMemberController extends CmBaseController {
     @RequiresPermissions("cmMember:del")
     @RequestMapping(value = "/cmMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cmMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cmMember_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cmMemberService.batchDel(ids);

@@ -61,7 +61,7 @@ public class ScAdArchiveController extends ScBaseController {
                                     Integer cadreId,
                                     Integer objId, // 从干部考察报告跳转过来时传递
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -116,7 +116,7 @@ public class ScAdArchiveController extends ScBaseController {
     @RequiresPermissions("scAdArchive:edit")
     @RequestMapping(value = "/scAdArchive_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scAdArchive_au(int committeeId, @RequestParam(value = "cadreIds[]") Integer[] cadreIds,
+    public Map do_scAdArchive_au(int committeeId, Integer[] cadreIds,
                                  HttpServletRequest request) {
 
         scAdArchiveService.add(committeeId, cadreIds);
@@ -155,7 +155,7 @@ public class ScAdArchiveController extends ScBaseController {
     @RequiresPermissions("scAdArchive:edit")
     @RequestMapping("/scAdArchive_preview")
     public String scAdArchive_preview(int archiveId,
-                                      @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
+                                      Integer[] voteIds,
                                       ModelMap modelMap) throws IOException {
 
         // logger.info(addLog(LogConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
@@ -178,7 +178,7 @@ public class ScAdArchiveController extends ScBaseController {
     @RequiresPermissions("scAdArchive:del")
     @RequestMapping(value = "/scAdArchive_checkVotes", method = RequestMethod.POST)
     @ResponseBody
-    public Map scAdArchive_checkVotes(Integer archiveId, @RequestParam(value = "voteIds[]") Integer[] voteIds) {
+    public Map scAdArchive_checkVotes(Integer archiveId, Integer[] voteIds) {
 
         scAdArchiveService.checkVotes(archiveId, voteIds);
 
@@ -188,7 +188,7 @@ public class ScAdArchiveController extends ScBaseController {
     @RequiresPermissions("scAdArchive:edit")
     @RequestMapping(value = "/scAdArchive_save", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scAdArchive_save(Integer archiveId, @RequestParam(value = "voteIds[]") Integer[] voteIds) {
+    public Map do_scAdArchive_save(Integer archiveId, Integer[] voteIds) {
 
         scAdArchiveService.save(archiveId, voteIds);
         logger.info(addLog(LogConstants.LOG_SC_AD, "归档保存干部任免审批表：%s, %s",
@@ -329,7 +329,7 @@ public class ScAdArchiveController extends ScBaseController {
     @RequiresPermissions("scAdArchive:del")
     @RequestMapping(value = "/scAdArchive_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scAdArchive_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scAdArchive_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

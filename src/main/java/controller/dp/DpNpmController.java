@@ -48,8 +48,8 @@ public class DpNpmController extends DpBaseController {
     @RequestMapping("/dpNpm")
     public String dpNpm(@RequestParam(required = false, defaultValue = "1")Byte cls,
                         Integer userId,
-                        @RequestParam(required = false, value = "nation") String[] nation,
-                        @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                        String[] nation,
+                        String[] nativePlace,
                         ModelMap modelMap,
                         HttpServletResponse response) {
 
@@ -86,11 +86,11 @@ public class DpNpmController extends DpBaseController {
                            String degree,
                            Byte status,
                            @RequestDateRange DateRange _addAime,
-                           @RequestParam(required = false, value = "nation") String[] nation,
-                           @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                           String[] nation,
+                           String[] nativePlace,
                            @RequestParam(required = false, defaultValue = "1") int cls,
                            @RequestParam(required = false, defaultValue = "0") int export,
-                           @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                           Integer[] ids, // 导出的记录
                                        Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -289,7 +289,7 @@ public class DpNpmController extends DpBaseController {
     @RequiresPermissions("dpNpm:del")
     @RequestMapping(value = "/dpNpm_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpNpm_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map dpNpm_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -310,7 +310,7 @@ public class DpNpmController extends DpBaseController {
     @RequiresPermissions("dpNpm:edit")
     @RequestMapping(value = "/dpNpm_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpNpm_out( @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpNpm_out( Integer[] ids,
                              String outTime){
 
         if (null != ids && ids.length>0){
@@ -333,7 +333,7 @@ public class DpNpmController extends DpBaseController {
     @RequiresPermissions("dpNpm:edit")
     @RequestMapping(value = "/dpNpm_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpNpm_recover(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map dpNpm_recover(Integer[] ids,
                              HttpServletRequest request){
         if (null != ids && ids.length>0){
             for (Integer id :ids){
@@ -355,7 +355,7 @@ public class DpNpmController extends DpBaseController {
     @RequiresPermissions("dpNpm:edit")
     @RequestMapping(value = "/dpNpm_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpNpm_transfer(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpNpm_transfer(Integer[] ids,
                                  String transferTime){
         if (null != ids && ids.length>0){
             DpNpmExample example = new DpNpmExample();

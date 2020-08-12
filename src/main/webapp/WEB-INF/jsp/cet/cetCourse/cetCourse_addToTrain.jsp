@@ -7,11 +7,11 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_selectCourses" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="courseIds[]" value="${param['ids[]']}">
+        <input type="hidden" name="courseIds" value="${param.ids}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所选课程数量</label>
             <div class="col-xs-6 label-text">
-                <div>${fn:length(fn:split(param['ids[]'],","))} 门</div>
+                <div>${fn:length(fn:split(param.ids,","))} 门</div>
                 <div class="label-inline"> （提示：培训班已有的课程将忽略）</div>
             </div>
 

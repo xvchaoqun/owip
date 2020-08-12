@@ -49,7 +49,7 @@ public class DrOnlineController extends DrBaseController {
                            ModelMap modelMap,
                            Byte isDeleted,
                            Integer unitId,
-                           @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+                           Integer[] unitTypes,
                            @RequestParam(required = false, defaultValue = "1") Byte cls) {
 
         if (null != isDeleted)
@@ -90,7 +90,7 @@ public class DrOnlineController extends DrBaseController {
                                     @RequestDateRange DateRange _startTime,
                                     @RequestDateRange DateRange _endTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -300,7 +300,7 @@ public class DrOnlineController extends DrBaseController {
     @RequestMapping(value = "/drOnline_fakeDel", method = RequestMethod.POST)
     @ResponseBody
     public Map drOnline_fakeDel(HttpServletRequest request,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 boolean isDeleted,
                                 ModelMap modelMap) {
 
@@ -315,7 +315,7 @@ public class DrOnlineController extends DrBaseController {
     @RequiresPermissions("drOnline:del")
     @RequestMapping(value = "/drOnline_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOnline_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map drOnline_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             drOnlineService.batchDel(ids);
@@ -328,7 +328,7 @@ public class DrOnlineController extends DrBaseController {
     @RequiresPermissions("drOnline:edit")
     @RequestMapping(value = "/drOnline_changeStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOnline_changeStatus(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+    public Map drOnline_changeStatus(HttpServletRequest request, Integer[] ids,
                                  Byte status,
                                  ModelMap modelMap) {
 

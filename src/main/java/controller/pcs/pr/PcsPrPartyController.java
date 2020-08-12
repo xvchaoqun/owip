@@ -318,7 +318,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
     @RequiresPermissions("pcsPrParty:edit")
     @RequestMapping(value = "/pcsPrParty_selectUser", method = RequestMethod.POST)
-    public void do_pcsPrParty_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
+    public void do_pcsPrParty_selectUser(Integer[] userIds,
                                          byte stage,
                                          HttpServletResponse response) throws IOException {
 

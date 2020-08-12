@@ -47,7 +47,7 @@ public class CetPartySchoolController extends CetBaseController {
     public void cetPartySchool_data(HttpServletResponse response,
                                     Integer partySchoolId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -170,7 +170,7 @@ public class CetPartySchoolController extends CetBaseController {
     @RequiresPermissions("cetPartySchool:del")
     @RequestMapping(value = "/cetPartySchool_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetPartySchool_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetPartySchool_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

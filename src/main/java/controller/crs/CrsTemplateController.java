@@ -119,7 +119,7 @@ public class CrsTemplateController extends CrsBaseController {
     @RequiresPermissions("crsTemplate:del")
     @RequestMapping(value = "/crsTemplate_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

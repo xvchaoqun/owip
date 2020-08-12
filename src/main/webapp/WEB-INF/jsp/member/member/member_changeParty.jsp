@@ -7,11 +7,11 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/member_changeParty" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <input type="hidden" name="ids" value="${param.ids}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">转移人数</label>
 				<div class="col-xs-6 label-text">
-                    ${fn:length(fn:split(param['ids[]'],","))}
+                    ${fn:length(fn:split(param.ids,","))}
 				</div>
 			</div>
         <div class="form-group">

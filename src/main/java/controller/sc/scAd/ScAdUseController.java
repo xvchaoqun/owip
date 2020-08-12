@@ -56,7 +56,7 @@ public class ScAdUseController extends ScBaseController {
                                     Integer year,
                                     String useDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -219,7 +219,7 @@ public class ScAdUseController extends ScBaseController {
     @RequiresPermissions("scAdUse:del")
     @RequestMapping(value = "/scAdUse_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scAdUse_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scAdUse_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

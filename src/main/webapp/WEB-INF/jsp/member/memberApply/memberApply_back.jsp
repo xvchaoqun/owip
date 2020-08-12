@@ -12,11 +12,11 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberApply_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <input type="hidden" name="ids" value="${param.ids}">
         <div class="form-group">
             <label class="col-xs-3 control-label">退回申请记录</label>
             <div class="col-xs-8 label-text">
-                ${fn:length(fn:split(param['ids[]'],","))} 条
+                ${fn:length(fn:split(param.ids,","))} 条
             </div>
         </div>
         <div class="form-group">

@@ -38,7 +38,7 @@ public class CommonController extends BaseController {
     // 根据账号或姓名或学工号选择用户
     @RequestMapping("/sysUser_selects")
     @ResponseBody
-    public Map sysUser_selects(@RequestParam(required = false, value = "types") Byte[] types,
+    public Map sysUser_selects(Byte[] types,
                                @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                                Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
@@ -112,11 +112,11 @@ public class CommonController extends BaseController {
     @RequestMapping("/cadre_selects")
     @ResponseBody
     public Map cadre_selects(
-            @RequestParam(required = false, value = "types") Byte[] types, // 指定多个干部类别
+            Byte[] types, // 指定多个干部类别
             // type=0 所有干部（包括优秀年轻干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
             @RequestParam(defaultValue = "1", required = false) Byte type,
             Byte status, // 特定干部类别 (优先级最高)
-            @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所属单位
+            Integer[] unitIds, // 所属单位
             Integer pageSize,
             // key=0，选项value=cadreId key=1 ，选项value=userId
             @RequestParam(defaultValue = "0", required = false) Byte key,
@@ -381,7 +381,7 @@ public class CommonController extends BaseController {
                               Byte type, // 党员类别
                               Boolean isRetire,
                               Byte politicalStatus,
-                              @RequestParam(required = false, value = "status") Byte[] status, // 党员状态
+                              Byte[] status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
                               @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                               Integer pageNo,

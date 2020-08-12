@@ -197,7 +197,7 @@ public class PsMemberController extends PsBaseController {
     @RequiresPermissions("psMember:del")
     @RequestMapping(value = "/psMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map psMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map psMember_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -300,7 +300,7 @@ public class PsMemberController extends PsBaseController {
     @RequiresPermissions("psMember:history")
     @RequestMapping(value = "/psMember_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _endDate) {
+    public Map do_psInfo_history(Integer[] ids,String _endDate) {
 
         if (null != ids && ids.length>0){
             psMemberService.updateMemberState(ids,_endDate,true);

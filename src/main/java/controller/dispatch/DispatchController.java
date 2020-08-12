@@ -74,7 +74,7 @@ public class DispatchController extends DispatchBaseController {
                               @RequestDateRange DateRange _pubTime,
                               @RequestDateRange DateRange _workTime,
                               @RequestDateRange DateRange _meetingTime,
-                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer[] ids, // 导出的记录
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer pageSize, Integer pageNo) throws IOException {
 
@@ -393,7 +393,7 @@ public class DispatchController extends DispatchBaseController {
     @RequiresPermissions("dispatch:del")
     @RequestMapping(value = "/dispatch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -60,7 +60,7 @@ public class CrsApplicantController extends CrsBaseController {
                                   Integer userId,
                                   @RequestDateRange DateRange enrollTime,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -187,7 +187,7 @@ public class CrsApplicantController extends CrsBaseController {
     // 导出应聘人报名表
     @RequiresPermissions("crsApplicant:export")
     @RequestMapping("/crsApplicant_export")
-    public void crsApplicant_export(int postId, @RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public void crsApplicant_export(int postId, Integer[] ids,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
@@ -307,7 +307,7 @@ public class CrsApplicantController extends CrsBaseController {
     @RequiresPermissions("crsApplicant:del")
     @RequestMapping(value = "/crsApplicant_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

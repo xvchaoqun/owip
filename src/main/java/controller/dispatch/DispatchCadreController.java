@@ -186,7 +186,7 @@ public class DispatchCadreController extends DispatchBaseController {
                                    Boolean asc,
                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeStart,
                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeEnd,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -415,7 +415,7 @@ public class DispatchCadreController extends DispatchBaseController {
     @RequiresPermissions("dispatchCadre:del")
     @RequestMapping(value = "/dispatchCadre_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatchCadre_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_dispatchCadre_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

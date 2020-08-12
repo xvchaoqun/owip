@@ -66,7 +66,7 @@ public class PmdFeeController extends PmdBaseController {
                                     Date payTime,
                                 Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -214,7 +214,7 @@ public class PmdFeeController extends PmdBaseController {
     @RequiresPermissions("pmdFee:del")
     @RequestMapping(value = "/pmdFee_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmdFee_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map pmdFee_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

@@ -498,7 +498,7 @@ public class ClaApplyController extends ClaBaseController {
     @RequiresPermissions("claApply:del")
     @RequestMapping(value = "/claApply_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claApply_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claApply_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -512,7 +512,7 @@ public class ClaApplyController extends ClaBaseController {
     @RequiresPermissions("claApply:del")
     @RequestMapping(value = "/claApply_batchUnDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claApply_batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claApply_batchUnDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -527,7 +527,7 @@ public class ClaApplyController extends ClaBaseController {
     @RequiresPermissions("claApply:del")
     @RequestMapping(value = "/claApply_doBatchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map claApply_doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map claApply_doBatchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

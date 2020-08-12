@@ -53,7 +53,7 @@ public class ScCommitteeMemberController extends ScBaseController {
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -131,7 +131,7 @@ public class ScCommitteeMemberController extends ScBaseController {
     @RequiresPermissions("scCommitteeMember:del")
     @RequestMapping(value = "/scCommitteeMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

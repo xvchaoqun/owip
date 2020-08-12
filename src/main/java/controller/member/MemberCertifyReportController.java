@@ -34,7 +34,7 @@ public class MemberCertifyReportController extends MemberBaseController {
     @RequestMapping(value = "/member_certify")
     public String member_certify(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
-                               @RequestParam(value = "ids[]") Integer[] ids,
+                               Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                Model model) throws IOException {

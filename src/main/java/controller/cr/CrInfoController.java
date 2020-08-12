@@ -54,7 +54,7 @@ public class CrInfoController extends CrBaseController {
                                     @RequestDateRange DateRange addDate,
                                  @RequestParam(required = false, defaultValue ="1" ) Byte cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -152,7 +152,7 @@ public class CrInfoController extends CrBaseController {
     @RequiresPermissions("crInfo:del")
     @RequestMapping(value = "/crInfo_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map crInfo_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map crInfo_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

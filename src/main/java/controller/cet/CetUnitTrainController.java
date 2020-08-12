@@ -52,7 +52,7 @@ public class CetUnitTrainController extends CetBaseController {
     public String cetUnitTrain(Integer projectId,
                                     Integer reRecord,
                                     Integer userId,
-                                    @RequestParam(required = false, value = "identities") Integer[] identities,
+                                    Integer[] identities,
                                     ModelMap modelMap) {
 
         if (null != identities){
@@ -76,7 +76,7 @@ public class CetUnitTrainController extends CetBaseController {
                                     Integer addUserId,
                                     String projectName,
                                     Integer traineeTypeId,
-                                    @RequestParam(required = false, value = "identities") Integer[] identities,
+                                    Integer[] identities,
                                     ModelMap modelMap) {
 
         if (null != identities){
@@ -134,14 +134,14 @@ public class CetUnitTrainController extends CetBaseController {
                                   @RequestDateRange DateRange _endDate,
                                   Integer partyId,
                                   String title,
-                                  @RequestParam(required = false, value = "identities") Integer[] identities,
+                                  Integer[] identities,
                                   Integer postType,
                                   BigDecimal prePeriod,
                                   BigDecimal subPeriod,
 
                                   Integer reRecord,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
 
@@ -259,7 +259,7 @@ public class CetUnitTrainController extends CetBaseController {
     @ResponseBody
     public Map do_cetUnitTrain_au(CetUnitTrain record,
                                   Boolean apply,
-                                  @RequestParam(value = "identities[]", required = false) Integer[] identities,
+                                  Integer[] identities,
                                   MultipartFile _word, MultipartFile _pdf,
                                   HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -371,7 +371,7 @@ public class CetUnitTrainController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetUnitTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetUnitTrain_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
         
         if (null != ids && ids.length > 0) {
             cetUnitTrainService.batchDel(ids);
@@ -383,7 +383,7 @@ public class CetUnitTrainController extends CetBaseController {
 
     @RequiresPermissions("cetUnitProject:check")
     @RequestMapping("/cetUnitTrain_check")
-    public String cetUnitTrain_pass(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cetUnitTrain_pass(Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length == 1)
             modelMap.put("cetUnitTrain", cetUnitTrainMapper.selectByPrimaryKey(ids[0]));
@@ -394,7 +394,7 @@ public class CetUnitTrainController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:check")
     @RequestMapping(value = "/cetUnitTrain_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnitTrain_check(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_cetUnitTrain_check(HttpServletRequest request, Integer[] ids,
                                      Boolean pass, String reason, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {

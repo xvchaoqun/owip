@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_urgeMembers" autocomplete="off" disableautocomplete id="modalForm" method="post">
-    <input type="hidden" name="ids[]" value="${param['ids[]']}">
+    <input type="hidden" name="ids" value="${param.ids}">
     <input type="hidden" name="partyId" value="${param.partyId}">
     <input type="hidden" name="branchId" value="${param.branchId}">
     <div class="form-group">

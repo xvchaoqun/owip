@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberQuit_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="ids[]" value="${param.id}">
+        <input type="hidden" name="ids" value="${param.id}">
         <input type="hidden" name="status" value="${memberQuit.status-1}">
         <div class="form-group">
             <label class="col-xs-3 control-label">申请人</label>

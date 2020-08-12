@@ -9,8 +9,8 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_batchTransfer" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="addType" value="${addType}">
-        <input type="hidden" name="ids[]" value="${param['ids[]']}">
-        <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+        <input type="hidden" name="ids" value="${param.ids}">
+        <c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
         <c:if test="${count>1}">
             <div class="form-group">
                 <label class="col-xs-4 control-label">转移数量</label>

@@ -174,7 +174,7 @@ public class SitemapController extends BaseController {
     @RequestMapping(value = "/sitemapRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sitemapRole(int id,
-                              @RequestParam(required = false, value = "roleIds[]") Integer[] roleIds,
+                              Integer[] roleIds,
                                 HttpServletRequest request) {
 
         sitemapService.updateRoles(id, roleIds);

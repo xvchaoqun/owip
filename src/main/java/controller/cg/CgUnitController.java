@@ -55,7 +55,7 @@ public class CgUnitController extends CgBaseController {
                                     Date confirmDate,
                                 
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -167,7 +167,7 @@ public class CgUnitController extends CgBaseController {
     @RequiresPermissions("cgUnit:del")
     @RequestMapping(value = "/cgUnit_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgUnit_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cgUnit_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -200,7 +200,7 @@ public class CgUnitController extends CgBaseController {
     @RequiresPermissions("cgUnit:plan")
     @RequestMapping(value = "/cgUnit_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map cgUnit_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
+    public Map cgUnit_plan(Integer[] ids, Boolean isCurrent) {
 
         if (null != ids && ids.length>0){
             cgUnitService.updateCgRuleStatus(ids, isCurrent);

@@ -49,7 +49,7 @@ public class QyRewardObjController extends QyBaseController {
                                     String meetingName,
                                      Byte exportType,      // exportType=1 通过记录导出  2 直接导出
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -172,7 +172,7 @@ public class QyRewardObjController extends QyBaseController {
     @RequiresPermissions("qyReward:edit")
     @RequestMapping(value = "/qyRewardObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map qyRewardObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map qyRewardObj_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

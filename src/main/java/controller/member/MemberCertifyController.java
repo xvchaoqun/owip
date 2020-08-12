@@ -81,7 +81,7 @@ public class MemberCertifyController extends MemberBaseController {
                                    String toUnit,
                                    @RequestParam(required = false, defaultValue = "1") byte cls,//cls=0党员信息界面
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo)  throws IOException{
 
         //权限
@@ -256,7 +256,7 @@ public class MemberCertifyController extends MemberBaseController {
 
     @RequiresPermissions("memberCertify:check")
     @RequestMapping("/memberCertify_check")
-    public String memberCertify_check(@RequestParam(value = "ids[]") Integer[] ids,
+    public String memberCertify_check(Integer[] ids,
                                       byte type, // 1:分党委审核 2：组织部审核
                                       ModelMap modelMap) {
 
@@ -271,7 +271,7 @@ public class MemberCertifyController extends MemberBaseController {
     @RequiresPermissions("memberCertify:check")
     @RequestMapping(value = "/memberCertify_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnitTrain_check(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_cetUnitTrain_check(HttpServletRequest request, Integer[] ids,
                                      byte type,//1分党委，2组织部
                                      Boolean pass, String reason) {
 
@@ -286,7 +286,7 @@ public class MemberCertifyController extends MemberBaseController {
 
     @RequiresPermissions("memberCertify:edit")
     @RequestMapping("/memberCertify_back")
-    public String memberCertify_back(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String memberCertify_back(Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0){
             MemberCertify memberCertify = memberCertifyMapper.selectByPrimaryKey(ids[0]);
@@ -299,7 +299,7 @@ public class MemberCertifyController extends MemberBaseController {
     @RequiresPermissions("memberCertify:edit")
     @RequestMapping(value = "/memberCertify_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberCertify_back(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_memberCertify_back(HttpServletRequest request, Integer[] ids,
                                      byte status,
                                      String reason, @CurrentUser SysUserView loginUser) {
 
@@ -314,7 +314,7 @@ public class MemberCertifyController extends MemberBaseController {
 
     @RequestMapping(value = "/memberCertify_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberCertify_batchDel(HttpServletRequest request, Boolean apply, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map memberCertify_batchDel(HttpServletRequest request, Boolean apply, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             memberCertifyService.batchDel(ids);

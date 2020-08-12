@@ -11,7 +11,7 @@
     <table class="table table-bordered table-unhover">
         <tr>
             <td class="bg-right" style="width: 200px;">缴费人数</td>
-            <td>${fn:length(fn:split(param['ids[]'],","))}人</td>
+            <td>${fn:length(fn:split(param.ids,","))}人</td>
         </tr>
         <tr>
             <td class="bg-right">总金额</td>
@@ -67,7 +67,7 @@
             $.ajax({
                 type: "post",
                 url: "${ctx}/user/pmd/payConfirm_batch",
-                data: {'ids[]': '${param['ids[]']}', isDelay: "${param.isDelay}"},
+                data: {ids: '${param.ids}', isDelay: "${param.isDelay}"},
                 async: false, // 同步方法
                 dataType: "json",
                 success: function (data) {

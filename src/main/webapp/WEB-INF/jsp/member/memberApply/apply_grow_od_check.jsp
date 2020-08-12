@@ -8,7 +8,7 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/apply_grow_od_check" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
-        <input type="hidden" name="ids[]" value="${ids}">
+        <input type="hidden" name="ids" value="${ids}">
         <c:if test="${totalCount==0}">
             <span class="msg info">没有需要分配志愿书编码的记录</span>
         </c:if>

@@ -67,7 +67,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
                                 </#list>
                                 <#if tableColumnsMap['status']??>Byte status,</#if>
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -175,7 +175,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
     @RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map ${tableName}_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
+    public Map ${tableName}_batchDel(HttpServletRequest request, @RequestParam(value = "ids") Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
 
 
         if (null != ${tbn(key, "tableName")}s && ${tbn(key, "tableName")}s.length>0){

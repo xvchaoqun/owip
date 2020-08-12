@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="back-btn">
   <a href="javascript:;" class="openView" data-open-by="page"
-     data-url="${ctx}/m/cadreReserve_compare?cadreIds[]=${param['cadreIds[]']}"><i class="fa fa-reply"></i> 返回</a>
+     data-url="${ctx}/m/cadreReserve_compare?cadreIds=${param['cadreIds']}"><i class="fa fa-reply"></i> 返回</a>
 </div>
 <div style="overflow:auto;width:100%">
   <table id="fixedTable" class="table table-bordered table-center" width="auto" style="white-space:nowrap">

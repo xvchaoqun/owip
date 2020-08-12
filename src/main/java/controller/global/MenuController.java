@@ -45,8 +45,8 @@ public class MenuController extends BaseController {
 
     @RequiresPermissions("menu:preview")
     @RequestMapping("/menu_preview")
-    public String menu_preview(boolean isMobile, @RequestParam(value = "resIds[]", required = false) Integer[] resIds,
-                               @RequestParam(value = "minusResIds[]", required = false) Integer[] minusResIds,
+    public String menu_preview(boolean isMobile, Integer[] resIds,
+                               Integer[] minusResIds,
                                ModelMap modelMap) {
 
         Set<String> permissions = new HashSet<String>();

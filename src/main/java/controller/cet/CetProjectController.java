@@ -133,7 +133,7 @@ public class CetProjectController extends CetBaseController {
                                 BigDecimal subPeriod,
                                 Integer objCount,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer[] ids, // 导出的记录
                                 Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -225,7 +225,7 @@ public class CetProjectController extends CetBaseController {
     public Map do_cetProject_au(CetProject record,
                                 // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
                                 @RequestParam(defaultValue = "1") byte cls,
-                                @RequestParam(value = "_traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
+                                Integer[] traineeTypeIds,
                                 Integer otherTypeId,
                                 String otherTraineeType,
                                 MultipartFile _wordFilePath,
@@ -397,7 +397,7 @@ public class CetProjectController extends CetBaseController {
     @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetProject:edit")
     @RequestMapping("/cetProject_check")
-    public String cetProject_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public String cetProject_check(Integer[] ids, ModelMap modelMap) {
 
         if (ids != null && ids.length == 1)
             modelMap.put("cetProject", cetProjectMapper.selectByPrimaryKey(ids[0]));
@@ -410,7 +410,7 @@ public class CetProjectController extends CetBaseController {
     @RequestMapping(value = "/cetProject_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProject_check(HttpServletRequest request,
-                                       @RequestParam(value = "ids[]") Integer[] ids,
+                                       Integer[] ids,
                                        Boolean pass, Boolean isValid, String backReason, ModelMap modelMap) {
 
         if (ids != null && ids.length > 0) {
@@ -433,7 +433,7 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:edit")
     @RequestMapping(value = "/cetProject_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProject_back(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_cetProject_back(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cetProjectService.back(ids);
@@ -446,7 +446,7 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:del")
     @RequestMapping(value = "/cetProject_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetProject_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetProject_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

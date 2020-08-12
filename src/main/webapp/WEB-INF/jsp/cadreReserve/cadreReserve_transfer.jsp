@@ -7,8 +7,8 @@
 </div>
 <div class="modal-body">
   <form autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal" method="post" action="${ctx}/cadreReserve_transfer">
-    <input type="hidden" name="ids[]" value="${param['ids[]']}">
-    <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+    <input type="hidden" name="ids" value="${param.ids}">
+    <c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
     <c:if test="${count>1}">
         <div class="form-group">
             <label class="col-xs-3 control-label">转移对象</label>

@@ -202,7 +202,7 @@ public class DispatchUnitController extends DispatchBaseController {
     @RequiresPermissions("dispatchUnit:del")
     @RequestMapping(value = "/dispatchUnit_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

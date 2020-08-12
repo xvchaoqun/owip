@@ -47,7 +47,7 @@ public class ScGroupMemberController extends ScBaseController {
                                     Integer userId,
                                    @RequestParam(required = false, defaultValue = "1") Boolean isCurrent,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -149,7 +149,7 @@ public class ScGroupMemberController extends ScBaseController {
     @ResponseBody
     public Map do_scGroupMember_transfer(HttpServletRequest request,
                                          Boolean isCurrent,
-                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                         Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             scGroupMemberService.transfer(ids, BooleanUtils.isTrue(isCurrent));
@@ -162,7 +162,7 @@ public class ScGroupMemberController extends ScBaseController {
     @RequiresPermissions("scGroupMember:del")
     @RequestMapping(value = "/scGroupMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scGroupMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_scGroupMember_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

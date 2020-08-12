@@ -54,7 +54,7 @@ public class CetExpertController extends CetBaseController {
                                Integer userId,
                                String code,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -259,7 +259,7 @@ public class CetExpertController extends CetBaseController {
     @RequiresPermissions("cetExpert:del")
     @RequestMapping(value = "/cetExpert_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetExpert_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetExpert_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

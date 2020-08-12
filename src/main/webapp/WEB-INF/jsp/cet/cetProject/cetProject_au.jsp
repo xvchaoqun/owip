@@ -152,7 +152,7 @@
                                 <div class="col-xs-9 label-text" id="traineeTypeDiv">
                                     <c:forEach items="${traineeTypeMap}" var="entity">
                                         <label>
-                                            <input name="_traineeTypeIds[]" type="checkbox" value="${entity.key}"> ${entity.value.name}&nbsp;
+                                            <input name="_traineeTypeIds" type="checkbox" value="${entity.key}"> ${entity.value.name}&nbsp;
                                             <span class="lbl"></span>
                                         </label>
                                     </c:forEach>
@@ -270,10 +270,10 @@
             $("#projectForm #otherTraineeType").removeClass("hidden");
             $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).prop("required", "required");
         }
-        $('#projectForm input[name="_traineeTypeIds[]"][value="'+ item +'"]').prop("checked", true);
+        $('#projectForm input[name="_traineeTypeIds"][value="'+ item +'"]').prop("checked", true);
     })
     $("#projectSubmitBtn").click(function(){
-        if($('#projectForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#projectForm input[name="otherTypeId"]:checked')){
+        if($('#projectForm input[name="_traineeTypeIds"]:checked').length==0 && !$('#projectForm input[name="otherTypeId"]:checked')){
             $.tip({
                 $target: $("#traineeTypeDiv"),
                 /*at: 'right center', my: 'left center',*/
@@ -285,7 +285,7 @@
     $("#projectForm").validate({
         submitHandler: function (form) {
 
-            if($('#projectForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#projectForm input[name="otherTypeId"]:checked')){
+            if($('#projectForm input[name="_traineeTypeIds"]:checked').length==0 && !$('#projectForm input[name="otherTypeId"]:checked')){
                 return false;
             }
 

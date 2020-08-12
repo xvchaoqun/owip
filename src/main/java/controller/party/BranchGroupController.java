@@ -57,7 +57,7 @@ public class BranchGroupController extends BaseController {
                                     Integer userId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -173,7 +173,7 @@ public class BranchGroupController extends BaseController {
     @RequiresPermissions("branchGroup:del")
     @RequestMapping(value = "/branchGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchGroup_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map branchGroup_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             branchGroupService.batchDel(ids);

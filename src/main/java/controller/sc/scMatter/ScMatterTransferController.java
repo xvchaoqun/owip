@@ -51,7 +51,7 @@ public class ScMatterTransferController extends ScBaseController {
     public void scMatterTransfer_data(HttpServletResponse response,
                                       Integer userId,
                                       @RequestParam(required = false, defaultValue = "0") int export,
-                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -142,7 +142,7 @@ public class ScMatterTransferController extends ScBaseController {
     @RequestMapping(value = "/scMatterTransfer_items", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scMatterTransfer_items(int transferId,
-                                         @RequestParam(value = "matterItemIds[]", required = false) Integer[] matterItemIds,
+                                         Integer[] matterItemIds,
                                          HttpServletRequest request) {
 
         scMatterTransferService.transfer(transferId, matterItemIds);
@@ -155,7 +155,7 @@ public class ScMatterTransferController extends ScBaseController {
     @RequiresPermissions("scMatterTransfer:del")
     @RequestMapping(value = "/scMatterTransfer_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

@@ -42,7 +42,7 @@ public class ScGroupTopicController extends ScBaseController {
     @RequiresPermissions("scGroupTopic:list")
     @RequestMapping("/scGroupTopic")
     public String scGroupTopic(@RequestParam(defaultValue = "1") Integer cls,
-                               @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+                               Integer[] unitIds,
                                ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -73,9 +73,9 @@ public class ScGroupTopicController extends ScBaseController {
                                   Integer year,
                                   @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                   String name,
-                                  @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+                                  Integer[] unitIds,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -144,7 +144,7 @@ public class ScGroupTopicController extends ScBaseController {
     @ResponseBody
     public Map do_scGroupTopic_au(ScGroupTopic record,
                                   MultipartFile[] files,
-                                  @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
+                                  Integer[] unitIds,
                                   String users, // 确定的考察对象
                                   HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -341,7 +341,7 @@ public class ScGroupTopicController extends ScBaseController {
     @RequiresPermissions("scGroupTopic:del")
     @RequestMapping(value = "/scGroupTopic_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

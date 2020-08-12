@@ -47,7 +47,7 @@ public class CetTrainEvaNormController extends CetBaseController {
                                    int evaTableId,
                                   Integer fid, // fid=null时，读取评估内容；fid<=0时，读取全部 fid>0 读取评估指标
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -148,7 +148,7 @@ public class CetTrainEvaNormController extends CetBaseController {
     @RequiresPermissions("cetTrainEvaNorm:del")
     @RequestMapping(value = "/cetTrainEvaNorm_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

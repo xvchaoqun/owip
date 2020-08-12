@@ -590,7 +590,7 @@
             //alert(ids)
             var rowData = $(this).getRowData(ids[0]);
             //console.log("ids[0]" + ids[0] +rowData)
-            $.loadModal("${ctx}/member_changeBranch?ids[]={0}&partyId={1}".format(ids, rowData.partyId))
+            $.loadModal("${ctx}/member_changeBranch?ids={0}&partyId={1}".format(ids, rowData.partyId))
         }
     });
     </shiro:hasRole>
@@ -605,7 +605,7 @@
                 SysMsg.warning("请选择行", "提示");
                 return;
             }
-            $.loadModal("${ctx}/member_changeParty?ids[]={0}".format(ids))
+            $.loadModal("${ctx}/member_changeParty?ids={0}".format(ids))
         }
     });
     </shiro:hasRole>

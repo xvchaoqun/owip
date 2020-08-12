@@ -104,7 +104,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                                         @RequestDateRange DateRange _tranTime,
                                         @RequestDateRange DateRange _actualTranTime,
                                         @RequestParam(required = false, defaultValue = "0") int export,
-                                        @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                        Integer[] ids, // 导出的记录
                                         Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -266,7 +266,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
     @RequiresPermissions("dpPartyMemberGroup:del")
     @RequestMapping(value = "/dpPartyMemberGroup_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpPartyMemberGroup_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_dpPartyMemberGroup_cancel(Integer[] ids,
                                  String actualTranTime){
 
         if (null != ids && ids.length>0){
@@ -306,7 +306,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
     @ResponseBody
     public Map dpPartyMemberGroup_recover(HttpServletRequest request,
                                            @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
-                                           @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                           Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -322,7 +322,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
     @RequestMapping(value = "/dpPartyMemberGroup_realDel", method = RequestMethod.POST)
     @ResponseBody
     public Map dpPartyMemberGroup_realDel(HttpServletRequest request,
-                                          @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap){
+                                          Integer[] ids, ModelMap modelMap){
         if (null != ids && ids.length > 0){
             dpPartyMemberGroupService.realDel(ids);
             logger.info(addLog(LogConstants.LOG_DPPARTY,"删除民主党派委员会：%s"),

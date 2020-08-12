@@ -66,7 +66,7 @@ public class PcsRecommendController extends PcsBaseController {
                                   byte stage,
                                   Integer branchId,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
@@ -107,8 +107,8 @@ public class PcsRecommendController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsRecommend_au(byte stage, int partyId, Integer branchId,
                                   int expectMemberCount, int actualMemberCount, Boolean isFinish,
-                                  @RequestParam(required = false, value = "dwCandidateIds[]") String[] dwCandidateIds,
-                                  @RequestParam(required = false, value = "jwCandidateIds[]") String[] jwCandidateIds,
+                                  String[] dwCandidateIds,
+                                  String[] jwCandidateIds,
                                   HttpServletRequest request) {
 
         if(ShiroHelper.isPermitted("pcsOw:admin")){
@@ -211,7 +211,7 @@ public class PcsRecommendController extends PcsBaseController {
 
     //@RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_selectUser", method = RequestMethod.POST)
-    public void do_pcsRecommend_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
+    public void do_pcsRecommend_selectUser(Integer[] userIds,
                                            HttpServletResponse response) throws IOException {
 
         if(!ShiroHelper.isPermitted("pcsOw:admin")){

@@ -75,7 +75,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
                                     Integer typeId,
                                     Integer unitId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -164,7 +164,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @ResponseBody
     public Map do_drOnlineInspectorLog_selectPost(HttpServletRequest request,
                                                   Integer id,
-                                                  @RequestParam(required = false, value = "postIds[]") Integer[] postIds, ModelMap modelMap) {
+                                                  Integer[] postIds, ModelMap modelMap) {
 
         drOnlineInspectorLogService.updatePostIds(id, postIds);
         logger.info(log( LogConstants.LOG_DR, "%s岗位筛选", id));
@@ -337,7 +337,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @RequiresPermissions("drOnlineInspectorLog:del")
     @RequestMapping(value = "/drOnlineInspectorLog_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOnlineInspectorLog_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map drOnlineInspectorLog_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             drOnlineInspectorLogService.batchDel(ids);

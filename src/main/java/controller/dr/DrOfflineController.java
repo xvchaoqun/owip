@@ -79,7 +79,7 @@ public class DrOfflineController extends DrBaseController {
     @RequestMapping(value = "/drOffline_selectMembers", method = RequestMethod.POST)
     @ResponseBody
     public Map do_drOffline_selectMembers(Integer offlineId,
-                                          @RequestParam(value = "memberIds[]", required = false) Integer[] memberIds) {
+                                          Integer[] memberIds) {
 
         DrOffline record = new DrOffline();
         record.setId(offlineId);
@@ -346,7 +346,7 @@ public class DrOfflineController extends DrBaseController {
                                Integer type,
                                Date recommendDate,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -516,7 +516,7 @@ public class DrOfflineController extends DrBaseController {
     @RequiresPermissions("drOffline:del")
     @RequestMapping(value = "/drOffline_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOffline_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map drOffline_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

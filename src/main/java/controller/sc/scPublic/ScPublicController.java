@@ -61,7 +61,7 @@ public class ScPublicController extends ScBaseController {
                               Integer year,
                               Integer committeeId,
                               @RequestParam(required = false, defaultValue = "0") int export,
-                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer[] ids, // 导出的记录
                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -139,7 +139,7 @@ public class ScPublicController extends ScBaseController {
     public String do_scPublic_process(ScPublic record,
                                       MultipartFile _wordFilePath,
                                       //MultipartFile _pdfFilePath,
-                                      @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
+                                      Integer[] voteIds,
                                       Byte export, // 0:预览 1：下载  其他：提交保存
                                       HttpServletRequest request,
                                       HttpServletResponse response, ModelMap modelMap) throws IOException, InterruptedException, TemplateException {
@@ -224,7 +224,7 @@ public class ScPublicController extends ScBaseController {
 
     @RequiresPermissions("scPublic:edit")
     @RequestMapping(value = "/scPublic_selectUser", method = RequestMethod.POST)
-    public void do_scPublic_selectUser(@RequestParam(value = "voteIds[]") Integer[] voteIds,
+    public void do_scPublic_selectUser(Integer[] voteIds,
                                        HttpServletResponse response) throws IOException {
 
         List<ScCommitteeVoteView> votes = new ArrayList<>();
@@ -261,7 +261,7 @@ public class ScPublicController extends ScBaseController {
     @RequiresPermissions("scPublic:del")
     @RequestMapping(value = "/scPublic_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scPublic_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scPublic_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
@@ -276,7 +276,7 @@ public class ScPublicController extends ScBaseController {
     @RequestMapping(value = "/scPublic_finish", method = RequestMethod.POST)
     @ResponseBody
     public Map scPublic_finish(HttpServletRequest request,
-                               @RequestParam(value = "ids[]") Integer[] ids,
+                               Integer[] ids,
                                ModelMap modelMap) {
 
 
@@ -292,7 +292,7 @@ public class ScPublicController extends ScBaseController {
     @RequestMapping(value = "/scPublic_confirm", method = RequestMethod.POST)
     @ResponseBody
     public Map scPublic_confirm(HttpServletRequest request,
-                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer[] ids,
                                 ModelMap modelMap) {
 
 

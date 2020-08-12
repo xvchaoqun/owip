@@ -167,7 +167,7 @@ public class PsPartyController extends PsBaseController {
     @RequiresPermissions("psParty:del")
     @RequestMapping(value = "/psParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map psParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map psParty_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             psPartyService.batchDel(ids);
@@ -267,7 +267,7 @@ public class PsPartyController extends PsBaseController {
     @RequiresPermissions("psParty:history")
     @RequestMapping(value = "/psParty_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psParty_history(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_psParty_history(Integer[] ids,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date endDate) {
 
         if (null != ids && ids.length > 0) {

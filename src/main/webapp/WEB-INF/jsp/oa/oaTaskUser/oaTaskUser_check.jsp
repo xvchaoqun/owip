@@ -8,8 +8,8 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/oa/oaTaskUser_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="taskId" value="${param.taskId}">
-        <input type="hidden" name="taskUserIds[]" value="${param['taskUserIds[]']}">
-        <c:set var="num" value='${fn:length(fn:split(param["taskUserIds[]"],","))}'/>
+        <input type="hidden" name="taskUserIds" value="${param['taskUserIds']}">
+        <c:set var="num" value='${fn:length(fn:split(param["taskUserIds"],","))}'/>
         <div class="form-group">
             <label class="col-xs-4 control-label">任务</label>
             <div class="col-xs-6 label-text">

@@ -65,7 +65,7 @@ public class CisInspectObjController extends CisBaseController {
                                    @RequestDateRange DateRange _inspectDate,
                                    Integer inspectorId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -230,8 +230,8 @@ public class CisInspectObjController extends CisBaseController {
     @ResponseBody
     public Map do_cisInspectObj_summary(CisInspectObj record,
                                         MultipartFile _logFile,
-                                        @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
-                                        //@RequestParam(value = "inspectorIds[]", required = false) Integer[] inspectorIds,
+                                        Integer[] unitIds,
+                                        //Integer[] inspectorIds,
                                         HttpServletRequest request) throws IOException, InterruptedException {
 
         record.setLogFile(uploadPdf(_logFile, "cis"));
@@ -287,7 +287,7 @@ public class CisInspectObjController extends CisBaseController {
     @RequiresPermissions("cisInspectObj:edit")
     @RequestMapping(value = "/cisInspectObj_reuse", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cisInspectObj_reuse(int objId, @RequestParam(value = "recordIds[]", required = false) Integer[] recordIds,
+    public Map do_cisInspectObj_reuse(int objId, Integer[] recordIds,
                                       HttpServletRequest request) {
 
         cisInspectObjService.reuse(objId, recordIds);
@@ -316,7 +316,7 @@ public class CisInspectObjController extends CisBaseController {
     @RequiresPermissions("cisInspectObj:del")
     @RequestMapping(value = "/cisInspectObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

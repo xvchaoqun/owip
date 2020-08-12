@@ -173,7 +173,7 @@ public class UserClaApplyController extends ClaBaseController {
     @ResponseBody
     public Map do_claApply_au(Integer cadreId,
                                ClaApply record,
-                               @RequestParam(value = "_files[]") MultipartFile[] _files,
+                               MultipartFile[] _files,
                                HttpServletRequest request) {
 
         // 是否本人操作

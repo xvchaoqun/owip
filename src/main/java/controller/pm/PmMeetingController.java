@@ -108,7 +108,7 @@ public class PmMeetingController extends PmBaseController {
                                   Byte quarter,
                                   @RequestDateRange DateRange _meetingDate,
                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer[] ids, // 导出的记录
                                   HttpServletResponse response, Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -249,9 +249,9 @@ public class PmMeetingController extends PmBaseController {
     @RequestMapping(value = "/pmMeeting_au", method = RequestMethod.POST)
     @ResponseBody
     public Map partyBranchMeeting_au(PmMeeting record,Byte type,@RequestParam(defaultValue = "0")Byte reedit,    //reedit 重新编辑
-                                     @RequestParam(value = "_files[]", required = false) MultipartFile[] _files, // 附件
-                                     @RequestParam(value = "attendIds[]", required = false) String attendIds,//参会人员
-                                     @RequestParam(value = "absentIds[]", required = false) String absentIds,//请假人员
+                                     MultipartFile[] _files, // 附件
+                                     String attendIds,//参会人员
+                                     String absentIds,//请假人员
                                      HttpServletRequest request) throws InterruptedException, IOException {
         Integer id = record.getId();
         if (_files == null) _files = new MultipartFile[]{};
@@ -299,7 +299,7 @@ public class PmMeetingController extends PmBaseController {
     @RequiresPermissions("pmMeeting:edit")
     @RequestMapping(value = "/pmMeeting_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partyBranchMeeting_del(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_partyBranchMeeting_del(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
         if (null != ids && ids.length>0){
             pmMeetingService.del(ids);
             logger.info(addLog(LogConstants.LOG_PM, "批量删除三会一课：%s", StringUtils.join(ids, ",")));
@@ -339,7 +339,7 @@ public class PmMeetingController extends PmBaseController {
     @RequiresPermissions("pmMeeting:approve")
     @RequestMapping(value = "/pmMeeting_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmMeeting_check(@RequestParam(value = "ids[]") Integer[] ids,Boolean check,Boolean hasPass,String reason,HttpServletRequest request) {
+    public Map do_pmMeeting_check(Integer[] ids,Boolean check,Boolean hasPass,String reason,HttpServletRequest request) {
 
         Byte status=PM_MEETING_STATUS_INIT;
         Boolean isBack=false;
@@ -744,7 +744,7 @@ public class PmMeetingController extends PmBaseController {
                                 Integer partyId,
                                 Integer branchId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer[] ids, // 导出的记录
                                 Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {

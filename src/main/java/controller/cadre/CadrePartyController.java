@@ -195,7 +195,7 @@ public class CadrePartyController extends BaseController {
     @RequiresPermissions("cadreParty:del")
     @RequestMapping(value = "/cadreParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids){
             cadreService.cadreParty_batchDel(ids);

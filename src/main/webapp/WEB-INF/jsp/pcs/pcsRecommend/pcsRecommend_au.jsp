@@ -496,7 +496,7 @@
             return;
         }
 
-        $.post("${ctx}/pcsRecommend_selectUser", {"userIds[]": userId}, function (ret) {
+        $.post("${ctx}/pcsRecommend_selectUser", {"userIds": userId}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
                 $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");
