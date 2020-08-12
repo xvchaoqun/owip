@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
-import sys.utils.StringUtil;
+import sys.utils.ContentUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -42,7 +42,7 @@ public class CadreInfoService extends BaseMapper {
 
         if(StringUtils.isBlank(Jsoup.parse(content).text())) return null; // 防止出现<p></p>和<br/>之类的文本
 
-        return StringUtil.trim(content);
+        return ContentUtils.trim(content);
     }
 
     public CadreInfo get(int cadreId, byte type){

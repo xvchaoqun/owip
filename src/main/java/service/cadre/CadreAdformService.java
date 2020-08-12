@@ -776,8 +776,8 @@ public class CadreAdformService extends BaseMapper {
         Document doc = reader.read(is);
 
         // 姓名去掉所有的空格
-        String realname = StringUtil.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/XingMing"));
-        String idcard = StringUtil.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/ShenFenZheng"));
+        String realname = ContentUtils.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/XingMing"));
+        String idcard = ContentUtils.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/ShenFenZheng"));
         String birth = XmlUtils.getNodeText(doc,"//Person/ChuShengNianYue");
 
         CadreView cv = null;

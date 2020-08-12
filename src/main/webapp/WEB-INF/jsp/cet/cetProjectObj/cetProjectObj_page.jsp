@@ -7,8 +7,9 @@
  ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
                 ||not empty param.postTypes || not empty param.code || not empty param.sort
                 || not empty param.finishPeriodStart || not empty param.finishPeriodEnd}"/>
+
 <div class="jqgrid-vertical-offset buttons">
-    <div class="pull-right hidden-sm hidden-xs">
+<div class="pull-right hidden-sm hidden-xs">
         参训人员类型：
         <select id="traineeTypeId">
             <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
@@ -532,6 +533,12 @@
 <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${(cls==2||cls==3)?0:25}"></table>
 <div id="jqGridPager2"></div>
 <script>
+
+    <c:if test="${!adminProject}">
+        $(".buttons button").hide();
+        $(".buttons .pull-right").removeClass("pull-right");
+    </c:if>
+
     function _callback2(){
         $("#jqGrid2").trigger("reloadGrid");
     }

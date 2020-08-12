@@ -19,10 +19,10 @@ import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
+import sys.utils.ContentUtils;
 import sys.utils.FormUtils;
 import sys.utils.HttpRequestDeviceUtils;
 import sys.utils.IpUtils;
-import sys.utils.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -271,7 +271,7 @@ public class UserDrOnlineController extends DrBaseController {
                         recommendCount ++;
                     }else{
 
-                        String realname = StringUtil.trimAll(request.getParameter(radioName+"_realname"));
+                        String realname = ContentUtils.trimAll(request.getParameter(radioName+"_realname"));
                         if(StringUtils.equalsAny(realname, "无", "没有")){
                             realname = null;
                         }
@@ -287,7 +287,7 @@ public class UserDrOnlineController extends DrBaseController {
             for (int i = candidateList.size()+1; i <= post.getHeadCount(); i++) {
 
                 String radioName = postId + "_realname_" + i;
-                String realname = StringUtil.trimAll(request.getParameter(radioName));
+                String realname = ContentUtils.trimAll(request.getParameter(radioName));
                 if(StringUtils.equalsAny(realname, "无", "没有")){
                     realname = null;
                 }

@@ -18,7 +18,7 @@ import persistence.sys.SchedulerJobMapper;
 import persistence.sys.SchedulerLogMapper;
 import service.BaseMapper;
 import sys.quartz.QuartzManager;
-import sys.utils.StringUtil;
+import sys.utils.ContentUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -128,7 +128,7 @@ public class SchedulerJobService extends BaseMapper {
             throw new OpException("类{0}不存在", schedulerJob.getClazz());
         }
 
-        String jobName = StringUtil.getUUID() + "_" + schedulerJob.getJobName();
+        String jobName = ContentUtils.getUUID() + "_" + schedulerJob.getJobName();
 
         QuartzManager.startJob(scheduler, jobName, cls);
     }

@@ -42,12 +42,14 @@
                        data-url="${ctx}/cet/cetTrainCourse?projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程及选课签到管理</a>
                 </li>
+                    <c:if test="${adminProject}">
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetTrain_detail/time?projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-history bigger-120"></i> 选课时间管理</a>
                 </li>
+                    </c:if>
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"

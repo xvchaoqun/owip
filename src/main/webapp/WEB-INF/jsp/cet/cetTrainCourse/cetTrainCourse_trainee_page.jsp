@@ -5,7 +5,7 @@
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3 style="margin: 0">签到页面-${cetTrainCourse.name}
-        (<a href="${ctx}/attach?code=sample_cet_sign_import" target="_blank">下载导入样表.xlsx</a>)
+        <span id="importXlsx">(<a href="${ctx}/attach?code=sample_cet_sign_import" target="_blank">下载导入样表.xlsx</a>)</span>
     </h3>
 </div>
 <div class="modal-body popup-jqgrid">
@@ -212,6 +212,11 @@
 </script>
 <script src="${ctx}/extend/js/clipboard.min.js"></script>
 <script>
+
+    <c:if test="${!adminProject}">
+        $(".btn-group, #importXlsx, #popup_uploadForm, #myTab").hide();
+        $("#popup_searchForm").css("float", "");
+    </c:if>
 
     function _refresh(btn, ret){
         //console.log(ret)

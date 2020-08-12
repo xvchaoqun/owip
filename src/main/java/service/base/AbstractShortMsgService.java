@@ -26,10 +26,10 @@ import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.entity.SendMsgResult;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.IpUtils;
-import sys.utils.StringUtil;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -221,7 +221,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
 
         byte type = shortMsgBean.getType();
         if (type == ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
-            String relateSn = StringUtil.getUUID();
+            String relateSn = ContentUtils.getUUID();
             for (Integer userId : userIds) {
 
                 shortMsgBean.setMobile(userBeanService.getMsgMobile(userId));

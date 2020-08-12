@@ -590,8 +590,8 @@ public class MemberService extends MemberBaseMapper {
 
             row++;
             Member record = new Member();
-            String userCode = StringUtil.trimAll(xlsRow.get(0));
-            String idcard = StringUtil.trimAll(xlsRow.get(2));
+            String userCode = ContentUtils.trimAll(xlsRow.get(0));
+            String idcard = ContentUtils.trimAll(xlsRow.get(2));
             Map<String, List<String>> codeMap = new HashMap<>();
             if (StringUtils.isBlank(userCode)) {
                 //通过身份证号得到userCode
@@ -631,7 +631,7 @@ public class MemberService extends MemberBaseMapper {
             }
 
             //分党委
-            String partyName = StringUtil.trimAll(xlsRow.get(3));
+            String partyName = ContentUtils.trimAll(xlsRow.get(3));
             Party party = new Party();
             if (StringUtils.isBlank(partyName)){
                 throw new OpException("第{0}行分党委名称为空", row);
@@ -650,7 +650,7 @@ public class MemberService extends MemberBaseMapper {
                 }
                 party.setName(partyName);
                 party.setShortName("");
-                party.setCode(partyService.genCode(StringUtil.trimAll(startCode)));
+                party.setCode(partyService.genCode(ContentUtils.trimAll(startCode)));
                 MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", "事业单位");
                 party.setUnitTypeId(partyUnitType.getId());
                 MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
@@ -683,7 +683,7 @@ public class MemberService extends MemberBaseMapper {
 
             //党支部
             if (!partyService.isDirectBranch(partyId)) {
-                String branchName = StringUtil.trimAll(xlsRow.get(4));
+                String branchName = ContentUtils.trimAll(xlsRow.get(4));
                 Branch branch = new Branch();
                 if (StringUtils.isBlank(branchName)){
                     throw new OpException("第{0}行党支部名称为空", row);

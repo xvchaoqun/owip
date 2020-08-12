@@ -1584,7 +1584,7 @@ public class MemberController extends MemberBaseController {
         //在原excel的最后一列再添加一列
         XSSFCell cententCell = contentRow.createCell(coloumNum);
         //设置新增列的列宽（用于导出结果表）
-        int columnWidth = sheet.getColumnWidth(3);
+        //int columnWidth = sheet.getColumnWidth(3);
         sheet.setColumnWidth(coloumNum,(short)(35.7 * 300));
         //设置新增列的值
         cententCell.setCellValue("数据存在的问题");
@@ -1596,6 +1596,7 @@ public class MemberController extends MemberBaseController {
 
             row ++;
             contentRow = sheet.getRow(row);
+            if(contentRow==null) continue;
 
             /*//获取第 row+1 行最后一列的样式
             XSSFCellStyle bodyStyle = wb.createCellStyle();
@@ -1603,16 +1604,17 @@ public class MemberController extends MemberBaseController {
 
             //设置内容字体颜色为红色
             //bodyStyle.getFont().setColor(IndexedColors.RED.getIndex());
-            //在原excel的最后一列再添加一列
-            cententCell = contentRow.createCell(4);
             //设置新增列样式
             cententCell.setCellStyle(bodyStyle);*/
 
+            //在原excel的最后一列再添加一列
+            cententCell = contentRow.createCell(4);
+
             Member record = new Member();
 
-            String code = StringUtil.trimAll(xlsRow.get(0));
-            String partyName = StringUtil.trimAll(xlsRow.get(2));
-            String branchName = StringUtil.trimAll(xlsRow.get(3));
+            String code = ContentUtils.trimAll(xlsRow.get(0));
+            String partyName = ContentUtils.trimAll(xlsRow.get(2));
+            String branchName = ContentUtils.trimAll(xlsRow.get(3));
 
             SysUserView sysUserView = CmTag.getUserByCode(code);
             if (sysUserView == null) {

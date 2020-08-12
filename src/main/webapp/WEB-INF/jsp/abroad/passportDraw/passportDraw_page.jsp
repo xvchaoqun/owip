@@ -89,7 +89,9 @@
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
                             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">
-                                <button class="printProofBtn btn btn-warning btn-sm">
+                                <button class="jqLinkBtn btn btn-warning btn-sm"
+                                        data-target="_blank"
+                                        data-url="/report/preview?url=${ctx}/report/abroad_draw_proof">
                                     <i class="fa fa-print"></i> 打印在职证明
                                 </button>
                             </c:if>
@@ -246,19 +248,6 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-
-
-    $(".printProofBtn").click(function () {
-        var grid = $("#jqGrid");
-        var ids = grid.getGridParam("selarrrow");
-
-        if (ids.length == 0) {
-            SysMsg.warning("请选择行", "提示");
-            return;
-        }
-        $.print("${ctx}/report/abroad_draw_proof?ids[]=" + ids)
-    });
-
     $("#jqGrid").jqGrid({
         url: '${ctx}/abroad/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -266,7 +255,6 @@
                 label: '编号',
                 align: 'center',
                 name: 'id',
-                width: 50,
                 formatter: function (cellvalue, options, rowObject) {
                     return 'D{0}'.format(cellvalue);
                 },

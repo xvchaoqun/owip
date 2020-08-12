@@ -29,6 +29,7 @@ import sys.tags.CmTag;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
+import sys.utils.NumberUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -271,15 +272,19 @@ public class AbroadReportController extends AbroadBaseController {
 
     @RequestMapping(value = "/abroad_draw_proof")
     public String abroad_draw_proof(@CurrentUser SysUserView loginUser,
-                                    @RequestParam(value = "ids[]") Integer[] ids,
+                                    String ids,
                                     Integer type,
                                     @RequestParam(defaultValue = "pdf") String format,
                                     Model model) throws IOException, DocumentException {
 
         SecurityUtils.getSubject().checkPermission("passportDraw:list");
 
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (Integer id : ids) {
+        for (Integer id : idSet) {
             Map<String, Object> map = getDrawProofMap(id);
             map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "abroad_draw_proof.jpg");
             if (type != null && type == 1) {

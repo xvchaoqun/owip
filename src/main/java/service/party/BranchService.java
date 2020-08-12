@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
-import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
 import java.math.BigDecimal;
@@ -104,23 +103,29 @@ public class BranchService extends BaseMapper {
         return branchMapper.countByExample(example) > 0;
     }
 
+    // 生成支部编码：所在党委编码+三位数字
     public String genCode(int partyId) {
 
-        int num;
-        BranchExample example = new BranchExample();
-        example.createCriteria().andPartyIdEqualTo(partyId);
-        //example.setOrderByClause("code desc");
-        example.setOrderByClause("right(code,2) desc"); // 支部转移之后，party.code还是原来的
-        List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if (branchs.size() > 0) {
-            String code = branchs.get(0).getCode();
-            String _code = code.substring(code.length() - 2);
-            num = Integer.parseInt(_code) + 1;
-        } else {
-            num = 1;
-        }
         Party party = partyMapper.selectByPrimaryKey(partyId);
-        return party.getCode() + String.format("%02d", num);
+        String partyCode = party.getCode();
+
+        int num = 1;
+        String branchCode = null;
+        boolean isExisted;
+        do {
+
+            branchCode = partyCode + String.format("%03d", num);
+
+            BranchExample example = new BranchExample();
+            example.createCriteria().andPartyIdEqualTo(partyId).andCodeEqualTo(branchCode);
+
+            isExisted = branchMapper.countByExample(example) > 0;
+
+            num++;
+
+        }while (isExisted && num<=999);
+
+        return branchCode;
     }
 
     @Transactional
@@ -360,7 +365,7 @@ public class BranchService extends BaseMapper {
         branch.setShortName(branchName);
         branch.setPartyId(partyId);
         // 事业单位
-        branch.setUnitTypeId(CmTag.getMetaTypeByCode("mt_branch_institution").getId());
+        //branch.setUnitTypeId(CmTag.getMetaTypeByCode("mt_branch_institution").getId());
         branch.setIsEnterpriseBig(false);
         branch.setIsEnterpriseNationalized(false);
         branch.setIsUnion(false);

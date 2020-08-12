@@ -97,7 +97,7 @@
                   return '{0}/{1}'.format(rowObject.finishCount, rowObject.courseCount);
               }, frozen: true},
               { label: '完成学时数',name: 'finishPeriod', frozen: true},
-
+              {name:"objId", hidden:true, key:true}
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid2');

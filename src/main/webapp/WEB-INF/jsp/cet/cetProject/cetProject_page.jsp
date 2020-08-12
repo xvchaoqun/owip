@@ -58,7 +58,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </c:if>
                 <c:if test="${status==_PASS||status==_UNPASS}">
-                    <button class="jqBatchBtn btn btn-warning btn-sm"
+                    <button class="jqBatchBtn btn btn-info btn-sm"
                             data-title="返回待报送"
                             data-msg="确定返回待报送？（已选{0}条数据）"
                        data-url="${ctx}/cet/cetProject_back"

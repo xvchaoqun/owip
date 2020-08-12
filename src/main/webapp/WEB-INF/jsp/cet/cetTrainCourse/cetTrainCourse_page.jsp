@@ -67,6 +67,10 @@
 <div id="jqGridPager2"></div>
 
 <script>
+    <c:if test="${!adminProject}">
+        $(".buttons button").hide();
+    </c:if>
+
     var objCount = ${cetProject.objCount};
     var projectId = ${cetProject.id};
     $.register.date($('.date-picker'));

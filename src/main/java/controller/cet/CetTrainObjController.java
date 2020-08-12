@@ -256,7 +256,7 @@ public class CetTrainObjController extends CetBaseController {
     public Map updateSignToken(Integer trainCourseId,
                                @RequestParam(required = false, defaultValue = "2")Integer expireInHours) {
 
-        String signToken = StringUtil.getUUID();
+        String signToken = ContentUtils.getUUID();
         long signTokenExpire = System.currentTimeMillis() + expireInHours*60*60*1000;
         cetTrainCourseService.updateSignToken(trainCourseId, signToken,
                 signTokenExpire);
