@@ -1,20 +1,13 @@
 package controller.sc.scShift;
 
-import controller.BaseController;
 import controller.sc.ScBaseController;
+import domain.base.MetaType;
 import domain.sc.scShift.ScShift;
 import domain.sc.scShift.ScShiftExample;
 import domain.sc.scShift.ScShiftExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,25 +19,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.sc.ScShift.ScShiftMapper;
-import sys.constants.SystemConstants;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Action;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
@@ -57,8 +44,14 @@ public class ScShiftController extends ScBaseController {
 
     @RequiresPermissions("scShift:list")
     @RequestMapping("/scShift")
-    public String scShift() {
+    public String scShift(Integer postId, Integer assignPostId, ModelMap modelMap) {
 
+        if (postId != null){
+            modelMap.put("post",unitPostMapper.selectByPrimaryKey(postId));
+        }
+        if (assignPostId != null){
+            modelMap.put("assignPost",unitPostMapper.selectByPrimaryKey(assignPostId));
+        }
         return "sc/scShift/scShift/scShift_page";
     }
 
@@ -86,18 +79,18 @@ public class ScShiftController extends ScBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (postId!=null) {
+        if (postId != null) {
             criteria.andPostIdEqualTo(postId);
         }
-        if (assignPostId!=null) {
+        if (assignPostId != null) {
             criteria.andAssignPostIdEqualTo(assignPostId);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             scShift_export(example, response);
             return;
@@ -108,7 +101,7 @@ public class ScShiftController extends ScBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScShift> records= scShiftMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScShift> records = scShiftMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -131,13 +124,13 @@ public class ScShiftController extends ScBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            
+
             scShiftService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_SC_SHIFT, "添加交流轮岗：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_SC_SHIFT, "添加交流轮岗：{0}", record.getId()));
         } else {
 
             scShiftService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_SC_SHIFT, "更新交流轮岗：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_SC_SHIFT, "更新交流轮岗：{0}", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -150,6 +143,7 @@ public class ScShiftController extends ScBaseController {
         if (id != null) {
             ScShift scShift = scShiftMapper.selectByPrimaryKey(id);
             modelMap.put("scShift", scShift);
+            modelMap.put("scRecord", iScMapper.getScRecordView(scShift.getRecordId()));
         }
         return "sc/scShift/scShift/scShift_au";
     }
@@ -162,7 +156,7 @@ public class ScShiftController extends ScBaseController {
         if (id != null) {
 
             scShiftService.del(id);
-            logger.info(log( LogConstants.LOG_SC_SHIFT, "删除交流轮岗：{0}", id));
+            logger.info(log(LogConstants.LOG_SC_SHIFT, "删除交流轮岗：{0}", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -173,31 +167,34 @@ public class ScShiftController extends ScBaseController {
     public Map scShift_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             scShiftService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_SC_SHIFT, "批量删除交流轮岗：{0}", StringUtils.join(ids, ",")));
+            logger.info(log(LogConstants.LOG_SC_SHIFT, "批量删除交流轮岗：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
+
     public void scShift_export(ScShiftExample example, HttpServletResponse response) {
 
         List<ScShift> records = scShiftMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"干部|100","拟调整岗位|100","拟任职岗位|100","拟任职岗位所在单位名称|100","拟任职岗位所在单位类型|100","是否正职|100","是否班子负责人|100","岗位级别|100","职务属性|100"};
+        String[] titles = {"干部|100", "拟调整岗位|250", "拟任职岗位|250", "拟任职岗位所在单位名称|200", "拟任职岗位所在单位类型|100", "是否正职|100", "是否班子负责人|100", "岗位级别|100", "职务属性|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ScShift record = records.get(i);
+
+            MetaType unitType = CmTag.getMetaType(record.getUnitTypeId());
             String[] values = {
-                record.getUserId()+"",
-                            record.getPostId()+"",
-                            record.getAssignPostId()+"",
-                            record.getUnitName(),
-                            record.getUnitTypeId()+"",
-                            record.getIsPrincipal()+"",
-                            record.getLeaderType()+"",
-                            record.getAdminLevel()+"",
-                            record.getPostType()+""
+                    record.getUser().getRealname(),
+                    record.getUnitPost().getName(),
+                    record.getAssignPost().getName(),
+                    record.getUnitName(),
+                    unitType == null?"":unitType.getName(),
+                    record.getIsPrincipal()?"是":"否",
+                    SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
+                    CmTag.getMetaType(record.getAdminLevel()).getName(),
+                    CmTag.getMetaType(record.getPostType()).getName(),
             };
             valuesList.add(values);
         }
@@ -207,7 +204,7 @@ public class ScShiftController extends ScBaseController {
 
     @RequestMapping("/scShift_selects")
     @ResponseBody
-    public Map scShift_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map scShift_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -222,16 +219,16 @@ public class ScShiftController extends ScBaseController {
         example.setOrderByClause("id desc");
 
         long count = scShiftMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScShift> records = scShiftMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<ScShift> records = scShiftMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List options = new ArrayList<>();
-        if(null != records && records.size()>0){
+        if (null != records && records.size() > 0) {
 
-            for(ScShift record:records){
+            for (ScShift record : records) {
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", record.getId() + "");

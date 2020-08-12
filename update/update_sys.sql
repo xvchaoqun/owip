@@ -1,3 +1,19 @@
+2020.08.12
+-- 添加源数据
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (3002, NULL, '交流轮岗类型', '干部选拔任用', '交流轮岗', 'mc_sc_shift', '', '', '', 2615, 1);
+
+INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (811, 3002, '机关部处之间轮岗', 'mt_cudnjh', NULL, NULL, '', 1, 1);
+INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (812, 3002, '学院之间轮岗', 'mt_qkhpqb', NULL, NULL, '', 2, 1);
+INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (813, 3002, '机关部处与学院之间轮岗', 'mt_ut5hjb', NULL, NULL, '', 3, 1);
+
+-- 更新系统资源
+UPDATE `db_owip`.`sys_resource` SET `type`='menu', `url`=NULL WHERE  `id`=893;
+
+-- 添加系统资源
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3042, 0, '参数设置', '', 'url', '', '/metaClass_type_list?cls=mc_sc_shift', 893, '0/1/339/893/', 1, 'mc_sc_shift:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3043, 0, '交流轮岗', '', 'url', '', '/sc/scShift', 893, '0/1/339/893/', 1, 'scShiftPost:*', NULL, NULL, NULL, 1, NULL);
+
+
 2020.06.15
 -- 添加系统参数 桑文帅
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (53, 'memberApply_needContinueDevelop', '申请继续培养', 'true', 3, 52, '申请继续培养');

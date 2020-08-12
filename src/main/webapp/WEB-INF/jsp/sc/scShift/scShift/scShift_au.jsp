@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="UNIT_POST_STATUS_NORMAL" value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${scShift!=null?'编辑':'添加'}交流轮岗</h3>
@@ -14,14 +15,28 @@
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1"
                         data-width="273" name="userId" data-placeholder="请选择干部">
-                    <option value="${cadre.id}">${cm:getUserById(cadre.userId).realname}</option>
+                    <option value="${scShift.userId}">${cm:getUserById(scShift.userId).realname}</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span> 交流类型</label>
+            <div class="col-xs-6">
+                <select required class="col-xs-6" required name="type" data-width="270"
+                        data-rel="select2" data-placeholder="请选择">
+                    <option></option>
+                    <c:import url="/metaTypes?__code=mc_sc_shift"/>
+                </select>
+                <script type="text/javascript">
+                    $("#modalForm select[name=type]").val(${scShift.type});
+                </script>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label"> 拟调整岗位</label>
             <div class="col-xs-6 postIdSelect">
                 <input type="hidden" name="recordPostId" value=""/>
+                <c:set value="${scShift.unitPost}" var="unitPost" />
                 <select name="postId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
                         data-width="273" data-placeholder="请选择">
                     <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
@@ -31,9 +46,10 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span> 拟任职岗位</label>
             <div class="col-xs-6">
+                <c:set var="assignPost" value="${scShift.assignPost}" />
                 <select required name="assignPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
                         data-width="273" data-placeholder="请选择">
-                    <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
+                    <option value="${assignPost.id}" delete="${assignPost.status!=UNIT_POST_STATUS_NORMAL}">${assignPost.code}-${assignPost.name}</option>
                 </select>
             </div>
         </div>
@@ -44,20 +60,9 @@
                 <input readonly class="form-control" type="text" name="recordCode" value="${scRecord.code}">
             </div>
             <button id="selectRecordBtn" type="button" class="btn btn-success btn-sm"><i
-                    class="fa fa-chevron-circle-down"></i> 选择
+                    class="fa fa-plus"></i> 选择
             </button>
         </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span> 交流类型</label>
-            <div class="col-xs-6">
-                <select required class="col-xs-6" required name="type" data-width="270"
-                        data-rel="select2" data-placeholder="请选择">
-                    <option></option>
-                    <c:import url="/metaTypes?__code=mc_sc_shift"/>
-                </select>
-            </div>
-        </div>
-
         <div class="form-group">
             <label class="col-xs-3 control-label"> 备注</label>
             <div class="col-xs-6">
