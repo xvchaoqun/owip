@@ -17,6 +17,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -317,6 +318,11 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             record.setStage(OwConstants.OW_APPLY_STAGE_DRAW);
             record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+
+            if(!CmTag.getBoolProperty("draw_od_check")) {
+                // 领取志愿书不需要组织部审批
+                record.setGrowStatus(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
+            }
 
             record.setDrawTime(drawTime);
 

@@ -9,6 +9,15 @@
     <form class="form-horizontal" action="${ctx}/apply_grow_od_check" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
         <input type="hidden" name="ids" value="${ids}">
+        <shiro:lacksPermission name="applySnRange:*">
+            <span class="msg info"><c:if test="${totalCount==0}">
+                没有需要审批的记录
+                 </c:if>
+        <c:if test="${totalCount>0}">
+            确定通过这${totalCount}个申请？
+            </c:if></span>
+        </shiro:lacksPermission>
+        <shiro:hasPermission name="applySnRange:*">
         <c:if test="${totalCount==0}">
             <span class="msg info">没有需要分配志愿书编码的记录</span>
         </c:if>
@@ -80,6 +89,7 @@
                 </div>
             </div>
         </c:if>
+        </shiro:hasPermission>
     </form>
 </div>
 <div class="modal-footer">

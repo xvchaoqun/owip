@@ -171,7 +171,7 @@ public class PartyHelper {
                 if (memberApply.getGrowStatus() == null) {
                     stage = "待组织部审核";
                 } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
-                    stage = "组织部已审核，待支部发展为预备党员";
+                    stage = "待支部发展为预备党员";
                 } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
                     stage = "支部已提交，待分党委审核";
                 }

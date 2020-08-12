@@ -108,7 +108,10 @@
                                 <option></option>
                                 <option value="-1">待组织部审核</option>
                                 <option value="2">
-                                    组织部已审核，待${_p_partyName}发展为预备党员
+                                    待支部发展为预备党员
+                                </option>
+                                <option value="0">
+                                    支部已提交，待分党委审核
                                 </option>
                             </select>
                             <script>

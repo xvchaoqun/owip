@@ -1,24 +1,4 @@
-20200812
-ALTER TABLE `base_meta_class`
-	CHANGE COLUMN `available` `is_deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否删除 ' AFTER `sort_order`,
-	DROP COLUMN `role_id`;
 
-update base_meta_class set is_deleted =ABS(is_deleted-1);
-  -- 更新 base_meta_type_view
-
-INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2700, '发文属性', '元数据管理', '发文类型', 'mc_dispatch_attr', '', '', '', 2617, 0);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '党务', 'mt_6o4qyy', NULL, '', '', 1, 1);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '行政', 'mt_zkdnwg', NULL, '', '', 2, 1);
-
-update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_6o4qyy')
-where attr =  '党务' or attr =  '党委';
-update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_zkdnwg')
-where attr =  '行政';
-
-ALTER TABLE `dispatch_type`
-	CHANGE COLUMN `attr` `attr` INT UNSIGNED NULL DEFAULT NULL COMMENT '发文属性' AFTER `name`;
-
-20200808
 ALTER TABLE `cet_project`
 	COMMENT='培训项目，包含专题培训和年度培训',
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训 3 二级党委专题培训 4 二级党委日常培训' AFTER `id`;
@@ -141,6 +121,50 @@ ALTER TABLE `ow_branch`
 ALTER TABLE `cet_annual_obj`
 	ADD COLUMN `trainee_type_id` INT(10) UNSIGNED NOT NULL COMMENT '培训对象类型，冗余字段' AFTER `year`;
 update cet_annual_obj cao, cet_annual ca set cao.trainee_type_id=ca.trainee_type_id where ca.id=cao.annual_id;
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('draw_od_check', '组织部审批领取志愿书', 'true', 3, 67, '领取志愿书是否需要组织部审批');
+-- 领取志愿书不需要组织部审批，需更新历史数据（北邮）
+-- update ow_member_apply set grow_status=2 where stage=5 and draw_status=1 and grow_status is null;
+
+ALTER TABLE `base_meta_class`
+	CHANGE COLUMN `available` `is_deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否删除 ' AFTER `sort_order`,
+	DROP COLUMN `role_id`;
+
+update base_meta_class set is_deleted =ABS(is_deleted-1);
+  -- 更新 base_meta_type_view
+
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2700, '发文属性', '元数据管理', '发文类型', 'mc_dispatch_attr', '', '', '', 2617, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '党务', 'mt_6o4qyy', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '行政', 'mt_zkdnwg', NULL, '', '', 2, 1);
+
+-- 查询一下实际情况
+update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_6o4qyy')
+where attr =  '党务' or attr =  '党委';
+update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_zkdnwg')
+where attr =  '行政';
+
+ALTER TABLE `dispatch_type`
+	CHANGE COLUMN `attr` `attr` INT UNSIGNED NULL DEFAULT NULL COMMENT '发文属性' AFTER `name`;
+
+ALTER TABLE `base_meta_class`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除 ' AFTER `sort_order`;
+
+-- 添加源数据
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (3100, '交流轮岗类型', '干部选拔任用', '交流轮岗', 'mc_sc_shift', '', '', '', 2615, 0);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处之间轮岗', 'mt_cudnjh', NULL, NULL, '', 1, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '学院之间轮岗', 'mt_qkhpqb', NULL, NULL, '', 2, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处与学院之间轮岗', 'mt_ut5hjb', NULL, NULL, '', 3, 0);
+
+-- 更新系统资源
+UPDATE `db_owip`.`sys_resource` SET `type`='menu', `url`=NULL WHERE  `id`=893;
+
+-- 添加系统资源
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3042, 0, '参数设置', '', 'url', '', '/metaClass_type_list?cls=mc_sc_shift', 893, '0/1/339/893/', 1, 'mc_sc_shift:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3043, 0, '交流轮岗', '', 'url', '', '/sc/scShift', 893, '0/1/339/893/', 1, 'scShiftPost:*', NULL, NULL, NULL, 1, NULL);
+
+
 20200730
 吉大 -- 北师大
 

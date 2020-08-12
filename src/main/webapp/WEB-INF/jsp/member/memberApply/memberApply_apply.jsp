@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['memberApply_timeLimit']=='true'}" var="_memberApply_timeLimit"/>
+<c:set value="${_pMap['draw_od_check']=='true'}" var="_p_draw_od_check"/>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>
@@ -156,6 +157,7 @@
              </button>--%>
         </c:when>
         <c:when test="${stage==OW_APPLY_STAGE_DRAW}">
+            <c:if test="${_p_draw_od_check}">
             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                 <button id="growOdCheckCount" ${growOdCheckCount>0?'':'disabled'}
                         class="jqOpenViewBtn btn btn-danger btn-sm"
@@ -169,6 +171,7 @@
                     组织部审核（${growOdCheckCount}）
                 </button>
             </shiro:hasAnyRoles>
+            </c:if>
             <button id="growBtn" ${growCount>0?'':'disabled'}
                     class="jqOpenViewBtn btn btn-success btn-sm"
                     data-url="${ctx}/memberApply_approval"
@@ -356,9 +359,14 @@
                                     data-rel="select2"
                                     data-placeholder="请选择">
                                 <option></option>
+                                <c:if test="${_p_draw_od_check}">
                                 <option value="-1">待组织部审核</option>
+                                    </c:if>
                                 <option value="2">
-                                    组织部已审核，待${_p_partyName}发展为预备党员
+                                    待支部发展为预备党员
+                                </option>
+                                <option value="0">
+                                    支部已提交，待分党委审核
                                 </option>
                             </select>
                             <script>
@@ -554,7 +562,9 @@
             },
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
+            <shiro:hasPermission name="applySnRange:list">
             {label: '志愿书编码', name: 'applySn', width: 150},
+            </shiro:hasPermission>
             {
                 label: '发展时间', name: 'growTime', formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.drawTime, 6);
@@ -709,6 +719,7 @@
     </c:if>
 
     <c:if test="${stage==OW_APPLY_STAGE_DRAW}">
+    <c:if test="${_p_draw_od_check}">
     <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "组织部批量审核",
@@ -717,6 +728,7 @@
         props: 'data-url="${ctx}/apply_grow_od_check"'
     });
     </shiro:hasRole>
+    </c:if>
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "支部发展为预备党员（批量）",
         btnbase: "jqOpenViewBatchBtn btn btn-success btn-sm",
