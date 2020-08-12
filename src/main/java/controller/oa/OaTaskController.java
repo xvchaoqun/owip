@@ -276,7 +276,7 @@ public class OaTaskController extends OaBaseController {
     @RequiresPermissions("oaTask:edit")
     @RequestMapping("/oaTask_selectCadres_tree")
     @ResponseBody
-    public Map oaTask_selectCadres_tree(@RequestParam(required = false) Integer[] userIds) throws IOException {
+    public Map oaTask_selectCadres_tree(Integer[] userIds) throws IOException {
 
         Set<Integer> selectIdSet = null;
         if (userIds != null && userIds.length > 0) {

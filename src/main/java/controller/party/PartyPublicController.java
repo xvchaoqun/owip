@@ -333,7 +333,7 @@ public class PartyPublicController extends BaseController {
     public String partyPublic_users(byte type, int partyId,
                                     Integer branchId, Integer userId, Byte applyType,
                                     Integer publicId,
-                                    @RequestParam(value = "selectUserIds", required = false) Integer[] selectUserIds,
+                                    Integer[] selectUserIds,
                                     ModelMap modelMap) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();

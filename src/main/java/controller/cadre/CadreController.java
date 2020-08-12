@@ -252,7 +252,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            Integer[] ids, // 导出的记录
-                           @RequestParam(required = false) Integer[] cols, // 选择导出的列
+                           Integer[] cols, // 选择导出的列
                            Integer pageSize, Integer pageNo) throws IOException, TemplateException, DocumentException {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {

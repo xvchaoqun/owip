@@ -168,7 +168,7 @@ public class DpMemberController extends DpBaseController {
                                     Boolean isHonorRetire,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
-                                 @RequestParam(required = false) Integer[] cols, // 选择导出的列
+                                 Integer[] cols, // 选择导出的列
                                  Integer pageSize, Integer pageNo)  throws IOException {
 
         if (null == pageSize) {

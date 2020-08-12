@@ -175,7 +175,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
     @RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map ${tableName}_batchDel(HttpServletRequest request, @RequestParam(value = "ids") Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
+    public Map ${tableName}_batchDel(HttpServletRequest request, Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
 
 
         if (null != ${tbn(key, "tableName")}s && ${tbn(key, "tableName")}s.length>0){

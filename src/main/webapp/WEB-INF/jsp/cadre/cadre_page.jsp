@@ -220,6 +220,7 @@
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="jqRunBtn" data-grid-id="#jqGrid"
+                                                       data-ids-name="cadreIds"
                                                        data-title="更新"
                                                        data-msg="确定更新这{0}条数据（<span class='text-danger'>更新所有的“无此类情况”为“是”</span>）？"
                                                        data-url="${ctx}/cadreInfoCheck_batchUpdate?status=${status}">
@@ -533,7 +534,6 @@
         //forceFit:true,
         rownumbers: true,
         mtype:'POST',
-        ajaxGridOptions:{traditional:true},
         postData:${cm:toJSONObject(pageContext.request.parameterMap)},
         url: '${ctx}/cadre_data?callback=?',
         colModel: ${(status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ)

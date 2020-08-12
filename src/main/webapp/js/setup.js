@@ -846,8 +846,7 @@ $(document).on("click", ".jqExportBtn", function (e) {
     //var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
     var searchFormId = $this.data("search-form-id") || "#searchForm";
 
-    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&"+
-        encodeURI(idsName)+"=" + ids;
+    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&"+ encodeURI(idsName)+"=" + ids;
 
     $this.download(url, type, $(searchFormId).serialize(), method);
 
@@ -938,6 +937,7 @@ $(document).on("click", ".jqRunBtn", function (e) {
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
 
+    var idsName = $this.data("ids-name") || 'ids';
     var needIds = $(this).data("need-ids");
     if (needIds == undefined) needIds = true;
 
@@ -949,13 +949,15 @@ $(document).on("click", ".jqRunBtn", function (e) {
         return;
     }
 
+    url += (url.indexOf("?") > 0 ? "&" : "?") + encodeURI(idsName)+"=" + ids;
+
     $this.data("loading-text", $this.data("loading-text") || '<i class="fa fa-spinner fa-spin"></i> 操作中')
 
     var callback = $.trim($this.data("callback"));
     SysMsg.confirm(ids.length==0?allMsg:msg.format(ids.length), title, function () {
 
         var $btn = $this.button('loading');
-        $.post(url, {ids: ids}, function (ret) {
+        $.post(url, function (ret) {
             if (ret.success) {
                 if($this.data("tip")!='no') {
                     var $tip = $.tip({

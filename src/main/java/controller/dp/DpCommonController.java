@@ -68,7 +68,7 @@ public class DpCommonController extends DpBaseController {
     //教职工
     @RequestMapping("/teacher_select")
     @ResponseBody
-    public Map sysUser_selects(@RequestParam(required = false, value ="[1]") Byte[] types,
+    public Map sysUser_selects(Byte[] types,
                                @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                                Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 

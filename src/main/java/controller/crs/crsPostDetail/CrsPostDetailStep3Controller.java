@@ -118,7 +118,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
     @RequestMapping("/crsPost_detail/step3_shortMsg_list")
     public String step3_shortMsg_list(int postId,
                                       Integer userId,
-                                      @RequestParam(name = "tplKey") String[] tplKey,
+                                      String[] tplKey,
                                  Integer pageSize, Integer pageNo,
                                  ModelMap modelMap) {
 

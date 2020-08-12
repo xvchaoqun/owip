@@ -267,7 +267,7 @@ public class CgMemberController extends CgBaseController {
     @RequiresPermissions("cgMember:plan")
     @RequestMapping(value = "/cgMember_updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgMember_updateUser(@RequestParam(required = false,value = "ids") Integer[] ids) {
+    public Map do_cgMember_updateUser(Integer[] ids) {
 
         if (null != ids && ids.length>0){
 

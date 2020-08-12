@@ -152,8 +152,8 @@ public class ScDispatchController extends ScBaseController {
     public Map do_scDispatch_au(ScDispatch record,
                                 MultipartFile _wordFilePath,
                                 MultipartFile _pdfFilePath,
-                                @RequestParam(required=false, value = "committeeIds[]") Integer[] committeeIds,
-                                @RequestParam(required=false, value = "voteIds[]") Integer[] voteIds,
+                                Integer[] committeeIds,
+                                Integer[] voteIds,
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
         if(record.getFilePath()!=null) {
@@ -216,7 +216,7 @@ public class ScDispatchController extends ScBaseController {
 
     @RequiresPermissions("scDispatch:edit")
     @RequestMapping("/scDispatch_users")
-    public String scDispatch_users(@RequestParam(required=false, value = "committeeIds[]") Integer[] committeeIds, ModelMap modelMap) {
+    public String scDispatch_users(Integer[] committeeIds, ModelMap modelMap) {
 
         if(committeeIds!=null && committeeIds.length>0) {
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
@@ -232,7 +232,7 @@ public class ScDispatchController extends ScBaseController {
 
     @RequiresPermissions("scDispatch:edit")
     @RequestMapping(value = "/scDispatch_selectUser", method = RequestMethod.POST)
-    public void do_scDispatch_selectUser(@RequestParam(required=false, value = "voteIds[]") Integer[] voteIds,
+    public void do_scDispatch_selectUser(Integer[] voteIds,
                                        HttpServletResponse response) throws IOException {
 
         List<ScCommitteeVoteView> votes = new ArrayList<>();
@@ -296,7 +296,7 @@ public class ScDispatchController extends ScBaseController {
     @RequiresPermissions("scDispatch:del")
     @RequestMapping(value = "/scDispatch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scDispatch_batchDel(HttpServletRequest request, @RequestParam(required=false, value = "ids") Integer[] ids, ModelMap modelMap) {
+    public Map scDispatch_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

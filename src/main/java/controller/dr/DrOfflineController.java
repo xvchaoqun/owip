@@ -402,7 +402,7 @@ public class DrOfflineController extends DrBaseController {
     @RequestMapping(value = "/drOffline_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_drOffline_au(DrOffline record,
-                               @RequestParam(value = "memberIds", required = false) Integer[] memberIds,
+                               Integer[] memberIds,
                                HttpServletRequest request) {
 
         Integer id = record.getId();

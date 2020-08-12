@@ -395,7 +395,6 @@
         //forceFit:true,
         rownumbers: true,
         mtype:'POST',
-        ajaxGridOptions:{traditional:true},
         postData:${cm:toJSONObject(pageContext.request.parameterMap)},
         url: '${ctx}/cadreReserve_data?reserveType=${reserveType}&callback=?',
         colModel: [

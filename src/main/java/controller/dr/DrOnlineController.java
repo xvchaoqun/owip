@@ -173,7 +173,7 @@ public class DrOnlineController extends DrBaseController {
     @ResponseBody
     public Map do_drOnline_au(DrOnline record,
                               String _recommendDate,
-                              @RequestParam(value = "memberIds", required = false) Integer[] memberIds,
+                              Integer[] memberIds,
                               HttpServletRequest request) {
 
         Integer id = record.getId();

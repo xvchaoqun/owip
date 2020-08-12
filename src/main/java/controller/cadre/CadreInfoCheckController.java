@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.utils.FormUtils;
@@ -43,7 +42,7 @@ public class CadreInfoCheckController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadreInfoCheck_batchUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreInfoCheck_batchUpdate(@RequestParam(required = false, value = "ids" ) Integer[] cadreIds,
+    public Map do_cadreInfoCheck_batchUpdate(Integer[] cadreIds,
                                              byte status, HttpServletRequest request) {
 
         CadreExample example = new CadreExample();
