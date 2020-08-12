@@ -73,7 +73,7 @@ public class MetaTypeService extends BaseMapper {
         Integer classId = null;
         {
             MetaClassExample example = new MetaClassExample();
-            example.createCriteria().andCodeEqualTo(classCode).andAvailableEqualTo(true);
+            example.createCriteria().andCodeEqualTo(classCode).andIsDeletedEqualTo(false);
             List<MetaClass> metaClasses = metaClassMapper.selectByExample(example);
             if (metaClasses.size() == 0) return map;
             MetaClass metaClass = metaClasses.get(0);
@@ -124,7 +124,7 @@ public class MetaTypeService extends BaseMapper {
         Integer classId = null;
         {
             MetaClassExample example = new MetaClassExample();
-            example.createCriteria().andCodeEqualTo(classCode).andAvailableEqualTo(true);
+            example.createCriteria().andCodeEqualTo(classCode).andIsDeletedEqualTo(false);
             List<MetaClass> metaClasses = metaClassMapper.selectByExample(example);
             if (metaClasses.size() == 0) return null;
             MetaClass metaClass = metaClasses.get(0);

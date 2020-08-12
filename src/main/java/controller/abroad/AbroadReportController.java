@@ -117,13 +117,29 @@ public class AbroadReportController extends AbroadBaseController {
 
     // 领取证件？
     @RequestMapping(value = "/passportSign")
-    public String passportSign(Integer classId, Integer userId, Integer id,
+    public String passportSign(String id,
                                @RequestParam(defaultValue = "image") String format,
                                Model model) throws IOException {
 
+        UserRes verifyId= UserResUtils.verify(id);
+        String[] idInt=verifyId.getRes().split("_");
+        int recordId=0;
+        int classId=0;
+        int userId=0;
+        if(idInt.length>=1){
+            recordId= Integer.valueOf(idInt[0]);
+        }
+        if (idInt.length>=2){
+            classId= Integer.valueOf(idInt[1]);
+        }
+        if (idInt.length==3){
+            userId= Integer.valueOf(idInt[2]);
+        }
+
         PassportDraw passportDraw = null;
-        if (id != null) { // 以id为准
-            passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+        if (recordId>0) { // 以id为准
+
+            passportDraw = passportDrawMapper.selectByPrimaryKey(recordId);
             Integer passportId = passportDraw.getPassportId();
             Passport passport = passportMapper.selectByPrimaryKey(passportId);
             classId = passport.getClassId();
@@ -194,14 +210,28 @@ public class AbroadReportController extends AbroadBaseController {
     }
 
     @RequestMapping(value = "/passportApply")
-    public String passportApply(Integer classId, Integer userId,
-                                Integer id,
+    public String passportApply(String id,
                                 @RequestParam(defaultValue = "image") String format,
                                 Model model) throws IOException, DocumentException {
 
+        UserRes verifyId= UserResUtils.verify(id);
+        String[] idInt=verifyId.getRes().split("_");
+        int recordId=0;
+        int classId=0;
+        int userId=0;
+        if(idInt.length>=1){
+            recordId= Integer.valueOf(idInt[0]);
+        }
+        if (idInt.length>=2){
+           classId= Integer.valueOf(idInt[1]);
+        }
+        if (idInt.length==3){
+           userId= Integer.valueOf(idInt[2]);
+        }
+
         PassportApply passportApply = null;
-        if (id != null) { // 以id为准
-            passportApply = passportApplyMapper.selectByPrimaryKey(id);
+        if (recordId>0) { // 以id为准
+            passportApply = passportApplyMapper.selectByPrimaryKey(recordId);
             classId = passportApply.getClassId();
             CadreView cadre = iCadreMapper.getCadre(passportApply.getCadreId());
             userId = cadre.getUserId();

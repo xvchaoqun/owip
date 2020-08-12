@@ -1,4 +1,24 @@
+20200812
+ALTER TABLE `base_meta_class`
+	CHANGE COLUMN `available` `is_deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否删除 ' AFTER `sort_order`,
+	DROP COLUMN `role_id`;
 
+update base_meta_class set is_deleted =ABS(is_deleted-1);
+  -- 更新 base_meta_type_view
+
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2700, '发文属性', '元数据管理', '发文类型', 'mc_dispatch_attr', '', '', '', 2617, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '党务', 'mt_6o4qyy', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2700, '行政', 'mt_zkdnwg', NULL, '', '', 2, 1);
+
+update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_6o4qyy')
+where attr =  '党务' or attr =  '党委';
+update dispatch_type set attr = (select id from base_meta_type bmt where bmt.code = 'mt_zkdnwg')
+where attr =  '行政';
+
+ALTER TABLE `dispatch_type`
+	CHANGE COLUMN `attr` `attr` INT UNSIGNED NULL DEFAULT NULL COMMENT '发文属性' AFTER `name`;
+
+20200808
 ALTER TABLE `cet_project`
 	COMMENT='培训项目，包含专题培训和年度培训',
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训 3 二级党委专题培训 4 二级党委日常培训' AFTER `id`;

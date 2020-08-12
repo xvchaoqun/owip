@@ -14,7 +14,8 @@
 <div class="modal-body">
     <div class="row passport_apply">
         <div class="preview">
-            <img data-src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${passport.user.id}" src="${ctx}/img/loading.gif"
+            <c:set var="id" value="0_${cm:trimToZero(passportType.id)}_${cm:trimToZero(passport.user.id)}"/>
+            <img data-src="${ctx}/report/passportSign?id=${cm:sign(id)}" src="${ctx}/img/loading.gif"
                  onload="lzld(this)"/>
         </div>
 

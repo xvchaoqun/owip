@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import service.SpringProps;
+import service.base.MetaTypeService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
@@ -47,7 +48,8 @@ public class ScDispatchService extends ScBaseMapper {
     protected DispatchTypeService dispatchTypeService;
     @Autowired
     protected DispatchCadreService dispatchCadreService;
-
+    @Autowired
+    protected MetaTypeService metaTypeService;
 
     public ScDispatchView get(int id){
 
@@ -171,7 +173,7 @@ public class ScDispatchService extends ScBaseMapper {
 
 
         WordTemplate wt = new WordTemplate(ResourceUtils.getFile("classpath:xlsx/sc/"
-                +(StringUtils.equals(dispatchType.getAttr(), "党务")?"sc_dispatch_sign_ow"
+                +(StringUtils.equals( metaTypeService.getName(dispatchType.getAttr()), "党务")?"sc_dispatch_sign_ow"
                 :"sc_dispatch_sign_ad")+".docx").getAbsolutePath());
         //long start = System.currentTimeMillis();
         XWPFDocument doc = wt.process(param);

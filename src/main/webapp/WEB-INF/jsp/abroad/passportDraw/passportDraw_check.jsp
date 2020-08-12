@@ -63,7 +63,7 @@
 <div class="row passport_apply">
     <c:if test="${passportDraw.needSign}">
     <div class="preview">
-        <img data-src="${ctx}/report/passportSign?id=${param.id}" src="${ctx}/img/loading.gif"
+        <img data-src="${ctx}/report/passportSign?id=${cm:sign(param.id)}" src="${ctx}/img/loading.gif"
              onload="lzld(this)" />
     </div>
     </c:if>

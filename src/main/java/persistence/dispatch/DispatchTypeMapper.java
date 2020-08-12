@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface DispatchTypeMapper {
-    int countByExample(DispatchTypeExample example);
+    long countByExample(DispatchTypeExample example);
 
     int deleteByExample(DispatchTypeExample example);
 

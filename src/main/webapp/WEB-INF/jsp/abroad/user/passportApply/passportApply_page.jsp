@@ -63,7 +63,7 @@ pageEncoding="UTF-8" %>
                                     <c:if test="${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                                         <c:if test="${passportApply.abolish}">作废</c:if>
                                         <c:if test="${!passportApply.abolish}">
-                                        <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-xs">
+                                        <button data-id="${cm:sign(passportApply.id)}" class="printBtn btn btn-info btn-xs">
                                             <i class="fa fa-print"></i> 打印审批表
                                         </button>
                                         </c:if>

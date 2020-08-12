@@ -15,7 +15,7 @@
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
 
                 <div class="jqgrid-vertical-offset  buttons">
-
+                    <c:if test="${cls==1}">
                         <shiro:hasPermission name="metaClass:edit">
                             <a class="editBtn btn btn-info btn-sm">
                                 <i class="fa fa-plus"></i> 添加
@@ -29,20 +29,24 @@
                                 <i class="fa fa-bars"></i> 编辑属性
                             </button>
                         </shiro:hasPermission>
-                       <shiro:hasPermission name="metaClass:viewAll">
-                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                    data-url="${ctx}/metaClassRole">
-                                <i class="fa fa-pencil"></i> 修改角色
-                            </button>
-                       </shiro:hasPermission>
+
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                    </c:if>
                         <shiro:hasPermission name="metaClass:del">
-                            <a class="jqBatchBtn btn btn-danger btn-sm"
-                               data-url="${ctx}/metaClass_batchDel" data-title="删除"
-                               data-msg="确定删除这{0}个元数据分类吗？"><i class="fa fa-trash"></i> 删除</a>
+                            <c:if test="${cls==1}">
+                                <a class="jqBatchBtn btn btn-danger btn-sm"
+                                   data-url="${ctx}/metaClass_batchDel" data-title="删除"
+                                   data-msg="确定删除这{0}个元数据分类吗？"
+                                   data-querystr="&isDeleted=1"><i class="fa fa-trash"></i> 删除</a>
+                            </c:if>
+                            <c:if test="${cls==3}">
+                            <a class="jqBatchBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/metaClass_batchDel" data-title="恢复"
+                               data-msg="确定恢复这{0}个元数据分类吗？"
+                               data-querystr="&isDeleted=0"><i class="fa fa-reply"></i> 恢复</a>
+                            </c:if>
                         </shiro:hasPermission>
-
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
@@ -69,9 +73,13 @@
                                         </div>
                                     </shiro:hasPermission>
                                 <div class="clearfix form-actions center">
-                                    <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                    <a class="jqSearchBtn btn btn-default btn-sm"
+                                       data-url="${ctx}/metaClass?cls=${cls}&isDeleted=${isDeleted}"
+                                       data-target="#page-content"
+                                       data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
-                                        <button type="button" class="reloadBtn btn btn-warning btn-sm">
+                                        <button type="button" class="reloadBtn btn btn-warning btn-sm"
+                                                data-querystr="cls=${cls}&isDeleted=${isDeleted}">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>
@@ -90,7 +98,7 @@
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/metaClass_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/metaClass_data?callback=?&isDeleted=${isDeleted}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称', name: 'name', width: 250,frozen:true,align:'left' },
             { label: '所属一级目录', name: 'firstLevel', width: 200,frozen:true },

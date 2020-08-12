@@ -22,12 +22,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.PcsConstants;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/1/12.
@@ -50,7 +49,7 @@ public class PcsReportController extends PcsBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
     @RequiresPermissions("pcsProposalOw:*")
     @RequestMapping(value = "/pcsProposal")
-    public String pcsProposal(@RequestParam(value = "ids")Integer[] ids,
+    public String pcsProposal(String ids,
                       @RequestParam(defaultValue = "pdf") String format,
                       @RequestParam(defaultValue = "0") int type, // type=1 导出pdf type=2导出word
                       HttpServletResponse response,
@@ -60,7 +59,11 @@ public class PcsReportController extends PcsBaseController {
 
         List<Map<String, ?>> pcsProposalData = new ArrayList<Map<String, ?>>();
 
-        for (int id : ids) {
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
+        for (int id : idSet) {
 
             PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
             Map<String, Object> pcsProposalMap = getPcsProposalMap(pcsProposal, type);

@@ -42,7 +42,7 @@ public class DispatchTypeController extends DispatchBaseController {
     public void dispatchType_data(HttpServletResponse response,
                                     Short year,
                                     String name,
-                                    String attr,
+                                    Integer attr,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -64,8 +64,8 @@ public class DispatchTypeController extends DispatchBaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
-        if (StringUtils.isNotBlank(attr)) {
-            criteria.andAttrLike(SqlUtils.like(attr));
+        if (attr!=null) {
+            criteria.andAttrEqualTo(attr);
         }
 
         if (export == 1) {
@@ -73,7 +73,7 @@ public class DispatchTypeController extends DispatchBaseController {
             return;
         }
 
-        int count = dispatchTypeMapper.countByExample(example);
+        long count = dispatchTypeMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -174,7 +174,7 @@ public class DispatchTypeController extends DispatchBaseController {
             DispatchType record = records.get(i);
             String[] values = {
                     record.getName(),
-                    record.getAttr(),
+                    metaTypeService.getName(record.getAttr()),
                     record.getYear()+"",
                     DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
             };
@@ -208,7 +208,7 @@ public class DispatchTypeController extends DispatchBaseController {
             criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
-        int count = dispatchTypeMapper.countByExample(example);
+        long count = dispatchTypeMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);

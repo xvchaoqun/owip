@@ -8,7 +8,8 @@
 <div class="modal-body">
   <div class="row passport_apply">
     <div class="preview">
-      <img data-src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${passport.user.id}&id=${param.id}"
+      <c:set var="id" value="${cm:trimToZero(param.id)}_${cm:trimToZero(passportType.id)}_${cm:trimToZero(passport.user.id)}"/>
+      <img data-src="${ctx}/report/passportSign?id=${cm:sign(id)}"
            src="${ctx}/img/loading.gif"
            onload="lzld(this)" />
     </div>
@@ -70,7 +71,7 @@
 </c:if>
 <c:if test="${param.type=='view'}">
     $(".printBtn").click(function () {
-        $.print("${ctx}/report/passportSign?id=${param.id}&format=pdf");
+        $.print("${ctx}/report/passportSign?id=${cm:sign(param.id)}&format=pdf");
     });
 </c:if>
 </script>

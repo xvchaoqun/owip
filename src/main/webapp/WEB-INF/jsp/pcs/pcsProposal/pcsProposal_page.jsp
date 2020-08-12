@@ -62,17 +62,14 @@ pageEncoding="UTF-8" %>
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>
 <c:if test="${cls==8}">
-                <button data-url="${ctx}/report/pcsProposal"
-                        data-querystr="format=image"
+                <button data-url="/report/preview?url=${ctx}/report/pcsProposal&format=image"
                         data-target="_blank"
                         class="jqLinkBtn btn btn-success btn-sm"><i class="fa fa-search"></i> 预览</button>
 
-                <button data-url="${ctx}/report/pcsProposal"
-                        data-querystr="type=1"
+                <button data-url="/report/preview?url=${ctx}/report/pcsProposal&type=1"
                         class="jqLinkBtn btn btn-warning btn-sm"><i class="fa fa-file-pdf-o"></i> 导出PDF</button>
 
-                <button data-url="${ctx}/report/pcsProposal"
-                        data-querystr="type=2"
+                <button data-url="/report/preview?url=${ctx}/report/pcsProposal&type=2"
                         class="jqLinkBtn btn btn-primary btn-sm"><i class="fa fa-file-word-o"></i> 导出WORD</button>
 </c:if>
             </div>

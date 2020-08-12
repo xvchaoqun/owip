@@ -31,7 +31,7 @@ public class MetaClassService extends BaseMapper {
         do {
             code = prefix + "_" + RandomStringUtils.randomAlphanumeric(6).toLowerCase();
             MetaClassExample example = new MetaClassExample();
-            example.createCriteria().andCodeEqualTo(code).andAvailableEqualTo(true);
+            example.createCriteria().andCodeEqualTo(code);
             count = metaClassMapper.countByExample(example);
         } while(count>0);
         return code;
@@ -42,7 +42,7 @@ public class MetaClassService extends BaseMapper {
         Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         MetaClassExample example = new MetaClassExample();
-        MetaClassExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andAvailableEqualTo(true);
+        MetaClassExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andIsDeletedEqualTo(false);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return metaClassMapper.countByExample(example) == 0;
@@ -77,13 +77,13 @@ public class MetaClassService extends BaseMapper {
             @CacheEvict(value = "MetaClass:ALL", allEntries = true),
             @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true)
     })
-    public void batchDel(Integer[] ids){
+    public void batch(Integer[] ids,MetaClass record){
 
         if(ids==null || ids.length==0) return;
 
         MetaClassExample example = new MetaClassExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        metaClassMapper.deleteByExample(example);
+        metaClassMapper.updateByExampleSelective(record,example);
     }
 
     @Transactional
@@ -102,7 +102,7 @@ public class MetaClassService extends BaseMapper {
     public Map<String, MetaClass> codeKeyMap() {
 
         MetaClassExample example = new MetaClassExample();
-        example.createCriteria().andAvailableEqualTo(true);
+        example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
         List<MetaClass> metaClasses = metaClassMapper.selectByExample(example);
         Map<String, MetaClass> map = new LinkedHashMap<>();
@@ -117,7 +117,7 @@ public class MetaClassService extends BaseMapper {
     public Map<Integer, MetaClass> findAll() {
 
         MetaClassExample example = new MetaClassExample();
-        example.createCriteria().andAvailableEqualTo(true);
+        example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
         List<MetaClass> metaClasses = metaClassMapper.selectByExample(example);
         Map<Integer, MetaClass> map = new LinkedHashMap<>();
@@ -128,20 +128,6 @@ public class MetaClassService extends BaseMapper {
         return map;
     }
 
-    @Transactional
-    @Caching(evict={
-            @CacheEvict(value = "MetaClass:ALL", allEntries = true),
-            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
-            @CacheEvict(value = "MetaTyes", allEntries = true)
-    })
-    public void updateRoles(int id, int roleId){
-
-        MetaClass metaClass = new MetaClass();
-        metaClass.setId(id);
-        metaClass.setRoleId(roleId);
-
-        metaClassMapper.updateByPrimaryKeySelective(metaClass);
-    }
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * 3.sort_order = LAST_INSERT_ID()+1,

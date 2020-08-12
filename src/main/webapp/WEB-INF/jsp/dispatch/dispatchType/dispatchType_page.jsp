@@ -81,7 +81,7 @@
         url: '${ctx}/dispatchType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称', name: 'name', width: 250,frozen:true },
-            { label: '发文属性', name: 'attr', width: 150,frozen:true },
+            { label: '发文属性', name: 'attr', width: 150, formatter: $.jgrid.formatter.MetaType},
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,
             formatoptions:{url: "${ctx}/dispatchType_changeOrder"},frozen:true },
             { label: '所属年份', name: 'year' },

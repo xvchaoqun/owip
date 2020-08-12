@@ -245,62 +245,52 @@ public class DispatchTypeExample {
             return (Criteria) this;
         }
 
-        public Criteria andAttrEqualTo(String value) {
+        public Criteria andAttrEqualTo(Integer value) {
             addCriterion("attr =", value, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrNotEqualTo(String value) {
+        public Criteria andAttrNotEqualTo(Integer value) {
             addCriterion("attr <>", value, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrGreaterThan(String value) {
+        public Criteria andAttrGreaterThan(Integer value) {
             addCriterion("attr >", value, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrGreaterThanOrEqualTo(String value) {
+        public Criteria andAttrGreaterThanOrEqualTo(Integer value) {
             addCriterion("attr >=", value, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrLessThan(String value) {
+        public Criteria andAttrLessThan(Integer value) {
             addCriterion("attr <", value, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrLessThanOrEqualTo(String value) {
+        public Criteria andAttrLessThanOrEqualTo(Integer value) {
             addCriterion("attr <=", value, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrLike(String value) {
-            addCriterion("attr like", value, "attr");
-            return (Criteria) this;
-        }
-
-        public Criteria andAttrNotLike(String value) {
-            addCriterion("attr not like", value, "attr");
-            return (Criteria) this;
-        }
-
-        public Criteria andAttrIn(List<String> values) {
+        public Criteria andAttrIn(List<Integer> values) {
             addCriterion("attr in", values, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrNotIn(List<String> values) {
+        public Criteria andAttrNotIn(List<Integer> values) {
             addCriterion("attr not in", values, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrBetween(String value1, String value2) {
+        public Criteria andAttrBetween(Integer value1, Integer value2) {
             addCriterion("attr between", value1, value2, "attr");
             return (Criteria) this;
         }
 
-        public Criteria andAttrNotBetween(String value1, String value2) {
+        public Criteria andAttrNotBetween(Integer value1, Integer value2) {
             addCriterion("attr not between", value1, value2, "attr");
             return (Criteria) this;
         }

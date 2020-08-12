@@ -19,8 +19,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 
@@ -39,7 +40,7 @@ public class ScMatterReportController extends ScBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/scMatterAccess_report")
-    public String scMatterAccess_report(int id,
+    public String scMatterAccess_report(String id,
                       @RequestParam(defaultValue = "pdf") String format,
                       @RequestParam(defaultValue = "0") int export,
                       HttpServletResponse response,
@@ -50,7 +51,10 @@ public class ScMatterReportController extends ScBaseController {
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = new HashMap<String, Object>();
 
-        ScMatterAccess scMatterAccess = scMatterAccessMapper.selectByPrimaryKey(id);
+        UserRes verify = UserResUtils.verify(id);
+        Integer idInt = Integer.parseInt(verify.getRes());
+
+        ScMatterAccess scMatterAccess = scMatterAccessMapper.selectByPrimaryKey(idInt);
         Integer unitId = scMatterAccess.getUnitId();
         Unit unit = unitService.findAll().get(unitId);
         Date accessDate = scMatterAccess.getAccessDate();
@@ -72,7 +76,7 @@ public class ScMatterReportController extends ScBaseController {
 
         List<Map<String, ?>> itemData = new ArrayList<Map<String, ?>>();
         ScMatterAccessItemViewExample example = new ScMatterAccessItemViewExample();
-        example.createCriteria().andAccessIdEqualTo(id);
+        example.createCriteria().andAccessIdEqualTo(idInt);
         example.setOrderByClause("id asc");
         List<ScMatterAccessItemView> scMatterAccessItemViews = scMatterAccessItemViewMapper.selectByExample(example);
         for (int i = 0; i < scMatterAccessItemViews.size(); i++) {

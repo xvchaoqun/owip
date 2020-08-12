@@ -27,7 +27,16 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>发文属性</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="attr" value="${dispatchType.attr}">
+                    <select required data-rel="select2" name="attr"
+                            data-width="272"
+                            data-placeholder="请选择属性">
+                        <option></option>
+                        <c:import url="/metaTypes?__code=mc_dispatch_attr"/>
+                    </select>
+                    <script type="text/javascript">
+                        $("#modalForm select[name=attr]").val(${dispatchType.attr});
+                    </script>
+                     <%--   <input required class="form-control" type="text" name="attr" value="${dispatchType.attr}">--%>
 				</div>
 			</div>
 
@@ -54,4 +63,5 @@ pageEncoding="UTF-8"%>
         }
     });
     $.register.date($('.date-picker'));
+    $('#modalForm [data-rel="select2"]').select2();
 </script>

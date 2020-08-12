@@ -23,12 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.tool.tree.TreeNode;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -46,8 +44,12 @@ public class MetaClassController extends BaseController {
 
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass")
-    public String metaClass(@RequestParam(required = false, defaultValue = "1") int cls,ModelMap modelMap) {
+    public String metaClass(@RequestParam(required = false, defaultValue = "1") int cls,
+                            @RequestParam(required = false, defaultValue = "0")Boolean isDeleted,
+                            ModelMap modelMap) {
+
         modelMap.put("cls",cls);
+        modelMap.put("isDeleted",isDeleted);
         return "base/metaClass/metaClass_page";
     }
 
@@ -60,6 +62,7 @@ public class MetaClassController extends BaseController {
                                @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,
                                String name, String code,
+                               @RequestParam(required = false, defaultValue = "0")Boolean isDeleted,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
@@ -73,20 +76,17 @@ public class MetaClassController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         MetaClassExample example = new MetaClassExample();
-        Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
+        Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
-
-        if (!ShiroHelper.isPermitted("metaClass:viewAll")) {
-
-            Set<Integer> roleIdSet = sysUserService.getUserRoleIdSet(loginUser.getRoleIds());
-            criteria.andRoleIdIn(new ArrayList<>(roleIdSet));
-        }
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
+        }
+        if (isDeleted!=null) {
+            criteria.andIsDeletedEqualTo(isDeleted);
         }
         if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -130,7 +130,7 @@ public class MetaClassController extends BaseController {
         }
 
         if (id == null) {
-            record.setAvailable(true);
+            record.setIsDeleted(false);
             metaClassService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加元数据：%s", record.getName()));
         } else {
@@ -168,10 +168,14 @@ public class MetaClassController extends BaseController {
     @RequiresPermissions("metaClass:del")
     @RequestMapping(value = "/metaClass_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Integer[] ids,
+                        @RequestParam(required = false, defaultValue = "0")Boolean isDeleted,
+                        ModelMap modelMap) {
 
         if (null != ids) {
-            metaClassService.batchDel(ids);
+            MetaClass record=new MetaClass();
+            record.setIsDeleted(isDeleted);
+            metaClassService.batch(ids,record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除元数据类型：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
@@ -185,39 +189,6 @@ public class MetaClassController extends BaseController {
         metaClassService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "元数据调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("metaClass:viewAll")
-    @RequestMapping(value = "/metaClassRole", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_metaClassRole(int id,
-                                Integer roleId,
-                                HttpServletRequest request) {
-
-        if (roleId == null) {
-            roleId = -1;
-        }
-        metaClassService.updateRoles(id, roleId);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新元数据所属角色 %s, %s", id, roleId));
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("metaClass:viewAll")
-    @RequestMapping("/metaClassRole")
-    public String metaClassRole(Integer id, ModelMap modelMap) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<Integer>();
-        if (id != null) {
-
-            MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
-            selectIdSet.add(metaClass.getRoleId());
-            modelMap.put("metaClass", metaClass);
-        }
-
-        TreeNode tree = sysRoleService.getTree(selectIdSet, false);
-        modelMap.put("tree", JSONUtils.toString(tree));
-
-        return "base/metaClass/metaClassRole";
     }
 
     public void metaClass_export(MetaClassExample example, HttpServletRequest request,
@@ -273,7 +244,7 @@ public class MetaClassController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         MetaClassExample example = new MetaClassExample();
-        Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
+        Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {

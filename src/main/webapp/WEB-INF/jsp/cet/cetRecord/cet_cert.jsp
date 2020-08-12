@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
     </div>
 </div>
 <div class="modal-footer">
-    <a href="javascript:;" data-url="${ctx}/report/cet_cert?sourceType=${param.sourceType}&ids=${param.ids}&format=pdf&download=1&filename=结业证书&_=<%=System.currentTimeMillis()%>"
+    <a href="javascript:;" data-url="${ctx}/report/cet_cert?sourceType=${param.sourceType}&ids=${cm:sign(param.ids)}&format=pdf&download=1&filename=结业证书&_=<%=System.currentTimeMillis()%>"
            class="downloadBtn btn btn-success" data-type="download"><i class="fa fa-download"></i> 下载</a>
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>

@@ -8,9 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MetaClass implements Serializable {
-    
+
     public Map<String, MetaClassOption> getOptions(){
-        
+
         if(StringUtils.isNotBlank(extraOptions)){
 
             Map<String, MetaClassOption> options = new LinkedHashMap<>();
@@ -29,13 +29,11 @@ public class MetaClass implements Serializable {
 
             return options;
         }
-        
+
         return null;
     }
-    
-    private Integer id;
 
-    private Integer roleId;
+    private Integer id;
 
     private String name;
 
@@ -53,7 +51,7 @@ public class MetaClass implements Serializable {
 
     private Integer sortOrder;
 
-    private Boolean available;
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -63,14 +61,6 @@ public class MetaClass implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public String getName() {
@@ -137,11 +127,11 @@ public class MetaClass implements Serializable {
         this.sortOrder = sortOrder;
     }
 
-    public Boolean getAvailable() {
-        return available;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

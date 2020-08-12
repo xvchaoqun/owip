@@ -14,13 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class MemberOutReportController extends MemberBaseController {
     @RequestMapping(value = "/letter_fill_print")
     public String letter_fill_print(@CurrentUser SysUserView loginUser,
                                     HttpServletRequest request, HttpServletResponse response,
-                                Integer[] ids,
+                                String ids,
                                 @RequestParam(required = false, defaultValue = "0") Boolean print,
                                 Integer type,
                                 @RequestParam(defaultValue = "pdf") String format,
@@ -54,10 +55,14 @@ public class MemberOutReportController extends MemberBaseController {
             throw new UnauthorizedException();
         }
 
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
         Set<Integer> fillPrintTypeSet = new HashSet<>();
         String fileName = "";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (Integer id : ids) {
+        for (Integer id : idSet) {
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
 
             MetaType fillPrintType = metaTypeMapper.selectByPrimaryKey(memberOut.getType());
@@ -93,7 +98,7 @@ public class MemberOutReportController extends MemberBaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
-            iMemberMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
+            iMemberMapper.increasePrintCount("ow_member_out", new ArrayList<>(idSet), new Date(), ShiroHelper.getCurrentUserId());
 
             logger.info("介绍信套打 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),
@@ -109,7 +114,7 @@ public class MemberOutReportController extends MemberBaseController {
     @RequestMapping(value = "/letter_print")
     public String letter_print(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
-                               Integer[] ids,
+                               String ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                Model model) throws IOException {
@@ -120,10 +125,14 @@ public class MemberOutReportController extends MemberBaseController {
             throw new UnauthorizedException();
         }
 
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
         Set<Integer> fillPrintTypeSet = new HashSet<>();
         String fileName = "";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (Integer id : ids) {
+        for (Integer id : idSet) {
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
 
             MetaType fillPrintType = metaTypeMapper.selectByPrimaryKey(memberOut.getType());
@@ -155,7 +164,7 @@ public class MemberOutReportController extends MemberBaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
-            iMemberMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
+            iMemberMapper.increasePrintCount("ow_member_out", new ArrayList<>(idSet), new Date(), ShiroHelper.getCurrentUserId());
 
             logger.info("介绍信打印 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),

@@ -3,7 +3,8 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <img data-src="${ctx}/report/passportApply?classId=${param.classId}&userId=${cadre.userId}&id=${param.id}"
+        <c:set var="id" value="${cm:trimToZero(param.id)}_${cm:trimToZero(param.classId)}_${cm:trimToZero(cadre.userId)}"/>
+        <img data-src="${ctx}/report/passportApply?id=${cm:sign(id)}"
              src="${ctx}/img/loading.gif"
              onload="lzld(this)" />
     </div>

@@ -30,7 +30,7 @@
     </div>
   </ul>
   <div class="preview" style="margin: 20px 5px 50px 0px;">
-    <img data-src="${ctx}/sc/scMatterAccess_report?id=${param.id}&format=image&_=<%=new Date().getTime()%>" src="${ctx}/img/loading.gif"
+    <img data-src="${ctx}/sc/scMatterAccess_report?id=${cm:sign(param.id)}&format=image&_=<%=new Date().getTime()%>" src="${ctx}/img/loading.gif"
          onload="lzld(this)"/>
   </div>
   <div class="info" style="margin-top: 20px; margin-bottom: 50px; padding-left: 5px;width: 850px">
@@ -133,7 +133,7 @@
 
 
   $("#print").click(function(){
-    $.print("${ctx}/sc/scMatterAccess_report?id=${param.id}&format=pdf");
+    $.print("${ctx}/sc/scMatterAccess_report?id=${cm:sign(param.id)}&format=pdf");
   });
 
   $.fileInput($('input[type=file]'),{

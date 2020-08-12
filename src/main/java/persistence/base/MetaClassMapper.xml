@@ -3,7 +3,6 @@
 <mapper namespace="persistence.base.MetaClassMapper">
   <resultMap id="BaseResultMap" type="domain.base.MetaClass">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="first_level" jdbcType="VARCHAR" property="firstLevel" />
     <result column="second_level" jdbcType="VARCHAR" property="secondLevel" />
@@ -12,7 +11,7 @@
     <result column="extra_attr" jdbcType="VARCHAR" property="extraAttr" />
     <result column="extra_options" jdbcType="VARCHAR" property="extraOptions" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="available" jdbcType="BIT" property="available" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role_id, name, first_level, second_level, code, bool_attr, extra_attr, extra_options, 
-    sort_order, available
+    id, name, first_level, second_level, code, bool_attr, extra_attr, extra_options, 
+    sort_order, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.base.MetaClassExample" resultMap="BaseResultMap">
     select
@@ -110,14 +109,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into base_meta_class (role_id, name, first_level, 
-      second_level, code, bool_attr, 
-      extra_attr, extra_options, sort_order, 
-      available)
-    values (#{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{firstLevel,jdbcType=VARCHAR}, 
-      #{secondLevel,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{boolAttr,jdbcType=VARCHAR}, 
-      #{extraAttr,jdbcType=VARCHAR}, #{extraOptions,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{available,jdbcType=BIT})
+    insert into base_meta_class (name, first_level, second_level, 
+      code, bool_attr, extra_attr, 
+      extra_options, sort_order, is_deleted
+      )
+    values (#{name,jdbcType=VARCHAR}, #{firstLevel,jdbcType=VARCHAR}, #{secondLevel,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{boolAttr,jdbcType=VARCHAR}, #{extraAttr,jdbcType=VARCHAR}, 
+      #{extraOptions,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.base.MetaClass">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -125,9 +124,6 @@
     </selectKey>
     insert into base_meta_class
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        role_id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -152,14 +148,11 @@
       <if test="sortOrder != null">
         sort_order,
       </if>
-      <if test="available != null">
-        available,
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -184,8 +177,8 @@
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="available != null">
-        #{available,jdbcType=BIT},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -200,9 +193,6 @@
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -228,8 +218,8 @@
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="record.available != null">
-        available = #{record.available,jdbcType=BIT},
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -239,7 +229,6 @@
   <update id="updateByExample" parameterType="map">
     update base_meta_class
     set id = #{record.id,jdbcType=INTEGER},
-      role_id = #{record.roleId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       first_level = #{record.firstLevel,jdbcType=VARCHAR},
       second_level = #{record.secondLevel,jdbcType=VARCHAR},
@@ -248,7 +237,7 @@
       extra_attr = #{record.extraAttr,jdbcType=VARCHAR},
       extra_options = #{record.extraOptions,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      available = #{record.available,jdbcType=BIT}
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -256,9 +245,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.base.MetaClass">
     update base_meta_class
     <set>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -283,16 +269,15 @@
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="available != null">
-        available = #{available,jdbcType=BIT},
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.base.MetaClass">
     update base_meta_class
-    set role_id = #{roleId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       first_level = #{firstLevel,jdbcType=VARCHAR},
       second_level = #{secondLevel,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
@@ -300,7 +285,7 @@
       extra_attr = #{extraAttr,jdbcType=VARCHAR},
       extra_options = #{extraOptions,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      available = #{available,jdbcType=BIT}
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.base.MetaClassExample" resultMap="BaseResultMap">

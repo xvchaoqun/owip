@@ -9,19 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.MemberConstants;
 import sys.shiro.CurrentUser;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -34,13 +32,17 @@ public class MemberCertifyReportController extends MemberBaseController {
     @RequestMapping(value = "/member_certify")
     public String member_certify(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
-                               Integer[] ids,
+                               String ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                Model model) throws IOException {
 
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (Integer id : ids) {
+        for (Integer id : idSet) {
             MemberCertify memberCertify = memberCertifyMapper.selectByPrimaryKey(id);
             Map<String, Object> map = getMemberCertifyMap(memberCertify);
             map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "member_certify.jpg");

@@ -8,7 +8,7 @@ public class DispatchType implements Serializable {
 
     private String name;
 
-    private String attr;
+    private Integer attr;
 
     private Short year;
 
@@ -34,12 +34,12 @@ public class DispatchType implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getAttr() {
+    public Integer getAttr() {
         return attr;
     }
 
-    public void setAttr(String attr) {
-        this.attr = attr == null ? null : attr.trim();
+    public void setAttr(Integer attr) {
+        this.attr = attr;
     }
 
     public Short getYear() {

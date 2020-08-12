@@ -15,13 +15,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class MemberStayReportController extends MemberBaseController {
     @RequestMapping(value = "/member_stay")
     public String member_stay(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                               byte type,
-                              Integer[] ids,
+                              String ids,
                               @RequestParam(required = false, defaultValue = "0") Boolean print,
                               @RequestParam(defaultValue = "pdf") String format,
                               Model model) throws IOException {
@@ -49,8 +50,12 @@ public class MemberStayReportController extends MemberBaseController {
             throw new UnauthorizedException();
         }
 
+        UserRes verify = UserResUtils.verify(ids);
+        String res = verify.getRes();
+        Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
+
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
-        for (Integer id : ids) {
+        for (Integer id : idSet) {
             Map<String, Object> map = getMemberStayMap(id);
 
             if (type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
@@ -78,7 +83,7 @@ public class MemberStayReportController extends MemberBaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
-            iMemberMapper.increasePrintCount("ow_member_stay", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
+            iMemberMapper.increasePrintCount("ow_member_stay",  new ArrayList<>(idSet), new Date(), ShiroHelper.getCurrentUserId());
 
             logger.info("出国暂留打印 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),

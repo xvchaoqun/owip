@@ -383,7 +383,7 @@
                     if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                         return '--';
                     }
-                    return '<a href="${ctx}/report/passportSign?id={0}" target="_blank">签注申请表 </a>'.format(rowObject.id);
+                    return '<a href="${ctx}/report/passportSign?id={0}" target="_blank">签注申请表 </a>'.format(rowObject.signId);
                 }
             },
             {
@@ -392,7 +392,7 @@
                         return '--';
                     }
                     return '<button onclick="$.print(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
-                        .format(rowObject.id);
+                        .format(rowObject.signId);
                 }
             },
             </c:if>

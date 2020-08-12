@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="row passport_apply">
     <div class="preview">
-        <img data-src="${ctx}/report/passportApply?id=${passportApply.id}&_=<%=new Date().getTime()%>"
+        <img data-src="${ctx}/report/passportApply?id=${cm:sign(passportApply.id)}&_=<%=new Date().getTime()%>"
              src="${ctx}/img/loading.gif"
              onload="lzld(this)" <%-- width="595" height="842"--%>/>
     </div>
@@ -107,7 +107,7 @@ pageEncoding="UTF-8"%>
 <c:set var="passportType" value="${cm:getMetaType(passportApply.classId)}"/>
 <script>
     $("#print").click(function(){
-        $.print("${ctx}/report/passportApply?id=${passportApply.id}&format=pdf");
+        $.print("${ctx}/report/passportApply?id=${cm:sign(passportApply.id)}&format=pdf");
     });
     $("#agree").click(function(){
         var _expectDate = $("input[name=_expectDate]").val();

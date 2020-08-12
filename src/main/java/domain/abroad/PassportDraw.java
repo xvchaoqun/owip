@@ -8,6 +8,7 @@ import persistence.cadre.common.ICadreMapper;
 import sys.constants.AbroadConstants;
 import sys.helper.AbroadHelper;
 import sys.jackson.SignRes;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -68,6 +69,10 @@ public class PassportDraw implements Serializable {
     public Boolean getReturnDateNotNow(){
         Date now = new Date();
         return DateUtils.compareDate(returnDate, now);
+    }
+    public String getSignId(){
+
+        return UserResUtils.sign(String.valueOf(id));
     }
     private Integer id;
 
