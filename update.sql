@@ -156,12 +156,12 @@ ALTER TABLE `base_meta_class`
 -- 添加源数据
 INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (3100, '交流轮岗类型', '干部选拔任用', '交流轮岗', 'mc_sc_shift', '', '', '', 2615, 0);
 
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处之间轮岗', 'mt_cudnjh', NULL, NULL, '', 1, 0);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '学院之间轮岗', 'mt_qkhpqb', NULL, NULL, '', 2, 0);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处与学院之间轮岗', 'mt_ut5hjb', NULL, NULL, '', 3, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处之间轮岗', 'mt_cudnjh', NULL, NULL, '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '学院之间轮岗', 'mt_qkhpqb', NULL, NULL, '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3100, '机关部处与学院之间轮岗', 'mt_ut5hjb', NULL, NULL, '', 3, 1);
 
 -- 更新系统资源
-UPDATE `sys_resource` SET `type`='menu', `url`=NULL WHERE  `id`=893;
+UPDATE `sys_resource` SET `type`='menu', is_leaf=0, `url`=NULL WHERE  `id`=893;
 
 -- 添加系统资源
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3042, 0, '参数设置', '', 'url', '', '/metaClass_type_list?cls=mc_sc_shift', 893, '0/1/339/893/', 1, 'mc_sc_shift:*', NULL, NULL, NULL, 1, NULL);

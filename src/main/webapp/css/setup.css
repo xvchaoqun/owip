@@ -1176,11 +1176,23 @@ form .star {
 .dispatch_cadres .swf-file.flash {
 }
 
+.pdf-page{
+    background-image: url('/img/loading.gif');
+    background-repeat: no-repeat;
+    background-position:center;
+    -webkit-touch-callout:none;  /*系统默认菜单被禁用*/
+    -webkit-user-select:none; /*webkit浏览器*/
+    -khtml-user-select:none; /*早期浏览器*/
+    -moz-user-select:none;/*火狐*/
+    -ms-user-select:none; /*IE10*/
+    user-select:none;
+}
+
 /* 干部任免信息添加界面 */
 .dispatch_au {
     padding: 20px;
     padding-top: 10px;
-    width: 1310px;
+    width: 1320px;
 }
 
 .dispatch_au .preview, .dispatch_au .au {
@@ -1192,7 +1204,7 @@ form .star {
 }
 
 .dispatch_au .preview {
-    width: 740px;
+    width: 750px;
     margin-right: 25px;
 }
 
@@ -1205,6 +1217,8 @@ form .star {
     text-align: center;
     line-height: 750px;
     overflow-y: auto;
+    background-color: #eaeaea;
+    padding: 0;
 }
 
 .swf-file-view {

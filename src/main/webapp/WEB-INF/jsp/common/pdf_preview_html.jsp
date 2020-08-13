@@ -12,8 +12,12 @@
     </div>
 </c:if>
 <c:if test="${exists}">
-    <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo">
-    <img data-src="${ctx}/pdf_image?path=${cm:sign(pdfPath)}&pageNo=${pageNo}"
-         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)" style="width: 700px">
+    <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo" varStatus="vs">
+        <div class="pdf-page" oncontextmenu="return false"
+      onselectstart="return false" ondragstart="return false" οncοpy="return false">
+        <img data-src="${ctx}/pdf_image?path=${cm:sign(path)}&pageNo=${pageNo}"
+          src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)"
+            style="width: 100%;padding-bottom: ${vs.last?0:5}px;">
+        </div>
     </c:forEach>
 </c:if>

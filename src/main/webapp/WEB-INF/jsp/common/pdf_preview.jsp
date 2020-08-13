@@ -23,11 +23,14 @@
         ${filename}
     </h3>
 </div>
-<div class="modal-body" style="background-color: grey;padding: 0">
-    <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo">
-    <img data-src="${ctx}/pdf_image?path=${cm:sign(path)}&pageNo=${pageNo}"
-         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)"
-         style="width: 100%;padding-bottom: 5px;">
+<div class="modal-body" style="background-color: #eaeaea;padding: 0">
+    <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo" varStatus="vs">
+        <div class="pdf-page" oncontextmenu="return false"
+      onselectstart="return false" ondragstart="return false" οncοpy="return false">
+        <img data-src="${ctx}/pdf_image?path=${cm:sign(path)}&pageNo=${pageNo}"
+          src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)"
+            style="width: 100%;padding-bottom: ${vs.last?0:5}px;">
+        </div>
     </c:forEach>
 </div>
 <div class="modal-footer">
