@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
 <tbody>
 <tr>
     <td class="bg-right">
@@ -126,7 +127,7 @@
     <td class="bg-left" style="min-width: 80px" colspan="3">
         <c:if test="${empty memberOut.status}"><span style="color:red">未提交</span></c:if>
         ${MEMBER_OUT_STATUS_MAP.get(memberOut.status)}
-        <c:if test="${_user.id==memberStay.userId}">
+        <c:if test="${_user.id==memberOut.userId}">
             &nbsp;
             <c:if test="${memberOut.status==MEMBER_OUT_STATUS_APPLY}">
                 <button class="btn btn-white btn-warning btn-xs" onclick="_applyBack()">
