@@ -1,16 +1,17 @@
 package service.pcs;
 
 import domain.pcs.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PcsPollService extends PcsBaseMapper {
+
+    @Autowired
+    private PcsConfigService pcsConfigService;
 
     @Transactional
     public void insertSelective(PcsPoll record){
@@ -81,5 +82,24 @@ public class PcsPollService extends PcsBaseMapper {
         PcsPollExample example = new PcsPollExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsPollMapper.updateByExampleSelective(record, example);
+    }
+
+    //得到当前党代会投票的ids
+    public List<Integer> getCurrentPcsPollId() {
+
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        Integer configId = pcsConfig.getId();
+
+        PcsPollExample example = new PcsPollExample();
+        example.createCriteria().andConfigIdEqualTo(configId).andIsDeletedEqualTo(false);
+        List<PcsPoll> pcsPolls = pcsPollMapper.selectByExample(example);
+        List<Integer> pollIdList = new ArrayList<>();
+        if (pcsPolls != null && pcsPolls.size() > 0) {
+            for (PcsPoll pcsPoll : pcsPolls) {
+                pollIdList.add(pcsPoll.getId());
+            }
+        }
+
+        return pollIdList;
     }
 }

@@ -63,19 +63,22 @@ public class PcsPollResultController extends PcsBaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
+        List<Integer> pollIdList = new ArrayList<>();
         List<Integer> partyIdList = new ArrayList<>();
         List<Integer> branchIdList = new ArrayList<>();
 
         if (pollId != null) {
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
             isSecond = pcsPoll.getIsSecond();
-
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
-                partyIdList = loginUserService.adminPartyIdList();
-                branchIdList = loginUserService.adminBranchIdList();
-            }
+            pollIdList.add(pollId);
+        }else {
+            pollIdList = pcsPollService.getCurrentPcsPollId();
         }
 
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+            partyIdList = loginUserService.adminPartyIdList();
+            branchIdList = loginUserService.adminBranchIdList();
+        }
 
         /*if (export == 1) {
 
@@ -85,9 +88,9 @@ public class PcsPollResultController extends PcsBaseController {
         }*/
         int count = 0;
         if (isSecond) {
-            count = iPcsMapper.countSecondResult(pollId, userId, partyId, branchId, partyIdList, branchIdList);
+            count = iPcsMapper.countSecondResult(userId, partyId, branchId, pollIdList, partyIdList, branchIdList);
         }else {
-            count = iPcsMapper.countResult(pollId, userId, partyId, branchId, partyIdList, branchIdList);
+            count = iPcsMapper.countResult(userId, partyId, branchId, pollIdList, partyIdList, branchIdList);
         }
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
@@ -95,10 +98,10 @@ public class PcsPollResultController extends PcsBaseController {
 
         List<PcsFinalResult> pcsFinalResults = null;
         if (isSecond) {
-            pcsFinalResults = iPcsMapper.selectSecondResultList(pollId, userId, partyId, branchId, partyIdList, branchIdList,
+            pcsFinalResults = iPcsMapper.selectSecondResultList(userId, partyId, branchId, pollIdList, partyIdList, branchIdList,
                     new RowBounds((pageNo - 1) * pageSize, pageSize));
         }else {
-            pcsFinalResults = iPcsMapper.selectResultList(pollId, userId, partyId, branchId, partyIdList, branchIdList,
+            pcsFinalResults = iPcsMapper.selectResultList(userId, partyId, branchId, pollIdList, partyIdList, branchIdList,
                     new RowBounds((pageNo - 1) * pageSize, pageSize));
         }
         CommonList commonList = new CommonList(count, pageNo, pageSize);

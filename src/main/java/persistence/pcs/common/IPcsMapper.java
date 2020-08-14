@@ -170,32 +170,32 @@ public interface IPcsMapper {
                                         @Param("partyId") int partyId);
 
     //党代会投票
-    public int countResult(@Param("pollId") Integer pollId,
-                           @Param("userId") Integer userId,
+    public int countResult(@Param("userId") Integer userId,
                            @Param("partyId") Integer partyId,
                            @Param("branchId") Integer branchId,
+                           @Param("pollIdList") List<Integer> pollIdList,
                            @Param("partyIdList") List<Integer> partyIdList,
                            @Param("branchIdList") List<Integer> branchIdList);
 
-    public List<PcsFinalResult> selectResultList(@Param("pollId") Integer pollId,
-                                                 @Param("userId") Integer userId,
+    public List<PcsFinalResult> selectResultList( @Param("userId") Integer userId,
                                                  @Param("partyId") Integer partyId,
                                                  @Param("branchId") Integer branchId,
+                                                 @Param("pollIdList") List<Integer> pollIdList,
                                                  @Param("partyIdList") List<Integer> partyIdList,
                                                  @Param("branchIdList") List<Integer> branchIdList,
                                                  RowBounds rowBounds);
 
-    public int countSecondResult(@Param("pollId") Integer pollId,
-                                 @Param("userId") Integer userId,
+    public int countSecondResult(@Param("userId") Integer userId,
                                  @Param("partyId") Integer partyId,
                                  @Param("branchId") Integer branchId,
+                                 @Param("pollIdList") List<Integer> pollIdList,
                                  @Param("partyIdList") List<Integer> partyIdList,
                                  @Param("branchIdList") List<Integer> branchIdList);
 
-    public List<PcsFinalResult> selectSecondResultList(@Param("pollId") Integer pollId,
-                                                       @Param("userId") Integer userId,
+    public List<PcsFinalResult> selectSecondResultList(@Param("userId") Integer userId,
                                                        @Param("partyId") Integer partyId,
                                                        @Param("branchId") Integer branchId,
+                                                       @Param("pollIdList") List<Integer> pollIdList,
                                                        @Param("partyIdList") List<Integer> partyIdList,
                                                        @Param("branchIdList") List<Integer> branchIdList,
                                                        RowBounds rowBounds);

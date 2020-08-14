@@ -9,9 +9,9 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pcs/pcsPollInspector_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="pollId" value="${param.pollId}">
 		<div class="form-group">
-			<label class="col-xs-4 control-label"> 生成账号数量</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 生成账号数量</label>
 			<div class="col-xs-6">
-				<input style="width: 272px;" class="form-control digits" type="text"
+				<input required style="width: 272px;" class="form-control digits" type="text"
 					   name="count" data-rule-min="1">
 			</div>
 		</div>

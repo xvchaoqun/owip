@@ -351,9 +351,6 @@
 
     <sql id="selectRList_where">
 
-        <if test="pollId != null">
-            and r.poll_id = #{pollId}
-        </if>
         <if test="userId != null">
             and r.user_id = #{userId}
         </if>
@@ -363,7 +360,16 @@
         <if test="branchId != null">
             and r.branch_id = #{branchId}
         </if>
-        <if test="(partyIdList != null and partyIdList.size > 0)or(branchIdList != null and branchIdList.size > 0)">
+        <if test="pollIdList != null and pollIdList.size > 0">
+            and r.poll_id in
+            <foreach collection="pollIdList" open="(" close = ")" item = "pollId" separator=",">
+                #{pollId}
+            </foreach>
+        </if>
+        <if test="pollIdList == null or pollIdList.size == 0">
+            and r.poll_id is null
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList != null and branchIdList.size > 0)">
             and r.party_id in
             <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
                 #{partyId}
@@ -373,14 +379,23 @@
                 #{branchId}
             </foreach>
         </if>
+        <if test="(partyIdList == null or partyIdList.size == 0)and(branchIdList != null and branchIdList.size > 0)">
+            and r.branch_id in
+            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList == null or branchIdList.size == 0)">
+            and r.party_id in
+            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
+                #{partyId}
+            </foreach>
+        </if>
     </sql>
 
     <sql id="selectR1List_where">
 
          and r1.status=2
-        <if test="pollId != null">
-          and r1.poll_id=#{pollId}
-        </if>
         <if test="userId != null">
             and r1.user_id = #{userId}
         </if>
@@ -390,7 +405,13 @@
         <if test="branchId != null">
             and r1.branch_id = #{branchId}
         </if>
-        <if test="(partyIdList != null and partyIdList.size > 0)or(branchIdList != null and branchIdList.size > 0)">
+        <if test="pollIdList != null and pollIdList.size > 0">
+            and r1.poll_id in
+            <foreach collection="pollIdList" open="(" close = ")" item = "pollId" separator=",">
+                #{pollId}
+            </foreach>
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList != null and branchIdList.size > 0)">
             and r1.party_id in
             <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
                 #{partyId}
@@ -398,6 +419,18 @@
             or r1.branch_id in
             <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
                 #{branchId}
+            </foreach>
+        </if>
+        <if test="(partyIdList == null or partyIdList.size == 0)and(branchIdList != null and branchIdList.size > 0)">
+            and r1.branch_id in
+            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList == null or branchIdList.size == 0)">
+            and r1.party_id in
+            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
+                #{partyId}
             </foreach>
         </if>
     </sql>
