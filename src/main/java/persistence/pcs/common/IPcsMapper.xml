@@ -348,4 +348,110 @@
         select count(distinct pcv.user_id) from pcs_candidate_view pcv
         <include refid="searchBranchCandidates"/>
     </select>
+
+    <sql id="selectRList_where">
+
+        <if test="pollId != null">
+            and r.poll_id = #{pollId}
+        </if>
+        <if test="userId != null">
+            and r.user_id = #{userId}
+        </if>
+        <if test="partyId != null">
+            and r.party_id = #{partyId}
+        </if>
+        <if test="branchId != null">
+            and r.branch_id = #{branchId}
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)or(branchIdList != null and branchIdList.size > 0)">
+            and r.party_id in
+            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
+                #{partyId}
+            </foreach>
+            or r.branch_id in
+            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="selectR1List_where">
+
+         and r1.status=2
+        <if test="pollId != null">
+          and r1.poll_id=#{pollId}
+        </if>
+        <if test="userId != null">
+            and r1.user_id = #{userId}
+        </if>
+        <if test="partyId != null">
+            and r1.party_id = #{partyId}
+        </if>
+        <if test="branchId != null">
+            and r1.branch_id = #{branchId}
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)or(branchIdList != null and branchIdList.size > 0)">
+            and r1.party_id in
+            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
+                #{partyId}
+            </foreach>
+            or r1.branch_id in
+            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="selectResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
+        select r.poll_id as pollId, r.user_id as userId, r.type as type,  sum(if(is_positive,1,0)) as positiveBallot,
+        sum(If(status=1,1,0)) AS supportNum, sum(if(is_positive,0,1)) as growBallot from pcs_poll_result r
+        <where>
+            is_second=0
+            <include refid="selectRList_where"/>
+        </where>
+        group by r.type, r.user_id order by r.type desc, supportNum desc
+    </select>
+
+    <select id="countResult" parameterType="map" resultType="java.lang.Integer" >
+        select count(*) from (select r.* from pcs_poll_result r
+        <where>
+            is_second=0
+            <include refid="selectRList_where"/>
+        </where>
+        group by r.type, r.user_id)tmp
+    </select>
+
+    <select id="selectSecondResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
+        select r.poll_id as pollId, r.candidate_user_id as userId, r.type as type,  sum(if(r.is_positive,1,0)) as positiveBallot, sum(if(r.is_positive,0,1)) as growBallot,
+        sum(If(status=1,1,0)) AS supportNum, sum(if(r.status=2,1,0)) as notSupportNum, sum(if(r.status=3,1,0)) as notVoteNum from pcs_poll_result r
+        <where>
+            is_second=1
+            <include refid="selectRList_where"/>
+        </where>
+        group by r.type, r.candidate_user_id
+        union all
+        select r1.poll_id as pollId, r1.user_id as userId, r1.type as type,  sum(if(r1.is_positive,1,0)) as positiveBallot, sum(if(r1.is_positive,0,1)) as growBallot,
+        sum(If(r1.status=2,1,0)) AS supportNum, null as notSupportNum, null as notVoteNum from pcs_poll_result r1
+        <where>
+            is_second=1
+            <include refid="selectR1List_where"/>
+        </where>
+        group by r1.type, r1.user_id order by type desc, supportNum desc
+    </select>
+
+    <select id="countSecondResult" parameterType="map" resultType="java.lang.Integer" >
+        select count(*) from (select r.candidate_user_id as user_id from pcs_poll_result r
+        <where>
+            is_second=1
+            <include refid="selectRList_where"/>
+        </where>
+        group by r.type, r.candidate_user_id
+        union all
+        select r1.user_id from pcs_poll_result r1
+        <where>
+            is_second=1
+            <include refid="selectR1List_where"/>
+        </where>
+        group by r1.type, r1.user_id)tmp
+    </select>
 </mapper>

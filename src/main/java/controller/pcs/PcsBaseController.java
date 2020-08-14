@@ -2,9 +2,11 @@ package controller.pcs;
 
 import ext.service.ExtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import service.LoginUserService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
+import service.global.CacheService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -17,6 +19,10 @@ import sys.HttpResponseMethod;
 
 public class PcsBaseController extends PcsBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected LoginUserService loginUserService;
+    @Autowired
+    protected CacheService cacheService;
     @Autowired
     protected SysUserService sysUserService;
     @Autowired
@@ -88,4 +94,13 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     protected PcsVoteExportService pcsVoteExportService;
     @Autowired(required = false)
     protected PcsVoteService pcsVoteService;
+
+    @Autowired(required = false)
+    protected PcsPollService pcsPollService;
+    @Autowired(required = false)
+    protected PcsPollCandidateService pcsPollCandidateService;
+    @Autowired(required = false)
+    protected PcsPollInspectorService pcsPollInspectorService;
+    @Autowired(required = false)
+    protected PcsPollResultService pcsPollResultService;
 }

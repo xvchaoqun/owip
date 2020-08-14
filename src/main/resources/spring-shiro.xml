@@ -144,6 +144,7 @@
                 /m/logout = anon
 
                 /user/dr/** = anon
+                /user/pcs/** = anon
 
                 /pmd/pay/** = anon,currentUser
 

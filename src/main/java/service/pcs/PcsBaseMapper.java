@@ -58,4 +58,12 @@ public class PcsBaseMapper extends CoreBaseMapper {
     protected PcsVoteCandidateMapper pcsVoteCandidateMapper;
     @Autowired(required = false)
     protected PcsVoteMemberMapper pcsVoteMemberMapper;
+    @Autowired(required = false)
+    protected PcsPollMapper pcsPollMapper;
+    @Autowired(required = false)
+    protected PcsPollCandidateMapper pcsPollCandidateMapper;
+    @Autowired(required = false)
+    protected PcsPollInspectorMapper pcsPollInspectorMapper;
+    @Autowired(required = false)
+    protected PcsPollResultMapper pcsPollResultMapper;
 }

@@ -1,14 +1,10 @@
 package persistence.pcs.common;
 
-import domain.pcs.PcsAdmin;
-import domain.pcs.PcsPrAllocate;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsVoteCandidate;
-import domain.pcs.PcsVoteGroup;
+import domain.pcs.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import java.math.BigDecimal;
@@ -19,6 +15,12 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IPcsMapper {
+
+    // 更新党代会投票中的参评人数量
+    @Update("update pcs_poll pp left join (select poll_id, count(*) count,SUM(if(is_finished,1,0)) finished_count," +
+            "SUM(if(is_finished=1 and is_positive=1,1,0)) positive_count from pcs_poll_inspector group by poll_id) tmp on tmp.poll_id=pp.id " +
+            "set inspector_num=ifnull(COUNT,0),inspector_finish_num=ifnull(finished_count,0),positive_finish_num=ifnull(positive_count,0) where pp.id=#{pollId}")
+    int updatePollInspectorCount(@Param("pollId") Integer pollId);
 
     // 两委选举 小组统计汇总
     public List<PcsVoteCandidate> selectVoteCandidateStatList(@Param("type") byte type,
@@ -166,4 +168,35 @@ public interface IPcsMapper {
                                         @Param("stage") byte stage,
                                         @Param("candidateType") int candidateType,
                                         @Param("partyId") int partyId);
+
+    //党代会投票
+    public int countResult(@Param("pollId") Integer pollId,
+                           @Param("userId") Integer userId,
+                           @Param("partyId") Integer partyId,
+                           @Param("branchId") Integer branchId,
+                           @Param("partyIdList") List<Integer> partyIdList,
+                           @Param("branchIdList") List<Integer> branchIdList);
+
+    public List<PcsFinalResult> selectResultList(@Param("pollId") Integer pollId,
+                                                 @Param("userId") Integer userId,
+                                                 @Param("partyId") Integer partyId,
+                                                 @Param("branchId") Integer branchId,
+                                                 @Param("partyIdList") List<Integer> partyIdList,
+                                                 @Param("branchIdList") List<Integer> branchIdList,
+                                                 RowBounds rowBounds);
+
+    public int countSecondResult(@Param("pollId") Integer pollId,
+                                 @Param("userId") Integer userId,
+                                 @Param("partyId") Integer partyId,
+                                 @Param("branchId") Integer branchId,
+                                 @Param("partyIdList") List<Integer> partyIdList,
+                                 @Param("branchIdList") List<Integer> branchIdList);
+
+    public List<PcsFinalResult> selectSecondResultList(@Param("pollId") Integer pollId,
+                                                       @Param("userId") Integer userId,
+                                                       @Param("partyId") Integer partyId,
+                                                       @Param("branchId") Integer branchId,
+                                                       @Param("partyIdList") List<Integer> partyIdList,
+                                                       @Param("branchIdList") List<Integer> branchIdList,
+                                                       RowBounds rowBounds);
 }

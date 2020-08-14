@@ -65,6 +65,12 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
             return true;
         }
 
+        //党代会投票移动端登录
+        if (servletPath.startsWith("/user/pcs")
+                && HttpRequestDeviceUtils.isMobileDevice(request)){
+            return true;
+        }
+
         if (handler instanceof HandlerMethod) {
 
             HandlerMethod handlerMethod = (HandlerMethod) handler;

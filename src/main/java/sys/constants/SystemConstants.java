@@ -96,6 +96,7 @@ public class SystemConstants {
     public static final byte LOGIN_TYPE_WX = 10;
     public static final byte LOGIN_TYPE_SWITCH = 20;
     public static final byte LOGIN_TYPE_DR = 30;
+    public static final byte LOGIN_TYPE_PCS = 40;
     public final static Map<Byte, String> LOGIN_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -107,6 +108,7 @@ public class SystemConstants {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_WX, "微信");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_SWITCH, "切换账号");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_DR, "民主推荐登录");
+        LOGIN_TYPE_MAP.put(LOGIN_TYPE_PCS, "党代会投票登录");
     }
 
     // 系统附件类别

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pcs.PcsPollMapper">
+  <resultMap id="BaseResultMap" type="domain.pcs.PcsPoll">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="is_second" jdbcType="BIT" property="isSecond" />
+    <result column="has_report" jdbcType="BIT" property="hasReport" />
+    <result column="pr_num" jdbcType="INTEGER" property="prNum" />
+    <result column="dw_num" jdbcType="INTEGER" property="dwNum" />
+    <result column="jw_num" jdbcType="INTEGER" property="jwNum" />
+    <result column="inspector_num" jdbcType="INTEGER" property="inspectorNum" />
+    <result column="inspector_finish_num" jdbcType="INTEGER" property="inspectorFinishNum" />
+    <result column="positive_finish_num" jdbcType="INTEGER" property="positiveFinishNum" />
+    <result column="notice" jdbcType="VARCHAR" property="notice" />
+    <result column="mobile_notice" jdbcType="VARCHAR" property="mobileNotice" />
+    <result column="inspector_notice" jdbcType="VARCHAR" property="inspectorNotice" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, party_id, branch_id, name, config_id, is_second, has_report, pr_num, dw_num, 
+    jw_num, inspector_num, inspector_finish_num, positive_finish_num, notice, mobile_notice, 
+    inspector_notice, start_time, end_time, is_deleted, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.pcs.PcsPollExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_poll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pcs_poll
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pcs_poll
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pcs.PcsPollExample">
+    delete from pcs_poll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pcs.PcsPoll">
+    insert into pcs_poll (id, party_id, branch_id, 
+      name, config_id, is_second, 
+      has_report, pr_num, dw_num, 
+      jw_num, inspector_num, inspector_finish_num, 
+      positive_finish_num, notice, mobile_notice, 
+      inspector_notice, start_time, end_time, 
+      is_deleted, remark)
+    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{configId,jdbcType=INTEGER}, #{isSecond,jdbcType=BIT}, 
+      #{hasReport,jdbcType=BIT}, #{prNum,jdbcType=INTEGER}, #{dwNum,jdbcType=INTEGER}, 
+      #{jwNum,jdbcType=INTEGER}, #{inspectorNum,jdbcType=INTEGER}, #{inspectorFinishNum,jdbcType=INTEGER}, 
+      #{positiveFinishNum,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, 
+      #{inspectorNotice,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pcs.PcsPoll">
+    insert into pcs_poll
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="configId != null">
+        config_id,
+      </if>
+      <if test="isSecond != null">
+        is_second,
+      </if>
+      <if test="hasReport != null">
+        has_report,
+      </if>
+      <if test="prNum != null">
+        pr_num,
+      </if>
+      <if test="dwNum != null">
+        dw_num,
+      </if>
+      <if test="jwNum != null">
+        jw_num,
+      </if>
+      <if test="inspectorNum != null">
+        inspector_num,
+      </if>
+      <if test="inspectorFinishNum != null">
+        inspector_finish_num,
+      </if>
+      <if test="positiveFinishNum != null">
+        positive_finish_num,
+      </if>
+      <if test="notice != null">
+        notice,
+      </if>
+      <if test="mobileNotice != null">
+        mobile_notice,
+      </if>
+      <if test="inspectorNotice != null">
+        inspector_notice,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="isSecond != null">
+        #{isSecond,jdbcType=BIT},
+      </if>
+      <if test="hasReport != null">
+        #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="prNum != null">
+        #{prNum,jdbcType=INTEGER},
+      </if>
+      <if test="dwNum != null">
+        #{dwNum,jdbcType=INTEGER},
+      </if>
+      <if test="jwNum != null">
+        #{jwNum,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorNum != null">
+        #{inspectorNum,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorFinishNum != null">
+        #{inspectorFinishNum,jdbcType=INTEGER},
+      </if>
+      <if test="positiveFinishNum != null">
+        #{positiveFinishNum,jdbcType=INTEGER},
+      </if>
+      <if test="notice != null">
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNotice != null">
+        #{mobileNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectorNotice != null">
+        #{inspectorNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pcs.PcsPollExample" resultType="java.lang.Long">
+    select count(*) from pcs_poll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pcs_poll
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSecond != null">
+        is_second = #{record.isSecond,jdbcType=BIT},
+      </if>
+      <if test="record.hasReport != null">
+        has_report = #{record.hasReport,jdbcType=BIT},
+      </if>
+      <if test="record.prNum != null">
+        pr_num = #{record.prNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dwNum != null">
+        dw_num = #{record.dwNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.jwNum != null">
+        jw_num = #{record.jwNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectorNum != null">
+        inspector_num = #{record.inspectorNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectorFinishNum != null">
+        inspector_finish_num = #{record.inspectorFinishNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.positiveFinishNum != null">
+        positive_finish_num = #{record.positiveFinishNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.notice != null">
+        notice = #{record.notice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileNotice != null">
+        mobile_notice = #{record.mobileNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inspectorNotice != null">
+        inspector_notice = #{record.inspectorNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pcs_poll
+    set id = #{record.id,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      config_id = #{record.configId,jdbcType=INTEGER},
+      is_second = #{record.isSecond,jdbcType=BIT},
+      has_report = #{record.hasReport,jdbcType=BIT},
+      pr_num = #{record.prNum,jdbcType=INTEGER},
+      dw_num = #{record.dwNum,jdbcType=INTEGER},
+      jw_num = #{record.jwNum,jdbcType=INTEGER},
+      inspector_num = #{record.inspectorNum,jdbcType=INTEGER},
+      inspector_finish_num = #{record.inspectorFinishNum,jdbcType=INTEGER},
+      positive_finish_num = #{record.positiveFinishNum,jdbcType=INTEGER},
+      notice = #{record.notice,jdbcType=VARCHAR},
+      mobile_notice = #{record.mobileNotice,jdbcType=VARCHAR},
+      inspector_notice = #{record.inspectorNotice,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsPoll">
+    update pcs_poll
+    <set>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="isSecond != null">
+        is_second = #{isSecond,jdbcType=BIT},
+      </if>
+      <if test="hasReport != null">
+        has_report = #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="prNum != null">
+        pr_num = #{prNum,jdbcType=INTEGER},
+      </if>
+      <if test="dwNum != null">
+        dw_num = #{dwNum,jdbcType=INTEGER},
+      </if>
+      <if test="jwNum != null">
+        jw_num = #{jwNum,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorNum != null">
+        inspector_num = #{inspectorNum,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorFinishNum != null">
+        inspector_finish_num = #{inspectorFinishNum,jdbcType=INTEGER},
+      </if>
+      <if test="positiveFinishNum != null">
+        positive_finish_num = #{positiveFinishNum,jdbcType=INTEGER},
+      </if>
+      <if test="notice != null">
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNotice != null">
+        mobile_notice = #{mobileNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectorNotice != null">
+        inspector_notice = #{inspectorNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsPoll">
+    update pcs_poll
+    set party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      config_id = #{configId,jdbcType=INTEGER},
+      is_second = #{isSecond,jdbcType=BIT},
+      has_report = #{hasReport,jdbcType=BIT},
+      pr_num = #{prNum,jdbcType=INTEGER},
+      dw_num = #{dwNum,jdbcType=INTEGER},
+      jw_num = #{jwNum,jdbcType=INTEGER},
+      inspector_num = #{inspectorNum,jdbcType=INTEGER},
+      inspector_finish_num = #{inspectorFinishNum,jdbcType=INTEGER},
+      positive_finish_num = #{positiveFinishNum,jdbcType=INTEGER},
+      notice = #{notice,jdbcType=VARCHAR},
+      mobile_notice = #{mobileNotice,jdbcType=VARCHAR},
+      inspector_notice = #{inspectorNotice,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsPollExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_poll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

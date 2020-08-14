@@ -97,4 +97,40 @@ public class PcsConstants {
         PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_NOT_CASE, "不予立案");
         PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_FINISH, "处理完成");
     }
+
+    public final static byte PCS_POLL_FIRST_STAGE = 0;
+    public final static byte PCS_POLL_SECOND_STAGE = 1;
+    public final static Map<Byte, String> PCS_POLL_STAGE_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_POLL_STAGE_MAP.put(PCS_POLL_FIRST_STAGE, "一下阶段");
+        PCS_POLL_STAGE_MAP.put(PCS_POLL_SECOND_STAGE, "二下阶段");
+    }
+
+    //推荐投票
+    public final static byte PCS_POLL_CANDIDATE_PR = 1;
+    public final static byte PCS_POLL_CANDIDATE_DW = 2;
+    public final static byte PCS_POLL_CANDIDATE_JW = 3;
+    public final static Map<Byte, String> PCS_POLL_CANDIDATE_TYPE = new LinkedHashMap<>();
+
+    static {
+        PCS_POLL_CANDIDATE_TYPE.put(PCS_POLL_CANDIDATE_PR, "代表");
+        PCS_POLL_CANDIDATE_TYPE.put(PCS_POLL_CANDIDATE_DW, "党委委员");
+        PCS_POLL_CANDIDATE_TYPE.put(PCS_POLL_CANDIDATE_JW, "纪委委员");
+    }
+
+    // 推荐结果状态
+    public final static byte RESULT_STATUS_AGREE = 1;
+    public final static byte RESULT_STATUS_DISAGREE = 2;
+    public final static byte RESULT_STATUS_ABSTAIN = 3;
+    public final static byte RESULT_STATUS_OTHER = 4;
+    public final static Map<Byte, String> RESULT_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        RESULT_STATUS_MAP.put(RESULT_STATUS_AGREE, "同意");
+        RESULT_STATUS_MAP.put(RESULT_STATUS_DISAGREE, "不同意");
+        RESULT_STATUS_MAP.put(RESULT_STATUS_ABSTAIN, "弃权");
+        RESULT_STATUS_MAP.put(RESULT_STATUS_OTHER, "另选他人");
+    }
 }
