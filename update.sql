@@ -1,6 +1,22 @@
 
+20200814
+
+-- 更新 cet_expert_view
+
+-- 更新北师大 & 北邮 &南航
+-- select count(*) from ow_member where party_id is not null and status in(3,4);
+-- select count(*) from ow_member where party_id is null;
+update  ow_member om, ow_member_quit omq set om.party_id=omq.party_id , om.branch_id=omq.branch_id
+where om.user_id=omq.user_id and omq.`status`=3 and om.party_id is null;
+update  ow_member om, ow_member_out omo set om.party_id=omo.party_id , om.branch_id=omo.branch_id
+where om.user_id=omo.user_id and omo.`status` in(10, 2) and om.party_id is null;
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委' AFTER `user_id`;
+
 
 20200812
+
+西工大
 
 ALTER TABLE `cet_project`
 	COMMENT='培训项目，包含专题培训和年度培训',
@@ -188,7 +204,7 @@ ALTER TABLE `cet_train_course`
 	ADD COLUMN `eva_finish_count` INT UNSIGNED NULL DEFAULT NULL COMMENT '测评完成账号数量' AFTER `finish_count`,
 	ADD CONSTRAINT `FK_cet_train_course_cet_project` FOREIGN KEY (`project_id`) REFERENCES `cet_project` (`id`) ON DELETE CASCADE;
 
--- 删除相关类
+-- 删除相关类 还有 BaseCetTrain   CetProjectDetailController  CetAutoAdjust
 DROP VIEW IF EXISTS `cet_train_course_view`;
 
 
@@ -265,10 +281,6 @@ ALTER TABLE `sys_property`
 2020.7.27
 西工大
 
-
--- 更新Utils
--- 删除 xss.ignoreUrIs
-
 2020.7.27
 
 update sys_resource set name='管理所有任务权限', permission='oaTaskShowAll:*', type='function', parent_id=561,
@@ -344,6 +356,9 @@ ALTER TABLE `cet_project`
 	CHANGE COLUMN `obj_count` `obj_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`,
 	CHANGE COLUMN `quit_count` `quit_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '已退出参选人员数量' AFTER `obj_count`,
 	CHANGE COLUMN `file_count` `file_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '课件数量' AFTER `quit_count`;
+
+-- 更新Utils
+-- 删除 xss.ignoreUrIs
 
 
 2020.7.22
@@ -1487,12 +1502,12 @@ ALTER TABLE `sys_role`
 	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT '1' COMMENT '类别，1加权限 2减权限' AFTER `name`;
 
 -- 党员或民主党派变为群众，应删除其所属组织
-ALTER TABLE `ow_member`
+/*ALTER TABLE `ow_member`
 	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NULL COMMENT '所属分党委' AFTER `user_id`;
 update  ow_member om, ow_member_quit omq set om.party_id=null , om.branch_id=null
 where om.user_id=omq.user_id and omq.`status`=3;
 update  ow_member om, cadre_party cp set om.party_id=null , om.branch_id=null
-where om.user_id=cp.user_id and cp.class_id=(select id from base_meta_type where code='mt_dp_qz');
+where om.user_id=cp.user_id and cp.class_id=(select id from base_meta_type where code='mt_dp_qz');*/
 
 ALTER TABLE `unit` ADD COLUMN `not_stat_post` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否不列入配备一览表' AFTER `status`;
 

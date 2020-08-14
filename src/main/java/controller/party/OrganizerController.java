@@ -191,7 +191,7 @@ public class OrganizerController extends BaseController {
         Integer id = record.getId();
 
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, record.getPartyId(), record.getBranchId()))
+        if (!PartyHelper.hasBranchAuth(loginUserId, record.getPartyId(), record.getBranchId()))
             throw new UnauthorizedException();
 
         Organizer organizer = organizerService.get(record.getType(), record.getUserId());
@@ -322,7 +322,7 @@ public class OrganizerController extends BaseController {
 
         Organizer organizer = organizerMapper.selectByPrimaryKey(id);
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, organizer.getPartyId(), organizer.getBranchId()))
+        if (!PartyHelper.hasBranchAuth(loginUserId, organizer.getPartyId(), organizer.getBranchId()))
             throw new UnauthorizedException();
 
         if(status==null || status==OwConstants.OW_ORGANIZER_STATUS_LEAVE) {

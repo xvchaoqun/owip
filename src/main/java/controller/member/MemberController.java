@@ -290,7 +290,7 @@ public class MemberController extends MemberBaseController {
 
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+            if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
@@ -474,7 +474,7 @@ public class MemberController extends MemberBaseController {
 
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+            if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
@@ -531,7 +531,7 @@ public class MemberController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
             throw new UnauthorizedException();
 
         Integer userId = record.getUserId();
@@ -653,7 +653,7 @@ public class MemberController extends MemberBaseController {
             Integer branchId = member.getBranchId();
             //===========权限
             Integer loginUserId = ShiroHelper.getCurrentUserId();
-            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
                 throw new UnauthorizedException();
 
             if (member.getStatus().equals(MemberConstants.MEMBER_STATUS_NORMAL) && member.getPoliticalStatus().equals(MemberConstants.MEMBER_POLITICAL_STATUS_GROW)) {
@@ -722,7 +722,7 @@ public class MemberController extends MemberBaseController {
         Integer branchId = member.getBranchId();
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
             throw new UnauthorizedException();
 
         if (member.getPoliticalStatus() != politicalStatus) {

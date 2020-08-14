@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -244,7 +245,7 @@ public class BranchController extends BaseController {
             partyId = branch.getPartyId();
         }
         int loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, id))
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, id))
             throw new UnauthorizedException();
 
         if (StringUtils.isNotBlank(_foundTime)) {

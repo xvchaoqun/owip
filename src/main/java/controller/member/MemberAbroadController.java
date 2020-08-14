@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -149,7 +150,7 @@ public class MemberAbroadController extends MemberBaseController {
         Integer branchId = record.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
             throw new UnauthorizedException();
 
         if (StringUtils.isNotBlank(_abroadTime))

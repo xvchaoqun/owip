@@ -21,6 +21,7 @@ import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -72,7 +73,7 @@ public class UserMemberStayController extends MemberBaseController {
         // 非本人提交，要验证权限
         if(!selfSubmit){
             //===========权限
-            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
                 throw new UnauthorizedException();
         }
 
@@ -145,7 +146,7 @@ public class UserMemberStayController extends MemberBaseController {
         // 非本人提交，要验证权限
         if(!selfSubmit){
             //===========权限
-            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
                 throw new UnauthorizedException();
         }
 

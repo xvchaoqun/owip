@@ -27,6 +27,7 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.gson.GsonUtils;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -165,7 +166,7 @@ public class MemberCheckController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (userId != loginUserId && !branchMemberService.hasAdminAuth(loginUserId, partyId, branchId)){
+        if (userId != loginUserId && !PartyHelper.hasBranchAuth(loginUserId, partyId, branchId)){
                 throw new UnauthorizedException();
         }
 

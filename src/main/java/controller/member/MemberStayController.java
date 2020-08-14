@@ -29,6 +29,7 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -370,7 +371,7 @@ public class MemberStayController extends MemberBaseController {
 
         // 是否是当前记录的管理员
         if (checkType == 1) {
-            modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
+            modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
         }
         if (checkType == 2) {
             modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));

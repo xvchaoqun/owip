@@ -177,7 +177,7 @@ public class MemberApplyController extends MemberBaseController {
 
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+            if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
@@ -281,12 +281,12 @@ public class MemberApplyController extends MemberBaseController {
         switch (stage) {
             case OwConstants.OW_APPLY_STAGE_INIT:
             case OwConstants.OW_APPLY_STAGE_PASS:
-                modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
+                modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
                 break;
             case OwConstants.OW_APPLY_STAGE_ACTIVE:
             case OwConstants.OW_APPLY_STAGE_CANDIDATE:
                 if (status == -1)
-                    modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
+                    modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
                 else
                     modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
                 break;
@@ -297,13 +297,13 @@ public class MemberApplyController extends MemberBaseController {
                 if (status == -1)
                     modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
                 else if (status == 2) // 组织部审核之后，党支部才提交
-                    modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
+                    modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
                 else if (status == 0) // 党支部提交后，分党委审核
                     modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
                 break;
             case OwConstants.OW_APPLY_STAGE_GROW:
                 if (status == -1)
-                    modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
+                    modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
                 else if (status == 0)
                     modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
                 else

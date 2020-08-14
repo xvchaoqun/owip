@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.cadre.CadreInfoFormService;
-import service.common.FreemarkerService;
 import service.member.MemberInfoFormService;
 import service.party.MemberService;
 import sys.constants.MemberConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
@@ -37,8 +37,6 @@ public class PartyMemberInfoFormController extends BaseController {
     private MemberInfoFormService memberInfoFormService;
     @Autowired
     private CadreInfoFormService cadreInfoFormService;
-    @Autowired
-    private FreemarkerService freemarkerService;
     @Autowired
     private MemberService memberService;
 
@@ -63,7 +61,7 @@ public class PartyMemberInfoFormController extends BaseController {
         }
 
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, member.getPartyId(), member.getBranchId()))
+        if (!PartyHelper.hasBranchAuth(loginUserId, member.getPartyId(), member.getBranchId()))
             throw new UnauthorizedException();
 
         SysUserView uv = CmTag.getUserById(userId);

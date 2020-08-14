@@ -30,6 +30,7 @@ import service.sys.TeacherInfoService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.*;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.*;
 
@@ -730,7 +731,7 @@ public class MemberService extends MemberBaseMapper {
                     branchMemberGroupMapper.insertSelective(bmg);
                 }
             }
-            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+            if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 

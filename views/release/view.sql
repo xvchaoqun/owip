@@ -112,7 +112,7 @@ group by ctc.id;
 
 DROP VIEW IF EXISTS `cet_expert_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_expert_view` AS
-select ce.* , count(distinct cc.id) as course_num, count(distinct cto.train_id, cto.obj_id) as trainee_num from cet_expert ce
+select ce.* , count(distinct cc.id) as course_num, count(distinct cto.train_course_id, cto.obj_id) as trainee_num from cet_expert ce
 left join cet_course cc on cc.expert_id=ce.id
 left join cet_train_course ctc on ctc.course_id=cc.id
 left join cet_train_obj cto on cto.train_course_id=ctc.id

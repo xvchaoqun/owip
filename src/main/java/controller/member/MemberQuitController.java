@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.*;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -217,7 +218,7 @@ public class MemberQuitController extends MemberBaseController {
         Integer partyId = currentMemberQuit.getPartyId();
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
+            modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
         }
         if (type == 2) {
             modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
@@ -312,7 +313,7 @@ public class MemberQuitController extends MemberBaseController {
         Integer branchId = member.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
             throw new UnauthorizedException();
 
         record.setPartyId(partyId);

@@ -24,6 +24,7 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -199,7 +200,7 @@ public class MemberCertifyController extends MemberBaseController {
                 Integer loginUserId = ShiroHelper.getCurrentUserId();
                 if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
-                    if (!branchMemberService.hasAdminAuth(loginUserId, member.getPartyId(), member.getBranchId()))
+                    if (!PartyHelper.hasBranchAuth(loginUserId, member.getPartyId(), member.getBranchId()))
                         throw new UnauthorizedException();
 
                     if (record.getId() != null) {

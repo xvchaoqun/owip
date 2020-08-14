@@ -12,8 +12,6 @@ import persistence.party.common.OwAdmin;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
-import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -124,16 +122,6 @@ public class BranchMemberService extends BaseMapper {
         } else { // 支部管理员
             return branchAdminService.adminBranch(userId, branchId);
         }
-    }
-
-    // 判断是否有支部管理的权限（包含组织部管理员、分党委管理员、支部管理员）
-    public boolean hasAdminAuth(int userId, int partyId, Integer branchId) {
-
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                || partyMemberService.isPresentAdmin(userId, partyId))
-            return true;
-
-        return isPresentAdmin(userId, partyId, branchId);
     }
 
     // 删除支部管理员

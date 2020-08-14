@@ -85,7 +85,7 @@ public class MemberBaseMapper extends CoreBaseMapper {
     /**
      * 当前操作人员应该是申请人所在党支部或直属党支部的管理员，否则抛出异常
      */
-    protected <T> VerifyAuth<T> checkVerityAuth(T entity, Integer partyId, Integer branchId) {
+    protected <T> VerifyAuth<T> checkVerityAuth(T entity, int partyId, Integer branchId) {
         
         VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
         
@@ -105,7 +105,7 @@ public class MemberBaseMapper extends CoreBaseMapper {
     /**
      * 当前操作人员应该是应是申请人所在的分党委、党总支、直属党支部的管理员
      */
-    protected <T> VerifyAuth<T> checkVerityAuth2(T entity, Integer partyId) {
+    protected <T> VerifyAuth<T> checkVerityAuth2(T entity, int partyId) {
         VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
         
         int loginUserId = ShiroHelper.getCurrentUserId();

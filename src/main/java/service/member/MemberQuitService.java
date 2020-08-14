@@ -338,8 +338,9 @@ public class MemberQuitService extends MemberBaseMapper {
     @Transactional
     public void quit(int userId, byte status) {
 
-        commonMapper.excuteSql("update ow_member set party_id=null, branch_id=null, status="
-                + status +" where user_id=" + userId);
+        /*commonMapper.excuteSql("update ow_member set party_id=null, branch_id=null, status="
+                + status +" where user_id=" + userId);*/
+        commonMapper.excuteSql("update ow_member set status=" + status +" where user_id=" + userId);
 
         // 存在未缴纳党费时，不允许转出
         if(status==MemberConstants.MEMBER_STATUS_TRANSFER){

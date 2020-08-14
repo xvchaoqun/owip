@@ -14,6 +14,7 @@ import service.party.PartyMemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.lang.reflect.InvocationTargetException;
@@ -46,14 +47,18 @@ public class PartyHelper {
 
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if(!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId)){
+        if(!hasBranchAuth(loginUserId, partyId, branchId)){
             throw new UnauthorizedException();
         }
     }
 
     public static Boolean hasBranchAuth(Integer userId, Integer partyId, Integer branchId) {
 
-        return branchMemberService.hasAdminAuth(userId, partyId, branchId);
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
+                || partyMemberService.isPresentAdmin(userId, partyId))
+            return true;
+
+        return branchMemberService.isPresentAdmin(userId, partyId, branchId);
     }
 
     public static Boolean hasPartyAuth(Integer userId, Integer partyId) {
@@ -68,7 +73,7 @@ public class PartyHelper {
     }
 
     // 是否分党委
-    public static Boolean isParty(Integer partyId) {
+    public static Boolean isParty(int partyId) {
         return partyService.isParty(partyId);
     }
 

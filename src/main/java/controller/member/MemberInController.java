@@ -27,6 +27,7 @@ import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -205,7 +206,7 @@ public class MemberInController extends MemberBaseController {
         Integer branchId = record.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
             throw new UnauthorizedException();
 
         Integer id = record.getId();

@@ -7,6 +7,7 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
+import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
@@ -23,6 +24,7 @@ import service.party.PartyService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import sys.constants.CadreConstants;
+import sys.constants.MemberConstants;
 import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -317,7 +319,10 @@ public class CadreCommonService extends BaseMapper {
         Map<Integer, Party> partyMap = partyService.findAll();
         modelMap.put("branchMap", branchMap);
         modelMap.put("partyMap", partyMap);
-        modelMap.put("member", memberService.get(uv.getId()));
+        Member member = memberService.get(uv.getId());
+        if(member!=null && member.getStatus()== MemberConstants.MEMBER_STATUS_NORMAL) {
+            modelMap.put("member", member);
+        }
 
         TeacherInfo teacherInfo = teacherInfoService.get(uv.getId());
         modelMap.put("teacherInfo", teacherInfo);
