@@ -167,7 +167,7 @@ pageEncoding="UTF-8" %>
             { label: '代表的<br/>最大推荐人数',name: 'prNum'},
             { label: '党委委员的<br/>最大推荐人数',name: 'dwNum'},
             { label: '纪委委员的<br/>最大推荐人数',name: 'jwNum'},
-            { label: '投票人投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
+            { label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                             .format(rowObject.id)
                         + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
@@ -212,8 +212,5 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
     $('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
 </script>

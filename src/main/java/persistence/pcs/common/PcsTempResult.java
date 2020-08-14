@@ -1,11 +1,9 @@
 package persistence.pcs.common;
 
-import domain.sys.SysUserView;
-
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class PcsTempResult implements Serializable {
 
@@ -16,12 +14,12 @@ public class PcsTempResult implements Serializable {
     public boolean agree;
     public boolean mobileAgree;
 
-    //<type, list>  一下阶段推荐结果
-    public Map<Byte, Set<SysUserView>> firstResultMap;
+    //<type, list<userId>>  一下阶段推荐结果
+    public Map<Byte, List<Integer>> firstResultMap;
     //<type_candidateUserId, status>  二下阶段推荐人推荐结果
     public Map<String, Byte> secondResultMap;
     //<type_candidateUserId_4, userId>    二下阶段其他推荐人
-    public Map<String, SysUserView> otherResultMap;
+    public Map<String, Integer> otherResultMap;
 
     public PcsTempResult() {
         firstResultMap = new LinkedHashMap<>();
@@ -57,11 +55,11 @@ public class PcsTempResult implements Serializable {
         this.mobileAgree = mobileAgree;
     }
 
-    public Map<Byte, Set<SysUserView>> getFirstResultMap() {
+    public Map<Byte, List<Integer>> getFirstResultMap() {
         return firstResultMap;
     }
 
-    public PcsTempResult setFirstResultMap(Map<Byte, Set<SysUserView>> firstResultMap) {
+    public PcsTempResult setFirstResultMap(Map<Byte, List<Integer>> firstResultMap) {
         this.firstResultMap = firstResultMap;
         return this;
     }
@@ -75,11 +73,11 @@ public class PcsTempResult implements Serializable {
         return this;
     }
 
-    public Map<String, SysUserView> getOtherResultMap() {
+    public Map<String, Integer> getOtherResultMap() {
         return otherResultMap;
     }
 
-    public PcsTempResult setOtherResultMap(Map<String, SysUserView> otherResultMap) {
+    public PcsTempResult setOtherResultMap(Map<String, Integer> otherResultMap) {
         this.otherResultMap = otherResultMap;
         return this;
     }

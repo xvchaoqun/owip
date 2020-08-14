@@ -49,20 +49,18 @@ public class PcsPollController extends PcsBaseController {
         if (branchId != null){
             modelMap.put("branch", branchMapper.selectByPrimaryKey(branchId));
         }
+        if (cls == 1){
+            return "/pcs/pcsPoll/pcsPoll_page";
+        }
+
+        //汇总结果
         if (isSecond != null) {
             modelMap.put("isSecond", isSecond);
         }
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-
-        if (cls == 2){
-            return "/pcs/pcsPoll/pcsPollResult";
-        }else if (cls == 3){
-            return "/pcs/pcsPoll/pcsPollResult";
-        }
-
-        return "/pcs/pcsPoll/pcsPoll_page";
+        return "/pcs/pcsPoll/pcsPollResult";
     }
 
     @RequiresPermissions("pcsPoll:list")
@@ -105,14 +103,16 @@ public class PcsPollController extends PcsBaseController {
         }
         if (StringUtils.isNotBlank(configName)) {
             PcsConfigExample configExample = new PcsConfigExample();
-            PcsConfigExample.Criteria criteria1 = configExample.createCriteria().andNameLike(SqlUtils.trimLike(configName));
+            configExample.createCriteria().andNameLike(SqlUtils.trimLike(configName));
             List<PcsConfig> pcsConfigs = pcsConfigMapper.selectByExample(configExample);
-            if (pcsConfigs != null && pcsConfigs.size() > 0) {
+            if (pcsConfigs.size() > 0) {
                 List<Integer> configIds = new ArrayList<>();
                 for (PcsConfig pcsConfig : pcsConfigs) {
                     configIds.add(pcsConfig.getId());
                 }
                 criteria.andConfigIdIn(configIds);
+            }else {
+                criteria.andConfigIdIsNull();
             }
         }
         if (isSecond != null){
@@ -156,6 +156,10 @@ public class PcsPollController extends PcsBaseController {
 
         Integer id = record.getId();
 
+        if (pcsPollService.hasPcsPoll(record)){
+            throw new OpException("该党支部已存在投票（每个党支部在每次党代会只能创建一次投票）。");
+        }
+
         if (id == null) {
             pcsPollService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PCS, "添加党代会投票：{0}", record.getId()));
@@ -187,8 +191,7 @@ public class PcsPollController extends PcsBaseController {
             }
         }else {
             PcsConfigExample example = new PcsConfigExample();
-            PcsConfigExample.Criteria criteria = example.createCriteria();
-            criteria.andIsCurrentEqualTo(true);
+            example.createCriteria().andIsCurrentEqualTo(true);
             List<PcsConfig> pcsConfigs = pcsConfigMapper.selectByExample(example);
             if (pcsConfigs.size() != 1){
                 throw new OpException("当前党代会为空，请先设置当前党代会。");
@@ -203,7 +206,7 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:del")
     @RequestMapping(value = "/pcsPoll_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsPoll_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+    public Map pcsPoll_batchDel(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
             pcsPollService.batchDel(ids);
@@ -216,7 +219,7 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsPoll_report(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+    public Map pcsPoll_report(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
             pcsPollService.batchReport(ids);
@@ -266,12 +269,12 @@ public class PcsPollController extends PcsBaseController {
 
         PcsPoll record = new PcsPoll();
         record.setId(id);
-        if (null != inspectorNotice){
+        if (StringUtils.isNotBlank(inspectorNotice)){
             record.setInspectorNotice(inspectorNotice);
         }
 
         pcsPollService.updateByPrimaryKeySelective(record);
-        logger.info(log( LogConstants.LOG_DR, "更新党代会投票说明（纸质票）：{0}", record.getId() + "_" + record.getName()));
+        logger.info(log( LogConstants.LOG_PCS, "更新党代会投票说明（纸质票）：{0}", record.getId() + "_" + record.getName()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -285,21 +288,21 @@ public class PcsPollController extends PcsBaseController {
             PcsPoll record = records.get(i);
             String[] values = {
                 record.getPartyId()+"",
-                            record.getBranchId()+"",
-                            record.getName(),
-                            record.getConfigId()+"",
-                            record.getIsSecond()+"",
-                            record.getHasReport()+"",
-                            record.getPrNum()+"",
-                            record.getDwNum()+"",
-                            record.getJwNum()+"",
-                            record.getInspectorNum()+"",
-                            record.getNotice(),
-                            record.getMobileNotice(),
-                            record.getInspectorNotice(),
-                            DateUtils.formatDate(record.getStartTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
-                            DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
-                            record.getRemark()
+                record.getBranchId()+"",
+                record.getName(),
+                record.getConfigId()+"",
+                record.getIsSecond()+"",
+                record.getHasReport()+"",
+                record.getPrNum()+"",
+                record.getDwNum()+"",
+                record.getJwNum()+"",
+                record.getInspectorNum()+"",
+                record.getNotice(),
+                record.getMobileNotice(),
+                record.getInspectorNotice(),
+                DateUtils.formatDate(record.getStartTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
+                DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
+                record.getRemark()
             };
             valuesList.add(values);
         }

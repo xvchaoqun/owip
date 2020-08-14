@@ -139,7 +139,8 @@
                                     <c:set var="key" value="${type}_${can.userId}"/>
                                     <c:set var="status" value="${tempResult.secondResultMap.get(key)}"/>
                                     <c:set var="otherKey" value="${key}_4"/>
-                                    <c:set var="otherUser" value="${tempResult.otherResultMap.get(otherKey)}"/>
+                                    <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
+                                    <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                                     <tr>
                                         <td class="realname">${can.user.realname}（${can.user.code}）</td>
                                     </tr>

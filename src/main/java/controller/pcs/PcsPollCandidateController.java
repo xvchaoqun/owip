@@ -16,7 +16,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -114,8 +113,7 @@ public class PcsPollCandidateController extends PcsBaseController {
     @RequiresPermissions("pcsPollCandidate:del")
     @RequestMapping(value = "/pcsPollCandidate_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsPollCandidate_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
-
+    public Map pcsPollCandidate_batchDel(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
             pcsPollCandidateService.batchDel(ids);
@@ -178,8 +176,8 @@ public class PcsPollCandidateController extends PcsBaseController {
         resultMap.put("addCount", addCount);
         resultMap.put("total", totalCount);
 
-        logger.info(log(LogConstants.LOG_ADMIN,
-                "导入培训专家成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+        logger.info(log(LogConstants.LOG_PCS,
+                "导入党代会推荐人成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;

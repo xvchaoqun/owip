@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_noticeEdit" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsPoll.id}">
+        <input type="hidden" name="isMobile" value="${param.isMobile}"/>
 			<div class="form-group">
 				<div class="col-xs-6">
 					<input type="hidden" name="notice">
@@ -37,14 +38,12 @@ pageEncoding="UTF-8"%>
             'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'unlink', 'fullscreen']
 	});
 
-	var isMobile = ${param.isMobile};
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $("#modalForm input[name=notice]").val(ke.html());
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
-                data: {isMobile: isMobile},
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
@@ -56,9 +55,6 @@ pageEncoding="UTF-8"%>
         }
     });
     $("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
 </script>

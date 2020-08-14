@@ -1,6 +1,7 @@
 package controller.pcs.user;
 
 import controller.pcs.PcsBaseController;
+import domain.pcs.PcsConfig;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollCandidate;
 import domain.pcs.PcsPollInspector;
@@ -79,12 +80,16 @@ public class UserPcsPollController extends PcsBaseController {
                     cacheService.limitCache(limitCacheKey, 10);
                 }catch (Exception e){
 
-                    logger.info(addNoLoginLog(null, username, LogConstants.LOG_DR,"登录过于频繁"));
+                    logger.info(addNoLoginLog(null, username, LogConstants.LOG_PCS,"登录过于频繁"));
                     return failed("登录过于频繁，请稍后再试");
                 }
                 return failed("账号或密码错误");
             }else {
                 cacheService.clearLimitCache(limitCacheKey);
+                PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+                if (pcsConfig != null && inspector.getPcsPoll().getConfigId() != pcsConfig.getId()){
+                    return failed("该账号的党代会投票已过期");
+                }
                 if (inspector.getPcsPoll().getStartTime().after(new Date())){
                     return failed("党代会投票未开始");
                 }else if (inspector.getPcsPoll().getEndTime().before(new Date())){
@@ -186,10 +191,11 @@ public class UserPcsPollController extends PcsBaseController {
     // 保存/提交推荐数据
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
-    public Map submit(boolean isPositive,
+    public Map submit(Boolean isPositive,
                       boolean isMobile,
                       boolean isSubmit,
-                      Byte type, HttpServletRequest request) throws Exception {
+                      Integer[] userIds,
+                      Byte _type, HttpServletRequest request) {
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
         PcsPoll pcsPoll = inspector.getPcsPoll();
@@ -199,23 +205,24 @@ public class UserPcsPollController extends PcsBaseController {
         PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
 
         inspector.setIsMobile(isMobile);
-        inspector.setIsPositive(isPositive);
+        if (isPositive != null) {
+            inspector.setIsPositive(isPositive);
+        }else {
+            if (isSubmit) return failed("请选择投票人身份");
+        }
 
         if (!pcsPoll.getIsSecond()) {//保存"一下阶段"推荐结果
 
-            Map<Byte, Set<SysUserView>> firstResultMap = tempResult.getFirstResultMap();
-            String[] value = request.getParameterValues("userId");
-            if (value != null && value.length > 0) {
-                Set<SysUserView> users = new HashSet<>();
-                for (String s : value) {
-                    SysUserView userView = sysUserService.findById(Integer.parseInt(s));
-                    users.add(userView);
-                }
-                firstResultMap.put(type, users);
-                tempResult.setFirstResultMap(firstResultMap);
-                String tempdata = pcsPollResultService.getStringTemp(tempResult);
-                inspector.setTempdata(tempdata);
+            Map<Byte, List<Integer>> firstResultMap = tempResult.getFirstResultMap();
+            List<Integer> userIdList = new ArrayList<>();
+            if (userIds != null && userIds.length > 0) {
+                userIdList = Arrays.asList(userIds);
             }
+            firstResultMap.put(_type, userIdList);
+            tempResult.setFirstResultMap(firstResultMap);
+            String tempdata = pcsPollResultService.getStringTemp(tempResult);
+            inspector.setTempdata(tempdata);
+
 
             if (isSubmit){
 
@@ -235,13 +242,13 @@ public class UserPcsPollController extends PcsBaseController {
         }else {
 
             Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
-            Map<String, SysUserView> otherResultMap = tempResult.getOtherResultMap();
+            Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
 
-            List<PcsPollCandidate> cans = pcsPollCandidateService.findAll(pollId, type);
+            List<PcsPollCandidate> cans = pcsPollCandidateService.findAll(pollId, _type);
 
             for (PcsPollCandidate can : cans) {
                 int userId = can.getUserId();
-                String radioName = type + "_" + userId;
+                String radioName = _type + "_" + userId;
 
                 String value = request.getParameter(radioName);
                 Byte radioValue = (value == null)?null:Byte.valueOf(value);
@@ -253,7 +260,7 @@ public class UserPcsPollController extends PcsBaseController {
 
                         String otherUserId = request.getParameter(radioName+"_4");
                         if (StringUtils.isNotBlank(otherUserId)){
-                            otherResultMap.put(radioName+"_4", sysUserService.findById(Integer.parseInt(otherUserId)));
+                            otherResultMap.put(radioName+"_4", Integer.valueOf(otherUserId));
                         }
                     }
                 }
@@ -290,8 +297,8 @@ public class UserPcsPollController extends PcsBaseController {
 
         }
 
-        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_DR, "{0}投票结果，{1}",
-                isSubmit?"提交":"保存", inspector.getPcsPoll().getName()));
+        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS, "{0}投票结果，{1}",
+                isSubmit?"提交":"保存", pcsPoll.getName()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -303,6 +310,7 @@ public class UserPcsPollController extends PcsBaseController {
                                Boolean isSecond,
                                Byte type,
                                Integer pollId,
+                               Integer[] userIds,
                                HttpServletRequest request) throws IOException {
 
         if (null == pageSize) {
@@ -314,34 +322,6 @@ public class UserPcsPollController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
         SysUserViewExample example = new SysUserViewExample();
         SysUserViewExample.Criteria criteria = example.createCriteria();
-
-        /*List<Integer> userIds = new ArrayList<>();
-
-        if (isSecond){
-            List<PcsPollCandidate> cans = pcsPollCandidateService.findAll(pollId, type);
-
-            for (PcsPollCandidate can : cans) {
-                int userId = can.getUserId();
-                String radioName = type + "_" + userId;
-
-                userIds.add(userId);
-
-                String otherUserId = request.getParameter(radioName+"_4");
-                if (StringUtils.isNotBlank(otherUserId)){
-                    userIds.add(Integer.valueOf(radioName.split("_")[1]));
-                }
-            }
-            criteria.andUserIdNotIn(userIds);
-        }else {
-            String[] userIdStr = request.getParameterValues("userId");
-            if (userIdStr != null && userIdStr.length > 0) {
-                for (String s : userIdStr) {
-                    userIds.add(Integer.valueOf(s));
-                }
-                criteria.andUserIdNotIn(userIds);
-            }
-         }*/
-
 
         long count = sysUserViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

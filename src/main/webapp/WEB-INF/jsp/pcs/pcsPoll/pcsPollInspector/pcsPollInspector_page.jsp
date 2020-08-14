@@ -62,6 +62,7 @@ pageEncoding="UTF-8" %>
                                             <option></option>
                                             <option value="1">正式党员</option>
                                             <option value="0">预备党员</option>
+                                            <option value="-1">无</option>
                                         </select>
                                     </div>
                                 </div>

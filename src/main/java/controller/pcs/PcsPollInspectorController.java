@@ -46,7 +46,7 @@ public class PcsPollInspectorController extends PcsBaseController {
     public void pcsPollInspector_data(HttpServletResponse response,
                                     Integer pollId,
                                     String username,
-                                    Boolean isPositive,
+                                    Integer isPositive,
 
                                     Integer partyId,
                                     Integer branchId,
@@ -74,7 +74,11 @@ public class PcsPollInspectorController extends PcsBaseController {
             criteria.andUsernameLike(SqlUtils.trimLike(username));
         }
         if (isPositive != null){
-            criteria.andIsPositiveEqualTo(isPositive);
+            if (isPositive == -1){
+                criteria.andIsPositiveIsNull();
+            }else {
+                criteria.andIsPositiveEqualTo(isPositive == 1);
+            }
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);

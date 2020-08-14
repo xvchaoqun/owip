@@ -43,7 +43,6 @@
       $("#modalForm input[name=inspectorNotice]").val(ke.html());
       var $btn = $("#submitBtn").button('loading');
       $(form).ajaxSubmit({
-        data: {isMobile: isMobile},
         success:function(ret){
           if(ret.success){
             $("#modal").modal('hide');
@@ -55,9 +54,6 @@
     }
   });
   $("#modalForm :checkbox").bootstrapSwitch();
-  //$.register.user_select($('[data-rel="select2-ajax"]'));
   $('#modalForm [data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
-  //$('textarea.limited').inputlimiter();
-  //$.register.date($('.date-picker'));
 </script>

@@ -1,9 +1,11 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.pcs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.party.PartyService;
 
 import java.util.*;
 
@@ -12,6 +14,8 @@ public class PcsPollService extends PcsBaseMapper {
 
     @Autowired
     private PcsConfigService pcsConfigService;
+    @Autowired
+    private PartyService partyService;
 
     @Transactional
     public void insertSelective(PcsPoll record){
@@ -28,6 +32,7 @@ public class PcsPollService extends PcsBaseMapper {
     @Transactional
     public void batchDel(Integer[] ids){
 
+        //党代会为假删除，其他内容真删除
         if(ids==null || ids.length==0) return;
         PcsPoll record = new PcsPoll();
         record.setInspectorNum(0);
@@ -58,18 +63,28 @@ public class PcsPollService extends PcsBaseMapper {
         pcsPollMapper.updateByPrimaryKeySelective(record);
     }
 
-    public Map<Integer, PcsPoll> findAll() {
+    //党代会投票是否已存在
+    public Boolean hasPcsPoll(PcsPoll record) {
 
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+        if (partyId != null && branchId == null) {
+            if (!partyService.isDirectBranch(partyId)) {
+                throw new OpException("请选择所属党支部");
+            }
+        }
         PcsPollExample example = new PcsPollExample();
-        example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-        List<PcsPoll> records = pcsPollMapper.selectByExample(example);
-        Map<Integer, PcsPoll> map = new LinkedHashMap<>();
-        for (PcsPoll record : records) {
-            map.put(record.getId(), record);
+        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(record.getConfigId());
+        if (partyId != null){
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null){
+            criteria.andBranchIdEqualTo(branchId);
         }
 
-        return map;
+        List<PcsPoll> records = pcsPollMapper.selectByExample(example);
+
+        return records.size()>0;
     }
 
     @Transactional

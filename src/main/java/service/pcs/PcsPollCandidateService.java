@@ -55,7 +55,7 @@ public class PcsPollCandidateService extends PcsBaseMapper {
         return addCount;
     }
 
-    //<postId,List<PcsPollCandidate>> --二下推荐人
+    //List<PcsPollCandidate> -- 二下推荐人
     public List<PcsPollCandidate> findAll(Integer pollId, Byte type){
 
         PcsPollCandidateExample example = new PcsPollCandidateExample();

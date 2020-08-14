@@ -83,38 +83,32 @@
                  style="width:800px;margin: 0 auto 10px;font-size: larger;">
                 ${pcsPoll.name}（${PCS_POLL_CANDIDATE_TYPE.get(type)}）
             </div>
-            <div style="margin: 25px 0 15px 0;font-size: larger;">
-                <table class="table-unhover2" style="width:800px;margin: 0 auto;">
-                    <tbody>
-                    <tr>
-                        <td align="center">
-                            <li style="list-style-type:none;">
-                                <a href="javascript:;" onclick="_save(1)"><i
-                                        class="ace-icon fa fa-user"></i> 推荐代表</a>
-                            </li>
-                        </td>
-                        <td align="center">
-                            <li style="list-style-type:none;">
-                                <a href="javascript:;" onclick="_save(2)"><i
-                                        class="ace-icon fa fa fa-user"></i> 推荐党委委员</a>
-                            </li>
-                        </td>
-                        <td align="center">
-                            <li style="list-style-type:none;">
-                                <a href="javascript:;" onclick="_save(3)"><i
-                                        class="ace-icon fa fa fa-user"></i> 推荐纪委委员</a>
-                            </li>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
             <form id="candidateForm2" method="post" action="${ctx}/user/pcs/submit">
                 <input type="hidden" name="flag" value="0">
                 <input type="hidden" name="isSubmit" value="0">
-                <input type="hidden" name="type" value="${type}">
+                <input type="hidden" name="_type" value="${type}">
                 <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
                     <tbody>
+                        <tr>
+                            <td align="right">推荐人类型</td>
+                            <td align="left">
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="type"
+                                           id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                    <label for="type_1">推荐代表</label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="type"
+                                           id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
+                                    <label for="type_2">推荐党委委员</label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="type"
+                                           id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
+                                    <label for="type_3">推荐纪委委员</label>
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <td align="right">投票人身份</td>
                             <td>
@@ -134,7 +128,8 @@
                             <c:set var="key" value="${type}_${can.userId}"/>
                             <c:set var="status" value="${tempResult.secondResultMap.get(key)}"/>
                             <c:set var="otherKey" value="${key}_4"/>
-                            <c:set var="otherUser" value="${tempResult.otherResultMap.get(otherKey)}"/>
+                            <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
+                            <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                             <tr class="candidate">
                                 <td class="realname" align="right">${can.user.realname}（${can.user.code}）</td>
                                 <td>
@@ -192,6 +187,10 @@
 
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script>
+    $('#candidateForm input[name=type]').change(function () {
+        //console.log('111'+$(this).val())
+        _save($(this).val())
+    })
 
     $(".candidate input[type=radio]").click(function () {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
@@ -224,7 +223,7 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        var type = $("input[name=flag]").val();
+                        var type = $('#candidateForm input[name=type]:checked').val();
                         if ($("input[name=flag]").val() != 0) {
                             location.href="${ctx}/user/pcs/index?type="+type;
                         }else if ($("input[name=isSubmit]").val() == 0) {

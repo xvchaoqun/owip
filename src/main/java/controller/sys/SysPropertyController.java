@@ -126,6 +126,10 @@ public class SysPropertyController extends BaseController {
                 FileUtils.copyFile(springProps.uploadPath + record.getContent(),
                         CmTag.getImgFolder() + "dr_login_bg.png");
             }
+            if(StringUtils.equals(record.getCode(), "pcs_site_bg")) {
+                FileUtils.copyFile(springProps.uploadPath + record.getContent(),
+                        CmTag.getImgFolder() + "pcs_login_bg.png");
+            }
         }
 
         if (id == null) {

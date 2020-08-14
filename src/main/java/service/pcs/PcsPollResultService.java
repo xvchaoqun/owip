@@ -8,7 +8,6 @@ import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.pcs.PcsPollResult;
 import domain.pcs.PcsPollResultExample;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,16 +107,15 @@ public class PcsPollResultService extends PcsBaseMapper {
 
         PcsPoll pcsPoll = inspector.getPcsPoll();
         int pollId = pcsPoll.getId();
+        Boolean isSecond = pcsPoll.getIsSecond();
         PcsTempResult tempResult = getTempResult(inspector.getTempdata());
-
-        Map<Byte, Set<SysUserView>> firstResultMap = tempResult.getFirstResultMap();
-        Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
-        Map<String, SysUserView> otherResultMap = tempResult.getOtherResultMap();
 
         List<PcsPollResult> resultList = new ArrayList<>();
 
+        if (isSecond) {//提交二下阶段推荐结果
 
-        if (pcsPoll.getIsSecond()) {//提交二下阶段推荐结果
+            Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
+            Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
 
             for (String key : secondResultMap.keySet()) {
                 PcsPollResult result = new PcsPollResult();
@@ -127,7 +125,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                 result.setPollId(pollId);
                 result.setCandidateUserId(userId);
                 result.setInspectorId(inspector.getId());
-                result.setIsSecond(pcsPoll.getIsSecond());
+                result.setIsSecond(isSecond);
                 result.setPartyId(pcsPoll.getPartyId());
                 result.setBranchId(pcsPoll.getBranchId());
                 result.setIsPositive(inspector.getIsPositive());
@@ -137,7 +135,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                 if (status == PcsConstants.RESULT_STATUS_DISAGREE){
                     String otherKey = key + "_4";
                     if (otherResultMap.containsKey(otherKey)){
-                        userId = otherResultMap.get(otherKey).getUserId();
+                        userId = otherResultMap.get(otherKey);
                     }
                 }
                 result.setUserId(userId);
@@ -146,19 +144,21 @@ public class PcsPollResultService extends PcsBaseMapper {
 
         }else {//提交一下阶段推荐结果
 
+            Map<Byte, List<Integer>> firstResultMap = tempResult.getFirstResultMap();
+
             for (Byte type : firstResultMap.keySet()) {
-                Set<SysUserView> userViews = firstResultMap.get(type);
-                for (SysUserView userView : userViews) {
+                List<Integer> userIdList = firstResultMap.get(type);
+                for (Integer userId : userIdList) {
                     PcsPollResult result = new PcsPollResult();
                     result.setPollId(pollId);
                     result.setInspectorId(inspector.getId());
-                    result.setIsSecond(pcsPoll.getIsSecond());
+                    result.setIsSecond(isSecond);
                     result.setPartyId(inspector.getPartyId());
                     result.setBranchId(inspector.getBranchId());
                     result.setIsPositive(inspector.getIsPositive());
                     result.setStatus(PcsConstants.RESULT_STATUS_AGREE);
                     result.setType(type);
-                    result.setUserId(userView.getUserId());
+                    result.setUserId(userId);
                     resultList.add(result);
                 }
             }

@@ -28,7 +28,7 @@
         <tr>
             <td>
                 <table class="login_bg_mid"
-                       style="background:url(/img/dr_login_bg.png?_=${cm:lastModified(cm:getAbsolutePath('/img/dr_login_bg.png'))})"
+                       style="background:url(/img/pcs_login_bg.png?_=${cm:lastModified(cm:getAbsolutePath('/img/pcs_login_bg.png'))})"
                        border="0" cellspacing="0" cellpadding="0" width="820"
                        align="center" height="368">
                     <tbody>

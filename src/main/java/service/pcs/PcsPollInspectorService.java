@@ -60,18 +60,16 @@ public class PcsPollInspectorService extends PcsBaseMapper {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
 
-        if (pcsPoll != null) {
-            for (Integer i = 0; i < count; i++) {
-                PcsPollInspector record = new PcsPollInspector();
-                record.setPollId(pollId);
-                record.setUsername(buildUsername());
-                record.setPasswd(RandomStringUtils.randomNumeric(6));
-                record.setPartyId(pcsPoll.getPartyId());
-                record.setBranchId(pcsPoll.getBranchId());
-                record.setCreateTime(new Date());
+        for (Integer i = 0; i < count; i++) {
+            PcsPollInspector record = new PcsPollInspector();
+            record.setPollId(pollId);
+            record.setUsername(buildUsername());
+            record.setPasswd(RandomStringUtils.randomNumeric(6));
+            record.setPartyId(pcsPoll.getPartyId());
+            record.setBranchId(pcsPoll.getBranchId());
+            record.setCreateTime(new Date());
 
-                pcsPollInspectorMapper.insertSelective(record);
-            }
+            pcsPollInspectorMapper.insertSelective(record);
         }
 
         iPcsMapper.updatePollInspectorCount(pollId);

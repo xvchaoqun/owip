@@ -118,8 +118,8 @@
                         <input type="hidden" name="isMobile" value="1">
                         <input type="hidden" name="isSubmit" value="0">
                         <input type="hidden" name="type" value="${type}">
-                        <c:set var="candidates" value="${tempResult.firstResultMap.get(type)}"/>
-                        <c:set var="_num" value="${fn:length(candidates)}"/>
+                        <c:set var="userIds" value="${tempResult.firstResultMap.get(type)}"/>
+                        <c:set var="_num" value="${fn:length(userIds)}"/>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -134,7 +134,8 @@
                                             <label for="isPositive_0">预备党员</label>
                                     </td>
                                 </tr>
-                                <c:forEach items="${candidates}" var="candidate">
+                                <c:forEach items="${userIds}" var="userId">
+                                    <c:set var="candidate" value="${cm:getUserById(userId)}"/>
                                     <tr>
                                         <td>推荐人</td>
                                     </tr>
@@ -195,14 +196,6 @@
 </div>
 <script type="text/javascript">
 
-     /*$("input[type=radio]").click(function () {
-        var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
-        if ($(this).val() == ${RESULT_STATUS_AGREE}) {
-            $otherTr.hide();
-        } else {
-            $otherTr.show();
-        }
-    })*/
      $.register.user_select($('[data-rel="select2-ajax"]'));
 
     function _confirm() {
@@ -223,7 +216,11 @@
 
     $("#candidateForm").validate({
         submitHandler: function (form) {
+            var userIds = $.map($('select[name=userId]'),function (sel) {
+                return $(sel).val();
+            });
             $(form).ajaxSubmit({
+                data: {userIds: userIds},
                 success: function (ret) {
                     if (ret.success) {
                         var type = $("input[name=flag]").val();

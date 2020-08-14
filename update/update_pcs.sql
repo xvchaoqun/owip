@@ -1,4 +1,5 @@
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_site_bg', '党代会投票登录页面背景', '\\sysProperty\\20200814\\f31daf3b-b563-4055-b49b-708db925e6b0.png', 5, 68, '');
 
 -- 2020.8.14 ly
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2542, 0, '党代会投票', '', 'url', '', '/pcs/pcsPoll', 469, '0/1/469/', 0, 'pcsPoll:*', NULL, NULL, NULL, 1, 1450);

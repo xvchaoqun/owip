@@ -131,11 +131,11 @@ pageEncoding="UTF-8"%>
 		if (st.val() == undefined || st.val().length == 0){
 			et.val('')
 			//console.log(et.val())
-			$('#tipSt').text('请先填写推荐开始时间')
+			$('#tipSt').text('请先填写投票起始时间')
 		}else if (st.val() >= et.val()){
 			st.val('')
 			et.val('')
-			$('#tipEt').text('截止时间应晚于开始时间')
+			$('#tipEt').text('截止时间应晚于起始时间')
 		}else if (st.val() < et.val()){
 			$('#tipEt').text('')
 		}
@@ -158,7 +158,6 @@ pageEncoding="UTF-8"%>
     });
     $('#pcsPollForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
 	$.register.datetime($('.datetime-picker'));
 	$.register.date($('.date-picker'));
 </script>
