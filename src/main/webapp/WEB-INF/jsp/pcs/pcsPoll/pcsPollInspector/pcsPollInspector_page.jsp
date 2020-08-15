@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="pcsPollInspector:del">
                         <button data-url="${ctx}/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
                                 data-title="删除"
-                                data-msg="确定删除这{0}条数据？"
+                                data-msg="确定删除这{0}个账号？（如果账号已完成投票，则相应的投票结果数据将同时删除，不可恢复，请谨慎操作！）"
                                 data-grid-id="#jqGrid2"
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                                             <option></option>
                                             <option value="1">正式党员</option>
                                             <option value="0">预备党员</option>
-                                            <option value="-1">无</option>
+                                            <option value="-1">未完成投票</option>
                                         </select>
                                     </div>
                                 </div>
@@ -99,15 +99,10 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '登录账号',name: 'username'},
             { label: '登录密码',name: 'passwd'},
-            { label: '投票人身份',name: 'isPositive',formatter:function(cellvalue, options, rowObject){
-                    if (cellvalue==null) return '--';
-                    if (cellvalue){
-                        return '正式党员';
-                    } else {
-                        return '预备党员';
-                    }
-                }},
-            { label: '是否完成投票',name: 'isFinished',formatter:$.jgrid.formatter.TRUEFALSE}
+            { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
+            { label: '是否完成投票',name: 'isFinished',formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '投票人身份',name: 'isPositive', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '正式党员', off: '预备党员'}},
+            { label: '提交时间',name: 'submitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

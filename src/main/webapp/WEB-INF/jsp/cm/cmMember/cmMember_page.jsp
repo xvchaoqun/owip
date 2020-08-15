@@ -28,12 +28,14 @@
                             data-url="${ctx}/cmMember_au?type=${type}&isQuit=${isQuit?1:0}">
                         <i class="fa fa-plus"></i> 添加
                     </button>
+                    <shiro:hasPermission name="cmMember:menu">
                     <c:if test="${!isQuit && type==CM_MEMBER_TYPE_CW}">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/cmMember_draw" data-width="800">
                         <i class="fa fa-search-plus"></i> 从本届党委委员库中提取
                     </button>
                     </c:if>
+                    </shiro:hasPermission>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-url="${ctx}/cmMember_au?type=${type}&isQuit=${isQuit?1:0}"
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>

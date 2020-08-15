@@ -2,8 +2,8 @@ package persistence.pcs.common;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PcsTempResult implements Serializable {
 
@@ -14,8 +14,8 @@ public class PcsTempResult implements Serializable {
     public boolean agree;
     public boolean mobileAgree;
 
-    //<type, list<userId>>  一下阶段推荐结果
-    public Map<Byte, List<Integer>> firstResultMap;
+    //<type, Set<userId>>  一下阶段推荐结果
+    public Map<Byte, Set<Integer>> firstResultMap;
     //<type_candidateUserId, status>  二下阶段推荐人推荐结果
     public Map<String, Byte> secondResultMap;
     //<type_candidateUserId_4, userId>    二下阶段其他推荐人
@@ -55,11 +55,11 @@ public class PcsTempResult implements Serializable {
         this.mobileAgree = mobileAgree;
     }
 
-    public Map<Byte, List<Integer>> getFirstResultMap() {
+    public Map<Byte, Set<Integer>> getFirstResultMap() {
         return firstResultMap;
     }
 
-    public PcsTempResult setFirstResultMap(Map<Byte, List<Integer>> firstResultMap) {
+    public PcsTempResult setFirstResultMap(Map<Byte, Set<Integer>> firstResultMap) {
         this.firstResultMap = firstResultMap;
         return this;
     }

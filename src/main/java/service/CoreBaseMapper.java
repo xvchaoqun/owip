@@ -24,6 +24,7 @@ import persistence.leader.LeaderUnitViewMapper;
 import persistence.leader.LeaderViewMapper;
 import persistence.leader.common.ILeaderMapper;
 import persistence.member.MemberMapper;
+import persistence.member.MemberViewMapper;
 import persistence.member.common.IMemberMapper;
 import persistence.member.common.StatMemberMapper;
 import persistence.modify.common.IModifyMapper;
@@ -103,6 +104,8 @@ public class CoreBaseMapper {
     
     @Autowired(required = false)
     protected MemberMapper memberMapper;
+    @Autowired(required = false)
+    protected MemberViewMapper memberViewMapper;
     
         /**
      * 发文

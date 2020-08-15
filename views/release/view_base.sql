@@ -55,7 +55,7 @@ left join ow_party bp on bp.id=b.party_id;*/
 DROP VIEW IF EXISTS `ow_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_view` AS
 select
-m.*, u.source as user_source, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
+m.*, u.source as user_source, u.username, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
 ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
 p.sort_order as party_sort_order, b.sort_order as branch_sort_order,
 mo.status as out_status, mo.handle_time as out_handle_time,

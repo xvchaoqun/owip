@@ -218,7 +218,7 @@
 
     function _confirm() {
         if ($('#agree').is(':checked') == false) {
-            $('#agree').qtip({content: '请您确认您已阅读推荐说明！', show: true});
+            $('#agree').qtip({content: '请您确认您已阅读推荐说明', show: true});
             return false;
         }
         $("#agreeForm").ajaxSubmit({
@@ -251,7 +251,7 @@
                                         className: 'btn-success'
                                     }
                                 },
-                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成此次党代会投票，感谢您对工作的大力支持！<span>',
+                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成投票，感谢您对工作的大力支持！<span>',
                                 callback: function () {
                                     _logout();
                                 }

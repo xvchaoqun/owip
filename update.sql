@@ -1,4 +1,7 @@
 
+
+-- 更新 ow_member_view
+
 20200814
 
 -- 更新 cet_expert_view
@@ -12,6 +15,8 @@ update  ow_member om, ow_member_out omo set om.party_id=omo.party_id , om.branch
 where om.user_id=omo.user_id and omo.`status` in(10, 2) and om.party_id is null;
 ALTER TABLE `ow_member`
 	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委' AFTER `user_id`;
+-- 更新北师大 & 北邮 &南航
+
 
 
 20200812

@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
             <jsp:include page="pr_menu.jsp"/>
             </c:if>
             <c:if test="${cls==8}">
-            <jsp:include page="ow_menu.jsp"/>
+            <%--<jsp:include page="ow_menu.jsp"/>--%>
             </c:if>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">

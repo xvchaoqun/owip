@@ -10,14 +10,15 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="pollId" value="${param.pollId}">
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 生成账号数量</label>
-			<div class="col-xs-6">
-				<input required style="width: 272px;" class="form-control digits" type="text"
+			<div class="col-xs-8">
+				<input required style="width: 80px;" class="form-control digits" type="text"
 					   name="count" data-rule-min="1">
 			</div>
 		</div>
     </form>
 </div>
 <div class="modal-footer">
+    <div class="note">注：此数量是新生成账号的数量，不影响已生成的账号</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"

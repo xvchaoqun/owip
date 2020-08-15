@@ -86,7 +86,7 @@
             <form id="candidateForm2" method="post" action="${ctx}/user/pcs/submit">
                 <input type="hidden" name="flag" value="0">
                 <input type="hidden" name="isSubmit" value="0">
-                <input type="hidden" name="_type" value="${type}">
+                <input type="hidden" name="type" value="${type}">
                 <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
                     <tbody>
                         <tr>
@@ -237,7 +237,7 @@
                                         className: 'btn-success'
                                     }
                                 },
-                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成此次党代会投票，感谢您对工作的大力支持！<span>',
+                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成投票，感谢您对工作的大力支持！<span>',
                                 callback: function () {
                                     _logout();
                                 }

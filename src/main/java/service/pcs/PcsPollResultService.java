@@ -3,7 +3,6 @@ package service.pcs;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import controller.global.OpException;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.pcs.PcsPollResult;
@@ -118,6 +117,7 @@ public class PcsPollResultService extends PcsBaseMapper {
             Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
 
             for (String key : secondResultMap.keySet()) {
+
                 PcsPollResult result = new PcsPollResult();
                 Byte type = Byte.valueOf(key.split("_")[0]);
                 Integer userId = Integer.valueOf(key.split("_")[1]);
@@ -125,7 +125,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                 result.setPollId(pollId);
                 result.setCandidateUserId(userId);
                 result.setInspectorId(inspector.getId());
-                result.setIsSecond(isSecond);
+                result.setIsSecond(true);
                 result.setPartyId(pcsPoll.getPartyId());
                 result.setBranchId(pcsPoll.getBranchId());
                 result.setIsPositive(inspector.getIsPositive());
@@ -134,9 +134,7 @@ public class PcsPollResultService extends PcsBaseMapper {
 
                 if (status == PcsConstants.RESULT_STATUS_DISAGREE){
                     String otherKey = key + "_4";
-                    if (otherResultMap.containsKey(otherKey)){
-                        userId = otherResultMap.get(otherKey);
-                    }
+                    userId = otherResultMap.get(otherKey); // 允许不填
                 }
                 result.setUserId(userId);
                 resultList.add(result);
@@ -144,30 +142,31 @@ public class PcsPollResultService extends PcsBaseMapper {
 
         }else {//提交一下阶段推荐结果
 
-            Map<Byte, List<Integer>> firstResultMap = tempResult.getFirstResultMap();
+            Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
 
             for (Byte type : firstResultMap.keySet()) {
-                List<Integer> userIdList = firstResultMap.get(type);
+                Set<Integer> userIdList = firstResultMap.get(type);
                 for (Integer userId : userIdList) {
                     PcsPollResult result = new PcsPollResult();
                     result.setPollId(pollId);
                     result.setInspectorId(inspector.getId());
-                    result.setIsSecond(isSecond);
+                    result.setIsSecond(false);
                     result.setPartyId(inspector.getPartyId());
                     result.setBranchId(inspector.getBranchId());
                     result.setIsPositive(inspector.getIsPositive());
                     result.setStatus(PcsConstants.RESULT_STATUS_AGREE);
                     result.setType(type);
                     result.setUserId(userId);
+
                     resultList.add(result);
                 }
             }
         }
 
-        if (resultList.size() == 0){
-            throw new OpException("无效数据");
+        // 允许全部不填
+        if (resultList.size() > 0 ){
+            batchInsert(resultList);
         }
-        batchInsert(resultList);
 
         //更新投票人状态
         inspector.setIsFinished(true);
@@ -175,6 +174,5 @@ public class PcsPollResultService extends PcsBaseMapper {
         pcsPollInspectorService.updateByPrimaryKeySelective(inspector);
 
         iPcsMapper.updatePollInspectorCount(pollId);
-
     }
 }

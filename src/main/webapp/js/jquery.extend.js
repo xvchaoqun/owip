@@ -552,20 +552,15 @@ var _modal_width;
         },
         openWindow: function (url, name, iWidth, iHeight) {
             /* var url; //转向网页的地址;
-            var name; //网页名称，可为空;
-            var iWidth; //弹出窗口的宽度;
-            var iHeight; //弹出窗口的高度;
+            var name; //网页名称，可为空; */
             var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
-            var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置; */
-            //win = window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=yes,location=no,status=no');
+            var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+            win = window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=yes,resizeable=yes,location=no,status=no');
 
-            iWidth = iWidth || (screen.availWidth - 10);
+            /*iWidth = iWidth || (screen.availWidth - 10);
             iHeight = iHeight || (screen.availHeight - 30);
             win = window.open(url, name, 'width=' + iWidth + ',height=' + iHeight + 'fullscreen=yes,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no,status=no');
-            /*win.resizeTo(screen.width,screen.height);
-            win.moveTo(0,0);
-            win.focus();*/
-
+*/
             return win;
         },
         trimHtml: function (html) {
@@ -2228,7 +2223,6 @@ $.extend($.register, {
         } else {
             _params = $.extend({}, params);
         }
-
         return $select.select2($.extend({
             templateResult: $.register.formatState,
             templateSelection: _params.templateSelection || $.register.templateSelection,
@@ -2236,6 +2230,7 @@ $.extend($.register, {
                 return markup;
             },
             ajax: {
+                url: $select.data("ajax-url") || params.url,
                 dataType: 'json',
                 delay: 300,
                 data: function (params) {

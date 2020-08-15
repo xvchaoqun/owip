@@ -156,8 +156,8 @@ public class PcsPollController extends PcsBaseController {
 
         Integer id = record.getId();
 
-        if (pcsPollService.hasPcsPoll(record)){
-            throw new OpException("该党支部已存在投票（每个党支部在每次党代会只能创建一次投票）。");
+        if (pcsPollService.isPcsPollExisted(record)){
+            throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
         }
 
         if (id == null) {

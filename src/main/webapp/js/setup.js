@@ -513,8 +513,8 @@ $(document).on("click", ".openUrl", function (e) {
 
     e.stopPropagation();
     e.preventDefault();
-    var width = $(this).data("width") || 720;
-    var height = $(this).data("height") || 820;
+    var width = $(this).data("width") || 880;
+    var height = $(this).data("height") || 850;
     $.openWindow($(this).data("url"), '', width, height)
 });
 

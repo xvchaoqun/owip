@@ -140,54 +140,22 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/pcs/pcsPoll_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label: '投票阶段',name: 'isSecond', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '二下阶段', off: '一下阶段'}, frozen: true},
             { label: '投票名称',name: 'name',align:'left', width: 252, frozen: true},
-            { label: '党代会',name: 'pcsConfig.name',align:'left', width: 252, frozen: true},
-            { label: '所属二级党组织',name: 'partyId',align:'left', width: 300, formatter:function(cellvalue, options, rowObject){
-                return $.party(rowObject.partyId);
-            }},
-            { label: '所属支部',name: 'branchId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
-                    return $.party(null,rowObject.branchId);
-                }},
-            { label: '投票阶段',name: 'isSecond',formatter:function(cellvalue, options, rowObject){
-                    if (cellvalue==undefined) return '--';
-                    if (cellvalue){
-                        return '二下阶段';
-                    } else {
-                        return '一下阶段';
-                    }
-                }},
-            { label: '是否报送',name: 'hasReport',formatter:function(cellvalue, options, rowObject){
-                    if (cellvalue==undefined) return '--';
-                    if (cellvalue){
-                        return '已报送';
-                    } else {
-                        return '未报送';
-                    }
-                }},
-            { label: '代表的<br/>最大推荐人数',name: 'prNum'},
-            { label: '党委委员的<br/>最大推荐人数',name: 'dwNum'},
-            { label: '纪委委员的<br/>最大推荐人数',name: 'jwNum'},
+            { label: '是否报送',name: 'hasReport', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '已报送', off: '未报送'}},
             { label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                             .format(rowObject.id)
                         + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
                             .format(rowObject.id);
                     return  str;
-                }},
-            { label: '其他说明',name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
-                    var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
-                        .format(rowObject.id);
-                    return  str;
-                }},
-            { label: '推荐人管理',name: '_candidate', width:80, formatter: function (cellvalue, options, rowObject) {
-                    if (!rowObject.isSecond) return "--";
-                    return $.button.openView({
-                        style:"btn-success",
-                        url:"${ctx}/pcs/pcsPollCandidate?pollId="+rowObject.id,
-                        icon:"fa-list",
-                        label:"查看"});
-                }},
-            { label: '投票人管理',name: '_inspector', width:80, formatter: function (cellvalue, options, rowObject) {
+            }},
+            /*{ label: '其他说明',name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
+                var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
+                    .format(rowObject.id);
+                return  str;
+            }},*/
+            { label: '投票<br/>账号管理',name: '_inspector', width:80, formatter: function (cellvalue, options, rowObject) {
 
                     return $.button.openView({
                         style:"btn-warning",
@@ -205,6 +173,28 @@ pageEncoding="UTF-8" %>
                         label:"查看"});
                 }, width: 80
             },
+            { label: '所属党代会',name: 'pcsConfig.name',align:'left', width: 252},
+            { label: '所属${_p_partyName}',name: 'partyId',align:'left', width: 300, formatter:function(cellvalue, options, rowObject){
+                return $.party(rowObject.partyId);
+            }},
+            { label: '所属支部',name: 'branchId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
+                    return $.party(null,rowObject.branchId);
+                }},
+
+
+            { label: '代表的<br/>最大推荐人数',name: 'prNum'},
+            { label: '党委委员的<br/>最大推荐人数',name: 'dwNum'},
+            { label: '纪委委员的<br/>最大推荐人数',name: 'jwNum'},
+
+            { label: '推荐人管理',name: '_candidate', width:80, formatter: function (cellvalue, options, rowObject) {
+                    if (!rowObject.isSecond) return "--";
+                    return $.button.openView({
+                        style:"btn-success",
+                        url:"${ctx}/pcs/pcsPollCandidate?pollId="+rowObject.id,
+                        icon:"fa-list",
+                        label:"查看"});
+                }},
+
             { label: '投票起始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '投票截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
             { label: '备注',name: 'remark',width: 252}

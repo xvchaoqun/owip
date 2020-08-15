@@ -59,21 +59,21 @@ pageEncoding="UTF-8"%>
 		</div>
 		<script> $("#pcsPollForm select[name=isSecond]").val(${not empty pcsPoll.isSecond?(pcsPoll.isSecond?1:0):''}) </script>
 		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 代表最大推荐人数</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 代表推荐人数</label>
 			<div class="col-xs-6">
 				<input required style="width: 78px;" ${pcsPoll.hasReport||pcsPoll.inspectorFinishNum>0?"disabled":""} class="form-control digits" type="text"
 					   name="prNum" value="${pcsPoll.prNum}" data-rule-min="0">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 党委委员最大推荐人数</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 党委委员推荐人数</label>
 			<div class="col-xs-6">
 				<input required style="width: 78px;" ${pcsPoll.hasReport||pcsPoll.inspectorFinishNum>0?"disabled":""} class="form-control digits" type="text"
 					   name="dwNum" value="${pcsPoll.dwNum}" data-rule-min="0">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 党委委员最大推荐人数</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 纪委委员推荐人数</label>
 			<div class="col-xs-6">
 				<input required style="width: 78px;" ${pcsPoll.hasReport||pcsPoll.inspectorFinishNum>0?"disabled":""} class="form-control digits" type="text"
 					   name="jwNum" value="${pcsPoll.jwNum}" data-rule-min="0">

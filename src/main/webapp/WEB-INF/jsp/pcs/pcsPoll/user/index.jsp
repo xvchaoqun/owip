@@ -78,12 +78,12 @@
         <c:if test="${param.notice!=1 && tempResult.agree}">
             <div class="alert alert-block alert-success left bolder"
                  style="width:800px;margin: 0 auto 5px;font-size: larger;">
-                ${pcsPoll.name}（${PCS_POLL_CANDIDATE_TYPE.get(type)}）
+                ${pcsPoll.name}
             </div>
             <form id="candidateForm" method="post" action="${ctx}/user/pcs/submit">
                 <input type="hidden" name="flag" value="0">
                 <input type="hidden" name="isSubmit" value="0">
-                <input type="hidden" name="_type" value="${type}"><%--提交的推荐人类型--%>
+                <input type="hidden" name="type" value="${type}"><%--提交的推荐人类型--%>
                 <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
                 <c:set var="userIds" value="${tempResult.firstResultMap.get(type)}"/>
                 <c:set var="_num" value="${fn:length(userIds)}"/>
@@ -94,17 +94,17 @@
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input type="radio" name="type"
                                            id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
-                                    <label for="type_1">推荐代表</label>
+                                    <label for="type_1">代表</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input type="radio" name="type"
                                            id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
-                                    <label for="type_2">推荐党委委员</label>
+                                    <label for="type_2">党委委员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input type="radio" name="type"
                                            id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
-                                    <label for="type_3">推荐纪委委员</label>
+                                    <label for="type_3">纪委委员</label>
                                 </div>
                             </td>
                         </tr>
@@ -123,23 +123,23 @@
                                 </div>
                             </td>
                         </tr>
-                        <c:forEach items="${userIds}" var="userId">
+                        <c:forEach items="${userIds}" var="userId" varStatus="vs">
                             <c:set var="candidate" value="${cm:getUserById(userId)}"/>
                             <tr>
-                                <td align="right">推荐人</td>
+                                <td align="right">推荐人${vs.index+1}</td>
                                 <td>
-                                    <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/user/pcs/candidate_selects?pollId=${pcsPoll.id}&type=${type}&isSecond=0"
+                                    <select data-rel="select2-ajax" data-width="272"
                                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                                         <option value="${candidate.id}">${candidate.realname}-${candidate.code}</option>
                                     </select>
                                 </td>
                             </tr>
                         </c:forEach>
-                        <c:forEach begin="${_num+1}" end="${num}">
+                        <c:forEach begin="${_num+1}" end="${num}" var="idx">
                             <tr>
-                                <td align="right">推荐人</td>
+                                <td align="right">推荐人${idx}</td>
                                 <td>
-                                    <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/user/pcs/candidate_selects?pollId=${pcsPoll.id}&type=${type}&isSecond=0"
+                                    <select data-rel="select2-ajax" data-width="272"
                                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     </select>
                                 </td>
@@ -172,12 +172,33 @@
 
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script>
+
     $('#candidateForm input[name=type]').change(function () {
         //console.log('111'+$(this).val())
         _save($(this).val())
     })
 
-    $.register.user_select($('[data-rel="select2-ajax"]'));
+    var $select = $.register.user_select($('select[name=userId]'),
+        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==1?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}"});
+
+    var selectedUserIds=${empty userIds?'[]':userIds};
+    $select.on("select2:select",function(e){
+
+        var $this = $(this);
+        if($.inArray(parseInt($this.val()), selectedUserIds)>=0) {
+            $.tip({
+                $target: $this.closest("td").find(".select2-container"),
+                at: 'top center', my: 'bottom center', type: 'success',
+                msg: "您已经选择了该推荐人。"
+            });
+            $this.val(null).trigger("change");
+        }else {
+            selectedUserIds = $.map($('select[name=userId]'), function (sel) {
+                return parseInt($(sel).val());
+            });
+        }
+    });
+
     function _confirm() {
         if ($('#agree').is(':checked') == false) {
             $('#agree').qtip({content: '请您确认您已阅读说明。', show: true});
@@ -217,7 +238,7 @@
                                         className: 'btn-success'
                                     }
                                 },
-                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成此次党代会投票，感谢您对工作的大力支持！<span>',
+                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成投票，感谢您对工作的大力支持！<span>',
                                 callback: function () {
                                     _logout();
                                 }

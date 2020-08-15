@@ -901,7 +901,7 @@ br.xs-100 {
 /**modal**/
 .modal .modal-body {
     width: 100%;
-    max-height: 600px;
+    max-height: 740px;
     overflow-y: auto;
     overflow-x: hidden;
 }

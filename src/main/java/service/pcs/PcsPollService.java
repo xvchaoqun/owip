@@ -34,6 +34,7 @@ public class PcsPollService extends PcsBaseMapper {
 
         //党代会为假删除，其他内容真删除
         if(ids==null || ids.length==0) return;
+
         PcsPoll record = new PcsPoll();
         record.setInspectorNum(0);
         record.setInspectorFinishNum(0);
@@ -64,7 +65,7 @@ public class PcsPollService extends PcsBaseMapper {
     }
 
     //党代会投票是否已存在
-    public Boolean hasPcsPoll(PcsPoll record) {
+    public Boolean isPcsPollExisted(PcsPoll record) {
 
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
@@ -81,10 +82,11 @@ public class PcsPollService extends PcsBaseMapper {
         if (branchId != null){
             criteria.andBranchIdEqualTo(branchId);
         }
+        if(record.getId()!=null){
+            criteria.andIdNotEqualTo(record.getId());
+        }
 
-        List<PcsPoll> records = pcsPollMapper.selectByExample(example);
-
-        return records.size()>0;
+        return pcsPollMapper.countByExample(example)>0;
     }
 
     @Transactional

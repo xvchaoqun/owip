@@ -45,10 +45,6 @@
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
 </div>
 <style>
-    .modal .modal-body {
-        max-height: 750px;
-        padding: 0;
-    }
     .modal-content {
         min-width: 900px;
     }

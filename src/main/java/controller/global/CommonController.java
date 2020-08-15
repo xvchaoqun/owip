@@ -7,6 +7,8 @@ import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.member.Member;
 import domain.member.MemberInflow;
+import domain.member.MemberView;
+import domain.member.MemberViewExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -383,6 +385,7 @@ public class CommonController extends BaseController {
                               Byte politicalStatus,
                               Byte[] status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
+                              Integer[] excludeUserIds, // 排除用户
                               @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                               Integer pageNo,
                               String searchStr) throws IOException {
@@ -395,52 +398,77 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr.trim() + "%";
+        MemberViewExample example = new MemberViewExample();
+        MemberViewExample.Criteria criteria = example.createCriteria();
 
-        boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
-            addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
+
+            criteria.addPermits(adminPartyIdList, adminBranchIdList);
         }
 
-        List<Byte> statusList = null;
+        if(partyId!=null){
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if(branchId!=null){
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+
+        if(isRetire!=null){
+            criteria.andIsRetireEqualTo(isRetire);
+        }
+
+        if(politicalStatus!=null){
+            criteria.andPoliticalStatusEqualTo(politicalStatus);
+        }
+
         if(status!=null && status.length>0){
-            statusList = Arrays.asList(status);
+            criteria.andStatusIn(Arrays.asList(status));
         }
-        int count = iMemberMapper.countMemberList(partyId, branchId, type, isRetire, politicalStatus, statusList,
-                searchStr, addPermits, adminPartyIdList, adminBranchIdList);
-        if ((pageNo - 1) * pageSize >= count) {
 
+        if(excludeUserIds!=null && excludeUserIds.length>0){
+            criteria.andUserIdNotIn(Arrays.asList(excludeUserIds));
+        }
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if (searchStr != null) {
+            criteria.andUserLike(searchStr);
+        }
+
+        int count = (int) memberViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Member> members = iMemberMapper.selectMemberList(partyId, branchId, type, isRetire, politicalStatus, statusList, searchStr,
-                addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberView> members = memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != members && members.size() > 0) {
 
-            for (Member member : members) {
+            for (MemberView member : members) {
                 Map<String, Object> option = new HashMap<>();
                 SysUserView uv = sysUserService.findById(member.getUserId());
                 option.put("id", member.getUserId() + "");
-                option.put("text", uv.getRealname());
+                option.put("text", member.getRealname());
 
-                option.put("username", uv.getUsername());
+                option.put("username", member.getUsername());
                 option.put("locked", uv.getLocked());
-                option.put("code", uv.getCode());
-                option.put("realname", uv.getRealname());
-                option.put("gender", uv.getGender());
-                option.put("birth", uv.getBirth());
-                option.put("nation", uv.getNation());
+                option.put("code", member.getCode());
+                option.put("realname", member.getRealname());
+                option.put("gender", member.getGender());
+                option.put("birth", member.getBirth());
+                option.put("nation", member.getNation());
 
                 if(needPrivate) {
-                    option.put("idcard", uv.getIdcard());
+                    option.put("idcard", member.getIdcard());
                     option.put("politicalStatus", member.getPoliticalStatus());
-                    option.put("mobile", uv.getMobile());
+                    option.put("mobile", member.getMobile());
                 }
                 //option.put("user", userBeanService.get(member.getUserId()));
 
