@@ -11,7 +11,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <properties>
-        <generator.mybatis.modal>cet</generator.mybatis.modal>
+        <generator.mybatis.modal>ow</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -410,6 +410,8 @@
                                 <include>extend/css/bootstrap-switch.min.css</include>
                                 <include>extend/css/select2.css</include>
                                 <include>extend/css/jquery.qtip.css</include>
+                                <include>extend/css/awesome-bootstrap-checkbox.css</include>
+                                <include>assets/css/bootstrap-multiselect.css</include>
                             </includes>
                         </aggregation>
                         <aggregation>
@@ -452,6 +454,7 @@
                                 <include>assets/js/date-time/bootstrap-datepicker.zh-CN.min.js</include>
                                 <include>extend/js/bootstrap-switch.min.js</include>
                                 <include>assets/js/jquery.inputlimiter.1.3.1.js</include>
+                                <include>assets/js/bootstrap-multiselect.js</include>
                                 <include>extend/js/lazyload.js</include>
                             </includes>
                         </aggregation>
