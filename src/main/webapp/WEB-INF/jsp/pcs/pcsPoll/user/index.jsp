@@ -177,7 +177,6 @@
         //console.log('111'+$(this).val())
         _save($(this).val())
     })
-$.fn.select2.defaults.set("language", "zh-CN");
     var $select = $.register.user_select($('select[name=userId]'),
         {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==1?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
          theme:'default',language:"zh-CN"});
