@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<div class="container" style="margin-top: 100px">
+<div class="container" style="padding-top: 100px">
     <div class="main-content eva">
         <c:if test="${param.notice==1 || !tempResult.agree}">
             <form id="agreeForm" method="post">
@@ -129,7 +129,7 @@
                                 <td align="right">推荐人${vs.index+1}</td>
                                 <td>
                                     <select data-rel="select2-ajax" data-width="272"
-                                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                            name="userId" data-placeholder="请输入推荐人姓名或学工号">
                                         <option value="${candidate.id}">${candidate.realname}-${candidate.code}</option>
                                     </select>
                                 </td>
@@ -140,7 +140,7 @@
                                 <td align="right">推荐人${idx}</td>
                                 <td>
                                     <select data-rel="select2-ajax" data-width="272"
-                                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                            name="userId" data-placeholder="请输入推荐人姓名或学工号">
                                     </select>
                                 </td>
                             </tr>
@@ -177,22 +177,28 @@
         //console.log('111'+$(this).val())
         _save($(this).val())
     })
-
+$.fn.select2.defaults.set("language", "zh-CN");
     var $select = $.register.user_select($('select[name=userId]'),
-        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==1?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}"});
+        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==1?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
+         theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty userIds?'[]':userIds};
+
+    var $tip;
     $select.on("select2:select",function(e){
 
         var $this = $(this);
         if($.inArray(parseInt($this.val()), selectedUserIds)>=0) {
-            $.tip({
+            $tip = $.tip({
                 $target: $this.closest("td").find(".select2-container"),
                 at: 'top center', my: 'bottom center', type: 'success',
                 msg: "您已经选择了该推荐人。"
             });
             $this.val(null).trigger("change");
         }else {
+            if($tip!=undefined) {
+                $tip.qtip('destroy', true);
+            }
             selectedUserIds = $.map($('select[name=userId]'), function (sel) {
                 return parseInt($(sel).val());
             });
