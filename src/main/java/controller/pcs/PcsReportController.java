@@ -100,6 +100,7 @@ public class PcsReportController extends PcsBaseController {
         Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
 
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("pcsName", pcsConfigService.getPcsName(configId) + "\n党员代表提案");
         map.put("code", candidate.getCode());
         map.put("realname", candidate.getRealname());
         map.put("mobile", candidate.getMobile());

@@ -21,6 +21,7 @@
                                 <a style="margin-left: 20px;" href="${ctx}/pcsPrListOw_export?file=3">
                                     <i class="fa fa-download"></i> 全校党代表汇总表</a>
 
+                                <shiro:hasPermission name="pcsProposal:menu">
                                 <button style="margin-left: 20px;" data-url="${ctx}/pcsPrListOw_sync"
                                         data-title="同步名单"
                                         data-msg="是否将全校党代表名单将同步至“党代表提案管理”——“党代表名单”内？
@@ -30,6 +31,7 @@
                                     <i class="fa fa-level-down"></i>
                                     确定正式出席学校党代会代表
                                 </button>
+                                </shiro:hasPermission>
                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

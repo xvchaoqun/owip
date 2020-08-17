@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +16,20 @@ import java.util.Map;
 
 @Service
 public class PcsConfigService extends PcsBaseMapper {
+
+    public String getPcsName(int pcsConfigId){
+
+        PcsConfig pcsConfig = pcsConfigMapper.selectByPrimaryKey(pcsConfigId);
+        String name = pcsConfig.getName();
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        String prefix1 = "中国共产党" + schoolName;
+        String prefix2 = "中共" + schoolName;
+
+        if(name.startsWith(prefix1)) return name;
+        if(name.startsWith(prefix2)) return name;
+
+        return prefix1 + name;
+    }
 
     // 获取当前党代会
     public PcsConfig getCurrentPcsConfig() {

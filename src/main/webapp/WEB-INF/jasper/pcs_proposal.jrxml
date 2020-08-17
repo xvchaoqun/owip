@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pcs_proposal" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="ec91bba6-a973-420a-a700-5c26ad2552a7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="130"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -130,6 +130,7 @@
 	<field name="content" class="java.lang.String"/>
 	<field name="files" class="java.lang.String"/>
 	<field name="seconders" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="pcsName" class="java.lang.String"/>
 	<detail>
 		<band height="742" splitType="Stretch">
 			<staticText>
@@ -375,14 +376,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement style="zh_CN" x="0" y="-1" width="515" height="106" uuid="5195b560-2a59-4e40-9fcd-b1dc107d060c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="宋体" size="20" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[中国共产党北京师范大学第十三次党员代表大会
-党员代表提案]]></text>
-			</staticText>
 			<elementGroup>
 				<staticText>
 					<reportElement x="0" y="629" width="81" height="113" uuid="964fcc6e-a70e-4697-aae0-b409a03058a1"/>
@@ -441,6 +434,19 @@
 					<textFieldExpression><![CDATA[$F{content}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="0" y="0" width="515" height="105" uuid="b11a7624-2ffa-47a8-a511-77ea844ae79a"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="20" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pcsName}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="300">
 			<componentElement>
