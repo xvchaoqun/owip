@@ -4,7 +4,7 @@ import domain.cadre.CadreView;
 import domain.member.MemberView;
 import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsPrCandidateExample;
-import domain.pcs.PcsRecommend;
+import domain.pcs.PcsPrRecommend;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -101,7 +101,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
 
         int recommendId = record.getRecommendId();
         int userId = record.getUserId();
-        PcsRecommend pr = pcsRecommendMapper.selectByPrimaryKey(recommendId);
+        PcsPrRecommend pr = pcsPrRecommendMapper.selectByPrimaryKey(recommendId);
 
         SysUserView uv = CmTag.getUserById(userId);
         record.setCode(uv.getCode());

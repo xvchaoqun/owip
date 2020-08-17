@@ -6,8 +6,7 @@
 <c:set var="GENDER_FEMALE" value="<%=SystemConstants.GENDER_FEMALE%>"/>
 <div class="row">
     <div class="col-xs-12">
-        <h4 class="widget-title lighter smaller"
-            style="position:absolute; top: -50px; left: 550px; ">
+        <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-reply"></i>
                 返回</a>
@@ -184,7 +183,7 @@
     .panel{
         margin-bottom: 10px;
     }
-    .panel input.vote {
+    .panel input.branchVote, .panel input.vote {
         width: 60px !important;
         padding: 0px !important;
         text-align: center;
@@ -290,7 +289,7 @@
 <script>
     function _tipPopup(){
 
-        var msg = _.template($("#alertTpl").html());
+        var msg = _.template($("#alertTpl").html())();
         bootbox.alert({
             className: "confirm-modal",
             message: msg,
@@ -312,12 +311,17 @@
         {label: '工作证号', name: 'code', width: 120, frozen: true},
         {label: '被推荐人姓名', name: 'realname', width: 150, frozen: true},
         {
+            label: '提名支部数量', name: 'branchVote', formatter: function (cellvalue, options, rowObject) {
+
+            return ('<input type="text" name="branchVote{0}" data-container="{1}" value="{2}" class="branchVote num" maxlength="4">')
+                    .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
+        }},
+        {
             label: '票数', name: 'vote', formatter: function (cellvalue, options, rowObject) {
 
-            return ('<input required type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
+            return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
-        }
-        },
+        }},
         {
             label: '性别', name: 'gender', width: 120, formatter: function (cellvalue, options, rowObject) {
 
@@ -331,7 +335,7 @@
          {
          label: '出生年月', width: 150, name: 'birth', formatter: function (cellvalue, options, rowObject) {
 
-         return ('<input required type="text" name="birth{0}" data-container="{1}" data-date-format="yyyy-mm-dd" value="{2}" class="birth date-picker">')
+         return ('<input type="text" name="birth{0}" data-container="{1}" data-date-format="yyyy-mm-dd" value="{2}" class="birth date-picker">')
          .format(rowObject.userId, _container(options.gid), ($.trim(cellvalue) != '') ? cellvalue.substr(0, 10) : "");
          }
          },
@@ -339,7 +343,7 @@
         {
             label: '民族', name: 'nation', width: 150, formatter: function (cellvalue, options, rowObject) {
 
-            return ('<input required type="text" name="nation{0}" value="{2}" data-container="{1}"  class="nation" maxlength="6">')
+            return ('<input type="text" name="nation{0}" value="{2}" data-container="{1}"  class="nation" maxlength="6">')
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
         }
         },
@@ -421,7 +425,7 @@
 
     $("#submitBtn").click(function () {
         var $null = null;
-        $(".gender, .vote, .birth, .nation", ".panel").each(function () {
+        $(".gender, .branchVote, .vote, .birth, .nation", ".panel").each(function () {
             var $this = $(this);
             if ($.trim($this.val()) == '') {
                 $null = $this;
@@ -430,8 +434,10 @@
         });
         //console.log($null)
         if ($null != null) {
+
             var $panel = $null.closest('.panel');
             var $title = $panel.find('span.title');
+            /*
             $.tip({
                 $target: $title,
                 //$container:$panel,
@@ -439,7 +445,10 @@
                 my: "bottom left",
                 msg: '请填写完整{0}中每个人的信息'
                         .format($.trim($title.text()))
-            });
+            });*/
+
+            SysMsg.warning("请填写完整所有推荐人的信息（{0}）".format($.trim($title.text())));
+            return;
         }
 
         $("#recommendForm").submit();
@@ -461,6 +470,7 @@
             var item = {};
             item.type = ${_type.key};
             item.userId = userId;
+            item.branchVote = $.trim($("input.branchVote", $row).val());
             item.vote = $.trim($("input.vote", $row).val());
             item.gender = $.trim($("select.gender", $row).val());
             item.birth = $.trim($("input.birth", $row).val());

@@ -150,7 +150,7 @@ public class PcsPrOwController extends PcsBaseController {
         // 这里读取两委已报送的支部的所在分党委进行统计的党员数和正式党员数，用于和两委数据保持一致
         Map<Integer, PcsPartyBean> partyMemberCountMap = pcsPrExportService.getPartyMemberCountMap(configId, stage);
         for (PcsPrPartyBean record : records) {
-            PcsPartyBean pcsPartyBean = partyMemberCountMap.get(record.getId());
+            PcsPartyBean pcsPartyBean = partyMemberCountMap.get(record.getPartyId());
             if(pcsPartyBean!=null){
                 record.setMemberCount(pcsPartyBean.getMemberCount());
                 record.setPositiveCount(pcsPartyBean.getPositiveCount());

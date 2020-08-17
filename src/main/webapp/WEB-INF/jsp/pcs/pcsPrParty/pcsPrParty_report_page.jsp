@@ -22,17 +22,19 @@
     </button>
 </div>
 <script type="text/template" id="successTpl">
-    <div style='padding: 50px;font-size: 22px;font-weight: bolder;'>
-        <div style="color: green; font-size: 38px;text-align: center;margin-bottom: 30px;margin-top: 20px;">
+    <div style='font-size: 22px;font-weight: bolder;'>
+        <div style="color: green; font-size: 38px;margin-bottom: 30px;margin-top: 20px;">
             <i class='fa fa-check-circle fa-lx'></i> 报送成功
         </div>
         <div style="text-indent: 2em">
             <c:if test="${param.stage==PCS_STAGE_FIRST}">
-            党代表选举“一下一上”阶段已完成报送，党委组织部审核通过后会短信提醒${_p_partyName}管理员。
-            “二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+                党代表选举“一下一上”阶段已完成报送
+            <%--党代表选举“一下一上”阶段已完成报送，党委组织部审核通过后会短信提醒${_p_partyName}管理员。
+            “二下二上”阶段的时间是9月8日至11日，请务必按时完成。--%>
             </c:if>
             <c:if test="${param.stage==PCS_STAGE_SECOND}">
-                党代表选举“二下二上”阶段已完成报送，党委组织部审核通过后短信提醒${_p_partyName}管理员。
+                党代表选举“二下二上”阶段已完成报送
+                <%--党代表选举“二下二上”阶段已完成报送，党委组织部审核通过后短信提醒${_p_partyName}管理员。--%>
             </c:if>
         </div>
     </div>
@@ -57,7 +59,7 @@
                     $.post("${ctx}/pcsPrParty_report", {stage:${param.stage}}, function (ret) {
                         if (ret.success) {
 
-                            SysMsg.info(_.template($("#successTpl").html()), function () {
+                            SysMsg.info(_.template($("#successTpl").html())(), function () {
                                 $.loadPage({url: "${ctx}/pcsPrParty?cls=3&stage=${param.stage}"});
                             })
                         }

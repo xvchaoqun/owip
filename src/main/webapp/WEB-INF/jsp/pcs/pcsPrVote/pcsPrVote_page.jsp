@@ -191,7 +191,7 @@
 
     function _tipPopup() {
 
-        var msg = _.template($("#alertTpl").html());
+        var msg = _.template($("#alertTpl").html())();
         bootbox.alert({
             className: "confirm-modal",
             message: msg,

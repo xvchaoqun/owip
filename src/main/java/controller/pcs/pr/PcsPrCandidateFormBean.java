@@ -7,6 +7,7 @@ public class PcsPrCandidateFormBean {
 
     private Byte type;
     private Integer userId;
+    private Integer branchVote;
     private Integer vote;
     private Byte gender;
     private String birth;
@@ -28,6 +29,15 @@ public class PcsPrCandidateFormBean {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getBranchVote() {
+        return branchVote;
+    }
+
+    public PcsPrCandidateFormBean setBranchVote(Integer branchVote) {
+        this.branchVote = branchVote;
+        return this;
     }
 
     public Integer getVote() {

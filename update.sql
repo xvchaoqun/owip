@@ -46,7 +46,7 @@ ALTER TABLE `pcs_pr_candidate`
 update pcs_candidate c, pcs_candidate_view cv
 set c.code = cv.code, c.realname =cv.realname , c.title=cv.title, c.ext_unit=cv.ext_unit, c.gender=cv.gender,
  c.nation=cv.nation, c.native_place=cv.native_place, c.birth=cv.birth, c.grow_time=cv.grow_time,
-c.grow_time=cv.grow_time, c.pro_post=cv.pro_post,
+c.work_time=cv.work_time, c.pro_post=cv.pro_post,
 c.party_id=cv.party_id, c.branch_id=cv.branch_id, c.config_id=cv.config_id, c.stage=cv.stage
 where c.id=cv.id;
 
@@ -119,9 +119,10 @@ drop view pcs_branch_view;
 
 delete from pcs_party where party_id not in (select party_id from pcs_pr_allocate);
 delete from pcs_branch where branch_id not in (select branch_id from pcs_recommend where branch_id is not null);
-insert into pcs_branch(config_id, party_id, branch_id, name) select distinct pr.config_id, pr.party_id, pr.branch_id, ob.name from pcs_recommend pr
+insert into pcs_branch(config_id, party_id, branch_id, name) select distinct pr.config_id, pr.party_id, pr.branch_id, if(isnull(ob.name), op.name, ob.name) from pcs_recommend pr
 left join ow_branch ob on ob.id=pr.branch_id
-where pr.branch_id not in (select branch_id from pcs_branch where branch_id is not null);
+left join ow_party op on op.id=pr.party_id
+where pr.branch_id is null or pr.branch_id not in (select branch_id from pcs_branch where branch_id is not null);
 
 ALTER TABLE `pcs_branch`
 	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `name`;

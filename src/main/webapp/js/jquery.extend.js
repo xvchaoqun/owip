@@ -1618,15 +1618,19 @@ if ($.jgrid) {
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';
             var newformat;
+            var baseDate; // 年龄计算时间基数，格式为 yyyy-MM-dd
             if(options.colModel.formatoptions!=null) {
                 newformat = options.colModel.formatoptions.newformat; //日期格式
+                baseDate = options.colModel.formatoptions.baseDate;
             }
             if(newformat!=null&&newformat=="Y.m"){
                 cellvalue =$.date(cellvalue, 'yyyy-MM')
             }else{
                 cellvalue = $.date(cellvalue, 'yyyy-MM-dd')
             }
-            return $.yearOffNow(cellvalue);
+
+            baseDate = baseDate || $.date(new Date(), 'yyyy-MM-dd');
+            return Math.floor($.monthDiff(date, $.date(baseDate, 'yyyy-MM-dd')) / 12);
         },
         MetaType: function (cellvalue, options, rowObject) {
 

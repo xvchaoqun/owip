@@ -168,6 +168,15 @@ public class PcsOwController extends PcsBaseController {
 
             partyMemberCountMap.put(partyId, memberCount + _memberCount);
         }
+
+        // 加入直属支部
+        for (PcsPartyBean record : records) {
+            Integer partyId = record.getPartyId();
+            if(!partyMemberCountMap.containsKey(partyId)){
+                partyMemberCountMap.put(partyId, record.getMemberCount());
+            }
+        }
+
         modelMap.put("partyMemberCountMap", partyMemberCountMap);
 
         return "pcs/pcsOw/pcsOw_party_table_page";

@@ -26,7 +26,7 @@
             <c:set var="expectMemberCount" value="0"/>
             <c:set var="actualMemberCount" value="0"/>
             <c:forEach items="${records}" var="record" varStatus="vs">
-                <c:set var="_memberCount" value="${partyMemberCountMap.get(record.id)}"/>
+                <c:set var="_memberCount" value="${partyMemberCountMap.get(record.partyId)}"/>
                 <c:set var="memberCount" value="${memberCount+_memberCount}"/>
                 <c:set var="expectMemberCount" value="${expectMemberCount+record.expectMemberCount}"/>
                 <c:set var="actualMemberCount" value="${actualMemberCount+record.actualMemberCount}"/>

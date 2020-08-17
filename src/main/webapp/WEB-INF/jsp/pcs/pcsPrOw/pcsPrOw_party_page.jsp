@@ -126,7 +126,7 @@
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_DENY}') return '<span class="text-danger">审核不通过</span>';
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
                 'data-url="${ctx}/pcsPrOw_check?stage=${param.stage}&partyIds={0}"><i class="fa fa-check-square-o"></i> 审核</button>')
-                        .format(rowObject.id);
+                        .format(rowObject.partyId);
             }},
             { label: '短信提醒',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue == undefined) return "-"
@@ -138,7 +138,7 @@
                 'data-url="${ctx}/pcsAdmin_msg?cls=3&partyId={0}&pass={1}"><i class="fa fa-send"></i> 短信提醒</button>')
                         .format(rowObject.id, pass);
             }},
-            { label: '备注',name: 'checkRemark', width:300}
+            { label: '备注',name: 'checkRemark', width:300},{hidden:true, key:true, name:'partyId'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

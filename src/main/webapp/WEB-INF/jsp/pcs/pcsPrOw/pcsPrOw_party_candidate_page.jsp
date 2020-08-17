@@ -136,6 +136,7 @@
                 return "-"
             }
             },
+            {label: '提名支部数', name: 'branchVote'},
             {label: '票数', name: 'vote', width: 80}
         ]
     }).jqGrid("setFrozenColumns");

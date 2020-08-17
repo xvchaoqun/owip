@@ -51,7 +51,7 @@
                     $.post("${ctx}/pcsPrList_report", {stage:${PCS_STAGE_THIRD}}, function (ret) {
                         if (ret.success) {
 
-                            SysMsg.info(_.template($("#successTpl").html()), function () {
+                            SysMsg.info(_.template($("#successTpl").html())(), function () {
                                 $.loadPage({url: "${ctx}/pcsPrList?cls=3"});
                             })
                         }

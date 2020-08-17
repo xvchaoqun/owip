@@ -20,7 +20,7 @@
                                 <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                                 ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                                 ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
-                            <button class="openView btn btn-warning btn-sm"
+                            <button class="openView btn btn-info btn-sm"
                                     data-url="${ctx}/pcsPrParty_candidate_au?stage=${param.stage}"
                                     ><i class="fa fa-sign-in"></i> 上传党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</button>
                             <c:if test="${param.stage==PCS_STAGE_FIRST}">
@@ -146,6 +146,7 @@
                 return "-"
             }
             },
+            {label: '提名支部数', name: 'branchVote'},
             {label: '票数', name: 'vote', width: 80}
         ]
     }).jqGrid("setFrozenColumns");

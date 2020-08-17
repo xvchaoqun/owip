@@ -102,7 +102,7 @@
                                 $.post("${ctx}/pcsParty_report", {stage:${param.stage}}, function (ret) {
                                     if (ret.success) {
 
-                                        SysMsg.info(_.template($("#successTpl").html()), function () {
+                                        SysMsg.info(_.template($("#successTpl").html())(), function () {
                                             $.loadPage({url: "${ctx}/pcsParty?cls=3&stage=${param.stage}"});
                                         })
 
