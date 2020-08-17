@@ -17,7 +17,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
             <div class="col-xs-8">
-                <textarea required class="form-control" type="text" name="msg" rows="8">各位书记/${_p_partyName}管理员：您好！学校党委根据各${_p_partyName}、党总支、直属党支部报送的两委委员候选人初步人选推荐提名情况，经研究确定了“二下”名单。请按照学校工作部署及时开展“二下二上”阶段工作，时间是9月8日至11日。谢谢！[系统短信，请勿回复]</textarea>
+                <textarea required class="form-control" type="text" name="msg" rows="8">${cm:getContentTpl("ct_pcs_stage2_msg").content}</textarea>
                 <span class="help-block"><span class="star">*</span> 短信内容可修改</span>
             </div>
         </div>

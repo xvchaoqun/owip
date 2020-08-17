@@ -56,7 +56,7 @@
                             <div id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
+                                        <h3 class="panel-title"><span class="title"><i
                                                 class="fa fa-users"></i>   党委委员</span>
                             <span style="margin-left: 20px">
                             <select id="dwUserId" data-rel="select2-ajax"
@@ -96,7 +96,7 @@
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
+                                        <h3 class="panel-title"><span class="title"><i
                                                 class="fa fa-users"></i>   纪委委员</span>
                             <span style="margin-left: 20px">
                             <select id="jwUserId" data-rel="select2-ajax"
@@ -203,6 +203,20 @@
         font-weight: bolder;
     }
 
+    .panel input.vote {
+        width: 60px !important;
+        padding: 0px !important;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 18px;
+        color: red;
+    }
+
+    .panel span.title {
+        font-weight: bolder;
+        color: #669fc7
+    }
+
     .modal .tip ul {
         margin-left: 150px;
     }
@@ -245,47 +259,23 @@
     </div>
 </script>
 <script type="text/template" id="alertTpl">
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <a name="OLE_LINK4"></a><a name="OLE_LINK3"></a><b><span style="font-size:14.0pt;font-family:宋体;">党员大会进行选举时，有选举权的到会人数超过应到会人数的<span>4/5</span>，会议有效。为了保证选举工作能够顺利进行，党员因下列情况不能参加选举的，经报上级党组织同意，并经支部党员大会通过，可以不计算在应到会人数之内：</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>1</span>）患有精神病或因其他疾病导致不能表达本人意志的。</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>2</span>）出国半年以上的。</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>3</span>）虽未受到留党察看以上党纪处分，但正在服刑的。</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>4</span>）年老体弱卧床不起和长期生病、生活不能自理的。</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <b><span
-                style="font-size:14.0pt;font-family:宋体;">（<span>5</span>）工作调动，下派锻炼，外出学习或工作半年以上等，按规定应转走正式组织关系而没有转走的。</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
-        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>6</span>）已经回原籍长期居住的离退休人员中的党员，因特殊情况，没有从原单位转出党员组织关系、确实不能参加选举的。</span></b><span
-            style="font-size:14.0pt;font-family:宋体;"></span>
-    </p>
-    <b><span style="font-size:14.0pt;font-family:宋体;">凡上述情况之外的党员不能参加党员大会进行选举，仍应计算在应到会人数之列。</span></b><br/>
+    ${cm:getHtmlFragment('hf_pcs_expect_count_info').content}
 </script>
 <script>
 
     function _tipPopup() {
 
-        var msg = _.template($("#alertTpl").html())();
+         var msg = _.template($("#alertTpl").html())();
         bootbox.alert({
             className: "confirm-modal",
             message: msg,
             title: '应到会人数如何计算？'
         });
+    }
+
+    function _container(gid) {
+        var panelId = $("#" + gid).closest(".panel").prop("id");
+        return '#' + panelId + ' .panel-collapse';
     }
 
     var dwCandidates = ${cm:toJSONArray(dwCandidates)};
@@ -300,6 +290,12 @@
         },
         {label: '工作证号', name: 'code', width: 110},
         {label: '被推荐提名人姓名', name: 'realname', width: 150},
+        {
+            label: '票数', name: 'vote', formatter: function (cellvalue, options, rowObject) {
+
+            return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
+                    .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
+        }},
         {
             label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
         },
@@ -377,6 +373,24 @@
         return false;
     })
     $("#submitBtn").click(function () {
+
+        var $null = null;
+        $(".vote", ".panel").each(function () {
+            var $this = $(this);
+            if ($.trim($this.val()) == '') {
+                $null = $this;
+                return false;
+            }
+        });
+        if ($null != null) {
+
+            var $panel = $null.closest('.panel');
+            var $title = $panel.find('span.title');
+
+            SysMsg.warning("请填写完整所有推荐人的信息（{0}）".format($.trim($title.text())));
+            return;
+        }
+
         $("#recommendForm input[name=_isFinish]").val(1);
         $("#recommendForm").submit();
         return false;
@@ -419,18 +433,20 @@
                         $.hideView();
                         $("#submitBtn").button("reset");
                     } else if(_isFinish == 0){
-                        $.tip({
+                        /*$.tip({
                             $target: $("#saveBtn"),
                             at: 'top center', my: 'bottom center', type: 'success',
                             msg: "填写内容已暂存，请及时填写完整并提交。"
-                        });
+                        });*/
+                        SysMsg.info("填写内容已暂存，请及时填写完整并提交。")
                         $("#saveBtn").button("reset");
                     }else{
-                        $.tip({
+                        /*$.tip({
                             $target: $("#updateBtn"),
                             at: 'top center', my: 'bottom center', type: 'success',
                             msg: "修改成功。"
-                        });
+                        });*/
+                        SysMsg.info("修改成功。")
                         $("#updateBtn").button("reset");
                     }
                 }

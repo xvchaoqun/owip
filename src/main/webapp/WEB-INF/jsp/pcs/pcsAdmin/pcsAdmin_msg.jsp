@@ -43,12 +43,6 @@
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="确定发送"/>
 </div>
-<script type="text/template" id="wyMsgTpl">
-{{=adminType}}：您好！按照第十三次党员代表大会筹备工作领导小组的统一部署，两委委员候选人酝酿提名工作“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段于9月6日结束，目前尚未收到贵单位的报送材料。为了保证学校的整体进程不受影响，请务必今天完成报送。联系电话：58808302、58806879。谢谢！[系统短信，请勿回复]
-</script>
-<script type="text/template" id="prMsgTpl">
-{{=adminType}}：您好！按照第十三次党员代表大会筹备工作领导小组的统一部署，代表选举“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段于9月6日结束，目前尚未收到贵单位的报送材料。为了保证学校的整体进程不受影响，请务必今天完成报送。联系电话：58808302、58806879。谢谢！[系统短信，请勿回复]
-</script>
 <script>
     var $msg = $("textarea[name=msg]", "#modalForm");
     function _resetMsg(){
@@ -59,7 +53,9 @@
         }else if(type=="${PCS_ADMIN_TYPE_VICE_SECRETARY}"){
             adminType = "各位副书记";
         }
-        var msg = _.template($.trim($("${param.type==1?"#wyMsgTpl":"#prMsgTpl"}").html()))({adminType:adminType})
+
+        var msg = "${param.type==1?cm:getContentTpl('ct_pcs_wy_msg').content:cm:getContentTpl('ct_pcs_pr_msg').content}"
+            .format(adminType, "${PCS_STAGE_MAP.get(cm:toByte(param.stage))}")
         $msg.val(msg);
     }
 

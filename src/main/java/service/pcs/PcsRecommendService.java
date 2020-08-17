@@ -1,6 +1,5 @@
 package service.pcs;
 
-import controller.global.OpException;
 import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsRecommend;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
-import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
-import sys.constants.RoleConstants;
 
 import java.util.*;
 
@@ -61,11 +58,13 @@ public class PcsRecommendService extends PcsBaseMapper {
         int configId = pcsConfig.getId();
 
         // 只有干部管理员可以直接修改
+        // for test
+        /*
         if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             if (!pcsPartyService.allowModify(partyId, configId, stage)) {
                 throw new OpException("已报送数据或已下发名单，不可修改。");
             }
-        }
+        }*/
 
         PcsRecommend record = new PcsRecommend();
         record.setPartyId(partyId);

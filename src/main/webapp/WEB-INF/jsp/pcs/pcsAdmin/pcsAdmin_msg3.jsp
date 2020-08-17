@@ -26,12 +26,12 @@
             <label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
             <div class="col-xs-8">
                 <c:if test="${param.pass==0}">
-                    <c:set var="msg" value="各位书记/${_p_partyName}管理员：您好！您单位报送的党代表候选人初步人选名单未通过审核，请尽快按照要求重新报送。谢谢！[系统短信，请勿回复]"/>
+                    <c:set var="msgTpl" value="ct_pcs_pr_unpass_msg"/>
                 </c:if>
                 <c:if test="${param.pass==1}">
-                    <c:set var="msg" value="各位书记/${_p_partyName}管理员：您好！您单位报送的党员代表大会代表候选人初步人选名单已通过审核，请按照学校工作部署及时开展“二下二上”阶段工作，时间是9月8日至11日。谢谢！[系统短信，请勿回复]"/>
+                    <c:set var="msgTpl" value="ct_pcs_pr_pass_msg"/>
                 </c:if>
-                <textarea required class="form-control" type="text" name="msg" rows="8">${msg}</textarea>
+                <textarea required class="form-control" type="text" name="msg" rows="8">${cm:getContentTpl(msgTpl).content}</textarea>
                 <span class="help-block"><span class="star">*</span> 短信内容可修改</span>
             </div>
         </div>

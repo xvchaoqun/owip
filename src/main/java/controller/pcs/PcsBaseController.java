@@ -45,7 +45,7 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     protected UserBeanService userBeanService;
     @Autowired
     protected ExtService extService;
-    
+
     @Autowired(required = false)
     protected PcsAdminService pcsAdminService;
     @Autowired(required = false)

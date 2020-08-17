@@ -9,7 +9,7 @@
            value="${not empty param.userId|| not empty param.sort}"/>
     <div class="candidate-table rownumbers">
         <div class="jqgrid-vertical-offset buttons">
-            <div class="type-select">
+            <div class="type-select" style="float: inherit">
                                 <span class="typeCheckbox ${type==PCS_USER_TYPE_DW?"checked":""}">
                                 <input ${type==PCS_USER_TYPE_DW?"checked":""} type="checkbox"
                                                                               value="${PCS_USER_TYPE_DW}"> 党委委员
