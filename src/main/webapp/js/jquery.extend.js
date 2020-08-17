@@ -1630,7 +1630,7 @@ if ($.jgrid) {
             }
 
             baseDate = baseDate || $.date(new Date(), 'yyyy-MM-dd');
-            return Math.floor($.monthDiff(date, $.date(baseDate, 'yyyy-MM-dd')) / 12);
+            return Math.floor($.monthDiff(cellvalue, $.date(baseDate, 'yyyy-MM-dd')) / 12);
         },
         MetaType: function (cellvalue, options, rowObject) {
 
