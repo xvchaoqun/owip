@@ -115,7 +115,7 @@
       var branchIds = $(this).data("branch-ids");
       var partyId = $(this).closest("tr").data("party-id");
       var type = $(this).data("type");
-      $.loadModal("${ctx}/pcsOw_recommend_detail_branchs?type="+type+"&partyId="+partyId+"&branchIds=" + branchIds);
+      $.loadModal("${ctx}/pcs/pcsOw_recommend_detail_branchs?type="+type+"&partyId="+partyId+"&branchIds=" + branchIds);
 
   });
   stickheader($("#detailTable"));

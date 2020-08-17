@@ -6,7 +6,7 @@
     <h3>审核情况通知</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsAdmin_msg3" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcsAdmin_msg3" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input  type="hidden" name="partyId" value="${param.partyId}">
         <input  type="hidden" name="pass" value="${param.pass}">
         <div class="form-group">

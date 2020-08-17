@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${_p_partyName}推荐情况审核</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsPrOw_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcsPrOw_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="partyIds" value="${param['partyIds']}">
         <input type="hidden" name="stage" value="${param.stage}">
         <c:set var="num" value='${fn:length(fn:split(param["partyIds"],","))}'/>

@@ -15,7 +15,7 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
-                        <form class="form-inline" action="${ctx}/pcsVoteGroup_record" id="recommendForm"
+                        <form class="form-inline" action="${ctx}/pcs/pcsVoteGroup_record" id="recommendForm"
                               method="post">
                             <input type="hidden" name="id" value="${param.groupId}">
                             <table class="form-table">
@@ -63,7 +63,7 @@
                                 <a href="javascript:;"
                                    class="popupBtn btn btn-primary btn-sm ${!allowModify?"disabled":""}"
                                    data-width="900"
-                                   data-url="${ctx}/pcsVoteGroup_candidates?type=${type}">
+                                   data-url="${ctx}/pcs/pcsVoteGroup_candidates?type=${type}">
                                     <i class="fa fa-plus-circle"></i>
                                     ${committeeCanSelect?'选择':'同步'}预备人选</a>
                                 </span>
@@ -350,7 +350,7 @@
             return;
         }
 
-        $.post("${ctx}/pcsVoteGroup_selectUser", {"userIds": userId, type:'${param.type}'}, function (ret) {
+        $.post("${ctx}/pcs/pcsVoteGroup_selectUser", {"userIds": userId, type:'${param.type}'}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
                 $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");

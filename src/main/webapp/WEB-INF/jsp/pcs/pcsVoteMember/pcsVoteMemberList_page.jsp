@@ -11,7 +11,7 @@
                 <jsp:include page="../pcsVoteStat/menu.jsp"/>
                 <div class="jqgrid-vertical-offset buttons" style="padding: 10px">
                     <a class="downloadBtn btn btn-info btn-sm" style="float: left"
-                       data-url="${ctx}/pcsVoteMember_export"><i class="fa fa-download"></i>
+                       data-url="${ctx}/pcs/pcsVoteMember_export"><i class="fa fa-download"></i>
                         导出两委当选名单</a>
                     <div style="line-height: 30px; float: left;margin-left: 20px;">
                         <input class="typeCheckbox" ${param.type==PCS_USER_TYPE_DW?"checked":""} type="checkbox" value="${PCS_USER_TYPE_DW}"> 党委委员
@@ -49,12 +49,12 @@
 </style>
 <script>
     $(".typeCheckbox").click(function(){
-        $("#page-content").loadPage({url:"${ctx}/pcsVoteStat?cls=4&type="+$(this).val()})
+        $("#page-content").loadPage({url:"${ctx}/pcs/pcsVoteStat?cls=4&type="+$(this).val()})
     })
 
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/pcsVoteMember_data?callback=?&orderType=0&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsVoteMember_data?callback=?&orderType=0&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '候选人姓名', name: 'realname', width: 120, frozen: true},
             {label: '赞成票数', name: 'agree', width: 80},

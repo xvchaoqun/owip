@@ -18,6 +18,7 @@ import sys.utils.FormUtils;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsVoteStatController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

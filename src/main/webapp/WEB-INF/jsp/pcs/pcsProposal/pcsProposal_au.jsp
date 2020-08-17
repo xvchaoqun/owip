@@ -12,7 +12,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" style="width: 900px">
-            <form class="form-horizontal" action="${ctx}/pcsProposal_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/pcs/pcsProposal_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="id" value="${pcsProposal.id}">
                 <input type="hidden" name="status" value="${pcsProposal.status}">
                 <table class="table table-bordered table-unhover">
@@ -74,7 +74,7 @@
                             <a href="javascript:;"
                                class="popupBtn btn btn-info btn-xs"
                                data-width="900"
-                               data-url="${ctx}/pcsProposal_candidates">
+                               data-url="${ctx}/pcs/pcsProposal_candidates">
                                 <i class="fa fa-plus-circle"></i> 邀请附议人</a>
                         </td>
                         <td colspan="3">
@@ -102,7 +102,7 @@
                                 <div class="file">
                                     <t:preview filePath="${file.filePath}" fileName="${file.fileName}" label="${cm:substr(file.fileName, 0, 15, '...')}"/>
                                     <a href="javascript:;" class="confirm"
-                                       data-url="${ctx}/pcsProposal_batchDelFiles?ids=${file.id}"
+                                       data-url="${ctx}/pcs/pcsProposal_batchDelFiles?ids=${file.id}"
                                        data-msg="确认删除该附件？"
                                        data-callback="_delFileCallback">删除</a></div>
                             </c:forEach>
@@ -277,7 +277,7 @@
                         $("#saveBtn").button("reset");
                         //$("#modalForm input[name=id]").val(ret.id);
                         //$('input[type=file]').ace_file_input('reset_input');
-                        $.openView({url:"${ctx}/pcsProposal_au?id=" + ret.id, callback:function(){
+                        $.openView({url:"${ctx}/pcs/pcsProposal_au?id=" + ret.id, callback:function(){
                             $.tip({
                                 $target: $("#saveBtn"),
                                 at: 'top center', my: 'bottom center', type: 'success',

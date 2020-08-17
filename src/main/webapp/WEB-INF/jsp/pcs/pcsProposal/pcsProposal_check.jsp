@@ -215,7 +215,7 @@
         var id = $(this).data("id");
         var status = $(this).data("status");
         SysMsg.confirm(status == 0 ? "确认审核不通过？" : "确认审核通过？", "审核", function () {
-            $.post("${ctx}/pcsProposal_check", {id: id, status: status}, function () {
+            $.post("${ctx}/pcs/pcsProposal_check", {id: id, status: status}, function () {
                 $.hideView();
             });
         })
@@ -223,7 +223,7 @@
 
     $(".seconderBtn").click(function(){
         var id = $(this).data("id");
-        $.post("${ctx}/pcsProposal_seconder", {id: id}, function () {
+        $.post("${ctx}/pcs/pcsProposal_seconder", {id: id}, function () {
             $.hideView();
         });
     });

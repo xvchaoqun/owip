@@ -94,7 +94,7 @@
         if(userIds.length==0) return;
 
         var $jqGrid = $("#jqGrid${param.type}");
-        $.post("${ctx}/pcsPrParty_selectUser", {userIds: userIds, stage:${param.stage}}, function (ret) {
+        $.post("${ctx}/pcs/pcsPrParty_selectUser", {userIds: userIds, stage:${param.stage}}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');
                 $.each(ret.candidates, function(i, candidate){

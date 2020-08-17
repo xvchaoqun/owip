@@ -6,7 +6,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsParty"
+             data-url-page="${ctx}/pcs/pcsParty"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
@@ -24,7 +24,7 @@
                                 </span>
                             </div>
 
-                            <a style="line-height: 40px" href="${ctx}/pcsParty_export?file=2-1&stage=${param.stage}&type=${type}" >
+                            <a style="line-height: 40px" href="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${type}" >
                                 <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -114,13 +114,13 @@
     $("#jqGrid").jqGrid({
         rownumbers: true,
         multiselect:false,
-        url: '${ctx}/pcsParty_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsParty_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'code', width: 120, frozen:true},
             {label: '被推荐提名人姓名', name: 'realname', width: 150, frozen:true},
             {label: '推荐提名<div>的党支部数</div>', name: 'branchCount',formatter: function (cellvalue, options, rowObject) {
                 return ('<a href="javascript:;" class="popupBtn" ' +
-                'data-url="${ctx}/pcsParty_branchs?userId={3}&partyIds={1}&branchIds={2}">{0}</a>')
+                'data-url="${ctx}/pcs/pcsParty_branchs?userId={3}&partyIds={1}&branchIds={2}">{0}</a>')
                         .format(cellvalue, rowObject.partyIds, rowObject.branchIds, rowObject.userId)
             }},
             {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},

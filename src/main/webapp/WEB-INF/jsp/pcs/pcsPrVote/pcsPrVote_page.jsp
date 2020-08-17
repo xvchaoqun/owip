@@ -14,7 +14,7 @@
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
 
-                        <form class="form-inline" action="${ctx}/pcsPrVote" id="recommendForm" method="post">
+                        <form class="form-inline" action="${ctx}/pcs/pcsPrVote" id="recommendForm" method="post">
                             <table class="form-table">
                                 <tr>
                                     <td class="">党员总数：</td>

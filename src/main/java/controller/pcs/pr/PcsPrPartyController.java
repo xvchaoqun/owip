@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsPrPartyController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

@@ -6,7 +6,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrOw"
+             data-url-page="${ctx}/pcs/pcsPrOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
@@ -16,27 +16,27 @@
                             <li class="active">
                                 <a href="javascript:;" class="loadPage"
                                    data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
-                                   data-url='${ctx}/pcsPrOw_party_candidate_page?stage=${param.stage}'><i
+                                   data-url='${ctx}/pcs/pcsPrOw_party_candidate_page?stage=${param.stage}'><i
                                         class="fa fa-bullhorn"></i> 全校党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;" class="loadPage"
                                    data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
-                                   data-url='${ctx}/pcsPrOw_party_table_page?stage=${param.stage}'><i
+                                   data-url='${ctx}/pcs/pcsPrOw_party_table_page?stage=${param.stage}'><i
                                         class="fa fa-calendar-o"></i> 全校党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选数据统计
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;" class="loadPage"
                                    data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
-                                   data-url='${ctx}/pcsPrOw_allocate_table_page?stage=${param.stage}'><i
+                                   data-url='${ctx}/pcs/pcsPrOw_allocate_table_page?stage=${param.stage}'><i
                                         class="fa fa-tasks"></i> 全校党员参与推荐情况
                                 </a>
                             </li>
                         </ul>
                         <div class="col-xs-12" id="step-body-content-view">
-                        <c:import url="${ctx}/pcsPrOw_party_candidate_page"/>
+                        <c:import url="${ctx}/pcs/pcsPrOw_party_candidate_page"/>
                         </div>
                         <div style="clear: both"></div>
                     </div>

@@ -5,7 +5,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsOw"
+             data-url-page="${ctx}/pcs/pcsOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.partyId|| not empty param.hasReport|| not empty param.sort}"/>
@@ -19,7 +19,7 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="pcsOw:admin">
                             <a class="popupBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
+                               data-url="${ctx}/pcs/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
                             <span style="margin-left: 20px;">
                             分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成报送共${hasReportCount}个，未报送${hasNotReportCount}个。
                                 </span>
@@ -88,7 +88,7 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/pcsOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '${_p_partyName}名称',name: 'name', align:'left', width:400},
             { label: '党支部数',name: 'branchCount'},
@@ -101,7 +101,7 @@
                 var hasReport = (cellvalue==undefined)?false:(cellvalue>0);
                // if(!hasReport) return "未上报"
                 return ('<button class="openView btn {2} btn-xs" ' +
-                'data-url="${ctx}/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa {3}"></i> {1}</button>')
+                'data-url="${ctx}/pcs/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa {3}"></i> {1}</button>')
                         .format(rowObject.partyId, hasReport?"已上报":"未上报",
                         hasReport?"btn-success":"btn-default", hasReport?"fa-hand-paper-o":"fa-hand-rock-o");
             }},
@@ -111,7 +111,7 @@
                 var hasReport = (cellvalue==undefined)?false:(cellvalue>0);
                 if(!hasReport) return "-"
                 return ('<button class="confirm btn btn-danger btn-xs" data-callback="_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
-                'data-url="${ctx}/pcsOw_party_report_back?stage=${param.stage}&reportId={0}"><i class="fa fa-reply"></i> 退回</button>')
+                'data-url="${ctx}/pcs/pcsOw_party_report_back?stage=${param.stage}&reportId={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.reportId, rowObject.name);
             }}
             </shiro:hasPermission>

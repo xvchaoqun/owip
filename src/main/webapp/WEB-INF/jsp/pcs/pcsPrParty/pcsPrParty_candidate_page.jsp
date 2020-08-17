@@ -6,7 +6,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrParty"
+             data-url-page="${ctx}/pcs/pcsPrParty"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
@@ -16,12 +16,12 @@
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="popupBtn btn btn-success btn-sm"
-                               data-url="${ctx}/pcsPrParty_form_download?stage=${param.stage}">
+                               data-url="${ctx}/pcs/pcsPrParty_form_download?stage=${param.stage}">
                                 <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                                 ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                                 ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
                             <button class="openView btn btn-info btn-sm"
-                                    data-url="${ctx}/pcsPrParty_candidate_au?stage=${param.stage}"
+                                    data-url="${ctx}/pcs/pcsPrParty_candidate_au?stage=${param.stage}"
                                     ><i class="fa fa-sign-in"></i> 上传党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</button>
                             <c:if test="${param.stage==PCS_STAGE_FIRST}">
                             <a class="popupBtn btn btn-warning btn-sm"
@@ -29,7 +29,7 @@
                                data-url="${ctx}/hf_content?code=hf_pcs_pr_guide">
                                 <i class="fa fa-question-circle"></i> 使用说明</a>
                             </c:if>
-                            <a style="margin-left: 20px;" href="${ctx}/pcsPrParty_export?file=3&stage=${param.stage}">
+                            <a style="margin-left: 20px;" href="${ctx}/pcs/pcsPrParty_export?file=3&stage=${param.stage}">
                                 <i class="fa fa-download"></i> ${_p_partyName}酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -85,7 +85,7 @@
     $("#jqGrid").jqGrid({
         rownumbers: true,
         multiselect: false,
-        url: '${ctx}/pcsPrParty_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPrParty_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {

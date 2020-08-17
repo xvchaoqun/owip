@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsConfigController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

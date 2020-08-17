@@ -16,11 +16,11 @@
                 <div>
                     <shiro:hasPermission name="pcsPollCandidate:edit">
                         <button class="popupBtn btn btn-primary btn-sm tooltip-success"
-                                data-url="${ctx}/pcs/pcsPollCandidate_import?pollId=${param.pollId}"
+                                data-url="${ctx}/pcs/pcs/pcsPollCandidate_import?pollId=${param.pollId}"
                                 data-rel="tooltip" data-placement="top" title="批量导入二下阶段推荐人名单"><i class="fa fa-upload"></i> 导入</button>
                     </shiro:hasPermission>
                     <%--<shiro:hasPermission name="pcsPollCandidate:del">
-                        <button data-url="${ctx}/pcs/pcsPollCandidate_batchDel"
+                        <button data-url="${ctx}/pcs/pcs/pcsPollCandidate_batchDel"
                                 data-title="删除"
                                 data-msg="确定删除这{0}条数据？"
                                 data-grid-id="#jqGrid2"
@@ -40,7 +40,7 @@
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         rownumbers:true,
-        url: '${ctx}/pcs/pcsPollCandidate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcs/pcsPollCandidate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',name: 'user.code', width:120},
             { label: '推荐人',name: 'user.realname'},
@@ -49,7 +49,7 @@
                 }},
             <c:if test="${!_query}">
             { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:'#jqGrid2',url:'${ctx}/pcs/pcsPollCandidate_changeOrder'},frozen:true },
+                formatoptions:{grid:'#jqGrid2',url:'${ctx}/pcs/pcs/pcsPollCandidate_changeOrder'},frozen:true },
             </c:if>
         ]
     }).jqGrid("setFrozenColumns");

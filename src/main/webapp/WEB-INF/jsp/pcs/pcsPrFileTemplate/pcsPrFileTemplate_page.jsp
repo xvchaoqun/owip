@@ -8,7 +8,7 @@
                 <h4 class="widget-title">
                     大会材料清单
                     <div class="pull-right" style="margin-right: 10px">
-                        <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPrFileTemplate_au"><i
+                        <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcs/pcsPrFileTemplate_au"><i
                                 class="fa fa-upload"></i> 上传模板</a>
                     </div>
                 </h4>
@@ -38,7 +38,7 @@
                                 </td>
                                 <td>${record.remark}</td>
                                 <td nowrap>
-                                    <a href="javascript:;" data-url="${ctx}/pcsPrFileTemplate_changeOrder"
+                                    <a href="javascript:;" data-url="${ctx}/pcs/pcsPrFileTemplate_changeOrder"
                                        data-callback="_reload"
                                        <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
                                        class="changeOrderBtn" data-id="${record.id}" data-direction="1" title="上升">
@@ -46,7 +46,7 @@
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
                                            title="修改操作步长">
-                                    <a href="javascript:;" data-url="${ctx}/pcsPrFileTemplate_changeOrder"
+                                    <a href="javascript:;" data-url="${ctx}/pcs/pcsPrFileTemplate_changeOrder"
                                        data-callback="_reload"
                                        <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if>
                                        class="changeOrderBtn" data-id="${record.id}" data-direction="-1" title="下降"><i
@@ -54,10 +54,10 @@
                                 </td>
                                 <td>
                                     <a class="popupBtn btn btn-primary btn-xs"
-                                       data-url="${ctx}/pcsPrFileTemplate_au?id=${record.id}"><i class="fa fa-edit"></i>
+                                       data-url="${ctx}/pcs/pcsPrFileTemplate_au?id=${record.id}"><i class="fa fa-edit"></i>
                                         修改</a>
                                     <button class="confirm btn btn-danger btn-xs"
-                                            data-url="${ctx}/pcsPrFileTemplate_del?id=${record.id}"
+                                            data-url="${ctx}/pcs/pcsPrFileTemplate_del?id=${record.id}"
                                             data-title="删除材料"
                                             data-msg="确定删除该材料？" data-callback="_reload"
                                             ><i class="fa fa-times"></i> 删除

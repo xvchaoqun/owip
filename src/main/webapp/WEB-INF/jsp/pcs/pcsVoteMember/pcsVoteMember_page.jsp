@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="multi-row-head-table myTableDiv"
-             data-url-page="${ctx}/pcsVoteMember_data"
+             data-url-page="${ctx}/pcs/pcsVoteMember_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="space-4"></div>
-            <button data-url="${ctx}/pcsVoteCandidate_choose"
+            <button data-url="${ctx}/pcs/pcsVoteCandidate_choose"
                     data-title="删除名单"
                     data-msg="确定将这{0}位候选人从名单中去除吗？"
                     data-grid-id="#jqGrid2"
@@ -38,13 +38,13 @@
 </style>
 <script>
     $(".orderCheckbox").click(function(){
-        $("#step-body-content-view").loadPage({url:"${ctx}/pcsVoteMember?type=${param.type}&orderType="+$(this).val()})
+        $("#step-body-content-view").loadPage({url:"${ctx}/pcs/pcsVoteMember?type=${param.type}&orderType="+$(this).val()})
     })
 
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
-        url: '${ctx}/pcsVoteMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsVoteMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '候选人姓名', name: 'realname', width: 120, frozen: true},
             {label: '赞成票数', name: 'agree', width: 80},

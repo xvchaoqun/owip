@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <div class="tabbable" style="margin: 10px 20px; width: 900px">
             <div class="space-4"></div>
-            <a class="pull-right" style="margin-bottom: 10px" href="${ctx}/pcsPrListOw_export?file=5" >
+            <a class="pull-right" style="margin-bottom: 10px" href="${ctx}/pcs/pcsPrListOw_export?file=5" >
                 <i class="fa fa-download"></i> 党员参与情况表</a>
             <table class="table table-bordered table-striped" data-offset-top="132">
                 <thead>

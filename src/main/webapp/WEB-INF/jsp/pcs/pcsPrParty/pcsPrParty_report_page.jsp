@@ -5,13 +5,13 @@
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
         <h4>${_p_partyName}酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
-        <a href="${ctx}/pcsPrParty_export?file=3&stage=${param.stage}"
+        <a href="${ctx}/pcs/pcsPrParty_export?file=3&stage=${param.stage}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
         <h4>${_p_partyName}酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
-        <a href="${ctx}/pcsPrParty_export?file=4&stage=${param.stage}"
+        <a href="${ctx}/pcs/pcsPrParty_export?file=4&stage=${param.stage}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 </div>
@@ -56,11 +56,11 @@
             message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送之前务必下载汇总表。报送之后不可以修改，请认真核实后报送。<div>",
             callback: function (result) {
                 if (result) {
-                    $.post("${ctx}/pcsPrParty_report", {stage:${param.stage}}, function (ret) {
+                    $.post("${ctx}/pcs/pcsPrParty_report", {stage:${param.stage}}, function (ret) {
                         if (ret.success) {
 
                             SysMsg.info(_.template($("#successTpl").html())(), function () {
-                                $.loadPage({url: "${ctx}/pcsPrParty?cls=3&stage=${param.stage}"});
+                                $.loadPage({url: "${ctx}/pcs/pcsPrParty?cls=3&stage=${param.stage}"});
                             })
                         }
                     });

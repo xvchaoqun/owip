@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsPrFileTemplateController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

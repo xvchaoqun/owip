@@ -7,7 +7,7 @@
     <h3>短信催促</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsAdmin_msg" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcsAdmin_msg" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="stage" value="${param.stage}">
         <div class="form-group">

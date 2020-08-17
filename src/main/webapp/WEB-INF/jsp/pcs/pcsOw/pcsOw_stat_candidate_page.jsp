@@ -6,7 +6,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsOw"
+             data-url-page="${ctx}/pcs/pcsOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
@@ -25,7 +25,7 @@
                             </div>
                             <c:if test="${cls==2}">
 
-                                <button class="jqOpenViewBtn btn btn-success" data-url="${ctx}/pcsOw_recommend_detail"
+                                <button class="jqOpenViewBtn btn btn-success" data-url="${ctx}/pcs/pcsOw_recommend_detail"
                                         data-open-by="page"
                                         data-id-name="userId"
                                         data-querystr="&type=${type}&stage=${param.stage}">
@@ -34,7 +34,7 @@
                                 <shiro:hasPermission name="pcsOw:admin">
                                 <c:set var="_stage" value="${param.stage==PCS_STAGE_FIRST?'二下':''}
                                 ${param.stage==PCS_STAGE_SECOND?'三下':''}"/>
-                            <button data-url="${ctx}/pcsOw_choose"
+                            <button data-url="${ctx}/pcs/pcsOw_choose"
                                     data-title="入选“${_stage}”名单"
                                     data-msg="确定将这{0}位被推荐人列入“${_stage}”名单吗？"
                                     data-grid-id="#jqGrid"
@@ -50,10 +50,10 @@
                             </button>
 
 
-                                <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=4-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
+                                <a style="margin-left: 20px" href="${ctx}/pcs/pcsOw_export?file=4-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
                                     <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
 
-                                <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=5-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
+                                <a style="margin-left: 20px" href="${ctx}/pcs/pcsOw_export?file=5-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
                                     <i class="fa fa-download"></i> 附表5-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（报上级用）</a>
 
                                 </shiro:hasPermission>
@@ -61,7 +61,7 @@
                             </c:if>
                             <c:if test="${cls==4}">
                                 <shiro:hasPermission name="pcsOw:admin">
-                                <button data-url="${ctx}/pcsOw_choose"
+                                <button data-url="${ctx}/pcs/pcsOw_choose"
                                         data-title="删除名单"
                                         data-msg="确定将这{0}位被推荐人从名单中去除吗？"
                                         data-grid-id="#jqGrid"
@@ -71,16 +71,16 @@
                                 </button>
                                 <c:if test="${param.stage!=PCS_STAGE_THIRD}">
                                     &nbsp;&nbsp;
-                                <button data-url="${ctx}/pcsOw_issue" id="issueBtn"
+                                <button data-url="${ctx}/pcs/pcsOw_issue" id="issueBtn"
                                         class="jqBatchBtn btn btn-success" ${hasIssue?"disabled":""}>
                                     <i class="fa fa-level-down"></i>
                                         ${hasIssue?"已下发名单":"下发名单"}
                                 </button>
                                 </c:if>
                                 <a class="popupBtn btn btn-warning btn-sm ${hasIssue?"":"disabled"}"
-                                   data-url="${ctx}/pcsAdmin_msg?cls=2"><i class="fa fa-send"></i> 短信提醒</a>
+                                   data-url="${ctx}/pcs/pcsAdmin_msg?cls=2"><i class="fa fa-send"></i> 短信提醒</a>
 
-                                <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
+                                <a style="margin-left: 20px" href="${ctx}/pcs/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
                                     <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选名册（“${param.stage==PCS_STAGE_FIRST?"二下":"三下"}”名单）</a>
                                 </shiro:hasPermission>
                             </c:if>
@@ -182,9 +182,9 @@
             message: "下发两委名单后不可以修改，请认真核实后下发。",
             callback: function (result) {
                 if (result) {
-                    $.post("${ctx}/pcsOw_issue", {stage:${param.stage}}, function (ret) {
+                    $.post("${ctx}/pcs/pcsOw_issue", {stage:${param.stage}}, function (ret) {
                         if (ret.success) {
-                            $.loadPage({url: "${ctx}/pcsOw?cls=${cls}&stage=${param.stage}&type=${type}"});
+                            $.loadPage({url: "${ctx}/pcs/pcsOw?cls=${cls}&stage=${param.stage}&type=${type}"});
                         }
                     });
                 }
@@ -203,7 +203,7 @@
     $("#jqGrid").jqGrid({
         rownumbers: true,
         //multiboxonly: false,
-        url: '${ctx}/pcsOw_stat_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsOw_stat_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'code', width: 120, frozen:true,cellattr:function(rowId, val, rowObject, cm, rdata) {
                 <c:if test="${cls==2}">
@@ -215,7 +215,7 @@
            <shiro:hasPermission name="pcsOw:admin">
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/pcsCandidateChosen_changeOrder"}, frozen: true
+                formatoptions:{url: "${ctx}/pcs/pcsCandidateChosen_changeOrder"}, frozen: true
             },
             </shiro:hasPermission>
             </c:if>
@@ -223,11 +223,11 @@
   /*          {label: '支部列表', name: '_branchCount', width: 120,formatter: function (cellvalue, options, rowObject) {
 
                return  ('<a href="javascript:;" class="popupBtn" data-width="750" ' +
-                'data-url="${ctx}/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">已推荐</a>')
+                'data-url="${ctx}/pcs/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">已推荐</a>')
                         .format(rowObject.userId, 1)
 
                 +  ('&nbsp;&nbsp;<a href="javascript:;" class="popupBtn" data-width="750" ' +
-                        'data-url="${ctx}/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">未推荐</a>')
+                        'data-url="${ctx}/pcs/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">未推荐</a>')
                                 .format(rowObject.userId, 0);
             }},*/
             {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},

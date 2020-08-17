@@ -5,7 +5,7 @@
   <div class="col-xs-12">
     <jsp:include page="menu.jsp"/>
     <div class="space-4"></div>
-    <button data-url="${ctx}/pcsVoteStat_clear"
+    <button data-url="${ctx}/pcs/pcsVoteStat_clear"
             data-title="清空数据"
             data-msg="确定清空两委选举相关的所有数据？<div class='text-danger'>（不可恢复，请谨慎操作！）</div>"
             data-callback="_reload"
@@ -21,7 +21,7 @@
       </div>
       <div class="widget-body">
         <div class="widget-main">
-          <form class="form-horizontal" action="${ctx}/pcsVoteStat_au" id="statForm"
+          <form class="form-horizontal" action="${ctx}/pcs/pcsVoteStat_au" id="statForm"
                 method="post">
 
             <div class="form-group">

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsProposalController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

@@ -8,7 +8,7 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data"
-		  action="${ctx}/pcs/pcsPollCandidate_import" method="post">
+		  action="${ctx}/pcs/pcs/pcsPollCandidate_import" method="post">
         <input type="hidden" name="pollId" value="${param.pollId}"/>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span> 推荐人类型</label>

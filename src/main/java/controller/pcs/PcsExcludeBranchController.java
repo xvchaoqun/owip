@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -28,6 +27,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsExcludeBranchController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

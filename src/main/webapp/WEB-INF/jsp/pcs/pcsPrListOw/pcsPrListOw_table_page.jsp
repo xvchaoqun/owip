@@ -8,10 +8,10 @@
     <div class="tabbable" style="margin: 10px 20px; width: 900px">
       <div class="space-4"></div>
 
-        <a href="${ctx}/pcsPrOw_export?file=ow&stage=${PCS_STAGE_THIRD}" style="margin-left: 20px">
+        <a href="${ctx}/pcs/pcsPrOw_export?file=ow&stage=${PCS_STAGE_THIRD}" style="margin-left: 20px">
           <i class="fa fa-download"></i> 党代表数据统计表</a>
 
-<%--     <a href="${ctx}/pcsPrListOw_export?file=4">
+<%--     <a href="${ctx}/pcs/pcsPrListOw_export?file=4">
         <i class="fa fa-download"></i> 党代表数据统计表</a>--%>
       <div class="space-4"></div>
       <table class="table table-bordered table-striped" data-offset-top="132">

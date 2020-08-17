@@ -5,13 +5,13 @@
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
         <h4>党代表名单</h4>
-        <a href="${ctx}/pcsPrParty_export?file=pl"
+        <a href="${ctx}/pcs/pcsPrParty_export?file=pl"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
         <h4>党代表数据统计表</h4>
-        <a href="${ctx}/pcsPrParty_export?file=4&stage=${PCS_STAGE_THIRD}"
+        <a href="${ctx}/pcs/pcsPrParty_export?file=4&stage=${PCS_STAGE_THIRD}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载统计表</a>
     </div>
 </div>
@@ -48,11 +48,11 @@
             message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送数据后不可以修改，请认真核实后报送。<div>",
             callback: function (result) {
                 if (result) {
-                    $.post("${ctx}/pcsPrList_report", {stage:${PCS_STAGE_THIRD}}, function (ret) {
+                    $.post("${ctx}/pcs/pcsPrList_report", {stage:${PCS_STAGE_THIRD}}, function (ret) {
                         if (ret.success) {
 
                             SysMsg.info(_.template($("#successTpl").html())(), function () {
-                                $.loadPage({url: "${ctx}/pcsPrList?cls=3"});
+                                $.loadPage({url: "${ctx}/pcs/pcsPrList?cls=3"});
                             })
                         }
                     });

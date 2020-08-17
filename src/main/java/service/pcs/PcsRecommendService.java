@@ -1,11 +1,11 @@
 package service.pcs;
 
+import controller.pcs.cm.PcsCandidateFormBean;
 import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsRecommend;
 import domain.pcs.PcsRecommendExample;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,9 +50,7 @@ public class PcsRecommendService extends PcsBaseMapper {
                        Integer branchId,
                        int expectMemberCount,
                        int actualMemberCount,
-                       Boolean isFinish,
-                       String[] dwCandidateIds,
-                       String[] jwCandidateIds) {
+                       Boolean isFinish, List<PcsCandidateFormBean> formBeans) {
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
@@ -108,52 +106,29 @@ public class PcsRecommendService extends PcsBaseMapper {
             }
         }
         Date now = new Date();
-        // 添加党委委员
+
+        // 先清空两委委员
         pcsCandidateService.clear(recommendId, PcsConstants.PCS_USER_TYPE_DW);
-        if(dwCandidateIds!=null){
-            for (String dwCandidateId : dwCandidateIds) {
-
-                String[] idStrs = dwCandidateId.split("-");
-                int userId = Integer.valueOf(idStrs[0]);
-                boolean isFromStage = false;
-                if(idStrs.length==2){
-                    isFromStage = StringUtils.equals("1", idStrs[1]);
-                }
-
-                PcsCandidate _pcsCandidate = new PcsCandidate();
-                _pcsCandidate.setRecommendId(recommendId);
-                _pcsCandidate.setUserId(userId);
-                _pcsCandidate.setType(PcsConstants.PCS_USER_TYPE_DW);
-                _pcsCandidate.setIsFromStage(isFromStage);
-                _pcsCandidate.setAddTime(now);
-                _pcsCandidate.setIsFromStage(dwIssueUserIdSet.contains(userId));
-
-                pcsCandidateService.insertSelective(_pcsCandidate);
-            }
-        }
-
-        // 添加纪委委员
         pcsCandidateService.clear(recommendId, PcsConstants.PCS_USER_TYPE_JW);
-        if(jwCandidateIds!=null){
-            for (String jwCandidateId : jwCandidateIds) {
 
-                String[] idStrs = jwCandidateId.split("-");
-                int userId = Integer.valueOf(idStrs[0]);
-                boolean isFromStage = false;
-                if(idStrs.length==2){
-                    isFromStage = StringUtils.equals("1", idStrs[1]);
-                }
+        for (PcsCandidateFormBean formBean : formBeans) {
 
-                PcsCandidate _pcsCandidate = new PcsCandidate();
-                _pcsCandidate.setRecommendId(recommendId);
-                _pcsCandidate.setUserId(userId);
-                _pcsCandidate.setType(PcsConstants.PCS_USER_TYPE_JW);
-                _pcsCandidate.setIsFromStage(isFromStage);
-                _pcsCandidate.setAddTime(now);
+            int userId = formBean.getUserId();
+            byte type = formBean.getType();
+            PcsCandidate _pcsCandidate = new PcsCandidate();
+            _pcsCandidate.setRecommendId(recommendId);
+            _pcsCandidate.setUserId(userId);
+            _pcsCandidate.setType(type);
+            _pcsCandidate.setVote(formBean.getVote());
+            _pcsCandidate.setAddTime(now);
+
+            if(formBean.getType()==PcsConstants.PCS_USER_TYPE_DW){  // 添加党委委员
+                _pcsCandidate.setIsFromStage(dwIssueUserIdSet.contains(userId));
+            }else if(formBean.getType()==PcsConstants.PCS_USER_TYPE_JW){ // 添加纪委委员
                 _pcsCandidate.setIsFromStage(jwIssueUserIdSet.contains(userId));
-
-                pcsCandidateService.insertSelective(_pcsCandidate);
             }
+
+            pcsCandidateService.insertSelective(_pcsCandidate);
         }
     }
 }

@@ -5,21 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/pcsExcludeBranch"
-                 data-url-export="${ctx}/pcsExcludeBranch_data"
+                 data-url-page="${ctx}/pcs/pcsExcludeBranch"
+                 data-url-export="${ctx}/pcs/pcsExcludeBranch_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.partyId || not empty param.branchId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="pcsExcludeBranch:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pcsExcludeBranch_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pcs/pcsExcludeBranch_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pcsExcludeBranch_au"
+                       data-url="${ctx}/pcs/pcsExcludeBranch_au"
                        data-grid-id="#jqGrid"
                        ><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="pcsExcludeBranch:del">
-                    <button data-url="${ctx}/pcsExcludeBranch_batchDel"
+                    <button data-url="${ctx}/pcs/pcsExcludeBranch_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/pcsExcludeBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsExcludeBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '所属${_p_partyName}',

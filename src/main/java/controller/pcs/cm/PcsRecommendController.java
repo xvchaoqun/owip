@@ -26,6 +26,7 @@ import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -33,6 +34,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsRecommendController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -107,9 +110,8 @@ public class PcsRecommendController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsRecommend_au(byte stage, int partyId, Integer branchId,
                                   int expectMemberCount, int actualMemberCount, Boolean isFinish,
-                                  String[] dwCandidateIds,
-                                  String[] jwCandidateIds,
-                                  HttpServletRequest request) {
+                                  String items,
+                                  HttpServletRequest request) throws UnsupportedEncodingException {
 
         if(ShiroHelper.isPermitted("pcsOw:admin")){
             // 管理员可以修改，但不改变状态
@@ -135,9 +137,9 @@ public class PcsRecommendController extends PcsBaseController {
             return failed("参数有误。");
         }
 
+        List<PcsCandidateFormBean> formBeans = GsonUtils.toBeans(items, PcsCandidateFormBean.class);
         pcsRecommendService.submit(stage, partyId, branchId,
-                expectMemberCount, actualMemberCount, isFinish,
-                dwCandidateIds, jwCandidateIds);
+                expectMemberCount, actualMemberCount, isFinish, formBeans);
 
         logger.info(addLog(LogConstants.LOG_PCS, "党支部推荐情况-提交推荐票：%s-%s-%s", stage, partyId, branchId));
 

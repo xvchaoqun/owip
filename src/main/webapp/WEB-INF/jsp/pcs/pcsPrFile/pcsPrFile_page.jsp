@@ -51,7 +51,7 @@
                                             </td>
                                             <td>
                                                 <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs ${allowModify?"":"disabled"}"
-                                                   data-url="${ctx}/pcsPrFile_au?templateId=${template.id}&id=${file.id}"><i
+                                                   data-url="${ctx}/pcs/pcsPrFile_au?templateId=${template.id}&id=${file.id}"><i
                                                         class="fa fa-upload"></i> ${not empty file?"重新上传":"上传材料"}</a>
                                             </td>
                                         </c:if>
@@ -223,7 +223,7 @@
                 if (result) {
                     $("#submitBtn").button('loading');
                     var userIds = $("#jqGrid1").jqGrid("getDataIDs")
-                    $.post("${ctx}/pcsPrList_sort", {userIds: userIds}, function (ret) {
+                    $.post("${ctx}/pcs/pcsPrList_sort", {userIds: userIds}, function (ret) {
                         if (ret.success) {
                             $.tip({
                                 $target: $("#submitBtn"),

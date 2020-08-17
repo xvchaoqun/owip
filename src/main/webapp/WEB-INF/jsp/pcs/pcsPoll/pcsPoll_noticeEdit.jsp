@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>党代会投票说明${param.isMobile==1?"(手机端)":"(PC端)"}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_noticeEdit" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcs/pcsPoll_noticeEdit" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsPoll.id}">
         <input type="hidden" name="isMobile" value="${param.isMobile}"/>
 			<div class="form-group">

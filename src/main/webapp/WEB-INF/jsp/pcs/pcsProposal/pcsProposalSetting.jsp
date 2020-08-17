@@ -11,7 +11,7 @@
         </div>
         <div class="widget-body">
           <div class="widget-main">
-            <form class="form-horizontal" action="${ctx}/pcsProposalTime_au" id="timeForm"
+            <form class="form-horizontal" action="${ctx}/pcs/pcsProposalTime_au" id="timeForm"
                   method="post">
               <div class="form-group">
                 <label class="col-xs-4 control-label">提交提案截止时间</label>
@@ -59,7 +59,7 @@
         <h4 class="widget-title">
           提案类型
           <div class="pull-right" style="margin-right: 10px">
-            <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsProposalType_au"><i
+            <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcs/pcsProposalType_au"><i
                     class="fa fa-plus"></i> 添加</a>
           </div>
         </h4>
@@ -81,7 +81,7 @@
                 <td>${vs.count}</td>
                 <td style="text-align: left">${record.name}</td>
                 <td nowrap>
-                  <a href="javascript:;" data-url="${ctx}/pcsProposalType_changeOrder"
+                  <a href="javascript:;" data-url="${ctx}/pcs/pcsProposalType_changeOrder"
                      data-callback="_reload"
                      <c:if test="${st.first}">style="visibility: hidden"</c:if>
                      class="changeOrderBtn" data-id="${record.id}" data-direction="1" title="上升">
@@ -89,7 +89,7 @@
                   <input type="text" value="1"
                          class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
                          title="修改操作步长">
-                  <a href="javascript:;" data-url="${ctx}/pcsProposalType_changeOrder"
+                  <a href="javascript:;" data-url="${ctx}/pcs/pcsProposalType_changeOrder"
                      data-callback="_reload"
                      <c:if test="${st.last}">style="visibility: hidden"</c:if>
                      class="changeOrderBtn" data-id="${record.id}" data-direction="-1" title="下降"><i
@@ -97,10 +97,10 @@
                 </td>
                 <td>
                   <a class="popupBtn btn btn-primary btn-xs"
-                     data-url="${ctx}/pcsProposalType_au?id=${record.id}"><i class="fa fa-edit"></i>
+                     data-url="${ctx}/pcs/pcsProposalType_au?id=${record.id}"><i class="fa fa-edit"></i>
                     修改</a>
                   <button class="confirm btn btn-danger btn-xs"
-                          data-url="${ctx}/pcsProposalType_del?id=${record.id}"
+                          data-url="${ctx}/pcs/pcsProposalType_del?id=${record.id}"
                           data-title="删除"
                           data-msg="确定删除该类型？" data-callback="_reload"
                           ><i class="fa fa-times"></i> 删除

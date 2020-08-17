@@ -29,6 +29,7 @@ import java.util.Map;
  * Created by lm on 2017/9/20.
  */
 @Controller
+@RequestMapping("/pcs")
 public class PcsProposalOwController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

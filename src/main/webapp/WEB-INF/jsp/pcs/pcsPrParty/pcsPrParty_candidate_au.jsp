@@ -16,7 +16,7 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
-                        <form class="form-inline" action="${ctx}/pcsPrParty_candidate_au" id="recommendForm"
+                        <form class="form-inline" action="${ctx}/pcs/pcsPrParty_candidate_au" id="recommendForm"
                               method="post">
                             <input type="hidden" name="stage" value="${param.stage}">
                             <table class="form-table">
@@ -85,7 +85,7 @@
                                                     <a href="javascript:;"
                                                        class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
                                                        data-width="900"
-                                                       data-url="${ctx}/pcsPrParty_candidates?stage=${param.stage==PCS_STAGE_SECOND
+                                                       data-url="${ctx}/pcs/pcsPrParty_candidates?stage=${param.stage==PCS_STAGE_SECOND
                                                         ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${_type.key}">
                                                         <i class="fa fa-plus-circle"></i>
                                                         从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
@@ -527,7 +527,7 @@
             return;
         }
 
-        $.post("${ctx}/pcsPrParty_selectUser", {"userIds": userId, stage:${param.stage}}, function (ret) {
+        $.post("${ctx}/pcs/pcsPrParty_selectUser", {"userIds": userId, stage:${param.stage}}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
                 $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");

@@ -18,11 +18,11 @@
                     <ul class="nav nav-tabs" data-target="#detail">
                         <li class="active">
                             <a href="javascript:;"
-                               data-url="${ctx}/pcsPrOw_party_candidate_page?stage=${param.stage}&partyId=${param.partyId}">党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</a>
+                               data-url="${ctx}/pcs/pcsPrOw_party_candidate_page?stage=${param.stage}&partyId=${param.partyId}">党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</a>
                         </li>
                         <li>
                             <a href="javascript:;"
-                               data-url="${ctx}/pcsPrOw_party_table_page?stage=${param.stage}&partyId=${param.partyId}">党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选数据统计</a>
+                               data-url="${ctx}/pcs/pcsPrOw_party_table_page?stage=${param.stage}&partyId=${param.partyId}">党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选数据统计</a>
                         </li>
                     </ul>
                 </div>

@@ -9,7 +9,7 @@
             style="position:absolute; top: -50px; right: 350px;">
                 <a href="javascript:;" style="color: red;font-weight: bolder;line-height: 30px"
                    data-load-el="#step-body-content-view"
-                   data-url="${ctx}/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"
+                   data-url="${ctx}/pcs/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"
                    class="loadPage">
                     <i class="ace-icon fa fa-reply"></i>
                     返回支部列表</a>
@@ -28,7 +28,7 @@
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
 
-                        <form class="form-inline" action="${ctx}/pcsRecommend_au" id="recommendForm" method="post">
+                        <form class="form-inline" action="${ctx}/pcs/pcsRecommend_au" id="recommendForm" method="post">
                             <input type="hidden" name="stage" value="${param.stage}">
                             <input type="hidden" name="partyId" value="${param.partyId}">
                             <input type="hidden" name="branchId" value="${param.branchId}">
@@ -72,7 +72,7 @@
                                     <a href="javascript:;"
                                        class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
                                        data-width="900"
-                                       data-url="${ctx}/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
+                                       data-url="${ctx}/pcs/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
                                         ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_USER_TYPE_DW}">
                                         <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
                                 </c:if>
@@ -113,7 +113,7 @@
                                     <a href="javascript:;"
                                        class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
                                        data-width="900"
-                                       data-url="${ctx}/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
+                                       data-url="${ctx}/pcs/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
                                         ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_USER_TYPE_JW}">
                                         <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
                                 </c:if>
@@ -421,11 +421,27 @@
 
     function _ajaxSubmit(form) {
 
-        var dwUserIds = $("#jqGrid1").jqGrid("getDataIDs")
-        var jwUserIds = $("#jqGrid2").jqGrid("getDataIDs")
+        var items = [];
+        $.each($("#jqGrid1").jqGrid("getDataIDs"), function (i, userId) {
+            var $row = $("[role='row'][id=" + userId + "]", "#jqGrid1");
+            var item = {};
+            item.type = ${PCS_USER_TYPE_DW}; // 党委委员
+            item.userId = userId;
+            item.vote = $.trim($("input.vote", $row).val());
+            items.push(item);
+        });
+        $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
+            var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
+            var item = {};
+            item.type = ${PCS_USER_TYPE_JW} // 纪委委员
+            item.userId = userId;
+            item.vote = $.trim($("input.vote", $row).val());
+            items.push(item);
+        });
+
         var _isFinish = $("#recommendForm input[name=_isFinish]").val();
         $(form).ajaxSubmit({
-            data: {isFinish:(_isFinish==-1)?"":_isFinish, dwCandidateIds: dwUserIds, jwCandidateIds: jwUserIds},
+            data: {isFinish:(_isFinish==-1)?"":_isFinish, items: $.base64.encode(JSON.stringify(items))},
             success: function (ret) {
 
                 if (ret.success) {
@@ -514,7 +530,7 @@
             return;
         }
 
-        $.post("${ctx}/pcsRecommend_selectUser", {"userIds": userId}, function (ret) {
+        $.post("${ctx}/pcs/pcsRecommend_selectUser", {"userIds": userId}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
                 $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");

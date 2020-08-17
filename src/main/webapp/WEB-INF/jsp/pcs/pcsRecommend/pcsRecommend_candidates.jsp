@@ -72,7 +72,7 @@
         if(userIds.length==0) return;
 
         var $jqGrid = $("#jqGrid${param.type==PCS_USER_TYPE_DW?"1":"2"}");
-        $.post("${ctx}/pcsRecommend_selectUser", {userIds: userIds}, function (ret) {
+        $.post("${ctx}/pcs/pcsRecommend_selectUser", {userIds: userIds}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');
                 $.each(ret.candidates, function(i, candidate){

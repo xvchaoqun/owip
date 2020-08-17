@@ -6,7 +6,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrListOw_party"
+             data-url-page="${ctx}/pcs/pcsPrListOw_party"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.partyId||not empty param.hasReport||not empty param.recommendStatus
@@ -16,11 +16,11 @@
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="popupBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
+                               data-url="${ctx}/pcs/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
                             <a class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                data-querystr="stage=${PCS_STAGE_THIRD}"
                                data-ids-name="partyIds"
-                               data-url="${ctx}/pcsPrOw_check"><i class="fa fa-check-square"></i> 批量审批</a>
+                               data-url="${ctx}/pcs/pcsPrOw_check"><i class="fa fa-check-square"></i> 批量审批</a>
 
                         <span style="margin-left: 20px;">
                             分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成上传共${hasReportCount}个（通过审核${passCount}个），未上传${hasNotReportCount}个。
@@ -87,7 +87,7 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/pcsPrListOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPrListOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '${_p_partyName}名称',name: 'name', align:'left', width:400, frozen:true},
             { label: '是否上传选举结果',name: 'hasReport', width:150, formatter: function (cellvalue, options, rowObject) {
@@ -96,7 +96,7 @@
             }},
             { label: '党员大会情况',name: '_hasReport', width:150, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/pcsPrListOw_party_detail_page?partyId={0}"><i class="fa fa-search"></i> 详情</button>')
+                'data-url="${ctx}/pcs/pcsPrListOw_party_detail_page?partyId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.partyId);
             }},
             { label: '审核情况',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {
@@ -104,7 +104,7 @@
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_PASS}') return '<span class="text-success">审核通过</span>';
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_DENY}') return '<span class="text-danger">审核不通过</span>';
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsPrOw_check?stage=${PCS_STAGE_THIRD}&partyIds={0}"><i class="fa fa-check-square-o"></i> 审核</button>')
+                'data-url="${ctx}/pcs/pcsPrOw_check?stage=${PCS_STAGE_THIRD}&partyIds={0}"><i class="fa fa-check-square-o"></i> 审核</button>')
                         .format(rowObject.partyId);
             }},
             { label: '短信提醒',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {
@@ -114,7 +114,7 @@
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_DENY}') pass = 0;
                 if(pass == -1) return '--'
                 return ('<button class="popupBtn btn btn-warning btn-xs" ' +
-                'data-url="${ctx}/pcsAdmin_msg?cls=3&partyId={0}&pass={1}"><i class="fa fa-send"></i> 短信提醒</button>')
+                'data-url="${ctx}/pcs/pcsAdmin_msg?cls=3&partyId={0}&pass={1}"><i class="fa fa-send"></i> 短信提醒</button>')
                         .format(rowObject.id, pass);
             }},
             { label: '备注',name: 'checkRemark', width:300},{hidden:true, key:true, name:'partyId'}

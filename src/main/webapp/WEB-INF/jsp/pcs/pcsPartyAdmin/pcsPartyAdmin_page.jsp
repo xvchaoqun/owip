@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
                 <h4 class="widget-title">
                     【${party.name}】-党代会管理员
                     <div class="pull-right"  style="margin-right: 10px">
-                    <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPartyAdmin_au?partyId=${party.id}"><i class="fa fa-plus"></i> 添加管理员</a>
+                    <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcs/pcsPartyAdmin_au?partyId=${party.id}"><i class="fa fa-plus"></i> 添加管理员</a>
                     </div>
                 </h4>
             </div>
@@ -37,9 +37,9 @@ pageEncoding="UTF-8" %>
                                 <td>
                                     <c:if test="${admin.type==PCS_ADMIN_TYPE_NORMAL}">
                                         <a class="popupBtn btn btn-primary btn-xs"
-                                           data-url="${ctx}/pcsPartyAdmin_au?id=${admin.id}&partyId=${party.id}"><i class="fa fa-edit"></i> 修改</a>
+                                           data-url="${ctx}/pcs/pcsPartyAdmin_au?id=${admin.id}&partyId=${party.id}"><i class="fa fa-edit"></i> 修改</a>
                                     <button class="confirm btn btn-danger btn-xs"
-                                            data-url="${ctx}/pcsPartyAdmin_del?id=${admin.id}"
+                                            data-url="${ctx}/pcs/pcsPartyAdmin_del?id=${admin.id}"
                                             data-title="删除管理员"
                                             data-msg="确定删除该管理员？" data-callback="_reload"
                                             ><i class="fa fa-times"></i> 删除</button>

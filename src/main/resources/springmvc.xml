@@ -40,6 +40,10 @@
 			<bean class="interceptor.PmdSessionInterceptor"/>
 		</mvc:interceptor>
 		<mvc:interceptor>
+			<mvc:mapping path="/**/pcs/**"/>
+			<bean class="interceptor.PcsSessionInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/**/cet/**"/>
 			<bean class="interceptor.CetSessionInterceptor"/>
 		</mvc:interceptor>

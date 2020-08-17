@@ -6,13 +6,13 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv rownumbers"
-             data-url-page="${ctx}/pcsRecommend"
-             data-url-export="${ctx}/pcsRecommend_data"
+             data-url-page="${ctx}/pcs/pcsRecommend"
+             data-url-export="${ctx}/pcs/pcsRecommend_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.branchId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-success btn-sm"
-                   data-url="${ctx}/pcsRecommend_form_download?stage=${param.stage}">
+                   data-url="${ctx}/pcs/pcsRecommend_form_download?stage=${param.stage}">
                     <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                     ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                     ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
@@ -73,7 +73,7 @@
     $.register.ajax_select($('#searchForm select[name=branchId]'));
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/pcsRecommend_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsRecommend_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '党支部名称', name: 'name', align: 'left', width: 400},
             {
@@ -87,7 +87,7 @@
                 label: '推荐情况', name: 'isFinished', formatter: function (cellvalue, options, rowObject) {
                 var isFinished = (cellvalue == undefined) ? false : cellvalue;
                 return ('<button class="openView btn {3} btn-xs" ' +
-                'data-url="${ctx}/pcsRecommend_au?stage=${param.stage}&partyId={0}&branchId={1}"><i class="fa {4}"></i> {2}</button>')
+                'data-url="${ctx}/pcs/pcsRecommend_au?stage=${param.stage}&partyId={0}&branchId={1}"><i class="fa {4}"></i> {2}</button>')
                         .format(rowObject.partyId,
                         $.trim(rowObject.branchId),
                         isFinished ? "已推荐" : "推荐情况",

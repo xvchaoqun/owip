@@ -5,20 +5,20 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="myTableDiv"
-             data-url-page="${ctx}/pcsVoteGroup_data"
+             data-url-page="${ctx}/pcs/pcsVoteGroup_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="candidate-table rownumbers">
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="popupBtn btn btn-info btn-sm"
-                       data-url="${ctx}/pcsVoteGroup_au?type=${param.type}"><i class="fa fa-plus"></i>
+                       data-url="${ctx}/pcs/pcsVoteGroup_au?type=${param.type}"><i class="fa fa-plus"></i>
                         添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pcsVoteGroup_au"
+                       data-url="${ctx}/pcs/pcsVoteGroup_au"
                        data-grid-id="#jqGrid2"
                        ><i class="fa fa-edit"></i>
                         修改</a>
-                    <button data-url="${ctx}/pcsVoteGroup_batchDel"
+                    <button data-url="${ctx}/pcs/pcsVoteGroup_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid2"
@@ -40,14 +40,14 @@
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
-        url: '${ctx}/pcsVoteGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsVoteGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '录入计票数据', name: 'hasReport', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
 
                 return cellvalue?('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsVoteGroup_record?groupId={0}&type=${param.type}"><i class="fa fa-search"></i> 已报送</button>')
+                'data-url="${ctx}/pcs/pcsVoteGroup_record?groupId={0}&type=${param.type}"><i class="fa fa-search"></i> 已报送</button>')
                         .format(rowObject.id):"<span class='text-danger'>未报送</span>";
 
                 //return cellvalue?"<span class='text-success'>已报送</span>":"<span class='text-danger'>未报送</span>";
@@ -56,7 +56,7 @@
                 label: '报告单', name: '_export', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasReport)
                     return ('<button class="downloadBtn btn btn-warning btn-xs" ' +
-                    'data-url="${ctx}/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
+                    'data-url="${ctx}/pcs/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
                             .format(rowObject.id);
                 return '--'
             }, frozen: true
@@ -65,7 +65,7 @@
 
                 if(!rowObject.hasReport) return "-"
                 return ('<button class="confirm btn btn-danger btn-xs" data-callback="_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
-                'data-url="${ctx}/pcsVoteGroup_back?groupId={0}"><i class="fa fa-reply"></i> 退回</button>')
+                'data-url="${ctx}/pcs/pcsVoteGroup_back?groupId={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.id, rowObject.recordUser.realname);
             }},
             {label: '小组名称', name: 'name', width: 150},

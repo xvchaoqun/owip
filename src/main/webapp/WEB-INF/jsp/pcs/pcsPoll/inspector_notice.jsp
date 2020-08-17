@@ -6,7 +6,7 @@
   <h3>党代会投票说明（纸质票）</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal" action="${ctx}/pcs/inspectorNotice" autocomplete="off" disableautocomplete id="modalForm" method="post">
+  <form class="form-horizontal" action="${ctx}/pcs/pcs/inspectorNotice" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input type="hidden" name="id" value="${pcsPoll.id}">
     <div class="form-group">
       <div class="col-xs-6">

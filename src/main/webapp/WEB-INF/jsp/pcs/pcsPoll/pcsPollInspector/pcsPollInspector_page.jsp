@@ -17,11 +17,11 @@ pageEncoding="UTF-8" %>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="pcsPollInspector:edit">
                         <button class="popupBtn btn btn-info btn-sm tooltip-success"
-                                data-url="${ctx}/pcs/pcsPollInspector_au?pollId=${param.pollId}" data-rel="tooltip" >
+                                data-url="${ctx}/pcs/pcs/pcsPollInspector_au?pollId=${param.pollId}" data-rel="tooltip" >
                             <i class="fa fa-plus"></i> 生成帐号</button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="pcsPollInspector:del">
-                        <button data-url="${ctx}/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
+                        <button data-url="${ctx}/pcs/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
                                 data-title="删除"
                                 data-msg="确定删除这{0}个账号？（如果账号已完成投票，则相应的投票结果数据将同时删除，不可恢复，请谨慎操作！）"
                                 data-grid-id="#jqGrid2"
@@ -30,7 +30,7 @@ pageEncoding="UTF-8" %>
                         </button>
                     </shiro:hasPermission>
                     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                            data-url="${ctx}/pcs/pcsPollInspector_data?pollId=${param.pollId}"
+                            data-url="${ctx}/pcs/pcs/pcsPollInspector_data?pollId=${param.pollId}"
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-download"></i> 导出</button>
@@ -69,12 +69,12 @@ pageEncoding="UTF-8" %>
                                 <script> $("#searchForm2 select[name=isPositive]").val(${param.isPositive}) </script>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/pcs/pcsPollInspector"
+                                       data-url="${ctx}/pcs/pcs/pcsPollInspector"
                                        data-target="#body-content-view"
                                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/pcs/pcsPollInspector?pollId=${param.pollId}"
+                                                data-url="${ctx}/pcs/pcs/pcsPollInspector?pollId=${param.pollId}"
                                                 data-target="#body-content-view">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
@@ -95,7 +95,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         rownumbers:true,
-        url: '${ctx}/pcs/pcsPollInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcs/pcsPollInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '登录账号',name: 'username'},
             { label: '登录密码',name: 'passwd'},

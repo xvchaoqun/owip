@@ -6,7 +6,7 @@
     <h3>邀请附议人</h3>
 </div>
 <div class="modal-body rownumbers">
-    <select data-rel="select2-ajax" data-ajax-url="${ctx}/pcsProposal_pr_selects"
+    <select data-rel="select2-ajax" data-ajax-url="${ctx}/pcs/pcsProposal_pr_selects"
             name="userId" data-placeholder="请输入账号或姓名或工号">
         <option></option>
     </select>

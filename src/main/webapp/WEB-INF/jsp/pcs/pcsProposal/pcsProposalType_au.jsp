@@ -6,7 +6,7 @@
     <h3><c:if test="${proposalType!=null}">编辑</c:if><c:if test="${proposalType==null}">添加</c:if></h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsProposalType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcsProposalType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${proposalType.id}">
 		<input type="hidden" name="classId" value="${classId}">
 			<div class="form-group">

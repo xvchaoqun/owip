@@ -5,18 +5,18 @@
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
         <h4>党委委员候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
-        <a href="${ctx}/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_DW}"
+        <a href="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_DW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
         <h4>纪委委员候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
-        <a href="${ctx}/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_JW}"
+        <a href="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_JW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
     <%-- <div class="bs-callout bs-callout-info">
          <h4>附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）</h4>
-         <a href="${ctx}/pcsParty_export?file=3&stage=${param.stage}"
+         <a href="${ctx}/pcs/pcsParty_export?file=3&stage=${param.stage}"
             class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载</a>
      </div>
  --%>
@@ -61,7 +61,7 @@
 </script>
 <script>
     $("#submitBtn").click(function () {
-        $.post("${ctx}/pcsParty_report_check", {stage:${param.stage}}, function (ret) {
+        $.post("${ctx}/pcs/pcsParty_report_check", {stage:${param.stage}}, function (ret) {
 
             if (ret.success) {
                 console.log(ret.beans)
@@ -75,7 +75,7 @@
                                 label: '<i class="fa fa-reply"></i> 返回填报',
                                 className: 'btn-primary',
                                 callback: function () {
-                                    location.hash = "#${ctx}/pcsRecommend?stage=${param.stage}";
+                                    location.hash = "#${ctx}/pcs/pcsRecommend?stage=${param.stage}";
                                 }
                             }
                         },
@@ -99,11 +99,11 @@
                         message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送之前务必下载汇总表。报送之后不可以修改，请认真核实后报送。</div>",
                         callback: function (result) {
                             if (result) {
-                                $.post("${ctx}/pcsParty_report", {stage:${param.stage}}, function (ret) {
+                                $.post("${ctx}/pcs/pcsParty_report", {stage:${param.stage}}, function (ret) {
                                     if (ret.success) {
 
                                         SysMsg.info(_.template($("#successTpl").html())(), function () {
-                                            $.loadPage({url: "${ctx}/pcsParty?cls=3&stage=${param.stage}"});
+                                            $.loadPage({url: "${ctx}/pcs/pcsParty?cls=3&stage=${param.stage}"});
                                         })
 
                                     }

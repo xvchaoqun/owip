@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="../constants.jsp" %>
 <div class="multi-row-head-table myTableDiv"
-     data-url-page="${ctx}/pcsVoteGroup_data"
+     data-url-page="${ctx}/pcs/pcsVoteGroup_data"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
     <div class="space-4"></div>
@@ -14,14 +14,14 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <a class="downloadBtn btn btn-info btn-sm"
-           data-url="${ctx}/pcsVoteCandidate_export?cls=1&type=${type}"><i class="fa fa-download"></i>
+           data-url="${ctx}/pcs/pcsVoteCandidate_export?cls=1&type=${type}"><i class="fa fa-download"></i>
             导出汇总单</a>
         <a class="downloadBtn btn btn-primary btn-sm"
-           data-url="${ctx}/pcsVoteCandidate_export?cls=2&type=${type}"
+           data-url="${ctx}/pcs/pcsVoteCandidate_export?cls=2&type=${type}"
            ><i class="fa fa-download"></i>
             导出汇总单（报总监票人）</a>
 
-        <button data-url="${ctx}/pcsVoteCandidate_choose"
+        <button data-url="${ctx}/pcs/pcsVoteCandidate_choose"
                 data-title="当选${PCS_USER_TYPE_MAP.get(type)}"
                 data-msg="确定将这{0}位候选人列入当选${PCS_USER_TYPE_MAP.get(type)}名单吗？"
                 data-grid-id="#jqGrid2"

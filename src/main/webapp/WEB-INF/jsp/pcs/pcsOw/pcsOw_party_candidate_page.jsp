@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="../constants.jsp" %>
 <div class="myTableDiv"
-     data-url-page="${ctx}/pcsOw_party_candidate_page"
+     data-url-page="${ctx}/pcs/pcsOw_party_candidate_page"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
     <c:set var="_query"
            value="${not empty param.userId|| not empty param.sort}"/>
@@ -19,7 +19,7 @@
                                        value="${PCS_USER_TYPE_JW}"> 纪委委员
                                 </span>
                 <shiro:hasPermission name="pcsOw:admin">
-                <a href="${ctx}/pcsOw_export?file=2-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}">
+                <a href="${ctx}/pcs/pcsOw_export?file=2-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}">
                     <i class="fa fa-download"></i>  ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                 </shiro:hasPermission>
             </div>
@@ -111,7 +111,7 @@
         pager: "#jqGridPager2",
         rownumbers: true,
         multiselect: false,
-        url: '${ctx}/pcsOw_candidate_data?callback=?&partyId=${param.partyId}&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsOw_candidate_data?callback=?&partyId=${param.partyId}&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'code', width: 120, frozen: true},
             {label: '被推荐提名人姓名', name: 'realname', width: 150, frozen: true},

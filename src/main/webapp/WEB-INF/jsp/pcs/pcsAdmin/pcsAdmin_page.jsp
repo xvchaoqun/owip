@@ -6,29 +6,29 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsAdmin"
-             data-url-export="${ctx}/pcsAdmin_data"
+             data-url-page="${ctx}/pcs/pcsAdmin"
+             data-url-export="${ctx}/pcs/pcsAdmin_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.partyId ||not empty param.userId || not empty param.type || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="pcsAdmin:edit">
-                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsAdmin_au"><i class="fa fa-plus"></i> 添加管理员</a>
+                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcs/pcsAdmin_au"><i class="fa fa-plus"></i> 添加管理员</a>
                     <a class="confirm btn btn-success btn-sm"
-                       data-url="${ctx}/pcsAdmin_sync"
+                       data-url="${ctx}/pcs/pcsAdmin_sync"
                        data-title="同步党代会管理员"
                        data-msg="确定同步每个${_p_partyName}现任的书记、副书记为党代会的管理员？（将删除现有的书记和副书记管理员）"
                        data-callback="_reload"><i class="fa fa-random"></i>
                         同步党代会管理员</a>
 
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pcsAdmin_au"
+                       data-url="${ctx}/pcs/pcsAdmin_au"
                        data-grid-id="#jqGrid"
                        ><i class="fa fa-edit"></i>
                         修改管理员信息</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="pcsAdmin:del">
-                    <button data-url="${ctx}/pcsAdmin_batchDel"
+                    <button data-url="${ctx}/pcs/pcsAdmin_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}位管理员？"
                             data-grid-id="#jqGrid"
@@ -98,7 +98,7 @@
         $("#jqGrid").trigger("reloadGrid");
     }
     $("#jqGrid").jqGrid({
-        url: '${ctx}/pcsAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '所属${_p_partyName}',

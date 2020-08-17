@@ -53,12 +53,12 @@
                                         </script>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
-                                               data-url="${ctx}/pcs/pcsPoll?cls=${cls}&isSecond=${isSecond}"
+                                               data-url="${ctx}/pcs/pcs/pcsPoll?cls=${cls}&isSecond=${isSecond}"
                                                data-target="#page-content"
                                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                        data-url="${ctx}/pcs/pcsPoll?cls=${cls}&isSecond=${isSecond}"
+                                                        data-url="${ctx}/pcs/pcs/pcsPoll?cls=${cls}&isSecond=${isSecond}"
                                                         data-target="#page-content">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
@@ -78,7 +78,7 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/pcs/pcsPollResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcs/pcsPollResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',name: 'user.code',width:120},
             { label: '推荐人',name: 'user.realname'},

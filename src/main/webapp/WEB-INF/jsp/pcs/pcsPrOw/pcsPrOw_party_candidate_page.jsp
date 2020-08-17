@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="../constants.jsp" %>
 <div class="myTableDiv"
-     data-url-page="${ctx}/pcsPrOw_party_candidate_page"
+     data-url-page="${ctx}/pcs/pcsPrOw_party_candidate_page"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
     <c:set var="_query"
            value="${not empty param.userId|| not empty param.sort}"/>
@@ -11,7 +11,7 @@
         <div class="space-4"></div>
         <div class="jqgrid-vertical-offset buttons">
 
-            <a href="${ctx}/pcsPrOw_export?file=${empty param.partyId?5:3}&partyId=${param.partyId}&stage=${param.stage}">
+            <a href="${ctx}/pcs/pcsPrOw_export?file=${empty param.partyId?5:3}&partyId=${param.partyId}&stage=${param.stage}">
                 <i class="fa fa-download"></i> 导出：<c:if test="${empty param.partyId}">
                     各${_p_partyName}酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单汇总表
                 </c:if>
@@ -74,7 +74,7 @@
         pager: "#jqGridPager2",
         rownumbers: true,
         multiselect: false,
-        url: '${ctx}/pcsPrOw_party_candidate_data?callback=?&partyId=${param.partyId}&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPrOw_party_candidate_data?callback=?&partyId=${param.partyId}&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {

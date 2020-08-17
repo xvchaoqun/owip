@@ -17,8 +17,8 @@ pageEncoding="UTF-8" %>
         <c:if test="${!proposalClosed  && !supportClosed}">
 
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/pcsProposal"
-                 data-url-export="${ctx}/pcsProposal_data"
+                 data-url-page="${ctx}/pcs/pcsProposal"
+                 data-url-export="${ctx}/pcs/pcsProposal_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.userId
             ||not empty param.name ||not empty param.keywords ||not empty param.types || not empty param.code || not empty param.sort}"/>
@@ -42,14 +42,14 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-qrcode"></i> 党代表交流群</a>
 
                     <a class="openView btn btn-success btn-sm"
-                       data-url="${ctx}/pcsProposal_au"><i class="fa fa-plus"></i> 新建</a>
+                       data-url="${ctx}/pcs/pcsProposal_au"><i class="fa fa-plus"></i> 新建</a>
                     <button id="editBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pcsProposal_au"
+                       data-url="${ctx}/pcs/pcsProposal_au"
                        data-grid-id="#jqGrid"
                        data-open-by="page"
                        ><i class="fa fa-edit"></i>
                         修改</button>
-                    <button id="delBtn" data-url="${ctx}/pcsProposal_batchDel"
+                    <button id="delBtn" data-url="${ctx}/pcs/pcsProposal_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -97,7 +97,7 @@ pageEncoding="UTF-8" %>
                         </div>
                         <div class="form-group">
                             <label>提案人</label>
-                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/pcsProposal_pr_selects"
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/pcs/pcsProposal_pr_selects"
                                     name="userId" data-placeholder="请输入账号或姓名或工号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>
@@ -182,7 +182,7 @@ pageEncoding="UTF-8" %>
         <c:if test="${cls==2 || cls==3}">
         multiselect: false,
         </c:if>
-        url: '${ctx}/pcsProposal_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsProposal_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${cls==2}">
             { label: '附议',name: '_check', formatter: function (cellvalue, options, rowObject) {
@@ -193,7 +193,7 @@ pageEncoding="UTF-8" %>
                 if(seconderIds.split(",").indexOf('${_user.id}')>-1) return "已附议";
 
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/pcsProposal_check?id={0}&type=2"><i class="fa fa-handshake-o"></i> 附议</button>')
+                'data-url="${ctx}/pcs/pcsProposal_check?id={0}&type=2"><i class="fa fa-handshake-o"></i> 附议</button>')
                         .format(rowObject.id);
             }, frozen:true},
             </c:if>
@@ -203,7 +203,7 @@ pageEncoding="UTF-8" %>
             { label: '提案人姓名',name: 'user.realname', frozen:true},
                 </c:if>
             { label: '标题',name: 'name', align:'left', width:375, formatter: function (cellvalue, options, rowObject) {
-                return ('<a href="javascript:;" class="openView" data-url="${ctx}/pcsProposal_check?id={0}&type=0">{1}</a>')
+                return ('<a href="javascript:;" class="openView" data-url="${ctx}/pcs/pcsProposal_check?id={0}&type=0">{1}</a>')
                         .format(rowObject.id, cellvalue);
             }, frozen:true},
             { label: '提案类型',name: 'type', width:250, formatter: $.jgrid.formatter.MetaType},
@@ -212,7 +212,7 @@ pageEncoding="UTF-8" %>
             { label: '审核',name: '_check', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.status!='${PCS_PROPOSAL_STATUS_INIT}') return '已审核'
                 return ('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsProposal_check?id={0}&type=1"><i class="fa fa-check-square-o"></i> 审核</button>')
+                'data-url="${ctx}/pcs/pcsProposal_check?id={0}&type=1"><i class="fa fa-check-square-o"></i> 审核</button>')
                         .format(rowObject.id);
             }},
             </c:if>
@@ -224,7 +224,7 @@ pageEncoding="UTF-8" %>
             </c:if>
             { label: '附议人',name: '_seconders', width:80, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.seconderIds)=='') return '--';
-                return ('<a href="javascript:;" class="popupBtn" data-url="${ctx}/pcsProposal_seconders?id={0}">{1}</a>')
+                return ('<a href="javascript:;" class="popupBtn" data-url="${ctx}/pcs/pcsProposal_seconders?id={0}">{1}</a>')
                         .format(rowObject.id, rowObject.seconderIds.split(",").length);
             }},
             <c:if test="${cls==8}">

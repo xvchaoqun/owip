@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${pcsConfig!=null}">编辑</c:if><c:if test="${pcsConfig==null}">添加</c:if>党代会</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsConfig_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcsConfig_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsConfig.id}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>届数</label>

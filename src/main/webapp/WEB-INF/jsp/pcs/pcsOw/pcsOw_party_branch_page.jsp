@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
 <div class="myTableDiv rownumbers"
-     data-url-page="${ctx}/pcsOw_party_branch_page"
+     data-url-page="${ctx}/pcs/pcsOw_party_branch_page"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
     <c:set var="_query" value="${not empty param.branchId || not empty param.code || not empty param.sort}"/>
 
@@ -63,7 +63,7 @@
         pager: "#jqGridPager2",
         rownumbers: true,
         multiselect: false,
-        url: '${ctx}/pcsOw_party_branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsOw_party_branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '党支部名称', name: 'name', align: 'left', width: 400},
             {
@@ -77,7 +77,7 @@
                 label: '推荐情况', name: 'isFinished', formatter: function (cellvalue, options, rowObject) {
                 var isFinished = (cellvalue == undefined) ? false : cellvalue;
                 return ('<button class="loadPage btn {3} btn-xs" data-load-el="#step-body-content-view" ' +
-                'data-url="${ctx}/pcsOw_party_branch_detail?admin=1&stage=${param.stage}&partyId={0}&branchId={1}"><i class="fa {4}"></i> {2}</button>')
+                'data-url="${ctx}/pcs/pcsOw_party_branch_detail?admin=1&stage=${param.stage}&partyId={0}&branchId={1}"><i class="fa {4}"></i> {2}</button>')
                         .format(rowObject.partyId,
                         $.trim(rowObject.branchId),
                         isFinished ? "已推荐" : "推荐情况",

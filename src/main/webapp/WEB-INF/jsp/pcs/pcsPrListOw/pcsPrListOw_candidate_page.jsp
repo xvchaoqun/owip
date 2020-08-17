@@ -6,7 +6,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrListOw"
+             data-url-page="${ctx}/pcs/pcsPrListOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
@@ -18,11 +18,11 @@
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
-                                <a style="margin-left: 20px;" href="${ctx}/pcsPrListOw_export?file=3">
+                                <a style="margin-left: 20px;" href="${ctx}/pcs/pcsPrListOw_export?file=3">
                                     <i class="fa fa-download"></i> 全校党代表汇总表</a>
 
                                 <shiro:hasPermission name="pcsProposal:menu">
-                                <button style="margin-left: 20px;" data-url="${ctx}/pcsPrListOw_sync"
+                                <button style="margin-left: 20px;" data-url="${ctx}/pcs/pcsPrListOw_sync"
                                         data-title="同步名单"
                                         data-msg="是否将全校党代表名单将同步至“党代表提案管理”——“党代表名单”内？
                                     （注：重复此操作将覆盖之前的数据）"
@@ -86,7 +86,7 @@
     $("#jqGrid").jqGrid({
         rownumbers: true,
         multiselect: false,
-        url: '${ctx}/pcsPrListOw_candidate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPrListOw_candidate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
@@ -99,7 +99,7 @@
             <c:if test="${cls==4}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/pcsProposal_candidateChangeOrder"}, frozen: true
+                formatoptions:{url: "${ctx}/pcs/pcsProposal_candidateChangeOrder"}, frozen: true
             },
             </c:if>
             {label: '所在单位', name: 'unitName', width: 160, align: 'left', frozen: true},

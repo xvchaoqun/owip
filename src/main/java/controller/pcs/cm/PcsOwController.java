@@ -42,6 +42,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Controller
+@RequestMapping("/pcs")
 public class PcsOwController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
