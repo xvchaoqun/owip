@@ -3,6 +3,8 @@ package service.pcs;
 import controller.global.OpException;
 import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsAdminReportExample;
+import domain.pcs.PcsParty;
+import domain.pcs.PcsPartyExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,16 @@ public class PcsPartyService extends PcsBaseMapper {
 
     @Autowired
     private PcsOwService pcsOwService;
+
+     public PcsParty get(int configId, int partyId){
+
+        PcsPartyExample example = new PcsPartyExample();
+        example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);
+
+        List<PcsParty> pcsPartys = pcsPartyMapper.selectByExample(example);
+        
+        return pcsPartys.size()==0?null:pcsPartys.get(0);
+    }
 
     // 分党委是否可以修改当前阶段的数据
     public boolean allowModify(int partyId, int configId, byte stage){

@@ -27,7 +27,9 @@
         <!--党代会-->
         <!-- <table tableName="pcs_exclude_branch" domainObjectName="pcs.PcsExcludeBranch" mapperName="pcs.PcsExcludeBranchMapper">
          </table>-->
-        <!--<table tableName="pcs_party_view" domainObjectName="pcs.PcsPartyView" mapperName="pcs.PcsPartyViewMapper">
+        <table tableName="pcs_party" domainObjectName="pcs.PcsParty" mapperName="pcs.PcsPartyMapper">
+        </table>
+        <!--<table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
         </table>-->
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
@@ -41,12 +43,8 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
-        </table>
-        <table tableName="pcs_candidate_view" domainObjectName="pcs.PcsCandidateView" mapperName="pcs.PcsCandidateViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>
+        </table>-->
+      <!--
         <table tableName="pcs_candidate_chosen" domainObjectName="pcs.PcsCandidateChosen" mapperName="pcs.PcsCandidateChosenMapper">
         </table>-->
         <!--  <table tableName="pcs_pr_allocate" domainObjectName="pcs.PcsPrAllocate" mapperName="pcs.PcsPrAllocateMapper">
@@ -58,15 +56,8 @@
         <!--<table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
        </table>-->
-        <!--   <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
-           </table>
-           <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView"
-                  mapperName="pcs.PcsPrCandidateViewMapper"
-                  enableInsert="false" enableUpdateByPrimaryKey="false"
-                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                  enableDeleteByExample="false">
-               <columnOverride column="user_type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-           </table>-->
+       <!--<table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
+       </table>-->
         <!--
              <table tableName="pcs_proposal_file" domainObjectName="pcs.PcsProposalFile" mapperName="pcs.PcsProposalFileMapper">
              </table>-->

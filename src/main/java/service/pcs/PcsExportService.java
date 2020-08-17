@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import persistence.pcs.common.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import persistence.pcs.common.PcsPartyBean;
 import service.analysis.StatService;
@@ -53,7 +53,7 @@ public class PcsExportService extends PcsBaseMapper {
      */
     public XSSFWorkbook exportPartyCandidates2(int configId, byte stage, byte type) throws IOException {
 
-        List<IPcsCandidateView> candidates =
+        List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, null, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
@@ -88,7 +88,7 @@ public class PcsExportService extends PcsBaseMapper {
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            IPcsCandidateView bean = candidates.get(i);
+            IPcsCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -121,7 +121,7 @@ public class PcsExportService extends PcsBaseMapper {
                                               byte stage,
                                               byte type) throws IOException {
 
-        List<IPcsCandidateView> candidates =
+        List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, isChosen, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
@@ -194,7 +194,7 @@ public class PcsExportService extends PcsBaseMapper {
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            IPcsCandidateView bean = candidates.get(i);
+            IPcsCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -467,7 +467,7 @@ public class PcsExportService extends PcsBaseMapper {
             actualMemberCount += pcsBranchBean.getActualMemberCount() == null ? 0 : pcsBranchBean.getActualMemberCount();
         }
 
-        List<IPcsCandidateView> candidates =
+        List<IPcsCandidate> candidates =
                 iPcsMapper.selectBranchCandidateList(null, configId, stage, type, partyId, new RowBounds());
 
 
@@ -519,7 +519,7 @@ public class PcsExportService extends PcsBaseMapper {
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            IPcsCandidateView bean = candidates.get(i);
+            IPcsCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -607,7 +607,7 @@ public class PcsExportService extends PcsBaseMapper {
      */
     public XSSFWorkbook exportIssueCandidates(int configId, byte stage, byte type) throws IOException {
 
-        List<IPcsCandidateView> candidates =
+        List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
@@ -656,7 +656,7 @@ public class PcsExportService extends PcsBaseMapper {
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            IPcsCandidateView bean = candidates.get(i);
+            IPcsCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);

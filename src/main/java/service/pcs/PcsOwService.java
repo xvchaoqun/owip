@@ -25,14 +25,14 @@ public class PcsOwService extends PcsBaseMapper {
         return (pcsCandidateChosens.size()>0)?pcsCandidateChosens.get(0) : null;
     }
 
-    public PcsCandidateView getPcsCandidateView(int userId, int configId, byte stage, byte type){
+    public PcsCandidate getPcsCandidate(int userId, int configId, byte stage, byte type){
 
-        PcsCandidateViewExample example = new PcsCandidateViewExample();
+        PcsCandidateExample example = new PcsCandidateExample();
         example.createCriteria().andConfigIdEqualTo(configId)
                 .andStageEqualTo(stage).andTypeEqualTo(type).andUserIdEqualTo(userId);
 
-        List<PcsCandidateView> pcsCandidateViews = pcsCandidateViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return (pcsCandidateViews.size()>0)?pcsCandidateViews.get(0) : null;
+        List<PcsCandidate> pcsCandidates = pcsCandidateMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (pcsCandidates.size()>0)?pcsCandidates.get(0) : null;
     }
 
     // 入选名单

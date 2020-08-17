@@ -57,15 +57,15 @@ public class PcsPrVoteController extends PcsBaseController {
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        PcsPartyView pcsPartyView = pcsPartyViewService.get(partyId);
-        modelMap.put("pcsPartyView", pcsPartyView);
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        modelMap.put("pcsParty", pcsParty);
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,
                 PcsConstants.PCS_STAGE_THIRD, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
         // 在第三阶段，共用第二阶段的候选人
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
+        List<PcsPrCandidate> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
         boolean hasSort = pcsPrListService.hasSort(configId, partyId);

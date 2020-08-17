@@ -11,7 +11,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
@@ -95,16 +95,16 @@ public class PcsRecommendService extends PcsBaseMapper {
 
             byte _stage = (stage == PcsConstants.PCS_STAGE_SECOND)?
                     PcsConstants.PCS_STAGE_FIRST: PcsConstants.PCS_STAGE_SECOND;
-            List<IPcsCandidateView> dwCandidates =
+            List<IPcsCandidate> dwCandidates =
                     iPcsMapper.selectPartyCandidateList(null, true, configId,
                             _stage, PcsConstants.PCS_USER_TYPE_DW, new RowBounds());
-            for (IPcsCandidateView dwCandidate : dwCandidates) {
+            for (IPcsCandidate dwCandidate : dwCandidates) {
                 dwIssueUserIdSet.add(dwCandidate.getUserId());
             }
-            List<IPcsCandidateView> jwCandidates =
+            List<IPcsCandidate> jwCandidates =
                     iPcsMapper.selectPartyCandidateList(null, true, configId,
                             _stage, PcsConstants.PCS_USER_TYPE_JW, new RowBounds());
-            for (IPcsCandidateView jwCandidate : jwCandidates) {
+            for (IPcsCandidate jwCandidate : jwCandidates) {
                 jwIssueUserIdSet.add(jwCandidate.getUserId());
             }
         }
@@ -156,6 +156,5 @@ public class PcsRecommendService extends PcsBaseMapper {
                 pcsCandidateService.insertSelective(_pcsCandidate);
             }
         }
-
     }
 }

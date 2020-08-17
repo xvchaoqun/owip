@@ -18,7 +18,7 @@
                             <table class="form-table">
                                 <tr>
                                     <td class="">党员总数：</td>
-                                    <td width="60">${pcsPartyView.memberCount}</td>
+                                    <td width="60">${pcsParty.memberCount}</td>
                                     <td width="50">大会类型：</td>
                                     <td colspan="2" width="60">
                                         <div class="input-group">

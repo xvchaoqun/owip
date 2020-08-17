@@ -30,10 +30,10 @@ public class PcsPrListService extends PcsBaseMapper {
     }
 
     // 先按代表类型，同一类型下，再按姓氏笔画。
-    public List<PcsPrCandidateView> getList2(int configId, Integer partyId, Boolean isChosen) {
+    public List<PcsPrCandidate> getList2(int configId, Integer partyId, Boolean isChosen) {
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        PcsPrCandidateExample.Criteria criteria = example.createCriteria()
                 .andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND);
 
         if (partyId != null) {
@@ -44,14 +44,14 @@ public class PcsPrListService extends PcsBaseMapper {
         }
         example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
 
-        return pcsPrCandidateViewMapper.selectByExample(example);
+        return pcsPrCandidateMapper.selectByExample(example);
     }
 
     // 获取党代表名单 （预先按姓笔画排序）
-    public List<PcsPrCandidateView> getList(int configId, int partyId, Boolean isChosen) {
+    public List<PcsPrCandidate> getList(int configId, int partyId, Boolean isChosen) {
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        PcsPrCandidateExample.Criteria criteria = example.createCriteria()
                 .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
                 .andStageEqualTo(PcsConstants.PCS_STAGE_SECOND);
 
@@ -61,7 +61,7 @@ public class PcsPrListService extends PcsBaseMapper {
 
         example.setOrderByClause("party_sort_order desc, realname_sort_order asc, type asc, leader_sort_order desc, sort_order asc");
 
-        return pcsPrCandidateViewMapper.selectByExample(example);
+        return pcsPrCandidateMapper.selectByExample(example);
     }
 
 

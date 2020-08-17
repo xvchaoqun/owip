@@ -3,8 +3,8 @@ package controller.pcs.prList;
 import controller.pcs.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
+import domain.pcs.PcsPrCandidate;
+import domain.pcs.PcsPrCandidateExample;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -234,8 +234,8 @@ public class PcsPrListOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        PcsPrCandidateExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true);
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -247,13 +247,13 @@ public class PcsPrListOwController extends PcsBaseController {
             example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
         }
 
-        long count = pcsPrCandidateViewMapper.countByExample(example);
+        long count = pcsPrCandidateMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPrCandidateView> records = pcsPrCandidateViewMapper.selectByExampleWithRowbounds(example,
+        List<PcsPrCandidate> records = pcsPrCandidateMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

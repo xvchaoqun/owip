@@ -12,6 +12,38 @@ public class PcsCandidate implements Serializable {
 
     private Byte type;
 
+    private Integer vote;
+
+    private String code;
+
+    private String realname;
+
+    private Date birth;
+
+    private String title;
+
+    private Byte gender;
+
+    private String nation;
+
+    private String nativePlace;
+
+    private String extUnit;
+
+    private Date growTime;
+
+    private Date workTime;
+
+    private String proPost;
+
+    private Integer partyId;
+
+    private Integer branchId;
+
+    private Integer configId;
+
+    private Byte stage;
+
     private Integer sortOrder;
 
     private Boolean isFromStage;
@@ -50,6 +82,134 @@ public class PcsCandidate implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Integer getVote() {
+        return vote;
+    }
+
+    public void setVote(Integer vote) {
+        this.vote = vote;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
+    }
+
+    public String getNativePlace() {
+        return nativePlace;
+    }
+
+    public void setNativePlace(String nativePlace) {
+        this.nativePlace = nativePlace == null ? null : nativePlace.trim();
+    }
+
+    public String getExtUnit() {
+        return extUnit;
+    }
+
+    public void setExtUnit(String extUnit) {
+        this.extUnit = extUnit == null ? null : extUnit.trim();
+    }
+
+    public Date getGrowTime() {
+        return growTime;
+    }
+
+    public void setGrowTime(Date growTime) {
+        this.growTime = growTime;
+    }
+
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
+    public String getProPost() {
+        return proPost;
+    }
+
+    public void setProPost(String proPost) {
+        this.proPost = proPost == null ? null : proPost.trim();
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public Integer getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(Integer configId) {
+        this.configId = configId;
+    }
+
+    public Byte getStage() {
+        return stage;
+    }
+
+    public void setStage(Byte stage) {
+        this.stage = stage;
     }
 
     public Integer getSortOrder() {

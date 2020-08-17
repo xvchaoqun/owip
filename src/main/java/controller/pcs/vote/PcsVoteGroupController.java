@@ -16,9 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.pcs.common.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidate;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
@@ -220,7 +219,7 @@ public class PcsVoteGroupController extends PcsBaseController {
     public String pcsVoteGroup_candidates(byte type, ModelMap modelMap) {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
-        List<IPcsCandidateView> candidates =
+        List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, true, configId, PcsConstants.PCS_STAGE_THIRD, type, new RowBounds());
 
         modelMap.put("candidates", candidates);

@@ -62,7 +62,7 @@ public class PcsPrFileController extends PcsBaseController {
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
                 PcsConstants.PCS_STAGE_THIRD));
 
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
+        List<PcsPrCandidate> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
         return "pcs/pcsPrFile/pcsPrFile_page";

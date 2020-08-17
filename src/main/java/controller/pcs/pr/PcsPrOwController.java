@@ -4,8 +4,8 @@ import controller.pcs.PcsBaseController;
 import domain.party.Party;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
+import domain.pcs.PcsPrCandidate;
+import domain.pcs.PcsPrCandidateExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -239,15 +239,15 @@ public class PcsPrOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId, stage, partyId, userId);
+        PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, userId);
 
-        long count = pcsPrCandidateViewMapper.countByExample(example);
+        long count = pcsPrCandidateMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPrCandidateView> records = pcsPrCandidateViewMapper.selectByExampleWithRowbounds(example,
+        List<PcsPrCandidate> records = pcsPrCandidateMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

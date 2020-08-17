@@ -225,15 +225,15 @@ public class PcsPrPartyController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId, stage, partyId, userId);
+        PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, userId);
 
-        long count = pcsPrCandidateViewMapper.countByExample(example);
+        long count = pcsPrCandidateMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPrCandidateView> records = pcsPrCandidateViewMapper.selectByExampleWithRowbounds(example,
+        List<PcsPrCandidate> records = pcsPrCandidateMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -282,14 +282,14 @@ public class PcsPrPartyController extends PcsBaseController {
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        PcsPartyView pcsPartyView = pcsPartyViewService.get(partyId);
-        modelMap.put("pcsPartyView", pcsPartyView);
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        modelMap.put("pcsParty", pcsParty);
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
         // 读取三类代表
-        Map<Byte, List<PcsPrCandidateView>> candidatesMap = new HashMap<>();
+        Map<Byte, List<PcsPrCandidate>> candidatesMap = new HashMap<>();
         for (Byte prType : PcsConstants.PCS_PR_TYPE_MAP.keySet()) {
             candidatesMap.put(prType, pcsPrCandidateService.find(configId, stage, prType, partyId));
         }
@@ -309,7 +309,7 @@ public class PcsPrPartyController extends PcsBaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        List<PcsPrCandidateView> candidates = pcsPrCandidateService.find(configId, stage, type, partyId);
+        List<PcsPrCandidate> candidates = pcsPrCandidateService.find(configId, stage, type, partyId);
 
         modelMap.put("candidates", candidates);
 
@@ -325,21 +325,21 @@ public class PcsPrPartyController extends PcsBaseController {
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
-        Map<Integer, PcsPrCandidateView> selectedMap = pcsPrCandidateService.findSelectedMap(configId, stage, partyId);
+        Map<Integer, PcsPrCandidate> selectedMap = pcsPrCandidateService.findSelectedMap(configId, stage, partyId);
 
-        List<PcsPrCandidateView> candidates = new ArrayList<>();
+        List<PcsPrCandidate> candidates = new ArrayList<>();
         if (userIds != null) {
             for (Integer userId : userIds) {
 
                 SysUserView uv = sysUserService.findById(userId);
 
-                PcsPrCandidateView candidate = new PcsPrCandidateView();
+                PcsPrCandidate candidate = new PcsPrCandidate();
                 candidate.setUserId(uv.getId());
                 candidate.setCode(uv.getCode());
                 candidate.setRealname(uv.getRealname());
                 candidate.setPartyId(partyId);
 
-                PcsPrCandidateView _candidate = selectedMap.get(userId);
+                PcsPrCandidate _candidate = selectedMap.get(userId);
                 if(_candidate!=null){
                     // 如果是上一阶段的入选名单，则读取之前填写的性别、民族、出生年月
                     candidate.setGender(_candidate.getGender());

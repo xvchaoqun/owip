@@ -4,7 +4,7 @@ import controller.pcs.PcsBaseController;
 import domain.cadre.CadreView;
 import domain.member.MemberView;
 import domain.pcs.PcsAdmin;
-import domain.pcs.PcsCandidateView;
+import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.pcs.common.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -175,10 +175,10 @@ public class PcsRecommendController extends PcsBaseController {
         modelMap.put("pcsRecommend", record);
 
         // 读取党委委员、纪委委员
-        List<PcsCandidateView> dwCandidates =
+        List<PcsCandidate> dwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
                         record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
-        List<PcsCandidateView> jwCandidates =
+        List<PcsCandidate> jwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
                         record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);
@@ -202,7 +202,7 @@ public class PcsRecommendController extends PcsBaseController {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
-        List<IPcsCandidateView> candidates =
+        List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
 
         modelMap.put("candidates", candidates);
@@ -218,14 +218,14 @@ public class PcsRecommendController extends PcsBaseController {
             SecurityUtils.getSubject().checkPermission("pcsRecommend:edit");
         }
 
-        List<PcsCandidateView> candidates = new ArrayList<>();
+        List<PcsCandidate> candidates = new ArrayList<>();
         if(userIds!=null){
             for (Integer userId : userIds) {
 
                 MemberView memberView = iMemberMapper.getMemberView(userId);
                 CadreView cv = cadreService.dbFindByUserId(userId);
                 SysUserView uv = cv.getUser();
-                PcsCandidateView candidate = new PcsCandidateView();
+                PcsCandidate candidate = new PcsCandidate();
                 candidate.setUserId(memberView.getUserId());
                 candidate.setCode(memberView.getCode());
                 candidate.setRealname(memberView.getRealname());

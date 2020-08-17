@@ -6,6 +6,22 @@
     <result column="recommend_id" jdbcType="INTEGER" property="recommendId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="vote" jdbcType="INTEGER" property="vote" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="ext_unit" jdbcType="VARCHAR" property="extUnit" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
@@ -69,7 +85,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, sort_order, is_from_stage, add_time
+    id, recommend_id, user_id, type, vote, code, realname, birth, title, gender, nation, 
+    native_place, ext_unit, grow_time, work_time, pro_post, party_id, branch_id, config_id, 
+    stage, sort_order, is_from_stage, add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsCandidateExample" resultMap="BaseResultMap">
     select
@@ -103,10 +121,20 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsCandidate">
     insert into pcs_candidate (id, recommend_id, user_id, 
-      type, sort_order, is_from_stage, 
+      type, vote, code, realname, 
+      birth, title, gender, 
+      nation, native_place, ext_unit, 
+      grow_time, work_time, pro_post, 
+      party_id, branch_id, config_id, 
+      stage, sort_order, is_from_stage, 
       add_time)
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, 
+      #{type,jdbcType=TINYINT}, #{vote,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
+      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{extUnit,jdbcType=VARCHAR}, 
+      #{growTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, 
+      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
+      #{stage,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, 
       #{addTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsCandidate">
@@ -123,6 +151,54 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="vote != null">
+        vote,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="nativePlace != null">
+        native_place,
+      </if>
+      <if test="extUnit != null">
+        ext_unit,
+      </if>
+      <if test="growTime != null">
+        grow_time,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="proPost != null">
+        pro_post,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="configId != null">
+        config_id,
+      </if>
+      <if test="stage != null">
+        stage,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -146,6 +222,54 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="vote != null">
+        #{vote,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null">
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="extUnit != null">
+        #{extUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=DATE},
+      </if>
+      <if test="proPost != null">
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=TINYINT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -179,6 +303,54 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.vote != null">
+        vote = #{record.vote,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nativePlace != null">
+        native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extUnit != null">
+        ext_unit = #{record.extUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=DATE},
+      </if>
+      <if test="record.proPost != null">
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stage != null">
+        stage = #{record.stage,jdbcType=TINYINT},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -199,6 +371,22 @@
       recommend_id = #{record.recommendId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      vote = #{record.vote,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      birth = #{record.birth,jdbcType=DATE},
+      title = #{record.title,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      ext_unit = #{record.extUnit,jdbcType=VARCHAR},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      work_time = #{record.workTime,jdbcType=DATE},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      config_id = #{record.configId,jdbcType=INTEGER},
+      stage = #{record.stage,jdbcType=TINYINT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       is_from_stage = #{record.isFromStage,jdbcType=BIT},
       add_time = #{record.addTime,jdbcType=TIMESTAMP}
@@ -218,6 +406,54 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="vote != null">
+        vote = #{vote,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null">
+        native_place = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="extUnit != null">
+        ext_unit = #{extUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null">
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=DATE},
+      </if>
+      <if test="proPost != null">
+        pro_post = #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="stage != null">
+        stage = #{stage,jdbcType=TINYINT},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -235,6 +471,22 @@
     set recommend_id = #{recommendId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      vote = #{vote,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=DATE},
+      title = #{title,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      nation = #{nation,jdbcType=VARCHAR},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      ext_unit = #{extUnit,jdbcType=VARCHAR},
+      grow_time = #{growTime,jdbcType=DATE},
+      work_time = #{workTime,jdbcType=DATE},
+      pro_post = #{proPost,jdbcType=VARCHAR},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      config_id = #{configId,jdbcType=INTEGER},
+      stage = #{stage,jdbcType=TINYINT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       is_from_stage = #{isFromStage,jdbcType=BIT},
       add_time = #{addTime,jdbcType=TIMESTAMP}

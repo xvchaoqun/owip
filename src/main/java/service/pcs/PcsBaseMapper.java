@@ -15,7 +15,9 @@ public class PcsBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected PcsExcludeBranchMapper pcsExcludeBranchMapper;
     @Autowired(required = false)
-    protected PcsPartyViewMapper pcsPartyViewMapper;
+    protected PcsPartyMapper pcsPartyMapper;
+    @Autowired(required = false)
+    protected PcsBranchMapper pcsBranchMapper;
     @Autowired(required = false)
     protected PcsIssueMapper pcsIssueMapper;
     @Autowired(required = false)
@@ -24,8 +26,6 @@ public class PcsBaseMapper extends CoreBaseMapper {
     protected PcsAdminReportMapper pcsAdminReportMapper;
     @Autowired(required = false)
     protected PcsCandidateMapper pcsCandidateMapper;
-    @Autowired(required = false)
-    protected PcsCandidateViewMapper pcsCandidateViewMapper;
     @Autowired(required = false)
     protected PcsCandidateChosenMapper pcsCandidateChosenMapper;
     @Autowired(required = false)
@@ -38,8 +38,6 @@ public class PcsBaseMapper extends CoreBaseMapper {
     protected PcsPrRecommendMapper pcsPrRecommendMapper;
     @Autowired(required = false)
     protected PcsPrCandidateMapper pcsPrCandidateMapper;
-    @Autowired(required = false)
-    protected PcsPrCandidateViewMapper pcsPrCandidateViewMapper;
     @Autowired(required = false)
     protected PcsPrFileTemplateMapper pcsPrFileTemplateMapper;
     @Autowired(required = false)

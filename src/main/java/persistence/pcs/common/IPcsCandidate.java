@@ -1,11 +1,11 @@
 package persistence.pcs.common;
 
-import domain.pcs.PcsCandidateView;
+import domain.pcs.PcsCandidate;
 
 /**
  * Created by lm on 2017/8/27.
  */
-public class IPcsCandidateView extends PcsCandidateView {
+public class IPcsCandidate extends PcsCandidate {
 
     private String partyIds;
     private String branchIds;

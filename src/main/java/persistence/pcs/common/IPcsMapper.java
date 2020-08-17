@@ -33,7 +33,7 @@ public interface IPcsMapper {
     public PcsVoteGroup statPcsVoteGroup(@Param("type") byte type);
 
     // 根据账号、姓名、学工号查找党代表
-    List<PcsPrCandidateView> selectPrList( @Param("configId") int configId,
+    List<PcsPrCandidate> selectPrList( @Param("configId") int configId,
                                            @Param("stage") byte stage,
                                            @Param("search") String search, RowBounds rowBounds);
     int countPrList(@Param("configId") int configId,
@@ -81,7 +81,7 @@ public interface IPcsMapper {
                                           @Param("partyId") Integer partyId);
 /*
     // 党代表候选人初步人选名单（分党委）
-    public List<IPcsCandidateView> selectPcsPrPartyCandidateList(@Param("userId") Integer userId,
+    public List<IPcsCandidate> selectPcsPrPartyCandidateList(@Param("userId") Integer userId,
                                                           @Param("configId") int configId,
                                                           @Param("stage") byte stage,
                                                           @Param("partyId") int partyId,
@@ -142,12 +142,12 @@ public interface IPcsMapper {
                              @Param("stage") byte stage,
                              @Param("candidateType") int candidateType);
     // 分党委两委委员推荐提名情况
-    public List<IPcsCandidateView> selectPartyCandidateList(@Param("userId") Integer userId,
-                                                            @Param("isChosen") Boolean isChosen,
-                                                            @Param("configId") int configId,
-                                                            @Param("stage") byte stage,
-                                                            @Param("candidateType") int candidateType,
-                                                            RowBounds rowBounds);
+    public List<IPcsCandidate> selectPartyCandidateList(@Param("userId") Integer userId,
+                                                        @Param("isChosen") Boolean isChosen,
+                                                        @Param("configId") int configId,
+                                                        @Param("stage") byte stage,
+                                                        @Param("candidateType") int candidateType,
+                                                        RowBounds rowBounds);
 
     public int countPartyCandidateList(@Param("userId") Integer userId,
                                        @Param("isChosen") Boolean isChosen,
@@ -156,12 +156,12 @@ public interface IPcsMapper {
                                        @Param("candidateType") int candidateType);
 
     // 党支部两委委员推荐提名情况
-    public List<IPcsCandidateView> selectBranchCandidateList(@Param("userId") Integer userId,
-                                                             @Param("configId") int configId,
-                                                             @Param("stage") byte stage,
-                                                             @Param("candidateType") int candidateType,
-                                                             @Param("partyId") int partyId,
-                                                             RowBounds rowBounds);
+    public List<IPcsCandidate> selectBranchCandidateList(@Param("userId") Integer userId,
+                                                         @Param("configId") int configId,
+                                                         @Param("stage") byte stage,
+                                                         @Param("candidateType") int candidateType,
+                                                         @Param("partyId") int partyId,
+                                                         RowBounds rowBounds);
 
     public int countBranchCandidateList(@Param("userId") Integer userId,
                                         @Param("configId") int configId,

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.pcs.common.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -220,7 +220,7 @@ public class PcsPartyController extends PcsBaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidateView> records = iPcsMapper.selectBranchCandidateList(userId, configId, stage, type, partyId,
+        List<IPcsCandidate> records = iPcsMapper.selectBranchCandidateList(userId, configId, stage, type, partyId,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

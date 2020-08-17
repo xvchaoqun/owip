@@ -1,11 +1,15 @@
 package service.pcs;
 
+import domain.cadre.Cadre;
+import domain.member.MemberView;
 import domain.pcs.PcsCandidate;
 import domain.pcs.PcsCandidateExample;
-import domain.pcs.PcsCandidateView;
-import domain.pcs.PcsCandidateViewExample;
+import domain.pcs.PcsRecommend;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,16 +20,16 @@ public class PcsCandidateService extends PcsBaseMapper {
     public static final String TABLE_NAME = "pcs_candidate";
 
     // 读取党支部下的党委委员、纪委委员
-    public List<PcsCandidateView> find(int partyId, Integer branchId, int configId, byte stage, byte type){
+    public List<PcsCandidate> find(int partyId, Integer branchId, int configId, byte stage, byte type){
 
-        PcsCandidateViewExample example = new PcsCandidateViewExample();
-        PcsCandidateViewExample.Criteria criteria =
+        PcsCandidateExample example = new PcsCandidateExample();
+        PcsCandidateExample.Criteria criteria =
                 example.createCriteria().andPartyIdEqualTo(partyId)
                         .andConfigIdEqualTo(configId).andStageEqualTo(stage)
                         .andTypeEqualTo(type);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
         example.setOrderByClause("sort_order asc");
-        return pcsCandidateViewMapper.selectByExample(example);
+        return pcsCandidateMapper.selectByExample(example);
     }
 
     public boolean idDuplicate(Integer id, int recommendId, int userId, byte type){
@@ -49,6 +53,39 @@ public class PcsCandidateService extends PcsBaseMapper {
 
     @Transactional
     public void insertSelective(PcsCandidate record){
+
+        // 填充个人基本信息
+        int recommendId = record.getRecommendId();
+        int userId = record.getUserId();
+        PcsRecommend pr = pcsRecommendMapper.selectByPrimaryKey(recommendId);
+
+        Cadre cadre = CmTag.getCadre(userId);
+        if(cadre!=null) {
+            record.setTitle(cadre.getTitle());
+        }
+
+        SysUserView uv = CmTag.getUserById(userId);
+        record.setCode(uv.getCode());
+        record.setRealname(uv.getRealname());
+        record.setExtUnit(uv.getUnit());
+        record.setGender(uv.getGender());
+        record.setNation(uv.getNation());
+        record.setNativePlace(uv.getNativePlace());
+        record.setBirth(uv.getBirth());
+
+        TeacherInfo ti = teacherInfoMapper.selectByPrimaryKey(userId);
+        if(ti!=null) {
+            record.setWorkTime(ti.getWorkTime());
+            record.setProPost(ti.getProPost());
+        }
+        MemberView mv = iMemberMapper.getMemberView(userId);
+        if(mv!=null) {
+            record.setGrowTime(mv.getGrowTime());
+        }
+        record.setPartyId(pr.getPartyId());
+        record.setBranchId(pr.getBranchId());
+        record.setConfigId(pr.getConfigId());
+        record.setStage(pr.getStage());
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "recommend_id=" + record.getRecommendId()
                 + " and type=" + record.getType()));

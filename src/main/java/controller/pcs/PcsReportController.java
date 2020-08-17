@@ -2,7 +2,7 @@ package controller.pcs;
 
 import domain.base.MetaType;
 import domain.pcs.PcsConfig;
-import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsProposalFile;
 import domain.pcs.PcsProposalView;
 import net.sf.jasperreports.engine.*;
@@ -95,7 +95,7 @@ public class PcsReportController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        PcsPrCandidateView candidate = pcsPrCandidateService.find(pcsProposal.getUserId(), configId, PcsConstants.PCS_STAGE_SECOND);
+        PcsPrCandidate candidate = pcsPrCandidateService.find(pcsProposal.getUserId(), configId, PcsConstants.PCS_STAGE_SECOND);
 
         Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
 
@@ -141,9 +141,9 @@ public class PcsReportController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        List<PcsPrCandidateView> candidates = pcsProposalService.getSeconderCandidates(configId, pcsProposal);
+        List<PcsPrCandidate> candidates = pcsProposalService.getSeconderCandidates(configId, pcsProposal);
 
-        for (PcsPrCandidateView candidate : candidates) {
+        for (PcsPrCandidate candidate : candidates) {
 
             Map<String, Object> seconderMap = new HashMap<String, Object>();
             seconderMap.put("realname", candidate.getRealname());

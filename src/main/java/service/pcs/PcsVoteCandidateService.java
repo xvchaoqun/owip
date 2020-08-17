@@ -75,7 +75,7 @@ public class PcsVoteCandidateService extends PcsBaseMapper {
 
                     record.setSortOrder(pcsCandidateChosen.getSortOrder());
 
-                    PcsCandidateView candidate = pcsOwService.getPcsCandidateView(userId,
+                    PcsCandidate candidate = pcsOwService.getPcsCandidate(userId,
                             configId, PcsConstants.PCS_STAGE_THIRD, type);
 
                     record.setGender(candidate.getGender());

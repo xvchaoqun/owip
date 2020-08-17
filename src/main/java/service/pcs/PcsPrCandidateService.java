@@ -1,11 +1,17 @@
 package service.pcs;
 
+import domain.cadre.CadreView;
+import domain.member.MemberView;
 import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsPrCandidateExample;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
+import domain.pcs.PcsRecommend;
+import domain.sys.StudentInfo;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.constants.CadreConstants;
+import sys.tags.CmTag;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,13 +23,13 @@ public class PcsPrCandidateService extends PcsBaseMapper {
     public static final String TABLE_NAME = "pcs_pr_candidate";
 
     // 获得某个分党委入选名单列表
-    public Map<Integer, PcsPrCandidateView> findSelectedMap(int configId, byte stage, int partyId){
+    public Map<Integer, PcsPrCandidate> findSelectedMap(int configId, byte stage, int partyId){
 
-        Map<Integer, PcsPrCandidateView> resultMap = new LinkedHashMap<>();
+        Map<Integer, PcsPrCandidate> resultMap = new LinkedHashMap<>();
 
-        PcsPrCandidateViewExample example = createExample(configId, stage, partyId, null);
-        List<PcsPrCandidateView> pcsPrCandidateViews = pcsPrCandidateViewMapper.selectByExample(example);
-        for (PcsPrCandidateView ca : pcsPrCandidateViews) {
+        PcsPrCandidateExample example = createExample(configId, stage, partyId, null);
+        List<PcsPrCandidate> pcsPrCandidates = pcsPrCandidateMapper.selectByExample(example);
+        for (PcsPrCandidate ca : pcsPrCandidates) {
 
             resultMap.put(ca.getUserId(), ca);
         }
@@ -42,10 +48,10 @@ public class PcsPrCandidateService extends PcsBaseMapper {
      其他所有的按票数来排。
      */
     // 用于查询入选名单
-    public PcsPrCandidateViewExample createExample(int configId, byte stage, Integer partyId, Integer userId){
+    public PcsPrCandidateExample createExample(int configId, byte stage, Integer partyId, Integer userId){
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        PcsPrCandidateExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).
                 andStageEqualTo(stage);
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -59,26 +65,26 @@ public class PcsPrCandidateService extends PcsBaseMapper {
     }
 
     // 获得分党委某个类型下的被推荐人
-    public List<PcsPrCandidateView> find(int configId, byte stage, byte type, int partyId){
+    public List<PcsPrCandidate> find(int configId, byte stage, byte type, int partyId){
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(stage)
                 .andTypeEqualTo(type).andPartyIdEqualTo(partyId);
 
         example.setOrderByClause("sort_order asc");
 
-        return pcsPrCandidateViewMapper.selectByExample(example);
+        return pcsPrCandidateMapper.selectByExample(example);
     }
 
     // 同一阶段，同一用户只能选一次（即不同分党委不能同时选一个人，因为要保证本分党委推荐本单位的人）
-    public PcsPrCandidateView find(int userId, int configId, byte stage){
+    public PcsPrCandidate find(int userId, int configId, byte stage){
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andUserIdEqualTo(userId)
                 .andConfigIdEqualTo(configId).andStageEqualTo(stage);
 
-        List<PcsPrCandidateView> pcsPrCandidateViews = pcsPrCandidateViewMapper.selectByExample(example);
-        return pcsPrCandidateViews.size()>0?pcsPrCandidateViews.get(0):null;
+        List<PcsPrCandidate> pcsPrCandidates = pcsPrCandidateMapper.selectByExample(example);
+        return pcsPrCandidates.size()>0?pcsPrCandidates.get(0):null;
     }
 
     // 清空一个党支部推荐的党委或纪委委员
@@ -92,6 +98,53 @@ public class PcsPrCandidateService extends PcsBaseMapper {
 
     @Transactional
     public void insertSelective(PcsPrCandidate record){
+
+        int recommendId = record.getRecommendId();
+        int userId = record.getUserId();
+        PcsRecommend pr = pcsRecommendMapper.selectByPrimaryKey(recommendId);
+
+        SysUserView uv = CmTag.getUserById(userId);
+        record.setCode(uv.getCode());
+        record.setRealname(uv.getRealname());
+        record.setUnitName(uv.getUnit());
+        record.setGender(uv.getGender());
+        record.setNation(uv.getNation());
+        record.setBirth(uv.getBirth());
+
+        TeacherInfo ti = teacherInfoMapper.selectByPrimaryKey(userId);
+        if(ti!=null) {
+            record.setWorkTime(ti.getWorkTime());
+            record.setProPost(ti.getProPost());
+            record.setEducation(ti.getEducation());
+            record.setIsRetire(ti.getIsRetire());
+        }
+        StudentInfo si = studentInfoMapper.selectByPrimaryKey(userId);
+        if(si!=null){
+            record.setEduLevel(si.getEduLevel());
+        }
+
+        record.setUserType((byte)3);
+        MemberView mv = iMemberMapper.getMemberView(userId);
+        if(mv!=null) {
+            record.setGrowTime(mv.getGrowTime());
+            record.setUserType((byte)2);
+            record.setPartySortOrder(mv.getPartySortOrder());
+        }
+
+        record.setLeaderSortOrder(-1);
+        CadreView cv = CmTag.getCadreByUserId(userId);
+        if(cv!=null) {
+            record.setEduId(cv.getEduId());
+            record.setPost(cv.getPost());
+            if(cv.getStatus()== CadreConstants.CADRE_STATUS_LEADER) {
+                record.setLeaderSortOrder(cv.getSortOrder());
+            }
+            record.setUserType((byte)1);
+        }
+
+        record.setPartyId(pr.getPartyId());
+        record.setConfigId(pr.getConfigId());
+        record.setStage(pr.getStage());
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "recommend_id=" + record.getRecommendId()
                 + " and type=" + record.getType()));

@@ -84,16 +84,16 @@ public class PcsPrOwService extends PcsBaseMapper {
             sysUserService.delRole(prUser.getId(), RoleConstants.ROLE_PCS_PR);
         }
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andConfigIdEqualTo(configId)
                 .andStageEqualTo(PcsConstants.PCS_STAGE_SECOND).andIsChosenEqualTo(true);
         example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
-        List<PcsPrCandidateView> records = pcsPrCandidateViewMapper.selectByExample(example);
+        List<PcsPrCandidate> records = pcsPrCandidateMapper.selectByExample(example);
 
         int size = records.size();
         for (int i = 0; i < size; i++) {
 
-            PcsPrCandidateView candidate = records.get(i);
+            PcsPrCandidate candidate = records.get(i);
 
             PcsPrCandidate record = new PcsPrCandidate();
             record.setId(candidate.getId());

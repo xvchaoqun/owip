@@ -23,13 +23,13 @@
             and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
         </if>
     </sql>
-    <select id="selectPrList" resultMap="persistence.pcs.PcsPrCandidateViewMapper.BaseResultMap" parameterType="map">
-        select c.* from pcs_pr_candidate_view c, sys_user_view u
+    <select id="selectPrList" resultMap="persistence.pcs.PcsPrCandidateMapper.BaseResultMap" parameterType="map">
+        select c.* from pcs_pr_candidate c, sys_user_view u
         <include refid="selectPrList_where"/>
         order by c.proposal_sort_order asc
     </select>
     <select id="countPrList" parameterType="map" resultType="java.lang.Integer">
-        select count(c.user_id) from pcs_pr_candidate_view c, sys_user_view u
+        select count(c.user_id) from pcs_pr_candidate c, sys_user_view u
         <include refid="selectPrList_where"/>
     </select>
 
@@ -51,7 +51,7 @@
         sum(if(type=3, 1, 0)) retire_count, sum(if(gender=2, 1, 0)) female_count,
         sum(if(nation not like '%汉%', 1,0)) minority_count,
         sum(if( TIMESTAMPDIFF(YEAR, birth, now()) <![CDATA[<]]> 50, 1, 0)) under_fifty_count
-        from pcs_pr_candidate_view where config_id=#{configId} and stage=#{stage}
+        from pcs_pr_candidate where config_id=#{configId} and stage=#{stage}
         <if test="partyId!=null">
             and party_id=#{partyId}
         </if>
@@ -62,9 +62,8 @@
 
     <!--（党代表）分党委推荐汇总情况（统计已上报数据）-->
     <resultMap id="PrPartyBaseResultMap" type="persistence.pcs.common.PcsPrPartyBean"
-               extends="persistence.party.PartyViewMapper.BaseResultMap">
+               extends="persistence.pcs.PcsPartyMapper.BaseResultMap">
         <result column="stage" jdbcType="TINYINT" property="stage"/>
-        <result column="config_id" jdbcType="INTEGER" property="configId"/>
         <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
         <result column="expect_positive_member_count" jdbcType="INTEGER" property="expectPositiveMemberCount"/>
         <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
@@ -74,9 +73,9 @@
         <result column="check_remark" jdbcType="VARCHAR" property="checkRemark"/>
     </resultMap>
     <sql id="searchPcsPrPartyBeans">
-        where op.is_deleted=0
+        <where>
         <if test="partyId!=null">
-            and op.id=#{partyId}
+            and op.party_id=#{partyId}
         </if>
         <if test="hasReport">
             and ppr.has_report=1
@@ -87,20 +86,20 @@
         <if test="recommendStatus!=null">
             and ppr.status=#{recommendStatus}
         </if>
+        </where>
     </sql>
     <select id="selectPcsPrPartyBeanList" resultMap="PrPartyBaseResultMap" parameterType="map">
         select op.*, ${stage} as stage, ${configId} as config_id,
         ppr.expect_member_count,ppr.expect_positive_member_count,
         ppr.actual_member_count, ppr.actual_positive_member_count, ppr.has_report,
-        ppr.status as recommend_status, ppr.check_remark from pcs_party_view op
-        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.id =
-        ppr.party_id
+        ppr.status as recommend_status, ppr.check_remark from pcs_party op
+        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.party_id = ppr.party_id
         <include refid="searchPcsPrPartyBeans"/>
         order by op.sort_order desc
     </select>
     <select id="countPcsPrPartyBeanList" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from pcs_party_view op
-        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.id =
+        select count(*) from pcs_party op
+        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.party_id =
         ppr.party_id
         <include refid="searchPcsPrPartyBeans"/>
     </select>
@@ -113,39 +112,39 @@
         <result column="positive_count" jdbcType="INTEGER" property="positiveCount"/>
         <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
     </resultMap>
-    <sql id="searchPcsPrAllocateBeans">
-        where op.is_deleted=0
+
+    <select id="selectPcsPrAllocateBeanList" resultMap="PcsPrAllocateBaseResultMap" parameterType="map">
+        select ppa.id, op.party_id, op.name as party_name, op.member_count, op.positive_count,
+        op.config_id, ppa.pro_count,
+        ppa.stu_count, ppa.retire_count, ppa.female_count, ppa.minority_count, ppa.under_fifty_count
+        from pcs_party op
+        left join pcs_pr_allocate ppa on op.config_id=ppa.config_id and op.party_id=ppa.party_id
+        where op.config_id=#{configId}
         <if test="partyId!=null">
             and op.id=${partyId}
         </if>
-    </sql>
-    <select id="selectPcsPrAllocateBeanList" resultMap="PcsPrAllocateBaseResultMap" parameterType="map">
-        select ppa.id, op.id as party_id, op.name as party_name, op.member_count, op.positive_count,
-        ${configId} as config_id, ppa.pro_count,
-        ppa.stu_count, ppa.retire_count, ppa.female_count, ppa.minority_count, ppa.under_fifty_count
-        from pcs_party_view op
-        left join (select * from pcs_pr_allocate where config_id=#{configId}) ppa on op.id=ppa.party_id
-        <include refid="searchPcsPrAllocateBeans"/>
         order by op.sort_order desc
     </select>
     <select id="countPcsPrAllocateBeanList" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from pcs_party_view op
-        <include refid="searchPcsPrAllocateBeans"/>
+        select count(*) from pcs_party op
+        where op.config_id=#{configId}
+          <if test="partyId!=null">
+            and op.id=${partyId}
+        </if>
     </select>
 
     <!--分党委推荐汇总情况（统计已上报数据）-->
     <resultMap id="PartyBaseResultMap" type="persistence.pcs.common.PcsPartyBean"
-               extends="persistence.party.PartyViewMapper.BaseResultMap">
+               extends="persistence.pcs.PcsPartyMapper.BaseResultMap">
         <result column="stage" jdbcType="TINYINT" property="stage"/>
-        <result column="config_id" jdbcType="INTEGER" property="configId"/>
         <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
         <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
         <result column="report_id" jdbcType="INTEGER" property="reportId"/>
     </resultMap>
     <sql id="searchPcsPartyBeans">
-        where op.is_deleted=0
+        <where>
         <if test="partyId!=null">
-            and op.id=#{partyId}
+            and op.party_id=#{partyId}
         </if>
         <if test="hasReport!=null">
             <if test="hasReport">
@@ -155,10 +154,11 @@
                 and par.id is null
             </if>
         </if>
+        </where>
     </sql>
     <select id="selectPcsPartyBeanList" resultMap="PartyBaseResultMap" parameterType="map">
         select op.*, ${stage} as stage, ${configId} as config_id, pr.expect_member_count,
-        pr.actual_member_count, par.id as report_id from pcs_party_view op
+        pr.actual_member_count, par.id as report_id from pcs_party op
         left join
         (select pr.party_id,
         sum(pr.expect_member_count) as expect_member_count,
@@ -166,16 +166,16 @@
         where pr.stage=#{stage} and pr.config_id=#{configId} and pr.party_id
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         group by pr.party_id) pr on
-        op.id = pr.party_id
+        op.party_id = pr.party_id
         left join pcs_admin_report par on par.config_id=#{configId}
         and par.stage=#{stage} and par.party_id = pr.party_id
         <include refid="searchPcsPartyBeans"/>
         order by op.sort_order desc
     </select>
     <select id="countPcsPartyBeanList" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from pcs_party_view op
+        select count(*) from pcs_party op
         left join pcs_admin_report par on par.config_id=#{configId}
-        and par.stage=#{stage} and par.party_id = op.id
+        and par.stage=#{stage} and par.party_id = op.party_id
         <include refid="searchPcsPartyBeans"/>
     </select>
 
@@ -199,10 +199,10 @@
     <sql id="searchPcsBranchBeans">
         <where>
             <if test="partyId!=null">
-                and pbv.party_id=#{partyId}
+                and pb.party_id=#{partyId}
             </if>
             <if test="branchId!=null">
-                and pbv.branch_id=#{branchId}
+                and pb.branch_id=#{branchId}
             </if>
             <if test="isFinished!=null">
                 and pr.is_finished=#{isFinished}
@@ -210,22 +210,23 @@
         </where>
     </sql>
     <select id="selectPcsBranchBeanList" resultMap="BranchBaseResultMap" parameterType="map">
-        select pr.id, pbv.*, ${stage} as stage, ${configId} as config_id,
-        pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch_view pbv
+        select pr.id, pb.*, ${stage} as stage,
+        pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch pb
         left join (select * from pcs_recommend where stage=#{stage} and config_id=#{configId}) pr
-        on pr.party_id=pbv.party_id and ((pbv.branch_id is null and pr.branch_id is null) or pbv.branch_id=pr.branch_id)
+        on pr.party_id=pb.party_id and ((pb.branch_id is null and pr.branch_id is null) or pb.branch_id=pr.branch_id)
         <include refid="searchPcsBranchBeans"/>
-        order by pbv.member_count desc, pbv.party_id asc, pbv.branch_id asc
+        -- order by pb.member_count desc, pb.party_id asc, pb.branch_id asc
+        order by pb.sort_order
     </select>
     <select id="countPcsBranchBeanList" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from pcs_branch_view pbv
+        select count(*) from pcs_branch pb
         left join (select * from pcs_recommend where stage=#{stage} and config_id=#{configId}) pr
-        on pr.party_id=pbv.party_id and ((pbv.branch_id is null and pr.branch_id is null) or pbv.branch_id=pr.branch_id)
+        on pr.party_id=pb.party_id and ((pb.branch_id is null and pr.branch_id is null) or pb.branch_id=pr.branch_id)
         <include refid="searchPcsBranchBeans"/>
     </select>
 
-    <resultMap id="CandidateBaseResultMap" type="persistence.pcs.common.IPcsCandidateView"
-               extends="persistence.pcs.PcsCandidateViewMapper.BaseResultMap">
+    <resultMap id="CandidateBaseResultMap" type="persistence.pcs.common.IPcsCandidate"
+               extends="persistence.pcs.PcsCandidateMapper.BaseResultMap">
         <result column="party_ids" jdbcType="VARCHAR" property="partyIds"/>
         <result column="branch_ids" jdbcType="VARCHAR" property="branchIds"/>
         <result column="branch_count" jdbcType="INTEGER" property="branchCount"/>
@@ -238,11 +239,11 @@
 
     <!-- 获取被推荐人都有哪些支部推荐了（除直属党支部，只统计已上报的分党委） -->
     <select id="selectCandidateBranchIds" resultType="int" parameterType="map">
-        select pcv.branch_id
-        from pcs_candidate_view pcv
-          where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType}
+        select pc.branch_id
+        from pcs_candidate pc
+          where pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType}
             and branch_id is not null and user_id=#{userId}
-            and pcv.party_id
+            and pc.party_id
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
     </select>
 
@@ -256,26 +257,23 @@
         b.actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status from
         (
-        select pcv.*,
-        group_concat(distinct pcv.party_id) as party_ids,
-        count(pcv.id) as branch_count
-        from pcs_candidate_view pcv
-        where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType} and pcv.party_id
+        select pc.*,
+        group_concat(distinct pc.party_id) as party_ids,
+        count(pc.id) as branch_count
+        from pcs_candidate pc
+        where pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType} and pc.party_id
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
-        group by pcv.user_id
+        group by pc.user_id
         ) a left join(
         select pc.user_id, sum(expect_member_count) as expect_member_count, sum(actual_member_count) as
         actual_member_count from pcs_recommend pr
-        right join pcs_candidate pc on pr.id=pc.recommend_id and config_id=#{configId}
-        and stage=#{stage} and type=#{candidateType} group by pc.user_id) b
+        right join pcs_candidate pc on pr.id=pc.recommend_id and pr.config_id=#{configId}
+        and pr.stage=#{stage} and pc.type=#{candidateType} group by pc.user_id) b
         on b.user_id=a.user_id
         left join (
-        select tmp.user_id, sum(member_count) as member_count from pcs_branch_view pbv
-        right join(
-        select pc.*, pr.config_id, pr.stage, pr.party_id, pr.branch_id from pcs_candidate pc left join pcs_recommend pr
-        on pc.recommend_id=pr.id
-        ) tmp on tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.type=#{candidateType} and tmp.party_id=
-        pbv.party_id and ((pbv.branch_id is null and tmp.branch_id is null) or pbv.branch_id=tmp.branch_id) group by
+        select tmp.user_id, sum(member_count) as member_count from pcs_branch pb
+        right join pcs_candidate tmp on tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.type=#{candidateType} and tmp.party_id=
+        pb.party_id and ((pb.branch_id is null and tmp.branch_id is null) or pb.branch_id=tmp.branch_id) group by
         tmp.user_id
         ) d on d.user_id =a.user_id
         left join cadre c on c.user_id=a.user_id
@@ -298,18 +296,18 @@
         </if>
     </select>
     <select id="countPartyCandidateList" parameterType="map" resultType="java.lang.Integer">
-        select count(distinct pcv.user_id) from pcs_candidate_view pcv
-        left join pcs_candidate_chosen pcc on pcv.config_id=pcc.config_id
-        and pcv.stage=pcc.stage and pcv.type=pcc.type and pcv.user_id=pcc.user_id
+        select count(distinct pc.user_id) from pcs_candidate pc
+        left join pcs_candidate_chosen pcc on pc.config_id=pcc.config_id
+        and pc.stage=pcc.stage and pc.type=pcc.type and pc.user_id=pcc.user_id
         <where>
             <if test="userId!=null">
-                and pcv.user_id=#{userId}
+                and pc.user_id=#{userId}
             </if>
             <if test="isChosen">
                 and pcc.id is not null
             </if>
-            and pcv.config_id=#{configId} and pcv.stage=#{stage}
-            and pcv.type=#{candidateType} and pcv.party_id
+            and pc.config_id=#{configId} and pc.stage=#{stage}
+            and pc.type=#{candidateType} and pc.party_id
             in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         </where>
     </select>
@@ -318,34 +316,34 @@
     <sql id="searchBranchCandidates">
         <where>
             <if test="userId!=null">
-                and pcv.user_id=#{userId}
+                and pc.user_id=#{userId}
             </if>
-            and pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType} and
-            pcv.party_id=#{partyId}
+            and pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType} and
+            pc.party_id=#{partyId}
         </where>
     </sql>
     <select id="selectBranchCandidateList" resultMap="CandidateBaseResultMap" parameterType="map">
-        select pcv.*,
-        group_concat(distinct pcv.party_id) as party_ids,
-        group_concat(pcv.branch_id) as branch_ids,
-        count(pcv.id) as branch_count,
+        select pc.*,
+        group_concat(distinct pc.party_id) as party_ids,
+        group_concat(pc.branch_id) as branch_ids,
+        count(pc.id) as branch_count,
         sum(ifnull(prv.member_count,0)) as member_count,
         sum(ifnull(prv.expect_member_count, 0)) as expect_member_count,
         sum(ifnull(prv.actual_member_count, 0)) as actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status
-        from pcs_candidate_view pcv
-        left join (select pbv.*, pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch_view pbv
-        left join pcs_recommend pr on pr.config_id=#{configId} and pr.stage=#{stage} and pr.party_id=pbv.party_id and
-        ((pbv.branch_id is null and pr.branch_id is null) or pbv.branch_id=pr.branch_id)) prv on
-        prv.party_id=pcv.party_id and
-        ((prv.branch_id is null and pcv.branch_id is null) or prv.branch_id=pcv.branch_id)
-        left join cadre c on c.user_id=pcv.user_id
+        from pcs_candidate pc
+        left join (select pb.*, pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch pb
+        left join pcs_recommend pr on pr.config_id=#{configId} and pr.stage=#{stage} and pr.party_id=pb.party_id and
+        ((pb.branch_id is null and pr.branch_id is null) or pb.branch_id=pr.branch_id)) prv on
+        prv.party_id=pc.party_id and
+        ((prv.branch_id is null and pc.branch_id is null) or prv.branch_id=pc.branch_id)
+        left join cadre c on c.user_id=pc.user_id
         <include refid="searchBranchCandidates"/>
-        group by pcv.user_id
+        group by pc.user_id
         order by branch_count desc, FIND_IN_SET(cadre_status, '6,4,1,3,-1'), c.sort_order desc, actual_member_count desc
     </select>
     <select id="countBranchCandidateList" parameterType="map" resultType="java.lang.Integer">
-        select count(distinct pcv.user_id) from pcs_candidate_view pcv
+        select count(distinct pc.user_id) from pcs_candidate pc
         <include refid="searchBranchCandidates"/>
     </select>
 

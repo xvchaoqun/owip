@@ -5,7 +5,7 @@ import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
 import domain.pcs.PcsAdminReport;
-import domain.pcs.PcsCandidateView;
+import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.pcs.common.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import persistence.pcs.common.PcsPartyBean;
 import shiro.ShiroHelper;
@@ -271,10 +271,10 @@ public class PcsOwController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidateList(userId, null, configId, stage, type,
+        List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, null, configId, stage, type,
                 new RowBounds());
 
-        IPcsCandidateView candidate = records.get(0);
+        IPcsCandidate candidate = records.get(0);
         //modelMap.put("candidate", candidate);
 
         // 获得完成推荐的支部（排除之后的新建支部）
@@ -412,7 +412,7 @@ public class PcsOwController extends PcsBaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidateList(userId, isChosen, configId, stage, type,
+        List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, isChosen, configId, stage, type,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -454,7 +454,7 @@ public class PcsOwController extends PcsBaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidateView> records = iPcsMapper.selectBranchCandidateList(userId, configId, stage, type, partyId,
+        List<IPcsCandidate> records = iPcsMapper.selectBranchCandidateList(userId, configId, stage, type, partyId,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -594,10 +594,10 @@ public class PcsOwController extends PcsBaseController {
         modelMap.put("pcsRecommend", record);
 
         // 读取党委委员、纪委委员
-        List<PcsCandidateView> dwCandidates =
+        List<PcsCandidate> dwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
                         record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
-        List<PcsCandidateView> jwCandidates =
+        List<PcsCandidate> jwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
                         record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);

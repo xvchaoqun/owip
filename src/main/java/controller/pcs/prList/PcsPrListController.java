@@ -110,7 +110,7 @@ public class PcsPrListController extends PcsBaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, partyId, true);
+        List<PcsPrCandidate> candidates = pcsPrListService.getList2(configId, partyId, true);
         modelMap.put("candidates", candidates);
 
         boolean hasSort = pcsPrListService.hasSort(configId, partyId);
@@ -244,7 +244,7 @@ public class PcsPrListController extends PcsBaseController {
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         // 在第三阶段，共用第二阶段的候选人
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
+        List<PcsPrCandidate> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
         return "pcs/pcsPrList/pcsPrList_candidates";
@@ -258,16 +258,16 @@ public class PcsPrListController extends PcsBaseController {
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
-        Map<Integer, PcsPrCandidateView> selectedMap = pcsPrCandidateService.findSelectedMap(configId,
+        Map<Integer, PcsPrCandidate> selectedMap = pcsPrCandidateService.findSelectedMap(configId,
                 PcsConstants.PCS_STAGE_SECOND, partyId);
 
-        List<PcsPrCandidateView> candidates = new ArrayList<>();
+        List<PcsPrCandidate> candidates = new ArrayList<>();
         if (userIds != null) {
             for (Integer userId : userIds) {
 
                 SysUserView uv = sysUserService.findById(userId);
 
-                PcsPrCandidateView candidate = new PcsPrCandidateView();
+                PcsPrCandidate candidate = new PcsPrCandidate();
                 candidate.setUserId(uv.getId());
                 candidate.setCode(uv.getCode());
                 candidate.setRealname(uv.getRealname());
@@ -278,7 +278,7 @@ public class PcsPrListController extends PcsBaseController {
                 // 邮箱 ， 新增
                 candidate.setEmail(uv.getEmail());
 
-                PcsPrCandidateView _candidate = selectedMap.get(userId);
+                PcsPrCandidate _candidate = selectedMap.get(userId);
                 // 读取之前填写的性别、民族、出生年月
                 candidate.setType(_candidate.getType());
                 candidate.setVote3(_candidate.getVote3());

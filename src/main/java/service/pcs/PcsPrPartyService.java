@@ -118,7 +118,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
             pcsPrRecommendMapper.updateByPrimaryKeySelective(record);
         }
 
-        Map<Integer, PcsPrCandidateView> selectedMap = new LinkedHashMap<>();
+        Map<Integer, PcsPrCandidate> selectedMap = new LinkedHashMap<>();
         if(stage == PcsConstants.PCS_STAGE_SECOND){
             selectedMap = pcsPrCandidateService.findSelectedMap(configId, PcsConstants.PCS_STAGE_FIRST, partyId);
         }else if(stage == PcsConstants.PCS_STAGE_THIRD){
@@ -173,11 +173,11 @@ public class PcsPrPartyService extends PcsBaseMapper {
                     throw new OpException("用户{0}类型有误", uv.getRealname());
                 }
 
-                PcsPrCandidateView pcsPrCandidateView = pcsPrCandidateService.find(userId, configId, stage);
-                if(pcsPrCandidateView!=null){
-                    Party party = partyService.findAll().get(pcsPrCandidateView.getPartyId());
+                PcsPrCandidate pcsPrCandidate = pcsPrCandidateService.find(userId, configId, stage);
+                if(pcsPrCandidate!=null){
+                    Party party = partyService.findAll().get(pcsPrCandidate.getPartyId());
                     throw new OpException("用户{0}已是{1}的被推荐人，不可重复推荐。",
-                            pcsPrCandidateView.getRealname(), party.getName());
+                            pcsPrCandidate.getRealname(), party.getName());
                 }
 
                 PcsPrCandidate _candidate = new PcsPrCandidate();

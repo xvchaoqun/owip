@@ -3,7 +3,7 @@ package controller.pcs.proposal;
 import controller.pcs.PcsBaseController;
 import domain.base.MetaType;
 import domain.pcs.PcsConfig;
-import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsProposalView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -79,9 +79,9 @@ public class PcsProposalOwController extends PcsBaseController {
 
         // 提案人
         int userId = pcsProposal.getUserId();
-        PcsPrCandidateView pcsPrCandidateView =
+        PcsPrCandidate pcsPrCandidate =
                 pcsPrCandidateService.find(userId, configId, PcsConstants.PCS_STAGE_SECOND);
-        modelMap.put("candidate", pcsPrCandidateView);
+        modelMap.put("candidate", pcsPrCandidate);
 
         // 提案类型列表
         Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_proposal");

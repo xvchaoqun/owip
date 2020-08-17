@@ -87,10 +87,10 @@ public class PcsProposalService extends PcsBaseMapper {
         String realname = pcsProposal.getUser().getRealname();
         String date = DateUtils.formatDate(pcsProposal.getCreateTime(), DateUtils.YYYY_MM_DD_CHINA);
 
-        List<PcsPrCandidateView> inviteCandidates = getInviteCandidates(configId, pcsProposal);
+        List<PcsPrCandidate> inviteCandidates = getInviteCandidates(configId, pcsProposal);
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PCS_INVITE_SECONDER);
 
-        for (PcsPrCandidateView candidate : inviteCandidates) {
+        for (PcsPrCandidate candidate : inviteCandidates) {
             try {
                 int userId = candidate.getUserId();
                 String mobile = candidate.getMobile();
@@ -118,7 +118,7 @@ public class PcsProposalService extends PcsBaseMapper {
     }
 
     // 读取已经邀请的附议人
-    public List<PcsPrCandidateView> getInviteCandidates(int configId, PcsProposalView pcsProposal) {
+    public List<PcsPrCandidate> getInviteCandidates(int configId, PcsProposalView pcsProposal) {
 
         List<Integer> inviteUserIdList = new ArrayList<>();
         String inviteUserIds = pcsProposal.getInviteUserIds();
@@ -129,8 +129,8 @@ public class PcsProposalService extends PcsBaseMapper {
             }
         }
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        PcsPrCandidateExample.Criteria criteria = example.createCriteria()
                 .andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true).andIsProposalEqualTo(true);
         if (inviteUserIdList.size() > 0)
@@ -139,11 +139,11 @@ public class PcsProposalService extends PcsBaseMapper {
             criteria.andUserIdIsNull();
 
         example.setOrderByClause("proposal_sort_order asc");
-        return pcsPrCandidateViewMapper.selectByExample(example);
+        return pcsPrCandidateMapper.selectByExample(example);
     }
 
     // 读取附议人
-    public List<PcsPrCandidateView> getSeconderCandidates(int configId, PcsProposalView pcsProposal) {
+    public List<PcsPrCandidate> getSeconderCandidates(int configId, PcsProposalView pcsProposal) {
 
         List<Integer> userIdList = new ArrayList<>();
         String seconderIds = pcsProposal.getSeconderIds();
@@ -154,8 +154,8 @@ public class PcsProposalService extends PcsBaseMapper {
             }
         }
 
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        PcsPrCandidateExample.Criteria criteria = example.createCriteria()
                 .andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true).andIsProposalEqualTo(true);
         if (userIdList.size() > 0)
@@ -164,7 +164,7 @@ public class PcsProposalService extends PcsBaseMapper {
             criteria.andUserIdIsNull();
 
         example.setOrderByClause("proposal_sort_order asc");
-        return pcsPrCandidateViewMapper.selectByExample(example);
+        return pcsPrCandidateMapper.selectByExample(example);
     }
 
     public boolean idDuplicate(Integer id, String code) {

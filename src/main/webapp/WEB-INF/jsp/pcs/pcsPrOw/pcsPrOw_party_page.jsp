@@ -117,7 +117,7 @@
                 //if(!cellvalue) return "未上报"
                 return ('<button class="openView btn {1} btn-xs" ' +
                 'data-url="${ctx}/pcsPrOw_party_detail?stage=${param.stage}&partyId={0}"><i class="fa {2}"></i> {3}</button>')
-                        .format(rowObject.id, cellvalue?"btn-success":"btn-default",
+                        .format(rowObject.partyId, cellvalue?"btn-success":"btn-default",
                         cellvalue?"fa-hand-paper-o":"fa-hand-rock-o", cellvalue?"已上报":"未上报");
             }},
             { label: '审核情况',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {

@@ -48,7 +48,7 @@ import java.util.Map;
 public class PcsPrExportService extends PcsBaseMapper {
 
     @Autowired
-    private PcsPartyViewService pcsPartyViewService;
+    private PcsPartyService pcsPartyService;
     @Autowired
     protected StatService statService;
     @Autowired
@@ -284,7 +284,7 @@ public class PcsPrExportService extends PcsBaseMapper {
                 break;
         }
 
-        PcsPartyView pv = pcsPartyViewService.get(partyId);
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
@@ -296,16 +296,16 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
-        str = cell.getStringCellValue().replace("party", pv.getName());
+        str = cell.getStringCellValue().replace("party", pcsParty.getName());
         cell.setCellValue(str);
 
         row = sheet.getRow(2);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("mc", pv.getMemberCount() + "")
-                .replace("tc", pv.getTeacherMemberCount() + "")
-                .replace("sc", pv.getStudentMemberCount() + "")
-                .replace("rc", pv.getRetireMemberCount() + "");
+                .replace("mc", pcsParty.getMemberCount() + "")
+                .replace("tc", pcsParty.getTeacherMemberCount() + "")
+                .replace("sc", pcsParty.getStudentMemberCount() + "")
+                .replace("rc", pcsParty.getRetireMemberCount() + "");
         cell.setCellValue(str);
 
         row = sheet.getRow(6);
@@ -585,17 +585,17 @@ public class PcsPrExportService extends PcsBaseMapper {
                 .replace("rc", schoolMemberCountMap.get("rc"));
         cell.setCellValue(str);
 
-        PcsPartyViewExample example = new PcsPartyViewExample();
-        example.createCriteria().andIsDeletedEqualTo(false);
+        PcsPartyExample example = new PcsPartyExample();
+        example.createCriteria().andConfigIdEqualTo(configId);
         example.setOrderByClause("sort_order desc");
-        List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
+        List<PcsParty> pcsPartys = pcsPartyMapper.selectByExample(example);
 
         int startRow = 4;
-        for (int i = 0; i < pcsPartyViews.size(); i++) {
+        for (int i = 0; i < pcsPartys.size(); i++) {
 
             ExcelUtils.copyRows(5, 8, startRow, copySheet, sheet);
 
-            PcsPartyView pv = pcsPartyViews.get(i);
+            PcsParty pv = pcsPartys.get(i);
             int partyId = pv.getId();
             String partyName = pv.getName();
 
@@ -677,17 +677,17 @@ public class PcsPrExportService extends PcsBaseMapper {
                     .replace("title", title);
         cell.setCellValue(str);
 
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
+        PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId,
                 PcsConstants.PCS_STAGE_FIRST, partyId, null);
 
-        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
+        List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
 
         int startRow = 5;
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            PcsPrCandidateView bean = candidates.get(i);
+            PcsPrCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -729,16 +729,16 @@ public class PcsPrExportService extends PcsBaseMapper {
                     .replace("title", title);
         cell.setCellValue(str);
 
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
+        PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId,
                 PcsConstants.PCS_STAGE_FIRST, partyId, null);
-        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
+        List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
 
         int startRow = 7;
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            PcsPrCandidateView bean = candidates.get(i);
+            PcsPrCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -819,14 +819,14 @@ public class PcsPrExportService extends PcsBaseMapper {
         int startRow = 4;
         if (partyId != null) {
 
-            PcsPartyView pv = pcsPartyViewService.get(partyId);
-            mc = pv.getMemberCount() + "";
-            tc = pv.getTeacherMemberCount() + "";
-            sc = pv.getStudentMemberCount() + "";
-            rc = pv.getRetireMemberCount() + "";
+            PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+            mc = pcsParty.getMemberCount() + "";
+            tc = pcsParty.getTeacherMemberCount() + "";
+            sc = pcsParty.getStudentMemberCount() + "";
+            rc = pcsParty.getRetireMemberCount() + "";
             row = sheet.getRow(1);
             cell = row.getCell(0);
-            str = cell.getStringCellValue().replace("party", pv.getName());
+            str = cell.getStringCellValue().replace("party", pcsParty.getName());
             cell.setCellValue(str);
 
             countRow = 2;
@@ -857,14 +857,14 @@ public class PcsPrExportService extends PcsBaseMapper {
                 .replace("nextStageShort", nextStageStr);
         cell.setCellValue(str);
 
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
-        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
+        PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
+        List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
 
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            PcsPrCandidateView bean = candidates.get(i);
+            PcsPrCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -995,13 +995,13 @@ public class PcsPrExportService extends PcsBaseMapper {
                     .replace("title", title);
         cell.setCellValue(str);
 
-        PcsPartyView pv = pcsPartyViewService.get(partyId);
-        mc = pv.getMemberCount() + "";
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        mc = pcsParty.getMemberCount() + "";
         //pc = pv.getPositiveCount() + "";
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
-        str = cell.getStringCellValue().replace("party", pv.getName());
+        str = cell.getStringCellValue().replace("party", pcsParty.getName());
         cell.setCellValue(str);
 
 
@@ -1017,12 +1017,12 @@ public class PcsPrExportService extends PcsBaseMapper {
         cell.setCellValue(str);
 
         int startRow = 4;
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, partyId, true);
+        List<PcsPrCandidate> candidates = pcsPrListService.getList2(configId, partyId, true);
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            PcsPrCandidateView bean = candidates.get(i);
+            PcsPrCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -1135,12 +1135,12 @@ public class PcsPrExportService extends PcsBaseMapper {
         cell.setCellValue(str);
 
         int startRow = 3;
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, null, true);
+        List<PcsPrCandidate> candidates = pcsPrListService.getList2(configId, null, true);
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
-            PcsPrCandidateView bean = candidates.get(i);
+            PcsPrCandidate bean = candidates.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);

@@ -295,12 +295,12 @@ public class PcsProposalController extends PcsBaseController {
         int userId = ShiroHelper.getCurrentUserId();
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true).andIsProposalEqualTo(true)
                 .andUserIdNotEqualTo(userId);
         example.setOrderByClause("proposal_sort_order asc");
-        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
+        List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
 
         modelMap.put("candidates", candidates);
 
@@ -319,7 +319,7 @@ public class PcsProposalController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
         PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
         modelMap.put("pcsProposal", pcsProposal);
-        List<PcsPrCandidateView> candidates = pcsProposalService.getSeconderCandidates(configId, pcsProposal);
+        List<PcsPrCandidate> candidates = pcsProposalService.getSeconderCandidates(configId, pcsProposal);
         modelMap.put("candidates", candidates);
 
         return "pcs/pcsProposal/pcsProposal_seconders";
@@ -336,9 +336,9 @@ public class PcsProposalController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        PcsPrCandidateView pcsPrCandidateView =
+        PcsPrCandidate pcsPrCandidate =
                 pcsPrCandidateService.find(ShiroHelper.getCurrentUserId(), configId, PcsConstants.PCS_STAGE_SECOND);
-        modelMap.put("candidate", pcsPrCandidateView);
+        modelMap.put("candidate", pcsPrCandidate);
 
         if (id != null) {
             PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
@@ -487,13 +487,13 @@ public class PcsProposalController extends PcsBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PcsPrCandidateView> records =
+        List<PcsPrCandidate> records =
                 iPcsMapper.selectPrList(configId, stage, searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != records && records.size() > 0) {
 
-            for (PcsPrCandidateView candidate : records) {
+            for (PcsPrCandidate candidate : records) {
                 Map<String, Object> option = new HashMap<>();
                 SysUserView uv = sysUserService.findById(candidate.getUserId());
                 option.put("id", candidate.getUserId() + "");

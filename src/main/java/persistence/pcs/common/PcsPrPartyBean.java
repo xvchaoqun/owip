@@ -1,10 +1,9 @@
 package persistence.pcs.common;
 
-import domain.party.PartyView;
+import domain.pcs.PcsParty;
 
-public class PcsPrPartyBean extends PartyView {
+public class PcsPrPartyBean extends PcsParty {
 
-    private Integer configId;
     private Byte stage;
     private Integer expectMemberCount;
     private Integer expectPositiveMemberCount;
@@ -13,14 +12,6 @@ public class PcsPrPartyBean extends PartyView {
     private Boolean hasReport;
     private Byte recommendStatus;
     private String checkRemark;
-
-    public Integer getConfigId() {
-        return configId;
-    }
-
-    public void setConfigId(Integer configId) {
-        this.configId = configId;
-    }
 
     public Byte getStage() {
         return stage;

@@ -2,6 +2,134 @@
 
 -- 更新 ow_member_view
 
+ALTER TABLE `pcs_candidate`
+	ADD COLUMN `code` VARCHAR(20) NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `type`,
+	ADD COLUMN `realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名' AFTER `code`,
+	ADD COLUMN `birth` DATE NULL DEFAULT NULL COMMENT '出生年月' AFTER `realname`,
+	ADD COLUMN `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位及职务' AFTER `birth`,
+	ADD COLUMN `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1男 2女' AFTER `title`,
+	ADD COLUMN `nation` VARCHAR(50) NULL DEFAULT NULL COMMENT '民族' AFTER `gender`,
+	ADD COLUMN `native_place` VARCHAR(100) NULL DEFAULT NULL COMMENT '籍贯' AFTER `nation`,
+	ADD COLUMN `ext_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位，人事信息' AFTER `native_place`,
+	ADD COLUMN `grow_time` DATE NULL DEFAULT NULL COMMENT '入党时间' AFTER `ext_unit`,
+	ADD COLUMN `work_time` DATE NULL DEFAULT NULL COMMENT '参加工作时间' AFTER `grow_time`,
+	ADD COLUMN `pro_post` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务' AFTER `work_time`,
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL COMMENT '分党委' AFTER `pro_post`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '支部' AFTER `party_id`,
+	ADD COLUMN `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `branch_id`,
+	ADD COLUMN `stage` TINYINT(3) UNSIGNED NOT NULL COMMENT '阶段，1 一下一上 2 二下二上 3 三下三上' AFTER `config_id`;
+
+ALTER TABLE `pcs_candidate`
+	ADD COLUMN `vote` INT(10) UNSIGNED NULL COMMENT '票数' AFTER `type`;
+
+ALTER TABLE `pcs_pr_candidate`
+	COMMENT='党代表被推荐人',
+	ADD COLUMN `code` VARCHAR(20) NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `user_id`,
+	ADD COLUMN `realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名' AFTER `code`,
+	ADD COLUMN `leader_sort_order` INT NOT NULL DEFAULT -1 COMMENT '校领导排序' AFTER `realname`,
+	ADD COLUMN `user_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '1 干部 2 党员 3 其他' AFTER `leader_sort_order`,
+	ADD COLUMN `edu_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学历，关联元数据，干部' AFTER `user_type`,
+	ADD COLUMN `post` VARCHAR(100) NULL DEFAULT NULL COMMENT '职务，干部' AFTER `edu_id`,
+	ADD COLUMN `grow_time` DATE NULL DEFAULT NULL COMMENT '入党时间' AFTER `post`,
+	ADD COLUMN `work_time` DATE NULL DEFAULT NULL COMMENT '参加工作时间' AFTER `grow_time`,
+	ADD COLUMN `pro_post` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务' AFTER `work_time`,
+	ADD COLUMN `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '最高学历' AFTER `pro_post`,
+	ADD COLUMN `is_retire` TINYINT(1) UNSIGNED NULL COMMENT '是否退休' AFTER `education`,
+	ADD COLUMN `edu_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '培养层次，学生' AFTER `is_retire`,
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL COMMENT '分党委' AFTER `edu_level`,
+	ADD COLUMN `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `party_id`,
+	ADD COLUMN `stage` TINYINT(3) UNSIGNED NOT NULL COMMENT '阶段，1 一下一上 2 二下二上 3 三下三上' AFTER `config_id`,
+	ADD COLUMN `party_sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '分党委排序' AFTER `stage`,
+	ADD COLUMN `unit_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位，人事信息' AFTER `party_sort_order`,
+	ADD COLUMN `branch_vote` INT UNSIGNED NULL DEFAULT NULL COMMENT '提名支部数量' AFTER `unit_name`;
+
+update pcs_candidate c, pcs_candidate_view cv
+set c.code = cv.code, c.realname =cv.realname , c.title=cv.title, c.ext_unit=cv.ext_unit, c.gender=cv.gender,
+ c.nation=cv.nation, c.native_place=cv.native_place, c.birth=cv.birth, c.grow_time=cv.grow_time,
+c.grow_time=cv.grow_time, c.pro_post=cv.pro_post,
+c.party_id=cv.party_id, c.branch_id=cv.branch_id, c.config_id=cv.config_id, c.stage=cv.stage
+where c.id=cv.id;
+
+update pcs_pr_candidate c, pcs_pr_candidate_view cv
+set c.code=cv.code,c.realname=cv.realname,c.leader_sort_order=cv.leader_sort_order,c.user_type=cv.user_type, c.edu_id=cv.edu_id,
+c.post=cv.post, c.grow_time=cv.grow_time, c.work_time=cv.work_time,c.pro_post=cv.pro_post,
+c.education=cv.education,c.is_retire=cv.is_retire,c.edu_level=cv.edu_level,
+c.party_id=cv.party_id,c.config_id=cv.config_id,c.stage=cv.stage,c.party_sort_order=cv.party_sort_order,c.unit_name=cv.unit_name
+where c.id=cv.id;
+
+-- 删除 pcs_pr_candidate_view   pcs_candidate_view  删除对应的类
+drop view pcs_pr_candidate_view;
+drop view pcs_candidate_view;
+
+CREATE TABLE `pcs_branch` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会',
+	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委ID',
+	`branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '支部ID',
+	`name` VARCHAR(100) NOT NULL COMMENT '名称',
+	`member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党员数量',
+	`positive_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '正式党员数量',
+	`student_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学生党员数量',
+	`teacher_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '教师党员数量',
+	`retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `config_id_party_id_branch_id` (`config_id`, `party_id`, `branch_id`)
+)
+COMMENT='召开党代会的支部，包含直属党支部'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1024
+;
+
+
+insert into pcs_branch select null as id, 3 as config_id, v.* from pcs_branch_view v;
+
+CREATE TABLE `pcs_party` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会',
+	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委ID',
+	`name` VARCHAR(100) NOT NULL COMMENT '名称',
+	`sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序',
+	`branch_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '支部数量',
+	`member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党员数量',
+	`positive_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '正式党员数量',
+	`student_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学生党员数量',
+	`teacher_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '教师党员数量',
+	`retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量',
+	`group_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '班子数量',
+	`present_group_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '现任班子数量',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `config_id_party_id` (`config_id`, `party_id`)
+)
+COMMENT='参与党代会的分党委 '
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=64
+;
+
+
+insert into pcs_party select null as id, 3 as config_id,
+v.id as party_id, v.name, v.sort_order, v.branch_count, v.member_count,
+v.positive_count, v.student_member_count, v.teacher_member_count,
+v.retire_member_count, v.group_count, v.present_group_count from pcs_party_view v;
+
+-- 删除 pcs_party_view   pcs_branch_view  删除对应的类
+drop view pcs_party_view;
+drop view pcs_branch_view;
+
+delete from pcs_party where party_id not in (select party_id from pcs_pr_allocate);
+delete from pcs_branch where branch_id not in (select branch_id from pcs_recommend where branch_id is not null);
+insert into pcs_branch(config_id, party_id, branch_id, name) select distinct pr.config_id, pr.party_id, pr.branch_id, ob.name from pcs_recommend pr
+left join ow_branch ob on ob.id=pr.branch_id
+where pr.branch_id not in (select branch_id from pcs_branch where branch_id is not null);
+
+ALTER TABLE `pcs_branch`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `name`;
+update pcs_branch pb, ow_branch ob set pb.sort_order=ob.sort_order where pb.branch_id=ob.id;
+
+
+
+
 20200814
 
 -- 更新 cet_expert_view

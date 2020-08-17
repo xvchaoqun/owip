@@ -1,5 +1,6 @@
 
 --  set @keyowrd='师大';
+pcs_candidate pcs_pr_candidate
 
 set @keyowrd='师范';
 
