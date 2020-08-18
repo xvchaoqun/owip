@@ -375,7 +375,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         // 分党委数量统计
         Map<Integer, PcsPartyBean> partyBeanMap = new HashMap<>();
 
-        // 获得完成推荐的支部（排除之后的新建支部）（与两委统计数据保持一致）
+        // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
 
@@ -405,10 +405,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
     public Map<String, String> getSchoolMemberCountMap(int configId, byte stage) {
 
-
-        //int totalMemberCount = 0;
-
-        // 获得完成推荐的支部（排除之后的新建支部）（与两委统计数据保持一致）
+        // 获得完成推荐的支部（含直属党支部）（与两委统计数据保持一致）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
 

@@ -148,10 +148,12 @@
         height:auto !important;
         padding:0px;
     }
-    .candidate-table .frozen-bdiv.ui-jqgrid-bdiv {
+    /*.candidate-table .frozen-bdiv.ui-jqgrid-bdiv {
         top: 44px !important;
-    }
-    #jqGrid_actualMemberCount, #jqGrid_branchCount, #jqGrid_memberCount, #jqGrid_expectMemberCount{
+    }*/
+    #jqGrid_actualMemberCount,
+    #jqGrid_totalVote, #jqGrid_branchCount,
+    #jqGrid_memberCount, #jqGrid_expectMemberCount{
         padding: 0;
         font-size: 11px;
     }
@@ -210,7 +212,7 @@
                 if(rowObject.chosenId>0) return "class='success'";
                 </c:if>
             }},
-            {label: '被推荐提名人姓名', name: 'realname', width: 150, frozen:true},
+            {label: '被推荐<br/>提名人姓名', name: 'realname', frozen:true},
             <c:if test="${cls==4}">
            <shiro:hasPermission name="pcsOw:admin">
             {
@@ -219,7 +221,8 @@
             },
             </shiro:hasPermission>
             </c:if>
-            {label: '推荐提名<div>的党支部数</div>', name: 'branchCount'},
+            {label: '推荐提名<br/>的党支部数', name: 'branchCount'},
+            {label: '推荐提名<br/>的党员数', name: 'totalVote', width: 80},
   /*          {label: '支部列表', name: '_branchCount', width: 120,formatter: function (cellvalue, options, rowObject) {
 
                return  ('<a href="javascript:;" class="popupBtn" data-width="750" ' +
@@ -230,9 +233,10 @@
                         'data-url="${ctx}/pcs/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">未推荐</a>')
                                 .format(rowObject.userId, 0);
             }},*/
-            {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
-            {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
-            {label: '推荐党支部实参会党员数<div style="font-size: 8px">（推荐提名的党员数）</div>', name: 'actualMemberCount', width: 180},
+            {label: '推荐党支部<br/>所含党员数', name: 'memberCount'},
+            {label: '推荐党支部<br/>应参会党员数', name: 'expectMemberCount'},
+            {label: '推荐党支部<br/>实参会党员数', name: 'actualMemberCount'},
+
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

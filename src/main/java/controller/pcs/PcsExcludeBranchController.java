@@ -1,5 +1,6 @@
 package controller.pcs;
 
+import domain.pcs.PcsConfig;
 import domain.pcs.PcsExcludeBranch;
 import domain.pcs.PcsExcludeBranchExample;
 import domain.pcs.PcsExcludeBranchExample.Criteria;
@@ -52,6 +53,9 @@ public class PcsExcludeBranchController extends PcsBaseController {
                                       Integer branchId,
                                       Integer pageSize, Integer pageNo) throws IOException {
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -61,7 +65,8 @@ public class PcsExcludeBranchController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PcsExcludeBranchExample example = new PcsExcludeBranchExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
+
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
@@ -93,9 +98,20 @@ public class PcsExcludeBranchController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsExcludeBranch_au(PcsExcludeBranch record, HttpServletRequest request) {
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        record.setConfigId(configId);
+
         Integer id = record.getId();
         PcsExcludeBranchExample example = new PcsExcludeBranchExample();
-        Criteria criteria = example.createCriteria().andPartyIdEqualTo(record.getPartyId()).andBranchIdEqualTo(record.getBranchId());
+        Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(record.getPartyId());
+
+        if(record.getBranchId()!=null){
+            criteria.andBranchIdEqualTo(record.getBranchId());
+        }else{
+            criteria.andBranchIdIsNull();
+        }
+
         if (id != null) {
             criteria.andIdNotEqualTo(id);
         }

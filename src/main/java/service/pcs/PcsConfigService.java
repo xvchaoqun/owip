@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
+import sys.utils.PatternUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,10 +19,11 @@ import java.util.Map;
 @Service
 public class PcsConfigService extends PcsBaseMapper {
 
+    // 党代会名称
     public String getPcsName(int pcsConfigId){
 
         PcsConfig pcsConfig = pcsConfigMapper.selectByPrimaryKey(pcsConfigId);
-        String name = pcsConfig.getName();
+        String name = ContentUtils.trimAll(pcsConfig.getName());
         String schoolName = CmTag.getSysConfig().getSchoolName();
         String prefix1 = "中国共产党" + schoolName;
         String prefix2 = "中共" + schoolName;
@@ -29,6 +32,19 @@ public class PcsConfigService extends PcsBaseMapper {
         if(name.startsWith(prefix2)) return name;
 
         return prefix1 + name;
+    }
+
+    // 正则提取党代会届数（eg.中共xxx大学第十五次党员代表大会，提取得到“十五”）
+    public String getPcsNum(int pcsConfigId){
+
+        PcsConfig pcsConfig = pcsConfigMapper.selectByPrimaryKey(pcsConfigId);
+        String name = ContentUtils.trimAll(pcsConfig.getName());
+
+        return PatternUtils.withdraw(".*第(.*)次.*", name);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(PatternUtils.withdraw(".*第(.*)次.*", "中共第三声次单独"));
     }
 
     // 获取当前党代会

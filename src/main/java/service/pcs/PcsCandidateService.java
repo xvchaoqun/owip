@@ -62,6 +62,8 @@ public class PcsCandidateService extends PcsBaseMapper {
         Cadre cadre = CmTag.getCadre(userId);
         if(cadre!=null) {
             record.setTitle(cadre.getTitle());
+            record.setCadreSortOrder(cadre.getSortOrder());
+            record.setCadreStatus(cadre.getStatus());
         }
 
         SysUserView uv = CmTag.getUserById(userId);

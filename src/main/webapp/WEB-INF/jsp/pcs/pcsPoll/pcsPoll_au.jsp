@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3>${pcsPoll!=null?'编辑':'添加'}党代会投票</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcs/pcs/pcsPoll_au" autocomplete="off" disableautocomplete id="pcsPollForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_au" autocomplete="off" disableautocomplete id="pcsPollForm" method="post">
         <input type="hidden" name="id" value="${pcsPoll.id}">
 		<input type="hidden" name="configId" value="${pcsConfig.id}">
 		<div class="form-group">

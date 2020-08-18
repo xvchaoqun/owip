@@ -25,7 +25,7 @@
         </javaClientGenerator>
 
         <!--党代会-->
-        <!-- <table tableName="pcs_exclude_branch" domainObjectName="pcs.PcsExcludeBranch" mapperName="pcs.PcsExcludeBranchMapper">
+         <!--<table tableName="pcs_exclude_branch" domainObjectName="pcs.PcsExcludeBranch" mapperName="pcs.PcsExcludeBranchMapper">
          </table>-->
         <table tableName="pcs_party" domainObjectName="pcs.PcsParty" mapperName="pcs.PcsPartyMapper">
         </table>
@@ -42,7 +42,7 @@
         <!--<table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
+       <!-- <table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
         </table>-->
       <!--
         <table tableName="pcs_candidate_chosen" domainObjectName="pcs.PcsCandidateChosen" mapperName="pcs.PcsCandidateChosenMapper">

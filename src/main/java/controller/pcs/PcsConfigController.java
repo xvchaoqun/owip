@@ -61,18 +61,12 @@ public class PcsConfigController extends PcsBaseController {
 
         PcsConfigExample example = new PcsConfigExample();
         Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
-        //example.setOrderByClause(String.format("%s %s", sort, order));
+
+        example.setOrderByClause("create_time desc");
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
-
-       /* if (export == 1) {
-            if (ids != null && ids.length > 0)
-                criteria.andIdIn(Arrays.asList(ids));
-            pcsConfig_export(example, response);
-            return;
-        }*/
 
         long count = pcsConfigMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

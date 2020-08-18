@@ -36,19 +36,19 @@
                             <table class="form-table">
                                 <tr>
                                     <td class="">党支部名称：</td>
-                                    <td width="200">${pcsRecommend.name}</td>
+                                    <td width="200">${pcsBranchBean.name}</td>
                                     <td>党员数：</td>
-                                    <td width="60">${pcsRecommend.memberCount}</td>
+                                    <td width="60">${pcsBranchBean.memberCount}</td>
                                     <td>应参会党员数：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="expectMemberCount"
-                                               value="${pcsRecommend.expectMemberCount}"></td>
+                                               value="${pcsBranchBean.expectMemberCount}"></td>
                                     <td>实参会党员数：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="actualMemberCount"
-                                               value="${pcsRecommend.actualMemberCount}">
+                                               value="${pcsBranchBean.actualMemberCount}">
                                         <a href="javascript:;" onclick="_tipPopup()" class="text-success">应到会人数如何计算？</a>
                                     </td>
                                 </tr>

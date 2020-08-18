@@ -7,8 +7,8 @@ import domain.party.Party;
 import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
+import domain.pcs.PcsParty;
 import mixin.MixinUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -38,7 +38,6 @@ import sys.utils.NumberUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Controller
@@ -106,9 +105,9 @@ public class PcsOwController extends PcsBaseController {
 
         modelMap.put("cls", cls);
         if (cls == 2 || cls == 4) {
-            return "forward:/pcsOw_stat_candidate_page";
+            return "forward:/pcs/pcsOw_stat_candidate_page";
         } else if (cls == 3) {
-            return "forward:/pcsOw_party_table_page";
+            return "forward:/pcs/pcsOw_party_table_page";
         }
 
         if (partyId != null) {
@@ -158,7 +157,8 @@ public class PcsOwController extends PcsBaseController {
         modelMap.put("records", records);
 
         Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
-        // 获得完成推荐的支部（排除之后的新建支部）
+
+        // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
@@ -168,14 +168,6 @@ public class PcsOwController extends PcsBaseController {
             Integer _memberCount = NumberUtils.trimToZero(pcsBranchBean.getMemberCount());
 
             partyMemberCountMap.put(partyId, memberCount + _memberCount);
-        }
-
-        // 加入直属支部
-        for (PcsPartyBean record : records) {
-            Integer partyId = record.getPartyId();
-            if(!partyMemberCountMap.containsKey(partyId)){
-                partyMemberCountMap.put(partyId, record.getMemberCount());
-            }
         }
 
         modelMap.put("partyMemberCountMap", partyMemberCountMap);
@@ -281,56 +273,58 @@ public class PcsOwController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
+
         List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, null, configId, stage, type,
-                new RowBounds());
-
+                new RowBounds(0, 1));
         IPcsCandidate candidate = records.get(0);
-        //modelMap.put("candidate", candidate);
 
-        // 获得完成推荐的支部（排除之后的新建支部）
+        // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+        // 非直属党支部的分党委ID - 已推荐支部ID<SET>
         Map<Integer, Set<Integer>> recommendPartyIdMap = new HashMap<>();
+        // 直属党支部ID<SET>
         Set<Integer> recommendDirectPartyIdSet = new HashSet<>();
         for (PcsBranchBean b : pcsBranchBeans) {
 
             Integer partyId = b.getPartyId();
             Integer branchId = b.getBranchId();
 
-            if(branchId!=null){ // 处理不是直属支部的分党委
-                Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
-                if(branchIdSet==null) branchIdSet = new HashSet<>();
-                branchIdSet.add(branchId);
+            if(BooleanUtils.isTrue(b.getIsDirectBranch())){
 
-                recommendPartyIdMap.put(partyId, branchIdSet); // 分党委ID - 已推荐支部ID<SET>
+                recommendDirectPartyIdSet.add(partyId);
             }else{
-                recommendDirectPartyIdSet.add(partyId); // 直属党支部ID<SET>
+                Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
+                if(branchIdSet==null) {
+                    branchIdSet = new HashSet<>();
+                    recommendPartyIdMap.put(partyId, branchIdSet);
+                }
+                branchIdSet.add(branchId);
             }
         }
 
-        String partyIdsStr = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
-        //String branchIdsStr = candidate.getBranchIds(); // 已选的支部 group_concat有长度限制！！
-        Set<Integer> selectedPartyIdSet = new HashSet<>();
-        if (StringUtils.isNotBlank(partyIdsStr)) {
-            for (String partyIdStr : partyIdsStr.split(",")) {
-                selectedPartyIdSet.add(Integer.parseInt(partyIdStr));
-            }
+        int total = 0;
+        for (Map.Entry<Integer, Set<Integer>> entry : recommendPartyIdMap.entrySet()) {
+            total += entry.getValue().size();
         }
+        System.out.println("total = " + total);
+
+        // 提名该推荐人的分党委（包含直属党支部，只统计已上报）
+        Set<Integer> selectedPartyIdSet = NumberUtils.toIntSet(candidate.getPartyIds(), ",");
+        // 提名该推荐人的党支部（不包含直属党支部，只统计已上报）
         Set<Integer> selectedBranchIdSet = new HashSet<>();
         List<Integer> _branchIds = iPcsMapper.selectCandidateBranchIds(userId, configId, stage, type);
-        if(_branchIds!=null && _branchIds.size()>0)
+        if(_branchIds!=null && _branchIds.size()>0) {
             selectedBranchIdSet.addAll(_branchIds);
-
+        }
 
         List<PcsOwBranchBean> beans = new ArrayList<>();
-
+        // 分党委推荐汇总情况（只统计已上报）
         List<PcsPartyBean> pcsPartyBeans = iPcsMapper.selectPcsPartyBeanList(configId, stage, null, true, new RowBounds());
         for (PcsPartyBean pcsPartyBean : pcsPartyBeans) {
 
-            //if(pcsPartyBean.getIsDeleted()) continue;
-
-            Integer partyId = pcsPartyBean.getId();
-            boolean directBranch = partyService.isDirectBranch(partyId);
+            Integer partyId = pcsPartyBean.getPartyId();
+            boolean directBranch = BooleanUtils.isTrue(pcsPartyBean.getIsDirectBranch());
             PcsOwBranchBean bean = new PcsOwBranchBean();
             bean.setPartyId(partyId);
             bean.setPartyName(pcsPartyBean.getName());
@@ -344,18 +338,21 @@ public class PcsOwController extends PcsBaseController {
                 Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
                 bean.setTotalBranchIds(branchIdSet);
 
-                Set<Integer> result = new HashSet<Integer>();
-                // 交集 就是获得推荐的支部
-                result.clear();
-                result.addAll(branchIdSet);
-                result.retainAll(selectedBranchIdSet);
-                branchIds.addAll(result);
+                if(branchIdSet!=null && branchIdSet.size()>0) {
 
-                // 差集 就是未获得推荐的支部
-                result.clear();
-                result.addAll(branchIdSet);
-                result.removeAll(selectedBranchIdSet);
-                notbranchIds.addAll(result);
+                    Set<Integer> result = new HashSet<Integer>();
+                    // 交集 就是获得推荐的支部
+                    result.clear();
+                    result.addAll(branchIdSet);
+                    result.retainAll(selectedBranchIdSet);
+                    branchIds.addAll(result);
+
+                    // 差集 就是未获得推荐的支部
+                    result.clear();
+                    result.addAll(branchIdSet);
+                    result.removeAll(selectedBranchIdSet);
+                    notbranchIds.addAll(result);
+                }
 
                 bean.setBranchIds(branchIds);
                 bean.setNotbranchIds(notbranchIds);
@@ -525,7 +522,11 @@ public class PcsOwController extends PcsBaseController {
     public String pcsOw_party_branch_page(int partyId, Integer branchId, ModelMap modelMap) {
 
         modelMap.put("partyId", partyId);
-        modelMap.put("isDirectBranch", partyService.isDirectBranch(partyId));
+
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        PcsParty pcsParty = pcsPartyService.get(pcsConfig.getId(), partyId);
+
+        modelMap.put("isDirectBranch", pcsParty.getIsDirectBranch());
 
         if (branchId != null) {
             modelMap.put("branch", branchService.findAll().get(branchId));
@@ -583,33 +584,17 @@ public class PcsOwController extends PcsBaseController {
 
         modelMap.put("party", partyService.findAll().get(partyId));
 
-        PcsBranchBean record = new PcsBranchBean();
-        record.setPartyId(partyId);
-        record.setBranchId(branchId);
 
         PcsBranchBean pcsBranchBean = pcsRecommendService.get(partyId, branchId, pcsConfig.getId(), stage);
-        if (pcsBranchBean != null) {
-            try {
-                PropertyUtils.copyProperties(record, pcsBranchBean);
-            } catch (IllegalAccessException e) {
-                logger.error("异常", e);
-            } catch (InvocationTargetException e) {
-                logger.error("异常", e);
-            } catch (NoSuchMethodException e) {
-                logger.error("异常", e);
-            }
-        }
-
-        record.setConfigId(configId);
-        modelMap.put("pcsRecommend", record);
+        modelMap.put("pcsBranchBean", pcsBranchBean);
 
         // 读取党委委员、纪委委员
         List<PcsCandidate> dwCandidates =
-                pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
+                pcsCandidateService.find(pcsBranchBean.getPartyId(),
+                        pcsBranchBean.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
         List<PcsCandidate> jwCandidates =
-                pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
+                pcsCandidateService.find(pcsBranchBean.getPartyId(),
+                        pcsBranchBean.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 

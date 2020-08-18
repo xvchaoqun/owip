@@ -11,6 +11,10 @@ public class PcsParty implements Serializable {
 
     private String name;
 
+    private Boolean isDirectBranch;
+
+    private Byte currentStage;
+
     private Integer sortOrder;
 
     private Integer branchCount;
@@ -61,6 +65,22 @@ public class PcsParty implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Boolean getIsDirectBranch() {
+        return isDirectBranch;
+    }
+
+    public void setIsDirectBranch(Boolean isDirectBranch) {
+        this.isDirectBranch = isDirectBranch;
+    }
+
+    public Byte getCurrentStage() {
+        return currentStage;
+    }
+
+    public void setCurrentStage(Byte currentStage) {
+        this.currentStage = currentStage;
     }
 
     public Integer getSortOrder() {

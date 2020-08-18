@@ -344,6 +344,66 @@ public class PcsBranchExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsDirectBranchIsNull() {
+            addCriterion("is_direct_branch is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchIsNotNull() {
+            addCriterion("is_direct_branch is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchEqualTo(Boolean value) {
+            addCriterion("is_direct_branch =", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchNotEqualTo(Boolean value) {
+            addCriterion("is_direct_branch <>", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchGreaterThan(Boolean value) {
+            addCriterion("is_direct_branch >", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_direct_branch >=", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchLessThan(Boolean value) {
+            addCriterion("is_direct_branch <", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_direct_branch <=", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchIn(List<Boolean> values) {
+            addCriterion("is_direct_branch in", values, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchNotIn(List<Boolean> values) {
+            addCriterion("is_direct_branch not in", values, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_direct_branch between", value1, value2, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_direct_branch not between", value1, value2, "isDirectBranch");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -411,6 +471,66 @@ public class PcsBranchExample {
 
         public Criteria andNameNotBetween(String value1, String value2) {
             addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Integer value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Integer value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Integer value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Integer value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Integer> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Integer> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
 

@@ -13,13 +13,13 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="pcsPoll:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/pcs/pcs/pcsPoll_au">
+                            data-url="${ctx}/pcs/pcsPoll_au">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pcs/pcs/pcsPoll_au"
+                       data-url="${ctx}/pcs/pcsPoll_au"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
-                    <button data-url="${ctx}/pcs/pcs/pcsPoll_report"
+                    <button data-url="${ctx}/pcs/pcsPoll_report"
                             data-title="报送"
                             data-msg="确定报送这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -28,7 +28,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="pcsPoll:del">
-                    <button data-url="${ctx}/pcs/pcs/pcsPoll_batchDel"
+                    <button data-url="${ctx}/pcs/pcsPoll_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -37,7 +37,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </shiro:hasPermission>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/pcs/pcs/pcsPoll_data"
+                   data-url="${ctx}/pcs/pcsPoll_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>--%>
             </div>
@@ -106,12 +106,12 @@ pageEncoding="UTF-8" %>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/pcs/pcs/pcsPoll"
+                                   data-url="${ctx}/pcs/pcsPoll"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/pcs/pcs/pcsPoll"
+                                            data-url="${ctx}/pcs/pcsPoll"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -138,20 +138,20 @@ pageEncoding="UTF-8" %>
     }
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/pcs/pcs/pcsPoll_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPoll_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '投票阶段',name: 'isSecond', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '二下阶段', off: '一下阶段'}, frozen: true},
             { label: '投票名称',name: 'name',align:'left', width: 252, frozen: true},
             { label: '是否报送',name: 'hasReport', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '已报送', off: '未报送'}},
             { label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
-                    var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
+                    var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                             .format(rowObject.id)
-                        + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcs/pcsPoll_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
+                        + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
                             .format(rowObject.id);
                     return  str;
             }},
             /*{ label: '其他说明',name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
-                var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
+                var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
                     .format(rowObject.id);
                 return  str;
             }},*/
@@ -159,7 +159,7 @@ pageEncoding="UTF-8" %>
 
                     return $.button.openView({
                         style:"btn-warning",
-                        url:"${ctx}/pcs/pcs/pcsPollInspector?pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollInspector?pollId="+rowObject.id,
                         icon:"fa-key",
                         label:"查看"});
                 }},
@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
 
                     return $.button.openView({
                         style:"btn-info",
-                        url:"${ctx}/pcs/pcs/pcsPollResult?pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollResult?pollId="+rowObject.id,
                         icon:"fa-bar-chart",
                         label:"查看"});
                 }, width: 80
@@ -190,7 +190,7 @@ pageEncoding="UTF-8" %>
                     if (!rowObject.isSecond) return "--";
                     return $.button.openView({
                         style:"btn-success",
-                        url:"${ctx}/pcs/pcs/pcsPollCandidate?pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollCandidate?pollId="+rowObject.id,
                         icon:"fa-list",
                         label:"查看"});
                 }},

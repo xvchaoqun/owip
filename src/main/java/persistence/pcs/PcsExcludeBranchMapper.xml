@@ -3,6 +3,7 @@
 <mapper namespace="persistence.pcs.PcsExcludeBranchMapper">
   <resultMap id="BaseResultMap" type="domain.pcs.PcsExcludeBranch">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, branch_id, user_id, remark, create_time, ip
+    id, config_id, party_id, branch_id, user_id, remark, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsExcludeBranchExample" resultMap="BaseResultMap">
     select
@@ -102,18 +103,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsExcludeBranch">
-    insert into pcs_exclude_branch (id, party_id, branch_id, 
-      user_id, remark, create_time, 
-      ip)
-    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR})
+    insert into pcs_exclude_branch (id, config_id, party_id, 
+      branch_id, user_id, remark, 
+      create_time, ip)
+    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsExcludeBranch">
     insert into pcs_exclude_branch
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="configId != null">
+        config_id,
       </if>
       <if test="partyId != null">
         party_id,
@@ -137,6 +141,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
@@ -170,6 +177,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
@@ -196,6 +206,7 @@
   <update id="updateByExample" parameterType="map">
     update pcs_exclude_branch
     set id = #{record.id,jdbcType=INTEGER},
+      config_id = #{record.configId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
@@ -209,6 +220,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsExcludeBranch">
     update pcs_exclude_branch
     <set>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
@@ -232,7 +246,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsExcludeBranch">
     update pcs_exclude_branch
-    set party_id = #{partyId,jdbcType=INTEGER},
+    set config_id = #{configId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},

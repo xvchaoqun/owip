@@ -48,11 +48,11 @@ public class PcsVoteStatController extends PcsBaseController {
         if (cls == 2 || cls == 3) {
 
             // 党委委员选举统计、 纪委委员选举统计
-            return "forward:/pcsVoteStat_group_page";
+            return "forward:/pcs/pcsVoteStat_group_page";
         } else if (cls == 4) {
 
             // 两委当选名单
-            return "forward:/pcsVoteMemberList";
+            return "forward:/pcs/pcsVoteMemberList";
         }
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();

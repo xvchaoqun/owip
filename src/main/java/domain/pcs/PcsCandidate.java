@@ -22,6 +22,10 @@ public class PcsCandidate implements Serializable {
 
     private String title;
 
+    private Integer cadreSortOrder;
+
+    private Byte cadreStatus;
+
     private Byte gender;
 
     private String nation;
@@ -122,6 +126,22 @@ public class PcsCandidate implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public Integer getCadreSortOrder() {
+        return cadreSortOrder;
+    }
+
+    public void setCadreSortOrder(Integer cadreSortOrder) {
+        this.cadreSortOrder = cadreSortOrder;
+    }
+
+    public Byte getCadreStatus() {
+        return cadreStatus;
+    }
+
+    public void setCadreStatus(Byte cadreStatus) {
+        this.cadreStatus = cadreStatus;
     }
 
     public Byte getGender() {

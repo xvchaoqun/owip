@@ -23,8 +23,6 @@ public class PcsRecommendService extends PcsBaseMapper {
     private PcsConfigService pcsConfigService;
     @Autowired
     private PcsCandidateService pcsCandidateService;
-    @Autowired
-    private PcsPartyService pcsPartyService;
 
     // 获取一个已经推荐的票
     public PcsBranchBean get(int partyId, Integer branchId, int configId, byte stage) {
@@ -74,12 +72,12 @@ public class PcsRecommendService extends PcsBaseMapper {
         record.setStage(stage);
 
         PcsBranchBean pcsBranchBean = get(partyId, branchId, configId, stage);
-        if(pcsBranchBean.getId()==null){
+        if(pcsBranchBean.getRecommendId()==null){
             pcsRecommendMapper.insertSelective(record);
         }else{
             if(BooleanUtils.isTrue(pcsBranchBean.getIsFinished()))
                 record.setIsFinished(null);
-            record.setId(pcsBranchBean.getId());
+            record.setId(pcsBranchBean.getRecommendId());
             pcsRecommendMapper.updateByPrimaryKeySelective(record);
         }
 

@@ -6,7 +6,9 @@
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="is_direct_branch" jdbcType="BIT" property="isDirectBranch" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="member_count" jdbcType="INTEGER" property="memberCount" />
     <result column="positive_count" jdbcType="INTEGER" property="positiveCount" />
     <result column="student_member_count" jdbcType="INTEGER" property="studentMemberCount" />
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, config_id, party_id, branch_id, name, member_count, positive_count, student_member_count, 
-    teacher_member_count, retire_member_count
+    id, config_id, party_id, branch_id, is_direct_branch, name, sort_order, member_count, 
+    positive_count, student_member_count, teacher_member_count, retire_member_count
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsBranchExample" resultMap="BaseResultMap">
     select
@@ -107,12 +109,14 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsBranch">
     insert into pcs_branch (id, config_id, party_id, 
-      branch_id, name, member_count, 
-      positive_count, student_member_count, teacher_member_count, 
+      branch_id, is_direct_branch, name, 
+      sort_order, member_count, positive_count, 
+      student_member_count, teacher_member_count, 
       retire_member_count)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{memberCount,jdbcType=INTEGER}, 
-      #{positiveCount,jdbcType=INTEGER}, #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{isDirectBranch,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, #{positiveCount,jdbcType=INTEGER}, 
+      #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
       #{retireMemberCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsBranch">
@@ -130,8 +134,14 @@
       <if test="branchId != null">
         branch_id,
       </if>
+      <if test="isDirectBranch != null">
+        is_direct_branch,
+      </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
       </if>
       <if test="memberCount != null">
         member_count,
@@ -162,8 +172,14 @@
       <if test="branchId != null">
         #{branchId,jdbcType=INTEGER},
       </if>
+      <if test="isDirectBranch != null">
+        #{isDirectBranch,jdbcType=BIT},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="memberCount != null">
         #{memberCount,jdbcType=INTEGER},
@@ -203,8 +219,14 @@
       <if test="record.branchId != null">
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
+      <if test="record.isDirectBranch != null">
+        is_direct_branch = #{record.isDirectBranch,jdbcType=BIT},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
       <if test="record.memberCount != null">
         member_count = #{record.memberCount,jdbcType=INTEGER},
@@ -232,7 +254,9 @@
       config_id = #{record.configId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      is_direct_branch = #{record.isDirectBranch,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       member_count = #{record.memberCount,jdbcType=INTEGER},
       positive_count = #{record.positiveCount,jdbcType=INTEGER},
       student_member_count = #{record.studentMemberCount,jdbcType=INTEGER},
@@ -254,8 +278,14 @@
       <if test="branchId != null">
         branch_id = #{branchId,jdbcType=INTEGER},
       </if>
+      <if test="isDirectBranch != null">
+        is_direct_branch = #{isDirectBranch,jdbcType=BIT},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="memberCount != null">
         member_count = #{memberCount,jdbcType=INTEGER},
@@ -280,7 +310,9 @@
     set config_id = #{configId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
+      is_direct_branch = #{isDirectBranch,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       member_count = #{memberCount,jdbcType=INTEGER},
       positive_count = #{positiveCount,jdbcType=INTEGER},
       student_member_count = #{studentMemberCount,jdbcType=INTEGER},

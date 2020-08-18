@@ -1,144 +1,61 @@
 package persistence.pcs.common;
 
+import domain.pcs.PcsBranch;
+
 import java.io.Serializable;
 
-public class PcsBranchBean implements Serializable {
-    private Integer id;
+public class PcsBranchBean extends PcsBranch implements Serializable {
 
-    private Integer partyId;
-
-    private Integer branchId;
-
-    private Integer expectMemberCount;
-
-    private Integer actualMemberCount;
-
-    private Integer configId;
-
-    private Boolean isFinished;
-
+    private Integer recommendId;
     private Byte stage;
-
-    private String name;
-
-    private Integer memberCount;
-    private Integer positiveCount;
-
-    private Integer studentMemberCount;
-    private Integer teacherMemberCount;
-    private Integer retireMemberCount;
+    private Integer expectMemberCount;
+    private Integer actualMemberCount;
+    private Boolean isFinished;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
+    public Integer getRecommendId() {
+        return recommendId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getPartyId() {
-        return partyId;
-    }
-
-    public void setPartyId(Integer partyId) {
-        this.partyId = partyId;
-    }
-
-    public Integer getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(Integer branchId) {
-        this.branchId = branchId;
-    }
-
-    public Integer getExpectMemberCount() {
-        return expectMemberCount;
-    }
-
-    public void setExpectMemberCount(Integer expectMemberCount) {
-        this.expectMemberCount = expectMemberCount;
-    }
-
-    public Integer getActualMemberCount() {
-        return actualMemberCount;
-    }
-
-    public void setActualMemberCount(Integer actualMemberCount) {
-        this.actualMemberCount = actualMemberCount;
-    }
-
-    public Integer getConfigId() {
-        return configId;
-    }
-
-    public void setConfigId(Integer configId) {
-        this.configId = configId;
-    }
-
-    public Boolean getIsFinished() {
-        return isFinished;
-    }
-
-    public void setIsFinished(Boolean isFinished) {
-        this.isFinished = isFinished;
+    public PcsBranchBean setRecommendId(Integer recommendId) {
+        this.recommendId = recommendId;
+        return this;
     }
 
     public Byte getStage() {
         return stage;
     }
 
-    public void setStage(Byte stage) {
+    public PcsBranchBean setStage(Byte stage) {
         this.stage = stage;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public Integer getExpectMemberCount() {
+        return expectMemberCount;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public PcsBranchBean setExpectMemberCount(Integer expectMemberCount) {
+        this.expectMemberCount = expectMemberCount;
+        return this;
     }
 
-    public Integer getMemberCount() {
-        return memberCount;
+    public Integer getActualMemberCount() {
+        return actualMemberCount;
     }
 
-    public void setMemberCount(Integer memberCount) {
-        this.memberCount = memberCount;
+    public PcsBranchBean setActualMemberCount(Integer actualMemberCount) {
+        this.actualMemberCount = actualMemberCount;
+        return this;
     }
 
-    public Integer getPositiveCount() {
-        return positiveCount;
+    public Boolean getIsFinished() {
+        return isFinished;
     }
 
-    public void setPositiveCount(Integer positiveCount) {
-        this.positiveCount = positiveCount;
-    }
-
-    public Integer getStudentMemberCount() {
-        return studentMemberCount;
-    }
-
-    public void setStudentMemberCount(Integer studentMemberCount) {
-        this.studentMemberCount = studentMemberCount;
-    }
-
-    public Integer getTeacherMemberCount() {
-        return teacherMemberCount;
-    }
-
-    public void setTeacherMemberCount(Integer teacherMemberCount) {
-        this.teacherMemberCount = teacherMemberCount;
-    }
-
-    public Integer getRetireMemberCount() {
-        return retireMemberCount;
-    }
-
-    public void setRetireMemberCount(Integer retireMemberCount) {
-        this.retireMemberCount = retireMemberCount;
+    public PcsBranchBean setIsFinished(Boolean finished) {
+        isFinished = finished;
+        return this;
     }
 }

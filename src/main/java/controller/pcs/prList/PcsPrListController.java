@@ -83,12 +83,12 @@ public class PcsPrListController extends PcsBaseController {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
-            return "forward:/pcsPrList_table_page";
+            return "forward:/pcs/pcsPrList_table_page";
         } else if (cls == 3) {
-            return "forward:/pcsPrList_report_page";
+            return "forward:/pcs/pcsPrList_report_page";
         }
 
-        return "forward:/pcsPrList_page";
+        return "forward:/pcs/pcsPrList_page";
     }
 
     //@RequiresPermissions("pcsPrList:list")

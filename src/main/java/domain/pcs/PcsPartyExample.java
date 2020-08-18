@@ -354,6 +354,126 @@ public class PcsPartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsDirectBranchIsNull() {
+            addCriterion("is_direct_branch is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchIsNotNull() {
+            addCriterion("is_direct_branch is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchEqualTo(Boolean value) {
+            addCriterion("is_direct_branch =", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchNotEqualTo(Boolean value) {
+            addCriterion("is_direct_branch <>", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchGreaterThan(Boolean value) {
+            addCriterion("is_direct_branch >", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_direct_branch >=", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchLessThan(Boolean value) {
+            addCriterion("is_direct_branch <", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_direct_branch <=", value, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchIn(List<Boolean> values) {
+            addCriterion("is_direct_branch in", values, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchNotIn(List<Boolean> values) {
+            addCriterion("is_direct_branch not in", values, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_direct_branch between", value1, value2, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirectBranchNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_direct_branch not between", value1, value2, "isDirectBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageIsNull() {
+            addCriterion("current_stage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageIsNotNull() {
+            addCriterion("current_stage is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageEqualTo(Byte value) {
+            addCriterion("current_stage =", value, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageNotEqualTo(Byte value) {
+            addCriterion("current_stage <>", value, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageGreaterThan(Byte value) {
+            addCriterion("current_stage >", value, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageGreaterThanOrEqualTo(Byte value) {
+            addCriterion("current_stage >=", value, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageLessThan(Byte value) {
+            addCriterion("current_stage <", value, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageLessThanOrEqualTo(Byte value) {
+            addCriterion("current_stage <=", value, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageIn(List<Byte> values) {
+            addCriterion("current_stage in", values, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageNotIn(List<Byte> values) {
+            addCriterion("current_stage not in", values, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageBetween(Byte value1, Byte value2) {
+            addCriterion("current_stage between", value1, value2, "currentStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentStageNotBetween(Byte value1, Byte value2) {
+            addCriterion("current_stage not between", value1, value2, "currentStage");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

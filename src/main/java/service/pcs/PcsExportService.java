@@ -158,7 +158,7 @@ public class PcsExportService extends PcsBaseMapper {
 
         // 全校分党委数：pc    全校党支部数：bc     全校党员总数（含预备党员）：mc      应参会党员总数：emc      实参会党员总数：amc
 
-        // 获得完成推荐的支部（排除之后的新建支部）
+        // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
 

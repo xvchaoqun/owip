@@ -11,6 +11,8 @@
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
+    <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
@@ -85,9 +87,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, vote, code, realname, birth, title, gender, nation, 
-    native_place, ext_unit, grow_time, work_time, pro_post, party_id, branch_id, config_id, 
-    stage, sort_order, is_from_stage, add_time
+    id, recommend_id, user_id, type, vote, code, realname, birth, title, cadre_sort_order, 
+    cadre_status, gender, nation, native_place, ext_unit, grow_time, work_time, pro_post, 
+    party_id, branch_id, config_id, stage, sort_order, is_from_stage, add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsCandidateExample" resultMap="BaseResultMap">
     select
@@ -122,20 +124,22 @@
   <insert id="insert" parameterType="domain.pcs.PcsCandidate">
     insert into pcs_candidate (id, recommend_id, user_id, 
       type, vote, code, realname, 
-      birth, title, gender, 
-      nation, native_place, ext_unit, 
-      grow_time, work_time, pro_post, 
-      party_id, branch_id, config_id, 
-      stage, sort_order, is_from_stage, 
-      add_time)
+      birth, title, cadre_sort_order, 
+      cadre_status, gender, nation, 
+      native_place, ext_unit, grow_time, 
+      work_time, pro_post, party_id, 
+      branch_id, config_id, stage, 
+      sort_order, is_from_stage, add_time
+      )
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{vote,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{birth,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{extUnit,jdbcType=VARCHAR}, 
-      #{growTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, 
-      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
-      #{stage,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, 
-      #{addTime,jdbcType=TIMESTAMP})
+      #{birth,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, #{cadreSortOrder,jdbcType=INTEGER}, 
+      #{cadreStatus,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{extUnit,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
+      #{workTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
+      #{sortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, #{addTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsCandidate">
     insert into pcs_candidate
@@ -166,6 +170,12 @@
       </if>
       <if test="title != null">
         title,
+      </if>
+      <if test="cadreSortOrder != null">
+        cadre_sort_order,
+      </if>
+      <if test="cadreStatus != null">
+        cadre_status,
       </if>
       <if test="gender != null">
         gender,
@@ -237,6 +247,12 @@
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreSortOrder != null">
+        #{cadreSortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="cadreStatus != null">
+        #{cadreStatus,jdbcType=TINYINT},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -318,6 +334,12 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
+      <if test="record.cadreSortOrder != null">
+        cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreStatus != null">
+        cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
+      </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
       </if>
@@ -376,6 +398,8 @@
       realname = #{record.realname,jdbcType=VARCHAR},
       birth = #{record.birth,jdbcType=DATE},
       title = #{record.title,jdbcType=VARCHAR},
+      cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
+      cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
       gender = #{record.gender,jdbcType=TINYINT},
       nation = #{record.nation,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
@@ -420,6 +444,12 @@
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreSortOrder != null">
+        cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="cadreStatus != null">
+        cadre_status = #{cadreStatus,jdbcType=TINYINT},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=TINYINT},
@@ -476,6 +506,8 @@
       realname = #{realname,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=DATE},
       title = #{title,jdbcType=VARCHAR},
+      cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER},
+      cadre_status = #{cadreStatus,jdbcType=TINYINT},
       gender = #{gender,jdbcType=TINYINT},
       nation = #{nation,jdbcType=VARCHAR},
       native_place = #{nativePlace,jdbcType=VARCHAR},

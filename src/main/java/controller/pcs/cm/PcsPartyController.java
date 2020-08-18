@@ -95,9 +95,9 @@ public class PcsPartyController extends PcsBaseController {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
-            return "forward:/pcsParty_branch_table_page";
+            return "forward:/pcs/pcsParty_branch_table_page";
         } else if (cls == 3) {
-            return "forward:/pcsParty_report_page";
+            return "forward:/pcs/pcsParty_report_page";
         }
         if(userId!=null){
             modelMap.put("sysUser", sysUserService.findById(userId));

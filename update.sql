@@ -137,7 +137,32 @@ INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `
 
 update sys_resource set url=replace(url, '/pcs', '/pcs/pcs')  where url like '/pcs%' and url not like '/pcs/pcs%';
 
+ALTER TABLE `pcs_branch`
+	ADD COLUMN `is_direct_branch` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否直属党支部' AFTER `branch_id`;
 
+ALTER TABLE `pcs_party`
+	ADD COLUMN `stage` TINYINT(3) UNSIGNED NULL COMMENT '当前启动的阶段，用于控制支部投票时间' AFTER `name`;
+
+ALTER TABLE `pcs_party`
+	ADD COLUMN `is_direct_branch` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否直属党支部' AFTER `name`;
+
+update pcs_branch set is_direct_branch = isnull(branch_id);
+update pcs_party pp, pcs_branch pb set pp.is_direct_branch=pb.is_direct_branch where pp.party_id=pb.party_id;
+
+ALTER TABLE `pcs_candidate`
+	ADD COLUMN `cadre_sort_order` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '干部的排序' AFTER `title`,
+	ADD COLUMN `cadre_status` TINYINT(3) UNSIGNED NULL DEFAULT '0' COMMENT '干部类别' AFTER `cadre_sort_order`;
+
+ALTER TABLE `pcs_exclude_branch`
+	ADD COLUMN `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `id`,
+	CHANGE COLUMN `branch_id` `branch_id` INT(10) UNSIGNED NULL COMMENT '支部' AFTER `party_id`,
+	DROP INDEX `party_id_branch_id`;
+
+ALTER TABLE `pcs_exclude_branch`
+	ADD UNIQUE INDEX `config_id_party_id_branch_id` (`config_id`, `party_id`, `branch_id`);
+
+ALTER TABLE `pcs_party`
+	CHANGE COLUMN `stage` `current_stage` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '当前启动的阶段，用于控制投票时间' AFTER `is_direct_branch`;
 
 20200814
 

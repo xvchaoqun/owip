@@ -11,7 +11,11 @@ public class PcsBranch implements Serializable {
 
     private Integer branchId;
 
+    private Boolean isDirectBranch;
+
     private String name;
+
+    private Integer sortOrder;
 
     private Integer memberCount;
 
@@ -57,12 +61,28 @@ public class PcsBranch implements Serializable {
         this.branchId = branchId;
     }
 
+    public Boolean getIsDirectBranch() {
+        return isDirectBranch;
+    }
+
+    public void setIsDirectBranch(Boolean isDirectBranch) {
+        this.isDirectBranch = isDirectBranch;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Integer getMemberCount() {

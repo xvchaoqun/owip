@@ -6,6 +6,8 @@ import java.util.Date;
 public class PcsExcludeBranch implements Serializable {
     private Integer id;
 
+    private Integer configId;
+
     private Integer partyId;
 
     private Integer branchId;
@@ -26,6 +28,14 @@ public class PcsExcludeBranch implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(Integer configId) {
+        this.configId = configId;
     }
 
     public Integer getPartyId() {

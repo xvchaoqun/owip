@@ -16,6 +16,14 @@ import java.util.Map;
  */
 public interface IPcsMapper {
 
+    // 读取当前系统中应参与党代会的分党委（未删除、党员总数大于0的）
+    List<PcsParty> expectPcsPartyList(@Param("configId") int configId);
+
+    // 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）
+    List<PcsParty> expectPcsBranchList(@Param("configId") int configId);
+
+
+
     // 更新党代会投票中的参评人数量
     @Update("update pcs_poll pp left join (select poll_id, count(*) count,SUM(if(is_finished,1,0)) finished_count," +
             "SUM(if(is_finished=1 and is_positive=1,1,0)) positive_count from pcs_poll_inspector group by poll_id) tmp on tmp.poll_id=pp.id " +
@@ -107,7 +115,7 @@ public interface IPcsMapper {
     public Map<String, BigDecimal> schoolMemberCount(@Param("configId") int configId,
                                                      @Param("stage") byte stage);
 
-    //  分党委推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
+    //  分党委推荐汇总情况
     public List<PcsPartyBean> selectPcsPartyBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
@@ -121,7 +129,7 @@ public interface IPcsMapper {
             @Param("hasReport") Boolean hasReport);
 
 
-    // 党支部推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
+    // 党支部推荐汇总情况（含直属党支部）
     public List<PcsBranchBean> selectPcsBranchBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
@@ -136,12 +144,12 @@ public interface IPcsMapper {
             @Param("branchId") Integer branchId,
             @Param("isFinished") Boolean isFinished);
 
-    // 获取被推荐人都有哪些支部推荐了（除直属党支部）
+    // 获取被推荐人都有哪些支部推荐了（只统计已上报的党支部，除直属党支部）
     List<Integer> selectCandidateBranchIds(@Param("userId") int userId,
                              @Param("configId") int configId,
                              @Param("stage") byte stage,
                              @Param("candidateType") int candidateType);
-    // 分党委两委委员推荐提名情况
+    // 分党委两委委员推荐提名情况（只统计已上报）
     public List<IPcsCandidate> selectPartyCandidateList(@Param("userId") Integer userId,
                                                         @Param("isChosen") Boolean isChosen,
                                                         @Param("configId") int configId,

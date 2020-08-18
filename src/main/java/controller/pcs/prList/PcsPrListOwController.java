@@ -150,10 +150,10 @@ public class PcsPrListOwController extends PcsBaseController {
 
         }else if (cls == 2) {
             // 全校党代表数据统计
-            return "forward:/pcsPrListOw_table_page";
+            return "forward:/pcs/pcsPrListOw_table_page";
         } else if (cls == 3) {
             // 全校党员参与情况
-            return "forward:/pcsPrListOw_party_table_page";
+            return "forward:/pcs/pcsPrListOw_party_table_page";
         }
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));

@@ -84,11 +84,11 @@
                         isFinished ? "btn-success" : "btn-primary",
                         isFinished ? "fa-check" : "fa-hand-o-right");
             }
-            }, {
+            }/*, {
                 hidden: true, key: true, name: '_id', formatter: function (cellvalue, options, rowObject) {
                     return ("{0}-{1}-{2}".format(rowObject.partyId, $.trim(rowObject.branchId) == '' ? 0 : rowObject.branchId, rowObject.configId))
                 }
-            }
+            }*/
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

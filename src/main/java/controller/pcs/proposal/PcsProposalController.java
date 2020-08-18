@@ -109,6 +109,9 @@ public class PcsProposalController extends PcsBaseController {
                                  Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         if (NumberUtils.contains(cls, (byte) 1, (byte) 2, (byte) 3)) {
             SecurityUtils.getSubject().checkPermission("pcsProposalPr:*");
         } else {
@@ -124,7 +127,7 @@ public class PcsProposalController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PcsProposalViewExample example = new PcsProposalViewExample();
-        PcsProposalViewExample.Criteria criteria = example.createCriteria();
+        PcsProposalViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
 
         String orderStr = null;
         if(orderType==null || orderType==0) {

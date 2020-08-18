@@ -6,9 +6,9 @@ import domain.member.MemberView;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
+import domain.pcs.PcsParty;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,8 +53,11 @@ public class PcsRecommendController extends PcsBaseController {
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
 
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        PcsParty pcsParty = pcsPartyService.get(pcsConfig.getId(), partyId);
+
+        modelMap.put("isDirectBranch", pcsParty.getIsDirectBranch());
         modelMap.put("partyId", partyId);
-        modelMap.put("isDirectBranch", partyService.isDirectBranch(partyId));
 
         if(branchId!=null){
             modelMap.put("branch", branchService.findAll().get(branchId));
@@ -158,33 +160,16 @@ public class PcsRecommendController extends PcsBaseController {
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        PcsBranchBean record = new PcsBranchBean();
-        record.setPartyId(partyId);
-        record.setBranchId(branchId);
-
         PcsBranchBean pcsBranchBean = pcsRecommendService.get(partyId, branchId, pcsConfig.getId(), stage);
-        if (pcsBranchBean != null) {
-            try {
-                PropertyUtils.copyProperties(record, pcsBranchBean);
-            } catch (IllegalAccessException e) {
-                logger.error("异常", e);
-            } catch (InvocationTargetException e) {
-                logger.error("异常", e);
-            } catch (NoSuchMethodException e) {
-                logger.error("异常", e);
-            }
-        }
-
-        record.setConfigId(configId);
-        modelMap.put("pcsRecommend", record);
+        modelMap.put("pcsBranchBean", pcsBranchBean);
 
         // 读取党委委员、纪委委员
         List<PcsCandidate> dwCandidates =
-                pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
+                pcsCandidateService.find(pcsBranchBean.getPartyId(),
+                        pcsBranchBean.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
         List<PcsCandidate> jwCandidates =
-                pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
+                pcsCandidateService.find(pcsBranchBean.getPartyId(),
+                        pcsBranchBean.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 

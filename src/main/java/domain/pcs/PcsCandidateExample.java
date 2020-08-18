@@ -702,6 +702,126 @@ public class PcsCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andCadreSortOrderIsNull() {
+            addCriterion("cadre_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderIsNotNull() {
+            addCriterion("cadre_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderEqualTo(Integer value) {
+            addCriterion("cadre_sort_order =", value, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderNotEqualTo(Integer value) {
+            addCriterion("cadre_sort_order <>", value, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderGreaterThan(Integer value) {
+            addCriterion("cadre_sort_order >", value, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_sort_order >=", value, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderLessThan(Integer value) {
+            addCriterion("cadre_sort_order <", value, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_sort_order <=", value, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderIn(List<Integer> values) {
+            addCriterion("cadre_sort_order in", values, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderNotIn(List<Integer> values) {
+            addCriterion("cadre_sort_order not in", values, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_sort_order between", value1, value2, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_sort_order not between", value1, value2, "cadreSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusIsNull() {
+            addCriterion("cadre_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusIsNotNull() {
+            addCriterion("cadre_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusEqualTo(Byte value) {
+            addCriterion("cadre_status =", value, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusNotEqualTo(Byte value) {
+            addCriterion("cadre_status <>", value, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusGreaterThan(Byte value) {
+            addCriterion("cadre_status >", value, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("cadre_status >=", value, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusLessThan(Byte value) {
+            addCriterion("cadre_status <", value, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("cadre_status <=", value, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusIn(List<Byte> values) {
+            addCriterion("cadre_status in", values, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusNotIn(List<Byte> values) {
+            addCriterion("cadre_status not in", values, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusBetween(Byte value1, Byte value2) {
+            addCriterion("cadre_status between", value1, value2, "cadreStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("cadre_status not between", value1, value2, "cadreStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andGenderIsNull() {
             addCriterion("gender is null");
             return (Criteria) this;

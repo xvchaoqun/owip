@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                 <div class="jqgrid-vertical-offset buttons">
                     <%--<shiro:hasPermission name="pcsPollResult:edit">
                          <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-url="${ctx}/pcs/pcs/pcsPollResult_data"
+                       data-url="${ctx}/pcs/pcsPollResult_data"
                        data-search-form-id="#searchForm2"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                         <i class="fa fa-download"></i> 导出</button>
@@ -46,12 +46,12 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/pcs/pcs/pcsPollResult"
+                                       data-url="${ctx}/pcs/pcsPollResult"
                                        data-target="#body-content-view"
                                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/pcs/pcs/pcsPollResult?pollId=${param.pollId}"
+                                                data-url="${ctx}/pcs/pcsPollResult?pollId=${param.pollId}"
                                                 data-target="#body-content-view">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
@@ -73,7 +73,7 @@ pageEncoding="UTF-8" %>
         multiselect:false,
         rownumbers: true,
         pager: "jqGridPager2",
-        url: '${ctx}/pcs/pcs/pcsPollResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPollResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',name: 'user.code',width:120},
             { label: '推荐人',name: 'user.realname'},
