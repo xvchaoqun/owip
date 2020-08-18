@@ -97,10 +97,10 @@
                     <c:if test="${devMode}">
                     // test
                     $("#testCallback").attr("href", "${ctx}/pmd/pay/callback/newcampuscard?" + data.ret);
-                    console.log(data.order)
+                    console.log(data.order);
                     </c:if>
 
-                    $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order, thirdurl:data.thirdurl}))
+                    $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order, thirdurl:data.thirdurl}));
                     $("#payForm").submit();
                 }
             }

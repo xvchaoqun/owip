@@ -220,6 +220,7 @@
     </resultMap>
     <sql id="searchPcsBranchBeans">
         <where>
+            pb.config_id = #{configId}
             <if test="partyId!=null">
                 and pb.party_id=#{partyId}
             </if>
@@ -235,16 +236,16 @@
     <select id="selectPcsBranchBeanList" resultMap="BranchBaseResultMap" parameterType="map">
         select pb.*, ${stage} as stage, pr.id as recommend_id,
                pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch pb
-        left join (select * from pcs_recommend where stage=#{stage} and config_id=#{configId}) pr
-        on pr.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pr.party_id)
+        left join pcs_recommend pr on pr.stage=#{stage} and pr.config_id=pb.config_id
+        and (pr.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pr.party_id))
         <include refid="searchPcsBranchBeans"/>
         -- order by pb.member_count desc, pb.party_id asc, pb.branch_id asc
         order by pb.sort_order
     </select>
     <select id="countPcsBranchBeanList" parameterType="map" resultType="java.lang.Integer">
         select count(*) from pcs_branch pb
-        left join (select * from pcs_recommend where stage=#{stage} and config_id=#{configId}) pr
-        on pr.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pr.party_id)
+        left join pcs_recommend pr on pr.stage=#{stage} and pr.config_id=pb.config_id
+        and (pr.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pr.party_id))
         <include refid="searchPcsBranchBeans"/>
     </select>
 

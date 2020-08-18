@@ -406,7 +406,7 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(partyMemberCountMap.get(bean.getId())));
+            cell.setCellValue(NumberUtils.trimToEmpty(partyMemberCountMap.get(bean.getPartyId())));
 
             // 应参会党员数
             cell = row.getCell(column++);
@@ -420,7 +420,7 @@ public class PcsExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(percent(bean.getActualMemberCount(), bean.getExpectMemberCount()));
 
-            memberCount += NumberUtils.trimToZero(partyMemberCountMap.get(bean.getId()));
+            memberCount += NumberUtils.trimToZero(partyMemberCountMap.get(bean.getPartyId()));
             expectMemberCount += NumberUtils.trimToZero(bean.getExpectMemberCount());
             actualMemberCount += NumberUtils.trimToZero(bean.getActualMemberCount());
         }

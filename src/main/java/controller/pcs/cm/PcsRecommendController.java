@@ -55,8 +55,9 @@ public class PcsRecommendController extends PcsBaseController {
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         PcsParty pcsParty = pcsPartyService.get(pcsConfig.getId(), partyId);
-
-        modelMap.put("isDirectBranch", pcsParty.getIsDirectBranch());
+        if(pcsParty!=null) {
+            modelMap.put("isDirectBranch", pcsParty.getIsDirectBranch());
+        }
         modelMap.put("partyId", partyId);
 
         if(branchId!=null){
