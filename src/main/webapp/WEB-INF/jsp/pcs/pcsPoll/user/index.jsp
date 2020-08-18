@@ -89,37 +89,37 @@
                 <c:set var="_num" value="${fn:length(userIds)}"/>
                     <tbody>
                         <tr>
-                            <td align="right">推荐人类型</td>
-                            <td align="left">
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="type"
-                                           id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
-                                    <label for="type_1">代表</label>
-                                </div>
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="type"
-                                           id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
-                                    <label for="type_2">党委委员</label>
-                                </div>
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="type"
-                                           id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
-                                    <label for="type_3">纪委委员</label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">投票人身份</td>
+                            <td align="right"><span class="star">*</span> 投票人身份</td>
                             <td>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="isPositive"
+                                    <input required type="radio" name="isPositive"
                                            id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
                                     <label for="isPositive_1">正式党员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="isPositive"
+                                    <input required type="radio" name="isPositive"
                                            id="isPositive_0" value="0" ${empty inspector.isPositive?"":(inspector.isPositive?"":"checked")}>
                                     <label for="isPositive_0">预备党员</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="star">*</span> 推荐人类型</td>
+                            <td align="left">
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input required type="radio" name="type"
+                                           id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                    <label for="type_1">代表</label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input required type="radio" name="type"
+                                           id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
+                                    <label for="type_2">党委委员</label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input required type="radio" name="type"
+                                           id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
+                                    <label for="type_3">纪委委员</label>
                                 </div>
                             </td>
                         </tr>
@@ -129,7 +129,7 @@
                                 <td align="right">推荐人${vs.index+1}</td>
                                 <td>
                                     <select data-rel="select2-ajax" data-width="272"
-                                            name="userId" data-placeholder="请输入推荐人姓名或学工号">
+                                            name="userIds" data-placeholder="请输入推荐人姓名或学工号">
                                         <option value="${candidate.id}">${candidate.realname}-${candidate.code}</option>
                                     </select>
                                 </td>
@@ -140,7 +140,7 @@
                                 <td align="right">推荐人${idx}</td>
                                 <td>
                                     <select data-rel="select2-ajax" data-width="272"
-                                            name="userId" data-placeholder="请输入推荐人姓名或学工号">
+                                            name="userIds" data-placeholder="请输入推荐人姓名或学工号">
                                     </select>
                                 </td>
                             </tr>
@@ -153,7 +153,7 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button class="btn btn-success" id="tempSubmit"
                                         type="button"
-                                        onclick="_submit()"><i class="fa fa-check"></i> 提交
+                                        onclick="_submit(4)"><i class="fa fa-check"></i> 提交
                                 </button>
                             </td>
                         </tr>
@@ -174,15 +174,13 @@
 <script>
 
     $('#candidateForm input[name=type]').change(function () {
-        //console.log('111'+$(this).val())
         _save($(this).val())
     })
-    var $select = $.register.user_select($('select[name=userId]'),
-        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==1?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
+    var $select = $.register.user_select($('select[name=userIds]'),
+        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_POLL_CANDIDATE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
          theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty userIds?'[]':userIds};
-
     var $tip;
     $select.on("select2:select",function(e){
 
@@ -198,7 +196,7 @@
             if($tip!=undefined) {
                 $tip.qtip('destroy', true);
             }
-            selectedUserIds = $.map($('select[name=userId]'), function (sel) {
+            selectedUserIds = $.map($('select[name=userIds]'), function (sel) {
                 return parseInt($(sel).val());
             });
         }
@@ -222,32 +220,16 @@
 
     $("#candidateForm").validate({
         submitHandler: function (form) {
-            var userIds = $.map($('select[name=userId]'),function (sel) {
-                return $(sel).val();
-            });
             $(form).ajaxSubmit({
-                data: {userIds: userIds},
                 success: function (ret) {
                     if (ret.success) {
-                        var type = $('#candidateForm input[name=type]:checked').val();
-                        if ($("input[name=flag]").val() != 0) {
+                        if ($("input[name=flag]").val() == 4) {
+                            $.loadModal("${ctx}/user/pcs/submit_info");
+                        }else if ($("input[name=flag]").val() != 0) {//切换人员类型时，保存数据
+                            var type = $('#candidateForm input[name=type]:checked').val();
                             location.href="${ctx}/user/pcs/index?type="+type;
                         }else if ($("input[name=isSubmit]").val() == 0) {
                             SysMsg.success('保存成功。', '成功')
-                        } else {
-                            bootbox.alert({
-                                closeButton: false,
-                                buttons: {
-                                    ok: {
-                                        label: '确定',
-                                        className: 'btn-success'
-                                    }
-                                },
-                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成投票，感谢您对工作的大力支持！<span>',
-                                callback: function () {
-                                    _logout();
-                                }
-                            });
                         }
                     }
                 }
@@ -264,20 +246,11 @@
     }
 
     //提交推荐数据
-    function _submit() {
-
-        bootbox.confirm('<div style="font-size: 16pt;font-weight: bolder;color:red;margin:10px;">\
-            <div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认投票结果无需再做修改。</div>\
-            <div style="text-indent:2em;padding:10px;">为保证信息的安全，在点击确定提交成功后您的账号、密码立即失效。<div></div>', function (result) {
-            if (result) {
-                $("input[name=isSubmit]").val(1);
-                $("#candidateForm").submit();
-                $(this).modal("hide");
-                return false;
-            }else {
-                $(this).modal("hide");
-            }
-        })
+    function _submit(flag) {
+        $("input[name=flag]").val(flag);//0保存按钮保存 1/2/3为三类人员切换时保存 4是先保存，然后弹出提示框,进行提交
+        $("input[name=isSubmit]").val(0);
+        $("#candidateForm").submit();
+        return false;
     }
 
     function _logout() {

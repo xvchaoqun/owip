@@ -2,6 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="<%=DrConstants.INSPECTOR_STATUS_MAP%>" var="INSPECTOR_STATUS_MAP"/>
+<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -15,25 +16,30 @@ pageEncoding="UTF-8" %>
             <div class="tab-content padding-8">
                 <c:set var="_query" value="${not empty param.username ||not empty param.isPositive}"/>
                 <div class="jqgrid-vertical-offset buttons">
-                    <shiro:hasPermission name="pcsPollInspector:edit">
-                        <button class="popupBtn btn btn-info btn-sm tooltip-success"
-                                data-url="${ctx}/pcs/pcsPollInspector_au?pollId=${param.pollId}" data-rel="tooltip" >
-                            <i class="fa fa-plus"></i> 生成帐号</button>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="pcsPollInspector:del">
-                        <button data-url="${ctx}/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
-                                data-title="删除"
-                                data-msg="确定删除这{0}个账号？（如果账号已完成投票，则相应的投票结果数据将同时删除，不可恢复，请谨慎操作！）"
-                                data-grid-id="#jqGrid2"
-                                class="jqBatchBtn btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i> 删除
-                        </button>
-                    </shiro:hasPermission>
+                    <c:if test="${!pcsPoll.hasReport}">
+                        <shiro:hasPermission name="pcsPollInspector:edit">
+                            <button class="popupBtn btn btn-info btn-sm tooltip-success"
+                                    data-url="${ctx}/pcs/pcsPollInspector_au?pollId=${param.pollId}" data-rel="tooltip" >
+                                <i class="fa fa-plus"></i> 生成帐号</button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pcsPollInspector:del">
+                            <button data-url="${ctx}/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
+                                    data-title="删除"
+                                    data-msg="确定删除这{0}个账号？（如果账号已完成投票，则相应的投票结果数据将同时删除，不可恢复，请谨慎操作！）"
+                                    data-grid-id="#jqGrid2"
+                                    class="jqBatchBtn btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i> 删除
+                            </button>
+                        </shiro:hasPermission>
+                    </c:if>
                     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                             data-url="${ctx}/pcs/pcsPollInspector_data?pollId=${param.pollId}"
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-download"></i> 导出</button>
+                    <span style='font-size:11.0pt;font-family:宋体;padding-left: 20px;'>
+                        投票人登录地址：${homeURL}/pcs/login
+                    </span>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

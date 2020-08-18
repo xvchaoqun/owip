@@ -74,7 +74,7 @@
                                     </tr>
                                     <tr height="30">
                                         <td align="center" style="padding-top: 10px;">
-                                            <input type="button" class="submit_btn btn btn-sm btn-success" value="登&nbsp;&nbsp;&nbsp;&nbsp;录"
+                                            <input type="button" class="submit_btn btn btn-sm btn-success" value="登&nbsp;&nbsp;&nbsp;录"
                                                    id="login_btn"/>
                                         </td>
                                     </tr>

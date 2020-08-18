@@ -344,63 +344,63 @@ public class PcsPollResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondIsNull() {
-            addCriterion("is_second is null");
+        public Criteria andStageIsNull() {
+            addCriterion("stage is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondIsNotNull() {
-            addCriterion("is_second is not null");
+        public Criteria andStageIsNotNull() {
+            addCriterion("stage is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondEqualTo(Boolean value) {
-            addCriterion("is_second =", value, "isSecond");
+        public Criteria andStageEqualTo(Byte value) {
+            addCriterion("stage =", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondNotEqualTo(Boolean value) {
-            addCriterion("is_second <>", value, "isSecond");
+        public Criteria andStageNotEqualTo(Byte value) {
+            addCriterion("stage <>", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondGreaterThan(Boolean value) {
-            addCriterion("is_second >", value, "isSecond");
+        public Criteria andStageGreaterThan(Byte value) {
+            addCriterion("stage >", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_second >=", value, "isSecond");
+        public Criteria andStageGreaterThanOrEqualTo(Byte value) {
+            addCriterion("stage >=", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondLessThan(Boolean value) {
-            addCriterion("is_second <", value, "isSecond");
+        public Criteria andStageLessThan(Byte value) {
+            addCriterion("stage <", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_second <=", value, "isSecond");
+        public Criteria andStageLessThanOrEqualTo(Byte value) {
+            addCriterion("stage <=", value, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondIn(List<Boolean> values) {
-            addCriterion("is_second in", values, "isSecond");
+        public Criteria andStageIn(List<Byte> values) {
+            addCriterion("stage in", values, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondNotIn(List<Boolean> values) {
-            addCriterion("is_second not in", values, "isSecond");
+        public Criteria andStageNotIn(List<Byte> values) {
+            addCriterion("stage not in", values, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_second between", value1, value2, "isSecond");
+        public Criteria andStageBetween(Byte value1, Byte value2) {
+            addCriterion("stage between", value1, value2, "stage");
             return (Criteria) this;
         }
 
-        public Criteria andIsSecondNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_second not between", value1, value2, "isSecond");
+        public Criteria andStageNotBetween(Byte value1, Byte value2) {
+            addCriterion("stage not between", value1, value2, "stage");
             return (Criteria) this;
         }
 
@@ -761,6 +761,66 @@ public class PcsPollResultExample {
 
         public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateIsNull() {
+            addCriterion("is_candidate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateIsNotNull() {
+            addCriterion("is_candidate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateEqualTo(Boolean value) {
+            addCriterion("is_candidate =", value, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateNotEqualTo(Boolean value) {
+            addCriterion("is_candidate <>", value, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateGreaterThan(Boolean value) {
+            addCriterion("is_candidate >", value, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_candidate >=", value, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateLessThan(Boolean value) {
+            addCriterion("is_candidate <", value, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_candidate <=", value, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateIn(List<Boolean> values) {
+            addCriterion("is_candidate in", values, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateNotIn(List<Boolean> values) {
+            addCriterion("is_candidate not in", values, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_candidate between", value1, value2, "isCandidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCandidateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_candidate not between", value1, value2, "isCandidate");
             return (Criteria) this;
         }
 

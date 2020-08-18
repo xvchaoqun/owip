@@ -1,5 +1,6 @@
 package controller.pcs.user;
 
+import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
@@ -26,6 +27,7 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.helper.PcsHelper;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.HttpRequestDeviceUtils;
 
@@ -91,7 +93,11 @@ public class UserPcsPollController extends PcsBaseController {
                 if (pcsConfig != null && inspector.getPcsPoll().getConfigId() != pcsConfig.getId()){
                     return failed("该账号的党代会投票已过期");
                 }
-                if (inspector.getPcsPoll().getStartTime().after(new Date())){
+                if (inspector.getPcsPoll().getIsDeleted()){
+                    return failed("党代会投票已作废");
+                } else if (inspector.getPcsPoll().getHasReport()) {
+                    return failed("党代会投票已报送");
+                }else if (inspector.getPcsPoll().getStartTime().after(new Date())){
                     return failed("党代会投票未开始");
                 }else if (inspector.getPcsPoll().getEndTime().before(new Date())){
                     return failed("党代会投票已结束");
@@ -148,8 +154,7 @@ public class UserPcsPollController extends PcsBaseController {
     }
 
     @RequestMapping("/index")
-    public String index(@RequestParam(required = false, defaultValue = "1") Byte type,
-                        boolean isPositive,
+    public String index(@RequestParam(required = false, defaultValue = "2") Byte type,
                         boolean isMobile,
                         ModelMap modelMap,
                         HttpServletRequest request){
@@ -158,14 +163,19 @@ public class UserPcsPollController extends PcsBaseController {
 
         if (inspector != null) {
             PcsPoll pcsPoll = inspector.getPcsPoll();
+            /*if (pcsPoll.getStage() == PcsConstants.PCS_POLL_THIRD_STAGE) {
+                type =PcsConstants.PCS_POLL_CANDIDATE_DW;
+            }*/
             modelMap.put("type", type);
-            if (type == 1){
-                modelMap.put("num", pcsPoll.getPrNum());
-            }else if (type == 2){
-                modelMap.put("num", pcsPoll.getDwNum());
-            }else if (type == 3){
-                modelMap.put("num", pcsPoll.getJwNum());
+            int num = 0;
+            if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                num = pcsPollCandidateService.getPrRequiredCount(pcsPoll.getPartyId());
+            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
+                num = CmTag.getIntProperty("pcs_poll_dw_num");
+            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                num = CmTag.getIntProperty("pcs_poll_jw_num");
             }
+            modelMap.put("num", num);
 
             modelMap.put("inspector", inspector);
             modelMap.put("pcsPoll", pcsPoll);
@@ -173,13 +183,33 @@ public class UserPcsPollController extends PcsBaseController {
             PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
             modelMap.put("tempResult", tempResult);
 
-            //二下阶段推荐人名单
-            if (pcsPoll.getIsSecond()) {
+            //二下/三下阶段推荐人名单
+            if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE) {
                 Integer pollId = inspector.getPollId();
                 List<PcsPollCandidate> cans = pcsPollCandidateService.findAll(pollId, type);
                 modelMap.put("cans", cans);
             }
-            if (pcsPoll.getIsSecond()){
+            if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE){
+                Set<Integer> selectUserIdList = new HashSet<>();
+                Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
+
+                List<PcsPollCandidate> candidatelist = pcsPollCandidateService.findAll(pcsPoll.getId(), type);
+                if (candidatelist.size() > 0) {
+                    for (PcsPollCandidate candidate : candidatelist) {
+                        selectUserIdList.add(candidate.getUserId());
+                    }
+                }
+                if (otherResultMap.size() > 0) {
+                    for (Map.Entry<String, Integer> entry : otherResultMap.entrySet()) {
+
+                        Byte _type = Byte.valueOf(entry.getKey().split("_")[0]);
+                        if (_type == type) {
+                            selectUserIdList.add(entry.getValue());
+                        }
+                    }
+                }
+                modelMap.put("selectUserIdList", selectUserIdList);
+
                 return (isMobile) ? "pcs/pcsPoll/mobile/indexSecond" : "pcs/pcsPoll/user/indexSecond";
             }else {
                 return (isMobile) ? "pcs/pcsPoll/mobile/index" : "pcs/pcsPoll/user/index";
@@ -196,7 +226,7 @@ public class UserPcsPollController extends PcsBaseController {
                       boolean isMobile,
                       boolean isSubmit,
                       Integer[] userIds,
-                      byte type, HttpServletRequest request) {
+                      Byte type, HttpServletRequest request) {
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
         PcsPoll pcsPoll = inspector.getPcsPoll();
@@ -205,87 +235,112 @@ public class UserPcsPollController extends PcsBaseController {
         // 临时数据
         PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
 
-        inspector.setIsMobile(isMobile);
-        if (isPositive != null) {
-            inspector.setIsPositive(isPositive);
-        }else {
-            if (isSubmit) return failed("请选择投票人身份");
-        }
+        Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
+        Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
+        Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
 
-        if (!pcsPoll.getIsSecond()) {//保存"一下阶段"推荐结果
+        if (isSubmit){//提交
 
-            Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
-            Set<Integer> userIdSet = new LinkedHashSet<>();
-            if (userIds != null && userIds.length > 0) {
-                userIdSet.addAll(Arrays.asList(userIds));
+            if (inspector.getIsPositive() == null){
+                return failed("请选择投票人身份");
             }
-            firstResultMap.put(type, userIdSet);
-            tempResult.setFirstResultMap(firstResultMap);
-            String tempdata = pcsPollResultService.getStringTemp(tempResult);
-            inspector.setTempdata(tempdata);
 
-            if (isSubmit){
-
-                if(userIds!=null && userIds.length> userIdSet.size()){
-                    return failed("存在重复的推荐人，请核对后重新选择提交");
-                }
-
-                /*int prCount = CollectionUtils.size(firstResultMap.get(PcsConstants.PCS_POLL_CANDIDATE_PR));
-                int dwCount = CollectionUtils.size(firstResultMap.get(PcsConstants.PCS_POLL_CANDIDATE_DW));
-                int jwCount = CollectionUtils.size(firstResultMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW));
-
-                if (prCount < pcsPoll.getPrNum() || dwCount < pcsPoll.getDwNum() || jwCount < pcsPoll.getJwNum()){
-                    return failed("请完成选择所有的推荐人后再提交");
-                }*/
+            if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {
 
                 pcsPollResultService.submitResult(inspector);
             }else {
-                pcsPollInspectorService.updateByPrimaryKeySelective(inspector);
+                //检测推荐人数量是否符合要求
+                int prCount = 0;
+                int dwCount = 0;
+                int jwCount = 0;
+                Byte _type= 0;
+                for (String key : secondResultMap.keySet()){
+                    int count = 0;
+                    _type = Byte.valueOf(key.split("_")[0]);
+
+                    if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_AGREE){
+                        count++;
+                    }else if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_DISAGREE){
+                        if (otherResultMap.containsKey(key + "_4")){
+                            count++;
+                        }
+                    }
+
+                    if (_type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                        prCount += count;
+                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                        dwCount += count;
+                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                        jwCount += count;
+                    }
+                }
+
+                if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE && prCount > pcsPollCandidateService.getPrRequiredCount(pcsPoll.getPartyId())) {
+                    throw new OpException("推荐的代表超过规定数量，请重新选择");
+                }
+                if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
+                    throw new OpException("推荐的党委委员超过规定数量，请重新选择");
+                }
+                if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
+                    throw new OpException("推荐的纪委委员超过规定数量，请重新选择");
+                }
+
+                pcsPollResultService.submitResult(inspector);
+            }
+        }else {//保存
+
+            inspector.setIsMobile(isMobile);
+            if (isPositive != null) {
+                inspector.setIsPositive(isPositive);
             }
 
-        }else {
+            if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {//保存"一下阶段"推荐结果
 
-            Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
-            Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
+                Set<Integer> userIdSet = new LinkedHashSet<>();
+                if (userIds != null && userIds.length > 0) {
+                    userIdSet.addAll(Arrays.asList(userIds));
+                }
+                firstResultMap.put(type, userIdSet);
+                tempResult.setFirstResultMap(firstResultMap);
+                String tempdata = pcsPollResultService.getStringTemp(tempResult);
+                inspector.setTempdata(tempdata);
 
-            List<PcsPollCandidate> candidates = pcsPollCandidateService.findAll(pollId, type);
+                pcsPollInspectorService.updateByPrimaryKeySelective(inspector);
 
-            Set<Integer> candidateUserIdSet = new HashSet<>();
+            } else {//保存"二下/三下阶段"推荐结果
 
-            for (PcsPollCandidate candidate : candidates) {
+                List<PcsPollCandidate> candidates = pcsPollCandidateService.findAll(pollId, type);
 
-                int userId = candidate.getUserId();
-                candidateUserIdSet.add(userId);
+                Set<Integer> candidateUserIdSet = new HashSet<>();
 
-                String radioName = type + "_" + userId;
+                for (PcsPollCandidate candidate : candidates) {
 
-                String value = request.getParameter(radioName);
-                Byte radioValue = (value == null)?null:Byte.valueOf(value);
+                    int userId = candidate.getUserId();
+                    candidateUserIdSet.add(userId);
 
-                if(radioValue != null) {
+                    String radioName = type + "_" + userId;
 
-                    secondResultMap.put(radioName, radioValue);
-                    if (radioValue == PcsConstants.RESULT_STATUS_DISAGREE){
+                    String value = request.getParameter(radioName);
+                    Byte radioValue = (value == null) ? null : Byte.valueOf(value);
 
-                        String otherUserId = request.getParameter(radioName+"_4");
-                        if (StringUtils.isNotBlank(otherUserId)){
-                            otherResultMap.put(radioName+"_4", Integer.valueOf(otherUserId));
+                    if (radioValue != null) {
+
+                        secondResultMap.put(radioName, radioValue);
+                        if (radioValue == PcsConstants.RESULT_STATUS_DISAGREE) {
+
+                            String otherUserId = request.getParameter(radioName + "_4");
+                            if (StringUtils.isNotBlank(otherUserId)) {
+                                otherResultMap.put(radioName + "_4", Integer.valueOf(otherUserId));
+                            }
                         }
                     }
                 }
-            }
 
-            tempResult.setSecondResultMap(secondResultMap);
-            tempResult.setOtherResultMap(otherResultMap);
-            String tempdata = pcsPollResultService.getStringTemp(tempResult);
-            inspector.setTempdata(tempdata);
+                tempResult.setSecondResultMap(secondResultMap);
+                tempResult.setOtherResultMap(otherResultMap);
+                String tempdata = pcsPollResultService.getStringTemp(tempResult);
+                inspector.setTempdata(tempdata);
 
-            if (isSubmit){
-
-                //otherResultMap.values()
-
-                pcsPollResultService.submitResult(inspector);
-            }else {
                 pcsPollInspectorService.updateByPrimaryKeySelective(inspector);
             }
         }
@@ -294,6 +349,67 @@ public class UserPcsPollController extends PcsBaseController {
                 isSubmit?"提交":"保存", pcsPoll.getName()));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/submit_info")
+    public String pcsPoll_au(ModelMap modelMap, HttpServletRequest request) {
+
+        PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
+
+        if (inspector != null) {
+
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
+            modelMap.put("stage", pcsPoll.getStage());
+            String tempdata = inspector.getTempdata();
+            PcsTempResult tempResult = pcsPollResultService.getTempResult(tempdata);
+            int prCount = 0;
+            int dwCount = 0;
+            int jwCount = 0;
+            if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {
+                Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
+                for (Map.Entry<Byte, Set<Integer>> entry : firstResultMap.entrySet()){
+                    if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                        prCount = entry.getValue().size();
+                    }else if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                        dwCount = entry.getValue().size();
+                    }else if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                        jwCount = entry.getValue().size();
+                    }
+                }
+            }else {
+                Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
+                Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
+
+                Byte _type= 0;
+                for (String key : secondResultMap.keySet()){
+                    int count = 0;
+                    _type = Byte.valueOf(key.split("_")[0]);
+
+                    if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_AGREE){
+                        count++;
+                    }else if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_DISAGREE){
+                        if (otherResultMap.containsKey(key + "_4")){
+                            count++;
+                        }
+                    }
+
+                    if (_type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                        prCount += count;
+                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                        dwCount += count;
+                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                        jwCount += count;
+                    }
+                }
+
+            }
+            modelMap.put("prCount", prCount);
+            modelMap.put("dwCount", dwCount);
+            modelMap.put("jwCount", jwCount);
+
+        }
+
+        return "pcs/pcsPoll/user/submit_info";
     }
 
     // 根据类别、状态、账号或姓名或学工号 查询 党员
@@ -307,7 +423,6 @@ public class UserPcsPollController extends PcsBaseController {
                               Byte politicalStatus,
                               Byte[] status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
-                              Integer[] excludeUserIds, // 排除用户
                               @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                               Integer pageNo,
                               String searchStr) throws IOException {
@@ -353,10 +468,6 @@ public class UserPcsPollController extends PcsBaseController {
 
         if(status!=null && status.length>0){
             criteria.andStatusIn(Arrays.asList(status));
-        }
-
-        if(excludeUserIds!=null && excludeUserIds.length>0){
-            criteria.andUserIdNotIn(Arrays.asList(excludeUserIds));
         }
 
         searchStr = StringUtils.trimToNull(searchStr);

@@ -98,13 +98,15 @@ public class PcsConstants {
         PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_FINISH, "处理完成");
     }
 
-    public final static byte PCS_POLL_FIRST_STAGE = 0;
-    public final static byte PCS_POLL_SECOND_STAGE = 1;
+    public final static byte PCS_POLL_FIRST_STAGE = 1;
+    public final static byte PCS_POLL_SECOND_STAGE = 2;
+    public final static byte PCS_POLL_THIRD_STAGE = 3;
     public final static Map<Byte, String> PCS_POLL_STAGE_MAP = new LinkedHashMap<>();
 
     static {
         PCS_POLL_STAGE_MAP.put(PCS_POLL_FIRST_STAGE, "一下阶段");
         PCS_POLL_STAGE_MAP.put(PCS_POLL_SECOND_STAGE, "二下阶段");
+        PCS_POLL_STAGE_MAP.put(PCS_POLL_THIRD_STAGE, "三下阶段");
     }
 
     //推荐投票

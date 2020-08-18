@@ -25,8 +25,8 @@ public interface IPcsMapper {
 
 
     // 更新党代会投票中的参评人数量
-    @Update("update pcs_poll pp left join (select poll_id, count(*) count,SUM(if(is_finished,1,0)) finished_count," +
-            "SUM(if(is_finished=1 and is_positive=1,1,0)) positive_count from pcs_poll_inspector group by poll_id) tmp on tmp.poll_id=pp.id " +
+    @Update("update pcs_poll pp left join (select poll_id, count(*) as count,SUM(if(is_finished,1,0)) as finished_count," +
+            "SUM(if(is_finished=1 and is_positive=1,1,0)) as positive_count from pcs_poll_inspector group by poll_id) tmp on tmp.poll_id=pp.id " +
             "set inspector_num=ifnull(COUNT,0),inspector_finish_num=ifnull(finished_count,0),positive_finish_num=ifnull(positive_count,0) where pp.id=#{pollId}")
     int updatePollInspectorCount(@Param("pollId") Integer pollId);
 
@@ -177,34 +177,53 @@ public interface IPcsMapper {
                                         @Param("candidateType") int candidateType,
                                         @Param("partyId") int partyId);
 
-    //党代会投票
-    public int countResult(@Param("userId") Integer userId,
+    /*
+    * @des 党代会投票  除了必填的，其他参数均用来查询或者设置候选人
+    * @param type 必填 推荐人类型
+    * @param pollIdList 必填 党代会投票id
+    * @param stage 必填 党代会阶段
+    * @param isCandidate 设置候选人时使用
+    * */
+    public int countResult(@Param("type") Byte type,
+                           @Param("pollIdList") List<Integer> pollIdList,
+                           @Param("stage") Byte stage,
+                           @Param("isCandidate") Boolean isCandidate,
+                           @Param("userId") Integer userId,
                            @Param("partyId") Integer partyId,
                            @Param("branchId") Integer branchId,
-                           @Param("pollIdList") List<Integer> pollIdList,
                            @Param("partyIdList") List<Integer> partyIdList,
                            @Param("branchIdList") List<Integer> branchIdList);
 
-    public List<PcsFinalResult> selectResultList( @Param("userId") Integer userId,
+    public List<PcsFinalResult> selectResultList(@Param("type") Byte type,
+                                                 @Param("pollIdList") List<Integer> pollIdList,
+                                                 @Param("stage") Byte stage,
+                                                 @Param("isCandidate") Boolean isCandidate,
+                                                 @Param("userId") Integer userId,
                                                  @Param("partyId") Integer partyId,
                                                  @Param("branchId") Integer branchId,
-                                                 @Param("pollIdList") List<Integer> pollIdList,
                                                  @Param("partyIdList") List<Integer> partyIdList,
                                                  @Param("branchIdList") List<Integer> branchIdList,
                                                  RowBounds rowBounds);
 
-    public int countSecondResult(@Param("userId") Integer userId,
+    public int countSecondResult(@Param("type") Byte type,
+                                 @Param("pollIdList") List<Integer> pollIdList,
+                                 @Param("stage") Byte stage,
+                                 @Param("isCandidate") Boolean isCandidate,
+                                 @Param("userId") Integer userId,
                                  @Param("partyId") Integer partyId,
                                  @Param("branchId") Integer branchId,
-                                 @Param("pollIdList") List<Integer> pollIdList,
                                  @Param("partyIdList") List<Integer> partyIdList,
                                  @Param("branchIdList") List<Integer> branchIdList);
 
-    public List<PcsFinalResult> selectSecondResultList(@Param("userId") Integer userId,
+    public List<PcsFinalResult> selectSecondResultList(@Param("type") Byte type,
+                                                       @Param("pollIdList") List<Integer> pollIdList,
+                                                       @Param("stage") Byte stage,
+                                                       @Param("isCandidate") Boolean isCandidate,
+                                                       @Param("userId") Integer userId,
                                                        @Param("partyId") Integer partyId,
                                                        @Param("branchId") Integer branchId,
-                                                       @Param("pollIdList") List<Integer> pollIdList,
                                                        @Param("partyIdList") List<Integer> partyIdList,
                                                        @Param("branchIdList") List<Integer> branchIdList,
                                                        RowBounds rowBounds);
+
 }

@@ -6,13 +6,14 @@
     <result column="poll_id" jdbcType="INTEGER" property="pollId" />
     <result column="candidate_user_id" jdbcType="INTEGER" property="candidateUserId" />
     <result column="inspector_id" jdbcType="INTEGER" property="inspectorId" />
-    <result column="is_second" jdbcType="BIT" property="isSecond" />
+    <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="is_positive" jdbcType="BIT" property="isPositive" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="is_candidate" jdbcType="BIT" property="isCandidate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, poll_id, candidate_user_id, inspector_id, is_second, party_id, branch_id, is_positive, 
-    status, type, user_id, remark
+    id, poll_id, candidate_user_id, inspector_id, stage, party_id, branch_id, is_positive, 
+    status, type, user_id, is_candidate, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollResultExample" resultMap="BaseResultMap">
     select
@@ -109,15 +110,15 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsPollResult">
     insert into pcs_poll_result (id, poll_id, candidate_user_id, 
-      inspector_id, is_second, party_id, 
+      inspector_id, stage, party_id, 
       branch_id, is_positive, status, 
-      type, user_id, remark
-      )
+      type, user_id, is_candidate, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{pollId,jdbcType=INTEGER}, #{candidateUserId,jdbcType=INTEGER}, 
-      #{inspectorId,jdbcType=INTEGER}, #{isSecond,jdbcType=BIT}, #{partyId,jdbcType=INTEGER}, 
+      #{inspectorId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{isPositive,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
-      #{type,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{type,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{isCandidate,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPollResult">
     insert into pcs_poll_result
@@ -134,8 +135,8 @@
       <if test="inspectorId != null">
         inspector_id,
       </if>
-      <if test="isSecond != null">
-        is_second,
+      <if test="stage != null">
+        stage,
       </if>
       <if test="partyId != null">
         party_id,
@@ -155,6 +156,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="isCandidate != null">
+        is_candidate,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -172,8 +176,8 @@
       <if test="inspectorId != null">
         #{inspectorId,jdbcType=INTEGER},
       </if>
-      <if test="isSecond != null">
-        #{isSecond,jdbcType=BIT},
+      <if test="stage != null">
+        #{stage,jdbcType=TINYINT},
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
@@ -192,6 +196,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isCandidate != null">
+        #{isCandidate,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -219,8 +226,8 @@
       <if test="record.inspectorId != null">
         inspector_id = #{record.inspectorId,jdbcType=INTEGER},
       </if>
-      <if test="record.isSecond != null">
-        is_second = #{record.isSecond,jdbcType=BIT},
+      <if test="record.stage != null">
+        stage = #{record.stage,jdbcType=TINYINT},
       </if>
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
@@ -240,6 +247,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.isCandidate != null">
+        is_candidate = #{record.isCandidate,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -254,13 +264,14 @@
       poll_id = #{record.pollId,jdbcType=INTEGER},
       candidate_user_id = #{record.candidateUserId,jdbcType=INTEGER},
       inspector_id = #{record.inspectorId,jdbcType=INTEGER},
-      is_second = #{record.isSecond,jdbcType=BIT},
+      stage = #{record.stage,jdbcType=TINYINT},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       is_positive = #{record.isPositive,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
       user_id = #{record.userId,jdbcType=INTEGER},
+      is_candidate = #{record.isCandidate,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -278,8 +289,8 @@
       <if test="inspectorId != null">
         inspector_id = #{inspectorId,jdbcType=INTEGER},
       </if>
-      <if test="isSecond != null">
-        is_second = #{isSecond,jdbcType=BIT},
+      <if test="stage != null">
+        stage = #{stage,jdbcType=TINYINT},
       </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
@@ -299,6 +310,9 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="isCandidate != null">
+        is_candidate = #{isCandidate,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -310,13 +324,14 @@
     set poll_id = #{pollId,jdbcType=INTEGER},
       candidate_user_id = #{candidateUserId,jdbcType=INTEGER},
       inspector_id = #{inspectorId,jdbcType=INTEGER},
-      is_second = #{isSecond,jdbcType=BIT},
+      stage = #{stage,jdbcType=TINYINT},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       is_positive = #{isPositive,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
       user_id = #{userId,jdbcType=INTEGER},
+      is_candidate = #{isCandidate,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

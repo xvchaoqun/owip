@@ -11,14 +11,13 @@ import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
 import service.pcs.*;
-import service.sys.StudentInfoService;
-import service.sys.SysUserService;
-import service.sys.TeacherInfoService;
-import service.sys.UserBeanService;
+import service.sys.*;
 import sys.HttpResponseMethod;
 
 public class PcsBaseController extends PcsBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected SysPropertyService sysPropertyService;
     @Autowired
     protected LoginUserService loginUserService;
     @Autowired

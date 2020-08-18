@@ -16,9 +16,9 @@ public class PcsTempResult implements Serializable {
 
     //<type, Set<userId>>  一下阶段推荐结果
     public Map<Byte, Set<Integer>> firstResultMap;
-    //<type_candidateUserId, status>  二下阶段推荐人推荐结果
+    //<type_candidateUserId, status>  二下/三下阶段推荐人推荐结果
     public Map<String, Byte> secondResultMap;
-    //<type_candidateUserId_4, userId>    二下阶段其他推荐人
+    //<type_candidateUserId_4, userId>    二下/三下阶段其他推荐人
     public Map<String, Integer> otherResultMap;
 
     public PcsTempResult() {

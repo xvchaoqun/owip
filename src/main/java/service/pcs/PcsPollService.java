@@ -1,11 +1,18 @@
 package service.pcs;
 
 import controller.global.OpException;
+import domain.member.Member;
 import domain.pcs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.LoginUserService;
 import service.party.PartyService;
+import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.PcsConstants;
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.*;
 
@@ -16,6 +23,35 @@ public class PcsPollService extends PcsBaseMapper {
     private PcsConfigService pcsConfigService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private PcsPollInspectorService pcsPollInspectorService;
+    @Autowired
+    private PcsPollCandidateService pcsPollCandidateService;
+    @Autowired
+    private LoginUserService loginUserService;
+
+    //删除和作废的权限判断
+    public void judgeAuthority(List<Integer> ids){
+
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            List<Integer> branchIdList = loginUserService.adminBranchIdList();
+            for (Integer id : ids) {
+                PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+                Integer partyId = pcsPoll.getPartyId();
+                Integer branchId = pcsPoll.getBranchId();
+                if (branchId != null && !branchIdList.contains(branchId)){
+                    if (partyIdList.contains(partyId))
+                        break;
+                    throw new OpException("没有权限操作[{0}]的党代会投票信息", branchMapper.selectByPrimaryKey(branchId).getName());
+                } else if (branchId != null && branchIdList.contains(branchId)) {
+                    break;
+                } else if (!partyIdList.contains(partyId)){
+                    throw new OpException("没有权限操作[{0}]的党代会投票信息", partyMapper.selectByPrimaryKey(partyId).getName());
+                }
+            }
+        }
+    }
 
     @Transactional
     public void insertSelective(PcsPoll record){
@@ -24,26 +60,9 @@ public class PcsPollService extends PcsBaseMapper {
     }
 
     @Transactional
-    public void del(Integer id){
-
-        pcsPollMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
     public void batchDel(Integer[] ids){
 
-        //党代会为假删除，其他内容真删除
         if(ids==null || ids.length==0) return;
-
-        PcsPoll record = new PcsPoll();
-        record.setInspectorNum(0);
-        record.setInspectorFinishNum(0);
-        record.setPositiveFinishNum(0);
-        record.setIsDeleted(true);
-
-        PcsPollExample example = new PcsPollExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pcsPollMapper.updateByExampleSelective(record, example);
 
         PcsPollResultExample resultExample = new PcsPollResultExample();
         resultExample.createCriteria().andPollIdIn(Arrays.asList(ids));
@@ -56,6 +75,10 @@ public class PcsPollService extends PcsBaseMapper {
         PcsPollCandidateExample candidateExample = new PcsPollCandidateExample();
         candidateExample.createCriteria().andPollIdIn(Arrays.asList(ids));
         pcsPollCandidateMapper.deleteByExample(candidateExample);
+
+        PcsPollExample example = new PcsPollExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        pcsPollMapper.deleteByExample(example);
     }
 
     @Transactional
@@ -75,10 +98,8 @@ public class PcsPollService extends PcsBaseMapper {
             }
         }
         PcsPollExample example = new PcsPollExample();
-        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(record.getConfigId());
-        if (partyId != null){
-            criteria.andPartyIdEqualTo(partyId);
-        }
+        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(record.getConfigId())
+                .andStageEqualTo(record.getStage()).andIsDeletedEqualTo(false).andPartyIdEqualTo(partyId);
         if (branchId != null){
             criteria.andBranchIdEqualTo(branchId);
         }
@@ -90,15 +111,66 @@ public class PcsPollService extends PcsBaseMapper {
     }
 
     @Transactional
-    public void batchReport(Integer[] ids) {
+    public void batchReport(Integer id) {
 
-        if(ids==null || ids.length==0) return;
+        if(id==null) return;
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+
+        //控制参评率（完成投票的数量/账号的数量）
+        int inspectorNum = pcsPoll.getInspectorNum();
+        int inspectorFinishNum = pcsPoll.getInspectorFinishNum();
+        float rate = 0;
+        if (inspectorNum != 0){
+            rate = inspectorFinishNum/inspectorNum;
+        }else {
+            throw new OpException("未设置投票人投票");
+        }
+        if (rate <0.8 || rate >1){
+            throw new OpException("未达到要求的参评率80%");
+        }
+
+        List<Member> positiveMemeber = pcsPollInspectorService.getBranchMember(pcsPoll, MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+        int positiveCount = positiveMemeber.size();
+        int positiveFinishNum = pcsPoll.getPositiveFinishNum();
+        if (positiveCount < positiveFinishNum){
+            throw new OpException("参与提名的正式党员数量大于支部正式党员数量，不能报送");
+        }
+
+        List<Integer> pollIdList = new ArrayList<>();
+        pollIdList.add(id);
+        Map<Byte, Integer> candidateCountMap = new HashMap<>();
+        int candidateCount = 0;//候选人数
+        Byte stage = pcsPoll.getStage();
+        for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
+            if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
+                candidateCount =  iPcsMapper.countResult(key, pollIdList, stage, true, null, null, null, null, null);
+            }else{
+                candidateCount = iPcsMapper.countSecondResult(key, pollIdList, stage, true, null, null, null, null, null);
+            }
+            candidateCountMap.put(key, candidateCount);
+        }
+        int prCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_PR);
+        int dwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_DW);
+        int jwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);
+
+        try {
+            if (prCount > pcsPollCandidateService.getPrRequiredCount(pcsPoll.getPartyId())) {
+                throw new OpException("代表中的候选人超过规定数量，不能报送");
+            }else if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
+                throw new OpException("党委委员中的候选人超过规定数量，不能报送");
+            }else if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
+                throw new OpException("纪委委员中的候选人超过规定数量，不能报送");
+            }
+        }catch (Exception e){
+            throw new OpException("属性值错误");
+        }
+
+
         PcsPoll record = new PcsPoll();
+        record.setId(id);
         record.setHasReport(true);
-
-        PcsPollExample example = new PcsPollExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pcsPollMapper.updateByExampleSelective(record, example);
+        pcsPollMapper.updateByPrimaryKeySelective(record);
     }
 
     //得到当前党代会投票的ids
@@ -108,7 +180,7 @@ public class PcsPollService extends PcsBaseMapper {
         Integer configId = pcsConfig.getId();
 
         PcsPollExample example = new PcsPollExample();
-        example.createCriteria().andConfigIdEqualTo(configId).andIsDeletedEqualTo(false);
+        example.createCriteria().andConfigIdEqualTo(configId).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
         List<PcsPoll> pcsPolls = pcsPollMapper.selectByExample(example);
         List<Integer> pollIdList = new ArrayList<>();
         if (pcsPolls != null && pcsPolls.size() > 0) {
@@ -118,5 +190,19 @@ public class PcsPollService extends PcsBaseMapper {
         }
 
         return pollIdList;
+    }
+
+    @Transactional
+    public void batchCancel(Integer[] ids, Byte isDeleted) {
+
+        if(ids==null || ids.length==0) return;
+
+        PcsPoll record = new PcsPoll();
+        record.setIsDeleted(isDeleted==0);
+
+        PcsPollExample example = new PcsPollExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        pcsPollMapper.updateByExampleSelective(record, example);
+
     }
 }

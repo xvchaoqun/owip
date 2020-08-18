@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 投票阶段</label>
 			<div class="col-xs-6">
-				<select required data-rel="select2" name="isSecond" data-width="270"
+				<select required data-rel="select2" name="stage" data-width="270"
 						data-placeholder="请选择">
 					<option></option>
 					<c:forEach items="${PCS_POLL_STAGE_MAP}" var="entry">
@@ -57,8 +57,8 @@ pageEncoding="UTF-8"%>
 				</select>
 			</div>
 		</div>
-		<script> $("#pcsPollForm select[name=isSecond]").val(${not empty pcsPoll.isSecond?(pcsPoll.isSecond?1:0):''}) </script>
-		<div class="form-group">
+		<script> $("#pcsPollForm select[name=stage]").val(${pcsPoll.stage}) </script>
+		<%--<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 代表推荐人数</label>
 			<div class="col-xs-6">
 				<input required style="width: 78px;" ${pcsPoll.hasReport||pcsPoll.inspectorFinishNum>0?"disabled":""} class="form-control digits" type="text"
@@ -78,7 +78,7 @@ pageEncoding="UTF-8"%>
 				<input required style="width: 78px;" ${pcsPoll.hasReport||pcsPoll.inspectorFinishNum>0?"disabled":""} class="form-control digits" type="text"
 					   name="jwNum" value="${pcsPoll.jwNum}" data-rule-min="0">
 			</div>
-		</div>
+		</div>--%>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 投票起始时间</label>
 			<div class="col-xs-6">

@@ -1,15 +1,28 @@
 package service.pcs;
 
+import controller.global.OpException;
+import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollCandidate;
 import domain.pcs.PcsPollCandidateExample;
+import domain.pcs.PcsPollExample;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.pcs.common.PcsFinalResult;
+import persistence.pcs.common.ResultBean;
+import service.party.PartyService;
+import sys.constants.PcsConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class PcsPollCandidateService extends PcsBaseMapper {
+
+    @Autowired
+    private PartyService partyService;
 
     @Transactional
     public void insertSelective(PcsPollCandidate record){
@@ -55,8 +68,8 @@ public class PcsPollCandidateService extends PcsBaseMapper {
         return addCount;
     }
 
-    //List<PcsPollCandidate> -- 二下推荐人
-    public List<PcsPollCandidate> findAll(Integer pollId, byte type){
+    //List<PcsPollCandidate> -- 二下/三下推荐人
+    public List<PcsPollCandidate> findAll(Integer pollId, Byte type){
 
         PcsPollCandidateExample example = new PcsPollCandidateExample();
         example.createCriteria().andPollIdEqualTo(pollId).andTypeEqualTo(type);
@@ -66,4 +79,95 @@ public class PcsPollCandidateService extends PcsBaseMapper {
 
         return pcsPollCandidates;
     }
+
+    //得到投票中党代表要求的数量
+    public int getPrRequiredCount(Integer partyId) {
+
+        int count = 2;
+        return count;
+    }
+
+    /*
+    * @return 结果中得票数为提名正式党员数
+    * */
+    // 获得支部的推荐汇总结果
+    public List<ResultBean> getCandidates(int configId, int partyId, Integer branchId, byte type, byte stage){
+
+        PcsPollExample example = new PcsPollExample();
+        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
+                .andStageEqualTo(stage).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
+        if (branchId == null){
+            if (!partyService.isDirectBranch(partyId)) {
+                throw new OpException("请选择所属党支部");
+            }
+        }else {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example);
+        if (pcsPollList.size() == 0){
+            throw new OpException("党代会投票不存在");
+        }
+        List<Integer> pollIdList = new ArrayList<>();
+        pollIdList.add(pcsPollList.get(0).getId());
+        List<PcsFinalResult> pcsFinalResults = new ArrayList<>();
+        if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
+            pcsFinalResults = iPcsMapper.selectSecondResultList(type, pollIdList, stage, null, null, partyId, branchId, null, null,
+                    new RowBounds());
+        }else {
+            pcsFinalResults = iPcsMapper.selectResultList(type, pollIdList, stage, null, null, partyId, branchId, null, null,
+                    new RowBounds());
+        }
+
+        List<ResultBean> resultBeans = new ArrayList<>();
+        if (pcsFinalResults.size() > 0){
+            for (PcsFinalResult pcsFinalResult : pcsFinalResults) {
+                ResultBean bean = new ResultBean();
+                bean.setUserId(pcsFinalResult.getUserId());
+                bean.setBallot(pcsFinalResult.getPositiveBallot());
+
+                resultBeans.add(bean);
+            }
+        }
+
+        return resultBeans;
+    }
+
+    // 获得分党委的推荐汇总结果
+    public List<ResultBean> getCandidates(int configId, int partyId, byte type, byte stage){
+
+        PcsPollExample example = new PcsPollExample();
+        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
+                .andStageEqualTo(stage).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
+
+        List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example);
+        if (pcsPollList.size() == 0){
+            throw new OpException("没有报送的党代会投票结果");
+        }
+        List<Integer> pollIdList = new ArrayList<>();
+        pollIdList.add(pcsPollList.get(0).getId());
+        List<PcsFinalResult> pcsFinalResults = new ArrayList<>();
+        if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
+            pcsFinalResults = iPcsMapper.selectSecondResultList(type, pollIdList, stage, null, null, partyId, null, null, null,
+                    new RowBounds());
+        }else {
+            pcsFinalResults = iPcsMapper.selectResultList(type, pollIdList, stage, null, null, partyId, null, null, null,
+                    new RowBounds());
+        }
+
+        List<ResultBean> resultBeans = new ArrayList<>();
+        if (pcsFinalResults.size() > 0){
+            for (PcsFinalResult pcsFinalResult : pcsFinalResults) {
+                ResultBean bean = new ResultBean();
+                bean.setUserId(pcsFinalResult.getUserId());
+                bean.setBranchNum(pcsFinalResult.getBranchNum());
+                bean.setBallot(pcsFinalResult.getPositiveBallot());
+
+                resultBeans.add(bean);
+            }
+        }
+
+        return resultBeans;
+    }
+
 }
