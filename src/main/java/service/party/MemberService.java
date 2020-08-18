@@ -851,7 +851,8 @@ public class MemberService extends MemberBaseMapper {
     public void batchUpdate(List<Member> records){
 
         for (Member member : records){
-
+            //记录调整日志
+            addModify(member.getUserId(),"组织关系批量调整");
             memberMapper.updateByPrimaryKeySelective(member);
         }
     }
