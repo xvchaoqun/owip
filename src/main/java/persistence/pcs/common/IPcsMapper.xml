@@ -126,33 +126,18 @@
         </if>
         </where>
     </sql>
-    <!--<select id="selectPcsPrPartyBeanList" resultMap="PrPartyBaseResultMap" parameterType="map">
-        select op.*, ${stage} as stage, ${configId} as config_id,
-        ppr.expect_member_count,ppr.expect_positive_member_count,
-        ppr.actual_member_count, ppr.actual_positive_member_count, ppr.has_report,
-        ppr.status as recommend_status, ppr.check_remark from pcs_party op
-        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.party_id = ppr.party_id
-        <include refid="searchPcsPrPartyBeans"/>
-        order by op.sort_order desc
-    </select>
-    <select id="countPcsPrPartyBeanList" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from pcs_party op
-        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.party_id =
-        ppr.party_id
-        <include refid="searchPcsPrPartyBeans"/>
-    </select>-->
     <select id="selectPcsPrPartyBeanList" resultMap="PrPartyBaseResultMap" parameterType="map">
         select op.*, ${stage} as stage, op.config_id,
         ppr.expect_member_count,ppr.expect_positive_member_count,
         ppr.actual_member_count, ppr.actual_positive_member_count, ppr.has_report,
         ppr.status as recommend_status, ppr.check_remark from pcs_party op
-        left join pcs_pr_recommend ppr on ppr.config_id=op.cofig_id and ppr.stage=#{stage} and ppr.party_id = op.party_id
+        left join pcs_pr_recommend ppr on ppr.config_id=op.config_id and ppr.stage=#{stage} and ppr.party_id = op.party_id
         <include refid="searchPcsPrPartyBeans"/>
         order by op.sort_order desc
     </select>
     <select id="countPcsPrPartyBeanList" parameterType="map" resultType="java.lang.Integer">
         select count(*) from pcs_party op
-        left join pcs_pr_recommend ppr on ppr.config_id=op.cofig_id and ppr.stage=#{stage} and ppr.party_id = op.party_id
+        left join pcs_pr_recommend ppr on ppr.config_id=op.config_id and ppr.stage=#{stage} and ppr.party_id = op.party_id
         <include refid="searchPcsPrPartyBeans"/>
     </select>
 

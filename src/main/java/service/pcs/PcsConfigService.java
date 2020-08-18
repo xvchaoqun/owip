@@ -43,10 +43,6 @@ public class PcsConfigService extends PcsBaseMapper {
         return PatternUtils.withdraw(".*第(.*)次.*", name);
     }
 
-    public static void main(String[] args) {
-        System.out.println(PatternUtils.withdraw(".*第(.*)次.*", "中共第三声次单独"));
-    }
-
     // 获取当前党代会
     public PcsConfig getCurrentPcsConfig() {
 
