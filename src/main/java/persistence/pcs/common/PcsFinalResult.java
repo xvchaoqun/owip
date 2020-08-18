@@ -11,6 +11,7 @@ public class PcsFinalResult {
 
     public Integer pollId;//党代会投票id
     public Integer userId;//推荐人
+    public Boolean isCandidate;//是否是候选人
     public Byte type;//推荐人类型
     public Integer branchNum;//投票党支部数
     public Integer positiveBallot;//党员票数
@@ -33,6 +34,14 @@ public class PcsFinalResult {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Boolean getCandidate() {
+        return isCandidate;
+    }
+
+    public void setCandidate(Boolean candidate) {
+        isCandidate = candidate;
     }
 
     public Byte getType() {

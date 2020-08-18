@@ -7,7 +7,7 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
-    <result column="is_second" jdbcType="BIT" property="isSecond" />
+    <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
     <result column="pr_num" jdbcType="INTEGER" property="prNum" />
     <result column="dw_num" jdbcType="INTEGER" property="dwNum" />
@@ -82,8 +82,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, branch_id, name, config_id, is_second, has_report, pr_num, dw_num, 
-    jw_num, inspector_num, inspector_finish_num, positive_finish_num, notice, mobile_notice, 
+    id, party_id, branch_id, name, config_id, stage, has_report, pr_num, dw_num, jw_num, 
+    inspector_num, inspector_finish_num, positive_finish_num, notice, mobile_notice, 
     inspector_notice, start_time, end_time, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollExample" resultMap="BaseResultMap">
@@ -118,14 +118,14 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsPoll">
     insert into pcs_poll (id, party_id, branch_id, 
-      name, config_id, is_second, 
+      name, config_id, stage, 
       has_report, pr_num, dw_num, 
       jw_num, inspector_num, inspector_finish_num, 
       positive_finish_num, notice, mobile_notice, 
       inspector_notice, start_time, end_time, 
       is_deleted, remark)
     values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{configId,jdbcType=INTEGER}, #{isSecond,jdbcType=BIT}, 
+      #{name,jdbcType=VARCHAR}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
       #{hasReport,jdbcType=BIT}, #{prNum,jdbcType=INTEGER}, #{dwNum,jdbcType=INTEGER}, 
       #{jwNum,jdbcType=INTEGER}, #{inspectorNum,jdbcType=INTEGER}, #{inspectorFinishNum,jdbcType=INTEGER}, 
       #{positiveFinishNum,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, 
@@ -150,8 +150,8 @@
       <if test="configId != null">
         config_id,
       </if>
-      <if test="isSecond != null">
-        is_second,
+      <if test="stage != null">
+        stage,
       </if>
       <if test="hasReport != null">
         has_report,
@@ -212,8 +212,8 @@
       <if test="configId != null">
         #{configId,jdbcType=INTEGER},
       </if>
-      <if test="isSecond != null">
-        #{isSecond,jdbcType=BIT},
+      <if test="stage != null">
+        #{stage,jdbcType=TINYINT},
       </if>
       <if test="hasReport != null">
         #{hasReport,jdbcType=BIT},
@@ -283,8 +283,8 @@
       <if test="record.configId != null">
         config_id = #{record.configId,jdbcType=INTEGER},
       </if>
-      <if test="record.isSecond != null">
-        is_second = #{record.isSecond,jdbcType=BIT},
+      <if test="record.stage != null">
+        stage = #{record.stage,jdbcType=TINYINT},
       </if>
       <if test="record.hasReport != null">
         has_report = #{record.hasReport,jdbcType=BIT},
@@ -340,7 +340,7 @@
       branch_id = #{record.branchId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       config_id = #{record.configId,jdbcType=INTEGER},
-      is_second = #{record.isSecond,jdbcType=BIT},
+      stage = #{record.stage,jdbcType=TINYINT},
       has_report = #{record.hasReport,jdbcType=BIT},
       pr_num = #{record.prNum,jdbcType=INTEGER},
       dw_num = #{record.dwNum,jdbcType=INTEGER},
@@ -374,8 +374,8 @@
       <if test="configId != null">
         config_id = #{configId,jdbcType=INTEGER},
       </if>
-      <if test="isSecond != null">
-        is_second = #{isSecond,jdbcType=BIT},
+      <if test="stage != null">
+        stage = #{stage,jdbcType=TINYINT},
       </if>
       <if test="hasReport != null">
         has_report = #{hasReport,jdbcType=BIT},
@@ -428,7 +428,7 @@
       branch_id = #{branchId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       config_id = #{configId,jdbcType=INTEGER},
-      is_second = #{isSecond,jdbcType=BIT},
+      stage = #{stage,jdbcType=TINYINT},
       has_report = #{hasReport,jdbcType=BIT},
       pr_num = #{prNum,jdbcType=INTEGER},
       dw_num = #{dwNum,jdbcType=INTEGER},

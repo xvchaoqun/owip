@@ -11,7 +11,7 @@ public class PcsPollResult implements Serializable {
 
     private Integer inspectorId;
 
-    private Boolean isSecond;
+    private Byte stage;
 
     private Integer partyId;
 
@@ -24,6 +24,8 @@ public class PcsPollResult implements Serializable {
     private Byte type;
 
     private Integer userId;
+
+    private Boolean isCandidate;
 
     private String remark;
 
@@ -61,12 +63,12 @@ public class PcsPollResult implements Serializable {
         this.inspectorId = inspectorId;
     }
 
-    public Boolean getIsSecond() {
-        return isSecond;
+    public Byte getStage() {
+        return stage;
     }
 
-    public void setIsSecond(Boolean isSecond) {
-        this.isSecond = isSecond;
+    public void setStage(Byte stage) {
+        this.stage = stage;
     }
 
     public Integer getPartyId() {
@@ -115,6 +117,14 @@ public class PcsPollResult implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Boolean getIsCandidate() {
+        return isCandidate;
+    }
+
+    public void setIsCandidate(Boolean isCandidate) {
+        this.isCandidate = isCandidate;
     }
 
     public String getRemark() {

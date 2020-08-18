@@ -1,6 +1,7 @@
 package controller.pcs;
 
 import controller.global.OpException;
+import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollCandidate;
 import domain.pcs.PcsPollCandidateExample;
 import domain.pcs.PcsPollCandidateExample.Criteria;
@@ -16,6 +17,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -105,8 +107,12 @@ public class PcsPollCandidateController extends PcsBaseController {
 
     @RequiresPermissions("pcsPollCandidate:list")
     @RequestMapping("/pcsPollCandidate_import")
-    public String pcsPollCandidate_import() {
+    public String pcsPollCandidate_import(Integer pollId, ModelMap modelMap) {
 
+        if (pollId != null){
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+            modelMap.put("stage", pcsPoll.getStage());
+        }
         return "pcs/pcsPoll/pcsPollCandidate/pcsPollCandidate_import";
     }
 
@@ -147,6 +153,7 @@ public class PcsPollCandidateController extends PcsBaseController {
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<PcsPollCandidate> records = new ArrayList<>();
+        List<String> usercodes = new ArrayList<>();
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
 
@@ -161,6 +168,12 @@ public class PcsPollCandidateController extends PcsBaseController {
             if (user == null){
                 throw new OpException("第{0}行学工号[{1}]不存在", row, usercode);
             }
+
+            if (usercodes.contains(usercode)){
+                continue;
+            }
+            usercodes.add(usercode);
+
             record.setPollId(pollId);
             record.setUserId(user.getId());
             record.setType(type);

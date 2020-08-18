@@ -1,5 +1,6 @@
 package controller.pcs;
 
+import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.pcs.PcsPoll;
@@ -14,6 +15,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +37,10 @@ public class PcsPollInspectorController extends PcsBaseController {
 
     @RequiresPermissions("pcsPollInspector:list")
     @RequestMapping("/pcsPollInspector")
-    public String pcsPollInspector() {
+    public String pcsPollInspector(Integer pollId, ModelMap modelMap) {
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        modelMap.put("pcsPoll", pcsPoll);
 
         return "pcs/pcsPoll/pcsPollInspector/pcsPollInspector_page";
     }
@@ -120,6 +125,13 @@ public class PcsPollInspectorController extends PcsBaseController {
     public Map do_pcsPollInspector_au(Integer pollId, Integer count, HttpServletRequest request) {
 
         if (pollId != null && count > 0){
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+            List<Member> branchMembers = pcsPollInspectorService.getBranchMember(pcsPoll, null);
+            int requiredCount = branchMembers.size();
+            int existCount = pcsPoll.getInspectorNum();
+            if (count + existCount > requiredCount){
+                return failed("生成账号失败，生成账号后投票人账号总数超出党支部成员总数{0}人",count + existCount - requiredCount);
+            }
             pcsPollInspectorService.genInspector(pollId, count);
             logger.info(log( LogConstants.LOG_PCS, "党代会投票{0}生成投票人数{1}", pollId, count));
         }
@@ -129,7 +141,12 @@ public class PcsPollInspectorController extends PcsBaseController {
 
     @RequiresPermissions("pcsPollInspector:edit")
     @RequestMapping("/pcsPollInspector_au")
-    public String pcsPollInspector_au() {
+    public String pcsPollInspector_au(Integer pollId, ModelMap modelMap) {
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        List<Member> members = pcsPollInspectorService.getBranchMember(pcsPoll, null);
+        int branchMemberNum = members.size();
+        modelMap.put("branchMemberNum", branchMemberNum);
 
         return "pcs/pcsPoll/pcsPollInspector/pcsPollInspector_au";
     }

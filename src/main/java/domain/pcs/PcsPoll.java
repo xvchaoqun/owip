@@ -24,7 +24,7 @@ public class PcsPoll implements Serializable {
 
     private Integer configId;
 
-    private Boolean isSecond;
+    private Byte stage;
 
     private Boolean hasReport;
 
@@ -98,12 +98,12 @@ public class PcsPoll implements Serializable {
         this.configId = configId;
     }
 
-    public Boolean getIsSecond() {
-        return isSecond;
+    public Byte getStage() {
+        return stage;
     }
 
-    public void setIsSecond(Boolean isSecond) {
-        this.isSecond = isSecond;
+    public void setStage(Byte stage) {
+        this.stage = stage;
     }
 
     public Boolean getHasReport() {

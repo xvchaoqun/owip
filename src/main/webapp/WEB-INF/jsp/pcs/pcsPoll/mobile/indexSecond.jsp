@@ -6,9 +6,11 @@
 <c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_DW%>" var="PCS_POLL_CANDIDATE_DW"/>
 <c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_JW%>" var="PCS_POLL_CANDIDATE_JW"/>
 <c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_TYPE%>" var="PCS_POLL_CANDIDATE_TYPE"/>
-<c:set var="RESULT_STATUS_AGREE" value="<%=PcsConstants.RESULT_STATUS_AGREE%>"/>
-<c:set var="RESULT_STATUS_DISAGREE" value="<%=PcsConstants.RESULT_STATUS_DISAGREE%>"/>
-<c:set var="RESULT_STATUS_ABSTAIN" value="<%=PcsConstants.RESULT_STATUS_ABSTAIN%>"/>
+<c:set value="<%=PcsConstants.RESULT_STATUS_AGREE%>" var="RESULT_STATUS_AGREE"/>
+<c:set value="<%=PcsConstants.RESULT_STATUS_DISAGREE%>" var="RESULT_STATUS_DISAGREE"/>
+<c:set value="<%=PcsConstants.RESULT_STATUS_ABSTAIN%>" var="RESULT_STATUS_ABSTAIN"/>
+
+<c:set value="<%=PcsConstants.PCS_POLL_THIRD_STAGE%>" var="PCS_POLL_THIRD_STAGE"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,18 +57,6 @@
                             <li style="margin-bottom: 5px">
                                 <a href="${ctx}/user/pcs/index?isMobile=1&notice=1"><i
                                         class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;<%--${ctx}/user/pcs/index?type=1--%>" onclick="_save(1)"><i
-                                        class="ace-icon fa fa-user"></i> 推荐代表</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;<%--${ctx}/user/pcs/index?type=2--%>" onclick="_save(2)"><i
-                                        class="ace-icon fa fa fa-user"></i> 推荐党委委员</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;<%--${ctx}/user/pcs/index?type=3--%>" onclick="_save(3)"><i
-                                        class="ace-icon fa fa fa-user"></i> 推荐纪委委员</a>
                             </li>
                         </c:if>
                         <li style="margin-bottom: 5px">
@@ -124,15 +114,42 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td class="realname">投票人身份</td>
+                                    <td class="realname"><span class="star">*</span>投票人身份</td>
                                 </tr>
                                 <tr>
                                     <td align="center">
-                                            <input type="radio" name="isPositive" id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
+                                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                            <input required type="radio" name="isPositive" id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
                                             <label for="isPositive_1">正式党员</label>
-                                            &nbsp;&nbsp;
-                                            <input type="radio" name="isPositive" id="isPositive_0" value="0" ${empty inspector.isPositive?"":(inspector.isPositive?"":"checked")}>
+                                        </div>
+                                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                            <input required type="radio" name="isPositive" id="isPositive_0" value="0" ${empty inspector.isPositive?"":(inspector.isPositive?"":"checked")}>
                                             <label for="isPositive_0">预备党员</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="realname"><span class="star">*</span>推荐人类型</td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <c:if test="${pcsPoll.stage!=PCS_POLL_THIRD_STAGE}">
+                                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                                <input required type="radio" name="type"
+                                                       id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                                <label for="type_1">代表</label>
+                                            </div>
+                                        </c:if>
+                                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                            <input type="radio" name="type"
+                                                   id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
+                                            <label for="type_2">党委委员</label>
+                                        </div>
+                                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                            <input type="radio" name="type"
+                                                   id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
+                                            <label for="type_3">纪委委员</label>
+                                        </div>
                                     </td>
                                 </tr>
                                 <c:forEach items="${cans}" var="can">
@@ -146,18 +163,24 @@
                                     </tr>
                                     <tr class="candidate">
                                         <td align="center">
-                                            <input postId="${post.id}" type="radio" name="${key}"
-                                                   id="${key}_1"
-                                                   value="${RESULT_STATUS_AGREE}" ${status==RESULT_STATUS_AGREE?"checked":""}>
-                                            <label for="${key}_1">同意</label>&nbsp;&nbsp;
-                                            <input postId="${post.id}" type="radio" name="${key}"
-                                                   id="${key}_2"
-                                                   value="${RESULT_STATUS_DISAGREE}" ${status==RESULT_STATUS_DISAGREE?"checked":""}>
-                                            <label for="${key}_2">不同意</label>&nbsp;&nbsp;
-                                            <input postId="${post.id}" type="radio" name="${key}"
-                                                   id="${key}_3"
-                                                   value="${RESULT_STATUS_ABSTAIN}" ${status==RESULT_STATUS_ABSTAIN?"checked":""}>
-                                            <label for="${key}_3">弃权</label>&nbsp;&nbsp;
+                                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                                <input postId="${post.id}" type="radio" name="${key}"
+                                                       id="${key}_1"
+                                                       value="${RESULT_STATUS_AGREE}" ${status==RESULT_STATUS_AGREE?"checked":""}>
+                                                <label for="${key}_1">同意</label>
+                                            </div>
+                                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                                <input postId="${post.id}" type="radio" name="${key}"
+                                                       id="${key}_2"
+                                                       value="${RESULT_STATUS_DISAGREE}" ${status==RESULT_STATUS_DISAGREE?"checked":""}>
+                                                <label for="${key}_2">不同意</label>
+                                            </div>
+                                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                                <input postId="${post.id}" type="radio" name="${key}"
+                                                       id="${key}_3"
+                                                       value="${RESULT_STATUS_ABSTAIN}" ${status==RESULT_STATUS_ABSTAIN?"checked":""}>
+                                                <label for="${key}_3">弃权</label>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr class="other" style="display: ${status==2?'':'none'}" data-candidate="${key}">
@@ -165,8 +188,8 @@
                                     </tr>
                                     <tr class="other" style="display: ${status==2?'':'none'}" data-candidate="${key}">
                                         <td>
-                                            <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/user/pcs/candidate_selects?pollId=${pcsPoll.id}&type=${type}&isSecond=1"
-                                                    name="${key}_4" data-placeholder="请输入账号或姓名或学工号">
+                                            <select data-rel="select2-ajax" data-width="272"
+                                                    name="${key}_4" data-placeholder="请输入推荐人姓名或学工号">
                                                 <option value="${otherUser.id}">${otherUser.realname}-${otherUser.code}</option>
                                             </select>
                                         </td>
@@ -181,7 +204,7 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-success" id="tempSubmit"
                                             type="button"
-                                            onclick="_submit()"><i class="fa fa-check"></i> 提交
+                                            onclick="_submit(4)"><i class="fa fa-check"></i> 提交
                                     </button>
                                 </td>
                             </tr>
@@ -206,6 +229,10 @@
 </div>
 <script type="text/javascript">
 
+    $('#candidateForm input[name=type]').change(function () {
+        _save($(this).val())
+    })
+
      $(".candidate input[type=radio]").click(function () {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
         if ($(this).val() == ${RESULT_STATUS_AGREE} || $(this).val() == ${RESULT_STATUS_ABSTAIN}) {
@@ -214,7 +241,32 @@
             $otherTr.show();
         }
     })
-     $.register.user_select($('[data-rel="select2-ajax"]'));
+
+    var $select = $.register.user_select($('select[data-rel=select2-ajax]'),
+        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_POLL_CANDIDATE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
+            theme:'default',language:"zh-CN"});
+
+    var selectedUserIds=${empty selectUserIdList?'[]':selectUserIdList};
+    //console.log(selectedUserIds)
+    var $tip;
+    $select.on("select2:select",function(e){
+
+        var $this = $(this);
+        if($.inArray(parseInt($this.val()), selectedUserIds)>=0) {
+            $tip = $.tip({
+                $target: $this.closest("td").find(".select2-container"),
+                at: 'top center', my: 'bottom center', type: 'success',
+                msg: "您已经选择了该推荐人。"
+            });
+            $this.val(null).trigger("change");
+        }else {
+            if($tip!=undefined) {
+                $tip.qtip('destroy', true);
+            }
+            selectedUserIds.push(parseInt($(this).val()));
+        }
+        //console.log(selectedUserIds)
+    });
 
     function _confirm() {
         if ($('#agree').is(':checked') == false) {
@@ -237,25 +289,13 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        var type = $("input[name=flag]").val();
-                        if ($("input[name=flag]").val() != 0) {
+                        if ($("input[name=flag]").val() == 4) {
+                            $.loadModal("${ctx}/user/pcs/submit_info");
+                        }else if ($("input[name=flag]").val() != 0) {//切换人员类型时，保存数据
+                            var type = $('#candidateForm input[name=type]:checked').val();
                             location.href="${ctx}/user/pcs/index?isMobile=1&type="+type;
                         }else if ($("input[name=isSubmit]").val() == 0) {
                             SysMsg.success('保存成功。', '成功')
-                        } else {
-                            bootbox.alert({
-                                closeButton: false,
-                                buttons: {
-                                    ok: {
-                                        label: '确定',
-                                        className: 'btn-success'
-                                    }
-                                },
-                                message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成投票，感谢您对工作的大力支持！<span>',
-                                callback: function () {
-                                    _logout();
-                                }
-                            });
                         }
                     }
                 }
@@ -272,20 +312,11 @@
     }
 
     //提交推荐数据
-    function _submit() {
-
-        bootbox.confirm('<div style="font-size: 16pt;font-weight: bolder;color:red;margin:10px;">\
-            <div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认投票结果无需再做修改。</div>\
-            <div style="text-indent:2em;padding:10px;">为保证信息的安全，在点击确定提交成功后您的账号、密码立即失效。<div></div>', function (result) {
-            if (result) {
-                $("input[name=isSubmit]").val(1);
-                $("#candidateForm").submit();
-                $(this).modal("hide");
-                return false;
-            } else {
-                $(this).modal("hide");
-            }
-        })
+    function _submit(flag) {
+        $("input[name=flag]").val(flag);//0保存按钮保存 4是先保存，然后弹出提示框,进行提交
+        $("input[name=isSubmit]").val(0);
+        $("#candidateForm").submit();
+        return false;
     }
 
     function _logout() {

@@ -1,4 +1,5 @@
 $.ajaxSetup({
+    traditional:true,
     cache: false,
     dataFilter: function (data, type) {
         var ret;

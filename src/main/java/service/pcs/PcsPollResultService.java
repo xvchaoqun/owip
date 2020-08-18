@@ -3,16 +3,20 @@ package service.pcs;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import controller.global.OpException;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.pcs.PcsPollResult;
 import domain.pcs.PcsPollResultExample;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.pcs.common.PcsFinalResult;
 import persistence.pcs.common.PcsTempResult;
 import sys.constants.PcsConstants;
+import sys.tags.CmTag;
 
 import java.io.StringWriter;
 import java.util.*;
@@ -21,7 +25,9 @@ import java.util.*;
 public class PcsPollResultService extends PcsBaseMapper {
 
     @Autowired
-    protected PcsPollInspectorService pcsPollInspectorService;
+    private PcsPollInspectorService pcsPollInspectorService;
+    @Autowired
+    private PcsPollCandidateService pcsPollCandidateService;
 
     @Transactional
     public void insertSelective(PcsPollResult record){
@@ -106,12 +112,12 @@ public class PcsPollResultService extends PcsBaseMapper {
 
         PcsPoll pcsPoll = inspector.getPcsPoll();
         int pollId = pcsPoll.getId();
-        Boolean isSecond = pcsPoll.getIsSecond();
+        Byte stage = pcsPoll.getStage();
         PcsTempResult tempResult = getTempResult(inspector.getTempdata());
 
         List<PcsPollResult> resultList = new ArrayList<>();
 
-        if (isSecond) {//提交二下阶段推荐结果
+        if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {//提交二下/三下阶段推荐结果
 
             Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
             Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
@@ -125,7 +131,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                 result.setPollId(pollId);
                 result.setCandidateUserId(userId);
                 result.setInspectorId(inspector.getId());
-                result.setIsSecond(true);
+                result.setStage(stage);
                 result.setPartyId(pcsPoll.getPartyId());
                 result.setBranchId(pcsPoll.getBranchId());
                 result.setIsPositive(inspector.getIsPositive());
@@ -150,7 +156,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                     PcsPollResult result = new PcsPollResult();
                     result.setPollId(pollId);
                     result.setInspectorId(inspector.getId());
-                    result.setIsSecond(false);
+                    result.setStage(stage);
                     result.setPartyId(inspector.getPartyId());
                     result.setBranchId(inspector.getBranchId());
                     result.setIsPositive(inspector.getIsPositive());
@@ -175,4 +181,44 @@ public class PcsPollResultService extends PcsBaseMapper {
 
         iPcsMapper.updatePollInspectorCount(pollId);
     }
+
+    @Transactional
+    public void batchCancel(Integer[] ids, Boolean isCandidate, Integer pollId, Byte type) {
+
+        if (pollId == null) return;
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        Integer partyId = pcsPoll.getPartyId();
+        Byte stage = pcsPoll.getStage();
+
+        List<Integer> pollIdList = new ArrayList<>();
+        pollIdList.add(pollId);
+        if (isCandidate) {
+            List<PcsFinalResult> pcsFinalResultList = iPcsMapper.selectResultList(type, pollIdList, stage, isCandidate, null, null, null, null, null, new RowBounds());
+            Set<Integer> userIdSet = new HashSet<>();
+            for (PcsFinalResult pcsFinalResult : pcsFinalResultList) {
+                userIdSet.add(pcsFinalResult.getUserId());
+            }
+            userIdSet.addAll(Arrays.asList(ids));
+
+            int requiredCount = 0;
+            if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                requiredCount = pcsPollCandidateService.getPrRequiredCount(partyId);
+            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
+                requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
+            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
+            }
+            if (userIdSet.size() > requiredCount){
+                throw new OpException("设置候选人失败，超过设置{0}候选人的最大数量{1}", PcsConstants.PCS_POLL_CANDIDATE_TYPE.get(type), requiredCount);
+                //throw new OpException("{0}已有{1}名候选人，再添加{2}名，则会超过候选人的最大数量。", PcsConstants.PCS_POLL_CANDIDATE_TYPE.get(type), count);
+            }
+        }
+        PcsPollResult record = new PcsPollResult();
+        record.setIsCandidate(isCandidate);
+        PcsPollResultExample example = new PcsPollResultExample();
+        example.createCriteria().andPollIdEqualTo(pollId).andUserIdIn(Arrays.asList(ids)).andTypeEqualTo(type);
+        pcsPollResultMapper.updateByExampleSelective(record, example);
+    }
+
 }

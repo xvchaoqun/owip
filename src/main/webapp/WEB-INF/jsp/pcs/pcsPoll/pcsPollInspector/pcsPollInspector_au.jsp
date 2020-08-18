@@ -8,6 +8,12 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPollInspector_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="pollId" value="${param.pollId}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label"> 党支部成员数量</label>
+            <div class="col-xs-8 label-text">
+                ${branchMemberNum}
+            </div>
+        </div>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 生成账号数量</label>
 			<div class="col-xs-8">
