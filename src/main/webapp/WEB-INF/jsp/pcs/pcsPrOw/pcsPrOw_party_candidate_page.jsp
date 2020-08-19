@@ -65,7 +65,7 @@
         </div>
 
         <div class="space-4"></div>
-        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="150"></table>
+        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${empty param.partyId?150:0}"></table>
         <div id="jqGridPager2"></div>
     </div>
 </div>
@@ -89,7 +89,7 @@
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },
             {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m',baseDate: '${_finishDate}'}},
+            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m',baseDate: '${_ageBaseDate}'}},
             {label: '民族', name: 'nation', width: 60},
             {
                 label: '学历学位', name: '_learn', formatter: function (cellvalue, options, rowObject) {

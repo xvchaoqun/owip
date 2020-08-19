@@ -177,27 +177,6 @@ public class DispatchWorkFileController extends DispatchBaseController {
         resultMap.put("tree", tree);
         return resultMap;
     }
-
-    // for test
-    /*@RequiresPermissions("dispatchWorkFile:edit")
-    @RequestMapping(value = "/dispatchWorkFile_asyncPdf2jpg")
-    @ResponseBody
-    public Map dispatchWorkFile_asyncPdf2jpg(){
-        
-        List<DispatchWorkFile> dispatchWorkFiles = dispatchWorkFileMapper.selectByExample(new DispatchWorkFileExample());
-        int i=0;
-        for (DispatchWorkFile dispatchWorkFile : dispatchWorkFiles) {
-    
-            String pdfFilePath = dispatchWorkFile.getPdfFilePath();
-            if(StringUtils.isBlank(pdfFilePath)) continue;
-            if(FileUtils.exists(springProps.uploadPath + pdfFilePath+".jpg"))
-                continue;
-             // 异步pdf转图片
-            cacheService.asyncPdf2jpg(pdfFilePath, null);
-            i++;
-        }
-        return success(i+"add");
-    }*/
     
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_au", method = RequestMethod.POST)

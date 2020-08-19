@@ -2,13 +2,13 @@ package service.pcs;
 
 import controller.global.OpException;
 import domain.pcs.*;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.PcsFinalResult;
 import persistence.pcs.common.ResultBean;
-import service.party.PartyService;
 import sys.constants.PcsConstants;
 import sys.utils.NumberUtils;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class PcsPollCandidateService extends PcsBaseMapper {
 
     @Autowired
-    private PartyService partyService;
+    private PcsPartyService pcsPartyService;
     @Autowired
     private PcsPrAlocateService pcsPrAlocateService;
     @Autowired
@@ -102,10 +102,11 @@ public class PcsPollCandidateService extends PcsBaseMapper {
         PcsPollExample example = new PcsPollExample();
         PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
                 .andStageEqualTo(stage).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
-        if (branchId == null){
-            if (!partyService.isDirectBranch(partyId)) {
-                throw new OpException("请选择所属党支部");
-            }
+
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+
+        if (branchId == null && BooleanUtils.isNotTrue(pcsParty.getIsDirectBranch())) {
+            throw new OpException("请选择所属党支部");
         }else {
             criteria.andBranchIdEqualTo(branchId);
         }

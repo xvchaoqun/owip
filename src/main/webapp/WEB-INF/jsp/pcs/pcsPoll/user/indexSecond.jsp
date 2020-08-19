@@ -112,18 +112,18 @@
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
                                            id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
-                                    <label for="type_2">推荐党委委员</label>
+                                    <label for="type_2">党委委员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
                                            id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
-                                    <label for="type_3">推荐纪委委员</label>
+                                    <label for="type_3">纪委委员</label>
                                 </div>
                                 <c:if test="${pcsPoll.stage!=PCS_POLL_THIRD_STAGE}">
                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                         <input required type="radio" name="type"
                                                id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
-                                        <label for="type_1">推荐代表</label>
+                                        <label for="type_1">代表</label>
                                     </div>
                                 </c:if>
                             </td>

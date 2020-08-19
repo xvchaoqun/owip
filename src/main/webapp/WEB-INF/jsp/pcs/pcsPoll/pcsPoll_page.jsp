@@ -17,6 +17,11 @@ pageEncoding="UTF-8" %>
                         <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <c:if test="${cls==1}">
+                    <shiro:hasPermission name="pcsPoll:open">
+                        <button class="popupBtn btn btn-success btn-sm"
+                                data-url="${ctx}/pcs/pcsPoll_open">
+                            <i class="fa fa-spinner"></i> 启动支部投票</button>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="pcsPoll:edit">
                         <button class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/pcs/pcsPoll_au">
@@ -48,7 +53,7 @@ pageEncoding="UTF-8" %>
                         </button>
                         <button data-url="${ctx}/pcs/pcsPoll_batchDel"
                                 data-title="作废"
-                                data-msg="确定删除这{0}条数据？"
+                                data-msg="确定删除这{0}条数据？（删除后无法恢复，请谨慎操作！）"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-danger btn-sm">

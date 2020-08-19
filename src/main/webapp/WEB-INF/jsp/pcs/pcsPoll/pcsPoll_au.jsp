@@ -9,27 +9,15 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_au" autocomplete="off" disableautocomplete id="pcsPollForm" method="post">
         <input type="hidden" name="id" value="${pcsPoll.id}">
-		<input type="hidden" name="configId" value="${_pcsConfig.id}">
-		<div class="form-group">
-			<label class="col-xs-4 control-label"> 所属党代会</label>
-			<div class="col-xs-6 label-text">
-				${_pcsConfig.name}
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 投票名称</label>
-			<div class="col-xs-6">
-				 <textarea required class="form-control noEnter" rows="2" maxlength="50"
-								   name="name">${pcsPoll.name}</textarea>
-			</div>
-		</div>
+
+
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 所属${_p_partyName}</label>
 			<div class="col-xs-6">
-				<select required class="form-control" data-rel="select2-ajax"
+				<select required class="form-control" data-rel="select2-ajax" data-callback="_selectPartyCallback"
 						data-ajax-url="${ctx}/party_selects?auth=1&pcsConfigId=${_pcsConfig.id}"
 						name="partyId" data-placeholder="请选择" data-width="270">
-					<option value="${party.id}">${party.name}</option>
+					<option value="${pcsParty.partyId}">${pcsParty.name}</option>
 				</select>
 			</div>
 		</div>
@@ -38,27 +26,45 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 				<select required class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1&pcsConfigId=${_pcsConfig.id}"
 						name="branchId" data-placeholder="请选择" data-width="270">
-					<option value="${branch.id}">${branch.name}</option>
+					<option value="${pcsBranch.branchId}">${pcsBranch.name}</option>
 				</select>
 			</div>
 		</div>
+		<c:set var="directBranchClassId" value='${cm:getMetaTypeByCode("mt_direct_branch").id}'/>
 		<script>
+
 			$.register.party_branch_select($("#pcsPollForm"), "branchDiv",
-					'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
+					'${directBranchClassId}', "${pcsParty.partyId}",
+					"${pcsParty.isDirectBranch?directBranchClassId:''}", "partyId", "branchId", true);
+			function _selectPartyCallback($select){
+				var partyId= $select.val();
+				if(partyId=='') return;
+				$.get("${ctx}/pcs/pcsPoll_stage?partyId="+partyId, function(ret){
+					if(ret<=0){
+						$("#stage").html("<span class='red bolder'>请等待${_p_partyName}开启投票</span>");
+						$("#submitBtn").prop("disabled", true);
+						return;
+					}
+					$("#stage").html(_cMap.PCS_POLL_STAGE_MAP[ret])
+					$("#submitBtn").prop("disabled", false);
+				})
+			}
 		</script>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 投票阶段</label>
-			<div class="col-xs-6">
-				<select required data-rel="select2" name="stage" data-width="270"
-						data-placeholder="请选择">
-					<option></option>
-					<c:forEach items="${PCS_POLL_STAGE_MAP}" var="entry">
-						<option value="${entry.key}">${entry.value}</option>
-					</c:forEach>
-				</select>
+			<div class="col-xs-6 label-text">
+				<span id="stage">${PCS_POLL_STAGE_MAP.get(pcsPoll.stage)}</span>
 			</div>
 		</div>
-		<script> $("#pcsPollForm select[name=stage]").val(${pcsPoll.stage}) </script>
+
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span class="star">*</span> 投票名称</label>
+			<div class="col-xs-6">
+				 <textarea required class="form-control noEnter" rows="2" maxlength="50"
+								   name="name">${pcsPoll.name}</textarea>
+			</div>
+		</div>
+
 		<%--<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 代表推荐人数</label>
 			<div class="col-xs-6">

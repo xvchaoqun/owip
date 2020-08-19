@@ -13,6 +13,8 @@ public class PcsBranch implements Serializable {
 
     private Boolean isDirectBranch;
 
+    private String partyName;
+
     private String name;
 
     private Integer sortOrder;
@@ -69,6 +71,14 @@ public class PcsBranch implements Serializable {
 
     public void setIsDirectBranch(Boolean isDirectBranch) {
         this.isDirectBranch = isDirectBranch;
+    }
+
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName == null ? null : partyName.trim();
     }
 
     public String getName() {

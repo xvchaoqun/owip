@@ -262,9 +262,9 @@ public class PcsPrPartyController extends PcsBaseController {
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         // for test
-        /*if(!pcsPrPartyService.allowModify(partyId, configId, stage)){
+        if(!pcsPrPartyService.allowModify(partyId, configId, stage)){
             return failed("已报送数据或已下发名单，不可修改。");
-        }*/
+        }
 
         List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrPartyService.submit(configId, stage, partyId, recommend, records);
@@ -297,10 +297,11 @@ public class PcsPrPartyController extends PcsBaseController {
         }
         modelMap.put("candidatesMap", candidatesMap);
 
+
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId,
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
         // for test
-        /*modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId,
-                pcsConfigService.getCurrentPcsConfig().getId(), stage));*/
-        modelMap.put("allowModify",true);
+        //modelMap.put("allowModify",true);
 
         return "pcs/pcsPrParty/pcsPrParty_candidate_au";
     }

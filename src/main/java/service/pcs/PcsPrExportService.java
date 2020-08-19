@@ -897,7 +897,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            Integer age=pcsConfigService.getCandidateAge(pcsConfig.getCreateTime(),bean.getBirth());
             cell.setCellValue(birth != null ? age + "" : "");
 
             // 民族
@@ -1050,7 +1050,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            Integer age=pcsConfigService.getCandidateAge(pcsConfig.getCreateTime(),bean.getBirth());
             cell.setCellValue(birth != null ? age + "" : "");
 
             // 民族
@@ -1183,7 +1183,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            Integer age=pcsConfigService.getCandidateAge(pcsConfig.getCreateTime(),bean.getBirth());
             cell.setCellValue(birth != null ? age + "" : "");
 
             // 民族

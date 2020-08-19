@@ -26,10 +26,11 @@
     </select>
     <!-- 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）-->
     <select id="expectPcsBranchList" resultMap="persistence.pcs.PcsBranchMapper.BaseResultMap">
-        select #{configId} as config_id, ob.party_id, ob.id as branch_id, 0 as is_direct_branch, ob.name, ob.sort_order, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
+        select #{configId} as config_id, ob.party_id, ob.id as branch_id, 0 as is_direct_branch, op.name, ob.name, ob.sort_order, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
+        left join ow_party op on ob.party_id=op.id
         where ob.is_deleted=0 and ob.member_count>0
         union all
-        select #{configId} as config_id, op.id as party_id, null as branch_id, 1 as is_direct_branch, op.name, 99999 as sort_order, op.member_count, op.positive_count, op.student_member_count,
+        select #{configId} as config_id, op.id as party_id, null as branch_id, 1 as is_direct_branch, op.name, op.name, 99999 as sort_order, op.member_count, op.positive_count, op.student_member_count,
          op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
         where op.is_deleted=0 and op.member_count>0 and op.class_id=bmt.id and bmt.code='mt_direct_branch'
     </select>

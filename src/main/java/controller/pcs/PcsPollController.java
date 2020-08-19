@@ -1,10 +1,7 @@
 package controller.pcs;
 
 import controller.global.OpException;
-import domain.pcs.PcsBranch;
-import domain.pcs.PcsConfig;
-import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollExample;
+import domain.pcs.*;
 import domain.pcs.PcsPollExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -157,20 +156,34 @@ public class PcsPollController extends PcsBaseController {
 
         Integer id = record.getId();
 
-        if (pcsPollService.isPcsPollExisted(record)){
-            throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        int partyId = record.getPartyId();
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        Byte currentStage = pcsParty.getCurrentStage();
+
+        if(currentStage==null || !PcsConstants.PCS_STAGE_MAP.containsKey(currentStage)){
+            return failed("投票未开启");
         }
 
-        if (record.getStage() == PcsConstants.PCS_POLL_THIRD_STAGE){
+        record.setConfigId(configId); // 默认当前党代会
+        record.setStage(currentStage); // 默认为当前阶段
+
+        if (currentStage == PcsConstants.PCS_POLL_THIRD_STAGE){
             record.setPrNum(0);
         }else {
             record.setPrNum(pcsPollCandidateService.getPrMaxCount(record.getPartyId()));
         }
+
         try {
             record.setDwNum(CmTag.getIntProperty("pcs_poll_dw_num"));
             record.setJwNum(CmTag.getIntProperty("pcs_poll_jw_num"));
         }catch(Exception e){
-            throw new OpException("属性值错误");
+            throw new OpException("参数设置错误");
+        }
+
+        if (pcsPollService.isPcsPollExisted(record)){
+            throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
         }
 
         if (id == null) {
@@ -189,26 +202,105 @@ public class PcsPollController extends PcsBaseController {
     @RequestMapping("/pcsPoll_au")
     public String pcsPoll_au(Integer id, ModelMap modelMap) {
 
-        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        if (pcsConfig == null){
-            throw new OpException("当前党代会为空，请先设置当前党代会。");
-        }
         if (id != null) {
+
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
             modelMap.put("pcsPoll", pcsPoll);
-            Integer partyId = pcsPoll.getPartyId();
+            int configId = pcsPoll.getConfigId();
+            int partyId = pcsPoll.getPartyId();
             Integer branchId = pcsPoll.getBranchId();
-            if (partyId != null){
-                modelMap.put("party", partyMapper.selectByPrimaryKey(partyId));
-            }
-            if (branchId != null){
-                modelMap.put("branch", branchMapper.selectByPrimaryKey(branchId));
+
+            modelMap.put("pcsParty", pcsPartyService.get(configId, partyId));
+            modelMap.put("pcsBranch", pcsBranchService.get(configId, partyId, branchId));
+        }
+
+        return "pcs/pcsPoll/pcsPoll_au";
+    }
+
+    @RequiresPermissions("pcsPoll:edit")
+    @RequestMapping("/pcsPoll_stage")
+    @ResponseBody
+    public Byte pcsPoll_stage(Integer partyId, ModelMap modelMap) {
+
+        if (partyId != null) {
+
+            PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+            int configId = currentPcsConfig.getId();
+            PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+            Byte currentStage = pcsParty.getCurrentStage();
+
+            return currentStage==null?0:currentStage;
+        }
+
+        return -1;
+    }
+
+    @RequiresPermissions("pcsPoll:open")
+    @RequestMapping("/pcsPoll_open")
+    public String pcsPoll_open() {
+
+        return "pcs/pcsPoll/pcsPoll_open";
+    }
+
+    @RequiresPermissions("pcsPoll:open")
+    @RequestMapping(value = "/pcsPoll_open", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsPoll_open(int partyId, ModelMap modelMap) {
+
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_ODADMIN)){
+
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            if(pcsAdmin==null ||pcsAdmin.getPartyId()!=partyId){
+                return failed("没有权限");
             }
         }
 
-        modelMap.put("pcsConfig", pcsConfig);
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        Byte currentStage = pcsParty.getCurrentStage();
 
-        return "pcs/pcsPoll/pcsPoll_au";
+        if(currentStage==null){
+            currentStage = 1;
+        }else{
+            currentStage = (byte)(currentStage + 1);
+        }
+
+        if(currentStage>3){
+            return failed("所在"+CmTag.getStringProperty("partyName")+"的支部投票已全部启动");
+        }
+
+        if(currentStage==2){
+            // 验证是否可以开启二下阶段投票：二下的两委名单已下发且一上的代表名单已审核通过
+
+            boolean hasIssue = pcsOwService.hasIssue(configId, PcsConstants.PCS_STAGE_FIRST);
+            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_FIRST, partyId);
+
+            if(!hasIssue || pcsPrRecommend==null
+                    || pcsPrRecommend.getStatus()!=PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS){
+
+                return failed("请等待学校党委下发两委委员的“二下名单”并审核通过代表的“二下名单”，再开启二下投票");
+            }
+
+        }else if(currentStage==3){
+            // 验证是否可以开启三下阶段投票：三下的两委名单已下发且二上的代表名单已审核通过
+
+            boolean hasIssue = pcsOwService.hasIssue(configId, PcsConstants.PCS_STAGE_SECOND);
+            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_SECOND, partyId);
+
+            if(!hasIssue || pcsPrRecommend==null
+                    || pcsPrRecommend.getStatus()!=PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS){
+
+                return failed("请等待学校党委下发两委委员的“三下名单”，再开启二下投票");
+            }
+        }
+
+        PcsParty record = new PcsParty();
+        record.setId(pcsParty.getId());
+        record.setCurrentStage(currentStage);
+        pcsPartyMapper.updateByPrimaryKeySelective(record);
+
+        return success();
     }
 
     @RequiresPermissions("pcsPoll:edit")

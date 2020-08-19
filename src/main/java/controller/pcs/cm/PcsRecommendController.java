@@ -129,11 +129,10 @@ public class PcsRecommendController extends PcsBaseController {
             }
 
             // for test
-            /*
             if (!pcsPartyService.allowModify(partyId,
                     pcsConfigService.getCurrentPcsConfig().getId(), stage)) {
                 return failed("已报送数据或已下发名单，不可修改。");
-            }*/
+            }
         }
 
         if (partyService.isPartyContainBranch(partyId, branchId) == false) {
@@ -174,11 +173,10 @@ public class PcsRecommendController extends PcsBaseController {
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 
-
-        // fot test
-        /*modelMap.put("allowModify", pcsPartyService.allowModify(partyId,
-                pcsConfigService.getCurrentPcsConfig().getId(), stage));*/
-        modelMap.put("allowModify", true);
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId,
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
+        // for test
+        //modelMap.put("allowModify", true);
 
         return "pcs/pcsRecommend/pcsRecommend_au";
     }

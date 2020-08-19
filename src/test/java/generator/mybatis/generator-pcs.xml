@@ -27,8 +27,8 @@
         <!--党代会-->
         <!--<table tableName="pcs_party" domainObjectName="pcs.PcsParty" mapperName="pcs.PcsPartyMapper">
         </table>-->
-        <!--<table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
-        </table>-->
+        <table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
+        </table>
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
         <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
@@ -45,8 +45,8 @@
       <!--
         <table tableName="pcs_candidate_chosen" domainObjectName="pcs.PcsCandidateChosen" mapperName="pcs.PcsCandidateChosenMapper">
         </table>-->
-          <table tableName="pcs_pr_allocate" domainObjectName="pcs.PcsPrAllocate" mapperName="pcs.PcsPrAllocateMapper">
-           </table>
+          <!--<table tableName="pcs_pr_allocate" domainObjectName="pcs.PcsPrAllocate" mapperName="pcs.PcsPrAllocateMapper">
+           </table>-->
         <!--  <table tableName="pcs_pr_file" domainObjectName="pcs.PcsPrFile" mapperName="pcs.PcsPrFileMapper">
          </table>
           <table tableName="pcs_pr_file_template" domainObjectName="pcs.PcsPrFileTemplate" mapperName="pcs.PcsPrFileTemplateMapper">

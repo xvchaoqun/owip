@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8" id="detail">
-                     <c:import url="/pcsPrOw_party_candidate_page"/>
+                     <c:import url="${ctx}/pcs/pcsPrOw_party_candidate_page"/>
                     </div>
                 </div>
             </div>

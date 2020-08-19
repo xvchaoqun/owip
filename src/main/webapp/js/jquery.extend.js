@@ -2093,19 +2093,27 @@ $.extend($.register, {
         $('select[name=' + partyId + ']', $container).on("change", function () {
 
             $("#" + branchDivId + " select", $container).removeAttr("required");
-
-            var partyOption = $(this).select2("data")[0];
-            var $party_class = (partyOption ? $(this).select2("data")[0]['class'] : null) || init_party_class;
+            var $this = $(this);
+            var partyOption = $this.select2("data")[0];
+            var $party_class = (partyOption ? $this.select2("data")[0]['class'] : null) || init_party_class;
             //alert("${party.id}")
-            if ($(this).val() != init_party_id)
+            if ($this.val() != init_party_id)
                 $('select[name=' + branchId + ']', $container).val(null).trigger("change");
-            if ($(this).val() > 0 && $party_class != mt_direct_branch_id) {
+            if ($this.val() > 0 && $party_class != mt_direct_branch_id) {
                 $("#" + branchDivId, $container).show();
                 if (branchIsNotEmpty != undefined && branchIsNotEmpty)
                     $("#" + branchDivId + " select", $container).attr("required", "required");
             } else {
                 $('select[name=' + branchId + ']', $container).val(null).trigger("change");
                 $("#" + branchDivId, $container).hide();
+            }
+
+            var callback = $this.data("callback");
+            var evalFn = eval(callback);
+            if (typeof evalFn != "function"){
+                console.log(callback + " is not a function");
+            }else {
+                evalFn($this);
             }
         }).change();
         $('select[name=' + partyId + ']', $container).on("select2:unselect", function () {

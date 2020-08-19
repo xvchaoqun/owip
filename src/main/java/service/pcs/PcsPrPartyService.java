@@ -2,11 +2,14 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
+import domain.member.Member;
+import domain.party.Party;
 import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrRecommend;
 import domain.pcs.PcsPrRecommendExample;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import service.party.PartyService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.utils.DateUtils;
 
@@ -100,9 +104,9 @@ public class PcsPrPartyService extends PcsBaseMapper {
                        List<PcsPrCandidateFormBean> beans) {
 
         // for test
-        /*if(!allowModify(partyId, configId, stage)){
+        if(!allowModify(partyId, configId, stage)){
             throw  new OpException("已报送数据或上一阶段未审核通过，不可修改。");
-        }*/
+        }
 
         record.setConfigId(configId);
         record.setStage(stage);
@@ -143,7 +147,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
 
                 String alertMsg = "，请确认学工号是否正确。";
                 // for test
-                /*Member member = memberService.get(userId);
+                Member member = memberService.get(userId);
                 if(member== null && member.getPoliticalStatus()
                         != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
                     throw new OpException("用户{0}不是正式党员" + alertMsg, uv.getRealname());
@@ -157,7 +161,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 // 类型校验
                 if(type ==PcsConstants.PCS_PR_TYPE_PRO){
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
-                    if(member.getType()!=MemberConstants.MEMBER_TYPE_TEACHER
+                    if(member.getType()!= MemberConstants.MEMBER_TYPE_TEACHER
                             || teacherInfo==null || BooleanUtils.isTrue(teacherInfo.getIsRetire())){
                         throw new OpException("用户{0}不是在职教职工" + alertMsg, uv.getRealname());
                     }
@@ -180,7 +184,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                     Party party = partyService.findAll().get(pcsPrCandidate.getPartyId());
                     throw new OpException("用户{0}已是{1}的被推荐人，不可重复推荐。",
                             pcsPrCandidate.getRealname(), party.getName());
-                }*/
+                }
 
                 PcsPrCandidate _candidate = new PcsPrCandidate();
                 _candidate.setRecommendId(recommendId);

@@ -71,9 +71,18 @@ public class PcsConfigService extends PcsBaseMapper {
         return iPcsMapper.getBranchIdList(currentPcsConfig.getId(), partyId);
     }
 
+    // 获取候选人年龄
+    public Integer getCandidateAge(Date createTime, Date birth) {
 
-    // 获取当前党代会,党代表年龄
-    public Integer getPcsAge(Date createTime, Date birth) {
+        DateTime begin = new DateTime(birth);
+        DateTime end = new DateTime(getAgeBaseDate(createTime));
+        Period p = new Period(begin, end, PeriodType.years());
+
+        return p.getYears();
+    }
+
+    // 年龄计算基准日期（默认为党代会创建后3个月）
+    public Date getAgeBaseDate(Date createTime){
 
         Date _finishDate = null;
         if(createTime!=null) {
@@ -86,11 +95,8 @@ public class PcsConfigService extends PcsBaseMapper {
         if(_finishDate==null){ // 在党代会召开期间，以当前日期为基准计算年龄
             _finishDate = new Date();
         }
-        DateTime begin = new DateTime(birth);
-        DateTime end = new DateTime(_finishDate);
-        Period p = new Period(begin, end, PeriodType.years());
-        return p.getYears();
 
+        return _finishDate;
     }
 
     public boolean idDuplicate(Integer id, String name) {

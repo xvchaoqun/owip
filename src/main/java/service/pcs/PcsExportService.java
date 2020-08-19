@@ -243,7 +243,7 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            Integer age=pcsConfigService.getCandidateAge(pcsConfig.getCreateTime(),bean.getBirth());
             cell.setCellValue(birth != null ? age + "" : "");
 
             // 入党时间
@@ -715,7 +715,7 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            Integer age=pcsConfigService.getCandidateAge(pcsConfig.getCreateTime(),bean.getBirth());
             cell.setCellValue(bean.getBirth() != null ? age + "" : "");
 
             // 入党时间

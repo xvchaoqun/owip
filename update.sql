@@ -174,6 +174,17 @@ ALTER TABLE `pcs_pr_allocate`
 
 delete from sys_resource where permission='pcsExcludeBranch:*';
 
+ALTER TABLE `pcs_branch`
+	ADD COLUMN `party_name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `is_direct_branch`;
+
+
+
+
+
+
+
+
+
 20200814
 
 -- 更新 cet_expert_view

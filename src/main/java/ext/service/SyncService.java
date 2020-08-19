@@ -605,6 +605,8 @@ public class SyncService extends BaseMapper {
     // 同步教职工信息
     public void snycTeacherInfo(int userId, SysUserView uv) {
 
+        if(!uv.isCasUser()) return;
+
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
 
         String code = uv.getCode();
@@ -685,7 +687,7 @@ public class SyncService extends BaseMapper {
 
         if (teacherInfo == null)
             teacherInfoMapper.insertSelective(record);
-        else {
+        else if(extJzg!=null) {
             teacherInfoMapper.updateByPrimaryKeySelective(record);
         }
 
@@ -727,6 +729,8 @@ public class SyncService extends BaseMapper {
 
     // 同步学生党员信息
     public void snycStudent(int userId, SysUserView uv) {
+
+        if(!uv.isCasUser()) return;
 
         StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
 

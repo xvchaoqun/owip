@@ -133,7 +133,7 @@
             /*{label: '学历学位', name: '_learn'},*/
             {label: '职称', name: 'proPost', width: 200},
             {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m',baseDate: '${_finishDate}'}},
+            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m',baseDate: '${_ageBaseDate}'}},
             {
                 label: '入党时间',
                 name: 'growTime',

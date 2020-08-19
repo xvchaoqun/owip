@@ -2,11 +2,11 @@ package service.pcs;
 
 import controller.global.OpException;
 import domain.pcs.*;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.LoginUserService;
-import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
@@ -20,7 +20,7 @@ public class PcsPollService extends PcsBaseMapper {
     @Autowired
     private PcsConfigService pcsConfigService;
     @Autowired
-    private PartyService partyService;
+    private PcsPartyService pcsPartyService;
     @Autowired
     private PcsPollInspectorService pcsPollInspectorService;
     @Autowired
@@ -88,16 +88,18 @@ public class PcsPollService extends PcsBaseMapper {
     //党代会投票是否已存在
     public Boolean isPcsPollExisted(PcsPoll record) {
 
-        Integer partyId = record.getPartyId();
+        int configId = record.getConfigId();
+        byte stage = record.getStage();
+        int partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
-        if (partyId != null && branchId == null) {
-            if (!partyService.isDirectBranch(partyId)) {
-                throw new OpException("请选择所属党支部");
-            }
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+
+        if (branchId == null && BooleanUtils.isNotTrue(pcsParty.getIsDirectBranch())) {
+            throw new OpException("请选择所属党支部");
         }
         PcsPollExample example = new PcsPollExample();
         PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(record.getConfigId())
-                .andStageEqualTo(record.getStage()).andIsDeletedEqualTo(false).andPartyIdEqualTo(partyId);
+                .andStageEqualTo(stage).andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
         if (branchId != null){
             criteria.andBranchIdEqualTo(branchId);
         }
