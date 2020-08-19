@@ -1,10 +1,7 @@
 package service.pcs;
 
 import controller.global.OpException;
-import domain.pcs.PcsAdminReport;
-import domain.pcs.PcsAdminReportExample;
-import domain.pcs.PcsParty;
-import domain.pcs.PcsPartyExample;
+import domain.pcs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,10 @@ import shiro.ShiroHelper;
 import sys.utils.ContextHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by lm on 2017/8/31.
@@ -26,8 +25,12 @@ public class PcsPartyService extends PcsBaseMapper {
 
     @Autowired
     private PcsOwService pcsOwService;
+    @Autowired
+    private PcsConfigService pcsConfigService;
+    @Autowired
+    private PcsBranchService pcsBranchService;
 
-     public PcsParty get(int configId, int partyId){
+    public PcsParty get(int configId, int partyId){
 
         PcsPartyExample example = new PcsPartyExample();
         example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);
@@ -85,5 +88,90 @@ public class PcsPartyService extends PcsBaseMapper {
         record.setIp(ContextHelper.getRealIp());
 
         pcsAdminReportMapper.insertSelective(record);
+    }
+
+    // 同步当前党组织
+    @Transactional
+    public void sync() {
+
+        PcsConfig pcsConfig=pcsConfigService.getCurrentPcsConfig();
+
+        if(pcsConfig!=null){
+
+            Integer configId = pcsConfig.getId();
+            List<PcsParty> pcsPartys=iPcsMapper.expectPcsPartyList(configId);
+            List<PcsBranch> pcsBtanchs=iPcsMapper.expectPcsBranchList(pcsConfig.getId());
+
+           for (PcsParty record:pcsPartys){
+               Integer partyId=record.getPartyId();
+
+               PcsParty pcsParty=get(configId,partyId);
+
+               if(pcsParty!=null) {
+                   pcsPartyMapper.updateByPrimaryKey(record);
+               }else{
+                   pcsPartyMapper.insertSelective(record);
+               }
+           }
+
+           for (PcsBranch record:pcsBtanchs){
+               Integer partyId=record.getPartyId();
+               Integer branchId=record.getBranchId();
+
+               PcsBranch pcsBranch=pcsBranchService.get(configId,partyId,branchId);
+
+               if(pcsBranch!=null) {
+                   pcsBranchMapper.updateByPrimaryKey(record);
+               }else{
+                   pcsBranchMapper.insertSelective(record);
+               }
+           }
+
+        }
+    }
+
+    // 同步当前党组织
+    @Transactional
+    public void batchSync(Integer[] ids) {
+
+        PcsConfig pcsConfig=pcsConfigService.getCurrentPcsConfig();
+
+        if(pcsConfig!=null){
+
+            PcsPartyExample example = new PcsPartyExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<PcsParty> pcsPartyList = pcsPartyMapper.selectByExample(example);
+            Integer[]  partyIds =pcsPartyList.stream().map(PcsParty::getPartyId)
+                                         .collect(Collectors.toList()).stream().toArray(Integer[]::new);
+            Integer configId = pcsConfig.getId();
+           /* List<PcsParty> pcsPartys=iPcsMapper.expectPcsPartyList(configId, StringUtils.join(partyIds, ","));*/
+         /*   List<PcsBranch> pcsBtanchs=iPcsMapper.expectPcsBranchList(pcsConfig.getId());*/
+
+          /*  for (PcsParty record:pcsPartys){
+                Integer partyId=record.getPartyId();
+
+                PcsParty pcsParty=get(configId,partyId);
+
+                if(pcsParty!=null) {
+                    pcsPartyMapper.updateByPrimaryKey(record);
+                }else{
+                    pcsPartyMapper.insertSelective(record);
+                }
+            }*/
+
+           /* for (PcsBranch record:pcsBtanchs){
+                Integer partyId=record.getPartyId();
+                Integer branchId=record.getBranchId();
+
+                PcsBranch pcsBranch=pcsBranchService.get(configId,partyId,branchId);
+
+                if(pcsBranch!=null) {
+                    pcsBranchMapper.updateByPrimaryKey(record);
+                }else{
+                    pcsBranchMapper.insertSelective(record);
+                }
+            }*/
+
+        }
     }
 }

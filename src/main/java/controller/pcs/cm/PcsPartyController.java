@@ -3,9 +3,7 @@ package controller.pcs.cm;
 import controller.pcs.PcsBaseController;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.pcs.PcsAdmin;
-import domain.pcs.PcsAdminReportExample;
-import domain.pcs.PcsConfig;
+import domain.pcs.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -30,6 +28,7 @@ import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +41,84 @@ import java.util.Map;
 public class PcsPartyController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("pcsPartyList:list")
+    @RequestMapping("/pcsPartyList")
+    public String pcsPartyList(@RequestParam(required = false, defaultValue = "1") byte cls,ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if (cls != 1) {
+            return "forward:/pcs/pcsBranch";
+        }
+        return "pcs/pcsParty/pcsParty_page";
+    }
+
+    @RequiresPermissions("pcsPartyList:list")
+    @RequestMapping("/pcsPartyList_data")
+    @ResponseBody
+    public void pcsPartyList_data(HttpServletResponse response,
+                              Integer partyId,
+
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              Integer[] ids, // 导出的记录
+                              Integer pageSize, Integer pageNo)  throws IOException{
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        PcsPartyExample example = new PcsPartyExample();
+        PcsPartyExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
+
+        if (partyId!=null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+
+        long count = pcsPartyMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<PcsParty> records= pcsPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(pcsParty.class, pcsPartyMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping(value = "/pcsParty_sync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsParty_sync() {
+
+        pcsPartyService.sync();
+        logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 ", null));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping(value = "/pcsParty_batchSync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsParty_batchSync(HttpServletRequest request, Integer[] ids) {
+
+        pcsPartyService.batchSync(ids);
+        logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 ", null));
+
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("pcsParty:list")
     @RequestMapping("/pcsParty_export")

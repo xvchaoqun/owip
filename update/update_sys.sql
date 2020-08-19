@@ -1,4 +1,7 @@
 2020.08.19
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2791, 0, '参与党代会的党组织', '', 'url', '', '/pcs/pcsPartyList', 469, '0/1/469/', 1, 'pcsPartyList:*', NULL, NULL, NULL, 1, 1450);
+
+2020.08.19
 UPDATE `db_owip`.`sys_property` SET `name`='干部配备一览表显示',`content`='1',`type`='2',`remark`='1 原版   2 显示空岗及保留待遇  3 不占职数（无行政级别）' WHERE  `code`='upa_displayPosts';
 
 2020.08.12
