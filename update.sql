@@ -178,9 +178,24 @@ ALTER TABLE `pcs_branch`
 	ADD COLUMN `party_name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `is_direct_branch`;
 
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+`parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2791, 0, '基层党组织列表', '', 'url', '', '/pcs/pcsPartyList', 469, '0/1/469/', 1, 'pcsPartyList:*', NULL, NULL, NULL, 1, 1450);
 
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('ad_show_degree', '干部任免审批表显示学历', 'true', 3, 71, '干部任免审批表是否显示获得的学历');
 
+
+ALTER TABLE `pcs_poll`
+	ADD COLUMN `expect_member_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '应参会党员数' AFTER `jw_num`,
+	ADD COLUMN `actual_member_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '实际参会党员数' AFTER `expect_member_count`,
+	ADD COLUMN `report_date` DATE NULL COMMENT '报送日期' AFTER `actual_member_count`;
+
+
+ALTER TABLE `pcs_poll`
+	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属二级分党委' AFTER `id`,
+	CHANGE COLUMN `branch_id` `branch_id` INT(10) UNSIGNED NULL COMMENT '所属支部' AFTER `party_id`;
 
 
 

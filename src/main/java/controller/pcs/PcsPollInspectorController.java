@@ -126,11 +126,15 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         if (pollId != null && count > 0){
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-            PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+            int configId = pcsPoll.getConfigId();
+            int partyId = pcsPoll.getPartyId();
+            Integer branchId = pcsPoll.getBranchId();
+            PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
+
             int requiredCount = pcsBranch.getMemberCount();
             int existCount = pcsPoll.getInspectorNum();
             if (count + existCount > requiredCount){
-                return failed("生成账号失败，生成账号后投票人账号总数超出党支部成员总数{0}人",count + existCount - requiredCount);
+                return failed("生成账号失败，账号总数超出本支部党员总数{0}人",count + existCount - requiredCount);
             }
             pcsPollInspectorService.genInspector(pollId, count);
             logger.info(log( LogConstants.LOG_PCS, "党代会投票{0}生成投票人数{1}", pollId, count));
@@ -144,10 +148,12 @@ public class PcsPollInspectorController extends PcsBaseController {
     public String pcsPollInspector_au(Integer pollId, ModelMap modelMap) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
-        int branchMemberNum = pcsBranch.getMemberCount();
-
-        modelMap.put("branchMemberNum", branchMemberNum);
+        int configId = pcsPoll.getConfigId();
+        int partyId = pcsPoll.getPartyId();
+        Integer branchId = pcsPoll.getBranchId();
+        PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
+        modelMap.put("pcsBranch", pcsBranch);
+        modelMap.put("pcsPoll", pcsPoll);
 
         return "pcs/pcsPoll/pcsPollInspector/pcsPollInspector_au";
     }

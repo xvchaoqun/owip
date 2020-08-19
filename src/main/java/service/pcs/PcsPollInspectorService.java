@@ -1,9 +1,11 @@
 package service.pcs;
 
-import domain.pcs.*;
+import domain.pcs.PcsPoll;
+import domain.pcs.PcsPollInspector;
+import domain.pcs.PcsPollInspectorExample;
+import domain.pcs.PcsPollResultExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +13,6 @@ import java.util.*;
 
 @Service
 public class PcsPollInspectorService extends PcsBaseMapper {
-
-    @Autowired
-    private PcsBranchService pcsBranchService;
 
     @Transactional
     public void insertSelective(PcsPollInspector record){
@@ -104,15 +103,4 @@ public class PcsPollInspectorService extends PcsBaseMapper {
 
         return inspectors.size() > 0 ? inspectors.get(0) : null;
     }
-
-    // 根据投票信息得到党代会的党支部
-    public PcsBranch getPcsBranch(PcsPoll pcsPoll) {
-
-        int configId = pcsPoll.getConfigId();
-        int partyId = pcsPoll.getPartyId();
-        Integer branchId = pcsPoll.getBranchId();
-
-        return pcsBranchService.get(configId, partyId, branchId);
-    }
-
 }

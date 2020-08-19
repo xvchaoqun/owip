@@ -12,6 +12,9 @@
     <result column="pr_num" jdbcType="INTEGER" property="prNum" />
     <result column="dw_num" jdbcType="INTEGER" property="dwNum" />
     <result column="jw_num" jdbcType="INTEGER" property="jwNum" />
+    <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount" />
+    <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount" />
+    <result column="report_date" jdbcType="DATE" property="reportDate" />
     <result column="inspector_num" jdbcType="INTEGER" property="inspectorNum" />
     <result column="inspector_finish_num" jdbcType="INTEGER" property="inspectorFinishNum" />
     <result column="positive_finish_num" jdbcType="INTEGER" property="positiveFinishNum" />
@@ -83,8 +86,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, party_id, branch_id, name, config_id, stage, has_report, pr_num, dw_num, jw_num, 
-    inspector_num, inspector_finish_num, positive_finish_num, notice, mobile_notice, 
-    inspector_notice, start_time, end_time, is_deleted, remark
+    expect_member_count, actual_member_count, report_date, inspector_num, inspector_finish_num, 
+    positive_finish_num, notice, mobile_notice, inspector_notice, start_time, end_time, 
+    is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollExample" resultMap="BaseResultMap">
     select
@@ -120,14 +124,16 @@
     insert into pcs_poll (id, party_id, branch_id, 
       name, config_id, stage, 
       has_report, pr_num, dw_num, 
-      jw_num, inspector_num, inspector_finish_num, 
+      jw_num, expect_member_count, actual_member_count, 
+      report_date, inspector_num, inspector_finish_num, 
       positive_finish_num, notice, mobile_notice, 
       inspector_notice, start_time, end_time, 
       is_deleted, remark)
     values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
       #{hasReport,jdbcType=BIT}, #{prNum,jdbcType=INTEGER}, #{dwNum,jdbcType=INTEGER}, 
-      #{jwNum,jdbcType=INTEGER}, #{inspectorNum,jdbcType=INTEGER}, #{inspectorFinishNum,jdbcType=INTEGER}, 
+      #{jwNum,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, 
+      #{reportDate,jdbcType=DATE}, #{inspectorNum,jdbcType=INTEGER}, #{inspectorFinishNum,jdbcType=INTEGER}, 
       #{positiveFinishNum,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, 
       #{inspectorNotice,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
@@ -164,6 +170,15 @@
       </if>
       <if test="jwNum != null">
         jw_num,
+      </if>
+      <if test="expectMemberCount != null">
+        expect_member_count,
+      </if>
+      <if test="actualMemberCount != null">
+        actual_member_count,
+      </if>
+      <if test="reportDate != null">
+        report_date,
       </if>
       <if test="inspectorNum != null">
         inspector_num,
@@ -226,6 +241,15 @@
       </if>
       <if test="jwNum != null">
         #{jwNum,jdbcType=INTEGER},
+      </if>
+      <if test="expectMemberCount != null">
+        #{expectMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="actualMemberCount != null">
+        #{actualMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="reportDate != null">
+        #{reportDate,jdbcType=DATE},
       </if>
       <if test="inspectorNum != null">
         #{inspectorNum,jdbcType=INTEGER},
@@ -298,6 +322,15 @@
       <if test="record.jwNum != null">
         jw_num = #{record.jwNum,jdbcType=INTEGER},
       </if>
+      <if test="record.expectMemberCount != null">
+        expect_member_count = #{record.expectMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualMemberCount != null">
+        actual_member_count = #{record.actualMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportDate != null">
+        report_date = #{record.reportDate,jdbcType=DATE},
+      </if>
       <if test="record.inspectorNum != null">
         inspector_num = #{record.inspectorNum,jdbcType=INTEGER},
       </if>
@@ -345,6 +378,9 @@
       pr_num = #{record.prNum,jdbcType=INTEGER},
       dw_num = #{record.dwNum,jdbcType=INTEGER},
       jw_num = #{record.jwNum,jdbcType=INTEGER},
+      expect_member_count = #{record.expectMemberCount,jdbcType=INTEGER},
+      actual_member_count = #{record.actualMemberCount,jdbcType=INTEGER},
+      report_date = #{record.reportDate,jdbcType=DATE},
       inspector_num = #{record.inspectorNum,jdbcType=INTEGER},
       inspector_finish_num = #{record.inspectorFinishNum,jdbcType=INTEGER},
       positive_finish_num = #{record.positiveFinishNum,jdbcType=INTEGER},
@@ -388,6 +424,15 @@
       </if>
       <if test="jwNum != null">
         jw_num = #{jwNum,jdbcType=INTEGER},
+      </if>
+      <if test="expectMemberCount != null">
+        expect_member_count = #{expectMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="actualMemberCount != null">
+        actual_member_count = #{actualMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="reportDate != null">
+        report_date = #{reportDate,jdbcType=DATE},
       </if>
       <if test="inspectorNum != null">
         inspector_num = #{inspectorNum,jdbcType=INTEGER},
@@ -433,6 +478,9 @@
       pr_num = #{prNum,jdbcType=INTEGER},
       dw_num = #{dwNum,jdbcType=INTEGER},
       jw_num = #{jwNum,jdbcType=INTEGER},
+      expect_member_count = #{expectMemberCount,jdbcType=INTEGER},
+      actual_member_count = #{actualMemberCount,jdbcType=INTEGER},
+      report_date = #{reportDate,jdbcType=DATE},
       inspector_num = #{inspectorNum,jdbcType=INTEGER},
       inspector_finish_num = #{inspectorFinishNum,jdbcType=INTEGER},
       positive_finish_num = #{positiveFinishNum,jdbcType=INTEGER},

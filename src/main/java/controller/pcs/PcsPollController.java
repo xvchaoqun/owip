@@ -311,7 +311,10 @@ public class PcsPollController extends PcsBaseController {
         Byte stage = pcsPoll.getStage();
         modelMap.put("stage", stage);
 
-        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+        int configId = pcsPoll.getConfigId();
+        int partyId = pcsPoll.getPartyId();
+        Integer branchId = pcsPoll.getBranchId();
+        PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
         modelMap.put("allCount", pcsBranch.getMemberCount());
         modelMap.put("positiveCount", pcsBranch.getPositiveCount());
         modelMap.put("inspectorNum", pcsPoll.getInspectorNum());

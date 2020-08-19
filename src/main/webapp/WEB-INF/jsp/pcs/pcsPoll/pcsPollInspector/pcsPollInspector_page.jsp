@@ -37,8 +37,8 @@ pageEncoding="UTF-8" %>
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-download"></i> 导出</button>
-                    <span style='font-size:11.0pt;font-family:宋体;padding-left: 20px;'>
-                        投票人登录地址：${homeURL}/pcs/login
+                    <span style='font-size:14.0pt;font-weight:bolder;padding-left: 20px;'>
+                        <a href="${homeURL}/pcs/login" target="_blank" style="border-bottom: 2px solid;">点此查看登录地址</a>
                     </span>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

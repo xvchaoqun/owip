@@ -6,6 +6,7 @@ import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class PcsPollExample {
@@ -107,6 +108,32 @@ public class PcsPollExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -716,6 +743,186 @@ public class PcsPollExample {
 
         public Criteria andJwNumNotBetween(Integer value1, Integer value2) {
             addCriterion("jw_num not between", value1, value2, "jwNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountIsNull() {
+            addCriterion("expect_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountIsNotNull() {
+            addCriterion("expect_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountEqualTo(Integer value) {
+            addCriterion("expect_member_count =", value, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountNotEqualTo(Integer value) {
+            addCriterion("expect_member_count <>", value, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountGreaterThan(Integer value) {
+            addCriterion("expect_member_count >", value, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("expect_member_count >=", value, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountLessThan(Integer value) {
+            addCriterion("expect_member_count <", value, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("expect_member_count <=", value, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountIn(List<Integer> values) {
+            addCriterion("expect_member_count in", values, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountNotIn(List<Integer> values) {
+            addCriterion("expect_member_count not in", values, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("expect_member_count between", value1, value2, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("expect_member_count not between", value1, value2, "expectMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountIsNull() {
+            addCriterion("actual_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountIsNotNull() {
+            addCriterion("actual_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountEqualTo(Integer value) {
+            addCriterion("actual_member_count =", value, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountNotEqualTo(Integer value) {
+            addCriterion("actual_member_count <>", value, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountGreaterThan(Integer value) {
+            addCriterion("actual_member_count >", value, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("actual_member_count >=", value, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountLessThan(Integer value) {
+            addCriterion("actual_member_count <", value, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("actual_member_count <=", value, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountIn(List<Integer> values) {
+            addCriterion("actual_member_count in", values, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountNotIn(List<Integer> values) {
+            addCriterion("actual_member_count not in", values, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("actual_member_count between", value1, value2, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("actual_member_count not between", value1, value2, "actualMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateIsNull() {
+            addCriterion("report_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateIsNotNull() {
+            addCriterion("report_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateEqualTo(Date value) {
+            addCriterionForJDBCDate("report_date =", value, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("report_date <>", value, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("report_date >", value, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("report_date >=", value, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateLessThan(Date value) {
+            addCriterionForJDBCDate("report_date <", value, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("report_date <=", value, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateIn(List<Date> values) {
+            addCriterionForJDBCDate("report_date in", values, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("report_date not in", values, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("report_date between", value1, value2, "reportDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("report_date not between", value1, value2, "reportDate");
             return (Criteria) this;
         }
 

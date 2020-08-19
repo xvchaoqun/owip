@@ -46,6 +46,12 @@ public class PcsPoll implements Serializable {
 
     private Integer jwNum;
 
+    private Integer expectMemberCount;
+
+    private Integer actualMemberCount;
+
+    private Date reportDate;
+
     private Integer inspectorNum;
 
     private Integer inspectorFinishNum;
@@ -148,6 +154,30 @@ public class PcsPoll implements Serializable {
 
     public void setJwNum(Integer jwNum) {
         this.jwNum = jwNum;
+    }
+
+    public Integer getExpectMemberCount() {
+        return expectMemberCount;
+    }
+
+    public void setExpectMemberCount(Integer expectMemberCount) {
+        this.expectMemberCount = expectMemberCount;
+    }
+
+    public Integer getActualMemberCount() {
+        return actualMemberCount;
+    }
+
+    public void setActualMemberCount(Integer actualMemberCount) {
+        this.actualMemberCount = actualMemberCount;
+    }
+
+    public Date getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(Date reportDate) {
+        this.reportDate = reportDate;
     }
 
     public Integer getInspectorNum() {

@@ -29,13 +29,16 @@ pageEncoding="UTF-8"%>
 				var partyId = $.trim($(this).val());
 				$.get("${ctx}/pcs/pcsPoll_stage?partyId="+partyId, function(stage){
 
-					$("#submitBtn").prop("disabled", false);
+
 					if(stage<=0){
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_FIRST_STAGE)}");
+						$("#submitBtn").prop("disabled", false);
 					}else if(stage=='${PCS_POLL_FIRST_STAGE}'){
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_SECOND_STAGE)}");
+						$("#submitBtn").prop("disabled", false);
 					}else if(stage=='${PCS_POLL_SECOND_STAGE}'){
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_THIRD_STAGE)}");
+						$("#submitBtn").prop("disabled", false);
 					}else{
 						$("#stage").html("所在党委的支部投票已全部启动，无需在此操作");
 						$("#submitBtn").prop("disabled", true);
@@ -53,7 +56,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn"
+    <button id="submitBtn" disabled
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> 确定启动支部投票</button>
 </div>

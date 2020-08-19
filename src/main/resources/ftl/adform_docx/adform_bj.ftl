@@ -1443,7 +1443,7 @@
                     <w:tcPr>
                         <w:tcW w:w="448.55pt" w:type="dxa"/>
                         <w:gridSpan w:val="8"/>
-                        <w:vAlign w:val="center"/>
+                        <w:vAlign w:val="top"/>
                     </w:tcPr>
                     ${resumeDesc?default('<w:p/>')}
                 </w:tc>

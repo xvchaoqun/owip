@@ -27,8 +27,8 @@
         <!--党代会-->
         <!--<table tableName="pcs_party" domainObjectName="pcs.PcsParty" mapperName="pcs.PcsPartyMapper">
         </table>-->
-        <table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
-        </table>
+        <!--<table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
+        </table>-->
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
         <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
@@ -98,7 +98,12 @@
                  <columnOverride column="invite_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                  <columnOverride column="seconder_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
              </table>
-     -->
+        -->
+       <table tableName="pcs_poll" domainObjectName="pcs.PcsPoll" mapperName="pcs.PcsPollMapper">
+           <columnOverride column="notice" jdbcType="VARCHAR"></columnOverride>
+           <columnOverride column="mobile_notice" jdbcType="VARCHAR"></columnOverride>
+           <columnOverride column="inspector_notice" jdbcType="VARCHAR"></columnOverride>
+       </table>
 
     </context>
 </generatorConfiguration>

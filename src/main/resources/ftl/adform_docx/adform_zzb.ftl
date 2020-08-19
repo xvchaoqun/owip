@@ -1944,7 +1944,7 @@
                             <w:start w:w="5.65pt" w:type="dxa"/>
                             <w:end w:w="5.65pt" w:type="dxa"/>
                         </w:tcMar>
-                        <w:vAlign w:val="center"/>
+                        <w:vAlign w:val="top"/>
                     </w:tcPr>
                     ${resumeDesc?default('<w:p/>')}
                 </w:tc>
