@@ -121,8 +121,10 @@ public class PcsPartyService extends PcsBaseMapper {
                PcsBranch pcsBranch=pcsBranchService.get(configId,partyId,branchId);
 
                if(pcsBranch!=null) {
-                   pcsBranchMapper.updateByPrimaryKey(record);
+                   record.setId(pcsBranch.getId());
+                   pcsBranchMapper.updateByPrimaryKeySelective(record);
                }else{
+                   record.setIsDeleted(false);
                    pcsBranchMapper.insertSelective(record);
                }
            }

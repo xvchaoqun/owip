@@ -45,9 +45,9 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
                                 <label>${_p_partyName}</label>
-                                <select class="form-control" data-width="250" data-rel="select2-ajax"
+                                <select class="form-control" data-width="272" data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/party_selects?auth=1"
-                                        name="partyId" data-placeholder="请选择">
+                                        name="partyId" data-placeholder="请选择${_p_partyName}">
                                     <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                 </select>
                             </div>

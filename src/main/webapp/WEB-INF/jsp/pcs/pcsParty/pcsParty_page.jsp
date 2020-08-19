@@ -32,9 +32,9 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
                                 <label>${_p_partyName}</label>
-                                <select name="partyId" data-rel="select2-ajax" data-width="350"
+                                <select name="partyId" data-rel="select2-ajax" data-width="272"
                                         data-ajax-url="${ctx}/party_selects"
-                                        data-placeholder="请选择奖励的${_p_partyName}">
+                                        data-placeholder="请选择${_p_partyName}">
                                     <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                 </select>
                                 <script>

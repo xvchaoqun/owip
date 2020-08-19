@@ -44,9 +44,14 @@ public class PcsPartyController extends PcsBaseController {
 
     @RequiresPermissions("pcsPartyList:list")
     @RequestMapping("/pcsPartyList")
-    public String pcsPartyList(@RequestParam(required = false, defaultValue = "1") byte cls,ModelMap modelMap) {
+    public String pcsPartyList(@RequestParam(required = false, defaultValue = "1") byte cls,Integer partyId,ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null)
+            modelMap.put("party", partyMap.get(partyId));
+
         if (cls != 1) {
             return "forward:/pcs/pcsBranch";
         }
@@ -58,7 +63,6 @@ public class PcsPartyController extends PcsBaseController {
     @ResponseBody
     public void pcsPartyList_data(HttpServletResponse response,
                               Integer partyId,
-
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer[] ids, // 导出的记录
                               Integer pageSize, Integer pageNo)  throws IOException{

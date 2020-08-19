@@ -1,5 +1,7 @@
 package controller.pcs;
 
+import domain.party.Branch;
+import domain.party.Party;
 import domain.pcs.PcsBranch;
 import domain.pcs.PcsBranchExample;
 import domain.pcs.PcsBranchExample.Criteria;
@@ -32,8 +34,17 @@ public class PcsBranchController extends PcsBaseController {
 
     @RequiresPermissions("pcsPartyList:list")
     @RequestMapping("/pcsBranch")
-    public String pcsBranch(@RequestParam(required = false, defaultValue = "2") byte cls,ModelMap modelMap) {
+    public String pcsBranch(@RequestParam(required = false, defaultValue = "2") byte cls,Integer partyId,
+                            Integer branchId,ModelMap modelMap) {
         modelMap.put("cls",cls);
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null)
+            modelMap.put("party", partyMap.get(partyId));
+        if (branchId != null)
+            modelMap.put("branch", branchMap.get(branchId));
+
         return "pcs/pcsBranch/pcsBranch_page";
     }
 
