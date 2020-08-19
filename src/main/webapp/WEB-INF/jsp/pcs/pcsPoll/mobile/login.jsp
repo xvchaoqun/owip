@@ -29,6 +29,14 @@
 							<div class="position-relative">
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
+										<c:if test="${param.isFinished}">
+											<div class="widget-main">
+											<div style="margin:55px 10px; font-size: 16pt">
+												<i class="fa fa-check-circle text-success"></i> 您已完成投票，感谢您对工作的大力支持！
+											</div>
+											</div>
+										</c:if>
+										<c:if test="${!param.isFinished}">
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i> 请使用投票人账号密码登录
@@ -61,6 +69,7 @@
 												</fieldset>
 											</form>
 										</div><!-- /.widget-main -->
+										</c:if>
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 							</div><!-- /.position-relative -->

@@ -20,7 +20,7 @@ public interface IPcsMapper {
     List<PcsParty> expectPcsPartyList(@Param("configId") int configId);
 
     // 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）
-    List<PcsParty> expectPcsBranchList(@Param("configId") int configId);
+    List<PcsBranch> expectPcsBranchList(@Param("configId") int configId);
 
 
 

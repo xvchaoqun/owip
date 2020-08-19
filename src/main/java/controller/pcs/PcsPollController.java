@@ -2,6 +2,7 @@ package controller.pcs;
 
 import controller.global.OpException;
 import domain.member.Member;
+import domain.pcs.PcsBranch;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollExample;
@@ -38,7 +39,7 @@ public class PcsPollController extends PcsBaseController {
 
     @RequiresPermissions("pcsPoll:list")
     @RequestMapping("/pcsPoll")
-    public String pcsPoll(@RequestParam(required = false, defaultValue = "1") int cls,
+    public String pcsPoll(@RequestParam(required = false, defaultValue = "1") int cls, // cls=5 已作废
                           Byte stage,
                           Integer partyId,
                           Integer branchId,
@@ -60,7 +61,7 @@ public class PcsPollController extends PcsBaseController {
         List<PcsPoll> pcsPolls = pcsPollMapper.selectByExample(example);
 
         modelMap.put("cancelCount", pcsPolls != null ? pcsPolls.size() : "0");
-        if (cls == 1){
+        if (cls == 1 || cls==5){
             return "/pcs/pcsPoll/pcsPoll_page";
         }
 
@@ -83,7 +84,7 @@ public class PcsPollController extends PcsBaseController {
                              Integer branchId,
                              Byte stage,
                              Boolean hasReport,
-                             Boolean isDeleted,
+                             @RequestParam(required = false, defaultValue = "1") int cls,
                              @RequestParam(required = false, defaultValue = "0") int export,
                              Integer[] ids, // 导出的记录
                              Integer pageSize, Integer pageNo)  throws IOException{
@@ -104,6 +105,8 @@ public class PcsPollController extends PcsBaseController {
         Criteria criteria = example.createCriteria().andConfigIdEqualTo(pcsConfig.getId());
         example.setOrderByClause("id desc");
 
+        criteria.andIsDeletedEqualTo(cls == 5);
+
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (StringUtils.isNotBlank(name)) {
@@ -120,9 +123,6 @@ public class PcsPollController extends PcsBaseController {
         }
         if (hasReport != null){
             criteria.andHasReportEqualTo(hasReport);
-        }
-        if (isDeleted != null){
-            criteria.andIsDeletedEqualTo(isDeleted);
         }
 
         if (export == 1) {
@@ -221,12 +221,9 @@ public class PcsPollController extends PcsBaseController {
         Byte stage = pcsPoll.getStage();
         modelMap.put("stage", stage);
 
-        List<Member> allMember = pcsPollInspectorService.getBranchMember(pcsPoll, null);
-        int allCount = allMember.size();
-        modelMap.put("allCount", allCount);
-        List<Member> positiveMemeber = pcsPollInspectorService.getBranchMember(pcsPoll, MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
-        int positiveCount = positiveMemeber.size();
-        modelMap.put("positiveCount", positiveCount);
+        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+        modelMap.put("allCount", pcsBranch.getMemberCount());
+        modelMap.put("positiveCount", pcsBranch.getPositiveCount());
         modelMap.put("inspectorNum", pcsPoll.getInspectorNum());
         modelMap.put("inspectorFinishNum", pcsPoll.getInspectorFinishNum());
         modelMap.put("positiveFinishNum", pcsPoll.getPositiveFinishNum());
@@ -282,7 +279,7 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:del")
     @RequestMapping(value = "/pcsPoll_batchCancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPoll_batchCancel(HttpServletRequest request, Integer[] ids, Byte isDeleted) {
+    public Map do_pcsPoll_batchCancel(HttpServletRequest request, Integer[] ids, boolean isDeleted) {
 
         if (null != ids && ids.length>0){
 
@@ -297,7 +294,7 @@ public class PcsPollController extends PcsBaseController {
             }
 
             pcsPollService.batchCancel(ids, isDeleted);
-            logger.info(log( LogConstants.LOG_PCS, "批量{1}党代会投票：{0}", StringUtils.join(ids, ",")), isDeleted==0?"作废":"取消作废");
+            logger.info(log( LogConstants.LOG_PCS, "批量{1}党代会投票：{0}", StringUtils.join(ids, ",")), isDeleted?"作废":"取消作废");
         }
 
         return success(FormUtils.SUCCESS);

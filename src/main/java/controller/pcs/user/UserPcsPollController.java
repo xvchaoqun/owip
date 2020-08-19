@@ -117,13 +117,13 @@ public class UserPcsPollController extends PcsBaseController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(Boolean isFinished, HttpServletRequest request) {
 
         PcsPollInspector inspector = PcsHelper.doLogout(request);
 
         logger.debug(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS,"退出系统"));
 
-        return "redirect:/user/pcs/login";
+        return "redirect:/user/pcs/login?isFinished="+ BooleanUtils.isTrue(isFinished);
     }
 
     @RequestMapping(value = "/agree", method = RequestMethod.POST)

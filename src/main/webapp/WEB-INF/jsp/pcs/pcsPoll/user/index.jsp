@@ -91,26 +91,23 @@
                         <tr>
                             <td align="right"><span class="star">*</span> 投票人身份</td>
                             <td>
+                                <div class="input-group">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="isPositive"
+                                    <input type="radio" name="isPositive"
                                            id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
                                     <label for="isPositive_1">正式党员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="isPositive"
+                                    <input type="radio" name="isPositive"
                                            id="isPositive_0" value="0" ${empty inspector.isPositive?"":(inspector.isPositive?"":"checked")}>
                                     <label for="isPositive_0">预备党员</label>
                                 </div>
+                                    </div>
                             </td>
                         </tr>
                         <tr>
                             <td align="right"><span class="star">*</span> 推荐人类型</td>
                             <td align="left">
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="type"
-                                           id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
-                                    <label for="type_1">代表</label>
-                                </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
                                            id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
@@ -120,6 +117,11 @@
                                     <input required type="radio" name="type"
                                            id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
                                     <label for="type_3">纪委委员</label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input required type="radio" name="type"
+                                           id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                    <label for="type_1">代表</label>
                                 </div>
                             </td>
                         </tr>
@@ -220,8 +222,8 @@
 
     $("#candidateForm").validate({
         submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success: function (ret) {
+            $("#candidateForm").ajaxSubmit({
+            success: function (ret) {
                     if (ret.success) {
                         if ($("input[name=flag]").val() == 4) {
                             $.loadModal("${ctx}/user/pcs/submit_info");
@@ -229,7 +231,7 @@
                             var type = $('#candidateForm input[name=type]:checked').val();
                             location.href="${ctx}/user/pcs/index?type="+type;
                         }else if ($("input[name=isSubmit]").val() == 0) {
-                            SysMsg.success('保存成功。', '成功')
+                            SysMsg.success('保存成功（还未提交，请填写完成后提交全部结果）。', '暂存')
                         }
                     }
                 }
@@ -247,14 +249,19 @@
 
     //提交推荐数据
     function _submit(flag) {
+        var isPositive = $("input[name=isPositive]:checked").val();
+        if(isPositive!=0 && isPositive!=1){
+            SysMsg.error("请选择投票人身份");
+            return;
+        }
         $("input[name=flag]").val(flag);//0保存按钮保存 1/2/3为三类人员切换时保存 4是先保存，然后弹出提示框,进行提交
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();
         return false;
     }
 
-    function _logout() {
-        location.href = "${ctx}/user/pcs/logout";
+    function _logout(isFinished) {
+        location.href = "${ctx}/user/pcs/logout?isSuccess="+$.trim(isFinished);
     }
 
 </script>

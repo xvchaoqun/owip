@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="padding-top: 100px">
     <div class="main-content eva">
         <c:if test="${param.notice==1 || !tempResult.agree}">
             <form id="agreeForm" method="post">

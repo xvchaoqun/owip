@@ -27,6 +27,8 @@ public class PcsBranch implements Serializable {
 
     private Integer retireMemberCount;
 
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -123,5 +125,13 @@ public class PcsBranch implements Serializable {
 
     public void setRetireMemberCount(Integer retireMemberCount) {
         this.retireMemberCount = retireMemberCount;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

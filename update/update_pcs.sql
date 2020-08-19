@@ -3,7 +3,7 @@
 
 ALTER TABLE `pcs_poll_result`
 	ADD COLUMN `is_candidate` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否是候选人' AFTER `user_id`;
-REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2542, 0, '党代会投票', '', 'url', '', '/pcs/pcsPoll?isDeleted=0', 469, '0/1/469/', 0, 'pcsPoll:*', NULL, NULL, NULL, 1, 1450);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2542, 0, '党代会投票', '', 'url', '', '/pcs/pcsPoll', 469, '0/1/469/', 0, 'pcsPoll:*', NULL, NULL, NULL, 1, 1450);
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_jw_num', '纪委委员推荐人数', '11', 2, 70, '');
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_dw_num', '党委委员推荐人数', '30', 2, 69, '');
 ALTER TABLE `pcs_poll_result`

@@ -164,6 +164,10 @@ ALTER TABLE `pcs_exclude_branch`
 ALTER TABLE `pcs_party`
 	CHANGE COLUMN `stage` `current_stage` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '当前启动的阶段，用于控制投票时间' AFTER `is_direct_branch`;
 
+ALTER TABLE `pcs_branch`
+	CHANGE COLUMN `retire_member_count` `retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量' AFTER `teacher_member_count`,
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `retire_member_count`;
+
 20200814
 
 -- 更新 cet_expert_view

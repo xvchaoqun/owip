@@ -1,8 +1,8 @@
 package controller.pcs;
 
-import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.pcs.PcsBranch;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.pcs.PcsPollInspectorExample;
@@ -126,8 +126,8 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         if (pollId != null && count > 0){
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-            List<Member> branchMembers = pcsPollInspectorService.getBranchMember(pcsPoll, null);
-            int requiredCount = branchMembers.size();
+            PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+            int requiredCount = pcsBranch.getMemberCount();
             int existCount = pcsPoll.getInspectorNum();
             if (count + existCount > requiredCount){
                 return failed("生成账号失败，生成账号后投票人账号总数超出党支部成员总数{0}人",count + existCount - requiredCount);
@@ -144,8 +144,9 @@ public class PcsPollInspectorController extends PcsBaseController {
     public String pcsPollInspector_au(Integer pollId, ModelMap modelMap) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-        List<Member> members = pcsPollInspectorService.getBranchMember(pcsPoll, null);
-        int branchMemberNum = members.size();
+        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+        int branchMemberNum = pcsBranch.getMemberCount();
+
         modelMap.put("branchMemberNum", branchMemberNum);
 
         return "pcs/pcsPoll/pcsPollInspector/pcsPollInspector_au";

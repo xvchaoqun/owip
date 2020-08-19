@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                     <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
-                <c:if test="${param.isDeleted==0}">
+                <c:if test="${cls==1}">
                     <shiro:hasPermission name="pcsPoll:edit">
                         <button class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/pcs/pcsPoll_au">
@@ -33,7 +33,7 @@ pageEncoding="UTF-8" %>
                                 class="jqOpenViewBtn btn btn-success btn-sm">
                             <i class="fa fa-circle-o"></i> 报送
                         </button>
-                        <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=${param.isDeleted}"
+                        <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=1"
                                 data-title="作废"
                                 data-msg="确定作废这{0}条数据？"
                                 data-grid-id="#jqGrid"
@@ -44,8 +44,8 @@ pageEncoding="UTF-8" %>
                     </shiro:hasPermission>
                 </c:if>
                 <shiro:hasPermission name="pcsPoll:del">
-                    <c:if test="${param.isDeleted==1}">
-                        <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=${param.isDeleted}"
+                    <c:if test="${cls==5}">
+                        <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=0"
                                 data-title="撤销作废"
                                 data-msg="确定撤销这{0}条数据的作废？"
                                 data-grid-id="#jqGrid"
@@ -165,7 +165,7 @@ pageEncoding="UTF-8" %>
     }
 
     function _ReLoadPage(){
-        $("#page-content").loadPage("${ctx}/pcs/pcsPoll?isDeleted=${param.isDeleted}&cls=${cls}");
+        $("#page-content").loadPage("${ctx}/pcs/pcsPoll?cls=${cls}");
     }
     $("#jqGrid").jqGrid({
         rownumbers:true,

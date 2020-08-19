@@ -1,7 +1,6 @@
 package service.pcs;
 
 import controller.global.OpException;
-import domain.member.Member;
 import domain.pcs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
-import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -124,17 +122,17 @@ public class PcsPollService extends PcsBaseMapper {
         if (inspectorNum != 0){
             rate = inspectorFinishNum/inspectorNum;
         }else {
-            throw new OpException("未设置投票人投票");
+            throw new OpException("请按要求完成此次投票后再报送");
         }
         if (rate <0.8 || rate >1){
-            throw new OpException("未达到要求的参评率80%");
+            throw new OpException("参评率未达要求（80%）");
         }
 
-        List<Member> positiveMemeber = pcsPollInspectorService.getBranchMember(pcsPoll, MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
-        int positiveCount = positiveMemeber.size();
+        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+        int positiveCount = pcsBranch.getPositiveCount();
         int positiveFinishNum = pcsPoll.getPositiveFinishNum();
         if (positiveCount < positiveFinishNum){
-            throw new OpException("参与提名的正式党员数量大于支部正式党员数量，不能报送");
+            throw new OpException("推荐提名的正式党员数量大于本支部正式党员数量，不可报送");
         }
 
         List<Integer> pollIdList = new ArrayList<>();
@@ -156,16 +154,15 @@ public class PcsPollService extends PcsBaseMapper {
 
         try {
             if (prCount > pcsPollCandidateService.getPrRequiredCount(pcsPoll.getPartyId())) {
-                throw new OpException("代表中的候选人超过规定数量，不能报送");
+                throw new OpException("代表中的候选人超过规定数量，不可报送");
             }else if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
-                throw new OpException("党委委员中的候选人超过规定数量，不能报送");
+                throw new OpException("党委委员中的候选人超过规定数量，不可报送");
             }else if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
-                throw new OpException("纪委委员中的候选人超过规定数量，不能报送");
+                throw new OpException("纪委委员中的候选人超过规定数量，不可报送");
             }
         }catch (Exception e){
-            throw new OpException("属性值错误");
+            throw new OpException("参数设置错误");
         }
-
 
         PcsPoll record = new PcsPoll();
         record.setId(id);
@@ -193,12 +190,12 @@ public class PcsPollService extends PcsBaseMapper {
     }
 
     @Transactional
-    public void batchCancel(Integer[] ids, Byte isDeleted) {
+    public void batchCancel(Integer[] ids, boolean isDeleted) {
 
         if(ids==null || ids.length==0) return;
 
         PcsPoll record = new PcsPoll();
-        record.setIsDeleted(isDeleted==0);
+        record.setIsDeleted(isDeleted);
 
         PcsPollExample example = new PcsPollExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

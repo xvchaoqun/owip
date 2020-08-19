@@ -14,6 +14,7 @@
     <result column="student_member_count" jdbcType="INTEGER" property="studentMemberCount" />
     <result column="teacher_member_count" jdbcType="INTEGER" property="teacherMemberCount" />
     <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, config_id, party_id, branch_id, is_direct_branch, name, sort_order, member_count, 
-    positive_count, student_member_count, teacher_member_count, retire_member_count
+    positive_count, student_member_count, teacher_member_count, retire_member_count, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsBranchExample" resultMap="BaseResultMap">
     select
@@ -112,12 +114,12 @@
       branch_id, is_direct_branch, name, 
       sort_order, member_count, positive_count, 
       student_member_count, teacher_member_count, 
-      retire_member_count)
+      retire_member_count, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{isDirectBranch,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, #{positiveCount,jdbcType=INTEGER}, 
       #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
-      #{retireMemberCount,jdbcType=INTEGER})
+      #{retireMemberCount,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsBranch">
     insert into pcs_branch
@@ -158,6 +160,9 @@
       <if test="retireMemberCount != null">
         retire_member_count,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -195,6 +200,9 @@
       </if>
       <if test="retireMemberCount != null">
         #{retireMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -243,6 +251,9 @@
       <if test="record.retireMemberCount != null">
         retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +272,8 @@
       positive_count = #{record.positiveCount,jdbcType=INTEGER},
       student_member_count = #{record.studentMemberCount,jdbcType=INTEGER},
       teacher_member_count = #{record.teacherMemberCount,jdbcType=INTEGER},
-      retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER}
+      retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +314,9 @@
       <if test="retireMemberCount != null">
         retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -317,7 +332,8 @@
       positive_count = #{positiveCount,jdbcType=INTEGER},
       student_member_count = #{studentMemberCount,jdbcType=INTEGER},
       teacher_member_count = #{teacherMemberCount,jdbcType=INTEGER},
-      retire_member_count = #{retireMemberCount,jdbcType=INTEGER}
+      retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsBranchExample" resultMap="BaseResultMap">

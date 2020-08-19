@@ -27,10 +27,10 @@
         <!--党代会-->
          <!--<table tableName="pcs_exclude_branch" domainObjectName="pcs.PcsExcludeBranch" mapperName="pcs.PcsExcludeBranchMapper">
          </table>-->
-        <table tableName="pcs_party" domainObjectName="pcs.PcsParty" mapperName="pcs.PcsPartyMapper">
-        </table>
-        <!--<table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
+        <!--<table tableName="pcs_party" domainObjectName="pcs.PcsParty" mapperName="pcs.PcsPartyMapper">
         </table>-->
+        <table tableName="pcs_branch" domainObjectName="pcs.PcsBranch" mapperName="pcs.PcsBranchMapper">
+        </table>
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
         <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
