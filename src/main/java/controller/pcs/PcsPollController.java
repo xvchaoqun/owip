@@ -51,8 +51,13 @@ public class PcsPollController extends PcsBaseController {
             modelMap.put("branch", branchMapper.selectByPrimaryKey(branchId));
         }
 
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        if (pcsConfig == null){
+            throw new OpException("请先设置当前党代会");
+        }
+
         PcsPollExample example = new PcsPollExample();
-        PcsPollExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(true);
+        PcsPollExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(true).andConfigIdEqualTo(pcsConfig.getId());
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         List<PcsPoll> pcsPolls = pcsPollMapper.selectByExample(example);
@@ -69,7 +74,7 @@ public class PcsPollController extends PcsBaseController {
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-        return "/pcs/pcsPoll/pcsPollResult";
+        return "/pcs/pcsPoll/pcsPollReport";
     }
 
     @RequiresPermissions("pcsPoll:list")
@@ -330,18 +335,12 @@ public class PcsPollController extends PcsBaseController {
         int candidateCount = 0;//候选人数
         for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
 
-            /*if (key == PcsConstants.PCS_POLL_CANDIDATE_PR && stage == PcsConstants.PCS_POLL_THIRD_STAGE){
-                candidateCountMap.put(key, candidateCount);
-                continue;
-            }*/
-
-            if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                candidateCount =  iPcsMapper.countResult(key, pollIdList, stage, true, null, null, null, null, null);
-            }else{
-                candidateCount = iPcsMapper.countSecondResult(key, pollIdList, stage, true, null, null, null, null, null);
-            }
+            List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(key, pcsPoll.getConfigId(),
+                    stage, pcsPoll.getPartyId(), pcsPoll.getBranchId());
+            candidateCount = pcsPollReportList.size();
             candidateCountMap.put(key, candidateCount);
         }
+
         int prNum = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_PR);
         int dwNum = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_DW);
         int jwNum = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);

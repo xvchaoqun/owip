@@ -3,13 +3,10 @@ package service.pcs;
 import controller.global.OpException;
 import domain.pcs.*;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.PcsFinalResult;
 import persistence.pcs.common.ResultBean;
-import sys.constants.PcsConstants;
 import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
@@ -19,6 +16,8 @@ import java.util.List;
 @Service
 public class PcsPollCandidateService extends PcsBaseMapper {
 
+    @Autowired
+    private PcsPollReportService pcsPollReportService;
     @Autowired
     private PcsPartyService pcsPartyService;
     @Autowired
@@ -115,23 +114,15 @@ public class PcsPollCandidateService extends PcsBaseMapper {
         if (pcsPollList.size() == 0){
             throw new OpException("党代会投票不存在");
         }
-        List<Integer> pollIdList = new ArrayList<>();
-        pollIdList.add(pcsPollList.get(0).getId());
-        List<PcsFinalResult> pcsFinalResults = new ArrayList<>();
-        if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
-            pcsFinalResults = iPcsMapper.selectSecondResultList(type, pollIdList, stage, null, null, partyId, branchId, null, null,
-                    new RowBounds());
-        }else {
-            pcsFinalResults = iPcsMapper.selectResultList(type, pollIdList, stage, null, null, partyId, branchId, null, null,
-                    new RowBounds());
-        }
+
+        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId, branchId);
 
         List<ResultBean> resultBeans = new ArrayList<>();
-        if (pcsFinalResults.size() > 0){
-            for (PcsFinalResult pcsFinalResult : pcsFinalResults) {
+        if (pcsPollReportList.size() > 0){
+            for (PcsPollReport report : pcsPollReportList) {
                 ResultBean bean = new ResultBean();
-                bean.setUserId(pcsFinalResult.getUserId());
-                bean.setBallot(pcsFinalResult.getPositiveBallot());
+                bean.setUserId(report.getUserId());
+                bean.setBallot(report.getPositiveBallot());
 
                 resultBeans.add(bean);
             }
@@ -151,24 +142,16 @@ public class PcsPollCandidateService extends PcsBaseMapper {
         if (pcsPollList.size() == 0){
             throw new OpException("没有报送的党代会投票结果");
         }
-        List<Integer> pollIdList = new ArrayList<>();
-        pollIdList.add(pcsPollList.get(0).getId());
-        List<PcsFinalResult> pcsFinalResults = new ArrayList<>();
-        if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
-            pcsFinalResults = iPcsMapper.selectSecondResultList(type, pollIdList, stage, null, null, partyId, null, null, null,
-                    new RowBounds());
-        }else {
-            pcsFinalResults = iPcsMapper.selectResultList(type, pollIdList, stage, null, null, partyId, null, null, null,
-                    new RowBounds());
-        }
+
+        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId,null);
 
         List<ResultBean> resultBeans = new ArrayList<>();
-        if (pcsFinalResults.size() > 0){
-            for (PcsFinalResult pcsFinalResult : pcsFinalResults) {
+        if (pcsPollReportList.size() > 0){
+            for (PcsPollReport report : pcsPollReportList) {
                 ResultBean bean = new ResultBean();
-                bean.setUserId(pcsFinalResult.getUserId());
-                bean.setBranchNum(pcsFinalResult.getBranchNum());
-                bean.setBallot(pcsFinalResult.getPositiveBallot());
+                bean.setUserId(report.getUserId());
+                bean.setBranchNum(iPcsMapper.getBranchNum(configId, stage, type, partyId, report.getUserId()));
+                bean.setBallot(report.getPositiveBallot());
 
                 resultBeans.add(bean);
             }

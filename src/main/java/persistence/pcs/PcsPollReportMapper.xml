@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pcs.PcsPollReportMapper">
+  <resultMap id="BaseResultMap" type="domain.pcs.PcsPollReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="stage" jdbcType="TINYINT" property="stage" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="ballot" jdbcType="INTEGER" property="ballot" />
+    <result column="positive_ballot" jdbcType="INTEGER" property="positiveBallot" />
+    <result column="grow_ballot" jdbcType="INTEGER" property="growBallot" />
+    <result column="disagree_ballot" jdbcType="INTEGER" property="disagreeBallot" />
+    <result column="abstain_ballot" jdbcType="INTEGER" property="abstainBallot" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, config_id, party_id, branch_id, stage, type, ballot, positive_ballot, 
+    grow_ballot, disagree_ballot, abstain_ballot, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.pcs.PcsPollReportExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_poll_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pcs_poll_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pcs_poll_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pcs.PcsPollReportExample">
+    delete from pcs_poll_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pcs.PcsPollReport">
+    insert into pcs_poll_report (id, user_id, config_id, 
+      party_id, branch_id, stage, 
+      type, ballot, positive_ballot, 
+      grow_ballot, disagree_ballot, abstain_ballot, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
+      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
+      #{type,jdbcType=TINYINT}, #{ballot,jdbcType=INTEGER}, #{positiveBallot,jdbcType=INTEGER}, 
+      #{growBallot,jdbcType=INTEGER}, #{disagreeBallot,jdbcType=INTEGER}, #{abstainBallot,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pcs.PcsPollReport">
+    insert into pcs_poll_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="configId != null">
+        config_id,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="stage != null">
+        stage,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="ballot != null">
+        ballot,
+      </if>
+      <if test="positiveBallot != null">
+        positive_ballot,
+      </if>
+      <if test="growBallot != null">
+        grow_ballot,
+      </if>
+      <if test="disagreeBallot != null">
+        disagree_ballot,
+      </if>
+      <if test="abstainBallot != null">
+        abstain_ballot,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="ballot != null">
+        #{ballot,jdbcType=INTEGER},
+      </if>
+      <if test="positiveBallot != null">
+        #{positiveBallot,jdbcType=INTEGER},
+      </if>
+      <if test="growBallot != null">
+        #{growBallot,jdbcType=INTEGER},
+      </if>
+      <if test="disagreeBallot != null">
+        #{disagreeBallot,jdbcType=INTEGER},
+      </if>
+      <if test="abstainBallot != null">
+        #{abstainBallot,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pcs.PcsPollReportExample" resultType="java.lang.Long">
+    select count(*) from pcs_poll_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pcs_poll_report
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stage != null">
+        stage = #{record.stage,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.ballot != null">
+        ballot = #{record.ballot,jdbcType=INTEGER},
+      </if>
+      <if test="record.positiveBallot != null">
+        positive_ballot = #{record.positiveBallot,jdbcType=INTEGER},
+      </if>
+      <if test="record.growBallot != null">
+        grow_ballot = #{record.growBallot,jdbcType=INTEGER},
+      </if>
+      <if test="record.disagreeBallot != null">
+        disagree_ballot = #{record.disagreeBallot,jdbcType=INTEGER},
+      </if>
+      <if test="record.abstainBallot != null">
+        abstain_ballot = #{record.abstainBallot,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pcs_poll_report
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      config_id = #{record.configId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      stage = #{record.stage,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
+      ballot = #{record.ballot,jdbcType=INTEGER},
+      positive_ballot = #{record.positiveBallot,jdbcType=INTEGER},
+      grow_ballot = #{record.growBallot,jdbcType=INTEGER},
+      disagree_ballot = #{record.disagreeBallot,jdbcType=INTEGER},
+      abstain_ballot = #{record.abstainBallot,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsPollReport">
+    update pcs_poll_report
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="stage != null">
+        stage = #{stage,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="ballot != null">
+        ballot = #{ballot,jdbcType=INTEGER},
+      </if>
+      <if test="positiveBallot != null">
+        positive_ballot = #{positiveBallot,jdbcType=INTEGER},
+      </if>
+      <if test="growBallot != null">
+        grow_ballot = #{growBallot,jdbcType=INTEGER},
+      </if>
+      <if test="disagreeBallot != null">
+        disagree_ballot = #{disagreeBallot,jdbcType=INTEGER},
+      </if>
+      <if test="abstainBallot != null">
+        abstain_ballot = #{abstainBallot,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsPollReport">
+    update pcs_poll_report
+    set user_id = #{userId,jdbcType=INTEGER},
+      config_id = #{configId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      stage = #{stage,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      ballot = #{ballot,jdbcType=INTEGER},
+      positive_ballot = #{positiveBallot,jdbcType=INTEGER},
+      grow_ballot = #{growBallot,jdbcType=INTEGER},
+      disagree_ballot = #{disagreeBallot,jdbcType=INTEGER},
+      abstain_ballot = #{abstainBallot,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsPollReportExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_poll_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

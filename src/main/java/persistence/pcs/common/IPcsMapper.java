@@ -187,12 +187,10 @@ public interface IPcsMapper {
     * @param type 必填 推荐人类型
     * @param pollIdList 必填 党代会投票id
     * @param stage 必填 党代会阶段
-    * @param isCandidate 设置候选人时使用
     * */
     public int countResult(@Param("type") Byte type,
                            @Param("pollIdList") List<Integer> pollIdList,
                            @Param("stage") Byte stage,
-                           @Param("isCandidate") Boolean isCandidate,
                            @Param("userId") Integer userId,
                            @Param("partyId") Integer partyId,
                            @Param("branchId") Integer branchId,
@@ -202,7 +200,6 @@ public interface IPcsMapper {
     public List<PcsFinalResult> selectResultList(@Param("type") Byte type,
                                                  @Param("pollIdList") List<Integer> pollIdList,
                                                  @Param("stage") Byte stage,
-                                                 @Param("isCandidate") Boolean isCandidate,
                                                  @Param("userId") Integer userId,
                                                  @Param("partyId") Integer partyId,
                                                  @Param("branchId") Integer branchId,
@@ -213,7 +210,6 @@ public interface IPcsMapper {
     public int countSecondResult(@Param("type") Byte type,
                                  @Param("pollIdList") List<Integer> pollIdList,
                                  @Param("stage") Byte stage,
-                                 @Param("isCandidate") Boolean isCandidate,
                                  @Param("userId") Integer userId,
                                  @Param("partyId") Integer partyId,
                                  @Param("branchId") Integer branchId,
@@ -223,12 +219,35 @@ public interface IPcsMapper {
     public List<PcsFinalResult> selectSecondResultList(@Param("type") Byte type,
                                                        @Param("pollIdList") List<Integer> pollIdList,
                                                        @Param("stage") Byte stage,
-                                                       @Param("isCandidate") Boolean isCandidate,
                                                        @Param("userId") Integer userId,
                                                        @Param("partyId") Integer partyId,
                                                        @Param("branchId") Integer branchId,
                                                        @Param("partyIdList") List<Integer> partyIdList,
                                                        @Param("branchIdList") List<Integer> branchIdList,
+                                                       RowBounds rowBounds);
+
+    //处理投票的党支部数
+    @Select("select count(ifnull(branch_id,1)) from pcs_poll_report " +
+            "where user_id=#{userId} and config_id=#{configId} and stage=#{stage} and type=#{type} and party_id=#{partyId}")
+    public int getBranchNum(@Param("configId") int configId,
+                            @Param("stage") byte stage,
+                            @Param("type") byte type,
+                            @Param("partyid") int partyId,
+                            @Param("userId") int userId);
+
+    public int countReport(@Param("type") Byte type,
+                                 @Param("configId") Integer config,
+                                 @Param("stage") Byte stage,
+                                 @Param("userId") Integer userId,
+                                 @Param("partyId") Integer partyId,
+                                 @Param("branchId") Integer branchId);
+
+    public List<PcsFinalResult> selectReport(@Param("type") Byte type,
+                                             @Param("configId") Integer config,
+                                             @Param("stage") Byte stage,
+                                             @Param("userId") Integer userId,
+                                             @Param("partyId") Integer partyId,
+                                             @Param("branchId") Integer branchId,
                                                        RowBounds rowBounds);
 
 }

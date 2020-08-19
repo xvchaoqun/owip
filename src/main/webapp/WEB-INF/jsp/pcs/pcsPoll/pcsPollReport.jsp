@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId ||not empty param.configId}"/>
+            <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content multi-row-head-table">
@@ -27,7 +27,7 @@
                                             <label>推荐人</label>
                                             <select data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/sysUser_selects"
-                                                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                    name="userId" data-placeholder="请输入推荐人姓名或学工号">
                                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                             </select>
                                         </div>
@@ -79,17 +79,17 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/pcs/pcsPollResult_data?isCandidate=1&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcs/pcsPollReport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',name: 'user.code',width:120},
-            { label: '推荐人',name: 'user.realname'},
-            { label: '推荐人类型',name: 'type',formatter: function (cellvalue, options, rowobject) {
+            { label: '候选人',name: 'user.realname'},
+            { label: '候选人类型',name: 'type',formatter: function (cellvalue, options, rowobject) {
                     return _cMap.PCS_POLL_CANDIDATE_TYPE[cellvalue];
                 }},
-            { label: '得票总数',name: 'supportNum'},
+            { label: '推荐提名<br/>正式党员数',name: 'positiveBallot',width:120},
+            { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
+            { label: '推荐提名<br/>党员数',name: 'supportNum'},
             { label: '投票的党支部数',name: 'branchNum',width:120},
-            { label: '提名正式党员数',name: 'positiveBallot',width:120},
-            { label: '提名预备党员数',name: 'growBallot',width:120},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
             { label: '不支持票数',name: 'notSupportNum'},
             { label: '弃权票数',name: 'notVoteNum'}

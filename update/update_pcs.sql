@@ -1,4 +1,24 @@
 
+ALTER TABLE `pcs_poll_result`
+	DROP COLUMN `is_candidate`;
+DROP TABLE IF EXISTS `pcs_poll_report`;
+CREATE TABLE IF NOT EXISTS `pcs_poll_report` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '候选人',
+  `config_id` int(10) unsigned NOT NULL COMMENT '党代会',
+  `party_id` int(10) unsigned NOT NULL COMMENT '所属二级分党委',
+  `branch_id` int(10) unsigned DEFAULT NULL COMMENT '所属支部',
+  `stage` tinyint(3) unsigned NOT NULL COMMENT '投票阶段 1一下阶段 2二下阶段 3三下阶段',
+  `type` tinyint(3) unsigned NOT NULL COMMENT '推荐人类型 1 党代表 2 党委委员 3 纪委委员',
+  `ballot` int(10) unsigned NOT NULL COMMENT '得票总数',
+  `positive_ballot` int(10) unsigned NOT NULL COMMENT '正式党员票数',
+  `grow_ballot` int(10) unsigned NOT NULL COMMENT '预备党员票数',
+  `disagree_ballot` int(10) unsigned NOT NULL COMMENT '不支持人数',
+  `abstain_ballot` int(10) unsigned NOT NULL COMMENT '弃权票',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_config_id_party_id_branch_id_stage_type` (`user_id`,`config_id`,`party_id`,`branch_id`,`stage`,`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='党代会投票报送结果';
 
 
 ALTER TABLE `pcs_poll_result`

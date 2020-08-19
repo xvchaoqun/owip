@@ -17,6 +17,8 @@ import sys.HttpResponseMethod;
 public class PcsBaseController extends PcsBaseMapper implements HttpResponseMethod {
 
     @Autowired
+    protected PcsPollReportService pcsPollReportService;
+    @Autowired
     protected SysPropertyService sysPropertyService;
     @Autowired
     protected LoginUserService loginUserService;

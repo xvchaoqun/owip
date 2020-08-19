@@ -207,7 +207,7 @@ pageEncoding="UTF-8" %>
                     var type = stage==${PCS_POLL_THIRD_STAGE}?"${PCS_POLL_CANDIDATE_DW}":"${PCS_POLL_CANDIDATE_PR}";
                     return $.button.openView({
                         style:"btn-info",
-                        url:"${ctx}/pcs/pcsPollResult_menu?type=" + type + "&pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollResult?type=" + type + "&pollId="+rowObject.id,
                         icon:"fa-bar-chart",
                         label:"查看"});
                 }, width: 80

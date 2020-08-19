@@ -18,6 +18,8 @@ import java.util.*;
 public class PcsPollService extends PcsBaseMapper {
 
     @Autowired
+    private PcsPollReportService pcsPollReportService;
+    @Autowired
     private PcsConfigService pcsConfigService;
     @Autowired
     private PcsPartyService pcsPartyService;
@@ -160,30 +162,32 @@ public class PcsPollService extends PcsBaseMapper {
         int candidateCount = 0;//候选人数
         Byte stage = pcsPoll.getStage();
         for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
-            if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                candidateCount =  iPcsMapper.countResult(key, pollIdList, stage, true, null, null, null, null, null);
-            }else{
-                candidateCount = iPcsMapper.countSecondResult(key, pollIdList, stage, true, null, null, null, null, null);
-            }
+            List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(key, pcsPoll.getConfigId(),
+                    stage, pcsPoll.getPartyId(), pcsPoll.getBranchId());
+            candidateCount = pcsPollReportList.size();
             candidateCountMap.put(key, candidateCount);
         }
         int prCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_PR);
         int dwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_DW);
         int jwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);
 
-        if(prCount==0 || dwCount==0 || jwCount==0){
-           throw new OpException("代表和两委委员分别至少选1人，否则无法报送");
+        if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE) {
+            if (prCount == 0) {
+                throw new OpException("未选择代表候选人，不可报送");
+            }
         }
-        int prMaxCount = pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId());
-        Integer dwMaxCount = CmTag.getIntProperty("pcs_poll_dw_num");
-        Integer jwMaxCount = CmTag.getIntProperty("pcs_poll_jw_num");
-
-        if (prCount > prMaxCount) {
-            throw new OpException("代表中的候选人超过最大应推荐数量({0})，不可报送", prMaxCount);
-        }else if (dwCount > dwMaxCount){
-            throw new OpException("党委委员中的候选人超过最大应推荐数量({0})，不可报送", dwMaxCount);
-        }else if (jwCount > jwMaxCount){
-            throw new OpException("纪委委员中的候选人超过最大应推荐数量({0})，不可报送", jwMaxCount);
+        if(dwCount==0){
+            throw new OpException("未选择党委委员候选人，不可报送");
+        }
+        if(jwCount==0){
+            throw new OpException("未选择纪委委员候选人，不可报送");
+        }
+        if (prCount > pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId())) {
+            throw new OpException("代表中的候选人超过规定数量，不可报送");
+        }else if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
+            throw new OpException("党委委员中的候选人超过规定数量，不可报送");
+        }else if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
+            throw new OpException("纪委委员中的候选人超过规定数量，不可报送");
         }
     }
 
