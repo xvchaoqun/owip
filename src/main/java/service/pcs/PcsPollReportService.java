@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.PcsFinalResult;
-import service.party.PartyService;
 import sys.constants.PcsConstants;
 import sys.tags.CmTag;
 
@@ -20,50 +19,6 @@ public class PcsPollReportService extends PcsBaseMapper {
 
     @Autowired
     private PcsPollCandidateService pcsPollCandidateService;
-
-    @Autowired
-    private PartyService partyService;
-
-    @Transactional
-    public void insertSelective(PcsPollReport record){
-
-        pcsPollReportMapper.insertSelective(record);
-    }
-
-    @Transactional
-    public void del(Integer id){
-
-        pcsPollReportMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids){
-
-        if(ids==null || ids.length==0) return;
-
-        PcsPollReportExample example = new PcsPollReportExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pcsPollReportMapper.deleteByExample(example);
-    }
-
-    @Transactional
-    public void updateByPrimaryKeySelective(PcsPollReport record){
-        pcsPollReportMapper.updateByPrimaryKeySelective(record);
-    }
-
-    public Map<Integer, PcsPollReport> findAll() {
-
-        PcsPollReportExample example = new PcsPollReportExample();
-        example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-        List<PcsPollReport> records = pcsPollReportMapper.selectByExample(example);
-        Map<Integer, PcsPollReport> map = new LinkedHashMap<>();
-        for (PcsPollReport record : records) {
-            map.put(record.getId(), record);
-        }
-
-        return map;
-    }
 
     public List<PcsPollReport> getReport(PcsPoll pcsPoll, Byte type){
 
@@ -106,9 +61,7 @@ public class PcsPollReportService extends PcsBaseMapper {
     @Transactional
     public void batchReport(Integer[] userIds,
                             Boolean isCandidate,
-                            Integer pollId, Byte type) {
-
-        if (pollId == null) return;
+                            int pollId, byte type) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         Integer configId = pcsPoll.getConfigId();
@@ -145,7 +98,8 @@ public class PcsPollReportService extends PcsBaseMapper {
                 requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
             }
             if (userIdSet.size() > requiredCount){
-                throw new OpException("设置候选人失败，超过设置{0}候选人的最大数量{1}", PcsConstants.PCS_POLL_CANDIDATE_TYPE.get(type), requiredCount);
+                throw new OpException("设置失败，超过{0}的最大推荐数量({1})",
+                        PcsConstants.PCS_POLL_CANDIDATE_TYPE.get(type), requiredCount);
             }
 
             for (Integer userId : userIds) {
@@ -177,9 +131,8 @@ public class PcsPollReportService extends PcsBaseMapper {
                     }
                     pcsPollReportMapper.updateByExampleSelective(record, example);
                 }else {
-                    insertSelective(record);
+                    pcsPollReportMapper.insertSelective(record);
                 }
-
             }
 
         }else {
@@ -189,7 +142,7 @@ public class PcsPollReportService extends PcsBaseMapper {
             if (branchId != null){
                 criteria.andBranchIdEqualTo(branchId);
             }
-            List<PcsPollReport> pcsPollReportList = pcsPollReportMapper.selectByExample(example);
+
             pcsPollReportMapper.deleteByExample(example);
         }
     }

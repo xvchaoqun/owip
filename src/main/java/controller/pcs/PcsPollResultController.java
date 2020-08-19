@@ -3,7 +3,6 @@ package controller.pcs;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollReport;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -11,19 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsFinalResult;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -172,27 +167,5 @@ public class PcsPollResultController extends PcsBaseController {
         //baseMixins.put(drOnlineResult.class, drOnlineResultMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequiresPermissions("pcsPoll:edit")
-    @RequestMapping(value = "/pcsPollResult_report", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pcsPollResult_report(HttpServletRequest request,
-                                       Integer[] ids,//对应查出来结果的userId
-                                       Boolean isCandidate,
-                                       Integer pollId,
-                                       Byte type,
-                                       Byte _type) {
-
-        if (null != ids && ids.length>0){
-            if (type == null){
-                type = _type;
-            }
-            pcsPollReportService.batchReport(ids, isCandidate, pollId, type);
-            logger.info(log( LogConstants.LOG_PCS, "批量{1}：{0}", StringUtils.join(ids, ","),
-                    isCandidate ? "设置候选人":"取消候选人资格"));
-        }
-
-        return success(FormUtils.SUCCESS);
     }
 }

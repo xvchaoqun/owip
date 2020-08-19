@@ -141,7 +141,7 @@ public class PcsPollService extends PcsBaseMapper {
         }else {
             throw new OpException("还没有投票结果数据，不可报送");
         }
-        if (rate <0.8 || rate >1){
+        if (rate < 0.8){
             throw new OpException("参评率未达要求（80%），不可报送");
         }
 
@@ -172,22 +172,24 @@ public class PcsPollService extends PcsBaseMapper {
         int jwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);
 
         if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE) {
-            if (prCount == 0) {
-                throw new OpException("未选择代表候选人，不可报送");
+            if (dwCount == 0 || jwCount == 0 || prCount == 0) {
+                throw new OpException("党委委员、纪委委员、代表分别至少选1人，否则无法报送");
+            }
+        }else {
+            if (dwCount == 0 || jwCount == 0) {
+                throw new OpException("党委委员、纪委委员分别至少选1人，否则无法报送");
             }
         }
-        if(dwCount==0){
-            throw new OpException("未选择党委委员候选人，不可报送");
-        }
-        if(jwCount==0){
-            throw new OpException("未选择纪委委员候选人，不可报送");
-        }
-        if (prCount > pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId())) {
-            throw new OpException("代表中的候选人超过规定数量，不可报送");
-        }else if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
-            throw new OpException("党委委员中的候选人超过规定数量，不可报送");
-        }else if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
-            throw new OpException("纪委委员中的候选人超过规定数量，不可报送");
+        int prMaxCount = pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId());
+        Integer dwMaxCount = CmTag.getIntProperty("pcs_poll_dw_num");
+        Integer jwMaxCount = CmTag.getIntProperty("pcs_poll_jw_num");
+
+        if (prCount > prMaxCount) {
+            throw new OpException("代表中的候选人超过最大应推荐数量({0})，不可报送", prMaxCount);
+        }else if (dwCount > dwMaxCount){
+            throw new OpException("党委委员中的候选人超过最大应推荐数量({0})，不可报送", dwMaxCount);
+        }else if (jwCount > jwMaxCount){
+            throw new OpException("纪委委员中的候选人超过最大应推荐数量({0})，不可报送", jwMaxCount);
         }
     }
 

@@ -38,7 +38,7 @@
 </style>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>报送党代会投票结果</h3>
+    <h3>报送投票结果</h3>
   </div>
   <div class="modal-body">
       <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -47,13 +47,13 @@
       <div class="tip">
           <ul>
               <li>
-                  本支部党员总数：<span class="count">${allCount}</span>人  其中正式党员总数：<span class="count">${positiveCount}</span>人
+                  本支部党员数量：<span class="count">${allCount}</span>人（其中正式党员数量：<span class="count">${positiveCount}</span>人）
               </li>
               <li>
-                  生成投票账号总数：<span class="count">${inspectorNum}</span>人
+                  生成投票账号数量：<span class="count">${inspectorNum}</span>人
               </li>
               <li>
-                  完成投票账号总数：<span class="count">${inspectorFinishNum}</span>人 其中正式党员总数：<span class="count">${positiveFinishNum}</span>人
+                  完成投票账号数量：<span class="count">${inspectorFinishNum}</span>人（其中正式党员数量：<span class="count">${positiveFinishNum}</span>人）
               </li>
               <li>
                   已选候选人中，<c:if test="${stage!=PCS_POLL_THIRD_STAGE}">党代表<span class="count">${prNum}</span>名，</c:if>党委委员<span class="count">${dwNum}</span>名，纪委委员<span class="count">${jwNum}</span>名
@@ -63,9 +63,10 @@
       </div>
   </div>
   <div class="modal-footer">
-  <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-reply"></i> 返回修改</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 取消</a>
+      &nbsp;&nbsp;&nbsp;&nbsp;
 	  <button id="submitBtn" type="button" class="btn btn-success"
-			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-check"></i> 确定无误</button>
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-check"></i> 报送</button>
   </div>
 <script>
 

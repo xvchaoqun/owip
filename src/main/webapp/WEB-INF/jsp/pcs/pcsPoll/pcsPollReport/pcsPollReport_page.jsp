@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
                 <div class="jqgrid-vertical-offset buttons" id="changeType">
                     <shiro:hasPermission name="pcsPollReport:edit">
                         <c:if test="${!pcsPoll.hasReport}">
-                            <button data-url="${ctx}/pcs/pcsPollResult_report?isCandidate=0&_type=${_type}&pollId=${param.pollId}"
+                            <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=0&_type=${_type}&pollId=${param.pollId}"
                                     data-title="取消候选人"
                                     data-msg="确定取消这{0}条数据的候选人资格？"
                                     data-grid-id="#jqGrid2"

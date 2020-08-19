@@ -5,20 +5,25 @@ import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollReport;
 import domain.pcs.PcsPollReportExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsFinalResult;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -29,24 +34,27 @@ public class PcsPollReportController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    /*del
-    @RequiresPermissions("pcsPollReport:list")
-    @RequestMapping("/pcsPollReport")
-    public String pcsPollReport(@RequestParam(required = false, defaultValue = "1") Byte type,
-                                @RequestParam(required = false, defaultValue = "4") Integer cls,
-                                Integer pollId,
-                                ModelMap modelMap) {
+    @RequiresPermissions("pcsPoll:edit")
+    @RequestMapping(value = "/pcsPollReport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsPollReport(HttpServletRequest request,
+                                       Integer[] ids,//对应查出来结果的userId
+                                       Boolean isCandidate,
+                                       int pollId,
+                                       Byte type,
+                                       Byte _type) {
 
-        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-        modelMap.put("stage", pcsPoll.getStage());
-        modelMap.put("type", type);
-        modelMap.put("cls", cls);
+        if (null != ids && ids.length>0){
+            if (type == null){
+                type = _type;
+            }
+            pcsPollReportService.batchReport(ids, isCandidate, pollId, type);
+            logger.info(log( LogConstants.LOG_PCS, "批量{1}：{0}", StringUtils.join(ids, ","),
+                    isCandidate ? "设置候选人":"取消候选人资格"));
+        }
 
-        List<PcsPollReport> reportList = pcsPollReportService.getReport(pcsPoll, type);
-        modelMap.put("num", reportList.size());
-
-        return "pcs/pcsPoll/pcsPollReport/pcsPollReport_page";
-    }*/
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("pcsPollReport:list")
     @RequestMapping("/pcsPollReport_data")
