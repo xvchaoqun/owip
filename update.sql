@@ -168,6 +168,12 @@ ALTER TABLE `pcs_branch`
 	CHANGE COLUMN `retire_member_count` `retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量' AFTER `teacher_member_count`,
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `retire_member_count`;
 
+ALTER TABLE `pcs_pr_allocate`
+	ADD COLUMN `candidate_count` INT(10) UNSIGNED NULL COMMENT '推荐代表数量，差额后的每个分党委的推荐代表数量' AFTER `party_id`;
+
+
+delete from sys_resource where permission='pcsExcludeBranch:*';
+
 20200814
 
 -- 更新 cet_expert_view

@@ -1,7 +1,9 @@
 package domain.pcs;
 
+import controller.global.OpException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
-import persistence.pcs.PcsConfigMapper;
+import service.pcs.PcsPollService;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,9 +11,19 @@ import java.util.Date;
 
 public class PcsPoll implements Serializable {
 
-    public PcsConfig getPcsConfig(){
-        PcsConfigMapper pcsConfigMapper = CmTag.getBean(PcsConfigMapper.class);
-        return pcsConfigMapper.selectByPrimaryKey(configId);
+    public String getReportMsg(){
+
+        if(BooleanUtils.isTrue(hasReport)) return "reported";
+        if(id==null) return "null";
+
+        PcsPollService pcsPollService = CmTag.getBean(PcsPollService.class);
+        try {
+            pcsPollService.checkReportData(this);
+        }catch (OpException opException){
+            return opException.getMessage();
+        }
+
+        return "";
     }
 
     private Integer id;

@@ -13,8 +13,6 @@ public class PcsBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected IPcsMapper iPcsMapper;
     @Autowired(required = false)
-    protected PcsExcludeBranchMapper pcsExcludeBranchMapper;
-    @Autowired(required = false)
     protected PcsPartyMapper pcsPartyMapper;
     @Autowired(required = false)
     protected PcsBranchMapper pcsBranchMapper;

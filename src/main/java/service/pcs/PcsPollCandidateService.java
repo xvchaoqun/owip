@@ -1,10 +1,7 @@
 package service.pcs;
 
 import controller.global.OpException;
-import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollCandidate;
-import domain.pcs.PcsPollCandidateExample;
-import domain.pcs.PcsPollExample;
+import domain.pcs.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +10,7 @@ import persistence.pcs.common.PcsFinalResult;
 import persistence.pcs.common.ResultBean;
 import service.party.PartyService;
 import sys.constants.PcsConstants;
+import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +21,10 @@ public class PcsPollCandidateService extends PcsBaseMapper {
 
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private PcsPrAlocateService pcsPrAlocateService;
+    @Autowired
+    private PcsConfigService pcsConfigService;
 
     @Transactional
     public void insertSelective(PcsPollCandidate record){
@@ -80,11 +82,15 @@ public class PcsPollCandidateService extends PcsBaseMapper {
         return pcsPollCandidates;
     }
 
-    //得到投票中党代表要求的数量
-    public int getPrRequiredCount(Integer partyId) {
+    //读取分党委的代表最大推荐数量
+    public int getPrMaxCount(int partyId) {
 
-        int count = 2;
-        return count;
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+
+        return NumberUtils.trimToZero(pcsPrAllocate.getCandidateCount());
     }
 
     /*

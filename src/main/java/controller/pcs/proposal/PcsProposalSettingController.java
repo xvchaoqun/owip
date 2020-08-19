@@ -33,9 +33,6 @@ public class PcsProposalSettingController extends PcsBaseController {
     @RequestMapping("/pcsProposalSetting")
     public String pcsProposalSetting(ModelMap modelMap) {
 
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        modelMap.put("pcsConfig", currentPcsConfig);
-
         Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_proposal");
         modelMap.put("prTypes", prTypes.values());
 

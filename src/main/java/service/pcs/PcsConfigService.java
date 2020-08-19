@@ -11,10 +11,7 @@ import sys.tags.CmTag;
 import sys.utils.ContentUtils;
 import sys.utils.PatternUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PcsConfigService extends PcsBaseMapper {
@@ -53,6 +50,23 @@ public class PcsConfigService extends PcsBaseMapper {
 
         return (pcsConfigs.size() == 1) ? pcsConfigs.get(0) : null;
     }
+
+    public List<Integer> getPartyIdList(){
+
+        PcsConfig currentPcsConfig = getCurrentPcsConfig();
+        if(currentPcsConfig==null) return new ArrayList<>();
+
+        return iPcsMapper.getPartyIdList(currentPcsConfig.getId());
+    }
+
+    public List<Integer> getBranchIdList(int partyId){
+
+        PcsConfig currentPcsConfig = getCurrentPcsConfig();
+        if(currentPcsConfig==null) return new ArrayList<>();
+
+        return iPcsMapper.getBranchIdList(currentPcsConfig.getId(), partyId);
+    }
+
 
     public boolean idDuplicate(Integer id, String name) {
 

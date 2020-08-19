@@ -284,6 +284,66 @@ public class PcsPrAllocateExample {
             return (Criteria) this;
         }
 
+        public Criteria andCandidateCountIsNull() {
+            addCriterion("candidate_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountIsNotNull() {
+            addCriterion("candidate_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountEqualTo(Integer value) {
+            addCriterion("candidate_count =", value, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountNotEqualTo(Integer value) {
+            addCriterion("candidate_count <>", value, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountGreaterThan(Integer value) {
+            addCriterion("candidate_count >", value, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("candidate_count >=", value, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountLessThan(Integer value) {
+            addCriterion("candidate_count <", value, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountLessThanOrEqualTo(Integer value) {
+            addCriterion("candidate_count <=", value, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountIn(List<Integer> values) {
+            addCriterion("candidate_count in", values, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountNotIn(List<Integer> values) {
+            addCriterion("candidate_count not in", values, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountBetween(Integer value1, Integer value2) {
+            addCriterion("candidate_count between", value1, value2, "candidateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("candidate_count not between", value1, value2, "candidateCount");
+            return (Criteria) this;
+        }
+
         public Criteria andProCountIsNull() {
             addCriterion("pro_count is null");
             return (Criteria) this;

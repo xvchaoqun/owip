@@ -28,28 +28,28 @@
               <label class="col-xs-5 control-label">两委选举实到会的代表人数</label>
               <div class="col-xs-6">
                 <input class="form-control num" type="text" maxlength="4"
-                       name="committeeJoinCount" value="${pcsConfig.committeeJoinCount}">
+                       name="committeeJoinCount" value="${_pcsConfig.committeeJoinCount}">
               </div>
             </div>
             <div class="form-group">
               <label class="col-xs-5 control-label">发出党委委员选票数</label>
               <div class="col-xs-6">
                 <input class="form-control num" type="text" maxlength="4"
-                       name="dwSendVote" value="${pcsConfig.dwSendVote}">
+                       name="dwSendVote" value="${_pcsConfig.dwSendVote}">
               </div>
             </div>
             <div class="form-group">
               <label class="col-xs-5 control-label">发出纪委委员选票数</label>
               <div class="col-xs-6">
                 <input class="form-control num" type="text" maxlength="4"
-                       name="jwSendVote" value="${pcsConfig.jwSendVote}">
+                       name="jwSendVote" value="${_pcsConfig.jwSendVote}">
               </div>
             </div>
             <div class="form-group">
               <label class="col-xs-5 control-label">收回党委委员选票数</label>
               <div class="col-xs-6">
                 <input class="form-control num" type="text" maxlength="4"
-                       name="dwBackVote" value="${pcsConfig.dwBackVote}">
+                       name="dwBackVote" value="${_pcsConfig.dwBackVote}">
               </div>
             </div>
             <div class="form-group">
@@ -62,7 +62,7 @@
               <label class="col-xs-5 control-label">收回纪委委员选票数</label>
               <div class="col-xs-6">
                 <input class="form-control num" type="text" maxlength="4"
-                       name="jwBackVote" value="${pcsConfig.jwBackVote}">
+                       name="jwBackVote" value="${_pcsConfig.jwBackVote}">
               </div>
             </div>
             <div class="form-group">
@@ -74,7 +74,7 @@
             <div class="form-group">
               <label class="col-xs-5 control-label">计票时是否可以选择预备人选</label>
               <div class="col-xs-6 label-text">
-                <input type="checkbox" class="big" name="committeeCanSelect" ${pcsConfig.committeeCanSelect?"checked":""}/>
+                <input type="checkbox" class="big" name="committeeCanSelect" ${_pcsConfig.committeeCanSelect?"checked":""}/>
               </div>
             </div>
             <div class="modal-footer center">

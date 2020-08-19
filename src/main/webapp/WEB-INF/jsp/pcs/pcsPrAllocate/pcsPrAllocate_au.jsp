@@ -14,6 +14,7 @@
                     <th width="40" rowspan="2">序号</th>
                     <th rowspan="2">院系级党委、党总支、直属党支部</th>
                     <th rowspan="2" width="60">正式党员数</th>
+                    <th rowspan="2" width="70">推荐代表总数</th>
                     <th rowspan="2" width="70">代表总数</th>
                     <th colspan="3">代表构成</th>
                     <th colspan="3">其中</th>
@@ -30,6 +31,7 @@
                 <tbody>
                 <c:set var="positiveCount" value="0"/>
                 <c:set var="rowCount" value="0"/>
+                <c:set var="candidateCount" value="0"/>
                 <c:set var="proCount" value="0"/>
                 <c:set var="stuCount" value="0"/>
                 <c:set var="retireCount" value="0"/>
@@ -39,6 +41,7 @@
                 <c:forEach items="${records}" var="record" varStatus="vs">
                     <c:set var="_rowCount" value="${record.proCount + record.stuCount + record.retireCount}"/>
                     <c:set var="positiveCount" value="${positiveCount + record.positiveCount}"/>
+                    <c:set var="candidateCount" value="${candidateCount + record.candidateCount}"/>
                     <c:set var="proCount" value="${proCount + record.proCount}"/>
                     <c:set var="stuCount" value="${stuCount + record.stuCount}"/>
                     <c:set var="retireCount" value="${retireCount + record.retireCount}"/>
@@ -49,6 +52,7 @@
                         <td>${vs.count}</td>
                         <td class="partyName">${record.partyName}</td>
                         <td>${record.positiveCount}</td>
+                        <td><input type="text" class="num" maxlength="4" name="candidateCount" value="${record.candidateCount}"></td>
                         <td>${_rowCount}</td>
                         <td>
                             <input type="text" class="num" maxlength="4" name="proCount" value="${record.proCount}">
@@ -79,6 +83,7 @@
                 <tr>
                     <th colspan="2" style="text-align: center">合计</th>
                     <th>${positiveCount}</th>
+                    <th>${candidateCount}</th>
                     <th>${proCount+stuCount+retireCount}</th>
                     <th>${proCount}</th>
                     <th>${stuCount}</th>
@@ -88,7 +93,7 @@
                     <th>${underFiftyCount}</th>
                 </tr>
                 <tr>
-                    <th colspan="10">
+                    <th colspan="11">
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"
@@ -201,28 +206,30 @@
             var $this = $(this);
             var item = {};
             item.partyId = $this.data("party-id");
-            item.proCount = $("input[type=text]", $this.find("td:eq(4)")).val();
-            item.stuCount = $("input[type=text]", $this.find("td:eq(5)")).val();
-            item.retireCount = $("input[type=text]", $this.find("td:eq(6)")).val();
-            item.femaleCount = $("input[type=text]", $this.find("td:eq(7)")).val();
-            item.minorityCount = $("input[type=text]", $this.find("td:eq(8)")).val();
-            item.underFiftyCount = $("input[type=text]", $this.find("td:eq(9)")).val();
+            item.candidateCount = $("input[type=text]", $this.find("td:eq(3)")).val();
+            item.proCount = $("input[type=text]", $this.find("td:eq(5)")).val();
+            item.stuCount = $("input[type=text]", $this.find("td:eq(6)")).val();
+            item.retireCount = $("input[type=text]", $this.find("td:eq(7)")).val();
+            item.femaleCount = $("input[type=text]", $this.find("td:eq(8)")).val();
+            item.minorityCount = $("input[type=text]", $this.find("td:eq(9)")).val();
+            item.underFiftyCount = $("input[type=text]", $this.find("td:eq(10)")).val();
             items.push(item);
         })
-
+        console.log(items)
         $.post("${ctx}/pcs/pcsPrAllocate_au", {items: $.base64.encode(JSON.stringify(items))}, function (ret) {
             if (ret.success) {
-                toastr.success("保存成功。");
+                SysMsg.success("保存成功。");
             }
         });
     });
     $(".allocateTable").on("keyup", "tbody input", function () {
 
         var $tr = $(this).closest("tr");
-        var $horizon = $tr.find("td:eq(3)");
+        var $horizon = $tr.find("td:eq(4)");
         //console.log($horizon.html())
+        //$horizon.css("background-color", "red")
         var horizon = 0;
-        $("input[type=text]", $tr.find("td:lt(7)")).each(function () {
+        $("input[type=text]", $tr.find("td:eq(5),td:eq(6),td:eq(7)")).each(function () {
             if ($(this).val() > 0)
                 horizon += parseInt($(this).val());
         })
@@ -240,10 +247,10 @@
         $footTr.find("th:eq(" + (idx - 1) + ")").html(vertical);
 
         var total = 0;
-        total += parseInt($footTr.find("th:eq(3)").text());
         total += parseInt($footTr.find("th:eq(4)").text());
         total += parseInt($footTr.find("th:eq(5)").text());
-        $footTr.find("th:eq(2)").html(total)
+        total += parseInt($footTr.find("th:eq(6)").text());
+        $footTr.find("th:eq(3)").html(total)
     })
     stickheader();
 </script>

@@ -55,9 +55,6 @@ public class PcsVoteStatController extends PcsBaseController {
             return "forward:/pcs/pcsVoteMemberList";
         }
 
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        modelMap.put("pcsConfig", currentPcsConfig);
-
         PcsVoteGroup dwPcsVoteGroup = iPcsMapper.statPcsVoteGroup(PcsConstants.PCS_USER_TYPE_DW);
         modelMap.put("dwPcsVoteGroup", dwPcsVoteGroup);
         PcsVoteGroup jwPcsVoteGroup = iPcsMapper.statPcsVoteGroup(PcsConstants.PCS_USER_TYPE_JW);

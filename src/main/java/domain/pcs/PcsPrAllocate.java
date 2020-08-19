@@ -9,6 +9,8 @@ public class PcsPrAllocate implements Serializable {
 
     private Integer partyId;
 
+    private Integer candidateCount;
+
     private Integer proCount;
 
     private Integer stuCount;
@@ -45,6 +47,14 @@ public class PcsPrAllocate implements Serializable {
 
     public void setPartyId(Integer partyId) {
         this.partyId = partyId;
+    }
+
+    public Integer getCandidateCount() {
+        return candidateCount;
+    }
+
+    public void setCandidateCount(Integer candidateCount) {
+        this.candidateCount = candidateCount;
     }
 
     public Integer getProCount() {

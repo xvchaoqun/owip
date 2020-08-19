@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.party.PartyExportService;
+import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -437,6 +438,7 @@ public class PartyController extends BaseController {
     public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect,
                              Boolean del,
                              Boolean notBranchAdmin,
+                             Integer pcsConfigId, // 党代会ID
                              Integer pageNo, Integer classId, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -485,6 +487,21 @@ public class PartyController extends BaseController {
                     criteria.andIdIn(partyIdList);
                 else
                     criteria.andIdIsNull();
+            }
+        }
+
+        // 党代会筛选
+        if(pcsConfigId!=null){
+
+            List<Integer> partyIdList = new ArrayList<>();
+            PcsConfigService pcsConfigService = CmTag.getBean(PcsConfigService.class);
+            if(pcsConfigService!=null) {
+                partyIdList = pcsConfigService.getPartyIdList();
+            }
+            if(partyIdList.size()>0){
+                criteria.andIdIn(partyIdList);
+            }else{
+                criteria.andIdIsNull();
             }
         }
 

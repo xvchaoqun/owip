@@ -9,24 +9,25 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_au" autocomplete="off" disableautocomplete id="pcsPollForm" method="post">
         <input type="hidden" name="id" value="${pcsPoll.id}">
-		<input type="hidden" name="configId" value="${pcsConfig.id}">
+		<input type="hidden" name="configId" value="${_pcsConfig.id}">
 		<div class="form-group">
 			<label class="col-xs-4 control-label"> 所属党代会</label>
 			<div class="col-xs-6 label-text">
-				${pcsConfig.name}
+				${_pcsConfig.name}
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 投票名称</label>
 			<div class="col-xs-6">
-				<input required class="form-control" type="text" name="name" value="${pcsPoll.name}">
+				 <textarea required class="form-control noEnter" rows="2" maxlength="50"
+								   name="name">${pcsPoll.name}</textarea>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 所属${_p_partyName}</label>
 			<div class="col-xs-6">
 				<select required class="form-control" data-rel="select2-ajax"
-						data-ajax-url="${ctx}/party_selects?auth=1"
+						data-ajax-url="${ctx}/party_selects?auth=1&pcsConfigId=${_pcsConfig.id}"
 						name="partyId" data-placeholder="请选择" data-width="270">
 					<option value="${party.id}">${party.name}</option>
 				</select>
@@ -35,7 +36,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 所属党支部</label>
 			<div class="col-xs-6">
-				<select required class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
+				<select required class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1&pcsConfigId=${_pcsConfig.id}"
 						name="branchId" data-placeholder="请选择" data-width="270">
 					<option value="${branch.id}">${branch.name}</option>
 				</select>
@@ -43,7 +44,7 @@ pageEncoding="UTF-8"%>
 		</div>
 		<script>
 			$.register.party_branch_select($("#pcsPollForm"), "branchDiv",
-					'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+					'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
 		</script>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 投票阶段</label>

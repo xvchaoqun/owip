@@ -18,7 +18,7 @@
                 <div class="col-xs-6">
                   <div class="input-group">
                     <input class="form-control datetime-picker" type="text"  name="proposalSubmitTime"
-                           value="${cm:formatDate(pcsConfig.proposalSubmitTime, "yyyy-MM-dd HH:mm")}">
+                           value="${cm:formatDate(_pcsConfig.proposalSubmitTime, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>
@@ -30,7 +30,7 @@
                 <div class="col-xs-6">
                   <div class="input-group">
                     <input class="form-control datetime-picker" type="text"  name="proposalSupportTime"
-                           value="${cm:formatDate(pcsConfig.proposalSupportTime, "yyyy-MM-dd HH:mm")}">
+                           value="${cm:formatDate(_pcsConfig.proposalSupportTime, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>
@@ -41,7 +41,7 @@
                 <label class="col-xs-4 control-label">立案附议人数</label>
                 <div class="col-xs-6">
                   <input class="form-control num" type="text" maxlength="4"
-                         name="proposalSupportCount" value="${pcsConfig.proposalSupportCount}">
+                         name="proposalSupportCount" value="${_pcsConfig.proposalSupportCount}">
                 </div>
               </div>
 

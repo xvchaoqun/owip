@@ -1,7 +1,6 @@
 package controller.pcs;
 
 import controller.global.OpException;
-import domain.member.Member;
 import domain.pcs.PcsBranch;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPoll;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -166,7 +164,7 @@ public class PcsPollController extends PcsBaseController {
         if (record.getStage() == PcsConstants.PCS_POLL_THIRD_STAGE){
             record.setPrNum(0);
         }else {
-            record.setPrNum(pcsPollCandidateService.getPrRequiredCount(record.getPartyId()));
+            record.setPrNum(pcsPollCandidateService.getPrMaxCount(record.getPartyId()));
         }
         try {
             record.setDwNum(CmTag.getIntProperty("pcs_poll_dw_num"));
@@ -269,7 +267,7 @@ public class PcsPollController extends PcsBaseController {
             //权限判断
             pcsPollService.judgeAuthority(Arrays.asList(id));
 
-            pcsPollService.batchReport(id);
+            pcsPollService.report(id);
             logger.info(log( LogConstants.LOG_PCS, "批量报送党代会投票：{0}", id));
         }
 

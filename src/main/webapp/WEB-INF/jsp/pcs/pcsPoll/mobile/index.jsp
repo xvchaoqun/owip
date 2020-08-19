@@ -267,7 +267,7 @@
                             var type = $('#candidateForm input[name=type]:checked').val();
                             location.href="${ctx}/user/pcs/index?type="+type + "&isMobile=1";
                         }else if ($("input[name=isSubmit]").val() == 0) {
-                            SysMsg.success('保存成功（还未提交，请填写完成后提交全部结果）。', '暂存')
+                            SysMsg.success('保存成功（数据还未提交，请填写完成后提交全部结果）。', '暂存')
                         }
                     }
                 }

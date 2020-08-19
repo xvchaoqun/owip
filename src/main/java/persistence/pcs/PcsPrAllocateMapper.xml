@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="candidate_count" jdbcType="INTEGER" property="candidateCount" />
     <result column="pro_count" jdbcType="INTEGER" property="proCount" />
     <result column="stu_count" jdbcType="INTEGER" property="stuCount" />
     <result column="retire_count" jdbcType="INTEGER" property="retireCount" />
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, config_id, party_id, pro_count, stu_count, retire_count, female_count, minority_count, 
-    under_fifty_count
+    id, config_id, party_id, candidate_count, pro_count, stu_count, retire_count, female_count, 
+    minority_count, under_fifty_count
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrAllocateExample" resultMap="BaseResultMap">
     select
@@ -106,13 +107,13 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsPrAllocate">
     insert into pcs_pr_allocate (id, config_id, party_id, 
-      pro_count, stu_count, retire_count, 
-      female_count, minority_count, under_fifty_count
-      )
+      candidate_count, pro_count, stu_count, 
+      retire_count, female_count, minority_count, 
+      under_fifty_count)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{proCount,jdbcType=INTEGER}, #{stuCount,jdbcType=INTEGER}, #{retireCount,jdbcType=INTEGER}, 
-      #{femaleCount,jdbcType=INTEGER}, #{minorityCount,jdbcType=INTEGER}, #{underFiftyCount,jdbcType=INTEGER}
-      )
+      #{candidateCount,jdbcType=INTEGER}, #{proCount,jdbcType=INTEGER}, #{stuCount,jdbcType=INTEGER}, 
+      #{retireCount,jdbcType=INTEGER}, #{femaleCount,jdbcType=INTEGER}, #{minorityCount,jdbcType=INTEGER}, 
+      #{underFiftyCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPrAllocate">
     insert into pcs_pr_allocate
@@ -125,6 +126,9 @@
       </if>
       <if test="partyId != null">
         party_id,
+      </if>
+      <if test="candidateCount != null">
+        candidate_count,
       </if>
       <if test="proCount != null">
         pro_count,
@@ -154,6 +158,9 @@
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="candidateCount != null">
+        #{candidateCount,jdbcType=INTEGER},
       </if>
       <if test="proCount != null">
         #{proCount,jdbcType=INTEGER},
@@ -193,6 +200,9 @@
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
+      <if test="record.candidateCount != null">
+        candidate_count = #{record.candidateCount,jdbcType=INTEGER},
+      </if>
       <if test="record.proCount != null">
         pro_count = #{record.proCount,jdbcType=INTEGER},
       </if>
@@ -221,6 +231,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       config_id = #{record.configId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
+      candidate_count = #{record.candidateCount,jdbcType=INTEGER},
       pro_count = #{record.proCount,jdbcType=INTEGER},
       stu_count = #{record.stuCount,jdbcType=INTEGER},
       retire_count = #{record.retireCount,jdbcType=INTEGER},
@@ -239,6 +250,9 @@
       </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="candidateCount != null">
+        candidate_count = #{candidateCount,jdbcType=INTEGER},
       </if>
       <if test="proCount != null">
         pro_count = #{proCount,jdbcType=INTEGER},
@@ -265,6 +279,7 @@
     update pcs_pr_allocate
     set config_id = #{configId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
+      candidate_count = #{candidateCount,jdbcType=INTEGER},
       pro_count = #{proCount,jdbcType=INTEGER},
       stu_count = #{stuCount,jdbcType=INTEGER},
       retire_count = #{retireCount,jdbcType=INTEGER},

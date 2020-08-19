@@ -51,7 +51,7 @@ public class PcsProposalController extends PcsBaseController {
         modelMap.put("module", module);
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        modelMap.put("pcsConfig", currentPcsConfig);
+
         if(cls==1){
             if(DateUtils.compareDate(new Date(), currentPcsConfig.getProposalSubmitTime())){
 

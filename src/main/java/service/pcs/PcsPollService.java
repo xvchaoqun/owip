@@ -108,13 +108,26 @@ public class PcsPollService extends PcsBaseMapper {
         return pcsPollMapper.countByExample(example)>0;
     }
 
+    // 党支部报送
     @Transactional
-    public void batchReport(Integer id) {
+    public void report(Integer id) {
 
         if(id==null) return;
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
 
+        checkReportData(pcsPoll);
+
+        PcsPoll record = new PcsPoll();
+        record.setId(id);
+        record.setHasReport(true);
+        pcsPollMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 检查是否可以报送
+    public void checkReportData(PcsPoll pcsPoll){
+
+        int id = pcsPoll.getId();
         //控制参评率（完成投票的数量/账号的数量）
         int inspectorNum = pcsPoll.getInspectorNum();
         int inspectorFinishNum = pcsPoll.getInspectorFinishNum();
@@ -122,10 +135,10 @@ public class PcsPollService extends PcsBaseMapper {
         if (inspectorNum != 0){
             rate = inspectorFinishNum/inspectorNum;
         }else {
-            throw new OpException("请按要求完成此次投票后再报送");
+            throw new OpException("还没有投票结果数据，不可报送");
         }
         if (rate <0.8 || rate >1){
-            throw new OpException("参评率未达要求（80%）");
+            throw new OpException("参评率未达要求（80%），不可报送");
         }
 
         PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
@@ -153,7 +166,16 @@ public class PcsPollService extends PcsBaseMapper {
         int jwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);
 
         try {
-            if (prCount > pcsPollCandidateService.getPrRequiredCount(pcsPoll.getPartyId())) {
+            if(prCount==0){
+                throw new OpException("未选择代表候选人，不可报送");
+            }
+            if(dwCount==0){
+                throw new OpException("未选择党委委员候选人，不可报送");
+            }
+            if(jwCount==0){
+                throw new OpException("未选择纪委委员候选人，不可报送");
+            }
+            if (prCount > pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId())) {
                 throw new OpException("代表中的候选人超过规定数量，不可报送");
             }else if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
                 throw new OpException("党委委员中的候选人超过规定数量，不可报送");
@@ -163,11 +185,6 @@ public class PcsPollService extends PcsBaseMapper {
         }catch (Exception e){
             throw new OpException("参数设置错误");
         }
-
-        PcsPoll record = new PcsPoll();
-        record.setId(id);
-        record.setHasReport(true);
-        pcsPollMapper.updateByPrimaryKeySelective(record);
     }
 
     //得到当前党代会投票的ids

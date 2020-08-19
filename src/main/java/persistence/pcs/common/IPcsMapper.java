@@ -22,7 +22,12 @@ public interface IPcsMapper {
     // 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）
     List<PcsBranch> expectPcsBranchList(@Param("configId") int configId);
 
-
+    // 读取参与党代会的党组织
+    @Select("select distinct party_id from pcs_branch where config_id=#{configId} and is_deleted=0")
+    List<Integer> getPartyIdList(@Param("configId") int configId);
+    @Select("select distinct branch_id from pcs_branch where config_id=#{configId} " +
+            "and party_id=#{partyId} and is_deleted=0 and branch_id is not null")
+    List<Integer> getBranchIdList(@Param("configId") int configId, @Param("partyId") int partyId);
 
     // 更新党代会投票中的参评人数量
     @Update("update pcs_poll pp left join (select poll_id, count(*) as count,SUM(if(is_finished,1,0)) as finished_count," +

@@ -95,8 +95,6 @@ public class PcsPartyAdminController extends PcsBaseController {
             modelMap.put("sysUser", sysUserService.findById(pcsAdmin.getUserId()));
         }
 
-        //modelMap.put("pcsConfig", pcsConfigService.getCurrentPcsConfig());
-
         return "pcs/pcsAdmin/pcsAdmin_au";
     }
 

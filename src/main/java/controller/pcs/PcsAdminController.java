@@ -157,8 +157,6 @@ public class PcsAdminController extends PcsBaseController {
     @RequestMapping("/pcsAdmin_add")
     public String pcsAdmin_add(ModelMap modelMap) {
 
-        modelMap.put("pcsConfig", pcsConfigService.getCurrentPcsConfig());
-
         return "pcs/pcsAdmin/pcsAdmin_add";
     }
 

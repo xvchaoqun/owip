@@ -25,14 +25,7 @@ pageEncoding="UTF-8" %>
                            data-url="${ctx}/pcs/pcsPoll_au"
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
-                        <button data-url="${ctx}/pcs/pcsPoll_report"
-                                data-title="报送"
-                                data-msg="确定报送这{0}条数据？"
-                                data-grid-id="#jqGrid"
-                                data-width="800"
-                                class="jqOpenViewBtn btn btn-success btn-sm">
-                            <i class="fa fa-circle-o"></i> 报送
-                        </button>
+
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=1"
                                 data-title="作废"
                                 data-msg="确定作废这{0}条数据？"
@@ -89,7 +82,7 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>所在${_p_partyName}</label>
                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
-                                        data-ajax-url="${ctx}/party_selects?auth=1"
+                                        data-ajax-url="${ctx}/party_selects?auth=1&pcsConfigId=${_pcsConfig.id}"
                                         name="partyId" data-placeholder="请选择">
                                     <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                 </select>
@@ -98,7 +91,7 @@ pageEncoding="UTF-8" %>
                                  id="branchDiv">
                                 <label>所在党支部</label>
                                 <select class="form-control" data-rel="select2-ajax"
-                                        data-ajax-url="${ctx}/branch_selects?auth=1"
+                                        data-ajax-url="${ctx}/branch_selects?auth=1&pcsConfigId=${_pcsConfig.id}"
                                         name="branchId" data-placeholder="请选择党支部">
                                     <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                 </select>
@@ -167,15 +160,22 @@ pageEncoding="UTF-8" %>
     function _ReLoadPage(){
         $("#page-content").loadPage("${ctx}/pcs/pcsPoll?cls=${cls}");
     }
+
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/pcs/pcsPoll_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
+              if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
+              return ('<button class="jqOpenViewBtn btn btn-success btn-xs" data-width="800" title="{2}" ' +
+              'data-url="${ctx}/pcs/pcsPoll_report?id={0}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
+                      .format(rowObject.id, $.trim(rowObject.reportMsg)==''? '' : 'disabled', $.trim(rowObject.reportMsg));
+
+            }, frozen:true},
             { label: '投票阶段',name: 'stage', formatter: function (cellvalue, options, rowobject) {
                     return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
                 }, frozen: true},
             { label: '投票名称',name: 'name',align:'left', width: 252, frozen: true},
-            { label: '是否报送',name: 'hasReport', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '已报送', off: '未报送'}},
             { label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                             .format(rowObject.id)
@@ -207,7 +207,6 @@ pageEncoding="UTF-8" %>
                         label:"查看"});
                 }, width: 80
             },
-            { label: '所属党代会',name: 'pcsConfig.name',align:'left', width: 252},
             { label: '所属${_p_partyName}',name: 'partyId',align:'left', width: 300, formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
             }},
@@ -216,9 +215,9 @@ pageEncoding="UTF-8" %>
                 }},
 
 
-            { label: '代表的<br/>最大推荐人数',name: 'prNum'},
-            { label: '党委委员的<br/>最大推荐人数',name: 'dwNum'},
-            { label: '纪委委员的<br/>最大推荐人数',name: 'jwNum'},
+            { label: '党委委员<br/>最大推荐人数',name: 'dwNum'},
+            { label: '纪委委员<br/>最大推荐人数',name: 'jwNum'},
+            { label: '代表<br/>最大推荐人数',name: 'prNum'},
 
             { label: '推荐人管理',name: '_candidate', width:80, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.stage==${PCS_POLL_FIRST_STAGE}) return "--";

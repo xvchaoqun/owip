@@ -6,12 +6,12 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <c:if test="${proposalClosed}">
             <div class="well">
-            提交提案截止时间为${cm:formatDate(pcsConfig.proposalSubmitTime, "yyyy-MM-dd HH:mm")}
+            提交提案截止时间为${cm:formatDate(_pcsConfig.proposalSubmitTime, "yyyy-MM-dd HH:mm")}
             </div>
         </c:if>
         <c:if test="${supportClosed}">
         <div class="well">
-            征集附议人截止时间为${cm:formatDate(pcsConfig.proposalSupportTime, "yyyy-MM-dd HH:mm")}
+            征集附议人截止时间为${cm:formatDate(_pcsConfig.proposalSupportTime, "yyyy-MM-dd HH:mm")}
             </div>
         </c:if>
         <c:if test="${!proposalClosed  && !supportClosed}">

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -526,6 +527,7 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_selects")
     @ResponseBody
     public Map branch_selects(Integer pageSize, Boolean auth, Boolean del,
+                              Integer pcsConfigId, // 党代会ID
                               Integer pageNo, Integer partyId, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -569,6 +571,21 @@ public class BranchController extends BaseController {
                     else
                         criteria.andIdIsNull();
                 }
+            }
+        }
+
+        // 党代会筛选
+        if(pcsConfigId!=null){
+
+            List<Integer> branchIdList = new ArrayList<>();
+            PcsConfigService pcsConfigService = CmTag.getBean(PcsConfigService.class);
+            if(pcsConfigService!=null) {
+                branchIdList = pcsConfigService.getBranchIdList(partyId);
+            }
+            if(branchIdList.size()>0){
+                criteria.andIdIn(branchIdList);
+            }else{
+                criteria.andIdIsNull();
             }
         }
 

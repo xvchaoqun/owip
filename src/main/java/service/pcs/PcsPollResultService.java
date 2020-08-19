@@ -203,7 +203,7 @@ public class PcsPollResultService extends PcsBaseMapper {
 
             int requiredCount = 0;
             if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
-                requiredCount = pcsPollCandidateService.getPrRequiredCount(partyId);
+                requiredCount = pcsPollCandidateService.getPrMaxCount(partyId);
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){

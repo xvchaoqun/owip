@@ -27,7 +27,7 @@
             background-color: #d9edf7;
         }
         #candidateForm td.realname {
-            text-align: center;
+            text-align: left;
             font-weight: bolder;
         }
 
@@ -119,11 +119,11 @@
                                 <tr>
                                     <td align="center">
                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                            <input required type="radio" name="isPositive" id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
+                                            <input type="radio" name="isPositive" id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
                                             <label for="isPositive_1">正式党员</label>
                                         </div>
                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                            <input required type="radio" name="isPositive" id="isPositive_0" value="0" ${empty inspector.isPositive?"":(inspector.isPositive?"":"checked")}>
+                                            <input type="radio" name="isPositive" id="isPositive_0" value="0" ${empty inspector.isPositive?"":(inspector.isPositive?"":"checked")}>
                                             <label for="isPositive_0">预备党员</label>
                                         </div>
                                     </td>
@@ -133,13 +133,6 @@
                                 </tr>
                                 <tr>
                                     <td align="center">
-                                        <c:if test="${pcsPoll.stage!=PCS_POLL_THIRD_STAGE}">
-                                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                <input required type="radio" name="type"
-                                                       id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
-                                                <label for="type_1">代表</label>
-                                            </div>
-                                        </c:if>
                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                             <input type="radio" name="type"
                                                    id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
@@ -150,6 +143,13 @@
                                                    id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
                                             <label for="type_3">纪委委员</label>
                                         </div>
+                                        <c:if test="${pcsPoll.stage!=PCS_POLL_THIRD_STAGE}">
+                                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                                <input required type="radio" name="type"
+                                                       id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                                <label for="type_1">代表</label>
+                                            </div>
+                                        </c:if>
                                     </td>
                                 </tr>
                                 <c:forEach items="${cans}" var="can">
@@ -159,7 +159,7 @@
                                     <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
                                     <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                                     <tr>
-                                        <td class="realname">${can.user.realname}（${can.user.code}）</td>
+                                        <td class="realname">${can.user.realname}</td>
                                     </tr>
                                     <tr class="candidate">
                                         <td align="center">
@@ -295,7 +295,7 @@
                             var type = $('#candidateForm input[name=type]:checked').val();
                             location.href="${ctx}/user/pcs/index?isMobile=1&type="+type;
                         }else if ($("input[name=isSubmit]").val() == 0) {
-                            SysMsg.success('保存成功。', '成功')
+                            SysMsg.success('保存成功（数据还未提交，请填写完成后提交全部结果）。', '暂存')
                         }
                     }
                 }
@@ -313,6 +313,13 @@
 
     //提交推荐数据
     function _submit(flag) {
+
+        var isPositive = $("input[name=isPositive]:checked").val();
+        if(isPositive!=0 && isPositive!=1){
+            SysMsg.error("请选择投票人身份");
+            return;
+        }
+
         $("input[name=flag]").val(flag);//0保存按钮保存 4是先保存，然后弹出提示框,进行提交
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();
