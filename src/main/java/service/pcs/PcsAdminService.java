@@ -104,6 +104,11 @@ public class PcsAdminService extends PcsBaseMapper {
                 pcsAdminMapper.deleteByExample(example);
             }
 
+            PcsAdminExample example = new PcsAdminExample();
+            example.createCriteria().andUserIdEqualTo(userId);
+            List<PcsAdmin> pcsAdminList= pcsAdminMapper.selectByExample(example);
+            if(pcsAdminList.size()>0)  continue;
+
             int partyId = partyMemberView.getGroupPartyId(); // 此处应该用分党委委员会所在的分党委ID，保证不为空
 
             PcsAdmin record = new PcsAdmin();

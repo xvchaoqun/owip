@@ -77,6 +77,7 @@ public class CadrePostService extends BaseMapper {
             record.setPostType(unitPost.getPostType());
             record.setPostClassId(unitPost.getPostClass());
             record.setUnitId(unitPost.getUnitId());
+            record.setIsCpc(unitPost.getIsCpc());
         }
 
         record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
@@ -123,6 +124,8 @@ public class CadrePostService extends BaseMapper {
             record.setPostType(unitPost.getPostType());
             record.setPostClassId(unitPost.getPostClass());
             record.setUnitId(unitPost.getUnitId());
+            record.setIsCpc(unitPost.getIsCpc());
+
         }else{
             // 清除关联岗位
             commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + record.getId());

@@ -175,9 +175,9 @@ pageEncoding="UTF-8"%>
 			</div>
             </c:if>
 			<div class="form-group" id="cadreDiv" style="${cadrePost==null?'':'display: none'}">
-				<label class="col-xs-4 control-label">${cadrePost==null?'':'<span class="star">*</span>变更'}任职干部</label>
+				<label class="col-xs-4 control-label">${cadrePost==null?'':'变更'}任职干部</label>
 				<div class="col-xs-8">
-					<select  ${cadrePost==null?'':'disabled required'} data-rel="select2-ajax"
+					<select  <%--${cadrePost==null?'':'disabled'}--%> data-rel="select2-ajax"
 								data-ajax-url="${ctx}/cadre_selects"
 								name="cadreId" data-placeholder="请输入账号或姓名或学工号">
 							<option value="${cadrePost.cadre.id}">${cadrePost.cadre.realname}-${cadrePost.cadre.code}</option>
@@ -224,11 +224,10 @@ pageEncoding="UTF-8"%>
 	$("input[type=radio][name=isSync]").click(function(){
 		if($(this).val()=='1') {
 			$("#cadreDiv").show();
-			$("#modalForm select[name=cadreId]").removeAttr("disabled");
-			$("#modalForm select[name=cadreId]").attr("required","required");
+			/*$("#modalForm select[name=cadreId]").removeAttr("disabled");*/
 		}else {
 			$("#cadreDiv").hide();
-			$("#modalForm select[name=cadreId]").prop("disabled", true).removeAttr("required");
+			/*$("#modalForm select[name=cadreId]").prop("disabled", true);*/
 		}
 	});
 </script>

@@ -23,6 +23,12 @@
                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 添加中"
                 class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加
         </button>
+        <button type="button" class="jqBatchBtn btn btn-danger btn-sm"
+            data-url="${ctx}/sysResource_updateRole"
+                data-grid-id="#jqGrid_popup"
+                data-querystr="&addOrDel=0&resourceId=${param.resourceId}"
+                data-callback="_reload_popup" data-msg="确定删除该角色？" data-title="删除资源角色">
+                  <i class="fa fa-times"></i> 删除</button>
     </form>
     <table id="jqGrid_popup" class="table-striped"></table>
     <div id="jqGridPager_popup"></div>
@@ -50,7 +56,7 @@
     //$.register.user_select($('#searchForm_popup select[name=userId]'));
     //$('#searchForm_popup [data-rel="select2"]').select2();
     $("#jqGrid_popup").jqGrid({
-        multiselect: false,
+       /* multiselect: false,*/
         height: 390,
         width: 720,
         rowNum: 10,
@@ -60,9 +66,9 @@
         url: "${ctx}/sysRole_data?callback=?&resourceId=${param.resourceId}&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
             {label: '角色代码', name: 'code', width: 150},
-            {label: '角色名称', name: 'name', width: 150},
+            {label: '角色名称', name: 'name', width: 200},
             {label: '备注', name: 'remark', width: 300, align: 'left'},
-            {
+          /*  {
                 "name": "_del", "label": "删除", "width": 80, formatter: function (cellvalue, options, rowObject) {
                     return ('<button class="confirm btn btn-danger btn-xs" ' +
                         'data-url="${ctx}/sysResource_updateRole?addOrDel=0&roleId={0}&resourceId=${param.resourceId}" ' +
@@ -70,7 +76,7 @@
                         '<i class="fa fa-times"></i> 删除</button>')
                         .format(rowObject.id);
                 }
-            },
+            },*/
         ]
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");

@@ -46,6 +46,7 @@ import java.util.*;
 
 import static domain.unit.UnitPostViewExample.Criteria;
 import static sys.constants.DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT;
+import static sys.constants.SystemConstants.*;
 
 @Controller
 public class UnitPostController extends BaseController {
@@ -536,7 +537,7 @@ public class UnitPostController extends BaseController {
             CadrePost cp=cadrePostService.getByUnitPostId(id);//原关联干部
             if(cp!=null) oldCadreId=cp.getCadreId();
 
-            unitPostService.updateByPrimaryKeySelective(record,oldCadreId,cadrePost);
+            unitPostService.updateByPrimaryKeySelective(record,oldCadreId,cadrePost,isSync);
             logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s-干部任职情况：%s", record.getId(), cadreId));
            /* if(BooleanUtils.isTrue(isSync)){
                   unitPostService.syncCadrePost(record,cadreId);
@@ -860,8 +861,15 @@ public class UnitPostController extends BaseController {
         modelMap.put("cadreType", cadreType);
 
         if (module == 1) {
+            byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
+
             if (export == 1) {
-                XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx(cadreType);
+                XSSFWorkbook wb=new XSSFWorkbook();
+                if(_upa_displayPosts==UNIT_POST_DISPLAY_NORMAL||_upa_displayPosts==UNIT_POST_DISPLAY_KEEP) {
+                     wb = unitPostAllocationService.cpcInfo_Xlsx(cadreType);
+                }else if(_upa_displayPosts==UNIT_POST_DISPLAY_NOT_CPC) {
+                     wb = unitPostAllocationService.cpcInfo_Xlsx2(cadreType);
+                }
 
                 String fileName = sysConfigService.getSchoolName() + "内设机构"
                         + CadreConstants.CADRE_TYPE_MAP.get(cadreType) +"配备情况（"
@@ -870,7 +878,14 @@ public class UnitPostController extends BaseController {
                 return null;
             }
 
-            List<UnitPostAllocationInfoBean> beans = unitPostAllocationService.cpcInfo_data(null, cadreType, true);
+            List<UnitPostAllocationInfoBean> beans = new ArrayList<>();
+
+            if(_upa_displayPosts==UNIT_POST_DISPLAY_NORMAL||_upa_displayPosts==UNIT_POST_DISPLAY_KEEP) {
+                beans = unitPostAllocationService.cpcInfo_data(null, cadreType, true);
+            }else if(_upa_displayPosts==UNIT_POST_DISPLAY_NOT_CPC) {
+                beans = unitPostAllocationService.cpcInfo_data2(null, cadreType, true);
+            }
+
             modelMap.put("beans", beans);
         }else if (module == 2) {
 

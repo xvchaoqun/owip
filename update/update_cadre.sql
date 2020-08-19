@@ -1,3 +1,5 @@
+2020-08-19
+update cadre_post set is_cpc=(select is_cpc from unit_post where cadre_post.unit_post_id=unit_post.id)
 
 -- 20200513 ly
 ALTER TABLE `cadre_work`

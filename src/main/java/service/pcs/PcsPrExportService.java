@@ -265,23 +265,19 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         String title = pcsConfigService.getPcsName(configId) + "代表候选人%s人选统计表";
-        String deadline = "";
         String stageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
                 title = String.format(title, "初步");
-                deadline = "9月6号前";
                 stageStr = "一上";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
                 title = String.format(title, "预备");
-                deadline = "9月11日前";
                 stageStr = "二上";
                 break;
             case PcsConstants.PCS_STAGE_THIRD:
                 title = String.format(title, "");
                 stageStr = "三上";
-                deadline = "9月18日前";
                 break;
         }
 
@@ -290,8 +286,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage))
-                .replace("deadline", deadline);
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
@@ -779,20 +774,17 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         String title = pcsConfigService.getPcsName(configId) + "代表候选人%s人选名单";
-        String deadline = "";
         String rate = "";
         String nextStageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
                 title = String.format(title, "初步");
                 rate = "30%";
-                deadline = "9月6号前";
                 nextStageStr = "二下";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
                 title = String.format(title, "预备");
                 rate = "20%";
-                deadline = "9月11日前";
                 nextStageStr = "三下";
                 break;
         }
@@ -802,9 +794,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         String str = cell.getStringCellValue()
                 .replace("title", title)
                 .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
-        if (partyId != null) {
-            str = str.replace("deadline", deadline);
-        }
+
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
@@ -860,6 +850,8 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+
         for (int i = 0; i < rowCount; i++) {
 
             PcsPrCandidate bean = candidates.get(i);
@@ -905,7 +897,8 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            cell.setCellValue(birth != null ? age + "" : "");
 
             // 民族
             cell = row.getCell(column++);
@@ -1018,6 +1011,8 @@ public class PcsPrExportService extends PcsBaseMapper {
         List<PcsPrCandidate> candidates = pcsPrListService.getList2(configId, partyId, true);
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+
         for (int i = 0; i < rowCount; i++) {
 
             PcsPrCandidate bean = candidates.get(i);
@@ -1055,7 +1050,8 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            cell.setCellValue(birth != null ? age + "" : "");
 
             // 民族
             cell = row.getCell(column++);
@@ -1136,6 +1132,8 @@ public class PcsPrExportService extends PcsBaseMapper {
         List<PcsPrCandidate> candidates = pcsPrListService.getList2(configId, null, true);
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+
         for (int i = 0; i < rowCount; i++) {
 
             PcsPrCandidate bean = candidates.get(i);
@@ -1185,7 +1183,8 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            cell.setCellValue(birth != null ? age + "" : "");
 
             // 民族
             cell = row.getCell(column++);

@@ -448,4 +448,17 @@ public class SystemConstants {
         SYS_ROLE_TYPE_MAP.put(SYS_ROLE_TYPE_ADD,"加权限");
         SYS_ROLE_TYPE_MAP.put(SYS_ROLE_TYPE_MINUS,"减权限");
     }
+
+    //干部配备一览表显示 1.原版 2.包含空岗 3.不占职数（无行政级别）
+    public static final byte UNIT_POST_DISPLAY_NORMAL = 1;
+    public static final byte UNIT_POST_DISPLAY_KEEP = 2;
+    public static final byte UNIT_POST_DISPLAY_NOT_CPC = 3;
+    public final static Map<Byte, String> UNIT_POST_DISPLAY_MAP = new LinkedHashMap<>();
+
+    static {
+        UNIT_POST_DISPLAY_MAP.put(UNIT_POST_DISPLAY_NORMAL, "原版");
+        UNIT_POST_DISPLAY_MAP.put(UNIT_POST_DISPLAY_KEEP, "包含空岗");
+        UNIT_POST_DISPLAY_MAP.put(UNIT_POST_DISPLAY_NOT_CPC, "不占职数（无行政级别");
+    }
+
 }

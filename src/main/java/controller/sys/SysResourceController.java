@@ -214,9 +214,9 @@ public class SysResourceController extends BaseController {
     @RequiresPermissions("sysResource:addRole")
     @RequestMapping(value = "/sysResource_updateRole", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysResource_updateRole(int roleId, int resourceId, boolean addOrDel, HttpServletRequest request) {
+    public Map do_sysResource_updateRole(Integer[] ids, int resourceId, boolean addOrDel, HttpServletRequest request) {
 
-        sysRoleService.updateRole(roleId, resourceId, addOrDel);
+        sysRoleService.updateRole(ids, resourceId, addOrDel);
 
         return success(FormUtils.SUCCESS);
     }

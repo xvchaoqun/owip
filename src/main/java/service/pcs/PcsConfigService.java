@@ -4,17 +4,18 @@ import controller.global.OpException;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsConfigExample;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import sys.tags.CmTag;
 import sys.utils.ContentUtils;
 import sys.utils.PatternUtils;
+import sys.utils.DateUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PcsConfigService extends PcsBaseMapper {
@@ -52,6 +53,27 @@ public class PcsConfigService extends PcsBaseMapper {
         if (pcsConfigs.size() > 1) throw new OpException("党代会状态异常：当前包含多个党代会");
 
         return (pcsConfigs.size() == 1) ? pcsConfigs.get(0) : null;
+    }
+
+    // 获取当前党代会,党代表年龄
+    public Integer getPcsAge(Date createTime, Date birth) {
+
+        Date _finishDate = null;
+        if(createTime!=null) {
+            // 假定3个月后党代会结束
+            Date finishDate = DateUtils.getDateBeforeOrAfterMonthes(createTime, 3);
+            if(DateUtils.compareDate(new Date(), finishDate)) { // 超过了结束时间，年龄计算冻结
+                _finishDate = DateUtils.getDateBeforeOrAfterMonthes(createTime, 3);
+            }
+        }
+        if(_finishDate==null){ // 在党代会召开期间，以当前日期为基准计算年龄
+            _finishDate = new Date();
+        }
+        DateTime begin = new DateTime(birth);
+        DateTime end = new DateTime(_finishDate);
+        Period p = new Period(begin, end, PeriodType.years());
+        return p.getYears();
+
     }
 
     public boolean idDuplicate(Integer id, String name) {
