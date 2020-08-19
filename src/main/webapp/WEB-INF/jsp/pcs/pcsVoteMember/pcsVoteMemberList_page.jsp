@@ -67,7 +67,7 @@
             {label: '民族', name: 'nation', width: 80},
             {label: '职称', name: 'proPost', width: 200},
             {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '年龄', name: 'birth', width: 80, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m'}},
+            {label: '年龄', name: 'birth', width: 80, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m',baseDate: '${_finishDate}'}},
             {
                 label: '入党时间',
                 name: 'growTime',

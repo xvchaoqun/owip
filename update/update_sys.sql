@@ -1,3 +1,6 @@
+2020.08.19
+UPDATE `db_owip`.`sys_property` SET `name`='干部配备一览表显示',`content`='1',`type`='2',`remark`='1 原版   2 显示空岗及保留待遇  3 不占职数（无行政级别）' WHERE  `code`='upa_displayPosts';
+
 2020.08.12
 -- 添加源数据
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (3002, NULL, '交流轮岗类型', '干部选拔任用', '交流轮岗', 'mc_sc_shift', '', '', '', 2615, 1);

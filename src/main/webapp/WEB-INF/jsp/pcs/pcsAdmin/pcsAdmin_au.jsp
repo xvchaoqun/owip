@@ -11,9 +11,9 @@
 
         <c:if test="${empty param.partyId}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">所属${_p_partyName}</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>所属${_p_partyName}</label>
                 <div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                             name="partyId" data-placeholder="请选择">
                         <option value="${party.id}">${party.name}</option>
                     </select>

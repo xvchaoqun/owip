@@ -5,13 +5,15 @@
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ attribute name="cadrePosts" type="java.util.List" required="true" %>
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
-<c:set value="${_pMap['upa_displayPosts']=='true'}" var="_upa_displayPosts"/>
+<%--<c:set value="${_pMap['upa_displayPosts']}" var="_upa_displayPosts"/>--%>
+<c:set value="<%=SystemConstants.UNIT_POST_DISPLAY_KEEP%>" var="UNIT_POST_DISPLAY_KEEP"/>
+<c:set value="${_pMap['upa_displayPosts']==UNIT_POST_DISPLAY_KEEP}" var="isDispiayKeep"/>
 <%--<c:set var="hasCadreViewAuth" value="${cm:isPermitted('cadre:archive') && cm:isPermitted(PERMISSION_CADREADMIN)}"/>--%>
 <c:set var="hasCadreViewAuth" value="${cm:isPermitted('cadre:archive')}"/>
 
 <c:forEach items="${cadrePosts}" var="p" varStatus="_vs">
     <c:if test="${p.isMainPost}">
-        <c:if test="${_upa_displayPosts}">
+        <c:if test="${isDispiayKeep}">
             <c:set var="iscontain" value="0" />
             <c:set var="post" value="" />
             <c:forEach items="${cadrePosts}" var="cadrePost" varStatus="count">
@@ -42,7 +44,7 @@
             </c:if>
         </c:if>
 
-        <c:if test="${!_upa_displayPosts}">
+        <c:if test="${!isDispiayKeep}">
             <a <c:if test="${hasCadreViewAuth}">
                 href="${ctx}/#/cadre_view?cadreId=${p.cadre.id}&hideBack=1" target="_blank"
             </c:if>
@@ -54,7 +56,7 @@
     </c:if>
 
     <c:if test="${!p.isMainPost && p.isCpc}">
-        <c:if test="${_upa_displayPosts}">
+        <c:if test="${isDispiayKeep}">
             <span class="isCpc1"><a <c:if test="${hasCadreViewAuth}">
                                         href="${ctx}/#/cadre_view?cadreId=${p.cadre.id}&hideBack=1" target="_blank"
                                     </c:if>
@@ -62,7 +64,7 @@
                                     data-tooltip="tooltip" data-container="body" data-html="true"
                                     data-original-title="${p.post}">${p.cadre.realname}(兼任)</a></span>
         </c:if>
-        <c:if test="${!_upa_displayPosts}">
+        <c:if test="${!isDispiayKeep}">
             <span class="isCpc">(<a <c:if test="${hasCadreViewAuth}">
                     href="${ctx}/#/cadre_view?cadreId=${p.cadre.id}&hideBack=1" target="_blank"
                 </c:if>
@@ -80,5 +82,5 @@
               data-html="true"
               data-original-title="${p.post}">${p.cadre.realname}</a>)</span>
     </c:if>
-    ${_upa_displayPosts?(_vs.last||p.isMainPost?"":"、"):(_vs.last?"":"、")}
+    ${isDispiayKeep?(_vs.last||p.isMainPost?"":"、"):(_vs.last?"":"、")}
 </c:forEach>

@@ -30,7 +30,21 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-4 control-label">是否审核通过</label>
             <div class="col-xs-6">
-                <input type="checkbox" class="big" name="status"  data-off-text="不通过" data-on-text="通过" />
+               <%-- <input type="checkbox" class="big" name="status"  data-off-text="不通过" data-on-text="通过" />--%>
+                   <div class="input-group">
+                       <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                           <input required type="radio" name="status" id="status1" value="1">
+                           <label for="status1">
+                               通过
+                           </label>
+                       </div>
+                       <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                           <input required type="radio" name="status" id="status0" value="0">
+                           <label for="status0">
+                               不通过
+                           </label>
+                       </div>
+                   </div>
             </div>
         </div>
         <div class="form-group">

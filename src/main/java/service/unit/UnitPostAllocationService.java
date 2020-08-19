@@ -52,7 +52,11 @@ public class UnitPostAllocationService extends BaseMapper {
         List<String> isCpcPosList = new ArrayList<>();
         List<String> notCpcPosList = new ArrayList<>();
 
-        boolean _upa_displayPosts = CmTag.getBoolProperty("upa_displayPosts");
+        byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
+        boolean isDispalyKeep=false;
+        if(_upa_displayPosts==SystemConstants.UNIT_POST_DISPLAY_KEEP){
+            isDispalyKeep=true;
+        }
         /* for (CadrePost cadrePost : cadrePosts) {*/
         for (int i = 0; i < cadrePosts.size(); i++) {
 
@@ -65,7 +69,7 @@ public class UnitPostAllocationService extends BaseMapper {
             if (cadrePost.getIsMainPost()) {
                 // 主职
                 int k = 0;
-                if (_upa_displayPosts) {   //若 _upa_displayPosts为true 去除cadrePosts中重复的干部
+                if (isDispalyKeep) {   //若 isDispalyKeep为true 去除cadrePosts中重复的干部
                     for (int j = cadrePosts.size() - 1; j > i; j--) {
                         if (cadrePost.getCadreId().equals(cadrePosts.get(j).getCadreId()) && cadrePosts.get(j).getIsMainPost()) {
                             k = j;
@@ -79,7 +83,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
             } else if (cadrePost.getIsCpc()) {
                 // 副职、占职数
-                if (_upa_displayPosts) {
+                if (isDispalyKeep) {
                     realnames.add(realname + "（兼任）");
                     isCpcPosList.add(pos + "," + (pos + realname.length() + 4));
                 } else {
@@ -97,7 +101,7 @@ public class UnitPostAllocationService extends BaseMapper {
         XSSFFont isCpcFont = wb.createFont();
         //isCpcFont.setFontHeightInPoints((short) 24); // 字体高度
         //isCpcFont.setFontName("宋体"); // 字体
-        if (_upa_displayPosts) {
+        if (isDispalyKeep) {
             isCpcFont.setColor(IndexedColors.BLUE.getIndex());
             isCpcFont.setItalic(true);
         } else {
@@ -118,6 +122,46 @@ public class UnitPostAllocationService extends BaseMapper {
             ts.applyFont(Integer.valueOf(split[0]), Integer.valueOf(split[1]), isCpcFont);
         }
         for (String pos : notCpcPosList) {
+            String[] split = pos.split(",");
+            ts.applyFont(Integer.valueOf(split[0]), Integer.valueOf(split[1]), notCpcFont);
+        }
+
+        return ts;
+    }
+
+    private XSSFRichTextString getCadres2(XSSFWorkbook wb, List<CadrePost> cadrePosts) {
+
+        List<String> realnames = new ArrayList<>();
+        List<String> viceList = new ArrayList<>();
+
+
+        for (int i = 0; i < cadrePosts.size(); i++) {
+
+            CadrePost cadrePost = cadrePosts.get(i);
+            CadreView cadre = cadrePost.getCadre();
+            String realname = cadre.getRealname();
+
+            int pos = (realnames.size() == 0) ? 0 : StringUtils.join(realnames, "、").length() + 1;
+
+            if (cadrePost.getIsMainPost()) {
+                // 主职
+                int k = 0;
+                if (k == 0 || k == i) {
+                    realnames.add(realname);
+                }
+            } else {
+                // 副职、不占职数
+                realnames.add("（" + realname + "）");
+                viceList.add(pos + "," + (pos + realname.length() + 2));
+            }
+        }
+
+        XSSFFont notCpcFont = wb.createFont();
+        notCpcFont.setColor(IndexedColors.GREEN.getIndex());
+
+        XSSFRichTextString ts = new XSSFRichTextString(StringUtils.join(realnames, "、"));
+
+        for (String pos : viceList) {
             String[] split = pos.split(",");
             ts.applyFont(Integer.valueOf(split[0]), Integer.valueOf(split[1]), notCpcFont);
         }
@@ -155,14 +199,18 @@ public class UnitPostAllocationService extends BaseMapper {
     // 导出
     public XSSFWorkbook cpcInfo_Xlsx(byte cadreType) throws IOException {
 
-        Boolean _upa_displayPosts = CmTag.getBoolProperty("upa_displayPosts");
+        byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
+        boolean isDispalyKeep=false;
+        if(_upa_displayPosts==SystemConstants.UNIT_POST_DISPLAY_KEEP){
+            isDispalyKeep=true;
+        }
         String xlsxFile = "classpath:xlsx/cpc/cpc_template.xlsx";
 
-        if (_upa_displayPosts && cadreType == CadreConstants.CADRE_TYPE_CJ) {
+        if (isDispalyKeep && cadreType == CadreConstants.CADRE_TYPE_CJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template1.xlsx";
-        } else if (_upa_displayPosts && cadreType == CadreConstants.CADRE_TYPE_KJ) {
+        } else if (isDispalyKeep && cadreType == CadreConstants.CADRE_TYPE_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template1_kj.xlsx";
-        } else if (!_upa_displayPosts && cadreType == CadreConstants.CADRE_TYPE_KJ) {
+        } else if (!isDispalyKeep && cadreType == CadreConstants.CADRE_TYPE_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template_kj.xlsx";
         }
 
@@ -170,7 +218,7 @@ public class UnitPostAllocationService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        if (!_upa_displayPosts) {
+        if (!isDispalyKeep) {
             // 打开页面布局
             CTSheetView view = sheet.getCTWorksheet().getSheetViews().getSheetViewArray(0);
             view.setView(STSheetViewType.PAGE_LAYOUT);
@@ -229,7 +277,7 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getMainLack());
 
-            if (_upa_displayPosts) {
+            if (isDispalyKeep) {
                 // 正*级 空缺岗位
                 cell = row.getCell(column++);
                 cell.setCellValue(getPosts(wb, bean.getMainLackPost()));
@@ -254,7 +302,7 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getViceLack());
 
-            if (_upa_displayPosts) {
+            if (isDispalyKeep) {
                 // 正*级 空缺岗位
                 cell = row.getCell(column++);
                 cell.setCellValue(getPosts(wb, bean.getViceLackPost()));
@@ -303,7 +351,7 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getMainLack());
 
-            if (_upa_displayPosts) {
+            if (isDispalyKeep) {
                 column++;
                 column++;
             }
@@ -322,7 +370,7 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getViceLack());
 
-            if (_upa_displayPosts) {
+            if (isDispalyKeep) {
                 column++;
                 column++;
             }
@@ -346,7 +394,158 @@ public class UnitPostAllocationService extends BaseMapper {
 
         return wb;
     }
+    // 导出2
+    public XSSFWorkbook cpcInfo_Xlsx2(byte cadreType) throws IOException {
 
+        String xlsxFile = "classpath:xlsx/cpc/cpc_template2.xlsx";
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile(xlsxFile));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+
+        // 打开页面布局
+        CTSheetView view = sheet.getCTWorksheet().getSheetViews().getSheetViewArray(0);
+        view.setView(STSheetViewType.PAGE_LAYOUT);
+
+        // 横向打印
+        XSSFPrintSetup ps = sheet.getPrintSetup();
+        ps.setLandscape(true);
+        ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+
+
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data2(null, cadreType, true);
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        cell.setCellValue("统计日期：" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        int cpRow = 5;
+        int rowCount = beans.size() - 1;
+        if (rowCount > 1)
+            ExcelUtils.insertRow(wb, sheet, cpRow, rowCount - 1);
+
+        int startRow = cpRow;
+        for (int i = 0; i < rowCount; i++) {
+
+            UnitPostAllocationInfoBean bean = beans.get(i);
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+
+            // 单位
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getUnit().getName());
+
+            // 正*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getMainNum());
+
+            // 正*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getMainCount());
+
+            // 正*级 现任干部
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres2(wb, bean.getMains()));
+
+            // 正*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getMainLack());
+
+            // 副*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getViceNum());
+
+            // 副*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getViceCount());
+
+            // 副*级 现任干部
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres2(wb, bean.getVices()));
+
+            // 副*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getViceLack());
+
+
+             // 不占职数 正处级
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getNCMCount());
+
+            // 不占职数 现任干部
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres2(wb, bean.getNotCpcMains()));
+
+            // 不占职数 副处级
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getNCVCount());
+
+            // 不占职数 现任干部
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres2(wb, bean.getNotCpcVices()));
+
+        }
+
+        // 统计结果
+        if (rowCount > 0) {
+
+            UnitPostAllocationInfoBean totalBean = beans.get(rowCount);
+            row = sheet.getRow(startRow);
+            int column = 2;
+            // 正*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getMainNum());
+
+            // 正*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getMainCount());
+
+            column++;
+
+            // 正*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getMainLack());
+
+            // 副*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getViceNum());
+
+            // 副*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getViceCount());
+
+            column++;
+
+            // 副*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getViceLack());
+
+
+            //  不占职数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getNCMCount());
+
+            column++;
+            //  不占职数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getNCVCount());
+
+            column++;
+        }
+
+        return wb;
+    }
     /**
      * 获取一个单位的配置情况
      *
@@ -406,7 +605,11 @@ public class UnitPostAllocationService extends BaseMapper {
      */
     public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, byte cadreType, boolean hasSetCpc) {
 
-        boolean _upa_displayPosts = CmTag.getBoolProperty("upa_displayPosts");
+        byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
+        boolean isDispalyKeep=false;
+        if(_upa_displayPosts==SystemConstants.UNIT_POST_DISPLAY_KEEP){
+            isDispalyKeep=true;
+        }
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
         MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
         MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
@@ -480,7 +683,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
                         if (cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null) {
                             mainKeep.add(cadrePost);
-                            if (!_upa_displayPosts) {
+                            if (!isDispalyKeep) {
                                 mains.add(cadrePost);
                             }
                         } else {
@@ -488,8 +691,8 @@ public class UnitPostAllocationService extends BaseMapper {
                         }
 
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                            // 主职或者副职占职数，就计数
-                            if (_upa_displayPosts) {
+                            // 主职或者兼职占职数，就计数
+                            if (isDispalyKeep) {
                                 if (!(cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null)) {
                                     //保留待遇干部不算到“现任数”中
                                     mainCount++;
@@ -503,7 +706,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
                         if (cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null) {
                             viceKeep.add(cadrePost);
-                            if (!_upa_displayPosts) {
+                            if (!isDispalyKeep) {
                                 vices.add(cadrePost);
                             }
                         } else {
@@ -511,8 +714,8 @@ public class UnitPostAllocationService extends BaseMapper {
                         }
 
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                            // 主职或者副职占职数，就计数
-                            if (_upa_displayPosts) {
+                            // 主职或者兼职占职数，就计数
+                            if (isDispalyKeep) {
                                 if (!(cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null)) {
                                     //保留待遇干部不算到“现任数”中
                                     viceCount++;
@@ -526,7 +729,7 @@ public class UnitPostAllocationService extends BaseMapper {
                         if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
                             nones.add(cadrePost);
                             if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                                // 主职或者副职占职数，就计数
+                                // 主职或者兼职占职数，就计数
                                 noneCount++;
                             }
                         }
@@ -574,6 +777,139 @@ public class UnitPostAllocationService extends BaseMapper {
                 totalBean.setMainLack(totalBean.getMainLack() + bean.getMainLack());
                 totalBean.setViceLack(totalBean.getViceLack() + bean.getViceLack());
                 totalBean.setNoneLack(totalBean.getNoneLack() + bean.getNoneLack());
+
+                beans.add(bean);
+            }
+        }
+
+        beans.add(totalBean);
+
+        return beans;
+    }
+    /**
+     * 干部职数配置情况统计 (upa_displayPosts=3  不占职数)
+     *
+     * @return 最后一个bean是统计结果
+     * <p>
+     * hasSetCpc = true 只读取设置了职数的单位
+     */
+    public List<UnitPostAllocationInfoBean> cpcInfo_data2(Integer _unitId, byte cadreType, boolean hasSetCpc) {
+
+
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+
+        Map<Integer, Unit> _unitMap = unitService.findAll();
+        Map<Integer, Unit> unitMap = new LinkedHashMap<>();
+        if(_unitId!=null){
+            unitMap.put(_unitId, _unitMap.get(_unitId));
+        }else{
+            unitMap.putAll(_unitMap);
+        }
+
+        List<UnitPostAllocationInfoBean> beans = new ArrayList<>();
+
+        // 统计结果
+        UnitPostAllocationInfoBean totalBean = new UnitPostAllocationInfoBean();
+        totalBean.setMainCount(0);
+        totalBean.setViceCount(0);
+        totalBean.setNCMCount(0);
+        totalBean.setNCVCount(0);
+
+        totalBean.setMainNum(0);
+        totalBean.setViceNum(0);
+
+        totalBean.setMainLack(0);
+        totalBean.setViceLack(0);
+
+        Map<Integer, Map<Integer, Integer>> _unitAdminLevelMap = getUnitAdminLevelMap();
+
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitId = unit.getId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_RUN
+                    && !(hasSetCpc && !_unitAdminLevelMap.containsKey(unitId))) {
+
+                UnitPostAllocationInfoBean bean = new UnitPostAllocationInfoBean();
+                bean.setUnit(unit);
+
+                Integer mainNum = null;
+                Integer viceNum = null;
+                Map<Integer, Integer> _adminLevelMap = _unitAdminLevelMap.get(unitId);
+                if(_adminLevelMap!=null) {
+                    mainNum = _adminLevelMap.get(mainMetaType.getId());
+                    viceNum = _adminLevelMap.get(viceMetaType.getId());
+                }
+
+                // 查找主职、兼职在此单位的现任干部
+                List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId);
+
+                List<CadrePost> mains = new ArrayList<>();
+                List<CadrePost> vices = new ArrayList<>();
+                List<CadrePost> notCpcMains = new ArrayList<>();
+                List<CadrePost> notCpcVices = new ArrayList<>();
+                int mainCount = 0;
+                int viceCount = 0;
+                int nCMCount = 0;
+                int nCVCount = 0;
+                for (CadrePost cadrePost : cadrePosts) {
+
+                    if (cadrePost.getAdminLevel() == null) continue;
+                    if (cadrePost.getIsCpc()!=null){
+                        if (cadrePost.getAdminLevel().intValue() == mainMetaType.getId()) {
+
+                            if (cadrePost.getIsCpc()!=null&&cadrePost.getIsCpc()) {
+                                mains.add(cadrePost);
+                                mainCount++;
+                            }else{
+                                notCpcMains.add(cadrePost);
+                                nCMCount++;
+                            }
+                        }
+                        if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
+
+                            if (cadrePost.getIsCpc()!=null&&cadrePost.getIsCpc()) {
+                                vices.add(cadrePost);
+                                viceCount++;
+                            }else{
+                                notCpcVices.add(cadrePost);
+                                nCVCount++;
+                            }
+
+                        }
+                    }
+
+                }
+
+                bean.setMains(mains);
+                bean.setVices(vices);
+                bean.setNotCpcMains(notCpcMains);
+                bean.setNotCpcVices(notCpcVices);
+
+                bean.setMainCount(mainCount);
+                bean.setViceCount(viceCount);
+                bean.setNCMCount(nCMCount);
+                bean.setNCVCount(nCVCount);
+
+                bean.setMainNum(mainNum == null ? 0 : mainNum);
+                bean.setViceNum(viceNum == null ? 0 : viceNum);
+
+                bean.setMainLack(bean.getMainNum() - bean.getMainCount());
+                bean.setViceLack(bean.getViceNum() - bean.getViceCount());
+
+
+                totalBean.setMainCount(totalBean.getMainCount() + bean.getMainCount());
+                totalBean.setViceCount(totalBean.getViceCount() + bean.getViceCount());
+                totalBean.setNCMCount(totalBean.getNCMCount() + bean.getNCMCount());
+                totalBean.setNCVCount(totalBean.getNCVCount() + bean.getNCVCount());
+
+                totalBean.setMainNum(totalBean.getMainNum() + bean.getMainNum());
+                totalBean.setViceNum(totalBean.getViceNum() + bean.getViceNum());
+
+
+                totalBean.setMainLack(totalBean.getMainLack() + bean.getMainLack());
+                totalBean.setViceLack(totalBean.getViceLack() + bean.getViceLack());
 
                 beans.add(bean);
             }

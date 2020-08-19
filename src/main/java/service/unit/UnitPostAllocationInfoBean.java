@@ -35,6 +35,11 @@ public class UnitPostAllocationInfoBean {
     private Integer noneCount;
     private Integer noneLack; // 空缺数
 
+    private Integer nCMCount;  //正处级不占职数
+    private List<CadrePost> notCpcMains;
+    private Integer nCVCount;  //副处级不占职数
+    private List<CadrePost> notCpcVices;
+
     public Unit getUnit() {
         return unit;
     }
@@ -168,5 +173,37 @@ public class UnitPostAllocationInfoBean {
 
     public void setViceKeep(List<CadrePost> viceKeep) {
         this.viceKeep = viceKeep;
+    }
+
+    public Integer getNCMCount() {
+        return nCMCount;
+    }
+
+    public void setNCMCount(Integer nCMCount) {
+        this.nCMCount = nCMCount;
+    }
+
+    public List<CadrePost> getNotCpcMains() {
+        return notCpcMains;
+    }
+
+    public void setNotCpcMains(List<CadrePost> notCpcMains) {
+        this.notCpcMains = notCpcMains;
+    }
+
+    public Integer getNCVCount() {
+        return nCVCount;
+    }
+
+    public void setNCVCount(Integer nCVCount) {
+        this.nCVCount = nCVCount;
+    }
+
+    public List<CadrePost> getNotCpcVices() {
+        return notCpcVices;
+    }
+
+    public void setNotCpcVices(List<CadrePost> notCpcVices) {
+        this.notCpcVices = notCpcVices;
     }
 }

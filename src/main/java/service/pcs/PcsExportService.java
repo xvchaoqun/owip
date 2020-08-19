@@ -1,6 +1,7 @@
 package service.pcs;
 
 import domain.party.Party;
+import domain.pcs.PcsConfig;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -42,6 +43,9 @@ public class PcsExportService extends PcsBaseMapper {
     protected StatService statService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected PcsConfigService pcsConfigService;
+
 
     public String getSchoolName(){
 
@@ -56,9 +60,11 @@ public class PcsExportService extends PcsBaseMapper {
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, null, configId, stage, type, new RowBounds());
 
-        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
+        String pcsNum=pcsConfigService.getPcsNum(configId);
+
+        String title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-5-1.xlsx"));
@@ -124,9 +130,11 @@ public class PcsExportService extends PcsBaseMapper {
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, isChosen, configId, stage, type, new RowBounds());
 
-        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
+        String pcsNum=pcsConfigService.getPcsNum(configId);
+
+        String title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届纪律检查委员会委员";
         }
 
         String stage_s = "";
@@ -192,6 +200,8 @@ public class PcsExportService extends PcsBaseMapper {
         int startRow = 4;
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+
         for (int i = 0; i < rowCount; i++) {
 
             IPcsCandidate bean = candidates.get(i);
@@ -233,7 +243,8 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            cell.setCellValue(birth != null ? age + "" : "");
 
             // 入党时间
             String growTime = DateUtils.formatDate(bean.getGrowTime(), DateUtils.YYYYMM);
@@ -470,20 +481,18 @@ public class PcsExportService extends PcsBaseMapper {
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectBranchCandidateList(null, configId, stage, type, partyId, new RowBounds());
 
-
-        String deadline = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                deadline = "9月6日前";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                deadline = "9月11日前";
                 break;
         }
 
-        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
+        String pcsNum=pcsConfigService.getPcsNum(configId);
+        
+        String title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-2-1_3.xlsx"));
@@ -495,7 +504,6 @@ public class PcsExportService extends PcsBaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("deadline", deadline)
                 .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
@@ -610,9 +618,11 @@ public class PcsExportService extends PcsBaseMapper {
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
 
-        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
+        String pcsNum=pcsConfigService.getPcsNum(configId);
+
+        String title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第"+ pcsNum +"届纪律检查委员会委员";
         }
 
         String filename = "wy-1-1_6.xlsx";
@@ -654,6 +664,8 @@ public class PcsExportService extends PcsBaseMapper {
         int startRow = 5;
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+
         for (int i = 0; i < rowCount; i++) {
 
             IPcsCandidate bean = candidates.get(i);
@@ -703,7 +715,8 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 年龄
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getBirth() != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+            Integer age=pcsConfigService.getPcsAge(pcsConfig.getCreateTime(),bean.getBirth());
+            cell.setCellValue(bean.getBirth() != null ? age + "" : "");
 
             // 入党时间
             String growTime = DateUtils.formatDate(bean.getGrowTime(), DateUtils.YYYYMM);

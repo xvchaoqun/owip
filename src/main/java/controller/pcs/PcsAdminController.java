@@ -1,5 +1,6 @@
 package controller.pcs;
 
+import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
 import domain.pcs.PcsAdminExample.Criteria;
@@ -129,6 +130,9 @@ public class PcsAdminController extends PcsBaseController {
             modelMap.put("pcsAdmin", pcsAdmin);
             SysUserView sysUser = sysUserService.findById(pcsAdmin.getUserId());
             modelMap.put("sysUser", sysUser);
+            Map<Integer, Party> partyMap = partyService.findAll();
+            modelMap.put("party", partyMap.get(pcsAdmin.getPartyId()));
+
         }
 
         return "pcs/pcsAdmin/pcsAdmin_au";

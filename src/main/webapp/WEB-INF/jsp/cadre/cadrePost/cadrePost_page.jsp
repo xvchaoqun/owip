@@ -121,7 +121,7 @@
                 data-url="${ctx}/cadreWork_updateUnitId"
                 data-grid-id="#jqGrid_cadreWork" data-width="800"
                 data-querystr="&cadreId=${param.cadreId}">
-            <i class="fa fa-edit"></i> 修改所属内设机构
+            <i class="fa fa-edit"></i> 修改所属单位
         </button>
     </div>
         </shiro:lacksPermission>

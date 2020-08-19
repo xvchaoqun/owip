@@ -16,12 +16,14 @@ import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
+import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.NumberUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +40,8 @@ public class PcsVoteExportService extends PcsBaseMapper {
     protected SysConfigService sysConfigService;
     @Autowired
     protected PcsConfigService pcsConfigService;
+    @Autowired
+    protected PcsExportService pcsExportService;
 
     // 小组计票
     public XSSFWorkbook vote_jp(PcsVoteGroup pcsVoteGroup) throws IOException {
@@ -49,12 +53,15 @@ public class PcsVoteExportService extends PcsBaseMapper {
         boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
         String filePath = "";
         String title = "";
+
+        String pcsNum=pcsConfigService.getPcsNum(pcsVoteGroup.getConfigId());
+
         if(isDw){
             filePath = "classpath:xlsx/pcs/vote_dw_jp.xlsx";
-            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届委员会委员计票结果报告单";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第"+ pcsNum +"届委员会委员计票结果报告单";
         }else{
             filePath = "classpath:xlsx/pcs/vote_jw_jp.xlsx";
-            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届纪律检查委员会委员计票结果报告单";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第"+ pcsNum +"届纪律检查委员会委员计票结果报告单";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
@@ -150,12 +157,16 @@ public class PcsVoteExportService extends PcsBaseMapper {
 
         String filePath = "";
         String title = "";
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        String pcsNum=pcsConfigService.getPcsNum(currentPcsConfig.getId());
+
         if(isDw){
             filePath = "classpath:xlsx/pcs/vote_dw.xlsx";
-            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届委员会委员";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第"+ pcsNum +"届委员会委员";
         }else{
             filePath = "classpath:xlsx/pcs/vote_jw.xlsx";
-            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届纪律检查委员会委员";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第"+ pcsNum +"届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
@@ -168,7 +179,6 @@ public class PcsVoteExportService extends PcsBaseMapper {
                     .replace("title", title);
         cell.setCellValue(str);
 
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         PcsVoteGroup pcsVoteGroup = iPcsMapper.statPcsVoteGroup(type);
 
         row = sheet.getRow(1);
@@ -243,12 +253,16 @@ public class PcsVoteExportService extends PcsBaseMapper {
 
         String filePath = "";
         String title = "";
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        String pcsNum=pcsConfigService.getPcsNum(currentPcsConfig.getId());
+
         if(isDw){
             filePath = "classpath:xlsx/pcs/vote_dw_zj.xlsx";
-            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届委员会委员计票结果报告单";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第"+ pcsNum +"届委员会委员计票结果报告单";
         }else{
             filePath = "classpath:xlsx/pcs/vote_jw_zj.xlsx";
-            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届纪律检查委员会委员计票结果报告单";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第"+ pcsNum +"届纪律检查委员会委员计票结果报告单";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
@@ -261,7 +275,6 @@ public class PcsVoteExportService extends PcsBaseMapper {
                     .replace("title", title);
         cell.setCellValue(str);
 
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         PcsVoteGroup pcsVoteGroup = iPcsMapper.statPcsVoteGroup(type);
 
         row = sheet.getRow(1);
@@ -328,11 +341,29 @@ public class PcsVoteExportService extends PcsBaseMapper {
     // 当选名单 TODO 根据具体学校情况修改Excel里的表头名称
     public XSSFWorkbook member() throws IOException {
 
+        PcsConfig pcsConfig=pcsConfigService.getCurrentPcsConfig();
+        String pcsNum=pcsConfigService.getPcsNum(pcsConfig.getId());
+        String school = pcsExportService.getSchoolName();
+
+
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/vote_member.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
-        XSSFRow row = null;
-        XSSFCell cell = null;
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", school).replace("pcsNum", pcsNum);
+        cell.setCellValue(str);
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        String date = cell.getStringCellValue()
+                .replace("date", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+        cell.setCellValue(date);
+        row = sheet.getRow(2);
+        cell = row.getCell(0);
+        String str1 = cell.getStringCellValue()
+                .replace("school", school).replace("pcsNum", pcsNum);
+        cell.setCellValue(str1);
 
         {
             PcsVoteMemberExample example = new PcsVoteMemberExample();
@@ -361,6 +392,20 @@ public class PcsVoteExportService extends PcsBaseMapper {
                 cell.setCellValue(realname);
             }
         }
+
+        row = sheet.getRow(9);
+        cell = row.getCell(0);
+        String str2 = cell.getStringCellValue()
+                .replace("school", school).replace("pcsNum", pcsNum);
+        cell.setCellValue(str2);
+        row = sheet.getRow(10);
+        cell = row.getCell(0);
+        cell.setCellValue(date);
+        row = sheet.getRow(11);
+        cell = row.getCell(0);
+        String str3 = cell.getStringCellValue()
+                .replace("school", school).replace("pcsNum", pcsNum);
+        cell.setCellValue(str3);
 
         {
             PcsVoteMemberExample example = new PcsVoteMemberExample();
