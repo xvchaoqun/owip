@@ -54,16 +54,4 @@ public class PcsPollCandidateService extends PcsBaseMapper {
 
         return addCount;
     }
-
-    //List<PcsPollCandidate> -- 二下/三下推荐人
-    public List<PcsPollCandidate> findAll(Integer pollId, Byte type){
-
-        PcsPollCandidateExample example = new PcsPollCandidateExample();
-        example.createCriteria().andPollIdEqualTo(pollId).andTypeEqualTo(type);
-
-        example.setOrderByClause("sort_order desc");
-        List<PcsPollCandidate> pcsPollCandidates = pcsPollCandidateMapper.selectByExample(example);
-
-        return pcsPollCandidates;
-    }
 }

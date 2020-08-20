@@ -152,14 +152,14 @@
                                         </c:if>
                                     </td>
                                 </tr>
-                                <c:forEach items="${cans}" var="can">
-                                    <c:set var="key" value="${type}_${can.userId}"/>
+                                <c:forEach items="${candidateUserIds}" var="candidateUserId">
+                                    <c:set var="key" value="${type}_${candidateUserId}"/>
                                     <c:set var="status" value="${tempResult.secondResultMap.get(key)}"/>
                                     <c:set var="otherKey" value="${key}_4"/>
                                     <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
                                     <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                                     <tr>
-                                        <td class="realname">${can.user.realname}</td>
+                                        <td class="realname">${cm:getUserById(candidateUserId).realname}</td>
                                     </tr>
                                     <tr class="candidate">
                                         <td align="center">

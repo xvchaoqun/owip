@@ -6,7 +6,6 @@ import domain.member.MemberView;
 import domain.member.MemberViewExample;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollCandidate;
 import domain.pcs.PcsPollInspector;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
@@ -184,19 +183,18 @@ public class UserPcsPollController extends PcsBaseController {
             modelMap.put("tempResult", tempResult);
 
             //二下/三下阶段推荐人名单
-            if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE) {
-                Integer pollId = inspector.getPollId();
-                List<PcsPollCandidate> cans = pcsPollCandidateService.findAll(pollId, type);
-                modelMap.put("cans", cans);
-            }
             if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE){
+
+                int pollId = inspector.getPollId();
+                List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, type);
+                modelMap.put("candidateUserIds", candidateUserIds);
+
                 Set<Integer> selectUserIdList = new HashSet<>();
                 Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
 
-                List<PcsPollCandidate> candidatelist = pcsPollCandidateService.findAll(pcsPoll.getId(), type);
-                if (candidatelist.size() > 0) {
-                    for (PcsPollCandidate candidate : candidatelist) {
-                        selectUserIdList.add(candidate.getUserId());
+                if (candidateUserIds.size() > 0) {
+                    for (Integer candidateUserId : candidateUserIds) {
+                        selectUserIdList.add(candidateUserId);
                     }
                 }
                 if (otherResultMap.size() > 0) {
@@ -310,17 +308,10 @@ public class UserPcsPollController extends PcsBaseController {
 
             } else {//保存"二下/三下阶段"推荐结果
 
-                List<PcsPollCandidate> candidates = pcsPollCandidateService.findAll(pollId, type);
-
-                Set<Integer> candidateUserIdSet = new HashSet<>();
-
-                for (PcsPollCandidate candidate : candidates) {
-
-                    int userId = candidate.getUserId();
-                    candidateUserIdSet.add(userId);
+                List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, type);
+                for (Integer userId : candidateUserIds) {
 
                     String radioName = type + "_" + userId;
-
                     String value = request.getParameter(radioName);
                     Byte radioValue = (value == null) ? null : Byte.valueOf(value);
 

@@ -92,7 +92,7 @@
                 <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
                     <tbody>
                         <tr>
-                            <td align="right"><span class="star">*</span> 投票人身份</td>
+                            <td align="right" colspan="2"><span class="star">*</span> 投票人身份</td>
                             <td align="left">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input type="radio" name="isPositive"
@@ -107,7 +107,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="right"><span class="star">*</span> 推荐人类型</td>
+                            <td align="right" colspan="2"><span class="star">*</span> 推荐人类型</td>
                             <td align="left">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
@@ -128,14 +128,15 @@
                                 </c:if>
                             </td>
                         </tr>
-                        <c:forEach items="${cans}" var="can">
-                            <c:set var="key" value="${type}_${can.userId}"/>
+                        <c:forEach items="${candidateUserIds}" var="candidateUserId" varStatus="vs">
+                            <c:set var="key" value="${type}_${candidateUserId}"/>
                             <c:set var="status" value="${tempResult.secondResultMap.get(key)}"/>
                             <c:set var="otherKey" value="${key}_4"/>
                             <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
                             <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                             <tr class="candidate">
-                                <td class="realname" align="right">${can.user.realname}（${can.user.code}）</td>
+                                <td class="bg-center">${vs.index+1}</td>
+                                <td class="realname">${cm:getUserById(candidateUserId).realname}</td>
                                 <td>
                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                         <input type="radio" name="${key}"
@@ -155,7 +156,7 @@
                                 </td>
                             </tr>
                             <tr class="other" style="display: ${status==2?'':'none'}" data-candidate="${key}">
-                                <td class="realname" align="right">另选其他推荐人</td>
+                                <td class="realname" colspan="2">另选其他推荐人</td>
                                 <td>
                                     <select data-rel="select2-ajax" data-width="272"
                                             name="${key}_4" data-placeholder="请输入推荐人姓名或学工号">

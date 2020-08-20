@@ -3,9 +3,11 @@ package service.pcs;
 import controller.global.OpException;
 import domain.pcs.*;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.ResultBean;
 import service.LoginUserService;
 import shiro.ShiroHelper;
@@ -14,12 +16,15 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PcsPollService extends PcsBaseMapper {
 
     @Autowired
     private PcsPollReportService pcsPollReportService;
+    @Autowired
+    private PcsPrCandidateService pcsPrCandidateService;
     @Autowired
     private PcsConfigService pcsConfigService;
     @Autowired
@@ -226,6 +231,42 @@ public class PcsPollService extends PcsBaseMapper {
         PcsPollExample example = new PcsPollExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsPollMapper.updateByExampleSelective(record, example);
+    }
+
+    //List<PcsPollCandidate> -- 二下/三下候选人推荐人选名单
+    public List<Integer> getCandidateUserIds(int pollId, byte type){
+
+        List<Integer> candidateUserIds = new ArrayList<>();
+        // for test
+        /*PcsPollCandidateExample example = new PcsPollCandidateExample();
+        example.createCriteria().andPollIdEqualTo(pollId).andTypeEqualTo(type);
+
+        example.setOrderByClause("sort_order desc");
+        List<PcsPollCandidate> pcsPollCandidates = pcsPollCandidateMapper.selectByExample(example);
+
+        return pcsPollCandidates.stream().map(PcsPollCandidate::getUserId).collect(Collectors.toList());*/
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        int configId = pcsPoll.getConfigId();
+        byte stage = pcsPoll.getStage();
+        int partyId = pcsPoll.getPartyId();
+
+        if(stage == PcsConstants.PCS_STAGE_SECOND || stage == PcsConstants.PCS_STAGE_THIRD){
+
+            stage = (byte) (stage-1);
+            if(type==PcsConstants.PCS_POLL_CANDIDATE_PR){ // 代表
+
+                PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
+                List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
+                candidateUserIds = candidates.stream().map(PcsPrCandidate::getUserId).collect(Collectors.toList());
+            }else{ // 两委委员
+
+                List<IPcsCandidate> candidates = iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
+                candidateUserIds = candidates.stream().map(IPcsCandidate::getUserId).collect(Collectors.toList());
+            }
+        }
+
+        return candidateUserIds;
     }
 
     /*
