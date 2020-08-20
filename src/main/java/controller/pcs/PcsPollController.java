@@ -354,16 +354,13 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsPoll_report(HttpServletRequest request, Integer id) {
+    public Map pcsPoll_report(HttpServletRequest request, int id, int expectMemberCount, int actualMemberCount) {
 
-        if (id != null){
+        //权限判断
+        pcsPollService.judgeAuthority(Arrays.asList(id));
 
-            //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(id));
-
-            pcsPollService.report(id);
-            logger.info(log( LogConstants.LOG_PCS, "批量报送党代会投票：{0}", id));
-        }
+        pcsPollService.report(id, expectMemberCount, actualMemberCount);
+        logger.info(log(LogConstants.LOG_PCS, "报送党代会投票：{0}", id));
 
         return success(FormUtils.SUCCESS);
     }

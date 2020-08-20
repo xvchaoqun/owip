@@ -43,8 +43,16 @@
   <div class="modal-body">
       <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
           <input type="hidden" name="id" value="${param.id}">
-      </form>
+
       <div class="tip">
+          <div style="margin-left: -40px;font-size: 25px;">
+          <span class="star">*</span> 应参会党员数
+				<input required style="width: 78px;" class="digits" type="text" data-at="top center" data-my="bottom center"
+					   name="expectMemberCount" data-rule-min="1" data-rule-max="${allCount}">
+			<span class="star">*</span> 实际参会党员数
+				<input required style="width: 78px;" class="digits" type="text" data-at="top center" data-my="bottom center"
+					   name="actualMemberCount" data-rule-min="1" data-rule-max="${allCount}">
+              </div>
           <ul>
               <li>
                   本支部党员数量：<span class="count">${allCount}</span>人（其中正式党员数量：<span class="count">${positiveCount}</span>人）
@@ -61,6 +69,7 @@
           </ul>
           <div>报送后不能修改投票数据，请确认以上信息准确无误后提交</div>
       </div>
+          </form>
   </div>
   <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 取消</a>

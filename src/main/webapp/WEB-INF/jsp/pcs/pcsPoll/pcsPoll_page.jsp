@@ -218,7 +218,9 @@ pageEncoding="UTF-8" %>
             { label: '所属支部',name: 'branchId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
                     return $.party(null,rowObject.branchId);
                 }},
-
+            { label: '应参会<br/>党员数',name: 'expectMemberCount'},
+            { label: '实际参会<br/>党员数',name: 'actualMemberCount'},
+            { label: '报送日期',name: 'reportDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
 
             { label: '党委委员<br/>最大推荐人数',name: 'dwNum'},
             { label: '纪委委员<br/>最大推荐人数',name: 'jwNum'},
@@ -231,7 +233,7 @@ pageEncoding="UTF-8" %>
                         url:"${ctx}/pcs/pcsPollCandidate?pollId="+rowObject.id,
                         icon:"fa-list",
                         label:"查看"});
-                }},
+             }},
 
             { label: '投票起始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '投票截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},

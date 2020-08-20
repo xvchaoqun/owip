@@ -115,9 +115,7 @@ public class PcsPollService extends PcsBaseMapper {
 
     // 党支部报送
     @Transactional
-    public void report(Integer id) {
-
-        if(id==null) return;
+    public void report(int id, int expectMemberCount, int actualMemberCount) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
 
@@ -126,6 +124,10 @@ public class PcsPollService extends PcsBaseMapper {
         PcsPoll record = new PcsPoll();
         record.setId(id);
         record.setHasReport(true);
+        record.setExpectMemberCount(expectMemberCount);
+        record.setActualMemberCount(actualMemberCount);
+        record.setReportDate(new Date());
+
         pcsPollMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -236,6 +238,7 @@ public class PcsPollService extends PcsBaseMapper {
 
         List<ResultBean> resultBeans = new ArrayList<>();
         if (pcsPollReportList.size() > 0){
+
             for (PcsPollReport report : pcsPollReportList) {
                 ResultBean bean = new ResultBean();
                 bean.setUserId(report.getUserId());
@@ -257,6 +260,7 @@ public class PcsPollService extends PcsBaseMapper {
         List<ResultBean> resultBeans = new ArrayList<>();
         if (pcsPollReportList.size() > 0){
             for (PcsPollReport report : pcsPollReportList) {
+
                 ResultBean bean = new ResultBean();
                 bean.setUserId(report.getUserId());
                 bean.setBranchNum(iPcsMapper.getBranchNum(configId, stage, type, partyId, report.getUserId()));
