@@ -3,6 +3,7 @@ package service.pcs;
 import controller.global.OpException;
 import domain.pcs.*;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -241,7 +242,7 @@ public class PcsPollService extends PcsBaseMapper {
             if(!isDeleted) { // 返回列表，要判断是否已有投票
                 PcsPoll _pcsPoll = get(pcsPoll.getConfigId(), pcsPoll.getStage(), pcsPoll.getPartyId(), pcsPoll.getBranchId());
                 if(_pcsPoll!=null){
-                    throw new OpException("{0}已经存在有效的投票记录，无法撤销作废。", pcsPoll.getBranchName());
+                    throw new OpException("【{0}】已经存在有效的投票记录，无法撤销作废。", StringUtils.defaultString(pcsPoll.getBranchName(), pcsPoll.getPartyName()));
                 }
             }
 

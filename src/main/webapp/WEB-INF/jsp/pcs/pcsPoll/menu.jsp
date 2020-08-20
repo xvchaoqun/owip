@@ -5,7 +5,7 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/pcs/pcsPoll?cls=1"><i class="fa fa-list"></i> 党支部投票列表</a>
     </li>
     <li class="<c:if test="${cls==5}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/pcs/pcsPoll?cls=5"><i class="fa fa-trash-o"></i> 已作废（${cancelCount}）</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/pcs/pcsPoll?cls=5"><i class="fa fa-trash-o"></i> 已作废<c:if test="${cancelCount>0}">（${cancelCount}）</c:if></a>
     </li>
     <shiro:hasPermission name="pcsPollResult:list">
         <li class="<c:if test="${cls==2}">active</c:if>">

@@ -499,7 +499,7 @@
     </select>
 
     <sql id="selectReport_where">
-        r.stage=#{stage} and r.config_id=#{configId} and pp.has_report=1
+        r.stage=#{stage} and r.config_id=#{configId} and pp.has_report=1 and pp.is_deleted=0
         <if test="partyId != null">
             and r.party_id = #{partyId}
         </if>
@@ -517,8 +517,7 @@
         sum(r.positive_ballot) as positiveBallot,sum(r.ballot) AS supportNum, sum(r.grow_ballot) as growBallot,
         sum(r.disagree_ballot) as notSupportNum, sum(r.abstain_ballot) as notVoteNum
         from pcs_poll_report r
-        left join pcs_poll pp on pp.config_id=r.config_id and pp.stage=r.stage
-        and (pp.branch_id=r.branch_id or (pp.branch_id is null and pp.party_id=r.party_id))
+        left join pcs_poll pp on pp.id=r.poll_id
         <where>
             <include refid="selectReport_where"/>
         </where>

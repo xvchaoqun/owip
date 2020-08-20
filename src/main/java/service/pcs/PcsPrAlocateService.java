@@ -19,7 +19,7 @@ public class PcsPrAlocateService extends PcsBaseMapper {
 
         PcsPrAllocate pcsPrAllocate = get(configId, partyId);
 
-        if(pcsPrAllocate==null){
+        if(pcsPrAllocate==null || NumberUtils.trimToZero(pcsPrAllocate.getCandidateCount())<=0){
             throw new OpException("请联系学校党委设置所在院系党委的候选人（代表）推荐人选的数量");
         }
 
