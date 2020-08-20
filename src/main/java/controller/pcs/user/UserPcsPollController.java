@@ -153,7 +153,7 @@ public class UserPcsPollController extends PcsBaseController {
     }
 
     @RequestMapping("/index")
-    public String index(@RequestParam(required = false, defaultValue = "2") Byte type,
+    public String index(@RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") Byte type,
                         boolean isMobile,
                         ModelMap modelMap,
                         HttpServletRequest request){
@@ -163,15 +163,15 @@ public class UserPcsPollController extends PcsBaseController {
         if (inspector != null) {
             PcsPoll pcsPoll = inspector.getPcsPoll();
             /*if (pcsPoll.getStage() == PcsConstants.PCS_POLL_THIRD_STAGE) {
-                type =PcsConstants.PCS_POLL_CANDIDATE_DW;
+                type =PcsConstants.PCS_USER_TYPE_DW;
             }*/
             modelMap.put("type", type);
             int num = 0;
-            if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+            if (type == PcsConstants.PCS_USER_TYPE_PR){
                 num = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
-            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
+            }else if (type == PcsConstants.PCS_USER_TYPE_DW){
                 num = CmTag.getIntProperty("pcs_poll_dw_num");
-            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+            }else if (type == PcsConstants.PCS_USER_TYPE_JW){
                 num = CmTag.getIntProperty("pcs_poll_jw_num");
             }
             modelMap.put("num", num);
@@ -264,11 +264,11 @@ public class UserPcsPollController extends PcsBaseController {
                         }
                     }
 
-                    if (_type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                    if (_type == PcsConstants.PCS_USER_TYPE_PR){
                         prCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_DW) {
                         dwCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_JW){
                         jwCount += count;
                     }
                 }
@@ -360,11 +360,11 @@ public class UserPcsPollController extends PcsBaseController {
             if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {
                 Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
                 for (Map.Entry<Byte, Set<Integer>> entry : firstResultMap.entrySet()){
-                    if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                    if (entry.getKey() == PcsConstants.PCS_USER_TYPE_PR){
                         prCount = entry.getValue().size();
-                    }else if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                    }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_DW) {
                         dwCount = entry.getValue().size();
-                    }else if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                    }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_JW){
                         jwCount = entry.getValue().size();
                     }
                 }
@@ -385,11 +385,11 @@ public class UserPcsPollController extends PcsBaseController {
                         }
                     }
 
-                    if (_type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                    if (_type == PcsConstants.PCS_USER_TYPE_PR){
                         prCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_DW) {
                         dwCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_JW){
                         jwCount += count;
                     }
                 }

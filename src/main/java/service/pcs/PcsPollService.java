@@ -12,7 +12,7 @@ import persistence.pcs.common.ResultBean;
 import service.LoginUserService;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.*;
@@ -36,24 +36,38 @@ public class PcsPollService extends PcsBaseMapper {
     @Autowired
     private LoginUserService loginUserService;
 
+    // 得到某支部的有效投票记录
+    public PcsPoll get(int configId, byte stage, int partyId, Integer branchId){
+
+        PcsPollExample example = new PcsPollExample();
+        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId)
+                .andStageEqualTo(stage).andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
+        if(branchId!=null){
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        List<PcsPoll> pcsPolls = pcsPollMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return pcsPolls.size()>0?pcsPolls.get(0):null;
+    }
+
     //删除和作废的权限判断
     public void judgeAuthority(List<Integer> ids){
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_PCS_ADMIN)){
+
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             List<Integer> branchIdList = loginUserService.adminBranchIdList();
-            for (Integer id : ids) {
+
+            for (int id : ids) {
+
                 PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
-                Integer partyId = pcsPoll.getPartyId();
+                int partyId = pcsPoll.getPartyId();
                 Integer branchId = pcsPoll.getBranchId();
-                if (branchId != null && !branchIdList.contains(branchId)){
-                    if (partyIdList.contains(partyId))
-                        break;
-                    throw new OpException("没有权限操作[{0}]的党代会投票信息", branchMapper.selectByPrimaryKey(branchId).getName());
-                } else if (branchId != null && branchIdList.contains(branchId)) {
-                    break;
-                } else if (!partyIdList.contains(partyId)){
-                    throw new OpException("没有权限操作[{0}]的党代会投票信息", partyMapper.selectByPrimaryKey(partyId).getName());
+
+                if(!partyIdList.contains(partyId) && (branchId==null || !branchIdList.contains(branchId))){
+
+                    throw new OpException("没有权限操作");
                 }
             }
         }
@@ -62,6 +76,8 @@ public class PcsPollService extends PcsBaseMapper {
     @Transactional
     public void insertSelective(PcsPoll record){
 
+        record.setUserId(ShiroHelper.getCurrentUserId());
+        record.setCreateTime(new Date());
         pcsPollMapper.insertSelective(record);
     }
 
@@ -70,18 +86,6 @@ public class PcsPollService extends PcsBaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        PcsPollResultExample resultExample = new PcsPollResultExample();
-        resultExample.createCriteria().andPollIdIn(Arrays.asList(ids));
-        pcsPollResultMapper.deleteByExample(resultExample);
-
-        PcsPollInspectorExample inspectorExample = new PcsPollInspectorExample();
-        inspectorExample.createCriteria().andPollIdIn(Arrays.asList(ids));
-        pcsPollInspectorMapper.deleteByExample(inspectorExample);
-
-        PcsPollCandidateExample candidateExample = new PcsPollCandidateExample();
-        candidateExample.createCriteria().andPollIdIn(Arrays.asList(ids));
-        pcsPollCandidateMapper.deleteByExample(candidateExample);
-
         PcsPollExample example = new PcsPollExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsPollMapper.deleteByExample(example);
@@ -89,6 +93,11 @@ public class PcsPollService extends PcsBaseMapper {
 
     @Transactional
     public void updateByPrimaryKeySelective(PcsPoll record){
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(record.getId());
+        if(BooleanUtils.isTrue(pcsPoll.getHasReport())){
+            throw new OpException("投票已报送，无法修改");
+        }
 
         pcsPollMapper.updateByPrimaryKeySelective(record);
     }
@@ -169,15 +178,15 @@ public class PcsPollService extends PcsBaseMapper {
         Map<Byte, Integer> candidateCountMap = new HashMap<>();
         int candidateCount = 0;//候选人数
         Byte stage = pcsPoll.getStage();
-        for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
+        for (Byte key : PcsConstants.PCS_USER_TYPE_MAP.keySet()){
             List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(key, pcsPoll.getConfigId(),
                     stage, pcsPoll.getPartyId(), pcsPoll.getBranchId());
             candidateCount = pcsPollReportList.size();
             candidateCountMap.put(key, candidateCount);
         }
-        int prCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_PR);
-        int dwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_DW);
-        int jwCount = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);
+        int dwCount = candidateCountMap.get(PcsConstants.PCS_USER_TYPE_DW);
+        int jwCount = candidateCountMap.get(PcsConstants.PCS_USER_TYPE_JW);
+        int prCount = candidateCountMap.get(PcsConstants.PCS_USER_TYPE_PR);
 
         if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE) {
             if (dwCount == 0 || jwCount == 0 || prCount == 0) {
@@ -202,7 +211,7 @@ public class PcsPollService extends PcsBaseMapper {
     }
 
     //得到当前党代会投票的ids
-    public List<Integer> getCurrentPcsPollId() {
+    public List<Integer> getCurrentPcsPollId(){
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         Integer configId = pcsConfig.getId();
@@ -225,25 +234,34 @@ public class PcsPollService extends PcsBaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        PcsPoll record = new PcsPoll();
-        record.setIsDeleted(isDeleted);
+        for (Integer id : ids) {
 
-        PcsPollExample example = new PcsPollExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pcsPollMapper.updateByExampleSelective(record, example);
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+
+            if(!isDeleted) { // 返回列表，要判断是否已有投票
+                PcsPoll _pcsPoll = get(pcsPoll.getConfigId(), pcsPoll.getStage(), pcsPoll.getPartyId(), pcsPoll.getBranchId());
+                if(_pcsPoll!=null){
+                    throw new OpException("{0}已经存在有效的投票记录，无法撤销作废。", pcsPoll.getBranchName());
+                }
+            }
+
+            PcsPoll record = new PcsPoll();
+            record.setId(pcsPoll.getId());
+            record.setIsDeleted(isDeleted);
+            pcsPollMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     //List<PcsPollCandidate> -- 二下/三下候选人推荐人选名单
     public List<Integer> getCandidateUserIds(int pollId, byte type){
 
         List<Integer> candidateUserIds = new ArrayList<>();
+
         // for test
         /*PcsPollCandidateExample example = new PcsPollCandidateExample();
         example.createCriteria().andPollIdEqualTo(pollId).andTypeEqualTo(type);
-
         example.setOrderByClause("sort_order desc");
         List<PcsPollCandidate> pcsPollCandidates = pcsPollCandidateMapper.selectByExample(example);
-
         return pcsPollCandidates.stream().map(PcsPollCandidate::getUserId).collect(Collectors.toList());*/
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
@@ -254,7 +272,7 @@ public class PcsPollService extends PcsBaseMapper {
         if(stage == PcsConstants.PCS_STAGE_SECOND || stage == PcsConstants.PCS_STAGE_THIRD){
 
             stage = (byte) (stage-1);
-            if(type==PcsConstants.PCS_POLL_CANDIDATE_PR){ // 代表
+            if(type==PcsConstants.PCS_USER_TYPE_PR){ // 代表
 
                 PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
                 List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);

@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_PR%>" var="PCS_POLL_CANDIDATE_PR"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_DW%>" var="PCS_POLL_CANDIDATE_DW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_JW%>" var="PCS_POLL_CANDIDATE_JW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
 <c:set value="<%=PcsConstants.PCS_POLL_FIRST_STAGE%>" var="PCS_POLL_FIRST_STAGE"/>
 <div class="widget-box transparent">
     <div class="widget-header">
@@ -87,7 +87,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     function _ReLoadPage(){
-        $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?type=${param.type}&pollId=${param.pollId}");
+        $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&_type=${param.type}&pollId=${param.pollId}");
     }
 
     $("#jqGrid2").jqGrid({
@@ -101,7 +101,7 @@ pageEncoding="UTF-8" %>
             { label: '推荐提名<br/>正式党员数',name: 'positiveBallot', width: 120},
             { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
             { label: '推荐提名<br/>党员数',name: 'supportNum'},
-            <c:if test="${stage!=PCS_POLL_CANDIDATE_PR}">
+            <c:if test="${stage!=PCS_USER_TYPE_PR}">
             { label: '不支持票数',name: 'notSupportNum'},
             { label: '弃权票数',name: 'notVoteNum'},
             </c:if>

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsFinalResult;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -42,7 +42,8 @@ public class PcsPollResultController extends PcsBaseController {
     @RequiresPermissions("pcsPollResult:list")
     @RequestMapping("/pcsPollResult")
     public String pcsPollResult(Integer cls,
-                                @RequestParam(required = false, defaultValue = "1")Byte _type,
+                                @RequestParam(required = false,
+                                        defaultValue = PcsConstants.PCS_USER_TYPE_DW+"")Byte _type,
                                 Integer pollId,
                                 Integer userId,
                                 ModelMap modelMap) {
@@ -52,13 +53,13 @@ public class PcsPollResultController extends PcsBaseController {
         modelMap.put("stage", stage);
 
         if (stage != PcsConstants.PCS_POLL_THIRD_STAGE) {
-            List<PcsPollReport> prReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_POLL_CANDIDATE_PR);
+            List<PcsPollReport> prReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_PR);
             modelMap.put("prCount", prReportList.size());
         }
 
-        List<PcsPollReport> dwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_POLL_CANDIDATE_DW);
+        List<PcsPollReport> dwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_DW);
         modelMap.put("dwCount", dwReportList.size());
-        List<PcsPollReport> jwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_POLL_CANDIDATE_JW);
+        List<PcsPollReport> jwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("jwCount", jwReportList.size());
 
         modelMap.put("pcsPoll", pcsPoll);
@@ -69,7 +70,7 @@ public class PcsPollResultController extends PcsBaseController {
         pollIdList.add(pollId);
         Map<Byte, Integer> hasCountMap = new HashMap<>();
         int hasCount = 0;//党支部现有的总推荐人数
-        for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
+        for (Byte key : PcsConstants.PCS_USER_TYPE_MAP.keySet()){
             if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
                 hasCount = iPcsMapper.countResult(key, pollIdList, stage, null, null, null, null, null);
             }else{
@@ -126,7 +127,8 @@ public class PcsPollResultController extends PcsBaseController {
             pollIdList = pcsPollService.getCurrentPcsPollId();
         }
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PCS_ADMIN)){
+
             partyIdList = loginUserService.adminPartyIdList();
             branchIdList = loginUserService.adminBranchIdList();
         }

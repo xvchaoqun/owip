@@ -29,14 +29,18 @@ pageEncoding="UTF-8"%>
 				var partyId = $.trim($(this).val());
 				$.get("${ctx}/pcs/pcsPoll_stage?partyId="+partyId, function(stage){
 
-
+					$(".currentStage").hide();
 					if(stage<=0){
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_FIRST_STAGE)}");
 						$("#submitBtn").prop("disabled", false);
 					}else if(stage=='${PCS_POLL_FIRST_STAGE}'){
+						$(".currentStage span").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_FIRST_STAGE)}");
+						$(".currentStage").show();
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_SECOND_STAGE)}");
 						$("#submitBtn").prop("disabled", false);
 					}else if(stage=='${PCS_POLL_SECOND_STAGE}'){
+						$(".currentStage span").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_SECOND_STAGE)}");
+						$(".currentStage").show();
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_THIRD_STAGE)}");
 						$("#submitBtn").prop("disabled", false);
 					}else{
@@ -46,6 +50,12 @@ pageEncoding="UTF-8"%>
 				})
 			})
 		</script>
+		<div class="form-group currentStage" style="display: none">
+			<label class="col-xs-4 control-label">已启动投票阶段</label>
+			<div class="col-xs-6 label-text">
+				<span></span>
+			</div>
+		</div>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 待启动投票阶段</label>
 			<div class="col-xs-6 label-text">

@@ -1,7 +1,6 @@
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.web.util.HtmlUtils;
-import sys.constants.RoleConstants;
 import sys.ip.IPSeeker;
 import sys.utils.ImageUtils;
 import sys.utils.PatternUtils;
@@ -42,11 +41,6 @@ public class TTtest {
         String name = "[   sample_xsss]是的发生的.xls";
         String withdraw = PatternUtils.withdraw(".*\\[.*](.*)\\..*", name);
         System.out.println("withdraw = " + withdraw);
-    }
-
-    @Test
-    public void t() {
-        System.out.println(RoleConstants.ROLE_MAP);
     }
 
     @Test

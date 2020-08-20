@@ -32,6 +32,10 @@ public class PcsPoll implements Serializable {
 
     private Integer branchId;
 
+    private String partyName;
+
+    private String branchName;
+
     private String name;
 
     private Integer configId;
@@ -72,6 +76,10 @@ public class PcsPoll implements Serializable {
 
     private Boolean isDeleted;
 
+    private Integer userId;
+
+    private Date createTime;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -98,6 +106,22 @@ public class PcsPoll implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
+    }
+
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName == null ? null : partyName.trim();
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName == null ? null : branchName.trim();
     }
 
     public String getName() {
@@ -250,6 +274,22 @@ public class PcsPoll implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getRemark() {

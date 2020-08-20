@@ -1,5 +1,6 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrAllocateExample;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class PcsPrAlocateService extends PcsBaseMapper {
     public int getPrMaxCount(int configId, int partyId) {
 
         PcsPrAllocate pcsPrAllocate = get(configId, partyId);
+
+        if(pcsPrAllocate==null){
+            throw new OpException("请联系学校党委设置所在院系党委的候选人（代表）推荐人选的数量");
+        }
 
         return NumberUtils.trimToZero(pcsPrAllocate.getCandidateCount());
     }

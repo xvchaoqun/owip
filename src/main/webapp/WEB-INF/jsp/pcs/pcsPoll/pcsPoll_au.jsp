@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <c:set value="<%=PcsConstants.PCS_POLL_STAGE_MAP%>" var="PCS_POLL_STAGE_MAP"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${pcsPoll!=null?'编辑':'添加'}党代会投票</h3>
+    <h3>${pcsPoll!=null?'编辑':'创建'}党支部投票</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_au" autocomplete="off" disableautocomplete id="pcsPollForm" method="post">

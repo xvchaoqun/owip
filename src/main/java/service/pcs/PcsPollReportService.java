@@ -85,17 +85,17 @@ public class PcsPollReportService extends PcsBaseMapper {
             }
 
             int requiredCount = 0;
-            if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+            if (type == PcsConstants.PCS_USER_TYPE_PR){
                 requiredCount = pcsPrAlocateService.getPrMaxCount(configId, partyId);
-            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
+            }else if (type == PcsConstants.PCS_USER_TYPE_DW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
-            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+            }else if (type == PcsConstants.PCS_USER_TYPE_JW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
             }
             if ((selectedUserIdSet.size() + userIds.length) > requiredCount){
 
                 throw new OpException("设置失败，超过{0}的最大推荐数量({1})",
-                        PcsConstants.PCS_POLL_CANDIDATE_TYPE.get(type), requiredCount);
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), requiredCount);
             }
 
             for (Integer userId : userIds) {
@@ -103,6 +103,7 @@ public class PcsPollReportService extends PcsBaseMapper {
                 SysUserView uv = CmTag.getUserById(userId);
 
                 PcsPollReport record = new PcsPollReport();
+                record.setPollId(pollId);
                 record.setUserId(userId);
                 record.setCode(uv.getCode());
                 record.setRealname(uv.getRealname());

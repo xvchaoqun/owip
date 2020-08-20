@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_TYPE%>" var="PCS_POLL_CANDIDATE_TYPE"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 <c:set value="<%=PcsConstants.PCS_POLL_THIRD_STAGE%>" var="PCS_POLL_THIRD_STAGE"/>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
@@ -17,7 +17,7 @@
                 <select required data-rel="select2" name="type" data-width="270"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:forEach items="${PCS_POLL_CANDIDATE_TYPE}" var="entry" begin="${stage==PCS_POLL_THIRD_STAGE?1:0}">
+                    <c:forEach items="${PCS_USER_TYPE_MAP}" var="entry" begin="${stage==PCS_POLL_THIRD_STAGE?1:0}">
                         <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
                 </select>

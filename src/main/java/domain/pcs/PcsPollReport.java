@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class PcsPollReport implements Serializable {
     private Integer id;
 
+    private Integer pollId;
+
     private Integer userId;
 
     private Integer configId;
@@ -43,6 +45,14 @@ public class PcsPollReport implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPollId() {
+        return pollId;
+    }
+
+    public void setPollId(Integer pollId) {
+        this.pollId = pollId;
     }
 
     public Integer getUserId() {

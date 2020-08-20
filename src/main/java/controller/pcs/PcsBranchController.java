@@ -5,6 +5,7 @@ import domain.party.Party;
 import domain.pcs.PcsBranch;
 import domain.pcs.PcsBranchExample;
 import domain.pcs.PcsBranchExample.Criteria;
+import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -19,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/pcs")
@@ -67,9 +71,12 @@ public class PcsBranchController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         PcsBranchExample example = new PcsBranchExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
+        example.setOrderByClause("party_sort_order desc, sort_order desc");
 
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);

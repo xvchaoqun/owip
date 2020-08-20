@@ -2,10 +2,10 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['pcs_poll_site_name']}" var="_p_pcsSiteName"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_PR%>" var="PCS_POLL_CANDIDATE_PR"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_DW%>" var="PCS_POLL_CANDIDATE_DW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_JW%>" var="PCS_POLL_CANDIDATE_JW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_TYPE%>" var="PCS_POLL_CANDIDATE_TYPE"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -110,17 +110,17 @@
                             <td align="left">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
-                                           id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
+                                           id="type_2" value="${PCS_USER_TYPE_DW}" ${type==PCS_USER_TYPE_DW?"checked":""}>
                                     <label for="type_2">党委委员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
-                                           id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
+                                           id="type_3" value="${PCS_USER_TYPE_JW}" ${type==PCS_USER_TYPE_JW?"checked":""}>
                                     <label for="type_3">纪委委员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
-                                           id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                           id="type_1" value="${PCS_USER_TYPE_PR}" ${type==PCS_USER_TYPE_PR?"checked":""}>
                                     <label for="type_1">代表</label>
                                 </div>
                             </td>
@@ -179,7 +179,7 @@
         _save($(this).val())
     })
     var $select = $.register.user_select($('select[name=userIds]'),
-        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_POLL_CANDIDATE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
+        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_USER_TYPE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
          theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty userIds?'[]':userIds};

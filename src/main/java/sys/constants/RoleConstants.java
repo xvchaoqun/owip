@@ -1,8 +1,5 @@
 package sys.constants;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * Created by lm on 2018/2/8.
  */
@@ -32,7 +29,8 @@ public class RoleConstants {
     public static final String ROLE_CET_ADMIN = "cet_admin"; // 干部培训管理员
 
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
-    public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会-分党委管理员
+    public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会-组织部管理员
+    public static final String ROLE_PCS_PARTY = "role_pcs_party"; // 党代会-分党委管理员
     public static final String ROLE_PCS_ADMIN2 = "role_pcs_admin2"; // 党代会-组织部管理员（党代表）
     public static final String ROLE_PCS_PR = "role_pcs_pr"; // 党代表
     public static final String ROLE_PCS_VOTE_DW = "role_pcs_vote_dw"; // 党代会-两委选举-党委录入
@@ -48,38 +46,4 @@ public class RoleConstants {
     public static final String ROLE_CET_ADMIN_UPPER = "cet_admin_upper"; // 单位管理员（上级调训）-干部教育培训
     public static final String ROLE_CET_ADMIN_PARTY = "cet_admin_party"; // 二级党委管理员-干部教育培训
     public static final String ROLE_CET_ADMIN_PS = "cet_admin_ps"; // 二级党校管理员-干部教育培训 （弃用）
-
-    public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
-
-    static {
-        ROLE_MAP.put(ROLE_ADMIN, "系统管理员");
-        ROLE_MAP.put(ROLE_GUEST, "非党员");
-        ROLE_MAP.put(ROLE_REG, "注册用户");
-        ROLE_MAP.put(ROLE_LEADER, "校领导");
-        ROLE_MAP.put(ROLE_CADRE_CJ, "处级干部");
-        ROLE_MAP.put(ROLE_CADRE_KJ, "科级干部");
-        ROLE_MAP.put(ROLE_CADRERESERVE, "优秀年轻干部");
-        ROLE_MAP.put(ROLE_CADREINSPECT, "考察对象");
-        ROLE_MAP.put(ROLE_CADRERECRUIT, "应聘干部");
-        ROLE_MAP.put(ROLE_MEMBER, "党员");
-        ROLE_MAP.put(ROLE_INFLOWMEMBER, "流入党员");
-        ROLE_MAP.put(ROLE_PARTYADMIN, "分党委管理员");
-        ROLE_MAP.put(ROLE_BRANCHADMIN, "党支部管理员");
-        ROLE_MAP.put(ROLE_ODADMIN, "组织部管理员");
-        ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
-
-        ROLE_MAP.put(ROLE_TEACHER, "教职工");
-        ROLE_MAP.put(ROLE_PCS_ADMIN, "党代会管理员");
-        ROLE_MAP.put(ROLE_PCS_PR, "党代表");
-
-        ROLE_MAP.put(ROLE_OA_USER, "协同办公负责人");
-
-        ROLE_MAP.put(ROLE_PMD_PARTY, "分党委管理员(党费收缴)");
-        ROLE_MAP.put(ROLE_PMD_BRANCH, "支部管理员(党费收缴)");
-
-        ROLE_MAP.put(ROLE_CET_ADMIN, "干部教育培训管理员");
-
-        ROLE_MAP.put(ROLE_DP_ADMIN, "统战部管理员");
-        ROLE_MAP.put(ROLE_DP_PARTY, "民主党派管理员");
-    }
 }

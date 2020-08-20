@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_PR%>" var="PCS_POLL_CANDIDATE_PR"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_DW%>" var="PCS_POLL_CANDIDATE_DW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_JW%>" var="PCS_POLL_CANDIDATE_JW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
 <c:set value="<%=PcsConstants.PCS_POLL_FIRST_STAGE%>" var="PCS_POLL_FIRST_STAGE"/>
 <c:set value="<%=PcsConstants.PCS_POLL_THIRD_STAGE%>" var="PCS_POLL_THIRD_STAGE"/>
 <div class="widget-box transparent">
@@ -32,11 +32,11 @@ pageEncoding="UTF-8" %>
                             </button>
                         </c:if>
                     </shiro:hasPermission>
+                    <input type="checkbox"  name="_type" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}" class="cadre-info-check"> 党委委员（${dwCount}）
+                    <input type="checkbox"  name="_type" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}" class="cadre-info-check"> 纪委委员（${jwCount}）
                     <c:if test="${stage!=PCS_POLL_THIRD_STAGE}">
-                        <input type="checkbox"  name="_type" id="${PCS_POLL_CANDIDATE_PR}" value="${PCS_POLL_CANDIDATE_PR}" class="cadre-info-check"> 党代表（${prCount}）
+                        <input type="checkbox"  name="_type" id="${PCS_USER_TYPE_PR}" value="${PCS_USER_TYPE_PR}" class="cadre-info-check"> 党代表（${prCount}）
                     </c:if>
-                    <input type="checkbox"  name="_type" id="${PCS_POLL_CANDIDATE_DW}" value="${PCS_POLL_CANDIDATE_DW}" class="cadre-info-check"> 党委委员（${dwCount}）
-                    <input type="checkbox"  name="_type" id="${PCS_POLL_CANDIDATE_JW}" value="${PCS_POLL_CANDIDATE_JW}" class="cadre-info-check"> 纪委委员（${jwCount}）
                     <script> $("#changeType input[id=${_type}]").prop("checked",'true'); </script>
                 </div>
 

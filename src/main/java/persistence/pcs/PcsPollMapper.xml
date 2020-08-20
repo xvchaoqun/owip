@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="stage" jdbcType="TINYINT" property="stage" />
@@ -24,6 +26,8 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -85,10 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, branch_id, name, config_id, stage, has_report, pr_num, dw_num, jw_num, 
-    expect_member_count, actual_member_count, report_date, inspector_num, inspector_finish_num, 
-    positive_finish_num, notice, mobile_notice, inspector_notice, start_time, end_time, 
-    is_deleted, remark
+    id, party_id, branch_id, party_name, branch_name, name, config_id, stage, has_report, 
+    pr_num, dw_num, jw_num, expect_member_count, actual_member_count, report_date, inspector_num, 
+    inspector_finish_num, positive_finish_num, notice, mobile_notice, inspector_notice, 
+    start_time, end_time, is_deleted, user_id, create_time, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollExample" resultMap="BaseResultMap">
     select
@@ -122,21 +126,25 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsPoll">
     insert into pcs_poll (id, party_id, branch_id, 
-      name, config_id, stage, 
-      has_report, pr_num, dw_num, 
-      jw_num, expect_member_count, actual_member_count, 
-      report_date, inspector_num, inspector_finish_num, 
-      positive_finish_num, notice, mobile_notice, 
-      inspector_notice, start_time, end_time, 
-      is_deleted, remark)
+      party_name, branch_name, name, 
+      config_id, stage, has_report, 
+      pr_num, dw_num, jw_num, 
+      expect_member_count, actual_member_count, report_date, 
+      inspector_num, inspector_finish_num, positive_finish_num, 
+      notice, mobile_notice, inspector_notice, 
+      start_time, end_time, is_deleted, 
+      user_id, create_time, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{hasReport,jdbcType=BIT}, #{prNum,jdbcType=INTEGER}, #{dwNum,jdbcType=INTEGER}, 
-      #{jwNum,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, 
-      #{reportDate,jdbcType=DATE}, #{inspectorNum,jdbcType=INTEGER}, #{inspectorFinishNum,jdbcType=INTEGER}, 
-      #{positiveFinishNum,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, 
-      #{inspectorNotice,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+      #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{hasReport,jdbcType=BIT}, 
+      #{prNum,jdbcType=INTEGER}, #{dwNum,jdbcType=INTEGER}, #{jwNum,jdbcType=INTEGER}, 
+      #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, #{reportDate,jdbcType=DATE}, 
+      #{inspectorNum,jdbcType=INTEGER}, #{inspectorFinishNum,jdbcType=INTEGER}, #{positiveFinishNum,jdbcType=INTEGER}, 
+      #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, #{inspectorNotice,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPoll">
     insert into pcs_poll
@@ -149,6 +157,12 @@
       </if>
       <if test="branchId != null">
         branch_id,
+      </if>
+      <if test="partyName != null">
+        party_name,
+      </if>
+      <if test="branchName != null">
+        branch_name,
       </if>
       <if test="name != null">
         name,
@@ -207,6 +221,12 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -220,6 +240,12 @@
       </if>
       <if test="branchId != null">
         #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="partyName != null">
+        #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -278,6 +304,12 @@
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -300,6 +332,12 @@
       </if>
       <if test="record.branchId != null">
         branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyName != null">
+        party_name = #{record.partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.branchName != null">
+        branch_name = #{record.branchName,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -358,6 +396,12 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -371,6 +415,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      party_name = #{record.partyName,jdbcType=VARCHAR},
+      branch_name = #{record.branchName,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       config_id = #{record.configId,jdbcType=INTEGER},
       stage = #{record.stage,jdbcType=TINYINT},
@@ -390,6 +436,8 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -403,6 +451,12 @@
       </if>
       <if test="branchId != null">
         branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="partyName != null">
+        party_name = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -461,6 +515,12 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -471,6 +531,8 @@
     update pcs_poll
     set party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
+      party_name = #{partyName,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       config_id = #{configId,jdbcType=INTEGER},
       stage = #{stage,jdbcType=TINYINT},
@@ -490,6 +552,8 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

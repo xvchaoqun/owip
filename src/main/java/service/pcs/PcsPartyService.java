@@ -99,10 +99,11 @@ public class PcsPartyService extends PcsBaseMapper {
         if(pcsConfig!=null){
 
             Integer configId = pcsConfig.getId();
-            List<PcsParty> pcsPartys=iPcsMapper.expectPcsPartyList(configId);
-            List<PcsBranch> pcsBtanchs=iPcsMapper.expectPcsBranchList(pcsConfig.getId());
+            List<PcsParty> pcsParties=iPcsMapper.expectPcsPartyList(configId);
+            List<PcsBranch> pcsBranches=iPcsMapper.expectPcsBranchList(pcsConfig.getId());
 
-           for (PcsParty record:pcsPartys){
+           for (PcsParty record:pcsParties){
+
                Integer partyId=record.getPartyId();
 
                PcsParty pcsParty=get(configId,partyId);
@@ -114,7 +115,7 @@ public class PcsPartyService extends PcsBaseMapper {
                }
            }
 
-           for (PcsBranch record:pcsBtanchs){
+           for (PcsBranch record:pcsBranches){
                Integer partyId=record.getPartyId();
                Integer branchId=record.getBranchId();
 

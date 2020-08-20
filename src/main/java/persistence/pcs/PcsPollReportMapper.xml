@@ -3,6 +3,7 @@
 <mapper namespace="persistence.pcs.PcsPollReportMapper">
   <resultMap id="BaseResultMap" type="domain.pcs.PcsPollReport">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="poll_id" jdbcType="INTEGER" property="pollId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
@@ -78,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, config_id, party_id, branch_id, stage, type, code, realname, unit, ballot, 
-    positive_ballot, grow_ballot, disagree_ballot, abstain_ballot, remark
+    id, poll_id, user_id, config_id, party_id, branch_id, stage, type, code, realname, 
+    unit, ballot, positive_ballot, grow_ballot, disagree_ballot, abstain_ballot, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollReportExample" resultMap="BaseResultMap">
     select
@@ -112,24 +113,27 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsPollReport">
-    insert into pcs_poll_report (id, user_id, config_id, 
-      party_id, branch_id, stage, 
-      type, code, realname, 
-      unit, ballot, positive_ballot, 
-      grow_ballot, disagree_ballot, abstain_ballot, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
-      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{ballot,jdbcType=INTEGER}, #{positiveBallot,jdbcType=INTEGER}, 
-      #{growBallot,jdbcType=INTEGER}, #{disagreeBallot,jdbcType=INTEGER}, #{abstainBallot,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into pcs_poll_report (id, poll_id, user_id, 
+      config_id, party_id, branch_id, 
+      stage, type, code, 
+      realname, unit, ballot, 
+      positive_ballot, grow_ballot, disagree_ballot, 
+      abstain_ballot, remark)
+    values (#{id,jdbcType=INTEGER}, #{pollId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{stage,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{ballot,jdbcType=INTEGER}, 
+      #{positiveBallot,jdbcType=INTEGER}, #{growBallot,jdbcType=INTEGER}, #{disagreeBallot,jdbcType=INTEGER}, 
+      #{abstainBallot,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPollReport">
     insert into pcs_poll_report
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="pollId != null">
+        poll_id,
       </if>
       <if test="userId != null">
         user_id,
@@ -180,6 +184,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pollId != null">
+        #{pollId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -240,6 +247,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.pollId != null">
+        poll_id = #{record.pollId,jdbcType=INTEGER},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
@@ -293,6 +303,7 @@
   <update id="updateByExample" parameterType="map">
     update pcs_poll_report
     set id = #{record.id,jdbcType=INTEGER},
+      poll_id = #{record.pollId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       config_id = #{record.configId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
@@ -315,6 +326,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsPollReport">
     update pcs_poll_report
     <set>
+      <if test="pollId != null">
+        poll_id = #{pollId,jdbcType=INTEGER},
+      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
@@ -365,7 +379,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsPollReport">
     update pcs_poll_report
-    set user_id = #{userId,jdbcType=INTEGER},
+    set poll_id = #{pollId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       config_id = #{configId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},

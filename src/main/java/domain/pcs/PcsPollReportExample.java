@@ -164,6 +164,66 @@ public class PcsPollReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andPollIdIsNull() {
+            addCriterion("poll_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdIsNotNull() {
+            addCriterion("poll_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdEqualTo(Integer value) {
+            addCriterion("poll_id =", value, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdNotEqualTo(Integer value) {
+            addCriterion("poll_id <>", value, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdGreaterThan(Integer value) {
+            addCriterion("poll_id >", value, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("poll_id >=", value, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdLessThan(Integer value) {
+            addCriterion("poll_id <", value, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdLessThanOrEqualTo(Integer value) {
+            addCriterion("poll_id <=", value, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdIn(List<Integer> values) {
+            addCriterion("poll_id in", values, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdNotIn(List<Integer> values) {
+            addCriterion("poll_id not in", values, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdBetween(Integer value1, Integer value2) {
+            addCriterion("poll_id between", value1, value2, "pollId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPollIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("poll_id not between", value1, value2, "pollId");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;

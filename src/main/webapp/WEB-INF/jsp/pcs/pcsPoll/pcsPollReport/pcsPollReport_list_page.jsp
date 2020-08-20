@@ -85,7 +85,7 @@
             { label: '姓名',name: 'realname'},
             { label: '所在单位',name: 'unit',width:350, align:'left'},
             { label: '候选人类型',name: 'type',formatter: function (cellvalue, options, rowobject) {
-                    return _cMap.PCS_POLL_CANDIDATE_TYPE[cellvalue];
+                    return _cMap.PCS_USER_TYPE_MAP[cellvalue];
             }},
             { label: '推荐提名<br/>党支部数',name: 'branchNum',width:120},
             { label: '推荐提名<br/>正式党员数',name: 'positiveBallot',width:120},
