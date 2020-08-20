@@ -11,6 +11,9 @@ public class PcsFinalResult {
 
     public Integer pollId;//党代会投票id
     public Integer userId;//推荐人
+    private String code;
+    private String realname;
+    private String unit;
     public Boolean isCandidate;//是否是候选人
     public Byte type;//推荐人类型
     public Integer branchNum;//投票党支部数
@@ -34,6 +37,30 @@ public class PcsFinalResult {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Boolean getCandidate() {
