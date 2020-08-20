@@ -184,13 +184,15 @@ public interface IPcsMapper {
 
 
     // 一下党支部统计结果
-    public List<PcsFinalResult> selectResultList(@Param("pollId") int pollId, @Param("type") byte type, RowBounds rowBounds);
-    public int countResult(@Param("pollId") int pollId, @Param("type") byte type);
+    public List<PcsFinalResult> selectResultList(@Param("pollId") int pollId, @Param("type") byte type,
+                                                 @Param("userId") Integer userId, RowBounds rowBounds);
+    public int countResult(@Param("pollId") int pollId, @Param("type") byte type, @Param("userId") Integer userId);
 
     // 二下/三下党支部投票统计结果
     public List<PcsFinalResult> selectSecondResultList(@Param("pollId") Integer pollId, @Param("type") Byte type,
+                                                       @Param("userId") Integer userId,
                                                        RowBounds rowBounds);
-    public int countSecondResult(@Param("pollId") Integer pollId, @Param("type") Byte type);
+    public int countSecondResult(@Param("pollId") Integer pollId, @Param("type") Byte type, @Param("userId") Integer userId);
 
     // 党支部报送结果汇总
     public int countReport(@Param("type") Byte type,

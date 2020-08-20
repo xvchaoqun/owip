@@ -117,9 +117,9 @@ public class PcsPollReportService extends PcsBaseMapper {
 
                 List<PcsFinalResult> pcsFinalResultList = new ArrayList<>();
                 if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                    pcsFinalResultList = iPcsMapper.selectResultList(pollId, type, new RowBounds());
+                    pcsFinalResultList = iPcsMapper.selectResultList(pollId, type, null, new RowBounds());
                 }else {
-                    pcsFinalResultList = iPcsMapper.selectSecondResultList(pollId, type, new RowBounds());
+                    pcsFinalResultList = iPcsMapper.selectSecondResultList(pollId, type, null, new RowBounds());
                 }
                 PcsFinalResult finalResult = pcsFinalResultList.get(0);
                 record.setBallot(finalResult.getSupportNum());

@@ -61,12 +61,12 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/pcs/pcsPollResult?cls=4&pollId=${param.pollId}&type=${param.type}"
+                                       data-url="${ctx}/pcs/pcsPollResult?cls=${cls}&pollId=${param.pollId}&type=${param.type}"
                                        data-target="#body-content-view"
                                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/pcs/pcsPollResult?cls=4&pollId=${param.pollId}&type=${param.type}"
+                                                data-url="${ctx}/pcs/pcsPollResult?cls=${cls}&pollId=${param.pollId}&type=${param.type}"
                                                 data-target="#body-content-view">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
@@ -86,7 +86,7 @@ pageEncoding="UTF-8" %>
 <script>
     function _ReLoadPage(){
         SysMsg.success('设置成功。',function(){
-            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&type=${param.type}&pollId=${param.pollId}");
+            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&type=${type}&pollId=${param.pollId}");
         })
     }
 

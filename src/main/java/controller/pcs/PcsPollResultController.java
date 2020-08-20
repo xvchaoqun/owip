@@ -63,9 +63,9 @@ public class PcsPollResultController extends PcsBaseController {
         int hasCount = 0;//党支部现有的总推荐人数
         for (Byte _type : PcsConstants.PCS_USER_TYPE_MAP.keySet()){
             if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                hasCount = iPcsMapper.countResult(pollId, _type);
+                hasCount = iPcsMapper.countResult(pollId, _type, null);
             }else{
-                hasCount = iPcsMapper.countSecondResult(pollId, _type);
+                hasCount = iPcsMapper.countSecondResult(pollId, _type, null);
             }
             hasCountMap.put(_type, hasCount);
         }
@@ -91,6 +91,7 @@ public class PcsPollResultController extends PcsBaseController {
     public void pcsPollResult_data(HttpServletResponse response,
                                    int pollId,
                                    @RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
+                                   Integer userId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -106,9 +107,9 @@ public class PcsPollResultController extends PcsBaseController {
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         byte stage = pcsPoll.getStage();
         if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
-            count = iPcsMapper.countSecondResult(pollId, type);
+            count = iPcsMapper.countSecondResult(pollId, type, userId);
         }else {
-            count = iPcsMapper.countResult(pollId, type);
+            count = iPcsMapper.countResult(pollId, type, userId);
         }
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
@@ -116,9 +117,9 @@ public class PcsPollResultController extends PcsBaseController {
 
         List<PcsFinalResult> pcsFinalResults = null;
         if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
-            pcsFinalResults = iPcsMapper.selectSecondResultList(pollId, type, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            pcsFinalResults = iPcsMapper.selectSecondResultList(pollId, type, userId, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }else {
-            pcsFinalResults = iPcsMapper.selectResultList(pollId, type, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            pcsFinalResults = iPcsMapper.selectResultList(pollId, type, userId, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

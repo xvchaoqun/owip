@@ -350,17 +350,24 @@
         <include refid="searchBranchCandidates"/>
     </select>
 
+    <sql id="selectResult_where">
+       where poll_id=#{pollId} and type=#{type}
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+    </sql>
+
     <!--统计一下阶段的得票-->
     <select id="selectResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
         select poll_id as pollId, user_id as userId, type as type, sum(if(is_positive and status=1,1,0)) as positiveBallot,
         sum(if(status=1,1,0)) AS supportNum, sum(if(!is_positive and status=1,0,1)) as growBallot from pcs_poll_result
-        where poll_id=#{pollId} and type=#{type}
+        <include refid="selectResult_where"/>
         group by user_id order by supportNum desc, positiveBallot desc
     </select>
 
     <select id="countResult" parameterType="map" resultType="java.lang.Integer" >
         select count(distinct user_id) from pcs_poll_result
-        where poll_id=#{pollId} and type=#{type}
+        <include refid="selectResult_where"/>
     </select>
 
     <!--统计二下阶段的得票-->
@@ -369,13 +376,18 @@
         sum(if(status=1 and is_positive, 1, 0)) as positiveBallot, sum(if(status=1 and !is_positive, 1, 0)) as growBallot,
         sum(if(status=2, 1, 0)) as notSupportNum from pcs_poll_result
         where poll_id=#{pollId} and type=#{type}
+        <if test="userId != null">
+            and candidate_user_id = #{userId}
+        </if>
         group by candidate_user_id
 
         union all
 
         select poll_id as pollId, user_id as userId, count(*) as supportNum, sum(if(is_positive, 1, 0))  as positiveBallot,
                sum(if(is_positive, 0, 1))  as growBallot, 0 as notSupportNum
-        from pcs_poll_result where poll_id=#{pollId} and type=#{type} and status=2 and user_id is not null
+        from pcs_poll_result
+         <include refid="selectResult_where"/>
+        and status=2 and user_id is not null
 
         group by user_id
 
@@ -386,8 +398,11 @@
        select count(distinct user_id) from
         (
         select candidate_user_id as user_id from pcs_poll_result where poll_id=#{pollId} and type=#{type}
+        <if test="userId != null">
+            and candidate_user_id = #{userId}
+        </if>
         union all
-        select user_id from pcs_poll_result where poll_id=#{pollId} and type=#{type} and status=2 and user_id is not null) tmp
+        select user_id from pcs_poll_result <include refid="selectResult_where"/>  and status=2 and user_id is not null) tmp
     </select>
 
     <sql id="selectReport_where">
