@@ -4,9 +4,7 @@ import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
-import domain.pcs.PcsConfig;
 import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollCandidate;
 import domain.pcs.PcsPollInspector;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
@@ -26,6 +24,7 @@ import service.sys.SysLoginLogService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PcsHelper;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
@@ -50,6 +49,35 @@ public class UserPcsPollController extends PcsBaseController {
                               HttpServletRequest request, ModelMap modelMap){
 
         if(HttpRequestDeviceUtils.isMobileDevice(request)) {
+
+            if (StringUtils.isNotBlank(u)) {
+                PcsPollInspector inspector = pcsPollInspectorService.tryLogin(StringUtils.trimToNull(u),
+                        StringUtils.trimToNull(p));
+                if (inspector == null) {
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，账号或密码错误"));
+                    modelMap.put("error", "账号或密码错误");
+                }else if (BooleanUtils.isTrue(inspector.getIsFinished())) {
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，用户已完成投票"));
+                    modelMap.put("error", "该账号已完成投票");
+                }else {
+
+                    try {
+                        pcsPollInspectorService.checkPollStatus(inspector.getId());
+
+                        logger.info(sysLoginLogService.log(null, u,
+                                SystemConstants.LOGIN_TYPE_PCS, true, "扫码登录成功"));
+                        PcsHelper.setSession(request, inspector.getId());
+
+                        return "redirect:/user/pcs/index?isMobile=1";
+                    }catch (OpException ex){
+                        modelMap.put("error", ex.getMessage());
+                        logger.info(sysLoginLogService.log(null, u,
+                                SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，"+ ex.getMessage()));
+                    }
+                }
+            }
 
             return "pcs/pcsPoll/mobile/login";
         }
@@ -88,23 +116,12 @@ public class UserPcsPollController extends PcsBaseController {
                 }
                 return failed("账号或密码错误");
             }else {
+
                 cacheService.clearLimitCache(limitCacheKey);
-                PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-                if (pcsConfig != null && inspector.getPcsPoll().getConfigId() != pcsConfig.getId()){
-                    return failed("该账号的党代会投票已过期");
-                }
-                if (inspector.getPcsPoll().getIsDeleted()){
-                    return failed("党代会投票已作废");
-                } else if (inspector.getPcsPoll().getHasReport()) {
-                    return failed("党代会投票已报送");
-                }else if (inspector.getPcsPoll().getStartTime().after(new Date())){
-                    return failed("党代会投票未开始");
-                }else if (inspector.getPcsPoll().getEndTime().before(new Date())){
-                    return failed("党代会投票已结束");
-                }else if (inspector.getIsFinished()){
-                    return failed("该账号已完成投票");
-                }
+
+                pcsPollInspectorService.checkPollStatus(inspector.getId());
             }
+
             logger.info(addNoLoginLog(null, username, LogConstants.LOG_PCS,"登录成功"));
             PcsHelper.setSession(request, inspector.getId());
         }
@@ -154,7 +171,7 @@ public class UserPcsPollController extends PcsBaseController {
     }
 
     @RequestMapping("/index")
-    public String index(@RequestParam(required = false, defaultValue = "2") Byte type,
+    public String index(@RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") Byte type,
                         boolean isMobile,
                         ModelMap modelMap,
                         HttpServletRequest request){
@@ -162,17 +179,17 @@ public class UserPcsPollController extends PcsBaseController {
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
 
         if (inspector != null) {
-            PcsPoll pcsPoll = inspector.getPcsPoll();
-            /*if (pcsPoll.getStage() == PcsConstants.PCS_POLL_THIRD_STAGE) {
-                type =PcsConstants.PCS_POLL_CANDIDATE_DW;
-            }*/
+
+            int pollId = inspector.getPollId();
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+
             modelMap.put("type", type);
             int num = 0;
-            if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
-                num = pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId());
-            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
+            if (type == PcsConstants.PCS_USER_TYPE_PR){
+                num = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
+            }else if (type == PcsConstants.PCS_USER_TYPE_DW){
                 num = CmTag.getIntProperty("pcs_poll_dw_num");
-            }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+            }else if (type == PcsConstants.PCS_USER_TYPE_JW){
                 num = CmTag.getIntProperty("pcs_poll_jw_num");
             }
             modelMap.put("num", num);
@@ -184,19 +201,17 @@ public class UserPcsPollController extends PcsBaseController {
             modelMap.put("tempResult", tempResult);
 
             //二下/三下阶段推荐人名单
-            if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE) {
-                Integer pollId = inspector.getPollId();
-                List<PcsPollCandidate> cans = pcsPollCandidateService.findAll(pollId, type);
-                modelMap.put("cans", cans);
-            }
             if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE){
+
+                List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, type);
+                modelMap.put("candidateUserIds", candidateUserIds);
+
                 Set<Integer> selectUserIdList = new HashSet<>();
                 Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
 
-                List<PcsPollCandidate> candidatelist = pcsPollCandidateService.findAll(pcsPoll.getId(), type);
-                if (candidatelist.size() > 0) {
-                    for (PcsPollCandidate candidate : candidatelist) {
-                        selectUserIdList.add(candidate.getUserId());
+                if (candidateUserIds.size() > 0) {
+                    for (Integer candidateUserId : candidateUserIds) {
+                        selectUserIdList.add(candidateUserId);
                     }
                 }
                 if (otherResultMap.size() > 0) {
@@ -229,8 +244,8 @@ public class UserPcsPollController extends PcsBaseController {
                       Byte type, HttpServletRequest request) {
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
-        PcsPoll pcsPoll = inspector.getPcsPoll();
         int pollId = inspector.getPollId();
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
 
         // 临时数据
         PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
@@ -266,24 +281,24 @@ public class UserPcsPollController extends PcsBaseController {
                         }
                     }
 
-                    if (_type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                    if (_type == PcsConstants.PCS_USER_TYPE_PR){
                         prCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_DW) {
                         dwCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_JW){
                         jwCount += count;
                     }
                 }
 
                 if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE
-                        && prCount > pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId())) {
-                    throw new OpException("推荐的代表超过规定数量，请重新选择");
+                        && prCount > pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId())) {
+                    throw new OpException("已选代表超过规定数量，请重新选择");
                 }
                 if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
-                    throw new OpException("推荐的党委委员超过规定数量，请重新选择");
+                    throw new OpException("已选党委委员超过规定数量，请重新选择");
                 }
                 if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
-                    throw new OpException("推荐的纪委委员超过规定数量，请重新选择");
+                    throw new OpException("已选纪委委员超过规定数量，请重新选择");
                 }
 
                 pcsPollResultService.submitResult(inspector);
@@ -310,17 +325,10 @@ public class UserPcsPollController extends PcsBaseController {
 
             } else {//保存"二下/三下阶段"推荐结果
 
-                List<PcsPollCandidate> candidates = pcsPollCandidateService.findAll(pollId, type);
-
-                Set<Integer> candidateUserIdSet = new HashSet<>();
-
-                for (PcsPollCandidate candidate : candidates) {
-
-                    int userId = candidate.getUserId();
-                    candidateUserIdSet.add(userId);
+                List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, type);
+                for (Integer userId : candidateUserIds) {
 
                     String radioName = type + "_" + userId;
-
                     String value = request.getParameter(radioName);
                     Byte radioValue = (value == null) ? null : Byte.valueOf(value);
 
@@ -329,9 +337,14 @@ public class UserPcsPollController extends PcsBaseController {
                         secondResultMap.put(radioName, radioValue);
                         if (radioValue == PcsConstants.RESULT_STATUS_DISAGREE) {
 
-                            String otherUserId = request.getParameter(radioName + "_4");
-                            if (StringUtils.isNotBlank(otherUserId)) {
-                                otherResultMap.put(radioName + "_4", Integer.valueOf(otherUserId));
+                            String _otherUserId = request.getParameter(radioName + "_4");
+                            if (StringUtils.isNotBlank(_otherUserId)) {
+                                int otherUserId = Integer.valueOf(_otherUserId);
+
+                                if(candidateUserIds.contains(otherUserId)){
+                                    throw new OpException("另选他人中不允许选候选人，请重新选择");
+                                }
+                                otherResultMap.put(radioName + "_4", otherUserId);
                             }
                         }
                     }
@@ -369,11 +382,11 @@ public class UserPcsPollController extends PcsBaseController {
             if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {
                 Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
                 for (Map.Entry<Byte, Set<Integer>> entry : firstResultMap.entrySet()){
-                    if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                    if (entry.getKey() == PcsConstants.PCS_USER_TYPE_PR){
                         prCount = entry.getValue().size();
-                    }else if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                    }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_DW) {
                         dwCount = entry.getValue().size();
-                    }else if (entry.getKey() == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                    }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_JW){
                         jwCount = entry.getValue().size();
                     }
                 }
@@ -394,11 +407,11 @@ public class UserPcsPollController extends PcsBaseController {
                         }
                     }
 
-                    if (_type == PcsConstants.PCS_POLL_CANDIDATE_PR){
+                    if (_type == PcsConstants.PCS_USER_TYPE_PR){
                         prCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_DW) {
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_DW) {
                         dwCount += count;
-                    }else if (_type == PcsConstants.PCS_POLL_CANDIDATE_JW){
+                    }else if (_type == PcsConstants.PCS_USER_TYPE_JW){
                         jwCount += count;
                     }
                 }

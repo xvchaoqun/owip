@@ -13,7 +13,6 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="is_candidate" jdbcType="BIT" property="isCandidate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, poll_id, candidate_user_id, inspector_id, stage, party_id, branch_id, is_positive, 
-    status, type, user_id, is_candidate, remark
+    status, type, user_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollResultExample" resultMap="BaseResultMap">
     select
@@ -112,13 +111,13 @@
     insert into pcs_poll_result (id, poll_id, candidate_user_id, 
       inspector_id, stage, party_id, 
       branch_id, is_positive, status, 
-      type, user_id, is_candidate, 
-      remark)
+      type, user_id, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{pollId,jdbcType=INTEGER}, #{candidateUserId,jdbcType=INTEGER}, 
       #{inspectorId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{isPositive,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
-      #{type,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{isCandidate,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{type,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPollResult">
     insert into pcs_poll_result
@@ -155,9 +154,6 @@
       </if>
       <if test="userId != null">
         user_id,
-      </if>
-      <if test="isCandidate != null">
-        is_candidate,
       </if>
       <if test="remark != null">
         remark,
@@ -196,9 +192,6 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="isCandidate != null">
-        #{isCandidate,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -247,9 +240,6 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.isCandidate != null">
-        is_candidate = #{record.isCandidate,jdbcType=BIT},
-      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -271,7 +261,6 @@
       status = #{record.status,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
       user_id = #{record.userId,jdbcType=INTEGER},
-      is_candidate = #{record.isCandidate,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -310,9 +299,6 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="isCandidate != null">
-        is_candidate = #{isCandidate,jdbcType=BIT},
-      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -331,7 +317,6 @@
       status = #{status,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
       user_id = #{userId,jdbcType=INTEGER},
-      is_candidate = #{isCandidate,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

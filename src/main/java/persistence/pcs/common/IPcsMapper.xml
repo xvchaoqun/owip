@@ -26,11 +26,11 @@
     </select>
     <!-- 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）-->
     <select id="expectPcsBranchList" resultMap="persistence.pcs.PcsBranchMapper.BaseResultMap">
-        select #{configId} as config_id, ob.party_id, ob.id as branch_id, 0 as is_direct_branch, op.name as party_name, ob.name, ob.sort_order, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
+        select #{configId} as config_id, ob.party_id, ob.id as branch_id, 0 as is_direct_branch, op.name as party_name, ob.name, op.sort_order as party_sort_order, ob.sort_order, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
         left join ow_party op on ob.party_id=op.id
         where ob.is_deleted=0 and ob.member_count>0
         union all
-        select #{configId} as config_id, op.id as party_id, null as branch_id, 1 as is_direct_branch, op.name, op.name, 99999 as sort_order, op.member_count, op.positive_count, op.student_member_count,
+        select #{configId} as config_id, op.id as party_id, null as branch_id, 1 as is_direct_branch, op.name as party_name, op.name, op.sort_order as party_sort_order, 0 as sort_order, op.member_count, op.positive_count, op.student_member_count,
          op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
         where op.is_deleted=0 and op.member_count>0 and op.class_id=bmt.id and bmt.code='mt_direct_branch'
     </select>
@@ -350,157 +350,81 @@
         <include refid="searchBranchCandidates"/>
     </select>
 
-    <!--selectRList_where和selectR1List_where用来添加搜索条件，为了使二下和三下中将名单中的结果和另选他人的结果合并，只是为了区别两张表-->
-    <sql id="selectRList_where">
-
-        <if test="type != null">
-            and r.type = #{type}
-        </if>
-        <if test="isCandidate != null">
-            and r.is_candidate = #{isCandidate}
-        </if>
-        <if test="userId != null">
-            and r.user_id = #{userId}
-        </if>
-        <if test="partyId != null">
-            and r.party_id = #{partyId}
-        </if>
-        <if test="branchId != null">
-            and r.branch_id = #{branchId}
-        </if>
-        <if test="pollIdList != null and pollIdList.size > 0">
-            and r.poll_id in
-            <foreach collection="pollIdList" open="(" close = ")" item = "pollId" separator=",">
-                #{pollId}
-            </foreach>
-        </if>
-        <if test="pollIdList == null or pollIdList.size == 0">
-            and r.poll_id is null
-        </if>
-        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList != null and branchIdList.size > 0)">
-            and r.party_id in
-            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
-                #{partyId}
-            </foreach>
-            or r.branch_id in
-            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
-                #{branchId}
-            </foreach>
-        </if>
-        <if test="(partyIdList == null or partyIdList.size == 0)and(branchIdList != null and branchIdList.size > 0)">
-            and r.branch_id in
-            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
-                #{branchId}
-            </foreach>
-        </if>
-        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList == null or branchIdList.size == 0)">
-            and r.party_id in
-            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
-                #{partyId}
-            </foreach>
-        </if>
-    </sql>
-
-    <sql id="selectR1List_where">
-
-         and r1.status=2
-        <if test="isCandidate != null">
-            and r1.is_candidate = #{isCandidate}
-        </if>
-        <if test="type != null">
-            and r1.type = #{type}
-        </if>
-        <if test="userId != null">
-            and r1.user_id = #{userId}
-        </if>
-        <if test="partyId != null">
-            and r1.party_id = #{partyId}
-        </if>
-        <if test="branchId != null">
-            and r1.branch_id = #{branchId}
-        </if>
-        <if test="pollIdList != null and pollIdList.size > 0">
-            and r1.poll_id in
-            <foreach collection="pollIdList" open="(" close = ")" item = "pollId" separator=",">
-                #{pollId}
-            </foreach>
-        </if>
-        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList != null and branchIdList.size > 0)">
-            and r1.party_id in
-            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
-                #{partyId}
-            </foreach>
-            or r1.branch_id in
-            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
-                #{branchId}
-            </foreach>
-        </if>
-        <if test="(partyIdList == null or partyIdList.size == 0)and(branchIdList != null and branchIdList.size > 0)">
-            and r1.branch_id in
-            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
-                #{branchId}
-            </foreach>
-        </if>
-        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList == null or branchIdList.size == 0)">
-            and r1.party_id in
-            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
-                #{partyId}
-            </foreach>
-        </if>
-    </sql>
-
     <!--统计一下阶段的得票-->
     <select id="selectResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
-        select r.poll_id as pollId, r.user_id as userId, r.type as type, ifnull(count(distinct branch_id), 1) as branchNum, sum(if(is_positive and status=1,1,0)) as positiveBallot,
-        sum(If(status=1,1,0)) AS supportNum, sum(if(is_positive and status=1,0,1)) as growBallot, r.is_candidate as isCandidate from pcs_poll_result r
-        <where>
-            stage=#{stage}
-            <include refid="selectRList_where"/>
-        </where>
-        group by r.type, r.user_id, r.is_candidate order by r.type desc, positiveBallot desc
+        select poll_id as pollId, user_id as userId, type as type, sum(if(is_positive and status=1,1,0)) as positiveBallot,
+        sum(if(status=1,1,0)) AS supportNum, sum(if(!is_positive and status=1,0,1)) as growBallot from pcs_poll_result
+        where poll_id=#{pollId} and type=#{type}
+        group by user_id order by supportNum desc, positiveBallot desc
     </select>
 
     <select id="countResult" parameterType="map" resultType="java.lang.Integer" >
-        select count(*) from (select r.* from pcs_poll_result r
-        <where>
-            stage=#{stage}
-            <include refid="selectRList_where"/>
-        </where>
-        group by r.type, r.user_id, r.is_candidate)tmp
+        select count(distinct user_id) from pcs_poll_result
+        where poll_id=#{pollId} and type=#{type}
     </select>
 
     <!--统计二下阶段的得票-->
     <select id="selectSecondResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
-        select r.poll_id as pollId, r.candidate_user_id as userId, r.type as type,  sum(if(r.is_positive=1 and r.status=1,1,0)) as positiveBallot, ifnull(count(distinct r.branch_id), 1) as branchNum,
-        sum(if(r.is_positive=0 and r.status=1,1,0)) as growBallot, sum(If(r.status=1,1,0)) AS supportNum, sum(if(r.status=2,1,0)) as notSupportNum, sum(if(r.status=3,1,0)) as notVoteNum, r.is_candidate as isCandidate from pcs_poll_result r
-        <where>
-            r.stage=#{stage}
-            <include refid="selectRList_where"/>
-        </where>
-        group by r.type, r.candidate_user_id
+        select poll_id as pollId, candidate_user_id as userId, sum(if(status=1, 1, 0)) as supportNum,
+        sum(if(status=1 and is_positive, 1, 0)) as positiveBallot, sum(if(status=1 and !is_positive, 1, 0)) as growBallot,
+        sum(if(status=2, 1, 0)) as notSupportNum from pcs_poll_result
+        where poll_id=#{pollId} and type=#{type}
+        group by candidate_user_id
+
         union all
-        select r1.poll_id as pollId, r1.user_id as userId, r1.type as type,  sum(if(r1.is_positive=1 and r1.status=2,1,0)) as positiveBallot, ifnull(count(distinct r1.branch_id), 1) as branchNum,
-        sum(if(r1.is_positive=0 and r1.status=2,1,0)) as growBallot, sum(If(r1.status=2,1,0)) AS supportNum, null as notSupportNum, null as notVoteNum, r1.is_candidate as isCandidate from pcs_poll_result r1
-        <where>
-            r1.stage=#{stage}
-            <include refid="selectR1List_where"/>
-        </where>
-        group by r1.type, r1.user_id order by type desc, positiveBallot desc
+
+        select poll_id as pollId, user_id as userId, count(*) as supportNum, sum(if(is_positive, 1, 0))  as positiveBallot,
+               sum(if(is_positive, 0, 1))  as growBallot, 0 as notSupportNum
+        from pcs_poll_result where poll_id=#{pollId} and type=#{type} and status=2 and user_id is not null
+
+        group by user_id
+
+        order by supportNum desc, positiveBallot desc
     </select>
 
     <select id="countSecondResult" parameterType="map" resultType="java.lang.Integer" >
-        select count(*) from (select r.candidate_user_id as user_id from pcs_poll_result r
-        <where>
-            r.stage=#{stage}
-            <include refid="selectRList_where"/>
-        </where>
-        group by r.type, r.candidate_user_id
+       select count(distinct user_id) from
+        (
+        select candidate_user_id as user_id from pcs_poll_result where poll_id=#{pollId} and type=#{type}
         union all
-        select r1.user_id from pcs_poll_result r1
-        <where>
-            r1.stage=#{stage}
-            <include refid="selectR1List_where"/>
-        </where>
-        group by r1.type, r1.user_id)tmp
+        select user_id from pcs_poll_result where poll_id=#{pollId} and type=#{type} and status=2 and user_id is not null) tmp
     </select>
+
+    <sql id="selectReport_where">
+        r.stage=#{stage} and r.config_id=#{configId} and pp.has_report=1 and pp.is_deleted=0
+        <if test="partyId != null">
+            and r.party_id = #{partyId}
+        </if>
+        <if test="type != null">
+            and r.type = #{type}
+        </if>
+        <if test="branchId != null">
+            and r.branch_id = #{branchId}
+        </if>
+        <if test="userId != null">
+            and r.user_id = #{userId}
+        </if>
+    </sql>
+
+    <!--统计报送结果-->
+    <select id="selectReport" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
+        select r.user_id as userId, r.code, r.realname, r.unit, r.type as type, count(*) as branchNum,
+        sum(r.positive_ballot) as positiveBallot,sum(r.ballot) AS supportNum, sum(r.grow_ballot) as growBallot,
+        sum(r.disagree_ballot) as notSupportNum, sum(r.abstain_ballot) as notVoteNum
+        from pcs_poll_report r
+        left join pcs_poll pp on pp.id=r.poll_id
+        <where>
+            <include refid="selectReport_where"/>
+        </where>
+        group by r.type, r.user_id order by r.type asc, supportNum desc, positiveBallot desc
+    </select>
+
+    <select id="countReport" parameterType="map" resultType="java.lang.Integer" >
+        select count(*) from (select r.* from pcs_poll_report r,pcs_poll pp
+        <where>
+            <include refid="selectReport_where"/>
+        </where>
+        group by r.type, r.user_id)tmp
+    </select>
+
 </mapper>

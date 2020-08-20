@@ -11,6 +11,8 @@ public class PcsBaseMapper extends CoreBaseMapper {
      * 党代会
      */
     @Autowired(required = false)
+    protected PcsPollReportMapper pcsPollReportMapper;
+    @Autowired(required = false)
     protected IPcsMapper iPcsMapper;
     @Autowired(required = false)
     protected PcsPartyMapper pcsPartyMapper;

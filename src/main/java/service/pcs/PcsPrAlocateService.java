@@ -1,10 +1,12 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrAllocateExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import sys.utils.NumberUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +14,17 @@ import java.util.List;
 @Service
 public class PcsPrAlocateService extends PcsBaseMapper {
 
+    //读取分党委的代表最大推荐数量
+    public int getPrMaxCount(int configId, int partyId) {
+
+        PcsPrAllocate pcsPrAllocate = get(configId, partyId);
+
+        if(pcsPrAllocate==null || NumberUtils.trimToZero(pcsPrAllocate.getCandidateCount())<=0){
+            throw new OpException("请联系学校党委设置所在院系党委的候选人（代表）推荐人选的数量");
+        }
+
+        return NumberUtils.trimToZero(pcsPrAllocate.getCandidateCount());
+    }
 
     // 批量设置
     @Transactional

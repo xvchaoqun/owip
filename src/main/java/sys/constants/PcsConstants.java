@@ -8,14 +8,16 @@ import java.util.Map;
  */
 public class PcsConstants {
 
-    // 党代会管理，委员分类，  1 党委委员 2 纪委委员
+    // 党代会管理，推荐人类型，  1 党委委员 2 纪委委员 3 代表
     public final static byte PCS_USER_TYPE_DW = 1;
     public final static byte PCS_USER_TYPE_JW = 2;
+    public final static byte PCS_USER_TYPE_PR = 3;
     public final static Map<Byte, String> PCS_USER_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         PCS_USER_TYPE_MAP.put(PCS_USER_TYPE_DW, "党委委员");
         PCS_USER_TYPE_MAP.put(PCS_USER_TYPE_JW, "纪委委员");
+        PCS_USER_TYPE_MAP.put(PCS_USER_TYPE_PR, "代表");
     }
 
     // 党代会管理员类型， 1 书记 2 副书记 3 普通管理员（通常由书记指定一人）
@@ -107,18 +109,6 @@ public class PcsConstants {
         PCS_POLL_STAGE_MAP.put(PCS_POLL_FIRST_STAGE, "一下阶段");
         PCS_POLL_STAGE_MAP.put(PCS_POLL_SECOND_STAGE, "二下阶段");
         PCS_POLL_STAGE_MAP.put(PCS_POLL_THIRD_STAGE, "三下阶段");
-    }
-
-    //推荐投票
-    public final static byte PCS_POLL_CANDIDATE_PR = 1;
-    public final static byte PCS_POLL_CANDIDATE_DW = 2;
-    public final static byte PCS_POLL_CANDIDATE_JW = 3;
-    public final static Map<Byte, String> PCS_POLL_CANDIDATE_TYPE = new LinkedHashMap<>();
-
-    static {
-        PCS_POLL_CANDIDATE_TYPE.put(PCS_POLL_CANDIDATE_PR, "代表");
-        PCS_POLL_CANDIDATE_TYPE.put(PCS_POLL_CANDIDATE_DW, "党委委员");
-        PCS_POLL_CANDIDATE_TYPE.put(PCS_POLL_CANDIDATE_JW, "纪委委员");
     }
 
     // 推荐结果状态

@@ -10,7 +10,7 @@
     <form class="form-inline search-form" id="searchForm_popup" method="post"
           action="${ctx}/sysResource_updateRole?addOrDel=1">
         <input type="hidden" name="resourceId" value="${param.resourceId}">
-        <select class="form-control" name="roleId"
+        <select required class="form-control" name="ids"
                 data-rel="select2"
                 data-width="450"
                 data-placeholder="请选择">

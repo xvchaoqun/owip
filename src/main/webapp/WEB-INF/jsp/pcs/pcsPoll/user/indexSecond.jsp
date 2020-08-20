@@ -2,10 +2,10 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['pcs_poll_site_name']}" var="_p_pcsSiteName"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_PR%>" var="PCS_POLL_CANDIDATE_PR"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_DW%>" var="PCS_POLL_CANDIDATE_DW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_JW%>" var="PCS_POLL_CANDIDATE_JW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_TYPE%>" var="PCS_POLL_CANDIDATE_TYPE"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 <c:set value="<%=PcsConstants.RESULT_STATUS_AGREE%>" var="RESULT_STATUS_AGREE"/>
 <c:set value="<%=PcsConstants.RESULT_STATUS_DISAGREE%>" var="RESULT_STATUS_DISAGREE"/>
 <c:set value="<%=PcsConstants.RESULT_STATUS_ABSTAIN%>" var="RESULT_STATUS_ABSTAIN"/>
@@ -89,11 +89,11 @@
                 <input type="hidden" name="flag" value="0">
                 <input type="hidden" name="isSubmit" value="0">
                 <input type="hidden" name="type" value="${type}">
-                <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
+                <table class="table table-bordered table-unhover2 table-center" style="width:800px;margin: 0 auto;">
                     <tbody>
                         <tr>
-                            <td align="right"><span class="star">*</span> 投票人身份</td>
-                            <td align="left">
+                            <td colspan="2"><span class="star">*</span> 投票人身份</td>
+                            <td>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input type="radio" name="isPositive"
                                            id="isPositive_1" value="1" ${inspector.isPositive?"checked":""}>
@@ -107,35 +107,41 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="right"><span class="star">*</span> 推荐人类型</td>
-                            <td align="left">
+                            <td colspan="2"><span class="star">*</span> 推荐人类型</td>
+                            <td>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
-                                           id="type_2" value="${PCS_POLL_CANDIDATE_DW}" ${type==PCS_POLL_CANDIDATE_DW?"checked":""}>
+                                           id="type_2" value="${PCS_USER_TYPE_DW}" ${type==PCS_USER_TYPE_DW?"checked":""}>
                                     <label for="type_2">党委委员</label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required type="radio" name="type"
-                                           id="type_3" value="${PCS_POLL_CANDIDATE_JW}" ${type==PCS_POLL_CANDIDATE_JW?"checked":""}>
+                                           id="type_3" value="${PCS_USER_TYPE_JW}" ${type==PCS_USER_TYPE_JW?"checked":""}>
                                     <label for="type_3">纪委委员</label>
                                 </div>
                                 <c:if test="${pcsPoll.stage!=PCS_POLL_THIRD_STAGE}">
                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                         <input required type="radio" name="type"
-                                               id="type_1" value="${PCS_POLL_CANDIDATE_PR}" ${type==PCS_POLL_CANDIDATE_PR?"checked":""}>
+                                               id="type_1" value="${PCS_USER_TYPE_PR}" ${type==PCS_USER_TYPE_PR?"checked":""}>
                                         <label for="type_1">代表</label>
                                     </div>
                                 </c:if>
                             </td>
                         </tr>
-                        <c:forEach items="${cans}" var="can">
-                            <c:set var="key" value="${type}_${can.userId}"/>
+                        <tr>
+                            <td>序号</td>
+                            <td>姓名</td>
+                            <td>推荐意见</td>
+                        </tr>
+                        <c:forEach items="${candidateUserIds}" var="candidateUserId" varStatus="vs">
+                            <c:set var="key" value="${type}_${candidateUserId}"/>
                             <c:set var="status" value="${tempResult.secondResultMap.get(key)}"/>
                             <c:set var="otherKey" value="${key}_4"/>
                             <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
                             <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                             <tr class="candidate">
-                                <td class="realname" align="right">${can.user.realname}（${can.user.code}）</td>
+                                <td>${vs.index+1}</td>
+                                <td class="realname">${cm:getUserById(candidateUserId).realname}</td>
                                 <td>
                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                         <input type="radio" name="${key}"
@@ -155,7 +161,7 @@
                                 </td>
                             </tr>
                             <tr class="other" style="display: ${status==2?'':'none'}" data-candidate="${key}">
-                                <td class="realname" align="right">另选其他推荐人</td>
+                                <td class="realname" colspan="2">另选其他推荐人</td>
                                 <td>
                                     <select data-rel="select2-ajax" data-width="272"
                                             name="${key}_4" data-placeholder="请输入推荐人姓名或学工号">
@@ -165,7 +171,7 @@
                             </tr>
                         </c:forEach>
                         <tr>
-                            <td colspan="2" style="text-align: center">
+                            <td colspan="3" style="text-align: center">
                                 <button class="btn btn-primary" type="button"
                                         onclick="_save(0)"><i class="fa fa-save"></i> 暂存
                                 </button>
@@ -211,7 +217,7 @@
     })
 
     var $select = $.register.user_select($('select[data-rel=select2-ajax]'),
-        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_POLL_CANDIDATE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
+        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_USER_TYPE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
             theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty selectUserIdList?'[]':selectUserIdList};

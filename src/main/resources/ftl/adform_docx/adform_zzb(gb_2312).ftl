@@ -1787,7 +1787,7 @@
                         <w:tcW w:w="429.20pt" w:type="dxa"/>
                         <w:gridSpan w:val="11"/>
                         <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                        <w:vAlign w:val="center"/>
+                        <w:vAlign w:val="top"/>
                     </w:tcPr>
                     ${resumeDesc?default('<w:p/>')}
                 </w:tc>

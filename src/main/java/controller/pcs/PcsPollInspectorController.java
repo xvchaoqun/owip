@@ -2,10 +2,7 @@ package controller.pcs;
 
 import domain.party.Branch;
 import domain.party.Party;
-import domain.pcs.PcsBranch;
-import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollInspector;
-import domain.pcs.PcsPollInspectorExample;
+import domain.pcs.*;
 import domain.pcs.PcsPollInspectorExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -49,13 +46,11 @@ public class PcsPollInspectorController extends PcsBaseController {
     @RequestMapping("/pcsPollInspector_data")
     @ResponseBody
     public void pcsPollInspector_data(HttpServletResponse response,
-                                    Integer pollId,
+                                    int pollId,
                                     String username,
                                     Integer isPositive,
-
                                     Integer partyId,
                                     Integer branchId,
-                                
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -69,12 +64,9 @@ public class PcsPollInspectorController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PcsPollInspectorExample example = new PcsPollInspectorExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andPollIdEqualTo(pollId);
         example.setOrderByClause("id desc");
 
-        if (pollId!=null) {
-            criteria.andPollIdEqualTo(pollId);
-        }
         if (StringUtils.isNotBlank(username)) {
             criteria.andUsernameLike(SqlUtils.trimLike(username));
         }
@@ -126,11 +118,15 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         if (pollId != null && count > 0){
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-            PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+            int configId = pcsPoll.getConfigId();
+            int partyId = pcsPoll.getPartyId();
+            Integer branchId = pcsPoll.getBranchId();
+            PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
+
             int requiredCount = pcsBranch.getMemberCount();
             int existCount = pcsPoll.getInspectorNum();
             if (count + existCount > requiredCount){
-                return failed("生成账号失败，生成账号后投票人账号总数超出党支部成员总数{0}人",count + existCount - requiredCount);
+                return failed("生成账号失败，账号总数超出本支部党员总数{0}人",count + existCount - requiredCount);
             }
             pcsPollInspectorService.genInspector(pollId, count);
             logger.info(log( LogConstants.LOG_PCS, "党代会投票{0}生成投票人数{1}", pollId, count));
@@ -144,10 +140,12 @@ public class PcsPollInspectorController extends PcsBaseController {
     public String pcsPollInspector_au(Integer pollId, ModelMap modelMap) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
-        int branchMemberNum = pcsBranch.getMemberCount();
-
-        modelMap.put("branchMemberNum", branchMemberNum);
+        int configId = pcsPoll.getConfigId();
+        int partyId = pcsPoll.getPartyId();
+        Integer branchId = pcsPoll.getBranchId();
+        PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
+        modelMap.put("pcsBranch", pcsBranch);
+        modelMap.put("pcsPoll", pcsPoll);
 
         return "pcs/pcsPoll/pcsPollInspector/pcsPollInspector_au";
     }
@@ -165,6 +163,59 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("drOnlineInspector:edit")
+    @RequestMapping("/pcsPollInspector_print")
+    public String pcsPollInspector_print(Integer pollId,
+                                         Integer[] ids,
+                                         ModelMap modelMap,
+                                         HttpServletResponse response,
+                                         HttpServletRequest request){
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        modelMap.put("pcsPoll", pcsPoll);
+
+        PcsPollInspectorExample example = new PcsPollInspectorExample();
+        example.setOrderByClause("id desc");
+        PcsPollInspectorExample.Criteria criteria = example.createCriteria().andPollIdEqualTo(pollId);
+        if (ids != null && ids.length > 0){
+            criteria.andIdIn(Arrays.asList(ids));
+        }
+        List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
+        modelMap.put("inspectors", inspectors);
+
+        return "pcs/pcsPoll/pcsPollInspector/inspector_print";
+    }
+
+
+    @RequiresPermissions("drOnlineInspector:edit")
+    @RequestMapping("/pcspollInspector_Result")
+    public String pcspollInspector_Result(Integer id,
+                                         ModelMap modelMap,
+                                         HttpServletResponse response,
+                                         HttpServletRequest request){
+
+        PcsPollInspectorExample example = new PcsPollInspectorExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
+
+        List<PcsPollResult> pcsPollResults = new ArrayList<>();
+        if (inspectors != null &&inspectors.size() > 0){
+
+            PcsPollInspector inspector = inspectors.get(0);
+            int pollId = inspector.getPollId();
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+            modelMap.put("stage", pcsPoll.getStage());
+            PcsPollResultExample resultExample = new PcsPollResultExample();
+            resultExample.createCriteria().andInspectorIdEqualTo(inspector.getId());
+            resultExample.setOrderByClause("type");
+            pcsPollResults = pcsPollResultMapper.selectByExample(resultExample);
+        }
+        modelMap.put("pcsPollResults", pcsPollResults);
+
+        return "pcs/pcsPoll/pcsPollInspector/pcspollInspector_Result";
+    }
+
     public void pcsPollInspector_export(Integer pollId, PcsPollInspectorExample example, HttpServletResponse response) {
 
         List<PcsPollInspector> records = pcsPollInspectorMapper.selectByExample(example);

@@ -7,16 +7,15 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.partyId || not empty param.code || not empty param.sort}"/>
             <jsp:include page="menu_pb.jsp"/>
             <div class="space-4"></div>
-            <div class="jqgrid-vertical-offset buttons">
-             <%--   <button data-url="${ctx}/pcs/pcsParty_batchSync"
+            <%--<div class="jqgrid-vertical-offset buttons">
+                <button data-url="${ctx}/pcs/pcsParty_batchSync"
                         data-title="同步信息"
                         data-msg="确定同步这{0}条数据？"
                         data-grid-id="#jqGrid"
                         class="jqBatchBtn btn btn-info btn-sm">
                     <i class="fa fa-trash"></i> 同步信息
-                </button>--%>
-
-            </div>
+                </button>
+            </div>--%>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -73,7 +72,11 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/pcs/pcsPartyList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '名称',name: 'name', width: 300, align: 'left'},
+                { label: '名称',name: 'name', width: 500, align: 'left'},
+                { label: '当前投票阶段',name: 'currentStage', width: 120, formatter: function (cellvalue, options, rowobject) {
+                    if(cellvalue==undefined) return '--'
+                    return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
+                }, frozen: true},
                 { label: '支部数量',name: 'branchCount'},
                 { label: '党员数量',name: 'memberCount'},
                 { label: '正式党员数量',name: 'positiveCount'},

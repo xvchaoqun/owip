@@ -20,8 +20,13 @@
            data-url="${ctx}/pcs/pcsParty_sync"
            data-title="同步当前党组织"
            data-msg="确定同步当前党组织？"
-           data-callback="_reload"><i class="fa fa-random"></i>
+           data-callback="_syncCallback"><i class="fa fa-random"></i>
           同步当前党组织</a>
      </shiro:hasPermission>
   </div>
 </ul>
+<script>
+  function _syncCallback(){
+    SysMsg.success("同步成功")
+  }
+</script>

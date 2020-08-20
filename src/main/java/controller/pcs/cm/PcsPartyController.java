@@ -75,8 +75,11 @@ public class PcsPartyController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         PcsPartyExample example = new PcsPartyExample();
-        PcsPartyExample.Criteria criteria = example.createCriteria();
+        PcsPartyExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
         example.setOrderByClause("sort_order desc");
 
         if (partyId!=null) {

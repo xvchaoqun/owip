@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_PR%>" var="PCS_POLL_CANDIDATE_PR"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_DW%>" var="PCS_POLL_CANDIDATE_DW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_JW%>" var="PCS_POLL_CANDIDATE_JW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
 <c:set value="<%=PcsConstants.PCS_POLL_FIRST_STAGE%>" var="PCS_POLL_FIRST_STAGE"/>
 <c:set value="<%=PcsConstants.PCS_POLL_STAGE_MAP%>" var="PCS_POLL_STAGE_MAP"/>
 <c:set value="<%=PcsConstants.PCS_POLL_THIRD_STAGE%>" var="PCS_POLL_THIRD_STAGE"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.name ||not empty param.partyId ||not empty param.branchId ||not empty param.configName ||not empty param.stage ||not empty param.hasReport}"/>
+            <c:set var="_query" value="${not empty param.name ||not empty param.partyId ||not empty param.branchId ||not empty param.stage ||not empty param.hasReport}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
                     <div class="tab-content multi-row-head-table">
@@ -25,15 +25,23 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="pcsPoll:edit">
                         <button class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/pcs/pcsPoll_au">
-                            <i class="fa fa-plus"></i> 添加</button>
+                            <i class="fa fa-plus"></i> 创建投票</button>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                            data-url="${ctx}/pcs/pcsPoll_au"
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
-
+                        <button data-url="${ctx}/pcs/pcsPoll_reportBack"
+                                data-title="退回报送"
+                                data-msg="确定退回这{0}条数据的报送结果？"
+                                data-grid-id="#jqGrid"
+                                class="jqBatchBtn btn btn-warning btn-sm">
+                            <i class="fa fa-reply"></i> 退回报送
+                        </button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=1"
                                 data-title="作废"
-                                data-msg="确定作废这{0}条数据？"
+                                data-msg="确定作废这{0}条支部的投票数据？"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-danger btn-sm">
@@ -41,26 +49,30 @@ pageEncoding="UTF-8" %>
                         </button>
                     </shiro:hasPermission>
                 </c:if>
-                <shiro:hasPermission name="pcsPoll:del">
+
                     <c:if test="${cls==5}">
+                        <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=0"
                                 data-title="撤销作废"
-                                data-msg="确定撤销这{0}条数据的作废？"
+                                data-msg="确定撤销作废这{0}条支部的投票数据？"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-warning btn-sm">
                             <i class="fa fa-reply"></i> 撤销作废
                         </button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pcsPoll:del">
                         <button data-url="${ctx}/pcs/pcsPoll_batchDel"
-                                data-title="作废"
-                                data-msg="确定删除这{0}条数据？（删除后无法恢复，请谨慎操作！）"
+                                data-title="删除"
+                                data-msg="确定删除这{0}条支部的投票数据？（删除后无法恢复，请谨慎操作！）"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-times"></i> 删除
                         </button>
+                        </shiro:hasPermission>
                     </c:if>
-                </shiro:hasPermission>
+
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/pcs/pcsPoll_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -79,6 +91,16 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
+                            <div class="form-group">
+                            <label>投票阶段</label>
+                            <select data-rel="select2" name="stage" data-placeholder="请选择" data-width="120">
+                                <option></option>
+                                <c:forEach items="${PCS_POLL_STAGE_MAP}" var="entry">
+                                    <option value="${entry.key}">${entry.value}</option>
+                                </c:forEach>
+                            </select>
+                            <script> $("#searchForm select[name=stage]").val(${param.stage}) </script>
+                        </div>
                         <div class="form-group">
                             <label>投票名称</label>
                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
@@ -105,21 +127,7 @@ pageEncoding="UTF-8" %>
                                 $.register.party_branch_select($("#searchForm"), "branchDiv",
                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                             </script>
-                            <div class="form-group">
-                                <label>党代会</label>
-                                <input class="form-control search-query" name="configName" type="text" value="${param.configName}"
-                                       placeholder="请输入党代会名称">
-                            </div>
-                        <div class="form-group">
-                            <label>投票阶段</label>
-                            <select data-rel="select2" name="stage" data-placeholder="请选择" data-width="120">
-                                <option></option>
-                                <c:forEach items="${PCS_POLL_STAGE_MAP}" var="entry">
-                                    <option value="${entry.key}">${entry.value}</option>
-                                </c:forEach>
-                            </select>
-                            <script> $("#searchForm select[name=stage]").val(${param.stage}) </script>
-                        </div>
+
                         <div class="form-group">
                             <label>是否报送</label>
                             <select data-rel="select2" name="hasReport" data-placeholder="请选择" data-width="120">
@@ -171,12 +179,15 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/pcs/pcsPoll_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
-              if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
+              if (rowObject.hasReport) return '<span class="text-success">已报送</span>';
+              <c:if test="${cls==5}">return '--'</c:if>
+
               return ('<button class="jqOpenViewBtn btn btn-success btn-xs" data-width="800" title="{2}" ' +
               'data-url="${ctx}/pcs/pcsPoll_report?id={0}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
                       .format(rowObject.id, $.trim(rowObject.reportMsg)==''? '' : 'disabled', $.trim(rowObject.reportMsg));
 
             }, frozen:true},
+
             { label: '投票阶段',name: 'stage', formatter: function (cellvalue, options, rowobject) {
                     return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
                 }, frozen: true},
@@ -203,38 +214,30 @@ pageEncoding="UTF-8" %>
                 }},
             {
                 label: '投票结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
-                    var stage = rowObject.stage;
-                    var type = stage==${PCS_POLL_THIRD_STAGE}?"${PCS_POLL_CANDIDATE_DW}":"${PCS_POLL_CANDIDATE_PR}";
                     return $.button.openView({
                         style:"btn-info",
-                        url:"${ctx}/pcs/pcsPollResult_menu?type=" + type + "&pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollResult?pollId="+rowObject.id,
                         icon:"fa-bar-chart",
                         label:"查看"});
                 }, width: 80
             },
-            { label: '所属${_p_partyName}',name: 'partyId',align:'left', width: 300, formatter:function(cellvalue, options, rowObject){
-                return $.party(rowObject.partyId);
-            }},
-            { label: '所属支部',name: 'branchId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
-                    return $.party(null,rowObject.branchId);
-                }},
-
-
-            { label: '党委委员<br/>最大推荐人数',name: 'dwNum'},
-            { label: '纪委委员<br/>最大推荐人数',name: 'jwNum'},
-            { label: '代表<br/>最大推荐人数',name: 'prNum'},
-
-            { label: '推荐人管理',name: '_candidate', width:80, formatter: function (cellvalue, options, rowObject) {
+            { label: '所属${_p_partyName}',name: 'partyName',align:'left', width: 400},
+            { label: '所属党支部',name: 'branchName',align:'left', width: 300},
+            /*{ label: '推荐人管理',name: '_candidate', width:80, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.stage==${PCS_POLL_FIRST_STAGE}) return "--";
                     return $.button.openView({
                         style:"btn-success",
                         url:"${ctx}/pcs/pcsPollCandidate?pollId="+rowObject.id,
                         icon:"fa-list",
                         label:"查看"});
-                }},
+             }},*/
 
             { label: '投票起始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '投票截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
+
+            { label: '报送日期',name: 'reportDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
+            { label: '应参会<br/>党员数',name: 'expectMemberCount'},
+            { label: '实际参会<br/>党员数',name: 'actualMemberCount'},
             { label: '备注',name: 'remark',width: 252}
         ]
     }).jqGrid("setFrozenColumns");

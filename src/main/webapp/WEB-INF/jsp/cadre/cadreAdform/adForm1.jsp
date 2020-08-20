@@ -259,7 +259,7 @@ td.bolder{font-weight: bolder}
           历
         </div>
       </td>
-      <td class="td12 padding10 resume" colspan="8" style="vertical-align: middle;line-height: 25px">
+      <td class="td12 padding10 resume" colspan="8" style="vertical-align: top;line-height: 25px">
         <%--<c:if test="${empty bean.resumeDesc}">
         <c:if test="${not empty bean.learnDesc}">
           <p style="font-weight: bolder;">学习经历：</p>

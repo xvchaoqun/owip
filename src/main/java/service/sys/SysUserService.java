@@ -710,7 +710,7 @@ public class SysUserService extends BaseMapper {
         }
 
         // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
-        if (userRoles.contains(RoleConstants.ROLE_PCS_ADMIN)) {
+        if (userRoles.contains(RoleConstants.ROLE_PCS_PARTY)) {
 
             PcsAdminService pcsAdminService = CmTag.getBean(PcsAdminService.class);
             if (pcsAdminService != null) {

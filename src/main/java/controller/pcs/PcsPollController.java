@@ -51,13 +51,16 @@ public class PcsPollController extends PcsBaseController {
             modelMap.put("branch", branchMapper.selectByPrimaryKey(branchId));
         }
 
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        if (pcsConfig == null){
+            throw new OpException("请先设置当前党代会");
+        }
+
         PcsPollExample example = new PcsPollExample();
-        PcsPollExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(true);
+        PcsPollExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(true).andConfigIdEqualTo(pcsConfig.getId());
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        modelMap.put("cancelCount", pcsPollMapper.countByExample(example));
 
-        List<PcsPoll> pcsPolls = pcsPollMapper.selectByExample(example);
-
-        modelMap.put("cancelCount", pcsPolls != null ? pcsPolls.size() : "0");
         if (cls == 1 || cls==5){
             return "/pcs/pcsPoll/pcsPoll_page";
         }
@@ -69,7 +72,7 @@ public class PcsPollController extends PcsBaseController {
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-        return "/pcs/pcsPoll/pcsPollResult";
+        return "/pcs/pcsPoll/pcsPollReport/pcsPollReport_list_page";
     }
 
     @RequiresPermissions("pcsPoll:list")
@@ -100,7 +103,7 @@ public class PcsPollController extends PcsBaseController {
         }
         PcsPollExample example = new PcsPollExample();
         Criteria criteria = example.createCriteria().andConfigIdEqualTo(pcsConfig.getId());
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("stage desc, id desc");
 
         criteria.andIsDeletedEqualTo(cls == 5);
 
@@ -166,13 +169,19 @@ public class PcsPollController extends PcsBaseController {
             return failed("投票未开启");
         }
 
+        record.setPartyName(pcsParty.getName());
         record.setConfigId(configId); // 默认当前党代会
         record.setStage(currentStage); // 默认为当前阶段
+
+        if(record.getBranchId()!=null) {
+            PcsBranch pcsBranch = pcsBranchService.get(configId, partyId, record.getBranchId());
+            record.setBranchName(pcsBranch.getName());
+        }
 
         if (currentStage == PcsConstants.PCS_POLL_THIRD_STAGE){
             record.setPrNum(0);
         }else {
-            record.setPrNum(pcsPollCandidateService.getPrMaxCount(record.getPartyId()));
+            record.setPrNum(pcsPrAlocateService.getPrMaxCount(configId, partyId));
         }
 
         try {
@@ -182,11 +191,15 @@ public class PcsPollController extends PcsBaseController {
             throw new OpException("参数设置错误");
         }
 
-        if (pcsPollService.isPcsPollExisted(record)){
-            throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
-        }
-
         if (id == null) {
+
+            Integer branchId = record.getBranchId();
+            PcsPoll pcsPoll = pcsPollService.get(configId, currentStage, partyId, branchId);
+
+            if (pcsPoll!=null){
+                throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
+            }
+
             pcsPollService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PCS, "添加党代会投票：{0}", record.getId()));
         } else {
@@ -311,7 +324,10 @@ public class PcsPollController extends PcsBaseController {
         Byte stage = pcsPoll.getStage();
         modelMap.put("stage", stage);
 
-        PcsBranch pcsBranch = pcsPollInspectorService.getPcsBranch(pcsPoll);
+        int configId = pcsPoll.getConfigId();
+        int partyId = pcsPoll.getPartyId();
+        Integer branchId = pcsPoll.getBranchId();
+        PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
         modelMap.put("allCount", pcsBranch.getMemberCount());
         modelMap.put("positiveCount", pcsBranch.getPositiveCount());
         modelMap.put("inspectorNum", pcsPoll.getInspectorNum());
@@ -325,23 +341,17 @@ public class PcsPollController extends PcsBaseController {
         Map<Byte, Integer> candidateCountMap = new HashMap<>();
         Map<Byte, Integer> hasCountMap = new HashMap<>();
         int candidateCount = 0;//候选人数
-        for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
+        for (Byte key : PcsConstants.PCS_USER_TYPE_MAP.keySet()){
 
-            /*if (key == PcsConstants.PCS_POLL_CANDIDATE_PR && stage == PcsConstants.PCS_POLL_THIRD_STAGE){
-                candidateCountMap.put(key, candidateCount);
-                continue;
-            }*/
-
-            if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                candidateCount =  iPcsMapper.countResult(key, pollIdList, stage, true, null, null, null, null, null);
-            }else{
-                candidateCount = iPcsMapper.countSecondResult(key, pollIdList, stage, true, null, null, null, null, null);
-            }
+            List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(key, pcsPoll.getConfigId(),
+                    stage, pcsPoll.getPartyId(), pcsPoll.getBranchId());
+            candidateCount = pcsPollReportList.size();
             candidateCountMap.put(key, candidateCount);
         }
-        int prNum = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_PR);
-        int dwNum = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_DW);
-        int jwNum = candidateCountMap.get(PcsConstants.PCS_POLL_CANDIDATE_JW);
+
+        int prNum = candidateCountMap.get(PcsConstants.PCS_USER_TYPE_PR);
+        int dwNum = candidateCountMap.get(PcsConstants.PCS_USER_TYPE_DW);
+        int jwNum = candidateCountMap.get(PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("prNum", prNum);
         modelMap.put("dwNum", dwNum);
         modelMap.put("jwNum", jwNum);
@@ -352,21 +362,36 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsPoll_report(HttpServletRequest request, Integer id) {
+    public Map pcsPoll_report(HttpServletRequest request, int id, int expectMemberCount, int actualMemberCount) {
 
-        if (id != null){
+        //权限判断
+        pcsPollService.checkPollEditAuth(id);
+
+        pcsPollService.report(id, expectMemberCount, actualMemberCount);
+        logger.info(log(LogConstants.LOG_PCS, "报送党代会投票：{0}", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPoll:abolish")
+    @RequestMapping(value = "/pcsPoll_reportBack", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsPoll_reportBack(HttpServletRequest request,  Integer[] ids) {
+
+        if (null != ids && ids.length>0){
 
             //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(id));
+            pcsPollService.checkPollEditAuth(Arrays.asList(ids));
 
-            pcsPollService.report(id);
-            logger.info(log( LogConstants.LOG_PCS, "批量报送党代会投票：{0}", id));
+            pcsPollService.reportBack(ids);
+            logger.info(log( LogConstants.LOG_PCS, "批量回退报送投票结果：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsPoll:del")
+
+    @RequiresPermissions("pcsPoll:abolish")
     @RequestMapping(value = "/pcsPoll_batchCancel", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsPoll_batchCancel(HttpServletRequest request, Integer[] ids, boolean isDeleted) {
@@ -374,14 +399,7 @@ public class PcsPollController extends PcsBaseController {
         if (null != ids && ids.length>0){
 
             //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(ids));
-
-            for (Integer id : ids) {
-                PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
-                if (pcsPoll.getHasReport()){
-                    throw new OpException("{0}的{1}党代会投票已报送，不能作废", PcsConstants.PCS_STAGE_MAP.get(pcsPoll.getStage()), pcsPoll.getName());
-                }
-            }
+            pcsPollService.checkPollEditAuth(Arrays.asList(ids));
 
             pcsPollService.batchCancel(ids, isDeleted);
             logger.info(log( LogConstants.LOG_PCS, "批量{1}党代会投票：{0}", StringUtils.join(ids, ",")), isDeleted?"作废":"取消作废");
@@ -390,6 +408,7 @@ public class PcsPollController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 删除投票
     @RequiresPermissions("pcsPoll:del")
     @RequestMapping(value = "/pcsPoll_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -398,7 +417,7 @@ public class PcsPollController extends PcsBaseController {
         if (null != ids && ids.length>0){
 
             //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(ids));
+            pcsPollService.checkPollEditAuth(Arrays.asList(ids));
 
             pcsPollService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PCS, "批量删除党代会投票：{0}", StringUtils.join(ids, ",")));
@@ -410,7 +429,8 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_noticeEdit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPoll_noticeEdit(Integer id, String notice, Integer isMobile, HttpServletRequest request) {
+    public Map do_pcsPoll_noticeEdit(int id, String notice, Integer isMobile, HttpServletRequest request) {
+
 
         PcsPoll record = new PcsPoll();
         record.setId(id);

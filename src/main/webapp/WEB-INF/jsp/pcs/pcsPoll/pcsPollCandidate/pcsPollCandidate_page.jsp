@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=PcsConstants.PCS_POLL_CANDIDATE_TYPE%>" var="PCS_POLL_CANDIDATE_TYPE"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -45,7 +45,7 @@
             { label: '学工号',name: 'user.code', width:120},
             { label: '推荐人',name: 'user.realname'},
             { label: '推荐人类型',name: 'type', width: 120,formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.PCS_POLL_CANDIDATE_TYPE[cellvalue];
+                    return _cMap.PCS_USER_TYPE_MAP[cellvalue];
                 }},
             <c:if test="${!_query}">
             { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,

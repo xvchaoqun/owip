@@ -7,6 +7,51 @@
   "resFolder": "",
   "tables": [
     {
+      "table": "pcs_poll_report",
+      "key": "id",
+      "searchColumns": "user_id,party_id,branch_id,stage,type",
+      "showColumns": "user_id,config_id,party_id,branch_id,stage,type,ballot,positive_ballot,grow_ballot,disagree_ballot,abstain_ballot,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": false
+    },
+    {
+      "table": "pcs_poll",
+      "key": "id",
+      "searchColumns": "name,party_id,branch_id,config_id,is_second,has_report",
+      "showColumns": "name,party_id,branch_id,config_id,is_second,has_report,pr_num,dw_num,jw_num,inspector_num,notice,mobile_notice,inspector_notice,start_time,end_time,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": true
+    },
+    {
+      "table": "pcs_poll_candidate",
+      "key": "id",
+      "searchColumns": "poll_id,user_id,type",
+      "showColumns": "poll_id,user_id,type,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": true
+    },
+    {
+      "table": "pcs_poll_inspector",
+      "key": "id",
+      "searchColumns": "poll_id,username,party_id,branch_id,is_positive",
+      "showColumns": "poll_id,username,passwd,party_id,branch_id,is_positive,is_finished,is_mobile,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": true
+    },
+    {
+      "table": "pcs_poll_result",
+      "key": "id",
+      "searchColumns": "candidate_user_id,is_second,party_id,branch_id,is_positive,user_id",
+      "showColumns": "poll_id,candidate_user_id,inspector_id,is_second,party_id,branch_id,is_positive,status,user_id,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": true
+    },
+    {
       "table": "pcs_config",
       "key": "id",
       "searchColumns": "name",

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.MetaTypeService;
 import service.party.PartyMemberService;
-import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
@@ -43,11 +42,7 @@ public class PcsAdminService extends PcsBaseMapper {
     @Autowired
     private PartyMemberService partyMemberService;
     @Autowired
-    private PartyService partyService;
-    @Autowired
     private ShortMsgService shortMsgService;
-    @Autowired
-    private PcsPartyService pcsPartyService;
 
     // 后台同步党代会管理员角色：
     // 1、删除所有党代会的所有书记、副书记管理员
@@ -69,7 +64,7 @@ public class PcsAdminService extends PcsBaseMapper {
                     pcsNormalAdminIds.add(userId);
                 } else {
 
-                    sysUserService.delRole(userId, RoleConstants.ROLE_PCS_ADMIN);
+                    sysUserService.delRole(userId, RoleConstants.ROLE_PCS_PARTY);
                     pcsAdminMapper.deleteByPrimaryKey(pcsAdmin.getId());
                 }
             }
@@ -118,7 +113,7 @@ public class PcsAdminService extends PcsBaseMapper {
                     PcsConstants.PCS_ADMIN_TYPE_SECRETARY : PcsConstants.PCS_ADMIN_TYPE_VICE_SECRETARY);
             pcsAdminMapper.insertSelective(record);
 
-            sysUserService.addRole(userId, RoleConstants.ROLE_PCS_ADMIN);
+            sysUserService.addRole(userId, RoleConstants.ROLE_PCS_PARTY);
         }
 
     }
@@ -189,7 +184,7 @@ public class PcsAdminService extends PcsBaseMapper {
             PcsAdmin _pcsAdmin = pcsAdminMapper.selectByPrimaryKey(record.getId());
             if (_pcsAdmin.getUserId().intValue() != record.getUserId()) {
                 // 更换用户的情况，先删除原用户的管理员角色
-                sysUserService.delRole(_pcsAdmin.getUserId(), RoleConstants.ROLE_PCS_ADMIN);
+                sysUserService.delRole(_pcsAdmin.getUserId(), RoleConstants.ROLE_PCS_PARTY);
 
                 pcsAdminMapper.updateByPrimaryKeySelective(record);
             }
@@ -197,7 +192,7 @@ public class PcsAdminService extends PcsBaseMapper {
             pcsAdminMapper.insertSelective(record);
         }
         // 添加管理员角色
-        sysUserService.addRole(userId, RoleConstants.ROLE_PCS_ADMIN);
+        sysUserService.addRole(userId, RoleConstants.ROLE_PCS_PARTY);
 
         // 如果有手机号码，则更新系统的手机号码
         if (StringUtils.isNotBlank(mobile)) {
@@ -216,7 +211,7 @@ public class PcsAdminService extends PcsBaseMapper {
             PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
 
             Integer userId = pcsAdmin.getUserId();
-            sysUserService.delRole(userId, RoleConstants.ROLE_PCS_ADMIN);
+            sysUserService.delRole(userId, RoleConstants.ROLE_PCS_PARTY);
         }
 
         PcsAdminExample example = new PcsAdminExample();

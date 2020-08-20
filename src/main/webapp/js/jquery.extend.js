@@ -2109,11 +2109,13 @@ $.extend($.register, {
             }
 
             var callback = $this.data("callback");
-            var evalFn = eval(callback);
-            if (typeof evalFn != "function"){
-                console.log(callback + " is not a function");
-            }else {
-                evalFn($this);
+            if($.trim(callback)!='') {
+                var evalFn = eval(callback);
+                if (typeof evalFn != "function") {
+                    console.log(callback + " is not a function");
+                } else {
+                    evalFn($this);
+                }
             }
         }).change();
         $('select[name=' + partyId + ']', $container).on("select2:unselect", function () {

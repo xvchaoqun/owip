@@ -1,8 +1,8 @@
 package controller.pcs;
 
 import domain.pcs.PcsPoll;
+import domain.pcs.PcsPollReport;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -10,22 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsFinalResult;
-import shiro.ShiroHelper;
-import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,49 +29,57 @@ public class PcsPollResultController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("pcsPollResult:list")
-    @RequestMapping("/pcsPollResult_menu")
-    public String pcsPollResult_menu() {
-
-        return "pcs/pcsPoll/pcsPollResult/menu";
-    }
 
     @RequiresPermissions("pcsPollResult:list")
     @RequestMapping("/pcsPollResult")
-    public String pcsPollResult(Integer pollId,
+    public String pcsPollResult(@RequestParam(required = false,defaultValue = "1")byte cls, // cls=4 候选人名单
+                                @RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
+                                Integer pollId,
                                 Integer userId,
                                 ModelMap modelMap) {
 
+        modelMap.put("cls", cls);
+        modelMap.put("type", type);
+
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-        modelMap.put("pcsPoll", pcsPoll);
         Byte stage = pcsPoll.getStage();
         modelMap.put("stage", stage);
 
-        //页面显示三类人选的人数
-        List<Integer> pollIdList = new ArrayList<>();
-        pollIdList.add(pollId);
-        Map<Byte, Integer> candidateCountMap = new HashMap<>();
-        Map<Byte, Integer> hasCountMap = new HashMap<>();
-        int candidateCount = 0;//候选人数
-        int hasCount = 0;//党支部现有的总推荐人数
-        for (Byte key : PcsConstants.PCS_POLL_CANDIDATE_TYPE.keySet()){
-            if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                candidateCount =  iPcsMapper.countResult(key, pollIdList, stage, true, null, null, null, null, null);
-                hasCount = iPcsMapper.countResult(key, pollIdList, stage, null, null, null, null, null, null);
-            }else{
-                candidateCount = iPcsMapper.countSecondResult(key, pollIdList, stage, true, null, null, null, null, null);
-                hasCount = iPcsMapper.countSecondResult(key, pollIdList, stage, null, null, null, null, null, null);
-            }
-            candidateCountMap.put(key, candidateCount);
-            hasCountMap.put(key, hasCount);
+        if (stage != PcsConstants.PCS_POLL_THIRD_STAGE) {
+            List<PcsPollReport> prReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_PR);
+            modelMap.put("prCount", prReportList.size());
         }
 
-        modelMap.put("candidateCountMap", candidateCountMap);
+        List<PcsPollReport> dwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_DW);
+        modelMap.put("dwCount", dwReportList.size());
+        List<PcsPollReport> jwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_JW);
+        modelMap.put("jwCount", jwReportList.size());
+
+        modelMap.put("pcsPoll", pcsPoll);
+
+
+        //页面显示三类人选的人数
+        Map<Byte, Integer> hasCountMap = new HashMap<>();
+        int hasCount = 0;//党支部现有的总推荐人数
+        for (Byte _type : PcsConstants.PCS_USER_TYPE_MAP.keySet()){
+            if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
+                hasCount = iPcsMapper.countResult(pollId, _type);
+            }else{
+                hasCount = iPcsMapper.countSecondResult(pollId, _type);
+            }
+            hasCountMap.put(_type, hasCount);
+        }
+
         modelMap.put("hasCountMap", hasCountMap);
 
 
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        if (cls == 4){
+
+            return "pcs/pcsPoll/pcsPollReport/pcsPollReport_page";
         }
 
         return "pcs/pcsPoll/pcsPollResult/pcsPollResult_page";
@@ -88,13 +89,8 @@ public class PcsPollResultController extends PcsBaseController {
     @RequestMapping("/pcsPollResult_data")
     @ResponseBody
     public void pcsPollResult_data(HttpServletResponse response,
-                                   Integer pollId,
-                                   Integer partyId,
-                                   Integer branchId,
-                                   Integer userId,
-                                   Byte stage,
-                                   Byte type,
-                                   Boolean isCandidate,
+                                   int pollId,
+                                   @RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -105,34 +101,14 @@ public class PcsPollResultController extends PcsBaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-        List<Integer> pollIdList = new ArrayList<>();
-        List<Integer> partyIdList = new ArrayList<>();
-        List<Integer> branchIdList = new ArrayList<>();
 
-        if (pollId != null) {
-            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-            stage = pcsPoll.getStage();
-            pollIdList.add(pollId);
-        }else {
-            pollIdList = pcsPollService.getCurrentPcsPollId();
-        }
-
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
-            partyIdList = loginUserService.adminPartyIdList();
-            branchIdList = loginUserService.adminBranchIdList();
-        }
-
-        /*if (export == 1) {
-
-            List<PcsFinalResult> pcsFinalResults = iPcsMapper.selectResultList(pollId, new RowBounds());
-            drExportService.exportOnlineResult(onlineId, drFinalResults, response);
-            return;
-        }*/
         int count = 0;
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        byte stage = pcsPoll.getStage();
         if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
-            count = iPcsMapper.countSecondResult(type, pollIdList, stage, isCandidate,  userId, partyId, branchId, partyIdList, branchIdList);
+            count = iPcsMapper.countSecondResult(pollId, type);
         }else {
-            count = iPcsMapper.countResult(type, pollIdList, stage, isCandidate, userId, partyId, branchId, partyIdList, branchIdList);
+            count = iPcsMapper.countResult(pollId, type);
         }
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
@@ -140,11 +116,9 @@ public class PcsPollResultController extends PcsBaseController {
 
         List<PcsFinalResult> pcsFinalResults = null;
         if (stage != PcsConstants.PCS_POLL_FIRST_STAGE) {
-            pcsFinalResults = iPcsMapper.selectSecondResultList(type, pollIdList, stage, isCandidate, userId, partyId, branchId, partyIdList, branchIdList,
-                    new RowBounds((pageNo - 1) * pageSize, pageSize));
+            pcsFinalResults = iPcsMapper.selectSecondResultList(pollId, type, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }else {
-            pcsFinalResults = iPcsMapper.selectResultList(type, pollIdList, stage, isCandidate, userId, partyId, branchId, partyIdList, branchIdList,
-                    new RowBounds((pageNo - 1) * pageSize, pageSize));
+            pcsFinalResults = iPcsMapper.selectResultList(pollId, type, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -158,23 +132,5 @@ public class PcsPollResultController extends PcsBaseController {
         //baseMixins.put(drOnlineResult.class, drOnlineResultMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequiresPermissions("pcsPoll:edit")
-    @RequestMapping(value = "/pcsPollResult_cancel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pcsPollResult_cancel(HttpServletRequest request,
-                                       Integer[] ids,//对应查出来结果的userId
-                                       Boolean isCandidate,
-                                       Integer pollId,
-                                       Byte type) {
-
-        if (null != ids && ids.length>0){
-            pcsPollResultService.batchCancel(ids, isCandidate, pollId, type);
-            logger.info(log( LogConstants.LOG_PCS, "批量{1}：{0}", StringUtils.join(ids, ","),
-                    isCandidate ? "设置候选人":"取消候选人资格"));
-        }
-
-        return success(FormUtils.SUCCESS);
     }
 }
