@@ -513,7 +513,7 @@
 
     <!--统计报送结果-->
     <select id="selectReport" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
-        select r.user_id as userId, r.type as type, count(*) as branchNum,
+        select r.user_id as userId, r.code, r.realname, r.type as type, count(*) as branchNum,
         sum(r.positive_ballot) as positiveBallot,sum(r.ballot) AS supportNum, sum(r.grow_ballot) as growBallot,
         sum(r.disagree_ballot) as notSupportNum, sum(r.abstain_ballot) as notVoteNum
         from pcs_poll_report r

@@ -21,13 +21,13 @@ pageEncoding="UTF-8" %>
                 <c:if test="${!pcsPoll.hasReport}">
                     <div class="jqgrid-vertical-offset buttons">
                         <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=1&type=${param.type}&pollId=${param.pollId}"
-                                data-title="设置候选人"
-                                data-msg="确定将这{0}条数据设置为候选人？"
+                                data-title="候选人推荐人选"
+                                data-msg="确定将这{0}名候选人设置为候选人推荐人选？"
                                 date-id-name="userId"
                                 data-grid-id="#jqGrid2"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-success btn-sm">
-                            <i class="fa fa-user"></i> 设置候选人
+                            <i class="fa fa-user"></i> 设置为候选人推荐人选
                         </button>
                         <%--<shiro:hasPermission name="pcsPollResult:edit">
                              <button class="jqExportBtn btn btn-success btn-sm tooltip-success"

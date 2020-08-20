@@ -54,16 +54,16 @@ public class PcsPollReportService extends PcsBaseMapper {
     }
 
     @Transactional
-    public void batchInsert(Integer[] userIds,
+    public void batchInsertOrUpdate(Integer[] userIds,
                        Boolean isCandidate,
                        int pollId, byte type) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-        Integer configId = pcsPoll.getConfigId();
-        Integer partyId = pcsPoll.getPartyId();
+        int configId = pcsPoll.getConfigId();
+        int partyId = pcsPoll.getPartyId();
         Integer branchId = pcsPoll.getBranchId();
 
-        Byte stage = pcsPoll.getStage();
+        byte stage = pcsPoll.getStage();
 
         List<Integer> pollIdList = new ArrayList<>();
         pollIdList.add(pollId);
@@ -78,22 +78,22 @@ public class PcsPollReportService extends PcsBaseMapper {
                 reportCriteria.andBranchIdEqualTo(branchId);
             }
             List<PcsPollReport> reportList = pcsPollReportMapper.selectByExample(reportExample);
-            Set<Integer> userIdSet  = new HashSet<>();
-            Set<Integer> _userIdSet = new HashSet<>();//用于更新和插入候选人
+
+            Set<Integer> selectedUserIdSet = new HashSet<>(); // 已选推荐人
             for (PcsPollReport _pcsPollReport : reportList){
-                userIdSet.add(_pcsPollReport.getUserId());
+                selectedUserIdSet.add(_pcsPollReport.getUserId());
             }
-            _userIdSet.addAll(userIdSet);
-            userIdSet.addAll(Arrays.asList(userIds));
+
             int requiredCount = 0;
             if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
-                requiredCount = pcsPrAlocateService.getPrMaxCount(partyId);
+                requiredCount = pcsPrAlocateService.getPrMaxCount(configId, partyId);
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
             }
-            if (userIdSet.size() > requiredCount){
+            if ((selectedUserIdSet.size() + userIds.length) > requiredCount){
+
                 throw new OpException("设置失败，超过{0}的最大推荐数量({1})",
                         PcsConstants.PCS_POLL_CANDIDATE_TYPE.get(type), requiredCount);
             }
@@ -123,7 +123,7 @@ public class PcsPollReportService extends PcsBaseMapper {
                 record.setDisagreeBallot(finalResult.getNotSupportNum()==null?0:finalResult.getNotSupportNum());
                 record.setAbstainBallot(finalResult.getNotVoteNum()==null?0:finalResult.getNotVoteNum());
 
-                if (_userIdSet.contains(userId)){
+                if (selectedUserIdSet.contains(userId)){
                     PcsPollReportExample example = new PcsPollReportExample();
                     PcsPollReportExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type).andStageEqualTo(stage)
                             .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);

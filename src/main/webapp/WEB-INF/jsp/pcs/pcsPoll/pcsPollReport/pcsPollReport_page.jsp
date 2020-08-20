@@ -23,12 +23,12 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="pcsPollReport:edit">
                         <c:if test="${!pcsPoll.hasReport}">
                             <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=0&_type=${_type}&pollId=${param.pollId}"
-                                    data-title="取消候选人"
-                                    data-msg="确定取消这{0}条数据的候选人资格？"
+                                    data-title="取消候选人推荐人选"
+                                    data-msg="确定取消这{0}名候选人推荐人选？"
                                     data-grid-id="#jqGrid2"
                                     data-callback="_ReLoadPage1"
                                     class="jqBatchBtn btn btn-danger btn-sm">
-                                <i class="ace-icon fa fa-times"></i> 取消候选人资格
+                                <i class="ace-icon fa fa-times"></i> 取消候选人推荐人选
                             </button>
                         </c:if>
                     </shiro:hasPermission>

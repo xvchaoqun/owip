@@ -1,9 +1,7 @@
 package service.pcs;
 
-import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrAllocateExample;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,14 +13,8 @@ import java.util.List;
 @Service
 public class PcsPrAlocateService extends PcsBaseMapper {
 
-    @Autowired
-    private PcsConfigService pcsConfigService;
-
     //读取分党委的代表最大推荐数量
-    public int getPrMaxCount(int partyId) {
-
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        int configId = currentPcsConfig.getId();
+    public int getPrMaxCount(int configId, int partyId) {
 
         PcsPrAllocate pcsPrAllocate = get(configId, partyId);
 

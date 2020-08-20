@@ -48,7 +48,7 @@ public class PcsPollReportController extends PcsBaseController {
             if (type == null){
                 type = _type;
             }
-            pcsPollReportService.batchInsert(ids, isCandidate, pollId, type);
+            pcsPollReportService.batchInsertOrUpdate(ids, isCandidate, pollId, type);
             logger.info(log( LogConstants.LOG_PCS, "批量{1}：{0}", StringUtils.join(ids, ","),
                     isCandidate ? "设置候选人":"取消候选人资格"));
         }
