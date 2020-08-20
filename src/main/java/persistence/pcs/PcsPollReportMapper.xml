@@ -9,6 +9,9 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="ballot" jdbcType="INTEGER" property="ballot" />
     <result column="positive_ballot" jdbcType="INTEGER" property="positiveBallot" />
     <result column="grow_ballot" jdbcType="INTEGER" property="growBallot" />
@@ -75,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, config_id, party_id, branch_id, stage, type, ballot, positive_ballot, 
-    grow_ballot, disagree_ballot, abstain_ballot, remark
+    id, user_id, config_id, party_id, branch_id, stage, type, code, realname, unit, ballot, 
+    positive_ballot, grow_ballot, disagree_ballot, abstain_ballot, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPollReportExample" resultMap="BaseResultMap">
     select
@@ -111,12 +114,14 @@
   <insert id="insert" parameterType="domain.pcs.PcsPollReport">
     insert into pcs_poll_report (id, user_id, config_id, 
       party_id, branch_id, stage, 
-      type, ballot, positive_ballot, 
+      type, code, realname, 
+      unit, ballot, positive_ballot, 
       grow_ballot, disagree_ballot, abstain_ballot, 
       remark)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
       #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{type,jdbcType=TINYINT}, #{ballot,jdbcType=INTEGER}, #{positiveBallot,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{ballot,jdbcType=INTEGER}, #{positiveBallot,jdbcType=INTEGER}, 
       #{growBallot,jdbcType=INTEGER}, #{disagreeBallot,jdbcType=INTEGER}, #{abstainBallot,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
@@ -143,6 +148,15 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="unit != null">
+        unit,
       </if>
       <if test="ballot != null">
         ballot,
@@ -184,6 +198,15 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="ballot != null">
         #{ballot,jdbcType=INTEGER},
@@ -235,6 +258,15 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
       <if test="record.ballot != null">
         ballot = #{record.ballot,jdbcType=INTEGER},
       </if>
@@ -267,6 +299,9 @@
       branch_id = #{record.branchId,jdbcType=INTEGER},
       stage = #{record.stage,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
       ballot = #{record.ballot,jdbcType=INTEGER},
       positive_ballot = #{record.positiveBallot,jdbcType=INTEGER},
       grow_ballot = #{record.growBallot,jdbcType=INTEGER},
@@ -298,6 +333,15 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="ballot != null">
         ballot = #{ballot,jdbcType=INTEGER},
       </if>
@@ -327,6 +371,9 @@
       branch_id = #{branchId,jdbcType=INTEGER},
       stage = #{stage,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
       ballot = #{ballot,jdbcType=INTEGER},
       positive_ballot = #{positiveBallot,jdbcType=INTEGER},
       grow_ballot = #{growBallot,jdbcType=INTEGER},

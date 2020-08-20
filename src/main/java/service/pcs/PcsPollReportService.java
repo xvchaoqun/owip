@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollReport;
 import domain.pcs.PcsPollReportExample;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,9 @@ import java.util.*;
 public class PcsPollReportService extends PcsBaseMapper {
 
     @Autowired
-    private PcsPollCandidateService pcsPollCandidateService;
+    private PcsPrAlocateService pcsPrAlocateService;
 
+    //
     public List<PcsPollReport> getReport(PcsPoll pcsPoll, Byte type){
 
         Integer partyId = pcsPoll.getPartyId();
@@ -39,7 +41,8 @@ public class PcsPollReportService extends PcsBaseMapper {
         return reportList;
     }
 
-    public List<PcsPollReport> getReport(Byte type, Integer configId, Byte stage, Integer partyId, Integer branchId){
+    public List<PcsPollReport> getReport(byte type, int configId, byte stage, int partyId, Integer branchId){
+
         PcsPollReportExample example = new PcsPollReportExample();
         PcsPollReportExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type).andConfigIdEqualTo(configId)
                 .andStageEqualTo(stage).andPartyIdEqualTo(partyId);
@@ -51,17 +54,9 @@ public class PcsPollReportService extends PcsBaseMapper {
     }
 
     @Transactional
-    public void insert(List<PcsPollReport> records) {
-
-        for (PcsPollReport record : records) {
-            pcsPollReportMapper.insertSelective(record);
-        }
-    }
-
-    @Transactional
-    public void batchReport(Integer[] userIds,
-                            Boolean isCandidate,
-                            int pollId, byte type) {
+    public void batchInsert(Integer[] userIds,
+                       Boolean isCandidate,
+                       int pollId, byte type) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         Integer configId = pcsPoll.getConfigId();
@@ -74,6 +69,7 @@ public class PcsPollReportService extends PcsBaseMapper {
         pollIdList.add(pollId);
 
         if (isCandidate) {//设置为候选人
+
             //计算候选人是否超过指定数值
             PcsPollReportExample reportExample = new PcsPollReportExample();
             PcsPollReportExample.Criteria reportCriteria = reportExample.createCriteria().andConfigIdEqualTo(configId).
@@ -91,7 +87,7 @@ public class PcsPollReportService extends PcsBaseMapper {
             userIdSet.addAll(Arrays.asList(userIds));
             int requiredCount = 0;
             if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
-                requiredCount = pcsPollCandidateService.getPrMaxCount(partyId);
+                requiredCount = pcsPrAlocateService.getPrMaxCount(partyId);
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
@@ -104,8 +100,13 @@ public class PcsPollReportService extends PcsBaseMapper {
 
             for (Integer userId : userIds) {
 
+                SysUserView uv = CmTag.getUserById(userId);
+
                 PcsPollReport record = new PcsPollReport();
                 record.setUserId(userId);
+                record.setCode(uv.getCode());
+                record.setRealname(uv.getRealname());
+                record.setUnit(uv.getUnit());
                 record.setConfigId(configId);
                 record.setPartyId(partyId);
                 if (branchId != null){

@@ -499,8 +499,7 @@
     </select>
 
     <sql id="selectReport_where">
-        r.stage=#{stage} and r.config_id=#{configId} and pp.has_report=1 and pp.config_id=r.config_id
-        and pp.stage=r.stage and pp.party_id=r.party_id and pp.branch_id=r.branch_id
+        r.stage=#{stage} and r.config_id=#{configId} and pp.has_report=1
         <if test="partyId != null">
             and r.party_id = #{partyId}
         </if>
@@ -514,14 +513,16 @@
 
     <!--统计报送结果-->
     <select id="selectReport" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
-        select r.user_id as userId, r.type as type, ifnull(count(distinct r.branch_id), 1) as branchNum,
+        select r.user_id as userId, r.type as type, count(*) as branchNum,
         sum(r.positive_ballot) as positiveBallot,sum(r.ballot) AS supportNum, sum(r.grow_ballot) as growBallot,
         sum(r.disagree_ballot) as notSupportNum, sum(r.abstain_ballot) as notVoteNum
-        from pcs_poll_report r,pcs_poll pp
+        from pcs_poll_report r
+        left join pcs_poll pp on pp.config_id=r.config_id and pp.stage=r.stage
+        and (pp.branch_id=r.branch_id or (pp.branch_id is null and pp.party_id=r.party_id))
         <where>
             <include refid="selectReport_where"/>
         </where>
-        group by r.type, r.user_id order by r.type desc, supportNum desc,positiveBallot desc
+        group by r.type, r.user_id order by r.type desc, supportNum desc, positiveBallot desc
     </select>
 
     <select id="countReport" parameterType="map" resultType="java.lang.Integer" >

@@ -1,16 +1,8 @@
 package domain.pcs;
 
-import domain.sys.SysUserView;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 
 public class PcsPollReport implements Serializable {
-
-    public SysUserView getUser(){
-        return CmTag.getUserById(userId);
-    }
-
     private Integer id;
 
     private Integer userId;
@@ -24,6 +16,12 @@ public class PcsPollReport implements Serializable {
     private Byte stage;
 
     private Byte type;
+
+    private String code;
+
+    private String realname;
+
+    private String unit;
 
     private Integer ballot;
 
@@ -93,6 +91,30 @@ public class PcsPollReport implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public Integer getBallot() {

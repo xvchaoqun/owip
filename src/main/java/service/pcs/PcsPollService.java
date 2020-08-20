@@ -6,6 +6,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.pcs.common.ResultBean;
 import service.LoginUserService;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
@@ -26,7 +27,7 @@ public class PcsPollService extends PcsBaseMapper {
     @Autowired
     private PcsBranchService pcsBranchService;
     @Autowired
-    private PcsPollCandidateService pcsPollCandidateService;
+    private PcsPrAlocateService pcsPrAlocateService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -180,7 +181,7 @@ public class PcsPollService extends PcsBaseMapper {
                 throw new OpException("党委委员、纪委委员分别至少选1人，否则无法报送");
             }
         }
-        int prMaxCount = pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId());
+        int prMaxCount = pcsPrAlocateService.getPrMaxCount(pcsPoll.getPartyId());
         Integer dwMaxCount = CmTag.getIntProperty("pcs_poll_dw_num");
         Integer jwMaxCount = CmTag.getIntProperty("pcs_poll_jw_num");
 
@@ -223,6 +224,48 @@ public class PcsPollService extends PcsBaseMapper {
         PcsPollExample example = new PcsPollExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsPollMapper.updateByExampleSelective(record, example);
+    }
 
+    /*
+    * @return 结果中得票数为提名正式党员数
+    * */
+    // 获得支部的推荐汇总结果
+    public List<ResultBean> getCandidates(int configId, byte stage, byte type, int partyId, Integer branchId){
+
+        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId, branchId);
+
+        List<ResultBean> resultBeans = new ArrayList<>();
+        if (pcsPollReportList.size() > 0){
+            for (PcsPollReport report : pcsPollReportList) {
+                ResultBean bean = new ResultBean();
+                bean.setUserId(report.getUserId());
+                bean.setBallot(report.getPositiveBallot());
+
+                resultBeans.add(bean);
+            }
+        }
+
+        return resultBeans;
+    }
+
+    // 获得分党委的推荐汇总结果
+    public List<ResultBean> getCandidates(int configId, int partyId, byte type, byte stage){
+
+
+        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId,null);
+
+        List<ResultBean> resultBeans = new ArrayList<>();
+        if (pcsPollReportList.size() > 0){
+            for (PcsPollReport report : pcsPollReportList) {
+                ResultBean bean = new ResultBean();
+                bean.setUserId(report.getUserId());
+                bean.setBranchNum(iPcsMapper.getBranchNum(configId, stage, type, partyId, report.getUserId()));
+                bean.setBallot(report.getPositiveBallot());
+
+                resultBeans.add(bean);
+            }
+        }
+
+        return resultBeans;
     }
 }

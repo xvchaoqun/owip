@@ -1,29 +1,15 @@
 package service.pcs;
 
-import controller.global.OpException;
-import domain.pcs.*;
-import org.apache.commons.lang3.BooleanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import domain.pcs.PcsPollCandidate;
+import domain.pcs.PcsPollCandidateExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.ResultBean;
-import sys.utils.NumberUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class PcsPollCandidateService extends PcsBaseMapper {
-
-    @Autowired
-    private PcsPollReportService pcsPollReportService;
-    @Autowired
-    private PcsPartyService pcsPartyService;
-    @Autowired
-    private PcsPrAlocateService pcsPrAlocateService;
-    @Autowired
-    private PcsConfigService pcsConfigService;
 
     @Transactional
     public void insertSelective(PcsPollCandidate record){
@@ -80,84 +66,4 @@ public class PcsPollCandidateService extends PcsBaseMapper {
 
         return pcsPollCandidates;
     }
-
-    //读取分党委的代表最大推荐数量
-    public int getPrMaxCount(int partyId) {
-
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        int configId = currentPcsConfig.getId();
-
-        PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
-
-        return NumberUtils.trimToZero(pcsPrAllocate.getCandidateCount());
-    }
-
-    /*
-    * @return 结果中得票数为提名正式党员数
-    * */
-    // 获得支部的推荐汇总结果
-    public List<ResultBean> getCandidates(int configId, int partyId, Integer branchId, byte type, byte stage){
-
-        PcsPollExample example = new PcsPollExample();
-        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
-                .andStageEqualTo(stage).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
-
-        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
-
-        if (branchId == null && BooleanUtils.isNotTrue(pcsParty.getIsDirectBranch())) {
-            throw new OpException("请选择所属党支部");
-        }else {
-            criteria.andBranchIdEqualTo(branchId);
-        }
-
-        List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example);
-        if (pcsPollList.size() == 0){
-            throw new OpException("党代会投票不存在");
-        }
-
-        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId, branchId);
-
-        List<ResultBean> resultBeans = new ArrayList<>();
-        if (pcsPollReportList.size() > 0){
-            for (PcsPollReport report : pcsPollReportList) {
-                ResultBean bean = new ResultBean();
-                bean.setUserId(report.getUserId());
-                bean.setBallot(report.getPositiveBallot());
-
-                resultBeans.add(bean);
-            }
-        }
-
-        return resultBeans;
-    }
-
-    // 获得分党委的推荐汇总结果
-    public List<ResultBean> getCandidates(int configId, int partyId, byte type, byte stage){
-
-        PcsPollExample example = new PcsPollExample();
-        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
-                .andStageEqualTo(stage).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
-
-        List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example);
-        if (pcsPollList.size() == 0){
-            throw new OpException("没有报送的党代会投票结果");
-        }
-
-        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId,null);
-
-        List<ResultBean> resultBeans = new ArrayList<>();
-        if (pcsPollReportList.size() > 0){
-            for (PcsPollReport report : pcsPollReportList) {
-                ResultBean bean = new ResultBean();
-                bean.setUserId(report.getUserId());
-                bean.setBranchNum(iPcsMapper.getBranchNum(configId, stage, type, partyId, report.getUserId()));
-                bean.setBallot(report.getPositiveBallot());
-
-                resultBeans.add(bean);
-            }
-        }
-
-        return resultBeans;
-    }
-
 }

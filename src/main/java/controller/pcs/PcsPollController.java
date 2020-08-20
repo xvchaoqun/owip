@@ -74,7 +74,7 @@ public class PcsPollController extends PcsBaseController {
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-        return "/pcs/pcsPoll/pcsPollReport";
+        return "/pcs/pcsPoll/pcsPollReport/pcsPollReport_list_page";
     }
 
     @RequiresPermissions("pcsPoll:list")

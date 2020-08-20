@@ -21,7 +21,7 @@
     </li>
     <li class="<c:if test="${cls==4}">active</c:if>">
         <a href="javascript:;" onclick="_reportPage()">
-            <i class="fa fa-list"></i> 候选人名单</a>
+            <i class="fa fa-list"></i> 候选人推荐人选名单</a>
     </li>
 </ul>
 <script>

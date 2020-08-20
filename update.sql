@@ -220,6 +220,12 @@ CREATE TABLE IF NOT EXISTS `pcs_poll_report` (
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2546, 0, '党代会报送结果', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPollReport:*', NULL, NULL, NULL, 1, NULL);
 
+ALTER TABLE `pcs_poll_report`
+	ADD COLUMN `unit` VARCHAR(100) NULL COMMENT '所在单位' AFTER `type`;
+ALTER TABLE `pcs_poll_report`
+	ADD COLUMN `code` VARCHAR(20) NULL DEFAULT NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `type`,
+	ADD COLUMN `realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名' AFTER `code`;
+
 20200814
 
 -- 更新 cet_expert_view

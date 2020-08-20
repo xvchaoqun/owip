@@ -6,7 +6,6 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.pcs.PcsPollResult;
-import domain.pcs.PcsPollResultExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,66 +22,15 @@ public class PcsPollResultService extends PcsBaseMapper {
     @Autowired
     private PcsPollInspectorService pcsPollInspectorService;
 
-    @Transactional
-    public void insertSelective(PcsPollResult record){
-
-        pcsPollResultMapper.insertSelective(record);
-
-    }
-
-    @Transactional
-    public void batchInsert(List<PcsPollResult> records){
-
-        for (PcsPollResult record : records) {
-            pcsPollResultMapper.insertSelective(record);
-        }
-
-    }
-
-    @Transactional
-    public void del(Integer id){
-
-        pcsPollResultMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids){
-
-        if(ids==null || ids.length==0) return;
-
-        PcsPollResultExample example = new PcsPollResultExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pcsPollResultMapper.deleteByExample(example);
-    }
-
-    @Transactional
-    public void updateByPrimaryKeySelective(PcsPollResult record){
-        pcsPollResultMapper.updateByPrimaryKeySelective(record);
-    }
-
-    public Map<Integer, PcsPollResult> findAll() {
-
-        PcsPollResultExample example = new PcsPollResultExample();
-        example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-        List<PcsPollResult> records = pcsPollResultMapper.selectByExample(example);
-        Map<Integer, PcsPollResult> map = new LinkedHashMap<>();
-        for (PcsPollResult record : records) {
-            map.put(record.getId(), record);
-        }
-
-        return map;
-    }
-
     //转换暂存票数
-    public PcsTempResult getTempResult(String tempData){
+    public PcsTempResult getTempResult(String tempData) {
 
         PcsTempResult tempResult = null;
 
         XStream xStream = new XStream(new DomDriver());
         xStream.alias("tempResult", PcsTempResult.class);//将序列化中的类全量名称，用别名替换。
 
-        if (StringUtils.isNotBlank(tempData)){
+        if (StringUtils.isNotBlank(tempData)) {
             tempResult = (PcsTempResult) xStream.fromXML(tempData);//XML反序列化
         }
 
@@ -91,7 +39,7 @@ public class PcsPollResultService extends PcsBaseMapper {
         return tempResult;
     }
 
-    public String getStringTemp(PcsTempResult record){
+    public String getStringTemp(PcsTempResult record) {
 
         XStream xStream = new XStream(new DomDriver());
         xStream.alias("tempResult", PcsTempResult.class);
@@ -132,7 +80,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                 result.setStatus(status);
                 result.setType(type);
 
-                if (status == PcsConstants.RESULT_STATUS_DISAGREE){
+                if (status == PcsConstants.RESULT_STATUS_DISAGREE) {
                     String otherKey = key + "_4";
                     userId = otherResultMap.get(otherKey); // 允许不填
                 }
@@ -140,7 +88,7 @@ public class PcsPollResultService extends PcsBaseMapper {
                 resultList.add(result);
             }
 
-        }else {//提交一下阶段推荐结果
+        } else {//提交一下阶段推荐结果
 
             Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
 
@@ -163,9 +111,9 @@ public class PcsPollResultService extends PcsBaseMapper {
             }
         }
 
-        // 允许全部不填
-        if (resultList.size() > 0 ){
-            batchInsert(resultList);
+        // 允许resultList为空，即全部不填
+        for (PcsPollResult record : resultList) {
+            pcsPollResultMapper.insertSelective(record);
         }
 
         //更新投票人状态

@@ -101,11 +101,9 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager2",
         url: '${ctx}/pcs/pcsPollReport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '学工号',name: 'user.code',width:120},
-                { label: '候选人',name: 'user.realname'},
-                /*{ label: '所属二级分党委',name: 'partyId'},
-                { label: '所属支部',name: 'branchId'},
-                { label: '推荐人类型',name: 'type'},*/
+                { label: '学工号',name: 'code',width:120},
+                { label: '姓名',name: 'realname'},
+                { label: '所在单位',name: 'unit',width:350, align:'left'},
                 { label: '推荐提名<br/>正式党员数',name: 'positiveBallot'},
                 { label: '推荐提名<br/>预备党员数',name: 'growBallot'},
                 { label: '推荐提名<br/>党员数',name: 'ballot'},

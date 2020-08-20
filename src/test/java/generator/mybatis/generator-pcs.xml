@@ -99,10 +99,12 @@
                  <columnOverride column="seconder_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
              </table>
         -->
-       <table tableName="pcs_poll" domainObjectName="pcs.PcsPoll" mapperName="pcs.PcsPollMapper">
+       <!--<table tableName="pcs_poll" domainObjectName="pcs.PcsPoll" mapperName="pcs.PcsPollMapper">
            <columnOverride column="notice" jdbcType="VARCHAR"></columnOverride>
            <columnOverride column="mobile_notice" jdbcType="VARCHAR"></columnOverride>
            <columnOverride column="inspector_notice" jdbcType="VARCHAR"></columnOverride>
+       </table>-->
+       <table tableName="pcs_poll_report" domainObjectName="pcs.PcsPollReport" mapperName="pcs.PcsPollReportMapper">
        </table>
 
     </context>

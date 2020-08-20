@@ -7,7 +7,7 @@
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId}"/>
             <div class="tabbable">
-                <jsp:include page="menu.jsp"/>
+                <jsp:include page="../menu.jsp"/>
                 <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -81,15 +81,16 @@
         rownumbers:true,
         url: '${ctx}/pcs/pcsPollReport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '学工号',name: 'user.code',width:120},
-            { label: '候选人',name: 'user.realname'},
+            { label: '学工号',name: 'code',width:120},
+            { label: '姓名',name: 'realname'},
+            { label: '所在单位',name: 'unit',width:350, align:'left'},
             { label: '候选人类型',name: 'type',formatter: function (cellvalue, options, rowobject) {
                     return _cMap.PCS_POLL_CANDIDATE_TYPE[cellvalue];
-                }},
+            }},
+            { label: '推荐提名<br/>党支部数',name: 'branchNum',width:120},
             { label: '推荐提名<br/>正式党员数',name: 'positiveBallot',width:120},
             { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
             { label: '推荐提名<br/>党员数',name: 'supportNum'},
-            { label: '投票的党支部数',name: 'branchNum',width:120},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
             { label: '不支持票数',name: 'notSupportNum'},
             { label: '弃权票数',name: 'notVoteNum'}
