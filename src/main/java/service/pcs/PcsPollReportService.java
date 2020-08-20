@@ -117,9 +117,9 @@ public class PcsPollReportService extends PcsBaseMapper {
 
                 List<PcsFinalResult> pcsFinalResultList = new ArrayList<>();
                 if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                    pcsFinalResultList = iPcsMapper.selectResultList(type, pollId, stage, userId, null, null, new RowBounds());
+                    pcsFinalResultList = iPcsMapper.selectResultList(pollId, type, new RowBounds());
                 }else {
-                    pcsFinalResultList = iPcsMapper.selectSecondResultList(type, pollId, type, userId, null, null, new RowBounds());
+                    pcsFinalResultList = iPcsMapper.selectSecondResultList(pollId, type, new RowBounds());
                 }
                 PcsFinalResult finalResult = pcsFinalResultList.get(0);
                 record.setBallot(finalResult.getSupportNum());
@@ -143,11 +143,9 @@ public class PcsPollReportService extends PcsBaseMapper {
 
         }else {
             PcsPollReportExample example = new PcsPollReportExample();
-            PcsPollReportExample.Criteria criteria = example.createCriteria().andUserIdIn(Arrays.asList(userIds))
-                    .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId).andTypeEqualTo(type);
-            if (branchId != null){
-                criteria.andBranchIdEqualTo(branchId);
-            }
+            example.createCriteria()
+                    .andPollIdEqualTo(pollId).andTypeEqualTo(type)
+                    .andUserIdIn(Arrays.asList(userIds));
 
             pcsPollReportMapper.deleteByExample(example);
         }

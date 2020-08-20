@@ -1,7 +1,6 @@
 package controller.pcs;
 
 import domain.pcs.PcsConfig;
-import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollReport;
 import domain.pcs.PcsPollReportExample;
 import mixin.MixinUtils;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsFinalResult;
 import sys.constants.LogConstants;
+import sys.constants.PcsConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -41,13 +41,9 @@ public class PcsPollReportController extends PcsBaseController {
                                        Integer[] ids,//对应查出来结果的userId
                                        Boolean isCandidate,
                                        int pollId,
-                                       Byte type,
-                                       Byte _reportType) {
+                                       byte type) {
 
         if (null != ids && ids.length>0){
-            if (type == null){
-                type = _reportType;
-            }
             pcsPollReportService.batchInsertOrUpdate(ids, isCandidate, pollId, type);
             logger.info(log( LogConstants.LOG_PCS, "批量{1}：{0}", StringUtils.join(ids, ","),
                     isCandidate ? "设置候选人":"取消候选人资格"));
@@ -64,14 +60,11 @@ public class PcsPollReportController extends PcsBaseController {
                                     Integer partyId,
                                     Integer branchId,
                                     Byte stage,
-                                    Byte type,
-                                   @RequestParam(required = false, defaultValue = "1")Byte _reportType,
-
-                                 Integer pollId,
-                                
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                    @RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
+                                    Integer pollId,
+                                     @RequestParam(required = false, defaultValue = "0") int export,
+                                     Integer[] ids, // 导出的记录
+                                     Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -105,41 +98,16 @@ public class PcsPollReportController extends PcsBaseController {
             JSONUtils.jsonp(resultMap, baseMixins);
         }else {
             PcsPollReportExample example = new PcsPollReportExample();
-            PcsPollReportExample.Criteria criteria = example.createCriteria();
+            PcsPollReportExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
             example.setOrderByClause("ballot desc,positive_ballot desc");
 
             if (pollId != null) {
-                PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
-                partyId = pcsPoll.getPartyId();
-                branchId = pcsPoll.getBranchId();
-                stage = pcsPoll.getStage();
+               criteria.andPollIdEqualTo(pollId);
             }
 
             if (userId!=null) {
                 criteria.andUserIdEqualTo(userId);
             }
-            if (partyId!=null) {
-                criteria.andPartyIdEqualTo(partyId);
-            }
-            if (branchId!=null) {
-                criteria.andBranchIdEqualTo(branchId);
-            }
-            if (stage!=null) {
-                criteria.andStageEqualTo(stage);
-            }
-            if (type!=null){
-                criteria.andTypeEqualTo(type);
-            }
-            if (_reportType!=null) {
-                criteria.andTypeEqualTo(_reportType);
-            }
-
-            /*if (export == 1) {
-                if(ids!=null && ids.length>0)
-                    criteria.andIdIn(Arrays.asList(ids));
-                pcsPollReport_export(example, response);
-                return;
-            }*/
 
             long count = pcsPollReportMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {

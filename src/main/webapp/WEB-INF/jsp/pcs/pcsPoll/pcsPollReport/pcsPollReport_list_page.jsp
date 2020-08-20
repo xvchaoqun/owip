@@ -103,7 +103,7 @@
             { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
             { label: '推荐提名<br/>党员数',name: 'supportNum'},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
-            { label: '不支持票数',name: 'notSupportNum'},
+            { label: '不同意票数',name: 'notSupportNum'},
             { label: '弃权票数',name: 'notVoteNum'}
             </c:if>
         ]

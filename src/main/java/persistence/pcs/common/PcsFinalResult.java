@@ -16,9 +16,9 @@ public class PcsFinalResult {
     private String unit;
     public Boolean isCandidate;//是否是候选人
     public Byte type;//推荐人类型
-    public Integer branchNum;//投票党支部数
-    public Integer positiveBallot;//党员票数
-    public Integer growBallot;//预备党员票数
+    public Integer branchNum;// 投票党支部数
+    public Integer positiveBallot;//推荐提名正式党员票数
+    public Integer growBallot;// 推荐提名预备党员票数
     public Integer supportNum;//支持人数
     public Integer notSupportNum;//不支持人数
     public Integer notVoteNum;//弃权票

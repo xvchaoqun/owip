@@ -1,11 +1,10 @@
 package service.pcs;
 
-import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollInspector;
-import domain.pcs.PcsPollInspectorExample;
-import domain.pcs.PcsPollResultExample;
+import controller.global.OpException;
+import domain.pcs.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +12,29 @@ import java.util.*;
 
 @Service
 public class PcsPollInspectorService extends PcsBaseMapper {
+
+    @Autowired
+    PcsConfigService pcsConfigService;
+
+    // 检测账号的投票权限
+    public void checkPollStatus(int inspectorId){
+
+        PcsPollInspector inspector = pcsPollInspectorMapper.selectByPrimaryKey(inspectorId);
+        int pollId = inspector.getPollId();
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        if (pcsConfig == null || pcsPoll.getConfigId() != pcsConfig.getId()
+                || pcsPoll==null || pcsPoll.getIsDeleted() || pcsPoll.getHasReport()){
+            throw new OpException("投票已过期");
+        }else if (pcsPoll.getStartTime().after(new Date())){
+            throw new OpException("投票未开始");
+        }else if (pcsPoll.getEndTime().before(new Date())){
+            throw new OpException("投票已结束");
+        }else if (inspector.getIsFinished()){
+            throw new OpException("该账号已完成投票");
+        }
+    }
 
     @Transactional
     public void insertSelective(PcsPollInspector record){

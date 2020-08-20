@@ -4,7 +4,6 @@ import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
-import domain.pcs.PcsConfig;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.sys.SysUserView;
@@ -56,35 +55,27 @@ public class UserPcsPollController extends PcsBaseController {
                         StringUtils.trimToNull(p));
                 if (inspector == null) {
                     logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，账号或密码错误！"));
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，账号或密码错误"));
                     modelMap.put("error", "账号或密码错误");
-                }else if (inspector.getIsFinished()) {
+                }else if (BooleanUtils.isTrue(inspector.getIsFinished())) {
                     logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，用户已完成投票！"));
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，用户已完成投票"));
                     modelMap.put("error", "该账号已完成投票");
-                }else if (inspector.getPcsPoll().getIsDeleted()){
-                    logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票已作废！"));
-                    modelMap.put("error", "党代会投票已作废");
-                }else if (inspector.getPcsPoll().getHasReport()) {
-                    logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票已报送！"));
-                    modelMap.put("error", "党代会投票已报送");
-                }else if (inspector.getPcsPoll().getStartTime().after(new Date())){
-                    logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票未开始！"));
-                    modelMap.put("error", "党代会投票未开始");
-                }else if (inspector.getPcsPoll().getEndTime().before(new Date())){
-                    logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票已结束！"));
-                    modelMap.put("error", "党代会投票已结束");
                 }else {
 
-                    logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, true, "扫码登录成功！"));
-                    PcsHelper.setSession(request, inspector.getId());
+                    try {
+                        pcsPollInspectorService.checkPollStatus(inspector.getId());
 
-                    return "redirect:/user/pcs/index?isMobile=1";
+                        logger.info(sysLoginLogService.log(null, u,
+                                SystemConstants.LOGIN_TYPE_PCS, true, "扫码登录成功"));
+                        PcsHelper.setSession(request, inspector.getId());
+
+                        return "redirect:/user/pcs/index?isMobile=1";
+                    }catch (OpException ex){
+                        modelMap.put("error", ex.getMessage());
+                        logger.info(sysLoginLogService.log(null, u,
+                                SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，"+ ex.getMessage()));
+                    }
                 }
             }
 
@@ -125,23 +116,12 @@ public class UserPcsPollController extends PcsBaseController {
                 }
                 return failed("账号或密码错误");
             }else {
+
                 cacheService.clearLimitCache(limitCacheKey);
-                PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-                if (pcsConfig != null && inspector.getPcsPoll().getConfigId() != pcsConfig.getId()){
-                    return failed("该账号的党代会投票已过期");
-                }
-                if (inspector.getPcsPoll().getIsDeleted()){
-                    return failed("党代会投票已作废");
-                } else if (inspector.getPcsPoll().getHasReport()) {
-                    return failed("党代会投票已报送");
-                }else if (inspector.getPcsPoll().getStartTime().after(new Date())){
-                    return failed("党代会投票未开始");
-                }else if (inspector.getPcsPoll().getEndTime().before(new Date())){
-                    return failed("党代会投票已结束");
-                }else if (inspector.getIsFinished()){
-                    return failed("该账号已完成投票");
-                }
+
+                pcsPollInspectorService.checkPollStatus(inspector.getId());
             }
+
             logger.info(addNoLoginLog(null, username, LogConstants.LOG_PCS,"登录成功"));
             PcsHelper.setSession(request, inspector.getId());
         }
@@ -199,10 +179,10 @@ public class UserPcsPollController extends PcsBaseController {
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
 
         if (inspector != null) {
-            PcsPoll pcsPoll = inspector.getPcsPoll();
-            /*if (pcsPoll.getStage() == PcsConstants.PCS_POLL_THIRD_STAGE) {
-                type =PcsConstants.PCS_USER_TYPE_DW;
-            }*/
+
+            int pollId = inspector.getPollId();
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+
             modelMap.put("type", type);
             int num = 0;
             if (type == PcsConstants.PCS_USER_TYPE_PR){
@@ -223,7 +203,6 @@ public class UserPcsPollController extends PcsBaseController {
             //二下/三下阶段推荐人名单
             if (pcsPoll.getStage() != PcsConstants.PCS_POLL_FIRST_STAGE){
 
-                int pollId = inspector.getPollId();
                 List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, type);
                 modelMap.put("candidateUserIds", candidateUserIds);
 
@@ -265,8 +244,8 @@ public class UserPcsPollController extends PcsBaseController {
                       Byte type, HttpServletRequest request) {
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
-        PcsPoll pcsPoll = inspector.getPcsPoll();
         int pollId = inspector.getPollId();
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
 
         // 临时数据
         PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
@@ -313,13 +292,13 @@ public class UserPcsPollController extends PcsBaseController {
 
                 if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE
                         && prCount > pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId())) {
-                    throw new OpException("推荐的代表超过规定数量，请重新选择");
+                    throw new OpException("已选代表超过规定数量，请重新选择");
                 }
                 if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
-                    throw new OpException("推荐的党委委员超过规定数量，请重新选择");
+                    throw new OpException("已选党委委员超过规定数量，请重新选择");
                 }
                 if (jwCount > CmTag.getIntProperty("pcs_poll_jw_num")){
-                    throw new OpException("推荐的纪委委员超过规定数量，请重新选择");
+                    throw new OpException("已选纪委委员超过规定数量，请重新选择");
                 }
 
                 pcsPollResultService.submitResult(inspector);
@@ -358,9 +337,14 @@ public class UserPcsPollController extends PcsBaseController {
                         secondResultMap.put(radioName, radioValue);
                         if (radioValue == PcsConstants.RESULT_STATUS_DISAGREE) {
 
-                            String otherUserId = request.getParameter(radioName + "_4");
-                            if (StringUtils.isNotBlank(otherUserId)) {
-                                otherResultMap.put(radioName + "_4", Integer.valueOf(otherUserId));
+                            String _otherUserId = request.getParameter(radioName + "_4");
+                            if (StringUtils.isNotBlank(_otherUserId)) {
+                                int otherUserId = Integer.valueOf(_otherUserId);
+
+                                if(candidateUserIds.contains(otherUserId)){
+                                    throw new OpException("另选他人中不允许选候选人，请重新选择");
+                                }
+                                otherResultMap.put(radioName + "_4", otherUserId);
                             }
                         }
                     }

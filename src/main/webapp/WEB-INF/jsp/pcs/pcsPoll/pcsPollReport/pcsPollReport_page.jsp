@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
                 <div class="jqgrid-vertical-offset buttons" id="changeType">
                     <shiro:hasPermission name="pcsPollReport:edit">
                         <c:if test="${!pcsPoll.hasReport}">
-                            <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=0&_reportType=${_reportType}&pollId=${param.pollId}"
+                            <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=0&type=${type}&pollId=${param.pollId}"
                                     data-title="取消候选人推荐人选"
                                     data-msg="确定取消这{0}名候选人推荐人选？"
                                     data-grid-id="#jqGrid2"
@@ -32,12 +32,12 @@ pageEncoding="UTF-8" %>
                             </button>
                         </c:if>
                     </shiro:hasPermission>
-                    <input type="checkbox"  name="_reportType" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}" class="cadre-info-check"> 党委委员（${dwCount}）
-                    <input type="checkbox"  name="_reportType" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}" class="cadre-info-check"> 纪委委员（${jwCount}）
+                    <input type="checkbox"  name="type" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}" class="cadre-info-check"> 党委委员（${dwCount}）
+                    <input type="checkbox"  name="type" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}" class="cadre-info-check"> 纪委委员（${jwCount}）
                     <c:if test="${stage!=PCS_POLL_THIRD_STAGE}">
-                        <input type="checkbox"  name="_reportType" id="${PCS_USER_TYPE_PR}" value="${PCS_USER_TYPE_PR}" class="cadre-info-check"> 党代表（${prCount}）
+                        <input type="checkbox"  name="type" id="${PCS_USER_TYPE_PR}" value="${PCS_USER_TYPE_PR}" class="cadre-info-check"> 党代表（${prCount}）
                     </c:if>
-                    <script> $("#changeType input[id=${_reportType}]").prop("checked",'true'); </script>
+                    <script> $("#changeType input[id=${type}]").prop("checked",'true'); </script>
                 </div>
 
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -53,9 +53,6 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm2">
-                            <input type="hidden" name="pollId" value="${param.pollId}"/>
-                            <input type="hidden" name="cls" value="${cls}">
-                            <input name="_reportType" type="hidden" value="${_reportType}">
                             <div class="form-group">
                                 <div class="form-group">
                                     <label>推荐人</label>
@@ -68,12 +65,12 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/pcs/pcsPollResult"
+                                       data-url="${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=${cls}"
                                        data-target="#body-content-view"
                                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=4&_reportType=${_reportType}"
+                                                data-url="${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=${cls}"
                                                 data-target="#body-content-view">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
@@ -93,7 +90,7 @@ pageEncoding="UTF-8" %>
 <script>
     function _ReLoadPage1(){
         SysMsg.success('取消成功。',function(){
-            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?_reportType=${_reportType}&cls=4&pollId=${param.pollId}");
+            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=${cls}&type=${param.type}");
         })
     }
 
@@ -106,12 +103,15 @@ pageEncoding="UTF-8" %>
                 { label: '学工号',name: 'code',width:120},
                 { label: '姓名',name: 'realname'},
                 { label: '所在单位',name: 'unit',width:350, align:'left'},
-                { label: '推荐提名<br/>正式党员数',name: 'positiveBallot'},
-                { label: '推荐提名<br/>预备党员数',name: 'growBallot'},
-                { label: '推荐提名<br/>党员数',name: 'ballot'},
+            { label: '推荐提名<br/>党员数',name: 'ballot'},
+            { label: '推荐提名<br/>正式党员数',name: 'positiveBallot'},
+            { label: '推荐提名<br/>预备党员数',name: 'growBallot'},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
-                { label: '不支持人数',name: 'disagreeBallot'},
-                { label: '弃权票',name: 'abstainBallot'},
+                { label: '不同意票数',name: 'disagreeBallot'},
+                { label: '弃权票数',name: 'abstainBallot', formatter: function (cellvalue, options, rowobject) {
+                    var finishCount = ${pcsPoll.inspectorFinishNum};
+                    return finishCount-rowobject.ballot-rowobject.disagreeBallot;
+                }},
             </c:if>
             {hidden:true, key: true, name: 'userId'}
         ]
@@ -119,15 +119,8 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm2 [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
 
-    /*console.log("type="+${type});
-    console.log($("#pcsPollResult-content input[id=${type}]"))*/
     $("#changeType input[type=checkbox]").click(function () {
-        var type = $(this).val();
-        //console.log(type)
-        $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=4&_reportType="+type);
+        $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=${cls}&type="+$(this).val());
     })
 </script>

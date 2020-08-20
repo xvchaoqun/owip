@@ -191,11 +191,15 @@ public class PcsPollController extends PcsBaseController {
             throw new OpException("参数设置错误");
         }
 
-        if (pcsPollService.isPcsPollExisted(record)){
-            throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
-        }
-
         if (id == null) {
+
+            Integer branchId = record.getBranchId();
+            PcsPoll pcsPoll = pcsPollService.get(configId, currentStage, partyId, branchId);
+
+            if (pcsPoll!=null){
+                throw new OpException("创建投票重复，每个党支部在每个阶段只允许创建一次投票");
+            }
+
             pcsPollService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PCS, "添加党代会投票：{0}", record.getId()));
         } else {
@@ -361,7 +365,7 @@ public class PcsPollController extends PcsBaseController {
     public Map pcsPoll_report(HttpServletRequest request, int id, int expectMemberCount, int actualMemberCount) {
 
         //权限判断
-        pcsPollService.judgeAuthority(Arrays.asList(id));
+        pcsPollService.checkPollEditAuth(id);
 
         pcsPollService.report(id, expectMemberCount, actualMemberCount);
         logger.info(log(LogConstants.LOG_PCS, "报送党代会投票：{0}", id));
@@ -369,7 +373,7 @@ public class PcsPollController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsPoll:edit")
+    @RequiresPermissions("pcsPoll:abolish")
     @RequestMapping(value = "/pcsPoll_reportBack", method = RequestMethod.POST)
     @ResponseBody
     public Map pcsPoll_reportBack(HttpServletRequest request,  Integer[] ids) {
@@ -377,9 +381,9 @@ public class PcsPollController extends PcsBaseController {
         if (null != ids && ids.length>0){
 
             //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(ids));
+            pcsPollService.checkPollEditAuth(Arrays.asList(ids));
 
-            pcsPollService.pcsPoll_reportBack(ids);
+            pcsPollService.reportBack(ids);
             logger.info(log( LogConstants.LOG_PCS, "批量回退报送投票结果：{0}", StringUtils.join(ids, ",")));
         }
 
@@ -395,7 +399,7 @@ public class PcsPollController extends PcsBaseController {
         if (null != ids && ids.length>0){
 
             //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(ids));
+            pcsPollService.checkPollEditAuth(Arrays.asList(ids));
 
             pcsPollService.batchCancel(ids, isDeleted);
             logger.info(log( LogConstants.LOG_PCS, "批量{1}党代会投票：{0}", StringUtils.join(ids, ",")), isDeleted?"作废":"取消作废");
@@ -404,6 +408,7 @@ public class PcsPollController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 删除投票
     @RequiresPermissions("pcsPoll:del")
     @RequestMapping(value = "/pcsPoll_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -412,7 +417,7 @@ public class PcsPollController extends PcsBaseController {
         if (null != ids && ids.length>0){
 
             //权限判断
-            pcsPollService.judgeAuthority(Arrays.asList(ids));
+            pcsPollService.checkPollEditAuth(Arrays.asList(ids));
 
             pcsPollService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PCS, "批量删除党代会投票：{0}", StringUtils.join(ids, ",")));
@@ -424,7 +429,8 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_noticeEdit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPoll_noticeEdit(Integer id, String notice, Integer isMobile, HttpServletRequest request) {
+    public Map do_pcsPoll_noticeEdit(int id, String notice, Integer isMobile, HttpServletRequest request) {
+
 
         PcsPoll record = new PcsPoll();
         record.setId(id);

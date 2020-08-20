@@ -46,13 +46,11 @@ public class PcsPollInspectorController extends PcsBaseController {
     @RequestMapping("/pcsPollInspector_data")
     @ResponseBody
     public void pcsPollInspector_data(HttpServletResponse response,
-                                    Integer pollId,
+                                    int pollId,
                                     String username,
                                     Integer isPositive,
-
                                     Integer partyId,
                                     Integer branchId,
-                                
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -66,12 +64,9 @@ public class PcsPollInspectorController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PcsPollInspectorExample example = new PcsPollInspectorExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andPollIdEqualTo(pollId);
         example.setOrderByClause("id desc");
 
-        if (pollId!=null) {
-            criteria.andPollIdEqualTo(pollId);
-        }
         if (StringUtils.isNotBlank(username)) {
             criteria.andUsernameLike(SqlUtils.trimLike(username));
         }
@@ -208,7 +203,9 @@ public class PcsPollInspectorController extends PcsBaseController {
         if (inspectors != null &&inspectors.size() > 0){
 
             PcsPollInspector inspector = inspectors.get(0);
-            modelMap.put("stage", inspector.getPcsPoll().getStage());
+            int pollId = inspector.getPollId();
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+            modelMap.put("stage", pcsPoll.getStage());
             PcsPollResultExample resultExample = new PcsPollResultExample();
             resultExample.createCriteria().andInspectorIdEqualTo(inspector.getId());
             resultExample.setOrderByClause("type");

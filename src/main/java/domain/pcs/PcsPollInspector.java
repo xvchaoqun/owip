@@ -1,17 +1,9 @@
 package domain.pcs;
 
-import persistence.pcs.PcsPollMapper;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class PcsPollInspector implements Serializable {
-
-    public PcsPoll getPcsPoll(){
-        PcsPollMapper pcsPollMapper = CmTag.getBean(PcsPollMapper.class);
-        return pcsPollMapper.selectByPrimaryKey(pollId);
-    }
 
     private Integer id;
 

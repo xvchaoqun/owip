@@ -216,7 +216,7 @@ pageEncoding="UTF-8" %>
                 label: '投票结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
                     return $.button.openView({
                         style:"btn-info",
-                        url:"${ctx}/pcs/pcsPollResult?type=${PCS_USER_TYPE_DW}&pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollResult?pollId="+rowObject.id,
                         icon:"fa-bar-chart",
                         label:"查看"});
                 }, width: 80

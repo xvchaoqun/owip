@@ -52,8 +52,8 @@ public class PcsPollResultService extends PcsBaseMapper {
     @Transactional
     public void submitResult(PcsPollInspector inspector) {
 
-        PcsPoll pcsPoll = inspector.getPcsPoll();
-        int pollId = pcsPoll.getId();
+        int pollId = inspector.getId();
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         Byte stage = pcsPoll.getStage();
         PcsTempResult tempResult = getTempResult(inspector.getTempdata());
 

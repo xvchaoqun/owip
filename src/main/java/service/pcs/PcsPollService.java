@@ -52,8 +52,12 @@ public class PcsPollService extends PcsBaseMapper {
         return pcsPolls.size()>0?pcsPolls.get(0):null;
     }
 
-    //删除和作废的权限判断
-    public void judgeAuthority(List<Integer> ids){
+    // 党支部、分党委投票管理权限验证
+    public void checkPollEditAuth(Integer id){
+        checkPollEditAuth(Arrays.asList(id));
+    }
+
+    public void checkPollEditAuth(List<Integer> ids){
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_PCS_ADMIN)){
 
@@ -95,37 +99,23 @@ public class PcsPollService extends PcsBaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(PcsPoll record){
 
-        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(record.getId());
+        int id = record.getId();
+
+        checkPollEditAuth(id);
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
         if(BooleanUtils.isTrue(pcsPoll.getHasReport())){
             throw new OpException("投票已报送，无法修改");
         }
 
+        // 不可修改所在党组织及状态
+        record.setPartyId(null);
+        record.setBranchId(null);
+        record.setStage(null);
+        record.setIsDeleted(null);
+        record.setHasReport(null);
+
         pcsPollMapper.updateByPrimaryKeySelective(record);
-    }
-
-    //党代会投票是否已存在
-    public Boolean isPcsPollExisted(PcsPoll record) {
-
-        int configId = record.getConfigId();
-        byte stage = record.getStage();
-        int partyId = record.getPartyId();
-        Integer branchId = record.getBranchId();
-        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
-
-        if (branchId == null && BooleanUtils.isNotTrue(pcsParty.getIsDirectBranch())) {
-            throw new OpException("请选择所属党支部");
-        }
-        PcsPollExample example = new PcsPollExample();
-        PcsPollExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(record.getConfigId())
-                .andStageEqualTo(stage).andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
-        if (branchId != null){
-            criteria.andBranchIdEqualTo(branchId);
-        }
-        if(record.getId()!=null){
-            criteria.andIdNotEqualTo(record.getId());
-        }
-
-        return pcsPollMapper.countByExample(example)>0;
     }
 
     // 党支部报送
@@ -211,16 +201,26 @@ public class PcsPollService extends PcsBaseMapper {
         }
     }
 
+    // 分党委作废/撤销作废
     @Transactional
     public void batchCancel(Integer[] ids, boolean isDeleted) {
 
         if(ids==null || ids.length==0) return;
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         for (Integer id : ids) {
 
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+            int stage = pcsPoll.getStage();
+            int partyId = pcsPoll.getPartyId();
+            PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+            if(configId!= pcsPoll.getConfigId()|| stage != pcsParty.getCurrentStage()){
+                throw new OpException("操作失败，与当前所在的投票阶段不相符");
+            }
 
-            if(!isDeleted) { // 返回列表，要判断是否已有投票
+            if(!isDeleted) { // 撤销作废，要判断是否已有投票
                 PcsPoll _pcsPoll = get(pcsPoll.getConfigId(), pcsPoll.getStage(), pcsPoll.getPartyId(), pcsPoll.getBranchId());
                 if(_pcsPoll!=null){
                     throw new OpException("【{0}】已经存在有效的投票记录，无法撤销作废。", StringUtils.defaultString(pcsPoll.getBranchName(), pcsPoll.getPartyName()));
@@ -234,7 +234,30 @@ public class PcsPollService extends PcsBaseMapper {
         }
     }
 
-    //List<PcsPollCandidate> -- 二下/三下候选人推荐人选名单
+    // 分党委退回党支部的报送
+    @Transactional
+    public void reportBack(Integer[] ids) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        for (Integer id : ids) {
+
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+            int stage = pcsPoll.getStage();
+            int partyId = pcsPoll.getPartyId();
+            PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+            if(configId!= pcsPoll.getConfigId()|| stage != pcsParty.getCurrentStage()){
+                throw new OpException("操作失败，与当前所在的投票阶段不相符");
+            }
+
+            //设置为未报送
+            pcsPoll.setHasReport(false);
+            pcsPollMapper.updateByPrimaryKeySelective(pcsPoll);
+        }
+    }
+
+    // 二下/三下投票 候选人推荐人选名单
     public List<Integer> getCandidateUserIds(int pollId, byte type){
 
         List<Integer> candidateUserIds = new ArrayList<>();
@@ -289,18 +312,5 @@ public class PcsPollService extends PcsBaseMapper {
         List<PcsFinalResult> finalResultList = iPcsMapper.selectReport(type, configId, stage, null, partyId, null, new RowBounds());
 
         return finalResultList;
-    }
-
-    @Transactional
-    public void pcsPoll_reportBack(Integer[] ids) {
-
-        for (Integer id : ids) {
-
-            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
-            //设置为未报送
-            pcsPoll.setHasReport(false);
-            pcsPollMapper.updateByPrimaryKeySelective(pcsPoll);
-
-        }
     }
 }

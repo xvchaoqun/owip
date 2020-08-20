@@ -51,8 +51,6 @@ pageEncoding="UTF-8" %>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm2">
-                                <input type="hidden" name="pollId" value="${param.pollId}"/>
-                                <input type="hidden" name="type" value="${param.type}"/>
                                 <div class="form-group">
                                     <label>推荐人</label>
                                     <select data-rel="select2-ajax"
@@ -63,12 +61,12 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/pcs/pcsPollResult"
+                                       data-url="${ctx}/pcs/pcsPollResult?cls=4&pollId=${param.pollId}&type=${param.type}"
                                        data-target="#body-content-view"
                                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&type=${param.type}"
+                                                data-url="${ctx}/pcs/pcsPollResult?cls=4&pollId=${param.pollId}&type=${param.type}"
                                                 data-target="#body-content-view">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
@@ -88,7 +86,7 @@ pageEncoding="UTF-8" %>
 <script>
     function _ReLoadPage(){
         SysMsg.success('设置成功。',function(){
-            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&_reportType=${param.type}&pollId=${param.pollId}");
+            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&type=${param.type}&pollId=${param.pollId}");
         })
     }
 
@@ -100,12 +98,15 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '学工号',name: 'user.code',width:120},
             { label: '推荐人',name: 'user.realname'},
+            { label: '推荐提名<br/>党员数',name: 'supportNum'},
             { label: '推荐提名<br/>正式党员数',name: 'positiveBallot', width: 120},
             { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
-            { label: '推荐提名<br/>党员数',name: 'supportNum'},
-            <c:if test="${stage!=PCS_USER_TYPE_PR}">
-            { label: '不支持票数',name: 'notSupportNum'},
-            { label: '弃权票数',name: 'notVoteNum'},
+            <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
+            { label: '不同意票数',name: 'notSupportNum'},
+            { label: '弃权票数',name: 'notVoteNum', formatter: function (cellvalue, options, rowobject) {
+                    var finishCount = ${pcsPoll.inspectorFinishNum};
+                    return finishCount-rowobject.supportNum-rowobject.notSupportNum;
+                }},
             </c:if>
             {hidden:true, key: true, name: 'userId'}
         ]
