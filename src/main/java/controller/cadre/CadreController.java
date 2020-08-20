@@ -219,6 +219,7 @@ public class CadreController extends BaseController {
                            Integer endNowLevelAge,
                            Integer[] workTypes,
                            Boolean andWorkTypes,
+                           String workDetail,
                            String[] nation,
                            Integer[] dpTypes, // 党派
                            @RequestDateRange DateRange _birth,
@@ -330,7 +331,16 @@ public class CadreController extends BaseController {
                 criteria.andIdIn(cadreIds);
             }
         }
-
+        if (StringUtils.isNotBlank(workDetail)){
+            String[] workDetails=workDetail.split(",");
+            List<String> detailList= Arrays.asList(workDetails);
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkDetail(detailList);
+            if(cadreIds.size()==0){
+                criteria.andIdIsNull();
+            }else {
+                criteria.andIdIn(cadreIds);
+            }
+        }
         if(hasAbroadEdu!=null){
 
             CadreCategorySearchBean searchBean = new CadreCategorySearchBean();
@@ -414,7 +424,7 @@ public class CadreController extends BaseController {
             }
         }
         if(StringUtils.isNotBlank(major)){
-            criteria.andMajorLike(SqlUtils.like(major));
+                criteria.andMajorLikeIn(major);
         }
         if (postTypes != null) {
             criteria.andPostTypeIn(Arrays.asList(postTypes));

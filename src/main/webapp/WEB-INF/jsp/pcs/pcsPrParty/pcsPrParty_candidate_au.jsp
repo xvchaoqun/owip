@@ -113,6 +113,17 @@
                             </div>
                         </form>
                         <div class="modal-footer center" style="margin-top: 20px">
+
+                            <button ${!allowModify?"disabled":""} onclick="_clearUsers()"
+                                   <%-- data-title="清空"
+                                    data-msg="确定清空全部党代表？"--%>
+                                    class="btn btn-danger btn-lg">
+                                <i class="fa fa-times"></i> 清空</button>
+
+                            <button class="popupBtn btn btn-info btn-lg tooltip-success"
+                                    data-url="${ctx}/pcs/pcsPrParty_candidate_import?stage=${param.stage}"
+                                    data-rel="tooltip" data-placement="top" ${!allowModify?"disabled":""} title="从Excel中导入名单"><i class="fa fa-upload"></i> 导入名单</button>
+
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-random"></i> 保存名单
@@ -266,6 +277,22 @@
     </select>
 </script>
 <script>
+
+    function _clearUsers(){
+        SysMsg.confirm("确定清空全部党代表？", "操作确认", function () {
+             $("#jqGrid"+${PCS_PR_TYPE_STU}).jqGrid("clearGridData");
+              _showCount(${PCS_PR_TYPE_STU});
+              $("#jqGrid"+${PCS_PR_TYPE_PRO}).jqGrid("clearGridData");
+              _showCount(${PCS_PR_TYPE_PRO});
+               $("#jqGrid"+${PCS_PR_TYPE_RETIRE}).jqGrid("clearGridData");
+              _showCount(${PCS_PR_TYPE_RETIRE});
+        });
+    }
+    function _showCount(type){
+        var $count = $("#jqGrid"+type).closest(".panel").find(".tip .count");
+        $count.html($("#jqGrid"+type).jqGrid("getDataIDs").length);
+    }
+
     function _tipPopup(){
 
         var msg = _.template($("#alertTpl").html())();

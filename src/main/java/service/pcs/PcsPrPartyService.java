@@ -2,12 +2,11 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
+import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.party.Party;
-import domain.pcs.PcsPrCandidate;
-import domain.pcs.PcsPrCandidateExample;
-import domain.pcs.PcsPrRecommend;
-import domain.pcs.PcsPrRecommendExample;
+import domain.pcs.*;
+import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
@@ -18,17 +17,22 @@ import org.springframework.transaction.annotation.Transactional;
 import service.cadre.CadreService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.sys.StudentInfoService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
+import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static sys.constants.MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE;
 
 @Service
 public class PcsPrPartyService extends PcsBaseMapper {
@@ -45,7 +49,12 @@ public class PcsPrPartyService extends PcsBaseMapper {
     private PcsPrCandidateService pcsPrCandidateService;
     @Autowired
     private PartyService partyService;
-
+    @Autowired
+    private StudentInfoService studentInfoService;
+    @Autowired
+    private PcsAdminService pcsAdminService;
+    @Autowired
+    private PcsConfigService pcsConfigService;
     // 分党委是否可以修改当前阶段的数据
     public boolean allowModify(int partyId, int configId, byte stage){
 
@@ -149,7 +158,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 // for test
                 Member member = memberService.get(userId);
                 if(member== null && member.getPoliticalStatus()
-                        != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
+                        != MEMBER_POLITICAL_STATUS_POSITIVE){
                     throw new OpException("用户{0}不是正式党员" + alertMsg, uv.getRealname());
                 }
 
@@ -243,5 +252,69 @@ public class PcsPrPartyService extends PcsBaseMapper {
             }
         }
 
+    }
+
+    @Transactional
+    public PcsPrCandidate candidateDate(Integer userId,byte stage){
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        Map<Integer, PcsPrCandidate> selectedMap = pcsPrCandidateService.findSelectedMap(configId, stage, partyId);
+
+        SysUserView uv = sysUserService.findById(userId);
+
+        PcsPrCandidate candidate = new PcsPrCandidate();
+        candidate.setUserId(uv.getId());
+        candidate.setCode(uv.getCode());
+        candidate.setRealname(uv.getRealname());
+        candidate.setPartyId(partyId);
+
+        PcsPrCandidate _candidate = selectedMap.get(userId);
+        if(_candidate!=null){
+            // 如果是上一阶段的入选名单，则读取之前填写的性别、民族、出生年月
+            candidate.setGender(_candidate.getGender());
+            candidate.setNation(_candidate.getNation());
+            candidate.setBirth(_candidate.getBirth());
+        }else {
+            if (uv.getGender() != null && SystemConstants.GENDER_MAP.containsKey(uv.getGender()))
+            candidate.setGender(uv.getGender());
+            candidate.setNation(uv.getNation());
+            candidate.setBirth(uv.getBirth());
+        }
+
+         if(uv.getType()==SystemConstants.USER_TYPE_JZG){
+
+            TeacherInfo teacherInfo = teacherInfoService.get(userId);
+            CadreView cv = cadreService.dbFindByUserId(userId);
+            if(cv!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
+                // 是干部
+                candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
+                candidate.setEduId(cv.getEduId());
+                candidate.setWorkTime(cv.getWorkTime());
+                candidate.setPost(cv.getPost());
+            }else{
+                // 是普通教师
+                candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_TEACHER);
+                candidate.setEducation(teacherInfo.getEducation());
+                candidate.setWorkTime(teacherInfo.getWorkTime());
+                candidate.setIsRetire(teacherInfo.getIsRetire());
+                candidate.setProPost(teacherInfo.getProPost());
+            }
+        }else{
+            StudentInfo studentInfo = studentInfoService.get(userId);
+            // 学生
+            candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_STU);
+            candidate.setEduLevel(studentInfo.getEduLevel());
+        }
+
+        Member member = memberService.get(userId);
+             if(member==null || member.getPoliticalStatus() != MEMBER_POLITICAL_STATUS_POSITIVE){
+            throw new OpException(uv.getRealname() + "不是正式党员。");
+        }
+
+        candidate.setGrowTime(member.getGrowTime());
+
+        return candidate;
     }
 }
