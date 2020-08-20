@@ -169,7 +169,7 @@ public class UserPcsPollController extends PcsBaseController {
             modelMap.put("type", type);
             int num = 0;
             if (type == PcsConstants.PCS_POLL_CANDIDATE_PR){
-                num = pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId());
+                num = pcsPrAlocateService.getPrMaxCount(pcsPoll.getPartyId());
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_DW){
                 num = CmTag.getIntProperty("pcs_poll_dw_num");
             }else if (type == PcsConstants.PCS_POLL_CANDIDATE_JW){
@@ -276,7 +276,7 @@ public class UserPcsPollController extends PcsBaseController {
                 }
 
                 if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE
-                        && prCount > pcsPollCandidateService.getPrMaxCount(pcsPoll.getPartyId())) {
+                        && prCount > pcsPrAlocateService.getPrMaxCount(pcsPoll.getPartyId())) {
                     throw new OpException("推荐的代表超过规定数量，请重新选择");
                 }
                 if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){
