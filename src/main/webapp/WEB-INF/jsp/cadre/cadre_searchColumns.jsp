@@ -220,7 +220,8 @@
     </div>
 </div>
 <div class="column">
-    <label>所学专业</label>
+    <label>所学专业<br/>
+        (以","分隔)</label>
     <div class="input">
         <input type="text" name="major"
                value="${param.major}">
@@ -323,13 +324,21 @@
     </div>
 </div>
 <div class="column">
-    <label class="rows">工作经历<br/>
+    <label class="rows">工作经历类别<br/>
         (<input ${param.andWorkTypes==1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="1">交集
         <input ${param.andWorkTypes!=1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="0">并集)</label>
     <div class="input">
         <select class="multiselect" multiple="" name="workTypes" data-placeholder="请选择">
             <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
         </select>
+    </div>
+</div>
+<div class="column">
+    <label>工作经历<br/>
+        (以","分隔)</label>
+    <div class="input">
+        <input type="text" name="workDetail"
+               value="${param.workDetail}">
     </div>
 </div>
 <div class="column">
