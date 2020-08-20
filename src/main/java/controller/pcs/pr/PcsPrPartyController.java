@@ -312,7 +312,7 @@ public class PcsPrPartyController extends PcsBaseController {
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId,
                 pcsConfigService.getCurrentPcsConfig().getId(), stage));
         // for test
-        modelMap.put("allowModify",true);
+        //modelMap.put("allowModify",true);
 
         return "pcs/pcsPrParty/pcsPrParty_candidate_au";
     }
