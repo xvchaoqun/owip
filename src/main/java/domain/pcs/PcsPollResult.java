@@ -25,8 +25,6 @@ public class PcsPollResult implements Serializable {
 
     private Integer userId;
 
-    private Boolean isCandidate;
-
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -117,14 +115,6 @@ public class PcsPollResult implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Boolean getIsCandidate() {
-        return isCandidate;
-    }
-
-    public void setIsCandidate(Boolean isCandidate) {
-        this.isCandidate = isCandidate;
     }
 
     public String getRemark() {

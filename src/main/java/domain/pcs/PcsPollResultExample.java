@@ -764,66 +764,6 @@ public class PcsPollResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsCandidateIsNull() {
-            addCriterion("is_candidate is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateIsNotNull() {
-            addCriterion("is_candidate is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateEqualTo(Boolean value) {
-            addCriterion("is_candidate =", value, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateNotEqualTo(Boolean value) {
-            addCriterion("is_candidate <>", value, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateGreaterThan(Boolean value) {
-            addCriterion("is_candidate >", value, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_candidate >=", value, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateLessThan(Boolean value) {
-            addCriterion("is_candidate <", value, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_candidate <=", value, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateIn(List<Boolean> values) {
-            addCriterion("is_candidate in", values, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateNotIn(List<Boolean> values) {
-            addCriterion("is_candidate not in", values, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_candidate between", value1, value2, "isCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCandidateNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_candidate not between", value1, value2, "isCandidate");
-            return (Criteria) this;
-        }
-
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

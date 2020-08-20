@@ -21,7 +21,6 @@ public class PcsPollReportService extends PcsBaseMapper {
     @Autowired
     private PcsPrAlocateService pcsPrAlocateService;
 
-    //
     public List<PcsPollReport> getReport(PcsPoll pcsPoll, Byte type){
 
         Integer partyId = pcsPoll.getPartyId();
@@ -44,6 +43,7 @@ public class PcsPollReportService extends PcsBaseMapper {
     public List<PcsPollReport> getReport(byte type, int configId, byte stage, int partyId, Integer branchId){
 
         PcsPollReportExample example = new PcsPollReportExample();
+        example.setOrderByClause("positive_ballot desc");
         PcsPollReportExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type).andConfigIdEqualTo(configId)
                 .andStageEqualTo(stage).andPartyIdEqualTo(partyId);
         if (branchId != null) {
@@ -65,9 +65,6 @@ public class PcsPollReportService extends PcsBaseMapper {
 
         byte stage = pcsPoll.getStage();
 
-        List<Integer> pollIdList = new ArrayList<>();
-        pollIdList.add(pollId);
-
         if (isCandidate) {//设置为候选人
 
             //计算候选人是否超过指定数值
@@ -83,6 +80,8 @@ public class PcsPollReportService extends PcsBaseMapper {
             for (PcsPollReport _pcsPollReport : reportList){
                 selectedUserIdSet.add(_pcsPollReport.getUserId());
             }
+            Set<Integer> _selectedUserIdSet = new HashSet<>();
+            _selectedUserIdSet.addAll(Arrays.asList(userIds));//用于判断是否超额推荐
 
             int requiredCount = 0;
             if (type == PcsConstants.PCS_USER_TYPE_PR){
@@ -92,7 +91,7 @@ public class PcsPollReportService extends PcsBaseMapper {
             }else if (type == PcsConstants.PCS_USER_TYPE_JW){
                 requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
             }
-            if ((selectedUserIdSet.size() + userIds.length) > requiredCount){
+            if ((_selectedUserIdSet.size()) > requiredCount){
 
                 throw new OpException("设置失败，超过{0}的最大推荐数量({1})",
                         PcsConstants.PCS_USER_TYPE_MAP.get(type), requiredCount);
@@ -116,7 +115,12 @@ public class PcsPollReportService extends PcsBaseMapper {
                 record.setStage(stage);
                 record.setType(type);
 
-                List<PcsFinalResult> pcsFinalResultList = iPcsMapper.selectResultList(type, pollIdList, stage, userId, null, null, null, null, new RowBounds());
+                List<PcsFinalResult> pcsFinalResultList = new ArrayList<>();
+                if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
+                    pcsFinalResultList = iPcsMapper.selectResultList(type, pollId, stage, userId, null, null, new RowBounds());
+                }else {
+                    pcsFinalResultList = iPcsMapper.selectSecondResultList(type, pollId, type, userId, null, null, new RowBounds());
+                }
                 PcsFinalResult finalResult = pcsFinalResultList.get(0);
                 record.setBallot(finalResult.getSupportNum());
                 record.setPositiveBallot(finalResult.getPositiveBallot());

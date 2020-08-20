@@ -369,6 +369,24 @@ public class PcsPollController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("pcsPoll:edit")
+    @RequestMapping(value = "/pcsPoll_reportBack", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsPoll_reportBack(HttpServletRequest request,  Integer[] ids) {
+
+        if (null != ids && ids.length>0){
+
+            //权限判断
+            pcsPollService.judgeAuthority(Arrays.asList(ids));
+
+            pcsPollService.pcsPoll_reportBack(ids);
+            logger.info(log( LogConstants.LOG_PCS, "批量回退报送投票结果：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
     @RequiresPermissions("pcsPoll:abolish")
     @RequestMapping(value = "/pcsPoll_batchCancel", method = RequestMethod.POST)
     @ResponseBody

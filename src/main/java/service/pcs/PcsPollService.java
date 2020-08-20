@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.IPcsCandidate;
-import persistence.pcs.common.ResultBean;
+import persistence.pcs.common.PcsFinalResult;
 import service.LoginUserService;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
@@ -211,25 +211,6 @@ public class PcsPollService extends PcsBaseMapper {
         }
     }
 
-    //得到当前党代会投票的ids
-    public List<Integer> getCurrentPcsPollId(){
-
-        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        Integer configId = pcsConfig.getId();
-
-        PcsPollExample example = new PcsPollExample();
-        example.createCriteria().andConfigIdEqualTo(configId).andIsDeletedEqualTo(false).andHasReportEqualTo(true);
-        List<PcsPoll> pcsPolls = pcsPollMapper.selectByExample(example);
-        List<Integer> pollIdList = new ArrayList<>();
-        if (pcsPolls != null && pcsPolls.size() > 0) {
-            for (PcsPoll pcsPoll : pcsPolls) {
-                pollIdList.add(pcsPoll.getId());
-            }
-        }
-
-        return pollIdList;
-    }
-
     @Transactional
     public void batchCancel(Integer[] ids, boolean isDeleted) {
 
@@ -289,47 +270,37 @@ public class PcsPollService extends PcsBaseMapper {
     }
 
     /*
-    * @return 结果中得票数为提名正式党员数
-    * */
-    // 获得支部的推荐汇总结果
-    public List<ResultBean> getCandidates(int configId, byte stage, byte type, int partyId, Integer branchId){
+     * @return 结果中需要用到user_id、positive_ballot
+     * */
+    // 获得支部的候选人结果
+    public List<PcsPollReport> getCandidates(int configId, byte stage, byte type, int partyId, Integer branchId){
 
         List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId, branchId);
 
-        List<ResultBean> resultBeans = new ArrayList<>();
-        if (pcsPollReportList.size() > 0){
-
-            for (PcsPollReport report : pcsPollReportList) {
-                ResultBean bean = new ResultBean();
-                bean.setUserId(report.getUserId());
-                bean.setBallot(report.getPositiveBallot());
-
-                resultBeans.add(bean);
-            }
-        }
-
-        return resultBeans;
+        return pcsPollReportList;
     }
 
+    /*
+     * @return 结果中需要用到userId、branchNum、positiveBallot
+     * */
     // 获得分党委的推荐汇总结果
-    public List<ResultBean> getCandidates(int configId, int partyId, byte type, byte stage){
+    public List<PcsFinalResult> getCandidates(int configId, int partyId, byte type, byte stage){
 
+        List<PcsFinalResult> finalResultList = iPcsMapper.selectReport(type, configId, stage, null, partyId, null, new RowBounds());
 
-        List<PcsPollReport> pcsPollReportList = pcsPollReportService.getReport(type, configId, stage, partyId,null);
+        return finalResultList;
+    }
 
-        List<ResultBean> resultBeans = new ArrayList<>();
-        if (pcsPollReportList.size() > 0){
-            for (PcsPollReport report : pcsPollReportList) {
+    @Transactional
+    public void pcsPoll_reportBack(Integer[] ids) {
 
-                ResultBean bean = new ResultBean();
-                bean.setUserId(report.getUserId());
-                bean.setBranchNum(iPcsMapper.getBranchNum(configId, stage, type, partyId, report.getUserId()));
-                bean.setBallot(report.getPositiveBallot());
+        for (Integer id : ids) {
 
-                resultBeans.add(bean);
-            }
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+            //设置为未报送
+            pcsPoll.setHasReport(false);
+            pcsPollMapper.updateByPrimaryKeySelective(pcsPoll);
+
         }
-
-        return resultBeans;
     }
 }

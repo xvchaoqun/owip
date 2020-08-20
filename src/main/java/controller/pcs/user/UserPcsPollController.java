@@ -25,6 +25,7 @@ import service.sys.SysLoginLogService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PcsHelper;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
@@ -49,6 +50,43 @@ public class UserPcsPollController extends PcsBaseController {
                               HttpServletRequest request, ModelMap modelMap){
 
         if(HttpRequestDeviceUtils.isMobileDevice(request)) {
+
+            if (StringUtils.isNotBlank(u)) {
+                PcsPollInspector inspector = pcsPollInspectorService.tryLogin(StringUtils.trimToNull(u),
+                        StringUtils.trimToNull(p));
+                if (inspector == null) {
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，账号或密码错误！"));
+                    modelMap.put("error", "账号或密码错误");
+                }else if (inspector.getIsFinished()) {
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，用户已完成投票！"));
+                    modelMap.put("error", "该账号已完成投票");
+                }else if (inspector.getPcsPoll().getIsDeleted()){
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票已作废！"));
+                    modelMap.put("error", "党代会投票已作废");
+                }else if (inspector.getPcsPoll().getHasReport()) {
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票已报送！"));
+                    modelMap.put("error", "党代会投票已报送");
+                }else if (inspector.getPcsPoll().getStartTime().after(new Date())){
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票未开始！"));
+                    modelMap.put("error", "党代会投票未开始");
+                }else if (inspector.getPcsPoll().getEndTime().before(new Date())){
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，党代会投票已结束！"));
+                    modelMap.put("error", "党代会投票已结束");
+                }else {
+
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_PCS, true, "扫码登录成功！"));
+                    PcsHelper.setSession(request, inspector.getId());
+
+                    return "redirect:/user/pcs/index?isMobile=1";
+                }
+            }
 
             return "pcs/pcsPoll/mobile/login";
         }

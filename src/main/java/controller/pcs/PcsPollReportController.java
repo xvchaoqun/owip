@@ -42,11 +42,11 @@ public class PcsPollReportController extends PcsBaseController {
                                        Boolean isCandidate,
                                        int pollId,
                                        Byte type,
-                                       Byte _type) {
+                                       Byte _reportType) {
 
         if (null != ids && ids.length>0){
             if (type == null){
-                type = _type;
+                type = _reportType;
             }
             pcsPollReportService.batchInsertOrUpdate(ids, isCandidate, pollId, type);
             logger.info(log( LogConstants.LOG_PCS, "批量{1}：{0}", StringUtils.join(ids, ","),
@@ -65,7 +65,7 @@ public class PcsPollReportController extends PcsBaseController {
                                     Integer branchId,
                                     Byte stage,
                                     Byte type,
-                                   @RequestParam(required = false, defaultValue = "1")Byte _type,
+                                   @RequestParam(required = false, defaultValue = "1")Byte _reportType,
 
                                  Integer pollId,
                                 
@@ -127,8 +127,11 @@ public class PcsPollReportController extends PcsBaseController {
             if (stage!=null) {
                 criteria.andStageEqualTo(stage);
             }
-            if (_type!=null) {
-                criteria.andTypeEqualTo(_type);
+            if (type!=null){
+                criteria.andTypeEqualTo(type);
+            }
+            if (_reportType!=null) {
+                criteria.andTypeEqualTo(_reportType);
             }
 
             /*if (export == 1) {

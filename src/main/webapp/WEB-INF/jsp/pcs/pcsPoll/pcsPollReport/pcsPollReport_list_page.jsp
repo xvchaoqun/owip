@@ -2,10 +2,11 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${PcsConstants.PCS_POLL_FIRST_STAGE}" var="PCS_POLL_FIRST_STAGE"/>
+<c:set value="${PcsConstants.PCS_POLL_CANDIDATE_TYPE}" var="PCS_POLL_CANDIDATE_TYPE"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId}"/>
+            <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.branchId || not empty param.type}"/>
             <div class="tabbable">
                 <jsp:include page="../menu.jsp"/>
                 <div class="tab-content multi-row-head-table">
@@ -24,12 +25,14 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label>推荐人</label>
-                                            <select data-rel="select2-ajax"
-                                                    data-ajax-url="${ctx}/sysUser_selects"
-                                                    name="userId" data-placeholder="请输入推荐人姓名或学工号">
-                                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                            <label>候选人类型</label>
+                                            <select data-rel="select2" name="type" data-placeholder="请选择">
+                                                <option></option>
+                                                <c:forEach items="${PCS_POLL_CANDIDATE_TYPE}" var="entry">
+                                                    <option value="${entry.key}">${entry.value}</option>
+                                                </c:forEach>
                                             </select>
+                                            <script> $('#searchForm select[name=type]').val(${param.type}) </script>
                                         </div>
                                         <div class="form-group">
                                             <label>所在${_p_partyName}</label>
@@ -52,6 +55,14 @@
                                             $.register.party_branch_select($("#searchForm"), "branchDiv",
                                                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                         </script>
+                                        <div class="form-group">
+                                            <label>推荐人</label>
+                                            <select data-rel="select2-ajax"
+                                                    data-ajax-url="${ctx}/sysUser_selects"
+                                                    name="userId" data-placeholder="请输入推荐人姓名或学工号">
+                                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                            </select>
+                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
                                                data-url="${ctx}/pcs/pcsPoll?cls=${cls}&stage=${stage}"

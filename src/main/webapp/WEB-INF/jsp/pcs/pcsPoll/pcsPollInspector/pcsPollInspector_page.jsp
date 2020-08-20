@@ -21,6 +21,14 @@ pageEncoding="UTF-8" %>
                             <button class="popupBtn btn btn-info btn-sm tooltip-success"
                                     data-url="${ctx}/pcs/pcsPollInspector_au?pollId=${param.pollId}" data-rel="tooltip" >
                                 <i class="fa fa-plus"></i> 生成帐号</button>
+                            <%--<button class="printBtn btn btn-primary btn-sm"
+                               href="${ctx}/pcs/pcsPollInspector_print?pollId=${param.pollId}"
+                               data-title="打印"
+                               data-msg="确定打印这{0}个账号？"
+                               data-grid-id="#jqGrid2"
+                               data-rel="tooltip" title="打印选中记录或所有搜索记录结果">
+                                <i class="fa fa-print"></i> 打印
+                            </button>--%>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pcsPollInspector:del">
                             <button data-url="${ctx}/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
@@ -105,6 +113,12 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '登录账号',name: 'username'},
             { label: '登录密码',name: 'passwd'},
+            { label: '投票详情',name: '_detail', width:80, formatter: function (cellvalue, options, rowObject) {
+
+                    return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
+                        'data-url="${ctx}/pcs/pcspollInspector_Result?id={0}"><i class="fa fa-search"></i> 查看</button>'
+                            .format(rowObject.id)
+                }},
             { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
             { label: '是否完成投票',name: 'isFinished',formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '投票人身份',name: 'isPositive', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '正式党员', off: '预备党员'}},
@@ -115,6 +129,6 @@ pageEncoding="UTF-8" %>
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $.register.ajax_select($('[data-rel="select2-ajax"]'));
     $('#searchForm2 [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $('#searchForm2 [data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
 </script>

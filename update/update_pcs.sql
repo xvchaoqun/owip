@@ -1,4 +1,6 @@
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2546, 0, '党代会报送结果', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPollReport:*', NULL, NULL, NULL, 1, NULL);
+
 ALTER TABLE `pcs_poll_result`
 	DROP COLUMN `is_candidate`;
 DROP TABLE IF EXISTS `pcs_poll_report`;

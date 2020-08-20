@@ -2,10 +2,7 @@ package controller.pcs;
 
 import domain.party.Branch;
 import domain.party.Party;
-import domain.pcs.PcsBranch;
-import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollInspector;
-import domain.pcs.PcsPollInspectorExample;
+import domain.pcs.*;
 import domain.pcs.PcsPollInspectorExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -171,6 +168,57 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("drOnlineInspector:edit")
+    @RequestMapping("/pcsPollInspector_print")
+    public String pcsPollInspector_print(Integer pollId,
+                                         Integer[] ids,
+                                         ModelMap modelMap,
+                                         HttpServletResponse response,
+                                         HttpServletRequest request){
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        modelMap.put("pcsPoll", pcsPoll);
+
+        PcsPollInspectorExample example = new PcsPollInspectorExample();
+        example.setOrderByClause("id desc");
+        PcsPollInspectorExample.Criteria criteria = example.createCriteria().andPollIdEqualTo(pollId);
+        if (ids != null && ids.length > 0){
+            criteria.andIdIn(Arrays.asList(ids));
+        }
+        List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
+        modelMap.put("inspectors", inspectors);
+
+        return "pcs/pcsPoll/pcsPollInspector/inspector_print";
+    }
+
+
+    @RequiresPermissions("drOnlineInspector:edit")
+    @RequestMapping("/pcspollInspector_Result")
+    public String pcspollInspector_Result(Integer id,
+                                         ModelMap modelMap,
+                                         HttpServletResponse response,
+                                         HttpServletRequest request){
+
+        PcsPollInspectorExample example = new PcsPollInspectorExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
+
+        List<PcsPollResult> pcsPollResults = new ArrayList<>();
+        if (inspectors != null &&inspectors.size() > 0){
+
+            PcsPollInspector inspector = inspectors.get(0);
+            modelMap.put("stage", inspector.getPcsPoll().getStage());
+            PcsPollResultExample resultExample = new PcsPollResultExample();
+            resultExample.createCriteria().andInspectorIdEqualTo(inspector.getId());
+            resultExample.setOrderByClause("type");
+            pcsPollResults = pcsPollResultMapper.selectByExample(resultExample);
+        }
+        modelMap.put("pcsPollResults", pcsPollResults);
+
+        return "pcs/pcsPoll/pcsPollInspector/pcspollInspector_Result";
+    }
+
     public void pcsPollInspector_export(Integer pollId, PcsPollInspectorExample example, HttpServletResponse response) {
 
         List<PcsPollInspector> records = pcsPollInspectorMapper.selectByExample(example);

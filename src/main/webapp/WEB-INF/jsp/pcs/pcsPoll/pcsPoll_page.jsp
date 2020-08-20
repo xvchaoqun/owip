@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.name ||not empty param.partyId ||not empty param.branchId ||not empty param.configName ||not empty param.stage ||not empty param.hasReport}"/>
+            <c:set var="_query" value="${not empty param.name ||not empty param.partyId ||not empty param.branchId ||not empty param.stage ||not empty param.hasReport}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
                     <div class="tab-content multi-row-head-table">
@@ -30,6 +30,13 @@ pageEncoding="UTF-8" %>
                            data-url="${ctx}/pcs/pcsPoll_au"
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
+                        <button data-url="${ctx}/pcs/pcsPoll_reportBack"
+                                data-title="退回报送"
+                                data-msg="确定退回这{0}条数据的报送结果？"
+                                data-grid-id="#jqGrid"
+                                class="jqBatchBtn btn btn-warning btn-sm">
+                            <i class="fa fa-reply"></i> 退回报送
+                        </button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=1"

@@ -87,7 +87,9 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     function _ReLoadPage(){
-        $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&_type=${param.type}&pollId=${param.pollId}");
+        SysMsg.success('设置成功。',function(){
+            $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&_reportType=${param.type}&pollId=${param.pollId}");
+        })
     }
 
     $("#jqGrid2").jqGrid({
