@@ -325,8 +325,8 @@
         return false;
     }
 
-    function _logout() {
-        location.href = "${ctx}/user/pcs/logout?isMobile=1";
+    function _logout(isFinished) {
+        location.href = "${ctx}/user/pcs/logout?isMobile=1&isFinished="+$.trim(isFinished);
     }
 </script>
 </body>

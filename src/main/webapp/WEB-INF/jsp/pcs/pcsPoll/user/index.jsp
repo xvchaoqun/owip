@@ -265,7 +265,7 @@
     }
 
     function _logout(isFinished) {
-        location.href = "${ctx}/user/pcs/logout?isSuccess="+$.trim(isFinished);
+        location.href = "${ctx}/user/pcs/logout?isFinished="+$.trim(isFinished);
     }
 
 </script>

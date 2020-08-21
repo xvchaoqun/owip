@@ -211,7 +211,7 @@
 
     $('#candidateForm input[name=type]').change(function () {
         $("table").mask()
-        //_save($(this).val())
+        _save($(this).val())
     })
 
     var $select = $.register.user_select($('select[name=userIds]'),
