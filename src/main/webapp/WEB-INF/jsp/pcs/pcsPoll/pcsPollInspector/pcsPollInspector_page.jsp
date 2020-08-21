@@ -21,11 +21,8 @@ pageEncoding="UTF-8" %>
                             <button class="popupBtn btn btn-info btn-sm tooltip-success"
                                     data-url="${ctx}/pcs/pcsPollInspector_au?pollId=${param.pollId}" data-rel="tooltip" >
                                 <i class="fa fa-plus"></i> 生成帐号</button>
-                            <%--<button class="printBtn btn btn-primary btn-sm"
+                            <a class="btn btn-primary btn-sm" target="_blank"
                                href="${ctx}/pcs/pcsPollInspector_print?pollId=${param.pollId}"
-                               data-title="打印"
-                               data-msg="确定打印这{0}个账号？"
-                               data-grid-id="#jqGrid2"
                                data-rel="tooltip" title="打印选中记录或所有搜索记录结果">
                                 <i class="fa fa-print"></i> 打印
                             </a>

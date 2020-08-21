@@ -167,7 +167,6 @@ public class PcsPollInspectorController extends PcsBaseController {
     @RequiresPermissions("drOnlineInspector:edit")
     @RequestMapping("/pcsPollInspector_print")
     public String pcsPollInspector_print(Integer pollId,
-                                         Integer[] ids,
                                          ModelMap modelMap,
                                          HttpServletResponse response,
                                          HttpServletRequest request){
@@ -177,10 +176,7 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         PcsPollInspectorExample example = new PcsPollInspectorExample();
         example.setOrderByClause("id desc");
-        PcsPollInspectorExample.Criteria criteria = example.createCriteria().andPollIdEqualTo(pollId);
-        if (ids != null && ids.length > 0){
-            criteria.andIdIn(Arrays.asList(ids));
-        }
+        example.createCriteria().andPollIdEqualTo(pollId);
         List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
         modelMap.put("inspectors", inspectors);
 

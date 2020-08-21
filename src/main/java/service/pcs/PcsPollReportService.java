@@ -2,6 +2,7 @@ package service.pcs;
 
 import controller.global.OpException;
 import domain.pcs.PcsPoll;
+import domain.pcs.PcsPollExample;
 import domain.pcs.PcsPollReport;
 import domain.pcs.PcsPollReportExample;
 import domain.sys.SysUserView;
@@ -28,7 +29,7 @@ public class PcsPollReportService extends PcsBaseMapper {
         Byte stage = pcsPoll.getStage();
         PcsPollReportExample example = new PcsPollReportExample();
         PcsPollReportExample.Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId)
-                .andStageEqualTo(stage);
+                .andStageEqualTo(stage).andPollIdEqualTo(pcsPoll.getId());
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
@@ -42,13 +43,16 @@ public class PcsPollReportService extends PcsBaseMapper {
 
     public List<PcsPollReport> getReport(byte type, int configId, byte stage, int partyId, Integer branchId){
 
-        PcsPollReportExample example = new PcsPollReportExample();
-        example.setOrderByClause("positive_ballot desc");
-        PcsPollReportExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type).andConfigIdEqualTo(configId)
-                .andStageEqualTo(stage).andPartyIdEqualTo(partyId);
+        PcsPollExample example1 = new PcsPollExample();
+        PcsPollExample.Criteria criteria = example1.createCriteria().andStageEqualTo(stage).andConfigIdEqualTo(configId)
+                .andPartyIdEqualTo(partyId);
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
+        List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example1);
+        PcsPollReportExample example = new PcsPollReportExample();
+        example.setOrderByClause("positive_ballot desc");
+        example.createCriteria().andTypeEqualTo(type).andPollIdEqualTo(pcsPollList.get(0).getId());
         List<PcsPollReport> pcsPollReportList = pcsPollReportMapper.selectByExample(example);
         return pcsPollReportList;
     }

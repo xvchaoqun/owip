@@ -31,6 +31,21 @@ pageEncoding="UTF-8" %>
                                 <i class="ace-icon fa fa-times"></i> 取消候选人推荐人选
                             </button>
                         </c:if>
+
+                            <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                    data-url="${ctx}/pcs/pcsPollReport_data?pollId=${param.pollId}&type=${type}"
+                                    data-grid-id="#jqGrid2"
+                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i>
+                                <c:if test="${type==PCS_USER_TYPE_PR}">
+                                    导出党代表统计结果
+                                </c:if>
+                                <c:if test="${type==PCS_USER_TYPE_DW}">
+                                    导出党委委员统计结果
+                                </c:if>
+                                <c:if test="${type==PCS_USER_TYPE_JW}">
+                                    导出纪委委员统计结果
+                                </c:if>
+                            </button>
                     </shiro:hasPermission>
                     <input type="checkbox"  name="type" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}" class="cadre-info-check"> 党委委员（${dwCount}）
                     <input type="checkbox"  name="type" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}" class="cadre-info-check"> 纪委委员（${jwCount}）
@@ -119,6 +134,7 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('[data-rel="tooltip"]').tooltip();
 
     $("#changeType input[type=checkbox]").click(function () {
         $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=${cls}&type="+$(this).val());

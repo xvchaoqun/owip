@@ -1,8 +1,16 @@
 package domain.pcs;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class PcsPollReport implements Serializable {
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+
     private Integer id;
 
     private Integer pollId;
