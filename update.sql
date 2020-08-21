@@ -1,7 +1,7 @@
 
+20200821
 
 -- 更新 ow_member_view
-
 ALTER TABLE `pcs_candidate`
 	ADD COLUMN `code` VARCHAR(20) NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `type`,
 	ADD COLUMN `realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名' AFTER `code`,
@@ -217,10 +217,6 @@ update sys_role set code='role_pcs_party' where code='role_pcs_admin';
 
 INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_admin', '党代会-组织部管理员', 1, '469,473,2791,2542,980,981,982,983,2543,2544,2545,2546,474,476,472,499,477,481,491,494,597,598,599,485,482,487,490,500,501,502,503', '-1', NULL, 0, 0, 62, '');
 
-drop view pcs_party_view;
-drop view pcs_branch_view;
-drop view pcs_candidate_view;
-drop view pcs_pr_candidate_view;
 
 20200814
 
