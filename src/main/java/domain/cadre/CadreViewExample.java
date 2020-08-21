@@ -2,6 +2,7 @@ package domain.cadre;
 
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
@@ -3685,7 +3686,7 @@ public class CadreViewExample {
 
         public Criteria andMajorLikeIn(String value) {
 
-            String[] majors = value.split(",");
+            String[] majors = value.split(SystemConstants.STRING_SEPARTOR);
             List searchSqlList = new ArrayList<>();
 
             for (String major : majors) {

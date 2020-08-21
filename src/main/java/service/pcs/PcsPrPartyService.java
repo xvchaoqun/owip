@@ -254,8 +254,9 @@ public class PcsPrPartyService extends PcsBaseMapper {
 
     }
 
+    // 读取党代表的基本信息
     @Transactional
-    public PcsPrCandidate candidateDate(Integer userId,byte stage){
+    public PcsPrCandidate getCandidateInfo(Integer userId, byte stage){
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();

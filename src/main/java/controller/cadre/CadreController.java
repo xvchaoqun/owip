@@ -324,7 +324,7 @@ public class CadreController extends BaseController {
 
         if (workTypes != null){
             List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
-                    BooleanUtils.isTrue(andWorkTypes));
+                    BooleanUtils.isTrue(andWorkTypes), status);
             if(cadreIds.size()==0){
                 criteria.andIdIsNull();
             }else {
@@ -332,9 +332,9 @@ public class CadreController extends BaseController {
             }
         }
         if (StringUtils.isNotBlank(workDetail)){
-            String[] workDetails=workDetail.split(",");
+            String[] workDetails=workDetail.split(SystemConstants.STRING_SEPARTOR);
             List<String> detailList= Arrays.asList(workDetails);
-            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkDetail(detailList);
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkDetail(detailList, status);
             if(cadreIds.size()==0){
                 criteria.andIdIsNull();
             }else {

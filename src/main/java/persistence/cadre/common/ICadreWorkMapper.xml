@@ -4,7 +4,12 @@
     <select id="getCadreIdsOfWorkTypes" parameterType="map" resultType="java.lang.Integer" >
         <if test="andWorkTypes">
             select distinct cadre_id from
-            (select  cadre_id, group_concat(work_types) as work_types from cadre_work group by cadre_id)tmp
+            (select  cw.cadre_id, group_concat(cw.work_types) as work_types from cadre_work cw
+              <if test="cadreStatus != null">
+              left join cadre c on cw.cadre_id=c.id
+              where c.status = #{cadreStatus}
+              </if>
+             group by cw.cadre_id)tmp
             where
             <foreach collection="workTypes" item="workType" index="index"
                      open="(" close=")" separator=" and ">
@@ -12,19 +17,30 @@
             </foreach>
         </if>
         <if test="!andWorkTypes">
-            select distinct cadre_id from cadre_work where
+            select distinct cw.cadre_id from cadre_work cw
+              left join cadre c on cw.cadre_id=c.id
+            <where>
+            <if test="cadreStatus != null">
+              c.status = #{cadreStatus} and
+            </if>
             <foreach collection="workTypes" item="workType" index="index"
                      open="(" close=")" separator=" or ">
-                find_in_set(#{workType}, work_types)
+                find_in_set(#{workType}, cw.work_types)
             </foreach>
+            </where>
         </if>
     </select>
 
     <select id="getCadreIdsOfWorkDetail" parameterType="map" resultType="java.lang.Integer" >
-         select distinct cadre_id from cadre_work where
+         select distinct cadre_id from cadre_work cw
+         left join cadre c on cw.cadre_id=c.id
+         <where>
+            <if test="cadreStatus != null">
+              c.status = #{cadreStatus} and
+            </if>
             <foreach collection="detailList" item="detail" separator=" or ">
-                detail like '%${detail}%'
+                cw.detail like '%${detail}%'
             </foreach>
-
+        </where>
     </select>
 </mapper>

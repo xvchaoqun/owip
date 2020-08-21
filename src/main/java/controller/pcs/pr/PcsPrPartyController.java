@@ -4,7 +4,6 @@ import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.member.Member;
 import domain.member.MemberView;
-import domain.member.MemberViewExample;
 import domain.pcs.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -343,7 +342,7 @@ public class PcsPrPartyController extends PcsBaseController {
         if (userIds != null) {
             for (Integer userId : userIds) {
 
-                PcsPrCandidate candidate=pcsPrPartyService.candidateDate(userId,stage);
+                PcsPrCandidate candidate=pcsPrPartyService.getCandidateInfo(userId,stage);
                 candidates.add(candidate);
             }
         }
@@ -396,7 +395,6 @@ public class PcsPrPartyController extends PcsBaseController {
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
-            PcsPrCandidate candidate = new PcsPrCandidate();
             String code = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(code)) {
                 throw new OpException("第{0}行学工号为空", row);
@@ -406,22 +404,21 @@ public class PcsPrPartyController extends PcsBaseController {
                 throw new OpException("第{0}行工号[{1}]不存在", row, code);
             }
             Member member=memberService.get(uv.getId());
-            if (member == null||(member.getPartyId()!=pcsParty.getPartyId()||member.getStatus()==MEMBER_STATUS_QUIT||member.getPoliticalStatus()!=MEMBER_POLITICAL_STATUS_POSITIVE)) {
-                throw new OpException("第{0}行工号[{1}]不符合党代表条件", row, code);
+            if (member == null||(member.getPartyId()!=pcsParty.getPartyId()
+                    ||member.getStatus()==MEMBER_STATUS_QUIT
+                    ||member.getPoliticalStatus()!=MEMBER_POLITICAL_STATUS_POSITIVE)) {
+                throw new OpException("第{0}行工号[{1}]不符合党代表的基本条件（正式党员）", row, code);
             }
 
-            candidate=pcsPrPartyService.candidateDate(uv.getId(),stage);
+            PcsPrCandidate candidate=pcsPrPartyService.getCandidateInfo(uv.getId(),stage);
 
             if(member.getType()==MEMBER_TYPE_STUDENT){
                 candidate.setType(PCS_PR_TYPE_STU);
             }else if(member.getType()==MEMBER_TYPE_TEACHER){
 
-                MemberViewExample example = new MemberViewExample();
-                MemberViewExample.Criteria criteria = example.createCriteria();
-                criteria.andUserIdEqualTo(uv.getId());
-                List<MemberView> members = memberViewMapper.selectByExample(example);
+                MemberView mv = iMemberMapper.getMemberView(uv.getUserId());
 
-                if(members.size()>0&& BooleanUtils.isTrue(members.get(0).getIsRetire())){
+                if(mv!=null && BooleanUtils.isTrue(mv.getIsRetire())){
                     candidate.setType(PCS_PR_TYPE_RETIRE);
                 }else {
                     candidate.setType(PCS_PR_TYPE_PRO);

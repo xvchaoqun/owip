@@ -220,8 +220,8 @@
     </div>
 </div>
 <div class="column">
-    <label>所学专业<br/>
-        (以","分隔)</label>
+    <label>所学专业 <span class="prompt" data-title="查询说明"
+							  data-prompt="支持多条件查询，分割符为,，;；、|"><i class="fa fa-question-circle-o"></i></span></label>
     <div class="input">
         <input type="text" name="major"
                value="${param.major}">
@@ -334,8 +334,8 @@
     </div>
 </div>
 <div class="column">
-    <label>工作经历<br/>
-        (以","分隔)</label>
+    <label>工作经历 <span class="prompt" data-title="查询说明"
+							  data-prompt="支持多条件查询，分割符为,，;；、|"><i class="fa fa-question-circle-o"></i></span></label>
     <div class="input">
         <input type="text" name="workDetail"
                value="${param.workDetail}">

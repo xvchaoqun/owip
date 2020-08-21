@@ -536,7 +536,7 @@ public class MobileCadreSearchController extends BaseController {
 		}
 		if (workTypes != null){
 			List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
-					BooleanUtils.isTrue(andWorkTypes));
+					BooleanUtils.isTrue(andWorkTypes), status);
 			if(cadreIds.size()==0){
 				criteria.andIdIsNull();
 			}else {

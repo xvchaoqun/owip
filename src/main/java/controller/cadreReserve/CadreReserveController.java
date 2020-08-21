@@ -514,7 +514,7 @@ public class CadreReserveController extends BaseController {
         }
         if (workTypes != null){
             List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
-                    BooleanUtils.isTrue(andWorkTypes));
+                    BooleanUtils.isTrue(andWorkTypes), CadreConstants.CADRE_STATUS_RESERVE);
             if(cadreIds.size()==0){
                 criteria.andIdIsNull();
             }else {

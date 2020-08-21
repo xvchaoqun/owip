@@ -50,6 +50,8 @@ public class SystemConstants {
         FOREIN_KEY_DEL_MSG_MAP.put("cet_course", "该课程已被使用， 不可删除。");
     }
 
+    // 字符串分隔符（正则）
+    public static final String STRING_SEPARTOR = ",|，|;|；|、|\\|";
     // 账号的角色字符串分隔符
     public static final String USER_ROLEIDS_SEPARTOR = ",";
 
