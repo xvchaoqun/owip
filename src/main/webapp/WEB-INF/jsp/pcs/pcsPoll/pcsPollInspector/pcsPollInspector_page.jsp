@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="ROLE_PCS_ADMIN" value="<%=RoleConstants.ROLE_PCS_ADMIN%>"/>
-<c:set value="<%=DrConstants.INSPECTOR_STATUS_MAP%>" var="INSPECTOR_STATUS_MAP"/>
-<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
+<%@ include file="/WEB-INF/jsp/pcs/constants.jsp" %>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">

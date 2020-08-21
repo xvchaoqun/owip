@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
+<%@ include file="/WEB-INF/jsp/pcs/constants.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>

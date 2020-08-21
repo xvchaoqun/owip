@@ -1,6 +1,7 @@
 package controller.pcs;
 
 import domain.party.Branch;
+import domain.party.Party;
 import domain.pcs.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -193,6 +194,8 @@ public class PcsPollReportController extends PcsBaseController {
         cell.setCellValue(str);
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        Integer partyId = pcsPoll.getPartyId();
+        Party party = partyMapper.selectByPrimaryKey(partyId);
         Integer branchId = pcsPoll.getBranchId();
         Branch branch = null;
         if (branchId != null){
@@ -202,7 +205,7 @@ public class PcsPollReportController extends PcsBaseController {
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("branchName", branch!=null?branch.getName():"");
+                .replace("branchName", branch!=null?branch.getName():party.getName());
         cell.setCellValue(str);
 
         cell = row.getCell(2);
@@ -272,6 +275,8 @@ public class PcsPollReportController extends PcsBaseController {
         cell.setCellValue(str);
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        Integer partyId = pcsPoll.getPartyId();
+        Party party = partyMapper.selectByPrimaryKey(partyId);
         Integer branchId = pcsPoll.getBranchId();
         Branch branch = null;
         if (branchId != null){
@@ -281,26 +286,26 @@ public class PcsPollReportController extends PcsBaseController {
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("branchName", branch!=null?branch.getName():"");
+                .replace("branchName", branch!=null?branch.getName():party.getName());
         cell.setCellValue(str);
         PcsBranch pcsBranch =  pcsBranchService.get(pcsPoll.getConfigId(), pcsPoll.getPartyId(), branchId);
         row = sheet.getRow(2);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("allCount", pcsBranch.getMemberCount()+"")
-                .replace("positiveCount",pcsBranch.getPositiveCount()+"");
+                .replace("allCount", pcsBranch.getMemberCount()==null?"":pcsBranch.getMemberCount()+"")//支部党员数
+                .replace("positiveCount",pcsBranch.getPositiveCount()==null?"":pcsBranch.getPositiveCount()+"");//支部正式党员数
         cell.setCellValue(str);
         row = sheet.getRow(3);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("insFinishNum",  pcsPoll.getInspectorFinishNum()+"")
-                .replace("insPositiveNum",pcsPoll.getPositiveFinishNum()+"");
+                .replace("insFinishNum",  pcsPoll.getInspectorFinishNum()+"")//参加推荐提名党员数
+                .replace("insPositiveNum",pcsPoll.getPositiveFinishNum()+"");//其中参加推荐提名正式党员数
         cell.setCellValue(str);
 
 
         int sep = 1;
         int startRow = 5;
-        int rowInsert =  reportList.size()+2;
+        int rowInsert =  reportList.size()+3;
         ExcelUtils.insertRow(wb, sheet, startRow, rowInsert);
         int rowCount = 5;
 

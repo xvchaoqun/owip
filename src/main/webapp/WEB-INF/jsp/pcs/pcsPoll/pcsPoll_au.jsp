@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=PcsConstants.PCS_POLL_STAGE_MAP%>" var="PCS_POLL_STAGE_MAP"/>
+<%@ include file="../constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${pcsPoll!=null?'编辑':'创建'}党支部投票</h3>
@@ -162,7 +162,6 @@
             //console.log(et.val())
             $('#tipSt').text('请先填写投票起始时间')
         } else if (st.val() >= et.val()) {
-            st.val('')
             et.val('')
             $('#tipEt').text('截止时间应晚于起始时间')
         } else if (st.val() < et.val()) {

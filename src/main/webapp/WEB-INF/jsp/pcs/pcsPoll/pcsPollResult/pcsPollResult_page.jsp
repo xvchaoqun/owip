@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
-<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
-<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
-<c:set value="<%=PcsConstants.PCS_POLL_FIRST_STAGE%>" var="PCS_POLL_FIRST_STAGE"/>
+<%@ include file="/WEB-INF/jsp/pcs/constants.jsp" %>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -77,7 +74,7 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
                 <div class="space-4"></div>
-                <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="4"></table>
+                <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="10"></table>
                 <div id="jqGridPager2"></div>
             </div>
         </div>

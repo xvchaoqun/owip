@@ -437,6 +437,7 @@
     <select id="countReport" parameterType="map" resultType="java.lang.Integer" >
         select count(*) from (select r.* from pcs_poll_report r,pcs_poll pp
         <where>
+            pp.id=r.poll_id and
             <include refid="selectReport_where"/>
         </where>
         group by r.type, r.user_id)tmp
