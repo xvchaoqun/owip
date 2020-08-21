@@ -184,7 +184,7 @@ public class PcsPollInspectorController extends PcsBaseController {
         List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
         modelMap.put("inspectors", inspectors);
 
-        return "pcs/pcsPoll/pcsPollInspector/inspector_print";
+        return "pcs/pcsPoll/pcsPollInspector/pcsPollInspector_print";
     }
 
 

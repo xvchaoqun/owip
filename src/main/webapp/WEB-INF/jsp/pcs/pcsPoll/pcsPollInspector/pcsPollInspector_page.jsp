@@ -28,7 +28,7 @@ pageEncoding="UTF-8" %>
                                data-grid-id="#jqGrid2"
                                data-rel="tooltip" title="打印选中记录或所有搜索记录结果">
                                 <i class="fa fa-print"></i> 打印
-                            </button>--%>
+                            </a>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pcsPollInspector:del">
                             <button data-url="${ctx}/pcs/pcsPollInspector_batchDel?pollId=${param.pollId}"
