@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/pcs/constants.jsp" %>
-<c:set value="${_pMap['pcs_poll_site_name']}" var="_p_pcsSiteName"/>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -199,6 +198,28 @@
         } else {
             $otherTr.show();
         }
+
+
+
+        if($(this).is(":checked")){
+            $(this).data("waschecked", true);
+        }else {
+            $(this).data("waschecked", false);
+        }
+
+        //console.log($(this).data());
+        /*if ($(this).data('waschecked')){
+            $(this).attr("checked", false);
+            $(this).data('waschecked',false);
+            //$radio.data('waschecked', false);
+        }else if (!$(this).data('waschecked')) {
+            $(this).attr("checked", true);
+            $(this).data('waschecked',true);
+        }
+
+        //console.log($(this).data());
+
+        console.log($(this).attr("checked"));*/
 
         /*if($(this).data("check")){
             $(this).data("check", false);

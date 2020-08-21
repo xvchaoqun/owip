@@ -10,6 +10,13 @@
                 <jsp:include page="../menu.jsp"/>
                 <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
+                        <div class="jqgrid-vertical-offset buttons">
+                            <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                               data-url="${ctx}/pcs/pcsPollReport_list_data?stage=${stage}"
+                               data-search-form-id="#searchForm"
+                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                                <i class="fa fa-download"></i> 导出</button>
+                        </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
@@ -88,6 +95,7 @@
 </div>
 <script>
     $("#jqGrid").jqGrid({
+        multiselect:false,
         rownumbers:true,
         url: '${ctx}/pcs/pcsPollReport_list_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -103,8 +111,9 @@
             { label: '推荐提名<br/>预备党员数',name: 'growBallot'},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
             { label: '不同意票数',name: 'notSupportNum'},
-            { label: '弃权票数',name: 'notVoteNum'}
+            { label: '弃权票数',name: 'notVoteNum'},
             </c:if>
+            {hidden:true, key: true, name: 'userId'},{hidden:true, name: 'type'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

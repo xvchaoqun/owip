@@ -416,8 +416,33 @@
         <if test="branchId != null">
             and r.branch_id = #{branchId}
         </if>
-        <if test="userId != null">
-            and r.user_id = #{userId}
+        <if test="userIdList != null and userIdList.size > 0">
+            and r.user_id in
+            <foreach collection="userIdList" open="(" close = ")" item = "userId" separator=",">
+                #{userId}
+            </foreach>
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList != null and branchIdList.size > 0)">
+            and r.party_id in
+            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
+                #{partyId}
+            </foreach>
+            or r.branch_id in
+            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+        <if test="(partyIdList == null or partyIdList.size == 0)and(branchIdList != null and branchIdList.size > 0)">
+            and r.branch_id in
+            <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+        <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList == null or branchIdList.size == 0)">
+            and r.party_id in
+            <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
+                #{partyId}
+            </foreach>
         </if>
     </sql>
 

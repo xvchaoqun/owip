@@ -44,7 +44,6 @@ pageEncoding="UTF-8" %>
                         </button>
                     </shiro:hasPermission>
                 </c:if>
-
                     <c:if test="${cls==5}">
                         <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=0"
@@ -211,7 +210,7 @@ pageEncoding="UTF-8" %>
                 label: '投票结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
                     return $.button.openView({
                         style:"btn-info",
-                        url:"${ctx}/pcs/pcsPollResult?pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollResult?type=1&pollId="+rowObject.id,
                         icon:"fa-bar-chart",
                         label:"查看"});
                 }, width: 80

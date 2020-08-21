@@ -1,7 +1,5 @@
 package controller.pcs;
 
-import domain.party.Branch;
-import domain.party.Party;
 import domain.pcs.*;
 import domain.pcs.PcsPollInspectorExample.Criteria;
 import mixin.MixinUtils;
@@ -164,7 +162,7 @@ public class PcsPollInspectorController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("drOnlineInspector:edit")
+    @RequiresPermissions("pcsPollInspector:edit")
     @RequestMapping("/pcsPollInspector_print")
     public String pcsPollInspector_print(Integer pollId,
                                          ModelMap modelMap,
@@ -216,24 +214,28 @@ public class PcsPollInspectorController extends PcsBaseController {
 
         List<PcsPollInspector> records = pcsPollInspectorMapper.selectByExample(example);
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        int configId = pcsPoll.getConfigId();
+        int partyId = pcsPoll.getPartyId();
+        Integer branchId = pcsPoll.getBranchId();
+
         int rownum = records.size();
         String[] titles = {"登录账号|100","登录密码|100","所属二级党组织|300","所属党支部|252","投票人身份|100","是否完成投票|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PcsPollInspector record = records.get(i);
-            Party party = null;
-            Branch branch = null;
+            PcsParty pcsParty = null;
+            PcsBranch pcsBranch = null;
             if (record.getPartyId() != null) {
-                party = partyMapper.selectByPrimaryKey(record.getPartyId());
+                pcsParty = pcsPartyService.get(configId, partyId);
             }
             if(record.getBranchId() != null){
-                branch = branchMapper.selectByPrimaryKey(record.getBranchId());
+                pcsBranch = pcsBranchService.get(configId, partyId, branchId);
             }
             String[] values = {
                     record.getUsername(),
                     record.getPasswd(),
-                    party == null ? "" : party.getName(),
-                    branch == null ? "" : branch.getName(),
+                    pcsParty == null ? "" : pcsParty.getName(),
+                    pcsBranch == null ? "" : pcsBranch.getName(),
                     record.getIsPositive() == null ? "" : BooleanUtils.isTrue(record.getIsPositive()) ? "正式党员" : "预备党员",
                     BooleanUtils.isTrue(record.getIsFinished()) ? "是" : "否",
             };

@@ -252,8 +252,9 @@ public class PcsPollService extends PcsBaseMapper {
             }
 
             //设置为未报送
+            pcsPoll.setReportDate(null);
             pcsPoll.setHasReport(false);
-            pcsPollMapper.updateByPrimaryKeySelective(pcsPoll);
+            pcsPollMapper.updateByPrimaryKey(pcsPoll);
         }
     }
 
@@ -309,7 +310,7 @@ public class PcsPollService extends PcsBaseMapper {
     // 获得分党委的推荐汇总结果
     public List<PcsFinalResult> getCandidates(int configId, int partyId, byte type, byte stage){
 
-        List<PcsFinalResult> finalResultList = iPcsMapper.selectReport(type, configId, stage, null, partyId, null, new RowBounds());
+        List<PcsFinalResult> finalResultList = iPcsMapper.selectReport(type, configId, stage, null, partyId, null, null, null, new RowBounds());
 
         return finalResultList;
     }

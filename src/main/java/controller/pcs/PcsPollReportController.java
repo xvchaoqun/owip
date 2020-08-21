@@ -1,7 +1,5 @@
 package controller.pcs;
 
-import domain.party.Branch;
-import domain.party.Party;
 import domain.pcs.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,24 +18,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsFinalResult;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.ExcelUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/pcs")
@@ -139,7 +133,7 @@ public class PcsPollReportController extends PcsBaseController {
                                         Integer userId,
                                         Integer partyId,
                                         Integer branchId,
-                                        Byte stage,
+                                        byte stage,
                                         Byte type,
                                         Integer pollId,
                                         @RequestParam(required = false, defaultValue = "0") int export,
@@ -154,17 +148,34 @@ public class PcsPollReportController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         Integer configId = pcsConfig.getId();
+        List<Integer> partyIdList = new ArrayList<>();
+        List<Integer> branchIdList = new ArrayList<>();
+
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+            partyIdList = loginUserService.adminPartyIdList();
+            branchIdList = loginUserService.adminBranchIdList();
+        }
+
+        List<Integer> userIdList = new ArrayList<>();
+        if (ids != null && ids.length > 0) {
+            userIdList.addAll(Arrays.asList(ids));
+        }
 
         int count = 0;
-        count = iPcsMapper.countReport(type, configId, stage, userId, partyId, branchId);
+        count = iPcsMapper.countReport(type, configId, stage, userIdList, partyId, branchId, partyIdList, branchIdList);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsFinalResult> records = iPcsMapper.selectReport(type, configId, stage, userId, partyId, branchId, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PcsFinalResult> records = iPcsMapper.selectReport(type, configId, stage, userIdList, partyId, branchId, partyIdList, branchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        if (export == 1) {
+            pcsPollReport_export(records, stage, response);
+            return;
+        }
+
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -177,6 +188,33 @@ public class PcsPollReportController extends PcsBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
 
         return;
+    }
+
+    public void pcsPollReport_export(List<PcsFinalResult> records, byte stage, HttpServletResponse response) {
+
+        int rownum = records.size();
+        String[] titles = {"学工号|120", "姓名|100", "所在单位|252", "推荐人类型|100", "推荐提名党支部数|100",
+                "推荐提名党员数|100", "推荐提名正式党员数|100", "推荐提名预备党员数|100", "不同意票数|100", "弃权票数|100"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            PcsFinalResult record = records.get(i);
+            String[] values = {
+                    record.getCode(),
+                    record.getRealname(),
+                    record.getUnit(),
+                    PcsConstants.PCS_USER_TYPE_MAP.get(record.getType()),
+                    record.getBranchNum() + "",
+                    record.getSupportNum() + "",
+                    record.getPositiveBallot() + "",
+                    record.getGrowBallot() + "",
+                    stage==PcsConstants.PCS_POLL_FIRST_STAGE?"--":record.getNotSupportNum() + "",
+                    stage==PcsConstants.PCS_POLL_FIRST_STAGE?"--":record.getNotVoteNum() + ""
+            };
+            valuesList.add(values);
+        }
+        String fileName = String.format("%s投票报送结果(%s)", PcsConstants.PCS_POLL_STAGE_MAP.get(stage),
+                DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     public void pcsPollReport_prExport(PcsPollReportExample example, Integer pollId, HttpServletResponse response) throws IOException {
@@ -195,17 +233,14 @@ public class PcsPollReportController extends PcsBaseController {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         Integer partyId = pcsPoll.getPartyId();
-        Party party = partyMapper.selectByPrimaryKey(partyId);
+        PcsParty pcsParty = pcsPartyService.get(pcsPoll.getConfigId(), partyId);
         Integer branchId = pcsPoll.getBranchId();
-        Branch branch = null;
-        if (branchId != null){
-            branch = branchMapper.selectByPrimaryKey(branchId);
-        }
+        PcsBranch pcsBranch  =  pcsBranchService.get(pcsPoll.getConfigId(), pcsPoll.getPartyId(), branchId);
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("branchName", branch!=null?branch.getName():party.getName());
+                .replace("branchName", pcsBranch!=null?pcsBranch.getName():pcsParty.getName());
         cell.setCellValue(str);
 
         cell = row.getCell(2);
@@ -276,24 +311,20 @@ public class PcsPollReportController extends PcsBaseController {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         Integer partyId = pcsPoll.getPartyId();
-        Party party = partyMapper.selectByPrimaryKey(partyId);
+        PcsParty pcsParty = pcsPartyService.get(pcsPoll.getConfigId(), partyId);
         Integer branchId = pcsPoll.getBranchId();
-        Branch branch = null;
-        if (branchId != null){
-            branch = branchMapper.selectByPrimaryKey(branchId);
-        }
+        PcsBranch pcsBranch  =  pcsBranchService.get(pcsPoll.getConfigId(), pcsPoll.getPartyId(), branchId);
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("branchName", branch!=null?branch.getName():party.getName());
+                .replace("branchName", pcsBranch!=null?pcsBranch.getName():pcsParty.getName());
         cell.setCellValue(str);
-        PcsBranch pcsBranch =  pcsBranchService.get(pcsPoll.getConfigId(), pcsPoll.getPartyId(), branchId);
         row = sheet.getRow(2);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("allCount", pcsBranch.getMemberCount()==null?"":pcsBranch.getMemberCount()+"")//支部党员数
-                .replace("positiveCount",pcsBranch.getPositiveCount()==null?"":pcsBranch.getPositiveCount()+"");//支部正式党员数
+                .replace("allCount", pcsBranch==null?"":pcsBranch.getMemberCount()+"")//支部党员数
+                .replace("positiveCount",pcsBranch==null?"":pcsBranch.getPositiveCount()+"");//支部正式党员数
         cell.setCellValue(str);
         row = sheet.getRow(3);
         cell = row.getCell(0);

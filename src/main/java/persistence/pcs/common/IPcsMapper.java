@@ -194,19 +194,23 @@ public interface IPcsMapper {
                                                        RowBounds rowBounds);
     public int countSecondResult(@Param("pollId") Integer pollId, @Param("type") Byte type, @Param("userId") Integer userId);
 
-    // 党支部报送结果汇总
+    // 党支部报送结果汇总 partyIdList和branchIdList用来控制权限
     public int countReport(@Param("type") Byte type,
-                                 @Param("configId") Integer config,
-                                 @Param("stage") Byte stage,
-                                 @Param("userId") Integer userId,
-                                 @Param("partyId") Integer partyId,
-                                 @Param("branchId") Integer branchId);
+                           @Param("configId") Integer config,
+                           @Param("stage") Byte stage,
+                           @Param("userIdList") List<Integer> userIdList,
+                           @Param("partyId") Integer partyId,
+                           @Param("branchId") Integer branchId,
+                           @Param("partyIdList") List<Integer> partyIdList,
+                           @Param("branchIdList") List<Integer> branchIdList);
 
     public List<PcsFinalResult> selectReport(@Param("type") Byte type,
                                              @Param("configId") Integer config,
                                              @Param("stage") Byte stage,
-                                             @Param("userId") Integer userId,
+                                             @Param("userIdList") List<Integer> userIdList,
                                              @Param("partyId") Integer partyId,
                                              @Param("branchId") Integer branchId,
-                                                       RowBounds rowBounds);
+                                             @Param("partyIdList") List<Integer> partyIdList,
+                                             @Param("branchIdList") List<Integer> branchIdList,
+                                             RowBounds rowBounds);
 }

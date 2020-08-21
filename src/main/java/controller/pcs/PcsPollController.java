@@ -103,7 +103,7 @@ public class PcsPollController extends PcsBaseController {
         }
         PcsPollExample example = new PcsPollExample();
         Criteria criteria = example.createCriteria().andConfigIdEqualTo(pcsConfig.getId());
-        example.setOrderByClause("stage desc, id desc");
+        example.setOrderByClause("stage desc,party_id desc,branch_id desc,id desc");
 
         criteria.andIsDeletedEqualTo(cls == 5);
 
