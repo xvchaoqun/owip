@@ -143,14 +143,14 @@
                                         </c:if>
                                     </td>
                                 </tr>
-                                <c:forEach items="${candidateUserIds}" var="candidateUserId">
+                                <c:forEach items="${candidateUserIds}" var="candidateUserId" varStatus="vs">
                                     <c:set var="key" value="${type}_${candidateUserId}"/>
                                     <c:set var="status" value="${tempResult.secondResultMap.get(key)}"/>
                                     <c:set var="otherKey" value="${key}_4"/>
                                     <c:set var="userId" value="${tempResult.otherResultMap.get(otherKey)}"/>
                                     <c:set var="otherUser" value="${cm:getUserById(userId)}"/>
                                     <tr>
-                                        <td class="realname">${cm:getUserById(candidateUserId).realname}</td>
+                                        <td class="realname">推荐人${vs.index+1}：${cm:getUserById(candidateUserId).realname}</td>
                                     </tr>
                                     <tr class="candidate">
                                         <td align="center">
