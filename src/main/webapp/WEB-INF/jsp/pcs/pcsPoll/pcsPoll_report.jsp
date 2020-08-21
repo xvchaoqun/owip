@@ -47,20 +47,22 @@
           <div style="margin-left: -50px;font-size: 25px;">
           <span class="star">*</span> 应参会党员数
 				<input required style="width: 78px;" class="digits" type="text" data-at="top center" data-my="bottom center"
-					   name="expectMemberCount" data-rule-min="1" data-rule-max="${allCount}">
+                       value="${pcsPoll.expectMemberCount}"
+					   name="expectMemberCount" data-rule-min="1" data-rule-max="${pcsBranch.memberCount}">
 			<span class="star">*</span> 实际参会党员数
 				<input required style="width: 78px;" class="digits" type="text" data-at="top center" data-my="bottom center"
-					   name="actualMemberCount" data-rule-min="1" data-rule-max="${allCount}">
+                       value="${pcsPoll.actualMemberCount}"
+					   name="actualMemberCount" data-rule-min="1" data-rule-max="${pcsBranch.memberCount}">
               </div>
           <ul>
               <li>
-                  本支部党员数量：<span class="count">${allCount}</span>人（其中正式党员数量：<span class="count">${positiveCount}</span>人）
+                  本支部党员数量：<span class="count">${pcsBranch.memberCount}</span>人（其中正式党员数量：<span class="count">${pcsBranch.positiveCount}</span>人）
               </li>
               <li>
-                  生成投票账号数量：<span class="count">${inspectorNum}</span>人
+                  生成投票账号数量：<span class="count">${pcsPoll.inspectorNum}</span>人
               </li>
               <li>
-                  完成投票账号数量：<span class="count">${inspectorFinishNum}</span>人（其中正式党员数量：<span class="count">${positiveFinishNum}</span>人）
+                  完成投票账号数量：<span class="count">${pcsPoll.inspectorFinishNum}</span>人（其中正式党员数量：<span class="count">${pcsPoll.positiveFinishNum}</span>人）
               </li>
               <li>
                   已选候选人中，<c:if test="${stage!=PCS_POLL_THIRD_STAGE}"></c:if>党委委员<span class="count">${dwNum}</span>名，纪委委员<span class="count">${jwNum}</span>名，代表<span class="count">${prNum}</span>名

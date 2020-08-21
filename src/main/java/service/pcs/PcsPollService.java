@@ -252,9 +252,10 @@ public class PcsPollService extends PcsBaseMapper {
             }
 
             //设置为未报送
-            pcsPoll.setReportDate(null);
-            pcsPoll.setHasReport(false);
-            pcsPollMapper.updateByPrimaryKey(pcsPoll);
+            PcsPoll record = new PcsPoll();
+            record.setId(pcsPoll.getId());
+            record.setHasReport(false);
+            pcsPollMapper.updateByPrimaryKeySelective(record);
         }
     }
 

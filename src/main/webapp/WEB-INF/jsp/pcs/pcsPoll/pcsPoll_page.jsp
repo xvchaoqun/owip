@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
                             修改</button>
                         <button data-url="${ctx}/pcs/pcsPoll_reportBack"
                                 data-title="退回报送"
-                                data-msg="确定退回这{0}条数据的报送结果？"
+                                data-msg="确定退回这{0}条报送结果？"
                                 data-grid-id="#jqGrid"
                                 class="jqBatchBtn btn btn-warning btn-sm">
                             <i class="fa fa-reply"></i> 退回报送
@@ -210,7 +210,7 @@ pageEncoding="UTF-8" %>
                 label: '投票结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
                     return $.button.openView({
                         style:"btn-info",
-                        url:"${ctx}/pcs/pcsPollResult?type=1&pollId="+rowObject.id,
+                        url:"${ctx}/pcs/pcsPollResult?pollId="+rowObject.id,
                         icon:"fa-bar-chart",
                         label:"查看"});
                 }, width: 80
@@ -229,7 +229,11 @@ pageEncoding="UTF-8" %>
             { label: '投票起始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '投票截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
 
-            { label: '报送日期',name: 'reportDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
+            { label: '报送日期',name: 'reportDate', formatter: function (cellvalue, options, rowObject) {
+
+                if(!rowObject.hasReport) return '--'
+                return $.date(rowObject.reportDate, "yyyy.MM.dd");
+            }},
             { label: '应参会<br/>党员数',name: 'expectMemberCount'},
             { label: '实际参会<br/>党员数',name: 'actualMemberCount'},
             { label: '备注',name: 'remark',width: 252}

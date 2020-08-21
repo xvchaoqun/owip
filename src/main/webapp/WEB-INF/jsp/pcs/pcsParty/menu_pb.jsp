@@ -15,6 +15,7 @@
       <i class="fa fa-close "></i> 不参与党代会的党支部列表</a>
   </li>
   <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
+    <shiro:hasRole name="${ROLE_SUPER}">
      <shiro:hasPermission name="pcsPartyList:edit">
         <a class="confirm btn btn-success btn-sm"
            data-url="${ctx}/pcs/pcsParty_sync"
@@ -23,6 +24,7 @@
            data-callback="_syncCallback"><i class="fa fa-random"></i>
           同步当前党组织</a>
      </shiro:hasPermission>
+      </shiro:hasRole>
   </div>
 </ul>
 <script>

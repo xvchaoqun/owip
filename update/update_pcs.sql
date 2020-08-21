@@ -66,27 +66,34 @@ CREATE TABLE IF NOT EXISTS `pcs_poll_inspector` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='党代会投票投票人，即匿名账号';
 
 DROP TABLE IF EXISTS `pcs_poll_report`;
-CREATE TABLE IF NOT EXISTS `pcs_poll_report` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `poll_id` int(10) unsigned NOT NULL COMMENT '所属投票',
-  `user_id` int(10) unsigned NOT NULL COMMENT '候选人',
-  `config_id` int(10) unsigned NOT NULL COMMENT '党代会',
-  `party_id` int(10) unsigned NOT NULL COMMENT '所属二级分党委',
-  `branch_id` int(10) unsigned DEFAULT NULL COMMENT '所属支部',
-  `stage` tinyint(3) unsigned NOT NULL COMMENT '投票阶段 1一下阶段 2二下阶段 3三下阶段',
-  `type` tinyint(3) unsigned NOT NULL COMMENT '推荐人类型 1 党代表 2 党委委员 3 纪委委员',
-  `code` varchar(20) DEFAULT NULL COMMENT '学工号，老师为工作证号，学生为学号',
-  `realname` varchar(100) DEFAULT NULL COMMENT '真实姓名',
-  `unit` varchar(100) DEFAULT NULL COMMENT '所在单位',
-  `ballot` int(10) unsigned NOT NULL COMMENT '得票总数',
-  `positive_ballot` int(10) unsigned NOT NULL COMMENT '正式党员票数',
-  `grow_ballot` int(10) unsigned NOT NULL COMMENT '预备党员票数',
-  `disagree_ballot` int(10) unsigned NOT NULL COMMENT '不支持人数',
-  `abstain_ballot` int(10) unsigned NOT NULL COMMENT '弃权票',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id_config_id_party_id_branch_id_stage_type` (`user_id`,`config_id`,`party_id`,`branch_id`,`stage`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8 COMMENT='党支部报送候选人推荐人名单';
+CREATE TABLE `pcs_poll_report` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`poll_id` INT(10) UNSIGNED NOT NULL COMMENT '所属投票',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '候选人',
+	`config_id` INT(10) UNSIGNED NOT NULL COMMENT '党代会',
+	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属二级分党委',
+	`branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属支部',
+	`stage` TINYINT(3) UNSIGNED NOT NULL COMMENT '投票阶段 1一下阶段 2二下阶段 3三下阶段',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '推荐人类型 1 党代表 2 党委委员 3 纪委委员',
+	`code` VARCHAR(20) NULL DEFAULT NULL COMMENT '学工号，老师为工作证号，学生为学号',
+	`realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名',
+	`unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位',
+	`ballot` INT(10) UNSIGNED NOT NULL COMMENT '得票总数',
+	`positive_ballot` INT(10) UNSIGNED NOT NULL COMMENT '正式党员票数',
+	`grow_ballot` INT(10) UNSIGNED NOT NULL COMMENT '预备党员票数',
+	`disagree_ballot` INT(10) UNSIGNED NOT NULL COMMENT '不支持人数',
+	`abstain_ballot` INT(10) UNSIGNED NOT NULL COMMENT '弃权票',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `user_id_config_id_party_id_branch_id_stage_type` (`user_id`, `config_id`, `party_id`, `branch_id`, `stage`, `type`),
+	INDEX `FK_pcs_poll_report_pcs_poll` (`poll_id`),
+	CONSTRAINT `FK_pcs_poll_report_pcs_poll` FOREIGN KEY (`poll_id`) REFERENCES `pcs_poll` (`id`) ON DELETE CASCADE
+)
+COMMENT='党支部报送候选人推荐人名单'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=219
+;
 
 DROP TABLE IF EXISTS `pcs_poll_result`;
 CREATE TABLE IF NOT EXISTS `pcs_poll_result` (

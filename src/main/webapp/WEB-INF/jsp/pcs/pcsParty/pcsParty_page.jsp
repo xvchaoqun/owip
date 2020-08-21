@@ -73,10 +73,12 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/pcs/pcsPartyList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '名称',name: 'name', width: 500, align: 'left'},
+                <shiro:hasPermission name="pcsPoll:list">
                 { label: '当前投票阶段',name: 'currentStage', width: 120, formatter: function (cellvalue, options, rowobject) {
                     if(cellvalue==undefined) return '--'
                     return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
                 }, frozen: true},
+                </shiro:hasPermission>
                 { label: '支部数量',name: 'branchCount'},
                 { label: '党员数量',name: 'memberCount'},
                 { label: '正式党员数量',name: 'positiveCount'},

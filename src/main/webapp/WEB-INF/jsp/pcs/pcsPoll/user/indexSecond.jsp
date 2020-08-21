@@ -163,11 +163,11 @@
                         </c:forEach>
                         <tr>
                             <td colspan="3" style="text-align: center">
-                                <button class="btn btn-primary" type="button"
+                                <button id="saveBtn" class="btn btn-primary" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 保存中"
                                         onclick="_save(0)"><i class="fa fa-save"></i> 暂存
                                 </button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-success" id="tempSubmit"
+                                <button id="checkSubmitBtn" class="btn btn-success" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 请稍后"
                                         type="button"
                                         onclick="_submit(4)"><i class="fa fa-check"></i> 提交
                                 </button>
@@ -188,6 +188,7 @@
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script>
     $('#candidateForm input[name=type]').change(function () {
+        $("table").mask()
         _save($(this).val())
     })
 
@@ -198,35 +199,6 @@
         } else {
             $otherTr.show();
         }
-
-
-
-        if($(this).is(":checked")){
-            $(this).data("waschecked", true);
-        }else {
-            $(this).data("waschecked", false);
-        }
-
-        //console.log($(this).data());
-        /*if ($(this).data('waschecked')){
-            $(this).attr("checked", false);
-            $(this).data('waschecked',false);
-            //$radio.data('waschecked', false);
-        }else if (!$(this).data('waschecked')) {
-            $(this).attr("checked", true);
-            $(this).data('waschecked',true);
-        }
-
-        //console.log($(this).data());
-
-        console.log($(this).attr("checked"));*/
-
-        /*if($(this).data("check")){
-            $(this).data("check", false);
-            $(this).prop("checked", false)
-        }else if($(this).is(":checked")){
-            $(this).data("check", true);
-        }*/
     })
 
     var $select = $.register.user_select($('select[data-rel=select2-ajax]'),
@@ -285,6 +257,9 @@
                             SysMsg.success('保存成功（数据还未提交，请填写完成后提交全部结果）。', '暂存')
                         }
                     }
+
+                    $("#saveBtn").button('reset');
+                    $("#checkSubmitBtn").button('reset');
                 }
             });
         }
@@ -292,6 +267,8 @@
 
     //保存
     function _save(flag) {
+
+        $("#saveBtn").button('loading');
         $("input[name=flag]").val(flag);//0保存按钮保存
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();
@@ -307,6 +284,7 @@
             return;
         }
 
+        $("#checkSubmitBtn").button('loading');
         $("input[name=flag]").val(flag);//0保存按钮保存 4是先保存，然后弹出提示框,进行提交
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();

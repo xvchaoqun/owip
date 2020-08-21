@@ -18,7 +18,7 @@
 </style>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>提交投票结果</h3>
+    <h3>请确认提交投票结果</h3>
   </div>
   <div class="modal-body">
       <form class="form-horizontal" action="${ctx}/user/pcs/submit" autocomplete="off" disableautocomplete id="modalForm" method="post">

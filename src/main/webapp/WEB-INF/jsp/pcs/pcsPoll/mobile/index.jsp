@@ -178,11 +178,11 @@
                             </tbody>
                             <tr>
                                 <td colspan="2" style="text-align: center">
-                                    <button class="btn btn-primary" type="button"
+                                    <button id="saveBtn" class="btn btn-primary" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 保存中"
                                             onclick="_save(0)"><i class="fa fa-save"></i> 暂存
                                     </button>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-success" id="tempSubmit"
+                                    <button id="checkSubmitBtn" class="btn btn-success" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 保存中"
                                             type="button"
                                             onclick="_submit(4)"><i class="fa fa-check"></i> 提交
                                     </button>
@@ -210,7 +210,8 @@
 <script type="text/javascript">
 
     $('#candidateForm input[name=type]').change(function () {
-        _save($(this).val())
+        $("table").mask()
+        //_save($(this).val())
     })
 
     var $select = $.register.user_select($('select[name=userIds]'),
@@ -267,6 +268,8 @@
                             SysMsg.success('保存成功（数据还未提交，请填写完成后提交全部结果）。', '暂存')
                         }
                     }
+                    $("#saveBtn").button('reset');
+                    $("#checkSubmitBtn").button('reset');
                 }
             });
         }
@@ -274,6 +277,8 @@
 
     //保存
     function _save(flag) {
+
+        $("#saveBtn").button('loading');
         $("input[name=flag]").val(flag);//0保存按钮保存
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();
@@ -289,6 +294,7 @@
             return;
         }
 
+        $("#checkSubmitBtn").button('loading');
         $("input[name=flag]").val(flag);//0保存按钮保存 4是先保存，然后弹出提示框,进行提交
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();

@@ -408,6 +408,7 @@
                             <output>${basedir}/src/main/webapp/mobile/css/extend.css</output>
                             <includes>
                                 <include>extend/css/bootstrap-switch.min.css</include>
+                                <include>extend/css/showLoading.css</include>
                                 <include>extend/css/select2.css</include>
                                 <include>extend/css/jquery.qtip.css</include>
                                 <include>extend/css/awesome-bootstrap-checkbox.css</include>

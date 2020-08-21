@@ -187,60 +187,24 @@ INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `re
 VALUES ('ad_show_degree', '干部任免审批表显示学历', 'true', 3, 71, '干部任免审批表是否显示获得的学历');
 
 
-ALTER TABLE `pcs_poll`
-	ADD COLUMN `expect_member_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '应参会党员数' AFTER `jw_num`,
-	ADD COLUMN `actual_member_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '实际参会党员数' AFTER `expect_member_count`,
-	ADD COLUMN `report_date` DATE NULL COMMENT '报送日期' AFTER `actual_member_count`;
+-- 新建表2020.8.21 ly pcs_poll 等
 
-
-ALTER TABLE `pcs_poll`
-	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属二级分党委' AFTER `id`,
-	CHANGE COLUMN `branch_id` `branch_id` INT(10) UNSIGNED NULL COMMENT '所属支部' AFTER `party_id`;
-
-ALTER TABLE `pcs_poll_result`
-	DROP COLUMN `is_candidate`;
-DROP TABLE IF EXISTS `pcs_poll_report`;
-CREATE TABLE IF NOT EXISTS `pcs_poll_report` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` int(10) unsigned NOT NULL COMMENT '候选人',
-  `config_id` int(10) unsigned NOT NULL COMMENT '党代会',
-  `party_id` int(10) unsigned NOT NULL COMMENT '所属二级分党委',
-  `branch_id` int(10) unsigned DEFAULT NULL COMMENT '所属支部',
-  `stage` tinyint(3) unsigned NOT NULL COMMENT '投票阶段 1一下阶段 2二下阶段 3三下阶段',
-  `type` tinyint(3) unsigned NOT NULL COMMENT '推荐人类型 1 党代表 2 党委委员 3 纪委委员',
-  `ballot` int(10) unsigned NOT NULL COMMENT '得票总数',
-  `positive_ballot` int(10) unsigned NOT NULL COMMENT '正式党员票数',
-  `grow_ballot` int(10) unsigned NOT NULL COMMENT '预备党员票数',
-  `disagree_ballot` int(10) unsigned NOT NULL COMMENT '不支持人数',
-  `abstain_ballot` int(10) unsigned NOT NULL COMMENT '弃权票',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id_config_id_party_id_branch_id_stage_type` (`user_id`,`config_id`,`party_id`,`branch_id`,`stage`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='党代会投票报送结果';
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2542, 0, '党代会投票', '', 'url', '', '/pcs/pcsPoll', 469, '0/1/469/', 0, 'pcsPoll:*', NULL, NULL, NULL, 1, 1450);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2543, 0, '党代会推荐人', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPollCandidate:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2544, 0, '党代会投票人', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPollInspector:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2545, 0, '党代会投票结果', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPollResult:*', NULL, NULL, NULL, 1, NULL);
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2546, 0, '党代会报送结果', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPollReport:*', NULL, NULL, NULL, 1, NULL);
 
-ALTER TABLE `pcs_poll_report`
-	ADD COLUMN `unit` VARCHAR(100) NULL COMMENT '所在单位' AFTER `type`;
-ALTER TABLE `pcs_poll_report`
-	ADD COLUMN `code` VARCHAR(20) NULL DEFAULT NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `type`,
-	ADD COLUMN `realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名' AFTER `code`;
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_site_name', '党代会投票用户端名称', '党代会投票系统', 1, 67, '');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_jw_num', '纪委委员推荐人数', '11', 2, 70, '');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_dw_num', '党委委员推荐人数', '30', 2, 69, '');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_site_bg', '党代会投票登录页面背景', '\\sysProperty\\20200814\\f31daf3b-b563-4055-b49b-708db925e6b0.png', 5, 68, '');
 
-ALTER TABLE `pcs_poll`
-	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NULL COMMENT '应参会党员数' AFTER `jw_num`,
-	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NULL COMMENT '实际参会党员数' AFTER `expect_member_count`;
-ALTER TABLE `pcs_poll`
-	ADD COLUMN `create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间' AFTER `is_deleted`;
-ALTER TABLE `pcs_poll`
-	ADD COLUMN `user_id` INT(10) UNSIGNED NOT NULL COMMENT '创建人' AFTER `is_deleted`;
 ALTER TABLE `pcs_party`
 	CHANGE COLUMN `present_group_count` `present_group_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '现任班子数量' AFTER `group_count`;
 ALTER TABLE `pcs_branch`
 	ADD COLUMN `party_sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '分党委排序' AFTER `name`;
-
-ALTER TABLE `pcs_poll`
-	ADD COLUMN `party_name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `branch_id`,
-	ADD COLUMN `branch_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '党支部名称' AFTER `party_name`;
 
 update sys_resource set permission='pcsPoll:list' where permission='pcsPoll:*';
 
@@ -253,21 +217,10 @@ update sys_role set code='role_pcs_party' where code='role_pcs_admin';
 
 INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_admin', '党代会-组织部管理员', 1, '469,473,2791,2542,980,981,982,983,2543,2544,2545,2546,474,476,472,499,477,481,491,494,597,598,599,485,482,487,490,500,501,502,503', '-1', NULL, 0, 0, 62, '');
 
-ALTER TABLE `pcs_poll_candidate`
-	ADD CONSTRAINT `FK_pcs_poll_candidate_pcs_poll` FOREIGN KEY (`poll_id`) REFERENCES `pcs_poll` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `pcs_poll_inspector`
-	ADD CONSTRAINT `FK_pcs_poll_inspector_pcs_poll` FOREIGN KEY (`poll_id`) REFERENCES `pcs_poll` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `pcs_poll_report`
-	COMMENT='党支部报送候选人推荐人名单',
-	ADD COLUMN `poll_id` INT(10) UNSIGNED NOT NULL COMMENT '所属投票' AFTER `id`;
-ALTER TABLE `pcs_poll_report`
-	ADD CONSTRAINT `FK_pcs_poll_report_pcs_poll` FOREIGN KEY (`poll_id`) REFERENCES `pcs_poll` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `pcs_poll_result`
-	ADD CONSTRAINT `FK_pcs_poll_result_pcs_poll` FOREIGN KEY (`poll_id`) REFERENCES `pcs_poll` (`id`) ON DELETE CASCADE;
-
+drop view pcs_party_view;
+drop view pcs_branch_view;
+drop view pcs_candidate_view;
+drop view pcs_pr_candidate_view;
 
 20200814
 

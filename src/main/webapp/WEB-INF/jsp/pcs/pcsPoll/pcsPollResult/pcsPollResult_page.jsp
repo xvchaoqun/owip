@@ -17,7 +17,7 @@ pageEncoding="UTF-8" %>
                 <c:set var="_query" value="${not empty param.userId}"/>
                 <c:if test="${!pcsPoll.hasReport}">
                     <div class="jqgrid-vertical-offset buttons">
-                        <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=1&type=${param.type}&pollId=${param.pollId}"
+                        <button data-url="${ctx}/pcs/pcsPollReport?isCandidate=1&type=${type}&pollId=${param.pollId}"
                                 data-title="候选人推荐人选"
                                 data-msg="确定将这{0}名候选人设置为候选人推荐人选？"
                                 date-id-name="userId"
