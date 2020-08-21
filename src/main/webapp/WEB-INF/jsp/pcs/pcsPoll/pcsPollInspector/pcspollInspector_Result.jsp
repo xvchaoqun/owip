@@ -13,7 +13,7 @@
 </div>
 <div class="modal-body">
     <div class="popTableDiv">
-        <table class="table table-actived table-striped table-bordered table-hover">
+        <table class="table table-center table-striped table-bordered table-hover">
             <thead>
             <tr>
                 <th>序号</th>
@@ -50,7 +50,7 @@
         </table>
         <c:if test="${fn:length(pcsPollResults)==0}">
             <div class="well well-lg center">
-                <h4 class="green lighter">暂无投票记录</h4>
+                <h4 class="green lighter">空票</h4>
             </div>
         </c:if>
     </div>

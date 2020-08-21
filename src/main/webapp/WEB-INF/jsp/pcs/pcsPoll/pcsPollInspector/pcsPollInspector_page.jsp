@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="ROLE_PCS_ADMIN" value="<%=RoleConstants.ROLE_PCS_ADMIN%>"/>
 <c:set value="<%=DrConstants.INSPECTOR_STATUS_MAP%>" var="INSPECTOR_STATUS_MAP"/>
 <c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
 <div class="widget-box transparent">
@@ -36,7 +37,7 @@ pageEncoding="UTF-8" %>
                                 <i class="fa fa-trash"></i> 删除
                             </button>
                         </shiro:hasPermission>
-                    </c:if>
+
                     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                             data-url="${ctx}/pcs/pcsPollInspector_data?pollId=${param.pollId}"
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
@@ -45,6 +46,7 @@ pageEncoding="UTF-8" %>
                     <span style='font-size:14.0pt;font-weight:bolder;padding-left: 20px;'>
                         <a href="${homeURL}/pcs/login" target="_blank" style="border-bottom: 2px solid;">点此查看登录地址</a>
                     </span>
+                        </c:if>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
@@ -110,14 +112,17 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '登录账号',name: 'username'},
             { label: '登录密码',name: 'passwd'},
-            { label: '投票详情',name: '_detail', width:80, formatter: function (cellvalue, options, rowObject) {
-
-                    return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
-                        'data-url="${ctx}/pcs/pcspollInspector_Result?id={0}"><i class="fa fa-search"></i> 查看</button>'
-                            .format(rowObject.id)
-                }},
             { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
             { label: '是否完成投票',name: 'isFinished',formatter:$.jgrid.formatter.TRUEFALSE},
+            <shiro:hasRole name="${ROLE_PCS_ADMIN}">
+            { label: '投票详情',name: '_detail', width:80, formatter: function (cellvalue, options, rowObject) {
+
+                if(!rowObject.isFinished) return '--'
+                return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
+                    'data-url="${ctx}/pcs/pcspollInspector_Result?id={0}"><i class="fa fa-search"></i> 查看</button>'
+                        .format(rowObject.id)
+                }},
+            </shiro:hasRole>
             { label: '投票人身份',name: 'isPositive', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '正式党员', off: '预备党员'}},
             { label: '提交时间',name: 'submitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
         ]

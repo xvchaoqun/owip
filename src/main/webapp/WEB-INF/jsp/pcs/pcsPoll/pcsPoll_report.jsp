@@ -45,7 +45,7 @@
           <input type="hidden" name="id" value="${param.id}">
 
       <div class="tip">
-          <div style="margin-left: -40px;font-size: 25px;">
+          <div style="margin-left: -50px;font-size: 25px;">
           <span class="star">*</span> 应参会党员数
 				<input required style="width: 78px;" class="digits" type="text" data-at="top center" data-my="bottom center"
 					   name="expectMemberCount" data-rule-min="1" data-rule-max="${allCount}">
@@ -64,7 +64,7 @@
                   完成投票账号数量：<span class="count">${inspectorFinishNum}</span>人（其中正式党员数量：<span class="count">${positiveFinishNum}</span>人）
               </li>
               <li>
-                  已选候选人中，<c:if test="${stage!=PCS_POLL_THIRD_STAGE}">党代表<span class="count">${prNum}</span>名，</c:if>党委委员<span class="count">${dwNum}</span>名，纪委委员<span class="count">${jwNum}</span>名
+                  已选候选人中，<c:if test="${stage!=PCS_POLL_THIRD_STAGE}"></c:if>党委委员<span class="count">${dwNum}</span>名，纪委委员<span class="count">${jwNum}</span>名，代表<span class="count">${prNum}</span>名
               </li>
           </ul>
           <div>报送后不能修改投票数据，请确认以上信息准确无误后提交</div>

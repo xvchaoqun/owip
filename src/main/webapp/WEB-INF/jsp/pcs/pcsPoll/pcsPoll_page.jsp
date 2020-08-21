@@ -199,11 +199,11 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id);
                     return  str;
             }},
-            /*{ label: '其他说明',name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
-                var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
+            { label: '纸质票说明',name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
+                var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 查看</button>'
                     .format(rowObject.id);
                 return  str;
-            }},*/
+            }},
             { label: '投票<br/>账号管理',name: '_inspector', width:80, formatter: function (cellvalue, options, rowObject) {
 
                     return $.button.openView({

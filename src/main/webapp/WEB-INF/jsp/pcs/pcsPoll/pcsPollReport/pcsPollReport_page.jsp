@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 <c:set value="<%=PcsConstants.PCS_USER_TYPE_PR%>" var="PCS_USER_TYPE_PR"/>
 <c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
 <c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
@@ -36,22 +37,16 @@ pageEncoding="UTF-8" %>
                                     data-url="${ctx}/pcs/pcsPollReport_data?pollId=${param.pollId}&type=${type}"
                                     data-grid-id="#jqGrid2"
                                     data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i>
-                                <c:if test="${type==PCS_USER_TYPE_PR}">
-                                    导出党代表统计结果
-                                </c:if>
-                                <c:if test="${type==PCS_USER_TYPE_DW}">
-                                    导出党委委员统计结果
-                                </c:if>
-                                <c:if test="${type==PCS_USER_TYPE_JW}">
-                                    导出纪委委员统计结果
-                                </c:if>
+                                导出${PCS_USER_TYPE_MAP.get(type)}统计结果
                             </button>
                     </shiro:hasPermission>
-                    <input type="checkbox"  name="type" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}" class="cadre-info-check"> 党委委员（${dwCount}）
-                    <input type="checkbox"  name="type" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}" class="cadre-info-check"> 纪委委员（${jwCount}）
+                    <div style="font-size: 14pt;">
+                    <input type="checkbox" class="big" name="type" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}"> 党委委员（${dwCount}）
+                    <input type="checkbox" class="big"  name="type" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}"> 纪委委员（${jwCount}）
                     <c:if test="${stage!=PCS_POLL_THIRD_STAGE}">
-                        <input type="checkbox"  name="type" id="${PCS_USER_TYPE_PR}" value="${PCS_USER_TYPE_PR}" class="cadre-info-check"> 党代表（${prCount}）
+                        <input type="checkbox" class="big" name="type" id="${PCS_USER_TYPE_PR}" value="${PCS_USER_TYPE_PR}"> 代表（${prCount}）
                     </c:if>
+                        </div>
                     <script> $("#changeType input[id=${type}]").prop("checked",'true'); </script>
                 </div>
 
