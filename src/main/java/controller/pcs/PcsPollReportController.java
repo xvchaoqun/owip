@@ -159,8 +159,8 @@ public class PcsPollReportController extends PcsBaseController {
         }
 
         List<Integer> userIdList = new ArrayList<>();
-        if (ids != null && ids.length > 0) {
-            userIdList.addAll(Arrays.asList(ids));
+        if (userId != null) {
+            userIdList.addAll(Arrays.asList(userId));
         }
 
         int count = 0;
