@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                                 导出${PCS_USER_TYPE_MAP.get(type)}统计结果
                             </button>
                     </shiro:hasPermission>
-                    <div style="font-size: 14pt;">
+                    <div style="font-size: 14pt;float: left;padding-right: 20px">
                     <input type="checkbox" class="big" name="type" id="${PCS_USER_TYPE_DW}" value="${PCS_USER_TYPE_DW}"> 党委委员（${dwCount}）
                     <input type="checkbox" class="big"  name="type" id="${PCS_USER_TYPE_JW}" value="${PCS_USER_TYPE_JW}"> 纪委委员（${jwCount}）
                     <c:if test="${stage!=PCS_POLL_THIRD_STAGE}">

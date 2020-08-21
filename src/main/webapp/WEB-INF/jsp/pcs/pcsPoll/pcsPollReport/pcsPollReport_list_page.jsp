@@ -98,10 +98,10 @@
             { label: '候选人类型',name: 'type',formatter: function (cellvalue, options, rowobject) {
                     return _cMap.PCS_USER_TYPE_MAP[cellvalue];
             }},
-            { label: '推荐提名<br/>党支部数',name: 'branchNum',width:120},
-            { label: '推荐提名<br/>正式党员数',name: 'positiveBallot',width:120},
-            { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
+            { label: '推荐提名<br/>党支部数',name: 'branchNum'},
             { label: '推荐提名<br/>党员数',name: 'supportNum'},
+            { label: '推荐提名<br/>正式党员数',name: 'positiveBallot'},
+            { label: '推荐提名<br/>预备党员数',name: 'growBallot'},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
             { label: '不同意票数',name: 'notSupportNum'},
             { label: '弃权票数',name: 'notVoteNum'}

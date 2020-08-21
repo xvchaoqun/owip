@@ -359,8 +359,8 @@
 
     <!--统计一下阶段的得票-->
     <select id="selectResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
-        select poll_id as pollId, user_id as userId, type as type, sum(if(is_positive and status=1,1,0)) as positiveBallot,
-        sum(if(status=1,1,0)) AS supportNum, sum(if(!is_positive and status=1,0,1)) as growBallot from pcs_poll_result
+        select poll_id as pollId, user_id as userId, type as type, sum(if(is_positive and status=1, 1, 0)) as positiveBallot,
+        sum(if(status=1, 1, 0)) AS supportNum, sum(if(!is_positive and status=1, 1, 0)) as growBallot from pcs_poll_result
         <include refid="selectResult_where"/>
         group by user_id order by supportNum desc, positiveBallot desc
     </select>
@@ -384,7 +384,7 @@
         union all
 
         select poll_id as pollId, user_id as userId, count(*) as supportNum, sum(if(is_positive, 1, 0))  as positiveBallot,
-               sum(if(is_positive, 0, 1))  as growBallot, 0 as notSupportNum
+               sum(if(!is_positive, 1, 0))  as growBallot, 0 as notSupportNum
         from pcs_poll_result
          <include refid="selectResult_where"/>
         and status=2 and user_id is not null
