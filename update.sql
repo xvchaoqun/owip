@@ -601,61 +601,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 -- 更新utils
 
-/*ALTER TABLE `dr_online_inspector_log`
-	ADD COLUMN `post_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '岗位筛选' AFTER `type_id`;
-
-ALTER TABLE `dr_online_candidate`
-	add COLUMN `realname` VARCHAR(50) NOT NULL COMMENT '更改后的候选人姓名' AFTER `user_id`,
-	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL COMMENT '排序' AFTER `realname`;
-
-ALTER TABLE `dr_online_post`
-	add COLUMN  `candidates` VARCHAR(500) NULL DEFAULT NULL COMMENT '候选人id，逗号分割' AFTER `has_candidate`;
-
-ALTER TABLE `dr_online_result`
-	CHANGE COLUMN `candidate` `realname` VARCHAR(200) NOT NULL COMMENT '候选人姓名' AFTER `user_id`;
-
-ALTER TABLE `dr_online_result`
-	CHANGE COLUMN `is_agree` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '推荐结果 1 同意 2 不同意 3 弃权 4 另选他人' AFTER `inspector_type_id`;
-
-
-
-ALTER TABLE `dr_online_result`
-	CHANGE COLUMN `realname` `realname` VARCHAR(200) NULL COMMENT '候选人姓名' AFTER `user_id`;
-
-ALTER TABLE `dr_online`
-	ADD COLUMN `name` VARCHAR(100) NOT NULL COMMENT '推荐主题' AFTER `record_id`,
-	CHANGE COLUMN `is_deleteed` `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否被删除' AFTER `end_time`;
-
-
-ALTER TABLE `dr_online_result`
-	ADD CONSTRAINT `FK_dr_online_result_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
-ALTER TABLE `dr_online_post`
-	ADD CONSTRAINT `FK_dr_online_post_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `dr_online_inspector_log`
-	ADD CONSTRAINT `FK_dr_online_inspector_log_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `dr_online_inspector`
-	ADD CONSTRAINT `FK_dr_online_inspector_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `dr_online_candidate`
-	ADD CONSTRAINT `FK_dr_online_candidate_dr_online_post` FOREIGN KEY (`post_id`) REFERENCES `dr_online_post` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `dr_online`
-	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态 0未发布 1已发布 2 已完成' AFTER `seq`;
-
-ALTER TABLE `dr_online_inspector`
-	DROP COLUMN `pub_status`;
-
-ALTER TABLE `dr_online_inspector_log`
-	DROP COLUMN `pub_count`;
-
-ALTER TABLE `dr_online_result`
-	ADD CONSTRAINT `FK_dr_online_result_dr_online_inspector` FOREIGN KEY (`inspector_id`) REFERENCES `dr_online_inspector` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `dr_online_inspector`
-	ADD CONSTRAINT `FK_dr_online_inspector_dr_online_inspector_log` FOREIGN KEY (`log_id`) REFERENCES `dr_online_inspector_log` (`id`) ON DELETE CASCADE;*/
-
 update  sys_property set code='dr_site_bg' where code='drLoginBg';
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('dr_site_name', '民主推荐用户端名称', '线上民主推荐系统', 1, 66, '');
@@ -679,28 +624,17 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2529, 0, '推荐结果', '', 'function', '', '/dr/drOnlineResult', 895, '0/1/339/890/895/', 1, 'drOnlineResult:*', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2533, 0, '参评人导出记录', '', 'function', '', '/dr/drOnlineInspectorLog', 895, '0/1/339/890/895/', 1, 'drOnlineInspectorLog:*', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2534, 0, '参评人', '', 'function', '', '/dr/drOnlineInspector', 895, '0/1/339/890/895/', 1, 'drOnlineInspector:*', NULL, NULL, NULL, 1, NULL);
-/*
+
 REPLACE INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '推荐类型', '干部选拔任用', '民主推荐', 'mc_dr_type', '', '', '', 82, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '谈话推荐', 'mt_f639fe', NULL, NULL, '', 1, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '会议推荐', 'mt_dr_type_meeting', NULL, NULL, '', 2, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '二次会议推荐', 'mt_qnuxk8', NULL, NULL, '', 3, 1);
-*/
+
 
 
 -- 更新 ow_party_member_group_view
 -- 更新 ow_party_member_view
 
-/*
-ALTER TABLE `dr_online_post`
-	CHANGE COLUMN `unit_post_id` `unit_post_id` INT(10) NULL COMMENT '推荐职务，关联岗位ID' AFTER `id`,
-	ADD COLUMN `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '职务名称' AFTER `unit_post_id`;
-drop view if exists dr_online_post_view;
-ALTER TABLE `dr_online_post`
-	CHANGE COLUMN `competitive_num` `head_count` INT(10) UNSIGNED NOT NULL COMMENT '候选人数量或推荐人数' AFTER `candidates`,
-	ADD COLUMN `min_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最少推荐人数' AFTER `head_count`,
-	DROP COLUMN `has_candidate`,
-	DROP COLUMN `has_competitive`;
-*/
 
 2020.7.17
 西工大

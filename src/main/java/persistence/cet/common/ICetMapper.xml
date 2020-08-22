@@ -170,7 +170,7 @@
         left join cet_project_obj o on o.project_id=cpp.project_id
         left join cet_project cp on cp.id=cpp.project_id
         where cp.is_deleted=0 and o.user_id=#{userId} and o.is_quit=0 and ct.is_deleted=0
-        and ct.is_finished = 0 and now() between ct.start_time and ct.end_time
+        and now() between ct.start_time and ct.end_time
         order by ct.start_date desc
     </sql>
     <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
