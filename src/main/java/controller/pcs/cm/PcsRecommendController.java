@@ -317,8 +317,8 @@ public class PcsRecommendController extends PcsBaseController {
         JSONUtils.write(response, resultMap);
     }
 
-    // 组织部管理员同步分党委党支部报送情况
-    @RequiresPermissions("pcsRecommend:list")
+    // 分党委管理员同步党支部推荐结果
+    @RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_sync", method = RequestMethod.POST)
     @ResponseBody
     public void pcsRecommend_sync(byte stage,HttpServletResponse response) throws IOException {
