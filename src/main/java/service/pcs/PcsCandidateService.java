@@ -6,6 +6,7 @@ import domain.member.MemberView;
 import domain.pcs.*;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -161,7 +162,8 @@ public class PcsCandidateService extends PcsBaseMapper {
             PcsPoll pcsPoll = pcsPollService.get(configId, stage, partyId, branchId);
             List<PcsPollReport> pcsPollReportDws = pcsPollService.getCandidates(configId, stage, PCS_USER_TYPE_DW, partyId, branchId);
             List<PcsPollReport> pcsPollReportJws = pcsPollService.getCandidates(configId, stage, PCS_USER_TYPE_JW, partyId, branchId);
-            if (pcsPoll != null && pcsPoll.getHasReport() && pcsPollReportDws.size() > 0 && pcsPollReportJws.size() > 0) {
+            if (pcsPoll != null && BooleanUtils.isTrue(pcsPoll.getHasReport())
+                    && pcsPollReportDws.size() > 0 && pcsPollReportJws.size() > 0) {
                 syncCount++;
                 PcsRecommend record = new PcsRecommend();
                 record.setPartyId(partyId);
