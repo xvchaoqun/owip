@@ -1,15 +1,17 @@
 package controller.pcs.cm;
 
+import controller.global.OpException;
 import controller.pcs.PcsBaseController;
-import domain.cadre.CadreView;
-import domain.member.MemberView;
-import domain.pcs.PcsAdmin;
-import domain.pcs.PcsCandidate;
-import domain.pcs.PcsConfig;
-import domain.pcs.PcsParty;
+import domain.member.Member;
+import domain.pcs.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
@@ -28,6 +32,7 @@ import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
+import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -40,6 +45,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static sys.constants.MemberConstants.*;
+import static sys.constants.PcsConstants.PCS_USER_TYPE_MAP;
+
 @Controller
 @RequestMapping("/pcs")
 public class PcsRecommendController extends PcsBaseController {
@@ -48,7 +56,7 @@ public class PcsRecommendController extends PcsBaseController {
 
     @RequiresPermissions("pcsRecommend:list")
     @RequestMapping("/pcsRecommend")
-    public String pcsRecommend(Integer branchId, ModelMap modelMap) {
+    public String pcsRecommend( byte stage,Integer branchId, ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
@@ -63,6 +71,9 @@ public class PcsRecommendController extends PcsBaseController {
         if(branchId!=null){
             modelMap.put("branch", branchService.findAll().get(branchId));
         }
+
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId, pcsConfig.getId(), stage));
+
         return "pcs/pcsRecommend/pcsRecommend_page";
     }
 
@@ -212,22 +223,7 @@ public class PcsRecommendController extends PcsBaseController {
         if(userIds!=null){
             for (Integer userId : userIds) {
 
-                MemberView memberView = iMemberMapper.getMemberView(userId);
-                CadreView cv = cadreService.dbFindByUserId(userId);
-                SysUserView uv = cv.getUser();
-                PcsCandidate candidate = new PcsCandidate();
-                candidate.setUserId(memberView.getUserId());
-                candidate.setCode(memberView.getCode());
-                candidate.setRealname(memberView.getRealname());
-                candidate.setTitle(cv==null?null:cv.getTitle());
-                candidate.setExtUnit(uv.getUnit());
-                candidate.setGender(memberView.getGender());
-                candidate.setNation(memberView.getNation());
-                candidate.setBirth(memberView.getBirth());
-                candidate.setGrowTime(memberView.getGrowTime());
-                candidate.setWorkTime(memberView.getWorkTime());
-                candidate.setProPost(memberView.getProPost());
-
+                PcsCandidate  candidate= pcsCandidateService.getCandidateInfo(userId);
                 candidates.add(candidate);
             }
         }
@@ -244,4 +240,107 @@ public class PcsRecommendController extends PcsBaseController {
 
         return "pcs/pcsRecommend/pcsRecommend_form_download";
     }
+
+   // @RequiresPermissions("pcsRecommend:edit")
+    @RequestMapping("/pcsRecommend_candidate_import")
+    public String pcsRecommend_candidate_import(int partyId,byte stage,ModelMap modelMap) {
+
+        return "pcs/pcsRecommend/pcsRecommend_candidate_import";
+    }
+
+    // 导入党代表名单
+   // @RequiresPermissions("pcsRecommend:edit")
+    @RequestMapping(value = "/pcsRecommend_candidate_import", method = RequestMethod.POST)
+    @ResponseBody
+    public void do_pcsRecommend_candidate_import(int partyId,HttpServletResponse response, HttpServletRequest request) throws IOException, InvalidFormatException {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+
+        if (!ShiroHelper.isPermitted("pcsOw:admin")
+                ||(pcsAdmin!=null&&pcsAdmin.getPartyId() != partyId)) {
+            throw new UnauthorizedException();
+        }
+
+        Map<String, Byte> pcsUserTypeMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : PCS_USER_TYPE_MAP.entrySet()) {
+
+            pcsUserTypeMap.put(entry.getValue(), entry.getKey());
+        }
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+        List<PcsCandidate> candidates = new ArrayList<>();
+
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+            row++;
+            String code = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(code)) {
+                throw new OpException("第{0}行学工号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null) {
+                throw new OpException("第{0}行工号[{1}]不存在", row, code);
+            }
+            Member member=memberService.get(uv.getId());
+            if (member == null||(member.getType()!=MEMBER_TYPE_TEACHER
+                    ||member.getStatus()==MEMBER_STATUS_QUIT
+                    ||member.getPoliticalStatus()!=MEMBER_POLITICAL_STATUS_POSITIVE)) {
+                throw new OpException("第{0}行工号[{1}]不符合两委委员的基本条件", row, code);
+            }
+
+            String _type = StringUtils.trimToNull(xlsRow.get(2));
+            if (StringUtils.isBlank(_type)) {
+                throw new OpException("第{0}行类型为空", row);
+            }
+
+            Byte pcsUserType = pcsUserTypeMap.get(_type);
+
+            if (pcsUserType == null) {
+                throw new OpException("第{0}行会议类型[{1}]有误", row, _type);
+            }
+
+            PcsCandidate  candidate= pcsCandidateService.getCandidateInfo(uv.getUserId());
+            candidate.setType(pcsUserType);
+
+            candidates.add(candidate);
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("candidates", candidates);
+        JSONUtils.write(response, resultMap);
+    }
+
+    // 组织部管理员同步分党委党支部报送情况
+    @RequiresPermissions("pcsRecommend:list")
+    @RequestMapping(value = "/pcsRecommend_sync", method = RequestMethod.POST)
+    @ResponseBody
+    public void pcsRecommend_sync(byte stage,HttpServletResponse response) throws IOException {
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int partyId = pcsAdmin.getPartyId();
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        PcsBranchExample example = new PcsBranchExample();
+        example.createCriteria().andConfigIdEqualTo(configId).
+                andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
+        List<PcsBranch> pcsBranchs=pcsBranchMapper.selectByExample(example);
+        int branchCount=pcsBranchs.size();
+
+        int syncCount=pcsCandidateService.sync(pcsBranchs,configId,stage,partyId);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("branchCount", branchCount);
+        resultMap.put("syncCount", syncCount);
+        JSONUtils.write(response, resultMap);
+
+    }
+
 }

@@ -16,6 +16,12 @@
                     <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                     ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                     ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
+
+                <button id="syncBtn" class="btn btn-info btn-sm"
+                ${!allowModify?"disabled":""}><i class="fa fa-refresh "></i> 同步各党支部${param.stage==PCS_STAGE_FIRST?"“一下”":""}
+                    ${param.stage==PCS_STAGE_SECOND?"“二下”":""}
+                    ${param.stage==PCS_STAGE_THIRD?"“三下”":""}结果</button>
+
                 <c:if test="${param.stage==PCS_STAGE_FIRST}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="750"
@@ -70,6 +76,22 @@
 </div>
 
 <script>
+    $("#syncBtn").click(function(){
+        SysMsg.confirm("确定同步全部党支部推荐结果？", "操作确认", function () {
+            $.post("${ctx}/pcs/pcsRecommend_sync?stage="+${param.stage}, function (ret) {
+                if(ret.success) {
+                    var result = '同步成功，总共{0}个党支部，其中成功同步{1}个党支部，<font color="red">{2}个党支部无推荐结果</font>';
+                    SysMsg.success(result.format(ret.branchCount, ret.syncCount, ret.branchCount-ret.syncCount), '成功');
+
+                    $("#jqGrid").trigger("reloadGrid");
+                } else {
+                    SysMsg.info("同步失败！" + ret)
+                }
+            });
+        });
+
+    });
+
     $.register.ajax_select($('#searchForm select[name=branchId]'));
     $("#jqGrid").jqGrid({
         rownumbers: true,

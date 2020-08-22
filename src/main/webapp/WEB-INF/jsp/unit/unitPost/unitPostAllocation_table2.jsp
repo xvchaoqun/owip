@@ -142,13 +142,13 @@
           </c:if>
         </td>
 
-        <td class=xl6424425 width=57>${bean.nCMCount}</td>
+        <td class=xl6424425 width=57>${bean.noCpcMainCount}</td>
         <td class=xl6924425 width=116>
-          <t:cpc_cadres2 cadrePosts="${bean.notCpcMains}"/>
+          <t:cpc_cadres2 cadrePosts="${bean.noCpcMains}"/>
         </td>
-        <td class=xl6424425 width=57>${bean.nCVCount}</td>
+        <td class=xl6424425 width=57>${bean.noCpcViceCount}</td>
         <td class=xl6924425 width=116 style="border-right: 2.0pt double windowtext;">
-          <t:cpc_cadres2 cadrePosts="${bean.notCpcVices}"/>
+          <t:cpc_cadres2 cadrePosts="${bean.noCpcVices}"/>
         </td>
 
       </tr>
@@ -168,9 +168,9 @@
         <td class=xl6924425 width=242>　</td>
         <td width=57 class="xl6824425">${bean.viceLack}</td>
 
-        <td class=xl6424425 width=57>${bean.nCMCount}</td>
+        <td class=xl6424425 width=57>${bean.noCpcMainCount}</td>
         <td class=xl6424425 width=116></td>
-        <td class=xl6424425 width=57>${bean.nCVCount}</td>
+        <td class=xl6424425 width=57>${bean.noCpcViceCount}</td>
         <td class=xl6824425 width=116></td>
 
       </tr>

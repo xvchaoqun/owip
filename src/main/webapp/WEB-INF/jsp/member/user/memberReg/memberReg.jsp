@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="widget-box">
+<div class="widget-box" style="width: 1500px" >
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 账号注册信息</h4>
         <div class="widget-toolbar">
@@ -17,7 +17,7 @@
                     <td class="bg-right">
                         注册账号
                     </td>
-                    <td class="bg-left" style="min-width: 80px">
+                    <td class="bg-left" style="min-width: 80px;font-size: 20px;background-color: #f2dede !important">
                         ${memberReg.username}
                     </td>
                     <td class="bg-right">

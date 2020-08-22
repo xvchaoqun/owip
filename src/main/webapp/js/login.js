@@ -71,7 +71,7 @@ $(function(){
 
             var $form = $("#reg-form");
 
-            var $username = $("input[name=username]", $form);
+          /*  var $username = $("input[name=username]", $form);*/
             var $passwd = $("input[name=passwd]", $form);
             var $repasswd = $("input[name=repasswd]", $form);
             var $type = $("select[name=type]", $form);
@@ -80,10 +80,10 @@ $(function(){
             var $phone = $("input[name=phone]", $form);
             var $party = $("select[name=party]", $form);
             var $captcha = $("input[name=captcha]", $form);
-            if ($.trim($username.val()) == "") {
+           /* if ($.trim($username.val()) == "") {
                 $username.val('').focus();
                 return;
-            }
+            }*/
             if ($.trim($passwd.val()) == "") {
                 $passwd.val('').focus();
                 return;

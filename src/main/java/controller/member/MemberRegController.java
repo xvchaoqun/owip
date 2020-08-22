@@ -53,11 +53,10 @@ public class MemberRegController extends MemberBaseController {
 
     @RequestMapping(value = "/member_reg", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_reg(String username, String passwd, Byte type,
+    public Map do_member_reg(String passwd, Byte type,
                              String realname, String idcard, String phone,
                              Integer party, String captcha, HttpServletRequest request) {
 
-        username = StringUtils.trimToNull(username);
         realname = StringUtils.trimToNull(realname);
         idcard = StringUtils.trimToNull(idcard);
         phone = StringUtils.trimToNull(phone);
@@ -67,9 +66,6 @@ public class MemberRegController extends MemberBaseController {
                 com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
         if (StringUtils.isBlank(_captcha) || !_captcha.equalsIgnoreCase(captcha)) {
             return failed("验证码错误。");
-        }
-        if (!CmTag.validUsername(username)) {
-            return failed(CmTag.getStringProperty("usernameMsg"));
         }
         if (!CmTag.validPasswd(passwd)) {
             return failed(CmTag.getStringProperty("passwdMsg"));
@@ -99,7 +95,7 @@ public class MemberRegController extends MemberBaseController {
 			logger.error("注册失败：" + ex.getMessage());
 			return failed("系统错误：" + ex.getMessage());
 		}*/
-        memberRegService.reg(username, passwd, type, realname,
+        String username=memberRegService.reg(passwd, type, realname,
                 idcard, phone, party, IpUtils.getRealIp(request));
 
         logger.info(String.format("%s 注册成功", username));

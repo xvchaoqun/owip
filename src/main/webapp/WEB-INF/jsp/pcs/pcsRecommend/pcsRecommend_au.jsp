@@ -137,27 +137,32 @@
                                 </div>
                             </div>
                         </form>
-                        <c:if test="${param.admin!=1}">
-                            <div class="modal-footer center" style="margin-top: 20px">
-                                <button id="saveBtn" data-loading-text="保存中..." data-success-text="已保存成功"
-                                        autocomplete="off" ${!allowModify?"disabled":""}
-                                        class="btn btn-primary btn-lg"><i class="fa fa-save"></i> 暂存
-                                </button>
+                        <div class="modal-footer center" style="margin-top: 20px">
+                            <button ${!allowModify?"disabled":""} onclick="_clearUsers()"
+                                 class="btn btn-danger btn-lg">
+                                <i class="fa fa-times"></i> 清空</button>
 
-                                <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
-                                        autocomplete="off"  ${!allowModify?"disabled":""}
-                                        class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交推荐票
-                                </button>
-                            </div>
-                        </c:if>
-                        <c:if test="${param.admin==1 && allowModify}">
-                            <div class="modal-footer center" style="margin-top: 20px">
-                                <button id="updateBtn" data-loading-text="保存中..." data-success-text="已保存成功"
-                                        autocomplete="off" class="btn btn-info btn-lg"><i class="fa fa-edit"></i> 修改
-                                </button>
-                            </div>
-                        </c:if>
+                            <button class="popupBtn btn btn-info btn-lg tooltip-success"
+                                    data-url="${ctx}/pcs/pcsRecommend_candidate_import?partyId=${param.partyId}&stage=${param.stage}"
+                                    data-rel="tooltip" data-placement="top" ${!allowModify?"disabled":""}
+                                    title="从Excel中导入名单"><i class="fa fa-upload"></i> 导入名单</button>
+                            <c:if test="${param.admin!=1}">
+                                    <button id="saveBtn" data-loading-text="保存中..." data-success-text="已保存成功"
+                                            autocomplete="off" ${!allowModify?"disabled":""}
+                                            class="btn btn-primary btn-lg"><i class="fa fa-save"></i> 暂存
+                                    </button>
 
+                                    <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
+                                            autocomplete="off"  ${!allowModify?"disabled":""}
+                                            class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交推荐票
+                                    </button>
+                            </c:if>
+                            <c:if test="${param.admin==1 && allowModify}">
+                                    <button id="updateBtn" data-loading-text="保存中..." data-success-text="已保存成功"
+                                            autocomplete="off" class="btn btn-info btn-lg"><i class="fa fa-edit"></i> 修改
+                                    </button>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -263,6 +268,20 @@
 </script>
 <script>
 
+    function _clearUsers(){
+        SysMsg.confirm("确定清空全部两委委员？", "操作确认", function () {
+            $("#jqGrid1").jqGrid("clearGridData");
+            _showCount(1);
+            $("#jqGrid2").jqGrid("clearGridData");
+            _showCount(2);
+
+        });
+    }
+
+    function _showCount(type){
+        var $count = $("#jqGrid"+type).closest(".panel").find(".tip .count");
+        $count.html($("#jqGrid"+type).jqGrid("getDataIDs").length);
+    }
     function _tipPopup() {
 
          var msg = _.template($("#alertTpl").html())();

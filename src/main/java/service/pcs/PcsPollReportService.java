@@ -50,10 +50,16 @@ public class PcsPollReportService extends PcsBaseMapper {
             criteria.andBranchIdEqualTo(branchId);
         }
         List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example1);
-        PcsPollReportExample example = new PcsPollReportExample();
-        example.setOrderByClause("positive_ballot desc");
-        example.createCriteria().andTypeEqualTo(type).andPollIdEqualTo(pcsPollList.get(0).getId());
-        List<PcsPollReport> pcsPollReportList = pcsPollReportMapper.selectByExample(example);
+
+        List<PcsPollReport> pcsPollReportList=new ArrayList<>();
+
+        if(pcsPollList.size()>0){
+            PcsPollReportExample example = new PcsPollReportExample();
+            example.setOrderByClause("positive_ballot desc");
+            example.createCriteria().andTypeEqualTo(type).andPollIdEqualTo(pcsPollList.get(0).getId());
+            pcsPollReportList = pcsPollReportMapper.selectByExample(example);
+        }
+
         return pcsPollReportList;
     }
 

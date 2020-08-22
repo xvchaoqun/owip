@@ -99,7 +99,7 @@
             <form id="reg-form" method="POST" action="${ctx}/member_reg" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
-                    <div class="input_box"><input name="username" type="text"/></div>
+                    <div style="padding-top:5px;font-size: 14px;color: #394557">系统分配，注册成功后可查看</div>
                 </dd>
                 <dt>登录密码</dt>
                 <dd>

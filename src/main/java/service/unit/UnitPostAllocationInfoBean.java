@@ -35,10 +35,10 @@ public class UnitPostAllocationInfoBean {
     private Integer noneCount;
     private Integer noneLack; // 空缺数
 
-    private Integer nCMCount;  //正处级不占职数
-    private List<CadrePost> notCpcMains;
-    private Integer nCVCount;  //副处级不占职数
-    private List<CadrePost> notCpcVices;
+    private Integer noCpcMainCount;  //正处级不占职数
+    private List<CadrePost> noCpcMains;
+    private Integer noCpcViceCount;  //副处级不占职数
+    private List<CadrePost> noCpcVices;
 
     public Unit getUnit() {
         return unit;
@@ -175,35 +175,35 @@ public class UnitPostAllocationInfoBean {
         this.viceKeep = viceKeep;
     }
 
-    public Integer getnCMCount() {
-        return nCMCount;
+    public Integer getNoCpcMainCount() {
+        return noCpcMainCount;
     }
 
-    public void setnCMCount(Integer nCMCount) {
-        this.nCMCount = nCMCount;
+    public void setNoCpcMainCount(Integer noCpcMainCount) {
+        this.noCpcMainCount = noCpcMainCount;
     }
 
-    public Integer getnCVCount() {
-        return nCVCount;
+    public List<CadrePost> getNoCpcMains() {
+        return noCpcMains;
     }
 
-    public void setnCVCount(Integer nCVCount) {
-        this.nCVCount = nCVCount;
+    public void setNoCpcMains(List<CadrePost> noCpcMains) {
+        this.noCpcMains = noCpcMains;
     }
 
-    public List<CadrePost> getNotCpcMains() {
-        return notCpcMains;
+    public Integer getNoCpcViceCount() {
+        return noCpcViceCount;
     }
 
-    public void setNotCpcMains(List<CadrePost> notCpcMains) {
-        this.notCpcMains = notCpcMains;
+    public void setNoCpcViceCount(Integer noCpcViceCount) {
+        this.noCpcViceCount = noCpcViceCount;
     }
 
-    public List<CadrePost> getNotCpcVices() {
-        return notCpcVices;
+    public List<CadrePost> getNoCpcVices() {
+        return noCpcVices;
     }
 
-    public void setNotCpcVices(List<CadrePost> notCpcVices) {
-        this.notCpcVices = notCpcVices;
+    public void setNoCpcVices(List<CadrePost> noCpcVices) {
+        this.noCpcVices = noCpcVices;
     }
 }

@@ -481,19 +481,19 @@ public class UnitPostAllocationService extends BaseMapper {
 
              // 不占职数 正处级
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getnCMCount());
+            cell.setCellValue(bean.getNoCpcMainCount());
 
             // 不占职数 现任干部
             cell = row.getCell(column++);
-            cell.setCellValue(getCadres2(wb, bean.getNotCpcMains()));
+            cell.setCellValue(getCadres2(wb, bean.getNoCpcVices()));
 
             // 不占职数 副处级
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getnCVCount());
+            cell.setCellValue(bean.getNoCpcViceCount());
 
             // 不占职数 现任干部
             cell = row.getCell(column++);
-            cell.setCellValue(getCadres2(wb, bean.getNotCpcVices()));
+            cell.setCellValue(getCadres2(wb, bean.getNoCpcVices()));
 
         }
 
@@ -534,12 +534,12 @@ public class UnitPostAllocationService extends BaseMapper {
 
             //  不占职数
             cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getnCMCount());
+            cell.setCellValue(totalBean.getNoCpcMainCount());
 
             column++;
             //  不占职数
             cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getnCVCount());
+            cell.setCellValue(totalBean.getNoCpcViceCount());
 
             column++;
         }
@@ -814,8 +814,8 @@ public class UnitPostAllocationService extends BaseMapper {
         UnitPostAllocationInfoBean totalBean = new UnitPostAllocationInfoBean();
         totalBean.setMainCount(0);
         totalBean.setViceCount(0);
-        totalBean.setnCMCount(0);
-        totalBean.setnCVCount(0);
+        totalBean.setNoCpcMainCount(0);
+        totalBean.setNoCpcViceCount(0);
 
         totalBean.setMainNum(0);
         totalBean.setViceNum(0);
@@ -851,8 +851,8 @@ public class UnitPostAllocationService extends BaseMapper {
                 List<CadrePost> notCpcVices = new ArrayList<>();
                 int mainCount = 0;
                 int viceCount = 0;
-                int nCMCount = 0;
-                int nCVCount = 0;
+                int noCpcMainCount = 0;
+                int noCpcViceCount = 0;
                 for (CadrePost cadrePost : cadrePosts) {
 
                     if (cadrePost.getAdminLevel() == null) continue;
@@ -864,7 +864,7 @@ public class UnitPostAllocationService extends BaseMapper {
                                 mainCount++;
                             }else{
                                 notCpcMains.add(cadrePost);
-                                nCMCount++;
+                                noCpcMainCount++;
                             }
                         }
                         if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
@@ -874,7 +874,7 @@ public class UnitPostAllocationService extends BaseMapper {
                                 viceCount++;
                             }else{
                                 notCpcVices.add(cadrePost);
-                                nCVCount++;
+                                noCpcViceCount++;
                             }
 
                         }
@@ -884,13 +884,13 @@ public class UnitPostAllocationService extends BaseMapper {
 
                 bean.setMains(mains);
                 bean.setVices(vices);
-                bean.setNotCpcMains(notCpcMains);
-                bean.setNotCpcVices(notCpcVices);
+                bean.setNoCpcMains(notCpcMains);
+                bean.setNoCpcVices(notCpcVices);
 
                 bean.setMainCount(mainCount);
                 bean.setViceCount(viceCount);
-                bean.setnCMCount(nCMCount);
-                bean.setnCVCount(nCVCount);
+                bean.setNoCpcMainCount(noCpcMainCount);
+                bean.setNoCpcViceCount(noCpcViceCount);
 
                 bean.setMainNum(mainNum == null ? 0 : mainNum);
                 bean.setViceNum(viceNum == null ? 0 : viceNum);
@@ -901,8 +901,8 @@ public class UnitPostAllocationService extends BaseMapper {
 
                 totalBean.setMainCount(totalBean.getMainCount() + bean.getMainCount());
                 totalBean.setViceCount(totalBean.getViceCount() + bean.getViceCount());
-                totalBean.setnCMCount(totalBean.getnCMCount() + bean.getnCMCount());
-                totalBean.setnCVCount(totalBean.getnCVCount() + bean.getnCVCount());
+                totalBean.setNoCpcMainCount(totalBean.getNoCpcMainCount() + bean.getNoCpcMainCount());
+                totalBean.setNoCpcViceCount(totalBean.getNoCpcViceCount() + bean.getNoCpcViceCount());
 
                 totalBean.setMainNum(totalBean.getMainNum() + bean.getMainNum());
                 totalBean.setViceNum(totalBean.getViceNum() + bean.getViceNum());

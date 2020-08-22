@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -158,19 +157,13 @@ public class MemberRegService extends MemberBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "SysUserView", key = "#username")
-    public void reg(String username, String passwd, Byte type,
+   /* @CacheEvict(value = "SysUserView", key = "#username")*/
+    public String reg(String passwd, Byte type,
                     String realname, String idcard, String phone,
                     Integer party, String ip) {
 
-        if (usernameDuplicate(null, null, username))
-            throw new OpException("该用户名已被注册。");
         if (idcardDuplicate(null, idcard))
             throw new OpException("该身份证已被注册。");
-
-        if (!CmTag.validUsername(username)) {
-            throw new OpException(CmTag.getStringProperty("usernameMsg"));
-        }
 
         if (!CmTag.validPasswd(passwd)) {
             throw new OpException(CmTag.getStringProperty("passwdMsg"));
@@ -180,7 +173,7 @@ public class MemberRegService extends MemberBaseMapper {
         String code = sysUserService.genCode(prefix);
 
         SysUser sysUser = new SysUser();
-        sysUser.setUsername(username);
+        sysUser.setUsername(code);
         sysUser.setCode(code);
         sysUser.setLocked(false);
         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(passwd);
@@ -202,7 +195,7 @@ public class MemberRegService extends MemberBaseMapper {
         MemberReg reg = new MemberReg();
         reg.setUserId(sysUser.getId());
         reg.setPartyId(party);
-        reg.setUsername(username);
+        reg.setUsername(code);
         reg.setRealname(realname);
         reg.setPasswd(passwd);
         reg.setType(type);
@@ -220,6 +213,7 @@ public class MemberRegService extends MemberBaseMapper {
                 reg.getUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "注册",
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+        return code;
     }
 
     public boolean usernameDuplicate(Integer id, Integer userId, String username) {

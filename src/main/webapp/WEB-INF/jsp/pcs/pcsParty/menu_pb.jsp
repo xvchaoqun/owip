@@ -29,6 +29,7 @@
 </ul>
 <script>
   function _syncCallback(){
-    SysMsg.success("同步成功")
+    SysMsg.success("同步成功");
+      $("#jqGrid").trigger("reloadGrid");
   }
 </script>

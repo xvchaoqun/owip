@@ -2,6 +2,7 @@ package domain.cadreReserve;
 
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
@@ -4088,6 +4089,21 @@ public class CadreReserveViewExample {
 
         public Criteria andMajorNotLike(String value) {
             addCriterion("major not like", value, "major");
+            return (Criteria) this;
+        }
+
+        public Criteria andMajorLikeIn(String value) {
+
+            String[] majors = value.split(SystemConstants.STRING_SEPARTOR);
+            List searchSqlList = new ArrayList<>();
+
+            for (String major : majors) {
+                searchSqlList.add("major like '%" + major + "%'");
+            }
+
+            if(searchSqlList.size()>0)
+                addCriterion("(" + StringUtils.join(searchSqlList, " or ") + ")");
+
             return (Criteria) this;
         }
 

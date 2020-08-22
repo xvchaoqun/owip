@@ -343,6 +343,7 @@ public class CadreReserveController extends BaseController {
                                   Boolean isDouble, // 是否双肩挑
                                   Boolean andWorkTypes,
                                   Integer[] workTypes,
+                                  String workDetail,
                                   Byte[] leaderTypes, // 是否班子负责人
                                   Boolean isDep,
                                   Boolean hasCrp, // 是否有干部挂职经历
@@ -461,7 +462,7 @@ public class CadreReserveController extends BaseController {
             }
         }
         if(StringUtils.isNotBlank(major)){
-            criteria.andMajorLike(SqlUtils.like(major));
+            criteria.andMajorLikeIn(major);
         }
         if (proPosts != null) {
             List<String> _proPosts = new ArrayList<String>(Arrays.asList(proPosts));
@@ -515,6 +516,16 @@ public class CadreReserveController extends BaseController {
         if (workTypes != null){
             List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
                     BooleanUtils.isTrue(andWorkTypes), CadreConstants.CADRE_STATUS_RESERVE);
+            if(cadreIds.size()==0){
+                criteria.andIdIsNull();
+            }else {
+                criteria.andIdIn(cadreIds);
+            }
+        }
+        if (StringUtils.isNotBlank(workDetail)){
+            String[] workDetails=workDetail.split(SystemConstants.STRING_SEPARTOR);
+            List<String> detailList= Arrays.asList(workDetails);
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkDetail(detailList, CadreConstants.CADRE_STATUS_RESERVE);
             if(cadreIds.size()==0){
                 criteria.andIdIsNull();
             }else {
