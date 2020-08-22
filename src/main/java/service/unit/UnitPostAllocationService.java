@@ -9,6 +9,7 @@ import domain.unit.Unit;
 import domain.unit.UnitPostCountView;
 import domain.unit.UnitPostCountViewExample;
 import domain.unit.UnitPostView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -681,7 +682,8 @@ public class UnitPostAllocationService extends BaseMapper {
 
                     if (cadrePost.getAdminLevel().intValue() == mainMetaType.getId()) {
 
-                        if (cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null) {
+                        if (BooleanUtils.isTrue(cadrePost.getIsMainPost())
+                                && cadrePost.getUnitPostId() == null) {
                             mainKeep.add(cadrePost);
                             if (!isDispalyKeep) {
                                 mains.add(cadrePost);
@@ -690,7 +692,8 @@ public class UnitPostAllocationService extends BaseMapper {
                             mains.add(cadrePost);
                         }
 
-                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                        if (BooleanUtils.isTrue(cadrePost.getIsMainPost())
+                                || BooleanUtils.isTrue(cadrePost.getIsCpc())) {
                             // 主职或者兼职占职数，就计数
                             if (isDispalyKeep) {
                                 if (!(cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null)) {
@@ -713,7 +716,7 @@ public class UnitPostAllocationService extends BaseMapper {
                             vices.add(cadrePost);
                         }
 
-                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                        if (BooleanUtils.isTrue(cadrePost.getIsMainPost()) || BooleanUtils.isTrue(cadrePost.getIsCpc())) {
                             // 主职或者兼职占职数，就计数
                             if (isDispalyKeep) {
                                 if (!(cadrePost.getIsMainPost() && cadrePost.getUnitPostId() == null)) {
@@ -728,7 +731,7 @@ public class UnitPostAllocationService extends BaseMapper {
                     if (cadreType == CadreConstants.CADRE_TYPE_CJ) {
                         if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
                             nones.add(cadrePost);
-                            if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                            if (BooleanUtils.isTrue(cadrePost.getIsMainPost()) || BooleanUtils.isTrue(cadrePost.getIsCpc())) {
                                 // 主职或者兼职占职数，就计数
                                 noneCount++;
                             }

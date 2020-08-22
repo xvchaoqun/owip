@@ -3,7 +3,10 @@
 
 哈工大
 
+update cadre_post cp left join unit_post up on cp.unit_post_id=up.id set cp.is_cpc=up.is_cpc;
+
 -- 更新系统属性 upa_displayPosts （bool -> int   0->1 1->2)
+UPDATE `sys_property` SET `name`='干部配备一览表显示',`content`='1',`type`='2',`remark`='1 原版   2 显示空岗及保留待遇  3 不占职数（无行政级别）' WHERE  `code`='upa_displayPosts';
 
 
 -- 更新 ow_member_view
