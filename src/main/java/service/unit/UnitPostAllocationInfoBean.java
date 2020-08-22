@@ -175,12 +175,20 @@ public class UnitPostAllocationInfoBean {
         this.viceKeep = viceKeep;
     }
 
-    public Integer getNCMCount() {
+    public Integer getnCMCount() {
         return nCMCount;
     }
 
-    public void setNCMCount(Integer nCMCount) {
+    public void setnCMCount(Integer nCMCount) {
         this.nCMCount = nCMCount;
+    }
+
+    public Integer getnCVCount() {
+        return nCVCount;
+    }
+
+    public void setnCVCount(Integer nCVCount) {
+        this.nCVCount = nCVCount;
     }
 
     public List<CadrePost> getNotCpcMains() {
@@ -189,14 +197,6 @@ public class UnitPostAllocationInfoBean {
 
     public void setNotCpcMains(List<CadrePost> notCpcMains) {
         this.notCpcMains = notCpcMains;
-    }
-
-    public Integer getNCVCount() {
-        return nCVCount;
-    }
-
-    public void setNCVCount(Integer nCVCount) {
-        this.nCVCount = nCVCount;
     }
 
     public List<CadrePost> getNotCpcVices() {

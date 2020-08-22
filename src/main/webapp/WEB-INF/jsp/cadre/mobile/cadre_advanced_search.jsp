@@ -11,7 +11,7 @@
             <select data-rel="select2-aj1ax"
                     data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_KJ},${CADRE_STATUS_KJ_LEAVE}"
                     data-width="300"
-                    name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                    name="cadreId" data-placeholder="账号或姓名或学工号">
                 <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
             </select>
         </div>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="select">
-            <input style="width: 300px" type="text" name="title" placeholder="请输入所在单位及职务" value="${param.title}">
+            <input style="width: 300px" type="text" name="title" placeholder="所在单位及职务" value="${param.title}">
         </div>
 
         <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
@@ -125,16 +125,16 @@
 
         <div class="select">
             <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
-                   name="startAge" placeholder="请输入年龄" value="${param.startAge}"> 至
+                   name="startAge" placeholder="最小年龄" value="${param.startAge}"> 至
             <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
-                   name="endAge" placeholder="请输入年龄" value="${param.endAge}">
+                   name="endAge" placeholder="最大年龄" value="${param.endAge}">
         </div>
 
         <div class="select">
             <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
-                   name="startDpAge" placeholder="请输入党龄" value="${param.startDpAge}"> 至
+                   name="startDpAge" placeholder="最小党龄" value="${param.startDpAge}"> 至
             <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
-                   name="endDpAge" placeholder="请输入党龄" value="${param.endDpAge}">
+                   name="endDpAge" placeholder="最大党龄" value="${param.endDpAge}">
         </div>
 
         <div class="select">
@@ -164,7 +164,7 @@
         </div>
 
         <div class="select">
-            <input style="width: 300px;" type="text" name="major" value="${param.major}" placeholder="请输入所学专业">
+            <input style="width: 300px;" type="text" name="major" value="${param.major}" placeholder="所学专业">
         </div>
 
         <div class="select">
@@ -175,9 +175,9 @@
 
         <div class="select">
             <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
-                   name="startNowPostAge" value="${param.startNowPostAge}" placeholder="请输入现职务始任年限"> 至
+                   name="startNowPostAge" value="${param.startNowPostAge}" placeholder="现职务始任年限"> 至
             <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
-                   name="endNowPostAge" value="${param.endNowPostAge}"placeholder="请输入现职务始任年限">
+                   name="endNowPostAge" value="${param.endNowPostAge}"placeholder="现职务始任年限">
         </div>
 
         <div class="select">

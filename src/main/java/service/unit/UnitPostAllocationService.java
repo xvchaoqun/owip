@@ -481,7 +481,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
              // 不占职数 正处级
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getNCMCount());
+            cell.setCellValue(bean.getnCMCount());
 
             // 不占职数 现任干部
             cell = row.getCell(column++);
@@ -489,7 +489,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
             // 不占职数 副处级
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getNCVCount());
+            cell.setCellValue(bean.getnCVCount());
 
             // 不占职数 现任干部
             cell = row.getCell(column++);
@@ -534,12 +534,12 @@ public class UnitPostAllocationService extends BaseMapper {
 
             //  不占职数
             cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getNCMCount());
+            cell.setCellValue(totalBean.getnCMCount());
 
             column++;
             //  不占职数
             cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getNCVCount());
+            cell.setCellValue(totalBean.getnCVCount());
 
             column++;
         }
@@ -814,8 +814,8 @@ public class UnitPostAllocationService extends BaseMapper {
         UnitPostAllocationInfoBean totalBean = new UnitPostAllocationInfoBean();
         totalBean.setMainCount(0);
         totalBean.setViceCount(0);
-        totalBean.setNCMCount(0);
-        totalBean.setNCVCount(0);
+        totalBean.setnCMCount(0);
+        totalBean.setnCVCount(0);
 
         totalBean.setMainNum(0);
         totalBean.setViceNum(0);
@@ -889,8 +889,8 @@ public class UnitPostAllocationService extends BaseMapper {
 
                 bean.setMainCount(mainCount);
                 bean.setViceCount(viceCount);
-                bean.setNCMCount(nCMCount);
-                bean.setNCVCount(nCVCount);
+                bean.setnCMCount(nCMCount);
+                bean.setnCVCount(nCVCount);
 
                 bean.setMainNum(mainNum == null ? 0 : mainNum);
                 bean.setViceNum(viceNum == null ? 0 : viceNum);
@@ -901,8 +901,8 @@ public class UnitPostAllocationService extends BaseMapper {
 
                 totalBean.setMainCount(totalBean.getMainCount() + bean.getMainCount());
                 totalBean.setViceCount(totalBean.getViceCount() + bean.getViceCount());
-                totalBean.setNCMCount(totalBean.getNCMCount() + bean.getNCMCount());
-                totalBean.setNCVCount(totalBean.getNCVCount() + bean.getNCVCount());
+                totalBean.setnCMCount(totalBean.getnCMCount() + bean.getnCMCount());
+                totalBean.setnCVCount(totalBean.getnCVCount() + bean.getnCVCount());
 
                 totalBean.setMainNum(totalBean.getMainNum() + bean.getMainNum());
                 totalBean.setViceNum(totalBean.getViceNum() + bean.getViceNum());

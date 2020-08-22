@@ -1,6 +1,11 @@
 
 20200821
 
+哈工大
+
+-- 更新系统属性 upa_displayPosts （bool -> int   0->1 1->2)
+
+
 -- 更新 ow_member_view
 ALTER TABLE `pcs_candidate`
 	ADD COLUMN `code` VARCHAR(20) NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `type`,
@@ -233,7 +238,8 @@ ALTER TABLE `ow_member`
 	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委' AFTER `user_id`;
 -- 更新北师大 & 北邮 &南航
 
-
+20200813
+哈工大
 
 20200812
 
