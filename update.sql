@@ -3,6 +3,8 @@
 
 哈工大、北航
 
+-- 给ext文件夹的jsp cm:sign(
+
 update cadre_post cp left join unit_post up on cp.unit_post_id=up.id set cp.is_cpc=up.is_cpc;
 
 -- 更新系统属性 upa_displayPosts （bool -> int   0->1 1->2)
