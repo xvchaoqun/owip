@@ -580,7 +580,7 @@ public class MemberController extends MemberBaseController {
 
             SecurityUtils.getSubject().checkPermission("member:edit");
 
-            if(member.getStatus()!=MemberConstants.MEMBER_STATUS_NORMAL) {
+            if(member.getStatus()!= MemberConstants.MEMBER_STATUS_NORMAL) {
 
                 record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
                 record.setCreateTime(new Date());
@@ -1552,19 +1552,25 @@ public class MemberController extends MemberBaseController {
     @ResponseBody
     public Map member_update(HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
 
-        Map<Integer,Party> partyMap = partyService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
         Map<String, Party> runPartyMap = new HashMap<>();
         for (Party party : partyMap.values()){
             if (BooleanUtils.isNotTrue(party.getIsDeleted()) && !runPartyMap.containsKey(party.getName())){
                 runPartyMap.put(party.getName(),party);
+                if(StringUtils.isNotBlank(party.getShortName())) {
+                    runPartyMap.put(party.getShortName(), party);
+                }
             }
         }
 
-        Map<Integer,Branch> branchMap = branchService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
         Map<String, Branch>runBranchMap = new HashMap<>();
         for (Branch branch : branchMap.values()){
             if (BooleanUtils.isNotTrue(branch.getIsDeleted()) && !runBranchMap.containsKey(branch.getName())){
                 runBranchMap.put(branch.getName(),branch);
+                if(StringUtils.isNotBlank(branch.getShortName())) {
+                    runBranchMap.put(branch.getShortName(), branch);
+                }
             }
         }
 
@@ -1665,7 +1671,7 @@ public class MemberController extends MemberBaseController {
 
         ExportHelper.save(wb, springProps.uploadPath + savePath);
 
-        String fileName = "组织关系批量调整结果表.xlsx";
+        String fileName = FileUtils.getFileName(xlsx.getOriginalFilename())+ "(组织关系批量调整结果明细表).xlsx";
         Map<String, Object> resultMap = success();
         resultMap.put("file", UserResUtils.sign(savePath));
         resultMap.put("filename", fileName);

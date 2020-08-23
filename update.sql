@@ -1,9 +1,13 @@
 
+20200823
+北邮
+
 20200821
 
 哈工大、北航
 
 -- 给ext文件夹的jsp cm:sign(
+-- 检查/page/caslogout.jsp
 
 update cadre_post cp left join unit_post up on cp.unit_post_id=up.id set cp.is_cpc=up.is_cpc;
 
@@ -507,6 +511,7 @@ ALTER TABLE `sys_property`
 
 ALTER TABLE `sys_property`
 	CHANGE COLUMN `remark` `remark` TEXT NULL DEFAULT NULL COMMENT '说明' AFTER `sort_order`;
+
 2020.7.28
 北化工
 
