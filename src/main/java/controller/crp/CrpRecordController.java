@@ -166,6 +166,7 @@ public class CrpRecordController extends BaseController {
         }
 
         record.setIsPresentCadre(BooleanUtils.isTrue(record.getIsPresentCadre()));
+        record.setIsAddForm(BooleanUtils.isTrue(record.getIsAddForm()));
 
         if (cadreId != null) {
             CadreView cv = iCadreMapper.getCadre(cadreId);

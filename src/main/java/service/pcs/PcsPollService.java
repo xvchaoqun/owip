@@ -120,14 +120,34 @@ public class PcsPollService extends PcsBaseMapper {
 
     // 党支部报送
     @Transactional
-    public void report(int id, int expectMemberCount, int actualMemberCount) {
+    public void report(int pollId, int expectMemberCount, int actualMemberCount) {
 
-        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(id);
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
 
         checkReportData(pcsPoll);
 
+        // 报送前必须更新一下候选人的相关投票数量（可能撤回报送重新投票了，支部又没做重新设置候选人，所以投票结果不是最新的）
+        PcsPollReportExample example = new PcsPollReportExample();
+        example.createCriteria().andPollIdEqualTo(pollId);
+        List<PcsPollReport> pcsPollReports = pcsPollReportMapper.selectByExample(example);
+
+        for (PcsPollReport report : pcsPollReports) {
+
+            byte stage = report.getStage();
+            byte type = report.getType();
+            int userId = report.getUserId();
+
+            PcsPollReport record = new PcsPollReport();
+            record.setId(report.getId());
+            pcsPollReportService.getPcsPollReportOfVoteResult(record, pollId, stage, type, userId);
+
+            pcsPollReportMapper.updateByPrimaryKeySelective(record);
+        }
+
+
+
         PcsPoll record = new PcsPoll();
-        record.setId(id);
+        record.setId(pollId);
         record.setHasReport(true);
         record.setExpectMemberCount(expectMemberCount);
         record.setActualMemberCount(actualMemberCount);

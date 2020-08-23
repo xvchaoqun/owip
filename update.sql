@@ -1,7 +1,7 @@
 
 20200821
 
-哈工大
+哈工大、北航
 
 update cadre_post cp left join unit_post up on cp.unit_post_id=up.id set cp.is_cpc=up.is_cpc;
 
@@ -634,7 +634,7 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2533, 0, '参评人导出记录', '', 'function', '', '/dr/drOnlineInspectorLog', 895, '0/1/339/890/895/', 1, 'drOnlineInspectorLog:*', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2534, 0, '参评人', '', 'function', '', '/dr/drOnlineInspector', 895, '0/1/339/890/895/', 1, 'drOnlineInspector:*', NULL, NULL, NULL, 1, NULL);
 
-REPLACE INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '推荐类型', '干部选拔任用', '民主推荐', 'mc_dr_type', '', '', '', 82, 1);
+REPLACE INTO `base_meta_class` (id, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (82, NULL, '推荐类型', '干部选拔任用', '民主推荐', 'mc_dr_type', '', '', '', 82, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '谈话推荐', 'mt_f639fe', NULL, NULL, '', 1, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '会议推荐', 'mt_dr_type_meeting', NULL, NULL, '', 2, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '二次会议推荐', 'mt_qnuxk8', NULL, NULL, '', 3, 1);

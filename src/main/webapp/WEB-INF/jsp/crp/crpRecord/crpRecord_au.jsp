@@ -220,9 +220,10 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label">是否存入干部简历</label>
 
-                    <div class="col-xs-6">
+                    <div class="col-xs-8">
                         <input type="checkbox" class="big"
                                name="isAddForm" ${(crpRecord==null ||crpRecord.isAddForm)?"checked":""}/>
+                        <span class="help-block">注：选“是”，此条挂职记录将显示在干部任免审批表中</span>
                     </div>
                 </div>
                 <div class="form-group">

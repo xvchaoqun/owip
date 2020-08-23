@@ -107,6 +107,9 @@ public class MemberRegController extends MemberBaseController {
 
         logger.info(addLog(LogConstants.LOG_USER, "注册后登录成功"));
 
+        // 注册成功提示信息
+        request.getSession().setAttribute("reg", 1);
+
         return success();
     }
 

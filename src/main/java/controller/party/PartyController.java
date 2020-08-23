@@ -438,7 +438,7 @@ public class PartyController extends BaseController {
     public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect,
                              Boolean del,
                              Boolean notBranchAdmin,
-                             Integer pcsConfigId, // 党代会ID
+                             Boolean isPcs, // 是否党代会
                              Integer pageNo, Integer classId, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -490,8 +490,8 @@ public class PartyController extends BaseController {
             }
         }
 
-        // 党代会筛选
-        if(pcsConfigId!=null){
+        // 党代会筛选（必须同时是党代会分党委管理员和系统分党委的管理员）
+        if(BooleanUtils.isTrue(isPcs)){
 
             List<Integer> partyIdList = new ArrayList<>();
             PcsConfigService pcsConfigService = CmTag.getBean(PcsConfigService.class);

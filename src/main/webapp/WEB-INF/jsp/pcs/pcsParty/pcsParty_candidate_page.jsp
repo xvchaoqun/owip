@@ -92,7 +92,8 @@
     .candidate-table .frozen-bdiv.ui-jqgrid-bdiv {
         top: 43px !important;
     }
-    #jqGrid_actualMemberCount, #jqGrid_branchCount, #jqGrid_memberCount, #jqGrid_expectMemberCount{
+    #jqGrid_actualMemberCount, #jqGrid_branchCount, #jqGrid_totalVote,
+    #jqGrid_memberCount, #jqGrid_expectMemberCount{
         padding: 0;
         font-size: 11px;
     }
@@ -123,9 +124,10 @@
                 'data-url="${ctx}/pcs/pcsParty_branchs?userId={3}&partyIds={1}&branchIds={2}">{0}</a>')
                         .format(cellvalue, rowObject.partyIds, rowObject.branchIds, rowObject.userId)
             }},
+            {label: '推荐提名<br/>的党员数', name: 'totalVote', width: 80},
             {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
             {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
-            {label: '推荐党支部实参会党员数<div style="font-size: 8px">（推荐提名的党员数）</div>', name: 'actualMemberCount', width: 180},
+            {label: '推荐党支部<br/>实参会党员数', name: 'actualMemberCount'},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },
