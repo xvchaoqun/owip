@@ -130,7 +130,6 @@ public class PcsPollResultController extends PcsBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(drOnlineResult.class, drOnlineResultMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }

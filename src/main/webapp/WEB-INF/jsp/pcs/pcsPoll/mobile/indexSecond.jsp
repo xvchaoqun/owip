@@ -239,12 +239,13 @@
             theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty selectUserIdList?'[]':selectUserIdList};
+    var selectUsers = [];
     //console.log(selectedUserIds)
     var $tip;
     $select.on("select2:select",function(e){
 
         var $this = $(this);
-        if($.inArray(parseInt($this.val()), selectedUserIds)>=0) {
+        if($.inArray(parseInt($this.val()), selectedUserIds)>=0 || $.inArray(parseInt($this.val()), selectUsers)>=0) {
             $tip = $.tip({
                 $target: $this.closest("td").find(".select2-container"),
                 at: 'top center', my: 'bottom center', type: 'success',
@@ -255,9 +256,10 @@
             if($tip!=undefined) {
                 $tip.qtip('destroy', true);
             }
-            selectedUserIds.push(parseInt($(this).val()));
         }
-        //console.log(selectedUserIds)
+        selectUsers = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+            return parseInt($(sel).val());
+        });
     });
 
     function _confirm() {

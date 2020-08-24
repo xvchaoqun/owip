@@ -458,7 +458,7 @@ public class PcsPollController extends PcsBaseController {
         return "/pcs/pcsPoll/pcsPoll_noticeEdit";
     }
 
-    @RequiresPermissions("drOnline:edit")
+    @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/inspectorNotice", method = RequestMethod.POST)
     @ResponseBody
     public Map do_inspectorNotice(Integer id, String inspectorNotice, HttpServletRequest request) {
