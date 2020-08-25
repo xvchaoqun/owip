@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -116,15 +117,30 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     private Cache<String, AtomicInteger> limitCache;
 
     // 读取用户属性字段缓存
-    @Cacheable(value = "PropertyCaches", key = "#key")
-    public List<String> getPropertyCaches(String key){
+    @Cacheable(value = "PropertyCaches", key = "#methodName")
+    public List<String> getPropertyCaches(String methodName){
 
         try {
-            Method method = iPropertyMapper.getClass().getMethod(key);
+            Method method = iPropertyMapper.getClass().getMethod(methodName);
 
             return (List<String>) method.invoke(iPropertyMapper);
         }catch (Exception ex){
-            logger.error("get property caches error. key:" + key, ex);
+            logger.error("get property caches error. methodName:" + methodName, ex);
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 更新用户属性字段缓存
+    @CachePut(value = "PropertyCaches", key = "#methodName")
+    public List<String> refreshPropertyCaches(String methodName){
+
+        try {
+            Method method = iPropertyMapper.getClass().getMethod(methodName);
+
+            return (List<String>) method.invoke(iPropertyMapper);
+        }catch (Exception ex){
+            logger.error("update property caches error. methodName:" + methodName, ex);
         }
 
         return new ArrayList<>();
