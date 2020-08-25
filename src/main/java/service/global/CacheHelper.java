@@ -74,12 +74,6 @@ public class CacheHelper {
     public void clearRoleCache() {
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public void clearCadreCache() {
-    }
-
     // 清除系统基础数据缓存（用于后台数据库手动更新后）
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
@@ -103,4 +97,10 @@ public class CacheHelper {
 
     @CacheEvict(value = "OaTaskUserCount", key = "#userId")
     public void clearOaTaskUserCount(int userId){}
+
+    @CacheEvict(value = "Cadre", key="#cadreId", condition = "#cadreId != null")
+    public void clearCadreCache(int cadreId){}
+
+    @CacheEvict(value = "Cadre", allEntries = true)
+    public void clearAllCadreCache(){}
 }

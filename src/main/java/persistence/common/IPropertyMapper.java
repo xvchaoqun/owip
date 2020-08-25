@@ -6,11 +6,13 @@ import java.util.List;
 
 /**
  * Created by lm on 2017/11/15.
+ *
+ * 此类中的方法不能直接调用，否则性能太差。请调用方法 CmTag.getPropertyCaches("方法名")
  */
 public interface IPropertyMapper {
 
     // 年级
-    @Select("select distinct grade from ow_member_view where type=2 order by grade asc")
+    @Select("select distinct grade from ow_member_view where type=2 and grade is not null and grade!='' order by grade asc")
     List<String> studentGrades();
 
     // 学生类别

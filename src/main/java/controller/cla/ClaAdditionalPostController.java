@@ -38,7 +38,7 @@ public class ClaAdditionalPostController extends ClaBaseController {
     @RequestMapping("/claAdditionalPost")
     public String claAdditionalPost(Integer cadreId, ModelMap modelMap) {
 
-        modelMap.put("cadre", cadreService.findAll().get(cadreId));
+        modelMap.put("cadre", cadreService.get(cadreId));
         return "cla/claAdditionalPost/claAdditionalPost_page";
     }
 
@@ -128,7 +128,7 @@ public class ClaAdditionalPostController extends ClaBaseController {
             ClaAdditionalPost claAdditionalPost = claAdditionalPostMapper.selectByPrimaryKey(id);
             modelMap.put("claAdditionalPost", claAdditionalPost);
 
-            CadreView cadre = cadreService.findAll().get(claAdditionalPost.getCadreId());
+            CadreView cadre = cadreService.get(claAdditionalPost.getCadreId());
             modelMap.put("cadre", cadre);
         }
 

@@ -1,7 +1,7 @@
 package controller.cla;
 
+import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
-import domain.cadre.CadreView;
 import domain.cla.ClaApplicatType;
 import domain.cla.ClaApplicatTypeExample;
 import domain.cla.ClaApprovalOrder;
@@ -50,9 +50,9 @@ public class ClaApplicatTypeController extends ClaBaseController {
     public Map selectCadresEscape_tree() throws IOException {
 
         Set<Integer> hasAssignedCadreIdSet = claApplicatTypeService.getCadreIds(null);
-        Set<CadreView> cadreSet = new LinkedHashSet<>();
+        Set<Cadre> cadreSet = new LinkedHashSet<>();
         Set<Integer> disabledIdSet = new HashSet<>(); // 显示时不需要选择框
-        for (CadreView cadre : cadreService.findAll().values()) {
+        for (Cadre cadre : cadreService.getCadres()) {
 
             if(!hasAssignedCadreIdSet.contains(cadre.getId().intValue())){
                 cadreSet.add(cadre);
@@ -95,7 +95,7 @@ public class ClaApplicatTypeController extends ClaBaseController {
         Set<Integer> selectIdSet = claApplicatTypeService.getCadreIds(id);
         Set<Integer> disabledIdSet = claApplicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                 ClaConstants.CLA_APPLICAT_CADRE_STATUS_SET, selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();

@@ -200,7 +200,7 @@ public class CommonController extends BaseController {
                         option.put("twPassportCode", twPassport.getCode());
                 }
                 if(lpWorkTime){
-                    CadreView cv = cadreService.findAll().get(cadre.getId());
+                    CadreView cv = cadreService.get(cadre.getId());
                     option.put("lpWorkTime", DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD));
                 }
                 options.add(option);

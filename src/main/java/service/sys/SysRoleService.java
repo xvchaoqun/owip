@@ -148,7 +148,7 @@ public class SysRoleService extends BaseMapper {
 	public Set<String> getRolePermissions(int roleId, boolean isMobile){
 
 		Set<String> permissions = new HashSet<String>();
-		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+		SysRole sysRole = CmTag.getRole(roleId);
 		String resourceIdsStr = isMobile?sysRole.getmResourceIds():sysRole.getResourceIds();
 
 		if(resourceIdsStr!=null){

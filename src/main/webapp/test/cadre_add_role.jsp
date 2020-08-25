@@ -30,8 +30,7 @@
     }
 
     // 给所有的干部加上干部身份
-    Map<Integer, CadreView> cadreMap = cadreService.findAll();
-    for (CadreView cadre : cadreMap.values()) {
+    for (Cadre cadre : cadreService.getCadres()) {
 
         if (CadreConstants.CADRE_STATUS_SET.contains(cadre.getStatus())) {
             // 添加干部身份

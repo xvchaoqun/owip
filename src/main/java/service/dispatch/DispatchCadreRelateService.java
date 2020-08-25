@@ -91,8 +91,9 @@ public class DispatchCadreRelateService extends BaseMapper {
                 record.setLpWorkTime(last.getWorkTime());
 
                 cadrePostMapper.updateByPrimaryKeySelective(record);
+
+                cacheHelper.clearCadreCache(cadrePost.getCadreId());
             }
-            cacheHelper.clearCadreCache();
         }
     }
 }

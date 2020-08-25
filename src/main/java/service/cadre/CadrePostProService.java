@@ -66,7 +66,7 @@ public class CadrePostProService extends BaseMapper {
                     "pro_post_time=%s, pro_post_level=%s, pro_post_level_time=%s where user_id=%s",
                     proPost, proPostTime, proPostLevel, proPostLevelTime, userId));
 
-            cacheHelper.clearCadreCache();
+            cacheHelper.clearCadreCache(cadre.getId());
         }
     }
 

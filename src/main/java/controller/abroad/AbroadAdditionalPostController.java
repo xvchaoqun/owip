@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -38,7 +37,7 @@ public class AbroadAdditionalPostController extends AbroadBaseController {
     @RequestMapping("/abroadAdditionalPost")
     public String abroadAdditionalPost(Integer cadreId, ModelMap modelMap) {
 
-        modelMap.put("cadre", cadreService.findAll().get(cadreId));
+        modelMap.put("cadre", cadreService.get(cadreId));
         return "abroad/abroadAdditionalPost/abroadAdditionalPost_page";
     }
 
@@ -128,7 +127,7 @@ public class AbroadAdditionalPostController extends AbroadBaseController {
             AbroadAdditionalPost abroadAdditionalPost = abroadAdditionalPostMapper.selectByPrimaryKey(id);
             modelMap.put("abroadAdditionalPost", abroadAdditionalPost);
 
-            CadreView cadre = cadreService.findAll().get(abroadAdditionalPost.getCadreId());
+            CadreView cadre = cadreService.get(abroadAdditionalPost.getCadreId());
             modelMap.put("cadre", cadre);
         }
 

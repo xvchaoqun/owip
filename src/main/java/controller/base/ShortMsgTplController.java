@@ -316,7 +316,7 @@ public class ShortMsgTplController extends BaseController {
             disabledIdSet.add(cv.getUserId());
         }
 
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.getCadres()),
                 AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, null, disabledIdSet, false,
                 true, false);
 

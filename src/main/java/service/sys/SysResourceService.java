@@ -145,6 +145,7 @@ public class SysResourceService extends BaseMapper{
 		sysResourceMapper.deleteByExample(example);
 	}
 
+	@Cacheable(value = "SysResources", key = "'url:'+ #url")
 	public SysResource getByUrl(String url){
 
 		SysResourceExample example = new SysResourceExample();

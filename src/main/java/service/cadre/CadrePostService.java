@@ -84,7 +84,7 @@ public class CadrePostService extends BaseMapper {
                 + " and is_main_post=" + record.getIsMainPost()));
         cadrePostMapper.insertSelective(record);
 
-        cacheHelper.clearCadreCache();
+        cacheHelper.clearCadreCache(record.getCadreId());
     }
 
     @Transactional
@@ -92,22 +92,25 @@ public class CadrePostService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        CadrePostExample example = new CadrePostExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        cadrePostMapper.deleteByExample(example);
+        for (Integer id : ids) {
+
+            CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
+            cacheHelper.clearCadreCache(cadrePost.getCadreId());
+
+            cadrePostMapper.deleteByPrimaryKey(id);
+        }
 
         // 同时删除关联的任免文件
         dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
-
-        cacheHelper.clearCadreCache();
     }
 
     @Transactional
     public void updateByPrimaryKeySelective(CadrePost record) {
 
+        int cadreId = record.getCadreId();
         // 如果是第一主职提交，则判断是否重复
         if (BooleanUtils.isTrue(record.getIsFirstMainPost())) {
-            CadrePost cadreMainCadrePost = getFirstMainCadrePost(record.getCadreId());
+            CadrePost cadreMainCadrePost = getFirstMainCadrePost(cadreId);
             if (cadreMainCadrePost != null) {
                 if (cadreMainCadrePost.getId().intValue() != record.getId()) {
                     throw new OpException("已存在第一主职");
@@ -134,7 +137,7 @@ public class CadrePostService extends BaseMapper {
        /* record.setIsMainPost(null); */   // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
 
-        cacheHelper.clearCadreCache();
+        cacheHelper.clearCadreCache(cadreId);
     }
 
     public CadrePost getCadrePostById(Integer id) {
@@ -199,9 +202,9 @@ public class CadrePostService extends BaseMapper {
                 insertSelective(record);
                 addCount++;
             }
-        }
 
-        cacheHelper.clearCadreCache();
+            cacheHelper.clearCadreCache(cadreId);
+        }
 
         return addCount;
     }
@@ -237,9 +240,9 @@ public class CadrePostService extends BaseMapper {
                 insertSelective(record);
                 addCount++;
             }
-        }
 
-        cacheHelper.clearCadreCache();
+            cacheHelper.clearCadreCache(cadreId);
+        }
 
         return addCount;
     }
@@ -264,9 +267,9 @@ public class CadrePostService extends BaseMapper {
                 insertSelective(record);
                 addCount++;
             }
-        }
 
-        cacheHelper.clearCadreCache();
+            cacheHelper.clearCadreCache(cadreId);
+        }
 
         return addCount;
     }

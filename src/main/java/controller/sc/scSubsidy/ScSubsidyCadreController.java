@@ -45,7 +45,7 @@ public class ScSubsidyCadreController extends ScBaseController {
         modelMap.put("cls", cls);
 
         if(cadreId!=null){
-            modelMap.put("cadre", cadreService.findAll().get(cadreId));
+            modelMap.put("cadre", cadreService.get(cadreId));
         }
         if(hrType!=null){
             modelMap.put("hrAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(hrType));

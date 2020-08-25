@@ -57,7 +57,7 @@ public class CmMemberController extends CmBaseController {
         if(userId!=null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-        //modelMap.put("teacherNations", iPropertyMapper.teacherNations());
+        //modelMap.put("teacherNations", CmTag.getPropertyCaches("teacherNations"));
         return "cm/cmMember/cmMember_page";
     }
 

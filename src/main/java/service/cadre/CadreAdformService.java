@@ -1021,7 +1021,7 @@ public class CadreAdformService extends BaseMapper {
 
 
         cacheHelper.clearUserCache(_sysUser);
-        cacheHelper.clearCadreCache();
+        CmTag.clearCadreCache(userId);
 
         is.close();
     }

@@ -646,7 +646,7 @@ public class ApplySelfService extends AbroadBaseMapper {
 
             // 1、读取所在的全部单位（该干部在这些单位中是正职）
             List<Integer> unitIds = new ArrayList<>();
-            CadreView cv = cadreService.findAll().get(cadreId);
+            CadreView cv = cadreService.get(cadreId);
             if(BooleanUtils.isTrue(cv.getIsPrincipal())){
 
                 if(!approverBlackListMap.containsKey(cadreId + "_" + cv.getUnitId())) // 2、确定拥有该审批身份
@@ -670,7 +670,7 @@ public class ApplySelfService extends AbroadBaseMapper {
 
         }else if(type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER){
             // 审批类型为校领导
-            CadreView cv = cadreService.findAll().get(cadreId);
+            CadreView cv = cadreService.get(cadreId);
             int userId = cv.getUserId();
             Map<String, ApproverBlackList> approverBlackListMap = approverBlackListService.findAll(approverTypeId);
             // 1、找出分管的单位（确定是校领导且找出分管单位）

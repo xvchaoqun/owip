@@ -1,6 +1,7 @@
 package controller.oa;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.oa.*;
@@ -284,7 +285,7 @@ public class OaTaskController extends OaBaseController {
         }
 
         Set<Byte> cadreStatusList = CadreConstants.CADRE_STATUS_NOW_SET;
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                 cadreStatusList, selectIdSet, null, false, true, false);
 
         Map<String, Object> resultMap = success();

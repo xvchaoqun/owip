@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.abroad.AbroadService;
 import service.abroad.ApproverTypeService;
 import service.cadre.CadreService;
+import sys.tags.CmTag;
 
 import java.util.List;
 import java.util.Map;
@@ -35,12 +36,11 @@ public class AbroadTest {
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         Map<Integer,  Map<Integer, List<SysUserView>>> cadreApproverListMap
                 = abroadService.getCadreApproverListMap();
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
 
         for (Map.Entry<Integer, Map<Integer, List<SysUserView>>> entry : cadreApproverListMap.entrySet()) {
 
             int cadreId = entry.getKey();
-            CadreView cv = cadreMap.get(cadreId);
+            CadreView cv = CmTag.getCadreById(cadreId);
             Map<Integer, List<SysUserView>> _approverListMap = entry.getValue();
             System.out.print(cv.getRealname());
             for (Map.Entry<Integer, List<SysUserView>> listEntry : _approverListMap.entrySet()) {
