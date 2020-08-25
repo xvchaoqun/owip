@@ -22,7 +22,7 @@ public class PcsPollReportService extends PcsBaseMapper {
     @Autowired
     private PcsPrAlocateService pcsPrAlocateService;
 
-    public List<PcsPollReport> getReport(PcsPoll pcsPoll, Byte type){
+    public List<PcsPollReport> getReport(PcsPoll pcsPoll, Byte type) {
 
         Integer partyId = pcsPoll.getPartyId();
         Integer branchId = pcsPoll.getBranchId();
@@ -33,7 +33,7 @@ public class PcsPollReportService extends PcsBaseMapper {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(branchId != null) {
+        if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
         List<PcsPollReport> reportList = pcsPollReportMapper.selectByExample(example);
@@ -41,7 +41,7 @@ public class PcsPollReportService extends PcsBaseMapper {
         return reportList;
     }
 
-    public List<PcsPollReport> getReport(byte type, int configId, byte stage, int partyId, Integer branchId){
+    public List<PcsPollReport> getReport(byte type, int configId, byte stage, int partyId, Integer branchId) {
 
         PcsPollExample example1 = new PcsPollExample();
         PcsPollExample.Criteria criteria = example1.createCriteria().andStageEqualTo(stage).andConfigIdEqualTo(configId)
@@ -51,9 +51,9 @@ public class PcsPollReportService extends PcsBaseMapper {
         }
         List<PcsPoll> pcsPollList = pcsPollMapper.selectByExample(example1);
 
-        List<PcsPollReport> pcsPollReportList=new ArrayList<>();
+        List<PcsPollReport> pcsPollReportList = new ArrayList<>();
 
-        if(pcsPollList.size()>0){
+        if (pcsPollList.size() > 0) {
             PcsPollReportExample example = new PcsPollReportExample();
             example.setOrderByClause("positive_ballot desc");
             example.createCriteria().andTypeEqualTo(type).andPollIdEqualTo(pcsPollList.get(0).getId());
@@ -65,8 +65,8 @@ public class PcsPollReportService extends PcsBaseMapper {
 
     @Transactional
     public void batchInsertOrUpdate(Integer[] userIds,
-                       Boolean isCandidate,
-                       int pollId, byte type) {
+                                    Boolean isCandidate,
+                                    int pollId, byte type) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
         int configId = pcsPoll.getConfigId();
@@ -81,33 +81,33 @@ public class PcsPollReportService extends PcsBaseMapper {
             PcsPollReportExample reportExample = new PcsPollReportExample();
             PcsPollReportExample.Criteria reportCriteria = reportExample.createCriteria().andConfigIdEqualTo(configId).
                     andPartyIdEqualTo(partyId).andTypeEqualTo(type).andStageEqualTo(stage);
-            if (branchId != null){
+            if (branchId != null) {
                 reportCriteria.andBranchIdEqualTo(branchId);
             }
             List<PcsPollReport> reportList = pcsPollReportMapper.selectByExample(reportExample);
 
             Set<Integer> selectedUserIdSet = new HashSet<>(); // 已选推荐人
-            for (PcsPollReport _pcsPollReport : reportList){
+            for (PcsPollReport _pcsPollReport : reportList) {
                 selectedUserIdSet.add(_pcsPollReport.getUserId());
             }
             Set<Integer> _selectedUserIdSet = new HashSet<>();
             _selectedUserIdSet.addAll(Arrays.asList(userIds));//用于判断是否超额推荐
 
             int requiredCount = 0;
-            if (type == PcsConstants.PCS_USER_TYPE_PR){
+            if (type == PcsConstants.PCS_USER_TYPE_PR) {
                 requiredCount = pcsPrAlocateService.getPrMaxCount(configId, partyId);
-            }else if (type == PcsConstants.PCS_USER_TYPE_DW){
+            } else if (type == PcsConstants.PCS_USER_TYPE_DW) {
                 requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
-            }else if (type == PcsConstants.PCS_USER_TYPE_JW){
+            } else if (type == PcsConstants.PCS_USER_TYPE_JW) {
                 requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
             }
-            if ((_selectedUserIdSet.size()) > requiredCount){
+            if ((_selectedUserIdSet.size()) > requiredCount) {
 
                 throw new OpException("设置失败，超过{0}的最大推荐数量({1})",
                         PcsConstants.PCS_USER_TYPE_MAP.get(type), requiredCount);
             }
 
-            for (Integer userId : userIds) {
+            for (int userId : userIds) {
 
                 SysUserView uv = CmTag.getUserById(userId);
 
@@ -119,39 +119,29 @@ public class PcsPollReportService extends PcsBaseMapper {
                 record.setUnit(uv.getUnit());
                 record.setConfigId(configId);
                 record.setPartyId(partyId);
-                if (branchId != null){
+                if (branchId != null) {
                     record.setBranchId(branchId);
                 }
                 record.setStage(stage);
                 record.setType(type);
 
-                List<PcsFinalResult> pcsFinalResultList = new ArrayList<>();
-                if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                    pcsFinalResultList = iPcsMapper.selectResultList(pollId, type, null, new RowBounds());
-                }else {
-                    pcsFinalResultList = iPcsMapper.selectSecondResultList(pollId, type, null, new RowBounds());
-                }
-                PcsFinalResult finalResult = pcsFinalResultList.get(0);
-                record.setBallot(finalResult.getSupportNum());
-                record.setPositiveBallot(finalResult.getPositiveBallot());
-                record.setGrowBallot(finalResult.getGrowBallot());
-                record.setDisagreeBallot(finalResult.getNotSupportNum()==null?0:finalResult.getNotSupportNum());
-                record.setAbstainBallot(finalResult.getNotVoteNum()==null?0:finalResult.getNotVoteNum());
+                // 读取投票结果
+                getPcsPollReportOfVoteResult(record, pollId, stage, type, userId);
 
-                if (selectedUserIdSet.contains(userId)){
+                if (selectedUserIdSet.contains(userId)) {
                     PcsPollReportExample example = new PcsPollReportExample();
                     PcsPollReportExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type).andStageEqualTo(stage)
                             .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);
-                    if (branchId != null){
+                    if (branchId != null) {
                         criteria.andBranchIdEqualTo(branchId);
                     }
                     pcsPollReportMapper.updateByExampleSelective(record, example);
-                }else {
+                } else {
                     pcsPollReportMapper.insertSelective(record);
                 }
             }
 
-        }else {
+        } else {
             PcsPollReportExample example = new PcsPollReportExample();
             example.createCriteria()
                     .andPollIdEqualTo(pollId).andTypeEqualTo(type)
@@ -159,5 +149,22 @@ public class PcsPollReportService extends PcsBaseMapper {
 
             pcsPollReportMapper.deleteByExample(example);
         }
+    }
+
+    // 读取每个候选人的得票情况，存入对象PcsPollReport
+    public void getPcsPollReportOfVoteResult(PcsPollReport record, int pollId, byte stage, byte type, int userId){
+
+        List<PcsFinalResult> pcsFinalResultList = new ArrayList<>();
+        if (stage == PcsConstants.PCS_POLL_FIRST_STAGE) {
+            pcsFinalResultList = iPcsMapper.selectResultList(pollId, type, userId, new RowBounds());
+        } else {
+            pcsFinalResultList = iPcsMapper.selectSecondResultList(pollId, type, userId, new RowBounds());
+        }
+        PcsFinalResult finalResult = pcsFinalResultList.get(0);
+        record.setBallot(finalResult.getSupportNum());
+        record.setPositiveBallot(finalResult.getPositiveBallot());
+        record.setGrowBallot(finalResult.getGrowBallot());
+        record.setDisagreeBallot(finalResult.getNotSupportNum() == null ? 0 : finalResult.getNotSupportNum());
+        record.setAbstainBallot(finalResult.getNotVoteNum() == null ? 0 : finalResult.getNotVoteNum());
     }
 }

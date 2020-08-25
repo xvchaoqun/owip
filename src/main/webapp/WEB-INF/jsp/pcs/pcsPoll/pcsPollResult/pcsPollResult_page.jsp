@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
                                 data-msg="确定将这{0}名候选人设置为候选人推荐人选？"
                                 date-id-name="userId"
                                 data-grid-id="#jqGrid2"
-                                data-callback="_ReLoadPage"
+                                data-callback="_setReload"
                                 class="jqBatchBtn btn btn-success btn-sm">
                             <i class="fa fa-user"></i> 设置为候选人推荐人选
                         </button>
@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    function _ReLoadPage(){
+    function _setReload(){
         SysMsg.success('设置成功。',function(){
             $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?cls=4&type=${type}&pollId=${param.pollId}");
         })

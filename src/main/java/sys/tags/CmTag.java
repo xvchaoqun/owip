@@ -12,10 +12,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
 import domain.ps.PsInfo;
-import domain.sys.HtmlFragment;
-import domain.sys.SysConfig;
-import domain.sys.SysResource;
-import domain.sys.SysUserView;
+import domain.sys.*;
 import domain.unit.Unit;
 import ext.service.ExtService;
 import ext.service.SyncService;
@@ -36,6 +33,7 @@ import service.cadre.*;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchTypeService;
+import service.global.CacheHelper;
 import service.global.CacheService;
 import service.leader.LeaderService;
 import service.member.RetireApplyService;
@@ -63,6 +61,7 @@ public class CmTag {
 
     public static ApplicationContext context = ApplicationContextSupport.getContext();
     static CacheService cacheService = context.getBean(CacheService.class);
+    static CacheHelper cacheHelper = context.getBean(CacheHelper.class);
     static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
     static ContentTplService contentTplService = context.getBean(ContentTplService.class);
     static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
@@ -70,6 +69,7 @@ public class CmTag {
 
     static SysUserService sysUserService = context.getBean(SysUserService.class);
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
+    static SysRoleService sysRoleService = context.getBean(SysRoleService.class);
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
     static LayerTypeService layerTypeService = context.getBean(LayerTypeService.class);
@@ -100,6 +100,11 @@ public class CmTag {
         }
 
         return bean;
+    }
+
+    public static List<String> getPropertyCaches(String key){
+
+        return cacheService.getPropertyCaches(key);
     }
 
     public static SysConfig getSysConfig() {
@@ -267,6 +272,11 @@ public class CmTag {
         return sysResourceService.getByUrl(_path);
     }
 
+    public static SysRole getRole(int roleId){
+
+        return sysRoleService.findAll().get(roleId);
+    }
+
     public static Map<Integer, MetaType> getMetaTypes(String classCode) {
 
         if (StringUtils.isBlank(classCode)) return null;
@@ -358,20 +368,30 @@ public class CmTag {
         return cadreService.getByUserId(userId);
     }
 
+    public static Integer getCadreId(Integer userId){
+
+        Cadre cadre = getCadre(userId);
+        return cadre!=null?cadre.getId():null;
+    }
+
+    public static void clearCadreCache(Integer userId){
+
+        cacheHelper.clearCadreCache(getCadreId(userId));
+    }
+
     // 获取数据库干部表中的实体（也包含报名人员等非干部）
     public static CadreView getCadreByDb(Integer id) {
 
         if(id==null) return null;
-        return  cadreService.getCadre(id);
+        return  cadreService.get(id);
     }
 
-    // 从缓存中获取干部（仅包含领导干部、优秀年轻干部、考察对象）
+    // 从缓存中获取干部
     public static CadreView getCadreById(Integer id) {
 
         if(id==null) return null;
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
-        return cadreMap.get(id);
+        return cadreService.get(id);
     }
 
     public static CadreView getCadreByUserId(Integer userId) {

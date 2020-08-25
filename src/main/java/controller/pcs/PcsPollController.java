@@ -240,9 +240,11 @@ public class PcsPollController extends PcsBaseController {
             PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
             int configId = currentPcsConfig.getId();
             PcsParty pcsParty = pcsPartyService.get(configId, partyId);
-            Byte currentStage = pcsParty.getCurrentStage();
 
-            return currentStage==null?0:currentStage;
+            if(pcsParty!=null) {
+                Byte currentStage = pcsParty.getCurrentStage();
+                return currentStage == null ? 0 : currentStage;
+            }
         }
 
         return -1;
@@ -458,7 +460,7 @@ public class PcsPollController extends PcsBaseController {
         return "/pcs/pcsPoll/pcsPoll_noticeEdit";
     }
 
-    @RequiresPermissions("drOnline:edit")
+    @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/inspectorNotice", method = RequestMethod.POST)
     @ResponseBody
     public Map do_inspectorNotice(Integer id, String inspectorNotice, HttpServletRequest request) {

@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
                                     data-title="取消候选人推荐人选"
                                     data-msg="确定取消这{0}名候选人推荐人选？"
                                     data-grid-id="#jqGrid2"
-                                    data-callback="_ReLoadPage1"
+                                    data-callback="_cancelReload"
                                     class="jqBatchBtn btn btn-danger btn-sm">
                                 <i class="ace-icon fa fa-times"></i> 取消候选人推荐人选
                             </button>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    function _ReLoadPage1(){
+    function _cancelReload(){
         SysMsg.success('取消成功。',function(){
             $("#body-content-view").loadPage("${ctx}/pcs/pcsPollResult?pollId=${param.pollId}&cls=${cls}&type=${type}");
         })

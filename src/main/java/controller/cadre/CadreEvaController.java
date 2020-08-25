@@ -143,7 +143,7 @@ public class CadreEvaController extends BaseController {
             modelMap.put("cadreEva", cadreEva);
             cadreId = cadreEva.getCadreId();
         }
-        CadreView cadreView = cadreService.findAll().get(cadreId);
+        CadreView cadreView = cadreService.get(cadreId);
         modelMap.put("cadre", cadreView);
         
         return "cadre/cadreEva/cadreEva_au";

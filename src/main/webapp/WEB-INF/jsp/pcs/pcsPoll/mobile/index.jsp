@@ -230,10 +230,13 @@
             });
             $this.val(null).trigger("change");
         }else {
-            selectedUserIds = $.map($('select[name=userIds]'), function (sel) {
-                return parseInt($(sel).val());
-            });
+            if($tip!=undefined) {
+                $tip.qtip('destroy', true);
+            }
         }
+        selectedUserIds = $.map($('select[name=userIds]'), function (sel) {
+            return parseInt($(sel).val());
+        });
     });
 
 

@@ -18,6 +18,7 @@ import service.BaseMapper;
 import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
+import service.global.CacheHelper;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
 import sys.constants.CadreConstants;
@@ -25,7 +26,6 @@ import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -36,6 +36,8 @@ public class CadreInspectService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private CacheHelper cacheHelper;
     @Autowired
     private CadreReserveService cadreReserveService;
     @Autowired
@@ -99,8 +101,7 @@ public class CadreInspectService extends BaseMapper {
      */
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public boolean insertOrUpdateSelective(int userId, CadreInspect record, Cadre cadreRecord) {
 
@@ -164,6 +165,8 @@ public class CadreInspectService extends BaseMapper {
             cadreInspectMapper.updateByPrimaryKeySelective(record);
         }
 
+        cacheHelper.clearCadreCache(cadreId);
+
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, normalRecord==null?"添加考察对象":"更新考察对象",
                 CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, record.getId());
@@ -173,8 +176,7 @@ public class CadreInspectService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void updateByPrimaryKeySelective(CadreInspect record, Cadre cadreRecord) {
 
@@ -193,12 +195,13 @@ public class CadreInspectService extends BaseMapper {
 
         record.setStatus(cadreInspect.getStatus());
         cadreInspectMapper.updateByPrimaryKeySelective(record);
+
+        cacheHelper.clearCadreCache(cadre.getId());
     }
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public int batchImport(final List<Cadre> records) {
 
@@ -246,7 +249,7 @@ public class CadreInspectService extends BaseMapper {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "Cadre", key = "#result.id")
     })
     public Cadre pass(CadreInspect record, Cadre _cadre) {
 
@@ -310,8 +313,7 @@ public class CadreInspectService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void abolish(Integer id) {
 
@@ -347,20 +349,24 @@ public class CadreInspectService extends BaseMapper {
             }
         }
 
+        cacheHelper.clearCadreCache(cadre.getId());
     }
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
-        CadreInspectExample example = new CadreInspectExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        cadreInspectMapper.deleteByExample(example);
+        for (Integer id : ids) {
+
+            CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
+            cadreInspectMapper.deleteByPrimaryKey(id);
+
+            cacheHelper.clearCadreCache(cadreInspect.getCadreId());
+        }
     }
 
     @Transactional

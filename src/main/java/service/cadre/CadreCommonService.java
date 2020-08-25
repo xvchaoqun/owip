@@ -113,14 +113,14 @@ public class CadreCommonService extends BaseMapper {
     }
 
     // 默认使用cadreId作为key
-    public TreeNode getTree(Set<CadreView> cadreList, Set<Byte> cadreStatusList,
+    public TreeNode getTree(Set<Cadre> cadreList, Set<Byte> cadreStatusList,
                             Set<Integer> selectIdSet, Set<Integer> disabledIdSet) {
 
         return getTree(cadreList, cadreStatusList, selectIdSet, disabledIdSet, true, true, false);
     }
 
     // 干部选择，（职务属性-干部 Set<cadreId>） , 用于审批人身份时disabledIdSet=null
-    public TreeNode getTree(Set<CadreView> cadreList, // 干部列表
+    public TreeNode getTree(Set<Cadre> cadreList, // 干部列表
                             Set<Byte> cadreStatusList, // 干部库类别过滤
                             Set<Integer> selectIdSet, // 已选干部
                             Set<Integer> disabledIdSet,// 不可选干部
@@ -148,10 +148,13 @@ public class CadreCommonService extends BaseMapper {
         example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
-        for (CadreView cadre : cadreList) {
+        for (Cadre cadre : cadreList) {
+
             if (cadreStatusList.contains(cadre.getStatus())) {
+
+                CadreView cv = CmTag.getCadreById(cadre.getId());
                 List<CadreView> list = null;
-                MetaType postType = postMap.get(cadre.getPostType());
+                MetaType postType = postMap.get(cv.getPostType());
 
                 int postId = -1;
                 if(postType!=null) postId = postType.getId();
@@ -160,7 +163,7 @@ public class CadreCommonService extends BaseMapper {
                     list = postIdCadresMap.get(postId);
                 }
                 if (null == list) list = new ArrayList<>();
-                list.add(cadre);
+                list.add(cv);
 
                 postIdCadresMap.put(postId, list);
             }
@@ -214,7 +217,7 @@ public class CadreCommonService extends BaseMapper {
 
     // 干部选择，（职务属性-干部 Set<cadreId>） , 用于审批人身份时disabledIdSet=null
     // 使用cadreId_unitId作为key
-    public TreeNode getTree2(Set<CadreView> cadreList, // 干部列表
+    public TreeNode getTree2(Set<Cadre> cadreList, // 干部列表
                             Set<Byte> cadreStatusList, // 干部库类别过滤
                             Set<String> selectIdSet, // 已选干部
                             Set<String> disabledIdSet,// 不可选干部
@@ -241,10 +244,13 @@ public class CadreCommonService extends BaseMapper {
         example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
-        for (CadreView cadre : cadreList) {
+        for (Cadre cadre : cadreList) {
+
             if (cadreStatusList.contains(cadre.getStatus())) {
+
+                CadreView cv = CmTag.getCadreById(cadre.getId());
                 List<CadreView> list = null;
-                MetaType postType = postMap.get(cadre.getPostType());
+                MetaType postType = postMap.get(cv.getPostType());
 
                 int postId = -1;
                 if(postType!=null) postId = postType.getId();
@@ -252,7 +258,7 @@ public class CadreCommonService extends BaseMapper {
                     list = postIdCadresMap.get(postId);
                 }
                 if (null == list) list = new ArrayList<>();
-                list.add(cadre);
+                list.add(cv);
 
                 postIdCadresMap.put(postId, list);
             }

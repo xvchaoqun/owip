@@ -4,6 +4,7 @@ import domain.abroad.AbroadAdditionalPost;
 import domain.abroad.AbroadAdditionalPostExample;
 import domain.abroad.ApproverBlackList;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -110,23 +111,24 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         // 单位ID-干部
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
-        for (CadreView cadre : cadreMap.values()) {
+        for (Cadre cadre : cadreService.getCadres()) {
+
+            CadreView cv = CmTag.getCadreById(cadre.getId());
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(cadre.getIsPrincipal())) {
+                    && BooleanUtils.isTrue(cv.getIsPrincipal())) {
                 List<CadrePostBean> list = null;
-                Integer unitId = cadre.getUnitId();
+                Integer unitId = cv.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
                     list = unitIdCadresMap.get(unitId);
                 }
                 if (null == list) list = new ArrayList<>();
-                if(cadre.getPostType()!=null && cadre.getUnitId()!=null) {
-                    CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getUnitId(), cadre.getPostType(), false);
+                if(cv.getPostType()!=null && cv.getUnitId()!=null) {
+                    CadrePostBean bean = new CadrePostBean(cadre.getId(), cv.getUnitId(), cv.getPostType(), false);
                     list.add(bean);
                     unitIdCadresMap.put(unitId, list); // 获取所有单位的正职
                 }
@@ -136,7 +138,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         // key: cadreId+"_"+unitId
         Map<String, AbroadAdditionalPost> abroadAdditionalPostMap = findAll();
         for (AbroadAdditionalPost cPost : abroadAdditionalPostMap.values()) {
-            CadreView cadre = cadreMap.get(cPost.getCadreId());
+            CadreView cadre = CmTag.getCadreById(cPost.getCadreId());
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) {
                 List<CadrePostBean> list = null;
@@ -180,7 +182,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
 
                 int cadreId = bean.getCadreId();
                 TreeNode node = new TreeNode();
-                CadreView cadre = cadreMap.get(cadreId);
+                CadreView cadre = CmTag.getCadreById(cadreId);
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
                         (bean.additional ? "(兼审单位)" : "");

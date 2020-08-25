@@ -224,7 +224,7 @@ public class MobileCadreSearchController extends BaseController {
 
 										ModelMap modelMap) {
 
-		modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+		modelMap.put("authorizedTypes", CmTag.getPropertyCaches("authorizedTypes"));
 
 		if (cadreId != null) {
 			CadreView cadre = iCadreMapper.getCadre(cadreId);
@@ -256,10 +256,10 @@ public class MobileCadreSearchController extends BaseController {
 		modelMap.put("unitListMap", unitListMap);
 		modelMap.put("historyUnitListMap", historyUnitListMap);
 
-		modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
-		modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
-		modelMap.put("staffTypes", iPropertyMapper.staffTypes());
-		modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+		modelMap.put("proPosts", CmTag.getPropertyCaches("teacherProPosts"));
+		modelMap.put("proPostLevels", CmTag.getPropertyCaches("teacherProPostLevels"));
+		modelMap.put("staffTypes", CmTag.getPropertyCaches("staffTypes"));
+		modelMap.put("authorizedTypes", CmTag.getPropertyCaches("authorizedTypes"));
 
 		if (dpTypes != null) {
 			modelMap.put("selectDpTypes", Arrays.asList(dpTypes));

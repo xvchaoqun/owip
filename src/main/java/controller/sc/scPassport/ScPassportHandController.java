@@ -2,6 +2,7 @@ package controller.sc.scPassport;
 
 import controller.sc.ScBaseController;
 import domain.abroad.Passport;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.sc.scPassport.ScPassportHand;
@@ -50,7 +51,7 @@ public class ScPassportHandController extends ScBaseController {
 
         modelMap.put("cls", cls);
         if(cadreId!=null){
-            CadreView cadreView = cadreService.findAll().get(cadreId);
+            CadreView cadreView = cadreService.get(cadreId);
             modelMap.put("cadre", cadreView);
         }
 
@@ -300,7 +301,7 @@ public class ScPassportHandController extends ScBaseController {
 
         Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                 CadreConstants.CADRE_STATUS_LEADER));
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                 cadreStatusList, null, null, true, true, false);
 
         Map<String, Object> resultMap = success();

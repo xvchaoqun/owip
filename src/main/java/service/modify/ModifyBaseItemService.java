@@ -467,6 +467,6 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
         if (BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return;
 
         cacheHelper.clearUserCache(_sysUser);
-        cacheHelper.clearCadreCache();
+        CmTag.clearCadreCache(userId);
     }
 }

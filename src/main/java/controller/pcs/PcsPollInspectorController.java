@@ -182,7 +182,7 @@ public class PcsPollInspectorController extends PcsBaseController {
     }
 
 
-    @RequiresPermissions("drOnlineInspector:edit")
+    @RequiresPermissions("pcsPollInspector:edit")
     @RequestMapping("/pcspollInspector_Result")
     public String pcspollInspector_Result(Integer id,
                                          ModelMap modelMap,

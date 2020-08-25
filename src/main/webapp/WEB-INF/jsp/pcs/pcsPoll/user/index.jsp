@@ -184,6 +184,7 @@
     var $tip;
     $select.on("select2:select",function(e){
 
+        //console.log(selectedUserIds)
         var $this = $(this);
         if($.inArray(parseInt($this.val()), selectedUserIds)>=0) {
             $tip = $.tip({
@@ -196,10 +197,10 @@
             if($tip!=undefined) {
                 $tip.qtip('destroy', true);
             }
-            selectedUserIds = $.map($('select[name=userIds]'), function (sel) {
-                return parseInt($(sel).val());
-            });
         }
+        selectedUserIds = $.map($('select[name=userIds]'), function (sel) {
+            return parseInt($(sel).val());
+        });
     });
 
     function _confirm() {

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.cadre.CadreService;
 import sys.constants.ClaConstants;
+import sys.tags.CmTag;
 
 import java.util.*;
 
@@ -27,7 +28,6 @@ public class ClaApplicatTypeService extends ClaBaseMapper {
     // 已分配干部身份的干部
     public Set<Integer> getCadreIds(Integer typeId) {
 
-        Map<Integer, CadreView> cadreViewMap = cadreService.findAll();
         Set<Integer> cadreIdSet = new HashSet<Integer>();
         ClaApplicatCadreExample example = new ClaApplicatCadreExample();
         if (typeId != null) example.createCriteria().andTypeIdEqualTo(typeId);
@@ -35,7 +35,7 @@ public class ClaApplicatTypeService extends ClaBaseMapper {
         for (ClaApplicatCadre applicatCadre : applicatCadres) {
 
             int cadreId = applicatCadre.getCadreId();
-            CadreView cadreView = cadreViewMap.get(cadreId);
+            CadreView cadreView = CmTag.getCadreById(cadreId);
             if (cadreView != null && ClaConstants.CLA_APPLICAT_CADRE_STATUS_SET
                     .contains(cadreView.getStatus()))
                 cadreIdSet.add(cadreId);

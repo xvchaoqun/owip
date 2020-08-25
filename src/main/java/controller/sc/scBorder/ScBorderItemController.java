@@ -44,7 +44,7 @@ public class ScBorderItemController extends ScBaseController {
                                Integer cadreId,
                                ModelMap modelMap) {
         modelMap.put("cls", cls);
-        modelMap.put("cadre", cadreService.findAll().get(cadreId));
+        modelMap.put("cadre", cadreService.get(cadreId));
 
         return "sc/scBorder/scBorderItem/scBorderItem_page";
     }

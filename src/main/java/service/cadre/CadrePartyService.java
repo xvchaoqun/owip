@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.global.CacheHelper;
 import service.member.MemberQuitService;
 import service.sys.SysUserService;
 import sys.constants.CadreConstants;
@@ -31,12 +32,15 @@ import java.util.List;
 public class CadrePartyService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private CadreService cadreService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
     private MemberQuitService memberQuitService;
+    @Autowired
+    private CacheHelper cacheHelper;
 
     // 添加或删除角色（干部其他信息-民主党派成员）
     public void updateRole(int userId){
@@ -114,8 +118,7 @@ public class CadrePartyService extends BaseMapper {
     @SuppressWarnings("checkstyle:WhitespaceAround")
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void addOrUpdateCadreParty(CadreParty record) {
 
@@ -176,12 +179,13 @@ public class CadrePartyService extends BaseMapper {
         }
 
         updateRole(userId);
+
+        cacheHelper.clearCadreCache(cv.getId());
     }
 
      @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchImport(List<CadreParty> records) {
 
@@ -205,9 +209,6 @@ public class CadrePartyService extends BaseMapper {
 
     // 删除类型为type的所有(民主)党派
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
     public void del(int userId, Byte type) {
 
         CadrePartyExample example = new CadrePartyExample();
@@ -218,6 +219,8 @@ public class CadrePartyService extends BaseMapper {
         cadrePartyMapper.deleteByExample(example);
 
         updateRole(userId);
+
+        cacheHelper.clearCadreCache(CmTag.getCadreId(userId));
     }
 
     @Transactional

@@ -99,7 +99,7 @@
             <form id="reg-form" method="POST" action="${ctx}/member_reg" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
-                    <div style="padding-top:5px;font-size: 14px;color: #394557">系统分配，注册成功后可查看</div>
+                    <div style="padding-top:5px;font-size: 14px;color: #394557">系统自动分配，注册成功后可查看</div>
                 </dd>
                 <dt>登录密码</dt>
                 <dd>
@@ -111,7 +111,7 @@
                 </dd>
                 <dt>类别</dt>
                 <dd>
-                    <div class="input_box">
+                    <div class="input_box" style="border: none">
                         <select name="type">
                             <option value="">请选择类别</option>
                             <option value="1">教职工</option>
@@ -135,7 +135,7 @@
 
                 <dt>联系${_p_partyName}</dt>
                 <dd>
-                    <div class="input_box">
+                    <div class="input_box" style="border: none">
                         <select name="party">
                             <option value="">请选择</option>
                             <c:forEach var="entity" items="${partyMap}">

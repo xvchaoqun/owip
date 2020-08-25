@@ -129,7 +129,7 @@
     <select id="cadre_stat_age" resultMap="BaseResultMap" parameterType="map">
         select
          <![CDATA[
-         sum(if(age<=30, 1,0)) as num_1
+         sum(if(age<=30, num,0)) as num_1
         ,sum(if(age>=31 and age<=35, num,0)) as num_2
         ,sum(if(age>=36 and age<=40, num,0)) as num_3
         ,sum(if(age>=41 and age<=45, num,0)) as num_4
@@ -148,7 +148,7 @@
     <select id="cadre_stat_age_adminLevel" resultMap="BaseResultMap" parameterType="map">
         <![CDATA[
         select admin_level_code,
-         sum(if(age<=30, 1,0)) as num_1
+         sum(if(age<=30, num,0)) as num_1
         ,sum(if(age>=31 and age<=35, num,0)) as num_2
         ,sum(if(age>=36 and age<=40, num,0)) as num_3
         ,sum(if(age>=41 and age<=45, num,0)) as num_4
@@ -168,7 +168,7 @@
 
         select gender,
         <![CDATA[
-         sum(if(age<=30, 1,0)) as num_1
+         sum(if(age<=30, num,0)) as num_1
         ,sum(if(age>=31 and age<=35, num,0)) as num_2
         ,sum(if(age>=36 and age<=40, num,0)) as num_3
         ,sum(if(age>=41 and age<=45, num,0)) as num_4

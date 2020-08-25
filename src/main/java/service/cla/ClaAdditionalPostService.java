@@ -1,6 +1,7 @@
 package service.cla;
 
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cla.ClaAdditionalPost;
 import domain.cla.ClaAdditionalPostExample;
@@ -102,22 +103,23 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         // 职务属性-干部
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
-        for (CadreView cadre : cadreMap.values()) {
+        for (Cadre cadre : cadreService.getCadres()) {
+
+            CadreView cv = CmTag.getCadreById(cadre.getId());
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(cadre.getIsPrincipal())) {
+                    && BooleanUtils.isTrue(cv.getIsPrincipal())) {
                 List<CadrePostBean> list = null;
-                Integer unitId = cadre.getUnitId();
+                Integer unitId = cv.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
                     list = unitIdCadresMap.get(unitId);
                 }
                 if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostType(), false);
+                CadrePostBean bean = new CadrePostBean(cadre.getId(), cv.getPostType(), false);
                 list.add(bean);
 
                 unitIdCadresMap.put(unitId, list);
@@ -126,7 +128,7 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
 
         Map<String, ClaAdditionalPost> claAdditionalPostMap = findAll();
         for (ClaAdditionalPost cPost : claAdditionalPostMap.values()) {
-            CadreView cadre = cadreMap.get(cPost.getCadreId());
+            CadreView cadre = CmTag.getCadreById(cPost.getCadreId());
             if (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
                 List<CadrePostBean> list = null;
@@ -171,7 +173,7 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
 
                 int cadreId = bean.getCadreId();
                 TreeNode node = new TreeNode();
-                CadreView cadre = cadreMap.get(cadreId);
+                CadreView cadre = CmTag.getCadreById(cadreId);
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
                         (bean.additional ? "(兼审单位)" : "");

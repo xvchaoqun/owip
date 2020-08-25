@@ -134,7 +134,7 @@ public class PcsPartyController extends PcsBaseController {
     public Map do_pcsParty_sync() {
 
         pcsPartyService.sync();
-        logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 ", null));
+        logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 "));
 
         return success(FormUtils.SUCCESS);
     }
@@ -144,7 +144,7 @@ public class PcsPartyController extends PcsBaseController {
     public Map do_pcsParty_batchSync(HttpServletRequest request, Integer[] ids) {
 
         pcsPartyService.batchSync(ids);
-        logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 ", null));
+        logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 "));
 
         return success(FormUtils.SUCCESS);
     }

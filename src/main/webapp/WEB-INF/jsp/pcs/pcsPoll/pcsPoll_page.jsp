@@ -25,6 +25,8 @@ pageEncoding="UTF-8" %>
                            data-url="${ctx}/pcs/pcsPoll_au"
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_reportBack"
                                 data-title="退回报送"
                                 data-msg="确定退回这{0}条报送结果？"
@@ -32,8 +34,6 @@ pageEncoding="UTF-8" %>
                                 class="jqBatchBtn btn btn-warning btn-sm">
                             <i class="fa fa-reply"></i> 退回报送
                         </button>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=1"
                                 data-title="作废"
                                 data-msg="确定作废这{0}条支部的投票数据？"

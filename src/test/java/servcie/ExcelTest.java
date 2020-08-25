@@ -19,6 +19,7 @@ import service.cadre.CadreService;
 import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
@@ -66,7 +67,6 @@ public class ExcelTest {
         // 输入批注信息
         comment5.setString(cellComment5.getString());*/
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
         int leaveCount = 0;
         for (Unit unit : unitMap.values()) {
@@ -116,7 +116,7 @@ public class ExcelTest {
             List<DispatchCadreView> leaveCadres = iDispatchMapper.leaveDispatchCadres(unit.getId());
             List<DispatchCadreView> filterLeaveCadres = new ArrayList<>();
             for (DispatchCadreView leaveCadre : leaveCadres) {
-                CadreView cadre = cadreMap.get(leaveCadre.getCadreId());
+                CadreView cadre = CmTag.getCadreById(leaveCadre.getCadreId());
                 if(cadre.getStatus()!= CadreConstants.CADRE_STATUS_CJ){
                     filterLeaveCadres.add(leaveCadre);
                 }

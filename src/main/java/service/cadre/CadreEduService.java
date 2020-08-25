@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -36,8 +35,6 @@ public class CadreEduService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private MetaClassService metaClassService;
 
     //根据code找到领导干部的学习经历中，对应的学历学位，同时更新最高学历和最高学位
     public void updateHighEdu(String code){
@@ -149,6 +146,7 @@ public class CadreEduService extends BaseMapper {
     }
 
     // 获取全日制教育、在职教育（各读取已毕业的最后一条记录）
+
     public CadreEdu[] getByLearnStyle(int cadreId) {
 
         CadreEduExample example = new CadreEduExample();

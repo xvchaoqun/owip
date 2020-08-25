@@ -217,6 +217,7 @@ public class PcsCandidateService extends PcsBaseMapper {
                     _pcsCandidate.setRecommendId(recommendId);
                     _pcsCandidate.setUserId(userId);
                     _pcsCandidate.setType(PCS_USER_TYPE_DW);
+                    // 推荐提名正式党员的票数
                     _pcsCandidate.setVote(pcsPollReportDw.getPositiveBallot());
                     _pcsCandidate.setAddTime(now);
 
@@ -234,6 +235,7 @@ public class PcsCandidateService extends PcsBaseMapper {
                     _pcsCandidate.setRecommendId(recommendId);
                     _pcsCandidate.setUserId(userId);
                     _pcsCandidate.setType(PCS_USER_TYPE_JW);
+                    // 推荐提名正式党员的票数
                     _pcsCandidate.setVote(pcsPollReportJw.getPositiveBallot());
                     _pcsCandidate.setAddTime(now);
 

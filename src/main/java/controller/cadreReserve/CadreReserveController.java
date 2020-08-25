@@ -188,7 +188,7 @@ public class CadreReserveController extends BaseController {
         if (dpTypes != null) {
             modelMap.put("selectDpTypes", Arrays.asList(dpTypes));
         }
-        modelMap.put("staffTypes", iPropertyMapper.staffTypes());
+        modelMap.put("staffTypes", CmTag.getPropertyCaches("staffTypes"));
         if(staffTypes!=null){
             modelMap.put("selectStaffTypes", Arrays.asList(staffTypes));
         }
@@ -199,7 +199,7 @@ public class CadreReserveController extends BaseController {
         if(labels!=null){
             modelMap.put("selectLabels", Arrays.asList(labels));
         }
-        modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+        modelMap.put("authorizedTypes", CmTag.getPropertyCaches("authorizedTypes"));
         if(authorizedTypes!=null){
             modelMap.put("selectAuthorizedTypes", Arrays.asList(authorizedTypes));
         }
@@ -239,14 +239,14 @@ public class CadreReserveController extends BaseController {
         if (maxEdus != null) {
             modelMap.put("selectMaxEdus", Arrays.asList(maxEdus));
         }
-        modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
+        modelMap.put("proPosts", CmTag.getPropertyCaches("teacherProPosts"));
         if (proPosts != null) {
             modelMap.put("selectProPosts", Arrays.asList(proPosts));
         }
         if (postTypes != null) {
             modelMap.put("selectPostTypes", Arrays.asList(postTypes));
         }
-        modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
+        modelMap.put("proPostLevels", CmTag.getPropertyCaches("teacherProPostLevels"));
         if (proPostLevels != null) {
             modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
         }
@@ -261,8 +261,8 @@ public class CadreReserveController extends BaseController {
             modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
         }
 
-        modelMap.put("staffStatuses", iPropertyMapper.staffStatuses());
-        modelMap.put("isTemps", iPropertyMapper.isTemps());
+        modelMap.put("staffStatuses", CmTag.getPropertyCaches("staffStatuses"));
+        modelMap.put("isTemps", CmTag.getPropertyCaches("isTemps"));
 
         if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);

@@ -68,10 +68,6 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     @Autowired(required = false)
     protected CmMemberService cmMemberService;
 
-    public CadreView getCadre(int id){
-        return iCadreMapper.getCadre(id);
-    }
-
     // 添加临时干部（无角色）
     @Transactional
     public Cadre addTempCadre(int userId) {
@@ -125,11 +121,11 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "Cadre", key = "#id")
     })
     public void promote(int id, String title) {
 
-        CadreView cadre = getCadre(id);
+        CadreView cadre = get(id);
         byte status = cadre.getStatus();
         if(status!=CadreConstants.CADRE_STATUS_KJ && status!=CadreConstants.CADRE_STATUS_CJ){
             throw new OpException("仅现任干部可以提任");
@@ -154,7 +150,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "Cadre", key = "#id")
     })
     public byte leave(int id, String title, Integer dispatchCadreId,
                       String _deposeDate, String _appointDate,String originalPost,
@@ -249,8 +245,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     // 重新任用， 离任->考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void re_assign(Integer[] ids) {
 
@@ -281,6 +276,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             record.setType(CadreConstants.CADRE_INSPECT_TYPE_DEFAULT);
             record.setRemark(CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "重新任用");
             cadreInspectMapper.insertSelective(record);
+
+            cacheHelper.clearCadreCache(id);
         }
     }
 
@@ -319,9 +316,9 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "Cadre", key = "#result.id")
     })
-    synchronized public void insertSelective(Cadre record) {
+    synchronized public Cadre insertSelective(Cadre record) {
 
         int userId = record.getUserId();
         // 检查
@@ -360,12 +357,13 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         // 记录任免日志
         cadreAdLogService.addLog(record.getId(), "添加干部",
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, record.getId());
+
+        return record;
     }
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)// 因私出国部分，有校领导和本单位正职的权限控制。
     })
     public int batchImport(List<Cadre> records) {
 
@@ -382,6 +380,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 record.setId(cv.getId());
                 updateByPrimaryKeySelective(record);
             }
+
+            cacheHelper.clearCadreCache(record.getId());
         }
 
         return addCount;
@@ -389,8 +389,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchDel(Integer[] ids) {
 
@@ -407,13 +406,15 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             // 删除干部身份
             sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_CJ);
 
+            cacheHelper.clearCadreCache(id);
+
             SysUserView uv = cadre.getUser();
             logger.info(addLog(LogConstants.LOG_ADMIN,
                     "删除干部：id=%s, code=%s, realname=%s", id, uv.getCode(), uv.getRealname()));
         }
     }
 
-    public CadreParty get(int userId, byte type) {
+    public CadreParty getCadreParty(int userId, byte type) {
 
         CadrePartyExample example = new CadrePartyExample();
         example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type);
@@ -424,8 +425,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void cadreParty_batchDel(Integer[] ids) {
 
@@ -443,13 +443,15 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             cadrePartyMapper.deleteByPrimaryKey(id);
 
             cadrePartyService.updateRole(userId);
+
+            cacheHelper.clearCadreCache(cadreView.getId());
         }
     }
 
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "Cadre", key = "#record.id")
     })
     public void updateByPrimaryKeySelective(Cadre record) {
 
@@ -460,25 +462,25 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
     }
 
+    @Cacheable(value = "Cadre", key="#cadreId")
+    public CadreView get(int cadreId){
+
+        return iCadreMapper.getCadre(cadreId);
+    }
+
     // 干部列表（包含优秀年轻干部、考察对象）
-    @Cacheable(value = "Cadre:ALL")
-    public Map<Integer, CadreView> findAll() {
+    public List<Cadre> getCadres(){
 
         Set<Byte> cadreStatusSet = new HashSet<>();
         cadreStatusSet.addAll(CadreConstants.CADRE_STATUS_SET);
         cadreStatusSet.add(CadreConstants.CADRE_STATUS_RESERVE);
         cadreStatusSet.add(CadreConstants.CADRE_STATUS_INSPECT);
 
-        CadreViewExample example = new CadreViewExample();
+        CadreExample example = new CadreExample();
         example.createCriteria().andStatusIn(new ArrayList<>(cadreStatusSet));
         example.setOrderByClause("sort_order desc");
-        List<CadreView> records = cadreViewMapper.selectByExample(example);
-        Map<Integer, CadreView> map = new LinkedHashMap<>();
-        for (CadreView record : records) {
-            map.put(record.getId(), record);
-        }
 
-        return map;
+        return cadreMapper.selectByExample(example);
     }
 
     /**
@@ -489,7 +491,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    @CacheEvict(value = "Cadre", key = "#id")
     public void changeOrder(int id, int addNum) {
 
         Cadre entity = cadreMapper.selectByPrimaryKey(id);
@@ -497,7 +499,6 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     }
 
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
     public void updateWorkTime(int userId, Date _workTime) {
 
         // 修改参加工作时间
@@ -505,10 +506,12 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         record.setUserId(userId);
         record.setWorkTime(_workTime);
         teacherInfoMapper.updateByPrimaryKeySelective(record);
+
+        cacheHelper.clearCadreCache(CmTag.getCadreId(userId));
     }
 
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    @CacheEvict(value = "Cadre", key = "#cadreId")
     public void updateTitle(int cadreId, String title) {
 
         // 修改所在单位及职务
@@ -536,7 +539,6 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
     // 批量排序
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
     public void batchSort(byte status, List<Integer> cadreIdList) {
 
         commonMapper.excuteSql("update cadre set sort_order=null where status=" + status
@@ -549,6 +551,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + status));
 
             cadreMapper.updateByPrimaryKeySelective(record);
+
+            cacheHelper.clearCadreCache(cadreId);
         }
     }
 
@@ -610,10 +614,11 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         cacheHelper.clearUserCache(user);
         cacheHelper.clearUserCache(newUser);
 
-        cacheHelper.clearCadreCache();
 
         CadreView cv = dbFindByUserId(userId);
         int cadreId = cv.getId();
+        cacheHelper.clearCadreCache(cadreId);
+
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);

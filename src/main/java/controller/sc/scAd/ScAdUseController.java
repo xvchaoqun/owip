@@ -168,7 +168,7 @@ public class ScAdUseController extends ScBaseController {
 
         ScAdUse scAdUse = scAdUseMapper.selectByPrimaryKey(useId);
         Integer cadreId = scAdUse.getCadreId();
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.get(cadreId);
         String adform = scAdUse.getAdform();
         if(StringUtils.isBlank(adform)) return;
 

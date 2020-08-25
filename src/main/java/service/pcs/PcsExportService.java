@@ -110,9 +110,9 @@ public class PcsExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getBranchCount()));
 
-            // 推荐党支部所含党员数
+            // 推荐提名的党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getActualMemberCount()));
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getTotalVote()));
         }
 
         return wb;
@@ -265,9 +265,9 @@ public class PcsExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getBranchCount()));
 
-            // 推荐党支部实参会党员数（推荐提名的党员数）
+            // 推荐提名的党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getActualMemberCount()));
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getTotalVote()));
         }
 
         return wb;
@@ -583,9 +583,9 @@ public class PcsExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToZero(bean.getBranchCount()));
 
-            // 推荐党支部实参会党员数（推荐提名的党员数）
+            // 推荐提名的党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToZero(bean.getActualMemberCount()));
+            cell.setCellValue(NumberUtils.trimToZero(bean.getTotalVote()));
         }
 
         startRow = startRow + 2 + (rowCount == 0 ? 1 : 0);

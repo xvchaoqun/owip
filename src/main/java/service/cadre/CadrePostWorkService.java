@@ -65,7 +65,7 @@ public class CadrePostWorkService extends BaseMapper {
                             "office_level_time=%s where user_id=%s",
                     officeLevel, officeLevelTime, userId));
 
-            cacheHelper.clearCadreCache();
+            cacheHelper.clearCadreCache(cv.getId());
         }
     }
 

@@ -1,12 +1,10 @@
 package controller.sc.scBorder;
 
 import controller.sc.ScBaseController;
-import domain.cadre.CadreView;
+import domain.cadre.Cadre;
 import domain.sc.scBorder.ScBorder;
 import domain.sc.scBorder.ScBorderView;
 import domain.sc.scBorder.ScBorderViewExample;
-import domain.sc.scPublic.ScPublicUserView;
-import domain.sc.scPublic.ScPublicUserViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -24,7 +22,10 @@ import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -163,7 +164,7 @@ public class ScBorderController extends ScBaseController {
 
         Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                 CadreConstants.CADRE_STATUS_LEADER));
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                 cadreStatusList, null, null, true, true, false);
 
         Map<String, Object> resultMap = success();
