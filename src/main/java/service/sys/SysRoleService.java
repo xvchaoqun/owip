@@ -187,14 +187,14 @@ public class SysRoleService extends BaseMapper {
 		TreeNode node = new TreeNode();
 		node.title = "角色（加权限）";
 		node.isFolder = true;
-		/*node.expand = true;*/
+		node.expand = true;
 		node.children = roleAdd;
 		rootChildren.add(node);
 
 		node = new TreeNode();
 		node.title = "角色（减权限）";
 		node.isFolder = true;
-		/*node.expand = true;*/
+		node.expand = true;
 		node.children = roleMinus;
 		rootChildren.add(node);
 

@@ -107,6 +107,28 @@ public class PcsPartyController extends PcsBaseController {
     }
 
     @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping(value = "/pcsParty_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsParty_au(PcsParty record, HttpServletRequest request) {
+
+        pcsPartyService.updateByPrimaryKeySelective(record);
+        logger.info(log( LogConstants.LOG_PCS, "更新召开党代会的支部：{0}", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping("/pcsParty_au")
+    public String pcsParty_au(int id, ModelMap modelMap) {
+
+
+        PcsParty pcsParty = pcsPartyMapper.selectByPrimaryKey(id);
+        modelMap.put("pcsParty", pcsParty);
+
+        return "pcs/pcsParty/pcsParty_au";
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
     @RequestMapping(value = "/pcsParty_sync", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsParty_sync() {
@@ -123,6 +145,20 @@ public class PcsPartyController extends PcsBaseController {
 
         pcsPartyService.batchSync(ids);
         logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 ", null));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping(value = "/pcsParty_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsParty_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            pcsPartyService.batchDel(ids);
+            logger.info(log( LogConstants.LOG_PCS, "批量删除党代会分党委：{0}", StringUtils.join(ids, ",")));
+        }
 
         return success(FormUtils.SUCCESS);
     }

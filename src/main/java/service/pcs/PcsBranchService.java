@@ -24,6 +24,12 @@ public class PcsBranchService extends PcsBaseMapper {
     }
 
     @Transactional
+    public int updateByPrimaryKeySelective(PcsBranch record) {
+
+        return pcsBranchMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
     public void exclude(Integer[] ids ,Boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
@@ -34,6 +40,16 @@ public class PcsBranchService extends PcsBaseMapper {
         PcsBranchExample example = new PcsBranchExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsBranchMapper.updateByExampleSelective(record,example);
+
+    }
+
+    @Transactional
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+        PcsBranchExample example = new PcsBranchExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        pcsBranchMapper.deleteByExample(example);
 
     }
 }

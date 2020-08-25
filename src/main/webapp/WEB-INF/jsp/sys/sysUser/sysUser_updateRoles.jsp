@@ -5,7 +5,7 @@
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h4>修改账号角色</h4>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="height: 500px">
   <form class="form-horizontal"  action="${ctx}/sysUser_updateRoles" method="post">
   	<input type="hidden" name="id" value="${sysUser.id}">
   	<div id="tree3"></div>

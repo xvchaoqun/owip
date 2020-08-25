@@ -10,6 +10,12 @@
             <jsp:include page="/WEB-INF/jsp/pcs/pcsParty/menu_pb.jsp"/>
             <div class="space-4"></div>
             <div class="buttons">
+                <shiro:hasPermission name="pcsPartyList:edit">
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/pcs/pcsBranch_au"
+                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        修改</button>
+                </shiro:hasPermission>
                 <shiro:hasRole name="${ROLE_SUPER}">
                     <c:if test="${cls==2}">
                         <button data-url="${ctx}/pcs/pcsBranch_exclude"
@@ -19,6 +25,13 @@
                                 data-querystr="&isDeleted=1"
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-times"></i> 不参与党代会的党支部
+                        </button>
+                        <button data-url="${ctx}/pcs/pcsBranch_batchDel"
+                                data-title="删除"
+                                data-msg="确定删除这{0}条数据？"
+                                data-grid-id="#jqGrid"
+                                class="jqBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 删除
                         </button>
                     </c:if>
                     <c:if test="${cls==3}">
