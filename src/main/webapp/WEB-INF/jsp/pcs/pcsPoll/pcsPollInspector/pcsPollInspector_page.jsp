@@ -112,6 +112,7 @@ pageEncoding="UTF-8" %>
             { label: '登录密码',name: 'passwd'},
             { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
             { label: '是否完成投票',name: 'isFinished',formatter:$.jgrid.formatter.TRUEFALSE},
+
             <shiro:hasRole name="${ROLE_PCS_ADMIN}">
             { label: '投票详情',name: '_detail', width:80, formatter: function (cellvalue, options, rowObject) {
 

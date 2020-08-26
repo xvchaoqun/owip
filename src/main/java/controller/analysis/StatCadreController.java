@@ -7,6 +7,7 @@ import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crp.CrpRecord;
 import mixin.MixinUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -30,6 +31,7 @@ import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -56,8 +58,9 @@ public class StatCadreController extends BaseController {
                              String firstTypeCode,//类别
                              Integer firstTypeNum,//类别分类
                              Integer secondNum,//第二类别分类
-
-                             ModelMap modelMap, HttpServletResponse response) throws IOException {
+                             ModelMap modelMap,
+                             HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
 
         CadreSearchBean searchBean = CadreSearchBean.getInstance(unitTypeGroup, cadreType);
 
@@ -98,8 +101,20 @@ public class StatCadreController extends BaseController {
                     firstTypeNum, secondNum, searchBean, modelMap);
         }
 
+        Map<String, List> rs;
+        // 如果是默认首页（即只有cadreType参数），则读取缓存 （如果CadreSearchBean有字段的增加，需要修改此处判断条件）
+        if(searchBean.getKeepSalary()==null
+                && searchBean.getPrincipal()==null
+                && searchBean.getUnitTypeGroup()==null
+                && CollectionUtils.size(searchBean.getAdminLevels())==0
+                && CollectionUtils.size(searchBean.getLabels())==0
+                && searchBean.getMaxNowPostAge()==null
+                && searchBean.getMinNowPostAge()==null){
 
-        Map<String, List> rs = statCadreService.stat(searchBean);
+             rs = statCadreService.statCache(cadreType);
+        }else{
+             rs = statCadreService.stat(searchBean);
+        }
 
         Map<Integer, List> eduRowMap = statCadreService.eduRowMap(searchBean);
         modelMap.put("eduRowMap", eduRowMap);

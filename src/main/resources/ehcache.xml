@@ -653,6 +653,14 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
+    <cache name="DataCaches"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           memoryStoreEvictionPolicy="LRU"/>
     <cache name="Cadre"
            eternal="false"
            maxElementsInMemory="3000"

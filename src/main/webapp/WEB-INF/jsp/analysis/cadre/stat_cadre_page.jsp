@@ -139,7 +139,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="14" align="right">注：百分比按四舍五入取值</td>
+                        <td colspan="14" align="right">注：百分比按四舍五入取值<%--${(_query|| not empty param.unitTypeGroup)?'':'  数据刷新频率：30s'}--%></td>
                     </tr>
                     <tr class=xl66>
                         <td colspan=2 rowspan=2 height=46 class=xl70 width=170 style='height:34.5pt;width:128pt'>类别</td>

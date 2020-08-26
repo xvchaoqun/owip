@@ -11,6 +11,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import persistence.cadre.common.CadreSearchBean;
 import persistence.cadre.common.StatCadreBean;
@@ -144,6 +146,21 @@ public class StatCadreService extends BaseMapper {
             }
             startColumnNum += 2;
         }
+    }
+
+    @Cacheable(value = "DataCaches", key = "'cadreStat_' + #cadreType")
+    public  Map<String, List> statCache(byte cadreType){
+
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        return stat(searchBean);
+    }
+
+    @CachePut(value = "DataCaches", key = "'cadreStat_' + #cadreType")
+    public  Map<String, List> refreshStatCache(byte cadreType){
+
+        return statCache(cadreType);
     }
 
     // 干部统计

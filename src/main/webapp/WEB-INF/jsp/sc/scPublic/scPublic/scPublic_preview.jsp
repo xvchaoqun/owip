@@ -69,8 +69,8 @@ text-indent:27.5pt;line-height:22.0pt;mso-line-height-rule:exactly;mso-paginatio
 widow-orphan;layout-grid-mode:char'><span style='mso-bookmark:OLE_LINK1'><span
                 style='mso-bookmark:OLE_LINK2'><span style='font-size:14.0pt;font-family:宋体;
 mso-bidi-font-family:宋体;mso-font-kerning:0pt'>以上干部公示时间为<span lang=EN-US>${dataMap.publicDate}</span>。组织部设干部监督信箱<span
-                lang=EN-US>zzbgb@bnu.edu.cn</span>，并接待来信来访（组织部办公地点为主楼<span lang=EN-US>A306, </span>联系电话<span
-                lang=EN-US>58808302</span>、<span lang=EN-US>58805166</span>）。反映情况和问题应实事求是，客观公正。为便于核实、反馈有关情况，请以单位名义反映问题的加盖单位公章，以个人名义反映问题的署真实姓名、单位和联系电话。</span></span></span><span
+                lang=EN-US>${_pMap['zzb_email']}</span>，并接待来信来访（组织部办公地点为${_pMap['zzb_address']}, 联系电话<span
+                lang=EN-US>${_pMap['zzb_phone']}</span>）。反映情况和问题应实事求是，客观公正。为便于核实、反馈有关情况，请以单位名义反映问题的加盖单位公章，以个人名义反映问题的署真实姓名、单位和联系电话。</span></span></span><span
                 style='mso-bookmark:OLE_LINK1'><span style='mso-bookmark:OLE_LINK2'><span
                 lang=EN-US style='font-size:12.0pt;font-family:宋体;mso-bidi-font-family:宋体;
 mso-font-kerning:0pt'><o:p></o:p></span></span></span></p>

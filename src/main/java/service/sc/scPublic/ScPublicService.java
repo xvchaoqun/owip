@@ -271,6 +271,9 @@ public class ScPublicService extends ScBaseMapper {
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
+        dataMap.put("zzbEmail", CmTag.getStringProperty("zzb_email"));
+        dataMap.put("zzbPhone", CmTag.getStringProperty("zzb_phone"));
+        dataMap.put("zzbAddress", CmTag.getStringProperty("zzb_address"));
         dataMap.put("publicDate", _publicDate);
         dataMap.put("publishDate", _publishDate);
         dataMap.put("holdDate", _holdDate);

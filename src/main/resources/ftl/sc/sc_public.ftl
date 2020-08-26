@@ -6034,7 +6034,7 @@
             <w:sz w:val="28"/>
             <w:sz-cs w:val="28"/>
           </w:rPr>
-          <w:t>组织部设干部监督信箱zzbgb@bnu.edu.cn</w:t>
+          <w:t>组织部设干部监督信箱${zzbEmail}</w:t>
         </w:r>
         <w:r wsp:rsidR="00D50BB1">
           <w:rPr>
@@ -6074,7 +6074,7 @@
             <w:sz w:val="28"/>
             <w:sz-cs w:val="28"/>
           </w:rPr>
-          <w:t>主楼A306, 联系电话</w:t>
+          <w:t>${zzbAddress}, 联系电话</w:t>
         </w:r>
         <w:r wsp:rsidR="002848E1" wsp:rsidRPr="006134C8">
           <w:rPr>
@@ -6084,17 +6084,7 @@
             <w:sz w:val="28"/>
             <w:sz-cs w:val="28"/>
           </w:rPr>
-          <w:t>58808302、</w:t>
-        </w:r>
-        <w:r wsp:rsidR="00EA5D76" wsp:rsidRPr="006134C8">
-          <w:rPr>
-            <w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:cs="宋体" w:hint="fareast"/>
-            <wx:font wx:val="宋体"/>
-            <w:kern w:val="0"/>
-            <w:sz w:val="28"/>
-            <w:sz-cs w:val="28"/>
-          </w:rPr>
-          <w:t>58805166</w:t>
+          <w:t>${zzbPhone}</w:t>
         </w:r>
         <w:r wsp:rsidR="005D2B59">
           <w:rPr>

@@ -1,7 +1,12 @@
 
+20200826
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('ad_show_onjob', '干部任免审批表显示在职', 'true', 3, 72, '干部任免审批表是否对在职学习显示“在职”两字');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('zzb_address', '组织部地址', '主楼A306', 1, 72, '');
+-- 师大组织部联系电话58808302、58805166
+
 
 20200824
 西工大、北航、南航

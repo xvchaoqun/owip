@@ -42,7 +42,7 @@ public class CadreView implements Serializable {
     }
 
     public CadreEdu[] getCadreEdus(){
-
+        if(id==null) return null;
         return CmTag.getCadreEdus(id);
     }
     private Integer id;
