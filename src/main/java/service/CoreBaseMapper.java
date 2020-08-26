@@ -15,7 +15,6 @@ import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveOriginMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.common.CommonMapper;
-import persistence.common.IPropertyMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
 import persistence.leader.LeaderMapper;
@@ -235,8 +234,6 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected ExtJzgSalaryMapper extJzgSalaryMapper;
 
-    @Autowired(required = false)
-    protected IPropertyMapper iPropertyMapper;
     @Autowired(required = false)
     protected ILeaderMapper iLeaderMapper;
     @Autowired(required = false)

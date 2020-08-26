@@ -1,6 +1,6 @@
 package controller.crs;
 
-import domain.cadre.CadreView;
+import domain.cadre.Cadre;
 import domain.crs.CrsExpert;
 import domain.crs.CrsExpertExample;
 import domain.crs.CrsExpertView;
@@ -52,7 +52,7 @@ public class CrsExpertController extends CrsBaseController {
             disabledIdSet.add(crsExpert.getUserId());
         }
 
-        TreeNode tree = crsExpertService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+        TreeNode tree = crsExpertService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                 disabledIdSet, true, false);
 
         Map<String, Object> resultMap = success();

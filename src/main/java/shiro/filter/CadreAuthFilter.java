@@ -81,7 +81,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
             }
 
             if(cadreId!=null && cadre.getId().intValue() != cadreId) {
-                cadre = cadreService.getCadre(cadreId);
+                cadre = cadreService.get(cadreId);
             }
             boolean hasDirectModifyCadreAuth = false;
             if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYMEMBERARCHIVE)){

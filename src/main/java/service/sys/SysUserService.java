@@ -793,9 +793,13 @@ public class SysUserService extends BaseMapper {
     @Transactional
     public void batchUpdate(List<SysUserInfo> records, List<TeacherInfo> teacherInfos) {
 
+        Set<Integer> userIdSet = new HashSet<>();
+
         for (TeacherInfo record : teacherInfos) {
 
-            SysUser _sysUser = sysUserMapper.selectByPrimaryKey(record.getUserId());
+            int userId = record.getUserId();
+            userIdSet.add(userId);
+            SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
 
             teacherInfoMapper.updateByPrimaryKeySelective(record);
 
@@ -804,10 +808,15 @@ public class SysUserService extends BaseMapper {
 
         for (SysUserInfo record : records) {
 
+            int userId = record.getUserId();
+            userIdSet.add(userId);
+
             insertOrUpdateUserInfoSelective(record, null);
         }
 
-        cacheHelper.clearCadreCache();
+        for (Integer userId : userIdSet) {
+            CmTag.clearCadreCache(userId);
+        }
     }
 
     //根据身份证号或姓名找到对应的学工号

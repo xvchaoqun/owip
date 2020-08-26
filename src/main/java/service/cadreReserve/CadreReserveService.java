@@ -19,6 +19,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
 import service.cadreInspect.CadreInspectService;
+import service.global.CacheHelper;
 import service.sys.SysUserService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
@@ -35,6 +36,8 @@ public class CadreReserveService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private CacheHelper cacheHelper;
     @Autowired
     private CadreInspectService cadreInspectService;
     @Autowired
@@ -193,8 +196,7 @@ public class CadreReserveService extends BaseMapper {
     // 直接添加年轻干部
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public boolean insertOrUpdateSelective(int userId, CadreReserve record, Cadre cadreRecord){
 
@@ -254,6 +256,8 @@ public class CadreReserveService extends BaseMapper {
             cadreReserveMapper.updateByPrimaryKeySelective(record);
         }
 
+        cacheHelper.clearCadreCache(cadreId);
+
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, normalRecord==null?"添加年轻干部":"更新年轻干部",
                 CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
@@ -263,8 +267,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void updateByPrimaryKeySelective(CadreReserve record, Cadre cadreRecord){
 
@@ -283,11 +286,12 @@ public class CadreReserveService extends BaseMapper {
 
         record.setStatus(cadreReserve.getStatus());
         cadreReserveMapper.updateByPrimaryKeySelective(record);
+
+        cacheHelper.clearCadreCache(cadre.getId());
     }
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void updateType(int id, int type){
 
@@ -303,15 +307,17 @@ public class CadreReserveService extends BaseMapper {
 
         Map<Integer, MetaType> reserveTypeMap = CmTag.getMetaTypes("mc_cadre_reserve_type");
 
-        cadreAdLogService.addLog(cadreReserve.getCadreId(), "转移年轻干部（"
+        int cadreId = cadreReserve.getCadreId();
+        cacheHelper.clearCadreCache(cadreId);
+
+        cadreAdLogService.addLog(cadreId, "转移年轻干部（"
                         + reserveTypeMap.get(oldType).getName() + "->" + reserveTypeMap.get(type).getName() +  ")" ,
                 CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
     }
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public int batchImport(final List<Cadre> records, int reserveType) {
 
@@ -335,8 +341,7 @@ public class CadreReserveService extends BaseMapper {
     // 列为考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public Cadre pass(CadreReserve record, Cadre cadreRecord) {
 
@@ -390,14 +395,15 @@ public class CadreReserveService extends BaseMapper {
         _record.setRemark(CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "列入考察对象");
         cadreInspectMapper.insertSelective(_record);
 
+        cacheHelper.clearCadreCache(cadreId);
+
         return cadreMapper.selectByPrimaryKey(cadreId);
     }
 
     // 删除已列为考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchDelPass(Integer[] ids) {
 
@@ -406,7 +412,7 @@ public class CadreReserveService extends BaseMapper {
 
             CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(reserveId);
             int cadreId = cadreReserve.getCadreId();
-            CadreView cadreView = cadreService.findAll().get(cadreId);
+            CadreView cadreView = cadreService.get(cadreId);
             int userId = cadreView.getUserId();
             cadreReserveMapper.deleteByPrimaryKey(reserveId);
 
@@ -415,6 +421,7 @@ public class CadreReserveService extends BaseMapper {
 
             sysUserService.delRole(userId, RoleConstants.ROLE_CADREINSPECT);
 
+            cacheHelper.clearCadreCache(cadreId);
             // 记录任免日志
             cadreAdLogService.addLog(cadreId, "删除已列为考察对象",
                     CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
@@ -424,8 +431,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void abolish(Integer id) {
 
@@ -453,13 +459,14 @@ public class CadreReserveService extends BaseMapper {
         record.setId(id);
         record.setStatus(CadreConstants.CADRE_RESERVE_STATUS_ABOLISH);
         cadreReserveMapper.updateByPrimaryKeySelective(record);
+
+        cacheHelper.clearCadreCache(cadre.getId());
     }
 
     // 拉回 已撤销的年轻干部
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void unAbolish(Integer id) {
 
@@ -498,6 +505,8 @@ public class CadreReserveService extends BaseMapper {
         // 添加年轻干部角色
         sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRERESERVE);
 
+        cacheHelper.clearCadreCache(cadreId);
+
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, "返回年轻干部库",
                 CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
@@ -505,8 +514,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchDel(Integer[] ids){
 
@@ -521,6 +529,8 @@ public class CadreReserveService extends BaseMapper {
             }
 
             cadreReserveMapper.deleteByPrimaryKey(id);
+
+            cacheHelper.clearCadreCache(cadre.getId());
 
             // 记录任免日志
             cadreAdLogService.addLog(cadre.getId(), "删除已撤销年轻干部", CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, id);

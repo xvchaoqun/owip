@@ -163,7 +163,7 @@ public class ScMatterController extends ScBaseController {
         if(id!=null){
             selectIdSet = scMatterService.getItemUserIds(id);
         }
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.getCadres()),
                 AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null, false, true, false);
 
         Map<String, Object> resultMap = success();

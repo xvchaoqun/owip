@@ -653,13 +653,13 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
-    <cache name="Cadre:ALL"
+    <cache name="Cadre"
            eternal="false"
-           maxElementsInMemory="100"
-           overflowToDisk="false"
+           maxElementsInMemory="3000"
+           overflowToDisk="true"
            diskPersistent="false"
            timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
+           timeToLiveSeconds="0"
            memoryStoreEvictionPolicy="LRU"/>
     <cache name="HistoryUnit"
            eternal="false"
@@ -818,7 +818,16 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="0"
            memoryStoreEvictionPolicy="LRU"/>
-    <!--shiro缓存-->
+
+    <cache name="PropertyCaches"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="SysProperty:ALL"
            eternal="false"
            maxElementsInMemory="2000"
@@ -917,6 +926,7 @@
            overflowToDisk="false">
     </cache>
 
+    <!--shiro缓存-->
     <cache name="AuthorizationCache"
            maxElementsInMemory="2000"
            overflowToDisk="true"

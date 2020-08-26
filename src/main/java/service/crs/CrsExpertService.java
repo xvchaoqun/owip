@@ -1,6 +1,7 @@
 package service.crs;
 
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.crs.CrsExpert;
 import domain.crs.CrsExpertExample;
@@ -14,6 +15,7 @@ import service.base.MetaTypeService;
 import service.sys.SysUserService;
 import sys.constants.CisConstants;
 import sys.constants.CrsConstants;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -90,7 +92,7 @@ public class CrsExpertService extends CrsBaseMapper {
     }
 
     // 批量添加专家 key是userId
-    public TreeNode getTree(Set<CadreView> cadreList, // 干部列表
+    public TreeNode getTree(Set<Cadre> cadreList, // 干部列表
                             Set<Integer> disabledIdSet,// 不可选干部
                             boolean enableSelect, // 是否有选择框
                             boolean defExpand // 一级属性（职务属性）默认是否展开
@@ -114,18 +116,20 @@ public class CrsExpertService extends CrsBaseMapper {
         example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
-        for (CadreView cadre : cadreList) {
+        for (Cadre cadre : cadreList) {
+
             if (CrsConstants.CRS_EXPERT_CADRE_STATUS_SET.contains(cadre.getStatus())) {
+                CadreView cv = CmTag.getCadreById(cadre.getId());
                 List<CadreView> list = null;
-                if(cadre.getPostType()!=null) {
-                    MetaType postType = postMap.get(cadre.getPostType());
+                if(cv.getPostType()!=null) {
+                    MetaType postType = postMap.get(cv.getPostType());
                     if(postType!=null) {
                         int postId = postType.getId();
                         if (postIdCadresMap.containsKey(postId)) {
                             list = postIdCadresMap.get(postId);
                         }
                         if (null == list) list = new ArrayList<>();
-                        list.add(cadre);
+                        list.add(cv);
 
                         postIdCadresMap.put(postId, list);
                     }

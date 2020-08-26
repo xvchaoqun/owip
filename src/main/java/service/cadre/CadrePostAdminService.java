@@ -64,7 +64,7 @@ public class CadrePostAdminService extends BaseMapper {
                             "manage_level_time=%s where user_id=%s",
                     manageLevel, manageLevelTime, userId));
 
-            cacheHelper.clearCadreCache();
+            cacheHelper.clearCadreCache(cadre.getId());
         }
     }
 

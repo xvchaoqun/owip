@@ -90,6 +90,12 @@ public class PcsPartyService extends PcsBaseMapper {
         pcsAdminReportMapper.insertSelective(record);
     }
 
+    @Transactional
+    public int updateByPrimaryKeySelective(PcsParty record) {
+
+        return pcsPartyMapper.updateByPrimaryKeySelective(record);
+    }
+
     // 同步当前党组织
     @Transactional
     public void sync() {
@@ -176,5 +182,15 @@ public class PcsPartyService extends PcsBaseMapper {
             }*/
 
         }
+    }
+
+    @Transactional
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+        PcsPartyExample example = new PcsPartyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        pcsPartyMapper.deleteByExample(example);
+
     }
 }

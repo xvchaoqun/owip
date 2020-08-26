@@ -150,11 +150,11 @@ public class CadreController extends BaseController {
             modelMap.put("selectPostTypes", Arrays.asList(postTypes));
         }
 
-        modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
+        modelMap.put("proPosts", CmTag.getPropertyCaches("teacherProPosts"));
         if (proPosts != null) {
             modelMap.put("selectProPosts", Arrays.asList(proPosts));
         }
-        modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
+        modelMap.put("proPostLevels", CmTag.getPropertyCaches("teacherProPostLevels"));
         if (proPostLevels != null) {
             modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
         }
@@ -165,7 +165,7 @@ public class CadreController extends BaseController {
             modelMap.put("selectWorkTypes",Arrays.asList(workTypes));
         }
 
-        //modelMap.put("nations", iPropertyMapper.teacherNations());
+        //modelMap.put("nations", CmTag.getPropertyCaches("teacherNations"));
         if (nation != null) {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
@@ -174,8 +174,8 @@ public class CadreController extends BaseController {
             modelMap.put("selectLabels", Arrays.asList(labels));
         }
 
-        modelMap.put("staffTypes", iPropertyMapper.staffTypes());
-        modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+        modelMap.put("staffTypes", CmTag.getPropertyCaches("staffTypes"));
+        modelMap.put("authorizedTypes", CmTag.getPropertyCaches("authorizedTypes"));
         if(staffTypes!=null){
             modelMap.put("selectStaffTypes", Arrays.asList(staffTypes));
         }

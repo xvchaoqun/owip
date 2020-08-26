@@ -42,7 +42,7 @@ public class SysRoleController extends BaseController {
 	@RequestMapping("/sysRole_users")
 	public String sysRole_users(int roleId, ModelMap modelMap) {
 
-		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+		SysRole sysRole = CmTag.getRole(roleId);
 		modelMap.put("sysRole", sysRole);
 
 		return "sys/sysRole/sysRole_users";
@@ -249,7 +249,7 @@ public class SysRoleController extends BaseController {
 
 		// Map<资源Id,Map<父节点Id,父节点是否被选中>>
 		Map<Integer,Map<Integer,Boolean>> permissions= new HashMap<>();
-		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
+		SysRole sysRole = CmTag.getRole(id);
 		String resourceIdsStr = isMobile?sysRole.getmResourceIds():sysRole.getResourceIds();
 		Map<Integer, SysResource> sysResourceMap = sysResourceService.getSortedSysResources(isMobile);
 		if(resourceIdsStr!=null){

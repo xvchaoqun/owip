@@ -28,9 +28,13 @@ import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
+import persistence.common.IPropertyMapper;
 import service.BaseMapper;
 import service.SpringProps;
 import service.base.LayerTypeService;
@@ -61,6 +65,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -70,6 +75,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service(value = "cacheService")
 public class CacheService extends BaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected IPropertyMapper iPropertyMapper;
     @Autowired
     protected CountMapper countMapper;
     @Autowired
@@ -108,6 +115,42 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     public final static String LIMIT_CACHE_KEY_NAME = "limit_cache";
 
     private Cache<String, AtomicInteger> limitCache;
+
+    // 读取用户属性字段缓存
+    @Cacheable(value = "PropertyCaches", key = "#methodName")
+    public List<String> getPropertyCaches(String methodName){
+
+        try {
+            Method method = iPropertyMapper.getClass().getMethod(methodName);
+
+            return (List<String>) method.invoke(iPropertyMapper);
+        }catch (Exception ex){
+            logger.error("get property caches error. methodName:" + methodName, ex);
+        }
+
+        return new ArrayList<>();
+    }
+
+    // 更新用户属性字段缓存
+    @CachePut(value = "PropertyCaches", key = "#methodName")
+    public List<String> refreshPropertyCaches(String methodName){
+
+        try {
+            Method method = iPropertyMapper.getClass().getMethod(methodName);
+
+            return (List<String>) method.invoke(iPropertyMapper);
+        }catch (Exception ex){
+            logger.error("update property caches error. methodName:" + methodName, ex);
+        }
+
+        return new ArrayList<>();
+    }
+
+    @CacheEvict(value = "PropertyCaches", allEntries = true)
+    public void removePropertyCaches(){
+
+        logger.info("delete all property caches.");
+    }
 
     // 缓存数量限制
     public void limitCache(String cacheKey, int maxCount) {

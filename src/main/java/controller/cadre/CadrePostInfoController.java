@@ -67,7 +67,7 @@ public class CadrePostInfoController extends BaseController {
         cadrePostAdminService.syncAllCadrePost();
         cadrePostWorkService.syncAllCadrePost();
 
-        cacheHelper.clearCadreCache();
+        cacheHelper.clearAllCadreCache();
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "同步覆盖所有的系统设定的当前岗位，作为干部档案页的岗位信息"));
 

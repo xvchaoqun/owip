@@ -1,4 +1,7 @@
 
+20200824
+西工大、北航、南航
+
 20200823
 北邮
 
@@ -16,7 +19,8 @@ UPDATE `sys_property` SET `name`='干部配备一览表显示',`content`='1',`ty
 
 
 -- 更新 ow_member_view
-ALTER TABLE `pcs_candidate`
+
+/*ALTER TABLE `pcs_candidate`
 	ADD COLUMN `code` VARCHAR(20) NULL COMMENT '学工号，老师为工作证号，学生为学号' AFTER `type`,
 	ADD COLUMN `realname` VARCHAR(100) NULL DEFAULT NULL COMMENT '真实姓名' AFTER `code`,
 	ADD COLUMN `birth` DATE NULL DEFAULT NULL COMMENT '出生年月' AFTER `realname`,
@@ -141,7 +145,7 @@ where pr.branch_id is null or pr.branch_id not in (select branch_id from pcs_bra
 ALTER TABLE `pcs_branch`
 	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `name`;
 update pcs_branch pb, ow_branch ob set pb.sort_order=ob.sort_order where pb.branch_id=ob.id;
-
+*/
 INSERT INTO `base_content_tpl` (`name`, `role_id`, `type`, `code`, `wx_msg_type`, `wx_title`, `wx_url`, `wx_pic`, `content`, `content_type`, `engine`, `param_count`, `param_names`, `param_def_values`, `sort_order`, `user_id`, `create_time`, `update_time`, `is_deleted`, `remark`) VALUES ('党代会二级党委报送提醒', NULL, 1, 'ct_pcs_wy_msg', NULL, NULL, NULL, NULL, '{0}：您好！按照第十三次党员代表大会筹备工作领导小组的统一部署，两委委员候选人酝酿提名工作“{1}”阶段于9月6日结束，目前尚未收到贵单位的报送材料。为了保证学校的整体进程不受影响，请务必今天完成报送。联系电话：**。谢谢！[系统短信，请勿回复]', 1, NULL, NULL, NULL, NULL, 63, 100719, '2020-08-17 16:21:45', '2020-08-17 16:22:01', 0, '');
 INSERT INTO `base_content_tpl` (`name`, `role_id`, `type`, `code`, `wx_msg_type`, `wx_title`, `wx_url`, `wx_pic`, `content`, `content_type`, `engine`, `param_count`, `param_names`, `param_def_values`, `sort_order`, `user_id`, `create_time`, `update_time`, `is_deleted`, `remark`) VALUES ('党代会代表二级党委报送提醒', NULL, 1, 'ct_pcs_pr_msg', NULL, NULL, NULL, NULL, '{0}：您好！按照第十三次党员代表大会筹备工作领导小组的统一部署，代表选举“{1}”阶段于9月6日结束，目前尚未收到贵单位的报送材料。为了保证学校的整体进程不受影响，请务必今天完成报送。联系电话：**。谢谢！[系统短信，请勿回复]', 1, NULL, NULL, NULL, NULL, 64, 100719, '2020-08-17 16:22:44', '2020-08-17 16:22:43', 0, '');
 INSERT INTO `base_content_tpl` (`name`, `role_id`, `type`, `code`, `wx_msg_type`, `wx_title`, `wx_url`, `wx_pic`, `content`, `content_type`, `engine`, `param_count`, `param_names`, `param_def_values`, `sort_order`, `user_id`, `create_time`, `update_time`, `is_deleted`, `remark`) VALUES ('党代会下发二下名单通知', NULL, 1, 'ct_pcs_stage2_msg', NULL, NULL, NULL, NULL, '各位书记/分党委管理员：您好！学校党委根据各分党委、党总支、直属党支部报送的两委委员候选人初步人选推荐提名情况，经研究确定了“二下”名单。请按照学校工作部署及时开展“二下二上”阶段工作，时间是9月8日至11日。谢谢！[系统短信，请勿回复]', 1, NULL, NULL, NULL, NULL, 65, 100719, '2020-08-17 16:33:36', '2020-08-17 16:33:36', 0, '');
@@ -151,7 +155,7 @@ INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `
 
 update sys_resource set url=replace(url, '/pcs', '/pcs/pcs')  where url like '/pcs%' and url not like '/pcs/pcs%';
 
-ALTER TABLE `pcs_branch`
+/*ALTER TABLE `pcs_branch`
 	ADD COLUMN `is_direct_branch` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否直属党支部' AFTER `branch_id`;
 
 ALTER TABLE `pcs_party`
@@ -185,13 +189,13 @@ ALTER TABLE `pcs_branch`
 ALTER TABLE `pcs_pr_allocate`
 	ADD COLUMN `candidate_count` INT(10) UNSIGNED NULL COMMENT '推荐代表数量，差额后的每个分党委的推荐代表数量' AFTER `party_id`;
 
-
+*/
 delete from sys_resource where permission='pcsExcludeBranch:*';
 
-ALTER TABLE `pcs_branch`
+/*ALTER TABLE `pcs_branch`
 	ADD COLUMN `party_name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `is_direct_branch`;
 
-
+*/
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
 `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (2791, 0, '基层党组织列表', '', 'url', '', '/pcs/pcsPartyList', 469, '0/1/469/', 1, 'pcsPartyList:*', NULL, NULL, NULL, 1, 1450);
@@ -214,12 +218,12 @@ INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `re
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_jw_num', '纪委委员推荐人数', '11', 2, 70, '');
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_dw_num', '党委委员推荐人数', '30', 2, 69, '');
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_site_bg', '党代会投票登录页面背景', '\\sysProperty\\20200814\\f31daf3b-b563-4055-b49b-708db925e6b0.png', 5, 68, '');
-
+/*
 ALTER TABLE `pcs_party`
 	CHANGE COLUMN `present_group_count` `present_group_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '现任班子数量' AFTER `group_count`;
 ALTER TABLE `pcs_branch`
 	ADD COLUMN `party_sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '分党委排序' AFTER `name`;
-
+*/
 update sys_resource set permission='pcsPoll:list' where permission='pcsPoll:*';
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (980, 0, '编辑投票', '', 'function', '', NULL, 2542, '0/1/469/2542/', 1, 'pcsPoll:edit', NULL, NULL, NULL, 1, NULL);

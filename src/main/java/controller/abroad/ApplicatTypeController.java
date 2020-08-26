@@ -4,8 +4,8 @@ import domain.abroad.ApplicatType;
 import domain.abroad.ApplicatTypeExample;
 import domain.abroad.ApplicatTypeExample.Criteria;
 import domain.abroad.ApprovalOrder;
+import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
-import domain.cadre.CadreView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -51,9 +51,9 @@ public class ApplicatTypeController extends AbroadBaseController {
     public Map selectCadresEscape_tree() throws IOException {
 
         Set<Integer> hasAssignedCadreIdSet = applicatTypeService.getCadreIds(null);
-        Set<CadreView> cadreSet = new LinkedHashSet<>();
+        Set<Cadre> cadreSet = new LinkedHashSet<>();
         Set<Integer> disabledIdSet = new HashSet<>(); // 显示时不需要选择框
-        for (CadreView cadre : cadreService.findAll().values()) {
+        for (Cadre cadre : cadreService.getCadres()) {
 
             if(!hasAssignedCadreIdSet.contains(cadre.getId().intValue())){
                 cadreSet.add(cadre);
@@ -96,7 +96,7 @@ public class ApplicatTypeController extends AbroadBaseController {
         Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                 AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();

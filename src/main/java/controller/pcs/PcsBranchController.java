@@ -109,6 +109,28 @@ public class PcsBranchController extends PcsBaseController {
     }
 
     @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping(value = "/pcsBranch_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsBranch_au(PcsBranch record, HttpServletRequest request) {
+
+        pcsBranchService.updateByPrimaryKeySelective(record);
+        logger.info(log( LogConstants.LOG_PCS, "更新召开党代会的支部：{0}", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping("/pcsBranch_au")
+    public String pcsBranch_au(int id, ModelMap modelMap) {
+
+
+        PcsBranch pcsBranch = pcsBranchMapper.selectByPrimaryKey(id);
+        modelMap.put("pcsBranch", pcsBranch);
+
+        return "pcs/pcsBranch/pcsBranch_au";
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
     @RequestMapping(value = "/pcsBranch_exclude", method = RequestMethod.POST)
     @ResponseBody
     public Map pcsBranch_exclude(HttpServletRequest request, Integer[] ids, Boolean isDeleted, ModelMap modelMap) {
@@ -116,6 +138,20 @@ public class PcsBranchController extends PcsBaseController {
 
         if (null != ids && ids.length>0){
             pcsBranchService.exclude(ids, isDeleted);
+            logger.info(log( LogConstants.LOG_PCS, "批量设置不召开党代会的支部：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPartyList:edit")
+    @RequestMapping(value = "/pcsBranch_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsBranch_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            pcsBranchService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PCS, "批量删除召开党代会的支部：{0}", StringUtils.join(ids, ",")));
         }
 

@@ -1,6 +1,6 @@
 package controller.cla;
 
-import domain.cadre.CadreView;
+import domain.cadre.Cadre;
 import domain.cla.ClaApproverBlackList;
 import domain.cla.ClaApproverType;
 import domain.cla.ClaApproverTypeExample;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.ClaConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -56,11 +57,12 @@ public class ClaApproverTypeController extends ClaBaseController {
                 unselectCadreSet.add(approverBlackList.getCadreId());
             }
 
-            Set<CadreView> cadreSet = new LinkedHashSet<>();
+            Set<Cadre> cadreSet = new LinkedHashSet<>();
             Set<Integer> selectCadreSet = new HashSet<>();
             Map<Integer, Leader> leaderMap = cadreLeaderService.findAll();
             for (Leader leader : leaderMap.values()) {
-                CadreView cadre = leader.getCadre();
+
+                Cadre cadre = CmTag.getCadre(leader.getUserId());
                 cadreSet.add(cadre);
                 if(!unselectCadreSet.contains(cadre.getId()))
                     selectCadreSet.add(cadre.getId());
@@ -74,7 +76,7 @@ public class ClaApproverTypeController extends ClaBaseController {
             Set<Integer> selectIdSet = claApproverTypeService.findApproverCadreIds(id);
             //Set<Integer> disabledIdSet = claApproverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+            TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                     ClaConstants.CLA_APPLICAT_CADRE_STATUS_SET, selectIdSet, null);
             resultMap.put("tree", tree);
         }

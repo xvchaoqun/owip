@@ -117,12 +117,11 @@ public class ScPassportHandService extends ScBaseMapper {
     @Transactional
     public void addCadres(Integer[] cadreIds) {
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
 
         Date now = new Date();
         for (Integer cadreId : cadreIds) {
 
-            CadreView cv = cadreMap.get(cadreId);
+            CadreView cv = CmTag.getCadreById(cadreId);
 
             ScPassportHand record = new ScPassportHand();
             record.setCadreId(cadreId);

@@ -204,7 +204,7 @@ public class ScAdArchiveController extends ScBaseController {
 
         ScAdArchiveWithBLOBs scAdArchive = scAdArchiveMapper.selectByPrimaryKey(archiveId);
         Integer cadreId = scAdArchive.getCadreId();
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.get(cadreId);
         String adform = scAdArchive.getAdform();
         if(StringUtils.isBlank(adform)) return;
 
@@ -272,7 +272,7 @@ public class ScAdArchiveController extends ScBaseController {
 
         ScAdArchiveWithBLOBs scAdArchive = scAdArchiveMapper.selectByPrimaryKey(archiveId);
         Integer cadreId = scAdArchive.getCadreId();
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.get(cadreId);
         String cis = scAdArchive.getCis();
         if(StringUtils.isBlank(cis)) return;
 

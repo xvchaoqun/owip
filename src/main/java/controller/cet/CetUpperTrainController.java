@@ -2,6 +2,8 @@ package controller.cet;
 
 import controller.global.OpException;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
+import domain.cadre.CadreExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cet.CetProjectType;
@@ -49,6 +51,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cet")
@@ -633,10 +636,10 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (addType == null) return null;
 
-        LinkedHashSet<CadreView> cadreViews = null;
+        LinkedHashSet<Cadre> cadreSet = new LinkedHashSet<Cadre>();
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
             SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
-            cadreViews = new LinkedHashSet<CadreView>(cadreService.findAll().values());
+            cadreSet = new LinkedHashSet<Cadre>(cadreService.getCadres());
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
             SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
@@ -649,14 +652,21 @@ public class CetUpperTrainController extends CetBaseController {
             } else {
                 example.createCriteria().andIdIsNull();
             }
-            List<CadreView> cadres = cadreViewMapper.selectByExample(example);
+            List<CadreView> cadreViews = cadreViewMapper.selectByExample(example);
 
-            cadreViews = new LinkedHashSet<CadreView>(cadres);
+            List<Integer> cadreIds = cadreViews.stream().map(CadreView::getId).collect(Collectors.toList());
+
+            if(cadreIds.size()>0) {
+                CadreExample example2 = new CadreExample();
+                example2.createCriteria().andIdIn(cadreIds);
+                List<Cadre> cadres = cadreMapper.selectByExample(example2);
+                cadreSet = new LinkedHashSet<Cadre>(cadres);
+            }
         }
 
-        TreeNode tree = cadreCommonService.getTree(cadreViews,
+        TreeNode tree = cadreCommonService.getTree(cadreSet,
                 new HashSet<>(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
-                        CadreConstants.CADRE_STATUS_LEADER)), null, null, false, true, cadreViews.size() <= 20);
+                        CadreConstants.CADRE_STATUS_LEADER)), null, null, false, true, cadreSet.size() <= 20);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);

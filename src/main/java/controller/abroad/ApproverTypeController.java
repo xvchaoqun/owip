@@ -4,6 +4,7 @@ import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
 import domain.abroad.ApproverTypeExample.Criteria;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.leader.Leader;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -54,12 +56,13 @@ public class ApproverTypeController extends AbroadBaseController {
             Map<String, ApproverBlackList> blackListMap = approverBlackListService.findAll(id);
             Set<String> unselectCadreSet = blackListMap.keySet();
 
-            Set<CadreView> cadreSet = new LinkedHashSet<>();
+            Set<Cadre> cadreSet = new LinkedHashSet<>();
             Set<String> selectCadreSet = new HashSet<>();
             Map<Integer, Leader> leaderMap = cadreLeaderService.findAll();
             for (Leader leader : leaderMap.values()) {
-                CadreView cadre = leader.getCadre();
-                cadreSet.add(cadre);
+
+                CadreView cadre = CmTag.getCadreByUserId(leader.getUserId());
+                cadreSet.add(cadreMapper.selectByPrimaryKey(cadre.getId()));
                 String key = cadre.getId() + "_" + cadre.getUnitId();
                 if(!unselectCadreSet.contains(key))
                     selectCadreSet.add(key);
@@ -73,7 +76,7 @@ public class ApproverTypeController extends AbroadBaseController {
             Set<String> selectIdSet = approverTypeService.findApproverCadreIds(id);
             //Set<Integer> disabledIdSet = claApproverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreCommonService.getTree2(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+            TreeNode tree = cadreCommonService.getTree2(new LinkedHashSet<Cadre>(cadreService.getCadres()),
                     AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null, true, false);
             resultMap.put("tree", tree);
         }
