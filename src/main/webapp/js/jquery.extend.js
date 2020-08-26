@@ -2244,7 +2244,7 @@ $.extend($.register, {
                 return markup;
             },
             ajax: {
-                url: $select.data("ajax-url") || params.url,
+                url: $select.data("ajax-url") || _params.url,
                 dataType: 'json',
                 delay: 300,
                 data: function (params) {

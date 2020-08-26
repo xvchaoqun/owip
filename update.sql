@@ -1,4 +1,8 @@
 
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('ad_show_onjob', '干部任免审批表显示在职', 'true', 3, 72, '干部任免审批表是否对在职学习显示“在职”两字');
+
 20200824
 西工大、北航、南航
 

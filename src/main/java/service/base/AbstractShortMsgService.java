@@ -26,10 +26,10 @@ import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.entity.SendMsgResult;
 import sys.tags.CmTag;
-import sys.utils.ContentUtils;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.IpUtils;
+import sys.utils.StringUtil;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -205,7 +205,10 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         if (type == ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
             send = send(shortMsgBean, null, ip);
         } else if (type == ContentTplConstants.CONTENT_TPL_TYPE_WX) {
-            send = sendWxMsg(shortMsgBean, Arrays.asList(shortMsgBean.getReceiver()), ip);
+            SendMsgResult sendMsgResult = sendWxMsg(shortMsgBean, Arrays.asList(shortMsgBean.getReceiver()), ip);
+            if(!sendMsgResult.isSuccess()){
+                throw new OpException(sendMsgResult.getMsg());
+            }
         }
 
         if (relateType == SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL) {
@@ -221,7 +224,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
 
         byte type = shortMsgBean.getType();
         if (type == ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
-            String relateSn = ContentUtils.getUUID();
+            String relateSn = StringUtil.getUUID();
             for (Integer userId : userIds) {
 
                 shortMsgBean.setMobile(userBeanService.getMsgMobile(userId));
@@ -229,7 +232,10 @@ public abstract class AbstractShortMsgService extends BaseMapper {
                 send(shortMsgBean, relateSn, ip);
             }
         } else if (type == ContentTplConstants.CONTENT_TPL_TYPE_WX) {
-            sendWxMsg(shortMsgBean, userIds, ip);
+            SendMsgResult sendMsgResult = sendWxMsg(shortMsgBean, userIds, ip);
+            if(!sendMsgResult.isSuccess()){
+                throw new OpException(sendMsgResult.getMsg());
+            }
         }
 
         byte relateType = shortMsgBean.getRelateType();
@@ -284,14 +290,14 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         for (ShortMsg shortMsg : shortMsgs) {
 
             boolean result = false;
-            if(shortMsg.getType()==ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
+            if(shortMsg.getType()== ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
                 if (springProps.shortMsgSend) {
                     SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(shortMsg.getMobile(), shortMsg.getContent());
                     result = sendMsgResult.isSuccess();
                 } else {
                     result = true;
                 }
-            }else if(shortMsg.getType()==ContentTplConstants.CONTENT_TPL_TYPE_WX) {
+            }else if(shortMsg.getType()== ContentTplConstants.CONTENT_TPL_TYPE_WX) {
                 if (springProps.wxSend) {
                     int times = 2;
                     String repeatTimes = shortMsg.getRepeatTimes();
@@ -319,7 +325,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         }
     }
 
-    public boolean sendWxMsg(ShortMsgBean bean, List<Integer> userIds, String ip) {
+    public SendMsgResult sendWxMsg(ShortMsgBean bean, List<Integer> userIds, String ip) {
 
         ShortMsg record = new ShortMsg();
         record.setType(ContentTplConstants.CONTENT_TPL_TYPE_WX);
@@ -328,22 +334,22 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         record.setWxPic(bean.getWxPic());
         record.setWxUrl(bean.getWxUrl());
 
-        boolean result = false;
+        SendMsgResult sendMsgResult = new SendMsgResult();
         if (springProps.wxSend) {
 
-            SendMsgResult sendMsgResult = sendWxMsg(bean.getWxMsgType(),
+            sendMsgResult = sendWxMsg(bean.getWxMsgType(),
                 bean.getContent(),
                 bean.getWxUrl(),
                 bean.getWxTitle(),
                 bean.getWxPic(), userIds);
-            result = sendMsgResult.isSuccess();
-            record.setStatus(result);
+            record.setStatus(sendMsgResult.isSuccess());
             record.setRet(sendMsgResult.getMsg());
 
         } else {
             record.setRemark("test");
             record.setStatus(false);
-            result = true;
+            sendMsgResult.setSuccess(true);
+            sendMsgResult.setMsg("test");
         }
 
         byte relateType = bean.getRelateType();
@@ -365,7 +371,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
             shortMsgMapper.insertSelective(record);
         }
 
-        return result;
+        return sendMsgResult;
     }
 
     /**
@@ -395,7 +401,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
             codeList.add(toWxUser(uv.getCode()));
         }
         String codes = StringUtils.join(codeList, "|");
-        SendMsgResult sendMsgResult = null;
+        SendMsgResult sendMsgResult = new SendMsgResult();
         try {
             if (wxMsgType == ContentTplConstants.CONTENT_TPL_WX_TYPE_TEXT) {
                 sendMsgResult = weixinService.sendText(content, codes, wxUrl);
@@ -404,6 +410,9 @@ public abstract class AbstractShortMsgService extends BaseMapper {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
+
+            sendMsgResult.setSuccess(false);
+            sendMsgResult.setMsg(ex.getMessage());
         }
 
         return sendMsgResult;

@@ -189,9 +189,10 @@ public class CadreWorkService extends BaseMapper {
                         major = "";
                     }
 
-                    String detail = String.format("在%s%s%s在职%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                    String detail = String.format("在%s%s%s%s%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
                             StringUtils.trimToEmpty(cadreEdu.getDep()),
                             major,
+                            CmTag.getBoolProperty("ad_show_onjob")?"在职":"",
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix2(cadreEdu.getEduId())),
                             cadreEdu.getIsGraduated() ? "毕业" : "",
                             (CmTag.getBoolProperty("ad_show_degree")&&cadreEdu.getHasDegree()) ?

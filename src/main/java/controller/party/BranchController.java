@@ -527,7 +527,7 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_selects")
     @ResponseBody
     public Map branch_selects(Integer pageSize, Boolean auth, Boolean del,
-                              Integer pcsConfigId, // 党代会ID
+                              Boolean isPcs, // 是否党代会
                               Integer pageNo, Integer partyId, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -575,7 +575,7 @@ public class BranchController extends BaseController {
         }
 
         // 党代会筛选
-        if(pcsConfigId!=null){
+        if(BooleanUtils.isTrue(isPcs)){
 
             List<Integer> branchIdList = new ArrayList<>();
             PcsConfigService pcsConfigService = CmTag.getBean(PcsConfigService.class);

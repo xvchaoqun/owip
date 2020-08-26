@@ -5,4 +5,4 @@ update pcs_poll pp
 
 left join ( select poll_id, count(id) as num1, sum(if(is_positive=1, 1, 0)) as num2 from pcs_poll_inspector group by poll_id) tmp on tmp.poll_id=pp.id
 
-set pp.inspector_finish_num=tmp.num1 , pp.positive_finish_num=tmp.num2
+set pp.inspector_finish_num=tmp.num1 , pp.positive_finish_num=tmp.num2;

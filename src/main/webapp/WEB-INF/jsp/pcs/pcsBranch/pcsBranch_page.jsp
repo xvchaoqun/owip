@@ -23,7 +23,7 @@
                                 data-msg="确定这{0}个党支部不参与党代会？"
                                 data-grid-id="#jqGrid"
                                 data-querystr="&isDeleted=1"
-                                class="jqBatchBtn btn btn-danger btn-sm">
+                                class="jqBatchBtn btn btn-warning btn-sm">
                             <i class="fa fa-times"></i> 不参与党代会的党支部
                         </button>
                         <button data-url="${ctx}/pcs/pcsBranch_batchDel"
