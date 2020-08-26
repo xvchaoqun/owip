@@ -56,7 +56,7 @@ public class CetAnnualObjController extends CetBaseController {
 
         if(objId != null){
 
-            SecurityUtils.getSubject().checkPermission("cetAnnualObj:list");
+            ShiroHelper.checkPermission("cetAnnualObj:list");
             cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         }else{
             // 本人查看
@@ -97,7 +97,7 @@ public class CetAnnualObjController extends CetBaseController {
         int userId = cetAnnualObj.getUserId();
         if(userId!= ShiroHelper.getCurrentUserId()){
             // 非本人查看，需要检查权限
-            SecurityUtils.getSubject().checkPermission("cetAnnualObj:list");
+            ShiroHelper.checkPermission("cetAnnualObj:list");
         }
 
         Integer annualId = cetAnnualObj.getAnnualId();

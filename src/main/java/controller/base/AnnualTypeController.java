@@ -5,7 +5,6 @@ import domain.base.AnnualType;
 import domain.base.AnnualTypeExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -31,7 +31,7 @@ public class AnnualTypeController extends BaseController {
 
     private void checkPermission(byte module){
 
-        SecurityUtils.getSubject().checkPermission("annual_type_module:"+module);
+        ShiroHelper.checkPermission("annual_type_module:"+module);
     }
 
     @RequestMapping("/annualTypeList")

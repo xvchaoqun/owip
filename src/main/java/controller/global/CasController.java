@@ -7,7 +7,6 @@ import ext.utils.CasUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
@@ -137,7 +136,7 @@ public class CasController extends BaseController {
                                HttpServletRequest request, HttpServletResponse response,
                                String _switchUser) {
 
-        Session session = SecurityUtils.getSubject().getSession();
+        Session session = ShiroHelper.getSession();
         session.setAttribute("_loginType", loginType); // 此次登录类型
         if (StringUtils.isNotBlank(username)) {
 
@@ -154,14 +153,14 @@ public class CasController extends BaseController {
                 WebSubject subject = builder.buildWebSubject();
                 ThreadContext.bind(subject);
 
-                sysLoginLogService.setTimeout(SecurityUtils.getSubject());
+                sysLoginLogService.setTimeout(ShiroHelper.getSubject());
 
                 if (loginType != SystemConstants.LOGIN_TYPE_SWITCH) {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             loginType, true, "登录成功"));
                 }
                 // 读取最新的session
-                session = SecurityUtils.getSubject().getSession();
+                session = ShiroHelper.getSession();
                 session.setAttribute("_loginType", loginType);
                 if (StringUtils.isNotBlank(_switchUser)) {
                     session.setAttribute("_switchUser", _switchUser);

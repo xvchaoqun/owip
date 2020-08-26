@@ -205,7 +205,7 @@ public class CetTrainObjController extends CetBaseController {
             if(ShiroHelper.getCurrentUserId()==null){
                 return failed("没有登录。");
             }
-            SecurityUtils.getSubject().checkPermission("cetTrainObj:sign");
+            ShiroHelper.checkPermission("cetTrainObj:sign");
 
         }else{
             String signToken = cetTrainCourseService.getSignToken(id);

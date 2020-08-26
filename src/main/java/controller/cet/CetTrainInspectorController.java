@@ -10,7 +10,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -180,7 +180,7 @@ public class CetTrainInspectorController extends CetBaseController {
 
             if(cetTrain.getEvaAnonymous()) {
                 String passwd = cetTrainInspector.getPasswd();
-                if (!SecurityUtils.getSubject().hasRole(RoleConstants.ROLE_CET_ADMIN)) {
+                if (!ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
                     if (cetTrainInspector.getPasswdChangeType() != null) {
                         passwd = "******"; // 本人修改过密码或者管理员重置过密码，则单位管理员不可以看到
                     }

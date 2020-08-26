@@ -11,7 +11,6 @@ import domain.unit.Unit;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -307,7 +306,7 @@ public class AbroadReportController extends AbroadBaseController {
                                     @RequestParam(defaultValue = "pdf") String format,
                                     Model model) throws IOException, DocumentException {
 
-        SecurityUtils.getSubject().checkPermission("passportDraw:list");
+        ShiroHelper.checkPermission("passportDraw:list");
 
         UserRes verify = UserResUtils.verify(ids);
         String res = verify.getRes();

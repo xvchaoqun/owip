@@ -68,9 +68,9 @@ public class PcsProposalController extends PcsBaseController {
 
 
         if (NumberUtils.contains(cls, (byte) 1, (byte) 2, (byte) 3)) {
-            SecurityUtils.getSubject().checkPermission("pcsProposalPr:*");
+            ShiroHelper.checkPermission("pcsProposalPr:*");
         } else {
-            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+            ShiroHelper.checkPermission("pcsProposalOw:*");
         }
 
         if (cls == 8 && module != 1) {
@@ -113,9 +113,9 @@ public class PcsProposalController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         if (NumberUtils.contains(cls, (byte) 1, (byte) 2, (byte) 3)) {
-            SecurityUtils.getSubject().checkPermission("pcsProposalPr:*");
+            ShiroHelper.checkPermission("pcsProposalPr:*");
         } else {
-            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+            ShiroHelper.checkPermission("pcsProposalOw:*");
         }
 
         if (null == pageSize) {

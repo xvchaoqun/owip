@@ -193,7 +193,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
         CrsApplicantWithBLOBs crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
         modelMap.put("crsApplicant", crsApplicant);
         if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
-            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:list");
+            ShiroHelper.checkPermission("userApplyCrsPost:list");
             if (crsApplicant == null || crsApplicant.getUserId().intValue() != ShiroHelper.getCurrentUserId()) {
                 throw new UnauthorizedException();
             }
@@ -230,9 +230,9 @@ public class UserApplyCrsPostController extends CrsBaseController {
     public String crsPost_quit(int postId, Integer applicantId, ModelMap modelMap) {
 
         if(applicantId == null){
-            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:edit");
+            ShiroHelper.checkPermission("userApplyCrsPost:edit");
         }else{
-            SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
+            ShiroHelper.checkPermission("crsPost:list"); // 招聘管理 权限
         }
 
         return "crs/user/crsPost_quit";
@@ -248,10 +248,10 @@ public class UserApplyCrsPostController extends CrsBaseController {
 
         Integer userId = null;
         if(applicantId == null){
-            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:edit");
+            ShiroHelper.checkPermission("userApplyCrsPost:edit");
             userId = ShiroHelper.getCurrentUserId();
         }else{
-            SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
+            ShiroHelper.checkPermission("crsPost:list"); // 招聘管理 权限
             CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
             userId = crsApplicant.getUserId();
         }
@@ -275,10 +275,10 @@ public class UserApplyCrsPostController extends CrsBaseController {
 
         Integer userId = null;
         if(applicantId == null){
-            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:edit");
+            ShiroHelper.checkPermission("userApplyCrsPost:edit");
             userId = ShiroHelper.getCurrentUserId();
         }else{
-            SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
+            ShiroHelper.checkPermission("crsPost:list"); // 招聘管理 权限
             CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
             userId = crsApplicant.getUserId();
         }

@@ -149,7 +149,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 status = MemberConstants.MEMBER_QUIT_STATUS_APPLY;
             }
             if (type == 3) { // 组织部退回
-                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
                 status = MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
             }
@@ -261,7 +261,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 check2(memberQuit.getUserId());
             }
             if(type==3) {
-                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(id);
                 check3(memberQuit.getUserId());
             }

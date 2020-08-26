@@ -3,7 +3,6 @@ package shiro;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -197,7 +196,7 @@ public class ShiroHelper extends BaseShiroHelper{
         HttpSession session = request.getSession();
         String sessionId = session.getId();
         //System.out.println(sessionDAO.getActiveSessionsCache().keys());
-        SecurityUtils.getSubject().logout();
+        ShiroHelper.logout();
 
 		((EnterpriseCacheSessionDAO)sessionDAO).getActiveSessionsCache().remove(sessionId);
         // System.out.println(sessionDAO.getActiveSessionsCache().keys());

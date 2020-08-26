@@ -383,7 +383,7 @@ public class MemberStayService extends MemberBaseMapper {
 
                 check2(memberStay.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
             } else if (type == 3) {
-                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberStay = memberStayMapper.selectByPrimaryKey(id);
                 check3(memberStay.getId());
             } else {

@@ -82,7 +82,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdSendMsg_notifyPartyAdmins(HttpServletRequest request) {
 
-        SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_PMD_OW);
+        ShiroHelper.checkRole(RoleConstants.ROLE_PMD_OW);
 
         pmdSendMsgService.notifyPartyAdmins();
 

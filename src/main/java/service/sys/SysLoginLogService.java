@@ -6,7 +6,6 @@ import domain.sys.SysLoginLog;
 import domain.sys.SysLoginLogExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -15,6 +14,7 @@ import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.shiro.OnlineSession;
@@ -65,7 +65,7 @@ public class SysLoginLogService extends BaseMapper {
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
     public String log(Integer userId, String username, Byte type, boolean isSuccess, String remark) {
 
-        Serializable sessionId = SecurityUtils.getSubject().getSession().getId();
+        Serializable sessionId = ShiroHelper.getSession().getId();
         OnlineSession session = (OnlineSession) sessionDAO.readSession(sessionId);
 
         String userAgent = session.getUserAgent();
@@ -105,7 +105,6 @@ public class SysLoginLogService extends BaseMapper {
     public String trainInspectorLoginlog(Integer userId, String username, boolean isSuccess, String remark) {
 
         HttpServletRequest request = ContextHelper.getRequest();
-        /*  ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();*/
 
         String userAgent = RequestUtils.getUserAgent(request);
         String ip = IpUtils.getRealIp(request);

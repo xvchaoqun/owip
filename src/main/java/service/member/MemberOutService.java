@@ -388,7 +388,7 @@ public class MemberOutService extends MemberBaseMapper {
                 check1(memberOut.getId());
             }
             if (type == 2) {
-                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
 
                 memberOut = memberOutMapper.selectByPrimaryKey(id);
                 check2(memberOut.getId());

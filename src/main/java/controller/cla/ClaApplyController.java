@@ -83,7 +83,7 @@ public class ClaApplyController extends ClaBaseController {
         //int userId = ShiroHelper.getCurrentUserId();
 
         if(BooleanUtils.isTrue(isAdmin)){
-            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_CLAADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_CLAADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
         }else{

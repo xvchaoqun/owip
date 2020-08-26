@@ -341,7 +341,7 @@ public class MemberInService extends MemberBaseMapper {
                 }
             }
             if(type==2) {
-                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 addMemberByIn(memberIn.getUserId(), memberIn.getPoliticalStatus());
             }
 

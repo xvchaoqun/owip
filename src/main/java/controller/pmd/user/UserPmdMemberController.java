@@ -52,11 +52,11 @@ public class UserPmdMemberController extends PmdBaseController {
 
         if(isSelfPay){
             throw new UnauthorizedException();
-            //SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
+            //ShiroHelper.checkPermission("userPmdMember:setSalary");
             //return ShiroHelper.getCurrentUserId();
         }else{
             // 组织部管理员或支部管理员可代替设置工资
-            SecurityUtils.getSubject().checkPermission("userPmdMember:helpSetSalary");
+            ShiroHelper.checkPermission("userPmdMember:helpSetSalary");
 
             PmdMember _pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
@@ -86,7 +86,7 @@ public class UserPmdMemberController extends PmdBaseController {
 
         int userId;
         if(isSelf) {
-            SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
+            ShiroHelper.checkPermission("userPmdMember:setSalary");
             userId = ShiroHelper.getCurrentUserId();
         }else {
             userId = checkPayAuth(pmdMemberId, isSelf);

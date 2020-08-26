@@ -148,7 +148,7 @@ public class UserCrsPostController extends CrsBaseController {
 
         if(!ShiroHelper.isPermitted("crsPost:edit")){
             // 管理员和本人可以上传
-            SecurityUtils.getSubject().checkPermission("userCrsPost:*");
+            ShiroHelper.checkPermission("userCrsPost:*");
 
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
 

@@ -11,7 +11,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -84,7 +83,7 @@ public class ApplySelfController extends AbroadBaseController {
         String filePath = null;
         String fileName = null;
         if(BooleanUtils.isTrue(isAdmin)){
-            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
             if(_filePath!=null) {
@@ -422,9 +421,9 @@ public class ApplySelfController extends AbroadBaseController {
         modelMap.put("status", status);
 
         if(userId==null){
-            SecurityUtils.getSubject().checkPermission("applySelf:approvalList");
+            ShiroHelper.checkPermission("applySelf:approvalList");
         }else{
-            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
         }
 
         if (cadreId != null) {
@@ -450,9 +449,9 @@ public class ApplySelfController extends AbroadBaseController {
                                    Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
         if(userId==null){
             userId = ShiroHelper.getCurrentUserId();
-            SecurityUtils.getSubject().checkPermission("applySelf:approvalList");
+            ShiroHelper.checkPermission("applySelf:approvalList");
         }else{
-            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
         }
 
         Map map = applySelfService.findApplySelfList(userId, cadreId, _applyDate,

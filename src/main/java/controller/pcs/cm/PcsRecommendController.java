@@ -132,7 +132,7 @@ public class PcsRecommendController extends PcsBaseController {
             isFinish = null;
 
         }else {
-            SecurityUtils.getSubject().checkPermission("pcsRecommend:edit");
+            ShiroHelper.checkPermission("pcsRecommend:edit");
 
             PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin.getPartyId() != partyId) {
@@ -198,7 +198,7 @@ public class PcsRecommendController extends PcsBaseController {
     public String pcsRecommend_candidates(byte stage, byte type, ModelMap modelMap) {
 
         if(!ShiroHelper.isPermitted("pcsOw:admin")){
-            SecurityUtils.getSubject().checkPermission("pcsRecommend:list");
+            ShiroHelper.checkPermission("pcsRecommend:list");
         }
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
@@ -216,7 +216,7 @@ public class PcsRecommendController extends PcsBaseController {
                                            HttpServletResponse response) throws IOException {
 
         if(!ShiroHelper.isPermitted("pcsOw:admin")){
-            SecurityUtils.getSubject().checkPermission("pcsRecommend:edit");
+            ShiroHelper.checkPermission("pcsRecommend:edit");
         }
 
         List<PcsCandidate> candidates = new ArrayList<>();

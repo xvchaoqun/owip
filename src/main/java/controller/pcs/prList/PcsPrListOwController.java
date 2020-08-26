@@ -8,7 +8,6 @@ import domain.pcs.PcsPrCandidateExample;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsPrPartyBean;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.tool.paging.CommonList;
@@ -160,9 +160,9 @@ public class PcsPrListOwController extends PcsBaseController {
         }
 
         if(cls==4){
-            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+            ShiroHelper.checkPermission("pcsProposalOw:*");
         }else{
-            SecurityUtils.getSubject().checkPermission("pcsPrListOw:list");
+            ShiroHelper.checkPermission("pcsPrListOw:list");
         }
 
         // cls=1 全校党代表名单  cls=4 提案党代表名单
@@ -219,9 +219,9 @@ public class PcsPrListOwController extends PcsBaseController {
 
         if(cls==4){
             // 提案党代表名单
-            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+            ShiroHelper.checkPermission("pcsProposalOw:*");
         }else{
-            SecurityUtils.getSubject().checkPermission("pcsPrListOw:list");
+            ShiroHelper.checkPermission("pcsPrListOw:list");
         }
 
         if (null == pageSize) {

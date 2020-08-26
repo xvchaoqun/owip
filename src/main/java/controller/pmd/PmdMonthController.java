@@ -9,7 +9,6 @@ import domain.pmd.PmdPartyExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tool.fancytree.TreeNode;
@@ -236,7 +236,7 @@ public class PmdMonthController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
             pmdMonthService.updateEnd(monthId, true);
             logger.info(addLog(LogConstants.LOG_PMD, "更新结算缴费， %s", monthId));
             

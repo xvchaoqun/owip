@@ -366,7 +366,7 @@ public class DpMemberController extends DpBaseController {
         DpMember dpMember = dpMemberService.get(userId);
 
         if (dpMember == null){
-            SecurityUtils.getSubject().checkPermission("dpMember:edit");
+            ShiroHelper.checkPermission("dpMember:edit");
             DpMember dpMemberAdd = dpMemberMapper.selectByPrimaryKey(userId);
             if (dpMemberAdd != null ){
                 return failed(sysUserService.findById(userId).getRealname() + "用户已是党派成员");
@@ -381,7 +381,7 @@ public class DpMemberController extends DpBaseController {
             logger.info(addLog(LogConstants.LOG_DPMEMBER, "添加党派成员信息表： %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
                     dpPartyService.findAll().get(partyId).getName(), reason));
         } else {
-            SecurityUtils.getSubject().checkPermission("dpMember:edit");
+            ShiroHelper.checkPermission("dpMember:edit");
 
             //是否是共产党员
             Member member = memberService.get(userId);
@@ -402,13 +402,13 @@ public class DpMemberController extends DpBaseController {
 
         DpMember dpMember = null;
         if (userId != null) {
-            SecurityUtils.getSubject().checkPermission("dpMember:edit");
+            ShiroHelper.checkPermission("dpMember:edit");
 
             dpMember = dpMemberMapper.selectByPrimaryKey(userId);
             partyId = dpMember.getPartyId();
             modelMap.put("sysUser", CmTag.getUserById(userId));
         } else {
-           SecurityUtils.getSubject().checkPermission("dpMember:edit");
+           ShiroHelper.checkPermission("dpMember:edit");
         }
 
         Map<Integer, DpParty> dpPartyMap = dpPartyService.findAll();

@@ -557,7 +557,7 @@ public class MemberController extends MemberBaseController {
         SysUserView sysUser = sysUserService.findById(record.getUserId());
         Member member = memberService.get(userId);
         if (member == null) {
-            SecurityUtils.getSubject().checkPermission("member:add");
+            ShiroHelper.checkPermission("member:add");
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
@@ -578,7 +578,7 @@ public class MemberController extends MemberBaseController {
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
         } else {
 
-            SecurityUtils.getSubject().checkPermission("member:edit");
+            ShiroHelper.checkPermission("member:edit");
 
             if(member.getStatus()!= MemberConstants.MEMBER_STATUS_NORMAL) {
 
@@ -606,14 +606,14 @@ public class MemberController extends MemberBaseController {
 
         Member member = null;
         if (userId != null) {
-            SecurityUtils.getSubject().checkPermission("member:edit");
+            ShiroHelper.checkPermission("member:edit");
 
             member = memberMapper.selectByPrimaryKey(userId);
             partyId = member.getPartyId();
             branchId = member.getBranchId();
             modelMap.put("sysUser", sysUserService.findById(userId));
         } else {
-            SecurityUtils.getSubject().checkPermission("member:add");
+            ShiroHelper.checkPermission("member:add");
         }
 
         Map<Integer, Branch> branchMap = branchService.findAll();
@@ -663,7 +663,7 @@ public class MemberController extends MemberBaseController {
                 return failed("该成员是正式党员！");
             }
         } else {
-            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
 
             MemberExample example = new MemberExample();
             MemberExample.Criteria criteria = example.createCriteria();
