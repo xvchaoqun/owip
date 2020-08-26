@@ -192,12 +192,39 @@
         _save($(this).val())
     })
 
+    //候选人radio初始化赋值
+    defineWaschecked();
+    function defineWaschecked() {
+        $.each($(".candidate input[type=radio]"), function () {
+            if ($(this).is(":checked")){
+                $(this).data('waschecked', true);
+            } else {
+                $(this).data('waschecked', false);
+            }
+        })
+    }
+
     $(".candidate input[type=radio]").click(function (e) {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
         if ($(this).val() == ${RESULT_STATUS_AGREE} || $(this).val() == ${RESULT_STATUS_ABSTAIN}) {
             $otherTr.hide();
         } else {
             $otherTr.show();
+        }
+
+        var $radio = $(this);
+        if ($radio.data('waschecked') == true){
+            $radio.attr('checked', false);
+            $radio.data('waschecked', false);
+        } else {
+            $radio.attr('checked', true);
+            $radio.data('waschecked', true);
+        }
+        //console.log($radio.parent().siblings("div").find('input[type="radio"]'))
+        //将未选中的“waschecked”都设置为false
+        $radio.parent().siblings("div").find('input[type="radio"]').data('waschecked', false);
+        if ($(this).val() == ${RESULT_STATUS_DISAGREE}&&!$(this).is(":checked")){
+            $otherTr.hide();
         }
     })
 
@@ -211,6 +238,7 @@
     $select.on("select2:select",function(e){
 
         var $this = $(this);
+        //console.log(selectedUserIds);
         //console.log(selectUsers);
         if($.inArray(parseInt($this.val()), selectedUserIds)>=0 || $.inArray(parseInt($this.val()), selectUsers)>=0) {
             $tip = $.tip({

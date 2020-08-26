@@ -214,15 +214,6 @@ public class UserPcsPollController extends PcsBaseController {
                         selectUserIdList.add(candidateUserId);
                     }
                 }
-                if (otherResultMap.size() > 0) {
-                    for (Map.Entry<String, Integer> entry : otherResultMap.entrySet()) {
-
-                        Byte _type = Byte.valueOf(entry.getKey().split("_")[0]);
-                        if (_type == type) {
-                            selectUserIdList.add(entry.getValue());
-                        }
-                    }
-                }
                 modelMap.put("selectUserIdList", selectUserIdList);
 
                 return (isMobile) ? "pcs/pcsPoll/mobile/indexSecond" : "pcs/pcsPoll/user/indexSecond";
@@ -337,15 +328,26 @@ public class UserPcsPollController extends PcsBaseController {
                         secondResultMap.put(radioName, radioValue);
                         if (radioValue == PcsConstants.RESULT_STATUS_DISAGREE) {
 
-                            String _otherUserId = request.getParameter(radioName + "_4");
-                            if (StringUtils.isNotBlank(_otherUserId)) {
-                                int otherUserId = Integer.valueOf(_otherUserId);
+                            String _otherValue = request.getParameter(radioName + "_4");
+                            if (StringUtils.isNotBlank(_otherValue)) {
+                                int otherValue = Integer.valueOf(_otherValue);
 
-                                if(candidateUserIds.contains(otherUserId)){
+                                if(candidateUserIds.contains(otherValue)){
                                     throw new OpException("另选他人中不允许选候选人，请重新选择");
                                 }
-                                otherResultMap.put(radioName + "_4", otherUserId);
+                                otherResultMap.put(radioName + "_4", otherValue);
                             }
+                        }else {
+                            if (otherResultMap.containsKey(radioName + "_4")){
+                                otherResultMap.remove(radioName + "_4");
+                            }
+                        }
+                    }else {
+                        if (secondResultMap.containsKey(radioName)){
+                            secondResultMap.remove(radioName);
+                        }
+                        if (otherResultMap.containsKey(radioName + "_4")){
+                            otherResultMap.remove(radioName + "_4");
                         }
                     }
                 }

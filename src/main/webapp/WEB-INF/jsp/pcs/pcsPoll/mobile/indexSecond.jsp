@@ -225,6 +225,18 @@
         _save($(this).val())
     })
 
+    //候选人radio初始化赋值
+    defineWaschecked();
+    function defineWaschecked() {
+        $.each($(".candidate input[type=radio]"), function () {
+            if ($(this).is(":checked")){
+                $(this).data('waschecked', true);
+            } else {
+                $(this).data('waschecked', false);
+            }
+        })
+    }
+
      $(".candidate input[type=radio]").click(function () {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
         if ($(this).val() == ${RESULT_STATUS_AGREE} || $(this).val() == ${RESULT_STATUS_ABSTAIN}) {
@@ -232,6 +244,19 @@
         } else {
             $otherTr.show();
         }
+
+         var $radio = $(this);
+         if ($radio.data('waschecked') == true){
+             $radio.attr('checked', false);
+             $radio.data('waschecked', false);
+         } else {
+             $radio.attr('checked', true);
+             $radio.data('waschecked', true);
+         }
+         $radio.parent().siblings("div").find('input[type="radio"]').data('waschecked', false);
+         if ($(this).val() == ${RESULT_STATUS_DISAGREE}&&!$(this).is(":checked")){
+             $otherTr.hide();
+         }
     })
 
     var $select = $.register.user_select($('select[data-rel=select2-ajax]'),
