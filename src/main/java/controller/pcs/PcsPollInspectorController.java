@@ -23,7 +23,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -45,7 +44,8 @@ public class PcsPollInspectorController extends PcsBaseController {
     @RequiresPermissions("pcsPollInspector:list")
     @RequestMapping("/pcsPollInspector_data")
     @ResponseBody
-    public void pcsPollInspector_data(HttpServletResponse response,
+    public void pcsPollInspector_data(HttpServletRequest request,
+                                      HttpServletResponse response,
                                     int pollId,
                                     String username,
                                     Integer isPositive,
@@ -53,7 +53,7 @@ public class PcsPollInspectorController extends PcsBaseController {
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                 Integer pageSize, Integer pageNo) throws Exception {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -87,7 +87,7 @@ public class PcsPollInspectorController extends PcsBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            pcsPollInspector_export(pollId, example, response);
+            pcsPollInspector_export(pollId, example, request, response);
             return;
         }
 
@@ -212,7 +212,7 @@ public class PcsPollInspectorController extends PcsBaseController {
         return "pcs/pcsPoll/pcsPollInspector/pcspollInspector_Result";
     }
 
-    public void pcsPollInspector_export(Integer pollId, PcsPollInspectorExample example, HttpServletResponse response) {
+    public void pcsPollInspector_export(Integer pollId, PcsPollInspectorExample example, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         List<PcsPollInspector> records = pcsPollInspectorMapper.selectByExample(example);
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
@@ -221,7 +221,7 @@ public class PcsPollInspectorController extends PcsBaseController {
         Integer branchId = pcsPoll.getBranchId();
 
         int rownum = records.size();
-        String[] titles = {"登录账号|100","登录密码|100","所属二级党组织|300","所属党支部|252","投票人身份|100","是否完成投票|100"};
+        String[] titles = {"登录账号|100","登录密码|100","所属二级党组织|300","所属党支部|252","投票人身份|100","是否完成投票|100","手机端登录二维码|68"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PcsPollInspector record = records.get(i);
@@ -233,17 +233,18 @@ public class PcsPollInspectorController extends PcsBaseController {
             if(record.getBranchId() != null){
                 pcsBranch = pcsBranchService.get(configId, partyId, branchId);
             }
+
             String[] values = {
                     record.getUsername(),
                     record.getPasswd(),
                     pcsParty == null ? "" : pcsParty.getName(),
                     pcsBranch == null ? "" : pcsBranch.getName(),
                     record.getIsPositive() == null ? "" : BooleanUtils.isTrue(record.getIsPositive()) ? "正式党员" : "预备党员",
-                    BooleanUtils.isTrue(record.getIsFinished()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsFinished()) ? "是" : "否"
             };
             valuesList.add(values);
         }
         String fileName = String.format(pcsPoll.getName() + "投票投票人账号(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-        ExportHelper.export(titles, valuesList, fileName, response);
+        pcsPollInspectorService.export(titles, valuesList, fileName, request, response);
     }
 }

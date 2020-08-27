@@ -2,6 +2,15 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_1_pc_notice')}" var="_1_pc"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_2_pc_notice')}" var="_2_pc"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_3_pc_notice')}" var="_3_pc"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_1_m_notice')}" var="_1_m"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_2_m_notice')}" var="_2_m"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_3_m_notice')}" var="_3_m"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_1_paper_notice')}" var="_1_paper"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_2_paper_notice')}" var="_2_paper"/>
+<c:set value="${cm:getHtmlFragment('hf_pcs_poll_3_paper_notice')}" var="_3_paper"/>
 
 <c:set value="${_pMap['pcs_poll_site_name']}" var="_p_pcsSiteName"/>
 <c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>

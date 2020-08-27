@@ -4,10 +4,29 @@ import controller.global.OpException;
 import domain.pcs.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.util.Units;
+import org.apache.poi.xssf.streaming.SXSSFDrawing;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.tool.qrcode.QRCodeUtil;
+import sys.utils.ExportHelper;
+import sys.utils.MSUtils;
+import sys.utils.RequestUtils;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 @Service
@@ -124,5 +143,88 @@ public class PcsPollInspectorService extends PcsBaseMapper {
         List<PcsPollInspector> inspectors = pcsPollInspectorMapper.selectByExample(example);
 
         return inspectors.size() > 0 ? inspectors.get(0) : null;
+    }
+
+    //将二维码在excel中导出
+    public void export(String[] titles,
+                       List<String[]> valuesList,
+                       String fileName,
+                       HttpServletRequest request,
+                       HttpServletResponse response) throws Exception {
+
+        SXSSFWorkbook wb = new SXSSFWorkbook(500);
+        SXSSFSheet sheet = (SXSSFSheet) ExportHelper.createSafeSheet(wb, fileName);
+
+        //excel行高列宽像素换算1unit=1.3651px=0.03612cm
+        sheet.setDefaultRowHeightInPoints(50);//excel// 行高
+        Row firstRow = sheet.createRow(0);
+
+        // 创建表头样式
+        CellStyle cellStyle = MSUtils.getHeadStyle2(wb);
+
+        String[] aligns = new String[titles.length];
+        int width;
+        for (int i = 0; i < titles.length; i++) {
+
+            String _title = titles[i];
+            String[] split = _title.split("\\|");
+            Cell cell = firstRow.createCell(i);
+            cell.setCellValue(split[0]);
+
+            cell.setCellStyle(cellStyle);
+
+            if (split.length > 1) {
+                try {
+                    width = Integer.valueOf(split[1]);
+                    sheet.setColumnWidth(i, (short) (35.7 * width));
+                } catch (Exception e) {
+                    throw new OpException("export error");
+                }
+            }
+            if (split.length > 2) {
+                aligns[i] = split[2];
+            } else {
+                aligns[i] = null;
+            }
+        }
+        CellStyle centerCellStyle = ExportHelper.createCenterCellStyle(wb);
+        CellStyle leftCellStyle = ExportHelper.createCenterCellStyle(wb);
+        CellStyle rightCellStyle = ExportHelper.createCenterCellStyle(wb);
+
+        for (int i = 0; i < valuesList.size(); i++) {
+
+            String[] values = valuesList.get(i);
+            Row row = sheet.createRow(i + 1);
+
+            //生成、设置二维码
+            String content = RequestUtils.getHomeURL(request) + "/pcs/login?u=" + values[0] + "&p=" + values[1];
+            ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();//读进图片
+            BufferedImage bufferImg = QRCodeUtil.createImage(content, null, true);
+            ImageIO.write(bufferImg, "png", byteArrayOut);
+
+            SXSSFDrawing drawingPatriarch = sheet.createDrawingPatriarch();
+            //调整图片的大小（坐标参数比较大），然后把图片插入excel中
+            XSSFClientAnchor anchor = new XSSFClientAnchor(4* Units.EMU_PER_PIXEL, 4* Units.EMU_PER_PIXEL,
+                    -4* Units.EMU_PER_PIXEL,  -4* Units.EMU_PER_PIXEL, titles.length-1, i+1, titles.length, i+2);
+            anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_DO_RESIZE);
+            drawingPatriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), XSSFWorkbook.PICTURE_TYPE_PNG));
+
+            //插入数据
+            for (int j = 0; j < titles.length-1; j++) {
+
+                Cell cell = row.createCell(j);
+                cell.setCellValue(values[j]);
+
+                if (org.apache.commons.lang3.StringUtils.equalsIgnoreCase(aligns[j], "left"))
+                    cell.setCellStyle(leftCellStyle);
+                else if (org.apache.commons.lang3.StringUtils.equalsIgnoreCase(aligns[j], "right"))
+                    cell.setCellStyle(rightCellStyle);
+                else
+                    cell.setCellStyle(centerCellStyle);
+            }
+        }
+
+        ExportHelper.output(wb, fileName + ".xlsx", request, response);
+
     }
 }

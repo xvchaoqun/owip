@@ -69,7 +69,12 @@
                 <c:if test="${param.notice==1 || !tempResult.agree}">
                     <form id="agreeForm" method="post">
                         <div class="modal-body" style="align: left;word-wrap:break-word">
-                                ${cm:htmlUnescape(pcsPoll.mobileNotice)}
+                            <c:if test="${pcsPoll.stage==PcsConstants.PCS_POLL_SECOND_STAGE}">
+                                ${cm:htmlUnescape(_2_m.content)}
+                            </c:if>
+                            <c:if test="${pcsPoll.stage==PcsConstants.PCS_POLL_THIRD_STAGE}">
+                                ${cm:htmlUnescape(_3_m.content)}
+                            </c:if>
                         </div>
                         <div class="span12"
                              style="margin-top: 10px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">

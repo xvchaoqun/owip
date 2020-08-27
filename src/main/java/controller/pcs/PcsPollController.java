@@ -426,7 +426,7 @@ public class PcsPollController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsPoll:edit")
+/*    @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_noticeEdit", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsPoll_noticeEdit(int id, String notice, Integer isMobile, HttpServletRequest request) {
@@ -474,7 +474,7 @@ public class PcsPollController extends PcsBaseController {
         pcsPollService.updateByPrimaryKeySelective(record);
         logger.info(log( LogConstants.LOG_PCS, "更新党代会投票说明（纸质票）：{0}", record.getId() + "_" + record.getName()));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void pcsPoll_export(PcsPollExample example, HttpServletResponse response) {
 

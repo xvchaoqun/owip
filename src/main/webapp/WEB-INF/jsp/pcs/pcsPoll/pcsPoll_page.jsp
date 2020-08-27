@@ -186,7 +186,7 @@ pageEncoding="UTF-8" %>
                     return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
                 }, frozen: true},
             { label: '投票名称',name: 'name',align:'left', width: 252, frozen: true},
-            { label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
+            /*{ label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                             .format(rowObject.id)
                         + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
@@ -197,7 +197,7 @@ pageEncoding="UTF-8" %>
                 var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 查看</button>'
                     .format(rowObject.id);
                 return  str;
-            }},
+            }},*/
             { label: '投票<br/>账号管理',name: '_inspector', width:80, formatter: function (cellvalue, options, rowObject) {
 
                     return $.button.openView({

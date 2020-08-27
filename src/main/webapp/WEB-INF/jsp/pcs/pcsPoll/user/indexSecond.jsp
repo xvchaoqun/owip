@@ -44,9 +44,13 @@
         <c:if test="${param.notice==1 || !tempResult.agree}">
             <form id="agreeForm" method="post">
                 <div style="width:70%; margin:0 auto;">
-
                     <div class="modal-body" style="text-align: left;word-wrap:break-word">
-                            ${cm:htmlUnescape(pcsPoll.notice)}
+                        <c:if test="${pcsPoll.stage==PcsConstants.PCS_POLL_SECOND_STAGE}">
+                            ${cm:htmlUnescape(_2_pc.content)}
+                        </c:if>
+                        <c:if test="${pcsPoll.stage==PcsConstants.PCS_POLL_THIRD_STAGE}">
+                            ${cm:htmlUnescape(_3_pc.content)}
+                        </c:if>
                     </div>
                 </div>
 
