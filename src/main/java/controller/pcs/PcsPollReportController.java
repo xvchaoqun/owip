@@ -62,9 +62,6 @@ public class PcsPollReportController extends PcsBaseController {
     @ResponseBody
     public void pcsPollReport_data(HttpServletResponse response,
                                    Integer userId,
-                                   Integer partyId,
-                                   Integer branchId,
-                                   Byte stage,
                                    @RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
                                    Integer pollId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
@@ -99,7 +96,7 @@ public class PcsPollReportController extends PcsBaseController {
             if (type==PcsConstants.PCS_USER_TYPE_PR) {
                 pcsPollReport_prExport(example, pollId, response);//代表候选人推荐人选统计结果 模板6
             }else if (type!=PcsConstants.PCS_USER_TYPE_PR) {
-                //委员会委员候选人推荐人选汇总表 模板7
+                //委员会委员候选人推荐人选汇总表 模板8
                 //纪律检查委员会委员候选人推荐人选汇总表 模板8
                 pcsPollReport_otherExport(example, pollId, type, response);
             }
@@ -193,22 +190,22 @@ public class PcsPollReportController extends PcsBaseController {
     public void pcsPollReport_export(List<PcsFinalResult> records, byte stage, HttpServletResponse response) {
 
         int rownum = records.size();
-        String[] titles = {"学工号|120", "姓名|100", "所在单位|252", "推荐人类型|100", "推荐提名党支部数|100",
-                "推荐提名党员数|100", "推荐提名正式党员数|100", "推荐提名预备党员数|100", "不同意票数|100", "弃权票数|100"};
+        String[] titles = {"学工号|120", "姓名|100", "推荐提名党支部数|100","推荐提名党员数|100", "推荐提名正式党员数|100",
+                "推荐提名预备党员数|100", "不同意票数|100", "弃权票数|100", "推荐人类型|100", "所在单位|252"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PcsFinalResult record = records.get(i);
             String[] values = {
                     record.getCode(),
                     record.getRealname(),
-                    record.getUnit(),
-                    PcsConstants.PCS_USER_TYPE_MAP.get(record.getType()),
                     record.getBranchNum() + "",
                     record.getSupportNum() + "",
                     record.getPositiveBallot() + "",
                     record.getGrowBallot() + "",
                     stage==PcsConstants.PCS_POLL_FIRST_STAGE?"--":record.getNotSupportNum() + "",
-                    stage==PcsConstants.PCS_POLL_FIRST_STAGE?"--":record.getNotVoteNum() + ""
+                    stage==PcsConstants.PCS_POLL_FIRST_STAGE?"--":record.getNotVoteNum() + "",
+                    PcsConstants.PCS_USER_TYPE_MAP.get(record.getType()),
+                    record.getUnit()
             };
             valuesList.add(values);
         }
@@ -254,7 +251,8 @@ public class PcsPollReportController extends PcsBaseController {
 
         int sep = 1;
         int startRow = 3;
-        int rowInsert = reportList.size()/2;
+        float reportSize = reportList.size();
+        int rowInsert = reportList.size()/2 + (int)(reportSize%2F>0F?1:0);
         ExcelUtils.insertRow(wb, sheet, startRow, rowInsert - 1);
         int rowCount = 3;
         boolean flag = false;
@@ -262,7 +260,7 @@ public class PcsPollReportController extends PcsBaseController {
 
         for (PcsPollReport report : reportList) {
             if (rowCount >= rowInsert+3) {
-                flag = true;
+                flag = true;//true导入第二列结果数据 false导入第一列结果数据
                 rowCount = 3;
             }
             row = sheet.getRow(rowCount++);

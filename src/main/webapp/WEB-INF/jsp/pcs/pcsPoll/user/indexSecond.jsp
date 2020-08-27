@@ -209,14 +209,23 @@
     }*/
 
     $(".candidate input[type=radio]").click(function (e) {
+        var $radio = $(this);
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
-        if ($(this).val() == ${RESULT_STATUS_AGREE} || $(this).val() == ${RESULT_STATUS_ABSTAIN}) {
+        if ($radio.val() == ${RESULT_STATUS_AGREE} || $radio.val() == ${RESULT_STATUS_ABSTAIN}) {
             $otherTr.hide();
         } else {
             $otherTr.show();
         }
 
-        var $radio = $(this);
+        if($radio.val()!=${RESULT_STATUS_DISAGREE}){
+            //console.log("-----"+$radio.attr('name'))
+            $("select[name="+$radio.attr('name')+"_4]").val(null).trigger("change");
+
+            otherUserIds = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+                return parseInt($(sel).val());
+            });
+        }
+
         /*if ($radio.data('waschecked') == true){
             $radio.attr('checked', false);
             $radio.data('waschecked', false);
@@ -228,18 +237,8 @@
         //将未选中的“waschecked”都设置为false
         $radio.parent().siblings("div").find('input[type="radio"]').data('waschecked', false);
         if ($(this).val() == ${RESULT_STATUS_DISAGREE}&&!$(this).is(":checked")){
-            $otherTr.hide();
+                $otherTr.hide();
         }*/
-
-
-        if($radio.val()!=${RESULT_STATUS_DISAGREE}){
-            //console.log("-----"+$radio.attr('name'))
-            $("select[name="+$radio.attr('name')+"_4]").val(null).trigger("change");
-
-            selectUsers = $.map($('select[data-rel=select2-ajax]'), function (sel) {
-                return parseInt($(sel).val());
-            });
-        }
     })
 
     var $select = $.register.user_select($('select[data-rel=select2-ajax]'),
@@ -247,14 +246,14 @@
             theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty selectUserIdList?'[]':selectUserIdList};
-    var selectUsers = [];
+    var otherUserIds = [];
     var $tip;
     $select.on("select2:select",function(e){
 
         var $this = $(this);
         //console.log(selectedUserIds);
-        //console.log(selectUsers);
-        if($.inArray(parseInt($this.val()), selectedUserIds)>=0 || $.inArray(parseInt($this.val()), selectUsers)>=0) {
+        //console.log(otherUserIds);
+        if($.inArray(parseInt($this.val()), selectedUserIds)>=0 || $.inArray(parseInt($this.val()), otherUserIds)>=0) {
             $tip = $.tip({
                 $target: $this.closest("td").find(".select2-container"),
                 at: 'top center', my: 'bottom center', type: 'success',
@@ -266,9 +265,10 @@
                 $tip.qtip('destroy', true);
             }
         }
-        selectUsers = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+        otherUserIds = $.map($('select[data-rel=select2-ajax]'), function (sel) {
             return parseInt($(sel).val());
         });
+        //console.log(otherUserIds);
     });
     $select.on("select2:unselect", function (evt) {
         var userId = $(this).val();

@@ -377,7 +377,7 @@
     <select id="selectSecondResultList" parameterType="map" resultType="persistence.pcs.common.PcsFinalResult">
         select poll_id as pollId, candidate_user_id as userId, sum(if(status=1, 1, 0)) as supportNum,
         sum(if(status=1 and is_positive, 1, 0)) as positiveBallot, sum(if(status=1 and !is_positive, 1, 0)) as growBallot,
-        sum(if(status=2, 1, 0)) as notSupportNum from pcs_poll_result
+        sum(if(status=2, 1, 0)) as notSupportNum, sum(if(status=3, 1, 0)) as notVoteNum from pcs_poll_result
         where poll_id=#{pollId} and type=#{type}
         <if test="userId != null">
             and candidate_user_id = #{userId}
@@ -387,7 +387,7 @@
         union all
 
         select poll_id as pollId, user_id as userId, count(*) as supportNum, sum(if(is_positive, 1, 0))  as positiveBallot,
-               sum(if(!is_positive, 1, 0))  as growBallot, 0 as notSupportNum
+               sum(if(!is_positive, 1, 0))  as growBallot, 0 as notSupportNum, sum(if(status=3, 1, 0)) as notVoteNum
         from pcs_poll_result
          <include refid="selectResult_where"/>
         and status=2 and user_id is not null

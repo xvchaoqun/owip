@@ -231,7 +231,7 @@
     })
 
     //候选人radio初始化赋值
-    defineWaschecked();
+    /*defineWaschecked();
     function defineWaschecked() {
         $.each($(".candidate input[type=radio]"), function () {
             if ($(this).is(":checked")){
@@ -240,7 +240,7 @@
                 $(this).data('waschecked', false);
             }
         })
-    }
+    }*/
 
      $(".candidate input[type=radio]").click(function () {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
@@ -250,7 +250,16 @@
             $otherTr.show();
         }
 
-         var $radio = $(this);
+         if($radio.val()!=${RESULT_STATUS_DISAGREE}){
+             //console.log("-----"+$radio.attr('name'))
+             $("select[name="+$radio.attr('name')+"_4]").val(null).trigger("change");
+
+             otherUserIds = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+                 return parseInt($(sel).val());
+             });
+         }
+
+        /* var $radio = $(this);
          if ($radio.data('waschecked') == true){
              $radio.attr('checked', false);
              $radio.data('waschecked', false);
@@ -261,7 +270,7 @@
          $radio.parent().siblings("div").find('input[type="radio"]').data('waschecked', false);
          if ($(this).val() == ${RESULT_STATUS_DISAGREE}&&!$(this).is(":checked")){
              $otherTr.hide();
-         }
+         }*/
     })
 
     var $select = $.register.user_select($('select[data-rel=select2-ajax]'),
@@ -269,13 +278,13 @@
             theme:'default',language:"zh-CN"});
 
     var selectedUserIds=${empty selectUserIdList?'[]':selectUserIdList};
-    var selectUsers = [];
+    var otherUserIds = [];
     //console.log(selectedUserIds)
     var $tip;
     $select.on("select2:select",function(e){
 
         var $this = $(this);
-        if($.inArray(parseInt($this.val()), selectedUserIds)>=0 || $.inArray(parseInt($this.val()), selectUsers)>=0) {
+        if($.inArray(parseInt($this.val()), selectedUserIds)>=0 || $.inArray(parseInt($this.val()), otherUserIds)>=0) {
             $tip = $.tip({
                 $target: $this.closest("td").find(".select2-container"),
                 at: 'top center', my: 'bottom center', type: 'success',
@@ -287,8 +296,15 @@
                 $tip.qtip('destroy', true);
             }
         }
-        selectUsers = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+        otherUserIds = $.map($('select[data-rel=select2-ajax]'), function (sel) {
             return parseInt($(sel).val());
+        });
+    });
+    $select.on("select2:unselect", function (evt) {
+        var userId = $(this).val();
+        otherUserIds = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+            if(userId!=$(sel).val())
+                return parseInt($(sel).val());
         });
     });
 

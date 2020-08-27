@@ -90,8 +90,10 @@ public class PcsPollReportService extends PcsBaseMapper {
             for (PcsPollReport _pcsPollReport : reportList) {
                 selectedUserIdSet.add(_pcsPollReport.getUserId());
             }
+            //使用Set集合判断是否超额推荐
             Set<Integer> _selectedUserIdSet = new HashSet<>();
-            _selectedUserIdSet.addAll(Arrays.asList(userIds));//用于判断是否超额推荐
+            _selectedUserIdSet.addAll(selectedUserIdSet);
+            _selectedUserIdSet.addAll(Arrays.asList(userIds));
 
             int requiredCount = 0;
             if (type == PcsConstants.PCS_USER_TYPE_PR) {
@@ -101,7 +103,7 @@ public class PcsPollReportService extends PcsBaseMapper {
             } else if (type == PcsConstants.PCS_USER_TYPE_JW) {
                 requiredCount = CmTag.getIntProperty("pcs_poll_jw_num");
             }
-            if ((_selectedUserIdSet.size()) > requiredCount) {
+            if (_selectedUserIdSet.size() > requiredCount) {
 
                 throw new OpException("设置失败，超过{0}的最大推荐数量({1})",
                         PcsConstants.PCS_USER_TYPE_MAP.get(type), requiredCount);
