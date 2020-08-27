@@ -255,7 +255,7 @@ public class PcsOwController extends PcsBaseController {
     @RequestMapping(value = "/pcsCandidateChosen_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsCandidateChosen_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
-        // chosenId
+        // candidateId
         pcsOwService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_PCS, "入选名单调序：%s, %s", id, addNum));
 

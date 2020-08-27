@@ -3,12 +3,16 @@ package service.pcs;
 import controller.global.OpException;
 import domain.pcs.*;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.pcs.common.IPcsCandidate;
 import shiro.ShiroHelper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PcsOwService extends PcsBaseMapper {
@@ -36,6 +40,7 @@ public class PcsOwService extends PcsBaseMapper {
     }
 
     // 入选名单
+    @CacheEvict(value = "DataCaches", key = "'pcsCandidateUserIds_' + #configId + '_' + #stage + '_' + #type")
     @Transactional
     public void choose(Integer[] ids, boolean choose, int configId, byte stage, byte type) {
 
@@ -79,12 +84,28 @@ public class PcsOwService extends PcsBaseMapper {
 
     // 升序排列
     @Transactional
-    public void changeOrder(int chosenId, int addNum) {
+    @CacheEvict(value = "DataCaches", key = "'pcsCandidateUserIds_' + #result.configId + '_' + #result.stage + '_' + #result.type")
+    public PcsCandidateChosen changeOrder(int candidateId, int addNum) {
 
-        PcsCandidateChosen entity = pcsCandidateChosenMapper.selectByPrimaryKey(chosenId);
+        PcsCandidate pcsCandidate = pcsCandidateMapper.selectByPrimaryKey(candidateId);
+        int userId = pcsCandidate.getUserId();
+        int configId = pcsCandidate.getConfigId();
+        byte stage = pcsCandidate.getStage();
+        byte type = pcsCandidate.getType();
+
+        PcsCandidateChosen entity = getPcsCandidateChosen(userId, configId, stage, type);
+
         changeOrder(TABLE_NAME, "config_id=" + entity.getConfigId() +
                 " and stage=" + entity.getStage() +
-                " and type=" + entity.getType(), ORDER_BY_ASC, chosenId, addNum);
+                " and type=" + entity.getType(), ORDER_BY_ASC, entity.getId(), addNum);
+        return entity;
+    }
+
+    @Cacheable(value = "DataCaches", key = "'pcsCandidateUserIds_' + #configId + '_' + #stage + '_' + #type")
+    public List<Integer> getCandidateUserIds(int configId, byte stage, byte type){
+
+        List<IPcsCandidate> candidates = iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
+        return candidates.stream().map(IPcsCandidate::getUserId).collect(Collectors.toList());
     }
 
     // 下发名单

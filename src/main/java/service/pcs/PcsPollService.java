@@ -8,7 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsFinalResult;
 import service.LoginUserService;
 import shiro.ShiroHelper;
@@ -28,6 +27,8 @@ public class PcsPollService extends PcsBaseMapper {
     private PcsPrCandidateService pcsPrCandidateService;
     @Autowired
     private PcsConfigService pcsConfigService;
+    @Autowired
+    private PcsOwService pcsOwService;
     @Autowired
     private PcsPartyService pcsPartyService;
     @Autowired
@@ -305,9 +306,7 @@ public class PcsPollService extends PcsBaseMapper {
                 List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
                 candidateUserIds = candidates.stream().map(PcsPrCandidate::getUserId).collect(Collectors.toList());
             }else{ // 两委委员
-
-                List<IPcsCandidate> candidates = iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
-                candidateUserIds = candidates.stream().map(IPcsCandidate::getUserId).collect(Collectors.toList());
+                candidateUserIds = pcsOwService.getCandidateUserIds(configId, stage, type);
             }
         }
 
