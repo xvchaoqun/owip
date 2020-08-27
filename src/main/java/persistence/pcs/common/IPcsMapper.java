@@ -16,6 +16,17 @@ import java.util.Map;
  */
 public interface IPcsMapper {
 
+    //更新后党代会分党委统计结果（在设置不参与/参与、删除党支部、同步党组织信息时）
+    @Update("update pcs_party pp,(select count(*) as branch_count, sum(member_count) as member_count, " +
+            "sum(positive_count) as positive_count, sum(student_member_count) as student_member_count, " +
+            "sum(teacher_member_count) as teacher_member_count,  sum(retire_member_count) as retire_member_count" +
+            " from pcs_branch where party_id=#{partyId} and is_deleted=0 and config_id=#{configId}) pb " +
+            "set pp.branch_count=pb.branch_count,pp.member_count=pb.member_count,pp.positive_count=pb.positive_count," +
+            "pp.student_member_count=pb.student_member_count,pp.teacher_member_count=pb.teacher_member_count," +
+            "pp.retire_member_count=pb.retire_member_count" +
+            " where party_id=#{partyId} and config_id=#{configId}")
+    void updatePcsPartyCount(@Param("configId") int configId,@Param("partyId") Integer partyId);
+
     // 读取当前系统中应参与党代会的分党委（未删除、党员总数大于0的）
     List<PcsParty> expectPcsPartyList(@Param("configId") int configId);
 

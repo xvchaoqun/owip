@@ -12,7 +12,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -257,7 +256,7 @@ public class PcsRecommendController extends PcsBaseController {
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
 
         if (!ShiroHelper.isPermitted("pcsOw:admin")
-                ||(pcsAdmin!=null&&pcsAdmin.getPartyId() != partyId)) {
+                &&(pcsAdmin!=null&&pcsAdmin.getPartyId() != partyId)) {
             throw new UnauthorizedException();
         }
 
@@ -306,8 +305,14 @@ public class PcsRecommendController extends PcsBaseController {
                 throw new OpException("第{0}行会议类型[{1}]有误", row, _type);
             }
 
+            String  _vote = StringUtils.trimToNull(xlsRow.get(3));
+            String _positiveVote = StringUtils.trimToNull(xlsRow.get(4));
+
             PcsCandidate  candidate= pcsCandidateService.getCandidateInfo(uv.getUserId());
             candidate.setType(pcsUserType);
+
+            candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);
+            candidate.setPositiveVote(_positiveVote!=null?Integer.valueOf(_positiveVote):null);
 
             candidates.add(candidate);
         }

@@ -1912,6 +1912,66 @@ public class PcsPrCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andPositiveVoteIsNull() {
+            addCriterion("positive_vote is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteIsNotNull() {
+            addCriterion("positive_vote is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteEqualTo(Integer value) {
+            addCriterion("positive_vote =", value, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteNotEqualTo(Integer value) {
+            addCriterion("positive_vote <>", value, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteGreaterThan(Integer value) {
+            addCriterion("positive_vote >", value, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("positive_vote >=", value, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteLessThan(Integer value) {
+            addCriterion("positive_vote <", value, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteLessThanOrEqualTo(Integer value) {
+            addCriterion("positive_vote <=", value, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteIn(List<Integer> values) {
+            addCriterion("positive_vote in", values, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteNotIn(List<Integer> values) {
+            addCriterion("positive_vote not in", values, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteBetween(Integer value1, Integer value2) {
+            addCriterion("positive_vote between", value1, value2, "positiveVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveVoteNotBetween(Integer value1, Integer value2) {
+            addCriterion("positive_vote not between", value1, value2, "positiveVote");
+            return (Criteria) this;
+        }
+
         public Criteria andVote3IsNull() {
             addCriterion("vote3 is null");
             return (Criteria) this;

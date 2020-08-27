@@ -41,15 +41,27 @@ public class PcsBranchService extends PcsBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsBranchMapper.updateByExampleSelective(record,example);
 
+        //更新分党委统计数量
+        for(Integer id:ids){
+            PcsBranch pcsBranch=pcsBranchMapper.selectByPrimaryKey(id);
+            iPcsMapper.updatePcsPartyCount(pcsBranch.getConfigId(),pcsBranch.getPartyId());
+        }
+
     }
 
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-        PcsBranchExample example = new PcsBranchExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pcsBranchMapper.deleteByExample(example);
+     /*   PcsBranchExample example = new PcsBranchExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));*/
 
+        //更新分党委统计数量
+        for(Integer id:ids){
+            PcsBranch pcsBranch=pcsBranchMapper.selectByPrimaryKey(id);
+            iPcsMapper.updatePcsPartyCount(pcsBranch.getConfigId(),pcsBranch.getPartyId());
+
+            pcsBranchMapper.deleteByPrimaryKey(id);
+        }
     }
 }

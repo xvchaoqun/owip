@@ -201,6 +201,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 _candidate.setUserId(userId);
                 _candidate.setBranchVote(bean.getBranchVote());
                 _candidate.setVote(bean.getVote());
+                _candidate.setPositiveVote(bean.getPositiveVote());
                 _candidate.setGender(bean.getGender());
                 _candidate.setBirth(DateUtils.parseDate(bean.getBirth(), DateUtils.YYYY_MM_DD));
                 _candidate.setNation(StringUtils.trim(bean.getNation()));

@@ -410,6 +410,10 @@ public class PcsPrPartyController extends PcsBaseController {
                 throw new OpException("第{0}行工号[{1}]不符合党代表的基本条件（正式党员）", row, code);
             }
 
+            String _branchVote = StringUtils.trim(xlsRow.get(2));
+            String _vote = StringUtils.trim(xlsRow.get(3));
+            String _positiveVote = StringUtils.trim(xlsRow.get(4));
+
             PcsPrCandidate candidate=pcsPrPartyService.getCandidateInfo(uv.getId(),stage);
 
             if(member.getType()==MEMBER_TYPE_STUDENT){
@@ -424,6 +428,9 @@ public class PcsPrPartyController extends PcsBaseController {
                     candidate.setType(PCS_PR_TYPE_PRO);
                 }
             }
+            candidate.setBranchVote(_branchVote!=null?Integer.valueOf(_branchVote):null);
+            candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);
+            candidate.setPositiveVote(_positiveVote!=null?Integer.valueOf(_positiveVote):null);
 
             candidates.add(candidate);
         }
