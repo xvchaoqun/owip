@@ -15,7 +15,7 @@
         <div class="widget-box transparent">
             <div class="widget-body">
                 <div class="widget-main no-padding">
-                    <div class="tab-content padding-4">
+                    <div class="tab-content padding-4 multi-row-head-table">
                         <form class="form-inline" action="${ctx}/pcs/pcsPrParty_candidate_au" id="recommendForm"
                               method="post">
                             <input type="hidden" name="stage" value="${param.stage}">
@@ -195,7 +195,7 @@
     .panel{
         margin-bottom: 10px;
     }
-    .panel input.branchVote, .panel input.vote {
+    .panel input.branchVote, .panel input.vote, .panel input.positiveVote {
         width: 60px !important;
         padding: 0px !important;
         text-align: center;
@@ -324,11 +324,17 @@
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
         }},
         {
-            label: '票数', name: 'vote', formatter: function (cellvalue, options, rowObject) {
+            label: '推荐提名<br/>的党员数', name: 'vote', width: 150, formatter: function (cellvalue, options, rowObject) {
 
-            return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
+                return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
-        }},
+            }},
+        {
+            label: '推荐提名<br/>的正式党员数', name: 'positiveVote', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                return ('<input type="text" name="positiveVote{0}" data-container="{1}" value="{2}" class="positiveVote num" maxlength="4">')
+                    .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
+            }},
         {
             label: '性别', name: 'gender', width: 120, formatter: function (cellvalue, options, rowObject) {
 
@@ -432,7 +438,7 @@
 
     $("#submitBtn").click(function () {
         var $null = null;
-        $(".gender, .branchVote, .vote, .birth, .nation", ".panel").each(function () {
+        $(".gender, .branchVote, .vote, .positiveVote, .birth, .nation", ".panel").each(function () {
             var $this = $(this);
             if ($.trim($this.val()) == '') {
                 $null = $this;
@@ -479,6 +485,7 @@
             item.userId = userId;
             item.branchVote = $.trim($("input.branchVote", $row).val());
             item.vote = $.trim($("input.vote", $row).val());
+            item.positiveVote = $.trim($("input.positiveVote", $row).val());
             item.gender = $.trim($("select.gender", $row).val());
             item.birth = $.trim($("input.birth", $row).val());
             item.nation = $.trim($("input.nation", $row).val());

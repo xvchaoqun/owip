@@ -69,6 +69,22 @@
         <div id="jqGridPager2"></div>
     </div>
 </div>
+
+<style>
+
+    .candidate-table th.ui-th-column div{
+        white-space:normal !important;
+        height:auto !important;
+        padding:0px;
+    }
+    #jqGrid2_vote,#jqGrid2_positiveVote
+    {
+        padding: 0;
+        font-size: 11px;
+    }
+
+</style>
+
 <script>
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
@@ -137,7 +153,8 @@
             }
             },
             {label: '提名支部数', name: 'branchVote'},
-            {label: '票数', name: 'vote', width: 80}
+            {label: '推荐提名<br/>的党员数', name: 'vote', width: 150},
+            {label: '推荐提名<br/>的正式党员数', name: 'positiveVote', width: 150}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

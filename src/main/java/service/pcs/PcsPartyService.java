@@ -115,6 +115,7 @@ public class PcsPartyService extends PcsBaseMapper {
                PcsParty pcsParty=get(configId,partyId);
 
                if(pcsParty!=null) {
+                   record.setId(pcsParty.getId());
                    pcsPartyMapper.updateByPrimaryKey(record);
                }else{
                    pcsPartyMapper.insertSelective(record);
@@ -135,6 +136,13 @@ public class PcsPartyService extends PcsBaseMapper {
                    pcsBranchMapper.insertSelective(record);
                }
            }
+
+           //更新所有分党委统计数量
+            for(PcsParty record:pcsParties){
+
+                Integer partyId=record.getPartyId();
+                iPcsMapper.updatePcsPartyCount(configId,partyId);
+            }
 
         }
     }

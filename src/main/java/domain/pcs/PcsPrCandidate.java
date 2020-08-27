@@ -60,6 +60,8 @@ public class PcsPrCandidate implements Serializable {
 
     private Integer vote;
 
+    private Integer positiveVote;
+
     private Integer vote3;
 
     private Boolean isChosen;
@@ -300,6 +302,14 @@ public class PcsPrCandidate implements Serializable {
 
     public void setVote(Integer vote) {
         this.vote = vote;
+    }
+
+    public Integer getPositiveVote() {
+        return positiveVote;
+    }
+
+    public void setPositiveVote(Integer positiveVote) {
+        this.positiveVote = positiveVote;
     }
 
     public Integer getVote3() {

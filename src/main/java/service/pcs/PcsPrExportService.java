@@ -929,7 +929,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 票数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote()));
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getPositiveVote()));
         }
 
         if (partyId != null) {

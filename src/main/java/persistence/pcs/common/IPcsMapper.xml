@@ -334,6 +334,7 @@
         group_concat(pc.branch_id) as branch_ids,
         count(pc.id) as branch_count,
         sum(pc.vote) as total_vote,
+        sum(pc.positive_vote) as total_positive_vote,
         sum(ifnull(prv.member_count,0)) as member_count,
         sum(ifnull(prv.expect_member_count, 0)) as expect_member_count,
         sum(ifnull(prv.actual_member_count, 0)) as actual_member_count,

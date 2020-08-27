@@ -9,6 +9,7 @@ public class PcsPrCandidateFormBean {
     private Integer userId;
     private Integer branchVote;
     private Integer vote;
+    private Integer positiveVote;
     private Byte gender;
     private String birth;
     private String nation;
@@ -46,6 +47,14 @@ public class PcsPrCandidateFormBean {
 
     public void setVote(Integer vote) {
         this.vote = vote;
+    }
+
+    public Integer getPositiveVote() {
+        return positiveVote;
+    }
+
+    public void setPositiveVote(Integer positiveVote) {
+        this.positiveVote = positiveVote;
     }
 
     public Byte getGender() {
