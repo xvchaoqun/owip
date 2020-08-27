@@ -99,13 +99,13 @@
              <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
         </table>
-         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+         <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
              <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="res_ids_add" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_add" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
-          </table>
+          </table>-->
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->

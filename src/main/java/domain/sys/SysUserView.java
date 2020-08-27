@@ -109,8 +109,6 @@ public class SysUserView implements Serializable {
 
     private String mResIdsMinus;
 
-    private Byte regStatus;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -471,13 +469,5 @@ public class SysUserView implements Serializable {
 
     public void setmResIdsMinus(String mResIdsMinus) {
         this.mResIdsMinus = mResIdsMinus == null ? null : mResIdsMinus.trim();
-    }
-
-    public Byte getRegStatus() {
-        return regStatus;
-    }
-
-    public void setRegStatus(Byte regStatus) {
-        this.regStatus = regStatus;
     }
 }

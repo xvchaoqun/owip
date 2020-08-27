@@ -6,33 +6,35 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/sysUser_au"
-             data-url-page="${ctx}/sysUser?locked=${locked}&regStatus=${regStatus}"
+             data-url-page="${ctx}/sysUser?cls=${cls}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="col-sm-12">
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
             ||not empty param.code ||not empty param.username ||not empty param.idcard
             ||not empty param.roleId ||not empty param.typeId}"/>
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li class="<c:if test="${!locked && regStatus!=USER_REG_STATUS_APPLY}">active</c:if>">
+                    <li class="<c:if test="${cls==1}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
-                           data-url="${ctx}/sysUser?locked=0"><i
+                           data-url="${ctx}/sysUser?cls=1"><i
                                 class="fa fa-circle-o-notch"></i> 账号管理</a>
                     </li>
-                    <li class="<c:if test="${!locked && regStatus==USER_REG_STATUS_APPLY}">active</c:if>">
+                    <c:if test="${_p_hasPartyModule}">
+                    <li class="<c:if test="${cls==2}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
-                           data-url="${ctx}/sysUser?locked=0&regStatus=${USER_REG_STATUS_APPLY}"><i
+                           data-url="${ctx}/sysUser?cls=2"><i
                                 class="fa fa-vcard-o "></i> 注册账号</a>
                     </li>
-                    <li class="<c:if test="${locked}">active</c:if>">
+                    </c:if>
+                    <li class="<c:if test="${cls==3}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
-                           data-url="${ctx}/sysUser?locked=1"><i class="fa fa-history"></i> 已禁用</a>
+                           data-url="${ctx}/sysUser?cls=3"><i class="fa fa-history"></i> 已禁用</a>
                     </li>
                 </ul>
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
-                    <c:if test="${regStatus!=USER_REG_STATUS_APPLY}">
+                    <c:if test="${cls!=2}">
                     <shiro:hasPermission name="sysUser:edit">
-                        <c:if test="${!locked}">
+                        <c:if test="${cls==1}">
                             <a class="editBtn btn btn-info btn-sm">
                                 <i class="fa fa-plus"></i> 添加账号
                             </a>
@@ -42,7 +44,7 @@
                         </c:if>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="sysUser:editInfo">
-                        <c:if test="${!locked}">
+                        <c:if test="${cls==1}">
                             <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                     data-url="${ctx}/sysUserInfo_au"
                                     data-open-by="page" data-id-name="userId">
@@ -51,7 +53,7 @@
                         </c:if>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="sysUser:auth">
-                        <c:if test="${!locked}">
+                        <c:if test="${cls==1}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/sysUser_updateRoles">
                                 <i class="fa fa-user-circle"></i> 修改角色
@@ -64,14 +66,14 @@
                             </button>
                             </shiro:hasRole>
                         </c:if>
-                        <c:if test="${locked}">
+                        <c:if test="${cls==3}">
                             <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
                                     data-url="${ctx}/sysUser_lock" data-title="账号解禁"
                                     data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
                                 <i class="fa fa-unlock"></i> 解禁
                             </button>
                         </c:if>
-                        <c:if test="${!locked}">
+                        <c:if test="${cls==1}">
                             <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
                                     data-url="${ctx}/sysUser_lock" data-title="账号禁用"
                                     data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
@@ -80,7 +82,7 @@
                         </c:if>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="menu:preview">
-                            <c:if test="${!locked}">
+                            <c:if test="${cls==1}">
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/sysUser_menu" data-width="850"
                                         data-id-name="userId">

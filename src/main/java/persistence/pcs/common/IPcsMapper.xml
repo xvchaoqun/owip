@@ -175,7 +175,7 @@
     </resultMap>
     <sql id="where_searchPcsPartyBeans">
         <where>
-        pr.config_id=#{configId} and pr.stage=#{stage}
+        op.config_id=#{configId}
         <if test="partyId!=null">
             and op.party_id=#{partyId}
         </if>
@@ -193,14 +193,14 @@
     <select id="selectPcsPartyBeanList" resultMap="PartyBaseResultMap" parameterType="map">
       select op.*, pr.stage, pr.config_id, sum(pr.expect_member_count) as expect_member_count,
         sum(pr.actual_member_count) as actual_member_count, par.id as report_id from pcs_party op
-        left join pcs_recommend pr on pr.party_id = op.party_id
+        left join pcs_recommend pr on pr.config_id=op.config_id and pr.stage=#{stage} and pr.party_id = op.party_id
         left join pcs_admin_report par on par.party_id = op.party_id and par.config_id=pr.config_id and par.stage=pr.stage
         <include refid="where_searchPcsPartyBeans"/>
         group by op.party_id
     </select>
     <select id="countPcsPartyBeanList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct op.party_id) from pcs_party op
-        left join pcs_recommend pr on pr.party_id = op.party_id
+        left join pcs_recommend pr on pr.config_id=op.config_id and pr.stage=#{stage} and pr.party_id = op.party_id
         left join pcs_admin_report par on par.party_id = op.party_id and par.config_id=pr.config_id and par.stage=pr.stage
         <include refid="where_searchPcsPartyBeans"/>
     </select>

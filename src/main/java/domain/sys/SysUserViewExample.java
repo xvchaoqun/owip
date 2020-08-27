@@ -3151,66 +3151,6 @@ public class SysUserViewExample {
             addCriterion("m_res_ids_minus not between", value1, value2, "mResIdsMinus");
             return (Criteria) this;
         }
-
-        public Criteria andRegStatusIsNull() {
-            addCriterion("reg_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusIsNotNull() {
-            addCriterion("reg_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusEqualTo(Byte value) {
-            addCriterion("reg_status =", value, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusIsNullOrNotEqualTo(Byte value) {
-            addCriterion("(reg_status is null or reg_status <>"+value+")");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusGreaterThan(Byte value) {
-            addCriterion("reg_status >", value, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("reg_status >=", value, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusLessThan(Byte value) {
-            addCriterion("reg_status <", value, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("reg_status <=", value, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusIn(List<Byte> values) {
-            addCriterion("reg_status in", values, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusNotIn(List<Byte> values) {
-            addCriterion("reg_status not in", values, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusBetween(Byte value1, Byte value2) {
-            addCriterion("reg_status between", value1, value2, "regStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("reg_status not between", value1, value2, "regStatus");
-            return (Criteria) this;
-        }
     }
 
     public static class Criteria extends GeneratedCriteria {

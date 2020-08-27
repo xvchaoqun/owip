@@ -6,8 +6,6 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.MemberView;
 import domain.sys.*;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import mixin.SysUserListMixin;
 import org.apache.commons.lang3.BooleanUtils;
@@ -54,8 +52,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-
-import static sys.constants.SystemConstants.USER_REG_STATUS_APPLY;
 
 @Controller
 public class SysUserController extends BaseController {
@@ -173,12 +169,10 @@ public class SysUserController extends BaseController {
 
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser")
-    public String sysUser(@RequestParam(required = false, defaultValue = "0") Boolean locked,
-                          Byte regStatus ,
+    public String sysUser(@RequestParam(required = false, defaultValue = "1") Byte cls ,
                           ModelMap modelMap) {
 
-        modelMap.put("locked",locked);
-        modelMap.put("regStatus",regStatus);
+        modelMap.put("cls",cls);
         return "sys/sysUser/sysUser_page";
     }
 
@@ -186,14 +180,13 @@ public class SysUserController extends BaseController {
     @RequestMapping("/sysUser_data")
     @ResponseBody
     public void sysUser_data(HttpServletResponse response,
-                             @SortParam(required = false, defaultValue = "id", tableName = "sys_user") String sort,
-                             @OrderParam(required = false, defaultValue = "desc") String order,
+                             @RequestParam(required = false, defaultValue = "1") Byte cls,
                              Integer pageSize, Integer pageNo,
                              Integer userId,
                              String username, String realname, String code, String idcard,
                              @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
-                             Byte type, Byte source, Integer roleId, Boolean locked,Byte regStatus) throws IOException {
+                             Byte type, Byte source, Integer roleId) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -205,7 +198,7 @@ public class SysUserController extends BaseController {
 
         SysUserViewExample example = new SysUserViewExample();
         SysUserViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("id desc");
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
 		if(!superAccount){
@@ -240,14 +233,23 @@ public class SysUserController extends BaseController {
         if (source != null) {
             criteria.andSourceEqualTo(source);
         }
-        if (regStatus != null) {
-            criteria.andRegStatusEqualTo(USER_REG_STATUS_APPLY);
-        }else{
-            criteria.andRegStatusIsNullOrNotEqualTo(USER_REG_STATUS_APPLY);
+        if(cls==1){
+            SysRole regRole = sysRoleService.getByRole(RoleConstants.ROLE_REG);
+            // 正常账号
+            criteria.andLockedEqualTo(false)
+                    .andRoleIdsNotLike("%," + regRole.getId() + ",%");
+        }else if(cls==2){
+            SysRole regRole = sysRoleService.getByRole(RoleConstants.ROLE_REG);
+            // 注册账号
+            criteria.andLockedEqualTo(false)
+                    .andRoleIdsLike("%," + regRole.getId() + ",%");
+        }else if(cls==3){
+            // 已禁用
+            criteria.andLockedEqualTo(true);
+        }else {
+            criteria.andIdIsNull();
         }
-        if (locked != null) {
-            criteria.andLockedEqualTo(locked);
-        }
+
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));

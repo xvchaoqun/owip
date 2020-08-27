@@ -8,8 +8,7 @@ LEFT JOIN base_meta_class cmc ON cmt.class_id=cmc.id;
 -- ----------------------------
 DROP VIEW IF EXISTS `sys_user_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
-AS select u.*, ui.*,omr.status as reg_status from sys_user u left join sys_user_info ui on u.id=ui.user_id
-left join ow_member_reg omr on u.id=omr.user_id;
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
 
 -- ----------------------------
 --  View definition for `ow_party_view`
