@@ -270,6 +270,14 @@
             return parseInt($(sel).val());
         });
     });
+    $select.on("select2:unselect", function (evt) {
+        var userId = $(this).val();
+        selectUsers = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+            if(userId!=$(sel).val())
+                return parseInt($(sel).val());
+        });
+        //console.log(selectUsers)
+    });
 
     function _confirm() {
         if ($('#agree').is(':checked') == false) {

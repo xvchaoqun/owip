@@ -19,7 +19,7 @@
                         <form class="form-inline" action="${ctx}/pcs/pcsPrParty_candidate_au" id="recommendForm"
                               method="post">
                             <input type="hidden" name="stage" value="${param.stage}">
-                            <input type="hidden" name="meetingType" value="2">
+                            <input type="hidden" name="meetingType" value="0">
                             <table class="form-table">
                                 <tr>
                                     <td class="">所有党员总数：</td>
