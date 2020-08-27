@@ -14,6 +14,8 @@ public class PcsCandidate implements Serializable {
 
     private Integer vote;
 
+    private Integer positiveVote;
+
     private String code;
 
     private String realname;
@@ -94,6 +96,14 @@ public class PcsCandidate implements Serializable {
 
     public void setVote(Integer vote) {
         this.vote = vote;
+    }
+
+    public Integer getPositiveVote() {
+        return positiveVote;
+    }
+
+    public void setPositiveVote(Integer positiveVote) {
+        this.positiveVote = positiveVote;
     }
 
     public String getCode() {

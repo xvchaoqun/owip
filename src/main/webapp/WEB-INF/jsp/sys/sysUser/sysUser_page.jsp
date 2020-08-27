@@ -1,21 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.USER_REG_STATUS_APPLY%>" var="USER_REG_STATUS_APPLY"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/sysUser_au"
-             data-url-page="${ctx}/sysUser?locked=${locked}"
+             data-url-page="${ctx}/sysUser?locked=${locked}&regStatus=${regStatus}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="col-sm-12">
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
             ||not empty param.code ||not empty param.username ||not empty param.idcard
             ||not empty param.roleId ||not empty param.typeId}"/>
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li class="<c:if test="${!locked}">active</c:if>">
+                    <li class="<c:if test="${!locked && regStatus!=USER_REG_STATUS_APPLY}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/sysUser?locked=0"><i
                                 class="fa fa-circle-o-notch"></i> 账号管理</a>
+                    </li>
+                    <li class="<c:if test="${!locked && regStatus==USER_REG_STATUS_APPLY}">active</c:if>">
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/sysUser?locked=0&regStatus=${USER_REG_STATUS_APPLY}"><i
+                                class="fa fa-vcard-o "></i> 注册账号</a>
                     </li>
                     <li class="<c:if test="${locked}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
@@ -24,6 +30,7 @@
                 </ul>
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
+                    <c:if test="${regStatus!=USER_REG_STATUS_APPLY}">
                     <shiro:hasPermission name="sysUser:edit">
                         <c:if test="${!locked}">
                             <a class="editBtn btn btn-info btn-sm">
@@ -128,6 +135,7 @@
                         </ul>
                     </div>
                     </shiro:hasPermission>
+                    </c:if>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

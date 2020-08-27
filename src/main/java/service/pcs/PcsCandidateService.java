@@ -134,13 +134,16 @@ public class PcsCandidateService extends PcsBaseMapper {
 
             MemberView memberView = iMemberMapper.getMemberView(userId);
             CadreView cv = cadreService.dbFindByUserId(userId);
-            SysUserView uv = cv.getUser();
+
             PcsCandidate candidate = new PcsCandidate();
             candidate.setUserId(memberView.getUserId());
             candidate.setCode(memberView.getCode());
             candidate.setRealname(memberView.getRealname());
             candidate.setTitle(cv==null?null:cv.getTitle());
-            candidate.setExtUnit(uv.getUnit());
+            if(cv!=null){
+                SysUserView uv = cv.getUser();
+                candidate.setExtUnit(uv.getUnit());
+            }
             candidate.setGender(memberView.getGender());
             candidate.setNation(memberView.getNation());
             candidate.setBirth(memberView.getBirth());
@@ -152,7 +155,7 @@ public class PcsCandidateService extends PcsBaseMapper {
     }
 
     // 从pcsPoll同步某分党委所有党支部两委委员名单
-    public int sync(List<PcsBranch> pcsBranchs,int configId, byte stage,int partyId) {
+    public int syncVoteResult (List<PcsBranch> pcsBranchs,int configId, byte stage,int partyId) {
 
         int syncCount=0;
         for(PcsBranch pcsBranch:pcsBranchs) {
@@ -217,8 +220,10 @@ public class PcsCandidateService extends PcsBaseMapper {
                     _pcsCandidate.setRecommendId(recommendId);
                     _pcsCandidate.setUserId(userId);
                     _pcsCandidate.setType(PCS_USER_TYPE_DW);
+                    // 推荐提名的党员数
+                    _pcsCandidate.setVote(pcsPollReportDw.getBallot());
                     // 推荐提名正式党员的票数
-                    _pcsCandidate.setVote(pcsPollReportDw.getPositiveBallot());
+                    _pcsCandidate.setPositiveVote(pcsPollReportDw.getPositiveBallot());
                     _pcsCandidate.setAddTime(now);
 
                     if (_pcsCandidate.getType() == PcsConstants.PCS_USER_TYPE_DW) {  // 添加党委委员
@@ -235,8 +240,10 @@ public class PcsCandidateService extends PcsBaseMapper {
                     _pcsCandidate.setRecommendId(recommendId);
                     _pcsCandidate.setUserId(userId);
                     _pcsCandidate.setType(PCS_USER_TYPE_JW);
+                    // 推荐提名的党员数
+                    _pcsCandidate.setVote(pcsPollReportJw.getBallot());
                     // 推荐提名正式党员的票数
-                    _pcsCandidate.setVote(pcsPollReportJw.getPositiveBallot());
+                    _pcsCandidate.setPositiveVote(pcsPollReportJw.getPositiveBallot());
                     _pcsCandidate.setAddTime(now);
 
                     if (_pcsCandidate.getType() == PcsConstants.PCS_USER_TYPE_JW) {  // 添加党委委员

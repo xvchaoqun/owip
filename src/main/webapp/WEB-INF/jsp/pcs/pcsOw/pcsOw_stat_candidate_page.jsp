@@ -152,7 +152,7 @@
         top: 44px !important;
     }*/
     #jqGrid_actualMemberCount,
-    #jqGrid_totalVote, #jqGrid_branchCount,
+    #jqGrid_totalVote,#jqGrid_totalPositiveVote, #jqGrid_branchCount,
     #jqGrid_memberCount, #jqGrid_expectMemberCount{
         padding: 0;
         font-size: 11px;
@@ -222,7 +222,8 @@
             </shiro:hasPermission>
             </c:if>
             {label: '推荐提名<br/>的党支部数', name: 'branchCount'},
-            {label: '推荐提名<br/>的党员数', name: 'totalVote', width: 80},
+            {label: '推荐提名<br/>的党员数', name: 'totalVote'},
+            {label: '推荐提名<br/>的正式党员数', name: 'totalPositiveVote'},
   /*          {label: '支部列表', name: '_branchCount', width: 120,formatter: function (cellvalue, options, rowObject) {
 
                return  ('<a href="javascript:;" class="popupBtn" data-width="750" ' +

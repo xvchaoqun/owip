@@ -26,7 +26,7 @@
         <div class="widget-box transparent">
             <div class="widget-body">
                 <div class="widget-main no-padding">
-                    <div class="tab-content padding-4">
+                    <div class="tab-content padding-4 multi-row-head-table">
 
                         <form class="form-inline" action="${ctx}/pcs/pcsRecommend_au" id="recommendForm" method="post">
                             <input type="hidden" name="stage" value="${param.stage}">
@@ -208,7 +208,7 @@
         font-weight: bolder;
     }
 
-    .panel input.vote {
+    .panel input.vote, .panel input.positiveVote{
         width: 60px !important;
         padding: 0px !important;
         text-align: center;
@@ -310,9 +310,15 @@
         {label: '工作证号', name: 'code', width: 110},
         {label: '被推荐提名人姓名', name: 'realname', width: 150},
         {
-            label: '票数', name: 'vote', formatter: function (cellvalue, options, rowObject) {
+            label: '推荐提名<br/>的党员数', name: 'vote', width: 150, formatter: function (cellvalue, options, rowObject) {
 
-            return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
+                return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
+                    .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
+         }},
+        {
+            label: '推荐提名<br/>的正式党员数', name: 'positiveVote', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+            return ('<input type="text" name="positiveVote{0}" data-container="{1}" value="{2}" class="positiveVote num" maxlength="4">')
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
         }},
         {
@@ -393,17 +399,33 @@
     })
     $("#submitBtn").click(function () {
 
-        var $null = null;
+        var $voteNull = null;
+        var $positiveVoteNull = null;
         $(".vote", ".panel").each(function () {
             var $this = $(this);
             if ($.trim($this.val()) == '') {
-                $null = $this;
+                $voteNull = $this;
                 return false;
             }
         });
-        if ($null != null) {
+        if ($voteNull != null) {
 
-            var $panel = $null.closest('.panel');
+            var $panel = $voteNull.closest('.panel');
+            var $title = $panel.find('span.title');
+
+            SysMsg.warning("请填写完整所有推荐人的信息（{0}）".format($.trim($title.text())));
+            return;
+        }
+        $(".positiveVote", ".panel").each(function () {
+            var $this = $(this);
+            if ($.trim($this.val()) == '') {
+                $positiveVoteNull = $this;
+                return false;
+            }
+        });
+        if ($positiveVoteNull != null) {
+
+            var $panel = $positiveVoteNull.closest('.panel');
             var $title = $panel.find('span.title');
 
             SysMsg.warning("请填写完整所有推荐人的信息（{0}）".format($.trim($title.text())));
@@ -447,6 +469,7 @@
             item.type = ${PCS_USER_TYPE_DW}; // 党委委员
             item.userId = userId;
             item.vote = $.trim($("input.vote", $row).val());
+            item.positiveVote = $.trim($("input.positiveVote", $row).val());
             items.push(item);
         });
         $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
@@ -455,6 +478,7 @@
             item.type = ${PCS_USER_TYPE_JW} // 纪委委员
             item.userId = userId;
             item.vote = $.trim($("input.vote", $row).val());
+            item.positiveVote = $.trim($("input.positiveVote", $row).val());
             items.push(item);
         });
 

@@ -217,6 +217,7 @@
     <sql id="searchPcsBranchBeans">
         <where>
             pb.config_id = #{configId}
+            and pb.is_deleted = 0
             <if test="partyId!=null">
                 and pb.party_id=#{partyId}
             </if>
@@ -254,6 +255,7 @@
         <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
         <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
         <result column="total_vote" jdbcType="INTEGER" property="totalVote"/>
+        <result column="total_positive_vote" jdbcType="INTEGER" property="totalPositiveVote"/>
         <result column="chosen_id" jdbcType="INTEGER" property="chosenId"/>
     </resultMap>
 
@@ -269,7 +271,7 @@
     <!--分党委每个被推荐人的情况（只统计已上报）-->
     <select id="selectPartyCandidateList" resultMap="CandidateBaseResultMap" parameterType="map">
         select pc.*, group_concat(distinct pc.party_id) as party_ids,group_concat(distinct pc.branch_id) as branch_ids,
-        count( pc.id) as branch_count, sum(pc.vote) total_vote, sum(pr.expect_member_count) as expect_member_count,
+        count( pc.id) as branch_count, sum(pc.vote) total_vote, sum(pc.positive_vote) total_positive_vote, sum(pr.expect_member_count) as expect_member_count,
         sum(pr.actual_member_count) as actual_member_count, sum(pb.member_count) as member_count, pcc.id as chosen_id,
         pcc.sort_order
         from pcs_candidate pc left join pcs_recommend pr on pr.id=pc.recommend_id

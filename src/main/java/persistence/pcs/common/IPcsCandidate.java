@@ -14,6 +14,7 @@ public class IPcsCandidate extends PcsCandidate {
     private Integer expectMemberCount;
     private Integer actualMemberCount;
     private Integer totalVote;
+    private Integer totalPositiveVote;
     private Integer chosenId;
 
     public String getPartyIds() {
@@ -70,6 +71,14 @@ public class IPcsCandidate extends PcsCandidate {
 
     public void setTotalVote(Integer totalVote) {
         this.totalVote = totalVote;
+    }
+
+    public Integer getTotalPositiveVote() {
+        return totalPositiveVote;
+    }
+
+    public void setTotalPositiveVote(Integer totalPositiveVote) {
+        this.totalPositiveVote = totalPositiveVote;
     }
 
     public Integer getChosenId() {

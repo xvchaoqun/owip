@@ -5,6 +5,7 @@ public class PcsCandidateFormBean {
     private Byte type;
     private Integer userId;
     private Integer vote;
+    private Integer positiveVote;
 
     public Byte getType() {
         return type;
@@ -30,6 +31,15 @@ public class PcsCandidateFormBean {
 
     public PcsCandidateFormBean setVote(Integer vote) {
         this.vote = vote;
+        return this;
+    }
+
+    public Integer getPositiveVote() {
+        return positiveVote;
+    }
+
+    public PcsCandidateFormBean setPositiveVote(Integer positiveVote) {
+        this.positiveVote = positiveVote;
         return this;
     }
 }

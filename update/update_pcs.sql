@@ -1,3 +1,8 @@
+-- 2020.8.27  sxx
+
+ALTER TABLE `pcs_candidate`
+	CHANGE COLUMN `vote` `vote` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '推荐提名的党员数' AFTER `type`,
+	ADD COLUMN `positive_vote` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '推荐提名的正式党员数' AFTER `vote`;
 
 -- 2020.8.21 ly
 DROP TABLE IF EXISTS `pcs_poll`;

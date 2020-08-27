@@ -20,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +54,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+
+import static sys.constants.SystemConstants.USER_REG_STATUS_APPLY;
 
 @Controller
 public class SysUserController extends BaseController {
@@ -173,9 +174,11 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser")
     public String sysUser(@RequestParam(required = false, defaultValue = "0") Boolean locked,
+                          Byte regStatus ,
                           ModelMap modelMap) {
 
         modelMap.put("locked",locked);
+        modelMap.put("regStatus",regStatus);
         return "sys/sysUser/sysUser_page";
     }
 
@@ -190,7 +193,7 @@ public class SysUserController extends BaseController {
                              String username, String realname, String code, String idcard,
                              @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
-                             Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
+                             Byte type, Byte source, Integer roleId, Boolean locked,Byte regStatus) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -236,6 +239,11 @@ public class SysUserController extends BaseController {
         }
         if (source != null) {
             criteria.andSourceEqualTo(source);
+        }
+        if (regStatus != null) {
+            criteria.andRegStatusEqualTo(USER_REG_STATUS_APPLY);
+        }else{
+            criteria.andRegStatusIsNullOrNotEqualTo(USER_REG_STATUS_APPLY);
         }
         if (locked != null) {
             criteria.andLockedEqualTo(locked);

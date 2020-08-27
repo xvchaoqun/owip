@@ -122,6 +122,7 @@ public class PcsRecommendService extends PcsBaseMapper {
             _pcsCandidate.setUserId(userId);
             _pcsCandidate.setType(type);
             _pcsCandidate.setVote(formBean.getVote());
+            _pcsCandidate.setPositiveVote(formBean.getPositiveVote());
             _pcsCandidate.setAddTime(now);
 
             if(formBean.getType()==PcsConstants.PCS_USER_TYPE_DW){  // 添加党委委员

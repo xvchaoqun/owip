@@ -7,6 +7,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
+    <result column="positive_vote" jdbcType="INTEGER" property="positiveVote" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="birth" jdbcType="DATE" property="birth" />
@@ -87,9 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, vote, code, realname, birth, title, cadre_sort_order, 
-    cadre_status, gender, nation, native_place, ext_unit, grow_time, work_time, pro_post, 
-    party_id, branch_id, config_id, stage, sort_order, is_from_stage, add_time
+    id, recommend_id, user_id, type, vote, positive_vote, code, realname, birth, title, 
+    cadre_sort_order, cadre_status, gender, nation, native_place, ext_unit, grow_time, 
+    work_time, pro_post, party_id, branch_id, config_id, stage, sort_order, is_from_stage, 
+    add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsCandidateExample" resultMap="BaseResultMap">
     select
@@ -123,23 +125,23 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsCandidate">
     insert into pcs_candidate (id, recommend_id, user_id, 
-      type, vote, code, realname, 
-      birth, title, cadre_sort_order, 
-      cadre_status, gender, nation, 
-      native_place, ext_unit, grow_time, 
-      work_time, pro_post, party_id, 
-      branch_id, config_id, stage, 
-      sort_order, is_from_stage, add_time
-      )
+      type, vote, positive_vote, 
+      code, realname, birth, 
+      title, cadre_sort_order, cadre_status, 
+      gender, nation, native_place, 
+      ext_unit, grow_time, work_time, 
+      pro_post, party_id, branch_id, 
+      config_id, stage, sort_order, 
+      is_from_stage, add_time)
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{vote,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{birth,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, #{cadreSortOrder,jdbcType=INTEGER}, 
-      #{cadreStatus,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, 
-      #{nativePlace,jdbcType=VARCHAR}, #{extUnit,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
-      #{workTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, #{addTime,jdbcType=TIMESTAMP}
-      )
+      #{type,jdbcType=TINYINT}, #{vote,jdbcType=INTEGER}, #{positiveVote,jdbcType=INTEGER}, 
+      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
+      #{title,jdbcType=VARCHAR}, #{cadreSortOrder,jdbcType=INTEGER}, #{cadreStatus,jdbcType=TINYINT}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{extUnit,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, 
+      #{proPost,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{isFromStage,jdbcType=BIT}, #{addTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsCandidate">
     insert into pcs_candidate
@@ -158,6 +160,9 @@
       </if>
       <if test="vote != null">
         vote,
+      </if>
+      <if test="positiveVote != null">
+        positive_vote,
       </if>
       <if test="code != null">
         code,
@@ -235,6 +240,9 @@
       </if>
       <if test="vote != null">
         #{vote,jdbcType=INTEGER},
+      </if>
+      <if test="positiveVote != null">
+        #{positiveVote,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
@@ -322,6 +330,9 @@
       <if test="record.vote != null">
         vote = #{record.vote,jdbcType=INTEGER},
       </if>
+      <if test="record.positiveVote != null">
+        positive_vote = #{record.positiveVote,jdbcType=INTEGER},
+      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -394,6 +405,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       vote = #{record.vote,jdbcType=INTEGER},
+      positive_vote = #{record.positiveVote,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       birth = #{record.birth,jdbcType=DATE},
@@ -432,6 +444,9 @@
       </if>
       <if test="vote != null">
         vote = #{vote,jdbcType=INTEGER},
+      </if>
+      <if test="positiveVote != null">
+        positive_vote = #{positiveVote,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
@@ -502,6 +517,7 @@
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       vote = #{vote,jdbcType=INTEGER},
+      positive_vote = #{positiveVote,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=DATE},

@@ -334,7 +334,7 @@ public class PcsRecommendController extends PcsBaseController {
         List<PcsBranch> pcsBranchs=pcsBranchMapper.selectByExample(example);
         int branchCount=pcsBranchs.size();
 
-        int syncCount=pcsCandidateService.sync(pcsBranchs,configId,stage,partyId);
+        int syncCount=pcsCandidateService.syncVoteResult(pcsBranchs,configId,stage,partyId);
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("branchCount", branchCount);
