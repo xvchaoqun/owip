@@ -197,7 +197,7 @@
     })
 
     //候选人radio初始化赋值
-    defineWaschecked();
+    /*defineWaschecked();
     function defineWaschecked() {
         $.each($(".candidate input[type=radio]"), function () {
             if ($(this).is(":checked")){
@@ -206,7 +206,7 @@
                 $(this).data('waschecked', false);
             }
         })
-    }
+    }*/
 
     $(".candidate input[type=radio]").click(function (e) {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
@@ -217,7 +217,7 @@
         }
 
         var $radio = $(this);
-        if ($radio.data('waschecked') == true){
+        /*if ($radio.data('waschecked') == true){
             $radio.attr('checked', false);
             $radio.data('waschecked', false);
         } else {
@@ -229,6 +229,16 @@
         $radio.parent().siblings("div").find('input[type="radio"]').data('waschecked', false);
         if ($(this).val() == ${RESULT_STATUS_DISAGREE}&&!$(this).is(":checked")){
             $otherTr.hide();
+        }*/
+
+
+        if($radio.val()!=${RESULT_STATUS_DISAGREE}){
+            //console.log("-----"+$radio.attr('name'))
+            $("select[name="+$radio.attr('name')+"_4]").val(null).trigger("change");
+
+            selectUsers = $.map($('select[data-rel=select2-ajax]'), function (sel) {
+                return parseInt($(sel).val());
+            });
         }
     })
 
