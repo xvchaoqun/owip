@@ -21,6 +21,8 @@ public class PcsPollResultService extends PcsBaseMapper {
 
     @Autowired
     private PcsPollInspectorService pcsPollInspectorService;
+    @Autowired
+    private PcsPollService pcsPollService;
 
     //转换暂存票数
     public PcsTempResult getTempResult(String tempData) {
@@ -63,6 +65,13 @@ public class PcsPollResultService extends PcsBaseMapper {
 
             Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
             Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
+            List<String> typeUserIdList = new ArrayList<>();
+            for (Byte key : PcsConstants.PCS_USER_TYPE_MAP.keySet()) {
+                List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, key);
+                for (Integer candidateUserId : candidateUserIds) {
+                    typeUserIdList.add(key + "_" + candidateUserId);
+                }
+            }
 
             for (String key : secondResultMap.keySet()) {
 
@@ -85,6 +94,27 @@ public class PcsPollResultService extends PcsBaseMapper {
                     userId = otherResultMap.get(otherKey); // 允许不填
                 }
                 result.setUserId(userId);
+                resultList.add(result);
+                typeUserIdList.remove(key);
+            }
+            //设置没有被操作的候选人为弃权票
+            for (String key : typeUserIdList){
+
+                PcsPollResult result = new PcsPollResult();
+                Byte type = Byte.valueOf(key.split("_")[0]);
+                Integer userId = Integer.valueOf(key.split("_")[1]);
+                Byte status = PcsConstants.RESULT_STATUS_ABSTAIN;
+                result.setPollId(pollId);
+                result.setCandidateUserId(userId);
+                result.setInspectorId(inspector.getId());
+                result.setStage(stage);
+                result.setPartyId(pcsPoll.getPartyId());
+                result.setBranchId(pcsPoll.getBranchId());
+                result.setIsPositive(inspector.getIsPositive());
+                result.setStatus(status);
+                result.setType(type);
+                result.setUserId(userId);
+                result.setRemark("0");
                 resultList.add(result);
             }
 
