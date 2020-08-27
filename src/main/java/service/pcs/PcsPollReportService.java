@@ -79,11 +79,7 @@ public class PcsPollReportService extends PcsBaseMapper {
 
             //计算候选人是否超过指定数值
             PcsPollReportExample reportExample = new PcsPollReportExample();
-            PcsPollReportExample.Criteria reportCriteria = reportExample.createCriteria().andConfigIdEqualTo(configId).
-                    andPartyIdEqualTo(partyId).andTypeEqualTo(type).andStageEqualTo(stage);
-            if (branchId != null) {
-                reportCriteria.andBranchIdEqualTo(branchId);
-            }
+            reportExample.createCriteria().andPollIdEqualTo(pollId).andTypeEqualTo(type);
             List<PcsPollReport> reportList = pcsPollReportMapper.selectByExample(reportExample);
 
             Set<Integer> selectedUserIdSet = new HashSet<>(); // 已选推荐人
@@ -132,11 +128,9 @@ public class PcsPollReportService extends PcsBaseMapper {
 
                 if (selectedUserIdSet.contains(userId)) {
                     PcsPollReportExample example = new PcsPollReportExample();
-                    PcsPollReportExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type).andStageEqualTo(stage)
-                            .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);
-                    if (branchId != null) {
-                        criteria.andBranchIdEqualTo(branchId);
-                    }
+                    example.createCriteria().andPollIdEqualTo(pollId)
+                                    .andUserIdEqualTo(userId).andTypeEqualTo(type);
+
                     pcsPollReportMapper.updateByExampleSelective(record, example);
                 } else {
                     pcsPollReportMapper.insertSelective(record);

@@ -100,10 +100,10 @@ pageEncoding="UTF-8" %>
             { label: '推荐提名<br/>预备党员数',name: 'growBallot',width:120},
             <c:if test="${stage!=PCS_POLL_FIRST_STAGE}">
             { label: '不同意票数',name: 'notSupportNum'},
-            { label: '弃权票数',name: 'notVoteNum', formatter: function (cellvalue, options, rowobject) {
+            { label: '弃权票数',name: 'notVoteNum'/*, formatter: function (cellvalue, options, rowobject) {
                     var finishCount = ${pcsPoll.inspectorFinishNum};
                     return finishCount-rowobject.supportNum-rowobject.notSupportNum;
-                }},
+                }*/},
             </c:if>
             {hidden:true, key: true, name: 'userId'}
         ]
