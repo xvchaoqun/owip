@@ -45,9 +45,8 @@
         <c:if test="${param.notice==1 || !tempResult.agree}">
             <form id="agreeForm" method="post">
                 <div style="width:70%; margin:0 auto;">
-
                     <div class="modal-body" style="text-align: left;word-wrap:break-word">
-                            ${cm:htmlUnescape(pcsPoll.notice)}
+                            ${cm:htmlUnescape(_1_pc.content)}
                     </div>
                 </div>
 

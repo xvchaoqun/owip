@@ -69,7 +69,7 @@
                 <c:if test="${param.notice==1 || !tempResult.agree}">
                     <form id="agreeForm" method="post">
                         <div class="modal-body" style="align: left;word-wrap:break-word">
-                                ${cm:htmlUnescape(pcsPoll.mobileNotice)}
+                            ${cm:htmlUnescape(_1_m.content)}
                         </div>
                         <div class="span12"
                              style="margin-top: 10px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
