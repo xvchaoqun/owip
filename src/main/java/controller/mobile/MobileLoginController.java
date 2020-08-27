@@ -53,7 +53,7 @@ public class MobileLoginController extends BaseController {
 		AuthToken token = new AuthToken(username,
 				password.toCharArray(), BooleanUtils.isTrue(rememberMe), request.getRemoteHost(), null, null);
 		try {
-			SecurityUtils.getSubject().login(token);
+			ShiroHelper.login(token);
 		}catch (Exception e){
 			String message = e.getClass().getSimpleName();
 
@@ -66,7 +66,7 @@ public class MobileLoginController extends BaseController {
 			successUrl = savedRequest.getRequestUrl();
 		}
 
-		sysLoginLogService.setTimeout(SecurityUtils.getSubject());
+		sysLoginLogService.setTimeout(ShiroHelper.getSubject());
 
 		logger.info(sysLoginLogService.log(ShiroHelper.getCurrentUserId(), username,
 				SystemConstants.LOGIN_TYPE_MOBILE, true, "登录成功"));
@@ -79,7 +79,7 @@ public class MobileLoginController extends BaseController {
 	@RequestMapping("/logout")
 	public String logout(@CurrentUser SysUserView loginUser,  HttpSession session) {
 
-		SecurityUtils.getSubject().logout();
+		ShiroHelper.logout();
 
 		logger.debug("logout success. {}", (loginUser != null) ? loginUser.getUsername() : "");
 

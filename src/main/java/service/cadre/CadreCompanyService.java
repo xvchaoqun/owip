@@ -61,7 +61,7 @@ public class CadreCompanyService extends BaseMapper {
             }
         }else{
             // 必须 拥有 干部兼职管理 模块的管理权限， 才能随意删除
-            SecurityUtils.getSubject().checkPermission("cadreCompanyList:menu");
+            ShiroHelper.checkPermission("cadreCompanyList:menu");
         }
         CadreCompanyExample example = new CadreCompanyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

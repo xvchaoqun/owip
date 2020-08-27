@@ -163,7 +163,7 @@ public class DpPartyController extends DpBaseController {
             record.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYYMMDD_DOT));
         }
         if (partyId == null) {
-            SecurityUtils.getSubject().checkPermission("dpParty:add");
+            ShiroHelper.checkPermission("dpParty:add");
             record.setCreateTime(new Date());
             dpPartyService.insertSelective(record);
             DpParty dpParty = dpPartyService.getByCode(record.getCode());

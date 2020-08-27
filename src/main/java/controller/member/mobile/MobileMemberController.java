@@ -40,7 +40,7 @@ public class MobileMemberController extends MemberBaseController {
 			// 默认读取本人信息
 			userId = ShiroHelper.getCurrentUserId();
 		}else{
-			SecurityUtils.getSubject().checkPermission("m:member:list");
+			ShiroHelper.checkPermission("m:member:list");
 		}
 
 		SysUserView uv = sysUserService.findById(userId);

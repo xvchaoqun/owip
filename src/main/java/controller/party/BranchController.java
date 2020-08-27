@@ -269,14 +269,14 @@ public class BranchController extends BaseController {
 
         if (id == null) {
 
-            SecurityUtils.getSubject().checkPermission("branch:add");
+            ShiroHelper.checkPermission("branch:add");
 
             record.setCreateTime(new Date());
             branchService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加党支部：%s", record.getId()));
         } else {
 
-            SecurityUtils.getSubject().checkPermission("branch:edit");
+            ShiroHelper.checkPermission("branch:edit");
 
             if (!CmTag.isSuperAccount(ShiroHelper.getCurrentUsername())) {
                 record.setCode(null); // 不修改编号

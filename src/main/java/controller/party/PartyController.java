@@ -236,7 +236,7 @@ public class PartyController extends BaseController {
         record.setIsSeparate((record.getIsSeparate() == null) ? false : record.getIsSeparate());
 
         if (id == null) {
-            SecurityUtils.getSubject().checkPermission("party:add");
+            ShiroHelper.checkPermission("party:add");
 
             record.setCreateTime(new Date());
             partyService.insertSelective(record);

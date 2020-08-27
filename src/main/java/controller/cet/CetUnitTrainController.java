@@ -267,7 +267,7 @@ public class CetUnitTrainController extends CetBaseController {
            record.setUserId(ShiroHelper.getCurrentUserId());
            record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
         }else{
-             SecurityUtils.getSubject().checkPermission("cetUnitProject:edit");
+             ShiroHelper.checkPermission("cetUnitProject:edit");
         }
 
         Integer id = record.getId();
@@ -310,7 +310,7 @@ public class CetUnitTrainController extends CetBaseController {
                                   Integer projectId, ModelMap modelMap) {
 
         if(BooleanUtils.isNotTrue(apply)){
-            SecurityUtils.getSubject().checkPermission("cetUnitProject:edit");
+            ShiroHelper.checkPermission("cetUnitProject:edit");
         }
 
         if (id != null) {

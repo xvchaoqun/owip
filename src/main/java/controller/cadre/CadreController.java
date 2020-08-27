@@ -498,7 +498,7 @@ public class CadreController extends BaseController {
 
         if (export == 1) {
             // 判断导出权限
-            SecurityUtils.getSubject().checkPermission("cadre:export");
+            ShiroHelper.checkPermission("cadre:export");
 
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));

@@ -201,7 +201,7 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
+            ShiroHelper.checkPermission("cetUpperTrain:edit");
 
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
@@ -211,7 +211,7 @@ public class CetUpperTrainController extends CetBaseController {
                 throw new UnauthorizedException();
             }
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
+            ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
             criteria.andUnitAdmin(adminUnitIdSet);
             checkCriteria.andUnitAdmin(adminUnitIdSet);
         } else {
@@ -311,7 +311,7 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
+            ShiroHelper.checkPermission("cetUpperTrain:edit");
 
             record.setIsValid(BooleanUtils.isTrue(record.getIsValid()));
             if (id == null) {
@@ -339,7 +339,7 @@ public class CetUpperTrainController extends CetBaseController {
                     }
                 }
 
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
+                ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
 
                 record.setIsValid(null);
                 if (id == null) {
@@ -386,7 +386,7 @@ public class CetUpperTrainController extends CetBaseController {
             record.setWordNote(upload(_word, "cetUpperTrain_note"));
             record.setPdfNote(uploadPdf(_pdf, "cetUpperTrain_note"));
             if (isUnitAdmin) {
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
+                ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
                 if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                     throw new OpException("党委组织部已确认，不允许修改。");
                 }
@@ -571,7 +571,7 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
+            ShiroHelper.checkPermission("cetUpperTrain:edit");
 
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
@@ -638,11 +638,11 @@ public class CetUpperTrainController extends CetBaseController {
 
         LinkedHashSet<Cadre> cadreSet = new LinkedHashSet<Cadre>();
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
+            ShiroHelper.checkPermission("cetUpperTrain:edit");
             cadreSet = new LinkedHashSet<Cadre>(cadreService.getCadres());
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
+            ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
 
             Integer currentUserId = ShiroHelper.getCurrentUserId();
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);

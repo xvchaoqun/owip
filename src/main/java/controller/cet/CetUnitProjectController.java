@@ -368,7 +368,7 @@ public class CetUnitProjectController extends CetBaseController {
     @ResponseBody
     public Map do_cetUnitProject_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
-        SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN);
+        ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN);
 
         if (null != ids && ids.length > 0) {
             cetUnitProjectService.batchDel(ids);

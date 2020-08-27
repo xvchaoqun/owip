@@ -103,7 +103,7 @@ public class MemberRegController extends MemberBaseController {
         AuthToken token = new AuthToken(username,
                 passwd.toCharArray(), false, request.getRemoteHost(), null, null);
 
-        SecurityUtils.getSubject().login(token);
+        ShiroHelper.login(token);
 
         logger.info(addLog(LogConstants.LOG_USER, "注册后登录成功"));
 

@@ -2,7 +2,6 @@ package controller.sys;
 
 import controller.BaseController;
 import domain.sys.HtmlFragment;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.utils.FormUtils;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class HtmlFragmentListController extends BaseController{
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private void checkPermission(String cls){
-        SecurityUtils.getSubject().checkPermission(cls+":*");
+        ShiroHelper.checkPermission(cls+":*");
     }
 
     @RequestMapping("/htmlFragment_list")

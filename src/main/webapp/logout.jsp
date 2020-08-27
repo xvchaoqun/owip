@@ -1,4 +1,4 @@
-<%@ page import="org.apache.shiro.SecurityUtils" %>
+<%@ page import="shiro.ShiroHelper" %>
 <%--
   Created by IntelliJ IDEA.
   User: fafa
@@ -13,7 +13,7 @@
 </head>
 <body>
 <%
-  SecurityUtils.getSubject().logout();
+  ShiroHelper.logout();
   response.sendRedirect("/");
 %>
 </body>

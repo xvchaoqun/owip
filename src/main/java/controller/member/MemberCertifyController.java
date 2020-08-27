@@ -47,7 +47,7 @@ public class MemberCertifyController extends MemberBaseController {
                                 ModelMap modelMap) {
 
         //权限
-        SecurityUtils.getSubject().checkPermission(cls == 0 ? "userMemberCertify:list" : "memberCertify:list");
+        ShiroHelper.checkPermission(cls == 0 ? "userMemberCertify:list" : "memberCertify:list");
 
         modelMap.put("cls", cls);
 
@@ -86,7 +86,7 @@ public class MemberCertifyController extends MemberBaseController {
                                    Integer pageSize, Integer pageNo)  throws IOException{
 
         //权限
-        SecurityUtils.getSubject().checkPermission(cls == 0 ? "userMemberCertify:list" : "memberCertify:list");
+        ShiroHelper.checkPermission(cls == 0 ? "userMemberCertify:list" : "memberCertify:list");
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -179,7 +179,7 @@ public class MemberCertifyController extends MemberBaseController {
         Integer id = record.getId();
         Member member = null;
         if (BooleanUtils.isTrue(apply)){
-            SecurityUtils.getSubject().checkPermission("userMemberCertify:list");
+            ShiroHelper.checkPermission("userMemberCertify:list");
             // 个人只能提交已撤销和未提交的申请
             if (record.getId() != null) {
                 MemberCertify before = memberCertifyMapper.selectByPrimaryKey(record.getId());
@@ -194,7 +194,7 @@ public class MemberCertifyController extends MemberBaseController {
             if (BooleanUtils.isTrue(reapply)){
                 record.setStatus(MemberConstants.MEMBER_CERTIFY_STATUS_APPLY);
             }else {
-                SecurityUtils.getSubject().checkPermission("memberCertify:list");
+                ShiroHelper.checkPermission("memberCertify:list");
                 member = memberMapper.selectByPrimaryKey(record.getUserId());
                 //===========权限
                 Integer loginUserId = ShiroHelper.getCurrentUserId();
@@ -241,10 +241,10 @@ public class MemberCertifyController extends MemberBaseController {
             modelMap.put("reapply", reapply);
         }
         if (BooleanUtils.isTrue(apply)) {
-            SecurityUtils.getSubject().checkPermission("userMemberCertify:list");
+            ShiroHelper.checkPermission("userMemberCertify:list");
             modelMap.put("apply", apply);
         }else {
-            SecurityUtils.getSubject().checkPermission("memberCertify:list");
+            ShiroHelper.checkPermission("memberCertify:list");
         }
 
         if (id != null) {

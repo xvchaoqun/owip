@@ -68,7 +68,7 @@ public class PcsVoteGroupController extends PcsBaseController {
         Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if(!SecurityUtils.getSubject().isPermitted("pcsVoteStat:*")) {
+        if(!ShiroHelper.isPermitted("pcsVoteStat:*")) {
             criteria.andRecordUserIdEqualTo(ShiroHelper.getCurrentUserId());
         }
 

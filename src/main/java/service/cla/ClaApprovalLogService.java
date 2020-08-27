@@ -6,12 +6,12 @@ import domain.cla.ClaApprovalLog;
 import domain.cla.ClaApprovalLogExample;
 import domain.cla.ClaApproverType;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.cla.common.ClaApprovalResult;
 import service.sys.SysApprovalLogService;
+import shiro.ShiroHelper;
 import sys.constants.ClaConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -167,7 +167,7 @@ public class ClaApprovalLogService extends ClaBaseMapper {
         }
         if (approvalTypeId == -1) { // 管理员初审
             org.springframework.util.Assert.isTrue(result == null, "null");
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            ShiroHelper.checkRole(RoleConstants.ROLE_CADREADMIN);
         }
         Map<Integer, ClaApproverType> approverTypeMap = claApproverTypeService.findAll();
         if (approvalTypeId > 0) {

@@ -54,9 +54,9 @@ public class PcsProposalOwController extends PcsBaseController {
                                     ModelMap modelMap) {
 
         if(type==1){
-            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+            ShiroHelper.checkPermission("pcsProposalOw:*");
         }else if(type==2){
-            SecurityUtils.getSubject().checkPermission("pcsProposalPr:*");
+            ShiroHelper.checkPermission("pcsProposalPr:*");
         }else if(type==0){
             if (!ShiroHelper.isPermitted("pcsProposalPr:*")
                     && !ShiroHelper.isPermitted("pcsProposalOw:*")) {

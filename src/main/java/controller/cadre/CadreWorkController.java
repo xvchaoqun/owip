@@ -15,7 +15,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchCadreRelateService;
+import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -120,7 +120,7 @@ public class CadreWorkController extends BaseController {
         }
 
         if (export == 1) {
-            SecurityUtils.getSubject().checkPermission("cadre:export");
+            ShiroHelper.checkPermission("cadre:export");
             cadreWorkService.cadreWork_export(ids, exportType, reserveType, response);
             return;
         }

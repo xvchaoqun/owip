@@ -41,7 +41,7 @@ public class PcsPrFileController extends PcsBaseController {
 
         if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
 
-            SecurityUtils.getSubject().checkPermission("pcsPrFile:list");
+            ShiroHelper.checkPermission("pcsPrFile:list");
         }
 
         if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
@@ -76,7 +76,7 @@ public class PcsPrFileController extends PcsBaseController {
 
         if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
 
-            SecurityUtils.getSubject().checkPermission("pcsPrFile:edit");
+            ShiroHelper.checkPermission("pcsPrFile:edit");
         }
 
         if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员

@@ -62,10 +62,10 @@ public class PmdMemberController extends PmdBaseController {
             modelMap.put("chargeUser", sysUserService.findById(chargeUserId));
         }
         if (cls != 6) {
-            SecurityUtils.getSubject().checkPermission("pmdMember:list");
+            ShiroHelper.checkPermission("pmdMember:list");
         }
         if (cls == 5) {
-            SecurityUtils.getSubject().checkPermission("pmdMember:allList");
+            ShiroHelper.checkPermission("pmdMember:allList");
             if (partyId != null)
                 modelMap.put("party", partyService.findAll().get(partyId));
             if (branchId != null)
@@ -83,7 +83,7 @@ public class PmdMemberController extends PmdBaseController {
             return "pmd/pmdMember/pmdMember_party_page";
         } else if (cls == 6) {
             // 党费代缴列表
-            SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
+            ShiroHelper.checkPermission("pmdMember:helpPay");
             return "pmd/pmdMember/pmdMemberHelpPayList_page";
         }
 
@@ -130,7 +130,7 @@ public class PmdMemberController extends PmdBaseController {
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (cls != 6) {
-            SecurityUtils.getSubject().checkPermission("pmdMember:list");
+            ShiroHelper.checkPermission("pmdMember:list");
         }
 
         if (null == pageSize) {
@@ -183,7 +183,7 @@ public class PmdMemberController extends PmdBaseController {
                 criteria.andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
             }
         } else if (cls == 5) {
-            SecurityUtils.getSubject().checkPermission("pmdMember:allList");
+            ShiroHelper.checkPermission("pmdMember:allList");
 
             // 根据订单号查找缴费记录
             if (StringUtils.isNotBlank(orderNo)) {
@@ -213,7 +213,7 @@ public class PmdMemberController extends PmdBaseController {
 
         } else if (cls == 6) {
             // 党费代缴列表
-            SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
+            ShiroHelper.checkPermission("pmdMember:helpPay");
             criteria.andChargeUserIdEqualTo(ShiroHelper.getCurrentUserId());
         } else {
             criteria.andIdIsNull();

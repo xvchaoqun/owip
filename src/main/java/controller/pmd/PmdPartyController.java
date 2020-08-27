@@ -97,7 +97,7 @@ public class PmdPartyController extends PmdBaseController {
             //}
         }else if(cls==2){
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_PMD_OW);
+            ShiroHelper.checkRole(RoleConstants.ROLE_PMD_OW);
             criteria.andMonthIdEqualTo(monthId);
         }else {
             criteria.andIdIsNull();
@@ -147,7 +147,7 @@ public class PmdPartyController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
         
             pmdPartyService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党委报送：%s", id));

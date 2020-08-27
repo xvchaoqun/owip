@@ -127,7 +127,7 @@ public class SysUserController extends BaseController {
     public String sysUser_base(int userId, ModelMap modelMap) {
 
         if (userId != ShiroHelper.getCurrentUserId()) {
-            SecurityUtils.getSubject().checkPermission("sysUser:view");
+            ShiroHelper.checkPermission("sysUser:view");
         }
 
         MemberView member = iMemberMapper.getMemberView(userId);

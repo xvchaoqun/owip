@@ -168,7 +168,7 @@ public class ApprovalLogService extends AbroadBaseMapper {
         }
         if (approvalTypeId == -1) { // 管理员初审
             org.springframework.util.Assert.isTrue(result == null, "null");
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            ShiroHelper.checkRole(RoleConstants.ROLE_CADREADMIN);
         }
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         if (approvalTypeId > 0) {

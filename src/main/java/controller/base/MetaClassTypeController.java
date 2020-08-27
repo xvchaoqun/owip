@@ -3,7 +3,6 @@ package controller.base;
 import controller.BaseController;
 import domain.base.MetaClass;
 import domain.base.MetaType;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
@@ -41,7 +41,7 @@ public class MetaClassTypeController extends BaseController{
         if(afterStr==null){
             throw new UnauthorizedException();
         }*/
-        SecurityUtils.getSubject().checkPermission(cls+":*");
+        ShiroHelper.checkPermission(cls+":*");
     }
 
     @RequestMapping("/metaClass_type_list")

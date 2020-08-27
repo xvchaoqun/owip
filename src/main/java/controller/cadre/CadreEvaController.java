@@ -15,7 +15,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -85,7 +85,7 @@ public class CadreEvaController extends BaseController {
         }
 
         if (export == 1) {
-            SecurityUtils.getSubject().checkPermission("cadre:export");
+            ShiroHelper.checkPermission("cadre:export");
             int currentYear = DateUtils.getCurrentYear();
             cadreEvaService.export(currentYear-4, currentYear, ids, CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
             return;

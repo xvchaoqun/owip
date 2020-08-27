@@ -47,7 +47,7 @@ public class UserPmdPayController extends PmdBaseController {
         int userId = ShiroHelper.getCurrentUserId();
         if(isSelfPay){ // 本人线上缴费
 
-            SecurityUtils.getSubject().checkPermission("userPmdMember:payConfirm");
+            ShiroHelper.checkPermission("userPmdMember:payConfirm");
 
             if(pmdMember.getUserId()!=userId){
                 throw new UnauthorizedException();

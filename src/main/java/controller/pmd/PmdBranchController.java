@@ -153,7 +153,7 @@ public class PmdBranchController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
         
             pmdBranchService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党支部报送：%s", id));

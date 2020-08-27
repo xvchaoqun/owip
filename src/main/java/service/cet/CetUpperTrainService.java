@@ -69,12 +69,12 @@ public class CetUpperTrainService extends CetBaseMapper {
         int currentUserId = ShiroHelper.getCurrentUserId();
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) { // 组织部添加的只有组织部可以删除
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:del");
+            ShiroHelper.checkPermission("cetUpperTrain:del");
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) { // 单位添加的组织部、本单位可以删除
 
             if (!ShiroHelper.isPermitted("cetUpperTrain:del")) {
 
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
+                ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
 
                 if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                     throw new UnauthorizedException();
@@ -119,7 +119,7 @@ public class CetUpperTrainService extends CetBaseMapper {
         }
         if (real) {
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:del");
+            ShiroHelper.checkPermission("cetUpperTrain:del");
             cetUpperTrainMapper.deleteByPrimaryKey(id);
 
         } else {
