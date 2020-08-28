@@ -116,7 +116,7 @@ public class PcsPartyService extends PcsBaseMapper {
 
                if(pcsParty!=null) {
                    record.setId(pcsParty.getId());
-                   pcsPartyMapper.updateByPrimaryKey(record);
+                   pcsPartyMapper.updateByPrimaryKeySelective(record);
                }else{
                    pcsPartyMapper.insertSelective(record);
                }
