@@ -157,6 +157,14 @@ public class PcsPollService extends PcsBaseMapper {
         pcsPollMapper.updateByPrimaryKeySelective(record);
     }
 
+    /*public static void main(String[] args) {
+
+        int inspectorFinishNum =12;
+        int memberCount =15;
+        float rate = (float) (1.0*inspectorFinishNum/memberCount);
+        System.out.println("rate = " + (rate < 0.8));
+    }*/
+
     // 检查是否可以报送
     public void checkReportData(PcsPoll pcsPoll){
 
@@ -164,20 +172,21 @@ public class PcsPollService extends PcsBaseMapper {
         //控制参评率（完成投票的数量/账号的数量）
         int inspectorNum = pcsPoll.getInspectorNum();
         int inspectorFinishNum = pcsPoll.getInspectorFinishNum();
-        float rate = 0;
-        if (inspectorNum != 0){
-            rate = inspectorFinishNum/inspectorNum;
-        }else {
-            throw new OpException("还没有投票结果数据，不可报送");
-        }
-        if (rate < 0.8){
-            throw new OpException("参评率未达要求（80%），不可报送");
-        }
 
         int configId = pcsPoll.getConfigId();
         int partyId = pcsPoll.getPartyId();
         Integer branchId = pcsPoll.getBranchId();
         PcsBranch pcsBranch =  pcsBranchService.get(configId, partyId, branchId);
+        int memberCount = pcsBranch.getMemberCount();
+        float rate = 0;
+        if (inspectorNum != 0){
+            rate = (float) (1.0*inspectorFinishNum/memberCount);
+        }else {
+            throw new OpException("还没有投票结果数据，不可报送");
+        }
+        if (rate < 0.8){
+            throw new OpException("参评率未达要求（>=80%），不可报送");
+        }
 
         int positiveCount = pcsBranch.getPositiveCount();
         int positiveFinishNum = pcsPoll.getPositiveFinishNum();
@@ -300,7 +309,7 @@ public class PcsPollService extends PcsBaseMapper {
         if(stage == PcsConstants.PCS_STAGE_SECOND || stage == PcsConstants.PCS_STAGE_THIRD){
 
             stage = (byte) (stage-1);
-            if(type==PcsConstants.PCS_USER_TYPE_PR){ // 代表
+            if(type== PcsConstants.PCS_USER_TYPE_PR){ // 代表
 
                 PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
                 List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
