@@ -206,16 +206,6 @@ public class UserPcsPollController extends PcsBaseController {
                 List<Integer> candidateUserIds = pcsPollService.getCandidateUserIds(pollId, type);
                 modelMap.put("candidateUserIds", candidateUserIds);
 
-                Set<Integer> selectUserIdList = new HashSet<>();
-                Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
-
-                if (candidateUserIds.size() > 0) {
-                    for (Integer candidateUserId : candidateUserIds) {
-                        selectUserIdList.add(candidateUserId);
-                    }
-                }
-                modelMap.put("selectUserIdList", selectUserIdList);
-
                 return (isMobile) ? "pcs/pcsPoll/mobile/indexSecond" : "pcs/pcsPoll/user/indexSecond";
             }else {
                 return (isMobile) ? "pcs/pcsPoll/mobile/index" : "pcs/pcsPoll/user/index";

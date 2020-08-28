@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.IPcsCandidate;
 import shiro.ShiroHelper;
 
 import java.util.Date;
@@ -104,8 +103,12 @@ public class PcsOwService extends PcsBaseMapper {
     @Cacheable(value = "DataCaches", key = "'pcsCandidateUserIds_' + #configId + '_' + #stage + '_' + #type")
     public List<Integer> getCandidateUserIds(int configId, byte stage, byte type){
 
-        List<IPcsCandidate> candidates = iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
-        return candidates.stream().map(IPcsCandidate::getUserId).collect(Collectors.toList());
+        PcsCandidateChosenExample example = new PcsCandidateChosenExample();
+        example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(stage).andTypeEqualTo(type);
+        List<PcsCandidateChosen> pcsCandidateChosens = pcsCandidateChosenMapper.selectByExample(example);
+
+        //List<IPcsCandidate> candidates = iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
+        return pcsCandidateChosens.stream().map(PcsCandidateChosen::getUserId).collect(Collectors.toList());
     }
 
     // 下发名单

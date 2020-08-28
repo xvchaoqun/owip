@@ -1,4 +1,12 @@
 
+20200826
+北邮、北航  -- 北师大
+
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `vote` `vote` INT(10) UNSIGNED NOT NULL COMMENT '推荐提名的党员数' AFTER `email`,
+	ADD COLUMN `positive_vote` INT(10) UNSIGNED NOT NULL COMMENT '推荐提名的正式党员数' AFTER `vote`;
+
+
 ALTER TABLE `pcs_candidate`
 	CHANGE COLUMN `vote` `vote` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '推荐提名的党员数' AFTER `type`,
 	ADD COLUMN `positive_vote` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '推荐提名的正式党员数' AFTER `vote`;
@@ -14,13 +22,15 @@ INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `
 INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `title`, `content`, `attr`, `remark`, `is_deleted`, `sort_order`) VALUES (NULL, 'hf_pcs_poll_2_pc_notice', NULL, NULL, NULL, '党代会投票二下阶段PC端投票说明', '&#60;h1&#62;\r\n	党代会投票二下阶段PC端投票说明\r\n&#60;/h1&#62;\r\n&#60;p&#62;\r\n	&#60;br /&#62;\r\n&#60;/p&#62;\r\n&#60;p&#62;\r\n	&#60;strong&#62;1、......&#60;/strong&#62; \r\n&#60;/p&#62;\r\n&#60;p&#62;\r\n	&#60;strong&#62;2、......&#60;/strong&#62; \r\n&#60;/p&#62;\r\n&#60;p&#62;\r\n	&#60;br /&#62;\r\n&#60;/p&#62;', NULL, '', 0, 51);
 INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `title`, `content`, `attr`, `remark`, `is_deleted`, `sort_order`) VALUES (NULL, 'hf_pcs_poll_1_pc_notice', NULL, NULL, NULL, '党代会投票一下阶段PC端投票说明', '&#60;h1&#62;\r\n	党代会投票一下阶段PC端投票说明\r\n&#60;/h1&#62;\r\n&#60;p&#62;\r\n	&#60;strong&#62;1、......&#60;/strong&#62; \r\n&#60;/p&#62;\r\n&#60;p&#62;\r\n	&#60;strong&#62;2、......&#60;/strong&#62; \r\n&#60;/p&#62;', NULL, '', 0, 50);
 
+-- 更新录入样表
 
 20200826
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('ad_show_onjob', '干部任免审批表显示在职', 'true', 3, 72, '干部任免审批表是否对在职学习显示“在职”两字');
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
-VALUES ('zzb_address', '组织部地址', '主楼A306', 1, 72, '');
+VALUES ('zzb_address', '组织部地址', 'xxx', 1, 72, '');
+
 -- 更新师大组织部联系电话58808302、58805166
 
 -- 更新utils
