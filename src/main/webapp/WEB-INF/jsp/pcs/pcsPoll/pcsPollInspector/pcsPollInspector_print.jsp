@@ -26,16 +26,17 @@
             </tr>
             <tr>
                 <td align="left">
-                    <span style='font-size:15.0pt;font-family:黑体'>一、推荐票信息</span>
+                    <span style='font-size:15.0pt;font-family:黑体'>一、账号信息</span>
                 </td>
             </tr>
             <tr>
                 <td align="left" style="padding-right: 40px">
                     <table style="border: 1px solid;width: 100%; margin: 10px 20px;padding: 10px;">
                         <tr>
-                            <td colspan="2" align="left">
-                                <span style='font-size:14.0pt;font-family:黑体;'>投票登录网址：</span>
+                            <td align="right">
+                                <span style='font-size:14.0pt;font-family:黑体;'>网址：</span>
                             </td>
+                            <td style="word-wrap:break-word;word-break:break-all;" align="left">${homeURL}/pcs/login</td>
                             <td rowspan="4" align="center" width="105">
                                 <c:set var="loginUrl" value="${homeURL}/pcs/login?u=${inspector.username}&p=${inspector.passwd}"/>
                                 <span style="display: none">${loginUrl}</span>
@@ -43,10 +44,6 @@
                                      data-url="${loginUrl}"
                                      style="width:100px; height:100px;"></div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td align="left">${homeURL}/pcs/login</td>
                         </tr>
                         <tr>
                             <td align="right">
