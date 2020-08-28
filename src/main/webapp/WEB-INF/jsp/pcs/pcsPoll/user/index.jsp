@@ -63,7 +63,7 @@
                                style="width: 17px; height: 17px;vertical-align: text-after-edge;">
                         我确认已阅读推荐说明
                                 </div>
-                        <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm()"
+                        <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm(0)"
                                 type="button"><i class="fa fa-hand-o-right"></i> 进入投票页面
                         </button>
                         </c:if>
@@ -78,6 +78,7 @@
             </div>
             <form id="candidateForm" method="post" action="${ctx}/user/pcs/submit">
                 <input type="hidden" name="flag" value="0">
+                <input type="hidden" name="isMobile" value="0">
                 <input type="hidden" name="isSubmit" value="0">
                 <input type="hidden" name="type" value="${type}"><%--提交的推荐人类型--%>
                 <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
@@ -167,107 +168,7 @@
         </div>
     </div>
 </div>
-
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
-<script>
-
-    $('#candidateForm input[name=type]').change(function () {
-        $("table").mask()
-        _save($(this).val())
-    })
-    var $select = $.register.user_select($('select[name=userIds]'),
-        {url:"${ctx}/user/pcs/member_selects?noAuth=1&partyId=${type==PCS_USER_TYPE_PR?inspector.partyId:''}&status=${MEMBER_STATUS_NORMAL}",
-         theme:'default',language:"zh-CN"});
-
-    var selectedUserIds=${empty userIds?'[]':userIds};
-    var $tip;
-    $select.on("select2:select",function(e){
-
-        //console.log(selectedUserIds)
-        var $this = $(this);
-        if($.inArray(parseInt($this.val()), selectedUserIds)>=0) {
-            $tip = $.tip({
-                $target: $this.closest("td").find(".select2-container"),
-                at: 'top center', my: 'bottom center', type: 'success',
-                msg: "您已经选择了该推荐人。"
-            });
-            $this.val(null).trigger("change");
-        }else {
-            if($tip!=undefined) {
-                $tip.qtip('destroy', true);
-            }
-        }
-        selectedUserIds = $.map($('select[name=userIds]'), function (sel) {
-            return parseInt($(sel).val());
-        });
-    });
-
-    function _confirm() {
-        if ($('#agree').is(':checked') == false) {
-            $('#agree').qtip({content: '请您确认您已阅读说明。', show: true});
-            return false;
-        }
-        $("#agreeForm").ajaxSubmit({
-            url: "${ctx}/user/pcs/agree",
-            success: function (data) {
-                if (data.success) {
-                    //console.log(data)
-                    location.reload();
-                }
-            }
-        });
-    }
-
-    $("#candidateForm").validate({
-        submitHandler: function (form) {
-            $("#candidateForm").ajaxSubmit({
-            success: function (ret) {
-                    if (ret.success) {
-                        if ($("input[name=flag]").val() == 4) {
-                            $.loadModal("${ctx}/user/pcs/submit_info");
-                        }else if ($("input[name=flag]").val() != 0) {//切换人员类型时，保存数据
-                            var type = $('#candidateForm input[name=type]:checked').val();
-                            location.href="${ctx}/user/pcs/index?type="+type;
-                        }else if ($("input[name=isSubmit]").val() == 0) {
-                            SysMsg.success('保存成功（数据还未提交，请填写完成后提交全部结果）。', '暂存')
-                        }
-                    }
-                    $("#saveBtn").button('reset');
-                    $("#checkSubmitBtn").button('reset');
-                }
-            });
-        }
-    });
-
-    //保存
-    function _save(flag) {
-
-        $("#saveBtn").button('loading');
-        $("input[name=flag]").val(flag);//0保存按钮保存
-        $("input[name=isSubmit]").val(0);
-        $("#candidateForm").submit();
-        return false;
-    }
-
-    //提交推荐数据
-    function _submit(flag) {
-        var isPositive = $("input[name=isPositive]:checked").val();
-        if(isPositive!=0 && isPositive!=1){
-            SysMsg.error("请选择投票人身份");
-            return;
-        }
-
-        $("#checkSubmitBtn").button('loading');
-        $("input[name=flag]").val(flag);//0保存按钮保存 1/2/3为三类人员切换时保存 4是先保存，然后弹出提示框,进行提交
-        $("input[name=isSubmit]").val(0);
-        $("#candidateForm").submit();
-        return false;
-    }
-
-    function _logout(isFinished) {
-        location.href = "${ctx}/user/pcs/logout?isFinished="+$.trim(isFinished);
-    }
-
-</script>
+<jsp:include page="/WEB-INF/jsp/pcs/pcsPoll/pcs_poll_js.jsp"></jsp:include>
 </body>
 </html>
