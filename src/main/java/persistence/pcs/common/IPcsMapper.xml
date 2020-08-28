@@ -196,7 +196,7 @@
         left join pcs_recommend pr on pr.config_id=op.config_id and pr.stage=#{stage} and pr.party_id = op.party_id
         left join pcs_admin_report par on par.party_id = op.party_id and par.config_id=pr.config_id and par.stage=pr.stage
         <include refid="where_searchPcsPartyBeans"/>
-        group by op.party_id
+        group by op.sort_order desc
     </select>
     <select id="countPcsPartyBeanList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct op.party_id) from pcs_party op
@@ -237,7 +237,7 @@
         and (pr.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pr.party_id))
         <include refid="searchPcsBranchBeans"/>
         -- order by pb.member_count desc, pb.party_id asc, pb.branch_id asc
-        order by pb.sort_order
+        order by pb.sort_order desc
     </select>
     <select id="countPcsBranchBeanList" parameterType="map" resultType="java.lang.Integer">
         select count(*) from pcs_branch pb

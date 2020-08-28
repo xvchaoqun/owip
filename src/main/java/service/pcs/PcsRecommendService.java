@@ -11,7 +11,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
@@ -28,6 +27,8 @@ public class PcsRecommendService extends PcsBaseMapper {
     private PcsPartyService pcsPartyService;
     @Autowired
     private PcsCandidateService pcsCandidateService;
+    @Autowired
+    private PcsOwService pcsOwService;
 
     // 获取一个已经推荐的票
     public PcsBranchBean get(int partyId, Integer branchId, int configId, byte stage) {
@@ -94,7 +95,7 @@ public class PcsRecommendService extends PcsBaseMapper {
 
             byte _stage = (stage == PcsConstants.PCS_STAGE_SECOND)?
                     PcsConstants.PCS_STAGE_FIRST: PcsConstants.PCS_STAGE_SECOND;
-            List<IPcsCandidate> dwCandidates =
+            /*List<IPcsCandidate> dwCandidates =
                     iPcsMapper.selectPartyCandidateList(null, true, configId,
                             _stage, PcsConstants.PCS_USER_TYPE_DW, new RowBounds());
             for (IPcsCandidate dwCandidate : dwCandidates) {
@@ -106,6 +107,11 @@ public class PcsRecommendService extends PcsBaseMapper {
             for (IPcsCandidate jwCandidate : jwCandidates) {
                 jwIssueUserIdSet.add(jwCandidate.getUserId());
             }
+            */
+            List<Integer> dwUserIds = pcsOwService.getCandidateUserIds(configId, _stage, PcsConstants.PCS_USER_TYPE_DW);
+            dwIssueUserIdSet.addAll(dwUserIds);
+            List<Integer> jwUserIds = pcsOwService.getCandidateUserIds(configId, _stage, PcsConstants.PCS_USER_TYPE_JW);
+            jwIssueUserIdSet.addAll(jwUserIds);
         }
         Date now = new Date();
 

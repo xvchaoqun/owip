@@ -200,7 +200,6 @@ public class PcsRecommendController extends PcsBaseController {
             ShiroHelper.checkPermission("pcsRecommend:list");
         }
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());

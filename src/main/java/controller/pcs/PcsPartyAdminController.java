@@ -68,7 +68,7 @@ public class PcsPartyAdminController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsPartyAdmin_au(PcsAdmin record, String mobile, HttpServletRequest request) {
 
-        if(StringUtils.isBlank(mobile) || !CmTag.validMobile(mobile)){
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 

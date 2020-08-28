@@ -7,11 +7,9 @@ import domain.pcs.*;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import service.cadre.CadreService;
 import sys.constants.PcsConstants;
@@ -31,6 +29,8 @@ public class PcsCandidateService extends PcsBaseMapper {
     private PcsPollService pcsPollService;
     @Autowired
     private PcsRecommendService pcsRecommendService;
+    @Autowired
+    private PcsOwService pcsOwService;
 
     public static final String TABLE_NAME = "pcs_candidate";
 
@@ -194,7 +194,7 @@ public class PcsCandidateService extends PcsBaseMapper {
 
                     byte _stage = (stage == PcsConstants.PCS_STAGE_SECOND) ?
                             PcsConstants.PCS_STAGE_FIRST : PcsConstants.PCS_STAGE_SECOND;
-                    List<IPcsCandidate> dwCandidates =
+                    /*List<IPcsCandidate> dwCandidates =
                             iPcsMapper.selectPartyCandidateList(null, true, configId,
                                     _stage, PcsConstants.PCS_USER_TYPE_DW, new RowBounds());
                     for (IPcsCandidate dwCandidate : dwCandidates) {
@@ -205,7 +205,11 @@ public class PcsCandidateService extends PcsBaseMapper {
                                     _stage, PcsConstants.PCS_USER_TYPE_JW, new RowBounds());
                     for (IPcsCandidate jwCandidate : jwCandidates) {
                         jwIssueUserIdSet.add(jwCandidate.getUserId());
-                    }
+                    }*/
+                    List<Integer> dwUserIds = pcsOwService.getCandidateUserIds(configId, _stage, PcsConstants.PCS_USER_TYPE_DW);
+                    dwIssueUserIdSet.addAll(dwUserIds);
+                    List<Integer> jwUserIds = pcsOwService.getCandidateUserIds(configId, _stage, PcsConstants.PCS_USER_TYPE_JW);
+                    jwIssueUserIdSet.addAll(jwUserIds);
                 }
                 Date now = new Date();
 
