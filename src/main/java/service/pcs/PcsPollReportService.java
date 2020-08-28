@@ -156,11 +156,19 @@ public class PcsPollReportService extends PcsBaseMapper {
         } else {
             pcsFinalResultList = iPcsMapper.selectSecondResultList(pollId, type, userId, new RowBounds());
         }
-        PcsFinalResult finalResult = pcsFinalResultList.get(0);
-        record.setBallot(finalResult.getSupportNum());
-        record.setPositiveBallot(finalResult.getPositiveBallot());
-        record.setGrowBallot(finalResult.getGrowBallot());
-        record.setDisagreeBallot(finalResult.getNotSupportNum() == null ? 0 : finalResult.getNotSupportNum());
-        record.setAbstainBallot(finalResult.getNotVoteNum() == null ? 0 : finalResult.getNotVoteNum());
+        if(pcsFinalResultList==null || pcsFinalResultList.size()==0){
+            record.setBallot(0);
+            record.setPositiveBallot(0);
+            record.setGrowBallot(0);
+            record.setDisagreeBallot(0);
+            record.setAbstainBallot(0);
+        }else {
+            PcsFinalResult finalResult = pcsFinalResultList.get(0);
+            record.setBallot(finalResult.getSupportNum());
+            record.setPositiveBallot(finalResult.getPositiveBallot());
+            record.setGrowBallot(finalResult.getGrowBallot());
+            record.setDisagreeBallot(finalResult.getNotSupportNum() == null ? 0 : finalResult.getNotSupportNum());
+            record.setAbstainBallot(finalResult.getNotVoteNum() == null ? 0 : finalResult.getNotVoteNum());
+        }
     }
 }
