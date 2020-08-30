@@ -23,15 +23,12 @@ import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -118,7 +115,7 @@ public class UserMemberStayController extends MemberBaseController {
     public Map do_memberStay_au(Integer userId, // 申请人
                                    MemberStay record,
                                     MultipartFile _letter,
-                                   HttpServletRequest request) {
+                                   HttpServletRequest request) throws IOException, InterruptedException {
 
         if(userId==null || !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
                 RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)) {
@@ -186,15 +183,16 @@ public class UserMemberStayController extends MemberBaseController {
 
         if (_letter != null && !_letter.isEmpty()) {
 
-            String OriginalFileName = _letter.getOriginalFilename();
+            /*String OriginalFileName = _letter.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
             String realPath = FILE_SEPARATOR
                     + "member_stay" + FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMM")
                     + FILE_SEPARATOR + fileName + FileUtils.getExtention(OriginalFileName);
 
-            FileUtils.copyFile(_letter, new File(springProps.uploadPath + realPath));
+            FileUtils.copyFile(_letter, new File(springProps.uploadPath + realPath));*/
 
-            record.setLetter(realPath);
+            String savePath = upload(_letter, "member_stay");
+            record.setLetter(savePath);
         }
 
         MemberStay memberStay = memberStayService.get(userId, record.getType());

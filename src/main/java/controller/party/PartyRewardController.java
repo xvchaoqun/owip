@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -201,7 +206,7 @@ public class PartyRewardController extends BaseController {
                                  Integer userId,
                                  String rewardTime,
                                  MultipartFile _proof,
-                                 HttpServletRequest request) {
+                                 HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         Integer pbu = branchId != null ? branchId : (partyId != null ? partyId : userId);
@@ -220,11 +225,12 @@ public class PartyRewardController extends BaseController {
         }
         if (_proof != null){
             String originalFilename = _proof.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
+            /*String fileName = UUID.randomUUID().toString();
             String realPath = FILE_SEPARATOR + "partyReward" + FILE_SEPARATOR + "file" + FILE_SEPARATOR + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));*/
 
+            String savePath = upload(_proof, "partyReward");
             record.setProofFilename(originalFilename);
             record.setProof(savePath);
         }

@@ -1,4 +1,10 @@
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('upload_file_whitelist', '系统允许上传的文件格式',
+        'jpg,jpeg,tif,png,gif,pdf,doc,docx,ppt,pptx,xls,xlsx,mp3,mpg,mpeg,flv,zip,rar,7z', 1, 73, '');
+
+-- 更新utils
+
 20200826
 北邮、北航  -- 北师大
 

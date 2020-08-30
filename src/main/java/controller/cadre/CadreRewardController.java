@@ -37,9 +37,11 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadreRewardController extends BaseController {
@@ -133,7 +135,7 @@ public class CadreRewardController extends BaseController {
             // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
-            CadreReward record, String _rewardTime, MultipartFile _proof, HttpServletRequest request) {
+            CadreReward record, String _rewardTime, MultipartFile _proof, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         Assert.isTrue(record.getRewardType() != null, "rewardType is null");
@@ -149,15 +151,17 @@ public class CadreRewardController extends BaseController {
         }
 
         if (_proof != null) {
-            //String ext = FileUtils.getExtention(_proof.getOriginalFilename());
+
             String originalFilename = _proof.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
+            /*String fileName = UUID.randomUUID().toString();
             String realPath = FILE_SEPARATOR
                     + "cadre" + FILE_SEPARATOR
                     + "file" + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));*/
+
+            String savePath = upload(_proof, "cadre_reward");
 
             record.setProofFilename(originalFilename);
             record.setProof(savePath);

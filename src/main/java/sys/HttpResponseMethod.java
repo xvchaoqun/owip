@@ -1,5 +1,6 @@
 package sys;
 
+import controller.global.OpException;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
@@ -130,7 +131,7 @@ public interface HttpResponseMethod {
      *
      * @param file
      * @param saveFolder
-     * @param type       = pdf pic
+     * @param type       =doc时会转换成pdf =pic时会生成缩略图
      * @param sImgWidth
      * @param sImgHeight
      * @return
@@ -140,12 +141,18 @@ public interface HttpResponseMethod {
     default String upload(MultipartFile file, String saveFolder,
                           String type,
                           int sImgWidth,
-                          int sImgHeight) throws IOException, InterruptedException {
+                          int sImgHeight) throws IOException {
+
+        // 系统允许上传文件白名单
+        if(file!=null && !ContentTypeUtils.isAnyFormat(file, CmTag.getStringProperty("upload_file_whitelist"))){
+
+            logger.warn(accessLog("不允许上传的文件格式:" + file.getOriginalFilename()));
+            throw new OpException("不允许上传的文件格式");
+        }
 
         if (file == null || file.isEmpty()) return null;
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
-
 
         // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
         String FILE_SEPARATOR = File.separator;
@@ -164,12 +171,12 @@ public interface HttpResponseMethod {
             //String swfPath = realPath + ".swf";
             //pdf2Swf(pdfPath, swfPath);
 
-        } else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
+        }/* else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
 
             //String swfPath = realPath + ".swf";
             //pdf2Swf(savePath, swfPath);
 
-        } else if (StringUtils.equalsIgnoreCase(type, "pic")) {
+        } */else if (StringUtils.equalsIgnoreCase(type, "pic")) {
             // 需要缩略图的情况
             String shortImgPath = realPath + "_s"
                     + StringUtils.defaultIfBlank(FileUtils.getExtention(originalFilename), ".jpg");
@@ -184,12 +191,12 @@ public interface HttpResponseMethod {
         return savePath;
     }
 
-    default String upload(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+    default String upload(MultipartFile file, String saveFolder) throws IOException {
 
         return upload(file, saveFolder, null, 0, 0);
     }
 
-    default String uploadDocOrPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+    default String uploadDocOrPdf(MultipartFile file, String saveFolder) throws IOException {
 
         if (StringUtils.contains(file.getContentType(), "pdf")) {
 
@@ -199,22 +206,22 @@ public interface HttpResponseMethod {
         }
     }
 
-    default String uploadDoc(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+    default String uploadDoc(MultipartFile file, String saveFolder) throws IOException {
 
         return upload(file, saveFolder, "doc", 0, 0);
     }
 
-    default String uploadPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+    default String uploadPdf(MultipartFile file, String saveFolder) throws IOException {
 
         return upload(file, saveFolder, "pdf", 0, 0);
     }
 
-    default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException, InterruptedException {
+    default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
 
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
-    default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+    default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException {
 
         if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image") == -1) {
             throw new FileFormatException("文件格式错误，请上传pdf或图片文件");

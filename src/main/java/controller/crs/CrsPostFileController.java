@@ -9,20 +9,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
-import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CrsPostFileController extends CrsBaseController {
@@ -89,21 +89,22 @@ public class CrsPostFileController extends CrsBaseController {
     @RequiresPermissions("crsPostFile:edit")
     @RequestMapping(value = "/crsPostFile_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPostFile_au(CrsPostFile record, MultipartFile _file, HttpServletRequest request) {
+    public Map do_crsPostFile_au(CrsPostFile record, MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
         if(_file!=null){
 
-            String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
+            String originalFilename = _file.getOriginalFilename();
+            /*String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
             String realPath = FILE_SEPARATOR
                     + "crs_post_file" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
                     + "file" + FILE_SEPARATOR
                     + UUID.randomUUID().toString();
-            String originalFilename = _file.getOriginalFilename();
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
 
+            String savePath = upload(_file, "crs_post_file");
             record.setFile(savePath);
 
             if(StringUtils.isBlank(record.getFileName())){

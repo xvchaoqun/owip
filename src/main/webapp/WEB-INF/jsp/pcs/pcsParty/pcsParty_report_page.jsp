@@ -40,8 +40,8 @@
     </div>
 </script>
 <script type="text/template" id="successTpl">
-    <div style='padding: 50px;font-size: 22px;font-weight: bolder;'>
-        <div style="color: green; font-size: 38px;text-align: center;margin-bottom: 30px;margin-top: 20px;">
+    <div style='font-size: 22px;font-weight: bolder;'>
+        <div style="color: green; font-size: 38px;margin-bottom: 30px;margin-top: 20px;">
             <i class='fa fa-check-circle fa-lx'></i> 报送成功
         </div>
         <div style="text-indent: 2em">

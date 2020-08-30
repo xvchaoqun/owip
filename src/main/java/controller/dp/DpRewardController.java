@@ -24,7 +24,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -112,7 +111,7 @@ public class DpRewardController extends DpBaseController {
     public Map do_dpReward_au(DpReward record,
                               String _rewardTime,
                               MultipartFile _proof,
-                              HttpServletRequest request) {
+                              HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
@@ -122,10 +121,12 @@ public class DpRewardController extends DpBaseController {
 
         if (_proof != null){
             String originalFilename = _proof.getOriginalFilename();
-            String filename = UUID.randomUUID().toString();
+            /*String filename = UUID.randomUUID().toString();
             String realPath = FILE_SEPARATOR + "dp" + FILE_SEPARATOR + "file" + FILE_SEPARATOR + filename;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_proof, new File(springProps.uploadPath + savePath));*/
+
+            String savePath = upload(_proof, "dp_reward");
 
             record.setProofFilename(originalFilename);
             record.setProof(savePath);

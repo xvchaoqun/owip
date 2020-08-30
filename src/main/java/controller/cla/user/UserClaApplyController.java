@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import persistence.cla.common.ClaApprovalResult;
@@ -34,7 +33,6 @@ import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -174,7 +172,7 @@ public class UserClaApplyController extends ClaBaseController {
     public Map do_claApply_au(Integer cadreId,
                                ClaApply record,
                                MultipartFile[] _files,
-                               HttpServletRequest request) {
+                               HttpServletRequest request) throws IOException, InterruptedException {
 
         // 是否本人操作
         boolean self = false;
@@ -188,13 +186,16 @@ public class UserClaApplyController extends ClaBaseController {
 
         List<ClaApplyFile> claApplyFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
+
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
+            /*String fileName = UUID.randomUUID().toString();
             String realPath =  FILE_SEPARATOR
                     + "cla_apply" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
+
+            String savePath = upload(_file, "cla_apply");
 
             ClaApplyFile claApplyFile = new ClaApplyFile();
             claApplyFile.setFileName(FileUtils.getFileName(originalFilename));

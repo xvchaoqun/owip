@@ -28,10 +28,12 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -366,7 +368,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      String costSource,
                                        MultipartFile[] _files,
                                        @RequestParam(required = false, defaultValue = "0")boolean needSign,
-                                       HttpServletRequest request) {
+                                       HttpServletRequest request) throws IOException, InterruptedException {
         boolean isSelf = false;
         if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
@@ -401,12 +403,14 @@ public class UserPassportDrawController extends AbroadBaseController {
         List<PassportDrawFile> passportDrawFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
+            /*String fileName = UUID.randomUUID().toString();
             String realPath =  FILE_SEPARATOR
                     + "apply_self" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
+
+            String savePath = upload(_file, "apply_self");
 
             PassportDrawFile passportDrawFile = new PassportDrawFile();
             passportDrawFile.setFileName(originalFilename);
@@ -482,7 +486,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      String reason,
                                      MultipartFile[] _files,
                                      String remark,
-                                     HttpServletRequest request) {
+                                     HttpServletRequest request) throws IOException, InterruptedException {
 
         boolean isSelf = false;
         if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
@@ -500,12 +504,14 @@ public class UserPassportDrawController extends AbroadBaseController {
         List<PassportDrawFile> passportDrawFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
+            /*String fileName = UUID.randomUUID().toString();
             String realPath =  FILE_SEPARATOR
                     + "apply_self" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
+
+            String savePath = upload(_file, "apply_self");
 
             PassportDrawFile passportDrawFile = new PassportDrawFile();
             passportDrawFile.setFileName(originalFilename);

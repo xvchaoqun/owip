@@ -15,7 +15,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -169,21 +167,22 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequestMapping(value = "/pmMeeting2_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmMeeting2_au(PmMeeting2 record, Byte[] type,Integer number1 ,String time1,Integer number2 ,String time2, MultipartFile _file, @RequestParam(defaultValue = "0")Byte reedit,    //reedit 重新编辑
-                                HttpServletRequest request) {
+                                HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
         if (_file != null) {
 
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
+            /*String fileName = UUID.randomUUID().toString();
             String realPath = FILE_SEPARATOR
                     + "pmMeeting" + FILE_SEPARATOR
                     + "file" + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
 
+            String savePath = upload(_file, "pmMeeting");
             record.setFileName(originalFilename);
             record.setFilePath(savePath);
         }
