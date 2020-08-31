@@ -111,7 +111,7 @@ public class PmdOrderController extends PmdBaseController {
 
     @RequiresPermissions("pmdOw:admin")
     @RequestMapping("/pmdOrder_query")
-    public String pmdOrder_query(String sn, String code, ModelMap modelMap) throws IOException {
+    public String pmdOrder_query(String sn, ModelMap modelMap) throws IOException {
 
         OrderQueryResult queryResult = pmdOrderService.query(sn);
         modelMap.put("ret", queryResult.getRet());

@@ -340,9 +340,13 @@ public class CadreAdformService extends BaseMapper {
                 if (fulltimeHighEdu.getId().intValue() == fulltimeHighDegree.getId()) {
                     // 最高学历和学位毕业学校及专业相同
                     bean.setSameSchool(true);
-                    bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                    /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                             + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-                    bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                    bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));*/
+                    bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
+                            +StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                    bean.setSchoolDepMajor2(null);
                 } else {
                     bean.setSameSchool(false);
                     bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
@@ -355,15 +359,26 @@ public class CadreAdformService extends BaseMapper {
             } else if (fulltimeHighEdu != null) {
 
                 bean.setSameSchool(true);
-                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                         + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));*/
+
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
+                            +StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                bean.setSchoolDepMajor2(null);
+
             } else if (fulltimeHighDegree != null) {
 
                 bean.setSameSchool(true);
-                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
+                /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
                         + StringUtils.trimToEmpty(fulltimeHighDegree.getDep()));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));*/
+
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeHighDegree.getDep())
+                            +StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
+                bean.setSchoolDepMajor2(null);
             }
         }else{ // 没有学位的情况
 
@@ -372,9 +387,13 @@ public class CadreAdformService extends BaseMapper {
                 _fulltimeEdu = CmTag.getEduName(fulltimeHighEdu.getEduId());
 
                 bean.setSameSchool(true);
-                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                         + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));*/
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                bean.setSchoolDepMajor2(null);
             }
         }
 
@@ -419,9 +438,13 @@ public class CadreAdformService extends BaseMapper {
                 if (onjobHighEdu.getId().intValue() == onjobHighDegree.getId()) {
                     // 最高学历和学位毕业学校及专业相同
                     bean.setSameInSchool(true);
-                    bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                    /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
                             + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
-                    bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                    bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));*/
+                    bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(onjobHighEdu.getDep())
+                            + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                    bean.setInSchoolDepMajor2(null);
                 } else {
                     bean.setSameInSchool(false);
                     bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
@@ -434,15 +457,23 @@ public class CadreAdformService extends BaseMapper {
             } else if (onjobHighEdu != null) {
 
                 bean.setSameInSchool(true);
-                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
                         + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));*/
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighEdu.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                bean.setInSchoolDepMajor2(null);
             } else if (onjobHighDegree != null) {
 
                 bean.setSameInSchool(true);
-                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
+                /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
                         + StringUtils.trimToEmpty(onjobHighDegree.getDep()));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));*/
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighDegree.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+                bean.setInSchoolDepMajor2(null);
             }
         }else{ // 没有学位的情况
 
@@ -451,9 +482,13 @@ public class CadreAdformService extends BaseMapper {
                 _onjobEdu = CmTag.getEduName(onjobHighEdu.getEduId());
 
                 bean.setSameInSchool(true);
-                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
                         + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));*/
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighEdu.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                bean.setInSchoolDepMajor2(null);
             }
         }
 
