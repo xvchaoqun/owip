@@ -94,7 +94,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     enterApplyMapper.insertSelective(enterApply);
                 }
 
-                memberApplyMapper.insert(record);
+                memberApplyMapper.insertSelective(record);
 
                 // 更新志愿书编码状态
                 if(applySnId!=null){
