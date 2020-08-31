@@ -511,8 +511,8 @@ public class MemberApplyService extends MemberBaseMapper {
 
             if(_memberApply.getPartyId() == partyId.intValue() &&
                     NumberUtils.intEqual(_memberApply.getBranchId(), branchId)){
-                // 无变化
-                return ;
+
+                return ; // 无变化
             }
 
             MemberApply record = new MemberApply();

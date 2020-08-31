@@ -1,4 +1,8 @@
 
+-- 已更新北邮
+ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `apply_stage` `apply_stage` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '申请培养阶段，0申请 2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书' AFTER `remark`;
+
 20200830
 西工大 -- 北师大
 
