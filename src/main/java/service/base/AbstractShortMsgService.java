@@ -209,6 +209,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
             if(!sendMsgResult.isSuccess()){
                 throw new OpException(sendMsgResult.getMsg());
             }
+            send = sendMsgResult.isSuccess();
         }
 
         if (relateType == SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL) {
