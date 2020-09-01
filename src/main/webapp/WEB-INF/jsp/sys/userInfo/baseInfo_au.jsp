@@ -27,49 +27,70 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label">性别</label>
-                <div class="col-xs-6">
-                    <div class="input-group">
-                        <c:forEach var="gender" items="${GENDER_MAP}">
+                <c:if test="${not empty cadre}">
+                    <div class="col-xs-6 label-text">
+                            ${GENDER_MAP.get(ui.gender)}
+                    </div>
+                </c:if>
+                <c:if test="${empty cadre}">
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <c:forEach var="gender" items="${GENDER_MAP}">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                     <input required ${ui.gender==gender.key?'checked':''}
                                            type="radio" name="gender" id="gender${gender.key}" value="${gender.key}">
                                     <label for="gender${gender.key}">
-                                        ${gender.value}
+                                            ${gender.value}
                                     </label>
                                 </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
                     </div>
-                </div>
+                </c:if>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label">出生日期</label>
-                <div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input required class="form-control date-picker" name="birth" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(ui.birth,'yyyy-MM-dd')}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                <c:if test="${not empty cadre}">
+                    <div class="col-xs-6 label-text">
+                            ${cm:formatDate(ui.birth,'yyyy-MM-dd')}
                     </div>
-                </div>
+                </c:if>
+                <c:if test="${empty cadre}">
+                    <div class="col-xs-6">
+                        <div class="input-group" style="width: 150px">
+                            <input required class="form-control date-picker" name="birth" type="text"
+                                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(ui.birth,'yyyy-MM-dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label">身份证号码</label>
                 <div class="col-xs-6 label-text">
-                    <t:mask src="${ui.idcard}" type="idCard"/>
+                    ${ui.idcard}
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label">民族</label>
-                <div class="col-xs-6">
-                    <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
-                             <option></option>
-                        <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
-                            <option value="${nation.name}">${nation.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
-                    </script>
-                </div>
+                <c:if test="${not empty cadre}">
+                    <div class="col-xs-6 label-text">
+                            ${cm:ensureEndsWith(ui.nation, '族')}
+                    </div>
+                </c:if>
+                <c:if test="${empty cadre}">
+                    <div class="col-xs-6">
+                        <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
+                                 <option></option>
+                            <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
+                                <option value="${nation.name}">${nation.name}</option>
+                            </c:forEach>
+                        </select>
+                        <script>
+                            $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
+                        </script>
+                    </div>
+                </c:if>
             </div>
         </div>
         <div class="col-xs-7">
@@ -198,11 +219,7 @@
     }
 </style>--%>
 <script>
-    <c:if test="${not empty cadre}">
-    $("#baseInfoForm input[name=gender]").prop("disabled", true);
-    $("#baseInfoForm input[name=birth]").prop("disabled", true);
-    $("#baseInfoForm select[name=nation]").prop("disabled", true);
-    </c:if>
+
     $.fileInput($("#_avatar"), {
         style: 'well',
         btn_choose: '更换头像',
@@ -229,6 +246,7 @@
 
     $("#body-content-view button[type=submit]").click(function () {
 
+        <c:if test="${empty cadre}">
         var idcard = '${ui.idcard}';
         if(idcard.length==15||idcard.length==18){
 
@@ -247,6 +265,7 @@
                 return false;
             }
         }
+        </c:if>
          $("#baseInfoForm").submit();
          return false;
     });
