@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CadreConstants;
 import sys.utils.FormUtils;
@@ -57,7 +56,7 @@ public class CadreSearchController  extends BaseController {
 
     @RequiresPermissions("cadre:archive")
     @RequestMapping(value = "/cadre_search_brief", method = RequestMethod.POST)
-    public String do_cadre_search_brief(@RequestParam(name = "userIds[]")Integer[] userIds, ModelMap modelMap) {
+    public String do_cadre_search_brief(Integer[] userIds, ModelMap modelMap) {
 
         CadreViewExample example = new CadreViewExample();
         example.createCriteria().andUserIdIn(Arrays.asList(userIds));

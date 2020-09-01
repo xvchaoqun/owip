@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -128,7 +127,7 @@ public class PmdMonthController extends PmdBaseController {
     @RequiresPermissions("pmdMonth:edit")
     @RequestMapping(value = "/pmdMonth_selectParties", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMonth_selectParties(int monthId, @RequestParam(value = "partyIds[]")Integer[] partyIds,
+    public Map do_pmdMonth_selectParties(int monthId, Integer[] partyIds,
                                           HttpServletRequest request) {
 
         pmdMonthService.updatePartyIds(monthId, partyIds);

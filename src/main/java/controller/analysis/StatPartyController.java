@@ -111,7 +111,11 @@ public class StatPartyController extends BaseController {
             List<MemberStatByBranchBean> memberStatByPartyBeans = statService.branchMap(partyId);
             for (MemberStatByBranchBean bean : memberStatByPartyBeans) {
                 Branch branch = branchMap.get(bean.getBranchId());
-                categories.add(StringUtils.defaultIfBlank(branch.getShortName(), branch.getName()));
+                if(branch!=null) {
+                    categories.add(StringUtils.defaultIfBlank(branch.getShortName(), branch.getName()));
+                }else{
+                    categories.add("支部不存在");
+                }
                 teachers.add(bean.getTeacher());
                 students.add(bean.getStudent());
             }

@@ -29,7 +29,22 @@
         <include refid="organizerSearchSql"/>
     </select>
 
-    <sql id="_selects_permits">
+    <sql id="_party_permits">
+        <if test="oa.addPermits">
+            <if test="oa.adminPartyIdList.size>0">
+                and p.id in
+                <foreach collection="oa.adminPartyIdList" item="partyId"
+                         index="index" open="(" close=")" separator=",">
+                    #{partyId}
+                </foreach>
+            </if>
+            <if test="oa.adminPartyIdList.size==0">
+                and uv.id is null
+            </if>
+        </if>
+    </sql>
+
+    <sql id="_branch_permits">
         <if test="oa.addPermits">
             <if test="oa.adminPartyIdList.size>0 and oa.adminBranchIdList.size>0">
                 and (
@@ -80,7 +95,7 @@
     </resultMap>
     <sql id="PartyAdminSearchSql">
         <where>
-            <include refid="_selects_permits"/>
+            <include refid="_party_permits"/>
             and p.is_deleted=0
             <if test="oa.partyClassId!=null">
                 and p.class_id = #{oa.partyClassId}
@@ -156,7 +171,7 @@
 
     <sql id="BranchAdminSearchSql">
         <where>
-            <include refid="_selects_permits"/>
+            <include refid="_branch_permits"/>
             and b.is_deleted=0 and p.is_deleted=0
             <if test="oa.partyId!=null">
                 and p.id = #{oa.partyId}

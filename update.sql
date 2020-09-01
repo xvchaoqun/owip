@@ -1,4 +1,7 @@
 
+20200901
+北邮
+
 20200831
 哈工大
 
@@ -7,7 +10,7 @@ ALTER TABLE `ow_member_apply`
 	CHANGE COLUMN `apply_stage` `apply_stage` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '申请培养阶段，0申请 2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书' AFTER `remark`;
 
 20200830
-西工大 -- 北师大
+西工大
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('upload_file_whitelist', '系统允许上传的文件格式',
@@ -16,7 +19,7 @@ VALUES ('upload_file_whitelist', '系统允许上传的文件格式',
 -- 更新utils
 
 20200826
-北邮、北航  -- 北师大
+北邮、北航
 
 ALTER TABLE `pcs_pr_candidate`
 	CHANGE COLUMN `vote` `vote` INT(10) UNSIGNED NOT NULL COMMENT '推荐提名的党员数' AFTER `email`,
