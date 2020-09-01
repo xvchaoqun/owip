@@ -13,7 +13,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -95,9 +94,13 @@ public class MemberRegController extends MemberBaseController {
 			logger.error("注册失败：" + ex.getMessage());
 			return failed("系统错误：" + ex.getMessage());
 		}*/
-        String username=memberRegService.reg(passwd, type, realname,
+        MemberReg reg = memberRegService.reg(passwd, type, realname,
                 idcard, phone, party, IpUtils.getRealIp(request));
+        if(reg==null){
+            return failed("注册失败，请稍后重试");
+        }
 
+        String username = reg.getUsername();
         logger.info(String.format("%s 注册成功", username));
 
         AuthToken token = new AuthToken(username,
