@@ -5,7 +5,7 @@
 20200831
 哈工大
 
--- 已更新北邮
+update ow_member_apply set apply_stage=0 where apply_stage is null;
 ALTER TABLE `ow_member_apply`
 	CHANGE COLUMN `apply_stage` `apply_stage` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '申请培养阶段，0申请 2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书' AFTER `remark`;
 

@@ -224,6 +224,7 @@ public class MemberTransferService extends MemberBaseMapper {
         Member member = memberMapper.selectByPrimaryKey(userId);
         member.setPartyId(toPartyId);
         member.setBranchId(toBranchId);
+        member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
         memberMapper.updateByPrimaryKeySelective(member);
 
         if(toPartyId!=null && toBranchId==null){
