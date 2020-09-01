@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.sys.AvatarService;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -51,9 +53,10 @@ public class DpMemberBaseInfoController extends MemberBaseController {
         modelMap.put("sysUser", sysUser);
 
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
-            // 如果是干部，不允许修改籍贯、户籍地、出生地、手机号
+            // 如果是现任干部，不允许修改籍贯、户籍地、出生地、手机号
             CadreView cv = CmTag.getCadreByUserId(userId);
-            if (cv != null && cv.hasCadreRole()) {
+            if (cv != null && NumberUtils.contains(cv.getStatus(),
+                CadreConstants.CADRE_STATUS_NOW_SET.toArray())) {
                 modelMap.put("cadre", cv);
             }
         }
@@ -99,14 +102,15 @@ public class DpMemberBaseInfoController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 如果是干部，不允许修改籍贯、户籍地、出生地、手机号
+    // 如果是现任干部，不允许修改籍贯、户籍地、出生地、手机号
     private void filterCadreReserveInfo(int userId, SysUserInfo record){
 
         SysUserView sysUser = sysUserService.findById(userId);
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
 
             CadreView cv = CmTag.getCadreByUserId(userId);
-            if(cv!=null && cv.hasCadreRole()) {
+            if(cv!=null && NumberUtils.contains(cv.getStatus(),
+                CadreConstants.CADRE_STATUS_NOW_SET.toArray())) {
 
                 record.setNativePlace(null);
                 record.setHomeplace(null);
