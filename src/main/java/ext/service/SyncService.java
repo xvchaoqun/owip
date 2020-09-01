@@ -613,6 +613,7 @@ public class SyncService extends BaseMapper {
         // 教工信息
         TeacherInfo record = new TeacherInfo();
         record.setUserId(userId);
+        record.setIsRetire(false);
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if (extJzg != null) {
