@@ -17,7 +17,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.*;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -1657,6 +1656,8 @@ public class MemberController extends MemberBaseController {
             record.setUserId(sysUserView.getUserId());
             record.setPartyId(party.getId());
             record.setBranchId(branch.getId());
+
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); //设置党员状态为正常
 
             records.add(record);
 
