@@ -22,6 +22,13 @@ ALTER TABLE `pcs_admin`
 	ADD UNIQUE INDEX `config_id_user_id` (`config_id`, `user_id`);
 
 
+20200902
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+VALUES (984, 0, '提取简介', '', 'function', '', NULL, 88, '0/1/88/', 1, 'cadre:brief', 5, NULL, NULL, 1, NULL);
+
+
 20200901
 北邮， 西工大
 

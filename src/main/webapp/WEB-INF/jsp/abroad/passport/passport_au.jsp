@@ -163,8 +163,10 @@
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
-<c:if test="${!isDuplicate}">
-    <input type="submit" class="btn btn-primary" value="${param.op=='back'?'找回':(passport!=null?'确定':'添加')}"/>
+    <c:if test="${!isDuplicate}">
+    <input id="submitBtn" type="button"
+           class="btn btn-primary"
+           value="${param.op=='back'?'找回':(passport!=null?'确定':'添加')}"/>
     </c:if>
 </div>
 
@@ -206,6 +208,7 @@
         });
     })
 
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
 
