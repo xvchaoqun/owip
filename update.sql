@@ -2,7 +2,7 @@
 
 
 ALTER TABLE `pcs_admin`
-	COMMENT='党代会分党委管理员信息',
+	COMMENT='党代会分党委管理员补充信息',
 	ADD COLUMN `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `id`,
 	ADD COLUMN `mobile` INT(10) UNSIGNED NOT NULL COMMENT '手机号码' AFTER `user_id`,
 	DROP COLUMN `type`;
