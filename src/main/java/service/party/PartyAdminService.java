@@ -57,6 +57,15 @@ public class PartyAdminService extends BaseMapper {
         return iPartyMapper.countPartyAdminList(owAdmin)>0;
     }
 
+    // 读取某个用户的分党委管理员列表
+    public List<OwAdmin> getOwAdmins(int userId){
+
+        OwAdmin owAdmin = new OwAdmin();
+        owAdmin.setUserId(userId);
+
+        return iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+    }
+
     // 分党委管理员ID列表
     public List<Integer> adminPartyUserIdList(int partyId){
 

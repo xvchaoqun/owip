@@ -7,10 +7,12 @@ pageEncoding="UTF-8" %>
         <div class="widget-box" style="width: 800px">
             <div class="widget-header">
                 <h4 class="widget-title">
-                    【${party.name}】-党代会管理员
+                    【${party.name}】-党代会管理员信息维护
+                    <c:if test="${isPartySecretary}">
                     <div class="pull-right"  style="margin-right: 10px">
                     <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcs/pcsPartyAdmin_au?partyId=${party.id}"><i class="fa fa-plus"></i> 添加管理员</a>
                     </div>
+                        </c:if>
                 </h4>
             </div>
             <div class="widget-body">
@@ -18,22 +20,24 @@ pageEncoding="UTF-8" %>
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
+                            <th width="100">学工号</th>
                             <th width="100">姓名</th>
-                            <th width="100">教工号</th>
                             <th width="100">手机号码</th>
                             <th>所在单位</th>
-                            <th width="100">类别</th>
+
+                            <c:if test="${isPartySecretary}">
                             <th width="100"></th>
+                                </c:if>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${pcsAdmins}" var="admin">
                             <tr>
-                                <td>${admin.user.realname}</td>
                                 <td>${admin.user.code}</td>
+                                <td>${admin.user.realname}</td>
                                 <td><t:mask src="${admin.user.mobile}" type="mobile"/></td>
                                 <td title="${admin.unit}">${cm:substr(admin.unit, 0, 15, '...')}</td>
-                                <td>${PCS_ADMIN_TYPE_MAP.get(admin.type)}</td>
+                                <c:if test="${isPartySecretary}">
                                 <td>
                                     <c:if test="${admin.type==PCS_ADMIN_TYPE_NORMAL}">
                                         <a class="popupBtn btn btn-primary btn-xs"
@@ -45,6 +49,7 @@ pageEncoding="UTF-8" %>
                                             ><i class="fa fa-times"></i> 删除</button>
                                     </c:if>
                                 </td>
+                                </c:if>
                             </tr>
                         </c:forEach>
                         </tbody>

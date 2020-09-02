@@ -56,7 +56,6 @@ public class PcsAdminController extends PcsBaseController {
     public void pcsAdmin_data(HttpServletResponse response,
                               Integer partyId,
                               Integer userId,
-                              Byte type,
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer[] ids, // 导出的记录
                               Integer pageSize, Integer pageNo) throws IOException {
@@ -78,9 +77,6 @@ public class PcsAdminController extends PcsBaseController {
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
-        }
-        if(type != null){
-            criteria.andTypeEqualTo(type);
         }
 
         /*if (export == 1) {
@@ -115,8 +111,8 @@ public class PcsAdminController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsAdmin_sync() {
 
-        pcsAdminService.syncCurrentPcsAdmin();
-        logger.info(addLog(LogConstants.LOG_PCS, "同步党代会分党委管理员"));
+        /*pcsAdminService.syncCurrentPcsAdmin();
+        logger.info(addLog(LogConstants.LOG_PCS, "同步党代会分党委管理员"));*/
 
         return success(FormUtils.SUCCESS);
     }
@@ -151,7 +147,7 @@ public class PcsAdminController extends PcsBaseController {
             return failed("该用户已经是党代会管理员");
         }
 
-        pcsAdminService.addOrUpdate(record, mobile);
+        //pcsAdminService.addOrUpdate(record, mobile);
         logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党代会分党委管理员：%s-%s",
                 JSONUtils.toString(record, false), mobile));
         return success(FormUtils.SUCCESS);
@@ -170,7 +166,6 @@ public class PcsAdminController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsAdmin_msg(byte type, // type=1 两委委员 type=2 党代表
                                byte stage,
-                               byte adminType,
                                String mobile,
                                String msg,
                                HttpServletRequest request) {
@@ -179,7 +174,7 @@ public class PcsAdminController extends PcsBaseController {
             return failed("手机号码有误："+ mobile);
         }
         msg = HtmlUtils.htmlUnescape(msg);
-        Map<String, Integer> result = pcsAdminService.sendMsg(type, stage, adminType, mobile, msg);
+        Map<String, Integer> result = pcsAdminService.sendMsg(type, stage, mobile, msg);
         logger.info(addLog(LogConstants.LOG_PCS, "发送信息给分党委管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
@@ -259,7 +254,7 @@ public class PcsAdminController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsAdminService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会分党委管理员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会分党委管理员信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

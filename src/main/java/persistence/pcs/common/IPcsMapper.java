@@ -65,11 +65,10 @@ public interface IPcsMapper {
 
     // 还未报送党代表数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
-    @Select("select * from pcs_admin pa where pa.type = #{adminType} and not exists(select 1 from " +
+    @Select("select * from pcs_admin pa where pa.config_id = #{configId} and not exists(select 1 from " +
             "pcs_pr_recommend where party_id =pa.party_id and config_id  = #{configId} and stage = #{stage} and has_report=1)")
     public List<PcsAdmin> hasNotReportPcsPrAdmins(@Param("configId") int configId,
-                                                  @Param("stage") byte stage,
-                                                  @Param("adminType") byte adminType);
+                                                  @Param("stage") byte stage);
 
     //  （党代表）分党委推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
     public List<PcsPrPartyBean> selectPcsPrPartyBeanList(
@@ -119,10 +118,10 @@ public interface IPcsMapper {
 
     // 还未报送两委委员数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
-    @Select("select * from pcs_admin pa where pa.type = #{adminType} and not exists(select 1 from " +
+    @Select("select * from pcs_admin pa where pa.config_id = #{configId} and not exists(select 1 from " +
             "pcs_admin_report where party_id=pa.party_id and config_id  = #{configId} and stage = #{stage})")
     public List<PcsAdmin> hasNotReportPcsAdmins(@Param("configId") int configId,
-                                                @Param("stage") byte stage, @Param("adminType") byte adminType);
+                                                @Param("stage") byte stage);
 
     // 全校 应参会党员总数/实参会党员总数
     @Select("select sum(pr.expect_member_count) as expect, sum(pr.actual_member_count) as actual " +

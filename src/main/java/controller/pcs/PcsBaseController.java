@@ -9,6 +9,7 @@ import service.cadre.CadreService;
 import service.global.CacheService;
 import service.party.BranchService;
 import service.party.MemberService;
+import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.pcs.*;
 import service.sys.*;
@@ -28,6 +29,8 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     protected SysUserService sysUserService;
     @Autowired
     protected PartyService partyService;
+    @Autowired
+    protected PartyMemberService partyMemberService;
     @Autowired
     protected BranchService branchService;
     @Autowired

@@ -709,18 +709,6 @@ public class SysUserService extends BaseMapper {
             }
         }
 
-        // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
-        if (userRoles.contains(RoleConstants.ROLE_PCS_PARTY)) {
-
-            PcsAdminService pcsAdminService = CmTag.getBean(PcsAdminService.class);
-            if (pcsAdminService != null) {
-                PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
-                if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
-                    userPermissions.remove("pcsPartyAdmin:*");
-                }
-            }
-        }
-
         // 干部
         if (userRoles.contains(RoleConstants.ROLE_CADRE_CJ)) {
             CadreView cadre = CmTag.getCadreByUserId(userId);

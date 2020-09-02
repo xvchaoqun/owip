@@ -64,15 +64,6 @@
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>类型</label>
-                                <select name="type" data-rel="select2" data-placeholder="请选择"> 
-                                    <option></option>
-                                      <c:forEach items="${PCS_ADMIN_TYPE_MAP}" var="type"> 
-                                        <option value="${type.key}">${type.value}</option>
-                                          </c:forEach>  </select> 
-                                <script>         $("#searchForm select[name=type]").val('${param.type}');     </script>
-                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

@@ -10,17 +10,18 @@ public class PcsAdmin implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public String getUnit(){
-        return CmTag.getUserUnit(userId);
-    }
 
     private Integer id;
+
+    private Integer configId;
 
     private Integer partyId;
 
     private Integer userId;
 
-    private Byte type;
+    private String unit;
+
+    private String mobile;
 
     private String remark;
 
@@ -32,6 +33,14 @@ public class PcsAdmin implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(Integer configId) {
+        this.configId = configId;
     }
 
     public Integer getPartyId() {
@@ -50,12 +59,20 @@ public class PcsAdmin implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getType() {
-        return type;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public String getRemark() {

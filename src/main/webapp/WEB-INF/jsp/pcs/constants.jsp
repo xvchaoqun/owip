@@ -28,11 +28,6 @@
 <c:set value="<%=PcsConstants.PCS_POLL_SECOND_STAGE%>" var="PCS_POLL_SECOND_STAGE"/>
 <c:set value="<%=PcsConstants.PCS_POLL_THIRD_STAGE%>" var="PCS_POLL_THIRD_STAGE"/>
 
-<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_MAP%>" var="PCS_ADMIN_TYPE_MAP"/>
-<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_NORMAL%>" var="PCS_ADMIN_TYPE_NORMAL"/>
-<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_SECRETARY%>" var="PCS_ADMIN_TYPE_SECRETARY"/>
-<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_VICE_SECRETARY%>" var="PCS_ADMIN_TYPE_VICE_SECRETARY"/>
-
 <c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 <c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
 <c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>

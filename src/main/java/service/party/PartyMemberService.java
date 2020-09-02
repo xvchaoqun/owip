@@ -172,6 +172,23 @@ public class PartyMemberService extends BaseMapper {
         return records.size() == 0 ? null : records.get(0);
     }
 
+    // 是否现任分党委书记
+    public boolean isPartySecretary(int userId, int partyId) {
+
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
+        if (presentGroup == null) return false;
+
+        MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
+
+        PartyMemberViewExample example = new PartyMemberViewExample();
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
+                .andPostIdEqualTo(partySecretaryType.getId())
+                .andUserIdEqualTo(userId)
+                .andIsHistoryEqualTo(false);
+
+        return partyMemberViewMapper.countByExample(example)>0;
+    }
+
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId) {
 

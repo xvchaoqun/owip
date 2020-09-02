@@ -3,9 +3,11 @@
 <mapper namespace="persistence.pcs.PcsAdminMapper">
   <resultMap id="BaseResultMap" type="domain.pcs.PcsAdmin">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, user_id, type, remark
+    id, config_id, party_id, user_id, unit, mobile, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsAdminExample" resultMap="BaseResultMap">
     select
@@ -100,10 +102,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsAdmin">
-    insert into pcs_admin (id, party_id, user_id, 
-      type, remark)
-    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
+    insert into pcs_admin (id, config_id, party_id, 
+      user_id, unit, mobile, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsAdmin">
     insert into pcs_admin
@@ -111,14 +115,20 @@
       <if test="id != null">
         id,
       </if>
+      <if test="configId != null">
+        config_id,
+      </if>
       <if test="partyId != null">
         party_id,
       </if>
       <if test="userId != null">
         user_id,
       </if>
-      <if test="type != null">
-        type,
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="mobile != null">
+        mobile,
       </if>
       <if test="remark != null">
         remark,
@@ -128,14 +138,20 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
+      </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -154,14 +170,20 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -174,9 +196,11 @@
   <update id="updateByExample" parameterType="map">
     update pcs_admin
     set id = #{record.id,jdbcType=INTEGER},
+      config_id = #{record.configId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -185,14 +209,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsAdmin">
     update pcs_admin
     <set>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -202,9 +232,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsAdmin">
     update pcs_admin
-    set party_id = #{partyId,jdbcType=INTEGER},
+    set config_id = #{configId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
+      unit = #{unit,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

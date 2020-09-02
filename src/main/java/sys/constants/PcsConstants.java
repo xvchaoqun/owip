@@ -20,7 +20,7 @@ public class PcsConstants {
         PCS_USER_TYPE_MAP.put(PCS_USER_TYPE_PR, "代表");
     }
 
-    // 党代会管理员类型， 1 书记 2 副书记 3 普通管理员（通常由书记指定一人）
+    /*// 党代会管理员类型， 1 书记 2 副书记 3 普通管理员（通常由书记指定一人）
     public final static byte PCS_ADMIN_TYPE_SECRETARY = 1;
     public final static byte PCS_ADMIN_TYPE_VICE_SECRETARY = 2;
     public final static byte PCS_ADMIN_TYPE_NORMAL = 3;
@@ -30,7 +30,7 @@ public class PcsConstants {
         PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_SECRETARY, "书记");
         PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_VICE_SECRETARY, "副书记");
         PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_NORMAL, "普通管理员");
-    }
+    }*/
 
     // 党代会阶段，1 一下一上 2 二下二上 3 三下三上
     public final static byte PCS_STAGE_FIRST = 1;

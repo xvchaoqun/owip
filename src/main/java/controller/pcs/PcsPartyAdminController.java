@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.PcsConstants;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -35,9 +34,12 @@ public class PcsPartyAdminController extends PcsBaseController {
     public String pcsPartyAdmin(ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
+        if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
+
+        modelMap.put("isPartySecretary",
+                partyMemberService.isPartySecretary(pcsAdmin.getUserId(), pcsAdmin.getPartyId()));
 
         Integer partyId = pcsAdmin.getPartyId();
         modelMap.put("party", partyService.findAll().get(partyId));
@@ -50,15 +52,6 @@ public class PcsPartyAdminController extends PcsBaseController {
             modelMap.put("pcsAdmins", pcsAdmins);
         }
 
-      /*  {
-            PcsAdminExample example = new PcsAdminExample();
-            example.createCriteria().andPartyIdEqualTo(partyId)
-                    .andTypeEqualTo(PcsConstants.PCS_ADMIN_TYPE_NORMAL);
-            if (pcsAdminMapper.countByExample(example) > 0) {
-                modelMap.put("hasNormalAdmin", true);
-            }
-        }*/
-
         return "pcs/pcsPartyAdmin/pcsPartyAdmin_page";
     }
 
@@ -66,20 +59,21 @@ public class PcsPartyAdminController extends PcsBaseController {
     @RequiresPermissions("pcsPartyAdmin:edit")
     @RequestMapping(value = "/pcsPartyAdmin_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPartyAdmin_au(PcsAdmin record, String mobile, HttpServletRequest request) {
+    public Map do_pcsPartyAdmin_au(PcsAdmin record, HttpServletRequest request) {
 
+        String mobile = record.getMobile();
         if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
+        if (pcsAdmin == null || !partyMemberService.isPartySecretary(pcsAdmin.getUserId(), pcsAdmin.getPartyId())) {
             throw new UnauthorizedException();
         }
         // 添加本单位管理员
         record.setPartyId( pcsAdmin.getPartyId());
-        pcsAdminService.addOrUpdate(record, mobile);
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员：%s-%s"
+        pcsAdminService.addOrUpdate(record);
+        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员信息：%s-%s"
                 , JSONUtils.toString(record, false), mobile));
 
         return success(FormUtils.SUCCESS);
@@ -108,15 +102,14 @@ public class PcsPartyAdminController extends PcsBaseController {
         if (admin == null) return success();
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY
-                || admin.getType() != PcsConstants.PCS_ADMIN_TYPE_NORMAL
+        if (pcsAdmin == null || !partyMemberService.isPartySecretary(pcsAdmin.getUserId(), pcsAdmin.getPartyId())
                 || admin.getPartyId().intValue() != pcsAdmin.getPartyId()) {
             throw new UnauthorizedException();
         }
 
         pcsAdminService.batchDel(new Integer[]{id});
         SysUserView user = admin.getUser();
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]删除党代会分党委管理员-%s(%s)", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]删除党代会分党委管理员信息-%s(%s)", user.getRealname(), user.getCode()));
 
         return success(FormUtils.SUCCESS);
     }

@@ -1,6 +1,32 @@
 
+
+
+ALTER TABLE `pcs_admin`
+	COMMENT='党代会分党委管理员信息',
+	ADD COLUMN `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `id`,
+	ADD COLUMN `mobile` INT(10) UNSIGNED NOT NULL COMMENT '手机号码' AFTER `user_id`,
+	DROP COLUMN `type`;
+
+update pcs_admin set config_id = (select id from pcs_config where is_current=1);
+ALTER TABLE `pcs_admin`
+	ADD CONSTRAINT `FK_pcs_admin_pcs_config` FOREIGN KEY (`config_id`) REFERENCES `pcs_config` (`id`) ON DELETE CASCADE;
+ALTER TABLE `pcs_admin`
+	ADD COLUMN `unit` VARCHAR(200) NULL COMMENT '所在单位' AFTER `user_id`;
+ALTER TABLE `pcs_admin`
+	CHANGE COLUMN `mobile` `mobile` VARCHAR(50) NULL COMMENT '手机号码' AFTER `unit`;
+update pcs_admin pa left join sys_user_view uv on pa.user_id=uv.user_id set pa.mobile=uv.mobile, pa.unit=uv.unit ;
+-- 删除角色 role_pcs_party 相关权限给分党委管理员
+ALTER TABLE `pcs_admin`
+	DROP INDEX `user_id`;
+ALTER TABLE `pcs_admin`
+	ADD UNIQUE INDEX `config_id_user_id` (`config_id`, `user_id`);
+
+
 20200901
 北邮， 西工大
+
+-- 更新 SyncService
+-- record.setIsRetire(false);
 
 20200831
 哈工大

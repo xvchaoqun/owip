@@ -11,19 +11,6 @@
         <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="stage" value="${param.stage}">
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>发送对象</label>
-            <div class="col-xs-8 label-text">
-                <div class="input-group">
-                <c:forEach items="${PCS_ADMIN_TYPE_MAP}" var="_type">
-                    <label>
-                        <input required name="adminType" type="radio" class="ace" value="${_type.key}"/>
-                        <span class="lbl" style="padding-right: 5px;"> ${_type.value}</span>
-                    </label>
-                </c:forEach>
-                    </div>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-xs-3 control-label">手机号码</label>
             <div class="col-xs-8">
                 <input class="form-control" type="text" name="mobile" value="${uv.mobile}">
@@ -46,16 +33,9 @@
 <script>
     var $msg = $("textarea[name=msg]", "#modalForm");
     function _resetMsg(){
-        var adminType = "各位管理员";
-        var type = $("input[name=adminType]:checked", "#modalForm").val();
-        if(type=="${PCS_ADMIN_TYPE_SECRETARY}"){
-            adminType = "各位书记";
-        }else if(type=="${PCS_ADMIN_TYPE_VICE_SECRETARY}"){
-            adminType = "各位副书记";
-        }
 
         var msg = "${param.type==1?cm:getContentTpl('ct_pcs_wy_msg').content:cm:getContentTpl('ct_pcs_pr_msg').content}"
-            .format(adminType, "${PCS_STAGE_MAP.get(cm:toByte(param.stage))}")
+            .format("各位管理员", "${PCS_STAGE_MAP.get(cm:toByte(param.stage))}")
         $msg.val(msg);
     }
 
