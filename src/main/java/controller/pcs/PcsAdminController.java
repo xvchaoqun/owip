@@ -5,6 +5,7 @@ import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
 import domain.pcs.PcsAdminExample.Criteria;
+import domain.pcs.PcsConfig;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +63,9 @@ public class PcsAdminController extends PcsBaseController {
                               Integer[] ids, // 导出的记录
                               Integer pageSize, Integer pageNo) throws IOException {
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -71,7 +75,7 @@ public class PcsAdminController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PcsAdminExample example = new PcsAdminExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
         example.setOrderByClause("party_id asc");
 
         if (partyId != null) {

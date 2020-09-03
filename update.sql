@@ -1,4 +1,6 @@
 
+20200903
+北邮
 
 -- 更新cadre_view
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
@@ -11,6 +13,8 @@ DELETE FROM cet_upper_train WHERE id IN (SELECT tmp.id FROM (SELECT MIN(c.id) AS
 WHERE TYPE!=10
 GROUP BY c.user_id,c.start_date,c.end_date,c.train_name
 HAVING COUNT>1)tmp);
+-- 删除西工大培训中的重复数据
+-- 更新导入样表
 
 20200902
 吉大 -- 北师大

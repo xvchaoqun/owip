@@ -3,6 +3,7 @@ package controller.pcs;
 import controller.global.OpException;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
+import domain.pcs.PcsConfig;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -47,8 +48,11 @@ public class PcsPartyAdminController extends PcsBaseController {
         modelMap.put("party", partyService.findAll().get(partyId));
 
         {
+            PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+            int configId = currentPcsConfig.getId();
+
             PcsAdminExample example = new PcsAdminExample();
-            example.createCriteria().andPartyIdEqualTo(partyId);
+            example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);
             /*example.setOrderByClause("type asc");*/
             List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
             modelMap.put("pcsAdmins", pcsAdmins);
