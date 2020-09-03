@@ -5949,6 +5949,18 @@ public class MemberViewExample {
 
             return this;
         }
+
+        public MemberViewExample.Criteria selectRetire(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+
+            return this;
+        }
     }
 
     public static class Criterion {

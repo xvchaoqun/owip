@@ -88,10 +88,10 @@ pageEncoding="UTF-8" %>
         $("#modal").modal('hide');
     })
     var ids = new Array();
-    $(document).on("change", "#cadreTrainCollectDiv input[name='id'], #cadreTrainCollectDiv input[name='checkAll']", function(){
+    $(document).on("change", "#cadreTrainCollectDiv input[name='id']", function(){
 
         $("input[name='id']", "#cadreTrainCollectDiv").each(function () {
-            var id = $(this).val();
+            var id = parseInt($(this).val());
             if (this.checked) { //被选中的复选框
                 if (ids.toString() == "") {
                     ids.push(id);
@@ -101,12 +101,26 @@ pageEncoding="UTF-8" %>
                     }
                 }
             } else {  //未被选中的复选框
+                $('#cadreTrainCollectDiv input[name=checkAll]').prop('checked', false);
                 if ($.inArray(id, ids)>=0) {
-                    ids.splice($.inArray(id, ids), id.length);
+                    ids.remove(id);
+                    //ids.splice($.inArray(id, ids), id.length);
+                    //console.log(ids)
                 }
                 $(this).closest("tr").removeClass("active");
             }
         });
+    });
+    $('#cadreTrainCollectDiv input[name=checkAll]').on('change',function () {
+        if($(this).is(':checked')){
+            $('#cadreTrainCollectDiv input[name=id]').prop('checked',true);
+            ids=$.map($('#cadreTrainCollectDiv input[name=id]'), function (input) {
+                return parseInt($(input).val());
+            });
+        }else {
+            $('#cadreTrainCollectDiv input[name=id]').prop('checked',false);
+            ids=[];
+        }
     });
     $("#submitBtn").on("click", function () {
         if (ids.length==0){

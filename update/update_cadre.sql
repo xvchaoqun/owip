@@ -1,3 +1,8 @@
+
+-- 2020.9.3 ly
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES ('更新领导干部的培训信息', '更新培训模块的培训信息至领导干部的培训信息', 'job.cadre.UpdateCadreTrain', '0 0 1 * * ?', 1, 0, 32, '2020-09-01 16:13:32', 0);
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES ('更新离退休党员的人员状态', '离退休分党委和党支部中，把党员的人员状态为“在职”的更新为“退休”', 'job.member.UpdateRetireStatus', '0 0 1 * * ?', 1, 0, 31, '2020-08-31 16:36:23', 0);
+
 2020-08-19
 update cadre_post set is_cpc=(select is_cpc from unit_post where cadre_post.unit_post_id=unit_post.id)
 

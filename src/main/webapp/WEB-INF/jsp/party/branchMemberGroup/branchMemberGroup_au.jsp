@@ -45,7 +45,7 @@
             <label class="col-xs-3 control-label">上一届委员会</label>
             <div class="col-xs-8">
                 <select class="form-control" name="fid" data-width="292"
-                        data-rel="select2-ajax" data-ajax-url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}"
+                        data-rel="select2-ajax" data-ajax-url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}&id=${branchMemberGroup.id}"
                         data-placeholder="请选择委员会">
                     <option value="${fBranchMemberGroup.id}">${fBranchMemberGroup.name}</option>
                 </select>

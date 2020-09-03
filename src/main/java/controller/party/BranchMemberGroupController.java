@@ -444,7 +444,7 @@ public class BranchMemberGroupController extends BaseController {
     // 仅查询某支部下的委员会
     @RequestMapping("/branchMemberGroup_selects")
     @ResponseBody
-    public Map branchMemberGroup_selects(Integer branchId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map branchMemberGroup_selects(Integer branchId, Integer id, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -462,6 +462,9 @@ public class BranchMemberGroupController extends BaseController {
             criteria.andBranchIdEqualTo(branchId);
         }else{
             criteria.andIdIsNull();
+        }
+        if (id != null){
+            criteria.andIdNotEqualTo(id);
         }
 
         if (StringUtils.isNotBlank(searchStr)) {

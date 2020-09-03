@@ -416,7 +416,7 @@ public class PartyMemberGroupController extends BaseController {
     // 仅查询某分党委下的班子
     @RequestMapping("/partyMemberGroup_selects")
     @ResponseBody
-    public Map partyMemberGroup_selects(Integer partyId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map partyMemberGroup_selects(Integer partyId, Integer id, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -432,6 +432,9 @@ public class PartyMemberGroupController extends BaseController {
             criteria.andPartyIdEqualTo(partyId);
         }else{
             criteria.andIdIsNull();
+        }
+        if (id != null){
+            criteria.andIdNotEqualTo(id);
         }
         example.setOrderByClause("sort_order desc");
 

@@ -32,7 +32,7 @@
             <div class="col-xs-8">
                 <div class="help-block">
                     <select class="form-control" name="fid" data-width="292"
-                            data-rel="select2-ajax" data-ajax-url="${ctx}/partyMemberGroup_selects?partyId=${party.id}"
+                            data-rel="select2-ajax" data-ajax-url="${ctx}/partyMemberGroup_selects?partyId=${party.id}&id=${partyMemberGroup.id}"
                             data-placeholder="请选择班子">
                         <option value="${fPartyMemberGroup.id}">${fPartyMemberGroup.name}</option>
                     </select>

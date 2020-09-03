@@ -262,16 +262,30 @@ public class CadreTrainService extends BaseMapper {
             cetRecords = cetRecordMapper.selectByExample(example);
         }
 
-        for (CetRecord cetRecord:cetRecords) {
+        updateCadreTrain(cetRecords, cadreId);
+
+    }
+
+    public void updateCadreTrain(List<CetRecord> records, int cadreId){
+
+        for (CetRecord cetRecord:records) {
 
             CadreTrain record = new CadreTrain();
 
             //判断是否添加重复
             CadreTrainExample example = new CadreTrainExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andStartTimeEqualTo(cetRecord.getStartDate())
-                    .andEndTimeEqualTo(cetRecord.getEndDate())
+            CadreTrainExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+            if (cetRecord.getStartDate() != null){
+                criteria.andStartTimeEqualTo(cetRecord.getStartDate());
+            }else {
+                criteria.andStartTimeIsNull();
+            }
+            if (cetRecord.getEndDate() != null){
+                criteria.andEndTimeEqualTo(cetRecord.getEndDate());
+            }else {
+                criteria.andEndTimeIsNull();
+            }
             List<CadreTrain> cadreTrains = cadreTrainMapper.selectByExample(example);
             if (cadreTrains.size() > 0){
                 record.setId(cadreTrains.get(0).getId());

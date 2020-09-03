@@ -1,4 +1,10 @@
 
+-- 2020.9.3 ly 删除西工大培训中的重复数据
+DELETE FROM cet_upper_train WHERE id IN (SELECT tmp.id FROM (SELECT MIN(c.id) AS id,c.user_id,c.train_name, COUNT(*) AS count FROM cet_upper_train c
+WHERE TYPE!=10
+GROUP BY c.user_id,c.start_date,c.end_date,c.train_name
+HAVING COUNT>1)tmp)
+
 -- 2020.7.23 ly
 DROP TABLE IF EXISTS `cet_project_file`;
 CREATE TABLE IF NOT EXISTS `cet_project_file` (
