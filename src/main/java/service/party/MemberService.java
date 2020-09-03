@@ -596,6 +596,9 @@ public class MemberService extends MemberBaseMapper {
             Map<String, List<String>> codeMap = new HashMap<>();
             if (StringUtils.isBlank(userCode)) {
                 //通过身份证号得到userCode
+                if (idcard == null) {
+                    throw new OpException("第{0}行身份证号和学工号都为空", row);
+                }
                 Byte _type = 0;
                 //提取学工号
                 codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
@@ -824,6 +827,7 @@ public class MemberService extends MemberBaseMapper {
             memberApply.setGrowTime(record.getGrowTime());
             memberApply.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             memberApply.setStage(OwConstants.OW_APPLY_STAGE_GROW);
+            memberApply.setApplyStage(OwConstants.OW_APPLY_STAGE_GROW);
 
             memberApply.setRemark("预备党员信息添加后同步");
             memberApply.setFillTime(now);

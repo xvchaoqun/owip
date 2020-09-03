@@ -5949,6 +5949,19 @@ public class MemberViewExample {
 
             return this;
         }
+
+        // 从分党委或党支部中查找党员
+        public MemberViewExample.Criteria in(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+
+            return this;
+        }
     }
 
     public static class Criterion {

@@ -15,8 +15,8 @@ SELECT c.*,
 	,`uv`.`native_place` AS `native_place`
 	,`uv`.`idcard` AS `idcard`
 	,if(isnull(_va.verify_birth),`uv`.`birth`,_va.verify_birth) AS `birth`
-	,`om`.`party_id` AS `party_id`
-	,`om`.`branch_id` AS `branch_id`
+	,if(om.status=1, `om`.`party_id`, null) AS `party_id`
+	,if(om.status=1, `om`.`branch_id`, null) AS `branch_id`
 	,`om`.`status` AS `member_status`
 	, dp.id as dp_id
 	, dp.class_id as dp_type_id

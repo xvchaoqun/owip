@@ -85,7 +85,7 @@ public interface ICetMapper {
     void refreshProjectObjs(@Param("projectId") int projectId);
 
     // 获取最大编码（为了获取不重复编码，此处包含已删除的记录）
-    @Select("select max(no)+1 from cet_record " +
+    @Select("select max(cert_no)+1 from cet_record " +
             "where year=#{year} and user_type=#{userType} " +
             "and special_type=#{specialType} and project_type=#{projectType}")
     Short getNextCertNo(@Param("year") int year,
@@ -93,10 +93,10 @@ public interface ICetMapper {
                          @Param("specialType") byte specialType,
                          @Param("projectType") int projectType);
 
-    @Update("update cet_record set no=#{no} where id=#{recordId} and not exists" +
-            "(select * from (select no from cet_record where year=#{year} and user_type=#{userType} " +
-            "and special_type=#{specialType} and project_type=#{projectType} and no=#{no}) tmp)")
-    int updateCertNo(@Param("recordId") int recordId, @Param("no") int no,
+    @Update("update cet_record set cert_no=#{certNo} where id=#{recordId} and not exists" +
+            "(select * from (select cert_no from cet_record where year=#{year} and user_type=#{userType} " +
+            "and special_type=#{specialType} and project_type=#{projectType} and cert_no=#{certNo}) tmp)")
+    int updateCertNo(@Param("recordId") int recordId, @Param("certNo") int certNo,
                          @Param("year") int year,
                          @Param("userType") byte userType,
                          @Param("specialType") byte specialType,

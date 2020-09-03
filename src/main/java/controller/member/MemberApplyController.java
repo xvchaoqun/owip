@@ -221,6 +221,7 @@ public class MemberApplyController extends MemberBaseController {
                 throw new OpException("第{0}行当前状态[{1}]不存在", row, _stage);
             }
             record.setStage(stage);
+            record.setApplyStage(stage);//apply_stage为申请时所处阶段
 
             record.setIsRemove(false);
             record.setCreateTime(now);
@@ -613,6 +614,7 @@ public class MemberApplyController extends MemberBaseController {
 
             record.setUserId(userId);
             record.setStage(stage);
+            record.setApplyStage(stage);
 
             SysUserView sysUser = sysUserService.findById(userId);
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {

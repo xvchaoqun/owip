@@ -66,4 +66,12 @@ public interface IPartyMapper {
     // 信息不完整的支部数量
     @Select("select count(*) from ow_branch_view where party_id =${partyId} and is_deleted = 0 and integrity != 1")
     int countBranchNotIntegrity(@Param("partyId")Integer partyId);
+
+    // 根据名称正则查找现运行党支部id
+    @Select("select id from ow_branch where name REGEXP #{nameRegExps} and is_deleted=0")
+    List<Integer> findBranchIdList(@Param("nameRegExps") String nameRegExps);
+
+    // 根据名称正则查找现运行分党委id
+    @Select("select id from ow_party where name REGEXP #{nameRegExps} and is_deleted=0")
+    List<Integer> findPartyIdList(@Param("nameRegExps") String nameRegExps);
 }
