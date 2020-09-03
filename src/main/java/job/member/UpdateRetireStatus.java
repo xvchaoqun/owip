@@ -28,28 +28,26 @@ public class UpdateRetireStatus implements Job {
     @Autowired
     private MemberViewMapper memberViewMapper;
 
-    final String name = "在职";
-    final String name1 = "离休";
-    final String name2 = "退休";
-
     /*
         根据分党委和党支部名称中是否包含的name1和name2，来更新其中状态为name的人员，设置其状态为“退休”
     * */
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        List<Integer> partyIdList = iPartyMapper.findRetirePartyId(name1, name2);
-        List<Integer> branchIdList = iPartyMapper.findRetireBranchId(name1, name2);
+        String nameRegExps = "离休|退休";
+
+        List<Integer> partyIdList = iPartyMapper.findBranchIdList(nameRegExps);
+        List<Integer> branchIdList = iPartyMapper.findPartyIdList(nameRegExps);
         if(partyIdList==null) partyIdList = new ArrayList<>();
         if(branchIdList==null) branchIdList = new ArrayList<>();
 
         if (partyIdList.isEmpty() && branchIdList.isEmpty()){
-            logger.info("没有需要修改的基层党组织");
+            logger.debug("没有退休分党委和党支部");
             return;
         }else {
             MemberViewExample example = new MemberViewExample();
-            MemberViewExample.Criteria criteria = example.createCriteria().andStaffStatusEqualTo(name);
-            criteria.selectRetire(partyIdList, branchIdList);
+            MemberViewExample.Criteria criteria = example.createCriteria().andStaffStatusEqualTo("在职");
+            criteria.in(partyIdList, branchIdList);
             List<MemberView> memberViewList = memberViewMapper.selectByExample(example);
             List<Integer> userIdList = new ArrayList<>();
             if (memberViewList.size() > 0){
@@ -60,7 +58,7 @@ public class UpdateRetireStatus implements Job {
                 iMemberMapper.updateRetireMemberStatus(userIds);
                 logger.info("更新退休分党委和党支部中，状态为'在职'的党员，改为'退休'状态：" + userIds);
             }else {
-                logger.info("没有需要修改状态的党员");
+                logger.debug("没有需要修改退休状态的党员");
             }
         }
     }

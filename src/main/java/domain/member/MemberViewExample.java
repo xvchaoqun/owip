@@ -5950,7 +5950,8 @@ public class MemberViewExample {
             return this;
         }
 
-        public MemberViewExample.Criteria selectRetire(List<Integer> partyIdList, List<Integer> branchIdList) {
+        // 从分党委或党支部中查找党员
+        public MemberViewExample.Criteria in(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
                 addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");

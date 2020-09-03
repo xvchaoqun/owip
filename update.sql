@@ -1,6 +1,16 @@
 
 
 -- 更新cadre_view
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
+VALUES ('更新领导干部的培训信息', '更新培训模块的培训信息至领导干部的培训信息', 'job.cadre.UpdateCadreTrain', '0 0 1 * * ?', 0, 0, 32, '2020-09-01 16:13:32', 0);
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
+VALUES ('更新离退休党员的人员状态', '离退休分党委和党支部中，把党员的人员状态为“在职”的更新为“退休”', 'job.member.UpdateRetireStatus', '0 0 1 * * ?', 0, 0, 31, '2020-08-31 16:36:23', 0);
+
+-- 删除西工大培训中的重复数据
+DELETE FROM cet_upper_train WHERE id IN (SELECT tmp.id FROM (SELECT MIN(c.id) AS id,c.user_id,c.train_name, COUNT(*) AS count FROM cet_upper_train c
+WHERE TYPE!=10
+GROUP BY c.user_id,c.start_date,c.end_date,c.train_name
+HAVING COUNT>1)tmp);
 
 20200902
 吉大 -- 北师大
