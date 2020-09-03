@@ -45,16 +45,25 @@
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
-                <button class="popupBtn btn btn-success btn-sm tooltip-info"
-                        data-url="${ctx}/partyReport_import"
-                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                    批量导入
-                </button>
-                </shiro:hasPermission>
+                    <button class="popupBtn btn btn-success btn-sm tooltip-info"
+                            data-url="${ctx}/partyReport_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                        批量导入
+                    </button>
+                    </shiro:hasPermission>
                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                       data-url="${ctx}/partyReport_data"
                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                        <i class="fa fa-download"></i> 导出</button>
+                <shiro:hasRole name="${ROLE_SUPER}">
+                    <button data-url="${ctx}/partyReport_delFile"
+                            data-title="清除考核结果"
+                            data-msg="确定清除这{0}条数据考核结果？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 清除考核结果
+                    </button>
+                </shiro:hasRole>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -181,7 +190,7 @@
             },
             {
                 label: '考核结果', name: 'evaResult', frozen: true, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-'
+                    if (cellvalue == undefined) return '--'
                     return _cMap.OW_PARTY_EVA_MAP[cellvalue];
                 }
             },

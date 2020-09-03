@@ -16,12 +16,12 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-trash"></i> 同步信息
                 </button>
             </div>--%>
-             <shiro:hasPermission name="pcsPartyList:edit">
+             <%--<shiro:hasPermission name="pcsPartyList:edit">
                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                         data-url="${ctx}/pcs/pcsParty_au"
                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                     修改</button>
-             </shiro:hasPermission>
+             </shiro:hasPermission>--%>
             <shiro:hasRole name="${ROLE_SUPER}">
                 <button data-url="${ctx}/pcs/pcsParty_batchDel"
                         data-title="删除"

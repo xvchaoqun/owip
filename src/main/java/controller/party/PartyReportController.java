@@ -198,6 +198,20 @@ public class PartyReportController extends BaseController {
     }
 
     @RequiresPermissions("partyReport:edit")
+    @RequestMapping(value = "/partyReport_delFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map partyReport_delFile(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            partyReportService.delFile(ids);
+            logger.info(log(LogConstants.LOG_MEMBER, "批量删除党支部考核结果及文件：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_report", method = RequestMethod.POST)
     @ResponseBody
     public Map partyReport_report(Integer[] ids, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {

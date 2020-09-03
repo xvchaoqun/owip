@@ -24,9 +24,15 @@ public class PcsBranchService extends PcsBaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(PcsBranch record) {
+    public void updateByPrimaryKeySelective(PcsBranch record) {
 
-        return pcsBranchMapper.updateByPrimaryKeySelective(record);
+         pcsBranchMapper.updateByPrimaryKeySelective(record);
+
+         //更新分党委统计数量
+
+        PcsBranch pcsBranch=pcsBranchMapper.selectByPrimaryKey(record.getId());
+        iPcsMapper.updatePcsPartyCount(pcsBranch.getConfigId(),pcsBranch.getPartyId());
+
     }
 
     @Transactional

@@ -7,10 +7,7 @@ import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.global.CacheService;
-import service.party.BranchService;
-import service.party.MemberService;
-import service.party.PartyMemberService;
-import service.party.PartyService;
+import service.party.*;
 import service.pcs.*;
 import service.sys.*;
 import sys.HttpResponseMethod;
@@ -31,6 +28,8 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     protected PartyService partyService;
     @Autowired
     protected PartyMemberService partyMemberService;
+    @Autowired
+    protected PartyAdminService partyAdminService;
     @Autowired
     protected BranchService branchService;
     @Autowired

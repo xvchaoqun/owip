@@ -25,9 +25,9 @@ public interface IMemberMapper {
     int adjustMemberApply();
 
     //查询分党委及党支部所有书记副书记
-    @Select("select user_id from ow_party_member_view where group_party_id=#{partyId} and is_history=0 and is_deleted=0 and is_present=1 and(post_id=64 or  post_id=63)" +
-            "union select user_id from ow_branch_member_view where group_party_id=#{partyId} and is_history=0 and is_deleted=0 and is_present=1 and type_id=80")
-    Integer[] getPbMemberSelects(@Param("partyId") int partyId);
+/*    @Select("select user_id from ow_party_member_view where group_party_id=#{partyId} and is_history=0 and is_deleted=0 and is_present=1 and(post_id=64 or  post_id=63)" +
+            "union select user_id from ow_branch_member_view where group_party_id=#{partyId} and is_history=0 and is_deleted=0 and is_present=1 and type_id=80")*/
+    List<Integer> getPbMemberSelects(@Param("partyId") Integer partyId);
     // 批量生成账号的最大批次
     @Select("select max(import_seq) from ow_member_reg")
     Integer getMemberRegMaxSeq();

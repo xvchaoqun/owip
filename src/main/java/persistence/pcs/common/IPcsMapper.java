@@ -170,6 +170,7 @@ public interface IPcsMapper {
                                                         @Param("configId") int configId,
                                                         @Param("stage") byte stage,
                                                         @Param("candidateType") int candidateType,
+                                                        @Param("sortBy") Byte sortBy,
                                                         RowBounds rowBounds);
 
     public int countPartyCandidateList(@Param("userId") Integer userId,

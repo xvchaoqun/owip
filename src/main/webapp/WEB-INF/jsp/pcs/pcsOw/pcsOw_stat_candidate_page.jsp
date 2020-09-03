@@ -84,6 +84,29 @@
                                     </c:if>
                                 </shiro:hasPermission>
                             </c:if>
+
+                            <div class="pull-right hidden-sm hidden-xs">
+                                <select id="sortBy" data-placeholder="请选择排序方式" data-width="250">
+                                    <option></option>
+                                    <option value="1">按推荐提名的党支部数排序</option>
+                                    <option value="2">按推荐提名的党员数排序</option>
+                                    <option value="3">按推荐提名的正式党员数排序</option>
+                                </select>
+                                <script>
+                                    $("#sortBy").val('${param.sortBy}');
+                                    $("#searchForm input[name=sortBy]").val('${param.sortBy}');
+                                    $("#sortBy").select2({
+                                        theme: "default"
+                                    }).change(function () {
+                                        $("#searchForm input[name=sortBy]").val($(this).val());
+                                        $("#searchForm .jqSearchBtn").click();
+                                        if($(this).val()==''){
+                                            throw new Error();
+                                        }
+                                    })
+                                </script>
+                            </div>
+
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -101,6 +124,7 @@
                                         <input type="hidden" name="cls" value="${cls}">
                                         <input type="hidden" name="type" value="${type}">
                                         <input type="hidden" name="stage" value="${param.stage}">
+                                        <input type="hidden" name="sortBy">
                                         <div class="form-group">
                                             <label>被推荐人</label>
                                             <select name="userId" data-rel="select2-ajax"

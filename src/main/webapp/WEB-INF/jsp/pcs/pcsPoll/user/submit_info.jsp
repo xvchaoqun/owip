@@ -41,9 +41,14 @@
           </ul>
           <div style="font-size: 16pt;font-weight: bolder;color:red;">
               <ul>
-                  <li>提交之前，请您确认投票结果无需再做修改。</li>
+                  <%--<li>提交之前，请您确认投票结果无需再做修改。</li>--%>
                   <li>为保证信息的安全，在点击确定提交成功后您的账号、密码立即失效。</li>
               </ul>
+          </div>
+          <div style="margin-bottom: 15px">
+              <input type="checkbox" id="check"
+                     style="width: 17px; height: 17px;vertical-align: text-after-edge;">
+               我已确认投票结果无需再做修改
           </div>
       </div>
   </div>
@@ -55,6 +60,12 @@
 <script>
 
     $("#submitBtn").click(function(){
+
+        if ($('#check').is(':checked') == false) {
+            $('#check').qtip({content: '请您确认投票结果无需再做修改。', show: true});
+            return false;
+        }
+
         $("#modal").modal("hide");
         $("#modalForm").submit();
         return false;

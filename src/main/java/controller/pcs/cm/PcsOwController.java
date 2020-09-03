@@ -274,7 +274,7 @@ public class PcsOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, null, configId, stage, type,
+        List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, null, configId, stage, type,null,
                 new RowBounds(0, 1));
         IPcsCandidate candidate = records.get(0);
 
@@ -393,6 +393,7 @@ public class PcsOwController extends PcsBaseController {
     public void pcsOw_stat_candidate_data(HttpServletResponse response,
                                           byte stage,
                                           Integer userId,
+                                          Byte sortBy, // 自定义排序
                                           @RequestParam(required = false, defaultValue = "1") byte cls,
                                           @RequestParam(required = false,
                                                   defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
@@ -419,7 +420,7 @@ public class PcsOwController extends PcsBaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, isChosen, configId, stage, type,
+        List<IPcsCandidate> records = iPcsMapper.selectPartyCandidateList(userId, isChosen, configId, stage, type,sortBy,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

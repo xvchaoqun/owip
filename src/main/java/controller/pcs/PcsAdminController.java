@@ -1,5 +1,6 @@
 package controller.pcs;
 
+import controller.global.OpException;
 import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
+import persistence.party.common.OwAdmin;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -70,7 +72,7 @@ public class PcsAdminController extends PcsBaseController {
 
         PcsAdminExample example = new PcsAdminExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("party_id asc, type asc");
+        example.setOrderByClause("party_id asc");
 
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -137,19 +139,25 @@ public class PcsAdminController extends PcsBaseController {
     @RequiresPermissions("pcsAdmin:edit")
     @RequestMapping(value = "/pcsAdmin_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsAdmin_add(PcsAdmin record,String mobile, HttpServletRequest request) {
+    public Map do_pcsAdmin_add(PcsAdmin record, HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
-            return failed("手机号码有误："+ mobile);
+        if(StringUtils.isNotBlank(record.getMobile()) && !CmTag.validMobile(record.getMobile())){
+            return failed("手机号码有误："+ record.getMobile());
         }
 
-        if (pcsAdminService.idDuplicate(record.getId(), record.getUserId())) {
-            return failed("该用户已经是党代会管理员");
+        List<OwAdmin> owAdmins = partyAdminService.getOwAdmins(record.getUserId());
+        if(owAdmins.size()==0) {
+            throw new OpException("该用户不是党代会管理员");
         }
 
-        //pcsAdminService.addOrUpdate(record, mobile);
-        logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党代会分党委管理员：%s-%s",
-                JSONUtils.toString(record, false), mobile));
+        OwAdmin owAdmin = owAdmins.get(0); // 按分党委顺序仅读取管理的第一个分党委
+        int partyId = owAdmin.getPartyId();
+
+        record.setPartyId(partyId);
+
+        pcsAdminService.addOrUpdate(record);
+        logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党代会分党委管理员补充信息：%s-%s",
+                JSONUtils.toString(record, false), record.getMobile()));
         return success(FormUtils.SUCCESS);
     }
 

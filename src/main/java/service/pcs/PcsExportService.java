@@ -58,7 +58,7 @@ public class PcsExportService extends PcsBaseMapper {
     public XSSFWorkbook exportPartyCandidates2(int configId, byte stage, byte type) throws IOException {
 
         List<IPcsCandidate> candidates =
-                iPcsMapper.selectPartyCandidateList(null, null, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, null, configId, stage, type,null, new RowBounds());
 
         String pcsNum=pcsConfigService.getPcsNum(configId);
 
@@ -128,7 +128,7 @@ public class PcsExportService extends PcsBaseMapper {
                                               byte type) throws IOException {
 
         List<IPcsCandidate> candidates =
-                iPcsMapper.selectPartyCandidateList(null, isChosen, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, isChosen, configId, stage, type,null, new RowBounds());
 
         String pcsNum=pcsConfigService.getPcsNum(configId);
 
@@ -616,7 +616,7 @@ public class PcsExportService extends PcsBaseMapper {
     public XSSFWorkbook exportIssueCandidates(int configId, byte stage, byte type) throws IOException {
 
         List<IPcsCandidate> candidates =
-                iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type,null, new RowBounds());
 
         String pcsNum=pcsConfigService.getPcsNum(configId);
 

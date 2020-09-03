@@ -202,7 +202,7 @@ public class PcsRecommendController extends PcsBaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidate> candidates =
-                iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, null,new RowBounds());
 
         modelMap.put("candidates", candidates);
         return "pcs/pcsRecommend/pcsRecommend_candidates";

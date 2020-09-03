@@ -59,7 +59,7 @@ public class MemberReportController extends MemberBaseController {
         if (partyId != null)
             modelMap.put("party", partyMap.get(partyId));
         if (userId != null)
-            modelMap.put("memberReport", sysUserService.findById(userId));
+            modelMap.put("user", sysUserService.findById(userId));
         return "member/memberReport/memberReport_page";
     }
 
@@ -215,6 +215,20 @@ public class MemberReportController extends MemberBaseController {
         if (null != ids && ids.length > 0) {
             memberReportService.batchDel(ids);
             logger.info(log(LogConstants.LOG_MEMBER, "批量删除党组织书记考核：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberReport:edit")
+    @RequestMapping(value = "/memberReport_delFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map memberReport_delFile(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            memberReportService.delFile(ids);
+            logger.info(log(LogConstants.LOG_MEMBER, "批量删除党支部考核结果及文件：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -401,9 +415,9 @@ public class MemberReportController extends MemberBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        Integer[] ids = iMemberMapper.getPbMemberSelects(partyId);
+        List<Integer> ids = iMemberMapper.getPbMemberSelects(partyId);
         SysUserViewExample example = new SysUserViewExample();
-        SysUserViewExample.Criteria criteria = example.createCriteria().andIdIn(Arrays.asList(ids));
+        SysUserViewExample.Criteria criteria = example.createCriteria().andIdIn(ids);
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andRealnameLike(SqlUtils.like(searchStr));

@@ -35,11 +35,11 @@ pageEncoding="UTF-8" %>
                             <tr>
                                 <td>${admin.user.code}</td>
                                 <td>${admin.user.realname}</td>
-                                <td><t:mask src="${admin.user.mobile}" type="mobile"/></td>
+                                <td><t:mask src="${admin.mobile}" type="mobile"/></td>
                                 <td title="${admin.unit}">${cm:substr(admin.unit, 0, 15, '...')}</td>
                                 <c:if test="${isPartySecretary}">
                                 <td>
-                                    <c:if test="${admin.type==PCS_ADMIN_TYPE_NORMAL}">
+                                   <%-- <c:if test="${admin.type==PCS_ADMIN_TYPE_NORMAL}">--%>
                                         <a class="popupBtn btn btn-primary btn-xs"
                                            data-url="${ctx}/pcs/pcsPartyAdmin_au?id=${admin.id}&partyId=${party.id}"><i class="fa fa-edit"></i> 修改</a>
                                     <button class="confirm btn btn-danger btn-xs"
@@ -47,7 +47,7 @@ pageEncoding="UTF-8" %>
                                             data-title="删除管理员"
                                             data-msg="确定删除该管理员？" data-callback="_reload"
                                             ><i class="fa fa-times"></i> 删除</button>
-                                    </c:if>
+                                  <%--  </c:if>--%>
                                 </td>
                                 </c:if>
                             </tr>

@@ -2,6 +2,7 @@ package service.party;
 
 import domain.party.PartyReport;
 import domain.party.PartyReportExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,6 +66,17 @@ public class PartyReportService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         partyReportMapper.deleteByExample(example);
     }
+
+    @Transactional
+    public void delFile(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        commonMapper.excuteSql("update ow_party_report set eva_result=null,eva_file=null where id in("
+                + StringUtils.join(ids, ",") + ")");
+
+    }
+
     @Transactional
     public void batchReport(Integer[] ids,Byte status){
        /* if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){

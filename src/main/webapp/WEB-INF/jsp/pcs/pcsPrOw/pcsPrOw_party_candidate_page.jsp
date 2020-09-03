@@ -153,8 +153,8 @@
             }
             },
             {label: '提名支部数', name: 'branchVote'},
-            {label: '推荐提名<br/>的党员数', name: 'vote', width: 150},
-            {label: '推荐提名<br/>的正式党员数', name: 'positiveVote', width: 150}
+            {label: '推荐提名<br/>的党员数', name: 'vote'},
+            {label: '推荐提名<br/>的正式党员数', name: 'positiveVote'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

@@ -152,8 +152,12 @@ public class PcsAdminService extends PcsBaseMapper {
 
     public boolean idDuplicate(Integer id, int userId) {
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
         PcsAdminExample example = new PcsAdminExample();
-        PcsAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        PcsAdminExample.Criteria criteria =
+                        example.createCriteria().andUserIdEqualTo(userId).andConfigIdEqualTo(configId);
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return pcsAdminMapper.countByExample(example) > 0;
@@ -163,17 +167,40 @@ public class PcsAdminService extends PcsBaseMapper {
     @Transactional
     public void addOrUpdate(PcsAdmin record) {
 
-        if (idDuplicate(record.getId(), record.getUserId())) {
-            throw new OpException("添加重复");
+        Integer id=record.getId();
+        Integer userId=record.getUserId();
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        if (idDuplicate(id, userId)) {
+
+            //在分党委管理员与党代会管理员信息中partyId不一致时，可以添加
+            PcsAdmin _pcsAdmin = getAdmin(userId);
+
+            PcsAdminExample example = new PcsAdminExample();
+            PcsAdminExample.Criteria criteria =
+                    example.createCriteria().andUserIdEqualTo(userId).andConfigIdEqualTo(configId);
+            if (id != null) {
+                criteria.andIdNotEqualTo(id);
+            }
+
+            List<PcsAdmin> PcsAdmins=pcsAdminMapper.selectByExample(example);
+            PcsAdmin oldPcsAdmin=PcsAdmins.get(0);
+
+            if (_pcsAdmin.getPartyId().intValue() != oldPcsAdmin.getPartyId()) {
+                record.setId(oldPcsAdmin.getId());
+            }else {
+                throw new OpException("该用户已是[{0}]管理员",CmTag.getParty(oldPcsAdmin.getPartyId()).getName());
+            }
+
         }
 
         if (record.getId() != null) {
-            PcsAdmin _pcsAdmin = pcsAdminMapper.selectByPrimaryKey(record.getId());
-            if (_pcsAdmin.getUserId().intValue() != record.getUserId()) {
+            pcsAdminMapper.updateByPrimaryKeySelective(record);
 
-                pcsAdminMapper.updateByPrimaryKeySelective(record);
-            }
         } else {
+            record.setConfigId(configId);
             pcsAdminMapper.insertSelective(record);
         }
     }

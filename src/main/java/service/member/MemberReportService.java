@@ -1,8 +1,8 @@
 package service.member;
 
-import domain.member.Member;
 import domain.member.MemberReport;
 import domain.member.MemberReportExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +63,17 @@ public class MemberReportService extends MemberBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(OW_REPORT_STATUS_UNREPORT);
         memberReportMapper.deleteByExample(example);
     }
+
+    @Transactional
+    public void delFile(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        commonMapper.excuteSql("update ow_member_report set eva_result=null,eva_file=null where id in("
+                + StringUtils.join(ids, ",") + ")");
+
+    }
+
     @Transactional
     public void batchReport(Integer[] ids,Byte status){
        /* if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){

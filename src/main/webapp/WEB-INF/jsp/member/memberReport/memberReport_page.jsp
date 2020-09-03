@@ -60,6 +60,17 @@
                      data-url="${ctx}/member/memberReport_data"
                      data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                       <i class="fa fa-download"></i> 导出</button>
+
+                <shiro:hasRole name="${ROLE_SUPER}">
+                    <button data-url="${ctx}/member/memberReport_delFile"
+                            data-title="清除考核结果"
+                            data-msg="确定清除这{0}条数据考核结果？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 清除考核结果
+                    </button>
+                </shiro:hasRole>
+
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -94,12 +105,12 @@
                                     <option value="${party.id}">${party.name}</option>
                                 </select>
                             </div>
-                            <div class="form-group" id="userIdDiv" style="${(empty memberReport.userId)?'display: none':''}">
+                            <div class="form-group" <%--id="userIdDiv" style="${(empty memberReport.userId)?'display: none':''}"--%>>
                                 <label>姓名</label>
                                 <select data-rel="select2-ajax"
-                                        data-ajax-url="${ctx}/pb_member_selects"
+                                        data-ajax-url="${ctx}/member/pb_member_selects"
                                         name="userId" data-width="272" data-placeholder="请输入账号或姓名或学工号">
-                                    <option value="${memberReport.userId}">${memberReport.realname}-${memberReport.code}</option>
+                                    <option value="${user.userId}">${user.realname}-${user.code}-${user.unit}</option>
                                 </select>
                             </div>
                         </shiro:hasPermission>
@@ -233,7 +244,7 @@
         }
         </shiro:lacksRole>
     }
-    $("#searchForm select[name=partyId]").change(function () {
+    /*$("#searchForm select[name=partyId]").change(function () {
         var partyId = $("#searchForm select[name=partyId]").val();
         if ($.isBlank(partyId)) {
             $("#searchForm select[name=userId]").val(null).trigger("change");
@@ -243,7 +254,7 @@
         $('#searchForm select[name="userId"]').data('ajax-url', "${ctx}/member/pb_member_selects?partyId=" + partyId);
         $.register.user_select($("#searchForm select[name=userId]"));
         $("#userIdDiv").show();
-    });
+    });*/
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

@@ -293,6 +293,15 @@
         </where>
         group by pc.user_id
         order by
+        <if test="sortBy !=null and sortBy==1">
+           branch_count desc,
+        </if>
+        <if test="sortBy!=null and sortBy==2">
+            total_vote desc,
+        </if>
+        <if test="sortBy!=null and sortBy==3">
+            total_positive_vote desc,
+        </if>
         <if test="isChosen">
             pcc.sort_order asc
         </if>

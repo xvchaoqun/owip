@@ -3,13 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${empty pcsAdmin?"添加":"修改"}${_p_partyName}管理员</h3>
+    <h3>${empty pcsAdmin?"添加":"修改"}${_p_partyName}管理员补充信息</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/${empty param.partyId?"pcsAdmin_au":"pcsPartyAdmin_au"}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsAdmin.id}">
 
-        <c:if test="${empty param.partyId}">
+       <%-- <c:if test="${empty param.partyId}">
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
                 <div class="col-xs-7">
@@ -19,7 +19,7 @@
                     </select>
                 </div>
             </div>
-        </c:if>
+        </c:if>--%>
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>管理员</label>
             <div class="col-xs-7">
@@ -31,10 +31,16 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-4 control-label">所在单位</label>
+            <div class="col-xs-7">
+                <input class="form-control" style="width: 250px" type="text" name="unit" value="${sysUser.unit}">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label">手机号码</label>
 
             <div class="col-xs-7" >
-                <input class="form-control" style="width: 200px" type="text" name="mobile" value="${sysUser.mobile}">
+                <input class="form-control" style="width: 250px" type="text" name="mobile" value="${sysUser.mobile}">
                 <%--<span class="help-block"><span class="star">*</span> 该手机号码将用于各类通知，请确保真实有效</span>--%>
             </div>
         </div>
@@ -42,7 +48,7 @@
             <label class="col-xs-4 control-label">备注</label>
 
             <div class="col-xs-7">
-                <textarea style="width: 200px" rows="6" class="form-control limited" type="text"
+                <textarea style="width: 250px" rows="6" class="form-control limited" type="text"
                           name="remark" maxlength="200">${pcsAdmin.remark}</textarea>
             </div>
         </div>
@@ -76,7 +82,9 @@
     $.register.del_select($('#modalForm select[name=partyId]'));
     $.register.user_select($('#modalForm select[name=userId]')).on("change",function(){
         //console.log($(this).select2("data")[0])
+        var unit = $(this).select2("data")[0]['unit']||'';
         var mobile = $(this).select2("data")[0]['mobile']||'';
+        $('#modalForm input[name=unit]').val(unit);
         $('#modalForm input[name=mobile]').val(mobile);
     });
 

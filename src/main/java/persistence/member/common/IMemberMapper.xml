@@ -201,4 +201,18 @@
         and integrity != 1;
     </select>
 
+    <select id="getPbMemberSelects" resultType="int" parameterType="map">
+       select user_id from ow_party_member_view
+       where
+        is_history=0 and is_deleted=0 and is_present=1 and(post_id=64 or  post_id=63)
+        <if test="partyId != null">
+            and  group_party_id=#{partyId}
+        </if>
+      union select user_id from ow_branch_member_view
+        where  is_history=0 and is_deleted=0 and is_present=1 and type_id=80
+            <if test="partyId != null">
+                and  group_party_id=#{partyId}
+            </if>
+
+    </select>
 </mapper>

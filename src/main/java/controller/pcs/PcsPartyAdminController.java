@@ -1,5 +1,6 @@
 package controller.pcs;
 
+import controller.global.OpException;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
 import domain.sys.SysUserView;
@@ -13,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.party.common.OwAdmin;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -47,7 +49,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         {
             PcsAdminExample example = new PcsAdminExample();
             example.createCriteria().andPartyIdEqualTo(partyId);
-            example.setOrderByClause("type asc");
+            /*example.setOrderByClause("type asc");*/
             List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
             modelMap.put("pcsAdmins", pcsAdmins);
         }
@@ -68,10 +70,22 @@ public class PcsPartyAdminController extends PcsBaseController {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null || !partyMemberService.isPartySecretary(pcsAdmin.getUserId(), pcsAdmin.getPartyId())) {
-            throw new UnauthorizedException();
+
         }
         // 添加本单位管理员
-        record.setPartyId( pcsAdmin.getPartyId());
+
+        List<OwAdmin> owAdmins = partyAdminService.getOwAdmins(record.getUserId());
+        if(owAdmins.size()==0) {
+            throw new OpException("该用户不是党代会管理员");
+        }
+
+        OwAdmin owAdmin = owAdmins.get(0); // 按分党委顺序仅读取管理的第一个分党委
+        int partyId = owAdmin.getPartyId();
+        if(pcsAdmin.getPartyId().intValue() !=partyId){
+            throw new UnauthorizedException();
+        }
+        record.setPartyId(partyId);
+
         pcsAdminService.addOrUpdate(record);
         logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员信息：%s-%s"
                 , JSONUtils.toString(record, false), mobile));

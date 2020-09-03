@@ -8,7 +8,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,7 +220,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidate> candidates =
-                iPcsMapper.selectPartyCandidateList(null, true, configId, PcsConstants.PCS_STAGE_THIRD, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, true, configId, PcsConstants.PCS_STAGE_THIRD, type,null, new RowBounds());
 
         modelMap.put("candidates", candidates);
 
