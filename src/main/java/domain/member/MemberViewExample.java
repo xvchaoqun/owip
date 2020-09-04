@@ -3,6 +3,7 @@ package domain.member;
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.utils.SqlUtils;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -2105,7 +2106,19 @@ public class MemberViewExample {
         }
 
         public Criteria andNationIn(List<String> values) {
-            addCriterion("nation in", values, "nation");
+
+            String searchSql = "";
+
+            if(values.size()>0){
+
+                searchSql += (searchSql!=""?" or ":"") + "nation in (" + SqlUtils.toParamValues(values) + ")";
+            }
+            if(values.contains("0")){ // 无数据
+                searchSql += (searchSql!=""?" or ":"")
+                        + "nation is null";
+            }
+
+            addCriterion("(" + searchSql + ")");
             return (Criteria) this;
         }
 
@@ -2175,8 +2188,21 @@ public class MemberViewExample {
         }
 
         public Criteria andNativePlaceIn(List<String> values) {
-            addCriterion("native_place in", values, "nativePlace");
+
+            String searchSql = "";
+
+            if(values.size()>0){
+
+                searchSql += (searchSql!=""?" or ":"") + "native_place in (" + SqlUtils.toParamValues(values) + ")";
+            }
+            if(values.contains("0")){ // 无数据
+                searchSql += (searchSql!=""?" or ":"")
+                        + "native_place is null";
+            }
+
+            addCriterion("(" + searchSql + ")");
             return (Criteria) this;
+
         }
 
         public Criteria andNativePlaceNotIn(List<String> values) {
@@ -2845,7 +2871,12 @@ public class MemberViewExample {
         }
 
         public Criteria andEducationEqualTo(String value) {
-            addCriterion("education =", value, "education");
+
+            if(value.equals("0")){
+                addCriterion("education is null");
+            }else{
+                addCriterion("education =", value, "education");
+            }
             return (Criteria) this;
         }
 

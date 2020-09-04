@@ -110,7 +110,7 @@
                                 <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/member/pb_member_selects"
                                         name="userId" data-width="272" data-placeholder="请输入账号或姓名或学工号">
-                                    <option value="${user.userId}">${user.realname}-${user.code}-${user.unit}</option>
+                                    <option value="${user.userId}">${user.realname}-${user.code}</option>
                                 </select>
                             </div>
                         </shiro:hasPermission>
@@ -255,7 +255,8 @@
         $.register.user_select($("#searchForm select[name=userId]"));
         $("#userIdDiv").show();
     });*/
-    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.del_select($('#searchForm select[name=partyId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));

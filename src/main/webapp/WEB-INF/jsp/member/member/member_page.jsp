@@ -203,6 +203,7 @@
                                                     <c:forEach var="nation" items="${cm:getMetaTypes('mc_nation').values()}">
                                                         <option value="${nation.name}">${nation.name}</option>
                                                     </c:forEach>
+                                                    <option value="0">无数据</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -210,6 +211,7 @@
                                             <label>籍贯</label>
                                             <div class="input-group">
                                                 <select class="multiselect" name="nativePlace" multiple="">
+                                                    <option value="0">无数据</option>
                                                     <c:forEach items="${nativePlaces}" var="nativePlace">
                                                         <option value="${nativePlace}">${nativePlace}</option>
                                                     </c:forEach>
@@ -251,6 +253,7 @@
                                                         <c:forEach items="${teacherEducationTypes}" var="education">
                                                             <option value="${education}">${education}</option>
                                                         </c:forEach>
+                                                        <option value="0">无数据</option>
                                                     </select>
                                                     <script>
                                                         $("#searchForm select[name=education]").val('${param.education}');

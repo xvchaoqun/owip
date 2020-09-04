@@ -88,11 +88,12 @@ pageEncoding="UTF-8" %>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL}">
-
-                                <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passport">
-                                    <i class="fa fa-info-circle"></i> 发送通知
-                                </button>
+                                <c:if test="${_show_msg_btns}">
+                                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passport">
+                                        <i class="fa fa-info-circle"></i> 发送通知
+                                    </button>
+                                </c:if>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-open-by="page" data-url="${ctx}/abroad/passport_cancel">
                                     <i class="fa fa-check-circle-o"></i> 确认单

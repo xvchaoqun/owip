@@ -38,6 +38,7 @@
 <c:set value="${_pMap['partyName']}" var="_p_partyName"/>
 <c:set value="${_pMap['hasKjCadre']=='true'}" var="_p_hasKjCadre"/>
 <c:set value="${_pMap['useCadreState']=='true'}" var="_p_useCadreState"/>
+<c:set value="${_pMap['show_msg_btns']=='true'}" var="_show_msg_btns" />
 <c:set value="${empty _pMap['label_adminLevelNone']?'无行政级别':_pMap['label_adminLevelNone']}" var="_p_label_adminLevelNone"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>

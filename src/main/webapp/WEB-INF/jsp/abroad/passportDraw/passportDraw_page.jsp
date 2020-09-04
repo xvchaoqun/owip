@@ -406,6 +406,7 @@
                         return rowObject.statusName;
                 }
             },
+            <c:if test="${_show_msg_btns}">
             {
                 label: '发送通知', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
@@ -419,6 +420,7 @@
                     return '--'
                 }
             },
+            </c:if>
             {
                 label: '领取证件', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status != '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {

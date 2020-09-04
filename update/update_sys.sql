@@ -1,3 +1,6 @@
+2020.09.04
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显示短信通知按钮');
+
 2020.08.19
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2791, 0, '参与党代会的党组织', '', 'url', '', '/pcs/pcsPartyList', 469, '0/1/469/', 1, 'pcsPartyList:*', NULL, NULL, NULL, 1, 1450);
 

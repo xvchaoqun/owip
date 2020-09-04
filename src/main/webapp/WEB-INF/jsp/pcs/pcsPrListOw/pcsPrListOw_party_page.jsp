@@ -15,8 +15,10 @@
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
-                            <a class="popupBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/pcs/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
+                            <c:if test="${_show_msg_btns}">
+                                <a class="popupBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/pcs/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
+                            </c:if>
                             <a class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                data-querystr="stage=${PCS_STAGE_THIRD}"
                                data-ids-name="partyIds"
@@ -107,6 +109,7 @@
                 'data-url="${ctx}/pcs/pcsPrOw_check?stage=${PCS_STAGE_THIRD}&partyIds={0}"><i class="fa fa-check-square-o"></i> 审核</button>')
                         .format(rowObject.partyId);
             }},
+            <c:if test="${_show_msg_btns}">
             { label: '短信提醒',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue == undefined) return "-"
                 var pass = -1;
@@ -117,6 +120,7 @@
                 'data-url="${ctx}/pcs/pcsAdmin_msg?cls=3&partyId={0}&pass={1}"><i class="fa fa-send"></i> 短信提醒</button>')
                         .format(rowObject.id, pass);
             }},
+            </c:if>
             { label: '备注',name: 'checkRemark', width:300},{hidden:true, key:true, name:'partyId'}
         ]
     }).jqGrid("setFrozenColumns");

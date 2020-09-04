@@ -182,6 +182,7 @@
 
                 return _cMap.OA_TASK_USER_STATUS_MAP[cellvalue];
             }},
+            <c:if test="${_show_msg_btns}">
             { label: '通知提醒',name: '_sendMsg', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.status=='<%=OaConstants.OA_TASK_USER_STATUS_DENY%>')
                     return ('<button class="popupBtn btn btn-warning btn-xs" ' +
@@ -189,6 +190,7 @@
                             .format(rowObject.id);
                 return "-";
             }},
+            </c:if>
             { label: '退回',name: '_back', formatter: function (cellvalue, options, rowObject) {
 
                 <c:if test="${!taskCanEdit}"> return '--'</c:if>

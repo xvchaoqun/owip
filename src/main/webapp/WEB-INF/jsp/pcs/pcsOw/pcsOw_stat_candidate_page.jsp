@@ -76,11 +76,12 @@
                                     <i class="fa fa-level-down"></i>
                                         ${hasIssue?"已下发名单":"下发名单"}
                                 </button>
-                                <a class="popupBtn btn btn-warning btn-sm ${hasIssue?"":"disabled"}"
-                                   data-url="${ctx}/pcs/pcsAdmin_msg?cls=2"><i class="fa fa-send"></i> 短信提醒</a>
-
-                                <a style="margin-left: 20px" href="${ctx}/pcs/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                    <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选名册（“${param.stage==PCS_STAGE_FIRST?"二下":"三下"}”名单）</a>
+                                    <c:if test="${_show_msg_btns}">
+                                        <a class="popupBtn btn btn-warning btn-sm ${hasIssue?"":"disabled"}"
+                                           data-url="${ctx}/pcs/pcsAdmin_msg?cls=2"><i class="fa fa-send"></i> 短信提醒</a>
+                                    </c:if>
+                                         <a style="margin-left: 20px" href="${ctx}/pcs/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
+                                            <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选名册（“${param.stage==PCS_STAGE_FIRST?"二下":"三下"}”名单）</a>
                                     </c:if>
                                 </shiro:hasPermission>
                             </c:if>

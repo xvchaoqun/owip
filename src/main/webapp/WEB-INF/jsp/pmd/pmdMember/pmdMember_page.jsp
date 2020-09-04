@@ -115,19 +115,21 @@
                                 data-id-name="userId">
                             <i class="fa fa-send"></i> 通知
                         </button>--%>
-                        <button class="popupBtn btn btn-danger btn-sm tooltip-error"
-                                data-rel="tooltip" data-placement="top" title="本月党费收缴已经启动，通知本支部党员缴纳党费。"
-                                data-url="${ctx}/pmd/pmdSendMsg_notifyMembers?partyId=${param.partyId}&branchId=${param.branchId}"
-                                data-grid-id="#jqGrid2">
-                            <i class="fa fa-send"></i> 发送通知
-                        </button>
-                        <button class="jqOpenViewBatchBtn btn btn-warning btn-sm tooltip-warning"
-                                data-rel="tooltip" data-placement="top" title="提醒未缴纳党费的党员尽快缴纳党费。"
-                                data-url="${ctx}/pmd/pmdSendMsg_urgeMembers"
-                                data-grid-id="#jqGrid2"
-                                data-querystr="partyId=${param.partyId}&branchId=${param.branchId}"
-                                data-need-id="false"><i class="fa fa-send"></i> 发送提醒
-                        </button>
+                        <c:if test="${_show_msg_btns}">
+                            <button class="popupBtn btn btn-danger btn-sm tooltip-error"
+                                    data-rel="tooltip" data-placement="top" title="本月党费收缴已经启动，通知本支部党员缴纳党费。"
+                                    data-url="${ctx}/pmd/pmdSendMsg_notifyMembers?partyId=${param.partyId}&branchId=${param.branchId}"
+                                    data-grid-id="#jqGrid2">
+                                <i class="fa fa-send"></i> 发送通知
+                            </button>
+                            <button class="jqOpenViewBatchBtn btn btn-warning btn-sm tooltip-warning"
+                                    data-rel="tooltip" data-placement="top" title="提醒未缴纳党费的党员尽快缴纳党费。"
+                                    data-url="${ctx}/pmd/pmdSendMsg_urgeMembers"
+                                    data-grid-id="#jqGrid2"
+                                    data-querystr="partyId=${param.partyId}&branchId=${param.branchId}"
+                                    data-need-id="false"><i class="fa fa-send"></i> 发送提醒
+                            </button>
+                        </c:if>
                         <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectMemberType"
                                 data-grid-id="#jqGrid2">

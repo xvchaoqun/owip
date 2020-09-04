@@ -90,7 +90,7 @@
                             <a class="jqExportBtn btn btn-info btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
-                            <c:if test="${status>0}">
+                            <c:if test="${_show_msg_btns && status>0}">
                                 <button data-url="${ctx}/abroad/shortMsg_view"
                                         data-querystr="&type=applySelf"
                                         class="jqOpenViewBtn btn btn-primary btn-sm">

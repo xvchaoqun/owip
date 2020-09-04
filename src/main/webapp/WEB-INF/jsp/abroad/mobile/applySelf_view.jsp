@@ -16,8 +16,7 @@
               <i class="fa fa-times"></i>  不同意申请</button>
             </div>
         </c:if>
-
-        <c:if test="${param.status==1 && param.type=='admin'}">
+        <c:if test="${_show_msg_btns && param.status==1 && param.type=='admin'}">
           <button id="msgBtn" style="margin-left: 10px; margin-right: 10px;"
                   class="btn btn-primary btn-xs"><i class="fa fa-info-circle"></i> 发送提醒</button>
         </c:if>
