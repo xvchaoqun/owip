@@ -7,7 +7,7 @@ LEFT JOIN base_meta_class cmc ON cmt.class_id=cmc.id;
 --  View definition for `sys_user_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `sys_user_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+CREATE ALGORITHM = UNDEFINED  VIEW `sys_user_view`
 AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
 
 -- ----------------------------

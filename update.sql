@@ -1,4 +1,11 @@
 
+20200904
+南航
+
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显示短信通知按钮');
+
 20200903
 北邮
 

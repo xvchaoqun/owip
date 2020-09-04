@@ -9,12 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pcs/pcsConfig_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsConfig.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>届数</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>党代会名称(届数)</label>
 				<div class="col-xs-6">
-                    <input required class="form-control" type="text" name="name" value="${pcsConfig.name}">
+                    <textarea required class="form-control limited" type="text"
+                          name="name" maxlength="100">${pcsConfig.name}</textarea>
 				</div>
 			</div>
-        <shiro:hasPermission name="pcsAdmin:*">
+        <shiro:hasPermission name="pcsPartyList:list">
         <div class="form-group">
             <label class="col-xs-4 control-label">是否当前党代会</label>
             <div class="col-xs-6">

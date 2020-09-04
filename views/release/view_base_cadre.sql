@@ -1,5 +1,5 @@
 DROP VIEW IF EXISTS `cadre_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
+CREATE ALGORITHM = UNDEFINED  VIEW `cadre_view` AS
 SELECT c.*,
 	main_cadre_post.unit_id, main_cadre_post.admin_level, main_cadre_post.post_type, main_cadre_post.post
 	,if(!isnull(cm.id), 1, 0) as is_committee_member

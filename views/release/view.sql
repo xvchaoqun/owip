@@ -14,12 +14,12 @@ CREATE ALGORITHM = UNDEFINED VIEW `cet_unit_view` AS
 select cu.*,u.code as unit_code, u.name as unit_name, u.type_id as unit_type_id, u.status as unit_status,
 u.sort_order from cet_unit cu left join unit u on cu.unit_id=u.id ;
 
-DROP VIEW IF EXISTS `cet_party_view`;
+/*DROP VIEW IF EXISTS `cet_party_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_party_view` AS
 select cp.*,COUNT(cpa.user_id) AS admin_count
 from cet_party cp
 left JOIN cet_party_admin cpa on cp.id=cpa.cet_party_id
-GROUP BY cp.id;
+GROUP BY cp.id;*/
 
 /*DROP VIEW IF EXISTS `cet_project_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
@@ -533,7 +533,7 @@ where p.is_deleted=0 order by p.sort_order desc;
 --  View definition for `abroad_passport_apply_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `abroad_passport_apply_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `abroad_passport_apply_view` AS
+CREATE ALGORITHM = UNDEFINED  VIEW `abroad_passport_apply_view` AS
 select apa.`*` , ap.id as passport_id, ap.code from abroad_passport_apply apa  left join abroad_passport ap on ap.apply_id=apa.id ;
 
 DROP VIEW IF EXISTS `abroad_additional_post_view`;
@@ -653,7 +653,7 @@ SELECT omo.*, om.`status` as member_status from ow_member_outflow omo, ow_member
 --  View definition for `ow_member_stay_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_stay_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER
+CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER
 VIEW `ow_member_stay_view` AS SELECT wms.*,  om.`status` as member_status
 from ow_member_stay wms left join ow_member om
 on wms.user_id=om.user_id  ;
