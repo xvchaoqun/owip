@@ -283,25 +283,25 @@
 
     function _preview() {
 
-        var voteIds = $("#jqGrid2").jqGrid("getDataIDs");
-        if (voteIds.length == 0) {
+        var voteUserIds = $("#jqGrid2").jqGrid("getDataIDs");
+        if (voteUserIds.length == 0) {
             $.tip({
                 $target: $("#selectUsersBtn"),
                 at: 'top center', my: 'bottom center', type: 'info',
                 msg: "请选择公示对象。"
             });
         }
-        if(!$('#modalForm').valid() || voteIds.length == 0){
+        if(!$('#modalForm').valid() || voteUserIds.length == 0){
             return;
         }
 
-        $.loadModal("${ctx}/sc/scPublic_process?export=0&voteIds=" + voteIds + "&" + $("#modalForm").serialize(), 700);
+        $.loadModal("${ctx}/sc/scPublic_process?export=0&voteUserIds=" + voteUserIds + "&" + $("#modalForm").serialize(), 700);
     }
 
     $(".submitBtn").click(function () {
 
-        var voteIds = $("#jqGrid2").jqGrid("getDataIDs");
-        if (voteIds.length == 0) {
+        var voteUserIds = $("#jqGrid2").jqGrid("getDataIDs");
+        if (voteUserIds.length == 0) {
             $.tip({
                 $target: $("#selectUsersBtn"),
                 at: 'top center', my: 'bottom center', type: 'info',
@@ -318,13 +318,13 @@
             var publish = $("#modalForm input[name=isPublish]").val();
             var $btn = $(".submitBtn[data-pubish='"+publish+"']").button('loading');
 
-            var voteIds = $("#jqGrid2").jqGrid("getDataIDs");
-            if(voteIds.length == 0){
+            var voteUserIds = $("#jqGrid2").jqGrid("getDataIDs");
+            if(voteUserIds.length == 0){
                 return;
             }
 
             $(form).ajaxSubmit({
-                data: {voteIds: voteIds},
+                data: {userIds: voteUserIds},
                 success: function (ret) {
                     if (ret.success) {
                         //$("#modal").modal('hide');
