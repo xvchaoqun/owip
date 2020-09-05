@@ -31,6 +31,7 @@ git diff --diff-filter=d c8799d86 b0cedcb0 --name-only -- . ':(exclude)doc/*' | 
 -- 忽略文件
 git update-index --assume-unchanged pom.xml
 git update-index --assume-unchanged src\main\resources\bean-filters.xml
+-- git update-index --no-assume-unchanged pom.xml
 
 -- 撤销commit 
 git reset --soft HEAD~1

@@ -2,7 +2,6 @@
 20200904
 南航
 
-
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显示短信通知按钮');
 
@@ -27,7 +26,7 @@ HAVING COUNT>1)tmp);
 -- 更新导入样表
 
 20200902
-吉大 -- 北师大
+吉大
 
 ALTER TABLE `pcs_admin`
 	COMMENT='党代会分党委管理员补充信息',
