@@ -1,6 +1,6 @@
 package ext.service.auth;
 
-import ext.sso.SSOLogin;
+import com.edu.bnu.sso.SSOLogin;
 import service.LoginService;
 
 public class SSOLoginService implements LoginService {

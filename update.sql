@@ -7,7 +7,7 @@ VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显�
 
 -- 更新SyncService sysUserService.dbFindByUsernameOrCode
 -- 更新 utils
--- 去掉jx.bnu依赖
+-- jx.bnu.jar -> jx.ext.jar
 
 20200903
 北邮，戏曲

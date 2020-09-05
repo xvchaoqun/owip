@@ -1,6 +1,6 @@
 <%@ page import="domain.base.OneSend" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
-<%@ page import="service.base.OneSendService" %>
+<%@ page import="ext.service.OneSendService" %>
 <%@ page import="sys.tags.CmTag" %>
 <%@ page import="sys.utils.JSONUtils" %>
 <%@ page import="java.util.ArrayList" %>

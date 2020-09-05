@@ -7,7 +7,7 @@ import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
-import ext.pay.PayUtils;
+import ext.utils.PayUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

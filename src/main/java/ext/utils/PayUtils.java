@@ -1,6 +1,13 @@
-package ext.pay;
+package ext.utils;
 
+import com.edu.bnu.pay.Base64;
+import com.edu.bnu.pay.SignUtilsImpl;
+import com.edu.bnu.pay.SymmtricCryptoUtil;
 import com.google.gson.Gson;
+import ext.common.pay.OrderCloseResult;
+import ext.common.pay.OrderFormBean;
+import ext.common.pay.OrderQueryResult;
+import ext.common.pay.PayInterface;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -21,10 +28,11 @@ import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-public class PayUtils {
+public class PayUtils implements PayInterface {
     
     private static Logger logger = LoggerFactory.getLogger(PayUtils.class);
-    
+    private static PayUtils instance;
+
     public static String toaccount = "1000329";
     public static String thirdsystem = "partyfee";
     public static String orderType_PC = "pc";
@@ -38,8 +46,15 @@ public class PayUtils {
     public static String qrcodeURL = "http://newpay.bnu.edu.cn:9000/Order/CreteteMerrQrcode";
     public static String closeOrderURL = "http://newpay.bnu.edu.cn:9000/Order/CloseOrder";
 
-    
-    public static OrderCloseResult closeOrder(String sn) throws IOException {
+    public static PayUtils getInstance(){
+
+        if(instance==null){
+            instance = new PayUtils();
+        }
+        return instance;
+    }
+
+    public OrderCloseResult closeOrder(String sn) throws IOException {
     
         OrderCloseResult result = new OrderCloseResult();
         
@@ -113,7 +128,7 @@ public class PayUtils {
         return EntityUtils.toString(res.getEntity());
     }
     
-    public static OrderQueryResult orderQuery(String sn){
+    public OrderQueryResult orderQuery(String sn){
     
         OrderQueryResult result = new OrderQueryResult();
         
@@ -177,7 +192,7 @@ public class PayUtils {
         return result;
     }
     // amount 单位：人民币元
-    public static OrderFormBean createOrderFormBean(String code, String amount, String orderNo, String orderType){
+    public OrderFormBean createOrderFormBean(String code, String amount, String orderNo, String orderType){
 
         OrderFormBean bean = new OrderFormBean();
         // 元 -> 分
