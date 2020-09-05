@@ -156,7 +156,7 @@ public class PmdOrderCampusCardService extends PmdBaseMapper {
         newOrder.setPayername(payername);
         newOrder.setAmt(amt);
         
-        Map<String, Object> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("paycode", paycode);
         params.put("payer", payer);
         params.put("payername", payername);
@@ -177,7 +177,7 @@ public class PmdOrderCampusCardService extends PmdBaseMapper {
         }
         if (oldOrder != null) {
             Gson gson = new Gson();
-            Map<String, Object> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
+            Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
             if (oldOrder.getIsClosed() // 订单关闭
                     || !FormUtils.paramMapEquals(params, oldParams)) {
                 
