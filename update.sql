@@ -6,6 +6,7 @@ INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `re
 VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显示短信通知按钮');
 
 -- 更新SyncService sysUserService.dbFindByUsernameOrCode
+-- 更新 utils
 
 20200903
 北邮，戏曲
