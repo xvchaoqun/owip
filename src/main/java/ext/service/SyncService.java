@@ -225,7 +225,14 @@ public class SyncService extends BaseMapper {
         record.setLocked(false);
 
         int ret = -1;
-        SysUserView sysUser = sysUserService.dbFindByCode(code);
+        SysUserView sysUser = null;
+        List<SysUserView> uvs = sysUserService.dbFindByUsernameOrCode(code);
+        if(uvs.size()>1){
+            logger.error("账号同步异常，用户名、学工号重复：" + code);
+            return ret;
+        }else if(uvs.size()==1){
+            sysUser = uvs.get(0); // 账号或学工号查到了，都覆盖更新？
+        }
         try {
             if (sysUser == null) {
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -353,7 +360,14 @@ public class SyncService extends BaseMapper {
         record.setLocked(false);
 
         int ret = -1;
-        SysUserView sysUser = sysUserService.dbFindByCode(code);
+        SysUserView sysUser = null;
+        List<SysUserView> uvs = sysUserService.dbFindByUsernameOrCode(code);
+        if(uvs.size()>1){
+            logger.error("账号同步异常，用户名、学工号重复：" + code);
+            return ret;
+        }else if(uvs.size()==1){
+            sysUser = uvs.get(0); // 账号或学工号查到了，都覆盖更新？
+        }
         try {
             if (sysUser == null) {
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -484,7 +498,14 @@ public class SyncService extends BaseMapper {
         record.setLocked(false);
 
         int ret = -1;
-        SysUserView sysUser = sysUserService.dbFindByCode(code);
+        SysUserView sysUser = null;
+        List<SysUserView> uvs = sysUserService.dbFindByUsernameOrCode(code);
+        if(uvs.size()>1){
+            logger.error("账号同步异常，用户名、学工号重复：" + code);
+            return ret;
+        }else if(uvs.size()==1){
+            sysUser = uvs.get(0); // 账号或学工号查到了，都覆盖更新？
+        }
         try {
             if (sysUser == null) {
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同

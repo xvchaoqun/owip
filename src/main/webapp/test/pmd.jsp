@@ -1,6 +1,5 @@
 <%@ page import="domain.pmd.PmdOrder" %>
 <%@ page import="domain.pmd.PmdOrderExample" %>
-<%@ page import="jixiantech.api.pay.OrderQueryResult" %>
 <%@ page import="persistence.pmd.PmdOrderMapper" %>
 <%@ page import="service.pmd.PmdOrderService" %>
 <%@ page import="sys.tags.CmTag" %>

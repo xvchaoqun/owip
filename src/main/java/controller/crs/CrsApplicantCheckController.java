@@ -147,7 +147,7 @@ public class CrsApplicantCheckController extends CrsBaseController {
         String originalFilename = file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
         if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(file, "pdf")) {
+                && !ContentTypeUtils.isAnyFormat(file, "pdf")) {
             throw new OpException("文件格式错误，请上传pdf文件");
         }
         String savePath = uploadPdf(file, "crs_applicant_special");

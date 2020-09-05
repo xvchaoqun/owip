@@ -2,7 +2,7 @@ package controller.pmd;
 
 import domain.pmd.PmdOrder;
 import domain.sys.SysUserView;
-import jixiantech.api.pay.OrderQueryResult;
+import ext.pay.OrderQueryResult;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -169,7 +169,7 @@ public class UserCrsPostController extends CrsBaseController {
         String originalFilename = ppt.getOriginalFilename();
         /*String ext = FileUtils.getExtention(originalFilename);
         if ((!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx"))
-                && !ContentTypeUtils.isFormat(ppt, "ppt")) {
+                && !ContentTypeUtils.isAnyFormat(ppt, "ppt")) {
             throw new OpException("文件格式错误，请上传ppt文件");
         }*/
 

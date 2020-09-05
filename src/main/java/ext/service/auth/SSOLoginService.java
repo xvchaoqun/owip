@@ -1,6 +1,6 @@
 package ext.service.auth;
 
-import jixiantech.api.sso.SSOLogin;
+import ext.sso.SSOLogin;
 import service.LoginService;
 
 public class SSOLoginService implements LoginService {

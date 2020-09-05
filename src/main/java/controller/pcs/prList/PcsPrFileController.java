@@ -121,7 +121,7 @@ public class PcsPrFileController extends PcsBaseController {
         String originalFilename = _file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
         if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(_file, "pdf")) {
+                && !ContentTypeUtils.isAnyFormat(_file, "pdf")) {
             throw new OpException("任免文件格式错误，请上传pdf文件");
         }
         String savePath = uploadPdf(_file, "pcsPrFile");

@@ -1,8 +1,8 @@
 package service.base;
 
 import domain.base.OneSend;
-import jixiantech.api.msg.OneSendResult;
-import jixiantech.api.msg.OneSendUtils;
+import ext.msg.OneSendResult;
+import ext.msg.OneSendUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -6,10 +6,13 @@
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显示短信通知按钮');
 
+-- 更新SyncService sysUserService.dbFindByUsernameOrCode
+
 20200903
-北邮
+北邮，戏曲
 
 -- 更新cadre_view
+
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
 VALUES ('更新领导干部的培训信息', '更新培训模块的培训信息至领导干部的培训信息', 'job.cadre.UpdateCadreTrain', '0 0 1 * * ?', 0, 0, 32, '2020-09-01 16:13:32', 0);
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
