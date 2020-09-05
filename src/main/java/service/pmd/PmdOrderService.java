@@ -156,9 +156,9 @@ public class PmdOrderService extends PmdBaseMapper {
         if (oldOrder != null) {
 
             OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, oldOrderNo, isMobile);
-            Map<String, Object> paramMap = orderFormBean.getParamMap();
+            Map<String, String> paramMap = orderFormBean.getParamMap();
             Gson gson = new Gson();
-            Map<String, Object> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
+            Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
             if (oldOrder.getIsClosed() // 订单关闭
                     || !FormUtils.paramMapEquals(paramMap, oldParams)) {
                 
@@ -177,7 +177,7 @@ public class PmdOrderService extends PmdBaseMapper {
             newOrder.setSn(orderNo);
 
             OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, orderNo, isMobile);
-            Map<String, Object> paramMap = orderFormBean.getParamMap();
+            Map<String, String> paramMap = orderFormBean.getParamMap();
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             // 签名
             newOrder.setSign(orderFormBean.getSign());
@@ -243,7 +243,7 @@ public class PmdOrderService extends PmdBaseMapper {
         String orderdesc = request.getParameter("orderdesc");
         String praram1 = request.getParameter("praram1");
 
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put("tranamt", tranamt);
         paramMap.put("orderid", orderid);
         paramMap.put("account", account);

@@ -139,7 +139,7 @@ public class UserPmdPayController extends PmdBaseController {
                 JSONUtils.toString(order, false)));
 
         Gson gson = new Gson();
-        Map<String, Object> params =  gson.fromJson(order.getParams(), Map.class);
+        Map<String, String> params =  gson.fromJson(order.getParams(), Map.class);
         //params.put("sn", order.getSn());
         params.put("sign", order.getSign());
         
@@ -155,7 +155,7 @@ public class UserPmdPayController extends PmdBaseController {
 
         if(springProps.devMode) {
             // test
-            Map<String, Object> callbackMap = new LinkedHashMap<>(params);
+            Map<String, String> callbackMap = new LinkedHashMap<>(params);
             callbackMap.remove("ordertype");
             callbackMap.remove("sign");
             callbackMap.put("orderid", order.getSn() + "back");

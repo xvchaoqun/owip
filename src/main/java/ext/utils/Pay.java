@@ -54,13 +54,13 @@ public class Pay implements IPay {
     
         OrderCloseResult result = new OrderCloseResult();
         
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put("thirdorderid", sn);
         paramMap.put("thirdsystem", thirdsystem);
         
         List<BasicNameValuePair> params = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
-            params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
         }
         params.add(new BasicNameValuePair("sign", sign(paramMap)));
 
@@ -99,14 +99,14 @@ public class Pay implements IPay {
     
         OrderQueryResult result = new OrderQueryResult();
         
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put("thirdorderid", sn);
         paramMap.put("orderid", "");
         paramMap.put("thirdsystem", thirdsystem);
         
         List<BasicNameValuePair> params = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
-            params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
         }
         params.add(new BasicNameValuePair("state", "all"));
         params.add(new BasicNameValuePair("sign", sign(paramMap)));
@@ -169,7 +169,7 @@ public class Pay implements IPay {
             throw new RuntimeException("缴费金额有误。");
         }
 
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put("tranamt", fen.intValue()+"");
         paramMap.put("account", "");
         paramMap.put("sno", code);
@@ -186,7 +186,7 @@ public class Pay implements IPay {
         return bean;
     }
     
-    public String sign(Map<String, Object> paramMap){
+    public String sign(Map<String, String> paramMap){
         
         Map<String, Object> sortedParamMap = new TreeMap<String, Object>(new Comparator<String>() {
             @Override
