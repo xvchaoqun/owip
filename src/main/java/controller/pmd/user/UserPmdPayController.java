@@ -160,7 +160,7 @@ public class UserPmdPayController extends PmdBaseController {
             callbackMap.remove("sign");
             callbackMap.put("orderid", order.getSn() + "back");
             callbackMap.put("state", "1");
-            callbackMap.put("sign", URLEncoder.encode(Pay.sign(callbackMap), "UTF-8"));
+            callbackMap.put("sign", URLEncoder.encode(Pay.getInstance().sign(callbackMap), "UTF-8"));
 
             callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
             resultMap.put("ret", FormUtils.requestParams(callbackMap));

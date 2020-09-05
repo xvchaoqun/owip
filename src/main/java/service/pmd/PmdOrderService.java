@@ -255,7 +255,7 @@ public class PmdOrderService extends PmdBaseMapper {
         paramMap.put("orderdesc", orderdesc);
         paramMap.put("praram1", praram1);
 
-        return Pay.sign(paramMap);
+        return Pay.getInstance().sign(paramMap);
     }
 
     // （服务器通知）签名校验

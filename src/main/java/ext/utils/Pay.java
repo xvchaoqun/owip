@@ -95,35 +95,6 @@ public class Pay implements IPay {
         return result;
     }
     
-    public static String qrcode(String sn) throws IOException {
-    
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("toaccount", toaccount);
-        paramMap.put("thirdsystem", thirdsystem);
-        paramMap.put("timeout", "");
-        paramMap.put("trjnnum", "");
-        paramMap.put("thirdorderid", sn);
-        
-        List<BasicNameValuePair> params = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
-            params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
-        }
-        params.add(new BasicNameValuePair("sign", sign(paramMap)));
-        HttpEntity postParams = new UrlEncodedFormEntity(params);
-
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(qrcodeURL);
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(5000).setConnectionRequestTimeout(10000)
-                .setSocketTimeout(5000).build();
-        httppost.setConfig(requestConfig);
-
-        httppost.setEntity(postParams);
-        CloseableHttpResponse res = httpclient.execute(httppost);
-
-        return EntityUtils.toString(res.getEntity());
-    }
-    
     public OrderQueryResult orderQuery(String sn){
     
         OrderQueryResult result = new OrderQueryResult();
@@ -215,7 +186,7 @@ public class Pay implements IPay {
         return bean;
     }
     
-    public static String sign(Map<String, Object> paramMap){
+    public String sign(Map<String, Object> paramMap){
         
         Map<String, Object> sortedParamMap = new TreeMap<String, Object>(new Comparator<String>() {
             @Override
