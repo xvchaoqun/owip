@@ -70,7 +70,7 @@
         </div>
     </div>
 </div>
-<form id="payForm" action="<%=PayUtils.payURL%>" method="post"></form>
+<form id="payForm" action="<%=Pay.payURL%>" method="post"></form>
 <style>
     .infobox {
         height: auto;

@@ -4,10 +4,7 @@ import com.edu.bnu.pay.Base64;
 import com.edu.bnu.pay.SignUtilsImpl;
 import com.edu.bnu.pay.SymmtricCryptoUtil;
 import com.google.gson.Gson;
-import ext.common.pay.OrderCloseResult;
-import ext.common.pay.OrderFormBean;
-import ext.common.pay.OrderQueryResult;
-import ext.common.pay.PayInterface;
+import ext.common.pay.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -28,15 +25,14 @@ import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-public class PayUtils implements PayInterface {
+public class Pay implements IPay {
     
-    private static Logger logger = LoggerFactory.getLogger(PayUtils.class);
-    private static PayUtils instance;
+    private static Logger logger = LoggerFactory.getLogger(Pay.class);
+    private static Pay pay;
 
     public static String toaccount = "1000329";
     public static String thirdsystem = "partyfee";
-    public static String orderType_PC = "pc";
-    public static String orderType_PHONE = "phone";
+
     public static String privateKeyUp = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAK/gErIchYSnQvbO4M10B4xkvbiPWFDQGfozlufzieR/wbhLgmc+KmBMAHs/AB3sQGiy9UcygSrbHcQD3nvbupoShtlmNAT9/f3stjttZ/q4n9wIlsIQ28aHHrPWxq3vg0DjAJgdGbYZ3+4NKOC1H4wh3/QgeT6T/EoGQ5Fpo/xjAgMBAAECgYEAhYGuD4CxJiqmHZ6bbbq3hC5xCmneG7JtFc4VrsvjkA4fKtw/CEpbdrAa6XPAjfZqSlAW+03uWW7t4H8jY5g/xDU5wWeadUUi5p5q3mmfJCqLiCDjTtirZ6KbhBRaOzr4jxfJkzEAAy8sSWcv1ftubvc/Ws/wyFCKUB5m8nIUbmECQQDYKtadHX1mEz6xmgYlr/A7pRB/vkdcy8xRF1BFC68CLCWo9AY7OkiymAquVrEhadp4gFKjbfHblA40JozXEPbxAkEA0EiOb7dFSp2LmzTCf/XC3B4Lsh47gJuiOkC4Y4D73UK33obsIyLktrhBNmY4Y/L6kxXW2rc/ERj1cAH6MCkwkwJBAIUt92V7Orv91V1kcK8dc1u7+atKVvskEHBRdcHkTeF/w4ARQBmTciCeLc51WNImPlSJcuB/p0fKMuoMai9Co3ECQFZ1B8sPxE+Ivh6a8/GxzkUYo7o4GnL0J48Otnt3WxUpULGqR/L91PqT2V3/aID0p1bOxfTcA+3Q8nCgIX5EWskCQA6mlzfNAaFpjasSVzFsUpfan14rxl3GzXPav0HCJMG1AjrgE1vrOVlxDIRqgBVqCiIgLruiDCPiFYIOzqCgCtY=";
     public static String deskey = "NmJhYmVlMjllMjdiNDU0MGI5MzQ3ODZj";
     public static String KEY_TYPE = "SHA1withRSA";
@@ -46,12 +42,12 @@ public class PayUtils implements PayInterface {
     public static String qrcodeURL = "http://newpay.bnu.edu.cn:9000/Order/CreteteMerrQrcode";
     public static String closeOrderURL = "http://newpay.bnu.edu.cn:9000/Order/CloseOrder";
 
-    public static PayUtils getInstance(){
+    public static Pay getInstance(){
 
-        if(instance==null){
-            instance = new PayUtils();
+        if(pay ==null){
+            pay = new Pay();
         }
-        return instance;
+        return pay;
     }
 
     public OrderCloseResult closeOrder(String sn) throws IOException {
@@ -191,8 +187,9 @@ public class PayUtils implements PayInterface {
         
         return result;
     }
+
     // amount 单位：人民币元
-    public OrderFormBean createOrderFormBean(String code, String amount, String orderNo, String orderType){
+    public OrderFormBean createOrder(String code, String amount, String orderNo, boolean isMobile){
 
         OrderFormBean bean = new OrderFormBean();
         // 元 -> 分
@@ -200,28 +197,17 @@ public class PayUtils implements PayInterface {
         if(new BigDecimal(fen.intValue()).compareTo(fen)!=0){
             throw new RuntimeException("缴费金额有误。");
         }
-        bean.setTranamt(fen.intValue()+"");
-        //bean.setAccount("46749");
-        bean.setAccount("");
-        bean.setSno(code);
-        bean.setToaccount(toaccount);
-        bean.setThirdsystem(thirdsystem);
-        bean.setThirdorderid(orderNo);
-        bean.setOrdertype(orderType);
-        bean.setOrderdesc("");
-        bean.setPraram1("");
-        bean.setThirdurl("");
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("tranamt", bean.getTranamt());
-        paramMap.put("account", bean.getAccount());
-        paramMap.put("sno", bean.getSno());
-        paramMap.put("toaccount", bean.getToaccount());
-        paramMap.put("thirdsystem", bean.getThirdsystem());
-        paramMap.put("thirdorderid", bean.getThirdorderid());
-        paramMap.put("ordertype", bean.getOrdertype());
-        paramMap.put("orderdesc", bean.getOrderdesc());
-        paramMap.put("praram1", bean.getPraram1());
+        paramMap.put("tranamt", fen.intValue()+"");
+        paramMap.put("account", "");
+        paramMap.put("sno", code);
+        paramMap.put("toaccount", toaccount);
+        paramMap.put("thirdsystem", thirdsystem);
+        paramMap.put("thirdorderid", orderNo);
+        paramMap.put("ordertype", isMobile?"phone":"pc");
+        paramMap.put("orderdesc", "");
+        paramMap.put("praram1", "");
 
         bean.setParamMap(paramMap);
         bean.setSign(sign(paramMap));

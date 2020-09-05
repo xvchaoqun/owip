@@ -7,7 +7,7 @@ import domain.sys.SysUserView;
 import ext.common.pay.OrderCloseResult;
 import ext.common.pay.OrderFormBean;
 import ext.common.pay.OrderQueryResult;
-import ext.utils.PayUtils;
+import ext.utils.Pay;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.Assert;
@@ -78,7 +78,7 @@ public class PmdOrderService extends PmdBaseMapper {
     }
     
     // 构建支付表单参数
-    private PmdOrder confirmOrder(String oldOrderNo, int pmdMemberId, boolean isSelfPay, String orderType) {
+    private PmdOrder confirmOrder(String oldOrderNo, int pmdMemberId, boolean isSelfPay, boolean isMobile) {
         
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null || pmdMember.getHasPay()) {
@@ -155,7 +155,7 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         if (oldOrder != null) {
 
-            OrderFormBean orderFormBean = PayUtils.getInstance().createOrderFormBean(payer, amt, oldOrderNo, orderType);
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, oldOrderNo, isMobile);
             Map<String, Object> paramMap = orderFormBean.getParamMap();
             Gson gson = new Gson();
             Map<String, Object> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
@@ -176,7 +176,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
-            OrderFormBean orderFormBean = PayUtils.getInstance().createOrderFormBean(payer, amt, orderNo, orderType);
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, orderNo, isMobile);
             Map<String, Object> paramMap = orderFormBean.getParamMap();
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             // 签名
@@ -255,7 +255,7 @@ public class PmdOrderService extends PmdBaseMapper {
         paramMap.put("orderdesc", orderdesc);
         paramMap.put("praram1", praram1);
 
-        return PayUtils.sign(paramMap);
+        return Pay.sign(paramMap);
     }
 
     // （服务器通知）签名校验
@@ -283,7 +283,7 @@ public class PmdOrderService extends PmdBaseMapper {
     
     // 跳转页面前的支付确认，生成支付订单号
     @Transactional
-    public PmdOrder payConfirm(int pmdMemberId, boolean isSelfPay, String orderType) {
+    public PmdOrder payConfirm(int pmdMemberId, boolean isSelfPay, boolean isMobile) {
         
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
@@ -305,7 +305,7 @@ public class PmdOrderService extends PmdBaseMapper {
         String oldOrderNo = pmdMemberPay.getOrderNo();
         
         // 确认订单信息
-        PmdOrder pmdOrder = confirmOrder(oldOrderNo, pmdMemberId, isSelfPay, orderType);
+        PmdOrder pmdOrder = confirmOrder(oldOrderNo, pmdMemberId, isSelfPay, isMobile);
         
         PmdMemberPay record = new PmdMemberPay();
         record.setMemberId(pmdMemberId);
@@ -567,7 +567,7 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setPayername(payername);
         newOrder.setAmt(amt);
 
-        OrderFormBean orderFormBean = PayUtils.getInstance().createOrderFormBean(payer, amt, orderNo, PayUtils.orderType_PC);
+        OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, orderNo, false);
         newOrder.setParams(JSONUtils.toString(orderFormBean.getParamMap(), false));
         newOrder.setSn(orderNo);
         newOrder.setSign(orderFormBean.getSign());
@@ -827,7 +827,7 @@ public class PmdOrderService extends PmdBaseMapper {
         CloseTradeRet closeTradeRet = new CloseTradeRet();
         closeTradeRet.success = false;
 
-        OrderCloseResult result = PayUtils.getInstance().closeOrder(sn);
+        OrderCloseResult result = Pay.getInstance().closeOrder(sn);
         closeTradeRet.ret = result.getRet();
         if(result.isSuccess()){
             PmdOrder record = new PmdOrder();
@@ -845,6 +845,6 @@ public class PmdOrderService extends PmdBaseMapper {
     // 查询订单结果
     public OrderQueryResult query(String sn){
 
-        return PayUtils.getInstance().orderQuery(sn);
+        return Pay.getInstance().orderQuery(sn);
     }
 }

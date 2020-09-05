@@ -7,7 +7,7 @@ import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
-import ext.utils.PayUtils;
+import ext.utils.Pay;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,8 +134,7 @@ public class UserPmdPayController extends PmdBaseController {
 
         checkPayAuth(id, isSelfPay);
 
-        PmdOrder order = pmdOrderService.payConfirm(id, isSelfPay,
-                isMobile? PayUtils.orderType_PHONE: PayUtils.orderType_PC);
+        PmdOrder order = pmdOrderService.payConfirm(id, isSelfPay, isMobile);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
@@ -161,7 +160,7 @@ public class UserPmdPayController extends PmdBaseController {
             callbackMap.remove("sign");
             callbackMap.put("orderid", order.getSn() + "back");
             callbackMap.put("state", "1");
-            callbackMap.put("sign", URLEncoder.encode(PayUtils.sign(callbackMap), "UTF-8"));
+            callbackMap.put("sign", URLEncoder.encode(Pay.sign(callbackMap), "UTF-8"));
 
             callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
             resultMap.put("ret", FormUtils.requestParams(callbackMap));

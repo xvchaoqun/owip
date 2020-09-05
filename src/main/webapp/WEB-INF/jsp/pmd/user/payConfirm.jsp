@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
+<c:set value="<%=Pay.payURL%>" var="_payURL"/>
 <div class="modal-header">
     <button id="closeBtn" type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${param.isSelfPay==0?'代缴信息确认':'缴费信息确认'}</h3>
