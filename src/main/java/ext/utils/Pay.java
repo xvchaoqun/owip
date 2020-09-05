@@ -189,7 +189,7 @@ public class Pay implements IPay {
     }
 
     // amount 单位：人民币元
-    public OrderFormBean createOrder(String code, String amount, String orderNo, boolean isMobile){
+    public OrderFormBean createOrder(String orderNo, String amount, String code, boolean isMobile) {
 
         OrderFormBean bean = new OrderFormBean();
         // 元 -> 分
