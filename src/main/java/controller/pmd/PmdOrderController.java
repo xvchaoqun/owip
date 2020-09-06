@@ -3,6 +3,7 @@ package controller.pmd;
 import domain.pmd.PmdOrder;
 import domain.sys.SysUserView;
 import ext.common.pay.OrderQueryResult;
+import ext.utils.Pay;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -128,7 +129,7 @@ public class PmdOrderController extends PmdBaseController {
     @ResponseBody
     public String pmdOrder_query_sign(HttpServletRequest request, ModelMap modelMap) throws IOException {
 
-        String sign = pmdOrderService.notifySign(request);
+        String sign = Pay.getInstance().notifySign(request);
 
         return URLEncoder.encode(sign, "UTF-8");
     }

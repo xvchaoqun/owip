@@ -6,6 +6,7 @@ import domain.pmd.*;
 import domain.sys.SysUserView;
 import ext.common.pay.OrderCloseResult;
 import ext.common.pay.OrderFormBean;
+import ext.common.pay.OrderNotifyBean;
 import ext.common.pay.OrderQueryResult;
 import ext.utils.Pay;
 import org.apache.commons.lang3.BooleanUtils;
@@ -213,12 +214,14 @@ public class PmdOrderService extends PmdBaseMapper {
         
         PmdNotify record = new PmdNotify();
         try {
-            
-            record.setSn(request.getParameter("thirdorderid"));
-            record.setAmt(request.getParameter("actulamt"));
+
+            OrderNotifyBean notifyBean = Pay.getInstance().notifyBean(request);
+
+            record.setSn(notifyBean.getOrderNo());
+            record.setAmt(notifyBean.getAmt());
+            record.setIsSuccess(notifyBean.isHasPay());
+
             record.setParams(JSONUtils.toString(request.getParameterMap(), false));
-            record.setIsSuccess(StringUtils.equals(request.getParameter("state"), "1"));
-            
             record.setVerifySign(verifyNotifySign(request));
             record.setRetTime(new Date());
             record.setIp(ContextHelper.getRealIp());
@@ -229,34 +232,7 @@ public class PmdOrderService extends PmdBaseMapper {
         pmdNotifyMapper.insertSelective(record);
     }
 
-    // 计算服务器通知签名
-    public String notifySign(HttpServletRequest request){
 
-        String tranamt = request.getParameter("tranamt");
-        String orderid = request.getParameter("orderid");
-        String account = request.getParameter("account");
-        String sno = request.getParameter("sno");
-        String toaccount = request.getParameter("toaccount");
-        String thirdsystem = request.getParameter("thirdsystem");
-        String thirdorderid = request.getParameter("thirdorderid");
-        String state = request.getParameter("state");
-        String orderdesc = request.getParameter("orderdesc");
-        String praram1 = request.getParameter("praram1");
-
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("tranamt", tranamt);
-        paramMap.put("orderid", orderid);
-        paramMap.put("account", account);
-        paramMap.put("sno", sno);
-        paramMap.put("toaccount", toaccount);
-        paramMap.put("thirdsystem", thirdsystem);
-        paramMap.put("thirdorderid", thirdorderid);
-        paramMap.put("state", state);
-        paramMap.put("orderdesc", orderdesc);
-        paramMap.put("praram1", praram1);
-
-        return Pay.getInstance().sign(paramMap);
-    }
 
     // （服务器通知）签名校验
     public boolean verifyNotifySign(HttpServletRequest request){
@@ -264,7 +240,7 @@ public class PmdOrderService extends PmdBaseMapper {
         String sign = request.getParameter("sign");
         if(StringUtils.isBlank(sign)) return false;
 
-        String verifySign = notifySign(request);
+        String verifySign = Pay.getInstance().notifySign(request);
 
         boolean ret = false;
         try {
@@ -591,17 +567,19 @@ public class PmdOrderService extends PmdBaseMapper {
     // 处理服务器支付结果通知
     @Transactional
     public void processCallback(HttpServletRequest request) {
-        
-        String orderNo = request.getParameter("thirdorderid");
-        String payerCode = request.getParameter("sno");
-        String amt = request.getParameter("actulamt"); // 单位 分
-        String state = request.getParameter("state");
+
+        OrderNotifyBean notifyBean = Pay.getInstance().notifyBean(request);
+
+        String orderNo = notifyBean.getOrderNo();
+        String payerCode = notifyBean.getPayerCode();
+        String amt = notifyBean.getAmt(); // 单位 分
+        String state = notifyBean.getStatusCode();
 
         BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
         try {
             // 签名校验成功 且 确认交易成功
             boolean verifyNotifySign = verifyNotifySign(request);
-            if ( verifyNotifySign && StringUtils.equals(state, "1")) {
+            if ( verifyNotifySign && notifyBean.isHasPay()) {
                 
                 PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
                 if (pmdOrder == null) {

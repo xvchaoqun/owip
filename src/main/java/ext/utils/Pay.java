@@ -4,10 +4,7 @@ import com.edu.bnu.pay.Base64;
 import com.edu.bnu.pay.SignUtilsImpl;
 import com.edu.bnu.pay.SymmtricCryptoUtil;
 import com.google.gson.Gson;
-import ext.common.pay.IPay;
-import ext.common.pay.OrderCloseResult;
-import ext.common.pay.OrderFormBean;
-import ext.common.pay.OrderQueryResult;
+import ext.common.pay.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -23,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import sys.utils.FormUtils;
 
 import javax.crypto.Cipher;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -230,7 +228,54 @@ public class Pay implements IPay {
 
         return FormUtils.requestParams(callbackMap);
     }
-    
+
+    // 计算服务器通知签名
+    public String notifySign(HttpServletRequest request){
+
+        String tranamt = request.getParameter("tranamt");
+        String orderid = request.getParameter("orderid");
+        String account = request.getParameter("account");
+        String sno = request.getParameter("sno");
+        String toaccount = request.getParameter("toaccount");
+        String thirdsystem = request.getParameter("thirdsystem");
+        String thirdorderid = request.getParameter("thirdorderid");
+        String state = request.getParameter("state");
+        String orderdesc = request.getParameter("orderdesc");
+        String praram1 = request.getParameter("praram1");
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("tranamt", tranamt);
+        paramMap.put("orderid", orderid);
+        paramMap.put("account", account);
+        paramMap.put("sno", sno);
+        paramMap.put("toaccount", toaccount);
+        paramMap.put("thirdsystem", thirdsystem);
+        paramMap.put("thirdorderid", thirdorderid);
+        paramMap.put("state", state);
+        paramMap.put("orderdesc", orderdesc);
+        paramMap.put("praram1", praram1);
+
+        return sign(paramMap);
+    }
+
+    @Override
+    public OrderNotifyBean notifyBean(HttpServletRequest request) {
+
+        String orderNo = request.getParameter("thirdorderid");
+        String payerCode = request.getParameter("sno");
+        String amt = request.getParameter("actulamt"); // 单位 分
+        String state = request.getParameter("state");
+
+        OrderNotifyBean notifyBean = new OrderNotifyBean();
+        notifyBean.setOrderNo(orderNo);
+        notifyBean.setPayerCode(payerCode);
+        notifyBean.setAmt(amt);
+        notifyBean.setStatusCode(state);
+        notifyBean.setHasPay(StringUtils.equals(state, "1"));
+
+        return notifyBean;
+    }
+
     public static String encrypt(String text, String key, String algorithm){
         
         try {
