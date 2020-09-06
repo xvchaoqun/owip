@@ -155,7 +155,7 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         if (oldOrder != null) {
 
-            OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, oldOrderNo, isMobile);
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(oldOrderNo, amt, payer, isMobile);
             Map<String, String> paramMap = orderFormBean.getParamMap();
             Gson gson = new Gson();
             Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
@@ -176,7 +176,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
-            OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, orderNo, isMobile);
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, isMobile);
             Map<String, String> paramMap = orderFormBean.getParamMap();
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             // 签名
@@ -559,7 +559,7 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setPayername(payername);
         newOrder.setAmt(amt);
 
-        OrderFormBean orderFormBean = Pay.getInstance().createOrder(payer, amt, orderNo, false);
+        OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
         newOrder.setParams(JSONUtils.toString(orderFormBean.getParamMap(), false));
         newOrder.setSn(orderNo);
         newOrder.setSign(orderFormBean.getSign());
