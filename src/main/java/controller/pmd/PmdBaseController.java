@@ -21,7 +21,9 @@ public class PmdBaseController extends PmdBaseMapper implements HttpResponseMeth
     protected MemberService memberService;
     @Autowired
     protected ShortMsgService shortMsgService;
-    
+
+    @Autowired
+    protected PmdService pmdService;
     @Autowired
     protected PmdMonthService pmdMonthService;
     @Autowired

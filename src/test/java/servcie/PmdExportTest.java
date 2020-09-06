@@ -12,12 +12,7 @@ import persistence.pmd.PmdMemberMapper;
 import persistence.pmd.PmdNormMapper;
 import persistence.pmd.PmdPartyMapper;
 import persistence.pmd.common.IPmdMapper;
-import service.pmd.PmdBranchService;
-import service.pmd.PmdExportService;
-import service.pmd.PmdMonthService;
-import service.pmd.PmdPartyService;
-import service.pmd.PmdPayService;
-import service.pmd.PmdOrderWszfService;
+import service.pmd.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,8 +39,6 @@ public class PmdExportTest {
     PmdPartyMapper pmdPartyMapper;
     @Autowired
     PmdPayService pmdPayService;
-    @Autowired
-    PmdOrderWszfService pmdOrderWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

@@ -3,6 +3,8 @@
 -- 更新 utils
 -- jx.bnu.jar -> jx.ext.jar
 
+delete from pmd_member_pay where member_id not in (select id from pmd_member) and has_pay!=1;
+
 20200904
 南航
 

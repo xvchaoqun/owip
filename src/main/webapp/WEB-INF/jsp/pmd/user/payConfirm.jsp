@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
-<c:set value="<%=Pay.payURL%>" var="_payURL"/>
 <div class="modal-header">
     <button id="closeBtn" type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${param.isSelfPay==0?'代缴信息确认':'缴费信息确认'}</h3>
@@ -40,10 +39,10 @@
             <td>${pmdMember.duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="${devMode?null:_payURL}" target="_blank" method="post"></form>
+    <div id="payFormDiv"></div>
 </div>
 <div class="modal-footer">
-    <%--<div id="tip">提示：由于校园卡支付平台出于安全性考虑，只要点了“去支付”按钮，必须支付完成，不可再换人代缴操作，请谨慎操作。</div>--%>
+
     <div id="submitTip">支付完成前，请不要关闭此支付验证窗口。支付完成后，请点击“查看支付结果”更新支付状态。</div>
     <button id="submitBtn" type="button"
             data-loading-text="支付中，已跳转至支付页面"
@@ -67,20 +66,16 @@
     }
 </style>
 <script type="text/template" id="payFormTpl">
-    <input type="hidden" name="tranamt" value="{{=order.tranamt}}"/>
-    <input type="hidden" name="account" value="{{=order.account}}"/>
-    <input type="hidden" name="sno" value="{{=order.sno}}"/>
-    <input type="hidden" name="toaccount" value="{{=order.toaccount}}"/>
-    <input type="hidden" name="thirdsystem" value="{{=order.thirdsystem}}"/>
-    <input type="hidden" name="thirdorderid" value="{{=order.thirdorderid}}"/>
-    <input type="hidden" name="ordertype" value="{{=order.ordertype}}"/>
-    <input type="hidden" name="orderdesc" value="{{=order.orderdesc}}"/>
-    <input type="hidden" name="praram1" value="{{=order.praram1}}"/>
-    <input type="hidden" name="thirdurl" value="{{=thirdurl}}"/>
-    <input type="hidden" name="sign" value="{{=order.sign}}"/>
+    <jsp:include page="payForm.jsp"/>
 </script>
 <script>
     $("#submitBtn").click(function () {
+
+        <c:if test="${!_user.casUser}">
+        SysMsg.error("您的账号是系统注册账号，不能使用校园卡支付。")
+        return;
+        </c:if>
+
         var $this = $(this);
         $.ajax({
             type : "post",
@@ -95,13 +90,13 @@
                     $("#closeBtn").hide();
 
                     <c:if test="${devMode}">
-                    // test
-                    $("#testCallback").attr("href", "${ctx}/pmd/pay/callback/newcampuscard?" + data.ret);
                     console.log(data.order);
+                    // for test
+                    $("#testCallback").attr("href", "${ctx}/pmd/pay/callback?" + data.ret);
                     </c:if>
 
-                    $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order, thirdurl:data.thirdurl}));
-                    $("#payForm").submit();
+                    $("#payFormDiv").html(_.template($("#payFormTpl").html())({order: data.order, returnUrl:data.returnUrl}));
+                    $("#payFormDiv form").submit();
                 }
             }
         });

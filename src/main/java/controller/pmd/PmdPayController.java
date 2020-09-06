@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Created by lm on 2017/11/7.
+ *
+ * 支付后台通知
  */
 @Controller
 @RequestMapping("/pmd/pay")
@@ -22,7 +24,7 @@ public class PmdPayController extends PmdBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 新校园卡
-    @RequestMapping("/callback/newcampuscard")
+    @RequestMapping({"/callback", "/callback/newcampuscard"})
     public void callback_newcampuscard(HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
     

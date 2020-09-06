@@ -289,13 +289,9 @@ public class PmdOrderService extends PmdBaseMapper {
         if (currentPmdMonth == null) {
             throw new OpException("未到缴费时间。");
         }
-        
+
         int userId = ShiroHelper.getCurrentUserId();
-        SysUserView uv = sysUserService.findById(userId);
-        if (!uv.isCasUser()) {
-            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
-        }
-        
+
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null) {
             throw new OpException("缴费记录不存在。");
@@ -454,10 +450,6 @@ public class PmdOrderService extends PmdBaseMapper {
         if (uv == null) {
             logger.error("批量缴费异常，currentUserId={} but uv = null.", currentUserId);
             throw new OpException("操作失败，请您重新登录系统后再试。");
-        }
-        
-        if (!uv.isCasUser()) {
-            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
         }
         
         String currentPayMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");

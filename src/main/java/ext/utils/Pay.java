@@ -4,7 +4,10 @@ import com.edu.bnu.pay.Base64;
 import com.edu.bnu.pay.SignUtilsImpl;
 import com.edu.bnu.pay.SymmtricCryptoUtil;
 import com.google.gson.Gson;
-import ext.common.pay.*;
+import ext.common.pay.IPay;
+import ext.common.pay.OrderCloseResult;
+import ext.common.pay.OrderFormBean;
+import ext.common.pay.OrderQueryResult;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -17,11 +20,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sys.utils.FormUtils;
 
 import javax.crypto.Cipher;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
@@ -185,7 +190,7 @@ public class Pay implements IPay {
         
         return bean;
     }
-    
+
     public String sign(Map<String, String> paramMap){
         
         Map<String, Object> sortedParamMap = new TreeMap<String, Object>(new Comparator<String>() {
@@ -205,6 +210,25 @@ public class Pay implements IPay {
         SignUtilsImpl SignUtils = new SignUtilsImpl();
         
         return SignUtils.sign(abc, privateKeyUp, KEY_TYPE);
+    }
+
+    public String testCallbackParams(String orderNo, String orderParams){
+
+        Gson gson = new Gson();
+        Map<String, String> params =  gson.fromJson(orderParams, Map.class);
+        Map<String, String> callbackMap = new LinkedHashMap<>(params);
+        callbackMap.remove("ordertype");
+        callbackMap.remove("sign");
+        callbackMap.put("orderid", orderNo + "back");
+        callbackMap.put("state", "1");
+        try {
+            callbackMap.put("sign", URLEncoder.encode(Pay.getInstance().sign(callbackMap), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
+
+        return FormUtils.requestParams(callbackMap);
     }
     
     public static String encrypt(String text, String key, String algorithm){

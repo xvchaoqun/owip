@@ -44,7 +44,7 @@
                             params += "&sign=" + sign;
                             //console.log("sign params=" + params);
 
-                            $.post("${ctx}/pmd/pay/callback/newcampuscard?" + params, function (ret) {
+                            $.post("${ctx}/pmd/pay/callback?" + params, function (ret) {
                                 if (ret == 'pok') {
                                     SysMsg.success("同步支付通知成功。");
 

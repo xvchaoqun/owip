@@ -19,6 +19,13 @@ import java.util.Map;
  */
 public interface IPmdMapper {
 
+    // 获取当前启动缴费月份的党员数量
+    @Select("select count(*) from ow_member om " +
+            " left join ow_branch ob on om.branch_id=ob.id " +
+            " where om.status=1 and om.party_id in(select party_id from pmd_party where month_id=#{monthId}) " +
+            " and (ob.id is null or ob.is_deleted=0)")
+    int getTotalMemberCount(@Param("monthId") int monthId);
+
     @ResultMap("persistence.pmd.PmdMemberMapper.BaseResultMap")
     @Select("select pm.* from pmd_member pm, pmd_member_pay pmp " +
             "where pm.user_id=#{userId} and pm.id=pmp.member_id " +
