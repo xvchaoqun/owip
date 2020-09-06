@@ -773,15 +773,7 @@ public class PmdOrderService extends PmdBaseMapper {
         public boolean success;
         public String ret;
     }
-    
-    /*
-        0000：更新成功
-        2004：订单不存在
-        2002：该交易已成功，请确认
-        2005：该交易已关闭，请确认
-        3001：该交易正在处理中，请等待...（只针对于一卡通支付的情况）
-        9995：数据库异常，更新失败
-    */
+
     @Transactional
     public CloseTradeRet closeTrade(String sn) throws IOException {
 
