@@ -71,7 +71,7 @@
 <script>
     $("#submitBtn").click(function () {
 
-        <c:if test="${!_user.casUser}">
+        <c:if test="${!_user.casUser && !devMode}">
         SysMsg.error("您的账号是系统注册账号，不能使用校园卡支付。")
         return;
         </c:if>
