@@ -22,6 +22,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -32,7 +33,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PmdOrderService extends PmdBaseMapper {
@@ -266,7 +270,9 @@ public class PmdOrderService extends PmdBaseMapper {
             throw new OpException("未到缴费时间。");
         }
 
-        int userId = ShiroHelper.getCurrentUserId();
+        Pay.getInstance().payConfirmCheck(new int[]{pmdMemberId}, isSelfPay, false);
+
+        int currentUserId = ShiroHelper.getCurrentUserId();
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null) {
@@ -282,11 +288,11 @@ public class PmdOrderService extends PmdBaseMapper {
         PmdMemberPay record = new PmdMemberPay();
         record.setMemberId(pmdMemberId);
         record.setOrderNo(pmdOrder.getSn());
-        record.setOrderUserId(userId);
+        record.setOrderUserId(currentUserId);
         
         if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
             
-            logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, userId);
+            logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, currentUserId);
             throw new OpException("缴费请求有误，请稍后再试。");
         }
         
@@ -409,25 +415,19 @@ public class PmdOrderService extends PmdBaseMapper {
     
     // 批量缴费跳转页面前的支付确认， 确保每个缴费记录
     @Transactional
-    public PmdOrder batchPayConfirm(boolean isDelay, Integer[] pmdMemberIds) {
+    public PmdOrder batchPayConfirm(boolean isDelay, int[] pmdMemberIds) {
         
         // 缴费月份校验，要求当前缴费月份是开启状态
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
             throw new OpException("未到缴费时间。");
         }
-        
-        Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if (currentUserId == null) {
-            logger.error("批量缴费异常，currentUserId = null.");
-            throw new OpException("操作失败，请您重新登录系统后再试。");
-        }
-        SysUserView uv = sysUserService.findById(currentUserId);
-        if (uv == null) {
-            logger.error("批量缴费异常，currentUserId={} but uv = null.", currentUserId);
-            throw new OpException("操作失败，请您重新登录系统后再试。");
-        }
-        
+
+        Pay.getInstance().payConfirmCheck(pmdMemberIds, false, true);
+
+        int currentUserId = ShiroHelper.getCurrentUserId();
+        SysUserView uv = CmTag.getUserById(currentUserId);
+
         String currentPayMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");
         {
             // 关闭之前的订单

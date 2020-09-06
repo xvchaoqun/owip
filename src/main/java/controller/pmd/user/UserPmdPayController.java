@@ -183,7 +183,7 @@ public class UserPmdPayController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping(value = "/payConfirm_batch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_batch(@RequestParam(name = "ids")Integer[] ids, boolean isDelay,
+    public Map do_payConfirm_batch(@RequestParam(name = "ids")int[] ids, boolean isDelay,
                                    HttpServletRequest request) throws UnsupportedEncodingException {
 
         for (Integer id : ids) {

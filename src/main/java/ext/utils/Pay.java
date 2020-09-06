@@ -4,6 +4,8 @@ import com.edu.bnu.pay.Base64;
 import com.edu.bnu.pay.SignUtilsImpl;
 import com.edu.bnu.pay.SymmtricCryptoUtil;
 import com.google.gson.Gson;
+import controller.global.OpException;
+import domain.sys.SysUserView;
 import ext.common.pay.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -17,6 +19,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.SpringProps;
+import shiro.ShiroHelper;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
 import javax.crypto.Cipher;
@@ -274,6 +279,25 @@ public class Pay implements IPay {
         notifyBean.setHasPay(StringUtils.equals(state, "1"));
 
         return notifyBean;
+    }
+
+    public void payConfirmCheck(int[] pmdMemberIds, boolean isSelfPay, boolean isBatch) {
+
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
+        if (currentUserId == null) {
+            logger.error("缴费异常，currentUserId = null.");
+            throw new OpException("操作失败，请您重新登录系统后再试。");
+        }
+        SysUserView uv = CmTag.getUserById(currentUserId);
+        if (uv == null) {
+            logger.error("缴费异常，currentUserId={} but uv = null.", currentUserId);
+            throw new OpException("操作失败，请您重新登录系统后再试。");
+        }
+
+        SpringProps springProps = CmTag.getBean(SpringProps.class);
+        if (!uv.isCasUser() && !springProps.devMode) {
+            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
+        }
     }
 
     public static String encrypt(String text, String key, String algorithm){
