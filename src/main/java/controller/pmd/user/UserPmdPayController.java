@@ -108,7 +108,7 @@ public class UserPmdPayController extends PmdBaseController {
             String sn = request.getParameter("thirdorderid");
             PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(sn);
             if(pmdOrder!=null && pmdOrder.getUserId().intValue()==ShiroHelper.getCurrentUserId()) {
-                pmdOrderService.notify(request);
+                pmdOrderService.notify(request, false);
             }
         }
 

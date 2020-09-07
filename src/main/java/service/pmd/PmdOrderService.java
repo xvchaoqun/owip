@@ -503,9 +503,10 @@ public class PmdOrderService extends PmdBaseMapper {
     
     // 处理服务器后台结果通知
     @Transactional
-    public boolean notify(HttpServletRequest request) {
+    public boolean notify(HttpServletRequest request, boolean isServer) {
 
-        OrderNotifyBean notifyBean = Pay.getInstance().notifyBean(request);
+        Pay pay = Pay.getInstance();
+        OrderNotifyBean notifyBean = isServer?pay.serverNotifyBean(request):pay.pageNotifyBean(request);
         {
             // 先原样保存服务器支付通知结果
             PmdNotify record = new PmdNotify();
@@ -514,7 +515,7 @@ public class PmdOrderService extends PmdBaseMapper {
                 record.setAmt(notifyBean.getAmt());
                 record.setIsSuccess(notifyBean.isHasPay());
                 record.setParams(JSONUtils.toString(request.getParameterMap(), false));
-                record.setVerifySign(Pay.getInstance().verifyNotify(request));
+                record.setVerifySign(pay.verifyNotify(request));
                 record.setRetTime(new Date());
                 record.setIp(ContextHelper.getRealIp());
             } catch (Exception ex) {
@@ -532,7 +533,7 @@ public class PmdOrderService extends PmdBaseMapper {
         BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
         try {
             // 签名校验成功 且 确认交易成功
-            boolean verifyNotifySign = Pay.getInstance().verifyNotify(request);
+            boolean verifyNotifySign = pay.verifyNotify(request);
             if ( verifyNotifySign && notifyBean.isHasPay()) {
                 
                 processOrder(orderNo, payerCode, realPay);

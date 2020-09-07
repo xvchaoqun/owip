@@ -32,7 +32,7 @@ public class PmdPayController extends PmdBaseController {
         logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(parameterMap, false));
         boolean ret = true;
         if(parameterMap.size()>0) {
-            ret = pmdOrderService.notify(request);
+            ret = pmdOrderService.notify(request, true);
         }
         // 支付服务器要求返回200返回码
         response.getWriter().write(ret ? "pok" : "failed");

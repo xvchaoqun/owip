@@ -285,7 +285,7 @@ public class Pay implements IPay {
     }
 
     @Override
-    public OrderNotifyBean notifyBean(HttpServletRequest request) {
+    public OrderNotifyBean pageNotifyBean(HttpServletRequest request) {
 
         String orderNo = request.getParameter("thirdorderid");
         String payerCode = request.getParameter("sno");
@@ -300,6 +300,12 @@ public class Pay implements IPay {
         notifyBean.setHasPay(StringUtils.equals(state, "1"));
 
         return notifyBean;
+    }
+
+    @Override
+    public OrderNotifyBean serverNotifyBean(HttpServletRequest request) {
+
+        return pageNotifyBean(request);
     }
 
     public void payConfirmCheck(int[] pmdMemberIds, boolean isSelfPay, boolean isBatch) {
