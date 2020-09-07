@@ -72,6 +72,15 @@ pageEncoding="UTF-8" %>
                                 </shiro:hasPermission>
                                 <a class="importBtn btn btn-info btn-sm tooltip-info"
                                    data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 批量导入</a>
+
+                                <shiro:lacksPermission name="passportDraw:*">
+                                    <button class="jqBatchBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/abroad/passport_batchLent?isLent=1" data-title="证件批量借出"
+                                            data-msg="确定借出这{0}个证件吗？"><i class="fa fa-hand-paper-o"></i> 借出</button>
+                                    <button class="jqBatchBtn btn btn-default btn-sm"
+                                            data-url="${ctx}/abroad/passport_batchLent?isLent=0" data-title="证件批量归还"
+                                            data-msg="确定归还这{0}个证件吗？"><i class="fa fa-reply"></i> 归还</button>
+                                </shiro:lacksPermission>
                             </c:if>
 
                             <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL || status==4}">
@@ -98,6 +107,9 @@ pageEncoding="UTF-8" %>
                                    data-open-by="page" data-url="${ctx}/abroad/passport_cancel">
                                     <i class="fa fa-check-circle-o"></i> 确认单
                                 </a>
+                                <button class="jqBatchBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/abroad/passport_batchCancel" data-title="证件批量确认"
+                                        data-msg="确定确认这{0}个证件吗？"><i class="fa fa-check-square-o"></i> 批量确认</button>
                             </c:if>
                             <c:if test="${status==4}">
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
@@ -160,6 +172,16 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
+                            <div class="form-group">
+                                <label>姓名</label>
+                                <div class="input-group">
+                                    <input type="hidden" name="status" value="${status}">
+                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
+                                            name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                        <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
+                                    </select>
+                                </div>
+                            </div>
                                     <div class="form-group">
                                         <label>所属单位</label>
                                         <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
@@ -171,16 +193,6 @@ pageEncoding="UTF-8" %>
                                         <script type="text/javascript">
                                             $("#searchForm select[name=unitId]").val(${param.unitId});
                                         </script>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>姓名</label>
-                                            <div class="input-group">
-                                                <input type="hidden" name="status" value="${status}">
-                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
-                                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
-                                                </select>
-                                            </div>
                                     </div>
 
                                     <div class="form-group">
@@ -286,15 +298,15 @@ pageEncoding="UTF-8" %>
             }  },
             <c:if test="${status!=ABROAD_PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', name: 'safeBox.code', width: 130 },
-            <shiro:hasPermission name="passportDraw:*">
+
             { label:'是否借出', name: 'isLent', formatter:function(cellvalue, options, rowObject){
                 return cellvalue?($.trim(rowObject.refuseReturnReason)!=''?"拒不交回":"借出"):"-";
-            }, title:false,cellattr: function (rowId, val, rawObject, cm, rdata) {
+                 }, title:false,cellattr: function (rowId, val, rawObject, cm, rdata) {
                 //console.log(rawObject)
                 if($.trim(rawObject.refuseReturnReason)!=''){
                     return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'+rawObject.refuseReturnReason+'"';
-                } }},
-            </shiro:hasPermission>
+                } }
+            },
             </c:if>
             <c:if test="${status==4}">
             { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },

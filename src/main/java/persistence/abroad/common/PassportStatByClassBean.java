@@ -20,6 +20,7 @@ public class PassportStatByClassBean {
     private Integer lostNum;
     private Integer abolishNum;
     private Integer unconfirmNum;
+    private Integer confirmNum;
 
     public Integer getClassId() {
         return classId;
@@ -67,5 +68,13 @@ public class PassportStatByClassBean {
 
     public void setUnconfirmNum(Integer unconfirmNum) {
         this.unconfirmNum = unconfirmNum;
+    }
+
+    public Integer getConfirmNum() {
+        return confirmNum;
+    }
+
+    public void setConfirmNum(Integer confirmNum) {
+        this.confirmNum = confirmNum;
     }
 }

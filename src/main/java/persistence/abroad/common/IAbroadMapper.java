@@ -138,4 +138,6 @@ public interface IAbroadMapper {
             "apd.real_to_country=null, apd.return_remark=null," +
             "apd.use_passport=-1, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")
     int resetReturnPassport(@Param("id") int id);
+
+    Map selectPassportCount();
 }

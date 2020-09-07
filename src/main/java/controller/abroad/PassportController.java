@@ -62,6 +62,12 @@ public class PassportController extends AbroadBaseController {
                            ModelMap modelMap) {
 
         modelMap.put("status", status);
+
+        Map passportCount = iAbroadMapper.selectPassportCount();
+        if (passportCount != null) {
+            modelMap.putAll(passportCount);
+        }
+
         if (status == 0) {
             return "forward:/abroad/passport_stat";
         } else if (status == 5) {
@@ -395,6 +401,34 @@ public class PassportController extends AbroadBaseController {
         modelMap.put("passport", passport);
 
         return "abroad/passport/passport_cancel";
+    }
+
+    @RequiresPermissions("passport:edit")
+    @RequestMapping(value = "/passport_batchCancel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passport_batchCancel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            passportService.batchCancel(ids);
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量确认证件：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("passport:edit")
+    @RequestMapping(value = "/passport_batchLent", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passport_batchLent(HttpServletRequest request, Integer[] ids,byte isLent, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            passportService.batchLent(ids,isLent);
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量确认证件：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("passport:view")

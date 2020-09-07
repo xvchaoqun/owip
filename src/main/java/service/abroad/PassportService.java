@@ -321,6 +321,38 @@ public class PassportService extends AbroadBaseMapper implements HttpResponseMet
     }
 
     @Transactional
+    public void batchCancel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        PassportExample example = new PassportExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Passport record = new Passport();
+        record.setCancelConfirm(true);
+
+        passportMapper.updateByExampleSelective(record,example);
+    }
+
+    @Transactional
+    public void batchLent(Integer[] ids,byte isLent) {
+
+        if (ids == null || ids.length == 0) return;
+
+        PassportExample example = new PassportExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Passport record = new Passport();
+        if(isLent==1){
+            record.setIsLent(true);
+        }else {
+            record.setIsLent(false);
+        }
+
+        passportMapper.updateByExampleSelective(record,example);
+    }
+
+    @Transactional
     public int updateByPrimaryKeySelective(Passport record) {
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(0 == idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");

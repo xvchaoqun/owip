@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
                     <jsp:include page="menu.jsp"/>
                 </ul>
 
-                <div class="tab-content">
+                <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
 
                         <div class="space-4"></div>
@@ -51,7 +51,18 @@ pageEncoding="UTF-8" %>
             { label: '集中管理',  name: 'keepNum' },
             { label: '丢失',  name: 'lostNum', width: 60 },
             { label: '作废',  name: 'abolishNum', width: 60 },
-            { label: '取消集中管理（未确认）', name: 'unconfirmNum', width: 180 }
+            { label: '取消集中管理</br>（未确认/已确认）', name: 'cancelNum', width: 180, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined){
+                        if(rowObject.unconfirmNum==undefined ||rowObject.confirmNum==undefined)
+                            return '--'
+                        return rowObject.unconfirmNum+'/'+rowObject.confirmNum
+                    }else{
+                        return cellvalue
+                    }
+                }
+            },
+            {hidden:true, name: 'unconfirmNum'},
+            {hidden:true, name: 'confirmNum'}
         ],
         gridComplete:function(){
 
@@ -63,9 +74,12 @@ pageEncoding="UTF-8" %>
                 var lostNum=$(this).getCol("lostNum",false,"sum");
                 var abolishNum=$(this).getCol("abolishNum",false,"sum");
                 var unconfirmNum=$(this).getCol("unconfirmNum",false,"sum");
-                //alert(selfNum)
+                var confirmNum=$(this).getCol("confirmNum",false,"sum");
+                var cancelNum=unconfirmNum+confirmNum;
+
+                //alert(cancelNum);
                 $(this).footerData("set",{  'passportClass.name':"合计","num":num,"keepNum":keepNum,
-                    "lostNum":lostNum,"abolishNum":abolishNum,"unconfirmNum":unconfirmNum});
+                    "lostNum":lostNum,"abolishNum":abolishNum,"cancelNum":cancelNum});
             }
         }
     });
