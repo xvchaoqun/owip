@@ -4,6 +4,7 @@ import controller.pmd.PmdBaseController;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
 import domain.pmd.PmdOrder;
+import ext.utils.Pay;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ public class MobilePmdController extends PmdBaseController {
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		logger.info("pmd mobile callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
 
-		modelMap.put("verifySign", pmdOrderService.verifyNotifySign(request));
+		modelMap.put("verifySign", Pay.getInstance().verifyNotify(request));
 
 		if(parameterMap.size()>0) {
 

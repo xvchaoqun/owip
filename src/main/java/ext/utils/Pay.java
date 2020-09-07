@@ -23,12 +23,14 @@ import service.SpringProps;
 import shiro.ShiroHelper;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.crypto.Cipher;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.util.*;
@@ -150,8 +152,10 @@ public class Pay implements IPay {
                     String[] entity = msgParam.split("=");
                     paramValueMap.put(entity[0], (entity.length>1)?entity[1]:"");
                 }
+                result.setAmt(paramValueMap.get("actulamt"));
                 String state = paramValueMap.get("state");
                 result.setHasPay(StringUtils.equals(state, "1"));
+                result.setPayerCode(paramValueMap.get("sno"));
                 result.setPayer(paramValueMap.get("name"));
                 result.setAbolish(StringUtils.equals(state, "2"));
                 result.setStatus(state);
@@ -235,7 +239,10 @@ public class Pay implements IPay {
     }
 
     // 计算服务器通知签名
-    public String notifySign(HttpServletRequest request){
+    public boolean verifyNotify(HttpServletRequest request){
+
+        String sign = request.getParameter("sign");
+        if(org.apache.commons.lang3.StringUtils.isBlank(sign)) return false;
 
         String tranamt = request.getParameter("tranamt");
         String orderid = request.getParameter("orderid");
@@ -260,7 +267,21 @@ public class Pay implements IPay {
         paramMap.put("orderdesc", orderdesc);
         paramMap.put("praram1", praram1);
 
-        return sign(paramMap);
+        String verifySign = sign(paramMap);
+
+        boolean ret = false;
+        try {
+            ret = org.apache.commons.lang3.StringUtils.equalsIgnoreCase(sign, verifySign);
+            if(!ret) ret = org.apache.commons.lang3.StringUtils.equalsIgnoreCase(URLDecoder.decode(sign, "UTF-8"), verifySign);
+        } catch (UnsupportedEncodingException e) {
+            logger.error("异常", e);
+        }
+        if (!ret) {
+            logger.warn("签名校验失败，{}, verifySign={}, sign={}",
+                    JSONUtils.toString(request.getParameterMap(), false), verifySign, sign);
+        }
+
+        return ret;
     }
 
     @Override

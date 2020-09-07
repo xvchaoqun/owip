@@ -33,27 +33,16 @@
             <script src="${ctx}/js/jquery.md5.js"></script>
             <script>
                 function _syncResult() {
-                    var ret = ${ret};
-                    if ($.isJson(ret) && ${hasPay}) {
+                    if (${hasPay}) {
 
-                        var params = ret.msg;
-                        //console.log("params=" + params);
+                        $.post("${ctx}/pmd/pmdOrder_query_callback",{sn:'${param.sn}'}, function(ret){
 
-                        $.post("${ctx}/pmd/pmdOrder_query_sign?"+params,function(sign){
+                            if(ret.success){
 
-                            params += "&sign=" + sign;
-                            //console.log("sign params=" + params);
-
-                            $.post("${ctx}/pmd/pay/callback?" + params, function (ret) {
-                                if (ret == 'pok') {
-                                    SysMsg.success("同步支付通知成功。");
-
-                                    $("#modal").modal('hide');
-                                    $("#jqGrid2").trigger("reloadGrid");
-                                } else {
-                                    SysMsg.info("同步失败：" + ret)
-                                }
-                            });
+                                SysMsg.success("同步支付通知成功。");
+                                $("#modal").modal('hide');
+                                $("#jqGrid2").trigger("reloadGrid");
+                            }
                         });
                     } else {
                         SysMsg.warning("没有支付成功，无需同步");

@@ -30,9 +30,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -209,56 +207,6 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         
         return pmdOrderMapper.selectByPrimaryKey(oldOrderNo);
-    }
-    
-    
-    // 无论如何，都要保存服务器支付通知
-    @Transactional
-    public void savePayNotify(HttpServletRequest request) {
-        
-        PmdNotify record = new PmdNotify();
-        try {
-
-            OrderNotifyBean notifyBean = Pay.getInstance().notifyBean(request);
-
-            record.setSn(notifyBean.getOrderNo());
-            record.setAmt(notifyBean.getAmt());
-            record.setIsSuccess(notifyBean.isHasPay());
-
-            record.setParams(JSONUtils.toString(request.getParameterMap(), false));
-            record.setVerifySign(verifyNotifySign(request));
-            record.setRetTime(new Date());
-            record.setIp(ContextHelper.getRealIp());
-        } catch (Exception ex) {
-            logger.error("支付通知错误", ex);
-        }
-        
-        pmdNotifyMapper.insertSelective(record);
-    }
-
-
-
-    // （服务器通知）签名校验
-    public boolean verifyNotifySign(HttpServletRequest request){
-
-        String sign = request.getParameter("sign");
-        if(StringUtils.isBlank(sign)) return false;
-
-        String verifySign = Pay.getInstance().notifySign(request);
-
-        boolean ret = false;
-        try {
-            ret = StringUtils.equalsIgnoreCase(sign, verifySign);
-            if(!ret) ret = StringUtils.equalsIgnoreCase(URLDecoder.decode(sign, "UTF-8"), verifySign);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("异常", e);
-        }
-        if (!ret) {
-            logger.warn("签名校验失败，{}, verifySign={}, sign={}",
-                    JSONUtils.toString(request.getParameterMap(), false), verifySign, sign);
-        }
-        
-        return ret;
     }
     
     // 跳转页面前的支付确认，生成支付订单号
@@ -553,23 +501,29 @@ public class PmdOrderService extends PmdBaseMapper {
         return newOrder;
     }
     
-    
     // 处理服务器后台结果通知
     @Transactional
     public boolean notify(HttpServletRequest request) {
-        
-        savePayNotify(request);
-        
-        processCallback(request);
-        return true;
-    }
-    
-    // 处理服务器支付结果通知
-    @Transactional
-    public void processCallback(HttpServletRequest request) {
 
         OrderNotifyBean notifyBean = Pay.getInstance().notifyBean(request);
+        {
+            // 先原样保存服务器支付通知结果
+            PmdNotify record = new PmdNotify();
+            try {
+                record.setSn(notifyBean.getOrderNo());
+                record.setAmt(notifyBean.getAmt());
+                record.setIsSuccess(notifyBean.isHasPay());
+                record.setParams(JSONUtils.toString(request.getParameterMap(), false));
+                record.setVerifySign(Pay.getInstance().verifyNotify(request));
+                record.setRetTime(new Date());
+                record.setIp(ContextHelper.getRealIp());
+            } catch (Exception ex) {
+                logger.error("支付通知错误", ex);
+            }
+            pmdNotifyMapper.insertSelective(record);
+        }
 
+        // 再处理通知结果
         String orderNo = notifyBean.getOrderNo();
         String payerCode = notifyBean.getPayerCode();
         String amt = notifyBean.getAmt(); // 单位 分
@@ -578,33 +532,10 @@ public class PmdOrderService extends PmdBaseMapper {
         BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
         try {
             // 签名校验成功 且 确认交易成功
-            boolean verifyNotifySign = verifyNotifySign(request);
+            boolean verifyNotifySign = Pay.getInstance().verifyNotify(request);
             if ( verifyNotifySign && notifyBean.isHasPay()) {
                 
-                PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
-                if (pmdOrder == null) {
-                    logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：{}", orderNo);
-                } else {
-
-                    if (pmdOrder.getIsSuccess()) {
-                        // 缴费过程被误设置为延迟缴费，导致没回滚成功，所以在重置缴费状态后，此处允许继续往下处理？
-                        logger.warn("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
-                    }
-                    
-                    // 更新订单状态为成功支付
-                    PmdOrder record = new PmdOrder();
-                    record.setSn(orderNo);
-                    record.setIsSuccess(true);
-                    pmdOrderMapper.updateByPrimaryKeySelective(record);
-                    
-                    boolean isBatch = StringUtils.equals(orderNo.substring(8, 9), "2");
-                    if (isBatch) {
-                        processBatchOrder(orderNo, payerCode, realPay);
-                    } else {
-                        processSingleOrder(pmdOrder.getMemberId(), orderNo,
-                                payerCode, realPay);
-                    }
-                }
+                processOrder(orderNo, payerCode, realPay);
             }else{
                 logger.warn("[党费收缴]处理支付通知，订单号交易失败，订单号：{}，校验签名结果：{}, state：{}",
                         orderNo, verifyNotifySign, state);
@@ -615,6 +546,78 @@ public class PmdOrderService extends PmdBaseMapper {
                     JSONUtils.toString(request.getParameterMap(), false), ContextHelper.getRealIp()), ex);
             // 抛出异常，回滚数据库
             throw ex;
+        }
+
+        return true;
+    }
+
+    // 根据查询结果处理订单结果
+    public void processQuery(String orderNo){
+
+        PmdOrder order = pmdOrderMapper.selectByPrimaryKey(orderNo);
+        if(order==null || order.getIsSuccess()) return;
+
+        OrderQueryResult queryResult = query(orderNo);
+        boolean hasPay = queryResult.isHasPay();
+        String ret = queryResult.getRet();
+        String payerCode = queryResult.getPayerCode();
+        String amt = queryResult.getAmt(); // 单位 分
+        if(!hasPay) return; // 仅处理完成的订单
+
+        {
+            // 先原样保存服务器查询结果
+            PmdNotify record = new PmdNotify();
+            try {
+                record.setSn(orderNo);
+                //record.setAmt();
+                record.setIsSuccess(hasPay);
+                record.setParams(ret);
+                //record.setVerifySign(verifyNotifySign(request));
+                record.setRetTime(new Date());
+                record.setIp(ContextHelper.getRealIp());
+            } catch (Exception ex) {
+                logger.error("支付查询通知错误", ex);
+            }
+            pmdNotifyMapper.insertSelective(record);
+        }
+
+        try {
+            BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
+            processOrder(orderNo, payerCode, realPay);
+        } catch (Exception ex) {
+
+            logger.error(String.format("保存支付查询结果失败，报文内容：%s, IP:%s", ret, ContextHelper.getRealIp()), ex);
+            // 抛出异常，回滚数据库
+            throw ex;
+        }
+    }
+
+    // 处理成功支付的订单 realPay：单位元
+    private void processOrder(String orderNo, String payerCode, BigDecimal realPay){
+
+        PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
+        if (pmdOrder == null) {
+            logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：{}", orderNo);
+        } else {
+
+            if (pmdOrder.getIsSuccess()) {
+                // 缴费过程被误设置为延迟缴费，导致没回滚成功，所以在重置缴费状态后，此处允许继续往下处理？
+                logger.warn("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
+            }
+
+            // 更新订单状态为成功支付
+            PmdOrder record = new PmdOrder();
+            record.setSn(orderNo);
+            record.setIsSuccess(true);
+            pmdOrderMapper.updateByPrimaryKeySelective(record);
+
+            boolean isBatch = StringUtils.equals(orderNo.substring(8, 9), "2");
+            if (isBatch) {
+                processBatchOrder(orderNo, payerCode, realPay);
+            } else {
+                processSingleOrder(pmdOrder.getMemberId(), orderNo,
+                        payerCode, realPay);
+            }
         }
     }
     

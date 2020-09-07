@@ -101,7 +101,7 @@ public class UserPmdPayController extends PmdBaseController {
         Map<String, String[]> parameterMap = request.getParameterMap();
         logger.info("pmd page callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
 
-        modelMap.put("verifySign", pmdOrderService.verifyNotifySign(request));
+        modelMap.put("verifySign", Pay.getInstance().verifyNotify(request));
 
         if(parameterMap.size()>0) {
 
