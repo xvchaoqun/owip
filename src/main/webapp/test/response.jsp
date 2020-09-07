@@ -5,6 +5,4 @@
     System.out.println("test queryString=" + queryString);
     System.out.println("test request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
 
-
-
 %>
