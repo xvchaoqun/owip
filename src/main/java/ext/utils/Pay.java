@@ -198,27 +198,6 @@ public class Pay implements IPay {
         return bean;
     }
 
-    public String sign(Map<String, String> paramMap){
-        
-        Map<String, Object> sortedParamMap = new TreeMap<String, Object>(new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareTo(s2); // 从小到大排序
-            }
-        });
-        sortedParamMap.putAll(paramMap);
-        
-        List<String> paramList = new ArrayList<String>();
-        for (Map.Entry<String, Object> entry : sortedParamMap.entrySet()) {
-            Object value = entry.getValue();
-            paramList.add(entry.getKey() + "=" + (value == null ? "" : value.toString()));
-        }
-        String abc = encrypt(StringUtils.join(paramList, "&"), deskey, "DESede");
-        SignUtilsImpl SignUtils = new SignUtilsImpl();
-        
-        return SignUtils.sign(abc, privateKeyUp, KEY_TYPE);
-    }
-
     public String testCallbackParams(String orderNo, String orderParams){
 
         Gson gson = new Gson();
@@ -325,6 +304,27 @@ public class Pay implements IPay {
         if (!uv.isCasUser() && !springProps.devMode) {
             throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
         }
+    }
+
+    public String sign(Map<String, String> paramMap) {
+
+        Map<String, Object> sortedParamMap = new TreeMap<String, Object>(new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareTo(s2); // 从小到大排序
+            }
+        });
+        sortedParamMap.putAll(paramMap);
+
+        List<String> paramList = new ArrayList<String>();
+        for (Map.Entry<String, Object> entry : sortedParamMap.entrySet()) {
+            Object value = entry.getValue();
+            paramList.add(entry.getKey() + "=" + (value == null ? "" : value.toString()));
+        }
+        String abc = encrypt(StringUtils.join(paramList, "&"), deskey, "DESede");
+        SignUtilsImpl SignUtils = new SignUtilsImpl();
+
+        return SignUtils.sign(abc, privateKeyUp, KEY_TYPE);
     }
 
     public static String encrypt(String text, String key, String algorithm){
