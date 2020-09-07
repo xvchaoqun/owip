@@ -498,7 +498,9 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setIsClosed(false);
         newOrder.setCreateTime(new Date());
         newOrder.setIp(ContextHelper.getRealIp());
-        
+
+        newOrder.setFormMap(orderFormBean.getFormMap());
+
         pmdOrderMapper.insertSelective(newOrder);
         
         return newOrder;

@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -147,10 +145,6 @@ public class UserPmdPayController extends PmdBaseController {
 
         resultMap.put("formMap", order.getFormMap()); // 收银台参数
 
-        String siteHome = CmTag.getStringProperty("siteHome");
-        String returnUrl = isMobile?(siteHome + "/m/pmd/callback"):(siteHome + "/user/pmd/callback");
-        resultMap.put("returnUrl", returnUrl); // 前台通知地址
-
         if(springProps.devMode) {
             // for test
             resultMap.put("ret", Pay.getInstance().testCallbackParams(order.getSn(), order.getParams()));
@@ -202,8 +196,7 @@ public class UserPmdPayController extends PmdBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("order", params);
 
-        String homeURL = RequestUtils.getHomeURL(request);
-        resultMap.put("returnUrl", homeURL + "/user/pmd/callback");
+        resultMap.put("formMap", order.getFormMap()); // 收银台参数
 
         if(springProps.devMode) {
             // for test

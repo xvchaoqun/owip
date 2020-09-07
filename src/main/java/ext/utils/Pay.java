@@ -194,6 +194,13 @@ public class Pay implements IPay {
 
         bean.setParamMap(paramMap);
         bean.setSign(sign(paramMap));
+
+        String siteHome = CmTag.getStringProperty("siteHome");
+        String thirdurl = isMobile?(siteHome + "/m/pmd/callback"):(siteHome + "/user/pmd/callback");
+
+        Map<String, String> formMap = new HashMap<>();
+        formMap.put("thirdurl", thirdurl);
+        bean.setFormMap(formMap);
         
         return bean;
     }
