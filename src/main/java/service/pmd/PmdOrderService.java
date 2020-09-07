@@ -4,10 +4,11 @@ import com.google.gson.Gson;
 import controller.global.OpException;
 import domain.pmd.*;
 import domain.sys.SysUserView;
-import jixiantech.api.pay.OrderCloseResult;
-import jixiantech.api.pay.OrderFormBean;
-import jixiantech.api.pay.OrderQueryResult;
-import jixiantech.api.pay.PayUtils;
+import ext.common.pay.OrderCloseResult;
+import ext.common.pay.OrderFormBean;
+import ext.common.pay.OrderNotifyBean;
+import ext.common.pay.OrderQueryResult;
+import ext.utils.Pay;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.Assert;
@@ -21,6 +22,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -28,10 +30,11 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PmdOrderService extends PmdBaseMapper {
@@ -78,7 +81,7 @@ public class PmdOrderService extends PmdBaseMapper {
     }
     
     // 构建支付表单参数
-    private PmdOrder confirmOrder(String oldOrderNo, int pmdMemberId, boolean isSelfPay, String orderType) {
+    private PmdOrder confirmOrder(String oldOrderNo, int pmdMemberId, boolean isSelfPay, boolean isMobile) {
         
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null || pmdMember.getHasPay()) {
@@ -155,10 +158,10 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         if (oldOrder != null) {
 
-            OrderFormBean orderFormBean = PayUtils.createOrderFormBean(payer, amt, oldOrderNo, orderType);
-            Map<String, Object> paramMap = orderFormBean.getParamMap();
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(oldOrderNo, amt, payer, isMobile);
+            Map<String, String> paramMap = orderFormBean.getParamMap();
             Gson gson = new Gson();
-            Map<String, Object> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
+            Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
             if (oldOrder.getIsClosed() // 订单关闭
                     || !FormUtils.paramMapEquals(paramMap, oldParams)) {
                 
@@ -176,8 +179,8 @@ public class PmdOrderService extends PmdBaseMapper {
                     pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
-            OrderFormBean orderFormBean = PayUtils.createOrderFormBean(payer, amt, orderNo, orderType);
-            Map<String, Object> paramMap = orderFormBean.getParamMap();
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, isMobile);
+            Map<String, String> paramMap = orderFormBean.getParamMap();
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             // 签名
             newOrder.setSign(orderFormBean.getSign());
@@ -206,96 +209,19 @@ public class PmdOrderService extends PmdBaseMapper {
         return pmdOrderMapper.selectByPrimaryKey(oldOrderNo);
     }
     
-    
-    // 无论如何，都要保存服务器支付通知
-    @Transactional
-    public void savePayNotify(HttpServletRequest request) {
-        
-        PmdNotify record = new PmdNotify();
-        try {
-            
-            record.setSn(request.getParameter("thirdorderid"));
-            record.setAmt(request.getParameter("actulamt"));
-            record.setParams(JSONUtils.toString(request.getParameterMap(), false));
-            record.setIsSuccess(StringUtils.equals(request.getParameter("state"), "1"));
-            
-            record.setVerifySign(verifyNotifySign(request));
-            record.setRetTime(new Date());
-            record.setIp(ContextHelper.getRealIp());
-        } catch (Exception ex) {
-            logger.error("支付通知错误", ex);
-        }
-        
-        pmdNotifyMapper.insertSelective(record);
-    }
-
-    // 计算服务器通知签名
-    public String notifySign(HttpServletRequest request){
-
-        String tranamt = request.getParameter("tranamt");
-        String orderid = request.getParameter("orderid");
-        String account = request.getParameter("account");
-        String sno = request.getParameter("sno");
-        String toaccount = request.getParameter("toaccount");
-        String thirdsystem = request.getParameter("thirdsystem");
-        String thirdorderid = request.getParameter("thirdorderid");
-        String state = request.getParameter("state");
-        String orderdesc = request.getParameter("orderdesc");
-        String praram1 = request.getParameter("praram1");
-
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("tranamt", tranamt);
-        paramMap.put("orderid", orderid);
-        paramMap.put("account", account);
-        paramMap.put("sno", sno);
-        paramMap.put("toaccount", toaccount);
-        paramMap.put("thirdsystem", thirdsystem);
-        paramMap.put("thirdorderid", thirdorderid);
-        paramMap.put("state", state);
-        paramMap.put("orderdesc", orderdesc);
-        paramMap.put("praram1", praram1);
-
-        return PayUtils.sign(paramMap);
-    }
-
-    // （服务器通知）签名校验
-    public boolean verifyNotifySign(HttpServletRequest request){
-
-        String sign = request.getParameter("sign");
-        if(StringUtils.isBlank(sign)) return false;
-
-        String verifySign = notifySign(request);
-
-        boolean ret = false;
-        try {
-            ret = StringUtils.equalsIgnoreCase(sign, verifySign);
-            if(!ret) ret = StringUtils.equalsIgnoreCase(URLDecoder.decode(sign, "UTF-8"), verifySign);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("异常", e);
-        }
-        if (!ret) {
-            logger.warn("签名校验失败，{}, verifySign={}, sign={}",
-                    JSONUtils.toString(request.getParameterMap(), false), verifySign, sign);
-        }
-        
-        return ret;
-    }
-    
     // 跳转页面前的支付确认，生成支付订单号
     @Transactional
-    public PmdOrder payConfirm(int pmdMemberId, boolean isSelfPay, String orderType) {
+    public PmdOrder payConfirm(int pmdMemberId, boolean isSelfPay, boolean isMobile) {
         
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
             throw new OpException("未到缴费时间。");
         }
-        
-        int userId = ShiroHelper.getCurrentUserId();
-        SysUserView uv = sysUserService.findById(userId);
-        if (!uv.isCasUser()) {
-            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
-        }
-        
+
+        Pay.getInstance().payConfirmCheck(new int[]{pmdMemberId}, isSelfPay, false);
+
+        int currentUserId = ShiroHelper.getCurrentUserId();
+
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null) {
             throw new OpException("缴费记录不存在。");
@@ -305,16 +231,16 @@ public class PmdOrderService extends PmdBaseMapper {
         String oldOrderNo = pmdMemberPay.getOrderNo();
         
         // 确认订单信息
-        PmdOrder pmdOrder = confirmOrder(oldOrderNo, pmdMemberId, isSelfPay, orderType);
+        PmdOrder pmdOrder = confirmOrder(oldOrderNo, pmdMemberId, isSelfPay, isMobile);
         
         PmdMemberPay record = new PmdMemberPay();
         record.setMemberId(pmdMemberId);
         record.setOrderNo(pmdOrder.getSn());
-        record.setOrderUserId(userId);
+        record.setOrderUserId(currentUserId);
         
         if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
             
-            logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, userId);
+            logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, currentUserId);
             throw new OpException("缴费请求有误，请稍后再试。");
         }
         
@@ -437,29 +363,19 @@ public class PmdOrderService extends PmdBaseMapper {
     
     // 批量缴费跳转页面前的支付确认， 确保每个缴费记录
     @Transactional
-    public PmdOrder batchPayConfirm(boolean isDelay, Integer[] pmdMemberIds) {
+    public PmdOrder batchPayConfirm(boolean isDelay, int[] pmdMemberIds) {
         
         // 缴费月份校验，要求当前缴费月份是开启状态
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
             throw new OpException("未到缴费时间。");
         }
-        
-        Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if (currentUserId == null) {
-            logger.error("批量缴费异常，currentUserId = null.");
-            throw new OpException("操作失败，请您重新登录系统后再试。");
-        }
-        SysUserView uv = sysUserService.findById(currentUserId);
-        if (uv == null) {
-            logger.error("批量缴费异常，currentUserId={} but uv = null.", currentUserId);
-            throw new OpException("操作失败，请您重新登录系统后再试。");
-        }
-        
-        if (!uv.isCasUser()) {
-            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
-        }
-        
+
+        Pay.getInstance().payConfirmCheck(pmdMemberIds, false, true);
+
+        int currentUserId = ShiroHelper.getCurrentUserId();
+        SysUserView uv = CmTag.getUserById(currentUserId);
+
         String currentPayMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");
         {
             // 关闭之前的订单
@@ -567,7 +483,7 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setPayername(payername);
         newOrder.setAmt(amt);
 
-        OrderFormBean orderFormBean = PayUtils.createOrderFormBean(payer, amt, orderNo, PayUtils.orderType_PC);
+        OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
         newOrder.setParams(JSONUtils.toString(orderFormBean.getParamMap(), false));
         newOrder.setSn(orderNo);
         newOrder.setSign(orderFormBean.getSign());
@@ -585,56 +501,42 @@ public class PmdOrderService extends PmdBaseMapper {
         return newOrder;
     }
     
-    
     // 处理服务器后台结果通知
     @Transactional
-    public boolean notify(HttpServletRequest request) {
-        
-        savePayNotify(request);
-        
-        processCallback(request);
-        return true;
-    }
-    
-    // 处理服务器支付结果通知
-    @Transactional
-    public void processCallback(HttpServletRequest request) {
-        
-        String orderNo = request.getParameter("thirdorderid");
-        String payerCode = request.getParameter("sno");
-        String amt = request.getParameter("actulamt"); // 单位 分
-        String state = request.getParameter("state");
+    public boolean notify(HttpServletRequest request, boolean isServer) {
+
+        Pay pay = Pay.getInstance();
+        OrderNotifyBean notifyBean = isServer?pay.serverNotifyBean(request):pay.pageNotifyBean(request);
+        {
+            // 先原样保存服务器支付通知结果
+            PmdNotify record = new PmdNotify();
+            try {
+                record.setSn(notifyBean.getOrderNo());
+                record.setAmt(notifyBean.getAmt());
+                record.setIsSuccess(notifyBean.isHasPay());
+                record.setParams(JSONUtils.toString(request.getParameterMap(), false));
+                record.setVerifySign(pay.verifyNotify(request));
+                record.setRetTime(new Date());
+                record.setIp(ContextHelper.getRealIp());
+            } catch (Exception ex) {
+                logger.error("支付通知错误", ex);
+            }
+            pmdNotifyMapper.insertSelective(record);
+        }
+
+        // 再处理通知结果
+        String orderNo = notifyBean.getOrderNo();
+        String payerCode = notifyBean.getPayerCode();
+        String amt = notifyBean.getAmt(); // 单位 分
+        String state = notifyBean.getStatusCode();
 
         BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
         try {
             // 签名校验成功 且 确认交易成功
-            boolean verifyNotifySign = verifyNotifySign(request);
-            if ( verifyNotifySign && StringUtils.equals(state, "1")) {
+            boolean verifyNotifySign = pay.verifyNotify(request);
+            if ( verifyNotifySign && notifyBean.isHasPay()) {
                 
-                PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
-                if (pmdOrder == null) {
-                    logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：{}", orderNo);
-                } else {
-
-                    if (pmdOrder.getIsSuccess()) {
-                        // 缴费过程被误设置为延迟缴费，导致没回滚成功，所以在重置缴费状态后，此处允许继续往下处理？
-                        logger.warn("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
-                    }
-                    
-                    // 更新订单状态为成功支付
-                    PmdOrder record = new PmdOrder();
-                    record.setSn(orderNo);
-                    record.setIsSuccess(true);
-                    pmdOrderMapper.updateByPrimaryKeySelective(record);
-                    
-                    boolean isBatch = StringUtils.equals(orderNo.substring(8, 9), "2");
-                    if (isBatch) {
-                        processBatchOrder(orderNo, payerCode, realPay);
-                    } else {
-                        processSingleOrder(pmdOrder.getMemberId(), orderNo,
-                                payerCode, realPay);
-                    }
-                }
+                processOrder(orderNo, payerCode, realPay);
             }else{
                 logger.warn("[党费收缴]处理支付通知，订单号交易失败，订单号：{}，校验签名结果：{}, state：{}",
                         orderNo, verifyNotifySign, state);
@@ -645,6 +547,78 @@ public class PmdOrderService extends PmdBaseMapper {
                     JSONUtils.toString(request.getParameterMap(), false), ContextHelper.getRealIp()), ex);
             // 抛出异常，回滚数据库
             throw ex;
+        }
+
+        return true;
+    }
+
+    // 根据查询结果处理订单结果
+    public void processQuery(String orderNo){
+
+        PmdOrder order = pmdOrderMapper.selectByPrimaryKey(orderNo);
+        if(order==null || order.getIsSuccess()) return;
+
+        OrderQueryResult queryResult = query(orderNo);
+        boolean hasPay = queryResult.isHasPay();
+        String ret = queryResult.getRet();
+        String payerCode = queryResult.getPayerCode();
+        String amt = queryResult.getAmt(); // 单位 分
+        if(!hasPay) return; // 仅处理完成的订单
+
+        {
+            // 先原样保存服务器查询结果
+            PmdNotify record = new PmdNotify();
+            try {
+                record.setSn(orderNo);
+                //record.setAmt();
+                record.setIsSuccess(hasPay);
+                record.setParams(ret);
+                //record.setVerifySign(verifyNotifySign(request));
+                record.setRetTime(new Date());
+                record.setIp(ContextHelper.getRealIp());
+            } catch (Exception ex) {
+                logger.error("支付查询通知错误", ex);
+            }
+            pmdNotifyMapper.insertSelective(record);
+        }
+
+        try {
+            BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
+            processOrder(orderNo, payerCode, realPay);
+        } catch (Exception ex) {
+
+            logger.error(String.format("保存支付查询结果失败，报文内容：%s, IP:%s", ret, ContextHelper.getRealIp()), ex);
+            // 抛出异常，回滚数据库
+            throw ex;
+        }
+    }
+
+    // 处理成功支付的订单 realPay：单位元
+    private void processOrder(String orderNo, String payerCode, BigDecimal realPay){
+
+        PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
+        if (pmdOrder == null) {
+            logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：{}", orderNo);
+        } else {
+
+            if (pmdOrder.getIsSuccess()) {
+                // 缴费过程被误设置为延迟缴费，导致没回滚成功，所以在重置缴费状态后，此处允许继续往下处理？
+                logger.warn("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
+            }
+
+            // 更新订单状态为成功支付
+            PmdOrder record = new PmdOrder();
+            record.setSn(orderNo);
+            record.setIsSuccess(true);
+            pmdOrderMapper.updateByPrimaryKeySelective(record);
+
+            boolean isBatch = StringUtils.equals(orderNo.substring(8, 9), "2");
+            if (isBatch) {
+                processBatchOrder(orderNo, payerCode, realPay);
+            } else {
+                processSingleOrder(pmdOrder.getMemberId(), orderNo,
+                        payerCode, realPay);
+            }
         }
     }
     
@@ -803,15 +777,7 @@ public class PmdOrderService extends PmdBaseMapper {
         public boolean success;
         public String ret;
     }
-    
-    /*
-        0000：更新成功
-        2004：订单不存在
-        2002：该交易已成功，请确认
-        2005：该交易已关闭，请确认
-        3001：该交易正在处理中，请等待...（只针对于一卡通支付的情况）
-        9995：数据库异常，更新失败
-    */
+
     @Transactional
     public CloseTradeRet closeTrade(String sn) throws IOException {
 
@@ -827,7 +793,7 @@ public class PmdOrderService extends PmdBaseMapper {
         CloseTradeRet closeTradeRet = new CloseTradeRet();
         closeTradeRet.success = false;
 
-        OrderCloseResult result = PayUtils.closeOrder(sn);
+        OrderCloseResult result = Pay.getInstance().closeOrder(sn);
         closeTradeRet.ret = result.getRet();
         if(result.isSuccess()){
             PmdOrder record = new PmdOrder();
@@ -845,6 +811,6 @@ public class PmdOrderService extends PmdBaseMapper {
     // 查询订单结果
     public OrderQueryResult query(String sn){
 
-        return PayUtils.orderQuery(sn);
+        return Pay.getInstance().orderQuery(sn);
     }
 }

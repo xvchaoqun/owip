@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>jixiantech</groupId>
-            <artifactId>jx.bnu</artifactId>
+            <artifactId>jx.ext</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

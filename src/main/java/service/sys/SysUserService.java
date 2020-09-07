@@ -3,7 +3,6 @@ package service.sys;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
-import domain.pcs.PcsAdmin;
 import domain.sys.*;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -22,11 +21,9 @@ import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
 import service.global.CacheHelper;
 import service.party.PartyAdminService;
-import service.pcs.PcsAdminService;
 import service.pmd.PmdPartyAdminService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
-import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
@@ -216,11 +213,37 @@ public class SysUserService extends BaseMapper {
     @Cacheable(value = "SysUserView", key = "#username")
     public SysUserView findByUsername(String username) {
 
+        return dbFindByUsername(username);
+    }
+
+    public SysUserView dbFindByUsername(String username) {
+
         SysUserViewExample example = new SysUserViewExample();
         example.createCriteria().andUsernameEqualTo(username);
         List<SysUserView> users = sysUserViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return (users.size() > 0) ? users.get(0) : null;
+    }
+
+    // 用于数据同步（获取非超管账号）
+    public List<SysUserView> dbFindByUsernameOrCode(String username) {
+
+        // 不返回超管账号
+        if(StringUtils.isBlank(username) || CmTag.getSuperAccounts().contains(username)){
+            return new ArrayList<>();
+        }
+
+        SysUserViewExample example = new SysUserViewExample();
+        example.or().andUsernameEqualTo(username);
+        example.or().andCodeEqualTo(username);
+
+        return sysUserViewMapper.selectByExample(example);
+    }
+
+    @Cacheable(value = "SysUserView:CODE_", key = "#code")
+    public SysUserView findByCode(String code) {
+
+        return dbFindByCode(code);
     }
 
     public SysUserView dbFindByCode(String code) {
@@ -230,12 +253,6 @@ public class SysUserService extends BaseMapper {
         List<SysUserView> users = sysUserViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return (users.size() > 0) ? users.get(0) : null;
-    }
-
-    @Cacheable(value = "SysUserView:CODE_", key = "#code")
-    public SysUserView findByCode(String code) {
-
-        return dbFindByCode(code);
     }
 
     // 根据角色标识查找用户

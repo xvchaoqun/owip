@@ -1,8 +1,27 @@
 
+20200907
+南航
+
+20200906
+
+-- 更新 utils
+-- jx.bnu.jar -> jx.ext.jar
+
+delete from pmd_member_pay where member_id not in (select id from pmd_member) and has_pay!=1;
+
+20200904
+南航
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('show_msg_btns', '系统短信通知按钮', 'true', 3, 74, '是否显示短信通知按钮');
+
+-- 更新SyncService sysUserService.dbFindByUsernameOrCode
+
 20200903
-北邮
+北邮，戏曲
 
 -- 更新cadre_view
+
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
 VALUES ('更新领导干部的培训信息', '更新培训模块的培训信息至领导干部的培训信息', 'job.cadre.UpdateCadreTrain', '0 0 1 * * ?', 0, 0, 32, '2020-09-01 16:13:32', 0);
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`)
@@ -17,7 +36,7 @@ HAVING COUNT>1)tmp);
 -- 更新导入样表
 
 20200902
-吉大 -- 北师大
+吉大
 
 ALTER TABLE `pcs_admin`
 	COMMENT='党代会分党委管理员补充信息',

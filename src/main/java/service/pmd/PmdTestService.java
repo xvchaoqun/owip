@@ -38,8 +38,6 @@ public class PmdTestService {
     @Autowired
     PmdPayService pmdPayService;
     @Autowired
-    PmdOrderWszfService pmdOrderWszfService;
-    @Autowired
     CommonMapper commonMapper;
     @Autowired
     PmdMemberMapper pmdMemberMapper;

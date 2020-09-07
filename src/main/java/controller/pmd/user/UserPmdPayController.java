@@ -7,8 +7,7 @@ import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
-import jixiantech.api.pay.PayUtils;
-import org.apache.shiro.SecurityUtils;
+import ext.utils.Pay;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.RequestUtils;
@@ -27,8 +27,10 @@ import sys.utils.RequestUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user/pmd")
@@ -99,14 +101,14 @@ public class UserPmdPayController extends PmdBaseController {
         Map<String, String[]> parameterMap = request.getParameterMap();
         logger.info("pmd page callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
 
-        modelMap.put("verifySign", pmdOrderService.verifyNotifySign(request));
+        modelMap.put("verifySign", Pay.getInstance().verifyNotify(request));
 
         if(parameterMap.size()>0) {
 
             String sn = request.getParameter("thirdorderid");
             PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(sn);
             if(pmdOrder!=null && pmdOrder.getUserId().intValue()==ShiroHelper.getCurrentUserId()) {
-                pmdOrderService.notify(request);
+                pmdOrderService.notify(request, false);
             }
         }
 
@@ -121,7 +123,6 @@ public class UserPmdPayController extends PmdBaseController {
 
         PmdMember pmdMember = checkPayAuth(id, isSelfPay);
         modelMap.put("pmdMember", pmdMember);
-        //modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
 
         return "pmd/user/payConfirm";
     }
@@ -131,41 +132,28 @@ public class UserPmdPayController extends PmdBaseController {
     @ResponseBody
     public Map do_payConfirm(int id, @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay,
                              @RequestParam(required = false, defaultValue = "0")Boolean isMobile,
-                             HttpServletRequest request) throws UnsupportedEncodingException {
+                             HttpServletRequest request){
 
         checkPayAuth(id, isSelfPay);
 
-        PmdOrder order = pmdOrderService.payConfirm(id, isSelfPay,
-                isMobile? PayUtils.orderType_PHONE:PayUtils.orderType_PC);
+        PmdOrder order = pmdOrderService.payConfirm(id, isSelfPay, isMobile);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
         Gson gson = new Gson();
-        Map<String, Object> params =  gson.fromJson(order.getParams(), Map.class);
-        //params.put("sn", order.getSn());
+
+        Map<String, String> params =  gson.fromJson(order.getParams(), Map.class);
         params.put("sign", order.getSign());
         
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("order", params);
-
-        String homeURL = RequestUtils.getHomeURL(request);
-        if(isMobile) {
-            resultMap.put("thirdurl", homeURL + "/m/pmd/callback");
-        }else{
-            resultMap.put("thirdurl", homeURL + "/user/pmd/callback");
-        }
+        resultMap.put("order", params); // 订单所有的请求参数 + 签名值
+        String siteHome = CmTag.getStringProperty("siteHome");
+        String returnUrl = isMobile?(siteHome + "/m/pmd/callback"):(siteHome + "/user/pmd/callback");
+        resultMap.put("returnUrl", returnUrl); // 前台通知地址
 
         if(springProps.devMode) {
-            // test
-            Map<String, Object> callbackMap = new LinkedHashMap<>(params);
-            callbackMap.remove("ordertype");
-            callbackMap.remove("sign");
-            callbackMap.put("orderid", order.getSn() + "back");
-            callbackMap.put("state", "1");
-            callbackMap.put("sign", URLEncoder.encode(PayUtils.sign(callbackMap), "UTF-8"));
-
-            callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
-            resultMap.put("ret", FormUtils.requestParams(callbackMap));
+            // for test
+            resultMap.put("ret", Pay.getInstance().testCallbackParams(order.getSn(), order.getParams()));
         }
 
         return resultMap;
@@ -195,7 +183,7 @@ public class UserPmdPayController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping(value = "/payConfirm_batch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_batch(@RequestParam(name = "ids")Integer[] ids, boolean isDelay,
+    public Map do_payConfirm_batch(@RequestParam(name = "ids")int[] ids, boolean isDelay,
                                    HttpServletRequest request) throws UnsupportedEncodingException {
 
         for (Integer id : ids) {
@@ -215,18 +203,12 @@ public class UserPmdPayController extends PmdBaseController {
         resultMap.put("order", params);
 
         String homeURL = RequestUtils.getHomeURL(request);
-        resultMap.put("thirdurl", homeURL + "/user/pmd/callback");
+        resultMap.put("returnUrl", homeURL + "/user/pmd/callback");
 
-        // test
-        /*Map<String, Object> callbackMap = new LinkedHashMap<>(params);
-        callbackMap.remove("ordertype");
-        callbackMap.remove("sign");
-        callbackMap.put("orderid", order.getSn()+"back");
-        callbackMap.put("state", "1");
-        callbackMap.put("sign", URLEncoder.encode(BnuPayUtils.sign(callbackMap), "UTF-8"));
-
-        callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
-        resultMap.put("ret", FormUtils.requestParams(callbackMap));*/
+        if(springProps.devMode) {
+            // for test
+            resultMap.put("ret", Pay.getInstance().testCallbackParams(order.getSn(), order.getParams()));
+        }
 
         return resultMap;
     }

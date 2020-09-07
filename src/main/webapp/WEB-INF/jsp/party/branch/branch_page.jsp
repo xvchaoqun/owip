@@ -307,6 +307,7 @@
                 if(cellvalue==undefined || cellvalue==0) return 0;
                 return '<a href="#${ctx}/member?cls=1&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
+            <shiro:hasPermission name="branchMemberGroup:list">
             { label:'委员会<br/>总数', name: 'groupCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
@@ -330,6 +331,7 @@
                 formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
+            </shiro:hasPermission>
             {label: '支部类型', name: 'types', align:'left', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(label){

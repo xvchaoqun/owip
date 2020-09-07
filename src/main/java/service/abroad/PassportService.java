@@ -427,7 +427,7 @@ public class PassportService extends AbroadBaseMapper implements HttpResponseMet
         List<Passport> passports = iAbroadMapper.selectPassportList(bean, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
-            if (expiryDate.before(now)) {
+            if (expiryDate!=null && expiryDate.before(now)) {
 
                 // 未借出状态，转移到取消未确认
                 Passport record = new Passport();

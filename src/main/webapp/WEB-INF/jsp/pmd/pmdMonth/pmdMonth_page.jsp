@@ -101,7 +101,6 @@
 </div>
 
 <script>
-
     function _isEnd(rowObject) {
         return rowObject.status == '${PMD_MONTH_STATUS_END}'
     }
@@ -117,6 +116,10 @@
                 if (_isInit(rowObject) == false) {
                     return rowObject.startTime.substr(0, 16);
                 }
+
+                <c:if test="${initMonthId>0&&processMemberCount>=0}">
+                return '<div class="progressDiv"><i class="fa fa-clock-o fa-spin"></i> 正在启动</div>'
+                </c:if>
                 return ('<button class="popupBtn btn btn-success btn-xs"' +
                 'data-url="${ctx}/pmd/pmdMonth_start?monthId={0}"><i class="fa fa-cogs"></i> 启动</button>')
                         .format(rowObject.id);
@@ -285,4 +288,36 @@
             $("#updateBtn").prop("disabled", (rowData.status != '${PMD_MONTH_STATUS_INIT}'));
         }
     }
+
+    <c:if test="${initMonthId>0&&processMemberCount>=0}">
+    var startProgressInterval;
+    var progress;
+    function _startStatus(){
+        $.get("${ctx}/pmd/pmdMonth_start_status",{monthId:'${initMonthId}'},function(ret){
+
+            var totalMemberCount = ret.totalMemberCount;
+            var processMemberCount = ret.processMemberCount;
+            var isStarted = ret.isStarted;
+
+            if(processMemberCount>=totalMemberCount){
+                $(".progressDiv").html('<i class="fa fa-hourglass-start fa-spin"></i> 即将完成');
+            }else{
+
+                progress = Math.formatFloat((processMemberCount>totalMemberCount?totalMemberCount:processMemberCount)*100/totalMemberCount, 1) + "%";
+                $(".progressDiv").html(('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress));
+            }
+            if(isStarted){
+                clearInterval(startProgressInterval);
+                startProgressInterval=null;
+                $("#jqGrid").trigger("reloadGrid");
+                SysMsg.success("缴费启动成功");
+            }
+        })
+    }
+    clearInterval(startProgressInterval);
+    startProgressInterval = setInterval(function(){
+        _startStatus();
+    }, 2000);
+    </c:if>
 </script>

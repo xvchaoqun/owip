@@ -300,6 +300,7 @@ pageEncoding="UTF-8" %>
                     return cellvalue;
                 </shiro:lacksPermission>
             }},
+            <shiro:hasPermission name="partyMemberGroup:list">
             { label:'委员会<br/>总数', name: 'groupCount', width: 60, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
@@ -315,6 +316,7 @@ pageEncoding="UTF-8" %>
                         rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
+            </shiro:hasPermission>
             /*{
                 label: '实际换届<br/>时间',
                 name: 'actualTranTime',

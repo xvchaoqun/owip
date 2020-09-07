@@ -9,7 +9,7 @@ import domain.sys.SysUserView;
 import ext.service.ShortMsgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.base.OneSendService;
+import ext.service.OneSendService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;

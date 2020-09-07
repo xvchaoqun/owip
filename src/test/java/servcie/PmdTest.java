@@ -1,12 +1,6 @@
 package servcie;
 
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdBranchExample;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
-import domain.pmd.PmdParty;
-import domain.pmd.PmdPartyExample;
+import domain.pmd.*;
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +17,6 @@ import service.pmd.PmdBranchService;
 import service.pmd.PmdMonthService;
 import service.pmd.PmdPartyService;
 import service.pmd.PmdPayService;
-import service.pmd.PmdOrderWszfService;
 import sys.utils.DateUtils;
 
 import java.util.List;
@@ -47,8 +40,6 @@ public class PmdTest {
     PmdPartyMapper pmdPartyMapper;
     @Autowired
     PmdPayService pmdPayService;
-    @Autowired
-    PmdOrderWszfService pmdOrderWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

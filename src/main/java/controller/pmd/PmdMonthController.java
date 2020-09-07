@@ -1,5 +1,6 @@
 package controller.pmd;
 
+import controller.global.OpException;
 import domain.party.Party;
 import domain.party.PartyExample;
 import domain.pmd.PmdMonth;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
+import sys.helper.PmdHelper;
 import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -44,6 +47,17 @@ public class PmdMonthController extends PmdBaseController {
 
         //PmdMonth realThisMonth = pmdMonthService.getMonth(new Date());
         //modelMap.put("realThisMonth", realThisMonth);
+
+        PmdMonthExample example = new PmdMonthExample();
+        example.createCriteria().andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
+        List<PmdMonth> pmdMonths = pmdMonthMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        if(pmdMonths.size()>0){
+            // 如果存在新建的缴费月份ID，可能需要读取进度
+            modelMap.put("initMonthId", pmdMonths.get(0).getId());
+            modelMap.put("processMemberCount", PmdHelper.processMemberCount);
+        }
+
         return "pmd/pmdMonth/pmdMonth_page";
     }
 
@@ -207,7 +221,17 @@ public class PmdMonthController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdMonth_start(int monthId, HttpServletRequest request) {
 
-        pmdMonthService.start(monthId);
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if (currentPmdMonth != null) {
+            throw new OpException("存在未结算月份，不可以启动新的缴费月份。");
+        }
+        Set<Integer> partyIdSet = pmdMonthService.getMonthPartyIdSet(monthId);
+        if (partyIdSet.size() == 0) {
+            throw new OpException("请先设置缴费分党委。");
+        }
+
+        PmdHelper.processMemberCount = 0;
+        pmdService.asyncStart(monthId, partyIdSet);
 
         logger.info(addLog(LogConstants.LOG_PMD, "启动缴费， %s", monthId));
         return success(FormUtils.SUCCESS);
@@ -225,6 +249,26 @@ public class PmdMonthController extends PmdBaseController {
             modelMap.put("partyIdSet", partyIdSet);
         }
         return "pmd/pmdMonth/pmdMonth_start";
+    }
+
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping("/pmdMonth_start_status")
+    @ResponseBody
+    public Map pmdMonth_start_status(Integer monthId, ModelMap modelMap) {
+
+        int totalMemberCount = iPmdMapper.getTotalMemberCount(monthId);
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("totalMemberCount", totalMemberCount);
+        resultMap.put("processMemberCount", PmdHelper.processMemberCount);
+
+        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
+        boolean isStarted = pmdMonth.getStatus() == PmdConstants.PMD_MONTH_STATUS_START;
+        resultMap.put("isStarted", isStarted);
+        if(isStarted){
+            PmdHelper.processMemberCount = -1;
+        }
+        return resultMap;
     }
 
     // 结算

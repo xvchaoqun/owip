@@ -1,4 +1,3 @@
-<%@ page import="jixiantech.api.msg.OneSendResult" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.springframework.core.io.Resource" %>
 <%@ page import="org.springframework.core.io.UrlResource" %>

@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Created by lm on 2017/11/7.
+ *
+ * 支付后台通知
  */
 @Controller
 @RequestMapping("/pmd/pay")
@@ -22,7 +24,7 @@ public class PmdPayController extends PmdBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 新校园卡
-    @RequestMapping("/callback/newcampuscard")
+    @RequestMapping({"/callback", "/callback/newcampuscard"})
     public void callback_newcampuscard(HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
     
@@ -30,7 +32,7 @@ public class PmdPayController extends PmdBaseController {
         logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(parameterMap, false));
         boolean ret = true;
         if(parameterMap.size()>0) {
-            ret = pmdOrderService.notify(request);
+            ret = pmdOrderService.notify(request, true);
         }
         // 支付服务器要求返回200返回码
         response.getWriter().write(ret ? "pok" : "failed");

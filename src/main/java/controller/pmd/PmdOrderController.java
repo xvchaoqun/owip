@@ -2,7 +2,7 @@ package controller.pmd;
 
 import domain.pmd.PmdOrder;
 import domain.sys.SysUserView;
-import jixiantech.api.pay.OrderQueryResult;
+import ext.common.pay.OrderQueryResult;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -23,7 +23,6 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +113,6 @@ public class PmdOrderController extends PmdBaseController {
     public String pmdOrder_query(String sn, ModelMap modelMap) throws IOException {
 
         OrderQueryResult queryResult = pmdOrderService.query(sn);
-        modelMap.put("ret", queryResult.getRet());
         modelMap.put("hasPay", queryResult.isHasPay());
 
         PmdOrder order = pmdOrderMapper.selectByPrimaryKey(sn);
@@ -123,13 +121,14 @@ public class PmdOrderController extends PmdBaseController {
         return "pmd/pmdOrder/pmdOrder_query";
     }
 
+    // 查询支付成功后，主动更新订单状态
     @RequiresPermissions("pmdOw:admin")
-    @RequestMapping("/pmdOrder_query_sign")
+    @RequestMapping(value = "/pmdOrder_query_callback", method = RequestMethod.POST)
     @ResponseBody
-    public String pmdOrder_query_sign(HttpServletRequest request, ModelMap modelMap) throws IOException {
+    public Map pmdOrder_query_callback(String sn, ModelMap modelMap) throws IOException {
 
-        String sign = pmdOrderService.notifySign(request);
+        pmdOrderService.processQuery(sn);
 
-        return URLEncoder.encode(sign, "UTF-8");
+        return success();
     }
 }

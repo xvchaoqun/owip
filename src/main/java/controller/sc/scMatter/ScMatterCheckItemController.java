@@ -125,7 +125,7 @@ public class ScMatterCheckItemController extends ScBaseController {
         String originalFilename = file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
         if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(file, "pdf")) {
+                && !ContentTypeUtils.isAnyFormat(file, "pdf")) {
             throw new OpException("核查情况表格式错误，请上传pdf文件");
         }
 

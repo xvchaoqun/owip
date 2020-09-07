@@ -1,8 +1,6 @@
 package service.pmd;
 
 import controller.global.OpException;
-import ext.domain.ExtJzgSalary;
-import ext.domain.ExtRetireSalary;
 import domain.member.Member;
 import domain.member.MemberExample;
 import domain.member.MemberView;
@@ -12,6 +10,8 @@ import domain.party.Party;
 import domain.party.PartyExample;
 import domain.pmd.*;
 import domain.sys.SysUserView;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtRetireSalary;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.pmd.common.PmdReportBean;
@@ -30,6 +31,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PmdHelper;
 import sys.tool.fancytree.TreeNode;
 import sys.utils.DateUtils;
 
@@ -54,8 +56,6 @@ public class PmdMonthService extends PmdBaseMapper {
     protected PmdBranchService pmdBranchService;
     @Autowired
     protected PmdPartyService pmdPartyService;
-    @Autowired
-    private PmdMonthService pmdMonthService;
     @Autowired
     private PmdExtService pmdExtService;
     @Autowired
@@ -132,7 +132,7 @@ public class PmdMonthService extends PmdBaseMapper {
     // 判断是否可以结算
     public boolean canEnd(int monthId) {
 
-        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        PmdMonth currentPmdMonth = getCurrentPmdMonth();
         if (currentPmdMonth == null || currentPmdMonth.getId() != monthId) return false;
 
         PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
@@ -168,25 +168,11 @@ public class PmdMonthService extends PmdBaseMapper {
         return pmdMonths.size() > 0 ? pmdMonths.get(0) : null;
     }
 
-    // 启动缴费
-    @Transactional
-    public void start(int monthId) {
-
-        PmdMonth currentPmdMonth = getCurrentPmdMonth();
-        if (currentPmdMonth != null) {
-            throw new OpException("存在未结算月份，不可以启动缴费。");
-        }
+    // 异步启动缴费
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void start(int monthId, Set<Integer> partyIdSet) {
 
         PmdMonth currentMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
-        /*PmdMonth currentMonth = getMonth(new Date());
-        if (currentMonth.getId() != monthId) {
-            throw new OpException("只允许启动当前月份的缴费工作。");
-        }*/
-
-        Set<Integer> partyIdSet = getMonthPartyIdSet(monthId);
-        if (partyIdSet.size() == 0) {
-            throw new OpException("请先设置缴费分党委。");
-        }
         String payMonth = DateUtils.formatDate(currentMonth.getPayMonth(), "yyyy年MM月");
         logger.info("{}党员缴费-启动", payMonth);
 
@@ -549,7 +535,10 @@ public class PmdMonthService extends PmdBaseMapper {
                     "has_pay=1, is_online_pay=0, pay_month_id=%s, charge_party_id=%s, charge_branch_id=%s"
                     +" where member_id=%s" , duePay, monthId, partyId, branchId,  _pmdMemberId));
         }
-        
+
+        // 启动收缴党费时记录进度
+        if(PmdHelper.processMemberCount>=0) PmdHelper.processMemberCount++;
+
         return _pmdMember;
     }
 
@@ -558,7 +547,7 @@ public class PmdMonthService extends PmdBaseMapper {
     @CacheEvict(value = "PmdConfigMember", key = "#userId")
     public void addOrResetPmdMember(int userId, Integer pmdMemberId){
 
-        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        PmdMonth currentPmdMonth = getCurrentPmdMonth();
         Member member = memberService.get(userId);
         if(currentPmdMonth==null || member==null){
 
@@ -602,7 +591,7 @@ public class PmdMonthService extends PmdBaseMapper {
     @Transactional
     public void addParty(int partyId){
 
-        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        PmdMonth currentPmdMonth = getCurrentPmdMonth();
         if(currentPmdMonth==null) return;
         int monthId = currentPmdMonth.getId();
         {
@@ -928,9 +917,21 @@ public class PmdMonthService extends PmdBaseMapper {
     @Transactional
     public void addOrUpdate(Integer id, Date month) {
 
+        PmdMonth currentPmdMonth = getCurrentPmdMonth();
+        if(currentPmdMonth!=null){
+            throw new OpException("存在未结算月份，不可创建新的缴费月份。");
+        }
+        {
+            PmdMonthExample example = new PmdMonthExample();
+            example.createCriteria().andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
+            if(pmdMonthMapper.countByExample(example)>0){
+                throw new OpException("存在未启动缴费月份，不可创建新的缴费月份。");
+            }
+        }
+
         PmdMonth pmdMonth = getMonth(month);
         if(id==null){
-            if (getMonth(month) != null) {
+            if (pmdMonth != null) {
                 throw new OpException("缴费月份重复。");
             }
 
@@ -945,13 +946,12 @@ public class PmdMonthService extends PmdBaseMapper {
             pmdMonthMapper.insertSelective(record);
         }else {
 
-
             if (pmdMonth != null && pmdMonth.getId() != id) {
                 throw new OpException("缴费月份重复。");
             }
 
             PmdMonth _pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
-            if (_pmdMonth.getStatus() != PmdConstants.PMD_MONTH_STATUS_INIT) {
+            if (_pmdMonth.getStatus() != PmdConstants.PMD_MONTH_STATUS_INIT && PmdHelper.processMemberCount>=0) {
 
                 throw new OpException("只能修改未启动的缴费月份。");
             }

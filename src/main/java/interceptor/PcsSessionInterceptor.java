@@ -1,6 +1,8 @@
 package interceptor;
 
+import controller.global.OpException;
 import domain.pcs.PcsConfig;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
@@ -22,12 +24,19 @@ public class PcsSessionInterceptor implements AsyncHandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        String servletPath = request.getServletPath();
         // 当前党代会
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        request.setAttribute("_pcsConfig", pcsConfig);
+        if(pcsConfig==null && !StringUtils.startsWithIgnoreCase(servletPath, "/pcs/pcsConfig")){
 
-        Date finishDate = pcsConfigService.getAgeBaseDate(pcsConfig.getCreateTime());
-        request.setAttribute("_ageBaseDate", DateUtils.formatDate(finishDate, DateUtils.YYYY_MM_DD));
+            throw new OpException("请先设置当前党代会");
+        }
+        if(pcsConfig!=null) {
+
+            request.setAttribute("_pcsConfig", pcsConfig);
+            Date finishDate = pcsConfigService.getAgeBaseDate(pcsConfig.getCreateTime());
+            request.setAttribute("_ageBaseDate", DateUtils.formatDate(finishDate, DateUtils.YYYY_MM_DD));
+        }
 
         return true;
     }

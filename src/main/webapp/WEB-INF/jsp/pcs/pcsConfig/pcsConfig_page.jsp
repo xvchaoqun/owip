@@ -73,8 +73,8 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/pcs/pcsConfig_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '届数',name: 'name', width:300},
-            <shiro:hasPermission name="pcsAdmin:*">
+            { label: '党代会名称',name: 'name', width:300},
+            <shiro:hasPermission name="pcsPartyList:list">
             { label: '是否当前党代会',name: 'isCurrent', width:150, formatter:$.jgrid.formatter.TRUEFALSE},
             </shiro:hasPermission>
             <shiro:hasPermission name="pcsProposal:menu">
