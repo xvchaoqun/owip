@@ -159,6 +159,7 @@ public class PmdOrderService extends PmdBaseMapper {
         if (oldOrder != null) {
 
             OrderFormBean orderFormBean = Pay.getInstance().createOrder(oldOrderNo, amt, payer, isMobile);
+            oldOrder.setFormMap(orderFormBean.getFormMap());
             Map<String, String> paramMap = orderFormBean.getParamMap();
             Gson gson = new Gson();
             Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
@@ -202,11 +203,13 @@ public class PmdOrderService extends PmdBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                     "支付已确认，即将跳转支付页面", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "订单号：" + orderNo);
-            
+
+            newOrder.setFormMap(orderFormBean.getFormMap());
             return newOrder;
         }
         
-        return pmdOrderMapper.selectByPrimaryKey(oldOrderNo);
+        //return pmdOrderMapper.selectByPrimaryKey(oldOrderNo);
+        return oldOrder;
     }
     
     // 跳转页面前的支付确认，生成支付订单号
@@ -503,10 +506,18 @@ public class PmdOrderService extends PmdBaseMapper {
     
     // 处理服务器后台结果通知
     @Transactional
-    public boolean notify(HttpServletRequest request, boolean isServer) {
+    public OrderNotifyBean notify(HttpServletRequest request, boolean isServer) {
 
         Pay pay = Pay.getInstance();
         OrderNotifyBean notifyBean = isServer?pay.serverNotifyBean(request):pay.pageNotifyBean(request);
+
+        if(!isServer) {
+            PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(notifyBean.getOrderNo());
+            if (pmdOrder == null || pmdOrder.getUserId().intValue() != ShiroHelper.getCurrentUserId()) {
+                return notifyBean; // 不是本人的订单，不作处理
+            }
+        }
+
         {
             // 先原样保存服务器支付通知结果
             PmdNotify record = new PmdNotify();
@@ -549,7 +560,7 @@ public class PmdOrderService extends PmdBaseMapper {
             throw ex;
         }
 
-        return true;
+        return notifyBean;
     }
 
     // 根据查询结果处理订单结果

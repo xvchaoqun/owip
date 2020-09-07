@@ -3,7 +3,7 @@ package controller.pmd.mobile;
 import controller.pmd.PmdBaseController;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
-import domain.pmd.PmdOrder;
+import ext.common.pay.OrderNotifyBean;
 import ext.utils.Pay;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -71,14 +71,14 @@ public class MobilePmdController extends PmdBaseController {
 	}
 
 	// 页面通知支付结果
-	@RequiresPermissions("userPmdMember:list")
+	//@RequiresPermissions("userPmdMember:list")
 	@RequestMapping("/callback")
 	public String pay_callback(ModelMap modelMap) {
 
 		return "mobile/index";
 	}
 
-	@RequiresPermissions("userPmdMember:list")
+	//@RequiresPermissions("userPmdMember:list")
 	@RequestMapping("/callback_page")
 	public String pay_callback_page(HttpServletRequest request, ModelMap modelMap) throws IOException {
 
@@ -89,11 +89,8 @@ public class MobilePmdController extends PmdBaseController {
 
 		if(parameterMap.size()>0) {
 
-			String sn = request.getParameter("thirdorderid");
-			PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(sn);
-			if(pmdOrder!=null && pmdOrder.getUserId().intValue()==ShiroHelper.getCurrentUserId()) {
-				pmdOrderService.notify(request, false);
-			}
+			OrderNotifyBean notify = pmdOrderService.notify(request, false);
+            modelMap.put("notify", notify);
 		}
 
 		return "pmd/mobile/callback_page";

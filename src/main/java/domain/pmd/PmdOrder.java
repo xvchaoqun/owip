@@ -2,8 +2,21 @@ package domain.pmd;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class PmdOrder implements Serializable {
+
+    // 收银台参数，确认订单时赋值
+    private Map<String, String> formMap;
+
+    public Map<String, String> getFormMap() {
+        return formMap;
+    }
+
+    public void setFormMap(Map<String, String> formMap) {
+        this.formMap = formMap;
+    }
+
     private String sn;
 
     private Integer memberId;

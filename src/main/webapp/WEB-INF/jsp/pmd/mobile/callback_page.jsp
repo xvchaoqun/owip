@@ -18,32 +18,32 @@
                         <div id="title" class="tab-pane active">
                             <div class="profile-user-info profile-user-info-striped">
                                 <c:if test="${verifySign}">
-                                    <c:if test="${param.state==1}">
+                                    <c:if test="${notify.hasPay}">
                                         <div class="profile-info-row">
                                             <div class="profile-info-name"> 支付成功</div>
                                         </div>
                                         <div class="profile-info-row">
                                             <div class="profile-info-name td"> 订单号</div>
                                             <div class="profile-info-value td">
-                                                <span class="editable">${param.thirdorderid}</span>
+                                                <span class="editable">${notify.orderNo}</span>
                                             </div>
                                         </div>
                                         <div class="profile-info-row">
                                             <div class="profile-info-name td"> 支付金额</div>
                                             <div class="profile-info-value td">
-                                                <span class="editable">${cm:bigDecimalDivide(param.actulamt, 100)}</span>
+                                                <span class="editable">${cm:bigDecimalDivide(notify.amt, 100)}</span>
                                             </div>
                                         </div>
                                     </c:if>
-                                    <c:if test="${param.state!=1}">
+                                    <c:if test="${!notify.hasPay}">
                                         <div class="profile-info-row">
-                                            <div class="profile-info-name"> 支付失败</div>
+                                            <div class="profile-info-name"> 支付失败，订单号：${notify.orderNo}</div>
                                         </div>
                                     </c:if>
                                 </c:if>
                                 <c:if test="${!verifySign}">
                                     <div class="profile-info-row">
-                                        <div class="profile-info-name"> 签名错误</div>
+                                        <div class="profile-info-name"> 签名错误，订单号：${notify.orderNo}</div>
                                     </div>
                                 </c:if>
                             </div>
