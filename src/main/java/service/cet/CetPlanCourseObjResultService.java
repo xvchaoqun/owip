@@ -57,7 +57,7 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
             Map<Integer, String> xlsRow = xlsRows.get(i);
             int columnSize = xlsRow.size();
             if (columnSize < courseItemSize * 2 + 5) {
-                throw new OpException("导入失败，Excel文件有误，专题班数目不对。");
+                throw new OpException("导入失败，Excel文件有误，请严格按照录入样表的表头准备数据（根据实际的专题班数量进行修改）");
             }
 
             String code = xlsRow.get(0); // 第一列是工作证号
@@ -81,6 +81,8 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
             // 先清空成绩，再导入
             delResult(planCourseObjId);
 
+            String period = xlsRow.get(2); // 第2列是完成总学时数
+
             /*String courseNum_1 = xlsRow.get(3); // 第四列是专题班1完成课程数
             String period_1 = xlsRow.get(4); // 第五列是专题班1完成学时数
 
@@ -101,6 +103,10 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
                 record.setId(planCourseObjId);
                 record.setNum(num);
                 record.setIsFinished(isFinished);
+                if(StringUtils.isNotBlank(period)) {
+                    record.setPeriod(new BigDecimal(period));
+                }
+
                 cetPlanCourseObjMapper.updateByPrimaryKeySelective(record);
             }
 
@@ -112,10 +118,10 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
                 String _courseNum = xlsRow.get(3 + j * 2);
                 String _period = xlsRow.get(4 + j * 2);
 
-                if (!NumberUtils.isDigits(_courseNum)) {
+                if (StringUtils.isNotBlank(_courseNum) && !NumberUtils.isDigits(_courseNum)) {
                     throw new OpException("导入失败，第{0}行的学员的课程数有误。", (i + 1));
                 }
-                if (!NumberUtils.isCreatable(_period)) {
+                if (StringUtils.isNotBlank(_period) && !NumberUtils.isCreatable(_period)) {
                     throw new OpException("导入失败，第{0}行的学员的学时数有误。", (i + 1));
                 }
 
@@ -124,8 +130,12 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
                 CetPlanCourseObjResult record = new CetPlanCourseObjResult();
                 record.setPlanCourseObjId(planCourseObjId);
                 record.setCourseItemId(courseItemId);
-                record.setCourseNum(Integer.valueOf(_courseNum));
-                record.setPeriod(new BigDecimal(_period));
+                if(StringUtils.isNotBlank(_courseNum)) {
+                    record.setCourseNum(Integer.valueOf(_courseNum));
+                }
+                if(StringUtils.isNotBlank(_period)) {
+                    record.setPeriod(new BigDecimal(_period));
+                }
 
                 if(cetPlanCourseObjResult==null) {
                     cetPlanCourseObjResultMapper.insertSelective(record);

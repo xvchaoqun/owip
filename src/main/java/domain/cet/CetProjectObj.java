@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CetProjectObj implements Serializable {
@@ -69,13 +68,13 @@ public class CetProjectObj implements Serializable {
             CetPlanCourseObj cpo = cetPlanCourseObjService.getByUserId(userId, planCourseId);
             if (cpo != null) {
                 resultMap.put("planCourseObjId", cpo.getId());
-                BigDecimal period = BigDecimal.ZERO;
+                BigDecimal period = cpo.getPeriod();
                 int planCourseObjId = cpo.getId();
-                List<CetPlanCourseObjResult> results = cetPlanCourseObjService.getResults(planCourseObjId);
+                /*List<CetPlanCourseObjResult> results = cetPlanCourseObjService.getResults(planCourseObjId);
                 for (CetPlanCourseObjResult result : results) {
                     if (result.getPeriod() == null) continue;
                     period = period.add(result.getPeriod());
-                }
+                }*/
 
                 resultMap.put("period", period);
 

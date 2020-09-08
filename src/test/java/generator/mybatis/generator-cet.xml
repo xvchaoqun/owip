@@ -42,9 +42,9 @@
         <!--干部教育培训系统-->
         <!--<table tableName="cet_annual" domainObjectName="cet.CetAnnual" mapperName="cet.CetAnnualMapper">
         </table>-->
-       <table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
+       <!--<table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -135,8 +135,8 @@
         </table>-->
         <!--<table tableName="cet_plan_course" domainObjectName="cet.CetPlanCourse" mapperName="cet.CetPlanCourseMapper">
         </table>-->
-        <!--<table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
-        </table>-->
+        <table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
+        </table>
         <!--<table tableName="cet_plan_course_obj_result" domainObjectName="cet.CetPlanCourseObjResult"
                mapperName="cet.CetPlanCourseObjResultMapper">
         </table>-->
