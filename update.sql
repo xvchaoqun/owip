@@ -1,5 +1,7 @@
 
 
+20200908
+
 ALTER TABLE `cet_plan_course_obj`
 	ADD COLUMN `period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '完成学时数，针对上级网上专题班, 自主学习' AFTER `is_finished`;
 
