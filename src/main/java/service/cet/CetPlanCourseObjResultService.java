@@ -102,12 +102,10 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
                 CetPlanCourseObj record = new CetPlanCourseObj();
                 record.setId(planCourseObjId);
                 record.setNum(num);
-
+                record.setIsFinished(isFinished);
                 if(StringUtils.isNotBlank(period)) {
                     record.setPeriod(new BigDecimal(period));
-                    isFinished = true; // 只要有学时就默认已结业
                 }
-                record.setIsFinished(isFinished);
 
                 cetPlanCourseObjMapper.updateByPrimaryKeySelective(record);
             }
