@@ -301,7 +301,7 @@
 
             if(processMemberCount>=totalMemberCount){
                 $(".progressDiv").html('<i class="fa fa-hourglass-start fa-spin"></i> 即将完成');
-            }else{
+            }else if(processMemberCount>0){
 
                 progress = Math.formatFloat((processMemberCount>totalMemberCount?totalMemberCount:processMemberCount)*100/totalMemberCount, 1) + "%";
                 $(".progressDiv").html(('<div class="progress progress-striped pos-rel" data-percent="{0}">' +

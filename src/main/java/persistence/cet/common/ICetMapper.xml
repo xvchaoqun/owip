@@ -147,6 +147,22 @@
 
     <!-- 获取培训对象在每年或某培训项目中的培训方案中的已完成学时（针对上级网上专题）-->
     <select id="getSpecialFinishPeriod" parameterType="map" resultType="DECIMAL">
+        select sum(cpco.period) from cet_plan_course_obj cpco
+            left join cet_project_obj cpo on cpo.id = cpco.obj_id
+            left join cet_plan_course cpc on cpc.id=cpco.plan_course_id
+            LEFT JOIN cet_project_plan cpp ON cpc.plan_id=cpp.id
+            LEFT JOIN cet_project cp ON cpp.project_id=cp.id
+            <where>
+                <if test="year!=null">
+                    and cp.year=#{year}
+                </if>
+                <if test="projectId!=null">
+                    and cp.id=#{projectId}
+                </if>
+                and cp.is_valid=1 and cpp.type=#{type} and cpo.user_id=#{userId} and cpco.is_finished=1
+            </where>
+    </select>
+    <!--<select id="getSpecialFinishPeriod" parameterType="map" resultType="DECIMAL">
         select sum(cci.period) from cet_plan_course_obj_result cpcor
             left join cet_course_item cci on cci.id=cpcor.course_item_id
             left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id
@@ -163,7 +179,7 @@
                 </if>
                 and cp.is_valid=1 and cpp.type=#{type} and cpo.user_id=#{userId} and cpco.is_finished=1
             </where>
-    </select>
+    </select>-->
 
     <sql id="searchUserSelectTrains">
         left join cet_project_plan cpp on cpp.id=ct.plan_id

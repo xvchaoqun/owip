@@ -3,6 +3,7 @@ package domain.cet;
 import sys.jackson.SignRes;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetPlanCourseObj implements Serializable {
@@ -18,6 +19,8 @@ public class CetPlanCourseObj implements Serializable {
     private Integer num;
 
     private Boolean isFinished;
+
+    private BigDecimal period;
 
     private Date chooseTime;
 
@@ -71,6 +74,14 @@ public class CetPlanCourseObj implements Serializable {
 
     public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public BigDecimal getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(BigDecimal period) {
+        this.period = period;
     }
 
     public Date getChooseTime() {

@@ -1,5 +1,6 @@
 package domain.cet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -472,6 +473,66 @@ public class CetPlanCourseObjExample {
 
         public Criteria andIsFinishedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_finished not between", value1, value2, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodIsNull() {
+            addCriterion("period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodIsNotNull() {
+            addCriterion("period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodEqualTo(BigDecimal value) {
+            addCriterion("period =", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodNotEqualTo(BigDecimal value) {
+            addCriterion("period <>", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodGreaterThan(BigDecimal value) {
+            addCriterion("period >", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("period >=", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodLessThan(BigDecimal value) {
+            addCriterion("period <", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("period <=", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodIn(List<BigDecimal> values) {
+            addCriterion("period in", values, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodNotIn(List<BigDecimal> values) {
+            addCriterion("period not in", values, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period between", value1, value2, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period not between", value1, value2, "period");
             return (Criteria) this;
         }
 

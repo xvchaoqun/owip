@@ -89,8 +89,7 @@
                     // for test
                     $("#testCallback").attr("href", "${ctx}/pmd/pay/callback?" + data.ret);
                     </c:if>
-
-                    $("#payFormDiv").html(_.template($("#payFormTpl").html())({order: data.order, returnUrl:data.returnUrl}));
+                    $("#payFormDiv").html(_.template($("#payFormTpl").html())({order: data.order, formMap:data.formMap}));
                     $("#payFormDiv form").submit();
                 }
             }

@@ -70,7 +70,7 @@
         </div>
     </div>
 </div>
-<form id="payForm" action="<%=Pay.payURL%>" method="post"></form>
+<div id="payFormDiv"></div>
 <style>
     .infobox {
         height: auto;
@@ -90,17 +90,7 @@
     }
 </style>
 <script type="text/template" id="payFormTpl">
-    <input type="hidden" name="tranamt" value="{{=order.tranamt}}"/>
-    <input type="hidden" name="account" value="{{=order.account}}"/>
-    <input type="hidden" name="sno" value="{{=order.sno}}"/>
-    <input type="hidden" name="toaccount" value="{{=order.toaccount}}"/>
-    <input type="hidden" name="thirdsystem" value="{{=order.thirdsystem}}"/>
-    <input type="hidden" name="thirdorderid" value="{{=order.thirdorderid}}"/>
-    <input type="hidden" name="ordertype" value="{{=order.ordertype}}"/>
-    <input type="hidden" name="orderdesc" value="{{=order.orderdesc}}"/>
-    <input type="hidden" name="praram1" value="{{=order.praram1}}"/>
-    <input type="hidden" name="thirdurl" value="{{=thirdurl}}"/>
-    <input type="hidden" name="sign" value="{{=order.sign}}"/>
+    <jsp:include page="/ext/pmd_payForm.jsp"/>
 </script>
 <script>
     $(".payBtn").click(function () {
@@ -114,10 +104,10 @@
             success : function(data){
                 if(data.success){
 
-                    console.log(data.order)
+                    //console.log(data.order)
 
-                    $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order, thirdurl:data.thirdurl}))
-                    $("#payForm").submit();
+                    $("#payFormDiv").html(_.template($("#payFormTpl").html())({order: data.order, formMap:data.formMap}));
+                    $("#payFormDiv form").submit();
                 }
             }
         });

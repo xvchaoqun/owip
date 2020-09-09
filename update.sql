@@ -1,4 +1,17 @@
 
+
+20200908
+
+ALTER TABLE `cet_plan_course_obj`
+	ADD COLUMN `period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '完成学时数，针对上级网上专题班, 自主学习' AFTER `is_finished`;
+
+update cet_plan_course_obj o, (select plan_course_obj_id, sum(period) period from cet_plan_course_obj_result group by plan_course_obj_id) r
+set o.period=r.period where o.id=r.plan_course_obj_id;
+
+20200907
+
+-- 更新 jx.ext.jar
+
 20200907
 南航
 

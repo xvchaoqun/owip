@@ -7,6 +7,7 @@ import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
+import ext.common.pay.OrderNotifyBean;
 import ext.utils.Pay;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -19,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -104,12 +103,8 @@ public class UserPmdPayController extends PmdBaseController {
         modelMap.put("verifySign", Pay.getInstance().verifyNotify(request));
 
         if(parameterMap.size()>0) {
-
-            String sn = request.getParameter("thirdorderid");
-            PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(sn);
-            if(pmdOrder!=null && pmdOrder.getUserId().intValue()==ShiroHelper.getCurrentUserId()) {
-                pmdOrderService.notify(request, false);
-            }
+            OrderNotifyBean notify = pmdOrderService.notify(request, false);
+            modelMap.put("notify", notify);
         }
 
         return "pmd/user/callback";
@@ -147,9 +142,8 @@ public class UserPmdPayController extends PmdBaseController {
         
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("order", params); // 订单所有的请求参数 + 签名值
-        String siteHome = CmTag.getStringProperty("siteHome");
-        String returnUrl = isMobile?(siteHome + "/m/pmd/callback"):(siteHome + "/user/pmd/callback");
-        resultMap.put("returnUrl", returnUrl); // 前台通知地址
+
+        resultMap.put("formMap", order.getFormMap()); // 收银台参数
 
         if(springProps.devMode) {
             // for test
@@ -202,8 +196,7 @@ public class UserPmdPayController extends PmdBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("order", params);
 
-        String homeURL = RequestUtils.getHomeURL(request);
-        resultMap.put("returnUrl", homeURL + "/user/pmd/callback");
+        resultMap.put("formMap", order.getFormMap()); // 收银台参数
 
         if(springProps.devMode) {
             // for test

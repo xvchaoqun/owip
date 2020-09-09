@@ -13,6 +13,6 @@
     <input type="hidden" name="ordertype" value="{{=order.ordertype}}"/>
     <input type="hidden" name="orderdesc" value="{{=order.orderdesc}}"/>
     <input type="hidden" name="praram1" value="{{=order.praram1}}"/>
-    <input type="hidden" name="thirdurl" value="{{=returnUrl}}"/>
+    <input type="hidden" name="thirdurl" value="{{=formMap.thirdurl}}"/>
     <input type="hidden" name="sign" value="{{=order.sign}}"/>
 </form>

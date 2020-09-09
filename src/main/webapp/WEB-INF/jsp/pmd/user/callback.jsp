@@ -72,15 +72,15 @@
                     <div style="/*padding-left: 50px*/">
                         <div class="space"></div>
                         <c:if test="${verifySign}">
-                            <c:if test="${param.state==1}">
-                                支付成功，订单号：${param.thirdorderid}，支付金额：${cm:bigDecimalDivide(param.actulamt, 100)}
+                            <c:if test="${notify.hasPay}">
+                                支付成功，订单号：${notify.orderNo}，支付金额：${cm:bigDecimalDivide(notify.amt, 100)}
                             </c:if>
-                            <c:if test="${param.state!=1}">
-                                支付失败
+                            <c:if test="${!notify.hasPay}">
+                                支付失败，订单号：${notify.orderNo}
                             </c:if>
                         </c:if>
                         <c:if test="${!verifySign}">
-                            签名错误
+                            签名错误，订单号：${notify.orderNo}
                         </c:if>
                     </div>
                     <hr/>

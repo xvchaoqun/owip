@@ -8,6 +8,7 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
     <result column="choose_user_id" jdbcType="INTEGER" property="chooseUserId" />
   </resultMap>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, plan_course_id, obj_id, note, num, is_finished, choose_time, choose_user_id
+    id, plan_course_id, obj_id, note, num, is_finished, period, choose_time, choose_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetPlanCourseObjExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,12 @@
   <insert id="insert" parameterType="domain.cet.CetPlanCourseObj">
     insert into cet_plan_course_obj (id, plan_course_id, obj_id, 
       note, num, is_finished, 
-      choose_time, choose_user_id)
+      period, choose_time, choose_user_id
+      )
     values (#{id,jdbcType=INTEGER}, #{planCourseId,jdbcType=INTEGER}, #{objId,jdbcType=INTEGER}, 
       #{note,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{isFinished,jdbcType=BIT}, 
-      #{chooseTime,jdbcType=TIMESTAMP}, #{chooseUserId,jdbcType=INTEGER})
+      #{period,jdbcType=DECIMAL}, #{chooseTime,jdbcType=TIMESTAMP}, #{chooseUserId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetPlanCourseObj">
     insert into cet_plan_course_obj
@@ -130,6 +133,9 @@
       </if>
       <if test="isFinished != null">
         is_finished,
+      </if>
+      <if test="period != null">
+        period,
       </if>
       <if test="chooseTime != null">
         choose_time,
@@ -156,6 +162,9 @@
       </if>
       <if test="isFinished != null">
         #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
       </if>
       <if test="chooseTime != null">
         #{chooseTime,jdbcType=TIMESTAMP},
@@ -192,6 +201,9 @@
       <if test="record.isFinished != null">
         is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
+      </if>
       <if test="record.chooseTime != null">
         choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
       </if>
@@ -211,6 +223,7 @@
       note = #{record.note,jdbcType=VARCHAR},
       num = #{record.num,jdbcType=INTEGER},
       is_finished = #{record.isFinished,jdbcType=BIT},
+      period = #{record.period,jdbcType=DECIMAL},
       choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
       choose_user_id = #{record.chooseUserId,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -235,6 +248,9 @@
       <if test="isFinished != null">
         is_finished = #{isFinished,jdbcType=BIT},
       </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
+      </if>
       <if test="chooseTime != null">
         choose_time = #{chooseTime,jdbcType=TIMESTAMP},
       </if>
@@ -251,6 +267,7 @@
       note = #{note,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       is_finished = #{isFinished,jdbcType=BIT},
+      period = #{period,jdbcType=DECIMAL},
       choose_time = #{chooseTime,jdbcType=TIMESTAMP},
       choose_user_id = #{chooseUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
