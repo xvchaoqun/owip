@@ -38,22 +38,13 @@
                     return type2==null?_cMap.PARTY_MEETING2_MAP[type1]:_cMap.PARTY_MEETING2_MAP[type1]+","+_cMap.PARTY_MEETING2_MAP[type2]
                 }
             },
-            { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
+           /* { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--';
-                    var fileName = rowObject.fileName;
-                    if(fileName.toLowerCase().endWith(".pdf")){
-                        return '<a href="${ctx}/pdf?path={0}" target="_blank">预览</a>'
-                                .format(cellvalue)
-                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
-                                .format(cellvalue, encodeURI(rowObject.fileName));
-                    }else {
-                        return '<a href="${ctx}/pic?path={0}" target="_blank">预览</a>'
-                                .format(cellvalue)
-                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
-                                .format(cellvalue, encodeURI(rowObject.fileName));
-                    }
+                    return '<button class="popupBtn btn btn-info btn-xs" data-width="700" data-callback="_reload"' +
+                        'data-url="${ctx}/pmMeeting2File?id={0}"><i class="fa fa-search"></i> 查看</button>'
+                            .format(rowObject.id);
                 }
-            },
+            },*/
             { label: '次数',name: 'number',align:'left', formatter: function (cellvalue, options, rowObject) {
                     var number1=rowObject.number1;
                     var number2=rowObject.number2;

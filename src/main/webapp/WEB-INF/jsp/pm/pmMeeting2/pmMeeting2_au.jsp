@@ -14,7 +14,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" style="width: 900px">
-            <form class="form-horizontal" action="${ctx}/pmMeeting2_au?reedit=${param.reedit}" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/pmMeeting2_au?reedit=${param.reedit}" id="pm2Form" method="post">
             <table class="table table-bordered table-unhover">
                 <input class="form-control" type="hidden" name="id"
                        value="${param.id}">
@@ -58,7 +58,7 @@
                     </div>
 
                     <script>
-                        $.register.party_branch_select($("#modalForm"), "branchDiv",
+                        $.register.party_branch_select($("#pm2Form"), "branchDiv",
                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${pmMeeting2.partyId}",
                             "${pmMeeting2.party.classId}", "partyId", "branchId", true);
                     </script>
@@ -121,12 +121,12 @@
                            </table>
                             </div>
                         <script>
-                               $('#modalForm input[name="type"][value="'+${pmMeeting2.type1} +'"]').prop("checked", true);
+                               $('#pm2Form input[name="type"][value="'+${pmMeeting2.type1} +'"]').prop("checked", true);
                                $(".input${pmMeeting2.type1}").attr("required","required")
                                $(".input${pmMeeting2.type1}:first").val(${pmMeeting2.number1});
                                $(".input${pmMeeting2.type1}:last").val(${pmMeeting2.time1});
 
-                               $('#modalForm input[name="type"][value="'+${pmMeeting2.type2} +'"]').prop("checked", true);
+                               $('#pm2Form input[name="type"][value="'+${pmMeeting2.type2} +'"]').prop("checked", true);
                                $(".input${pmMeeting2.type2}").attr("required","required")
                                $(".input${pmMeeting2.type2}:first").val(${pmMeeting2.number2});
                                $(".input${pmMeeting2.type2}:last").val(${pmMeeting2.time2});
@@ -221,7 +221,7 @@
                             </select>
                         </c:if>
                         <script type="text/javascript">
-                            $('#modalForm select[name="recorder"]').val("${pmMeeting2.recorder}").trigger('change');
+                            $('#pm2Form select[name="recorder"]').val("${pmMeeting2.recorder}").trigger('change');
                         </script>
                     </td>
                 </tr>
@@ -298,10 +298,10 @@
                          <%--   <div class="col-xs-6">
                                 <input ${empty pmMeeting2.filePath?'required':''} class="form-control" type="file" name="_file" />
                             </div>--%>
-                           <%-- <div class="col-xs-8">--%>
+
                                 <div class="col-xs-6">
                                     <div class="files">
-                                        <input class="form-control" multiple="multiple" type="file" name="_file"/>
+                                        <input ${empty pmMeeting2.filePath?'required':''} class="form-control" multiple="multiple" type="file" name="_file"/>
                                     </div>
                                 </div>
 
@@ -309,7 +309,7 @@
                                      <button type="button" onclick="addFile()"
                                                 class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
                                 </div>
-                          <%--  </div>--%>
+
                         </c:if>
 
                     </td>
@@ -331,7 +331,7 @@
 
                         <div class="modal-footer center">
 
-                            <button id="submitBtn"
+                            <button id="pmSubmitBtn"
                                     class="btn btn-success btn-xlg"><i
                                     class="fa fa-check"></i> 确定
                             </button>
@@ -371,18 +371,18 @@
 
 <script>
 
-    var presenterSelect = $('#modalForm select[name="presenter"]');
-    var recorderSelect = $('#modalForm select[name="recorder"]');
+    var presenterSelect = $('#pm2Form select[name="presenter"]');
+    var recorderSelect = $('#pm2Form select[name="recorder"]');
 
     $.register.datetime($('.datetime-picker'));
     $.register.user_select(presenterSelect);
     $.register.user_select(recorderSelect);
 
-    var partySelect = $('#modalForm select[name="partyId"]');
+    var partySelect = $('#pm2Form select[name="partyId"]');
     partySelect.on('change',function(){
         var partyId=partySelect.val();
         if ($.isBlank(partyId)){
-            $("#modalForm input[name=dueNum]").val('');
+            $("#pm2Form input[name=dueNum]").val('');
             presenterSelect.attr("disabled",true);
             recorderSelect.attr("disabled",true);
             return;
@@ -404,14 +404,14 @@
 
      });
 
-    var branchSelect = $('#modalForm select[name="branchId"]');
+    var branchSelect = $('#pm2Form select[name="branchId"]');
     branchSelect.on('change',function(){
 
         var partyId=partySelect.val();
         var branchId=branchSelect.val();
 
         if ($.isBlank(branchId)){
-            $("#modalForm input[name=dueNum]").val('');
+            $("#pm2Form input[name=dueNum]").val('');
             presenterSelect.attr("disabled",true);
             recorderSelect.attr("disabled",true);
             return;
@@ -428,8 +428,8 @@
 
        });
 
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#pmSubmitBtn").click(function(){$("#pm2Form").submit();return false;});
+    $("#pm2Form").validate({
         submitHandler: function (form) {
             var number=new Array();
             var time=new Array();
@@ -439,7 +439,7 @@
                 number[i]= $(".input"+type+":first").val();
                 time[i]= $(".input"+type+":last").val();
             })
-
+            var $btn = $("#pmSubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {number1:number[0],number2:number[1],time1: time[0],time2:time[1]},
                 success:function(ret){
@@ -450,6 +450,7 @@
                             $("#jqGrid").trigger("reloadGrid");
                         });
                     }
+                    $btn.button('reset');
                 }
             });
         }

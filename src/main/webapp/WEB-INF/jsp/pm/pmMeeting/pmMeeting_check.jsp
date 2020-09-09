@@ -6,7 +6,7 @@
     <h3>${param.check==true?'审核':'退回'}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmMeeting_check?check=${param.check}" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmMeeting_check?check=${param.check}" autocomplete="off" disableautocomplete id="checkForm" method="post">
         <input type="hidden" name="ids" value="${param.ids}">
 
         <c:if test="${param.check}">
@@ -40,8 +40,8 @@
 </div>
 
 <script>
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#submitBtn").click(function(){$("#checkForm").submit();return false;});
+    $("#checkForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
@@ -53,7 +53,7 @@
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
+    $("#checkForm :checkbox").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
     function hasPass(){
         if($("input[name=hasPass]").bootstrapSwitch("state")) {

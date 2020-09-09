@@ -1,5 +1,14 @@
 
 
+20200909
+西工大
+
+ALTER TABLE `pm_meeting2`
+	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '附件地址' AFTER `file_name`;
+ALTER TABLE `pm_meeting2`
+	CHANGE COLUMN `file_name` `file_name` TEXT NULL DEFAULT NULL COMMENT '附件名称' AFTER `recorder`;
+
+
 20200908
 
 ALTER TABLE `cet_plan_course_obj`
@@ -41,10 +50,10 @@ INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started
 VALUES ('更新离退休党员的人员状态', '离退休分党委和党支部中，把党员的人员状态为“在职”的更新为“退休”', 'job.member.UpdateRetireStatus', '0 0 1 * * ?', 0, 0, 31, '2020-08-31 16:36:23', 0);
 
 -- 删除西工大培训中的重复数据
-DELETE FROM cet_upper_train WHERE id IN (SELECT tmp.id FROM (SELECT MIN(c.id) AS id,c.user_id,c.train_name, COUNT(*) AS count FROM cet_upper_train c
+/*DELETE FROM cet_upper_train WHERE id IN (SELECT tmp.id FROM (SELECT MIN(c.id) AS id,c.user_id,c.train_name, COUNT(*) AS count FROM cet_upper_train c
 WHERE TYPE!=10
 GROUP BY c.user_id,c.start_date,c.end_date,c.train_name
-HAVING COUNT>1)tmp);
+HAVING COUNT>1)tmp);*/
 -- 删除西工大培训中的重复数据
 -- 更新导入样表
 

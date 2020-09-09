@@ -11,7 +11,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" style="width: 900px">
-            <form class="form-horizontal" action="${ctx}/pmMeeting_au?type=${param.type}&reedit=${param.reedit}" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/pmMeeting_au?type=${param.type}&reedit=${param.reedit}" id="pmForm" method="post">
             <table class="table table-bordered table-unhover">
                 <input class="form-control" type="hidden" name="id"
                        value="${param.id}">
@@ -53,7 +53,7 @@
                     </div>
 
                     <script>
-                        $.register.party_branch_select($("#modalForm"), "branchDiv",
+                        $.register.party_branch_select($("#pmForm"), "branchDiv",
                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${pmMeeting.partyId}",
                             "${pmMeeting.party.classId}", "partyId", "branchId", true);
                     </script>
@@ -140,7 +140,7 @@
                         </select>
                         </c:if>
                         <script type="text/javascript">
-                            $('#modalForm select[name="recorder"]').val("${pmMeeting.recorder}").trigger('change');
+                            $('#pmForm select[name="recorder"]').val("${pmMeeting.recorder}").trigger('change');
                         </script>
                     </td>
                 </tr>
@@ -382,7 +382,7 @@
 
                         <div class="modal-footer center">
 
-                            <button id="submitBtn"
+                            <button id="pmSubmitBtn"
                                     class="btn btn-success btn-xlg"><i
                                     class="fa fa-check"></i> 确定
                             </button>
@@ -458,27 +458,27 @@
     {{});}}
 </script>
 <script>
-    var presenterSelect = $('#modalForm select[name="presenter"]');
-    var recorderSelect = $('#modalForm select[name="recorder"]');
+    var presenterSelect = $('#pmForm select[name="presenter"]');
+    var recorderSelect = $('#pmForm select[name="recorder"]');
 
     $.register.datetime($('.datetime-picker'));
 
     $.register.user_select(presenterSelect);
     $.register.user_select(recorderSelect);
-    $("#modalForm input[name=isPublic]").bootstrapSwitch();
+    $("#pmForm input[name=isPublic]").bootstrapSwitch();
 
     $("#attendTable tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(pmMeeting.attendList)}}));
     $("#absentTable tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(pmMeeting.absentList)}}));
 
     if(${adminOnePartyOrBranch==true}){
-        $("#modalForm input[name=dueNum]").val(${memberCount});
+        $("#pmForm input[name=dueNum]").val(${memberCount});
     }
 
-    var partySelect = $('#modalForm select[name="partyId"]');
+    var partySelect = $('#pmForm select[name="partyId"]');
     partySelect.on('change',function(){
         var partyId=partySelect.val();
         if ($.isBlank(partyId)){
-            $("#modalForm input[name=dueNum]").val('');
+            $("#pmForm input[name=dueNum]").val('');
             presenterSelect.attr("disabled",true);
             recorderSelect.attr("disabled",true);
             $('#attend').attr("disabled",true);
@@ -504,19 +504,19 @@
             $('#absent').removeAttr("disabled");
 
             var data = partySelect.select2("data")[0];
-            $("#modalForm input[name=dueNum]").val(data['party'].memberCount);
+            $("#pmForm input[name=dueNum]").val(data['party'].memberCount);
         }
 
      });
 
-    var branchSelect = $('#modalForm select[name="branchId"]');
+    var branchSelect = $('#pmForm select[name="branchId"]');
     branchSelect.on('change',function(){
 
         var partyId=partySelect.val();
         var branchId=branchSelect.val();
 
         if ($.isBlank(branchId)){
-            $("#modalForm input[name=dueNum]").val('');
+            $("#pmForm input[name=dueNum]").val('');
             presenterSelect.attr("disabled",true);
             recorderSelect.attr("disabled",true);
             $('#attend').attr("disabled",true);
@@ -541,7 +541,7 @@
         var data = branchSelect.select2("data")[0];
         if(data['branch']) {
             console.log('--------')
-            $("#modalForm input[name=dueNum]").val(data['branch'].memberCount);
+            $("#pmForm input[name=dueNum]").val(data['branch'].memberCount);
         }else{
             console.log(data)
         }
@@ -550,16 +550,16 @@
     $(document).on("click", "#attendTable button", function () {
 
         $(this).closest("tr").remove();
-        $("#modalForm input[name=attendNum]").val($("#attendTable tbody tr").length);
+        $("#pmForm input[name=attendNum]").val($("#attendTable tbody tr").length);
     });
     $(document).on("click", "#absentTable button", function () {
         $(this).closest("tr").remove();
-        $("#modalForm input[name=absentNum]").val($("#absentTable tbody tr").length);
+        $("#pmForm input[name=absentNum]").val($("#absentTable tbody tr").length);
 
     });
 
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#pmSubmitBtn").click(function(){$("#pmForm").submit();return false;});
+    $("#pmForm").validate({
         submitHandler: function (form) {
             var attendIds = [];
             var absentIds = [];
@@ -570,7 +570,7 @@
                 absentIds.push($(this).data("user-id"));
             });
             var data = {attendIds:attendIds,absentIds:absentIds};
-
+            var $btn = $("#pmSubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: data,
                 success:function(ret){
@@ -581,6 +581,7 @@
                             $("#jqGrid").trigger("reloadGrid");
                         });
                     }
+                    $btn.button('reset');
                 }
             });
         }
