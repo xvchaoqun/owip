@@ -298,10 +298,10 @@
                          <%--   <div class="col-xs-6">
                                 <input ${empty pmMeeting2.filePath?'required':''} class="form-control" type="file" name="_file" />
                             </div>--%>
-                           <%-- <div class="col-xs-8">--%>
+
                                 <div class="col-xs-6">
                                     <div class="files">
-                                        <input class="form-control" multiple="multiple" type="file" name="_file"/>
+                                        <input ${empty pmMeeting2.filePath?'required':''} class="form-control" multiple="multiple" type="file" name="_file"/>
                                     </div>
                                 </div>
 
@@ -309,7 +309,7 @@
                                      <button type="button" onclick="addFile()"
                                                 class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
                                 </div>
-                          <%--  </div>--%>
+
                         </c:if>
 
                     </td>
@@ -331,7 +331,7 @@
 
                         <div class="modal-footer center">
 
-                            <button id="submitBtn"
+                            <button id="pmSubmitBtn"
                                     class="btn btn-success btn-xlg"><i
                                     class="fa fa-check"></i> 确定
                             </button>
@@ -428,7 +428,7 @@
 
        });
 
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#pmSubmitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             var number=new Array();

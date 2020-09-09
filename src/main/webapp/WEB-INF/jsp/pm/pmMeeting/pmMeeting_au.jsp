@@ -382,7 +382,7 @@
 
                         <div class="modal-footer center">
 
-                            <button id="submitBtn"
+                            <button id="pmSubmitBtn"
                                     class="btn btn-success btn-xlg"><i
                                     class="fa fa-check"></i> 确定
                             </button>
@@ -558,7 +558,7 @@
 
     });
 
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#pmSubmitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             var attendIds = [];
