@@ -263,6 +263,7 @@
                                    data-pagination="true" data-side-pagination="client" data-page-size="5">
                                 <thead>
                                 <tr>
+                                    <th>序号</th>
                                     <th>附件</th>
                                     <th>操作</th>
                                 </tr>
@@ -270,7 +271,8 @@
                                 <tbody>
                                 <c:forEach items="${pmMeeting2Files}" var="file" varStatus="vs">
                                 <tr>
-                                    <th>附件${vs.count}</th>
+                                    <th>${vs.count}</th>
+                                    <th>${pmMeeting2FileNames.get(vs.index)}</th>
                                     <th>
                                         <c:if test="${fn:endsWith(fn:toLowerCase(file), '.pdf')}">
                                         <a href="${ctx}/pdf?path=${cm:sign(file)}" target="_blank" style="font-size: 14px;font-weight: normal">预览</a>
@@ -283,7 +285,7 @@
                                            class="downloadBtn">下载</a>
                                         <c:if test="${edit}">
                                             <a href="javascript:;" style="font-size: 14px;font-weight: normal"
-                                               onclick="delFile(${pmMeeting2.id},${vs.count},'附件${vs.count}')">删除</a>
+                                               onclick="delFile(${pmMeeting2.id},${vs.index},'${pmMeeting2FileNames.get(vs.index)}')">删除</a>
                                         </c:if>
                                     </th>
                                 </tr>
@@ -299,7 +301,7 @@
                            <%-- <div class="col-xs-8">--%>
                                 <div class="col-xs-6">
                                     <div class="files">
-                                        <input class="form-control" type="file" name="_file"/>
+                                        <input class="form-control" multiple="multiple" type="file" name="_file"/>
                                     </div>
                                 </div>
 
@@ -479,10 +481,10 @@
         $("#btn"+i).remove();
     }
 
-    function delFile(id, countId,name){
+    function delFile(id, indexId,name){
         bootbox.confirm("确定删除'"+name+"'吗？", function (result) {
             if (result) {
-                $.post("${ctx}/pmMeeting2_delFile",{id:id,countId:countId},function(ret){
+                $.post("${ctx}/pmMeeting2_delFile",{id:id,indexId:indexId},function(ret){
                     if(ret.success){
                        /* page_reload();*/
                         $.openView("${ctx}/pmMeeting2_au?edit=${edit}&reedit=${reedit}&id="+id);

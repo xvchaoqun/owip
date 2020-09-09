@@ -73,17 +73,22 @@ public class PmMeeting2Service extends PmBaseMapper {
     }
 
     @Transactional
-    public void delFile(int id, int countId){
+    public void delFile(int id, int indexId){
 
         PmMeeting2 pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
+        String[] fileNames =pmMeeting2.getFileName().split(";");
         String[] filePaths =pmMeeting2.getFilePath().split(";");
+
+        List<String> fileNameList=new ArrayList<String>(Arrays.asList(fileNames));
+        fileNameList.remove(indexId);
+
         List<String> filePathList=new ArrayList<String>(Arrays.asList(filePaths));
-        filePathList.remove(countId-1);
+        filePathList.remove(indexId);
 
         if(filePathList.size()==0){
-            commonMapper.excuteSql("update pm_meeting2 set file_path=null where id="+id);
+            commonMapper.excuteSql("update pm_meeting2 set file_name=null,file_path=null where id="+id);
         }else{
-
+            pmMeeting2.setFileName(StringUtils.join(fileNameList, ";") );
             pmMeeting2.setFilePath(StringUtils.join(filePathList, ";") );
             updateByPrimaryKeySelective(pmMeeting2);
         }

@@ -12,14 +12,16 @@
                data-pagination="true" data-side-pagination="client" data-page-size="5">
             <thead>
             <tr>
-                <th width="30%">附件</th>
+                <th>序号</th>
+                <th>附件</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${pmMeeting2Files}" var="file" varStatus="vs">
                 <tr>
-                    <th>附件${vs.count}</th>
+                    <th>${vs.count}</th>
+                    <th>${pmMeeting2FileNames.get(vs.index)}</th>
                     <th>
                         <c:if test="${fn:endsWith(fn:toLowerCase(file), '.pdf')}">
                             <a href="${ctx}/pdf?path=${cm:sign(file)}" target="_blank" style="font-size: 14px;font-weight: normal">预览</a>
@@ -30,7 +32,6 @@
                         <a href="javascript:;" data-type="download" style="font-size: 14px;font-weight: normal"
                            data-url="${ctx}/attach_download?path=${cm:sign(file)}"
                            class="downloadBtn">下载</a>
-
                     </th>
                 </tr>
             </c:forEach>

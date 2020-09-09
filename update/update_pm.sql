@@ -1,3 +1,8 @@
+2020-09-09
+ALTER TABLE `pm_meeting2`
+	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '附件地址' AFTER `file_name`;
+ALTER TABLE `pm_meeting2`
+	CHANGE COLUMN `file_name` `file_name` TEXT NULL DEFAULT NULL COMMENT '附件名称' AFTER `recorder`;
 2020-7-10
 CREATE TABLE `pm_meeting2` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',

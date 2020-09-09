@@ -173,17 +173,25 @@ public class PmMeeting2Controller extends PmBaseController {
 
         if(_file!=null) {
             List<String> saveFilePaths = new ArrayList<>();
+            List<String> saveFileNames = new ArrayList<>();
             for (MultipartFile file : _file) {
+                String originalFilename = file.getOriginalFilename();
                 String path = upload(file, "pmMeeting");
+
+                saveFileNames.add(originalFilename);
                 saveFilePaths.add(path);
             }
             if (id == null) {
+                record.setFileName(StringUtils.join(saveFileNames, ";"));
                 record.setFilePath(StringUtils.join(saveFilePaths, ";"));
             }else{
+
                 PmMeeting2  pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
                 if(pmMeeting2.getFilePath()!=null){
-                    record.setFilePath(pmMeeting2.getFilePath()+";"+pmMeeting2Mapper.selectByPrimaryKey(id));
+                    record.setFileName(pmMeeting2.getFileName()+";"+StringUtils.join(saveFileNames, ";"));
+                    record.setFilePath(pmMeeting2.getFilePath()+";"+StringUtils.join(saveFilePaths, ";"));
                 }else{
+                    record.setFileName(StringUtils.join(saveFileNames, ";"));
                     record.setFilePath(StringUtils.join(saveFilePaths, ";"));
                 }
             }
@@ -228,7 +236,10 @@ public class PmMeeting2Controller extends PmBaseController {
         if (id != null) {
             pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
             if(pmMeeting2.getFilePath()!=null){
+                String[] fileNames =pmMeeting2.getFileName().split(";");
                 String[] filePaths =pmMeeting2.getFilePath().split(";");
+              /*  Map<String, String> unitMap = new LinkedHashMap<>();*/
+                modelMap.put("pmMeeting2FileNames",Arrays.asList(fileNames));
                 modelMap.put("pmMeeting2Files",Arrays.asList(filePaths));
             }
         } else {
@@ -405,7 +416,9 @@ public class PmMeeting2Controller extends PmBaseController {
         if (id != null) {
            PmMeeting2 pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
             if(pmMeeting2.getFilePath()!=null){
+                String[] fileNames =pmMeeting2.getFileName().split(";");
                 String[] filePaths =pmMeeting2.getFilePath().split(";");
+                modelMap.put("pmMeeting2FileNames",Arrays.asList(fileNames));
                 modelMap.put("pmMeeting2Files",Arrays.asList(filePaths));
             }
             modelMap.put("pmMeeting2",pmMeeting2);
@@ -416,9 +429,9 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequiresPermissions("pmMeeting2:edit")
     @RequestMapping(value = "/pmMeeting2_delFile", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmMeeting2_delFile(HttpServletRequest request, int id, int countId, ModelMap modelMap) {
+    public Map pmMeeting2_delFile(HttpServletRequest request, int id, int indexId, ModelMap modelMap) {
 
-        pmMeeting2Service.delFile(id,countId);
+        pmMeeting2Service.delFile(id,indexId);
         logger.info(addLog(LogConstants.LOG_PM, "删除三会一课附件：%s", id));
 
         return success(FormUtils.SUCCESS);
