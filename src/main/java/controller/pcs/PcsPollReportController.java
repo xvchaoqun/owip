@@ -1,9 +1,14 @@
 package controller.pcs;
 
+import controller.global.OpException;
 import domain.pcs.*;
+import domain.sys.SysUserView;
+import domain.sys.SysUserViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -12,11 +17,14 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.pcs.common.PcsFinalResult;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -55,6 +63,39 @@ public class PcsPollReportController extends PcsBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    //党代会投票只需要统计结果时的页面
+    @RequiresPermissions("pcsPollReport:list")
+    @RequestMapping("/pcsPollReportList")
+    public String pcsPollReportList(@RequestParam(required = false, defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
+                                    Integer pollId,
+                                    Integer userId,
+                                    ModelMap modelMap) {
+
+        modelMap.put("type", type);
+
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+        Byte stage = pcsPoll.getStage();
+        modelMap.put("stage", stage);
+
+        if (stage != PcsConstants.PCS_POLL_THIRD_STAGE) {
+            List<PcsPollReport> prReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_PR);
+            modelMap.put("prCount", prReportList.size());
+        }
+
+        List<PcsPollReport> dwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_DW);
+        modelMap.put("dwCount", dwReportList.size());
+        List<PcsPollReport> jwReportList = pcsPollReportService.getReport(pcsPoll, PcsConstants.PCS_USER_TYPE_JW);
+        modelMap.put("jwCount", jwReportList.size());
+
+        modelMap.put("pcsPoll", pcsPoll);
+
+        if (userId != null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        return "pcs/pcsPoll/pcsPollReport1/pcsPollReport_page";
     }
 
     @RequiresPermissions("pcsPollReport:list")
@@ -185,6 +226,115 @@ public class PcsPollReportController extends PcsBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
 
         return;
+    }
+
+    @RequiresPermissions("pcsPollReport:list")
+    @RequestMapping("/pcsPollReport_import")
+    public String pcsPollReport_import(Integer pollId, ModelMap modelMap) {
+
+        if (pollId != null){
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+            modelMap.put("stage", pcsPoll.getStage());
+        }
+        return "pcs/pcsPoll/pcsPollReport1/pcsPollReport_import";
+    }
+
+    @RequiresPermissions("pcsPollReport:import")
+    @RequestMapping(value = "/pcsPollReport_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsPollReport_import(Integer pollId, Byte type, HttpServletRequest request)
+            throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<PcsPollReport> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            PcsPollReport record = new PcsPollReport();
+            row++;
+
+            String usercode = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(usercode)){
+                throw new OpException("第{0}行学工号[{1}]为空", row, usercode);
+            }
+            SysUserView uv = sysUserService.findByCode(usercode);
+            if (uv == null){
+                throw new OpException("第{0}行学工号[{1}]不存在", row, usercode);
+            }
+            record.setUserId(uv.getUserId());
+            record.setCode(usercode);
+            record.setRealname(uv.getRealname());
+            record.setUnit(uv.getUnit());
+
+            String ballot = StringUtils.trimToNull(xlsRow.get(2));
+            if (StringUtils.isBlank(ballot)){
+                throw new OpException("第{0}行推荐提名党员数为空", row);
+            }
+            String positiveBallot = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(positiveBallot)){
+                throw new OpException("第{0}行推荐提名正式党员数为空", row);
+            }
+            String growBallot = StringUtils.trimToNull(xlsRow.get(4));
+            if (StringUtils.isBlank(growBallot)){
+                throw new OpException("第{0}行推荐提名预备党员数为空", row);
+            }
+            try {
+                record.setBallot(Integer.valueOf(ballot));
+                record.setPositiveBallot(Integer.valueOf(positiveBallot));
+                record.setGrowBallot(Integer.valueOf(growBallot));
+            }catch (Exception e){
+                throw new OpException("票数请填写阿拉伯数字");
+            }
+
+            record.setPollId(pollId);
+            record.setType(type);
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = pcsPollReportService.bacthImport(records, pollId, type);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_PCS,
+                "导入党代会候选人名单成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, addCount));
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("pcsPollReport:list")
+    @RequestMapping("/user_search")
+    public String user_search() {
+
+        return "pcs/pcsPoll/pcsPollReport1/user_search";
+    }
+
+    @RequiresPermissions("pcsPollReport:list")
+    @RequestMapping(value = "/user_search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_user_search(String reportName) {
+
+        SysUserViewExample example = new SysUserViewExample();
+        example.createCriteria().andRealnameLike(SqlUtils.trimLike(reportName));
+        List<SysUserView> records = sysUserViewMapper.selectByExample(example);
+        int count = (int) sysUserViewMapper.countByExample(example);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("records", records);
+        resultMap.put("count", count);
+        return resultMap;
     }
 
     public void pcsPollReport_export(List<PcsFinalResult> records, byte stage, HttpServletResponse response) {

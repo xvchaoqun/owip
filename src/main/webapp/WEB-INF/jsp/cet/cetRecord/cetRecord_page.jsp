@@ -8,13 +8,19 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.year ||not empty param.userId||not empty param.type
-                   ||not empty param.traineeTypeId || not empty param.trainDate || not empty param.sort}"/>
+                   ||not empty param.traineeTypeId || not empty param.trainDate || not empty param.sort || not empty param.isRepeat}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetRecord_data"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                <button data-url="${ctx}/cet/cetRecord_batchDel"
+                        data-title="删除"
+                        data-msg="确定删除这{0}条数据？<br/>（同时会删除对应培训类别中的数据，删除的数据无法恢复，请谨慎删除）"
+                        data-grid-id="#jqGrid"
+                        class="jqBatchBtn btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> 删除</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -73,6 +79,17 @@
                                 <input placeholder="请选择培训日期范围" data-rel="date-range-picker"
                                            class="form-control date-range-picker"
                                            type="text" name="trainDate" value="${param.trainDate}"/>
+                            </div>
+                            <div class="form-group">
+                                <label>是否重复</label>
+                                <select data-rel="select2" name="isRepeat" data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                                <script type="text/javascript">
+                                    $("#searchForm select[name=isRepeat]").val(${param.isRepeat});
+                                </script>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"

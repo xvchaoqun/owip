@@ -168,6 +168,9 @@ public class PcsPollService extends PcsBaseMapper {
     // 检查是否可以报送
     public void checkReportData(PcsPoll pcsPoll){
 
+        boolean member_need_vote = CmTag.getBoolProperty("pcs_poll_member_need_vote");
+        if (!member_need_vote) return;
+
         int id = pcsPoll.getId();
         //控制参评率（完成投票的数量/账号的数量）
         int inspectorNum = pcsPoll.getInspectorNum();

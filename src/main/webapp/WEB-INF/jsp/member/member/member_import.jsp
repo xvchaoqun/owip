@@ -32,6 +32,12 @@
             <c:if test="${param.all==1}">
                 <a href="${ctx}/attach?code=sample_member_all_update">
                     党员信息一张表导入样表.xlsx</a>（点击下载）的数据格式</span>
+            <ul>
+                <li>填写起始编码，供系统插入新的基层党组织使用</li>
+                <li>转移党员时，系统存在党员信息，则会进行转移，不存在则会先创建一条；
+                    若基层党组织存在，则会直接将党员转入相应的基层党组织，没有则会先创建基层党组织</li>
+                <li>导入完成，会返回一个excel，如果存在多个账号，会显示在最后一列</li>
+            </ul>
             </c:if>
             <c:if test="${param.all!=1}">
                 <a href="${ctx}/attach?code=sample_member_${param.inSchool==1?"inSchool":"outSchool"}">

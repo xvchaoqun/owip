@@ -183,6 +183,7 @@ public class SysUserController extends BaseController {
                              @RequestParam(required = false, defaultValue = "1") Byte cls,
                              Integer pageSize, Integer pageNo,
                              Integer userId,
+                             String unit,
                              String username, String realname, String code, String idcard,
                              @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
@@ -248,6 +249,9 @@ public class SysUserController extends BaseController {
             criteria.andLockedEqualTo(true);
         }else {
             criteria.andIdIsNull();
+        }
+        if (StringUtils.isNotBlank(unit)){
+            criteria.andUnitLike(SqlUtils.trimLike(unit));
         }
 
         if (export == 1) {

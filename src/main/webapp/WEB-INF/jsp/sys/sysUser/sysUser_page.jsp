@@ -10,7 +10,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="col-sm-12">
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
-            ||not empty param.code ||not empty param.username ||not empty param.idcard
+            ||not empty param.code ||not empty param.username ||not empty param.idcard ||not empty param.unit
             ||not empty param.roleId ||not empty param.typeId}"/>
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==1}">active</c:if>">
@@ -174,6 +174,12 @@
                                     <input class="form-control search-query" name="idcard" type="text"
                                            value="${param.idcard}"
                                            placeholder="请输入身份证号码">
+                                </div>
+                                <div class="form-group">
+                                    <label>所在单位</label>
+                                    <input class="form-control search-query" name="unit" type="text"
+                                           value="${param.unit}"
+                                           placeholder="请输入所在单位">
                                 </div>
                                 <div class="form-group">
                                     <label>类别</label>
