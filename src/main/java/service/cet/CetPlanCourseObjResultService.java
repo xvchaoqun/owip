@@ -225,10 +225,10 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
             String _courseNum = request.getParameter("courseNum_" + cetCourseItemId);
             String _period = request.getParameter("period_" + cetCourseItemId);
 
-            if (!NumberUtils.isDigits(_courseNum)) {
+            if (StringUtils.isNotBlank(_courseNum) && !NumberUtils.isDigits(_courseNum)) {
                 throw new OpException("课程数有误。");
             }
-            if (!NumberUtils.isCreatable(_period)) {
+            if (StringUtils.isNotBlank(_period) && !NumberUtils.isCreatable(_period)) {
                 throw new OpException("学时数有误。");
             }
 
@@ -236,8 +236,12 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
             CetPlanCourseObjResult _record = new CetPlanCourseObjResult();
             _record.setPlanCourseObjId(cetPlanCourseObjId);
             _record.setCourseItemId(cetCourseItemId);
-            _record.setCourseNum(Integer.valueOf(_courseNum));
-            _record.setPeriod(new BigDecimal(_period));
+            if (StringUtils.isNotBlank(_courseNum)) {
+                _record.setCourseNum(Integer.valueOf(_courseNum));
+            }
+            if (StringUtils.isNotBlank(_period)) {
+                _record.setPeriod(new BigDecimal(_period));
+            }
 
             if(cetPlanCourseObjResult==null) {
                 cetPlanCourseObjResultMapper.insertSelective(_record);

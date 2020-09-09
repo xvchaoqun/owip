@@ -98,13 +98,13 @@ public class CetPlanCourseObjResultController extends CetBaseController {
     @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping(value = "/cetPlanCourseObjResult_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetPlanCourseObjResult_au(CetPlanCourseObj cetPlanCourseObj, HttpServletRequest request) {
+    public Map do_cetPlanCourseObjResult_au(CetPlanCourseObj record, HttpServletRequest request) {
 
-        cetPlanCourseObj.setIsFinished(BooleanUtils.isTrue(cetPlanCourseObj.getIsFinished()));
-        cetPlanCourseObjResultService.add(cetPlanCourseObj, request);
+        record.setIsFinished(BooleanUtils.isTrue(record.getIsFinished()));
+        cetPlanCourseObjResultService.add(record, request);
 
         logger.info(addLog(LogConstants.LOG_CET, "添加上级网上专题班完成结果, %s",
-                JSONUtils.toString(cetPlanCourseObj, false)));
+                JSONUtils.toString(record, false)));
 
         return success(FormUtils.SUCCESS);
     }
