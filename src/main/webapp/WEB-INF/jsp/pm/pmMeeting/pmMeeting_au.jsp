@@ -570,7 +570,7 @@
                 absentIds.push($(this).data("user-id"));
             });
             var data = {attendIds:attendIds,absentIds:absentIds};
-
+            var $btn = $("#pmSubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: data,
                 success:function(ret){
@@ -581,6 +581,7 @@
                             $("#jqGrid").trigger("reloadGrid");
                         });
                     }
+                    $btn.button('reset');
                 }
             });
         }
