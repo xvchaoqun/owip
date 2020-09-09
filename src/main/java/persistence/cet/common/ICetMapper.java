@@ -329,7 +329,7 @@ public interface ICetMapper {
     // 获取培训对象在一个培训方案中的已完成学时（针对上级网上专题）
     @Select("select cpco.period from cet_plan_course_obj cpco " +
             "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
-            "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId}")
+            "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
     BigDecimal getSpecialPlanFinishPeriod(@Param("planId") int planId,
                                              @Param("objId") int objId);
     /*@Select("select sum(cci.period) from cet_plan_course_obj_result cpcor " +
