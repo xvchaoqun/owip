@@ -3,6 +3,7 @@ package service.pm;
 import controller.global.OpException;
 import domain.pm.PmMeeting2;
 import domain.pm.PmMeeting2Example;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,7 @@ import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static sys.constants.PmConstants.*;
 
@@ -72,6 +70,23 @@ public class PmMeeting2Service extends PmBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pmMeeting2Mapper.deleteByExample(example);
 
+    }
+
+    @Transactional
+    public void delFile(int id, int countId){
+
+        PmMeeting2 pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
+        String[] filePaths =pmMeeting2.getFilePath().split(";");
+        List<String> filePathList=new ArrayList<String>(Arrays.asList(filePaths));
+        filePathList.remove(countId-1);
+
+        if(filePathList.size()==0){
+            commonMapper.excuteSql("update pm_meeting2 set file_path=null where id="+id);
+        }else{
+
+            pmMeeting2.setFilePath(StringUtils.join(filePathList, ";") );
+            updateByPrimaryKeySelective(pmMeeting2);
+        }
     }
 
     @Transactional

@@ -166,25 +166,27 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequiresPermissions("pmMeeting2:edit")
     @RequestMapping(value = "/pmMeeting2_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmMeeting2_au(PmMeeting2 record, Byte[] type,Integer number1 ,String time1,Integer number2 ,String time2, MultipartFile _file, @RequestParam(defaultValue = "0")Byte reedit,    //reedit 重新编辑
+    public Map do_pmMeeting2_au(PmMeeting2 record, Byte[] type,Integer number1 ,String time1,Integer number2 ,String time2, MultipartFile[] _file, @RequestParam(defaultValue = "0")Byte reedit,    //reedit 重新编辑
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
-        if (_file != null) {
-
-            String originalFilename = _file.getOriginalFilename();
-            /*String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "pmMeeting" + FILE_SEPARATOR
-                    + "file" + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
-
-            String savePath = upload(_file, "pmMeeting");
-            record.setFileName(originalFilename);
-            record.setFilePath(savePath);
+        if(_file!=null) {
+            List<String> saveFilePaths = new ArrayList<>();
+            for (MultipartFile file : _file) {
+                String path = upload(file, "pmMeeting");
+                saveFilePaths.add(path);
+            }
+            if (id == null) {
+                record.setFilePath(StringUtils.join(saveFilePaths, ";"));
+            }else{
+                PmMeeting2  pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
+                if(pmMeeting2.getFilePath()!=null){
+                    record.setFilePath(pmMeeting2.getFilePath()+";"+pmMeeting2Mapper.selectByPrimaryKey(id));
+                }else{
+                    record.setFilePath(StringUtils.join(saveFilePaths, ";"));
+                }
+            }
         }
 
         if(type.length==2){
@@ -225,7 +227,10 @@ public class PmMeeting2Controller extends PmBaseController {
         PmMeeting2 pmMeeting2=new PmMeeting2();
         if (id != null) {
             pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
-
+            if(pmMeeting2.getFilePath()!=null){
+                String[] filePaths =pmMeeting2.getFilePath().split(";");
+                modelMap.put("pmMeeting2Files",Arrays.asList(filePaths));
+            }
         } else {
             boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             if (!odAdmin) {
@@ -392,6 +397,31 @@ public class PmMeeting2Controller extends PmBaseController {
                 totalCount, successCount));
 
         return resultMap;
+    }
+    @RequiresPermissions("pmMeeting2:list")
+    @RequestMapping("/pmMeeting2File")
+    public String pmMeeting2File(Integer id,ModelMap modelMap){
+
+        if (id != null) {
+           PmMeeting2 pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
+            if(pmMeeting2.getFilePath()!=null){
+                String[] filePaths =pmMeeting2.getFilePath().split(";");
+                modelMap.put("pmMeeting2Files",Arrays.asList(filePaths));
+            }
+            modelMap.put("pmMeeting2",pmMeeting2);
+        }
+        return "pm/pmMeeting2/pmMeeting2File";
+    }
+
+    @RequiresPermissions("pmMeeting2:edit")
+    @RequestMapping(value = "/pmMeeting2_delFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pmMeeting2_delFile(HttpServletRequest request, int id, int countId, ModelMap modelMap) {
+
+        pmMeeting2Service.delFile(id,countId);
+        logger.info(addLog(LogConstants.LOG_PM, "删除三会一课附件：%s", id));
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("pmMeeting2Stat:list")

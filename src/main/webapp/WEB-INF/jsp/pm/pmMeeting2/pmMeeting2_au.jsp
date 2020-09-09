@@ -241,7 +241,7 @@
 
                 <tr>
                     <td><span class="star">*</span>附件
-                        <c:if test="${not empty pmMeeting2.filePath}">
+                      <%-- <c:if test="${not empty pmMeeting2.filePath}">
 
                             <c:if test="${fn:endsWith(fn:toLowerCase(pmMeeting2.filePath), '.pdf')}">
                                 <a href="${ctx}/pdf?path=${cm:sign(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
@@ -254,13 +254,60 @@
                             <a href="javascript:;" data-type="download" style="font-size: 14px;font-weight: normal"
                                data-url="${ctx}/attach_download?path=${cm:sign(pmMeeting2.filePath)}&filename=${pmMeeting2.fileName}"
                                class="downloadBtn">下载)</a>
-                       </c:if>
+                       </c:if>--%>
                     </td>
                     <td colspan="3">
+                        <div class="col-xs-12" style="margin-bottom: 10px">
+                            <c:if test="${not empty pmMeeting2Files}">
+                            <table class="table table-bordered table-condensed"
+                                   data-pagination="true" data-side-pagination="client" data-page-size="5">
+                                <thead>
+                                <tr>
+                                    <th>附件</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${pmMeeting2Files}" var="file" varStatus="vs">
+                                <tr>
+                                    <th>附件${vs.count}</th>
+                                    <th>
+                                        <c:if test="${fn:endsWith(fn:toLowerCase(file), '.pdf')}">
+                                        <a href="${ctx}/pdf?path=${cm:sign(file)}" target="_blank" style="font-size: 14px;font-weight: normal">预览</a>
+                                        </c:if>
+                                        <c:if test="${!fn:endsWith(fn:toLowerCase(file), '.pdf')}">
+                                            <a href="${ctx}/pic?path=${cm:sign(file)}" target="_blank" style="font-size: 14px;font-weight: normal">预览</a>
+                                        </c:if>
+                                        <a href="javascript:;" data-type="download" style="font-size: 14px;font-weight: normal"
+                                           data-url="${ctx}/attach_download?path=${cm:sign(file)}"
+                                           class="downloadBtn">下载</a>
+                                        <c:if test="${edit}">
+                                            <a href="javascript:;" style="font-size: 14px;font-weight: normal"
+                                               onclick="delFile(${pmMeeting2.id},${vs.count},'附件${vs.count}')">删除</a>
+                                        </c:if>
+                                    </th>
+                                </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                            </c:if>
+                        </div>
                         <c:if test="${edit}">
-                            <div class="col-xs-6">
+                         <%--   <div class="col-xs-6">
                                 <input ${empty pmMeeting2.filePath?'required':''} class="form-control" type="file" name="_file" />
-                            </div>
+                            </div>--%>
+                           <%-- <div class="col-xs-8">--%>
+                                <div class="col-xs-6">
+                                    <div class="files">
+                                        <input class="form-control" type="file" name="_file"/>
+                                    </div>
+                                </div>
+
+                                <div id="fileButton" style="padding-left: 50px;padding-top: 15px">
+                                     <button type="button" onclick="addFile()"
+                                                class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
+                                </div>
+                          <%--  </div>--%>
                         </c:if>
 
                     </td>
@@ -410,6 +457,40 @@
         allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
          allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     });
+
+    var i = 1;
+    function addFile() {
+        i++;
+        var _file = $('<div id="file'+i+'"><input  class="form-control" type="file" name="_file" /></div>');
+        $(".files").append(_file);
+        var _fileButton = $('<div id="btn'+i+'" style="padding-top: 13px"><button type="button" data-i="'+i+'" onclick="delfileInput(this)"class="addFileBtn btn btn-default btn-xs"><i class="fa fa-trash"></i></button></div>');
+        $("#fileButton").append(_fileButton);
+        $.fileInput($('input[type=file]', $(_file)), {
+            no_file: '请上传pdf或图片...',
+            allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
+            allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        });
+        return false;
+    }
+
+    function delfileInput(btn) {
+        var i = $(btn).data("i");
+        $("#file"+i).remove();
+        $("#btn"+i).remove();
+    }
+
+    function delFile(id, countId,name){
+        bootbox.confirm("确定删除'"+name+"'吗？", function (result) {
+            if (result) {
+                $.post("${ctx}/pmMeeting2_delFile",{id:id,countId:countId},function(ret){
+                    if(ret.success){
+                       /* page_reload();*/
+                        $.openView("${ctx}/pmMeeting2_au?edit=${edit}&reedit=${reedit}&id="+id);
+                    }
+                });
+            }
+        });
+    }
 
     $("input[type=checkbox]").click(function(){
 
