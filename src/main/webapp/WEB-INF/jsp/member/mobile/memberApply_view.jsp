@@ -15,7 +15,7 @@
             </div>
 
             <div class="profile-info-row">
-                <div class="profile-info-name td"> 提交申请书时间</div>
+                <div class="profile-info-name td"> 提交书面申请书时间</div>
 
                 <div class="profile-info-value td">
                     <span class="editable" id="age">${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}</span>

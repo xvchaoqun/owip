@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="profile-info-row">
-                                <div class="profile-info-name"> 提交申请书时间 </div>
+                                <div class="profile-info-name"> 提交书面申请书时间 </div>
 
                                 <div class="profile-info-value">
                                     <span class="editable" id="age">${cm:formatDate(memberApply.applyTime,'yyyy.MM.dd')}</span>
@@ -96,15 +96,22 @@
                                     <span class="editable" id="about">${memberApply.remark}</span>
                                 </div>
                             </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 系统填报时间 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${cm:formatDate(memberApply.createTime,'yyyy.MM.dd')}</span>
+                                </div>
+                            </div>
                         </div>
                         <div style="padding-top: 50px">
                             <ul class="steps">
                                 <li data-step="1" class="complete">
                                     <span class="step">0</span>
-        <span class="title">申请已提交</span>
-      <span class="subtitle">
-          ${cm:formatDate(memberApply.createTime,'yyyy.MM.dd')}
-      </span>
+                                    <span class="title">提交书面申请书时间</span>
+                                      <span class="subtitle">
+                                          ${cm:formatDate(memberApply.applyTime,'yyyy.MM.dd')}
+                                      </span>
                                 </li>
                                 <c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
                                     <li data-step="2" class="active">
@@ -115,8 +122,8 @@
                                 <c:if test="${memberApply.stage!=OW_APPLY_STAGE_DENY}">
                                 <li data-step="1" <c:if test="${memberApply.stage>OW_APPLY_STAGE_INIT}">class="complete"</c:if>>
                                     <span class="step">1</span>
-                                    <span class="title">申请已通过</span>
-                                    <c:if test="${memberApply.stage>=OW_APPLY_STAGE_INIT}"><span class="subtitle">
+                                    <span class="title">同意</span>
+                                    <c:if test="${cm:compareDate(memberApply.applyTime, memberApply.createTime) && memberApply.stage>=OW_APPLY_STAGE_INIT}"><span class="subtitle">
                                             ${cm:formatDate(memberApply.passTime,'yyyy.MM.dd')}
                                     </span></c:if>
                                 </li>

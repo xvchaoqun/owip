@@ -70,7 +70,7 @@
         </c:if>
 
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>提交申请书时间</label>
+            <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>提交书面申请书时间</label>
             <div class="col-sm-2 col-xs-4">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_applyTime" type="text"

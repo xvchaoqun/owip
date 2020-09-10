@@ -1,7 +1,7 @@
 
 
 20200909
-西工大
+西工大， 戏曲
 
 ALTER TABLE `pm_meeting2`
 	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '附件地址' AFTER `file_name`;
