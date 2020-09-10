@@ -604,7 +604,7 @@ public class MemberService extends MemberBaseMapper {
                 codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
                 userCode = codeMap.keySet().iterator().next();
                 if (StringUtils.isBlank(userCode))
-                    continue;
+                    throw new OpException("第{0}行用户不存在", row);
                 XSSFRow _row = sheet.getRow(row - 1);
                 int cellNum = _row.getLastCellNum() - _row.getFirstCellNum();
                 XSSFCell cell = _row.getCell(0);
@@ -802,13 +802,9 @@ public class MemberService extends MemberBaseMapper {
         boolean isAdd = false;
         Member _member = get(userId);
         if (_member != null) {
-            Member _record = new Member();
-            _record.setUserId(userId);
-            _record.setPartyId(partyId);
-            _record.setBranchId(branchId);
-            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
-        } else if (_member == null) {
-            Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");
+            memberMapper.updateByPrimaryKeySelective(record);
+        } else {
+            memberMapper.insertSelective(record);
             isAdd = true;
         }
 
@@ -819,8 +815,8 @@ public class MemberService extends MemberBaseMapper {
             memberApply.setUserId(userId);
             memberApply.setType((record.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
                     OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
-            memberApply.setPartyId(record.getPartyId());
-            memberApply.setBranchId(record.getBranchId());
+            memberApply.setPartyId(partyId);
+            memberApply.setBranchId(branchId);
             memberApply.setApplyTime(record.getApplyTime() == null ? now : record.getApplyTime());
             memberApply.setActiveTime(record.getActiveTime());
             memberApply.setCandidateTime(record.getCandidateTime());

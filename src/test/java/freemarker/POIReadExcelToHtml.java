@@ -1,29 +1,17 @@
 package freemarker;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.Test;
 import sys.utils.DateUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +31,7 @@ public class POIReadExcelToHtml {
      */
     public static void main(String[] args) {
         
-        String path = "C:\\Users\\fafa\\Desktop\\需求\\2017.05.18 干部职数管理模块--附件（北京师范大学内设机构干部配备情况）.xlsx";//E://Microsoft Excel 工作表.xlsx
+        String path = "E:\\excel\\附件5 统计表二.xls";//E://Microsoft Excel 工作表.xlsx
         InputStream is = null;
         String htmlExcel = null;
         try {
@@ -241,7 +229,17 @@ public class POIReadExcelToHtml {
             break;  
         case Cell.CELL_TYPE_BLANK:  
             result = "";  
-            break; 
+            break;
+        case Cell.CELL_TYPE_FORMULA://函数
+            try {//数字
+
+                Double value = cell.getNumericCellValue();
+                result = String.format("%.2f", value);
+            } catch (IllegalStateException e) {//字符串
+                result = String.valueOf(cell.getRichStringCellValue());
+            }
+
+           break;
         default:  
             result = "";  
             break;  
@@ -423,4 +421,40 @@ public class POIReadExcelToHtml {
          return "";
     }
 
+
+    @Test
+    public void t4() throws IOException {
+
+        String path = "E:\\excel\\附件5 统计表二.xls";
+        InputStream is = null;
+        FileOutputStream outputStream = null;
+
+        try {
+
+            //本地excel文件
+            File sourcefile = new File(path);
+            is = new FileInputStream(sourcefile);
+            Workbook wb = WorkbookFactory.create(is);
+
+            //获取第 1 个sheet的第 16 row的第 4 cell
+            Sheet sheet = wb.getSheetAt(0);
+            Row row = sheet.getRow(15);
+            Cell cell = row.getCell(3);
+            String value = getCellValue(cell);
+            cell.setCellValue(10);//将单元格的内容修改为 10
+
+            sheet.setForceFormulaRecalculation(true);//强制执行sheet的函数
+            outputStream = new FileOutputStream("E:\\excel\\text.xls");
+
+            wb.write(outputStream);
+
+            System.out.println(value);
+        }catch (Exception e){
+            e.getMessage();
+        }finally {
+
+            is.close();
+            outputStream.close();
+        }
+    }
 }

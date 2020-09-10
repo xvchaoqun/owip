@@ -37,7 +37,7 @@
 </style>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>报送投票结果</h3>
+    <h3>报送${_member_need_vote?'投票结果':''}</h3>
   </div>
   <div class="modal-body">
       <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -58,17 +58,19 @@
               <li>
                   本支部党员数量：<span class="count">${pcsBranch.memberCount}</span>人（其中正式党员数量：<span class="count">${pcsBranch.positiveCount}</span>人）
               </li>
-              <li>
-                  生成投票账号数量：<span class="count">${pcsPoll.inspectorNum}</span>人
-              </li>
-              <li>
-                  完成投票账号数量：<span class="count">${pcsPoll.inspectorFinishNum}</span>人（其中正式党员数量：<span class="count">${pcsPoll.positiveFinishNum}</span>人）
-              </li>
+              <c:if test="${_member_need_vote}">
+                  <li>
+                      生成投票账号数量：<span class="count">${pcsPoll.inspectorNum}</span>人
+                  </li>
+                  <li>
+                      完成投票账号数量：<span class="count">${pcsPoll.inspectorFinishNum}</span>人（其中正式党员数量：<span class="count">${pcsPoll.positiveFinishNum}</span>人）
+                  </li>
+              </c:if>
               <li>
                   已选候选人中，<c:if test="${stage!=PCS_POLL_THIRD_STAGE}"></c:if>党委委员<span class="count">${dwNum}</span>名，纪委委员<span class="count">${jwNum}</span>名，代表<span class="count">${prNum}</span>名
               </li>
           </ul>
-          <div>报送后不能修改投票数据，请确认以上信息准确无误后提交</div>
+          <div>报送后不能修改${_member_need_vote?'投票':'候选人'}数据，请确认以上信息准确无误后提交</div>
       </div>
           </form>
   </div>

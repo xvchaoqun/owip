@@ -4,7 +4,7 @@
 <%@ include file="../constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${pcsPoll!=null?'编辑':'创建'}党支部投票</h3>
+    <h3>${pcsPoll!=null?'编辑':'创建'}${_member_need_vote?'党支部投票':''}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_au" autocomplete="off" disableautocomplete id="pcsPollForm"
@@ -54,7 +54,7 @@
                 }
             </script>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span> 投票阶段</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span> ${_member_need_vote?'投票':''}阶段</label>
                 <div class="col-xs-6 label-text">
                     <span id="stage">${PCS_POLL_STAGE_MAP.get(pcsPoll.stage)}</span>
                 </div>
@@ -80,7 +80,7 @@
         </c:if>
 
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 投票名称</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span> ${_member_need_vote?'投票':''}名称</label>
             <div class="col-xs-6">
 				 <textarea required class="form-control noEnter" rows="2" maxlength="50"
                            name="name">${pcsPoll.name}</textarea>
@@ -108,30 +108,32 @@
                        name="jwNum" value="${pcsPoll.jwNum}" data-rule-min="0">
             </div>
         </div>--%>
-        <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 投票起始时间</label>
-            <div class="col-xs-6">
-                <div class="input-group" style="width: 150px;">
-                    <input required class="form-control datetime-picker"
-                           name="startTime"
-                           type="text"
-                           value="${(cm:formatDate(pcsPoll.startTime,'yyyy-MM-dd HH:mm'))}"/>
+        <c:if test="${_member_need_vote}">
+            <div class="form-group">
+                <label class="col-xs-4 control-label"><span class="star">*</span> 投票起始时间</label>
+                <div class="col-xs-6">
+                    <div class="input-group" style="width: 150px;">
+                        <input required class="form-control datetime-picker"
+                               name="startTime"
+                               type="text"
+                               value="${(cm:formatDate(pcsPoll.startTime,'yyyy-MM-dd HH:mm'))}"/>
+                    </div>
+                    <span id="tipSt" style="color: red;"></span>
                 </div>
-                <span id="tipSt" style="color: red;"></span>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 投票截止时间</label>
-            <div class="col-xs-6">
-                <div class="input-group" style="width: 150px;">
-                    <input required class="form-control datetime-picker"
-                           name="endTime"
-                           type="text"
-                           value="${(cm:formatDate(pcsPoll.endTime,'yyyy-MM-dd HH:mm'))}"/>
+            <div class="form-group">
+                <label class="col-xs-4 control-label"><span class="star">*</span> 投票截止时间</label>
+                <div class="col-xs-6">
+                    <div class="input-group" style="width: 150px;">
+                        <input required class="form-control datetime-picker"
+                               name="endTime"
+                               type="text"
+                               value="${(cm:formatDate(pcsPoll.endTime,'yyyy-MM-dd HH:mm'))}"/>
+                    </div>
+                    <span id="tipEt" style="color: red;"></span>
                 </div>
-                <span id="tipEt" style="color: red;"></span>
             </div>
-        </div>
+        </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label"> 备注</label>
             <div class="col-xs-6">

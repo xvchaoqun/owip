@@ -14,10 +14,7 @@ import sys.tags.CmTag;
 import sys.utils.NumberUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CetRecordService extends CetBaseMapper {
@@ -411,5 +408,34 @@ public class CetRecordService extends CetBaseMapper {
         example.setOrderByClause("start_date asc, type asc");
 
         return cetRecordMapper.selectByExample(example);
+    }
+
+    @Transactional
+    public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+            CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(id);
+            Byte sourceType = cetRecord.getSourceType();
+            if (sourceType == null) continue;
+            switch (sourceType){
+                case CetConstants.CET_SOURCE_TYPE_UPPER:
+                    cetUpperTrainMapper.deleteByPrimaryKey(cetRecord.getSourceId());
+                    break;
+                case CetConstants.CET_SOURCE_TYPE_PROJECT:
+                    cetProjectObjMapper.deleteByPrimaryKey(cetRecord.getSourceId());
+                    break;
+                case CetConstants.CET_SOURCE_TYPE_UNIT:
+                    cetUnitTrainMapper.deleteByPrimaryKey(cetRecord.getSourceId());
+                    break;
+                default:break;
+            }
+        }
+
+        CetRecordExample example = new CetRecordExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cetRecordMapper.deleteByExample(example);
+
     }
 }

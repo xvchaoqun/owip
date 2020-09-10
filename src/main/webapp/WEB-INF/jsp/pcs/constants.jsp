@@ -12,6 +12,7 @@
 <c:set value="${cm:getHtmlFragment('hf_pcs_poll_2_paper_notice')}" var="_2_paper"/>
 <c:set value="${cm:getHtmlFragment('hf_pcs_poll_3_paper_notice')}" var="_3_paper"/>
 
+<c:set value="${_pMap['pcs_poll_member_need_vote']}" var="_member_need_vote"/>
 <c:set value="${_pMap['pcs_poll_site_name']}" var="_p_pcsSiteName"/>
 <c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
 

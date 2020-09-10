@@ -15,12 +15,12 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="pcsPoll:open">
                         <button class="popupBtn btn btn-success btn-sm"
                                 data-url="${ctx}/pcs/pcsPoll_open">
-                            <i class="fa fa-spinner"></i> 启动支部投票</button>
+                            <i class="fa fa-spinner"></i> 启动${_member_need_vote?'支部投票':''}</button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="pcsPoll:edit">
                         <button class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/pcs/pcsPoll_au">
-                            <i class="fa fa-plus"></i> 创建投票</button>
+                            <i class="fa fa-plus"></i> ${_member_need_vote?'创建投票':'新建'}</button>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                            data-url="${ctx}/pcs/pcsPoll_au"
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
@@ -36,7 +36,7 @@ pageEncoding="UTF-8" %>
                         </button>
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=1"
                                 data-title="作废"
-                                data-msg="确定作废这{0}条支部的投票数据？"
+                                data-msg="确定作废这{0}条支部的数据？"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-danger btn-sm">
@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                         <shiro:hasPermission name="pcsPoll:abolish">
                         <button data-url="${ctx}/pcs/pcsPoll_batchCancel?isDeleted=0"
                                 data-title="撤销作废"
-                                data-msg="确定撤销作废这{0}条支部的投票数据？"
+                                data-msg="确定撤销作废这{0}条支部的数据？"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-warning btn-sm">
@@ -58,7 +58,7 @@ pageEncoding="UTF-8" %>
                         <shiro:hasPermission name="pcsPoll:del">
                         <button data-url="${ctx}/pcs/pcsPoll_batchDel"
                                 data-title="删除"
-                                data-msg="确定删除这{0}条支部的投票数据？（删除后无法恢复，请谨慎操作！）"
+                                data-msg="确定删除这{0}条支部的数据？（删除后无法恢复，请谨慎操作！）"
                                 data-grid-id="#jqGrid"
                                 data-callback="_ReLoadPage"
                                 class="jqBatchBtn btn btn-danger btn-sm">
@@ -86,7 +86,7 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
-                            <label>投票阶段</label>
+                            <label>${_member_need_vote?'投票':''}阶段</label>
                             <select data-rel="select2" name="stage" data-placeholder="请选择" data-width="120">
                                 <option></option>
                                 <c:forEach items="${PCS_POLL_STAGE_MAP}" var="entry">
@@ -96,9 +96,9 @@ pageEncoding="UTF-8" %>
                             <script> $("#searchForm select[name=stage]").val(${param.stage}) </script>
                         </div>
                         <div class="form-group">
-                            <label>投票名称</label>
+                            <label>${_member_need_vote?'投票':''}名称</label>
                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                                   placeholder="请输入投票名称">
+                                   placeholder="请输入">
                         </div>
                             <div class="form-group">
                                 <label>所在${_p_partyName}</label>
@@ -182,10 +182,10 @@ pageEncoding="UTF-8" %>
 
             }, frozen:true},
 
-            { label: '投票阶段',name: 'stage', formatter: function (cellvalue, options, rowobject) {
+            { label: '${_member_need_vote?'投票':''}阶段',name: 'stage', formatter: function (cellvalue, options, rowobject) {
                     return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
                 }, frozen: true},
-            { label: '投票名称',name: 'name',align:'left', width: 252, frozen: true},
+            { label: '${_member_need_vote?'投票':''}名称',name: 'name',align:'left', width: 252, frozen: true},
             /*{ label: '党代会投票说明',name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/pcs/pcsPoll_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                             .format(rowObject.id)
@@ -198,6 +198,7 @@ pageEncoding="UTF-8" %>
                     .format(rowObject.id);
                 return  str;
             }},*/
+            <c:if test="${_member_need_vote}">
             { label: '投票<br/>账号管理',name: '_inspector', width:80, formatter: function (cellvalue, options, rowObject) {
 
                     return $.button.openView({
@@ -215,6 +216,18 @@ pageEncoding="UTF-8" %>
                         label:"查看"});
                 }, width: 80
             },
+            </c:if>
+            <c:if test="${!_member_need_vote}">
+            {
+                label: '候选人名单', name: '_report', formatter: function (cellvalue, options, rowObject) {
+                    return $.button.openView({
+                        style:"btn-info",
+                        url:"${ctx}/pcs/pcsPollReportList?pollId="+rowObject.id,
+                        icon:"fa-search",
+                        label:"查看"});
+                }, width: 80
+            },
+            </c:if>
             { label: '所属${_p_partyName}',name: 'partyName',align:'left', width: 400},
             { label: '所属党支部',name: 'branchName',align:'left', width: 300},
             /*{ label: '推荐人管理',name: '_candidate', width:80, formatter: function (cellvalue, options, rowObject) {
@@ -225,10 +238,10 @@ pageEncoding="UTF-8" %>
                         icon:"fa-list",
                         label:"查看"});
              }},*/
-
+            <c:if test="${_member_need_vote}">
             { label: '投票起始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '投票截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
-
+            </c:if>
             { label: '报送日期',name: 'reportDate', formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.hasReport) return '--'

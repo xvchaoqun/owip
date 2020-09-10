@@ -2126,8 +2126,15 @@
                                     <w:b-cs/>
                                     <w:sz w:val="24"/>
                                 </w:rPr>
-                                <w:t>${title?ensure_ends_with("；")}</w:t>
+                                <#if title??>
+                                <w:t>${title!}</w:t>
+                                </#if>
+                                <#if title??&&partTimeJob??>
+                                <w:t>;</w:t>
+                                </#if>
+                                <#if partTimeJob??>
                                 <w:t>${partTimeJob!}</w:t>
+                                </#if>
                             </w:r>
                         </w:p>
                     </w:tc>

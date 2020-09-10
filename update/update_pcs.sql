@@ -1,3 +1,15 @@
+
+
+-- 2020.9.8 ly
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_member_need_vote', '党代会党员是否需要投票', 'false', 3, 75, '');
+ALTER TABLE `pcs_poll_report`
+	ALTER `disagree_ballot` DROP DEFAULT,
+	ALTER `abstain_ballot` DROP DEFAULT;
+ALTER TABLE `pcs_poll_report`
+	CHANGE COLUMN `disagree_ballot` `disagree_ballot` INT(10) UNSIGNED NULL COMMENT '不支持人数' AFTER `grow_ballot`,
+	CHANGE COLUMN `abstain_ballot` `abstain_ballot` INT(10) UNSIGNED NULL COMMENT '弃权票' AFTER `disagree_ballot`;
+
+
 -- 2020.8.27  sxx
 ALTER TABLE `pcs_pr_candidate`
 	CHANGE COLUMN `vote` `vote` INT(10) UNSIGNED NOT NULL COMMENT '推荐提名的党员数' AFTER `email`,

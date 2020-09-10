@@ -439,7 +439,7 @@
                 number[i]= $(".input"+type+":first").val();
                 time[i]= $(".input"+type+":last").val();
             })
-
+            var $btn = $("#pmSubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {number1:number[0],number2:number[1],time1: time[0],time2:time[1]},
                 success:function(ret){
@@ -450,6 +450,7 @@
                             $("#jqGrid").trigger("reloadGrid");
                         });
                     }
+                    $btn.button('reset');
                 }
             });
         }

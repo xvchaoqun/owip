@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="../constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>启动支部投票</h3>
+    <h3>启动${_member_need_vote?'支部投票':''}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcs/pcsPoll_open" autocomplete="off" disableautocomplete id="pcsPollForm" method="post">
@@ -41,20 +41,20 @@ pageEncoding="UTF-8"%>
 						$("#stage").html("${PCS_POLL_STAGE_MAP.get(PCS_POLL_THIRD_STAGE)}");
 						$("#submitBtn").prop("disabled", false);
 					}else{
-						$("#stage").html("所在党委的支部投票已全部启动，无需在此操作");
+						$("#stage").html("所在党委的支部${_member_need_vote?'投票':''}已全部启动，无需在此操作");
 						$("#submitBtn").prop("disabled", true);
 					}
 				})
 			})
 		</script>
 		<div class="form-group currentStage" style="display: none">
-			<label class="col-xs-4 control-label">已启动投票阶段</label>
+			<label class="col-xs-4 control-label">已启动${_member_need_vote?'投票':''}阶段</label>
 			<div class="col-xs-6 label-text">
 				<span></span>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 待启动投票阶段</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 待启动${_member_need_vote?'投票':''}阶段</label>
 			<div class="col-xs-6 label-text">
 				<span id="stage"></span>
 			</div>
@@ -65,7 +65,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" disabled
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> 确定启动支部投票</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> 确定启动${_member_need_vote?'支部投票':''}</button>
 </div>
 <script>
 

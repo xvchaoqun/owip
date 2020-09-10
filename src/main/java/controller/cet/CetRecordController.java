@@ -16,17 +16,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -72,6 +71,7 @@ public class CetRecordController extends CetBaseController {
     public void cetRecord_data(HttpServletResponse response,
                                Integer year,
                                Byte type,
+                               Integer isRepeat,
                                Integer userId,
                                Integer traineeTypeId,
                                @RequestDateRange DateRange trainDate,
@@ -89,7 +89,11 @@ public class CetRecordController extends CetBaseController {
 
         CetRecordExample example = new CetRecordExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("year desc, start_date desc");
+        if (isRepeat != null){
+            example.setOrderByClause("year desc, start_date desc, user_id desc");
+        }else {
+            example.setOrderByClause("year desc, start_date desc");
+        }
 
         if (year != null) {
             criteria.andYearEqualTo(year);
@@ -108,6 +112,22 @@ public class CetRecordController extends CetBaseController {
         }
         if(trainDate.getEnd()!=null){
             criteria.andStartDateLessThanOrEqualTo(trainDate.getEnd());
+        }
+        if (isRepeat != null){
+            List<Integer> repeatIds = iCetMapper.getCetRecordIsRepeat();
+            if (repeatIds.size() > 0) {
+                if (isRepeat == 1) {
+                    criteria.andIdIn(repeatIds);
+                } else if (isRepeat == 0) {
+                    criteria.andIdNotIn(repeatIds);
+                }
+            }else {
+                if (isRepeat == 1) {
+                    criteria.andIdIsNull();
+                } else if (isRepeat == 0) {
+                    criteria.andIdIsNotNull();
+                }
+            }
         }
 
         if (export == 1) {
@@ -227,5 +247,18 @@ public class CetRecordController extends CetBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("cetRecord:del")
+    @RequestMapping(value = "/cetRecord_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetRecord_batchDel(Integer[] ids){
+
+        if (ids!= null && ids.length>0){
+            cetRecordService.batchDel(ids);
+            logger.info(addLog( LogConstants.LOG_CET, "批量删除培训汇总中的记录和相关联培训模块中的记录：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }

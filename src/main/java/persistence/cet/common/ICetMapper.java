@@ -407,4 +407,10 @@ public interface ICetMapper {
     // 获取用户管理的二级党委ID列表
     @Select("select p.id from cet_party p, cet_party_admin a where a.user_id=#{userId} and a.cet_party_id=p.id and p.is_deleted=0")
     List<Integer> getAdminPartyIds(int userId);
+
+    // 培训汇总记录中重复的记录
+    @Select("SELECT cr.id FROM cet_record cr,(SELECT c.user_id,c.start_date,c.end_date,COUNT(*) AS count FROM cet_record c " +
+            "GROUP BY c.user_id,c.start_date,c.end_date HAVING COUNT>1)tmp " +
+            "WHERE cr.user_id=tmp.user_id AND cr.start_date=tmp.start_date AND cr.end_date=tmp.end_date")
+    List<Integer> getCetRecordIsRepeat();
 }

@@ -1,10 +1,7 @@
 package service.pcs;
 
 import controller.global.OpException;
-import domain.pcs.PcsPoll;
-import domain.pcs.PcsPollExample;
-import domain.pcs.PcsPollReport;
-import domain.pcs.PcsPollReportExample;
+import domain.pcs.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,5 +167,27 @@ public class PcsPollReportService extends PcsBaseMapper {
             record.setDisagreeBallot(finalResult.getNotSupportNum() == null ? 0 : finalResult.getNotSupportNum());
             record.setAbstainBallot(finalResult.getNotVoteNum() == null ? 0 : finalResult.getNotVoteNum());
         }
+    }
+
+    public int bacthImport(List<PcsPollReport> records, Integer pollId, Byte type) {
+
+        int addCount = 0;
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
+
+        PcsPollReportExample example = new PcsPollReportExample();
+        example.createCriteria().andPollIdEqualTo(pollId).andTypeEqualTo(type);
+        pcsPollReportMapper.deleteByExample(example);
+        for (PcsPollReport record : records) {
+
+            record.setConfigId(pcsPoll.getConfigId());
+            record.setPartyId(pcsPoll.getPartyId());
+            record.setBranchId(pcsPoll.getBranchId());
+            record.setStage(pcsPoll.getStage());
+
+            pcsPollReportMapper.insertSelective(record);
+            addCount++;
+        }
+
+        return addCount;
     }
 }

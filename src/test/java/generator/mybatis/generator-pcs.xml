@@ -33,8 +33,8 @@
         </table>-->
         <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
         </table>-->
-        <table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
-        </table>
+        <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
+        </table>-->
         <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">
         </table>-->
         <!--<table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
@@ -114,8 +114,8 @@
         </table>-->
         <!--<table tableName="pcs_poll_result" domainObjectName="pcs.PcsPollResult" mapperName="pcs.PcsPollResultMapper">
         </table>-->
-       <!--<table tableName="pcs_poll_report" domainObjectName="pcs.PcsPollReport" mapperName="pcs.PcsPollReportMapper">
-       </table>-->
+       <table tableName="pcs_poll_report" domainObjectName="pcs.PcsPollReport" mapperName="pcs.PcsPollReportMapper">
+       </table>
 
     </context>
 </generatorConfiguration>

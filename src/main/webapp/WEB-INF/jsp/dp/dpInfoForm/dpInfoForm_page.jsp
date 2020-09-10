@@ -298,7 +298,10 @@ div.WordSection1
   <td width=487 colspan=5 style='width:365.35pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:23.55pt'>
-  <p class=MsoNormal align=center style='text-align:center'><b>${bean.title};${bean.partTimeJob}</b></p>
+  <p class=MsoNormal align=center style='text-align:center'><b>
+      ${bean.title}
+      <c:if test="${not empty bean.title&&not empty bean.partTimeJob}">;</c:if>
+      ${bean.partTimeJob}</b></p>
   </td>
  </tr>
  <tr style='page-break-inside:avoid;'>
