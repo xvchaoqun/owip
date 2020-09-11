@@ -602,9 +602,9 @@ public class MemberService extends MemberBaseMapper {
                 Byte _type = 0;
                 //提取学工号
                 codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
+                if (codeMap.size()==0)
+                    continue;
                 userCode = codeMap.keySet().iterator().next();
-                if (StringUtils.isBlank(userCode))
-                    throw new OpException("第{0}行用户不存在", row);
                 XSSFRow _row = sheet.getRow(row - 1);
                 int cellNum = _row.getLastCellNum() - _row.getFirstCellNum();
                 XSSFCell cell = _row.getCell(0);
@@ -613,7 +613,7 @@ public class MemberService extends MemberBaseMapper {
                 }
                 cell.setCellValue(StringUtils.trimToEmpty(userCode));
                 if (codeMap.get(userCode).size() > 0) {
-                    cell = _row.createCell(cellNum + 1);
+                    cell = _row.createCell(cellNum + 2);
                     cell.setCellValue(StringUtils.join(codeMap.get(userCode), "、"));
                 }
             }
@@ -688,6 +688,7 @@ public class MemberService extends MemberBaseMapper {
             //党支部
             if (!partyService.isDirectBranch(partyId)) {
                 String branchName = ContentUtils.trimAll(xlsRow.get(4));
+                String _branchCode = ContentUtils.trimAll(xlsRow.get(5));
                 Branch branch = new Branch();
                 if (StringUtils.isBlank(branchName)){
                     throw new OpException("第{0}行党支部名称为空", row);
@@ -701,6 +702,11 @@ public class MemberService extends MemberBaseMapper {
 
                 if (branch.getId() == null) {//添加没有的党支部
                     branch = new Branch();
+                    if (StringUtils.isNotBlank(_branchCode)){
+                        branch.setCode(_branchCode);
+                    }else {
+                        branch.setCode(branchService.genCode(partyId));
+                    }
                     branch.setPartyId(partyId);
                     branch.setName(branchName.replaceAll("\\s*", ""));
                     branch.setIsStaff(!StringUtils.containsAny(branchName, "博士", "硕士", "本科"));
@@ -712,7 +718,6 @@ public class MemberService extends MemberBaseMapper {
                     branch.setIsEnterpriseNationalized(false);
                     branch.setIsUnion(false);
                     branch.setIsDeleted(false);
-                    branch.setCode(branchService.genCode(partyId));
                     branch.setCreateTime(now);
                     branch.setSortOrder(getNextSortOrder("ow_branch",
                             "is_deleted=0 and party_id=" + partyId));
@@ -738,7 +743,7 @@ public class MemberService extends MemberBaseMapper {
                 throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
-            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(5));
+            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(6));
             if (StringUtils.isBlank(_politicalStatus)) {
                 throw new OpException("第{0}行党籍状态为空", row);
             }
@@ -748,7 +753,7 @@ public class MemberService extends MemberBaseMapper {
             }
             record.setPoliticalStatus(politicalStatus);
 
-            int col = 6;
+            int col = 7;
             record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
