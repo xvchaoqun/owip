@@ -587,6 +587,7 @@ public class MemberService extends MemberBaseMapper {
         Integer branchId = null;
         int partyAdd = 0;
         int branchAdd = 0;
+        int cellNum = sheet.getRow(0).getLastCellNum() - sheet.getRow(0).getFirstCellNum();
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             row++;
@@ -606,14 +607,13 @@ public class MemberService extends MemberBaseMapper {
                     continue;
                 userCode = codeMap.keySet().iterator().next();
                 XSSFRow _row = sheet.getRow(row - 1);
-                int cellNum = _row.getLastCellNum() - _row.getFirstCellNum();
                 XSSFCell cell = _row.getCell(0);
                 if(cell==null){
                     cell = _row.createCell(0);
                 }
                 cell.setCellValue(StringUtils.trimToEmpty(userCode));
                 if (codeMap.get(userCode).size() > 0) {
-                    cell = _row.createCell(cellNum + 2);
+                    cell = _row.createCell(cellNum);
                     cell.setCellValue(StringUtils.join(codeMap.get(userCode), "、"));
                 }
             }

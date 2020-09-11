@@ -218,16 +218,17 @@ public class MemberController extends MemberBaseController {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
 
-        //用于查看不确定学工号党员信息
+        //返回党员学工号
         if (all) {
-
-            String savePath = FILE_SEPARATOR + "_filterExport"
-                    + FILE_SEPARATOR + xlsx.getOriginalFilename() + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss") + ".xlsx";
+            String originalFilename = xlsx.getOriginalFilename();
+            String filename = originalFilename.substring(0, originalFilename.lastIndexOf("."))
+                    + "(返回结果表)" + DateUtils.formatDate(new Date(), "MMddHHmm");
+            String savePath = FILE_SEPARATOR + "_filterExport" + FILE_SEPARATOR + filename + ".xlsx";
             FileUtils.mkdirs(springProps.uploadPath + savePath, true);
 
             ExportHelper.save(workbook, springProps.uploadPath + savePath);
             resultMap.put("file", savePath);
-            resultMap.put("filename", xlsx.getOriginalFilename());
+            resultMap.put("filename", filename);
         }
         int partyAdd = (int) resultMap.get("partyAdd");
         int branchAdd = (int) resultMap.get("branchAdd");
