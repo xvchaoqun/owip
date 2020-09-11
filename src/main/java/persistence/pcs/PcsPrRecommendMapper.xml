@@ -18,6 +18,12 @@
     <result column="has_report" jdbcType="BIT" property="hasReport" />
     <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
     <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="branch_count" jdbcType="INTEGER" property="branchCount" />
+    <result column="member_count" jdbcType="INTEGER" property="memberCount" />
+    <result column="positive_count" jdbcType="INTEGER" property="positiveCount" />
+    <result column="student_member_count" jdbcType="INTEGER" property="studentMemberCount" />
+    <result column="teacher_member_count" jdbcType="INTEGER" property="teacherMemberCount" />
+    <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="check_remark" jdbcType="VARCHAR" property="checkRemark" />
   </resultMap>
@@ -82,7 +88,9 @@
   <sql id="Base_Column_List">
     id, config_id, stage, party_id, expect_member_count, actual_member_count, expect_positive_member_count, 
     actual_positive_member_count, vote_member_count, meeting_type, meeting_time, meeting_address, 
-    report_file_path, has_report, report_user_id, report_time, status, check_remark
+    report_file_path, has_report, report_user_id, report_time, branch_count, member_count, 
+    positive_count, student_member_count, teacher_member_count, retire_member_count, 
+    status, check_remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrRecommendExample" resultMap="BaseResultMap">
     select
@@ -114,28 +122,35 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.pcs.PcsPrRecommend">
-    insert into pcs_pr_recommend (id, config_id, stage, 
-      party_id, expect_member_count, actual_member_count, 
-      expect_positive_member_count, actual_positive_member_count, 
-      vote_member_count, meeting_type, meeting_time, 
-      meeting_address, report_file_path, has_report, 
-      report_user_id, report_time, status, 
-      check_remark)
-    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{partyId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, 
-      #{expectPositiveMemberCount,jdbcType=INTEGER}, #{actualPositiveMemberCount,jdbcType=INTEGER}, 
-      #{voteMemberCount,jdbcType=INTEGER}, #{meetingType,jdbcType=TINYINT}, #{meetingTime,jdbcType=TIMESTAMP}, 
-      #{meetingAddress,jdbcType=VARCHAR}, #{reportFilePath,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, 
-      #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{checkRemark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="domain.pcs.PcsPrRecommend">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pcs_pr_recommend (config_id, stage, party_id, 
+      expect_member_count, actual_member_count, expect_positive_member_count, 
+      actual_positive_member_count, vote_member_count, 
+      meeting_type, meeting_time, meeting_address, 
+      report_file_path, has_report, report_user_id, 
+      report_time, branch_count, member_count, 
+      positive_count, student_member_count, teacher_member_count, 
+      retire_member_count, status, check_remark
+      )
+    values (#{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
+      #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, #{expectPositiveMemberCount,jdbcType=INTEGER}, 
+      #{actualPositiveMemberCount,jdbcType=INTEGER}, #{voteMemberCount,jdbcType=INTEGER}, 
+      #{meetingType,jdbcType=TINYINT}, #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, 
+      #{reportFilePath,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{branchCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, 
+      #{positiveCount,jdbcType=INTEGER}, #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
+      #{retireMemberCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.pcs.PcsPrRecommend">
+  <insert id="insertSelective" parameterType="domain.pcs.PcsPrRecommend">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into pcs_pr_recommend
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="configId != null">
         config_id,
       </if>
@@ -181,6 +196,24 @@
       <if test="reportTime != null">
         report_time,
       </if>
+      <if test="branchCount != null">
+        branch_count,
+      </if>
+      <if test="memberCount != null">
+        member_count,
+      </if>
+      <if test="positiveCount != null">
+        positive_count,
+      </if>
+      <if test="studentMemberCount != null">
+        student_member_count,
+      </if>
+      <if test="teacherMemberCount != null">
+        teacher_member_count,
+      </if>
+      <if test="retireMemberCount != null">
+        retire_member_count,
+      </if>
       <if test="status != null">
         status,
       </if>
@@ -189,9 +222,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="configId != null">
         #{configId,jdbcType=INTEGER},
       </if>
@@ -236,6 +266,24 @@
       </if>
       <if test="reportTime != null">
         #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="branchCount != null">
+        #{branchCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberCount != null">
+        #{memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="positiveCount != null">
+        #{positiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="studentMemberCount != null">
+        #{studentMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherMemberCount != null">
+        #{teacherMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="retireMemberCount != null">
+        #{retireMemberCount,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -302,6 +350,24 @@
       <if test="record.reportTime != null">
         report_time = #{record.reportTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.branchCount != null">
+        branch_count = #{record.branchCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberCount != null">
+        member_count = #{record.memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.positiveCount != null">
+        positive_count = #{record.positiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentMemberCount != null">
+        student_member_count = #{record.studentMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherMemberCount != null">
+        teacher_member_count = #{record.teacherMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.retireMemberCount != null">
+        retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -331,6 +397,12 @@
       has_report = #{record.hasReport,jdbcType=BIT},
       report_user_id = #{record.reportUserId,jdbcType=INTEGER},
       report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      branch_count = #{record.branchCount,jdbcType=INTEGER},
+      member_count = #{record.memberCount,jdbcType=INTEGER},
+      positive_count = #{record.positiveCount,jdbcType=INTEGER},
+      student_member_count = #{record.studentMemberCount,jdbcType=INTEGER},
+      teacher_member_count = #{record.teacherMemberCount,jdbcType=INTEGER},
+      retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
       check_remark = #{record.checkRemark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -385,6 +457,24 @@
       <if test="reportTime != null">
         report_time = #{reportTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="branchCount != null">
+        branch_count = #{branchCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberCount != null">
+        member_count = #{memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="positiveCount != null">
+        positive_count = #{positiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="studentMemberCount != null">
+        student_member_count = #{studentMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherMemberCount != null">
+        teacher_member_count = #{teacherMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="retireMemberCount != null">
+        retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -411,6 +501,12 @@
       has_report = #{hasReport,jdbcType=BIT},
       report_user_id = #{reportUserId,jdbcType=INTEGER},
       report_time = #{reportTime,jdbcType=TIMESTAMP},
+      branch_count = #{branchCount,jdbcType=INTEGER},
+      member_count = #{memberCount,jdbcType=INTEGER},
+      positive_count = #{positiveCount,jdbcType=INTEGER},
+      student_member_count = #{studentMemberCount,jdbcType=INTEGER},
+      teacher_member_count = #{teacherMemberCount,jdbcType=INTEGER},
+      retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
       check_remark = #{checkRemark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

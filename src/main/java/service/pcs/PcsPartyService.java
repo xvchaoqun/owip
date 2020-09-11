@@ -68,7 +68,7 @@ public class PcsPartyService extends PcsBaseMapper {
         return records;
     }
 
-    // 分党委管理员报送，报送后数据不可修改
+    // 两委委员分党委管理员报送，报送后数据不可修改
     @Transactional
     public void report(int partyId, int configId, byte stage) {
 
@@ -79,12 +79,38 @@ public class PcsPartyService extends PcsBaseMapper {
 
         Integer userId = ShiroHelper.getCurrentUserId();
 
+        // 归档各支部的党员数量
+        List<PcsBranchBean> pcsBranchBeans = iPcsMapper
+                .selectPcsBranchBeanList(configId, stage, partyId, null, true, new RowBounds());
+        for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
+
+            PcsRecommend record = new PcsRecommend();
+            record.setId(pcsBranchBean.getRecommendId());
+            record.setMemberCount(pcsBranchBean.getMemberCount());
+            record.setPositiveCount(pcsBranchBean.getPositiveCount());
+            record.setTeacherMemberCount(pcsBranchBean.getTeacherMemberCount());
+            record.setRetireMemberCount(pcsBranchBean.getRetireMemberCount());
+            record.setStudentMemberCount(pcsBranchBean.getStudentMemberCount());
+
+            pcsRecommendMapper.updateByPrimaryKeySelective(record);
+        }
+
         PcsAdminReport record = new PcsAdminReport();
         record.setPartyId(partyId);
         record.setUserId(userId);
         record.setConfigId(configId);
         record.setStage(stage);
         record.setCreateTime(new Date());
+
+        // 归档分党委数量
+        PcsParty pcsParty = get(configId, partyId);
+        record.setBranchCount(pcsParty.getBranchCount());
+        record.setMemberCount(pcsParty.getMemberCount());
+        record.setPositiveCount(pcsParty.getPositiveCount());
+        record.setTeacherMemberCount(pcsParty.getTeacherMemberCount());
+        record.setRetireMemberCount(pcsParty.getRetireMemberCount());
+        record.setStudentMemberCount(pcsParty.getStudentMemberCount());
+
         record.setIp(ContextHelper.getRealIp());
 
         pcsAdminReportMapper.insertSelective(record);

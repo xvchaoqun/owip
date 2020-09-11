@@ -1,5 +1,29 @@
 
 
+ALTER TABLE `pcs_recommend`
+	ADD COLUMN `member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党员数量，二级党委报送时归档用' AFTER `stage`,
+	ADD COLUMN `positive_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '正式党员数量' AFTER `member_count`,
+	ADD COLUMN `student_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学生党员数量' AFTER `positive_count`,
+	ADD COLUMN `teacher_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '教师党员数量' AFTER `student_member_count`,
+	ADD COLUMN `retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量' AFTER `teacher_member_count`;
+
+ALTER TABLE `pcs_admin_report`
+	COMMENT='两委委员分党委管理员上报',
+	ADD COLUMN `branch_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '支部数量，分党委报送时归档' AFTER `create_time`,
+	ADD COLUMN `member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党员数量' AFTER `branch_count`,
+	ADD COLUMN `positive_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '正式党员数量' AFTER `member_count`,
+	ADD COLUMN `student_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学生党员数量' AFTER `positive_count`,
+	ADD COLUMN `teacher_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '教师党员数量' AFTER `student_member_count`,
+	ADD COLUMN `retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量' AFTER `teacher_member_count`;
+
+ALTER TABLE `pcs_pr_recommend`
+	ADD COLUMN `branch_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '支部数量，分党委报送时归档' AFTER `report_time`,
+	ADD COLUMN `member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党员数量' AFTER `branch_count`,
+	ADD COLUMN `positive_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '正式党员数量' AFTER `member_count`,
+	ADD COLUMN `student_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学生党员数量' AFTER `positive_count`,
+	ADD COLUMN `teacher_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '教师党员数量' AFTER `student_member_count`,
+	ADD COLUMN `retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量' AFTER `teacher_member_count`;
+
 20200909
 西工大， 戏曲
 

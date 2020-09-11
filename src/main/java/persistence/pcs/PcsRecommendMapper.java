@@ -2,10 +2,9 @@ package persistence.pcs;
 
 import domain.pcs.PcsRecommend;
 import domain.pcs.PcsRecommendExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface PcsRecommendMapper {
     long countByExample(PcsRecommendExample example);

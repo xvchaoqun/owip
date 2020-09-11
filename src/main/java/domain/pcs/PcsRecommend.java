@@ -19,6 +19,16 @@ public class PcsRecommend implements Serializable {
 
     private Byte stage;
 
+    private Integer memberCount;
+
+    private Integer positiveCount;
+
+    private Integer studentMemberCount;
+
+    private Integer teacherMemberCount;
+
+    private Integer retireMemberCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -83,5 +93,45 @@ public class PcsRecommend implements Serializable {
 
     public void setStage(Byte stage) {
         this.stage = stage;
+    }
+
+    public Integer getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Integer memberCount) {
+        this.memberCount = memberCount;
+    }
+
+    public Integer getPositiveCount() {
+        return positiveCount;
+    }
+
+    public void setPositiveCount(Integer positiveCount) {
+        this.positiveCount = positiveCount;
+    }
+
+    public Integer getStudentMemberCount() {
+        return studentMemberCount;
+    }
+
+    public void setStudentMemberCount(Integer studentMemberCount) {
+        this.studentMemberCount = studentMemberCount;
+    }
+
+    public Integer getTeacherMemberCount() {
+        return teacherMemberCount;
+    }
+
+    public void setTeacherMemberCount(Integer teacherMemberCount) {
+        this.teacherMemberCount = teacherMemberCount;
+    }
+
+    public Integer getRetireMemberCount() {
+        return retireMemberCount;
+    }
+
+    public void setRetireMemberCount(Integer retireMemberCount) {
+        this.retireMemberCount = retireMemberCount;
     }
 }

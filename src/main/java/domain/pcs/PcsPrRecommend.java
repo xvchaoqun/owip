@@ -40,6 +40,18 @@ public class PcsPrRecommend implements Serializable {
 
     private Date reportTime;
 
+    private Integer branchCount;
+
+    private Integer memberCount;
+
+    private Integer positiveCount;
+
+    private Integer studentMemberCount;
+
+    private Integer teacherMemberCount;
+
+    private Integer retireMemberCount;
+
     private Byte status;
 
     private String checkRemark;
@@ -172,6 +184,54 @@ public class PcsPrRecommend implements Serializable {
 
     public void setReportTime(Date reportTime) {
         this.reportTime = reportTime;
+    }
+
+    public Integer getBranchCount() {
+        return branchCount;
+    }
+
+    public void setBranchCount(Integer branchCount) {
+        this.branchCount = branchCount;
+    }
+
+    public Integer getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Integer memberCount) {
+        this.memberCount = memberCount;
+    }
+
+    public Integer getPositiveCount() {
+        return positiveCount;
+    }
+
+    public void setPositiveCount(Integer positiveCount) {
+        this.positiveCount = positiveCount;
+    }
+
+    public Integer getStudentMemberCount() {
+        return studentMemberCount;
+    }
+
+    public void setStudentMemberCount(Integer studentMemberCount) {
+        this.studentMemberCount = studentMemberCount;
+    }
+
+    public Integer getTeacherMemberCount() {
+        return teacherMemberCount;
+    }
+
+    public void setTeacherMemberCount(Integer teacherMemberCount) {
+        this.teacherMemberCount = teacherMemberCount;
+    }
+
+    public Integer getRetireMemberCount() {
+        return retireMemberCount;
+    }
+
+    public void setRetireMemberCount(Integer retireMemberCount) {
+        this.retireMemberCount = retireMemberCount;
     }
 
     public Byte getStatus() {

@@ -55,6 +55,9 @@ public class PcsPrPartyService extends PcsBaseMapper {
     private PcsAdminService pcsAdminService;
     @Autowired
     private PcsConfigService pcsConfigService;
+    @Autowired
+    private PcsPartyService pcsPartyService;
+
     // 分党委是否可以修改当前阶段的数据
     public boolean allowModify(int partyId, int configId, byte stage){
 
@@ -90,6 +93,16 @@ public class PcsPrPartyService extends PcsBaseMapper {
         record.setHasReport(true);
         record.setReportUserId(userId);
         record.setReportTime(new Date());
+
+        // 归档分党委数量
+        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        record.setBranchCount(pcsParty.getBranchCount());
+        record.setMemberCount(pcsParty.getMemberCount());
+        record.setPositiveCount(pcsParty.getPositiveCount());
+        record.setTeacherMemberCount(pcsParty.getTeacherMemberCount());
+        record.setRetireMemberCount(pcsParty.getRetireMemberCount());
+        record.setStudentMemberCount(pcsParty.getStudentMemberCount());
+
         // 报送后待审核
         record.setStatus(PcsConstants.PCS_PR_RECOMMEND_STATUS_INIT);
 

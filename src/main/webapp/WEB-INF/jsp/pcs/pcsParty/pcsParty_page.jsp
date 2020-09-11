@@ -100,8 +100,8 @@ pageEncoding="UTF-8" %>
                 { label: '学生党员数量',name: 'studentMemberCount'},
                 { label: '教师党员数量',name: 'teacherMemberCount'},
                 { label: '离退休党员数量',name: 'retireMemberCount', width: 120},
-                { label: '班子数量',name: 'groupCount'},
-                { label: '现任班子数量',name: 'presentGroupCount'}
+                /*{ label: '班子数量',name: 'groupCount'},
+                { label: '现任班子数量',name: 'presentGroupCount'}*/
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

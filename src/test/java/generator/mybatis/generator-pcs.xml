@@ -35,11 +35,11 @@
         </table>-->
         <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
         </table>-->
-        <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">
-        </table>-->
-        <!--<table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
+        <table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">
+        </table>
+        <table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
        <!-- <table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
         </table>-->
       <!--
@@ -51,9 +51,9 @@
          </table>
           <table tableName="pcs_pr_file_template" domainObjectName="pcs.PcsPrFileTemplate" mapperName="pcs.PcsPrFileTemplateMapper">
          </table>-->
-        <!--<table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
+        <table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-       </table>-->
+       </table>
        <!--<table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
        </table>-->
         <!--
@@ -114,8 +114,8 @@
         </table>-->
         <!--<table tableName="pcs_poll_result" domainObjectName="pcs.PcsPollResult" mapperName="pcs.PcsPollResultMapper">
         </table>-->
-       <table tableName="pcs_poll_report" domainObjectName="pcs.PcsPollReport" mapperName="pcs.PcsPollReportMapper">
-       </table>
+       <!--<table tableName="pcs_poll_report" domainObjectName="pcs.PcsPollReport" mapperName="pcs.PcsPollReportMapper">
+       </table>-->
 
     </context>
 </generatorConfiguration>

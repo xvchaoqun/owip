@@ -8,6 +8,12 @@
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="branch_count" jdbcType="INTEGER" property="branchCount" />
+    <result column="member_count" jdbcType="INTEGER" property="memberCount" />
+    <result column="positive_count" jdbcType="INTEGER" property="positiveCount" />
+    <result column="student_member_count" jdbcType="INTEGER" property="studentMemberCount" />
+    <result column="teacher_member_count" jdbcType="INTEGER" property="teacherMemberCount" />
+    <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +75,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, user_id, config_id, stage, create_time, ip
+    id, party_id, user_id, config_id, stage, create_time, branch_count, member_count, 
+    positive_count, student_member_count, teacher_member_count, retire_member_count, 
+    ip
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsAdminReportExample" resultMap="BaseResultMap">
     select
@@ -104,10 +112,14 @@
   <insert id="insert" parameterType="domain.pcs.PcsAdminReport">
     insert into pcs_admin_report (id, party_id, user_id, 
       config_id, stage, create_time, 
-      ip)
+      branch_count, member_count, positive_count, 
+      student_member_count, teacher_member_count, 
+      retire_member_count, ip)
     values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR})
+      #{branchCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, #{positiveCount,jdbcType=INTEGER}, 
+      #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
+      #{retireMemberCount,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsAdminReport">
     insert into pcs_admin_report
@@ -129,6 +141,24 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="branchCount != null">
+        branch_count,
+      </if>
+      <if test="memberCount != null">
+        member_count,
+      </if>
+      <if test="positiveCount != null">
+        positive_count,
+      </if>
+      <if test="studentMemberCount != null">
+        student_member_count,
+      </if>
+      <if test="teacherMemberCount != null">
+        teacher_member_count,
+      </if>
+      <if test="retireMemberCount != null">
+        retire_member_count,
       </if>
       <if test="ip != null">
         ip,
@@ -152,6 +182,24 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="branchCount != null">
+        #{branchCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberCount != null">
+        #{memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="positiveCount != null">
+        #{positiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="studentMemberCount != null">
+        #{studentMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherMemberCount != null">
+        #{teacherMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="retireMemberCount != null">
+        #{retireMemberCount,jdbcType=INTEGER},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -185,6 +233,24 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.branchCount != null">
+        branch_count = #{record.branchCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberCount != null">
+        member_count = #{record.memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.positiveCount != null">
+        positive_count = #{record.positiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentMemberCount != null">
+        student_member_count = #{record.studentMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherMemberCount != null">
+        teacher_member_count = #{record.teacherMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.retireMemberCount != null">
+        retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
@@ -201,6 +267,12 @@
       config_id = #{record.configId,jdbcType=INTEGER},
       stage = #{record.stage,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      branch_count = #{record.branchCount,jdbcType=INTEGER},
+      member_count = #{record.memberCount,jdbcType=INTEGER},
+      positive_count = #{record.positiveCount,jdbcType=INTEGER},
+      student_member_count = #{record.studentMemberCount,jdbcType=INTEGER},
+      teacher_member_count = #{record.teacherMemberCount,jdbcType=INTEGER},
+      retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
       ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,6 +296,24 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="branchCount != null">
+        branch_count = #{branchCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberCount != null">
+        member_count = #{memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="positiveCount != null">
+        positive_count = #{positiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="studentMemberCount != null">
+        student_member_count = #{studentMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherMemberCount != null">
+        teacher_member_count = #{teacherMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="retireMemberCount != null">
+        retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
@@ -237,6 +327,12 @@
       config_id = #{configId,jdbcType=INTEGER},
       stage = #{stage,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      branch_count = #{branchCount,jdbcType=INTEGER},
+      member_count = #{memberCount,jdbcType=INTEGER},
+      positive_count = #{positiveCount,jdbcType=INTEGER},
+      student_member_count = #{studentMemberCount,jdbcType=INTEGER},
+      teacher_member_count = #{teacherMemberCount,jdbcType=INTEGER},
+      retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

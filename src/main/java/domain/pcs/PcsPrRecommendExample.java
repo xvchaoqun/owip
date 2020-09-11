@@ -1085,6 +1085,366 @@ public class PcsPrRecommendExample {
             return (Criteria) this;
         }
 
+        public Criteria andBranchCountIsNull() {
+            addCriterion("branch_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountIsNotNull() {
+            addCriterion("branch_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountEqualTo(Integer value) {
+            addCriterion("branch_count =", value, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountNotEqualTo(Integer value) {
+            addCriterion("branch_count <>", value, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountGreaterThan(Integer value) {
+            addCriterion("branch_count >", value, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_count >=", value, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountLessThan(Integer value) {
+            addCriterion("branch_count <", value, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_count <=", value, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountIn(List<Integer> values) {
+            addCriterion("branch_count in", values, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountNotIn(List<Integer> values) {
+            addCriterion("branch_count not in", values, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountBetween(Integer value1, Integer value2) {
+            addCriterion("branch_count between", value1, value2, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_count not between", value1, value2, "branchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountIsNull() {
+            addCriterion("member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountIsNotNull() {
+            addCriterion("member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountEqualTo(Integer value) {
+            addCriterion("member_count =", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountNotEqualTo(Integer value) {
+            addCriterion("member_count <>", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountGreaterThan(Integer value) {
+            addCriterion("member_count >", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("member_count >=", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountLessThan(Integer value) {
+            addCriterion("member_count <", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("member_count <=", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountIn(List<Integer> values) {
+            addCriterion("member_count in", values, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountNotIn(List<Integer> values) {
+            addCriterion("member_count not in", values, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("member_count between", value1, value2, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("member_count not between", value1, value2, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountIsNull() {
+            addCriterion("positive_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountIsNotNull() {
+            addCriterion("positive_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountEqualTo(Integer value) {
+            addCriterion("positive_count =", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountNotEqualTo(Integer value) {
+            addCriterion("positive_count <>", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountGreaterThan(Integer value) {
+            addCriterion("positive_count >", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("positive_count >=", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountLessThan(Integer value) {
+            addCriterion("positive_count <", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountLessThanOrEqualTo(Integer value) {
+            addCriterion("positive_count <=", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountIn(List<Integer> values) {
+            addCriterion("positive_count in", values, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountNotIn(List<Integer> values) {
+            addCriterion("positive_count not in", values, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountBetween(Integer value1, Integer value2) {
+            addCriterion("positive_count between", value1, value2, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("positive_count not between", value1, value2, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountIsNull() {
+            addCriterion("student_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountIsNotNull() {
+            addCriterion("student_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountEqualTo(Integer value) {
+            addCriterion("student_member_count =", value, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountNotEqualTo(Integer value) {
+            addCriterion("student_member_count <>", value, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountGreaterThan(Integer value) {
+            addCriterion("student_member_count >", value, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("student_member_count >=", value, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountLessThan(Integer value) {
+            addCriterion("student_member_count <", value, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("student_member_count <=", value, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountIn(List<Integer> values) {
+            addCriterion("student_member_count in", values, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountNotIn(List<Integer> values) {
+            addCriterion("student_member_count not in", values, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("student_member_count between", value1, value2, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("student_member_count not between", value1, value2, "studentMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountIsNull() {
+            addCriterion("teacher_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountIsNotNull() {
+            addCriterion("teacher_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountEqualTo(Integer value) {
+            addCriterion("teacher_member_count =", value, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountNotEqualTo(Integer value) {
+            addCriterion("teacher_member_count <>", value, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountGreaterThan(Integer value) {
+            addCriterion("teacher_member_count >", value, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("teacher_member_count >=", value, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountLessThan(Integer value) {
+            addCriterion("teacher_member_count <", value, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("teacher_member_count <=", value, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountIn(List<Integer> values) {
+            addCriterion("teacher_member_count in", values, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountNotIn(List<Integer> values) {
+            addCriterion("teacher_member_count not in", values, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("teacher_member_count between", value1, value2, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("teacher_member_count not between", value1, value2, "teacherMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountIsNull() {
+            addCriterion("retire_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountIsNotNull() {
+            addCriterion("retire_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountEqualTo(Integer value) {
+            addCriterion("retire_member_count =", value, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountNotEqualTo(Integer value) {
+            addCriterion("retire_member_count <>", value, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountGreaterThan(Integer value) {
+            addCriterion("retire_member_count >", value, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("retire_member_count >=", value, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountLessThan(Integer value) {
+            addCriterion("retire_member_count <", value, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("retire_member_count <=", value, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountIn(List<Integer> values) {
+            addCriterion("retire_member_count in", values, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountNotIn(List<Integer> values) {
+            addCriterion("retire_member_count not in", values, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("retire_member_count between", value1, value2, "retireMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRetireMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("retire_member_count not between", value1, value2, "retireMemberCount");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;
