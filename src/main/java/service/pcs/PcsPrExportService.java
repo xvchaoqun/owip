@@ -208,11 +208,13 @@ public class PcsPrExportService extends PcsBaseMapper {
         String stageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                title = String.format(title, "初步");
+                /*title = String.format(title, "初步");*/
+                title = String.format(title, "推荐");
                 stageStr = "一上";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                title = String.format(title, "预备");
+                /*title = String.format(title, "预备");*/
+                title = String.format(title, "推荐");
                 stageStr = "二上";
                 break;
             case PcsConstants.PCS_STAGE_THIRD:
@@ -268,11 +270,13 @@ public class PcsPrExportService extends PcsBaseMapper {
         String stageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                title = String.format(title, "初步");
+                /*title = String.format(title, "初步");*/
+                title = String.format(title, "推荐");
                 stageStr = "一上";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                title = String.format(title, "预备");
+               /* title = String.format(title, "预备");*/
+                title = String.format(title, "推荐");
                 stageStr = "二上";
                 break;
             case PcsConstants.PCS_STAGE_THIRD:
@@ -280,8 +284,26 @@ public class PcsPrExportService extends PcsBaseMapper {
                 stageStr = "三上";
                 break;
         }
+        Integer memberCount = 0;
+        Integer teacherMemberCount = 0;
+        Integer studentMemberCount = 0;
+        Integer retireMemberCount = 0;
 
         PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
+        //是否上报
+        if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()&&pcsPrRecommend.getStatus()!=PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY){
+            memberCount=pcsPrRecommend.getMemberCount();
+            teacherMemberCount=pcsPrRecommend.getTeacherMemberCount();
+            studentMemberCount=pcsPrRecommend.getStudentMemberCount();
+            retireMemberCount=pcsPrRecommend.getRetireMemberCount();
+        }else{
+            memberCount=pcsParty.getMemberCount();
+            teacherMemberCount=pcsParty.getTeacherMemberCount();
+            studentMemberCount=pcsParty.getStudentMemberCount();
+            retireMemberCount=pcsParty.getRetireMemberCount();
+        }
+
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
@@ -298,10 +320,10 @@ public class PcsPrExportService extends PcsBaseMapper {
         row = sheet.getRow(2);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("mc", pcsParty.getMemberCount() + "")
-                .replace("tc", pcsParty.getTeacherMemberCount() + "")
-                .replace("sc", pcsParty.getStudentMemberCount() + "")
-                .replace("rc", pcsParty.getRetireMemberCount() + "");
+                .replace("mc", memberCount + "")
+                .replace("tc", teacherMemberCount + "")
+                .replace("sc", studentMemberCount + "")
+                .replace("rc", retireMemberCount + "");
         cell.setCellValue(str);
 
         row = sheet.getRow(6);
@@ -774,16 +796,17 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         String title = pcsConfigService.getPcsName(configId) + "代表候选人%s人选名单";
+        title = String.format(title, "推荐");
         String rate = "";
         String nextStageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                title = String.format(title, "初步");
+                /*title = String.format(title, "初步");*/
                 rate = "30%";
                 nextStageStr = "二下";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                title = String.format(title, "预备");
+                /*title = String.format(title, "预备");*/
                 rate = "20%";
                 nextStageStr = "三下";
                 break;
@@ -808,10 +831,21 @@ public class PcsPrExportService extends PcsBaseMapper {
         if (partyId != null) {
 
             PcsParty pcsParty = pcsPartyService.get(configId, partyId);
-            mc = pcsParty.getMemberCount() + "";
-            tc = pcsParty.getTeacherMemberCount() + "";
-            sc = pcsParty.getStudentMemberCount() + "";
-            rc = pcsParty.getRetireMemberCount() + "";
+
+            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
+            //是否上报
+            if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()&&pcsPrRecommend.getStatus()!=PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY){
+                mc=pcsPrRecommend.getMemberCount()+ "";
+                tc=pcsPrRecommend.getTeacherMemberCount()+ "";
+                sc=pcsPrRecommend.getStudentMemberCount()+ "";
+                rc=pcsPrRecommend.getRetireMemberCount()+ "";
+            }else{
+                mc = pcsParty.getMemberCount() + "";
+                tc = pcsParty.getTeacherMemberCount() + "";
+                sc = pcsParty.getStudentMemberCount() + "";
+                rc = pcsParty.getRetireMemberCount() + "";
+            }
+
             row = sheet.getRow(1);
             cell = row.getCell(0);
             str = cell.getStringCellValue().replace("party", pcsParty.getName());
@@ -927,7 +961,15 @@ public class PcsPrExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(userInfoMap.get("post"));
 
-            // 票数
+            //推荐提名的支部数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getBranchVote()));
+
+            //推荐提名的党员数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote()));
+
+            // 推荐提名的正式党员数
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getPositiveVote()));
         }

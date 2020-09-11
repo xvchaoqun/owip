@@ -60,8 +60,8 @@ public class PcsOwController extends PcsBaseController {
             case "2-1":
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
-                fileName = String.format("附表2-%s. %s候选人推荐提名汇总表（院系级党组织用）（%s）",
-                        type, PcsConstants.PCS_USER_TYPE_MAP.get(type), party.getName());
+                fileName = String.format("%s候选人推荐提名汇总表（院系级党组织用）（%s）",
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), party.getName());
                 break;
             case "4-1":
                 wb = pcsExportService.exportPartyCandidates(null, configId, stage, type);
@@ -70,7 +70,7 @@ public class PcsOwController extends PcsBaseController {
                 break;
             case "5-1":
                 wb = pcsExportService.exportPartyCandidates2(configId, stage, type);
-                fileName = String.format("附表5-%s. %s候选人推荐提名汇总表（报上级用）", type,
+                fileName = String.format("%s候选人推荐提名汇总表（报上级用）",
                         PcsConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case "6":

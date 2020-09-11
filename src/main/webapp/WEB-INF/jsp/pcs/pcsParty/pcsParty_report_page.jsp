@@ -4,13 +4,13 @@
 <jsp:include page="menu.jsp"/>
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
-        <h4>党委委员候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
+        <h4>党委委员候选人<%--初步--%>推荐人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
         <a href="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_DW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
-        <h4>纪委委员候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
+        <h4>纪委委员候选人<%--初步--%>推荐人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
         <a href="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_JW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>

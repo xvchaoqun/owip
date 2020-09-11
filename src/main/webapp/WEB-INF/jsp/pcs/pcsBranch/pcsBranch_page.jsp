@@ -11,13 +11,11 @@
             <div class="space-4"></div>
             <div class="buttons">
                 <shiro:hasPermission name="pcsPartyList:edit">
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/pcs/pcsBranch_au"
-                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改</button>
-                </shiro:hasPermission>
-                <shiro:hasRole name="${ROLE_SUPER}">
                     <c:if test="${cls==2}">
+                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                data-url="${ctx}/pcs/pcsBranch_au"
+                                data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                            修改</button>
                         <button data-url="${ctx}/pcs/pcsBranch_exclude"
                                 data-title="不参与党代会"
                                 data-msg="确定这{0}个党支部不参与党代会？"
@@ -26,6 +24,7 @@
                                 class="jqBatchBtn btn btn-warning btn-sm">
                             <i class="fa fa-times"></i> 不参与党代会的党支部
                         </button>
+                        <shiro:hasRole name="${ROLE_SUPER}">
                         <button data-url="${ctx}/pcs/pcsBranch_batchDel"
                                 data-title="删除"
                                 data-msg="确定删除这{0}条数据？"
@@ -33,6 +32,7 @@
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
                         </button>
+                        </shiro:hasRole>
                     </c:if>
                     <c:if test="${cls==3}">
                         <button data-url="${ctx}/pcs/pcsBranch_exclude"
@@ -44,7 +44,7 @@
                             <i class="fa fa-reply"></i> 返回党支部列表
                         </button>
                     </c:if>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
@@ -116,11 +116,19 @@
         colModel: [
             {label: '所属${_p_partyName}', name: 'partyName', align: 'left', width: 500},
             {label: '党支部名称', name: 'name', width: 300, align: 'left'},
+            <c:if test="${cls==2}">
+            { label: '同步',name: 'sync', formatter:function(cellvalue, options, rowObject){
+                    return '<button class="confirm btn btn-success btn-xs"data-msg="确定同步当前党支部？"  data-callback="_reload"' +
+                        'data-url="${ctx}/pcs/pcsParty_sync?pcsBranchId={0}"><i class="fa fa-random"></i> 同步党支部</button>'.format(rowObject.id);
+                }
+            },
+            </c:if>
             {label: '党员数量', name: 'memberCount'},
             {label: '正式党员数量', name: 'positiveCount'},
             {label: '学生党员数量', name: 'studentMemberCount'},
             {label: '教师党员数量', name: 'teacherMemberCount'},
-            {label: '离退休党员数量', name: 'retireMemberCount', width: 120}
+            {label: '离退休党员数量', name: 'retireMemberCount', width: 120},
+
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -94,12 +94,20 @@ pageEncoding="UTF-8" %>
                     return _cMap.PCS_POLL_STAGE_MAP[cellvalue];
                 }, frozen: true},
                 </shiro:hasPermission>
+                { label: '同步',name: 'sync',formatter: function (cellvalue, options, rowObject) {
+
+                        return '<button class="confirm btn btn-success btn-xs"data-msg="确定同步当前党组织？"  data-callback="_reload"' +
+                            'data-url="${ctx}/pcs/pcsParty_sync?pcsPartyId={0}"><i class="fa fa-random"></i> 同步党组织</button>'
+                                .format(rowObject.id);
+                    }
+                },
                 { label: '支部数量',name: 'branchCount'},
                 { label: '党员数量',name: 'memberCount'},
                 { label: '正式党员数量',name: 'positiveCount'},
                 { label: '学生党员数量',name: 'studentMemberCount'},
                 { label: '教师党员数量',name: 'teacherMemberCount'},
                 { label: '离退休党员数量',name: 'retireMemberCount', width: 120},
+
                 /*{ label: '班子数量',name: 'groupCount'},
                 { label: '现任班子数量',name: 'presentGroupCount'}*/
         ]

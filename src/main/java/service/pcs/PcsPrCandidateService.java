@@ -56,7 +56,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        example.setOrderByClause("party_sort_order desc, type asc, leader_sort_order desc, vote desc, sort_order asc");
+        example.setOrderByClause("party_sort_order desc, type asc, leader_sort_order desc, vote desc, positive_vote desc, sort_order asc");
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }

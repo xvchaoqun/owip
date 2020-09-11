@@ -268,6 +268,10 @@ public class PcsExportService extends PcsBaseMapper {
             // 推荐提名的党员数
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getTotalVote()));
+
+            // 推荐提名的正式党员数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getTotalPositiveVote()));
         }
 
         return wb;
@@ -466,18 +470,27 @@ public class PcsExportService extends PcsBaseMapper {
     public XSSFWorkbook exportBranchCandidates(int configId, byte stage, byte type, int partyId) throws IOException {
 
         Party party = partyService.findAll().get(partyId);
-        List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
-        int branchCount = pcsBranchBeans.size();
+
+        int branchCount = 0;
         int memberCount = 0;
         int expectMemberCount = 0;
         int actualMemberCount = 0;
-        for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
-            memberCount += pcsBranchBean.getMemberCount() == null ? 0 : pcsBranchBean.getMemberCount();
-            expectMemberCount += pcsBranchBean.getExpectMemberCount() == null ? 0 : pcsBranchBean.getExpectMemberCount();
-            actualMemberCount += pcsBranchBean.getActualMemberCount() == null ? 0 : pcsBranchBean.getActualMemberCount();
-        }
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, partyId, true, new RowBounds());
+       if(records.size()>0){
+           Map pcsRecommendCount=iPcsMapper.getPcsRecommendCount(configId, stage, partyId);
+           branchCount= ((Long) pcsRecommendCount.get("branchCount")).intValue();
+           memberCount= pcsRecommendCount.get("memberCount")!=null?Integer.parseInt(pcsRecommendCount.get("memberCount").toString()):0;
+       }else{
+            List<PcsBranchBean> pcsBranchBeans =
+                    iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+            branchCount = pcsBranchBeans.size();
 
+            for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
+                memberCount += pcsBranchBean.getMemberCount() == null ? 0 : pcsBranchBean.getMemberCount();
+                expectMemberCount += pcsBranchBean.getExpectMemberCount() == null ? 0 : pcsBranchBean.getExpectMemberCount();
+                actualMemberCount += pcsBranchBean.getActualMemberCount() == null ? 0 : pcsBranchBean.getActualMemberCount();
+            }
+       }
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectBranchCandidateList(null, configId, stage, type, partyId, new RowBounds());
 
@@ -586,6 +599,10 @@ public class PcsExportService extends PcsBaseMapper {
             // 推荐提名的党员数
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToZero(bean.getTotalVote()));
+
+            // 推荐提名的正式党员数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToZero(bean.getTotalPositiveVote()));
         }
 
         startRow = startRow + 2 + (rowCount == 0 ? 1 : 0);

@@ -5,7 +5,10 @@
     <!-- 读取当前系统中应参与党代会的分党委（未删除、党员总数大于0的）-->
     <select id="expectPcsPartyList" resultMap="persistence.pcs.PcsPartyMapper.BaseResultMap">
         select #{configId} as config_id, p.id as party_id, p.name, mtmp.is_direct_branch, p.sort_order, btmp.num as branch_count, mtmp.num as member_count,   mtmp.positive_count, mtmp.s_num as student_member_count,
-        mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
+        mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from   (select id,name,sort_order,is_deleted from ow_party
+        <if test="partyId != null">
+            where id =#{partyId}
+        </if>)p
         left join (select count(ob.id) as num, ob.party_id from ow_branch ob
 
         where ob.is_deleted=0 group by ob.party_id) btmp on btmp.party_id=p.id
@@ -26,13 +29,22 @@
     </select>
     <!-- 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）-->
     <select id="expectPcsBranchList" resultMap="persistence.pcs.PcsBranchMapper.BaseResultMap">
-        select #{configId} as config_id, ob.party_id, ob.id as branch_id, 0 as is_direct_branch, op.name as party_name, ob.name, op.sort_order as party_sort_order, ob.sort_order, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
+        select #{configId} as config_id, ob.party_id, ob.id as branch_id, 0 as is_direct_branch, op.name as party_name, ob.name, op.sort_order as party_sort_order, ob.sort_order, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from
+        (select id,name,party_id,sort_order,is_deleted,member_count,positive_count,student_member_count,teacher_member_count,retire_member_count from ow_branch_view
+        <if test="partyId != null">
+            where party_id =#{partyId}
+        </if>
+        <if test="branchId != null">
+            and id =#{branchId}
+        </if>)ob
         left join ow_party op on ob.party_id=op.id
         where ob.is_deleted=0 and ob.member_count>0
+        <if test="branchId == null or partyId == null">
         union all
         select #{configId} as config_id, op.id as party_id, null as branch_id, 1 as is_direct_branch, op.name as party_name, op.name, op.sort_order as party_sort_order, 0 as sort_order, op.member_count, op.positive_count, op.student_member_count,
          op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
         where op.is_deleted=0 and op.member_count>0 and op.class_id=bmt.id and bmt.code='mt_direct_branch'
+        </if>
     </select>
 
     <select id="selectVoteCandidateStatList"
@@ -306,7 +318,7 @@
             pcc.sort_order asc
         </if>
         <if test="isChosen==null or !isChosen">
-            branch_count desc, FIND_IN_SET(pc.cadre_status, '6,4,1,3,0'), pc.cadre_sort_order desc, actual_member_count desc
+            branch_count desc, FIND_IN_SET(pc.cadre_status, '6,4,1,3,0'), pc.cadre_sort_order desc, total_vote desc, total_positive_vote desc
         </if>
     </select>
 

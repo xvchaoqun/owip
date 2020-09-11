@@ -30,7 +30,7 @@
                                 <i class="fa fa-question-circle"></i> 使用说明</a>
                             </c:if>
                             <a style="margin-left: 20px;" href="${ctx}/pcs/pcsPrParty_export?file=3&stage=${param.stage}">
-                                <i class="fa fa-download"></i> ${_p_partyName}酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                                <i class="fa fa-download"></i> ${_p_partyName}酝酿党员代表大会代表候选人<%--${param.stage==PCS_STAGE_FIRST?'初步':'预备'}--%>推荐人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

@@ -25,7 +25,7 @@
                             </div>
 
                             <a style="line-height: 40px" href="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${type}" >
-                                <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                                <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人<%--初步--%>推荐人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

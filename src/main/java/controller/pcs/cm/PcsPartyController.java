@@ -23,6 +23,7 @@ import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -82,6 +83,14 @@ public class PcsPartyController extends PcsBaseController {
         PcsPartyExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
         example.setOrderByClause("sort_order desc");
 
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            // 有查看基层党组织的权限的话，则可以查看所有的
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            if (partyIdList.size() > 0)
+                criteria.andPartyIdIn(partyIdList);
+            else criteria.andPartyIdIsNull();
+        }
+
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
         }
@@ -131,15 +140,15 @@ public class PcsPartyController extends PcsBaseController {
     @RequiresPermissions("pcsPartyList:edit")
     @RequestMapping(value = "/pcsParty_sync", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsParty_sync() {
+    public Map do_pcsParty_sync(Integer pcsPartyId,Integer pcsBranchId) {
 
-        pcsPartyService.sync();
+        pcsPartyService.syncPcsPartyAndBranch(pcsPartyId,pcsBranchId);
         logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 "));
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequestMapping(value = "/pcsParty_batchSync", method = RequestMethod.POST)
+  /*  @RequestMapping(value = "/pcsParty_batchSync", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsParty_batchSync(HttpServletRequest request, Integer[] ids) {
 
@@ -147,7 +156,7 @@ public class PcsPartyController extends PcsBaseController {
         logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 "));
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("pcsPartyList:edit")
     @RequestMapping(value = "/pcsParty_batchDel", method = RequestMethod.POST)

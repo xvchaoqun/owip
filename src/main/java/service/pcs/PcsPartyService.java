@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by lm on 2017/8/31.
@@ -124,15 +123,64 @@ public class PcsPartyService extends PcsBaseMapper {
 
     // 同步当前党组织
     @Transactional
-    public void sync() {
+    public void syncPcsPartyAndBranch(Integer pcsPartyId,Integer pcsBranchId) {
 
         PcsConfig pcsConfig=pcsConfigService.getCurrentPcsConfig();
 
         if(pcsConfig!=null){
 
             Integer configId = pcsConfig.getId();
-            List<PcsParty> pcsParties=iPcsMapper.expectPcsPartyList(configId);
-            List<PcsBranch> pcsBranches=iPcsMapper.expectPcsBranchList(pcsConfig.getId());
+
+            //根据分党委Id同步更新分党委统计数量，分党委下党支部统计数量
+            if(pcsPartyId!=null){
+                PcsParty pcsParty = pcsPartyMapper.selectByPrimaryKey(pcsPartyId);
+                List<PcsParty> pcsParties=iPcsMapper.expectPcsPartyList(configId,pcsParty.getPartyId());
+                List<PcsBranch> pcsBranches=iPcsMapper.expectPcsBranchList(configId,pcsParty.getPartyId(),null);
+
+                if(pcsParties.size()>0) {
+                    PcsParty _pcsParty= pcsParties.get(0);
+                    _pcsParty.setId(pcsParty.getId());
+                    _pcsParty.setCurrentStage(pcsParty.getCurrentStage());
+                   pcsPartyMapper.updateByPrimaryKey(_pcsParty);
+
+                    for (PcsBranch record:pcsBranches){
+                        Integer partyId=record.getPartyId();
+                        Integer branchId=record.getBranchId();
+
+                        PcsBranch pcsBranch=pcsBranchService.get(configId,partyId,branchId);
+
+                        if(pcsBranch!=null) {
+                            record.setId(pcsBranch.getId());
+                            record.setIsDeleted(pcsBranch.getIsDeleted());
+                            pcsBranchMapper.updateByPrimaryKey(record);
+                        }else{
+                            record.setIsDeleted(false);
+                            pcsBranchMapper.insertSelective(record);
+                        }
+                    }
+                   iPcsMapper.updatePcsPartyCount(configId,pcsParty.getPartyId());
+               }
+               return;
+            }
+
+            //根据党支部Id同步更新党支部统计数量
+            if(pcsBranchId!=null){
+                PcsBranch pcsBranch = pcsBranchMapper.selectByPrimaryKey(pcsBranchId);
+                List<PcsBranch> pcsBranches=iPcsMapper.expectPcsBranchList(configId,pcsBranch.getPartyId(),pcsBranch.getBranchId());
+
+                if(pcsBranches.size()>0) {
+                    PcsBranch _pcsBranch= pcsBranches.get(0);
+                    _pcsBranch.setId(pcsBranch.getId());
+                    _pcsBranch.setIsDeleted(pcsBranch.getIsDeleted());
+                    pcsBranchMapper.updateByPrimaryKey(_pcsBranch);
+                    iPcsMapper.updatePcsPartyCount(configId,pcsBranch.getPartyId());
+                }
+                return;
+            }
+
+            //同步更新所有分党委及党支部统计数量
+           List<PcsParty> pcsParties=iPcsMapper.expectPcsPartyList(configId,null);
+           List<PcsBranch> pcsBranches=iPcsMapper.expectPcsBranchList(configId,null,null);
 
            for (PcsParty record:pcsParties){
 
@@ -142,7 +190,8 @@ public class PcsPartyService extends PcsBaseMapper {
 
                if(pcsParty!=null) {
                    record.setId(pcsParty.getId());
-                   pcsPartyMapper.updateByPrimaryKeySelective(record);
+                   record.setCurrentStage(pcsParty.getCurrentStage());
+                   pcsPartyMapper.updateByPrimaryKey(record);
                }else{
                    pcsPartyMapper.insertSelective(record);
                }
@@ -154,9 +203,11 @@ public class PcsPartyService extends PcsBaseMapper {
 
                PcsBranch pcsBranch=pcsBranchService.get(configId,partyId,branchId);
 
+
                if(pcsBranch!=null) {
                    record.setId(pcsBranch.getId());
-                   pcsBranchMapper.updateByPrimaryKeySelective(record);
+                   record.setIsDeleted(pcsBranch.getIsDeleted());
+                   pcsBranchMapper.updateByPrimaryKey(record);
                }else{
                    record.setIsDeleted(false);
                    pcsBranchMapper.insertSelective(record);
@@ -174,7 +225,7 @@ public class PcsPartyService extends PcsBaseMapper {
     }
 
     // 同步当前党组织
-    @Transactional
+ /*   @Transactional
     public void batchSync(Integer[] ids) {
 
         PcsConfig pcsConfig=pcsConfigService.getCurrentPcsConfig();
@@ -187,10 +238,10 @@ public class PcsPartyService extends PcsBaseMapper {
             Integer[]  partyIds =pcsPartyList.stream().map(PcsParty::getPartyId)
                                          .collect(Collectors.toList()).stream().toArray(Integer[]::new);
             Integer configId = pcsConfig.getId();
-           /* List<PcsParty> pcsPartys=iPcsMapper.expectPcsPartyList(configId, StringUtils.join(partyIds, ","));*/
-         /*   List<PcsBranch> pcsBtanchs=iPcsMapper.expectPcsBranchList(pcsConfig.getId());*/
+           *//* List<PcsParty> pcsPartys=iPcsMapper.expectPcsPartyList(configId, StringUtils.join(partyIds, ","));*//*
+         *//*   List<PcsBranch> pcsBtanchs=iPcsMapper.expectPcsBranchList(pcsConfig.getId());*//*
 
-          /*  for (PcsParty record:pcsPartys){
+          *//*  for (PcsParty record:pcsPartys){
                 Integer partyId=record.getPartyId();
 
                 PcsParty pcsParty=get(configId,partyId);
@@ -200,9 +251,9 @@ public class PcsPartyService extends PcsBaseMapper {
                 }else{
                     pcsPartyMapper.insertSelective(record);
                 }
-            }*/
+            }*//*
 
-           /* for (PcsBranch record:pcsBtanchs){
+           *//* for (PcsBranch record:pcsBtanchs){
                 Integer partyId=record.getPartyId();
                 Integer branchId=record.getBranchId();
 
@@ -213,10 +264,10 @@ public class PcsPartyService extends PcsBaseMapper {
                 }else{
                     pcsBranchMapper.insertSelective(record);
                 }
-            }*/
+            }*//*
 
         }
-    }
+    }*/
 
     @Transactional
     public void batchDel(Integer[] ids){

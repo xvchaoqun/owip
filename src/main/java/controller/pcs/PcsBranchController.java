@@ -9,6 +9,7 @@ import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.helper.PartyHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -77,6 +80,7 @@ public class PcsBranchController extends PcsBaseController {
         PcsBranchExample example = new PcsBranchExample();
         Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
         example.setOrderByClause("party_sort_order desc, sort_order desc");
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -112,6 +116,12 @@ public class PcsBranchController extends PcsBaseController {
     @RequestMapping(value = "/pcsBranch_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsBranch_au(PcsBranch record, HttpServletRequest request) {
+        PcsBranch pcsBranch  =pcsBranchMapper.selectByPrimaryKey(record.getId());
+        Integer partyId = pcsBranch.getPartyId();
+        Integer branchId = pcsBranch.getBranchId();
+        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+            throw new UnauthorizedException();
+        }
 
         pcsBranchService.updateByPrimaryKeySelective(record);
         logger.info(log( LogConstants.LOG_PCS, "更新召开党代会的支部：{0}", record.getId()));
