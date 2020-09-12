@@ -890,11 +890,13 @@ public class SysUserService extends BaseMapper {
                         StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(uv.getId());
                         if (!flag && studentInfo != null) {
                             String _stuType = studentInfo.getType();
-                            if (_stuType.contains("硕士")) {
-                               code = uv.getCode();
-                            } else if (_stuType.contains("博士")) {
-                                flag = true;
-                                code = uv.getCode();
+                            if (_stuType != null) {
+                                if (_stuType.contains("硕士")) {
+                                    code = uv.getCode();
+                                } else if (_stuType.contains("博士")) {
+                                    flag = true;
+                                    code = uv.getCode();
+                                }
                             }
                         }
                         if (null != birthKey) {

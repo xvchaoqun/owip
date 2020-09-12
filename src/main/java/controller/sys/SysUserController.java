@@ -966,6 +966,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_batchImport";
     }
 
+    //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行插入插座。同时会更新教师表
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_batchImport", method = RequestMethod.POST)
     @ResponseBody
@@ -984,12 +985,12 @@ public class SysUserController extends BaseController {
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
-
-            String userCode = StringUtils.trimToNull(xlsRow.get(0));
+            int col = 0;
+            String userCode = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(userCode)) {
                 continue; // 学工号为空则忽略行
             }
-            String type = StringUtils.trimToNull(xlsRow.get(1));
+            String type = StringUtils.trimToNull(xlsRow.get(col++));
             byte _type = 0;
             if (StringUtils.isNotBlank(type)){
                 for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
@@ -1004,7 +1005,7 @@ public class SysUserController extends BaseController {
                 throw new OpException("第{0}行账号类别为空", row);
             }
 
-            String passwd = StringUtils.trimToNull(xlsRow.get(2));
+            String passwd = StringUtils.trimToNull(xlsRow.get(col++));
 
             //判断账号存在，先用账号判断，再用学工号判断
             SysUserView uv = sysUserService.findByUsername(userCode);
@@ -1030,35 +1031,41 @@ public class SysUserController extends BaseController {
             }
             uv.setType(_type);//账号类别
 
-            uv.setRealname(StringUtils.trimToNull(xlsRow.get(3)));
-            uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(4)), "男") ? 1 : 2));
-            uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(5))));
-            uv.setIdcard(StringUtils.trimToNull(xlsRow.get(6)));
-            uv.setNation(StringUtils.trimToNull(xlsRow.get(7)));
-            uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(8)));
-            uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(9)));
-            uv.setHousehold(StringUtils.trimToNull(xlsRow.get(10)));
-            uv.setMobile(StringUtils.trimToNull(xlsRow.get(17)));
-            uv.setEmail(StringUtils.trimToNull(xlsRow.get(18)));
-            uv.setPhone(StringUtils.trimToNull(xlsRow.get(19)));
-            uv.setUnit(StringUtils.trimToNull(xlsRow.get(20)));
+            uv.setRealname(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
+            uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            uv.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setNation(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//籍贯
+
+            SysUserInfo uvi = sysUserInfoMapper.selectByPrimaryKey(uv.getId());
+            uvi.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
+            sysUserInfoMapper.updateByPrimaryKeySelective(uvi);
 
             TeacherInfo teacherInfo = new TeacherInfo();
             if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());
                 }
-                teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(11)));
-                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(12)));
-                teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
-                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(14)));
-                teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(15))));
-                Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(16)));
+                teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称
+                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+                teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+                teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setIsRetire(retireTime != null ? retireTime.before(new Date()) : true);
                 teacherInfo.setRetireTime(retireTime);
 
 
             }
+            uv.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setPhone(StringUtils.trimToNull(xlsRow.get(col++)));
+            uv.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
+
+
 
             userMap.put(userCode, uv);
             teacherMap.put(userCode, teacherInfo);
