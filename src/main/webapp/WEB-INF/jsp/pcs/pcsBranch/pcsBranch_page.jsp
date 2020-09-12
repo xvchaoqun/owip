@@ -116,7 +116,7 @@
         url: '${ctx}/pcs/pcsBranch_data?callback=?&isDeleted=${cls==2?'0':'1'}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
 
-            {label: '党支部名称', name: 'name', width: 400, align: 'left'},
+            {label: '党支部名称', name: 'name', width: 500, align: 'left'},
             <c:if test="${cls==2}">
             { label: '同步',name: 'sync', width: 80, formatter:function(cellvalue, options, rowObject){
                     return '<button class="confirm btn btn-success btn-xs"data-msg="确定同步当前党支部的信息？（数据来源：基层党组织-党支部（已撤销支部除外））"  data-callback="_reload"' +
