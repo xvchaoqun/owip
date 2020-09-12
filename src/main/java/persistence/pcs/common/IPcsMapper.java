@@ -16,10 +16,6 @@ import java.util.Map;
  */
 public interface IPcsMapper {
 
- /*   @Select("select count(*) as branchCount,sum(member_count) as memberCount,sum(positive_count) as positiveCount" +
-            " from pcs_recommend   where config_id=#{configId} and stage=#{stage} and party_id=#{partyId} and is_finished=1")
-    Map getPcsRecommendCount(@Param("configId") int configId, @Param("stage")byte stage, @Param("partyId")int partyId);*/
-
     //更新后党代会分党委统计结果（在设置不参与/参与、删除党支部、同步党组织信息时）
     @Update("update pcs_party pp,(select count(*) as branch_count, sum(member_count) as member_count, " +
             "sum(positive_count) as positive_count, sum(student_member_count) as student_member_count, " +

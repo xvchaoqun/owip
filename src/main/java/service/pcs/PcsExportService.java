@@ -481,8 +481,8 @@ public class PcsExportService extends PcsBaseMapper {
         if(records.size()>0 && records.get(0).getReportId()!=null){
            Integer reportId=records.get(0).getReportId();
            PcsAdminReport pcsAdminReport=pcsAdminReportMapper.selectByPrimaryKey(reportId);
-           branchCount= pcsAdminReport.getBranchCount()==null?0:pcsAdminReport.getBranchCount();
-           memberCount= pcsAdminReport.getMemberCount()==null?0:pcsAdminReport.getMemberCount();
+           branchCount= NumberUtils.trimToZero(pcsAdminReport.getBranchCount());
+           memberCount= NumberUtils.trimToZero(pcsAdminReport.getMemberCount());
 
        }else{
             List<PcsBranchBean> pcsBranchBeans =

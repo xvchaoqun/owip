@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers"
+        <div id="body-content" class="multi-row-head-table rownumbers"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
@@ -107,6 +107,7 @@
 </div>
 <script>
     function _reload() {
+        SysMsg.info("同步成功")
         $("#jqGrid").trigger("reloadGrid");
     }
 
@@ -114,20 +115,21 @@
         rownumbers: true,
         url: '${ctx}/pcs/pcsBranch_data?callback=?&isDeleted=${cls==2?'0':'1'}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '所属${_p_partyName}', name: 'partyName', align: 'left', width: 500},
-            {label: '党支部名称', name: 'name', width: 300, align: 'left'},
+
+            {label: '党支部名称', name: 'name', width: 400, align: 'left'},
             <c:if test="${cls==2}">
-            { label: '同步',name: 'sync', formatter:function(cellvalue, options, rowObject){
-                    return '<button class="confirm btn btn-success btn-xs"data-msg="确定同步当前党支部？"  data-callback="_reload"' +
-                        'data-url="${ctx}/pcs/pcsParty_sync?pcsBranchId={0}"><i class="fa fa-random"></i> 同步党支部</button>'.format(rowObject.id);
+            { label: '同步',name: 'sync', width: 80, formatter:function(cellvalue, options, rowObject){
+                    return '<button class="confirm btn btn-success btn-xs"data-msg="确定同步当前党支部的信息？（数据来源：基层党组织-党支部（已撤销支部除外））"  data-callback="_reload"' +
+                        'data-url="${ctx}/pcs/pcsParty_sync?pcsBranchId={0}"><i class="fa fa-random"></i> 同步</button>'.format(rowObject.id);
                 }
             },
             </c:if>
-            {label: '党员数量', name: 'memberCount'},
-            {label: '正式党员数量', name: 'positiveCount'},
-            {label: '学生党员数量', name: 'studentMemberCount'},
-            {label: '教师党员数量', name: 'teacherMemberCount'},
-            {label: '离退休党员数量', name: 'retireMemberCount', width: 120},
+            {label: '所属${_p_partyName}', name: 'partyName', align: 'left', width: 400},
+            {label: '党员数量', name: 'memberCount', width: 80},
+            {label: '正式党员<br/>数量', name: 'positiveCount', width: 80},
+            {label: '学生党员<br/>数量', name: 'studentMemberCount', width: 80},
+            {label: '教师党员<br/>数量', name: 'teacherMemberCount', width: 80},
+            {label: '离退休党员<br/>数量', name: 'retireMemberCount', width: 80},
 
         ]
     }).jqGrid("setFrozenColumns");

@@ -5,14 +5,14 @@
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
         <h4>党代表名单</h4>
-        <a href="${ctx}/pcs/pcsPrParty_export?file=pl"
-           class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
+        <a onclick="javascript:;" data-url="${ctx}/pcs/pcsPrParty_export?file=pl"
+           class="downloadBtn btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
         <h4>党代表数据统计表</h4>
-        <a href="${ctx}/pcs/pcsPrParty_export?file=4&stage=${PCS_STAGE_THIRD}"
-           class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载统计表</a>
+        <a onclick="javascript:;" data-url="${ctx}/pcs/pcsPrParty_export?file=4&stage=${PCS_STAGE_THIRD}"
+           class="downloadBtn btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载统计表</a>
     </div>
 </div>
 

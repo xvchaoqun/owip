@@ -142,7 +142,7 @@ public class PcsPartyController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsParty_sync(Integer pcsPartyId,Integer pcsBranchId) {
 
-        pcsPartyService.syncPcsPartyAndBranch(pcsPartyId,pcsBranchId);
+        pcsPartyService.syncPcsPartyAndBranch(pcsPartyId, pcsBranchId);
         logger.info(log( LogConstants.LOG_PCS, "同步当前党组织 "));
 
         return success(FormUtils.SUCCESS);
