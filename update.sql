@@ -1,4 +1,6 @@
 
+20200912
+北邮 -- 北师大
 
 ALTER TABLE `pcs_recommend`
 	ADD COLUMN `member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党员数量，二级党委报送时归档用' AFTER `stage`,

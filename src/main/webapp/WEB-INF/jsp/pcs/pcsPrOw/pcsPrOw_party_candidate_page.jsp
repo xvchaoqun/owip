@@ -72,11 +72,11 @@
 
 <style>
 
-    .candidate-table th.ui-th-column div{
+    /*.candidate-table th.ui-th-column div{
         white-space:normal !important;
         height:auto !important;
         padding:0px;
-    }
+    }*/
     #jqGrid2_vote,#jqGrid2_positiveVote
     {
         padding: 0;
