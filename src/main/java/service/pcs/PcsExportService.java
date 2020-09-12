@@ -1,6 +1,7 @@
 package service.pcs;
 
 import domain.party.Party;
+import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsConfig;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -476,10 +477,13 @@ public class PcsExportService extends PcsBaseMapper {
         int expectMemberCount = 0;
         int actualMemberCount = 0;
         List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, partyId, true, new RowBounds());
-       if(records.size()>0){
-           Map pcsRecommendCount=iPcsMapper.getPcsRecommendCount(configId, stage, partyId);
-           branchCount= ((Long) pcsRecommendCount.get("branchCount")).intValue();
-           memberCount= pcsRecommendCount.get("memberCount")!=null?Integer.parseInt(pcsRecommendCount.get("memberCount").toString()):0;
+
+        if(records.size()>0 && records.get(0).getReportId()!=null){
+           Integer reportId=records.get(0).getReportId();
+           PcsAdminReport pcsAdminReport=pcsAdminReportMapper.selectByPrimaryKey(reportId);
+           branchCount= pcsAdminReport.getBranchCount()==null?0:pcsAdminReport.getBranchCount();
+           memberCount= pcsAdminReport.getMemberCount()==null?0:pcsAdminReport.getMemberCount();
+
        }else{
             List<PcsBranchBean> pcsBranchBeans =
                     iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
