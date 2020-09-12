@@ -24,6 +24,14 @@ ALTER TABLE `pcs_pr_recommend`
 	ADD COLUMN `teacher_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '教师党员数量' AFTER `student_member_count`,
 	ADD COLUMN `retire_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '离退休党员数量' AFTER `teacher_member_count`;
 
+-- 更新 ow_member_view
+-- 更新 utils
+
+-- 西工大数据脱敏
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('privateDataMask', '数据脱敏', 'true', 3, 75, '隐私数据是否脱敏处理');
+
+
 20200909
 西工大， 戏曲
 

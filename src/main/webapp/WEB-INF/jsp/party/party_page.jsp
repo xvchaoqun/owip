@@ -265,13 +265,31 @@ pageEncoding="UTF-8" %>
             { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.classId=='${cm:getMetaTypeByCode("mt_direct_branch").id}')
                     return 1;
-                return cellvalue==undefined?0:cellvalue;
+                if(cellvalue==undefined|| cellvalue==0) return 0;
+                 <shiro:hasPermission name="branch:list">
+                return '<a href="#${ctx}/branch?partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="branch:list">
+                    return cellvalue;
+                </shiro:lacksPermission>
             }},
             { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
-                return cellvalue==undefined?0:cellvalue;
+                if(cellvalue==undefined|| cellvalue==0) return 0;
+                 <shiro:hasPermission name="member:list">
+                return '<a href="#${ctx}/member?cls=10&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="member:list">
+                    return cellvalue;
+                </shiro:lacksPermission>
             }},
             { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
-                return cellvalue==undefined?0:cellvalue;
+                if(cellvalue==undefined|| cellvalue==0) return 0;
+                 <shiro:hasPermission name="member:list">
+                return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="member:list">
+                    return cellvalue;
+                </shiro:lacksPermission>
             }},
             { label:'在职<br/>教职工', name: 'teacherMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;

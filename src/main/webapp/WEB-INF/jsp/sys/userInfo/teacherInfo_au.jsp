@@ -6,7 +6,7 @@
     <hr/>
     <form class="form-horizontal" action="${ctx}/teacherInfo_au" autocomplete="off" disableautocomplete id="baseInfoForm"
           method="post">
-        <input type="hidden" name="userId" value="${teacherInfo.userId}">
+        <input type="hidden" name="userId" value="${sysUser.id}">
         <div class="row">
             <div class="col-xs-4">
                 <div class="form-group">

@@ -65,7 +65,7 @@ t.authorized_type, t.staff_type, t.staff_status, t.on_job, t.main_post_level,
 t.post_class, t.post, t.post_level, t.pro_post, t.pro_post_level, t.manage_level, t.office_level,
 t.title_level,t.marital_status,t.address,
 t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
-t.is_retire, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
+if(isnull(t.is_retire), 0, t.is_retire) as is_retire, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
 
 s.delay_year,s.period,s.actual_graduate_time,
 s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,

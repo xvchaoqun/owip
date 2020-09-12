@@ -14,6 +14,7 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import service.global.CacheService;
 import sys.helper.CetHelper;
+import sys.tags.CmTag;
 import sys.utils.HttpRequestDeviceUtils;
 import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
@@ -43,6 +44,9 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                 request.getContentType(),
                 request.getHeader("Cookie")
         });
+
+        // 隐私数据是否脱敏
+        request.setAttribute("_p_privateDataMask", CmTag.getBoolProperty("privateDataMask"));
 
         String servletPath = request.getServletPath();
         if(servletPath.startsWith("/m/cet_eva")){//对外培训

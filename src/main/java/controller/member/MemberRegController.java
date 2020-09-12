@@ -332,6 +332,10 @@ public class MemberRegController extends MemberBaseController {
         if (!IdcardValidator.valid(record.getIdcard())) {
             return failed("身份证号码有误。");
         }
+        String mobile = record.getPhone();
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
 

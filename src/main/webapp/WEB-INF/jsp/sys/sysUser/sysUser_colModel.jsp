@@ -33,7 +33,7 @@
                 if(cellvalue==undefined) return '--';
                 return _cMap.USER_TYPE_MAP[cellvalue];
             }},
-        { label: '人员状态',name: 'userStatus', width: 80},
+
         { label: '性别',  name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         { label: '系统角色',  name: 'roleIds', align:'left', width: 156 , formatter:function(cellvalue, options, rowObject){
 
@@ -52,6 +52,7 @@
         { label: '手机号',  name: 'mobile', width: 150 },
         { label: '邮箱',  name: 'email', width: 200, align:'left' },
         </c:if>
+        { label: '人事状态',name: 'userStatus', width: 80},
         { label: '账号来源', name: 'source', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '--';
                 return _cMap.USER_SOURCE_MAP[cellvalue];
