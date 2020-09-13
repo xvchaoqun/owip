@@ -10,6 +10,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
 import service.global.CacheHelper;
+import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
@@ -44,6 +46,8 @@ public class MemberRegService extends MemberBaseMapper {
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
 
+    @Autowired
+    protected PartyMemberService partyMemberService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -348,6 +352,12 @@ public class MemberRegService extends MemberBaseMapper {
     // 添加一个账号
     @Transactional
     public MemberReg addMemberReg(MemberReg record, String prefix, int importSeq, Date now, String ip) {
+
+        // 只能添加本党委的党员
+        Integer partyId = record.getPartyId();
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        if (!partyMemberService.hasAdminAuth(loginUserId, partyId))
+            throw new UnauthorizedException();
 
         String code = sysUserService.genCode(prefix);
         String passwd = RandomStringUtils.randomNumeric(6);

@@ -39,7 +39,7 @@ public class DpConstants {
         DP_MEMBER_AGE_MAP.put(DP_MEMBER_AGE_31_40, "31-40");
         DP_MEMBER_AGE_MAP.put(DP_MEMBER_AGE_41_50, "41-50");
         DP_MEMBER_AGE_MAP.put(DP_MEMBER_AGE_51, "51及以上");
-        DP_MEMBER_AGE_MAP.put(DP_MEMBER_AGE_0, "未知");
+        DP_MEMBER_AGE_MAP.put(DP_MEMBER_AGE_0, "无数据");
     }
 
     //党派成员类别，用于成员信息、流动成员、校内组织关系互转

@@ -74,7 +74,7 @@
                 </dt>
                 <dt></dt>
                 <dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
-                <dd style="width: 330px;padding-left: 50px;text-align: right">
+                <dd style="width: 330px;padding-left: 50px;text-align: right;font-size: 0">
                     <a href="${ctx}/page/browsers.jsp" target="_blank" class="to_reg_btn">推荐浏览器</a>
                     <c:if test="${_p_hasPartyModule}">
                     <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>

@@ -4,3 +4,6 @@
 <c:forEach var="metaType" items="${metaTypes}">
   <option value="${metaType.id}" data-bool-attr="${metaType.boolAttr}" data-extra-attr="${metaType.extraAttr}">${metaType.name}</option>
 </c:forEach>
+<shiro:hasPermission name="metaClass:edit">
+<option value="__NEW" data-code="${param.__code}">编辑属性</option>
+</shiro:hasPermission>

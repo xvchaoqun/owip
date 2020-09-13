@@ -368,12 +368,6 @@ public class MemberRegController extends MemberBaseController {
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
         }else{
 
-            // 只能添加本党委的党员
-            Integer partyId = record.getPartyId();
-            Integer loginUserId = ShiroHelper.getCurrentUserId();
-            if (!partyMemberService.hasAdminAuth(loginUserId, partyId))
-                throw new UnauthorizedException();
-
             String prefix = CmTag.getStringProperty("memberRegPrefix", "dy");
             MemberReg memberReg = memberRegService.addMemberReg(record, prefix, -1,
                     new Date(), ContextHelper.getRealIp());

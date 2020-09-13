@@ -26,7 +26,7 @@ public class MemberConstants {
         MEMBER_AGE_MAP.put(MEMBER_AGE_31_40, "31~40");
         MEMBER_AGE_MAP.put(MEMBER_AGE_41_50, "41~50");
         MEMBER_AGE_MAP.put(MEMBER_AGE_51, "51及以上");
-        MEMBER_AGE_MAP.put(MEMBER_AGE_0, "未知");
+        MEMBER_AGE_MAP.put(MEMBER_AGE_0, "无数据");
     }
 
     public static byte getMemberAgeRange(Date birth) {

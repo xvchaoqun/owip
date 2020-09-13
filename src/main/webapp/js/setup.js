@@ -1283,8 +1283,14 @@ $(document).on('keydown input propertychange', 'textarea.noEnter, #modalForm tex
 })
 
 // 搜索框响应回车事件
-$(document).on("select2:close", '#searchForm [data-rel="select2"], #searchForm [data-rel="select2-ajax"]', function () {
+$(document).on("select2:close", '[data-rel="select2"], [data-rel="select2-ajax"]', function (e) {
     $(':focus').blur();
+     var el = $(this);
+    if(el.val()==="__NEW") {
+		var code = el.find("option:selected").data("code");
+        window.open("#/metaClass?code="+code, "_blank")
+        $(this).val(null).change();
+    }
 });
 $(document).on("keydown keyup","#searchForm input[type=text]", function(e){
     //alert(0)

@@ -1465,6 +1465,13 @@ if ($.fn.select2) {
     $.fn.select2.defaults.set("theme", "classic");
     $.fn.select2.defaults.set("allowClear", true);
     $.fn.select2.defaults.set("width", "200px");
+    $.fn.select2.defaults.set("templateResult", function (result) {
+
+        if(result.id=='__NEW'){
+            return $('<span class="red bolder"><i class="fa fa-edit"></i> {0}</span>'.format(result.text));
+        }
+        return result.text;
+    });
 }
 // 解决IE8下select2在modal里不能搜索的bug
 $.fn.modal.Constructor.prototype.enforceFocus = function () {
@@ -1766,6 +1773,11 @@ $.extend($.register, {
         });
     },
     formatState: function (state) {
+        console.log(state)
+        if(state.value=='__NEW'){
+            alert(0)
+            return state;
+        }
         if (!state.id) {
             return state.text;
         }
