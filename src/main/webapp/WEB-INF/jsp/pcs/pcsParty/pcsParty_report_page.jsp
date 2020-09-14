@@ -7,12 +7,14 @@
         <h4>党委委员候选人<%--初步--%>推荐人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
         <a onclick="javascript:;" data-url="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_DW}"
            class="downloadBtn btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
+        <div style="color:red;font-size: x-large;font-weight: bolder">（此表是系统根据上传的党支部推荐情况自动汇总的结果表，报送后请下载打印盖章送至组织部）</div>
     </div>
 
     <div class="bs-callout bs-callout-warning">
         <h4>纪委委员候选人<%--初步--%>推荐人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
         <a onclick="javascript:;" data-url="${ctx}/pcs/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_JW}"
            class="downloadBtn btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
+        <div style="color:red;font-size: x-large;font-weight: bolder">（此表是系统根据上传的党支部推荐情况自动汇总的结果表，报送后请下载打印盖章送至组织部）</div>
     </div>
     <%-- <div class="bs-callout bs-callout-info">
          <h4>附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）</h4>
@@ -98,7 +100,7 @@
                                 className: 'btn-default btn-show'
                             }
                         },
-                        message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送之前务必下载汇总表。报送之后不可以修改，请认真核实后报送。</div>",
+                        message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送之前务必下载汇总表进行核对确认。报送之后不可以修改，请认真核实后报送。</div>",
                         callback: function (result) {
                             if (result) {
                                 $.post("${ctx}/pcs/pcsParty_report", {stage:${param.stage}}, function (ret) {

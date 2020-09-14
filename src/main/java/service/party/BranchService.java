@@ -117,7 +117,7 @@ public class BranchService extends BaseMapper {
             branchCode = partyCode + String.format("%03d", num);
 
             BranchExample example = new BranchExample();
-            example.createCriteria().andPartyIdEqualTo(partyId).andCodeEqualTo(branchCode);
+            example.createCriteria()/*.andPartyIdEqualTo(partyId)*/.andCodeEqualTo(branchCode);
 
             isExisted = branchMapper.countByExample(example) > 0;
 

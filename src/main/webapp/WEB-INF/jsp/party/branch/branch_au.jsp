@@ -186,10 +186,9 @@ pageEncoding="UTF-8"%>
 						$.reloadMetaData(function(){
 							$("#modal").modal("hide")
 							$("#jqGrid").trigger("reloadGrid");
-
-							$btn.button('reset');
 						});
                     }
+                    $btn.button('reset');
                 }
             });
         }

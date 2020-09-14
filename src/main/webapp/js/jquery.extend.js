@@ -512,8 +512,8 @@ var _modal_width;
                     var days = Math.floor(timeDifference / (1000 * 3600 * 24)) + 1;
                     if (_stage == 0 && years < 18) {
                         return '<span class="{0}" title="申请时须大于等于18周岁">{1}</span>'.format("red", _time1);
-                    } else if (_stage == 2 && (days <= 15 || months >= 13)) {
-                        return '<span class="{0}" title="确认为积极分子时间与申请时间间隔须大于15天，且小于13个月">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 2 && (days <= 6 || months >= 36)) {
+                        return '<span class="{0}" title="确认为积极分子时间与提交书面申请书时间间隔须大于6天，且小于36个月">{1}</span>'.format("red", _time1);
                     } else if (_stage == 3 && (years < 1 || years > 2)) {
                         return '<span class="{0}" title="确认为发展对象时间与成为积极分子的时间间隔须大于等于1年，且小于等于2年">{1}</span>'.format("red", _time1);
                     } else if (_stage == 4 && days < 30) {
@@ -1773,7 +1773,7 @@ $.extend($.register, {
         });
     },
     formatState: function (state) {
-        console.log(state)
+        //console.log(state)
         if(state.value=='__NEW'){
             alert(0)
             return state;
