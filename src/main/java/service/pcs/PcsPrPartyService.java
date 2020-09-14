@@ -25,12 +25,11 @@ import sys.constants.CadreConstants;
 import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static sys.constants.MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE;
 
@@ -176,7 +175,18 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 }
 
                 int memberPartyId = member.getPartyId();
-                if(memberPartyId != partyId){
+                String code = uv.getCode();
+                // 党代表白名单，所有党委都可从此选人
+                String pcsPrWhiteList = CmTag.getStringProperty("pcsPrWhiteList");
+                Set<String> whiteCodeSet = new HashSet<>();
+                if(StringUtils.isNotBlank(pcsPrWhiteList)){
+                    String[] _codes = pcsPrWhiteList.split(",|、|，|;|；");
+                    for (String _code : _codes) {
+                        whiteCodeSet.add(ContentUtils.trimAll(_code));
+                    }
+                }
+
+                if(memberPartyId != partyId && !whiteCodeSet.contains(code)){
                     throw new OpException("用户{0}不是本单位人员" + alertMsg, uv.getRealname());
                 }
 

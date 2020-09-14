@@ -498,7 +498,6 @@
                             msg: "填写内容已暂存，请及时填写完整并提交。"
                         });*/
                         SysMsg.info("填写内容已暂存，请及时填写完整并提交。")
-                        $("#saveBtn").button("reset");
                     }else{
                         /*$.tip({
                             $target: $("#updateBtn"),
@@ -506,9 +505,10 @@
                             msg: "修改成功。"
                         });*/
                         SysMsg.info("修改成功。")
-                        $("#updateBtn").button("reset");
                     }
                 }
+                $("#saveBtn").button("reset");
+                $("#updateBtn").button("reset");
             }
         });
     }

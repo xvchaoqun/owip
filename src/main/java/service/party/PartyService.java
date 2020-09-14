@@ -97,7 +97,7 @@ public class PartyService extends BaseMapper {
             Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
             MetaType directBranchType = codeKeyMap.get("mt_direct_branch");
             // 直属党支部返回true
-            return (party.getClassId() == directBranchType.getId());
+            return (party.getClassId() == directBranchType.getId().intValue());
         }
     }
 
