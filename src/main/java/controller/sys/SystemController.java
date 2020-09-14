@@ -259,7 +259,7 @@ public class SystemController extends BaseController {
                 DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "dbbackup";
         FileUtils.mkdirs(tmpdir, false);
 
-        boolean backup = MySqlUtils.backup("localhost", PropertiesUtils.getString("jdbc_user"),
+        boolean backup = MySqlUtils.backup(PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url")), PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, dbName);
 
         // 打成压缩包下载
