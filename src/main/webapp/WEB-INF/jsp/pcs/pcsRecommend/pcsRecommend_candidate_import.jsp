@@ -39,44 +39,15 @@
 					var $btn = $("#importBtn").button('loading');
 
 					$(form).ajaxSubmit({
-						dataType:"json",
 						success:function(ret){
 
-							if(ret.success){
-
-							    $.each(ret.candidates, function(i, candidate){
-
-                                   _importUser(candidate);
-
-							    })
-
-                                $("#modal").modal('hide');
-
-							}
+						    $("#modal .modal-content").html(ret)
 							$btn.button('reset');
 						}
 					});
 				}
 			});
 
-      function _importUser(candidate) {
-          var $select;
-          if(candidate.type==${PCS_USER_TYPE_DW}){
-              $select = $("#dwUserId");
-          }else{
-              $select = $("#jwUserId");
-          }
 
-          var $jqGrid = $("#jqGrid" + candidate.type);
-
-          var rowData = $jqGrid.getRowData(candidate.userId);
-
-          if (rowData.userId == undefined) {
-
-                $jqGrid.jqGrid("addRowData", candidate.userId, candidate, "last");
-                $select.val(null).trigger("change");
-                $select.closest(".panel").find(".tip .count").html($jqGrid.jqGrid("getDataIDs").length);
-          }
-      }
 
 </script>

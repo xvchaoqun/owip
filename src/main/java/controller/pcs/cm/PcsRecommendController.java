@@ -2,9 +2,8 @@ package controller.pcs.cm;
 
 import controller.global.OpException;
 import controller.pcs.PcsBaseController;
-import domain.member.Member;
+import domain.member.MemberView;
 import domain.pcs.*;
-import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.pcs.common.IPcsCandidate;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
@@ -31,6 +29,7 @@ import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
+import sys.utils.ContentUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -39,10 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static sys.constants.MemberConstants.*;
 import static sys.constants.PcsConstants.PCS_USER_TYPE_MAP;
@@ -241,7 +237,7 @@ public class PcsRecommendController extends PcsBaseController {
 
    // @RequiresPermissions("pcsRecommend:edit")
     @RequestMapping("/pcsRecommend_candidate_import")
-    public String pcsRecommend_candidate_import(int partyId,byte stage,ModelMap modelMap) {
+    public String pcsRecommend_candidate_import() {
 
         return "pcs/pcsRecommend/pcsRecommend_candidate_import";
     }
@@ -249,8 +245,9 @@ public class PcsRecommendController extends PcsBaseController {
     // 导入党代表名单
    // @RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_candidate_import", method = RequestMethod.POST)
-    @ResponseBody
-    public void do_pcsRecommend_candidate_import(int partyId,HttpServletResponse response, HttpServletRequest request) throws IOException, InvalidFormatException {
+    public String do_pcsRecommend_candidate_import(int partyId,
+                                                   MultipartFile xlsx,
+                                                   ModelMap modelMap) throws IOException, InvalidFormatException {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
 
@@ -265,9 +262,6 @@ public class PcsRecommendController extends PcsBaseController {
             pcsUserTypeMap.put(entry.getValue(), entry.getKey());
         }
 
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        MultipartFile xlsx = multipartRequest.getFile("xlsx");
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
 
@@ -278,7 +272,7 @@ public class PcsRecommendController extends PcsBaseController {
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
-            String code = StringUtils.trim(xlsRow.get(0));
+            /*String code = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(code)) {
                 throw new OpException("第{0}行学工号为空", row);
             }
@@ -291,23 +285,67 @@ public class PcsRecommendController extends PcsBaseController {
                     ||member.getStatus()==MEMBER_STATUS_QUIT
                     ||member.getPoliticalStatus()!=MEMBER_POLITICAL_STATUS_POSITIVE)) {
                 throw new OpException("第{0}行工号[{1}]不符合两委委员的基本条件", row, code);
+            }*/
+
+            Integer userId = null;
+            String realname = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(realname)) {
+                throw new OpException("第{0}行姓名为空", row);
+            }
+            realname = ContentUtils.trimAll(realname);
+            List<MemberView> members = iMemberMapper.findMembers(realname,
+                    MEMBER_TYPE_TEACHER, MEMBER_POLITICAL_STATUS_POSITIVE,
+                    new ArrayList<>(Arrays.asList(MEMBER_STATUS_NORMAL, MEMBER_STATUS_TRANSFER)));
+            if(members.size()==1){
+                userId = members.get(0).getUserId();
             }
 
-            String _type = StringUtils.trimToNull(xlsRow.get(2));
+            String _type = StringUtils.trimToNull(xlsRow.get(1));
             if (StringUtils.isBlank(_type)) {
                 throw new OpException("第{0}行类型为空", row);
             }
 
             Byte pcsUserType = pcsUserTypeMap.get(_type);
-
             if (pcsUserType == null) {
-                throw new OpException("第{0}行会议类型[{1}]有误", row, _type);
+                throw new OpException("第{0}行推荐人类型[{1}]有误", row, _type);
             }
 
-            String  _vote = StringUtils.trimToNull(xlsRow.get(3));
-            String _positiveVote = StringUtils.trimToNull(xlsRow.get(4));
+            String  _vote = StringUtils.trimToNull(xlsRow.get(2));
+            String _positiveVote = StringUtils.trimToNull(xlsRow.get(3));
 
-            PcsCandidate  candidate= pcsCandidateService.getCandidateInfo(uv.getUserId());
+            PcsCandidate  candidate= pcsCandidateService.getCandidateInfo(userId);
+            candidate.setRealname(realname);
+            candidate.setType(pcsUserType);
+
+            candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);
+            candidate.setPositiveVote(_positiveVote!=null?Integer.valueOf(_positiveVote):null);
+
+            candidates.add(candidate);
+        }
+
+        modelMap.put("candidates", candidates);
+
+        return "pcs/pcsRecommend/pcsRecommend_candidate_import_confirm";
+    }
+
+    // 导入党代表名单
+   // @RequiresPermissions("pcsRecommend:edit")
+    @RequestMapping(value = "/pcsRecommend_candidate_import_confirm", method = RequestMethod.POST)
+    @ResponseBody
+    public void do_pcsRecommend_candidate_import_confirm(String items, HttpServletResponse response,
+                                                   ModelMap modelMap) throws IOException, InvalidFormatException {
+
+        List<PcsCandidate> candidates = new ArrayList<>();
+
+        List<PcsCandidate> pcsCandidates = GsonUtils.toBeans(items, PcsCandidate.class);
+        for (PcsCandidate pcsCandidate : pcsCandidates) {
+
+            int userId = pcsCandidate.getUserId();
+            byte pcsUserType = pcsCandidate.getType();
+            Integer _vote = pcsCandidate.getVote();
+            Integer _positiveVote = pcsCandidate.getPositiveVote();
+
+            PcsCandidate  candidate= pcsCandidateService.getCandidateInfo(userId);
             candidate.setType(pcsUserType);
 
             candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);

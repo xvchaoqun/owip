@@ -2,12 +2,9 @@ package controller.pcs.pr;
 
 import controller.global.OpException;
 import controller.pcs.PcsBaseController;
-import domain.member.Member;
 import domain.member.MemberView;
 import domain.pcs.*;
-import domain.sys.SysUserView;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -25,26 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.gson.GsonUtils;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.ExcelUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static sys.constants.MemberConstants.*;
 import static sys.constants.PcsConstants.*;
@@ -362,7 +352,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
     @RequiresPermissions("pcsPrParty:edit")
     @RequestMapping("/pcsPrParty_candidate_import")
-    public String pcsPrParty_candidate_import(byte stage,ModelMap modelMap) {
+    public String pcsPrParty_candidate_import() {
 
         return "pcs/pcsPrParty/pcsPrParty_candidate_import";
     }
@@ -370,8 +360,8 @@ public class PcsPrPartyController extends PcsBaseController {
     // 导入党代表名单
     @RequiresPermissions("pcsPrParty:edit")
     @RequestMapping(value = "/pcsPrParty_candidate_import", method = RequestMethod.POST)
-    @ResponseBody
-    public void do_pcsPrParty_candidate_import(byte stage,HttpServletResponse response, HttpServletRequest request) throws IOException, InvalidFormatException {
+    public String do_pcsPrParty_candidate_import(byte stage,MultipartFile xlsx,
+                                                   ModelMap modelMap, HttpServletRequest request) throws IOException, InvalidFormatException {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
@@ -379,11 +369,11 @@ public class PcsPrPartyController extends PcsBaseController {
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+        Map<String, Byte> pcsPrUserTypeMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : PCS_PR_TYPE_MAP.entrySet()) {
 
-
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+            pcsPrUserTypeMap.put(entry.getValue(), entry.getKey());
+        }
 
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
@@ -395,7 +385,7 @@ public class PcsPrPartyController extends PcsBaseController {
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
-            String code = StringUtils.trim(xlsRow.get(0));
+            /*String code = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(code)) {
                 throw new OpException("第{0}行学工号为空", row);
             }
@@ -408,27 +398,79 @@ public class PcsPrPartyController extends PcsBaseController {
                     ||member.getStatus()==MEMBER_STATUS_QUIT
                     ||member.getPoliticalStatus()!=MEMBER_POLITICAL_STATUS_POSITIVE)) {
                 throw new OpException("第{0}行工号[{1}]不符合党代表的基本条件（正式党员）", row, code);
+            }*/
+
+            Integer userId = null;
+            String realname = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(realname)) {
+                throw new OpException("第{0}行姓名为空", row);
+            }
+            realname = ContentUtils.trimAll(realname);
+            List<MemberView> members = iMemberMapper.findMembers(realname,
+                    null, MEMBER_POLITICAL_STATUS_POSITIVE,
+                    new ArrayList<>(Arrays.asList(MEMBER_STATUS_NORMAL, MEMBER_STATUS_TRANSFER)));
+            if(members.size()==1){
+                userId = members.get(0).getUserId();
+            }
+
+            String _type = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(_type)) {
+                throw new OpException("第{0}行类型为空", row);
+            }
+
+            Byte pcsPrUserType = pcsPrUserTypeMap.get(_type);
+            if (pcsPrUserType == null) {
+                throw new OpException("第{0}行推荐人类型[{1}]有误", row, _type);
             }
 
             String _branchVote = StringUtils.trim(xlsRow.get(2));
             String _vote = StringUtils.trim(xlsRow.get(3));
             String _positiveVote = StringUtils.trim(xlsRow.get(4));
 
-            PcsPrCandidate candidate=pcsPrPartyService.getCandidateInfo(uv.getId(),stage);
+            PcsPrCandidate candidate=pcsPrPartyService.getCandidateInfo(userId, stage);
+            candidate.setRealname(realname);
 
-            if(member.getType()==MEMBER_TYPE_STUDENT){
+            if(pcsPrUserType==PCS_PR_TYPE_STU){
                 candidate.setType(PCS_PR_TYPE_STU);
-            }else if(member.getType()==MEMBER_TYPE_TEACHER){
-
-                MemberView mv = iMemberMapper.getMemberView(uv.getUserId());
-
-                if(mv!=null && BooleanUtils.isTrue(mv.getIsRetire())){
-                    candidate.setType(PCS_PR_TYPE_RETIRE);
-                }else {
-                    candidate.setType(PCS_PR_TYPE_PRO);
-                }
+            }else if(pcsPrUserType==PCS_PR_TYPE_RETIRE){
+                candidate.setType(PCS_PR_TYPE_RETIRE);
+            }else{
+               candidate.setType(PCS_PR_TYPE_PRO);
             }
             candidate.setBranchVote(_branchVote!=null?Integer.valueOf(_branchVote):null);
+            candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);
+            candidate.setPositiveVote(_positiveVote!=null?Integer.valueOf(_positiveVote):null);
+
+            candidates.add(candidate);
+        }
+
+        modelMap.put("candidates", candidates);
+        modelMap.put("stage", stage);
+
+        return "pcs/pcsPrParty/pcsPrParty_candidate_import_confirm";
+    }
+
+    @RequiresPermissions("pcsPrParty:edit")
+    @RequestMapping(value = "/pcsPrParty_candidate_import_confirm", method = RequestMethod.POST)
+    @ResponseBody
+    public void do_pcsPrParty_candidate_import_confirm(byte stage, String items, HttpServletResponse response,
+                                                   ModelMap modelMap) throws IOException, InvalidFormatException {
+
+        List<PcsPrCandidate> candidates = new ArrayList<>();
+
+        List<PcsPrCandidate> pcsCandidates = GsonUtils.toBeans(items, PcsPrCandidate.class);
+        for (PcsPrCandidate pcsPrCandidate : pcsCandidates) {
+
+            int userId = pcsPrCandidate.getUserId();
+            byte pcsUserType = pcsPrCandidate.getType();
+            Integer _brancVote = pcsPrCandidate.getBranchVote();
+            Integer _vote = pcsPrCandidate.getVote();
+            Integer _positiveVote = pcsPrCandidate.getPositiveVote();
+
+            PcsPrCandidate  candidate= pcsPrPartyService.getCandidateInfo(userId, stage);
+            candidate.setType(pcsUserType);
+
+            candidate.setBranchVote(_brancVote!=null?Integer.valueOf(_brancVote):null);
             candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);
             candidate.setPositiveVote(_positiveVote!=null?Integer.valueOf(_positiveVote):null);
 

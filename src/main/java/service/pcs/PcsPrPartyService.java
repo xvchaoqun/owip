@@ -272,6 +272,9 @@ public class PcsPrPartyService extends PcsBaseMapper {
     @Transactional
     public PcsPrCandidate getCandidateInfo(Integer userId, byte stage){
 
+        PcsPrCandidate candidate = new PcsPrCandidate();
+        if(userId==null) return candidate;
+
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
@@ -279,7 +282,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
 
         SysUserView uv = sysUserService.findById(userId);
 
-        PcsPrCandidate candidate = new PcsPrCandidate();
+
         candidate.setUserId(uv.getId());
         candidate.setCode(uv.getCode());
         candidate.setRealname(uv.getRealname());

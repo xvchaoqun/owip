@@ -19,6 +19,12 @@ import java.util.Map;
  */
 public interface IMemberMapper {
 
+    // 根据姓名等查找党员
+    List<MemberView> findMembers(@Param("realname") String realname, // 不为空
+                                 @Param("type") Byte type,
+                                 @Param("politicalStatus") Byte politicalStatus,
+                                 @Param("statusList") List<Byte> statusList);
+
     // 更新党员发展模块中的预备党员所在党组织 与 党员库中不一致的情况
     @Update("update ow_member m, ow_member_apply ma set ma.party_id=m.party_id, ma.branch_id=m.branch_id where ma.stage = "
             + OwConstants.OW_APPLY_STAGE_GROW +" and ma.user_id=m.user_id and (ma.party_id!=m.party_id or ma.branch_id!=m.branch_id)")

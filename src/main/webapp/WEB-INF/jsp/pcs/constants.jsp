@@ -44,6 +44,7 @@
 <c:set value="<%=PcsConstants.PCS_PR_TYPE_RETIRE%>" var="PCS_PR_TYPE_RETIRE"/>
 <c:set value="<%=PcsConstants.PCS_PR_TYPE_MAP%>" var="PCS_PR_TYPE_MAP"/>
 
+<c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_MAP%>" var="PCS_PR_USER_TYPE_MAP"/>
 <c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_CADRE%>" var="PCS_PR_USER_TYPE_CADRE"/>
 <c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_TEACHER%>" var="PCS_PR_USER_TYPE_TEACHER"/>
 <c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_STU%>" var="PCS_PR_USER_TYPE_STU"/>

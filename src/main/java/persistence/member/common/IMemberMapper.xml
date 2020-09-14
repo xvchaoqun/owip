@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.member.common.IMemberMapper">
 
+    <select id="findMembers"  resultMap="persistence.member.MemberViewMapper.BaseResultMap" parameterType="map">
+        select * from ow_member_view where realname=#{realname}
+            <if test="statusList.size>0">
+            and status in
+                <foreach collection="statusList" item="stat"
+                         index="index" open="(" close=")" separator=",">
+                    #{stat}
+                </foreach>
+            </if>
+        <if test="politicalStatus!=null">
+            and political_status =#{politicalStatus}
+        </if>
+        <if test="type!=null">
+            and type =#{type}
+        </if>
+    </select>
+
     <sql id="member_selects_permits">
         <if test="addPermits">
             <if test="adminPartyIdList.size>0 and adminBranchIdList.size>0">

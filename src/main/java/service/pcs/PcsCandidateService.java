@@ -132,26 +132,31 @@ public class PcsCandidateService extends PcsBaseMapper {
     @Transactional
     public PcsCandidate getCandidateInfo(Integer userId){
 
-            MemberView memberView = iMemberMapper.getMemberView(userId);
-            CadreView cv = cadreService.dbFindByUserId(userId);
-
-            PcsCandidate candidate = new PcsCandidate();
-            candidate.setUserId(memberView.getUserId());
-            candidate.setCode(memberView.getCode());
-            candidate.setRealname(memberView.getRealname());
-            candidate.setTitle(cv==null?null:cv.getTitle());
-            if(cv!=null){
-                SysUserView uv = cv.getUser();
-                candidate.setExtUnit(uv.getUnit());
-            }
-            candidate.setGender(memberView.getGender());
-            candidate.setNation(memberView.getNation());
-            candidate.setBirth(memberView.getBirth());
-            candidate.setGrowTime(memberView.getGrowTime());
-            candidate.setWorkTime(memberView.getWorkTime());
-            candidate.setProPost(memberView.getProPost());
-
+        PcsCandidate candidate = new PcsCandidate();
+        if(userId==null){
             return candidate;
+        }
+
+        MemberView memberView = iMemberMapper.getMemberView(userId);
+        CadreView cv = cadreService.dbFindByUserId(userId);
+
+
+        candidate.setUserId(memberView.getUserId());
+        candidate.setCode(memberView.getCode());
+        candidate.setRealname(memberView.getRealname());
+        candidate.setTitle(cv==null?null:cv.getTitle());
+        if(cv!=null){
+            SysUserView uv = cv.getUser();
+            candidate.setExtUnit(uv.getUnit());
+        }
+        candidate.setGender(memberView.getGender());
+        candidate.setNation(memberView.getNation());
+        candidate.setBirth(memberView.getBirth());
+        candidate.setGrowTime(memberView.getGrowTime());
+        candidate.setWorkTime(memberView.getWorkTime());
+        candidate.setProPost(memberView.getProPost());
+
+        return candidate;
     }
 
     // 从pcsPoll同步某分党委所有党支部两委委员名单
