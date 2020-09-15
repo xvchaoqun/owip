@@ -1,6 +1,10 @@
 
+
+insert INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('payTest', '支付测试', 'false', 3, 78, '党费收缴支付测试');
+
 20200914
-南航
+南航，戏曲
 
 -- 更新 utils
 
@@ -40,6 +44,9 @@ ALTER TABLE `pcs_pr_recommend`
 REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('privateDataMask', '数据脱敏', 'true', 3, 75, '隐私数据是否脱敏处理');
 
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('pcsPrWhiteList', '党代表白名单', ' ', '1', '77', '所有分党委均可选择的人的工号列表');
 
 20200909
 西工大， 戏曲

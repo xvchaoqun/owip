@@ -7,7 +7,7 @@
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
     <c:set var="_query"
            value="${not empty param.userId|| not empty param.sort}"/>
-    <div class="candidate-table rownumbers">
+    <div class="multi-row-head-table candidate-table rownumbers">
         <div class="space-4"></div>
         <div class="jqgrid-vertical-offset buttons">
 
@@ -77,7 +77,7 @@
         height:auto !important;
         padding:0px;
     }*/
-    #jqGrid2_vote,#jqGrid2_positiveVote
+    #jqGrid2_branchVote,#jqGrid2_vote,#jqGrid2_positiveVote
     {
         padding: 0;
         font-size: 11px;
@@ -152,9 +152,9 @@
                 return "-"
             }
             },
-            {label: '提名支部数', name: 'branchVote'},
-            {label: '推荐提名<br/>的党员数', name: 'vote'},
-            {label: '推荐提名<br/>的正式党员数', name: 'positiveVote'}
+            {label: '推荐提名<br/>党支部数', name: 'branchVote'},
+            {label: '推荐提名<br/>党员数', name: 'vote'},
+            {label: '推荐提名<br/>正式党员数', name: 'positiveVote'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

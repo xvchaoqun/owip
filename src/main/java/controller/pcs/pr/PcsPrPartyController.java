@@ -403,6 +403,8 @@ public class PcsPrPartyController extends PcsBaseController {
             Integer userId = null;
             String realname = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(realname)) {
+
+                logger.warn(JSONUtils.toString(xlsRow, false));
                 throw new OpException("第{0}行姓名为空", row);
             }
             realname = ContentUtils.trimAll(realname);
@@ -415,11 +417,15 @@ public class PcsPrPartyController extends PcsBaseController {
 
             String _type = StringUtils.trimToNull(xlsRow.get(1));
             if (StringUtils.isBlank(_type)) {
-                throw new OpException("第{0}行类型为空", row);
+
+                logger.warn(JSONUtils.toString(xlsRow, false));
+                throw new OpException("第{0}行推荐人类型为空", row);
             }
 
             Byte pcsPrUserType = pcsPrUserTypeMap.get(_type);
             if (pcsPrUserType == null) {
+
+                logger.warn(JSONUtils.toString(xlsRow, false));
                 throw new OpException("第{0}行推荐人类型[{1}]有误", row, _type);
             }
 

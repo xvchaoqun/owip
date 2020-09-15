@@ -6,7 +6,7 @@
     <div class="col-xs-12">
             <c:if test="${param.admin==1}">
                 <h4 class="widget-title lighter smaller"
-            style="position:absolute; top: -50px; right: 350px;">
+            style="position:absolute; top: -50px; right: 400px;">
                 <a href="javascript:;" style="color: red;font-weight: bolder;line-height: 30px"
                    data-load-el="#step-body-content-view"
                    data-url="${ctx}/pcs/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"

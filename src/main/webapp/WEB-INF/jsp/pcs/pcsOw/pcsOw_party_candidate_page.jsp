@@ -87,7 +87,9 @@
         top: 42px !important;
     }
 
-    #jqGrid2_actualMemberCount, #jqGrid2_branchCount, #jqGrid2_memberCount, #jqGrid2_expectMemberCount {
+    #jqGrid2_actualMemberCount, #jqGrid2_branchCount,
+    #jqGrid2_totalVote, #jqGrid2_totalPositiveVote,
+    #jqGrid2_memberCount, #jqGrid2_expectMemberCount {
         padding: 0;
         font-size: 11px;
     }
@@ -117,12 +119,13 @@
             {label: '被推荐提名人姓名', name: 'realname', width: 150, frozen: true},
             {
                 label: '推荐提名<div>的党支部数</div>',
-                name: 'branchCount',
-                width: 160
+                name: 'branchCount'
             },
             {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
             {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
-            {label: '推荐党支部实参会党员数<div style="font-size: 8px">（推荐提名的党员数）</div>', name: 'actualMemberCount', width: 180},
+            {label: '推荐党支部<br/>实参会党员数', name: 'actualMemberCount'},
+            {label: '推荐提名<br/>的党员数', name: 'totalVote'},
+            {label: '推荐提名<br/>的正式党员数', name: 'totalPositiveVote'},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

@@ -281,6 +281,7 @@
     </select>
 
     <!--分党委每个被推荐人的情况（只统计已上报）-->
+    <!--branch_count desc, FIND_IN_SET(pc.cadre_status, '6,4,1,3,0'), pc.cadre_sort_order desc, total_vote desc, total_positive_vote desc-->
     <select id="selectPartyCandidateList" resultMap="CandidateBaseResultMap" parameterType="map">
         select pc.*, group_concat(distinct pc.party_id) as party_ids,group_concat(distinct pc.branch_id) as branch_ids,
         count( pc.id) as branch_count, sum(pc.vote) total_vote, sum(pc.positive_vote) total_positive_vote, sum(pr.expect_member_count) as expect_member_count,
@@ -288,7 +289,7 @@
         pcc.sort_order
         from pcs_candidate pc left join pcs_recommend pr on pr.id=pc.recommend_id
 
-        left join pcs_branch pb on pb.config_id=pc.config_id and pc.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pc.party_id)
+        left join pcs_branch pb on pb.config_id=pc.config_id and (pc.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pc.party_id))
 
         left join pcs_candidate_chosen pcc on pc.config_id=pcc.config_id and pc.stage=pcc.stage and pc.type=pcc.type and
         pc.user_id=pcc.user_id
@@ -318,7 +319,7 @@
             pcc.sort_order asc
         </if>
         <if test="isChosen==null or !isChosen">
-            branch_count desc, FIND_IN_SET(pc.cadre_status, '6,4,1,3,0'), pc.cadre_sort_order desc, total_vote desc, total_positive_vote desc
+            branch_count desc, total_vote desc, total_positive_vote desc
         </if>
     </select>
 
@@ -349,6 +350,7 @@
         </where>
     </sql>
     <!--党支部两委委员推荐提名情况-->
+    <!--order by branch_count desc, FIND_IN_SET(cadre_status, '6,4,1,3,-1'), c.sort_order desc, actual_member_count desc-->
     <select id="selectBranchCandidateList" resultMap="CandidateBaseResultMap" parameterType="map">
         select pc.*,
         group_concat(distinct pc.party_id) as party_ids,
@@ -368,8 +370,9 @@
         left join cadre c on c.user_id=pc.user_id
         <include refid="searchBranchCandidates"/>
         group by pc.user_id
-        order by branch_count desc, FIND_IN_SET(cadre_status, '6,4,1,3,-1'), c.sort_order desc, actual_member_count desc
+        order by branch_count desc, total_vote desc, total_positive_vote desc
     </select>
+
     <select id="countBranchCandidateList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct pc.user_id) from pcs_candidate pc
         <include refid="searchBranchCandidates"/>

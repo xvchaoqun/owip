@@ -43,6 +43,10 @@
 
 						    $("#modal .modal-content").html(ret)
 							$btn.button('reset');
+
+                            if ($.isJson(ret)) { // 出错的情况
+                                $("#modal").modal('hide');
+                            }
 						}
 					});
 				}

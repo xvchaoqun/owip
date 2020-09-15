@@ -292,7 +292,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         PcsParty pcsParty = pcsPartyService.get(configId, partyId);
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
         //是否上报
-        if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()&&pcsPrRecommend.getStatus()!=PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY){
+        if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()){
             memberCount=pcsPrRecommend.getMemberCount();
             teacherMemberCount=pcsPrRecommend.getTeacherMemberCount();
             studentMemberCount=pcsPrRecommend.getStudentMemberCount();
@@ -834,7 +834,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
             //是否上报
-            if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()&&pcsPrRecommend.getStatus()!=PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY){
+            if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()){
                 mc=pcsPrRecommend.getMemberCount()+ "";
                 tc=pcsPrRecommend.getTeacherMemberCount()+ "";
                 sc=pcsPrRecommend.getStudentMemberCount()+ "";
