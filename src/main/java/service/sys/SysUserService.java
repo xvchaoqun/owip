@@ -38,6 +38,8 @@ import java.util.*;
 public class SysUserService extends BaseMapper {
 
     @Autowired
+    private TeacherInfoService teacherInfoService;
+    @Autowired
     private SysRoleService sysRoleService;
     @Autowired
     private SysResourceService sysResourceService;
@@ -128,15 +130,12 @@ public class SysUserService extends BaseMapper {
             if (record.getType() == SystemConstants.USER_TYPE_JZG) {
 
                 TeacherInfo teacherInfo = teacherMap.get(userCode);
-                addRole(userId, RoleConstants.ROLE_TEACHER);
+                teacherInfoService.get(userId);
                 if (teacherInfo.getUserId() == null) {
                     teacherInfo.setUserId(userId);
-                    teacherInfoMapper.insertSelective(teacherInfo);
-                } else {
-                    TeacherInfoExample example = new TeacherInfoExample();
-                    example.createCriteria().andUserIdEqualTo(userId);
-                    teacherInfoMapper.updateByExampleSelective(teacherInfo, example);
                 }
+                teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
+                addRole(userId, RoleConstants.ROLE_TEACHER);
             }else {
                 if (findRoles(user.getUsername()).contains(RoleConstants.ROLE_TEACHER)){
                     delRole(userId, RoleConstants.ROLE_TEACHER);

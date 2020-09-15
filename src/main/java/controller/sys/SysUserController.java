@@ -1054,10 +1054,9 @@ public class SysUserController extends BaseController {
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                teacherInfo.setIsRetire(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
                 Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
-                teacherInfo.setIsRetire(retireTime != null ? retireTime.before(new Date()) : true);
                 teacherInfo.setRetireTime(retireTime);
-
 
             }
             uv.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
