@@ -158,14 +158,14 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         if (oldOrder != null) {
 
-            OrderFormBean orderFormBean = Pay.getInstance().createOrder(oldOrderNo, amt, payer, isMobile);
-            oldOrder.setFormMap(orderFormBean.getFormMap());
-            Map<String, String> paramMap = orderFormBean.getParamMap();
+            Map<String, String> paramMap = Pay.getInstance().orderParamMap(oldOrderNo, amt, payer, isMobile);
+            oldOrder.setFormMap(paramMap);
+
             Gson gson = new Gson();
             Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
             if (oldOrder.getIsClosed() // 订单关闭
                     || !FormUtils.paramMapEquals(paramMap, oldParams)) {
-                
+
                 logger.info("原订单({})已关闭或信息变更，生成新订单号", oldOrderNo);
                 mustMakeNewOrder = true;
             }
@@ -256,7 +256,7 @@ public class PmdOrderService extends PmdBaseMapper {
             }
         }
 
-        if(!springProps.devMode) { // 测试状态不检查订单支付状态
+        if(!CmTag.getBoolProperty("payTest")) { // 测试状态不检查订单支付状态
             checkPayStatus(pmdMemberId, pmdOrder.getSn());
         }
         
@@ -794,7 +794,7 @@ public class PmdOrderService extends PmdBaseMapper {
     @Transactional
     public CloseTradeRet closeTrade(String sn) throws IOException {
 
-        if(springProps.devMode) {
+        if(CmTag.getBoolProperty("payTest")) {
             // test
             PmdOrder record = new PmdOrder();
             record.setSn(sn);

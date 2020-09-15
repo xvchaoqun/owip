@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -145,7 +146,7 @@ public class UserPmdPayController extends PmdBaseController {
 
         resultMap.put("formMap", order.getFormMap()); // 收银台参数
 
-        if(springProps.devMode) {
+        if(CmTag.getBoolProperty("payTest")) {
             // for test
             resultMap.put("ret", Pay.getInstance().testCallbackParams(order.getSn(), order.getParams()));
         }
@@ -198,7 +199,7 @@ public class UserPmdPayController extends PmdBaseController {
 
         resultMap.put("formMap", order.getFormMap()); // 收银台参数
 
-        if(springProps.devMode) {
+        if(CmTag.getBoolProperty("payTest")) {
             // for test
             resultMap.put("ret", Pay.getInstance().testCallbackParams(order.getSn(), order.getParams()));
         }
