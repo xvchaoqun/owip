@@ -966,7 +966,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_batchImport";
     }
 
-    //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行插入插座。同时会更新教师表
+    //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行插入插座。如果是教师同时会更新教师表
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_batchImport", method = RequestMethod.POST)
     @ResponseBody
@@ -1054,10 +1054,9 @@ public class SysUserController extends BaseController {
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                teacherInfo.setIsRetire(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
                 Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
-                teacherInfo.setIsRetire(retireTime != null ? retireTime.before(new Date()) : true);
                 teacherInfo.setRetireTime(retireTime);
-
 
             }
             uv.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
