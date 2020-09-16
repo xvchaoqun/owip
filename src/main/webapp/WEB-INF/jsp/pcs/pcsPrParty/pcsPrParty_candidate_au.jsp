@@ -201,6 +201,7 @@
         text-align: center;
         font-weight: bolder;
         font-size: 18px;
+        height: 27px;
         color: red;
     }
 
@@ -324,13 +325,13 @@
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
         }},
         {
-            label: '推荐提名<br/>的党员数', name: 'vote', width: 150, formatter: function (cellvalue, options, rowObject) {
+            label: '推荐提名<br/>的党员数', name: 'vote', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 return ('<input type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
             }},
         {
-            label: '推荐提名<br/>的正式党员数', name: 'positiveVote', width: 150, formatter: function (cellvalue, options, rowObject) {
+            label: '推荐提名<br/>的正式党员数', name: 'positiveVote', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 return ('<input type="text" name="positiveVote{0}" data-container="{1}" value="{2}" class="positiveVote num" maxlength="4">')
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))

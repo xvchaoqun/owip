@@ -1,5 +1,6 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.MemberView;
 import domain.pcs.PcsPrCandidate;
@@ -101,15 +102,20 @@ public class PcsPrCandidateService extends PcsBaseMapper {
 
         int recommendId = record.getRecommendId();
         int userId = record.getUserId();
-        PcsPrRecommend pr = pcsPrRecommendMapper.selectByPrimaryKey(recommendId);
 
         SysUserView uv = CmTag.getUserById(userId);
+
+        if(record.getPositiveVote().intValue()>record.getVote()){
+
+            throw new OpException("数据有误，代表（{0}）推荐提名的党员数大于推荐提名的正式党员数", uv.getRealname());
+        }
+
         record.setCode(uv.getCode());
         record.setRealname(uv.getRealname());
         record.setUnitName(uv.getUnit());
-        record.setGender(uv.getGender());
+        /*record.setGender(uv.getGender());
         record.setNation(uv.getNation());
-        record.setBirth(uv.getBirth());
+        record.setBirth(uv.getBirth());*/
 
         TeacherInfo ti = teacherInfoMapper.selectByPrimaryKey(userId);
         if(ti!=null) {
@@ -142,6 +148,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
             record.setUserType((byte)1);
         }
 
+        PcsPrRecommend pr = pcsPrRecommendMapper.selectByPrimaryKey(recommendId);
         record.setPartyId(pr.getPartyId());
         record.setConfigId(pr.getConfigId());
         record.setStage(pr.getStage());

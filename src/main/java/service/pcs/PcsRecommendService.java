@@ -132,7 +132,7 @@ public class PcsRecommendService extends PcsBaseMapper {
                 if(member==null || member.getPoliticalStatus() != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
 
                     SysUserView uv = CmTag.getUserById(userId);
-                    throw new OpException("{0}（工号：{1}）不是正式党员", uv.getRealname(), uv.getCode());
+                    throw new OpException("{0}（工号：{1}）不是系统党员库中的正式党员", uv.getRealname(), uv.getCode());
                 }
             }
 
@@ -144,6 +144,12 @@ public class PcsRecommendService extends PcsBaseMapper {
             _pcsCandidate.setVote(formBean.getVote());
             _pcsCandidate.setPositiveVote(formBean.getPositiveVote());
             _pcsCandidate.setAddTime(now);
+
+            if(_pcsCandidate.getPositiveVote().intValue()>_pcsCandidate.getVote()){
+
+                SysUserView uv = CmTag.getUserById(userId);
+                throw new OpException("数据有误，委员（{0}）推荐提名的党员数大于推荐提名的正式党员数", uv.getRealname());
+            }
 
             if(formBean.getType()==PcsConstants.PCS_USER_TYPE_DW){  // 添加党委委员
                 _pcsCandidate.setIsFromStage(dwIssueUserIdSet.contains(userId));
