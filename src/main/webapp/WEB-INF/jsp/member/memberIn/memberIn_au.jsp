@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">同步已转出人员信息</label>
 						<div class="col-xs-7">
-							<select data-ajax-url="${ctx}/memberOut_selects?noAuth=0"
+							<select data-ajax-url="${ctx}/memberOut_selects?noAuth=1"
 									name="outUserId" data-placeholder="请输入账号或姓名或学工号">
 								<option></option>
 							</select>

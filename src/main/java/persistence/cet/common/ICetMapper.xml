@@ -459,4 +459,12 @@
             </if>
         </where>
     </select>
+
+    <select id="getCetRecordByRepeatType" parameterType="map" resultType="java.lang.Integer">
+        SELECT cr.id FROM cet_record cr,(SELECT c.user_id,c.start_date,c.end_date,COUNT(*) AS count FROM cet_record c
+            GROUP BY c.user_id,c.start_date,c.end_date
+        <if test="repeatType==1">, c.name</if>
+        HAVING COUNT>1)tmp
+            WHERE cr.user_id=tmp.user_id AND cr.start_date=tmp.start_date AND cr.end_date=tmp.end_date
+    </select>
 </mapper>

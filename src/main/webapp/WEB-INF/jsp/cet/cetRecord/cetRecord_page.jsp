@@ -8,7 +8,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.year ||not empty param.userId||not empty param.type
-                   ||not empty param.traineeTypeId || not empty param.trainDate || not empty param.sort || not empty param.isRepeat}"/>
+                   ||not empty param.traineeTypeId || not empty param.trainDate || not empty param.sort || not empty param.repeatType}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetRecord_data"
@@ -81,14 +81,14 @@
                                            type="text" name="trainDate" value="${param.trainDate}"/>
                             </div>
                             <div class="form-group">
-                                <label>是否重复</label>
-                                <select data-rel="select2" name="isRepeat" data-placeholder="请选择">
+                                <label>培训时间重叠情况</label>
+                                <select data-rel="select2" name="repeatType" data-placeholder="请选择">
                                     <option></option>
-                                    <option value="1">是</option>
-                                    <option value="0">否</option>
+                                    <option value="1">培训内容相同</option>
+                                    <option value="2">培训内容不限</option>
                                 </select>
                                 <script type="text/javascript">
-                                    $("#searchForm select[name=isRepeat]").val(${param.isRepeat});
+                                    $("#searchForm select[name=repeatType]").val(${param.repeatType});
                                 </script>
                             </div>
                             <div class="clearfix form-actions center">

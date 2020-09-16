@@ -71,7 +71,7 @@ public class CetRecordController extends CetBaseController {
     public void cetRecord_data(HttpServletResponse response,
                                Integer year,
                                Byte type,
-                               Integer isRepeat,
+                               Integer repeatType,
                                Integer userId,
                                Integer traineeTypeId,
                                @RequestDateRange DateRange trainDate,
@@ -89,7 +89,7 @@ public class CetRecordController extends CetBaseController {
 
         CetRecordExample example = new CetRecordExample();
         Criteria criteria = example.createCriteria();
-        if (isRepeat != null){
+        if (repeatType != null){
             example.setOrderByClause("year desc, start_date desc, user_id desc");
         }else {
             example.setOrderByClause("year desc, start_date desc");
@@ -113,20 +113,10 @@ public class CetRecordController extends CetBaseController {
         if(trainDate.getEnd()!=null){
             criteria.andStartDateLessThanOrEqualTo(trainDate.getEnd());
         }
-        if (isRepeat != null){
-            List<Integer> repeatIds = iCetMapper.getCetRecordIsRepeat();
+        if (repeatType != null){
+            List<Integer> repeatIds = iCetMapper.getCetRecordByRepeatType(repeatType);
             if (repeatIds.size() > 0) {
-                if (isRepeat == 1) {
-                    criteria.andIdIn(repeatIds);
-                } else if (isRepeat == 0) {
-                    criteria.andIdNotIn(repeatIds);
-                }
-            }else {
-                if (isRepeat == 1) {
-                    criteria.andIdIsNull();
-                } else if (isRepeat == 0) {
-                    criteria.andIdIsNotNull();
-                }
+                criteria.andIdIn(repeatIds);
             }
         }
 

@@ -414,8 +414,5 @@ public interface ICetMapper {
     List<Integer> getAdminPartyIds(int userId);
 
     // 培训汇总记录中重复的记录
-    @Select("SELECT cr.id FROM cet_record cr,(SELECT c.user_id,c.start_date,c.end_date,COUNT(*) AS count FROM cet_record c " +
-            "GROUP BY c.user_id,c.start_date,c.end_date HAVING COUNT>1)tmp " +
-            "WHERE cr.user_id=tmp.user_id AND cr.start_date=tmp.start_date AND cr.end_date=tmp.end_date")
-    List<Integer> getCetRecordIsRepeat();
+    List<Integer> getCetRecordByRepeatType(@Param("repeatType") Integer repeatType);
 }
