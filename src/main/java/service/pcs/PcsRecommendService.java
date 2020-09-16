@@ -2,10 +2,12 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.cm.PcsCandidateFormBean;
+import domain.member.Member;
 import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsRecommend;
 import domain.pcs.PcsRecommendExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
+import sys.tags.CmTag;
 
 import java.util.*;
 
@@ -122,6 +126,16 @@ public class PcsRecommendService extends PcsBaseMapper {
         for (PcsCandidateFormBean formBean : formBeans) {
 
             int userId = formBean.getUserId();
+            if(BooleanUtils.isTrue(isFinish)){ // 提交时校验是否是正式党员
+
+                Member member = memberMapper.selectByPrimaryKey(userId);
+                if(member==null || member.getPoliticalStatus() != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
+
+                    SysUserView uv = CmTag.getUserById(userId);
+                    throw new OpException("{0}（工号：{1}）不是正式党员", uv.getRealname(), uv.getCode());
+                }
+            }
+
             byte type = formBean.getType();
             PcsCandidate _pcsCandidate = new PcsCandidate();
             _pcsCandidate.setRecommendId(recommendId);

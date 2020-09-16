@@ -187,7 +187,10 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 }
 
                 if(memberPartyId != partyId && !whiteCodeSet.contains(code)){
-                    throw new OpException("用户{0}不是本单位人员" + alertMsg, uv.getRealname());
+                    Party party = partyMapper.selectByPrimaryKey(partyId);
+                    Party memberParty = partyMapper.selectByPrimaryKey(memberPartyId);
+                    throw new OpException("用户{0}（工号：{1}，目前所在党组织：{2}）不是{3}的正式党员" + alertMsg,
+                            uv.getRealname(), uv.getCode(), memberParty.getName(), party.getName());
                 }
 
                 // 类型校验

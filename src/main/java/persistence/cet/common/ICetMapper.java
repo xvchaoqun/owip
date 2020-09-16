@@ -186,11 +186,16 @@ public interface ICetMapper {
     @Select("select count(distinct user_id) from cet_train_obj where train_id=#{trainId}")
     int traineeCount(@Param("trainId") Integer trainId);
 
-    // 某培训方案中学员已选的培训班
+    // 某培训方案中学员已选的培训班(线上、线下、实践教学）
     @Select("select distinct train_id from cet_train_obj_view where user_id=#{userId} and plan_id=#{planId}")
     List<Integer> selectUserTrainIds(@Param("userId") Integer userId, @Param("planId") Integer planId);
     @Select("select distinct train_id from cet_train_obj_view where obj_id=#{objId} and plan_id=#{planId}")
     List<Integer> selectObjTrainIds(@Param("objId") Integer objId, @Param("planId") Integer planId);
+
+    // 某培训方案中学员已选的课程(自主学习、上级网上专题）
+    @Select("select distinct c.id from cet_plan_course_obj o, cet_plan_course c " +
+            "where o.plan_course_id=c.id and o.obj_id=#{objId} and c.plan_id=#{planId}")
+    List<Integer> selectObjPlanCourseIds(@Param("objId") Integer objId, @Param("planId") Integer planId);
 
     // 已分组学员
     List<Integer> groupUserIds(@Param("discussGroupId") int discussGroupId,

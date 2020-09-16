@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 public class CetProjectPlan implements Serializable {
 
@@ -27,17 +26,21 @@ public class CetProjectPlan implements Serializable {
         return cetProjectObjService.getPlanFinishPeriod(id, objId);
     }
 
-
-    public List<Integer> getObjTrainIds(){
+    // 判断学员是否选此培训方案
+    public boolean getHasSelected(){
 
         HttpServletRequest request = ContextHelper.getRequest();
-        if (request == null) return null;
+        if (request == null) return false;
 
         Integer objId = (Integer) request.getAttribute("objId");
-        if(objId==null) return null;
+        if(objId==null) return false;
 
         ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
-        return iCetMapper.selectObjTrainIds(objId, id);
+        if(iCetMapper.selectObjTrainIds(objId, id).size()>0) return true;
+
+        if(iCetMapper.selectObjPlanCourseIds(objId, id).size()>0) return true;
+
+        return false;
     }
 
     private Integer id;

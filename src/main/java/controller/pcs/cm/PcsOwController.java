@@ -303,11 +303,11 @@ public class PcsOwController extends PcsBaseController {
             }
         }
 
-        int total = 0;
+        /*int total = 0;
         for (Map.Entry<Integer, Set<Integer>> entry : recommendPartyIdMap.entrySet()) {
             total += entry.getValue().size();
         }
-        System.out.println("total = " + total);
+        System.out.println("total = " + total);*/
 
         // 提名该推荐人的分党委（包含直属党支部，只统计已上报）
         Set<Integer> selectedPartyIdSet = NumberUtils.toIntSet(candidate.getPartyIds(), ",");
