@@ -29,13 +29,7 @@
         </div>
     </div>
 </div>
-<style>
-    .type-select{
-        padding: 5px 0 0 5px;
-        float: left;
-        margin-right: 50px;
-    }
-</style>
+
 <script>
     $(".orderCheckbox").click(function(){
         $("#step-body-content-view").loadPage({url:"${ctx}/pcs/pcsVoteMember?type=${param.type}&orderType="+$(this).val()})

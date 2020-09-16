@@ -34,11 +34,6 @@
     </div>
 </div>
 <style>
-    .type-select{
-        padding: 10px 0 0 5px;
-        float: left;
-        margin-right: 50px;
-    }
     .modal .tip ul{
         margin-left: 50px;
     }

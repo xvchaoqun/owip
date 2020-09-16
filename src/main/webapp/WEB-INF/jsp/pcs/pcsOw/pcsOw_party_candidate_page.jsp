@@ -10,6 +10,28 @@
     <div class="candidate-table rownumbers">
         <div class="jqgrid-vertical-offset buttons">
             <div class="type-select" style="float: inherit">
+                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                    <input type="radio" name="userType"
+                           id="type1" ${type==PCS_USER_TYPE_DW?"checked":""}
+                           value="${PCS_USER_TYPE_DW}">
+                    <label for="type1">
+                        党委委员
+                    </label>
+                </div>
+                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                    <input type="radio" name="userType"
+                           id="type0" ${type==PCS_USER_TYPE_JW?"checked":""}
+                           value="${PCS_USER_TYPE_JW}">
+                    <label for="type0">
+                        纪委委员
+                    </label>
+                </div>
+                <shiro:hasPermission name="pcsOw:admin">
+                <a href="${ctx}/pcs/pcsOw_export?file=2-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}">
+                    <i class="fa fa-download"></i>  ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                </shiro:hasPermission>
+            </div>
+            <%--<div class="type-select" style="float: inherit">
                                 <span class="typeCheckbox ${type==PCS_USER_TYPE_DW?"checked":""}">
                                 <input ${type==PCS_USER_TYPE_DW?"checked":""} type="checkbox"
                                                                               value="${PCS_USER_TYPE_DW}"> 党委委员
@@ -18,11 +40,8 @@
                                 <input class="typeCheckbox" ${type==PCS_USER_TYPE_JW?"checked":""} type="checkbox"
                                        value="${PCS_USER_TYPE_JW}"> 纪委委员
                                 </span>
-                <shiro:hasPermission name="pcsOw:admin">
-                <a href="${ctx}/pcs/pcsOw_export?file=2-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}">
-                    <i class="fa fa-download"></i>  ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
-                </shiro:hasPermission>
-            </div>
+
+            </div>--%>
         </div>
         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
             <div class="widget-header">
@@ -104,8 +123,8 @@
     }
 </style>
 <script>
-    $(".typeCheckbox").click(function () {
-        var $input = $("input", $(this));
+    $(".type-select input").click(function () {
+        var $input = $(this);
         $("#searchForm2 input[name=type]").val($input.val());
         $("#searchForm2 .jqSearchBtn").click();
     })

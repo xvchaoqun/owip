@@ -14,14 +14,25 @@
                 <jsp:include page="menu.jsp"/>
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
+
                         <div class="jqgrid-vertical-offset buttons" style="padding: 10px">
                             <div class="type-select">
-                                <span class="typeCheckbox ${type==PCS_USER_TYPE_DW?"checked":""}">
-                                <input ${type==PCS_USER_TYPE_DW?"checked":""} type="checkbox" value="${PCS_USER_TYPE_DW}"> 党委委员
-                                </span>
-                                <span class="typeCheckbox ${type==PCS_USER_TYPE_JW?"checked":""}">
-                                <input class="typeCheckbox" ${type==PCS_USER_TYPE_JW?"checked":""} type="checkbox" value="${PCS_USER_TYPE_JW}"> 纪委委员
-                                </span>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="userType"
+                                           id="type1" ${type==PCS_USER_TYPE_DW?"checked":""}
+                                           value="${PCS_USER_TYPE_DW}">
+                                    <label for="type1">
+                                        党委委员
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="userType"
+                                           id="type0" ${type==PCS_USER_TYPE_JW?"checked":""}
+                                           value="${PCS_USER_TYPE_JW}">
+                                    <label for="type0">
+                                        纪委委员
+                                    </label>
+                                </div>
                             </div>
                             <c:if test="${cls==2}">
 
@@ -222,8 +233,8 @@
         return false;
     })
 
-    $(".typeCheckbox").click(function(){
-        var $input = $("input", $(this));
+    $(".type-select input").click(function(){
+        var $input = $(this);
         $("#searchForm input[name=type]").val($input.val());
         $("#searchForm .jqSearchBtn").click();
     })
