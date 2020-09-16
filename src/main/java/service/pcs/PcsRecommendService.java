@@ -148,7 +148,7 @@ public class PcsRecommendService extends PcsBaseMapper {
             if(_pcsCandidate.getPositiveVote().intValue()>_pcsCandidate.getVote()){
 
                 SysUserView uv = CmTag.getUserById(userId);
-                throw new OpException("数据有误，委员（{0}）推荐提名的党员数大于推荐提名的正式党员数", uv.getRealname());
+                throw new OpException("数据有误，委员（{0}）推荐提名的正式党员数大于推荐提名的党员数", uv.getRealname());
             }
 
             if(formBean.getType()==PcsConstants.PCS_USER_TYPE_DW){  // 添加党委委员

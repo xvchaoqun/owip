@@ -107,7 +107,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
 
         if(record.getPositiveVote().intValue()>record.getVote()){
 
-            throw new OpException("数据有误，代表（{0}）推荐提名的党员数大于推荐提名的正式党员数", uv.getRealname());
+            throw new OpException("数据有误，代表（{0}）推荐提名的正式党员数大于推荐提名的党员数", uv.getRealname());
         }
 
         record.setCode(uv.getCode());
