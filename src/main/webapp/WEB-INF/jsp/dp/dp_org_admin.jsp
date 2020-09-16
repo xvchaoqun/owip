@@ -27,7 +27,7 @@
                         </div>
                         <div class="clearfix form-actions">
                             <c:if test="${not empty dpParty}">
-                            <div class="note">注：此处设定的是普通管理员（非委员会成员），如果是委员会成员，请在【委员会-查看委员】中进行管理</div>
+                            <div class="note">注：此处设定的是其他管理员（非委员会成员），如果是委员会成员，请在【委员会-查看委员】中进行管理</div>
                                 </c:if>
                             <div class="col-md-offset-3 col-md-9">
                                 <button class="btn btn-info btn-sm" type="submit">

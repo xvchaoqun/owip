@@ -39,7 +39,7 @@ public class OrgAdminController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 弹出框编辑普通管理员
+    // 弹出框编辑其他管理员
     //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/org_admin")
     public String org_admin(Integer partyId, Integer branchId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -66,7 +66,7 @@ public class OrgAdminController extends BaseController {
             OwAdmin search = new OwAdmin();
             search.setPartyId(partyId);
             search.setBranchId(branchId);
-            search.setNormal(true); // 普通管理员
+            search.setNormal(true); // 其他管理员
             if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
                 search.setAddPermits(true);
                 search.setAdminPartyIdList(adminPartyIdList);

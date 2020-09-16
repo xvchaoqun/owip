@@ -131,7 +131,7 @@ public class BranchMemberService extends BaseMapper {
         Branch branch = branchMapper.selectByPrimaryKey(branchId);
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
-        if(normal==null || !normal){  // normal=true时只删除普通管理员， normal=false或空时，删除班子成员和普通管理员
+        if(normal==null || !normal){  // normal=true时只删除其他管理员， normal=false或空时，删除班子成员和其他管理员
 
             OwAdmin owAdmin = new OwAdmin();
             owAdmin.setUserId(userId);
@@ -155,7 +155,7 @@ public class BranchMemberService extends BaseMapper {
             OwAdmin owAdmin = new OwAdmin();
             owAdmin.setUserId(userId);
             owAdmin.setBranchId(branchId);
-            owAdmin.setNormal(true); // 普通管理员
+            owAdmin.setNormal(true); // 其他管理员
             List<OwAdmin> owAdmins = iPartyMapper.selectBranchAdminList(owAdmin, new RowBounds());
 
             for (OwAdmin record : owAdmins) { // 一般只有一个

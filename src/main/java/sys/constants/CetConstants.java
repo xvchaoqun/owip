@@ -16,7 +16,7 @@ public class CetConstants {
         CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_SECRETARY, "书记");
         CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_VICE_SECRETARY, "副书记");
         CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_COMMITTEE_MEMBER, "委员");
-        CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_NORMAL, "普通管理员");
+        CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_NORMAL, "其他管理员");
     }
 
     //补录状态

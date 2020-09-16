@@ -90,7 +90,7 @@ public class CetPartyService extends CetBaseMapper {
 
             int id = cetParty.getId();
 
-            // 先删除“非普通管理员”
+            // 先删除“非其他管理员”
             CetPartyAdminExample example1 = new CetPartyAdminExample();
             example1.createCriteria().andCetPartyIdEqualTo(id)
                     .andTypeNotEqualTo(CetConstants.CET_PARTY_ADMIN_NORMAL);
@@ -100,7 +100,7 @@ public class CetPartyService extends CetBaseMapper {
                 cetPartyAdminService.updateRoleCetAdminParty(cetPartyAdmin.getUserId());
             }
 
-            // 再同步基层党组织管理员（含普通管理员）
+            // 再同步基层党组织管理员（含其他管理员）
             int partyId = cetParty.getPartyId();
             OwAdmin search = new OwAdmin();
             search.setPartyId(partyId);

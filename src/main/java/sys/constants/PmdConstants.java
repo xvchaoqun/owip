@@ -89,7 +89,7 @@ public class PmdConstants {
         PMD_PAY_WAY_MAP.put(PMD_PAY_WAY_CAMPUSCARD, "校园卡");
     }
 
-    // 党费收缴管理员类型， 1 党建管理员（同步过来的） 4 普通管理员
+    // 党费收缴管理员类型， 1 党建管理员（同步过来的） 4 其他管理员
     /*public final static byte PMD_ADMIN_TYPE_SECRETARY = 1;
     public final static byte PMD_ADMIN_TYPE_VICE_SECRETARY = 2;
     public final static byte PMD_ADMIN_TYPE_COMMISSARY = 3;*/

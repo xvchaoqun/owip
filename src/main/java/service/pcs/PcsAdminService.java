@@ -45,13 +45,13 @@ public class PcsAdminService extends PcsBaseMapper {
 
     // 后台同步党代会管理员角色：
     // 1、删除所有党代会的所有书记、副书记管理员
-    // 2、同步最新的分党委书记、副书记管理员（保留不重复的普通管理员）
+    // 2、同步最新的分党委书记、副书记管理员（保留不重复的其他管理员）
     /*@Transactional
     public void syncCurrentPcsAdmin() {
 
-        // 去掉所有党代会的书记、副书记的管理员角色，并删除，保留当前党代会的普通管理员待下一步处理
+        // 去掉所有党代会的书记、副书记的管理员角色，并删除，保留当前党代会的其他管理员待下一步处理
         List<PcsAdmin> pcsAdmins = new ArrayList<>();
-        Set<Integer> pcsNormalAdminIds = new HashSet<>(); // 普通管理员userId
+        Set<Integer> pcsNormalAdminIds = new HashSet<>(); // 其他管理员userId
         {
             PcsAdminExample example = new PcsAdminExample();
             //example.createCriteria().andConfigIdEqualTo(configId);
@@ -59,7 +59,7 @@ public class PcsAdminService extends PcsBaseMapper {
             for (PcsAdmin pcsAdmin : pcsAdmins) {
                 Integer userId = pcsAdmin.getUserId();
                 if (pcsAdmin.getType() == PcsConstants.PCS_ADMIN_TYPE_NORMAL) {
-                    // 党代会的普通管理员暂不处理
+                    // 党代会的其他管理员暂不处理
                     pcsNormalAdminIds.add(userId);
                 } else {
 
@@ -87,7 +87,7 @@ public class PcsAdminService extends PcsBaseMapper {
             partyMemberViews = partyMemberViewMapper.selectByExample(example);
         }
 
-        // 赋予所有的分党委书记、副书记党代会管理员角色，如果他之前已经是普通管理员，则先删除（这样做避免重复管理员的出现）
+        // 赋予所有的分党委书记、副书记党代会管理员角色，如果他之前已经是其他管理员，则先删除（这样做避免重复管理员的出现）
         for (PartyMemberView partyMemberView : partyMemberViews) {
 
             Integer userId = partyMemberView.getUserId();

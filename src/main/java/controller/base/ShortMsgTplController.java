@@ -250,7 +250,7 @@ public class ShortMsgTplController extends BaseController {
                                    String wxTitle,
                                    String content,
                                    String type,
-                                   List<Integer> userIds,
+                                   Integer[] userIds,
                                    HttpServletRequest request) {
 
         ShortMsgTpl tpl = shortMsgTplMapper.selectByPrimaryKey(tplId);
@@ -286,7 +286,7 @@ public class ShortMsgTplController extends BaseController {
         if(!StringUtils.equals(type, "batch")) {
             shortMsgService.send(bean, ContextHelper.getRealIp());
         }else{
-            shortMsgService.sendBatch(bean, userIds, ContextHelper.getRealIp());
+            shortMsgService.sendBatch(bean, new ArrayList<>(Arrays.asList(userIds)), ContextHelper.getRealIp());
         }
 
         return success(FormUtils.SUCCESS);

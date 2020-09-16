@@ -34,7 +34,7 @@ public class OrgAdminService extends BaseMapper {
     public int addPartyAdmin(int userId, int partyId) {
 
         if(partyAdminService.adminParty(userId, partyId)){
-            throw new OpException("添加重复，已经是管理员（班子成员或普通管理员）。");
+            throw new OpException("添加重复，已经是管理员（班子成员或其他管理员）。");
         }
 
         SysUserView sysUser = sysUserService.findById(userId);
@@ -60,7 +60,7 @@ public class OrgAdminService extends BaseMapper {
     public int addBranchAdmin(int userId, int branchId) {
 
         if(branchAdminService.adminBranch(userId, branchId)){
-            throw new OpException("添加重复，已经是管理员（支部委员会成员或普通管理员）。");
+            throw new OpException("添加重复，已经是管理员（支部委员会成员或其他管理员）。");
         }
 
         SysUserView sysUser = sysUserService.findById(userId);

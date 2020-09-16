@@ -61,7 +61,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         return "pcs/pcsPartyAdmin/pcsPartyAdmin_page";
     }
 
-    // 分党委书记添加/更新普通管理员
+    // 分党委书记添加/更新其他管理员
     @RequiresPermissions("pcsPartyAdmin:edit")
     @RequestMapping(value = "/pcsPartyAdmin_au", method = RequestMethod.POST)
     @ResponseBody
@@ -110,7 +110,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         return "pcs/pcsAdmin/pcsAdmin_au";
     }
 
-    // 分党委书记删除普通管理员
+    // 分党委书记删除其他管理员
     @RequiresPermissions("pcsPartyAdmin:del")
     @RequestMapping(value = "/pcsPartyAdmin_del", method = RequestMethod.POST)
     @ResponseBody

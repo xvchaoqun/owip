@@ -209,7 +209,7 @@ public class PartyMemberService extends BaseMapper {
     @Transactional
     public void delAdmin(int userId, int partyId, Boolean normal) {
 
-       if(normal==null || !normal){  // normal=true时只删除普通管理员， normal=false或空时，删除班子成员和普通管理员
+       if(normal==null || !normal){  // normal=true时只删除其他管理员， normal=false或空时，删除班子成员和其他管理员
 
             OwAdmin owAdmin = new OwAdmin();
             owAdmin.setUserId(userId);
@@ -234,7 +234,7 @@ public class PartyMemberService extends BaseMapper {
             OwAdmin owAdmin = new OwAdmin();
             owAdmin.setUserId(userId);
             owAdmin.setPartyId(partyId);
-            owAdmin.setNormal(true); // 普通管理员
+            owAdmin.setNormal(true); // 其他管理员
             List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
 
             for (OwAdmin record : owAdmins) {

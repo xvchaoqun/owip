@@ -17,11 +17,11 @@ pageEncoding="UTF-8"%>
         <c:forEach items="${fn:split(scMatterCheck.files, '<><>')}" var="f" varStatus="vs">
         <tr>
             <td>
-                <a href="${ctx}/attach_download?path=${cm:sing(fn:split(f, '^^^^')[1])}&filename=${fn:split(f, '^^^^')[0]}">
+                <a href="${ctx}/attach_download?path=${cm:sign(fn:split(f, '^^^^')[1])}&filename=${fn:split(f, '^^^^')[0]}">
                         ${fn:split(f, '^^^^')[0]}</a>
             </td>
             <td>
-                <a href="${ctx}/attach_download?path=${cm:sing(fn:split(f, '^^^^')[1])}&filename=${fn:split(f, '^^^^')[0]}">
+                <a href="${ctx}/attach_download?path=${cm:sign(fn:split(f, '^^^^')[1])}&filename=${fn:split(f, '^^^^')[0]}">
                     下载</a>
             </td>
         </tr>
