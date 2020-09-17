@@ -6,6 +6,10 @@ set @keyowrd='师范';
 
 update pcs_candidate set title = replace(title, @keyowrd, repeat('*', char_length(@keyowrd))) where title like concat('%',@keyowrd,'%');
 
+update pcs_party set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+update pcs_branch set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+update pcs_branch set party_name = replace(party_name, @keyowrd, repeat('*', char_length(@keyowrd))) where party_name like concat('%',@keyowrd,'%');
+
 
 update sys_config set school_name = replace(school_name, @keyowrd, repeat('*', char_length(@keyowrd))) where school_name like concat('%',@keyowrd,'%');
 update sys_config set school_short_name = replace(school_short_name, @keyowrd, repeat('*', char_length(@keyowrd))) where school_short_name like concat('%',@keyowrd,'%');

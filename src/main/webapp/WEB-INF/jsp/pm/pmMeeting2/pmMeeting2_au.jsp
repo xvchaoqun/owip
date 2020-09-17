@@ -81,6 +81,7 @@
                                          <i class="fa fa-calendar bigger-110"></i>
                                 </span>
                             </div>
+                            <span class="help-block">格式为：yyyy-MM-dd HH:mm</span>
                         </c:if>
                     </td>
                     <td><span class="star">*</span>地点</td>
@@ -203,8 +204,7 @@
                                 ${pmMeeting2.presenterName.realname}
                             </c:if>
                             <c:if test="${edit}">
-                            <select  ${empty pmMeeting2.partyId&&empty pmMeeting2.branchId?'disabled="disabled"':''}
-                                     data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pmMeeting2.partyId}&branchId=${pmMeeting2.branchId}&status=${MEMBER_STATUS_NORMAL}"
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
                                     data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
                                 <option value="${pmMeeting2.presenter}">${pmMeeting2.presenterName.realname}-${pmMeeting2.presenterName.code}</option>
                             </select>
@@ -216,8 +216,7 @@
                             ${pmMeeting2.recorderName.realname}
                         </c:if>
                         <c:if test="${edit}">
-                            <select ${empty pmMeeting2.partyId&&empty pmMeeting2.branchId?'disabled="disabled"':''}
-                                    data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pmMeeting2.partyId}&branchId=${pmMeeting2.branchId}&status=${MEMBER_STATUS_NORMAL}"
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
                                     data-width="270" id="recorder" name="recorder" data-placeholder="请选择">
                                 <option value="${pmMeeting2.recorder}">${pmMeeting2.recorderName.realname}-${pmMeeting2.recorderName.code}</option>
                             </select>
@@ -380,7 +379,7 @@
     $.register.user_select(presenterSelect);
     $.register.user_select(recorderSelect);
 
-    var partySelect = $('#pm2Form select[name="partyId"]');
+    /*var partySelect = $('#pm2Form select[name="partyId"]');
     partySelect.on('change',function(){
         var partyId=partySelect.val();
         if ($.isBlank(partyId)){
@@ -428,7 +427,7 @@
         presenterSelect.removeAttr("disabled");
         recorderSelect.removeAttr("disabled");
 
-       });
+       });*/
 
     $("#pmSubmitBtn").click(function(){$("#pm2Form").submit();return false;});
     $("#pm2Form").validate({

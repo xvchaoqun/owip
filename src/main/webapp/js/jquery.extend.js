@@ -177,6 +177,12 @@ if (jQuery.validator) {
         }
         return returnVal;
     }, "小数点后最多为两位");
+
+    jQuery.validator.addMethod("datetime-picker", function (value, element) {
+        var date = $.date(value, "yyyy-MM-dd HH:mm")
+        //console.log(value + ":" + period.test(value))
+        return this.optional(element) || (date==value);
+    }, "请输入正确的时间（格式为yyyy-MM-dd HH:mm）");
 }
 
 $.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {

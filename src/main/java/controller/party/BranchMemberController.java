@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.base.MetaType;
 import domain.party.*;
 import domain.party.BranchMemberExample.Criteria;
-import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +25,6 @@ import service.party.BranchExportService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -270,15 +268,20 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMember_admin(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
+    public Map branchMember_admin(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
+            int userId = ShiroHelper.getCurrentUserId();
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
             if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-                if (branchMember.getUserId().intValue() == loginUser.getId()) {
-                    return failed("不能删除自己");
+
+                BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
+                Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
+                 if(!partyMemberService.hasAdminAuth(userId, branch.getPartyId())
+                     && branchMember.getIsAdmin() && branchMember.getUserId().intValue() == userId) {
+                    return failed("无法撤销本人的权限");
                 }
             }
 

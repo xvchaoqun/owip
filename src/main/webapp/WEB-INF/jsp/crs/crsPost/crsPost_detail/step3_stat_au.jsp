@@ -107,7 +107,7 @@
                 <td colspan="4">
                     记录日期：
                 <span class="num date">
-                <input name="statDate" class="datetime-picker" type="text" name="endTime"
+                <input name="statDate" class="date-picker" type="text" name="endTime"
                        data-date-format="yyyy-mm-dd"
                        value="${crsPost.statDate==null?_today:cm:formatDate(crsPost.statDate, "yyyy-MM-dd")}">
                </span>
@@ -128,7 +128,7 @@
     $("#statForm input").prop("disabled", true);
     </c:if>
     $('#statForm [data-rel="select2"]').select2();
-    $.register.date($('.datetime-picker'));
+    $.register.date($('.date-picker'));
     $.fileInput($('#statForm input[type=file]'), {
         no_file: '请上传pdf文件',
         allowExt: ['pdf']

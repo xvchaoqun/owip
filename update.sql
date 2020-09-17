@@ -1,4 +1,18 @@
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_member_need_vote', '党代会党员是否需要投票', 'false', 3, 75, '');
+ALTER TABLE `pcs_poll_report`
+	ALTER `disagree_ballot` DROP DEFAULT,
+	ALTER `abstain_ballot` DROP DEFAULT;
+ALTER TABLE `pcs_poll_report`
+	CHANGE COLUMN `disagree_ballot` `disagree_ballot` INT(10) UNSIGNED NULL COMMENT '不支持人数' AFTER `grow_ballot`,
+	CHANGE COLUMN `abstain_ballot` `abstain_ballot` INT(10) UNSIGNED NULL COMMENT '弃权票' AFTER `disagree_ballot`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (2792, 0, '三会一课2:退回', '', 'function', '', NULL, 2783, '0/1/2783/', 1, 'pmMeeting2:back', NULL, NULL, NULL, 1, NULL);
+
+
 20200916
 西工大，北邮
 
