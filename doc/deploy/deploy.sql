@@ -21,28 +21,6 @@ mysqldump  -uroot -p123 --default-character-set=utf8 -t -B db_owip --tables sys_
 update sys_user_info ui, cadre c set ui.msg_title=concat(left(ui.realname,1), '老师')
 where  ui.user_id=c.user_id and ui.msg_title is null;
 
--- 更新短信内容
-update base_content_tpl set content = replace(content, '18612987573', '13581513455');
-update base_content_tpl set content = replace(content, '58808302，58806879', '64434910');
-update base_content_tpl set content = replace(content, '58806879', '64434910');
-update base_content_tpl set content = replace(content, '58808302', '64434910');
-update base_content_tpl set content = replace(content, '64434910、64434910', '64434910');
-update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
-update base_content_tpl set content = replace(content, 'zzgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
-update base_content_tpl set content = replace(content, '主楼A306', '行政楼216');
-
--- 更新系统说明
-select title,content from sys_html_fragment where content like '%师范%';
-update sys_html_fragment set content = replace(content, '北京师范大学', '西安交通大学');
-update sys_html_fragment set content = replace(content, '北师大', '西安交大');
-update sys_html_fragment set content = replace(content, '18612987573', '13800000000');
-update sys_html_fragment set content = replace(content, '58808302', '88888888');
-update sys_html_fragment set content = replace(content, '58806879', '88888888');
-update sys_html_fragment set content = replace(content, '64434910', '88888888');
-update sys_html_fragment set content = replace(content, 'zzbgz.bnu.edu.cn', 'gbgz.xjtu.edu.cn');
-update sys_html_fragment set content = replace(content, '龙海明', '***');
-update sys_html_fragment set content = replace(content, '杨学玉', '***');
-
 --
 update sys_role set remark=null;
 
