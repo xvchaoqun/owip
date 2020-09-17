@@ -124,33 +124,34 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pm.PmMeeting2">
-    insert into pm_meeting2 (id, party_id, branch_id, 
-      year, quarter, month, 
-      date, address, type1, 
-      type2, number1, number2, 
-      time1, time2, short_content, 
-      content, due_num, attend_num, 
-      absents, presenter, recorder, 
-      file_name, file_path, remark, 
-      status, reason, is_delete
-      )
-    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{year,jdbcType=INTEGER}, #{quarter,jdbcType=TINYINT}, #{month,jdbcType=INTEGER}, 
-      #{date,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{type1,jdbcType=TINYINT}, 
-      #{type2,jdbcType=TINYINT}, #{number1,jdbcType=INTEGER}, #{number2,jdbcType=INTEGER}, 
-      #{time1,jdbcType=VARCHAR}, #{time2,jdbcType=VARCHAR}, #{shortContent,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, 
-      #{absents,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, 
-      #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}
-      )
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pm_meeting2 (party_id, branch_id, year, 
+      quarter, month, date, 
+      address, type1, type2, 
+      number1, number2, time1, 
+      time2, short_content, content, 
+      due_num, attend_num, absents, 
+      presenter, recorder, file_name, 
+      file_path, remark, status, 
+      reason, is_delete)
+    values (#{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
+      #{quarter,jdbcType=TINYINT}, #{month,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{type1,jdbcType=TINYINT}, #{type2,jdbcType=TINYINT}, 
+      #{number1,jdbcType=INTEGER}, #{number2,jdbcType=INTEGER}, #{time1,jdbcType=VARCHAR}, 
+      #{time2,jdbcType=VARCHAR}, #{shortContent,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, #{absents,jdbcType=VARCHAR}, 
+      #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pm.PmMeeting2">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into pm_meeting2
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="partyId != null">
         party_id,
       </if>
@@ -231,9 +232,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>

@@ -27,6 +27,10 @@ public interface IPmMapper {
                           @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                           @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
+    Map selectPmInitCount2(@Param("addPermits") Boolean addPermits,
+                          @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
     List<PmMeetingStat> selectPmMeetingStat(@Param("display") Byte display,
                                             @Param("year") Integer year,
                                             @Param("quarter") Byte quarter,

@@ -43,6 +43,14 @@
         <include refid="member_selects_permits"/>
     </select>
 
+    <select id="selectPmInitCount2" parameterType="map" resultType="map">
+        select sum(if(status=0,1,0)) as pm_initCount,
+        sum(if(status=1,1,0)) as pm_passCount ,
+        sum(if(status=2,1,0)) as pm_denyCount from pm_meeting2 m
+        where m.is_delete=0
+        <include refid="member_selects_permits"/>
+    </select>
+
     <select id="selectPmMeetingStat" parameterType="map" resultType="persistence.pm.common.PmMeetingStat">
         select pm.id,pm.year,pm.quarter,pm.month,pm.party_id partyId,pm.branch_id branchId,
         count(case when pm.type='1' then 1 end) count1,count(case when pm.type='2' then 1 end) count2,count(case when pm.type='3' then 1 end) count3,

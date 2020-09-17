@@ -56,12 +56,12 @@ public class PmMeeting2Controller extends PmBaseController {
                              Integer branchId,ModelMap modelMap) {
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-        /*List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        Map pmInitCount = iPmMapper.selectPmInitCount(addPermits,adminPartyIdList, adminBranchIdList);
+        Map pmInitCount = iPmMapper.selectPmInitCount2(addPermits,adminPartyIdList, adminBranchIdList);
         if (pmInitCount != null) {
             modelMap.putAll(pmInitCount);
-        }*/
+        }
 
         modelMap.put("cls", cls);
         modelMap.put("adminPartyIdList", adminPartyIdList);
@@ -288,7 +288,7 @@ public class PmMeeting2Controller extends PmBaseController {
         return "pm/pmMeeting2/pmMeeting2_check";
     }
 
-    @RequiresPermissions("pmMeeting2:approve")
+    /*@RequiresPermissions("pmMeeting2:approve")*/
     @RequestMapping(value = "/pmMeeting2_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmMeeting2_check(Integer[] ids,Boolean check,Boolean hasPass,String reason,HttpServletRequest request) {
@@ -297,15 +297,14 @@ public class PmMeeting2Controller extends PmBaseController {
         Boolean isBack=false;
 
         if(BooleanUtils.isTrue(check)){
+            ShiroHelper.checkPermission("pmMeeting2:approve");
             status=hasPass==null?PM_MEETING_STATUS_DENY:PM_MEETING_STATUS_PASS;
         }else{
+            ShiroHelper.checkPermission("pmMeeting2:back");
             isBack=true;
         }
-
         pmMeeting2Service.check(ids,status,isBack,reason);
-
         logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", StringUtils.join(ids)));
-
         return success(FormUtils.SUCCESS);
     }
 

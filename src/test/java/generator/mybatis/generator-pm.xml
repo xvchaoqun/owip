@@ -34,6 +34,7 @@
             <columnOverride column="decision" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <table tableName="pm_meeting2" domainObjectName="pm.PmMeeting2" mapperName="pm.PmMeeting2Mapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="file_name" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="file_path" jdbcType="VARCHAR"></columnOverride>

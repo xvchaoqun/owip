@@ -16,13 +16,13 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="pmMeeting2:list">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=1"}><i class="fa fa-list"></i> 活动列表</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=1"}><i class="fa fa-list"></i> 活动列表(${cm:trimToZero(pm_passCount)})</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=2"}><i class="fa fa-circle-o"></i> 待审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=2"}><i class="fa fa-circle-o"></i> 待审核(${cm:trimToZero(pm_initCount)})</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=3"}><i class="fa fa-times"></i> 审批未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=3"}><i class="fa fa-times"></i> 审批未通过(${cm:trimToZero(pm_denyCount)})</a>
                         </li>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
                             <shiro:hasPermission name="pmMeeting2:edit">
@@ -72,11 +72,6 @@ pageEncoding="UTF-8" %>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top"
                                title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-                            <%--  <a class="jqLinkItemBtn btn btn-warning btn-sm"
-                                 data-url="${ctx}/pmMeeting_exportWord"
-                                 data-grid-id="#jqGrid"
-                                 data-open-by="page"><i class="fa fa-download"></i>
-                                  导出工作记录</a>--%>
 
                             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                                 <button data-url="${ctx}/pmMeeting2_batchDel"
@@ -88,6 +83,20 @@ pageEncoding="UTF-8" %>
                                 </button>
                             </shiro:hasAnyRoles>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="pmMeeting2:back">
+                            <c:if test="${cls==1}">
+                                <button id="backBtn" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/pmMeeting2_check"
+                                        data-grid-id="#jqGrid">
+                                    <i class="fa fa-reply"></i> 退回</button>
+                            </c:if>
+                        </shiro:hasPermission>
+                        <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                data-url="${ctx}/sysApprovalLog"
+                                data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_PM%>"
+                                data-open-by="page">
+                            <i class="fa fa-search"></i> 操作记录
+                        </button>
                     </div>
                     <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                         <div class="widget-header">

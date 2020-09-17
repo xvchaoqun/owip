@@ -1,3 +1,6 @@
+2020-09-17
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2792, 0, '三会一课2:退回', '', 'function', '', NULL, 2783, '0/1/2783/', 1, 'pmMeeting2:back', NULL, NULL, NULL, 1, NULL);
+
 2020-09-09
 ALTER TABLE `pm_meeting2`
 	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '附件地址' AFTER `file_name`;

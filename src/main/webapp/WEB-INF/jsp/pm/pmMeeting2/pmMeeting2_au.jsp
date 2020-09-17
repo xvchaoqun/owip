@@ -41,18 +41,20 @@
                             </c:if>
 
                             <c:if test="${edit}">
+                                <div class="input-group">
                                     <select required class="form-control" data-rel="select2-ajax"
                                                 data-ajax-url="${ctx}/party_selects?auth=1"
                                                 name="partyId" data-placeholder="请选择${_p_partyName}" data-width="250">
                                         <option value="${pmMeeting2.partyId}">${pmMeeting2.party.name}</option>
                                     </select>
-                                    <span style="${(empty branch)?'display: none':''}" id="branchDiv" style="padding-left: 25px;">
+                                    <span style="${(empty branch)?'display: none;':''} padding-left: 25px;" id="branchDiv">
                                         <select class="form-control"  data-rel="select2-ajax"
                                                 data-ajax-url="${ctx}/branch_selects?del=0&auth=1"
                                                 name="branchId" data-placeholder="请选择党支部" data-width="250">
                                             <option value="${pmMeeting2.branchId}">${pmMeeting2.branch.name}</option>
                                         </select>
                                     </span>
+                                </div>
                             </c:if>
                         </td>
                     </div>
@@ -108,12 +110,12 @@
                                       </td>
                                       <td>
                                           <span style="margin-right:5px;">第</span>
-                                          <input disabled class="input${entity.key}" style="width:100px;display:inline;text-align:center;"type="text" name="number_${entity.key}" value="">
+                                          <input disabled class="input${entity.key}  digits" style="width:100px;display:inline;text-align:center;"type="text" name="number_${entity.key}" value="">
                                           <span style="margin-left:5px;">次</span>
                                       </td>
                                       <td>时长</td>
                                       <td>
-                                          <input disabled class="input${entity.key}" style="width:100px;display:inline;text-align:center;" type="text" name="time_${entity.key}" value="">
+                                          <input disabled class="input${entity.key}  digits" style="width:100px;display:inline;text-align:center;" type="text" name="time_${entity.key}" value="">
                                           <span style="margin-left:5px;">分钟</span>
                                       </td>
                                   </tr>
@@ -163,7 +165,7 @@
                             ${pmMeeting2.dueNum}
                         </c:if>
                         <c:if test="${edit}">
-                            <input class="form-control" type="text" name="dueNum"
+                            <input class="form-control digits" type="text" name="dueNum"
                                    value="${pmMeeting2.dueNum}">
                         </c:if>
                     </td>
@@ -174,7 +176,7 @@
                             ${pmMeeting2.attendNum}
                         </c:if>
                         <c:if test="${edit}">
-                            <input class="form-control" type="text" name="attendNum"
+                            <input class="form-control digits" type="text" name="attendNum"
                                    value="${pmMeeting2.attendNum}">
                         </c:if>
                     </td>
@@ -331,9 +333,9 @@
 
                         <div class="modal-footer center">
 
-                            <button id="pmSubmitBtn"
-                                    class="btn btn-success btn-xlg"><i
-                                    class="fa fa-check"></i> 确定
+                            <button id="pmSubmitBtn" class="btn btn-success btn-xlg"
+                                    data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+                                <i class="fa fa-check"></i> 确定
                             </button>
                         </div>
 

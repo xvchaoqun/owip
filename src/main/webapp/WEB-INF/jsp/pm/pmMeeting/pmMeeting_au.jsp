@@ -232,7 +232,7 @@
                             ${pmMeeting.attendNum}
                         </c:if>
                         <c:if test="${edit}">
-                            <input required class="form-control" type="text" name="attendNum"
+                            <input required class="form-control digits" type="text" name="attendNum"
                                    value="${pmMeeting.attendNum}">
                         </c:if>
                     </td>
@@ -242,7 +242,7 @@
                             ${pmMeeting.absentNum}
                         </c:if>
                         <c:if test="${edit}">
-                            <input class="form-control" type="text" name="absentNum"
+                            <input class="form-control digits" type="text" name="absentNum"
                                     value="${pmMeeting.absentNum}">
                         </c:if>
                     </td>
@@ -267,7 +267,7 @@
                             ${empty pmMeeting.dueNum?allMembersNum:pmMeeting.dueNum}
                         </c:if>
                         <c:if test="${edit}">
-                        <input required  class="form-control" type="text" name="dueNum"
+                        <input required  class="form-control digits" type="text" name="dueNum"
                                value="${pmMeeting.dueNum}">
                         </c:if>
                     </td>
@@ -382,9 +382,9 @@
 
                         <div class="modal-footer center">
 
-                            <button id="pmSubmitBtn"
-                                    class="btn btn-success btn-xlg"><i
-                                    class="fa fa-check"></i> 确定
+                            <button id="pmSubmitBtn" class="btn btn-success btn-xlg"
+                                    data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+                                <i class="fa fa-check"></i> 确定
                             </button>
                         </div>
 

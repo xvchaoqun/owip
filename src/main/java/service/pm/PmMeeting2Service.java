@@ -9,19 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.party.PartyService;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
 import java.util.*;
 
 import static sys.constants.PmConstants.*;
+import static sys.constants.SystemConstants.*;
 
 @Service
 public class PmMeeting2Service extends PmBaseMapper {
 
     @Autowired
     PartyService partyService;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     public boolean idDuplicate(Integer id){
 
@@ -54,6 +59,12 @@ public class PmMeeting2Service extends PmBaseMapper {
             record.setStatus(PM_MEETING_STATUS_INIT);
         }
         pmMeeting2Mapper.insertSelective(record);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_APPROVAL_LOG_PM,
+                "添加三会一课",SYS_APPROVAL_LOG_STATUS_NONEED,
+                "新建");
     }
 
     @Transactional
@@ -128,11 +139,26 @@ public class PmMeeting2Service extends PmBaseMapper {
             }
 
             pmMeeting2.setStatus(status);
-            if(status==PM_MEETING_STATUS_DENY||isBack==true){
+            if(status==PM_MEETING_STATUS_DENY){
                 pmMeeting2.setReason(reason);
             }
             pmMeeting2Mapper.updateByPrimaryKeySelective(pmMeeting2);
+
+            if(isBack){
+                sysApprovalLogService.add(pmMeeting2.getId(), ShiroHelper.getCurrentUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                        SystemConstants.SYS_APPROVAL_LOG_PM,
+                        "退回三会一课", SYS_APPROVAL_LOG_STATUS_BACK,
+                        "退回原因："+reason);
+            }else{
+                sysApprovalLogService.add(pmMeeting2.getId(), ShiroHelper.getCurrentUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                        SystemConstants.SYS_APPROVAL_LOG_PM,
+                        "审核三会一课", status==PM_MEETING_STATUS_DENY?SYS_APPROVAL_LOG_STATUS_DENY:SYS_APPROVAL_LOG_STATUS_PASS,
+                        reason);
+            }
         }
+
     }
     public Map<Integer, PmMeeting2> findAll() {
 
