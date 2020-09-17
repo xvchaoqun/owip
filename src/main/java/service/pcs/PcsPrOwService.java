@@ -87,7 +87,8 @@ public class PcsPrOwService extends PcsBaseMapper {
         PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andConfigIdEqualTo(configId)
                 .andStageEqualTo(PcsConstants.PCS_STAGE_SECOND).andIsChosenEqualTo(true);
-        example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
+        //example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
+        example.setOrderByClause("realname_sort_order asc, branch_vote desc, vote desc, positive_vote desc");
         List<PcsPrCandidate> records = pcsPrCandidateMapper.selectByExample(example);
 
         int size = records.size();
