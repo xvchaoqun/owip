@@ -906,7 +906,7 @@ public class PcsPrExportService extends PcsBaseMapper {
       /*  str = cell.getStringCellValue()
                 .replace("rate", rate)
                 .replace("nextStageShort", nextStageStr);*/
-        countStr = String.format(countStr,bc,ec,ac,epc,apc);
+        countStr = String.format(countStr,bc,ec,epc,ac,apc);
       /*  str = cell.getStringCellValue()
                 .replace("count", countStr);*/
         cell.setCellValue(countStr);
