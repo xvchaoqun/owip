@@ -891,7 +891,7 @@ public class PcsPrExportService extends PcsBaseMapper {
                     bc += pcsPrPartyBean.getRecommendBranchCount()== null ? 0 :pcsPrPartyBean.getRecommendBranchCount();
 
                 }else{
-                    mc += pcsPrPartyBean.getMemberCount()== null ? 0 :pcsPrPartyBean.getMemberCount();
+                    mc += NumberUtils.trimToZero(pcsPrPartyBean.getMemberCount());
                     tc += pcsPrPartyBean.getTeacherMemberCount()== null ? 0 :pcsPrPartyBean.getTeacherMemberCount();
                     sc += pcsPrPartyBean.getStudentMemberCount()== null ? 0 :pcsPrPartyBean.getStudentMemberCount();
                     rc += pcsPrPartyBean.getRetireMemberCount()== null ? 0 :pcsPrPartyBean.getRetireMemberCount();
