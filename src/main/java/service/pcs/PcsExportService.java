@@ -478,6 +478,9 @@ public class PcsExportService extends PcsBaseMapper {
         int actualMemberCount = 0;
         List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, partyId, true, new RowBounds());
 
+        List<PcsBranchBean> pcsBranchBeans =
+                    iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+
         if(records.size()>0 && records.get(0).getReportId()!=null){
            Integer reportId=records.get(0).getReportId();
            PcsAdminReport pcsAdminReport=pcsAdminReportMapper.selectByPrimaryKey(reportId);
@@ -485,16 +488,19 @@ public class PcsExportService extends PcsBaseMapper {
            memberCount= NumberUtils.trimToZero(pcsAdminReport.getMemberCount());
 
        }else{
-            List<PcsBranchBean> pcsBranchBeans =
-                    iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+
             branchCount = pcsBranchBeans.size();
 
             for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
                 memberCount += pcsBranchBean.getMemberCount() == null ? 0 : pcsBranchBean.getMemberCount();
-                expectMemberCount += pcsBranchBean.getExpectMemberCount() == null ? 0 : pcsBranchBean.getExpectMemberCount();
-                actualMemberCount += pcsBranchBean.getActualMemberCount() == null ? 0 : pcsBranchBean.getActualMemberCount();
             }
        }
+
+        for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
+            expectMemberCount += pcsBranchBean.getExpectMemberCount() == null ? 0 : pcsBranchBean.getExpectMemberCount();
+            actualMemberCount += pcsBranchBean.getActualMemberCount() == null ? 0 : pcsBranchBean.getActualMemberCount();
+        }
+
         List<IPcsCandidate> candidates =
                 iPcsMapper.selectBranchCandidateList(null, configId, stage, type, partyId, new RowBounds());
 
