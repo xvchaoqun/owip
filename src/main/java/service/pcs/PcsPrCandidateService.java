@@ -58,7 +58,8 @@ public class PcsPrCandidateService extends PcsBaseMapper {
             criteria.andPartyIdEqualTo(partyId);
         }
         //example.setOrderByClause("party_sort_order desc, type asc, leader_sort_order desc, vote desc, positive_vote desc, sort_order asc");
-        example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
+        //example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
+        example.setOrderByClause("leader_sort_order desc, branch_vote desc, vote desc, positive_vote desc");
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -74,7 +75,8 @@ public class PcsPrCandidateService extends PcsBaseMapper {
                 .andTypeEqualTo(type).andPartyIdEqualTo(partyId);
 
         //example.setOrderByClause("sort_order asc");
-        example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
+        //example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
+        example.setOrderByClause("leader_sort_order desc, branch_vote desc, vote desc, positive_vote desc");
 
         return pcsPrCandidateMapper.selectByExample(example);
     }

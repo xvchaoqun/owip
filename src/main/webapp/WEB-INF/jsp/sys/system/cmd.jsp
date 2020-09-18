@@ -30,19 +30,19 @@
                             </td>
                             <td>
                                 <div class="sample">
-                                    <div class="cmd">tail -n100 /data/logs/info.$(date +%Y-%m-%d).log</div>
+                                    <div class="cmd">tail -n100 /opt/logs/info.$(date +%Y-%m-%d).log</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                                 <div class="sample">
-                                    <div class="cmd">cat /data/logs/info.$(date +%Y-%m-%d).log |grep -C10 'ERROR'</div>
+                                    <div class="cmd">cat /opt/logs/info.$(date +%Y-%m-%d).log |grep -C10 'ERROR'</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                                 <div class="sample">
-                                    <div class="cmd">cat /data/logs/info.$(date +%Y-%m)*.log |grep -C10 'ERROR'</div>
+                                    <div class="cmd">cat /opt/logs/info.$(date +%Y-%m)*.log |grep -C10 'ERROR'</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                                 <div class="sample">
-                                    <div class="cmd">cat /data/logs/info.$(date -d "1 day ago" +%Y-%m-%d).log |grep -C10 'ERROR'</div>
+                                    <div class="cmd">cat /opt/logs/info.$(date -d "1 day ago" +%Y-%m-%d).log |grep -C10 'ERROR'</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                                 <div class="sample">
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="sample">
                                     <div class="label">查看tomcat日志</div>
-                                    <div class="cmd">tail -n20 /data/logs/catalina.out</div>
+                                    <div class="cmd">tail -n20 /opt/logs/catalina.out</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                             </td>

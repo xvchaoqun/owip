@@ -1,4 +1,13 @@
 
+
+-- ln -s /opt/apache-tomcat-xxx/logs  /opt/logs
+
+-- 检查历史数据：select * from cadre_edu where `is_high_edu` = 1 and is_second_degree=0 and status=0 group by cadre_id having count(*)>1;
+update cadre_edu set is_high_edu=0 where id in(select id from (select id from cadre_edu where `is_high_edu` = 1 and is_second_degree=0 and status=0 group by cadre_id having count(*)>1)tmp);
+
+20200917
+西工大 -- 北师大
+
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_member_need_vote', '党代会党员是否需要投票', 'false', 3, 75, '');
 ALTER TABLE `pcs_poll_report`
 	ALTER `disagree_ballot` DROP DEFAULT,

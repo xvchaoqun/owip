@@ -427,7 +427,7 @@ public class CadreEduService extends BaseMapper {
             throw new OpException(realname+"已经存在一条在读记录");
         }
 
-        // 非第二最高学位，不允许存在多个最高学历
+        // 非第二最高学位，不允许存在多个最高学历（第二个学位所对应的学历，有可能和最高学历相同，所以允许设置为最高学历）
         if (BooleanUtils.isNotTrue(record.getIsSecondDegree())
                 && hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())) {
 
@@ -437,6 +437,14 @@ public class CadreEduService extends BaseMapper {
             }else {
                 throw new OpException(realname+"已经存在最高学历");
             }
+        }
+
+        // 勾选了第二最高学位，但是并没有第一最高学位，此时不允许设置第二个最高学历
+        if(BooleanUtils.isTrue(record.getIsSecondDegree())
+                && !hasFirstHighDegree(record.getId(), record.getCadreId(), SystemConstants.RECORD_STATUS_FORMAL)
+                && hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())){
+
+            throw new OpException(realname+"已经存在最高学历");
         }
     }
 

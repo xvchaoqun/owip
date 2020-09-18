@@ -15,6 +15,7 @@
     <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=10"}><i class="fa fa-th${cls==10?'-large':''}"></i>
       全部党员</a>
   </li>
+    <shiro:hasPermission name="memberOut:list">
   <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
     <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
       <i class="fa fa-sign-out"></i> 已转出党员${cls==6?"(学生)":(cls==7)?"(教职工)":""}
@@ -29,6 +30,7 @@
       </li>
     </ul>
   </li>
+        </shiro:hasPermission>
   <li>
   <div class="buttons hidden-sm hidden-xs" style="padding-left:10px; position: relative">
     <shiro:hasPermission name="member:add">
