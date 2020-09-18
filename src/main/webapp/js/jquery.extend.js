@@ -1816,6 +1816,7 @@ $.extend($.register, {
     // 下拉多选
     multiselect: function ($select, selected, params) {
 
+        $("option[value=__NEW]", $select).remove();
         var $select = $select.multiselect($.extend({
             enableFiltering: true,
             /*enableHTML: true,*/
