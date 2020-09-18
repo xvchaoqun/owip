@@ -5,6 +5,7 @@ import domain.pcs.*;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -797,20 +798,21 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         String title = pcsConfigService.getPcsName(configId) + "代表候选人%s人选名单";
         title = String.format(title, "推荐");
-        String rate = "";
+        String countStr = "党支部数：%s，应参会党员数：%s，应参会正式党员数：%s，实参会党员数：%s，实参会正式党员数：%s";
+        /*String rate = "";
         String nextStageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                /*title = String.format(title, "初步");*/
+                *//*title = String.format(title, "初步");*//*
                 rate = "30%";
                 nextStageStr = "二下";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                /*title = String.format(title, "预备");*/
+                *//*title = String.format(title, "预备");*//*
                 rate = "20%";
                 nextStageStr = "三下";
                 break;
-        }
+        }*/
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -821,10 +823,15 @@ public class PcsPrExportService extends PcsBaseMapper {
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
-        String mc = "";
-        String tc = "";
-        String sc = "";
-        String rc = "";
+        int mc =0;
+        int tc = 0;
+        int sc = 0;
+        int rc = 0;
+        int bc = 0;
+        int ec = 0;
+        int epc = 0;   //应参会正式党员数
+        int ac = 0;
+        int apc = 0;   //实参会正式党员数
         int countRow = 1;
         int nextRow = 2;
         int startRow = 4;
@@ -835,16 +842,26 @@ public class PcsPrExportService extends PcsBaseMapper {
             PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
             //是否上报
             if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()){
-                mc=pcsPrRecommend.getMemberCount()+ "";
-                tc=pcsPrRecommend.getTeacherMemberCount()+ "";
-                sc=pcsPrRecommend.getStudentMemberCount()+ "";
-                rc=pcsPrRecommend.getRetireMemberCount()+ "";
+                mc=NumberUtils.trimToZero(pcsPrRecommend.getMemberCount());
+                tc=NumberUtils.trimToZero(pcsPrRecommend.getTeacherMemberCount());
+                sc=NumberUtils.trimToZero(pcsPrRecommend.getStudentMemberCount());
+                rc=NumberUtils.trimToZero(pcsPrRecommend.getRetireMemberCount());
+                bc=NumberUtils.trimToZero(pcsPrRecommend.getBranchCount());
+
             }else{
-                mc = pcsParty.getMemberCount() + "";
-                tc = pcsParty.getTeacherMemberCount() + "";
-                sc = pcsParty.getStudentMemberCount() + "";
-                rc = pcsParty.getRetireMemberCount() + "";
+                mc = NumberUtils.trimToZero(pcsParty.getMemberCount());
+                tc = NumberUtils.trimToZero(pcsParty.getTeacherMemberCount());
+                sc = NumberUtils.trimToZero(pcsParty.getStudentMemberCount());
+                rc = NumberUtils.trimToZero(pcsParty.getRetireMemberCount());
+                bc = NumberUtils.trimToZero(pcsParty.getBranchCount());
             }
+             if(pcsPrRecommend != null){
+                 ec = NumberUtils.trimToZero(pcsPrRecommend.getExpectMemberCount());
+                 epc =NumberUtils.trimToZero(pcsPrRecommend.getExpectPositiveMemberCount());
+                 ac = NumberUtils.trimToZero(pcsPrRecommend.getActualMemberCount() );
+                 apc = NumberUtils.trimToZero(pcsPrRecommend.getActualPositiveMemberCount());
+             }
+
 
             row = sheet.getRow(1);
             cell = row.getCell(0);
@@ -856,28 +873,57 @@ public class PcsPrExportService extends PcsBaseMapper {
             startRow = 5;
         } else {
             // 全校
-            Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, stage);
+           /* Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, stage);
             mc = schoolMemberCountMap.get("mc");
             tc = schoolMemberCountMap.get("tc");
             sc = schoolMemberCountMap.get("sc");
-            rc = schoolMemberCountMap.get("rc");
+            rc = schoolMemberCountMap.get("rc");*/
+
+            List<PcsPrPartyBean> pcsPrPartyBeans =iPcsMapper.selectPcsPrPartyBeanList(configId, stage, null, null, null, new RowBounds());
+
+            for (PcsPrPartyBean pcsPrPartyBean : pcsPrPartyBeans) {
+
+                if(BooleanUtils.isTrue(pcsPrPartyBean.getHasReport())){
+                    mc += pcsPrPartyBean.getRecommendMemberCount()== null ? 0 :pcsPrPartyBean.getRecommendMemberCount();
+                    tc += pcsPrPartyBean.getRecommendTeacherCount()== null ? 0 :pcsPrPartyBean.getRecommendTeacherCount();
+                    sc += pcsPrPartyBean.getRecommendStudentCount()== null ? 0 :pcsPrPartyBean.getRecommendStudentCount();
+                    rc += pcsPrPartyBean.getRecommendRetireCount()== null ? 0 :pcsPrPartyBean.getRecommendRetireCount();
+                    bc += pcsPrPartyBean.getRecommendBranchCount()== null ? 0 :pcsPrPartyBean.getRecommendBranchCount();
+
+                }else{
+                    mc += pcsPrPartyBean.getMemberCount()== null ? 0 :pcsPrPartyBean.getMemberCount();
+                    tc += pcsPrPartyBean.getTeacherMemberCount()== null ? 0 :pcsPrPartyBean.getTeacherMemberCount();
+                    sc += pcsPrPartyBean.getStudentMemberCount()== null ? 0 :pcsPrPartyBean.getStudentMemberCount();
+                    rc += pcsPrPartyBean.getRetireMemberCount()== null ? 0 :pcsPrPartyBean.getRetireMemberCount();
+                    bc += pcsPrPartyBean.getBranchCount()== null ? 0 :pcsPrPartyBean.getBranchCount();
+                }
+
+                ec  += pcsPrPartyBean.getExpectMemberCount() == null ? 0 : pcsPrPartyBean.getExpectMemberCount();
+                epc += pcsPrPartyBean.getExpectPositiveMemberCount() == null ? 0 : pcsPrPartyBean.getExpectPositiveMemberCount();
+                ac  += pcsPrPartyBean.getActualMemberCount() == null ? 0 : pcsPrPartyBean.getActualMemberCount();
+                apc += pcsPrPartyBean.getActualPositiveMemberCount() == null ? 0 : pcsPrPartyBean.getActualPositiveMemberCount();
+
+            }
         }
 
         row = sheet.getRow(countRow);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("mc", mc)
-                .replace("tc", tc)
-                .replace("sc", sc)
-                .replace("rc", rc);
+                .replace("mc", mc+ "")
+                .replace("tc", tc+ "")
+                .replace("sc", sc+ "")
+                .replace("rc", rc+ "");
         cell.setCellValue(str);
 
         row = sheet.getRow(nextRow);
         cell = row.getCell(0);
-        str = cell.getStringCellValue()
+      /*  str = cell.getStringCellValue()
                 .replace("rate", rate)
-                .replace("nextStageShort", nextStageStr);
-        cell.setCellValue(str);
+                .replace("nextStageShort", nextStageStr);*/
+        countStr = String.format(countStr,bc,ec,ac,epc,apc);
+      /*  str = cell.getStringCellValue()
+                .replace("count", countStr);*/
+        cell.setCellValue(countStr);
 
         PcsPrCandidateExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
         List<PcsPrCandidate> candidates = pcsPrCandidateMapper.selectByExample(example);
