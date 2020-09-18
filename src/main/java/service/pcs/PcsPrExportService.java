@@ -5,7 +5,6 @@ import domain.pcs.*;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -835,34 +834,23 @@ public class PcsPrExportService extends PcsBaseMapper {
         int countRow = 1;
         int nextRow = 2;
         int startRow = 4;
+
+        List<PcsPrPartyBean> pcsPrPartyBeans =iPcsMapper.selectPcsPrPartyBeanList(configId, stage, partyId, null, null, new RowBounds());
         if (partyId != null) {
-
+            PcsPrPartyBean pcsPrPartyBean=pcsPrPartyBeans.get(0);
             PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+            if(pcsPrPartyBean!=null) {
+                mc = NumberUtils.trimToZero(pcsPrPartyBean.getRealMemberCount());
+                tc = NumberUtils.trimToZero(pcsPrPartyBean.getRealTeacherMemberCount());
+                sc = NumberUtils.trimToZero(pcsPrPartyBean.getRealStudentMemberCount());
+                rc = NumberUtils.trimToZero(pcsPrPartyBean.getRealRetireMemberCount());
+                bc = NumberUtils.trimToZero(pcsPrPartyBean.getRealBranchCount());
 
-            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
-            //是否上报
-            if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()){
-                mc=NumberUtils.trimToZero(pcsPrRecommend.getMemberCount());
-                tc=NumberUtils.trimToZero(pcsPrRecommend.getTeacherMemberCount());
-                sc=NumberUtils.trimToZero(pcsPrRecommend.getStudentMemberCount());
-                rc=NumberUtils.trimToZero(pcsPrRecommend.getRetireMemberCount());
-                bc=NumberUtils.trimToZero(pcsPrRecommend.getBranchCount());
-
-            }else{
-                mc = NumberUtils.trimToZero(pcsParty.getMemberCount());
-                tc = NumberUtils.trimToZero(pcsParty.getTeacherMemberCount());
-                sc = NumberUtils.trimToZero(pcsParty.getStudentMemberCount());
-                rc = NumberUtils.trimToZero(pcsParty.getRetireMemberCount());
-                bc = NumberUtils.trimToZero(pcsParty.getBranchCount());
+                ec = NumberUtils.trimToZero(pcsPrPartyBean.getExpectMemberCount());
+                epc = NumberUtils.trimToZero(pcsPrPartyBean.getExpectPositiveMemberCount());
+                ac = NumberUtils.trimToZero(pcsPrPartyBean.getActualMemberCount());
+                apc = NumberUtils.trimToZero(pcsPrPartyBean.getActualPositiveMemberCount());
             }
-             if(pcsPrRecommend != null){
-                 ec = NumberUtils.trimToZero(pcsPrRecommend.getExpectMemberCount());
-                 epc =NumberUtils.trimToZero(pcsPrRecommend.getExpectPositiveMemberCount());
-                 ac = NumberUtils.trimToZero(pcsPrRecommend.getActualMemberCount() );
-                 apc = NumberUtils.trimToZero(pcsPrRecommend.getActualPositiveMemberCount());
-             }
-
-
             row = sheet.getRow(1);
             cell = row.getCell(0);
             str = cell.getStringCellValue().replace("party", pcsParty.getName());
@@ -879,29 +867,18 @@ public class PcsPrExportService extends PcsBaseMapper {
             sc = schoolMemberCountMap.get("sc");
             rc = schoolMemberCountMap.get("rc");*/
 
-            List<PcsPrPartyBean> pcsPrPartyBeans =iPcsMapper.selectPcsPrPartyBeanList(configId, stage, null, null, null, new RowBounds());
-
             for (PcsPrPartyBean pcsPrPartyBean : pcsPrPartyBeans) {
 
-                if(BooleanUtils.isTrue(pcsPrPartyBean.getHasReport())){
-                    mc += pcsPrPartyBean.getRecommendMemberCount()== null ? 0 :pcsPrPartyBean.getRecommendMemberCount();
-                    tc += pcsPrPartyBean.getRecommendTeacherCount()== null ? 0 :pcsPrPartyBean.getRecommendTeacherCount();
-                    sc += pcsPrPartyBean.getRecommendStudentCount()== null ? 0 :pcsPrPartyBean.getRecommendStudentCount();
-                    rc += pcsPrPartyBean.getRecommendRetireCount()== null ? 0 :pcsPrPartyBean.getRecommendRetireCount();
-                    bc += pcsPrPartyBean.getRecommendBranchCount()== null ? 0 :pcsPrPartyBean.getRecommendBranchCount();
+                mc += NumberUtils.trimToZero(pcsPrPartyBean.getRealMemberCount());
+                tc += NumberUtils.trimToZero(pcsPrPartyBean.getRealTeacherMemberCount());
+                sc += NumberUtils.trimToZero(pcsPrPartyBean.getRealStudentMemberCount());
+                rc += NumberUtils.trimToZero(pcsPrPartyBean.getRealRetireMemberCount());
+                bc += NumberUtils.trimToZero(pcsPrPartyBean.getRealBranchCount());
 
-                }else{
-                    mc += NumberUtils.trimToZero(pcsPrPartyBean.getMemberCount());
-                    tc += pcsPrPartyBean.getTeacherMemberCount()== null ? 0 :pcsPrPartyBean.getTeacherMemberCount();
-                    sc += pcsPrPartyBean.getStudentMemberCount()== null ? 0 :pcsPrPartyBean.getStudentMemberCount();
-                    rc += pcsPrPartyBean.getRetireMemberCount()== null ? 0 :pcsPrPartyBean.getRetireMemberCount();
-                    bc += pcsPrPartyBean.getBranchCount()== null ? 0 :pcsPrPartyBean.getBranchCount();
-                }
-
-                ec  += pcsPrPartyBean.getExpectMemberCount() == null ? 0 : pcsPrPartyBean.getExpectMemberCount();
-                epc += pcsPrPartyBean.getExpectPositiveMemberCount() == null ? 0 : pcsPrPartyBean.getExpectPositiveMemberCount();
-                ac  += pcsPrPartyBean.getActualMemberCount() == null ? 0 : pcsPrPartyBean.getActualMemberCount();
-                apc += pcsPrPartyBean.getActualPositiveMemberCount() == null ? 0 : pcsPrPartyBean.getActualPositiveMemberCount();
+                ec  +=  NumberUtils.trimToZero(pcsPrPartyBean.getExpectMemberCount());
+                epc +=  NumberUtils.trimToZero(pcsPrPartyBean.getExpectPositiveMemberCount());
+                ac  +=  NumberUtils.trimToZero(pcsPrPartyBean.getActualMemberCount());
+                apc +=  NumberUtils.trimToZero(pcsPrPartyBean.getActualPositiveMemberCount());
 
             }
         }
