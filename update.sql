@@ -1,9 +1,28 @@
 
+20200918
+北邮
 
 -- ln -s /opt/apache-tomcat-xxx/logs  /opt/logs
 
 -- 检查历史数据：select * from cadre_edu where `is_high_edu` = 1 and is_second_degree=0 and status=0 group by cadre_id having count(*)>1;
 update cadre_edu set is_high_edu=0 where id in(select id from (select id from cadre_edu where `is_high_edu` = 1 and is_second_degree=0 and status=0 group by cadre_id having count(*)>1)tmp);
+/*
+update pcs_recommend pr , pcs_branch pb
+set pr.member_count=(if(pr.expect_member_count> pr.member_count, pr.expect_member_count, pr.member_count)), pr.positive_count=pb.positive_count where pr.branch_id=pb.branch_id;
+
+
+update pcs_admin_report par,
+(select config_id, stage, party_id, count(id) as branch_count, sum(member_count) as member_count, sum(positive_count) as positive_count from pcs_recommend group by config_id, stage,party_id) pr
+set par.branch_count= pr.branch_count, par.member_count=pr.member_count, par.positive_count=pr.positive_count
+where pr.config_id=par.config_id and pr.stage=par.stage and par.party_id=pr.party_id;
+
+
+update pcs_pr_recommend par,
+(select config_id, stage, party_id, count(id) as branch_count, sum(member_count) as member_count, sum(positive_count) as positive_count from pcs_recommend group by config_id, stage,party_id) pr
+set par.branch_count= pr.branch_count, par.member_count=pr.member_count, par.positive_count=pr.positive_count
+where pr.config_id=par.config_id and pr.stage=par.stage and par.party_id=pr.party_id;
+
+*/
 
 20200917
 西工大 -- 北师大
@@ -20,7 +39,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
                             `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
                             VALUES (2792, 0, '三会一课2:退回', '', 'function', '', NULL, 2783, '0/1/2783/', 1, 'pmMeeting2:back', NULL, NULL, NULL, 1, NULL);
-
 
 20200916
 西工大，北邮

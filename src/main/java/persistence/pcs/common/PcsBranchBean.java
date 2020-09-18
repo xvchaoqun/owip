@@ -8,6 +8,7 @@ public class PcsBranchBean extends PcsBranch implements Serializable {
 
     private Integer recommendId;
     private Byte stage;
+    private Integer realMemberCount;
     private Integer expectMemberCount;
     private Integer actualMemberCount;
     private Boolean isFinished;
@@ -30,6 +31,14 @@ public class PcsBranchBean extends PcsBranch implements Serializable {
     public PcsBranchBean setStage(Byte stage) {
         this.stage = stage;
         return this;
+    }
+
+    public Integer getRealMemberCount() {
+        return realMemberCount;
+    }
+
+    public void setRealMemberCount(Integer realMemberCount) {
+        this.realMemberCount = realMemberCount;
     }
 
     public Integer getExpectMemberCount() {

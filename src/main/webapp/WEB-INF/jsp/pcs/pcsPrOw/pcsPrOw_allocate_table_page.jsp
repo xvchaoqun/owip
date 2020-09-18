@@ -41,8 +41,8 @@
             <tr>
                 <td>${vs.count}</td>
                 <td style="text-align: left">${record.name}</td>
-                <td>${record.memberCount}</td>
-                <td>${record.positiveCount}</td>
+                <td>${record.realMemberCount}</td>
+                <td>${record.realPositiveCount}</td>
                 <td>${record.expectMemberCount}</td>
                 <td>${record.expectPositiveMemberCount}</td>
                 <td>${record.actualMemberCount}</td>

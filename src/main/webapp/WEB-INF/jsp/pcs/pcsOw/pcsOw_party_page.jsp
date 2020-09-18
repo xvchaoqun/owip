@@ -93,8 +93,8 @@
         url: '${ctx}/pcs/pcsOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '${_p_partyName}名称',name: 'name', align:'left', width:400},
-            { label: '党支部数',name: 'branchCount'},
-            { label: '党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
+            { label: '党支部数',name: 'realBranchCount'},
+            { label: '党员总数',name: 'realMemberCount', formatter: function (cellvalue, options, rowObject) {
                 return ($.trim(cellvalue)=='')?0:cellvalue;
             }},
             { label: '应参会党员数',name: 'expectMemberCount', width:120},

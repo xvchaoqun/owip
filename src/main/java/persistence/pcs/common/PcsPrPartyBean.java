@@ -5,11 +5,12 @@ import domain.pcs.PcsParty;
 public class PcsPrPartyBean extends PcsParty {
 
     private Byte stage;
-    private Integer recommendBranchCount;
-    private Integer recommendMemberCount;
-    private Integer recommendStudentCount;
-    private Integer recommendTeacherCount;
-    private Integer recommendRetireCount;
+    private Integer realBranchCount;
+    private Integer realMemberCount;
+    private Integer realPositiveCount;
+    private Integer realStudentMemberCount;
+    private Integer realTeacherMemberCount;
+    private Integer realRetireMemberCount;
     private Integer expectMemberCount;
     private Integer expectPositiveMemberCount;
     private Integer actualMemberCount;
@@ -22,48 +23,56 @@ public class PcsPrPartyBean extends PcsParty {
         return stage;
     }
 
-    public Integer getRecommendBranchCount() {
-        return recommendBranchCount;
-    }
-
-    public void setRecommendBranchCount(Integer recommendBranchCount) {
-        this.recommendBranchCount = recommendBranchCount;
-    }
-
-    public Integer getRecommendMemberCount() {
-        return recommendMemberCount;
-    }
-
-    public void setRecommendMemberCount(Integer recommendMemberCount) {
-        this.recommendMemberCount = recommendMemberCount;
-    }
-
-    public Integer getRecommendStudentCount() {
-        return recommendStudentCount;
-    }
-
-    public void setRecommendStudentCount(Integer recommendStudentCount) {
-        this.recommendStudentCount = recommendStudentCount;
-    }
-
-    public Integer getRecommendTeacherCount() {
-        return recommendTeacherCount;
-    }
-
-    public void setRecommendTeacherCount(Integer recommendTeacherCount) {
-        this.recommendTeacherCount = recommendTeacherCount;
-    }
-
-    public Integer getRecommendRetireCount() {
-        return recommendRetireCount;
-    }
-
-    public void setRecommendRetireCount(Integer recommendRetireCount) {
-        this.recommendRetireCount = recommendRetireCount;
-    }
-
     public void setStage(Byte stage) {
         this.stage = stage;
+    }
+
+    public Integer getRealBranchCount() {
+        return realBranchCount;
+    }
+
+    public void setRealBranchCount(Integer realBranchCount) {
+        this.realBranchCount = realBranchCount;
+    }
+
+    public Integer getRealMemberCount() {
+        return realMemberCount;
+    }
+
+    public void setRealMemberCount(Integer realMemberCount) {
+        this.realMemberCount = realMemberCount;
+    }
+
+    public Integer getRealPositiveCount() {
+        return realPositiveCount;
+    }
+
+    public void setRealPositiveCount(Integer realPositiveCount) {
+        this.realPositiveCount = realPositiveCount;
+    }
+
+    public Integer getRealStudentMemberCount() {
+        return realStudentMemberCount;
+    }
+
+    public void setRealStudentMemberCount(Integer realStudentMemberCount) {
+        this.realStudentMemberCount = realStudentMemberCount;
+    }
+
+    public Integer getRealTeacherMemberCount() {
+        return realTeacherMemberCount;
+    }
+
+    public void setRealTeacherMemberCount(Integer realTeacherMemberCount) {
+        this.realTeacherMemberCount = realTeacherMemberCount;
+    }
+
+    public Integer getRealRetireMemberCount() {
+        return realRetireMemberCount;
+    }
+
+    public void setRealRetireMemberCount(Integer realRetireMemberCount) {
+        this.realRetireMemberCount = realRetireMemberCount;
     }
 
     public Integer getExpectMemberCount() {

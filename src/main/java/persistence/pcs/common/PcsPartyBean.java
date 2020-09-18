@@ -5,6 +5,8 @@ import domain.pcs.PcsParty;
 public class PcsPartyBean extends PcsParty {
 
     private Byte stage;
+    private Integer realBranchCount;
+    private Integer realMemberCount;
     private Integer expectMemberCount;
     private Integer actualMemberCount;
     private Integer reportId;
@@ -15,6 +17,22 @@ public class PcsPartyBean extends PcsParty {
 
     public void setStage(Byte stage) {
         this.stage = stage;
+    }
+
+    public Integer getRealBranchCount() {
+        return realBranchCount;
+    }
+
+    public void setRealBranchCount(Integer realBranchCount) {
+        this.realBranchCount = realBranchCount;
+    }
+
+    public Integer getRealMemberCount() {
+        return realMemberCount;
+    }
+
+    public void setRealMemberCount(Integer realMemberCount) {
+        this.realMemberCount = realMemberCount;
     }
 
     public Integer getExpectMemberCount() {

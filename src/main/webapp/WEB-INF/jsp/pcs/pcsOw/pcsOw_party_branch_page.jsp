@@ -67,7 +67,7 @@
         colModel: [
             {label: '党支部名称', name: 'name', align: 'left', width: 400},
             {
-                label: '党员总数', name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
+                label: '党员总数', name: 'realMemberCount', formatter: function (cellvalue, options, rowObject) {
                 return ($.trim(cellvalue) == '') ? 0 : cellvalue;
             }
             },
