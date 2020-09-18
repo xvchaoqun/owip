@@ -835,21 +835,30 @@ public class PcsPrExportService extends PcsBaseMapper {
         int nextRow = 2;
         int startRow = 4;
 
-        List<PcsPrPartyBean> pcsPrPartyBeans =iPcsMapper.selectPcsPrPartyBeanList(configId, stage, partyId, null, null, new RowBounds());
         if (partyId != null) {
-            PcsPrPartyBean pcsPrPartyBean=pcsPrPartyBeans.get(0);
-            PcsParty pcsParty = pcsPartyService.get(configId, partyId);
-            if(pcsPrPartyBean!=null) {
-                mc = NumberUtils.trimToZero(pcsPrPartyBean.getRealMemberCount());
-                tc = NumberUtils.trimToZero(pcsPrPartyBean.getRealTeacherMemberCount());
-                sc = NumberUtils.trimToZero(pcsPrPartyBean.getRealStudentMemberCount());
-                rc = NumberUtils.trimToZero(pcsPrPartyBean.getRealRetireMemberCount());
-                bc = NumberUtils.trimToZero(pcsPrPartyBean.getRealBranchCount());
 
-                ec = NumberUtils.trimToZero(pcsPrPartyBean.getExpectMemberCount());
-                epc = NumberUtils.trimToZero(pcsPrPartyBean.getExpectPositiveMemberCount());
-                ac = NumberUtils.trimToZero(pcsPrPartyBean.getActualMemberCount());
-                apc = NumberUtils.trimToZero(pcsPrPartyBean.getActualPositiveMemberCount());
+            PcsParty pcsParty = pcsPartyService.get(configId, partyId);
+            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,stage, partyId);
+            //是否上报
+            if(pcsPrRecommend != null && pcsPrRecommend.getHasReport()){
+                mc=NumberUtils.trimToZero(pcsPrRecommend.getMemberCount());
+                tc=NumberUtils.trimToZero(pcsPrRecommend.getTeacherMemberCount());
+                sc=NumberUtils.trimToZero(pcsPrRecommend.getStudentMemberCount());
+                rc=NumberUtils.trimToZero(pcsPrRecommend.getRetireMemberCount());
+                bc=NumberUtils.trimToZero(pcsPrRecommend.getBranchCount());
+
+            }else{
+                mc = NumberUtils.trimToZero(pcsParty.getMemberCount());
+                tc = NumberUtils.trimToZero(pcsParty.getTeacherMemberCount());
+                sc = NumberUtils.trimToZero(pcsParty.getStudentMemberCount());
+                rc = NumberUtils.trimToZero(pcsParty.getRetireMemberCount());
+                bc = NumberUtils.trimToZero(pcsParty.getBranchCount());
+            }
+            if(pcsPrRecommend != null){
+                ec = NumberUtils.trimToZero(pcsPrRecommend.getExpectMemberCount());
+                epc =NumberUtils.trimToZero(pcsPrRecommend.getExpectPositiveMemberCount());
+                ac = NumberUtils.trimToZero(pcsPrRecommend.getActualMemberCount() );
+                apc = NumberUtils.trimToZero(pcsPrRecommend.getActualPositiveMemberCount());
             }
             row = sheet.getRow(1);
             cell = row.getCell(0);
@@ -866,7 +875,7 @@ public class PcsPrExportService extends PcsBaseMapper {
             tc = schoolMemberCountMap.get("tc");
             sc = schoolMemberCountMap.get("sc");
             rc = schoolMemberCountMap.get("rc");*/
-
+            List<PcsPrPartyBean> pcsPrPartyBeans =iPcsMapper.selectPcsPrPartyBeanList(configId, stage, partyId, null, null, new RowBounds());
             for (PcsPrPartyBean pcsPrPartyBean : pcsPrPartyBeans) {
 
                 mc += NumberUtils.trimToZero(pcsPrPartyBean.getRealMemberCount());
