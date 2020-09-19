@@ -15,6 +15,13 @@
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                <button data-url="${ctx}/cet/cetRecord_selectOrUpdateCertNo"
+                        data-title="更新证书编码"
+                        data-msg="确定更新证书编码（已选{0}条数据）？<br/>（已存在的证书不会覆盖）"
+                        data-grid-id="#jqGrid"
+                        class="jqBatchBtn btn btn-warning btn-sm">
+                    <i class="fa fa-refresh"></i> 更新证书编码</button>
+
                 <button data-url="${ctx}/cet/cetRecord_batchDel"
                         data-title="删除"
                         data-msg="确定删除这{0}条数据？<br/>（同时会删除对应培训类别中的数据，删除的数据无法恢复，请谨慎删除）"
@@ -128,7 +135,7 @@
             {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
             {label: '参训人姓名', name: 'user.realname', frozen:true},
             {label: '是否<br/>结业', name: 'isGraduate', formatter: function (cellvalue, options, rowObject) {
-              if (cellvalue==undefined||rowObject.type=='${CET_TYPE_UPPER}') {
+              if (cellvalue==undefined) {
                 return '--'
               }
               return cellvalue?'是':'否'
@@ -136,7 +143,7 @@
             <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
-                if(!rowObject.isGraduate ||rowObject.type=='${CET_TYPE_UPPER}') return '--'
+                if(!rowObject.isGraduate) return '--'
                 return $.button.modal({
                             style:"btn-success",
                             url:"${ctx}/cet/cert?ids="+rowObject.id,

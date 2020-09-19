@@ -251,4 +251,19 @@ public class CetRecordController extends CetBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("cetRecord:edit")
+    @RequestMapping(value = "/cetRecord_selectOrUpdateCertNo", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetRecord_selectOrUpdateCertNo(Integer[] ids){
+
+        if (ids!= null && ids.length>0){
+            for (Integer id : ids) {
+                cetRecordService.selectOrUpdateCertNo(id);
+            }
+            logger.info(addLog( LogConstants.LOG_CET, "更新培训证书编码：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
 }

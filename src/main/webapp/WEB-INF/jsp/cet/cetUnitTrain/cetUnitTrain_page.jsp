@@ -246,8 +246,6 @@
             <c:if test="${reRecord!=1 && cetUnitProject.status==CET_UNIT_PROJECT_STATUS_PASS && _p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.certNo==undefined) return '--'
-
                 if(!rowObject.isGraduate || rowObject.status!='${CET_UNITTRAIN_RERECORD_PASS}') return '--'
                 return $.button.modal({
                             style:"btn-success",

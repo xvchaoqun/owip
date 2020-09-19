@@ -84,7 +84,11 @@ public interface ICetMapper {
     @Update("update  cet_project_obj set update_time = now() where project_id=#{projectId}")
     void refreshProjectObjs(@Param("projectId") int projectId);
 
-    // 获取最大编码（为了获取不重复编码，此处包含已删除的记录）
+    // 获取最大编码，上级调训（为了获取不重复编码，此处包含已删除的记录）
+    @Select("select max(cert_no)+1 from cet_record where year=#{year} and type=#{type}")
+    Short getUpperNextCertNo(@Param("year") int year, @Param("type") byte type);
+
+    // 获取最大编码，除了上级调训（为了获取不重复编码，此处包含已删除的记录）
     @Select("select max(cert_no)+1 from cet_record " +
             "where year=#{year} and user_type=#{userType} " +
             "and special_type=#{specialType} and project_type=#{projectType}")
@@ -92,6 +96,12 @@ public interface ICetMapper {
                          @Param("userType") byte userType,
                          @Param("specialType") byte specialType,
                          @Param("projectType") int projectType);
+
+    @Update("update cet_record set cert_no=#{certNo} where id=#{recordId} and not exists" +
+            "(select * from (select cert_no from cet_record where year=#{year} and type=#{type} and cert_no=#{certNo}) tmp)")
+    int updateUpperCertNo(@Param("recordId") int recordId, @Param("certNo") int certNo,
+                         @Param("year") int year,
+                         @Param("type") byte type);
 
     @Update("update cet_record set cert_no=#{certNo} where id=#{recordId} and not exists" +
             "(select * from (select cert_no from cet_record where year=#{year} and user_type=#{userType} " +

@@ -67,11 +67,13 @@ pageEncoding="UTF-8" %>
                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                        placeholder="请输入">
                             </div>
+                            <c:if test="${_p_cetSupportCert}">
                             <div class="form-group">
-                                <label>代码</label>
+                                <label>证书编码</label>
                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                        placeholder="请输入">
                             </div>
+                            </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -97,7 +99,9 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/cet/cetProjectType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '培训班类型',name: 'name', width:400, align:'left'},
-            { label: '代码',name: 'code'},
+            <c:if test="${_p_cetSupportCert}">
+            { label: '证书编码',name: 'code'},
+            </c:if>
             {
                 label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder"}
