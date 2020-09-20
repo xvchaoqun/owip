@@ -292,7 +292,7 @@ public class MemberTransferService extends MemberBaseMapper {
 
         for (int id : ids) {
             MemberTransfer memberTransfer = null;
-            if(type==1) {
+            if(type==1) { // 1:转出分党委审核 2：转入分党委审核
                 VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
                 memberTransfer = verifyAuth.entity;
 
@@ -301,8 +301,7 @@ public class MemberTransferService extends MemberBaseMapper {
                 }
 
                 check1(memberTransfer.getUserId());
-            }
-            if(type==2) {
+            }else if(type==2) {
                 VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth2(id);
                 memberTransfer = verifyAuth.entity;
 

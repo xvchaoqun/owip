@@ -616,6 +616,14 @@ public class MemberApplyController extends MemberBaseController {
             record.setStage(stage);
             record.setApplyStage(stage);
 
+            if(stage==OwConstants.OW_APPLY_STAGE_DRAW){
+                record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+                if(!CmTag.getBoolProperty("draw_od_check")) {
+                    // 领取志愿书不需要组织部审批
+                    record.setGrowStatus(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
+                }
+            }
+
             SysUserView sysUser = sysUserService.findById(userId);
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
                 record.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工

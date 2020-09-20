@@ -1,4 +1,7 @@
 
+20200919
+西工大
+
 20200918
 北邮
 
@@ -626,7 +629,7 @@ update cet_annual_obj cao, cet_annual ca set cao.trainee_type_id=ca.trainee_type
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('draw_od_check', '组织部审批领取志愿书', 'true', 3, 67, '领取志愿书是否需要组织部审批');
 -- 领取志愿书不需要组织部审批，需更新历史数据（北邮）
--- update ow_member_apply set grow_status=2 where stage=5 and draw_status=1 and grow_status is null;
+-- update ow_member_apply set grow_status=2 where stage=5 and (draw_status is null or draw_status=1) and grow_status is null;
 
 ALTER TABLE `base_meta_class`
 	CHANGE COLUMN `available` `is_deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否删除 ' AFTER `sort_order`,
