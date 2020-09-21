@@ -305,8 +305,8 @@
                 formatter: function (cellvalue, options, rowObject) {
                     return rowObject.isFromStage ? "“${param.stage == PCS_STAGE_SECOND?"二下":"三下"}”名单成员" : "另选他人";
                 }
-            }
-            </c:if>, {hidden: true, key: true, name: 'userId'}
+            },
+            </c:if> {hidden: true, key: true, name: 'userId'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

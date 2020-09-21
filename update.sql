@@ -46,7 +46,7 @@ where pr.config_id=par.config_id and pr.stage=par.stage and par.party_id=pr.part
 */
 
 20200917
-西工大 -- 北师大
+西工大
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_member_need_vote', '党代会党员是否需要投票', 'false', 3, 75, '');
 ALTER TABLE `pcs_poll_report`
