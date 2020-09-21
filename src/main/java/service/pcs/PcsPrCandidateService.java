@@ -12,6 +12,7 @@ import domain.sys.TeacherInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.CadreConstants;
+import sys.constants.PcsConstants;
 import sys.tags.CmTag;
 
 import java.util.LinkedHashMap;
@@ -144,12 +145,13 @@ public class PcsPrCandidateService extends PcsBaseMapper {
         record.setLeaderSortOrder(-1);
         CadreView cv = CmTag.getCadreByUserId(userId);
         if(cv!=null) {
-            record.setEduId(cv.getEduId());
+            //record.setEduId(cv.getEduId());
+            record.setEducation(CmTag.getMetaTypeName(cv.getEduId()));
             record.setPost(cv.getPost());
             if(cv.getStatus()== CadreConstants.CADRE_STATUS_LEADER) {
                 record.setLeaderSortOrder(cv.getSortOrder());
             }
-            record.setUserType((byte)1);
+            record.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
         }
 
         PcsPrRecommend pr = pcsPrRecommendMapper.selectByPrimaryKey(recommendId);

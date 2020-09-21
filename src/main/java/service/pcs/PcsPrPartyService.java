@@ -321,7 +321,8 @@ public class PcsPrPartyService extends PcsBaseMapper {
             if(cv!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
                 // 是干部
                 candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
-                candidate.setEduId(cv.getEduId());
+                //candidate.setEduId(cv.getEduId());
+                candidate.setEducation(CmTag.getMetaTypeName(cv.getEduId()));
                 candidate.setWorkTime(cv.getWorkTime());
                 candidate.setPost(cv.getPost());
             }else{

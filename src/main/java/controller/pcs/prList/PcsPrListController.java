@@ -11,7 +11,6 @@ import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.gson.GsonUtils;
+import sys.tags.CmTag;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -294,7 +294,8 @@ public class PcsPrListController extends PcsBaseController {
                     if(cv!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
                         // 是干部
                         candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
-                        candidate.setEduId(cv.getEduId());
+                        //candidate.setEduId(cv.getEduId());
+                        candidate.setEducation(CmTag.getMetaTypeName(cv.getEduId()));
                         candidate.setWorkTime(cv.getWorkTime());
                         candidate.setPost(cv.getPost());
                     }else{

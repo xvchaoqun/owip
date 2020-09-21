@@ -1,5 +1,23 @@
 
-20200919
+
+20200921
+
+ALTER TABLE `pcs_party`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `present_group_count`;
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `edu_id` `edu_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学历，弃用' AFTER `user_type`,
+	CHANGE COLUMN `work_time` `work_time` DATE NULL DEFAULT NULL COMMENT '参加工作时间，弃用' AFTER `grow_time`,
+	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历学位' AFTER `pro_post`;
+update pcs_pr_candidate ppc, base_meta_type bmt set education=bmt.name where ppc.edu_id=bmt.id and ppc.education is null;
+
+ALTER TABLE `pcs_candidate`
+	CHANGE COLUMN `title` `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位及职务，如果为空则读取人事单位' AFTER `birth`,
+	CHANGE COLUMN `ext_unit` `ext_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位，人事信息，弃用' AFTER `native_place`;
+
+update pcs_candidate set title = ext_unit where title is null;
+
+
+20200920
 西工大
 
 20200918

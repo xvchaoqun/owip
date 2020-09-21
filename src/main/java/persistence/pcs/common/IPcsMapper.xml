@@ -202,6 +202,8 @@
     <sql id="where_searchPcsPartyBeans">
         <where>
         pp.config_id=#{configId}
+            -- 未报送时读取参与党代会的分党委，已报送读取报送的
+            and ((par.id is null and pp.is_deleted = 0) or par.id>0)
         <if test="partyId!=null">
             and pp.party_id=#{partyId}
         </if>

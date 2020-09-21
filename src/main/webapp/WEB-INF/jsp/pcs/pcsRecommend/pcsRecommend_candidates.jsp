@@ -54,15 +54,7 @@
                 sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
-            }*/,{
-                label: '所在单位及职务',
-                name: '_title',
-                width: 350,
-                align: 'left',
-                formatter: function (cellvalue, options, rowObject) {
-                    return ($.trim(rowObject.title) == '') ? $.trim(rowObject.extUnit) : $.trim(rowObject.title);
-                }
-            }, {hidden: true, key: true, name: 'userId'}
+            }*/,{label: '所在单位及职务', name: 'title', width: 350, align: 'left'}, {hidden: true, key: true, name: 'userId'}
         ]
     });
 

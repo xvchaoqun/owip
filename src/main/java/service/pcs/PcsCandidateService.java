@@ -7,6 +7,7 @@ import domain.pcs.*;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,7 +85,9 @@ public class PcsCandidateService extends PcsBaseMapper {
         SysUserView uv = CmTag.getUserById(userId);
         record.setCode(uv.getCode());
         record.setRealname(uv.getRealname());
-        record.setExtUnit(uv.getUnit());
+        if(StringUtils.isBlank(record.getTitle())){
+            record.setTitle(uv.getUnit());
+        }
         record.setGender(uv.getGender());
         record.setNation(uv.getNation());
         record.setNativePlace(uv.getNativePlace());
@@ -132,31 +135,32 @@ public class PcsCandidateService extends PcsBaseMapper {
     @Transactional
     public PcsCandidate getCandidateInfo(Integer userId){
 
-        PcsCandidate candidate = new PcsCandidate();
+        PcsCandidate record = new PcsCandidate();
         if(userId==null){
-            return candidate;
+            return record;
         }
 
         MemberView memberView = iMemberMapper.getMemberView(userId);
         CadreView cv = cadreService.dbFindByUserId(userId);
 
-
-        candidate.setUserId(memberView.getUserId());
-        candidate.setCode(memberView.getCode());
-        candidate.setRealname(memberView.getRealname());
-        candidate.setTitle(cv==null?null:cv.getTitle());
+        record.setUserId(memberView.getUserId());
+        record.setCode(memberView.getCode());
+        record.setRealname(memberView.getRealname());
         if(cv!=null){
-            SysUserView uv = cv.getUser();
-            candidate.setExtUnit(uv.getUnit());
+             record.setTitle(cv.getTitle());
         }
-        candidate.setGender(memberView.getGender());
-        candidate.setNation(memberView.getNation());
-        candidate.setBirth(memberView.getBirth());
-        candidate.setGrowTime(memberView.getGrowTime());
-        candidate.setWorkTime(memberView.getWorkTime());
-        candidate.setProPost(memberView.getProPost());
+        if(StringUtils.isBlank(record.getTitle())){
+            SysUserView uv = cv.getUser();
+            record.setTitle(uv.getUnit());
+        }
+        record.setGender(memberView.getGender());
+        record.setNation(memberView.getNation());
+        record.setBirth(memberView.getBirth());
+        record.setGrowTime(memberView.getGrowTime());
+        record.setWorkTime(memberView.getWorkTime());
+        record.setProPost(memberView.getProPost());
 
-        return candidate;
+        return record;
     }
 
     // 从pcsPoll同步某分党委所有党支部两委委员名单
