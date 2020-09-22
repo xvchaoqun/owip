@@ -1,4 +1,31 @@
 
+20200922
+
+update ow_party_member_group set is_deleted=1  where is_deleted=0 and is_present=0
+and party_id in(select * from (select party_id from ow_party_member_group where is_deleted=0 group by party_id having count(*)>1)tmp);
+
+update ow_branch_member_group set is_deleted=1  where is_deleted=0 and is_present=0
+and branch_id in(select * from (select branch_id from ow_branch_member_group where is_deleted=0 group by branch_id having count(*)>1)tmp);
+
+-- 校验数据
+-- select party_id from ow_party_member_group where is_deleted=0 group by party_id having count(*)>1;
+-- select branch_id from ow_branch_member_group where is_deleted=0 group by branch_id having count(*)>1;
+
+ALTER TABLE `ow_party_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `sort_order`,
+	DROP COLUMN `is_present`;
+
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `sort_order`,
+	DROP COLUMN `is_present`;
+-- 更新 ow_party_member_group_view  ow_party_member_view
+-- ow_branch_member_group_view   ow_branch_member_view
+-- ow_party_view  ow_branch_view
+-- ext_branch_view  ext_branch_view2
+
+-- 执行 /test/party_admin.jsp
+
+-- 更新导入样表
 
 20200921
 

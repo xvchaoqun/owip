@@ -2,7 +2,6 @@ package service.party;
 
 import domain.party.PartyMember;
 import domain.party.PartyMemberGroup;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import persistence.party.common.OwAdmin;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,35 +75,32 @@ public class PartyAdminService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="AdminPartyIdList", key = "#partyMember.userId")
-    public void toggleAdmin(PartyMember partyMember){
+    @CacheEvict(value="AdminPartyIdList", key = "#result")
+    public int setPartyAdmin(int partyMemberId, boolean isAdmin) {
 
-        boolean isAdmin = BooleanUtils.isTrue(partyMember.getIsAdmin());
+        PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(partyMemberId);
+        int userId = partyMember.getUserId();
+        boolean isHistory = BooleanUtils.isTrue(partyMember.getIsHistory());
+        PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(partyMember.getGroupId());
+        boolean isDeleted = BooleanUtils.isTrue(partyMemberGroup.getIsDeleted());
+
+        if(isHistory||isDeleted){ // 已离任或非现任班子，则删除管理员权限
+            isAdmin = false;
+        }
 
         PartyMember record = new PartyMember();
-        record.setId(partyMember.getId());
-        record.setIsAdmin(!isAdmin);
-        partyMemberMapper.updateByPrimaryKeySelective(record); // 必须先更新，保证下面的判断正确
+        record.setId(partyMemberId);
+        record.setIsAdmin(isAdmin);
+        partyMemberMapper.updateByPrimaryKeySelective(record);
 
-        PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(partyMember.getGroupId());
-        if(partyMemberGroup.getIsPresent()) { // 只有当前班子是现任班子才操作
-
-            Integer userId = partyMember.getUserId();
-
-            if(isAdmin){
-                // 删除账号的"分党委管理员"角色
-                // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
-                if(adminPartyIdCount(userId)==0) {
-                    sysUserService.delRole(userId, RoleConstants.ROLE_PARTYADMIN);
-                }
-            }else{
-                // 添加账号的"分党委管理员"角色
-                // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
-                SysUserView sysUser = sysUserService.findById(userId);
-                if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_PARTYADMIN)) {
-                    sysUserService.addRole(userId, RoleConstants.ROLE_PARTYADMIN);
-                }
-            }
+        if (isAdmin) {
+            sysUserService.addRole(userId, RoleConstants.ROLE_PARTYADMIN);
         }
+
+        if (adminPartyIdCount(userId) == 0) {
+            sysUserService.delRole(userId, RoleConstants.ROLE_PARTYADMIN);
+        }
+
+        return userId;
     }
 }

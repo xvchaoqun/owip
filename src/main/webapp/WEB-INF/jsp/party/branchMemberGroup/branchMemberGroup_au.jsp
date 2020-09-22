@@ -45,7 +45,7 @@
             <label class="col-xs-3 control-label">上一届委员会</label>
             <div class="col-xs-8">
                 <select class="form-control" name="fid" data-width="292"
-                        data-rel="select2-ajax" data-ajax-url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}&id=${branchMemberGroup.id}"
+                        data-rel="select2-ajax" data-ajax-url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}&isDeleted=1&id=${branchMemberGroup.id}"
                         data-placeholder="请选择委员会">
                     <option value="${fBranchMemberGroup.id}">${fBranchMemberGroup.name}</option>
                 </select>
@@ -56,16 +56,6 @@
             <label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
             <div class="col-xs-8" style="width: 312px">
                 <textarea required class="form-control" name="name">${branchMemberGroup.name}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">是否现任委员会</label>
-            <div class="col-xs-8">
-                <label>
-                    <input name="isPresent" ${branchMemberGroup.isPresent?"checked":""} type="checkbox"/>
-                    <span class="lbl"></span>
-                </label>
-                <span class="help-block">注：每个支部必须设定一个“现任委员会”</span>
             </div>
         </div>
         <div class="form-group">
@@ -129,7 +119,7 @@
         var branchId = $.trim($(this).val());
 
         $("#modalForm select[name=fid]").data("ajax-url",
-                "${ctx}/branchMemberGroup_selects?branchId="+ branchId);
+                "${ctx}/branchMemberGroup_selects?branchId="+ branchId + "&isDeleted=1");
         $.register.ajax_select("#modalForm select[name=fid]");
 
         if(branchId==''){

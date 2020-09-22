@@ -13,12 +13,6 @@ pageEncoding="UTF-8" %>
        class="jqOpenViewBtn btn btn-primary btn-sm" >
         <i class="fa fa-edit"></i> 修改</a>
 
-    <%--<a href="javascript:;"
-       data-url="${ctx}/branch_member"
-       data-grid-id="#jqGrid2"
-       class="jqOpenViewBtn btn btn-warning btn-xs" >
-        <i class="fa fa-user"></i> 编辑委员</a>--%>
-
     <shiro:hasPermission name="branchMemberGroup:del">
         <button data-url="${ctx}/branchMemberGroup_batchDel"
                 data-title="删除"
@@ -39,7 +33,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '名称',  name: 'name',align:'left',width: 400,formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任委员会</span>&nbsp;';
-                return (rowObject.isPresent)?str+cellvalue:cellvalue;
+                return (!rowObject.isDeleted)?str+cellvalue:cellvalue;
             }, frozen:true},
             {
                 label: '所在党组织', name: 'party',  width: 450,
@@ -51,13 +45,13 @@ pageEncoding="UTF-8" %>
             { label: '实际换届时间', name: 'actualTranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label:'发文号',  name: 'dispatchCode', width: 180},
-            {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
-                return (rowObject.isPresent)?1:0;
+            {  hidden:true, name: 'isDeleted',formatter:function(cellvalue, options, rowObject){
+                return (rowObject.isDeleted)?1:0;
             }}
         ],
         rowattr: function(rowData, currentObj, rowId)
         {
-            if(rowData.isPresent) {
+            if(!rowData.isDeleted) {
                 //console.log(rowData)
                 return {'class':'success'}
             }

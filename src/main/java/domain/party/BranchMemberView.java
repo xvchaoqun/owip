@@ -65,8 +65,6 @@ public class BranchMemberView implements Serializable {
 
     private Integer groupBranchId;
 
-    private Boolean isPresent;
-
     private Boolean isDeleted;
 
     private Integer groupPartyId;
@@ -303,14 +301,6 @@ public class BranchMemberView implements Serializable {
 
     public void setGroupBranchId(Integer groupBranchId) {
         this.groupBranchId = groupBranchId;
-    }
-
-    public Boolean getIsPresent() {
-        return isPresent;
-    }
-
-    public void setIsPresent(Boolean isPresent) {
-        this.isPresent = isPresent;
     }
 
     public Boolean getIsDeleted() {

@@ -47,7 +47,6 @@ public class BranchMemberService extends BaseMapper {
             BranchMemberViewExample example = new BranchMemberViewExample();
             example.createCriteria()
                     .andIsDeletedEqualTo(false)
-                    .andIsPresentEqualTo(true)
                     .andIsHistoryEqualTo(false);
             example.setOrderByClause("party_sort_order desc, branch_sort_order desc,sort_order desc");
 
@@ -141,13 +140,7 @@ public class BranchMemberService extends BaseMapper {
 
             for (OwAdmin record : owAdmins) { // 一般只有一个
 
-                BranchMember branchMember = new BranchMember();
-                branchMember.setId(record.getId());
-                branchMember.setUserId(userId);
-                branchMember.setGroupId(record.getGroupId());
-                branchMember.setIsAdmin(true);
-
-                branchAdminService.toggleAdmin(branchMember);
+                branchAdminService.setBranchAdmin(record.getId(), false);
             }
         }
 
@@ -224,7 +217,7 @@ public class BranchMemberService extends BaseMapper {
         branchMemberMapper.insertSelective(record);
 
         if (autoAdmin) {
-            branchAdminService.toggleAdmin(record);
+            branchAdminService.setBranchAdmin(record.getId(), true);
         }
         if(CmTag.getCadre(record.getUserId())==null) {
             cadreService.addTempCadre(record.getUserId());
@@ -241,9 +234,8 @@ public class BranchMemberService extends BaseMapper {
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
-        if (branchMember.getIsAdmin()) {
-            branchAdminService.toggleAdmin(branchMember);
-        }
+        branchAdminService.setBranchAdmin(id, false);
+
         branchMemberMapper.deleteByPrimaryKey(id);
     }
 
@@ -258,9 +250,7 @@ public class BranchMemberService extends BaseMapper {
             Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
             PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
-            if (branchMember.getIsAdmin()) {
-                branchAdminService.toggleAdmin(branchMember);
-            }
+            branchAdminService.setBranchAdmin(id, false);
         }
         BranchMemberExample example = new BranchMemberExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -280,12 +270,11 @@ public class BranchMemberService extends BaseMapper {
         record.setIsHistory(null);
         branchMemberMapper.updateByPrimaryKeySelective(record);
 
-        // 如果以前不是管理员，但是选择的类别是自动设定为管理员
-        if (!old.getIsHistory() && !record.getIsAdmin() && autoAdmin) {
-            record.setUserId(old.getUserId());
-            record.setGroupId(old.getGroupId());
-            branchAdminService.toggleAdmin(record);
+        // 选择的类别是自动设定为管理员
+        if (autoAdmin) {
+            branchAdminService.setBranchAdmin(record.getId(), true);
         }
+
         return 1;
     }
 
@@ -308,7 +297,7 @@ public class BranchMemberService extends BaseMapper {
 
     // 离任/重新任命
     @Transactional
-    public void dissmiss(Integer id, boolean dismiss, Date dismissDate, Date assignDate) {
+    public void dismiss(Integer id, boolean dismiss, Date dismissDate, Date assignDate) {
 
         BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
@@ -323,11 +312,12 @@ public class BranchMemberService extends BaseMapper {
         branchMemberMapper.updateByPrimaryKeySelective(record);
 
         if(dismiss) {
-            if (branchMember.getIsAdmin()) {
-                branchAdminService.toggleAdmin(branchMember);
-            }
+            branchAdminService.setBranchAdmin(id, false);
         }else{
             commonMapper.excuteSql("update ow_branch_member set dismiss_date=null where id="+id);
+            if (branchMember.getIsAdmin()) {
+                branchAdminService.setBranchAdmin(id, true);
+            }
         }
     }
 }

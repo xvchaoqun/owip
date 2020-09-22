@@ -170,7 +170,7 @@ public class CetProjectObjService extends CetBaseMapper {
             case "t_party_member":
                 PartyMemberViewExample example = new PartyMemberViewExample();
                 example.createCriteria().andUserIdEqualTo(userId)
-                        .andIsPresentEqualTo(true);
+                        .andIsDeletedEqualTo(false);
                 List<PartyMemberView> partyMemberViews =
                         partyMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
                 if (partyMemberViews.size() > 0) {
@@ -185,7 +185,7 @@ public class CetProjectObjService extends CetBaseMapper {
             case "t_branch_member":
                 BranchMemberViewExample example2 = new BranchMemberViewExample();
                 example2.createCriteria().andUserIdEqualTo(userId)
-                        .andIsPresentEqualTo(true);
+                        .andIsDeletedEqualTo(false);
                 List<BranchMemberView> branchMemberViews =
                         branchMemberViewMapper.selectByExampleWithRowbounds(example2, new RowBounds(0, 1));
                 if (branchMemberViews.size() > 0) {

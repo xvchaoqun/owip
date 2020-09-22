@@ -6,7 +6,7 @@
 
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/partyMemberGroup?status=${status}"
-             data-url-export="${ctx}/partyMember_data?isDeleted=0&isPresent=1"
+             data-url-export="${ctx}/partyMember_data?isDeleted=0"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.classId||not empty param.partyId
                 ||not empty param.postId || not empty param.typeIds}"/>
@@ -150,7 +150,7 @@
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/partyMember_data?callback=?&isDeleted=0'
-            +'&isPresent=1&isHistory=${empty param.isHistory?0:param.isHistory}'
+            +'&isHistory=${empty param.isHistory?0:param.isHistory}'
             +'&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:colModel
     }).jqGrid("setFrozenColumns")

@@ -688,7 +688,6 @@ public class MemberService extends MemberBaseMapper {
                 PartyMemberGroup pmg = new PartyMemberGroup();
                 pmg.setPartyId(party.getId());
                 pmg.setName(partyName);
-                pmg.setIsPresent(true);
                 pmg.setIsDeleted(false);
                 partyMemberGroupMapper.insertSelective(pmg);
             }
@@ -742,7 +741,6 @@ public class MemberService extends MemberBaseMapper {
                     BranchMemberGroup bmg = new BranchMemberGroup();
                     bmg.setBranchId(branch.getId());
                     bmg.setName(branchName);
-                    bmg.setIsPresent(true);
                     bmg.setIsDeleted(false);
                     branchMemberGroupMapper.insertSelective(bmg);
                 }

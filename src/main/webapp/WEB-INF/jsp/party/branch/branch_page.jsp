@@ -330,12 +330,15 @@
                 </shiro:lacksPermission>
             }},
             <shiro:hasPermission name="branchMemberGroup:list">
-            { label:'委员会<br/>总数', name: 'groupCount', width: 50, formatter:function(cellvalue, options, rowObject){
+            /*{ label:'委员会<br/>总数', name: 'groupCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
-            }},
+            }},*/
             { label:'是否已设立<br/>现任委员会', name: 'presentGroupId',formatter:function(cellvalue, options, rowObject){
                 return cellvalue>0?"是":"否";
-            }},
+            },cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.presentGroupId==undefined)
+                        return "class='danger'";
+                }},
             { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '应换届<br/>时间', name: 'tranTime',

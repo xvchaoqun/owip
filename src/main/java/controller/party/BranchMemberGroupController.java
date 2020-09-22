@@ -76,7 +76,7 @@ public class BranchMemberGroupController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         if (status == 2) {
-            return "party/branchMemberGroup/branchMember";
+            return "party/branchMember/branchMemberList_page";
         }
 
         return "party/branchMemberGroup/branchMemberGroup_page";
@@ -89,7 +89,6 @@ public class BranchMemberGroupController extends BaseController {
                                        Integer partyId,
                                        Integer branchId,
                                        String name,
-                                       Boolean isPresent,
                                        @RequestDateRange DateRange _appointTime,
                                        @RequestDateRange DateRange _tranTime,
                                        @RequestParam(required = false, defaultValue = "0") int export,
@@ -106,13 +105,9 @@ public class BranchMemberGroupController extends BaseController {
 
         BranchMemberGroupViewExample example = new BranchMemberGroupViewExample();
         BranchMemberGroupViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("is_present desc, party_sort_order desc, branch_sort_order desc, appoint_time desc");
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, appoint_time desc");
 
         criteria.andIsDeletedEqualTo(status == -1);
-
-        if (isPresent != null) {
-            criteria.andIsPresentEqualTo(isPresent);
-        }
 
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -201,12 +196,23 @@ public class BranchMemberGroupController extends BaseController {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
         }
 
-        record.setIsPresent((record.getIsPresent() == null) ? false : record.getIsPresent());
+        BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(record.getBranchId());
 
         if (id == null) {
+
+            if (presentGroup != null) {
+                return failed("添加重复，已存在该支部委员会");
+            }
+
             branchMemberGroupService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加支部委员会：%s", record.getId()));
         } else {
+
+            BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
+            if (BooleanUtils.isNotTrue(branchMemberGroup.getIsDeleted())
+                    && presentGroup != null && presentGroup.getId().intValue() != id) {
+                return failed("添加重复，已存在该支部委员会");
+            }
 
             if (record.getFid() != null && record.getFid().intValue() == record.getId()) {
                 return failed("不能选择自身为上一届委员会");
@@ -297,20 +303,16 @@ public class BranchMemberGroupController extends BaseController {
             }
             record.setBranchId(branch.getId());
 
-            record.setIsPresent(StringUtils.contains(xlsRow.get(3), "是"));
-
-            String appointTime = StringUtils.trimToNull(xlsRow.get(4));
+            String appointTime = StringUtils.trimToNull(xlsRow.get(3));
             record.setAppointTime(DateUtils.parseStringToDate(appointTime));
 
-            String tranTime = StringUtils.trimToNull(xlsRow.get(5));
+            String tranTime = StringUtils.trimToNull(xlsRow.get(4));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
 
-            if (record.getIsPresent()) {
-                String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
-                record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
-            }
+            String actualTranTime = StringUtils.trimToNull(xlsRow.get(5));
+            record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
 
-            record.setIsDeleted(false);
+            record.setIsDeleted(record.getActualTranTime()!=null);
             records.add(record);
         }
 
@@ -390,7 +392,7 @@ public class BranchMemberGroupController extends BaseController {
         int rownum = records.size();
 
         List<String> titles = new ArrayList<>(Arrays.asList("名称|250|left", "所属分党委|250|left", "所属党支部|250|left",
-                "是否现任班子|70", "应换届时间|100", "实际换届时间|100", "任命时间|100"));
+                 "应换届时间|100", "实际换届时间|100", "任命时间|100"));
 
         Map<Integer, MetaType> branchMemberTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
         for (MetaType branchMemberType : branchMemberTypeMap.values()) {
@@ -412,7 +414,6 @@ public class BranchMemberGroupController extends BaseController {
                     record.getName(),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
-                    BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD)));
@@ -444,7 +445,10 @@ public class BranchMemberGroupController extends BaseController {
     // 仅查询某支部下的委员会
     @RequestMapping("/branchMemberGroup_selects")
     @ResponseBody
-    public Map branchMemberGroup_selects(Integer branchId, Integer id, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map branchMemberGroup_selects(Integer branchId, Integer id,
+                                         Integer pageSize, Integer pageNo,
+                                         Boolean isDeleted,
+                                         String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -466,12 +470,15 @@ public class BranchMemberGroupController extends BaseController {
         if (id != null){
             criteria.andIdNotEqualTo(id);
         }
+        if(isDeleted!=null){
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
-        int count = branchMemberGroupMapper.countByExample(example);
+        int count = (int) branchMemberGroupMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -495,54 +502,5 @@ public class BranchMemberGroupController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
-    }
-
-    @RequiresPermissions("branchMember:list")
-    @RequestMapping("/branch_member")
-    public String branch_member(Integer id, Integer memberId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
-
-        if (memberId != null) {
-
-            BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(memberId);
-            modelMap.put("branchMember", branchMember);
-        }
-
-        if (id != null) {
-            if (null == pageSize) {
-                pageSize = springProps.pageSize;
-            }
-            if (null == pageNo) {
-                pageNo = 1;
-            }
-            pageNo = Math.max(1, pageNo);
-
-            BranchMemberExample example = new BranchMemberExample();
-            BranchMemberExample.Criteria criteria = example.createCriteria().andGroupIdEqualTo(id);
-            example.setOrderByClause("sort_order desc");
-
-            int count = (int) branchMemberMapper.countByExample(example);
-            if ((pageNo - 1) * pageSize >= count) {
-
-                pageNo = Math.max(1, pageNo - 1);
-            }
-            List<BranchMember> branchMembers = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-            modelMap.put("branchMembers", branchMembers);
-
-            CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-            String searchStr = "&pageSize=" + pageSize;
-
-            if (id != null) {
-                searchStr += "&id=" + id;
-            }
-
-            commonList.setSearchStr(searchStr);
-            modelMap.put("commonList", commonList);
-
-            BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
-            modelMap.put("branchMemberGroup", branchMemberGroup);
-        }
-
-        return "party/branchMemberGroup/branch_member";
     }
 }

@@ -123,7 +123,7 @@
             <if test="oa.normal==null || oa.normal==false">
                 select m.id as id, mg.id as group_id, m.user_id, mg.party_id, m.post_id, 0 as normal,
                 m.sort_order from ow_party_member m, ow_party_member_group mg
-                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+                where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
             </if>
             <if test="oa.normal==null">
                 union all
@@ -150,7 +150,7 @@
             <if test="oa.normal==null || oa.normal==false">
                 select m.id as id, mg.id as group_id, m.user_id, mg.party_id, m.post_id, 0 as normal, m.sort_order from
                 ow_party_member m, ow_party_member_group mg
-                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+                where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
             </if>
             <if test="oa.normal==null">
                 union all
@@ -200,7 +200,7 @@
                 select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from
                 ow_branch_member m,
                 ow_branch_member_group mg
-                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+                where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
             </if>
             <if test="oa.normal==null">
                 union all
@@ -217,7 +217,7 @@
         left join ow_branch b on b.id=tmp.branch_id
         left join ow_party p on p.id=b.party_id
         <include refid="BranchAdminSearchSql"/>
-        order by p.sort_order desc, b.sort_order desc, sort_order desc
+        order by p.sort_order desc, b.sort_order desc, tmp.sort_order desc
     </select>
     <select id="countBranchAdminList" parameterType="map" resultType="java.lang.Integer">
         select count(tmp.user_id) from (
@@ -225,7 +225,7 @@
               <if test="oa.normal==null || oa.normal==false">
                 select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
                 ow_branch_member_group mg
-                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+                where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
             </if>
             <if test="oa.normal==null">
                 union all

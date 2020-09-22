@@ -684,7 +684,7 @@ select opm.*,
 	,`om`.`party_id` AS `party_id`
 	,`om`.`branch_id` AS `branch_id`
 	,`om`.`status` AS `member_status`
-	, opmg.party_id as group_party_id, opmg.is_present, opmg.is_deleted
+	, opmg.party_id as group_party_id, opmg.is_deleted
 	, op.class_id as party_class_id
 	, op.unit_id
 	, op.sort_order as party_sort_order
@@ -732,7 +732,7 @@ CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
 ,`om`.`party_id` AS `party_id`
 ,`om`.`branch_id` AS `branch_id`
 ,`om`.`status` AS `member_status`
-, obmg.branch_id as group_branch_id, obmg.is_present,obmg.is_deleted
+, obmg.branch_id as group_branch_id, obmg.is_deleted
 , op.id as group_party_id
 , op.unit_id
 , op.sort_order as party_sort_order

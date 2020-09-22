@@ -32,7 +32,7 @@ left join
 on count1.branch_id=ob.id  left join (
 select obm.user_id, obm.type_id, ob.id as branch_id, su.realname, su.code from
 ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
- where obmg.is_present=1 and obm.group_id=obmg.id and obmg.branch_id=ob.id and bmt.code='mt_branch_secretary' and obm.type_id = bmt.id and obm.user_id=su.id) tmp on tmp.branch_id=ob.id,  ow_party op , unit u
+ where obm.group_id=obmg.id and obmg.branch_id=ob.id and bmt.code='mt_branch_secretary' and obm.type_id = bmt.id and obm.user_id=su.id) tmp on tmp.branch_id=ob.id,  ow_party op , unit u
 where ob.party_id=op.id and op.unit_id=u.id and ob.is_deleted=0 and op.is_deleted=0
 union all
 SELECT op.code as branch_code,  op.name as branch_name, 0 as branch_type, op.code as party_code, op.name as party_name, u.code as dep_code, u.name as dep_name, count2.member_count,tmp.code as sid, tmp.realname from ow_party op
@@ -40,7 +40,7 @@ left join (select om.party_id, count(om.user_id) as member_count from ow_member 
  left join (
  select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
 ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
- where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary' and opm.post_id = bmt.id and opm.user_id=su.id
+ where opm.group_id=opmg.id and bmt.code='mt_party_secretary' and opm.post_id = bmt.id and opm.user_id=su.id
  )tmp on tmp.party_id=op.id, unit u, base_meta_type bmt
 where op.is_deleted=0 and op.unit_id=u.id and bmt.code='mt_direct_branch' and op.class_id = bmt.id;
 
@@ -57,17 +57,17 @@ fsj.code as fsjdm, fsj.realname as fsjxm, op.sort_order from ow_branch ob
 left join (
 	select obm.user_id, obm.type_id, ob.id as branch_id, su.realname, su.code from
 	ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
- 	where obmg.is_present=1 and obm.group_id=obmg.id and obmg.branch_id=ob.id
+ 	where obm.group_id=obmg.id and obmg.branch_id=ob.id
  	and bmt.code='mt_branch_secretary' and obm.type_id = bmt.id and obm.user_id=su.id group by ob.id) zbsj on zbsj.branch_id=ob.id
 left join(
  	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
 	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
- 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary'
+ 	where opm.group_id=opmg.id and bmt.code='mt_party_secretary'
 	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)sj on sj.party_id=ob.party_id
 left join(
  	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
 	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
- 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_vice_secretary'
+ 	where opm.group_id=opmg.id and bmt.code='mt_party_vice_secretary'
 	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)fsj on fsj.party_id=ob.party_id
 left join ow_party op on ob.party_id=op.id and op.is_deleted=0
 left join base_meta_type zzlb on op.type_id=zzlb.id
@@ -81,12 +81,12 @@ fsj.code as fsjdm, fsj.realname as fsjxm, op.sort_order from ow_party op
 left join(
  	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
 	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
- 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary'
+ 	where opm.group_id=opmg.id and bmt.code='mt_party_secretary'
 	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)sj on sj.party_id=op.id
 left join(
  	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
 	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
- 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_vice_secretary'
+ 	where opm.group_id=opmg.id and bmt.code='mt_party_vice_secretary'
 	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)fsj on fsj.party_id=op.id
 left join base_meta_type bmt on op.class_id = bmt.id
 left join base_meta_type zzlb on op.type_id=zzlb.id
