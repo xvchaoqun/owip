@@ -125,19 +125,21 @@ pageEncoding="UTF-8" %>
                 { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.status==${OA_GRID_PARTY_REPORT}) return '<span class="text-success">已报送</span>';
     
-                        return ('<button class="jqBatchBtn btn btn-success btn-xs" data-width="800" title="{2}" data-title="报送" data-msg="确定报送该条数据？"' +
+                        return ('<button class="jqBatchBtn btn btn-success btn-xs" data-width="800" title="{2}" data-title="报送" data-msg="确定报送？（报送后不可修改，请核对数据准确无误后报送）"' +
                             'data-url="${ctx}/oa/oaGridParty_report?report=2&id={0}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
                             .format(rowObject.id, $.trim(rowObject.reportMsg)==''? '' : 'disabled', $.trim(rowObject.reportMsg));
                     }, frozen:true},
             </c:if>
             <c:if test="${cls!=OA_GRID_PARTY_REPORT}">
                 { label: '填报',name: '_upload', width:80, formatter: function (cellvalue, options, rowObject) {
-                        return ('<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/oa/oaGridParty_au" data-open-by="page" ' +
-                            ' data-grid-id="#jqGrid">{0}</button>').format(rowObject.excelFilePath==null?'<i class="fa fa-upload"></i> 填报':'<i class="fa fa-edit"></i> 修改');
+                        var hasUpload = (rowObject.excelFilePath!=null);
+                        return ('<button class="jqOpenViewBtn btn {1} btn-xs" data-url="${ctx}/oa/oaGridParty_au" data-open-by="page" ' +
+                            ' data-grid-id="#jqGrid">{0}</button>')
+                            .format(!hasUpload?'<i class="fa fa-upload"></i> 填报':'<i class="fa fa-edit"></i> 修改', !hasUpload?'btn-primary':'btn-info');
                     }, frozen:true},
             </c:if>
             { label: '所属年度',name: 'year',frozen:true},
-            { label: '表格名称（点击下载模板）',name: 'gridName',align:'left', width: 252,frozen:true,formatter: function (cellvalue, options, rowObject) {
+            { label: '表格名称',name: 'gridName',align:'left', width: 252,frozen:true,formatter: function (cellvalue, options, rowObject) {
                 var path = '';
                 $.each(${cm:toJSONArray(oaGridList)}, function (i, grid) {
                     if (grid.id==rowObject.gridId){
@@ -147,7 +149,7 @@ pageEncoding="UTF-8" %>
                 return ('<a href="${ctx}/attach_download?path={1}&filename={0}">{0}</a>')
                         .format(rowObject.grid.name,path)
                 }},
-            { label: '报送文件预览',name: '_excelFilePath',width:150, formatter: function (cellvalue, options, rowObject) {
+            { label: '已上传<br/>数据文件预览',name: '_excelFilePath',width:150, formatter: function (cellvalue, options, rowObject) {
                 var str='';
                 if(rowObject.excelFilePath!=undefined){
                     str = '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}"  title="EXCEL文件预览" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
@@ -158,8 +160,9 @@ pageEncoding="UTF-8" %>
                 }
                 return '--';
                 }},
-            { label: '签字文件',name: '_filePath',width:80, formatter: function (cellvalue, options, rowObject) {
+            { label: '已上传<br/>签字文件',name: '_filePath',width:80, formatter: function (cellvalue, options, rowObject) {
 
+                if(rowObject.excelFilePath==undefined) return '--'
                     return '<button class="popupBtn btn btn-info btn-xs" data-width="500"' +
                         'data-url="${ctx}/oa/oaGridParty_files?id={0}"><i class="fa fa-search"></i> 查看</button>'
                             .format(rowObject.id)
@@ -173,7 +176,7 @@ pageEncoding="UTF-8" %>
                 return _cMap.OA_GRID_PARTY_STATUS_MAP[cellvalue];
                 }},
             </c:if>
-            { label: '报送${_p_partyName}名称', name: 'partyName',align:'left', width: 350},
+            { label: '所属${_p_partyName}', name: 'partyName',align:'left', width: 350},
             <c:if test="${cls==OA_GRID_PARTY_REPORT}">
                 { label: '报送人',name: 'user.realname'},
                 { label: '报送时间',name: 'reportTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}}

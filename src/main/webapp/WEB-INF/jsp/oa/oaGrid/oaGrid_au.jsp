@@ -40,23 +40,23 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label"> 上传Excel文件</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>  上传Excel文件</label>
 				<div class="col-xs-6">
-					<input class="form-control" type="file" name="_templateFilePath"/>
+					<input ${empty oaGrid?'required':''} class="form-control" type="file" name="_templateFilePath"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span> 表格行数</label>
 				<div class="col-xs-6">
 					<input required style="width: 78px;" class="digits form-control" type="text" name="row" value="${oaGrid.row}">
-					<span style="color: red">格式：请输入阿拉伯数字</span>
+					<span style="color: red">格式：请输入表格行数</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span> 表格列数</label>
 				<div class="col-xs-6">
-					<input required style="width: 78px;" class="form-control" type="text" name="col" value="${oaGrid.col}">
-					<span style="color: red">格式：请输入最后一列的大写字母</span>
+					<input required style="width: 78px;" class="form-control alphabet" type="text" name="col" value="${oaGrid.col}">
+					<span style="color: red">格式：请输入表格列数（最后一列对应的字母）</span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -89,7 +89,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"> 截止时间</label>
+				<label class="col-xs-4 control-label"> 应完成时间</label>
 				<div class="col-xs-6">
 					<input class="form-control datetime-picker"
 						   name="deadline"

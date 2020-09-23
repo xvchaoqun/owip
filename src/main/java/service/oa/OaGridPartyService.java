@@ -65,8 +65,8 @@ public class OaGridPartyService extends OaBaseMapper {
         sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
-                "上传党统报送文件", record.getStatus(),
-                "上传报送文件");
+                "上传文件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                "");
     }
 
     @Transactional
@@ -81,8 +81,8 @@ public class OaGridPartyService extends OaBaseMapper {
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
-                    "删除党统报送数据", oaGridPartyMapper.selectByPrimaryKey(id).getStatus(),
-                    "删除报送数据");
+                    "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    "");
         }
     }
 
@@ -107,8 +107,8 @@ public class OaGridPartyService extends OaBaseMapper {
         sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
-                "删除党统签字文件", record.getStatus(),
-                "删除签字文件");
+                "删除签字文件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                "");
     }
 
     @Transactional
@@ -130,8 +130,8 @@ public class OaGridPartyService extends OaBaseMapper {
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
-                    OaConstants.OA_GRID_PARTY_STATUS_MAP.get(report)+"党统党统报送数据", record.getStatus(),
-                    OaConstants.OA_GRID_PARTY_STATUS_MAP.get(report)+"党统党统报送数据");
+                    report == OaConstants.OA_GRID_PARTY_REPORT?"报送":"退回", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    null);
         }
     }
 

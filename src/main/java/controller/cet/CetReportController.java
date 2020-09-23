@@ -58,6 +58,9 @@ public class CetReportController extends CetBaseController {
                 cetRecord = cetRecordMapper.selectByPrimaryKey(id);
             }else{
                 cetRecord = cetRecordService.get(sourceType, id);
+                if(cetRecord==null){
+                    cetRecord = cetRecordService.syncTrain(sourceType, id);
+                }
             }
 
             // 本人、培训管理员、系统管理员、二级党委管理员

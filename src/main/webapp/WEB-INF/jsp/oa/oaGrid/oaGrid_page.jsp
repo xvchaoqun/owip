@@ -56,11 +56,11 @@ pageEncoding="UTF-8" %>
                         <shiro:hasPermission name="oaGrid:edit">
                             <c:if test="${cls!=OA_GRID_HASDELETED}">
                                 <button class="jqBatchBtn btn btn-success btn-sm"
-                                        data-title="发布"
-                                        data-msg="确定向各个分党委发布这{0}张报送表格？"
+                                        data-title="下发表格"
+                                        data-msg="确定向${_p_partyName}下发这{0}张表格？"
                                         data-url="${ctx}/oa/oaGrid_release"
                                         data-grid-id="#jqGrid"><i class="fa fa-check-circle-o"></i>
-                                    发布报送表格</button>
+                                    下发表格</button>
                             </c:if>
                         </shiro:hasPermission>
                         </div>
@@ -133,7 +133,7 @@ pageEncoding="UTF-8" %>
                 return str;
                 },frozen:true},
             { label: '表格名称',name: 'name',width:252,align:'left',frozen:true},
-            {label: '附件', name: '_file',width:130, formatter: function (cellvalue, options, rowObject) {
+            {label: '表格模板', name: '_file',width:130, formatter: function (cellvalue, options, rowObject) {
                 var str='';
                     if(rowObject.templateFilePath!=undefined){
                         str = '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGrid_preview?id={0}&summary=0"  title="EXCEL文件预览" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'

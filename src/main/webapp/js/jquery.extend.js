@@ -90,12 +90,12 @@ if (jQuery.validator) {
         creditcard: "请输入合法的信用卡号",
         equalTo: "请再次输入相同的值",
         accept: "请输入拥有合法后缀名的字符串",
-        maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
-        minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
-        rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+        maxlength: jQuery.validator.format("请输入一个长度最多是 {0} 的字符串"),
+        minlength: jQuery.validator.format("请输入一个长度最少是 {0} 的字符串"),
+        rangelength: jQuery.validator.format("请输入一个长度介于 {0} 和 {1} 之间的字符串"),
         range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
-        max: jQuery.validator.format("请输入一个最大为{0} 的值"),
-        min: jQuery.validator.format("请输入一个最小为{0} 的值")
+        max: jQuery.validator.format("请输入一个最大为{0}的值"),
+        min: jQuery.validator.format("请输入一个最小为{0}的值")
     });
     jQuery.validator.setDefaults({
         /* errorElement: 'span',
@@ -183,6 +183,12 @@ if (jQuery.validator) {
         //console.log(value + ":" + period.test(value))
         return this.optional(element) || (date==value);
     }, "请输入正确的时间（格式为yyyy-MM-dd HH:mm）");
+
+    // 只能输入字母
+    jQuery.validator.addMethod("alphabet", function (value, element) {
+        var alphabet = /^[a-zA-Z]*$/;
+        return this.optional(element) || (alphabet.test(value));
+    }, "请输入a-zA-Z的字符");
 }
 
 $.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {

@@ -2,6 +2,20 @@
 
 -- 2020.9.23 ly
 
+-- --------------------------------------------------------
+-- 主机:                           127.0.0.1
+-- 服务器版本:                        5.7.16 - MySQL Community Server (GPL)
+-- 服务器OS:                        Win64
+-- HeidiSQL 版本:                  10.2.0.5599
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Dumping structure for table db_owip.oa_grid
 DROP TABLE IF EXISTS `oa_grid`;
 CREATE TABLE IF NOT EXISTS `oa_grid` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -22,6 +36,9 @@ CREATE TABLE IF NOT EXISTS `oa_grid` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='数据表格报送模板';
 
+-- Data exporting was unselected.
+
+-- Dumping structure for table db_owip.oa_grid_party
 DROP TABLE IF EXISTS `oa_grid_party`;
 CREATE TABLE IF NOT EXISTS `oa_grid_party` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -41,6 +58,9 @@ CREATE TABLE IF NOT EXISTS `oa_grid_party` (
   UNIQUE KEY `grid_id_year_party_id` (`grid_id`,`year`,`party_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=363 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二级党委数据表格报送结果';
 
+-- Data exporting was unselected.
+
+-- Dumping structure for table db_owip.oa_grid_party_data
 DROP TABLE IF EXISTS `oa_grid_party_data`;
 CREATE TABLE IF NOT EXISTS `oa_grid_party_data` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -52,7 +72,12 @@ CREATE TABLE IF NOT EXISTS `oa_grid_party_data` (
   CONSTRAINT `FK_oa_grid_party_data_oa_grid_party` FOREIGN KEY (`grid_party_id`) REFERENCES `oa_grid_party` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二级党委数据表格报送结果解析数据';
 
+-- Data exporting was unselected.
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2547, 0, '党统数据报送管理', '', 'url', '', '/oa/oaGridParty', 560, '0/1/560/', 1, 'oaGridParty:*', NULL, NULL, NULL, 1, 300);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2548, 0, '数据表格报送模板管理', '', 'url', '', '/oa/oaGrid', 560, '0/1/560/', 1, 'oaGrid:*', NULL, NULL, NULL, 1, 200);
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2547, 0, '分党委党统数据报送', '', 'url', '', '/oa/oaGridParty', 560, '0/1/560/', 1, 'oaGridParty:*', NULL, NULL, NULL, 1, 300);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2548, 0, '党统表格模板管理', '', 'url', '', '/oa/oaGrid', 560, '0/1/560/', 1, 'oaGrid:*', NULL, NULL, NULL, 1, 200);
 

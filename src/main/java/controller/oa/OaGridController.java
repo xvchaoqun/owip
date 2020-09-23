@@ -113,11 +113,7 @@ public class OaGridController extends OaBaseController {
 
         Integer id = record.getId();
 
-        char[] cols = record.getCol().toCharArray();
-        if (Character.isLowerCase(cols[0])){
-            record.setCol(String.valueOf(Character.toUpperCase(cols[0])));
-        }
-
+        record.setCol(StringUtils.upperCase(record.getCol()));
         if (_templateFilePath != null){
             record.setTemplateFilePath(upload(_templateFilePath, "oa_attach_file"));
         }
