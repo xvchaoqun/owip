@@ -159,7 +159,6 @@ public class PcsBranchController extends PcsBaseController {
     @ResponseBody
     public Map pcsBranch_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             pcsBranchService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PCS, "批量删除召开党代会的支部：{0}", StringUtils.join(ids, ",")));

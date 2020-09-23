@@ -13,7 +13,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -389,9 +388,9 @@ public class PartyController extends BaseController {
 
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号","名称|350|left","简称|250|left","所属单位|250|left","党总支类别|100",
-                "支部数量","党员总数","在职教职工数量|100","离退休党员数量|100","学生数量","委员会总数|100","是否已设立现任委员会|150",
-                "任命时间","应换届时间", "实际换届时间",
+        String[] titles = {"编号|200","名称|350|left","简称|250|left","所属单位|250|left","党总支类别|100",
+                "支部数量","党员总数","在职教职工数量|100","离退休党员数量|100","学生数量","是否已设立现任委员会|80",
+                "任命时间|100","应换届时间|100", "实际换届时间|100",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
                 "组织类别|100","所在单位属性|100","联系电话","传真","邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
@@ -409,7 +408,6 @@ public class PartyController extends BaseController {
                     record.getTeacherMemberCount()==null?"0":record.getTeacherMemberCount()+"",
                     record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
                     record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
-                    record.getGroupCount()==null?"0":record.getGroupCount()+"",
                     (record.getPresentGroupId()!=null &&record.getPresentGroupId() > 0) ? "是" : "否",
 
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),

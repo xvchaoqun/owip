@@ -24,7 +24,7 @@
         count(om.user_id) as num, om.party_id from ow_member_view om
         where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
         left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
-        left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id
+        left join (select count(*) as num, party_id from ow_party_member_group where is_deleted=0 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id
         where p.is_deleted=0 and mtmp.num>0
     </select>
     <!-- 读取当前系统中应参与党代会的党支部（含直属党支部，未删除、党员总数大于0的）-->
@@ -202,6 +202,8 @@
     <sql id="where_searchPcsPartyBeans">
         <where>
         pp.config_id=#{configId}
+            -- 未报送时读取参与党代会的分党委，已报送读取报送的
+            and ((par.id is null and pp.is_deleted = 0) or par.id>0)
         <if test="partyId!=null">
             and pp.party_id=#{partyId}
         </if>

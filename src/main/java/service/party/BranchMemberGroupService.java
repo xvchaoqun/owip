@@ -2,16 +2,14 @@ package service.party;
 
 import controller.global.OpException;
 import domain.party.*;
-import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
-import sys.tags.CmTag;
 
 import java.util.*;
 
@@ -27,7 +25,7 @@ public class BranchMemberGroupService extends BaseMapper {
     public BranchMemberGroup getPresentGroup(int branchId) {
         
         BranchMemberGroupExample _example = new BranchMemberGroupExample();
-        _example.createCriteria().andBranchIdEqualTo(branchId).andIsPresentEqualTo(true);
+        _example.createCriteria().andBranchIdEqualTo(branchId).andIsDeletedEqualTo(false);
         List<BranchMemberGroup> branchMemberGroups = branchMemberGroupMapper.selectByExample(_example);
         int size = branchMemberGroups.size();
         if (size > 1) {
@@ -46,7 +44,7 @@ public class BranchMemberGroupService extends BaseMapper {
         return branchMemberMapper.selectByExample(_example);
     }
     
-    private void clearPresentGroup(int branchId) {
+    /*private void clearPresentGroup(int branchId) {
         
         BranchMemberGroup presentGroup = getPresentGroup(branchId);
         if (presentGroup == null) return;
@@ -55,7 +53,6 @@ public class BranchMemberGroupService extends BaseMapper {
         Integer groupId = presentGroup.getId();
         BranchMemberGroup _record = new BranchMemberGroup();
         _record.setId(groupId);
-        _record.setIsPresent(false);
         branchMemberGroupMapper.updateByPrimaryKeySelective(_record);
         
         for (BranchMember branchMember : getGroupAdmins(groupId)) {
@@ -66,10 +63,10 @@ public class BranchMemberGroupService extends BaseMapper {
                 sysUserService.delRole(userId, RoleConstants.ROLE_BRANCHADMIN);
             }
         }
-    }
+    }*/
     
     // 更新班子为现任班子时，需要把该班子的所有管理员添加“党支部管理员”角色
-    private void rebuildPresentGroupAdmin(int groupId) {
+    /*private void rebuildPresentGroupAdmin(int groupId) {
         
         for (BranchMember branchMember : getGroupAdmins(groupId)) {
             int userId = branchMember.getUserId();
@@ -80,7 +77,7 @@ public class BranchMemberGroupService extends BaseMapper {
                 sysUserService.addRole(userId, RoleConstants.ROLE_BRANCHADMIN);
             }
         }
-    }
+    }*/
     
     // 获取支部委员列表 <branchMemberType, List<BranchMember>>
     public Map<Integer,  List<BranchMember>> getBranchMemberListMap(int groupId) {
@@ -109,10 +106,7 @@ public class BranchMemberGroupService extends BaseMapper {
         
         Branch branch = branchMapper.selectByPrimaryKey(record.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
-        
-        if (record.getIsPresent()) {
-            clearPresentGroup(record.getBranchId());
-        }
+
         record.setIsDeleted(false);
         record.setSortOrder(getNextSortOrder("ow_branch_member_group", null));
         return branchMemberGroupMapper.insertSelective(record);
@@ -123,7 +117,7 @@ public class BranchMemberGroupService extends BaseMapper {
 
         BranchMemberGroupExample _example = new BranchMemberGroupExample();
         _example.createCriteria().andBranchIdEqualTo(branchId)
-                .andIsPresentEqualTo(false)
+                .andIsDeletedEqualTo(true)
                 .andAppointTimeEqualTo(appointTime);
         List<BranchMemberGroup> branchMemberGroups =
                 branchMemberGroupMapper.selectByExampleWithRowbounds(_example, new RowBounds(0,1));
@@ -137,10 +131,8 @@ public class BranchMemberGroupService extends BaseMapper {
         int addCount = 0;
         for (BranchMemberGroup record : records) {
 
-            BranchMemberGroup _record = null;
-            if(record.getIsPresent()) {
-                _record = getPresentGroup(record.getBranchId());
-            }else if(record.getAppointTime()!=null){
+            BranchMemberGroup _record = getPresentGroup(record.getBranchId());
+            if(_record == null && record.getAppointTime()!=null){
 
                 _record = getHistoryGroup(record.getBranchId(), record.getAppointTime());
             }
@@ -152,31 +144,17 @@ public class BranchMemberGroupService extends BaseMapper {
             }else{
                 record.setId(_record.getId());
                 updateByPrimaryKeySelective(record);
+            }
 
-                if(record.getIsPresent()==false){
-                    commonMapper.excuteSql("update ow_branch_member_group " +
-                            "set actual_tran_time=null where id="+_record.getId());
-                }
+            if(BooleanUtils.isNotTrue(record.getIsDeleted())){
+                commonMapper.excuteSql("update ow_branch_member_group " +
+                        "set actual_tran_time=null where id="+_record.getId());
             }
         }
 
         return addCount;
     }
 
-   /* @Transactional
-    public void del(Integer id){
-
-        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
-
-        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        checkAuth(branch.getPartyId());
-
-        if (branchMemberGroup.getIsPresent()) {
-            clearPresentGroup(branchMemberGroup.getBranchId());
-        }
-        branchMemberGroupMapper.deleteByPrimaryKey(id);
-    }*/
-    
     @Transactional
     public void batchDel(Integer[] ids, boolean isDeleted) {
         
@@ -184,21 +162,23 @@ public class BranchMemberGroupService extends BaseMapper {
         
         for (Integer id : ids) {
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
-            Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-            PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
+            int branchId = branchMemberGroup.getBranchId();
+            Branch branch = branchMapper.selectByPrimaryKey(branchId);
+            PartyHelper.checkAuth(branch.getPartyId(), branchId);
             
             if (!isDeleted) { // 恢复支部委员会
                 if (branch.getIsDeleted())
-                    throw new OpException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除。", branch.getName()));
+                    throw new OpException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除", branch.getName()));
                 else {
                     Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                     if (party.getIsDeleted())
-                        throw new OpException(String.format("恢复支部委员会失败，支部委员会所属分党委【%s】已删除。", party.getName()));
+                        throw new OpException(String.format("恢复支部委员会失败，支部委员会所属分党委【%s】已删除", party.getName()));
                 }
-            }
-            
-            if (branchMemberGroup.getIsPresent()) {
-                clearPresentGroup(branchMemberGroup.getBranchId());
+
+                BranchMemberGroup presentGroup = getPresentGroup(branchId);
+                if(presentGroup!=null){
+                    throw new OpException(String.format("恢复支部委员会失败，支部委员会已存在【%s】", branch.getName()));
+                }
             }
         }
         BranchMemberGroupExample example = new BranchMemberGroupExample();
@@ -227,19 +207,7 @@ public class BranchMemberGroupService extends BaseMapper {
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
-        
-        BranchMemberGroup presentGroup = getPresentGroup(record.getBranchId());
-        
-        if (presentGroup == null || (presentGroup.getId().intValue() == record.getId() && !record.getIsPresent())) {
-            clearPresentGroup(record.getBranchId());
-        }
-        if (presentGroup == null && record.getIsPresent()) {
-            rebuildPresentGroupAdmin(record.getId());
-        }
-        if (presentGroup != null && presentGroup.getId().intValue() != record.getId() && record.getIsPresent()) {
-            clearPresentGroup(record.getBranchId());
-            rebuildPresentGroupAdmin(record.getId());
-        }
+
         return branchMemberGroupMapper.updateByPrimaryKeySelective(record);
     }
     

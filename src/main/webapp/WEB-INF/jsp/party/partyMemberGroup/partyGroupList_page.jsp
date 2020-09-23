@@ -61,7 +61,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     //var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
                     var str = '<i class="fa fa-flag red" title="现任领导班子"></i> ';
-                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                    return (!rowObject.isDeleted) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
@@ -77,14 +77,14 @@
             },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
+                hidden: true, name: 'isDeleted', formatter: function (cellvalue, options, rowObject) {
+                    return (rowObject.isDeleted) ? 1 : 0;
                 }
             },
             {label: '应换届时间', name: 'tranTime', width: 130,
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.isPresent &&
+                    if (!rowObject.isDeleted &&
                         rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }

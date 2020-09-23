@@ -90,7 +90,6 @@ public class PartyMemberController extends BaseController {
                                  Integer partyId,
                                  Boolean isAdmin,
                                  Boolean isDeleted,
-                                 Boolean isPresent,
                                  Boolean isHistory,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
@@ -113,9 +112,7 @@ public class PartyMemberController extends BaseController {
         if (isDeleted != null) {
             criteria.andIsDeletedEqualTo(isDeleted);
         }
-        if (isPresent != null) {
-            criteria.andIsPresentEqualTo(isPresent);
-        }
+
         if (isHistory != null) {
             criteria.andIsHistoryEqualTo(isHistory);
         }
@@ -249,7 +246,7 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_admin", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyMember_admin(HttpServletRequest request, Integer id) {
+    public Map partyMember_admin(HttpServletRequest request, Integer id, Boolean isAdmin) {
 
         if (id != null) {
 
@@ -261,13 +258,13 @@ public class PartyMemberController extends BaseController {
             if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId))
                 throw new UnauthorizedException();
 
-            partyAdminService.toggleAdmin(partyMember);
+            partyAdminService.setPartyAdmin(id, isAdmin);
 
             // test
             /*SysUser sysUser = sysUserService.findById(partyMember.getUserId());
             System.out.println(JSONUtils.toString(sysUser));*/
 
-            String op = partyMember.getIsAdmin() ? "删除" : "添加";
+            String op = isAdmin ? "删除" : "添加";
             logger.info(addLog(LogConstants.LOG_PARTY, "%s基层党组织成员管理员权限，memberId=%s", op, id));
         }
         return success(FormUtils.SUCCESS);
@@ -370,7 +367,7 @@ public class PartyMemberController extends BaseController {
                                       @DateTimeFormat(pattern = DateUtils.YYYYMM) Date assignDate,
                                       HttpServletRequest request) {
 
-        partyMemberService.dissmiss(id, dismiss, dismissDate, assignDate);
+        partyMemberService.dismiss(id, dismiss, dismissDate, assignDate);
 
         logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员离任：%s", id));
         return success(FormUtils.SUCCESS);
@@ -435,7 +432,7 @@ public class PartyMemberController extends BaseController {
 
         Collections.reverse(records); // 逆序排列，保证导入的顺序正确
 
-        int addCount = partyMemberService.bacthImport(records);
+        int addCount = partyMemberService.batchImport(records);
         int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("addCount", addCount);

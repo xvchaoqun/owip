@@ -5,12 +5,12 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/branchMemberGroup?status=${status}"
-             data-url-export="${ctx}/branchMember_data?isDeleted=0&isPresent=1"
+             data-url-export="${ctx}/branchMember_data?isDeleted=0"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId||not empty param.partyId
                 || not empty param.typeId|| not empty param.isDoubleLeader}"/>
                 <div class="tabbable">
-                    <jsp:include page="menu.jsp"/>
+                    <jsp:include page="../branchMemberGroup/menu.jsp"/>
 
                     <div class="tab-content">
                         <div class="tab-pane in active">
@@ -131,7 +131,7 @@
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/branchMember_data?callback=?&isDeleted=0'
-            +'&isPresent=1&isHistory=${empty param.isHistory?0:param.isHistory}'
+            +'&isHistory=${empty param.isHistory?0:param.isHistory}'
             +'&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:colModel
     }).jqGrid("setFrozenColumns")

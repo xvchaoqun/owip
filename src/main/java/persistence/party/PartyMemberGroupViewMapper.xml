@@ -6,7 +6,6 @@
     <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="is_present" jdbcType="BIT" property="isPresent" />
     <result column="tran_time" jdbcType="DATE" property="tranTime" />
     <result column="actual_tran_time" jdbcType="DATE" property="actualTranTime" />
     <result column="appoint_time" jdbcType="DATE" property="appointTime" />
@@ -47,7 +46,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, party_id, name, is_present, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
+    id, fid, party_id, name, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
     sort_order, is_deleted, party_class_id, party_sort_order, member_count
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyMemberGroupViewExample" resultMap="BaseResultMap">

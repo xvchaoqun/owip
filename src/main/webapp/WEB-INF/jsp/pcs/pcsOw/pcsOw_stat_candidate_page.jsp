@@ -295,16 +295,9 @@
                 sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
-            }*/,{
-                label: '所在单位及职务',
-                name: '_title',
-                width: 350,
-                align: 'left',
-                formatter: function (cellvalue, options, rowObject) {
-                    return ($.trim(rowObject.title) == '') ? $.trim(rowObject.extUnit) : $.trim(rowObject.title);
-                }
-            }<c:if test="${param.stage == PCS_STAGE_SECOND || param.stage == PCS_STAGE_THIRD}">
-            ,{
+            }*/,{label: '所在单位及职务', name: 'title', width: 350, align: 'left'},
+            <c:if test="${param.stage == PCS_STAGE_SECOND || param.stage == PCS_STAGE_THIRD}">
+            {
                 label: '备注',
                 name: '_remark',
                 width: 300,
@@ -312,8 +305,8 @@
                 formatter: function (cellvalue, options, rowObject) {
                     return rowObject.isFromStage ? "“${param.stage == PCS_STAGE_SECOND?"二下":"三下"}”名单成员" : "另选他人";
                 }
-            }
-            </c:if>, {hidden: true, key: true, name: 'userId'}
+            },
+            </c:if> {hidden: true, key: true, name: 'userId'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

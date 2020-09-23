@@ -617,17 +617,6 @@ left join cadre_post cp on up.id=cp.unit_post_id
 left join cadre_view cv on cv.id=cp.cadre_id;
 
 
--- ----------------------------
---  View definition for `ow_branch_member_group_view`
--- ----------------------------
-DROP VIEW IF EXISTS `ow_branch_member_group_view`;
-CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_member_group_view` AS
-SELECT bmg.`*`, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
-from ow_branch_member_group bmg
-left join ow_branch_member obm on obm.is_history=0 and obm.group_id=bmg.id
-left join ow_branch b on bmg.branch_id=b.id
-left join ow_party p on b.party_id=p.id group by bmg.id;
-
 
 
 -- ----------------------------
@@ -684,7 +673,7 @@ select opm.*,
 	,`om`.`party_id` AS `party_id`
 	,`om`.`branch_id` AS `branch_id`
 	,`om`.`status` AS `member_status`
-	, opmg.party_id as group_party_id, opmg.is_present, opmg.is_deleted
+	, opmg.party_id as group_party_id, opmg.is_deleted
 	, op.class_id as party_class_id
 	, op.unit_id
 	, op.sort_order as party_sort_order
@@ -715,6 +704,18 @@ select opm.*,
 left join cadre_party dp on dp.user_id= opm.user_id and dp.type = 1
 left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 
+
+-- ----------------------------
+--  View definition for `ow_branch_member_group_view`
+-- ----------------------------
+DROP VIEW IF EXISTS `ow_branch_member_group_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_member_group_view` AS
+SELECT bmg.`*`, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
+from ow_branch_member_group bmg
+left join ow_branch_member obm on obm.is_history=0 and obm.group_id=bmg.id
+left join ow_branch b on bmg.branch_id=b.id
+left join ow_party p on b.party_id=p.id group by bmg.id;
+
 -- ----------------------------
 --  Records 
 -- ----------------------------
@@ -732,7 +733,7 @@ CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
 ,`om`.`party_id` AS `party_id`
 ,`om`.`branch_id` AS `branch_id`
 ,`om`.`status` AS `member_status`
-, obmg.branch_id as group_branch_id, obmg.is_present,obmg.is_deleted
+, obmg.branch_id as group_branch_id, obmg.is_deleted
 , op.id as group_party_id
 , op.unit_id
 , op.sort_order as party_sort_order

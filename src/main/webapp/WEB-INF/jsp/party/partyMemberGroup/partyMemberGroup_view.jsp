@@ -45,7 +45,7 @@
                 width: 400,
                 formatter: function (cellvalue, options, rowObject) {
                     var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';
-                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                    return (!rowObject.isDeleted) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
@@ -62,13 +62,13 @@
             },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
+                hidden: true, name: 'isDeleted', formatter: function (cellvalue, options, rowObject) {
+                    return (rowObject.isDeleted) ? 1 : 0;
                 }
             }
         ],
         rowattr: function (rowData, currentObj, rowId) {
-            if (rowData.isPresent) {
+            if (!rowData.isDeleted) {
                 //console.log(rowData)
                 return {'class': 'success'}
             }

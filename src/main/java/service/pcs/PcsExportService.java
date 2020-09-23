@@ -259,8 +259,7 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 所在单位及职务
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.defaultIfBlank(bean.getTitle(),
-                    StringUtils.trimToEmpty(bean.getExtUnit())));
+            cell.setCellValue(bean.getTitle());
 
             // 推荐提名的党支部数
             cell = row.getCell(column++);
@@ -599,8 +598,7 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 所在单位及职务
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.defaultIfBlank(bean.getTitle(),
-                    StringUtils.trimToEmpty(bean.getExtUnit())));
+            cell.setCellValue(bean.getTitle());
 
             // 推荐提名的党支部数
             cell = row.getCell(column++);
@@ -757,8 +755,7 @@ public class PcsExportService extends PcsBaseMapper {
 
             // 所在单位及职务
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.defaultIfBlank(bean.getTitle(),
-                    StringUtils.trimToEmpty(bean.getExtUnit())));
+            cell.setCellValue(bean.getTitle());
         }
 
         /*row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));

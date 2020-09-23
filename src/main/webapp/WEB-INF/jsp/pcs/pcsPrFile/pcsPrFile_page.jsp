@@ -142,16 +142,8 @@
         {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE ,formatoptions: {baseDate: '${_ageBaseDate}'}},
         {label: '民族', name: 'nation', width: 60},
-        {
-            label: '学历学位', name: '_learn', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
-                return $.jgrid.formatter.MetaType(rowObject.eduId);
-            } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
-                return $.trim(rowObject.education);
-            }
-            return "-"
-        }
-        }, /*
+        {label: '学历学位', name: 'education'},
+        /*
          {
          label: '参加工作时间',
          name: 'workTime',

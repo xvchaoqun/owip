@@ -386,66 +386,6 @@ public class BranchMemberGroupViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIsNull() {
-            addCriterion("is_present is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentIsNotNull() {
-            addCriterion("is_present is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentEqualTo(Boolean value) {
-            addCriterion("is_present =", value, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentNotEqualTo(Boolean value) {
-            addCriterion("is_present <>", value, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentGreaterThan(Boolean value) {
-            addCriterion("is_present >", value, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_present >=", value, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentLessThan(Boolean value) {
-            addCriterion("is_present <", value, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_present <=", value, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentIn(List<Boolean> values) {
-            addCriterion("is_present in", values, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentNotIn(List<Boolean> values) {
-            addCriterion("is_present not in", values, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_present between", value1, value2, "isPresent");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsPresentNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_present not between", value1, value2, "isPresent");
-            return (Criteria) this;
-        }
-
         public Criteria andTranTimeIsNull() {
             addCriterion("tran_time is null");
             return (Criteria) this;

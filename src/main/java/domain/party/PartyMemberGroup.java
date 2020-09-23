@@ -12,8 +12,6 @@ public class PartyMemberGroup implements Serializable {
 
     private String name;
 
-    private Boolean isPresent;
-
     private Date tranTime;
 
     private Date actualTranTime;
@@ -58,14 +56,6 @@ public class PartyMemberGroup implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Boolean getIsPresent() {
-        return isPresent;
-    }
-
-    public void setIsPresent(Boolean isPresent) {
-        this.isPresent = isPresent;
     }
 
     public Date getTranTime() {

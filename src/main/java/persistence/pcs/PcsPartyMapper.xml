@@ -17,6 +17,7 @@
     <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount" />
     <result column="group_count" jdbcType="INTEGER" property="groupCount" />
     <result column="present_group_count" jdbcType="INTEGER" property="presentGroupCount" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
   <sql id="Base_Column_List">
     id, config_id, party_id, name, is_direct_branch, current_stage, sort_order, branch_count, 
     member_count, positive_count, student_member_count, teacher_member_count, retire_member_count, 
-    group_count, present_group_count
+    group_count, present_group_count, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPartyExample" resultMap="BaseResultMap">
     select
@@ -116,14 +117,14 @@
       name, is_direct_branch, current_stage, 
       sort_order, branch_count, member_count, 
       positive_count, student_member_count, teacher_member_count, 
-      retire_member_count, group_count, present_group_count
-      )
+      retire_member_count, group_count, present_group_count, 
+      is_deleted)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{isDirectBranch,jdbcType=BIT}, #{currentStage,jdbcType=TINYINT}, 
       #{sortOrder,jdbcType=INTEGER}, #{branchCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, 
       #{positiveCount,jdbcType=INTEGER}, #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
-      #{retireMemberCount,jdbcType=INTEGER}, #{groupCount,jdbcType=INTEGER}, #{presentGroupCount,jdbcType=INTEGER}
-      )
+      #{retireMemberCount,jdbcType=INTEGER}, #{groupCount,jdbcType=INTEGER}, #{presentGroupCount,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsParty">
     insert into pcs_party
@@ -173,6 +174,9 @@
       <if test="presentGroupCount != null">
         present_group_count,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -219,6 +223,9 @@
       </if>
       <if test="presentGroupCount != null">
         #{presentGroupCount,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -276,6 +283,9 @@
       <if test="record.presentGroupCount != null">
         present_group_count = #{record.presentGroupCount,jdbcType=INTEGER},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -297,7 +307,8 @@
       teacher_member_count = #{record.teacherMemberCount,jdbcType=INTEGER},
       retire_member_count = #{record.retireMemberCount,jdbcType=INTEGER},
       group_count = #{record.groupCount,jdbcType=INTEGER},
-      present_group_count = #{record.presentGroupCount,jdbcType=INTEGER}
+      present_group_count = #{record.presentGroupCount,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -347,6 +358,9 @@
       <if test="presentGroupCount != null">
         present_group_count = #{presentGroupCount,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -365,7 +379,8 @@
       teacher_member_count = #{teacherMemberCount,jdbcType=INTEGER},
       retire_member_count = #{retireMemberCount,jdbcType=INTEGER},
       group_count = #{groupCount,jdbcType=INTEGER},
-      present_group_count = #{presentGroupCount,jdbcType=INTEGER}
+      present_group_count = #{presentGroupCount,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsPartyExample" resultMap="BaseResultMap">

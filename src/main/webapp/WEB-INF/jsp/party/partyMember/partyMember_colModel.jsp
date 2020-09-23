@@ -44,9 +44,9 @@
                     return '--'
                 }
                 if (cellvalue)
-                 return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定撤销该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> 撤销</button>'.format(rowObject.id);
+                 return '<button data-url="${ctx}/partyMember_admin?id={0}&isAdmin=0" data-msg="确定撤销该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> 撤销</button>'.format(rowObject.id);
                 else
-                    return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> 设置</button>'.format(rowObject.id);
+                    return '<button data-url="${ctx}/partyMember_admin?id={0}&isAdmin=1" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> 设置</button>'.format(rowObject.id);
             }},
             </shiro:hasPermission>
             </c:if>

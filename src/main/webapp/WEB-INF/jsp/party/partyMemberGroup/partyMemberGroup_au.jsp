@@ -32,7 +32,7 @@
             <div class="col-xs-8">
                 <div class="help-block">
                     <select class="form-control" name="fid" data-width="292"
-                            data-rel="select2-ajax" data-ajax-url="${ctx}/partyMemberGroup_selects?partyId=${party.id}&id=${partyMemberGroup.id}"
+                            data-rel="select2-ajax" data-ajax-url="${ctx}/partyMemberGroup_selects?partyId=${party.id}&isDeleted=1&id=${partyMemberGroup.id}"
                             data-placeholder="请选择班子">
                         <option value="${fPartyMemberGroup.id}">${fPartyMemberGroup.name}</option>
                     </select>
@@ -43,16 +43,6 @@
             <label class="col-xs-4 control-label"><span class="star">*</span>名称</label>
             <div class="col-xs-8" style="width: 312px">
                 <textarea required class="form-control" name="name">${partyMemberGroup.name}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">是否现任班子</label>
-            <div class="col-xs-8">
-                <label>
-                    <input name="isPresent" ${partyMemberGroup.isPresent?"checked":""} type="checkbox"/>
-                    <span class="lbl"></span>
-                </label>
-                <span class="help-block">注：每个${_p_partyName}必须设定一个“现任班子”</span>
             </div>
         </div>
         <div class="form-group">
@@ -114,7 +104,7 @@
         var partyId = $.trim($(this).val());
 
         $("#modalForm select[name=fid]").data("ajax-url",
-            "${ctx}/partyMemberGroup_selects?partyId=" + partyId);
+            "${ctx}/partyMemberGroup_selects?partyId=" + partyId +"&isDeleted=1");
         $.register.ajax_select("#modalForm select[name=fid]");
 
         if (partyId == '') {
