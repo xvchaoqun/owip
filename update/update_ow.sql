@@ -1,3 +1,9 @@
+-- 2020.09.23 sxx
+ALTER TABLE `ow_branch_member`
+	DROP FOREIGN KEY `FK_ow_branch_member_base_meta_type`;
+ALTER TABLE `ow_branch_member`
+	CHANGE COLUMN `type_id` `types` VARCHAR(50) NOT NULL COMMENT '职务，关联元数据（书记、副书记、各类委员）,以逗号分隔' AFTER `user_id`;
+
 
 -- 2020.07.17 ly
 ALTER TABLE `ow_branch_member_group`
