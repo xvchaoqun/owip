@@ -33,6 +33,8 @@ public class PcsParty implements Serializable {
 
     private Integer presentGroupCount;
 
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -153,5 +155,13 @@ public class PcsParty implements Serializable {
 
     public void setPresentGroupCount(Integer presentGroupCount) {
         this.presentGroupCount = presentGroupCount;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

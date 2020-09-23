@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cetProjectType!=null}">编辑</c:if><c:if test="${cetProjectType==null}">添加</c:if>培训类别</h3>
@@ -30,12 +30,14 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
+		<c:if test="${_p_cetSupportCert}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">代码</label>
+				<label class="col-xs-3 control-label">证书编码</label>
 				<div class="col-xs-6">
 					<input class="form-control" type="text" name="code" value="${cetProjectType.code}">
 				</div>
 			</div>
+		</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">

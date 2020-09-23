@@ -225,7 +225,7 @@ public class CetProjectController extends CetBaseController {
     public Map do_cetProject_au(CetProject record,
                                 // 1 党校专题培训 2党校日常培训 3二级党委专题培训 4 二级党委日常培训
                                 @RequestParam(defaultValue = "1") byte cls,
-                                Integer[] traineeTypeIds,
+                                Integer[] _traineeTypeIds,
                                 Integer otherTypeId,
                                 String otherTraineeType,
                                 MultipartFile _wordFilePath,
@@ -262,15 +262,13 @@ public class CetProjectController extends CetBaseController {
             return failed("培训时间有误。");
         }
 
-        if((traineeTypeIds==null || traineeTypeIds.length==0) && otherTypeId == null){
+        if((_traineeTypeIds ==null || _traineeTypeIds.length==0) && otherTypeId == null){
             return failed("请选择参训人员类型。");
         }
 
-        List<Integer> _traineeTypeIdList = new ArrayList<>();
         List<Integer> traineeTypeIdList = new ArrayList<>();
-        if (traineeTypeIds != null) {
-            _traineeTypeIdList = Arrays.asList(traineeTypeIds);
-            traineeTypeIdList.addAll(_traineeTypeIdList);
+        if (_traineeTypeIds != null) {
+            traineeTypeIdList.addAll(Arrays.asList(_traineeTypeIds));
         }
         if (otherTypeId != null){
             traineeTypeIdList.add(otherTypeId);

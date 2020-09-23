@@ -49,7 +49,6 @@ public class PartyMemberService extends BaseMapper {
             PartyMemberViewExample example = new PartyMemberViewExample();
             example.createCriteria()
                     .andIsDeletedEqualTo(false)
-                    .andIsPresentEqualTo(true)
                     .andIsHistoryEqualTo(false);
             example.setOrderByClause("party_sort_order desc, sort_order desc");
 
@@ -219,13 +218,7 @@ public class PartyMemberService extends BaseMapper {
 
             for (OwAdmin record : owAdmins) { // 一般只有一个
 
-                PartyMember partyMember = new PartyMember();
-                partyMember.setId(record.getId());
-                partyMember.setUserId(userId);
-                partyMember.setGroupId(record.getGroupId());
-                partyMember.setIsAdmin(true);
-
-                partyAdminService.toggleAdmin(partyMember);
+                partyAdminService.setPartyAdmin(record.getId(), true);
             }
         }
 
@@ -295,7 +288,7 @@ public class PartyMemberService extends BaseMapper {
         partyMemberMapper.insertSelective(record);
 
         if (autoAdmin) {
-            partyAdminService.toggleAdmin(record);
+            partyAdminService.setPartyAdmin(record.getId(), true);
         }
         if(CmTag.getCadre(record.getUserId())==null) {
             cadreService.addTempCadre(record.getUserId());
@@ -308,9 +301,7 @@ public class PartyMemberService extends BaseMapper {
 
         PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
 
-        if (partyMember.getIsAdmin()) {
-            partyAdminService.toggleAdmin(partyMember);
-        }
+        partyAdminService.setPartyAdmin(id, false);
         partyMemberMapper.deleteByPrimaryKey(id);
     }
 
@@ -333,9 +324,7 @@ public class PartyMemberService extends BaseMapper {
                 }
             }
 
-            if (partyMember.getIsAdmin()) {
-                partyAdminService.toggleAdmin(partyMember);
-            }
+            partyAdminService.setPartyAdmin(id, false);
         }
         PartyMemberExample example = new PartyMemberExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -352,11 +341,9 @@ public class PartyMemberService extends BaseMapper {
         record.setIsHistory(null);
         partyMemberMapper.updateByPrimaryKeySelective(record);
 
-        // 如果以前不是管理员，但是选择的类别是自动设定为管理员
-        if (!old.getIsHistory() && !record.getIsAdmin() && autoAdmin) {
-            record.setUserId(old.getUserId());
-            record.setGroupId(old.getGroupId());
-            partyAdminService.toggleAdmin(record);
+        // 选择的类别是自动设定为管理员
+        if (autoAdmin) {
+            partyAdminService.setPartyAdmin(record.getId(), true);
         }
 
         if (record.getTypeIds() == null) {
@@ -367,7 +354,7 @@ public class PartyMemberService extends BaseMapper {
     }
 
     @Transactional
-    public int bacthImport(List<PartyMember> records) {
+    public int batchImport(List<PartyMember> records) {
 
         int addCount = 0;
         for (PartyMember record : records) {
@@ -376,22 +363,22 @@ public class PartyMemberService extends BaseMapper {
 
             Integer postId = _record.getPostId();
             MetaType metaType = CmTag.getMetaType(postId);
-            boolean isAdmin = ((StringUtils.equals(metaType.getCode(), "mt_party_secretary")
+            boolean autoAdmin = ((StringUtils.equals(metaType.getCode(), "mt_party_secretary")
                     || StringUtils.equals(metaType.getCode(), "mt_party_vice_secretary")));
 
             if (_record == null) {
 
-                insertSelective(record, isAdmin);
+                insertSelective(record, autoAdmin);
                 addCount++;
             } else {
 
                 if (_record.getIsAdmin()) {
                     // 先清除管理员
-                    partyAdminService.toggleAdmin(_record);
+                    partyAdminService.setPartyAdmin(_record.getId(), false);
                 }
 
                 record.setId(_record.getId());
-                updateByPrimaryKey(record, isAdmin);
+                updateByPrimaryKey(record, autoAdmin);
             }
         }
 
@@ -417,7 +404,7 @@ public class PartyMemberService extends BaseMapper {
 
     // 离任/重新任命
     @Transactional
-    public void dissmiss(Integer id, boolean dismiss, Date dismissDate, Date assignDate) {
+    public void dismiss(Integer id, boolean dismiss, Date dismissDate, Date assignDate) {
 
         PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
 
@@ -432,9 +419,7 @@ public class PartyMemberService extends BaseMapper {
         partyMemberMapper.updateByPrimaryKeySelective(record);
 
         if (dismiss) {
-            if (partyMember.getIsAdmin()) {
-                partyAdminService.toggleAdmin(partyMember);
-            }
+            partyAdminService.setPartyAdmin(id, false);
         } else {
             commonMapper.excuteSql("update ow_party_member set dismiss_date=null where id=" + id);
         }

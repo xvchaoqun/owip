@@ -797,7 +797,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         String title = pcsConfigService.getPcsName(configId) + "代表候选人%s人选名单";
         title = String.format(title, "推荐");
-        String countStr = "党支部数：%s，应参会党员数：%s，应参会正式党员数：%s，实参会党员数：%s，实参会正式党员数：%s";
+
         /*String rate = "";
         String nextStageStr = "";
         switch (stage) {
@@ -906,7 +906,8 @@ public class PcsPrExportService extends PcsBaseMapper {
       /*  str = cell.getStringCellValue()
                 .replace("rate", rate)
                 .replace("nextStageShort", nextStageStr);*/
-        countStr = String.format(countStr,bc,ec,epc,ac,apc);
+        String countStr = String.format("党支部数：%s，应参会党员数：%s，应参会正式党员数：%s，实参会党员数：%s，实参会正式党员数：%s",
+                bc,ec,epc,ac,apc);
       /*  str = cell.getStringCellValue()
                 .replace("count", countStr);*/
         cell.setCellValue(countStr);

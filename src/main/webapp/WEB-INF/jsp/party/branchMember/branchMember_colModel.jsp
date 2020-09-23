@@ -27,7 +27,8 @@
                 }, frozen: true
             },
             <c:if test="${empty param.isHistory}">
-            {label: '是否离任', name: 'isHistory', width: 80, formatter:$.jgrid.formatter.TRUEFALSE, frozen: true},
+            {label: '是否离任', name: 'isHistory', width: 80,
+                formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on: '已离任', off: '否'}, frozen: true},
             </c:if>
             <c:if test="${not empty param.groupId}">
             <shiro:hasPermission name="branchMember:changeOrder">
@@ -37,16 +38,16 @@
             },
             </shiro:hasPermission>
             </c:if>
-            <c:if test="${empty param.isHistory || param.isHistory!=1}">
+            <c:if test="${!branchMemberGroup.isDeleted && (empty param.isHistory || param.isHistory!=1)}">
             <shiro:hasPermission name="branchMember:edit">
             {label: '管理员', name: 'isAdmin',width:'80',formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isHistory){
                     return '--'
                 }
                     if (cellvalue)
-                        return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定撤销该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> 撤销</button>'.format(rowObject.id);
+                        return '<button data-url="${ctx}/branchMember_admin?id={0}&isAdmin=0" data-msg="确定撤销该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> 撤销</button>'.format(rowObject.id);
                     else
-                        return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> 设置</button>'.format(rowObject.id);
+                        return '<button data-url="${ctx}/branchMember_admin?id={0}&isAdmin=1" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> 设置</button>'.format(rowObject.id);
                 }},
             </shiro:hasPermission>
             </c:if>

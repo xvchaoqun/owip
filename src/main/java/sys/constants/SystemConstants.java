@@ -350,6 +350,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN = 10; // 二级党委培训
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_PROJECT = 11; // 过程培训
     public final static byte SYS_APPROVAL_LOG_TYPE_CR_APPLICANT = 12; // 干部招聘2-报名审核
+    public final static byte SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY = 13;//党统
     public final static byte SYS_APPROVAL_LOG_PM = 20;//三会一课操作
     public final static byte SYS_DP_LOG_TYPE_PARTY = 21;//民主党派操作
 
@@ -367,6 +368,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_ANNUAL, "年度学习档案");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN, "二级党委培训");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_PROJECT, "过程培训");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY, "党统报送数据");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_PM, "三会一课");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_DP_LOG_TYPE_PARTY, "民主党派");
     }

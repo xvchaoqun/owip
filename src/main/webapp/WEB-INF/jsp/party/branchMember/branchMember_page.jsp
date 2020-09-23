@@ -49,8 +49,8 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <c:if test="${!branchMemberGroup.isPresent}">
-                    <span style="color: red;font-size: 12px">【注：当前支委会不是现任支委会，只有成为现任支部委员会后，设置的管理员才生效】</span>
+                <c:if test="${branchMemberGroup.isDeleted}">
+                    <span style="color: red;font-size: 12px">【注：当前支委会不是现任支委会，只有现任支部委员会可设置管理员】</span>
                 </c:if>
 
                 <div class="space-4"></div>

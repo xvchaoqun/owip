@@ -1,4 +1,52 @@
 
+20200922
+
+update ow_party_member_group set is_deleted=1  where is_deleted=0 and is_present=0
+and party_id in(select * from (select party_id from ow_party_member_group where is_deleted=0 group by party_id having count(*)>1)tmp);
+
+update ow_branch_member_group set is_deleted=1  where is_deleted=0 and is_present=0
+and branch_id in(select * from (select branch_id from ow_branch_member_group where is_deleted=0 group by branch_id having count(*)>1)tmp);
+
+-- 校验数据
+-- select party_id from ow_party_member_group where is_deleted=0 group by party_id having count(*)>1;
+-- select branch_id from ow_branch_member_group where is_deleted=0 group by branch_id having count(*)>1;
+
+ALTER TABLE `ow_party_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `sort_order`,
+	DROP COLUMN `is_present`;
+
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `sort_order`,
+	DROP COLUMN `is_present`;
+-- 更新 ow_party_member_group_view  ow_party_member_view
+-- ow_branch_member_group_view   ow_branch_member_view
+-- ow_party_view  ow_branch_view
+-- ext_branch_view  ext_branch_view2
+
+-- 执行 /test/party_admin.jsp
+
+-- 更新导入样表
+
+20200921
+
+ALTER TABLE `pcs_party`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `present_group_count`;
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `edu_id` `edu_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '学历，弃用' AFTER `user_type`,
+	CHANGE COLUMN `work_time` `work_time` DATE NULL DEFAULT NULL COMMENT '参加工作时间，弃用' AFTER `grow_time`,
+	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历学位' AFTER `pro_post`;
+update pcs_pr_candidate ppc, base_meta_type bmt set education=bmt.name where ppc.edu_id=bmt.id and ppc.education is null;
+
+ALTER TABLE `pcs_candidate`
+	CHANGE COLUMN `title` `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位及职务，如果为空则读取人事单位' AFTER `birth`,
+	CHANGE COLUMN `ext_unit` `ext_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位，人事信息，弃用' AFTER `native_place`;
+
+update pcs_candidate set title = ext_unit where title is null;
+
+
+20200920
+西工大
+
 20200918
 北邮
 
@@ -25,7 +73,7 @@ where pr.config_id=par.config_id and pr.stage=par.stage and par.party_id=pr.part
 */
 
 20200917
-西工大 -- 北师大
+西工大
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('pcs_poll_member_need_vote', '党代会党员是否需要投票', 'false', 3, 75, '');
 ALTER TABLE `pcs_poll_report`
@@ -626,7 +674,7 @@ update cet_annual_obj cao, cet_annual ca set cao.trainee_type_id=ca.trainee_type
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('draw_od_check', '组织部审批领取志愿书', 'true', 3, 67, '领取志愿书是否需要组织部审批');
 -- 领取志愿书不需要组织部审批，需更新历史数据（北邮）
--- update ow_member_apply set grow_status=2 where stage=5 and draw_status=1 and grow_status is null;
+-- update ow_member_apply set grow_status=2 where stage=5 and (draw_status is null or draw_status=1) and grow_status is null;
 
 ALTER TABLE `base_meta_class`
 	CHANGE COLUMN `available` `is_deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否删除 ' AFTER `sort_order`,

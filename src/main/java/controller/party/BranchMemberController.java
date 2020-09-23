@@ -65,7 +65,6 @@ public class BranchMemberController extends BaseController {
                                   Integer typeId,
                                   Boolean isAdmin,
                                   Boolean isDeleted,
-                                  Boolean isPresent,
                                   Boolean isHistory,
                                   Boolean isDoubleLeader,
                                   @RequestParam(required = false, defaultValue = "0") int export,
@@ -88,9 +87,6 @@ public class BranchMemberController extends BaseController {
 
         if (isDeleted != null) {
             criteria.andIsDeletedEqualTo(isDeleted);
-        }
-        if (isPresent != null) {
-            criteria.andIsPresentEqualTo(isPresent);
         }
 
         if (groupId != null) {
@@ -258,7 +254,7 @@ public class BranchMemberController extends BaseController {
                                       @DateTimeFormat(pattern = DateUtils.YYYYMM) Date assignDate,
                                       HttpServletRequest request) {
 
-        branchMemberService.dissmiss(id, dismiss, dismissDate, assignDate);
+        branchMemberService.dismiss(id, dismiss, dismissDate, assignDate);
 
         logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员离任：%s,%s", id,
                 DateUtils.formatDate(dismissDate, DateUtils.YYYYMM)));
@@ -268,7 +264,7 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMember_admin(HttpServletRequest request, Integer id) {
+    public Map branchMember_admin(HttpServletRequest request, Integer id, Boolean isAdmin) {
 
         if (id != null) {
 
@@ -285,9 +281,9 @@ public class BranchMemberController extends BaseController {
                 }
             }
 
-            branchAdminService.toggleAdmin(branchMember);
+            branchAdminService.setBranchAdmin(id, isAdmin);
 
-            String op = branchMember.getIsAdmin() ? "删除" : "添加";
+            String op = isAdmin ? "删除" : "添加";
             logger.info(addLog(LogConstants.LOG_PARTY, "%s党支部委员管理员权限，memberId=%s", op, id));
         }
         return success(FormUtils.SUCCESS);

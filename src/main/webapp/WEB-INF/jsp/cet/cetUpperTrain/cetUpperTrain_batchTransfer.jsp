@@ -67,7 +67,7 @@
 </div>
 <div class="modal-footer">
 
-    <input type="submit" class="btn btn-primary" value="确定"/>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 
 <script>
@@ -99,7 +99,8 @@
     isShow();
 
     $.register.del_select($('#modalForm select[name=partyId]'), 300);
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {

@@ -9,7 +9,7 @@
                  data-url-export="${ctx}/branchMemberGroup_data"
                  data-url-co="${ctx}/branchMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.name ||not empty param.isPresent||not empty param.partyId
+                <c:set var="_query" value="${not empty param.name||not empty param.partyId
             ||not empty param.branchId|| not empty param._appointTime || not empty param._tranTime}"/>
 
                 <div class="tabbable">
@@ -19,10 +19,12 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="branchMemberGroup:edit">
+                                    <c:if test="${status>=0}">
                                 <button data-url="${ctx}/branchMemberGroup_au"
                                         class="popupBtn btn btn-info btn-sm">
                                     <i class="fa fa-plus"></i> 添加
                                 </button>
+                                    </c:if>
                                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                                     <i class="fa fa-edit"></i> 修改信息</a>
                                 </shiro:hasPermission>
@@ -36,9 +38,7 @@
                                     </button>
                                     </shiro:hasPermission>
                                 </c:if>
-                                <%--<button data-url="${ctx}/branch_member" data-width="800" class="jqOpenViewBtn btn btn-warning btn-sm">
-                                    <i class="fa fa-user"></i> 编辑委员
-                                </button>--%>
+
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
@@ -129,18 +129,6 @@
                                                            type="text" name="_tranTime" value="${param._tranTime}"/>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>是否现任</label>
-                                                <select name="isPresent" data-width="80"
-                                                        data-rel="select2" data-placeholder="请选择">
-                                                    <option></option>
-                                                    <option value="1">是</option>
-                                                    <option value="0">否</option>
-                                                </select>
-                                                <script>
-                                                    $("#searchForm select[name=isPresent]").val('${param.isPresent}');
-                                                </script>
-                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
@@ -179,7 +167,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     //var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任委员会</span>&nbsp;';
                     var str = '<i class="fa fa-flag red" title="现任委员会"></i> ';
-                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                    return (!rowObject.isDeleted) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
@@ -201,8 +189,7 @@
             {label: '应换届时间', name: 'tranTime', width: 130,
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.isPresent &&
-                        rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
+                    if (!rowObject.isDeleted && rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
             <c:if test="${cls==-1}">
@@ -214,20 +201,7 @@
                 formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
-            /*{label: '发文号', name: 'dispatchCode', width: 180},*/
-            {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
-                }
-            }
-        ]/*,
-        rowattr: function(rowData, currentObj, rowId)
-        {
-            if(rowData.isPresent) {
-                //console.log(rowData)
-                return {'class':'success'}
-            }
-        }*/
+        ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

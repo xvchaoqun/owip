@@ -12,7 +12,7 @@
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.classId||not empty param.partyId
-                ||not empty param.isPresent||not empty param.name || not empty param._appointTime || not empty param._tranTime}"/>
+                ||not empty param.name || not empty param._appointTime || not empty param._tranTime}"/>
 
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -20,10 +20,12 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="partyMemberGroup:edit">
+                                    <c:if test="${status>=0}">
                                     <button data-url="${ctx}/partyMemberGroup_au"
                                             class="popupBtn btn btn-info btn-sm">
                                         <i class="fa fa-plus"></i> 添加
                                     </button>
+                                    </c:if>
                                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息</a>
                                     <c:if test="${status>=0}">
@@ -140,18 +142,6 @@
                                                            type="text" name="_tranTime" value="${param._tranTime}"/>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>是否现任</label>
-                                                <select name="isPresent" data-width="80"
-                                                        data-rel="select2" data-placeholder="请选择">
-                                                    <option></option>
-                                                    <option value="1">是</option>
-                                                    <option value="0">否</option>
-                                                </select>
-                                                <script>
-                                                    $("#searchForm select[name=isPresent]").val('${param.isPresent}');
-                                                </script>
-                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
@@ -192,7 +182,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     //var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
                     var str = '<i class="fa fa-flag red" title="现任领导班子"></i> ';
-                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                    return (!rowObject.isDeleted) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
@@ -206,7 +196,7 @@
             },
             {
                 label: '导出班子成员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.isPresent)
+                    if (!rowObject.isDeleted)
                         return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
                             'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出</a>')
                             .format(rowObject.id);
@@ -224,16 +214,10 @@
                 }
             },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
-                }
-            },
             {label: '应换届时间', name: 'tranTime', width: 130,
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.isPresent &&
-                        rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
+                    if (!rowObject.isDeleted && rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }
             },
@@ -246,14 +230,7 @@
                 formatoptions: {newformat: 'Y.m.d'}
             }
             </c:if>
-        ]/*,
-        rowattr: function(rowData, currentObj, rowId)
-        {
-            if(rowData.isPresent) {
-                //console.log(rowData)
-                return {'class':'success'}
-            }
-        }*/
+        ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

@@ -2,6 +2,7 @@ package service.pcs;
 
 import domain.pcs.PcsBranch;
 import domain.pcs.PcsBranchExample;
+import domain.pcs.PcsRecommendExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class PcsBranchService extends PcsBaseMapper {
 
     }
 
+    // 设置不参与党代会的党支部
     @Transactional
     public void exclude(Integer[] ids ,Boolean isDeleted){
 
@@ -55,19 +57,37 @@ public class PcsBranchService extends PcsBaseMapper {
 
     }
 
+    // 删除党支部
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-     /*   PcsBranchExample example = new PcsBranchExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));*/
 
-        //更新分党委统计数量
         for(Integer id:ids){
-            PcsBranch pcsBranch=pcsBranchMapper.selectByPrimaryKey(id);
-            iPcsMapper.updatePcsPartyCount(pcsBranch.getConfigId(),pcsBranch.getPartyId());
 
-            pcsBranchMapper.deleteByPrimaryKey(id);
+            PcsBranch pcsBranch=pcsBranchMapper.selectByPrimaryKey(id);
+            int configId = pcsBranch.getConfigId();
+            int partyId = pcsBranch.getPartyId();
+            Integer branchId = pcsBranch.getBranchId();
+            PcsRecommendExample example = new PcsRecommendExample();
+            PcsRecommendExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId)
+                    .andPartyIdEqualTo(partyId);
+            if(branchId!=null){
+                criteria.andBranchIdEqualTo(branchId);
+            }
+            if(pcsRecommendMapper.countByExample(example)>0){
+                // 存在被推荐的记录，假删除，设置为不参与党代会
+                PcsBranch record = new PcsBranch();
+                record.setId(id);
+                record.setIsDeleted(true);
+                pcsBranchMapper.updateByPrimaryKey(record);
+            }else {
+                // 不存在被推荐的记录，真删除
+                pcsBranchMapper.deleteByPrimaryKey(id);
+            }
+
+            //更新分党委统计数量
+            iPcsMapper.updatePcsPartyCount(configId, partyId);
         }
     }
 }

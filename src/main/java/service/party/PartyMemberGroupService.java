@@ -2,15 +2,11 @@ package service.party;
 
 import controller.global.OpException;
 import domain.party.*;
-import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.sys.SysUserService;
-import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -19,16 +15,11 @@ import java.util.List;
 @Service
 public class PartyMemberGroupService extends BaseMapper {
 
-    @Autowired
-    private SysUserService sysUserService;
-    @Autowired
-    private PartyAdminService partyAdminService;
-
     // 查找现任班子
     public PartyMemberGroup getPresentGroup(int partyId){
 
         PartyMemberGroupExample _example = new PartyMemberGroupExample();
-        _example.createCriteria().andPartyIdEqualTo(partyId).andIsPresentEqualTo(true);
+        _example.createCriteria().andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
         List<PartyMemberGroup> partyMemberGroups = partyMemberGroupMapper.selectByExample(_example);
         int size = partyMemberGroups.size();
         if(size>1){
@@ -45,7 +36,7 @@ public class PartyMemberGroupService extends BaseMapper {
 
         PartyMemberGroupExample _example = new PartyMemberGroupExample();
         _example.createCriteria().andPartyIdEqualTo(partyId)
-                .andIsPresentEqualTo(false)
+                .andIsDeletedEqualTo(true)
                 .andAppointTimeEqualTo(appointTime);
         List<PartyMemberGroup> partyMemberGroups =
                 partyMemberGroupMapper.selectByExampleWithRowbounds(_example, new RowBounds(0,1));
@@ -62,7 +53,7 @@ public class PartyMemberGroupService extends BaseMapper {
         return partyMemberMapper.selectByExample(_example);
     }
 
-    private void clearPresentGroup(int partyId) {
+   /* private void clearPresentGroup(int partyId) {
 
         PartyMemberGroup presentGroup = getPresentGroup(partyId);
         if(presentGroup==null) return;
@@ -95,14 +86,11 @@ public class PartyMemberGroupService extends BaseMapper {
                 sysUserService.addRole(userId, RoleConstants.ROLE_PARTYADMIN);
             }
         }
-    }
+    }*/
 
     @Transactional
     public int insertSelective(PartyMemberGroup record) {
 
-        if (record.getIsPresent()) {
-            clearPresentGroup(record.getPartyId());
-        }
         record.setIsDeleted(false);
         // 排序还未用
         record.setSortOrder(getNextSortOrder("ow_party_member_group", null));
@@ -115,10 +103,8 @@ public class PartyMemberGroupService extends BaseMapper {
         int addCount = 0;
         for (PartyMemberGroup record : records) {
 
-            PartyMemberGroup _record = null;
-            if(record.getIsPresent()) {
-                _record = getPresentGroup(record.getPartyId());
-            }else if(record.getAppointTime()!=null){
+            PartyMemberGroup _record = getPresentGroup(record.getPartyId());
+            if(_record==null && record.getAppointTime()!=null){
 
                 _record = getHistoryGroup(record.getPartyId(), record.getAppointTime());
             }
@@ -130,11 +116,11 @@ public class PartyMemberGroupService extends BaseMapper {
             }else{
                 record.setId(_record.getId());
                 updateByPrimaryKeySelective(record);
+            }
 
-                if(record.getIsPresent()==false){
-                    commonMapper.excuteSql("update ow_party_member_group " +
-                            "set actual_tran_time=null where id="+_record.getId());
-                }
+            if(BooleanUtils.isNotTrue(record.getIsDeleted())){
+                commonMapper.excuteSql("update ow_party_member_group " +
+                        "set actual_tran_time=null where id="+_record.getId());
             }
         }
 
@@ -156,15 +142,19 @@ public class PartyMemberGroupService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
         for (Integer id : ids) {
+
             PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(id);
-            if (partyMemberGroup.getIsPresent()) {
-                clearPresentGroup(partyMemberGroup.getPartyId());
-            }
+            int partyId = partyMemberGroup.getPartyId();
 
             if(!isDeleted){ // 恢复班子
-                Party party = partyMapper.selectByPrimaryKey(partyMemberGroup.getPartyId());
+                Party party = partyMapper.selectByPrimaryKey(partyId);
                 if(party.getIsDeleted())
                     throw new OpException(String.format("恢复班子失败，班子所属的分党委【%s】已删除。", party.getName()));
+
+                PartyMemberGroup presentGroup = getPresentGroup(partyId);
+                if(presentGroup!=null){
+                    throw new OpException(String.format("恢复班子失败，班子已存在【%s】", party.getName()));
+                }
             }
         }
         PartyMemberGroupExample example = new PartyMemberGroupExample();
@@ -190,17 +180,6 @@ public class PartyMemberGroupService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(PartyMemberGroup record) {
 
-        PartyMemberGroup presentGroup = getPresentGroup(record.getPartyId());
-        if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && !record.getIsPresent())){
-            clearPresentGroup(record.getPartyId());
-        }
-        if(presentGroup==null && record.getIsPresent()){
-            rebuildPresentGroupAdmin(record.getId());
-        }
-        if (presentGroup!=null && presentGroup.getId().intValue()!= record.getId() && record.getIsPresent()) {
-            clearPresentGroup(record.getPartyId());
-            rebuildPresentGroupAdmin(record.getId());
-        }
         if(record.getActualTranTime()==null){
             commonMapper.excuteSql("update ow_party_member_group set actual_tran_time=null where id="+ record.getId());
         }

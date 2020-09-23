@@ -91,7 +91,6 @@ public class PartyMemberGroupController extends BaseController {
                                       String name,
                                       Integer classId,
                                       Integer partyId,
-                                      Boolean isPresent,
                                       @RequestDateRange DateRange _appointTime,
                                        @RequestDateRange DateRange _tranTime,
                                        Byte isTranTime,
@@ -109,7 +108,7 @@ public class PartyMemberGroupController extends BaseController {
 
         PartyMemberGroupViewExample example = new PartyMemberGroupViewExample();
         PartyMemberGroupViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("is_present desc, party_sort_order desc, appoint_time desc");
+        example.setOrderByClause("party_sort_order desc, appoint_time desc");
 
         criteria.andIsDeletedEqualTo(status == -1);
 
@@ -123,10 +122,6 @@ public class PartyMemberGroupController extends BaseController {
                 criteria.andPartyIdIn(partyIdList);
             else criteria.andPartyIdIsNull();
             //}
-        }
-
-        if (isPresent != null) {
-            criteria.andIsPresentEqualTo(isPresent);
         }
 
         if (StringUtils.isNotBlank(name)) {
@@ -205,12 +200,22 @@ public class PartyMemberGroupController extends BaseController {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
         }
 
-        record.setIsPresent((record.getIsPresent() == null) ? false : record.getIsPresent());
-
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(record.getPartyId());
         if (id == null) {
+
+            if (presentGroup != null) {
+                return failed("添加重复，已存在该领导班子");
+            }
+
             partyMemberGroupService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加基层党组织领导班子：%s", record.getId()));
         } else {
+
+            PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(id);
+            if (BooleanUtils.isNotTrue(partyMemberGroup.getIsDeleted())
+                    && presentGroup != null && presentGroup.getId().intValue() != id) {
+                return failed("添加重复，已存在该领导班子");
+            }
 
             if (record.getFid() != null && record.getFid().intValue() == record.getId()) {
                 return failed("不能选择自身为上一届班子");
@@ -296,20 +301,16 @@ public class PartyMemberGroupController extends BaseController {
             }
             record.setPartyId(party.getId());
 
-            record.setIsPresent(StringUtils.contains(xlsRow.get(3), "是"));
-
-            String appointTime = StringUtils.trimToNull(xlsRow.get(4));
+            String appointTime = StringUtils.trimToNull(xlsRow.get(3));
             record.setAppointTime(DateUtils.parseStringToDate(appointTime));
 
-            String tranTime = StringUtils.trimToNull(xlsRow.get(5));
+            String tranTime = StringUtils.trimToNull(xlsRow.get(4));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
 
-            if (record.getIsPresent()) {
-                String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
-                record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
-            }
+            String actualTranTime = StringUtils.trimToNull(xlsRow.get(5));
+            record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
 
-            record.setIsDeleted(false);
+            record.setIsDeleted(record.getActualTranTime()!=null);
             records.add(record);
         }
 
@@ -386,7 +387,7 @@ public class PartyMemberGroupController extends BaseController {
 
         List<PartyMemberGroupView> records = partyMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|350|left", "所属分党委|350|left", "是否现任班子|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
+        String[] titles = {"名称|350|left", "所属分党委|350|left", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyMemberGroupView record = records.get(i);
@@ -402,7 +403,6 @@ public class PartyMemberGroupController extends BaseController {
             String[] values = {
                     record.getName(),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
-                    BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT)
@@ -416,7 +416,9 @@ public class PartyMemberGroupController extends BaseController {
     // 仅查询某分党委下的班子
     @RequestMapping("/partyMemberGroup_selects")
     @ResponseBody
-    public Map partyMemberGroup_selects(Integer partyId, Integer id, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map partyMemberGroup_selects(Integer partyId, Integer id,
+                                        Boolean isDeleted,
+                                        Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -436,13 +438,17 @@ public class PartyMemberGroupController extends BaseController {
         if (id != null){
             criteria.andIdNotEqualTo(id);
         }
+        if(isDeleted!=null){
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
+
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
-        int count = partyMemberGroupMapper.countByExample(example);
+        int count = (int) partyMemberGroupMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

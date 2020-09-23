@@ -274,6 +274,7 @@
                   return _cMap.CET_TRAINEE_SIGN_TYPE_MAP[cellvalue];
               } },
               {label: '参训人类别', name: 'traineeTypeId', width: 120, formatter: function (cellvalue, options, rowObject) {
+                  if(cetTraineeTypeMap[cellvalue]==undefined) return '--'
                   return cetTraineeTypeMap[cellvalue].name;
               }},
               {label: '工作证号', name: 'user.code', width: 110, frozen: true},

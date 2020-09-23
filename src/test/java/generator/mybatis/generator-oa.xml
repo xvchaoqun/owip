@@ -25,10 +25,10 @@
         </javaClientGenerator>
 
         <!--协同办公-->
-        <table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
+        <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="oa_task_admin" domainObjectName="oa.OaTaskAdmin" mapperName="oa.OaTaskAdminMapper">
             <columnOverride column="types" jdbcType="VARCHAR"></columnOverride>
@@ -55,6 +55,14 @@
        </table>-->
         <!--<table tableName="oa_task_remind" domainObjectName="oa.OaTaskRemind" mapperName="oa.OaTaskRemindMapper">
         </table>-->
-
+        <table tableName="oa_grid" domainObjectName="oa.OaGrid" mapperName="oa.OaGridMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>
+        <!--<table tableName="oa_grid_party" domainObjectName="oa.OaGridParty" mapperName="oa.OaGridPartyMapper">
+            <columnOverride column="file_name" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="file_path" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="oa_grid_party_data" domainObjectName="oa.OaGridPartyData" mapperName="oa.OaGridPartyDataMapper">
+        </table>-->
     </context>
 </generatorConfiguration>
