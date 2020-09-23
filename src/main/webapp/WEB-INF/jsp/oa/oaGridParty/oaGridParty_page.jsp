@@ -28,6 +28,12 @@ pageEncoding="UTF-8" %>
                                         </c:if>
                                     </shiro:hasAnyRoles>
                                 </shiro:hasPermission>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/sysApprovalLog"
+                                        data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY%>"
+                                        data-open-by="page">
+                                    <i class="fa fa-search"></i> 操作记录
+                                </button>
                                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_SUPER},${ROLE_ODADMIN}">
                                     <c:if test="${cls!=OA_GRID_PARTY_REPORT}">
                                         <shiro:hasPermission name="oaGridParty:del">
@@ -126,8 +132,8 @@ pageEncoding="UTF-8" %>
             </c:if>
             <c:if test="${cls!=OA_GRID_PARTY_REPORT}">
                 { label: '填报',name: '_upload', width:80, formatter: function (cellvalue, options, rowObject) {
-                        return ('<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/oa/oaGridParty_au" data-open-by="page" ' +
-                            ' data-grid-id="#jqGrid"><i class="fa fa-upload"></i> {0}</button>').format(rowObject.excelFilePath==null?'填报':'修改');
+                        return ('<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/oa/oaGridParty_au" data-open-by="page" ' +
+                            ' data-grid-id="#jqGrid">{0}</button>').format(rowObject.excelFilePath==null?'<i class="fa fa-upload"></i> 填报':'<i class="fa fa-edit"></i> 修改');
                     }, frozen:true},
             </c:if>
             { label: '所属年度',name: 'year',frozen:true},
@@ -141,7 +147,7 @@ pageEncoding="UTF-8" %>
                 return ('<a href="${ctx}/attach_download?path={1}&filename={0}">{0}</a>')
                         .format(rowObject.grid.name,path)
                 }},
-            { label: '报送文件',name: '_excelFilePath',width:150, formatter: function (cellvalue, options, rowObject) {
+            { label: '报送文件预览',name: '_excelFilePath',width:150, formatter: function (cellvalue, options, rowObject) {
                 var str='';
                 if(rowObject.excelFilePath!=undefined){
                     str = '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}"  title="EXCEL文件预览" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
@@ -168,16 +174,10 @@ pageEncoding="UTF-8" %>
                 }},
             </c:if>
             { label: '报送${_p_partyName}名称', name: 'partyName',align:'left', width: 350},
-            { label: '报送时间',name: 'reportTime',width:130, formatter: function (cellvalue, options, rowObject) {
-
-                    if(rowObject.status!=${OA_GRID_PARTY_REPORT}) return '--'
-                    return $.date(rowObject.reportTime, "yyyy.MM.dd HH:mm");
-                }},
-            { label: '报送人',name: '_reportUser', formatter: function (cellvalue, options, rowObject) {
-
-                    if(rowObject.status!=${OA_GRID_PARTY_REPORT}) return '--'
-                    return rowObject.user.realname;
-                }}
+            <c:if test="${cls==OA_GRID_PARTY_REPORT}">
+                { label: '报送人',name: 'user.realname'},
+                { label: '报送时间',name: 'reportTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}}
+            </c:if>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

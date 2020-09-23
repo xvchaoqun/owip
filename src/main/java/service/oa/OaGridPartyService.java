@@ -11,16 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
+import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class OaGridPartyService extends OaBaseMapper {
 
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected OaGridPartyDataService oaGridPartyDataService;
 
@@ -46,7 +53,7 @@ public class OaGridPartyService extends OaBaseMapper {
         oaGridPartyMapper.insertSelective(record);
     }
 
-    //修改，重新上传excel并处理数据
+    //上传excel并处理数据
     @Transactional
     public void update(OaGridParty record, MultipartFile _excelFilePath, HttpServletRequest request) throws IOException, InvalidFormatException {
 
@@ -55,12 +62,11 @@ public class OaGridPartyService extends OaBaseMapper {
         }
         record.setStatus(OaConstants.OA_GRID_PARTY_SAVE);
         oaGridPartyMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Transactional
-    public void updateByPrimaryKeySelective(OaGridParty record){
-
-        oaGridPartyMapper.updateByPrimaryKeySelective(record);
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
+                "上传党统报送文件", record.getStatus(),
+                "上传报送文件");
     }
 
     @Transactional
@@ -71,20 +77,13 @@ public class OaGridPartyService extends OaBaseMapper {
         OaGridPartyExample example = new OaGridPartyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         oaGridPartyMapper.deleteByExample(example);
-    }
-
-    public Map<Integer, OaGridParty> findAll() {
-
-        OaGridPartyExample example = new OaGridPartyExample();
-        example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-        List<OaGridParty> records = oaGridPartyMapper.selectByExample(example);
-        Map<Integer, OaGridParty> map = new LinkedHashMap<>();
-        for (OaGridParty record : records) {
-            map.put(record.getId(), record);
+        for (Integer id : ids) {
+            sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
+                    "删除党统报送数据", oaGridPartyMapper.selectByPrimaryKey(id).getStatus(),
+                    "删除报送数据");
         }
-
-        return map;
     }
 
     @Transactional
@@ -102,9 +101,14 @@ public class OaGridPartyService extends OaBaseMapper {
             }else{
                 record.setFileName(StringUtils.join(fileNameList, ";"));
                 record.setFilePath(StringUtils.join(filePathList, ";"));
-                updateByPrimaryKeySelective(record);
+                oaGridPartyMapper.updateByPrimaryKeySelective(record);
             }
         }
+        sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
+                "删除党统签字文件", record.getStatus(),
+                "删除签字文件");
     }
 
     @Transactional
@@ -122,15 +126,21 @@ public class OaGridPartyService extends OaBaseMapper {
         OaGridPartyExample example = new OaGridPartyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         oaGridPartyMapper.updateByExampleSelective(record, example);
+        for (Integer id : ids) {
+            sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
+                    OaConstants.OA_GRID_PARTY_STATUS_MAP.get(report)+"党统党统报送数据", record.getStatus(),
+                    OaConstants.OA_GRID_PARTY_STATUS_MAP.get(report)+"党统党统报送数据");
+        }
     }
 
     public void checkReportData(OaGridParty oaGridParty) {
 
-        if (StringUtils.isBlank(oaGridParty.getExcelFilePath()))
+        if (StringUtils.isBlank(oaGridParty.getExcelFilePath()) ||
+                StringUtils.isBlank(oaGridParty.getFileName())
+                || StringUtils.isBlank(oaGridParty.getFilePath()))
             throw new OpException("还没有上传报送文件，不可报送");
-
-        if (StringUtils.isBlank(oaGridParty.getFileName()) || StringUtils.isBlank(oaGridParty.getFilePath()))
-            throw new OpException("还没有上传签名文件，不可报送");
 
     }
 }

@@ -164,7 +164,7 @@ pageEncoding="UTF-8" %>
             { label: '表格列数',name: 'col',width:70,},
             { label: '数据填报的左上角<br>单元格坐标',name: 'startPos',width:130},
             { label: '数据填报的右下角<br>单元格坐标',name: 'endPos',width:130},
-            { label: '只读单元格<br>坐标',name: 'readonlyPos'},
+            { label: '只读单元格<br>坐标',name: 'readonlyPos',width:272,align:"left"},
             { label: '具体事项',name: 'content',width:300,align:'left'},
             { label: '应完成时间',name: 'deadline',width: 130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '联系方式',name: 'contact'},

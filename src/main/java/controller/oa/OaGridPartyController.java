@@ -47,6 +47,12 @@ public class OaGridPartyController extends OaBaseController {
         List<OaGrid> oaGridList = oaGridMapper.selectByExample(new OaGridExample());
         modelMap.put("oaGridList", oaGridList);
 
+        OaGridPartyExample example = new OaGridPartyExample();
+        example.createCriteria().andStatusEqualTo(OaConstants.OA_GRID_PARTY_REPORT);
+        int reportNum = (int) oaGridPartyMapper.countByExample(example);
+        modelMap.put("notReportNum", (int)oaGridPartyMapper.countByExample(new OaGridPartyExample()) - reportNum);
+        modelMap.put("reportNum", reportNum);
+
         return "oa/oaGridParty/oaGridParty_page";
     }
 
