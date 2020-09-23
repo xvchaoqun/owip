@@ -41,14 +41,15 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
 
-    <input type="submit" class="btn btn-primary" value="确定"/>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 
 <script>
     $('[data-rel="select2"]').select2({allowClear:false});
 
     $.register.date($('.date-picker'));
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({

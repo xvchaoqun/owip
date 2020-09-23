@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IOaTaskMapper {
 
@@ -33,4 +34,9 @@ public interface IOaTaskMapper {
             "left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id) tmp " +
             "set ot.file_count=tmp.file_count, ot.report_count=tmp.report_count, ot.user_count=tmp.user_count, ot.finish_count=tmp.finish_count where ot.id=tmp.id and ot.id=#{taskId}")
     public void refreshCount(@Param("taskId")Integer taskId);
+
+    @Select("SELECT ogpd.cell_label,sum(ogpd.num) sum from oa_grid_party ogp, oa_grid_party_data ogpd " +
+            "WHERE ogpd.grid_party_id=ogp.id AND ogp.grid_id=#{gridId} AND ogp.status=2 " +
+            "GROUP BY ogpd.cell_label")
+    public List<Map> getOaGridPartyData(@Param("gridId")Integer gridId);
 }

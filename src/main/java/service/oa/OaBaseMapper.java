@@ -14,6 +14,14 @@ import java.util.Set;
 
 public class OaBaseMapper extends CoreBaseMapper {
 
+    //党统
+    @Autowired
+    protected OaGridMapper oaGridMapper;
+    @Autowired(required = false)
+    protected OaGridPartyMapper oaGridPartyMapper;
+    @Autowired(required = false)
+    protected OaGridPartyDataMapper oaGridPartyDataMapper;
+
     /**
      * 协同办公
      */

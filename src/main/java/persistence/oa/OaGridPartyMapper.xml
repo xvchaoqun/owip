@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.oa.OaGridPartyMapper">
+  <resultMap id="BaseResultMap" type="domain.oa.OaGridParty">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="grid_id" jdbcType="INTEGER" property="gridId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="grid_name" jdbcType="VARCHAR" property="gridName" />
+    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="excel_file_path" jdbcType="VARCHAR" property="excelFilePath" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="back_reason" jdbcType="VARCHAR" property="backReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, grid_id, year, party_id, grid_name, party_name, excel_file_path, file_name, file_path, 
+    report_time, report_user_id, status, back_reason
+  </sql>
+  <select id="selectByExample" parameterType="domain.oa.OaGridPartyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from oa_grid_party
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oa_grid_party
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oa_grid_party
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.oa.OaGridPartyExample">
+    delete from oa_grid_party
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.oa.OaGridParty">
+    insert into oa_grid_party (id, grid_id, year, 
+      party_id, grid_name, party_name, 
+      excel_file_path, file_name, file_path, 
+      report_time, report_user_id, status, 
+      back_reason)
+    values (#{id,jdbcType=INTEGER}, #{gridId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
+      #{partyId,jdbcType=INTEGER}, #{gridName,jdbcType=VARCHAR}, #{partyName,jdbcType=VARCHAR}, 
+      #{excelFilePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{reportUserId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{backReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.oa.OaGridParty">
+    insert into oa_grid_party
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gridId != null">
+        grid_id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="gridName != null">
+        grid_name,
+      </if>
+      <if test="partyName != null">
+        party_name,
+      </if>
+      <if test="excelFilePath != null">
+        excel_file_path,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="reportUserId != null">
+        report_user_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="backReason != null">
+        back_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gridId != null">
+        #{gridId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="gridName != null">
+        #{gridName,jdbcType=VARCHAR},
+      </if>
+      <if test="partyName != null">
+        #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="excelFilePath != null">
+        #{excelFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportUserId != null">
+        #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        #{backReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.oa.OaGridPartyExample" resultType="java.lang.Long">
+    select count(*) from oa_grid_party
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update oa_grid_party
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.gridId != null">
+        grid_id = #{record.gridId,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.gridName != null">
+        grid_name = #{record.gridName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyName != null">
+        party_name = #{record.partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excelFilePath != null">
+        excel_file_path = #{record.excelFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportTime != null">
+        report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reportUserId != null">
+        report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.backReason != null">
+        back_reason = #{record.backReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update oa_grid_party
+    set id = #{record.id,jdbcType=INTEGER},
+      grid_id = #{record.gridId,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      grid_name = #{record.gridName,jdbcType=VARCHAR},
+      party_name = #{record.partyName,jdbcType=VARCHAR},
+      excel_file_path = #{record.excelFilePath,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      back_reason = #{record.backReason,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.oa.OaGridParty">
+    update oa_grid_party
+    <set>
+      <if test="gridId != null">
+        grid_id = #{gridId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="gridName != null">
+        grid_name = #{gridName,jdbcType=VARCHAR},
+      </if>
+      <if test="partyName != null">
+        party_name = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="excelFilePath != null">
+        excel_file_path = #{excelFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportUserId != null">
+        report_user_id = #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        back_reason = #{backReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.oa.OaGridParty">
+    update oa_grid_party
+    set grid_id = #{gridId,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      grid_name = #{gridName,jdbcType=VARCHAR},
+      party_name = #{partyName,jdbcType=VARCHAR},
+      excel_file_path = #{excelFilePath,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
+      report_user_id = #{reportUserId,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      back_reason = #{backReason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.oa.OaGridPartyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from oa_grid_party
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
