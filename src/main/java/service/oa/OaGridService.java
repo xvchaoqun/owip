@@ -103,6 +103,11 @@ public class OaGridService extends OaBaseMapper {
 
                 oaGridPartyMapper.insertSelective(record);
             }
+
+            OaGrid record = new OaGrid();
+            record.setId(id);
+            record.setStatus(OaConstants.OA_GRID_USE);
+            oaGridMapper.updateByPrimaryKeySelective(record);
         }
     }
 }

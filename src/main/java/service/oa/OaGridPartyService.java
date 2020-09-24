@@ -15,6 +15,7 @@ import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -77,19 +78,27 @@ public class OaGridPartyService extends OaBaseMapper {
         OaGridPartyExample example = new OaGridPartyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         oaGridPartyMapper.deleteByExample(example);
-        for (Integer id : ids) {
+        /*for (Integer id : ids) {
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
                     "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "");
-        }
+        }*/
     }
 
     @Transactional
-    public void delReportFile(Integer id, String filePath, String fileName) {
+    public void delReportFile(Integer id, String filePath) {
 
         OaGridParty record = oaGridPartyMapper.selectByPrimaryKey(id);
+
+        // 权限校验
+        PartyHelper.checkAuth(record.getPartyId());
+        if(record.getStatus()==OaConstants.OA_GRID_PARTY_REPORT){
+
+            throw new OpException("数据已报送，无法删除");
+        }
+
         if (StringUtils.isNotBlank(record.getFilePath()) && record.getFilePath().contains(filePath)) {
             List<String> filePathList = new ArrayList<String>(Arrays.asList(StringUtils.split(record.getFilePath(), ";")));
             List<String> fileNameList = new ArrayList<String>(Arrays.asList(StringUtils.split(record.getFileName(), ";")));
@@ -123,10 +132,15 @@ public class OaGridPartyService extends OaBaseMapper {
             record.setBackReason(backReason);
         }
 
-        OaGridPartyExample example = new OaGridPartyExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        oaGridPartyMapper.updateByExampleSelective(record, example);
         for (Integer id : ids) {
+
+            OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
+            // 权限校验
+            PartyHelper.checkAuth(oaGridParty.getPartyId());
+
+            record.setId(id);
+            oaGridPartyMapper.updateByPrimaryKeySelective(record);
+
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,

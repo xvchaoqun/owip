@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `oa_grid` (
   `deadline` datetime DEFAULT NULL COMMENT '应完成时间，具体到分',
   `contact` varchar(100) DEFAULT NULL COMMENT '联系方式，1个或2个座机号',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `status` tinyint(3) DEFAULT NULL COMMENT '状态，1 已发布  2 已完成 3 已删除',
+  `status` tinyint(3) unsigned DEFAULT NULL COMMENT '状态，0未发布 1 已发布  2 已完成 3 已删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='数据表格报送模板';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='数据表格报送模板';
 
 -- Data exporting was unselected.
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `oa_grid_party` (
   `back_reason` varchar(200) DEFAULT NULL COMMENT '退回原因',
   PRIMARY KEY (`id`),
   UNIQUE KEY `grid_id_year_party_id` (`grid_id`,`year`,`party_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=363 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二级党委数据表格报送结果';
+) ENGINE=InnoDB AUTO_INCREMENT=451 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二级党委数据表格报送结果';
 
 -- Data exporting was unselected.
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `oa_grid_party_data` (
   PRIMARY KEY (`id`),
   KEY `FK_oa_grid_party_data_oa_grid_party` (`grid_party_id`),
   CONSTRAINT `FK_oa_grid_party_data_oa_grid_party` FOREIGN KEY (`grid_party_id`) REFERENCES `oa_grid_party` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二级党委数据表格报送结果解析数据';
+) ENGINE=InnoDB AUTO_INCREMENT=388 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二级党委数据表格报送结果解析数据';
 
 -- Data exporting was unselected.
 
@@ -78,6 +78,8 @@ CREATE TABLE IF NOT EXISTS `oa_grid_party_data` (
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2547, 0, '分党委党统数据报送', '', 'url', '', '/oa/oaGridParty', 560, '0/1/560/', 1, 'oaGridParty:*', NULL, NULL, NULL, 1, 300);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2548, 0, '党统表格模板管理', '', 'url', '', '/oa/oaGrid', 560, '0/1/560/', 1, 'oaGrid:*', NULL, NULL, NULL, 1, 200);
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2547, 0, '党统表格报送', '', 'url', '', '/oa/oaGridParty', 2550, '0/1/2550/', 1, 'oaGridParty:*', NULL, NULL, NULL, 1, 70);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2548, 0, '党统表格模板', '', 'url', '', '/oa/oaGrid?list=1', 2550, '0/1/2550/', 1, 'oaGrid:list', NULL, NULL, NULL, 1, 69);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2549, 0, '党统表格模板管理', '', 'url', '', '/oa/oaGrid', 2550, '0/1/2550/', 1, 'oaGrid:*', NULL, NULL, NULL, 1, 69);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2550, 0, '党统信息管理', '', 'menu', 'fa fa-bar-chart', NULL, 1, '0/1/', 1, 'partyGrid:menu', NULL, NULL, NULL, 1, 4790);

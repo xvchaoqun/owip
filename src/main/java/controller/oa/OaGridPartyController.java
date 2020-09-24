@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.constants.OaConstants;
+import sys.helper.PartyHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -48,9 +49,15 @@ public class OaGridPartyController extends OaBaseController {
         modelMap.put("oaGridList", oaGridList);
 
         OaGridPartyExample example = new OaGridPartyExample();
-        example.createCriteria().andStatusEqualTo(OaConstants.OA_GRID_PARTY_REPORT);
+        Criteria criteria = example.createCriteria();
+        criteria.addPermits(loginUserService.adminPartyIdList());
+
+        int totalNum = (int) oaGridPartyMapper.countByExample(example);
+
+        criteria.andStatusEqualTo(OaConstants.OA_GRID_PARTY_REPORT);
         int reportNum = (int) oaGridPartyMapper.countByExample(example);
-        modelMap.put("notReportNum", (int)oaGridPartyMapper.countByExample(new OaGridPartyExample()) - reportNum);
+
+        modelMap.put("notReportNum", totalNum - reportNum);
         modelMap.put("reportNum", reportNum);
 
         return "oa/oaGridParty/oaGridParty_page";
@@ -136,6 +143,9 @@ public class OaGridPartyController extends OaBaseController {
 
         OaGridParty record = oaGridPartyMapper.selectByPrimaryKey(id);
 
+        // 权限校验
+        PartyHelper.checkAuth(record.getPartyId());
+
         //党统数据
         if (_excelFilePath != null){
             record.setExcelFilePath(upload(_excelFilePath, "oa_grid_party_file"));
@@ -180,7 +190,8 @@ public class OaGridPartyController extends OaBaseController {
         return "oa/oaGridParty/oaGridParty_au";
     }
 
-    @RequiresPermissions("oaGridParty:del")
+    // 删除，权限使用oaGrid:edit
+    @RequiresPermissions("oaGrid:edit")
     @RequestMapping(value = "/oaGridParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map oaGridParty_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -232,34 +243,45 @@ public class OaGridPartyController extends OaBaseController {
 
     @RequiresPermissions("oaGridParty:edit")
     @RequestMapping("/oaGridParty_preview")
-    public String oaGridParty_preview(Integer id, ModelMap modelMap) {
+    public String oaGridParty_preview(int id, boolean tpl, ModelMap modelMap) {
 
-        if (id != null) {
-            OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
-            String path = springProps.uploadPath + oaGridParty.getExcelFilePath();
-            String table = ExcelToHtmlUtils.toHtml(path, true, oaGridParty.getGrid().getRow(), ExcelUtils.toColIndex(oaGridParty.getGrid().getCol()));
-            modelMap.put("table", table);
+        OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
+
+        // 权限校验
+        PartyHelper.checkAuth(oaGridParty.getPartyId());
+
+        OaGrid oaGrid = oaGridParty.getOaGrid();
+
+        String path = springProps.uploadPath + oaGridParty.getExcelFilePath();
+        if(tpl){
+            path = springProps.uploadPath + oaGrid.getTemplateFilePath();
         }
+
+        String table = ExcelToHtmlUtils.toHtml(path, true, oaGrid.getRow(),
+                ExcelUtils.toColIndex(oaGrid.getCol()));
+        modelMap.put("table", table);
 
         return "oa/oaGridParty/oaGridParty_preview";
     }
 
     @RequiresPermissions("oaGridParty:edit")
     @RequestMapping("/oaGridParty_files")
-    public String oaGridParty_files(Integer id,
+    public String oaGridParty_files(int id,
                                     ModelMap modelMap) {
 
-        if (id != null) {
-            OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
-            String fileName = StringUtils.trimToNull(oaGridParty.getFileName());
-            if (StringUtils.isNotBlank(fileName)){
-                String[] fileNames = oaGridParty.getFileName().split(";");
-                String[] filePaths = oaGridParty.getFilePath().split(";");
-                modelMap.put("fileNames", Arrays.asList(fileNames));
-                modelMap.put("filePaths", Arrays.asList(filePaths));
-            }
-            modelMap.put("oaGridParty", oaGridParty);
+        OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
+        // 权限校验
+        PartyHelper.checkAuth(oaGridParty.getPartyId());
+
+        String fileName = StringUtils.trimToNull(oaGridParty.getFileName());
+        if (StringUtils.isNotBlank(fileName)){
+            String[] fileNames = oaGridParty.getFileName().split(";");
+            String[] filePaths = oaGridParty.getFilePath().split(";");
+            modelMap.put("fileNames", Arrays.asList(fileNames));
+            modelMap.put("filePaths", Arrays.asList(filePaths));
         }
+        modelMap.put("oaGridParty", oaGridParty);
+
         return "oa/oaGridParty/oaGridParty_files";
     }
 
@@ -271,7 +293,7 @@ public class OaGridPartyController extends OaBaseController {
 
         if (null != id){
 
-            oaGridPartyService.delReportFile(id, filePath, fileName);
+            oaGridPartyService.delReportFile(id, filePath);
             logger.info(log(LogConstants.LOG_OA, "删除签字文件：{0},{1},{2}", id,fileName,filePath));
         }
 

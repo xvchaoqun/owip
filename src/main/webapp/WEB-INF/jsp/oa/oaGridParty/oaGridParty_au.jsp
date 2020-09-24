@@ -14,9 +14,31 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">报送${_p_partyName}名称</label>
+                <label class="col-xs-4 control-label">所属${_p_partyName}</label>
                 <div class="col-xs-6 label-text">
                     ${oaGridParty.partyName}
+                </div>
+            </div>
+            <c:if test="${not empty oaGrid.content}">
+               <div class="form-group">
+                <label class="col-xs-4 control-label">填报说明</label>
+                <div class="col-xs-6 label-text">
+                    ${oaGrid.content}
+                </div>
+            </div>
+            </c:if>
+            <c:if test="${not empty oaGrid.content}">
+               <div class="form-group">
+                <label class="col-xs-4 control-label">联系方式</label>
+                <div class="col-xs-6 label-text">
+                    ${oaGrid.contact}
+                </div>
+            </div>
+            </c:if>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">应完成报送时间</label>
+                <div class="col-xs-6 label-text">
+                    ${(cm:formatDate(oaGrid.deadline,'yyyy-MM-dd HH:mm'))}
                 </div>
             </div>
             <div class="form-group">
@@ -46,7 +68,7 @@
     </form>
 
     <div class="clearfix form-actions">
-        <div class="col-md-offset-3 col-md-9">
+        <div class="center">
             <button class="btn btn-info" id="submitBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
                 <i class="ace-icon fa fa-check bigger-110"></i>
                 提交

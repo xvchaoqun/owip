@@ -11,53 +11,55 @@ pageEncoding="UTF-8" %>
                 <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_SUPER}">
-                            <shiro:hasPermission name="oaGrid:edit">
-                                <c:if test="${cls!=OA_GRID_HASDELETED}">
-                                <button class="popupBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/oa/oaGrid_au" data-width="1000">
-                                    <i class="fa fa-plus"></i> 添加</button>
-                                </c:if>
-                                <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                   data-url="${ctx}/oa/oaGrid_au"
-                                   data-grid-id="#jqGrid" data-width="1000"><i class="fa fa-edit"></i>
-                                    修改</button>
-                                <c:if test="${cls==OA_GRID_HASDELETED}">
-                                    <button data-url="${ctx}/oa/oaGrid_batchDel?delete=${OA_GRID_USE}"
-                                            data-title="返回数据模板"
-                                            data-msg="确定将这{0}条数据返回数据模板？"
-                                            data-grid-id="#jqGrid"
-                                            class="jqBatchBtn btn btn-warning btn-sm">
-                                        <i class="fa fa-reply"></i> 返回数据模板
-                                    </button>
-                                </c:if>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="oaGrid:del">
-                                <c:if test="${cls!=OA_GRID_HASDELETED}">
-                                        <button data-url="${ctx}/oa/oaGrid_batchDel?delete=${OA_GRID_HASDELETED}"
-                                                data-title="删除"
-                                                data-msg="确定删除这{0}条数据？"
-                                                data-grid-id="#jqGrid"
-                                                class="jqBatchBtn btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i> 删除
-                                        </button>
-                                </c:if>
-                                <c:if test="${cls==OA_GRID_HASDELETED}">
-                                    <button data-url="${ctx}/oa/oaGrid_realDel"
-                                            data-title="完全删除"
-                                            data-msg="确定完全删除这{0}条数据？"
+                        <shiro:hasPermission name="oaGrid:edit">
+                            <c:if test="${cls!=OA_GRID_HASDELETED}">
+                            <button class="popupBtn btn btn-info btn-sm"
+                                    data-url="${ctx}/oa/oaGrid_au" data-width="1000">
+                                <i class="fa fa-plus"></i> 添加</button>
+                            </c:if>
+                            <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                               data-url="${ctx}/oa/oaGrid_au"
+                               data-grid-id="#jqGrid" data-width="1000"><i class="fa fa-edit"></i>
+                                修改</button>
+                            <c:if test="${cls==OA_GRID_HASDELETED}">
+                                <button data-url="${ctx}/oa/oaGrid_batchDel?delete=${OA_GRID_USE}"
+                                        data-title="返回数据模板"
+                                        data-msg="确定将这{0}条数据返回数据模板？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-reply"></i> 返回数据模板
+                                </button>
+                            </c:if>
+                            <c:if test="${cls!=OA_GRID_HASDELETED}">
+                                    <button data-url="${ctx}/oa/oaGrid_batchDel?delete=${OA_GRID_HASDELETED}"
+                                            data-title="删除"
+                                            data-msg="确定删除这{0}条数据？"
                                             data-grid-id="#jqGrid"
                                             class="jqBatchBtn btn btn-danger btn-sm">
-                                        <i class="fa fa-times"></i> 删除
+                                        <i class="fa fa-trash"></i> 删除
                                     </button>
-                                </c:if>
-                            </shiro:hasPermission>
-                        </shiro:hasAnyRoles>
-                        <shiro:hasPermission name="oaGrid:edit">
+                            </c:if>
+                            <c:if test="${cls==OA_GRID_HASDELETED}">
+                                <button data-url="${ctx}/oa/oaGrid_realDel"
+                                        data-title="完全删除"
+                                        data-msg="确定完全删除这{0}条数据？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-danger btn-sm">
+                                    <i class="fa fa-times"></i> 删除
+                                </button>
+                            </c:if>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="oaGrid:release">
+                            <shiro:lacksPermission name="oaGrid:edit">
+                            <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                               data-url="${ctx}/oa/oaGrid_au"
+                               data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                                修改报送信息</button>
+                            </shiro:lacksPermission>
                             <c:if test="${cls!=OA_GRID_HASDELETED}">
                                 <button class="jqBatchBtn btn btn-success btn-sm"
                                         data-title="下发表格"
-                                        data-msg="确定向${_p_partyName}下发这{0}张表格？"
+                                        data-msg="确定向所有的${_p_partyName}下发这{0}张表格？"
                                         data-url="${ctx}/oa/oaGrid_release"
                                         data-grid-id="#jqGrid"><i class="fa fa-check-circle-o"></i>
                                     下发表格</button>
@@ -125,6 +127,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/oa/oaGrid_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '所属年度',name: 'year',frozen:true},
+            <shiro:hasPermission name="oaGrid:edit">
             { label: '类别',name: 'type',formatter: function (cellvalue, options, rowObject) {
                 var str = '--';
                 if (cellvalue==1){
@@ -132,6 +135,7 @@ pageEncoding="UTF-8" %>
                 }
                 return str;
                 },frozen:true},
+            </shiro:hasPermission>
             { label: '表格名称',name: 'name',width:252,align:'left',frozen:true},
             {label: '表格模板', name: '_file',width:130, formatter: function (cellvalue, options, rowObject) {
                 var str='';
@@ -160,13 +164,15 @@ pageEncoding="UTF-8" %>
                         return _cMap.OA_GRID_STATUS_MAP[cellvalue];
                     }},
             </c:if>
+            <shiro:hasPermission name="oaGrid:edit">
             { label: '表格行数',name: 'row',width:70},
             { label: '表格列数',name: 'col',width:70,},
             { label: '数据填报的左上角<br>单元格坐标',name: 'startPos',width:130},
             { label: '数据填报的右下角<br>单元格坐标',name: 'endPos',width:130},
             { label: '只读单元格<br>坐标',name: 'readonlyPos',width:272,align:"left"},
-            { label: '具体事项',name: 'content',width:300,align:'left'},
+            </shiro:hasPermission>
             { label: '应完成时间',name: 'deadline',width: 130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
+            { label: '填报说明',name: 'content',width:300,align:'left'},
             { label: '联系方式',name: 'contact'},
             { label: '备注',name: 'remark',width:300}
         ]
