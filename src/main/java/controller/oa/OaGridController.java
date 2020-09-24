@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OaConstants;
 import sys.tool.paging.CommonList;
@@ -57,7 +59,7 @@ public class OaGridController extends OaBaseController {
     public void oaGrid_data(HttpServletResponse response,
                             String name,
                             Byte status,
-                            @RequestParam(required = false, defaultValue = "1") Byte cls,//1使用中 2已完成 3删除
+                            @RequestParam(required = false, defaultValue = "1") Byte cls, //1使用中 2已完成 3删除
                             @RequestParam(required = false, defaultValue = "0") int export,
                             Integer[] ids, // 导出的记录
                             Integer pageSize, Integer pageNo)  throws IOException{
@@ -77,9 +79,13 @@ public class OaGridController extends OaBaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.trimLike(name));
         }
-        if (cls != null){
-            criteria.andStatusEqualTo(cls);
+
+        if (cls == 3){
+            criteria.andStatusEqualTo(OaConstants.OA_GRID_HASDELETED);
+        }else{
+            criteria.andStatusNotEqualTo(OaConstants.OA_GRID_HASDELETED);
         }
+
         if (status != null){
             criteria.andStatusEqualTo(status);
         }
@@ -104,7 +110,7 @@ public class OaGridController extends OaBaseController {
         return;
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions(value={"oaGrid:edit", "oaGrid:release"}, logical = Logical.OR)
     @RequestMapping(value = "/oaGrid_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_oaGrid_au(OaGrid record,
@@ -113,16 +119,12 @@ public class OaGridController extends OaBaseController {
 
         Integer id = record.getId();
 
-        char[] cols = record.getCol().toCharArray();
-        if (Character.isLowerCase(cols[0])){
-            record.setCol(String.valueOf(Character.toUpperCase(cols[0])));
-        }
-
+        record.setCol(StringUtils.upperCase(record.getCol()));
         if (_templateFilePath != null){
             record.setTemplateFilePath(upload(_templateFilePath, "oa_attach_file"));
         }
         if (id == null) {
-            record.setStatus(OaConstants.OA_GRID_USE);
+            record.setStatus(OaConstants.OA_GRID_INIT);
             oaGridService.insertSelective(record);
             logger.info(log( LogConstants.LOG_OA, "添加数据表格报送模板：{0}", record.getId()));
         } else {
@@ -134,7 +136,7 @@ public class OaGridController extends OaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions(value={"oaGrid:edit", "oaGrid:release"}, logical = Logical.OR)
     @RequestMapping("/oaGrid_au")
     public String oaGrid_au(Integer id, ModelMap modelMap) {
 
@@ -142,6 +144,9 @@ public class OaGridController extends OaBaseController {
             OaGrid oaGrid = oaGridMapper.selectByPrimaryKey(id);
             modelMap.put("oaGrid", oaGrid);
         }
+
+        if(!ShiroHelper.isPermitted("oaGrid:edit"))
+            return "oa/oaGrid/oaGrid_release_au";
 
         return "oa/oaGrid/oaGrid_au";
     }
@@ -174,7 +179,7 @@ public class OaGridController extends OaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions("oaGrid:release")
     @RequestMapping(value = "/oaGrid_release", method = RequestMethod.POST)
     @ResponseBody
     public Map oaGrid_release(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -187,7 +192,7 @@ public class OaGridController extends OaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions("oaGrid:list")
     @RequestMapping("/oaGrid_preview")
     public String oaGrid_preview(Integer id, Byte summary, ModelMap modelMap) throws IOException, InvalidFormatException {
 
@@ -231,44 +236,41 @@ public class OaGridController extends OaBaseController {
         return "oa/oaGrid/oaGrid_preview";
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions("oaGrid:list")
     @RequestMapping("/oaGrid_summaryExport")
-    public void oaGrid_summaryExport(Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public void oaGrid_summaryExport(int id, HttpServletRequest request, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        if (null != id){
+        OaGrid oaGrid = oaGridMapper.selectByPrimaryKey(id);
+        List<Map> dataList = iOaTaskMapper.getOaGridPartyData(id);
 
-            OaGrid oaGrid = oaGridMapper.selectByPrimaryKey(id);
-            List<Map> dataList = iOaTaskMapper.getOaGridPartyData(id);
+        String path = springProps.uploadPath + oaGrid.getTemplateFilePath();
+        File file = new File(path);
+        InputStream is = new FileInputStream(file);
+        Workbook wb = WorkbookFactory.create(is);
 
-            String path = springProps.uploadPath + oaGrid.getTemplateFilePath();
-            File file = new File(path);
-            InputStream is = new FileInputStream(file);
-            Workbook wb = WorkbookFactory.create(is);
+        OaGridPartyExample example = new OaGridPartyExample();
+        example.createCriteria().andGridIdEqualTo(id).andStatusEqualTo(OaConstants.OA_GRID_PARTY_REPORT);
+        List<OaGridParty> oaGridPartyList = oaGridPartyMapper.selectByExample(example);
 
-            OaGridPartyExample example = new OaGridPartyExample();
-            example.createCriteria().andGridIdEqualTo(id).andStatusEqualTo(OaConstants.OA_GRID_PARTY_REPORT);
-            List<OaGridParty> oaGridPartyList = oaGridPartyMapper.selectByExample(example);
+        if (oaGridPartyList.size() > 0) {
 
-            if (oaGridPartyList.size() > 0) {
-
-                Sheet sheet = wb.getSheetAt(0);
-                String cellLabel = null;
-                Row row = null;
-                Cell cell = null;
-                for (Map data : dataList) {
-                    cellLabel = data.get("cell_label").toString();
-                    row = sheet.getRow(ExcelUtils.getRowIndex(cellLabel) - 1);
-                    cell = row.getCell(ExcelUtils.getColIndex(cellLabel) - 1);
-                    cell.setCellValue(data.get("sum").toString());
-                }
-
-                sheet.setForceFormulaRecalculation(true);//强制执行sheet的函数
+            Sheet sheet = wb.getSheetAt(0);
+            String cellLabel = null;
+            Row row = null;
+            Cell cell = null;
+            for (Map data : dataList) {
+                cellLabel = data.get("cell_label").toString();
+                row = sheet.getRow(ExcelUtils.getRowIndex(cellLabel) - 1);
+                cell = row.getCell(ExcelUtils.getColIndex(cellLabel) - 1);
+                cell.setCellValue(StringUtils.defaultIfBlank(data.get("sum").toString(), "0"));
             }
 
-            ExportHelper.output(wb, oaGrid.getName() + FileUtils.getExtention(path), response);
-
-            logger.info(log( LogConstants.LOG_OA, "下载汇总数据文件：{0}", id));
+            sheet.setForceFormulaRecalculation(true);//强制执行sheet的函数
         }
+
+        ExportHelper.output(wb, oaGrid.getName() + FileUtils.getExtention(path), response);
+
+        logger.info(log( LogConstants.LOG_OA, "下载汇总数据文件：{0}", id));
 
     }
 

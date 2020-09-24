@@ -22,13 +22,9 @@ public class CetRecordService extends CetBaseMapper {
     @Autowired
     private CetProjectObjService cetProjectObjService;
 
-    // 获取或更新证书编码
-    public String selectOrUpdateCertNo(int recordId){
+    // 同步培训记录
+    public CetRecord syncTrain(byte sourceType, int sourceId){
 
-        CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(recordId);
-
-        byte sourceType = cetRecord.getSourceType();
-        int sourceId = cetRecord.getSourceId();
         if(sourceType==CetConstants.CET_SOURCE_TYPE_UPPER){
             syncUpperTrain(sourceId);
         }else if(sourceType==CetConstants.CET_SOURCE_TYPE_PROJECT){
@@ -36,6 +32,18 @@ public class CetRecordService extends CetBaseMapper {
         }else if(sourceType==CetConstants.CET_SOURCE_TYPE_UNIT){
             syncUnitTrain(sourceId);
         }
+
+        return get(sourceType, sourceId);
+    }
+
+    // 获取或更新证书编码
+    public String selectOrUpdateCertNo(int recordId){
+
+        CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(recordId);
+
+        byte sourceType = cetRecord.getSourceType();
+        int sourceId = cetRecord.getSourceId();
+        syncTrain(sourceType, sourceId);
 
         return selectOrUpdateCertNo(cetRecord);
     }

@@ -47,11 +47,13 @@ public class OaConstants {
     }
 
     //数据表格报送模板状态
+    public final static byte OA_GRID_INIT = 0;
     public final static byte OA_GRID_USE = 1;
     public final static byte OA_GRID_HASFINISHED = 2;
     public final static byte OA_GRID_HASDELETED = 3;
     public final static Map<Byte, String>  OA_GRID_STATUS_MAP = new LinkedHashMap<>();
     static {
+        OA_GRID_STATUS_MAP.put(OA_GRID_INIT, "未发布");
         OA_GRID_STATUS_MAP.put(OA_GRID_USE, "已发布");
         OA_GRID_STATUS_MAP.put(OA_GRID_HASFINISHED, "已完成");
         OA_GRID_STATUS_MAP.put(OA_GRID_HASDELETED, "已删除");

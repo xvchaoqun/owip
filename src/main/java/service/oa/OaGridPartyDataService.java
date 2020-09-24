@@ -64,9 +64,9 @@ public class OaGridPartyDataService extends OaBaseMapper {
         Sheet sheet = workbook.getSheetAt(0);
 
         Integer gridPartyId = record.getId();
-        String readOnlyPos = record.getGrid().getReadonlyPos();
-        String startPos = record.getGrid().getStartPos();
-        String endPos = record.getGrid().getEndPos();
+        String readOnlyPos = record.getOaGrid().getReadonlyPos();
+        String startPos = record.getOaGrid().getStartPos();
+        String endPos = record.getOaGrid().getEndPos();
         int startRow = ExcelUtils.getRowIndex(startPos) - 1;
         int startCol = ExcelUtils.getColIndex(startPos) - 1;
         int endRow = ExcelUtils.getRowIndex(endPos) - 1;
@@ -93,7 +93,7 @@ public class OaGridPartyDataService extends OaBaseMapper {
                         }
                         data.setNum(Double.valueOf(getValue(num)).intValue());
                     }catch (Exception e){
-                        throw new OpException("Excel文件数据有误");
+                        throw new OpException("报送表格格式或数据有误，请严格按表格模板填写后提交");
                     }
 
                     records.add(data);
@@ -103,7 +103,7 @@ public class OaGridPartyDataService extends OaBaseMapper {
                     break;
                 }
             }else {
-                throw new OpException("Excel文件数据有误");
+                throw new OpException("报送表格格式或数据有误，请严格按表格模板填写后提交");
             }
         }
 

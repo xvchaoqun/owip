@@ -32,7 +32,7 @@ public class OaGridParty implements Serializable {
         return "";
     }
 
-    public OaGrid getGrid(){
+    public OaGrid getOaGrid(){
         OaGridMapper oaGridMapper = CmTag.getBean(OaGridMapper.class);
         return oaGridMapper.selectByPrimaryKey(gridId);
     }

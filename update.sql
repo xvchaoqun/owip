@@ -1,4 +1,8 @@
 
+20200923
+西工大
+-- 删除 pcs.cm.PcsPartyController
+
 20200922
 
 update ow_party_member_group set is_deleted=1  where is_deleted=0 and is_present=0
