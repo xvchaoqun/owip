@@ -197,7 +197,7 @@
         select tmp.*, p.id as party_id, uv.username, uv.realname, uv.code from (
             select * from (
               <if test="oa.normal==null || oa.normal==false">
-                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from
+                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.types as post_id, m.sort_order from
                 ow_branch_member m,
                 ow_branch_member_group mg
                 where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
@@ -223,7 +223,7 @@
         select count(tmp.user_id) from (
               select * from (
               <if test="oa.normal==null || oa.normal==false">
-                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
+                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.types as post_id, m.sort_order from ow_branch_member m,
                 ow_branch_member_group mg
                 where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
             </if>

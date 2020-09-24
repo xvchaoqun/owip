@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.helper.PartyHelper;
+import sys.utils.NumberUtils;
 
 import java.util.*;
 
@@ -89,13 +90,16 @@ public class BranchMemberGroupService extends BaseMapper {
         
         Map<Integer, List<BranchMember>> branchMemberMap = new LinkedHashMap<>();
         for (BranchMember branchMember : branchMembers) {
-            Integer typeId = branchMember.getTypeId();
-            if(branchMemberMap.get(typeId)==null){
-                List<BranchMember> branchMemberList = new ArrayList<>();
-                branchMemberMap.put(typeId, branchMemberList);
+
+            Set<Integer> typeIds = NumberUtils.toIntSet(branchMember.getTypes(), ",");
+            for (Integer typeId : typeIds) {
+                if(branchMemberMap.get(typeId)==null){
+                    List<BranchMember> branchMemberList = new ArrayList<>();
+                    branchMemberMap.put(typeId, branchMemberList);
+                }
+                List<BranchMember> branchMemberList = branchMemberMap.get(typeId);
+                branchMemberList.add(branchMember);
             }
-            List<BranchMember> branchMemberList = branchMemberMap.get(typeId);
-            branchMemberList.add(branchMember);
         }
         
         return branchMemberMap;

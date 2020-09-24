@@ -19,18 +19,19 @@ pageEncoding="UTF-8"%>
                 </select></div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>选择类别</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>选择职务</label>
             <div class="col-xs-6">
-                <select required data-rel="select2" data-width="272" name="typeId" data-placeholder="请选择类别">
-                    <option></option>
+                <select required class="multiselect" multiple="" data-width="272" name="types">
                     <jsp:include page="/metaTypes?__code=mc_branch_member_type"/>
                 </select>
                 <script>
-                    $("#modal select[name=typeId]").val('${branchMember.typeId}');
+
+                    $.register.multiselect($('#modalForm select[name=types]'), '${branchMember.types}'.split(","));
+
                 </script>
             </div>
         </div>
-        <div class="form-group" id="isDoubleLeader">
+        <div class="form-group" id="isDoubleLeader" style="display: none">
             <label class="col-xs-3 control-label">是否双带头人</label>
             <div class="col-xs-6">
                 <label>
@@ -42,10 +43,10 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">任职时间</label>
             <div class="col-xs-6">
-                <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm" >
-                    <input class="form-control" name="assignDate" type="text"
-                           placeholder="yyyy.mm"
-                            value="${cm:formatDate(branchMember.assignDate,'yyyy.MM')}"/>
+                <div class="input-group">
+                    <input class="form-control date-picker"  name="assignDate" type="text"
+                           placeholder="yyyy.mm" data-date-min-view-mode="1" data-date-format="yyyy.mm"
+                           value="${cm:formatDate(branchMember.assignDate,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -85,17 +86,27 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $("#modalForm select[name=typeId]").change(function(){
-        var type = $(this).val();
-        if(type=='${cm:getMetaTypeByCode("mt_branch_secretary").id}'){
-            $("#isDoubleLeader").show();
-        }else{
-            $("#isDoubleLeader").hide();
-        }
+
+    $("#modalForm input[name=isDoubleLeader]").bootstrapSwitch();
+    $.register.date($('.date-picker'));
+
+   $("#modalForm select[name=types]").change(function(){
+       var isShow=false;
+       $("#modalForm select[name=types] option:selected").each(function (){
+           var typeId=$(this).val();
+           if(typeId=='${cm:getMetaTypeByCode("mt_branch_secretary").id}'){
+               isShow=true;
+           }
+       });
+       if(isShow){
+           $("#isDoubleLeader").show();
+           $("#modalForm input[name=isDoubleLeader]").removeAttr("disabled");
+       }else{
+           $("#isDoubleLeader").hide();
+           $("#modalForm input[name=isDoubleLeader]").attr("disabled","disabled");
+       }
     }).change();
 
-    $("#modal :checkbox").bootstrapSwitch();
-    $.register.date($('.input-group.date'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

@@ -31,10 +31,7 @@ import service.sys.TeacherInfoService;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ConfigUtil;
-import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
-import sys.utils.ImageUtils;
+import sys.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -151,7 +148,7 @@ public class MemberInfoFormService extends BaseMapper {
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         memberInfoForm.setAvatar(base64);
 
-        List<Integer> types = iPartyMapper.findIsMember(userId);
+        List<String> types = iPartyMapper.findIsMember(userId);
         memberInfoForm.setMember(types.size() > 0);
         if (types.size() >= 0){
             PartyMemberExample partyMemberExample = new PartyMemberExample();
@@ -169,11 +166,11 @@ public class MemberInfoFormService extends BaseMapper {
                 memberInfoForm.setBmAssignDate("无");
             }else if (partyMembers.size() + branchMembers.size() == 1){
                 if (partyMembers.size() == 1){
-                    MetaType metaType = CmTag.getMetaType(partyMembers.get(0).getPostId());
+                   /* MetaType metaType = CmTag.getMetaType(partyMembers.get(0).getPostId());*/
                     pmAssignDate = DateUtils.formatDate(partyMembers.get(0).getAssignDate(), DateUtils.YYYYMM);
                     memberInfoForm.setPmAssignDate(pmAssignDate);
                 }else {
-                    MetaType metaType = CmTag.getMetaType(branchMembers.get(0).getTypeId());
+                   /* MetaType metaType = CmTag.getMetaType(branchMembers.get(0).getTypeId());*/
                     bmAssignDate = DateUtils.formatDate(branchMembers.get(0).getAssignDate(), DateUtils.YYYYMM);
                     memberInfoForm.setBmAssignDate(bmAssignDate);
                 }
@@ -185,8 +182,13 @@ public class MemberInfoFormService extends BaseMapper {
                 memberInfoForm.setPmAssignDate(StringUtils.trimToNull(pmAssignDate));
 
                 for (BranchMember branchMember : branchMembers) {
-                    MetaType metaType = CmTag.getMetaType(branchMember.getTypeId());
-                    bmAssignDate += String.format("%s(%s)", metaType.getName(), DateUtils.formatDate(branchMember.getAssignDate(), DateUtils.YYYYMM) == null ? "--" : DateUtils.formatDate(branchMember.getAssignDate(), DateUtils.YYYYMM));
+                    Set<Integer> typeIds = NumberUtils.toIntSet(branchMember.getTypes(), ",");
+                    List<String> typeNames = new ArrayList<>();
+                    for (Integer typeId : typeIds) {
+                        typeNames.add(CmTag.getMetaTypeName(Integer.valueOf(typeId)));
+                    }
+
+                    bmAssignDate += String.format("%s(%s)", StringUtils.join(typeNames,","), DateUtils.formatDate(branchMember.getAssignDate(), DateUtils.YYYYMM) == null ? "--" : DateUtils.formatDate(branchMember.getAssignDate(), DateUtils.YYYYMM));
                 }
                 memberInfoForm.setBmAssignDate(StringUtils.trimToNull(bmAssignDate));
             }

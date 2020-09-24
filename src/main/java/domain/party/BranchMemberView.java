@@ -23,7 +23,7 @@ public class BranchMemberView implements Serializable {
 
     private Integer userId;
 
-    private Integer typeId;
+    private String types;
 
     private Boolean isDoubleLeader;
 
@@ -135,12 +135,12 @@ public class BranchMemberView implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public String getTypes() {
+        return types;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setTypes(String types) {
+        this.types = types == null ? null : types.trim();
     }
 
     public Boolean getIsDoubleLeader() {

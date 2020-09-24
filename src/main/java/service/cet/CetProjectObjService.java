@@ -192,7 +192,7 @@ public class CetProjectObjService extends CetBaseMapper {
                     BranchMemberView branchMemberView = branchMemberViews.get(0);
                     record.setPartyId(branchMemberView.getPartyId());
                     record.setBranchId(branchMemberView.getBranchId());
-                    record.setBranchTypeId(branchMemberView.getTypeId());
+                    /*record.setBranchTypeId(branchMemberView.getTypeId());*/
                     record.setAssignDate(branchMemberView.getAssignDate());
                 }
                 break;

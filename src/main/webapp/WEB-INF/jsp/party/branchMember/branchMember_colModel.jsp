@@ -62,10 +62,27 @@
                     return $.party(rowObject.groupPartyId, rowObject.groupBranchId);
                 }, frozen: true
             },
-            {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务', name: 'types', width: 150,formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--';
+                    return ($.map(cellvalue.split(","), function(typeId){
+                        return $.jgrid.formatter.MetaType(typeId);
+                    })).join("，")
+            }},
             {label: '是否双带头人', name: 'isDoubleLeader', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.typeId != '${cm:getMetaTypeByCode("mt_branch_secretary").id}') return '--'
-                return $.jgrid.formatter.TRUEFALSE(cellvalue)
+
+                    var isShow = false;
+                    var typeIds = rowObject.types.split(",");
+
+                    $.each(typeIds, function (i, typeId) {
+                        if(typeId=='${cm:getMetaTypeByCode("mt_branch_secretary").id}'){
+                            isShow=true;
+                        }
+                    });
+                    if(isShow){
+                        return $.jgrid.formatter.TRUEFALSE(cellvalue);
+                    }else{
+                        return '--'
+                    }
             }},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             <c:if test="${empty param.isHistory || param.isHistory==1}">

@@ -24,10 +24,13 @@ import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.NumberUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class BranchExportService extends BaseMapper {
@@ -149,13 +152,21 @@ public class BranchExportService extends BaseMapper {
             }
 
             Unit unit = unitMap.get(record.getUnitId());
+            Set<Integer> typeIds = NumberUtils.toIntSet(record.getTypes(), ",");
+            List<String> types = new ArrayList<>();
+            for (Integer typeId : typeIds) {
+                String name = metaTypeService.getName(typeId);
+                if(StringUtils.isNotBlank(name)){
+                    types.add(name);
+                }
+            }
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
                     unit == null ? "" : unit.getName(),
                     partyMap.get(record.getGroupPartyId()).getName(),
                     record.getGroupBranchId()==null?"":branchMap.get(record.getGroupBranchId()).getName(),
-                    metaTypeService.getName(record.getTypeId()),
+                    StringUtils.join(types,","),
 
                     DateUtils.formatDate(record.getAssignDate(), DateUtils.YYYYMM),
                     record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),

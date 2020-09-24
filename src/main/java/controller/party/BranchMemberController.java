@@ -62,7 +62,7 @@ public class BranchMemberController extends BaseController {
     public void branchMember_data(HttpServletResponse response,
                                   Integer groupId,
                                   Integer userId,
-                                  Integer typeId,
+                                  Integer types,
                                   Boolean isAdmin,
                                   Boolean isDeleted,
                                   Boolean isHistory,
@@ -95,8 +95,8 @@ public class BranchMemberController extends BaseController {
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (typeId != null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (types != null) {
+            criteria.andTypesLike("%" + types + "%");
         }
         if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);
@@ -137,20 +137,24 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_branchMember_au(BranchMember record, HttpServletRequest request) {
+    public Map do_branchMember_au(BranchMember record,Integer[] types, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (branchMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getTypeId())) {
+        if (branchMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), types)) {
             return failed("添加重复【每个委员会的人员不可重复，并且书记只有一个】");
         }
         record.setIsDoubleLeader(BooleanUtils.isTrue(record.getIsDoubleLeader()));
 
         boolean autoAdmin = false;
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
-        MetaType metaType = metaTypeMap.get(record.getTypeId());
-        if (BooleanUtils.isTrue(metaType.getBoolAttr())) {
-            autoAdmin = true;
+
+        for (int typeId : types) {
+            MetaType metaType = metaTypeMap.get(typeId);
+            if (BooleanUtils.isTrue(metaType.getBoolAttr())) {
+                autoAdmin = true;
+                break;
+            }
         }
         if (id == null) {
             branchMemberService.insertSelective(record, autoAdmin);

@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="types" jdbcType="VARCHAR" property="types" />
     <result column="is_double_leader" jdbcType="BIT" property="isDoubleLeader" />
     <result column="assign_date" jdbcType="DATE" property="assignDate" />
     <result column="dismiss_date" jdbcType="DATE" property="dismissDate" />
@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, user_id, type_id, is_double_leader, assign_date, dismiss_date, office_phone, 
+    id, group_id, user_id, types, is_double_leader, assign_date, dismiss_date, office_phone, 
     mobile, is_admin, is_history, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchMemberExample" resultMap="BaseResultMap">
@@ -111,11 +111,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ow_branch_member (group_id, user_id, type_id, 
+    insert into ow_branch_member (group_id, user_id, types, 
       is_double_leader, assign_date, dismiss_date, 
       office_phone, mobile, is_admin, 
       is_history, sort_order)
-    values (#{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+    values (#{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{types,jdbcType=VARCHAR}, 
       #{isDoubleLeader,jdbcType=BIT}, #{assignDate,jdbcType=DATE}, #{dismissDate,jdbcType=DATE}, 
       #{officePhone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, 
       #{isHistory,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER})
@@ -132,8 +132,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="types != null">
+        types,
       </if>
       <if test="isDoubleLeader != null">
         is_double_leader,
@@ -167,8 +167,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="types != null">
+        #{types,jdbcType=VARCHAR},
       </if>
       <if test="isDoubleLeader != null">
         #{isDoubleLeader,jdbcType=BIT},
@@ -214,8 +214,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.types != null">
+        types = #{record.types,jdbcType=VARCHAR},
       </if>
       <if test="record.isDoubleLeader != null">
         is_double_leader = #{record.isDoubleLeader,jdbcType=BIT},
@@ -251,7 +251,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       group_id = #{record.groupId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
+      types = #{record.types,jdbcType=VARCHAR},
       is_double_leader = #{record.isDoubleLeader,jdbcType=BIT},
       assign_date = #{record.assignDate,jdbcType=DATE},
       dismiss_date = #{record.dismissDate,jdbcType=DATE},
@@ -273,8 +273,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="types != null">
+        types = #{types,jdbcType=VARCHAR},
       </if>
       <if test="isDoubleLeader != null">
         is_double_leader = #{isDoubleLeader,jdbcType=BIT},
@@ -307,7 +307,7 @@
     update ow_branch_member
     set group_id = #{groupId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
+      types = #{types,jdbcType=VARCHAR},
       is_double_leader = #{isDoubleLeader,jdbcType=BIT},
       assign_date = #{assignDate,jdbcType=DATE},
       dismiss_date = #{dismissDate,jdbcType=DATE},

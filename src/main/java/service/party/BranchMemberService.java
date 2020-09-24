@@ -15,6 +15,7 @@ import service.cadre.CadreService;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
+import sys.utils.NumberUtils;
 
 import java.util.*;
 
@@ -53,16 +54,17 @@ public class BranchMemberService extends BaseMapper {
             List<BranchMemberView> branchMemberViews = branchMemberViewMapper.selectByExample(example);
 
             for (BranchMemberView pmv : branchMemberViews) {
-
-                int typeId = pmv.getTypeId();
                 SysUserView uv = pmv.getUser();
+                Set<Integer> typeIds = NumberUtils.toIntSet(pmv.getTypes(), ",");
+                for (Integer typeId : typeIds) {
 
-                List<SysUserView> uvs = groupMap.get(typeId);
-                if (uvs == null) {
-                    uvs = new ArrayList<>();
-                    groupMap.put(typeId, uvs);
+                    List<SysUserView> uvs = groupMap.get(typeId);
+                    if (uvs == null) {
+                        uvs = new ArrayList<>();
+                        groupMap.put(typeId, uvs);
+                    }
+                    uvs.add(uv);
                 }
-                uvs.add(uv);
             }
         }
 
@@ -168,14 +170,14 @@ public class BranchMemberService extends BaseMapper {
 
         BranchMemberViewExample example = new BranchMemberViewExample();
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
-                .andTypeIdEqualTo(secretaryType.getId())
+                .andTypesLike("%" + secretaryType.getId() + "%")
                     .andIsHistoryEqualTo(false);
 
         List<BranchMemberView> records = branchMemberViewMapper.selectByExample(example);
         return records.size() == 0 ? null : records.get(0);
     }
 
-    public boolean idDuplicate(Integer id, int groupId, int userId, int typeId) {
+    public boolean idDuplicate(Integer id, int groupId, int userId,Integer[] types) {
 
         // 20190405注释 可能存在兼职情况
         /*{
@@ -187,19 +189,22 @@ public class BranchMemberService extends BaseMapper {
 
             if(branchMemberMapper.countByExample(example) > 0) return true;
         }*/
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
 
-        MetaType metaType = metaTypeService.findAll().get(typeId);
-        if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_branch_secretary")) {
+        for (int typeId : types) {
+           MetaType metaType= metaTypeMap.get(typeId);
 
-            // 每个委员会只有一个书记
-            BranchMemberExample example = new BranchMemberExample();
-            BranchMemberExample.Criteria criteria = example.createCriteria()
-                    .andGroupIdEqualTo(groupId).andTypeIdEqualTo(typeId).andIsHistoryEqualTo(false);
-            if (id != null) criteria.andIdNotEqualTo(id);
+            if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_branch_secretary")) {
 
-            if (branchMemberMapper.countByExample(example) > 0) return true;
+                // 每个委员会只有一个书记
+                BranchMemberExample example = new BranchMemberExample();
+                BranchMemberExample.Criteria criteria = example.createCriteria()
+                        .andGroupIdEqualTo(groupId).andTypesLike("%" + typeId + "%").andIsHistoryEqualTo(false);
+                if (id != null) criteria.andIdNotEqualTo(id);
+
+                if (branchMemberMapper.countByExample(example) > 0) return true;
+            }
         }
-
         return false;
     }
 

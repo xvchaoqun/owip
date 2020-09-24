@@ -5,7 +5,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="types" jdbcType="VARCHAR" property="types" />
     <result column="is_double_leader" jdbcType="BIT" property="isDoubleLeader" />
     <result column="assign_date" jdbcType="DATE" property="assignDate" />
     <result column="dismiss_date" jdbcType="DATE" property="dismissDate" />
@@ -79,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, user_id, type_id, is_double_leader, assign_date, dismiss_date, office_phone, 
+    id, group_id, user_id, types, is_double_leader, assign_date, dismiss_date, office_phone, 
     mobile, is_admin, is_history, sort_order, msg_title, email, realname, gender, nation, 
     native_place, idcard, birth, party_id, branch_id, member_status, group_branch_id, 
     is_deleted, group_party_id, unit_id, party_sort_order, branch_sort_order, post_class, 

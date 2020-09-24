@@ -75,8 +75,8 @@
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label>类别</label>
-                                    <select name="typeId" data-rel="select2" data-width="120" data-placeholder="请选择"> 
+                                    <label>职务</label>
+                                    <select name="types" data-rel="select2" data-width="120" data-placeholder="请选择"> 
                                         <option></option>
                                          <c:import url="/metaTypes?__code=mc_branch_member_type"/>
                                     </select> 

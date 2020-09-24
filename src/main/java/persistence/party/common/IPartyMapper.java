@@ -42,13 +42,13 @@ public interface IPartyMapper {
     // 根据委员类别查询所有的现任支部委员会委员
     @ResultMap("persistence.party.BranchMemberMapper.BaseResultMap")
     @Select("select bm.* from ow_branch_member_group bmg, ow_branch_member bm " +
-            "where bmg.is_deleted=0 and bm.is_history=0 and  bm.type_id=#{metaTypeId} and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
+            "where bmg.is_deleted=0 and bm.is_history=0 and  bm.types like concat('%',#{metaTypeId},'%') and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
     List<BranchMember> findBranchMembers(@Param("metaTypeId") int metaTypeId, @Param("branchId") int branchId);
 
     // 根据委员类别、用户ID查询现任支部委员会委员
     @ResultMap("persistence.party.BranchMemberMapper.BaseResultMap")
     @Select("select bm.* from ow_branch_member_group bmg, ow_branch_member bm " +
-            "where bmg.is_deleted=0 and bm.is_history=0 and  bm.user_id=#{userId} and  bm.type_id=#{metaTypeId} and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
+            "where bmg.is_deleted=0 and bm.is_history=0 and  bm.user_id=#{userId} and  bm.types like concat('%',#{metaTypeId},'%') and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
     BranchMember findBranchMember(@Param("metaTypeId") int metaTypeId,
                                   @Param("branchId") int branchId,
                                   @Param("userId") int userId);
@@ -59,9 +59,9 @@ public interface IPartyMapper {
     void updateBranchTransferCount(@Param("brachIds") String brachIds);
 
     // 根据委员类别、用户ID查询现任支部委员会委员
-    @Select("SELECT type_id FROM ow_branch_member WHERE user_id=${userId}" +
+    @Select("SELECT types FROM ow_branch_member WHERE user_id=${userId}" +
             " UNION ALL SELECT post_id FROM ow_party_member WHERE user_id=${userId}")
-    List<Integer> findIsMember(@Param("userId") int userId);
+    List<String> findIsMember(@Param("userId") int userId);
 
     // 信息不完整的支部数量
     @Select("select count(*) from ow_branch_view where party_id =${partyId} and is_deleted = 0 and integrity != 1")

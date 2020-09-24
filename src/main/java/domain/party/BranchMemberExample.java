@@ -312,63 +312,73 @@ public class BranchMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIsNull() {
-            addCriterion("type_id is null");
+        public Criteria andTypesIsNull() {
+            addCriterion("types is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIsNotNull() {
-            addCriterion("type_id is not null");
+        public Criteria andTypesIsNotNull() {
+            addCriterion("types is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdEqualTo(Integer value) {
-            addCriterion("type_id =", value, "typeId");
+        public Criteria andTypesEqualTo(String value) {
+            addCriterion("types =", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotEqualTo(Integer value) {
-            addCriterion("type_id <>", value, "typeId");
+        public Criteria andTypesNotEqualTo(String value) {
+            addCriterion("types <>", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdGreaterThan(Integer value) {
-            addCriterion("type_id >", value, "typeId");
+        public Criteria andTypesGreaterThan(String value) {
+            addCriterion("types >", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type_id >=", value, "typeId");
+        public Criteria andTypesGreaterThanOrEqualTo(String value) {
+            addCriterion("types >=", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdLessThan(Integer value) {
-            addCriterion("type_id <", value, "typeId");
+        public Criteria andTypesLessThan(String value) {
+            addCriterion("types <", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("type_id <=", value, "typeId");
+        public Criteria andTypesLessThanOrEqualTo(String value) {
+            addCriterion("types <=", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIn(List<Integer> values) {
-            addCriterion("type_id in", values, "typeId");
+        public Criteria andTypesLike(String value) {
+            addCriterion("types like", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotIn(List<Integer> values) {
-            addCriterion("type_id not in", values, "typeId");
+        public Criteria andTypesNotLike(String value) {
+            addCriterion("types not like", value, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("type_id between", value1, value2, "typeId");
+        public Criteria andTypesIn(List<String> values) {
+            addCriterion("types in", values, "types");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("type_id not between", value1, value2, "typeId");
+        public Criteria andTypesNotIn(List<String> values) {
+            addCriterion("types not in", values, "types");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypesBetween(String value1, String value2) {
+            addCriterion("types between", value1, value2, "types");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypesNotBetween(String value1, String value2) {
+            addCriterion("types not between", value1, value2, "types");
             return (Criteria) this;
         }
 
