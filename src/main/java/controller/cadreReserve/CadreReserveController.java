@@ -351,6 +351,7 @@ public class CadreReserveController extends BaseController {
                                   Integer cadreId,
                                   String staffStatus,
                                   String isTemp,
+                                  String sortBy, // 自定义排序
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                                   Integer[] ids, // 导出的记录
@@ -388,7 +389,39 @@ public class CadreReserveController extends BaseController {
         if (reserveStatus == null || reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
             criteria.andReserveTypeEqualTo(reserveType);
 
-        example.setOrderByClause("reserve_sort_order asc");
+        String sortStr = "reserve_sort_order asc";
+        if(StringUtils.isNotBlank(sortBy)) {
+            switch (sortBy.trim()){
+                case "birth_asc":
+                    sortStr = "birth asc";
+                    break;
+                case "birth_desc":
+                    sortStr = "birth desc";
+                    break;
+                case "growTime":
+                    sortStr = "ow_grow_time asc, dp_grow_time asc";
+                    break;
+                case "arriveTime":
+                    sortStr = "arrive_time asc";
+                    break;
+                case "finishTime":
+                    sortStr = "finish_time asc";
+                    break;
+                case "npWorkTime_asc":
+                    sortStr = "np_work_time asc";
+                    break;
+                case "npWorkTime_desc":
+                    sortStr = "np_work_time desc";
+                    break;
+                case "sWorkTime_asc":
+                    sortStr = "s_work_time asc";
+                    break;
+                case "sWorkTime_desc":
+                    sortStr = "s_work_time desc";
+                    break;
+            }
+        }
+        example.setOrderByClause(sortStr);
 
         if (gender != null){
             criteria.andGenderEqualTo(gender);

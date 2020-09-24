@@ -151,10 +151,11 @@ public class OaGridPartyService extends OaBaseMapper {
 
     public void checkReportData(OaGridParty oaGridParty) {
 
-        if (StringUtils.isBlank(oaGridParty.getExcelFilePath()) ||
-                StringUtils.isBlank(oaGridParty.getFileName())
-                || StringUtils.isBlank(oaGridParty.getFilePath()))
-            throw new OpException("还没有上传报送文件，不可报送");
+        if (StringUtils.isBlank(oaGridParty.getExcelFilePath()))
+            throw new OpException("还没有上传结果文件，不可报送");
+
+        if (StringUtils.isBlank(oaGridParty.getFileName()) || StringUtils.isBlank(oaGridParty.getFilePath()))
+            throw new OpException("还没有上传签字文件，不可报送");
 
     }
 }

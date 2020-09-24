@@ -267,6 +267,33 @@
                                 </ul>
                             </div>
                             </c:if>
+                            <div class="pull-right hidden-sm hidden-xs">
+                                <select id="sortBy" data-placeholder="请选择排序方式" data-width="250">
+                                    <option></option>
+                                    <option value="birth_asc">按年龄排序(降序)</option>
+                                    <option value="birth_desc">按年龄排序(升序)</option>
+                                    <option value="npWorkTime_asc">按现职务始任年限排序(降序)</option>
+                                    <option value="npWorkTime_desc">按现职务始任年限排序(升序)</option>
+                                    <option value="sWorkTime_asc">按现职级年限排序(降序)</option>
+                                    <option value="sWorkTime_desc">按现职级年限排序(升序)</option>
+                                    <option value="growTime">按党派加入时间排序</option>
+                                    <option value="arriveTime">按到校日期排序</option>
+                                    <option value="finishTime">按毕业时间排序</option>
+                                </select>
+                                <script>
+                                    $("#sortBy").val('${param.sortBy}');
+                                    $("#searchForm input[name=sortBy]").val('${param.sortBy}');
+                                    $("#sortBy").select2({
+                                        theme: "default"
+                                    }).change(function () {
+                                        $("#searchForm input[name=sortBy]").val($(this).val());
+                                        $("#searchForm .jqSearchBtn").click();
+                                        if($(this).val()==''){
+                                            throw new Error();
+                                        }
+                                    })
+                                </script>
+                            </div>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -282,6 +309,7 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cols">
+                                        <input type="hidden" name="sortBy">
                                         <input name="reserveType" type="hidden" value="${reserveType}">
                                         <input name="reserveStatus" type="hidden" value="${reserveStatus}">
                                         <div class="columns">

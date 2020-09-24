@@ -57,50 +57,8 @@
 </div>
 <script>
 
-    var i = 1;
-    function addFile() {
-        i++;
-        var _file = $('<div id="file'+i+'"><input  class="form-control" type="file" name="_filePath" /></div>');
-        $(".files").append(_file);
-        var _fileButton = $('<div id="btn'+i+'" style="padding-top: 13px"><button type="button" data-i="'+i+'" onclick="delfileInput(this)"class="addFileBtn btn btn-default btn-xs"><i class="fa fa-trash"></i></button></div>');
-        $("#fileButton").append(_fileButton);
-        $.fileInput($('input[type=file]', $(_file)), {
-            no_file: '请上传pdf或图片...',
-            allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
-            allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-        });
-        return false;
-    }
-
-    function delfileInput(btn) {
-        var i = $(btn).data("i");
-        $("#file"+i).remove();
-        $("#btn"+i).remove();
-    }
-
-    $.fileInput($('#modalForm input[type=file]'), {
-        no_file: '请上传pdf或图片...',
-        allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    });
-
     function _pop_reload(){
         pop_reload();
         $(window).triggerHandler('resize.jqGrid');
     }
-    $("#submitBtn", "#modalForm").click(function () {
-        $("#modalForm").submit();
-        return false;
-    })
-    $("#modalForm").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success: function (ret) {
-                    if (ret.success) {
-                        _pop_reload();
-                    }
-                }
-            });
-        }
-    });
 </script>
