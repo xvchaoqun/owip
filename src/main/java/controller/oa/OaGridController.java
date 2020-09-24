@@ -59,7 +59,7 @@ public class OaGridController extends OaBaseController {
     public void oaGrid_data(HttpServletResponse response,
                             String name,
                             Byte status,
-                            @RequestParam(required = false, defaultValue = "1") Byte cls,//1使用中 2已完成 3删除
+                            @RequestParam(required = false, defaultValue = "1") Byte cls, //1使用中 2已完成 3删除
                             @RequestParam(required = false, defaultValue = "0") int export,
                             Integer[] ids, // 导出的记录
                             Integer pageSize, Integer pageNo)  throws IOException{
@@ -79,9 +79,13 @@ public class OaGridController extends OaBaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.trimLike(name));
         }
-        if (cls != null){
-            criteria.andStatusEqualTo(cls);
+
+        if (cls == 3){
+            criteria.andStatusEqualTo(OaConstants.OA_GRID_HASDELETED);
+        }else{
+            criteria.andStatusNotEqualTo(OaConstants.OA_GRID_HASDELETED);
         }
+
         if (status != null){
             criteria.andStatusEqualTo(status);
         }
@@ -188,7 +192,7 @@ public class OaGridController extends OaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions("oaGrid:list")
     @RequestMapping("/oaGrid_preview")
     public String oaGrid_preview(Integer id, Byte summary, ModelMap modelMap) throws IOException, InvalidFormatException {
 
@@ -232,7 +236,7 @@ public class OaGridController extends OaBaseController {
         return "oa/oaGrid/oaGrid_preview";
     }
 
-    @RequiresPermissions("oaGrid:edit")
+    @RequiresPermissions("oaGrid:list")
     @RequestMapping("/oaGrid_summaryExport")
     public void oaGrid_summaryExport(int id, HttpServletRequest request, HttpServletResponse response) throws IOException, InvalidFormatException {
 

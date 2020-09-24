@@ -84,7 +84,7 @@ pageEncoding="UTF-8" %>
                                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                                    placeholder="请输入">
                                         </div>
-                                        <div class="form-group">
+                                        <%--<div class="form-group">
                                             <label>状态</label>
                                             <select data-rel="select2" name="status" data-placeholder="请选择" data-width="120">
                                                 <option></option>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                                                 </c:forEach>
                                             </select>
                                             <script> $("#searchForm select[name=status]").val(${param.status}) </script>
-                                        </div>
+                                        </div>--%>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
                                                data-url="${ctx}/oa/oaGrid?cls=${param.cls}"
