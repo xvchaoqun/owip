@@ -32,7 +32,7 @@ left join
 on count1.branch_id=ob.id  left join (
 select obm.user_id, obm.types, ob.id as branch_id, su.realname, su.code from
 ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
- where obm.group_id=obmg.id and obmg.branch_id=ob.id and bmt.code='mt_branch_secretary' and obm.types like concat('%',bmt.id,'%')  and obm.user_id=su.id) tmp on tmp.branch_id=ob.id,  ow_party op , unit u
+ where obm.group_id=obmg.id and obmg.branch_id=ob.id and bmt.code='mt_branch_secretary' and find_in_set(bmt.id, obm.types) and obm.user_id=su.id) tmp on tmp.branch_id=ob.id,  ow_party op , unit u
 where ob.party_id=op.id and op.unit_id=u.id and ob.is_deleted=0 and op.is_deleted=0
 union all
 SELECT op.code as branch_code,  op.name as branch_name, 0 as branch_type, op.code as party_code, op.name as party_name, u.code as dep_code, u.name as dep_name, count2.member_count,tmp.code as sid, tmp.realname from ow_party op
@@ -58,7 +58,7 @@ left join (
 	select obm.user_id, obm.types, ob.id as branch_id, su.realname, su.code from
 	ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
  	where obm.group_id=obmg.id and obmg.branch_id=ob.id
- 	and bmt.code='mt_branch_secretary' and obm.types like concat('%',bmt.id,'%') and obm.user_id=su.id group by ob.id) zbsj on zbsj.branch_id=ob.id
+ 	and bmt.code='mt_branch_secretary' and find_in_set(bmt.id, obm.types) and obm.user_id=su.id group by ob.id) zbsj on zbsj.branch_id=ob.id
 left join(
  	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
 	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su

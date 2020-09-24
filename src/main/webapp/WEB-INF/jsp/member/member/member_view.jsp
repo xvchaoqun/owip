@@ -9,7 +9,6 @@
                     <a href="javascript:;" class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
-                   <%-- <i class="ace-icon fa fa-user"></i>学生党员个人信息--%>
                 </h4>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs" data-target="#partyMemberViewContent">
@@ -37,9 +36,11 @@
                                data-url="${ctx}/memberInfoForm_page?userId=${param.userId}">党员信息采集表</a>
                         </li>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="memberOutflow:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberOutflow_view?userId=${param.userId}">党员流出</a>
                         </li>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="memberOut:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberOut_view?userId=${param.userId}">组织关系转出</a>
@@ -50,11 +51,13 @@
                             <a href="javascript:;" data-url="${ctx}/memberTransfer_view?userId=${param.userId}">校内组织关系转接</a>
                         </li>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="memberStay:list">
                         <c:forEach items="<%=MemberConstants.MEMBER_STAY_TYPE_MAP%>" var="entry">
                             <li>
                                 <a href="javascript:;" data-url="${ctx}/memberStay_view?type=${entry.key}&userId=${param.userId}">${entry.value}申请组织关系暂留</a>
                             </li>
                         </c:forEach>
+                        </shiro:hasPermission>
                     </ul>
                 </div>
             </div>

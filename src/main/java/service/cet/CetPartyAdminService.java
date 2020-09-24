@@ -41,7 +41,6 @@ public class CetPartyAdminService extends CetBaseMapper {
         return cetPartyAdmins.size() > 0 ? cetPartyAdmins.get(0) : null;
     }
 
-    @SuppressWarnings("checkstyle:WhitespaceAround")
     @Transactional
     public void insertOrUpdate(int cetPartyId, int userId) {
 

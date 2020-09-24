@@ -11,7 +11,8 @@ public class OwAdmin {
     private Integer partyClassId;
     private Integer partyId;
     private Integer branchId;  // 分党委管理员为空
-    private Integer postId;
+    private Integer postId; // 分党委班子成员类型
+    private String types;  // 支委职务
     public String username;
     public String realname;
     public String code;
@@ -81,6 +82,14 @@ public class OwAdmin {
     public OwAdmin setPostId(Integer postId) {
         this.postId = postId;
         return this;
+    }
+
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
     }
 
     public String getUsername() {

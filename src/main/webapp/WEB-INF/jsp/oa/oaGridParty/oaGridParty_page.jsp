@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                                         data-open-by="page">
                                     <i class="fa fa-search"></i> 操作记录
                                 </button>
-                                <shiro:hasPermission name="oaGrid:edit">
+                                <shiro:hasPermission name="oaGrid:release">
                                     <button data-url="${ctx}/oa/oaGridParty_batchDel"
                                             data-title="删除"
                                             data-msg="确定删除这{0}条数据？（删除后不可恢复，请谨慎操作！）"

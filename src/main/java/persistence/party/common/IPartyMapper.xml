@@ -197,7 +197,7 @@
         select tmp.*, p.id as party_id, uv.username, uv.realname, uv.code from (
             select * from (
               <if test="oa.normal==null || oa.normal==false">
-                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.types as post_id, m.sort_order from
+                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.types, m.sort_order from
                 ow_branch_member m,
                 ow_branch_member_group mg
                 where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
@@ -206,7 +206,7 @@
                 union all
             </if>
             <if test="oa.normal==null || oa.normal==true">
-                select id, null as group_id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
+                select id, null as group_id, user_id, branch_id, null as types, null as sort_order from ow_org_admin where type=2
             </if>) t
             <!--混合查询时，忽略重复的其他管理员-->
             <if test="oa.normal==null">
@@ -217,13 +217,13 @@
         left join ow_branch b on b.id=tmp.branch_id
         left join ow_party p on p.id=b.party_id
         <include refid="BranchAdminSearchSql"/>
-        order by p.sort_order desc, b.sort_order desc, tmp.sort_order desc
+        order by p.sort_order desc, b.sort_order desc, sort_order desc
     </select>
     <select id="countBranchAdminList" parameterType="map" resultType="java.lang.Integer">
         select count(tmp.user_id) from (
               select * from (
               <if test="oa.normal==null || oa.normal==false">
-                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.types as post_id, m.sort_order from ow_branch_member m,
+                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.types, m.sort_order from ow_branch_member m,
                 ow_branch_member_group mg
                 where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
             </if>
@@ -231,7 +231,7 @@
                 union all
             </if>
             <if test="oa.normal==null || oa.normal==true">
-                select id, null as group_id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
+                select id, null as group_id, user_id, branch_id, null as types, null as sort_order from ow_org_admin where type=2
             </if>) t
             <!--混合查询时，忽略重复的其他管理员-->
             <if test="oa.normal==null">

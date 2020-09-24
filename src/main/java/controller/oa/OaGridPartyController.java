@@ -190,8 +190,8 @@ public class OaGridPartyController extends OaBaseController {
         return "oa/oaGridParty/oaGridParty_au";
     }
 
-    // 删除，权限使用oaGrid:edit
-    @RequiresPermissions("oaGrid:edit")
+    // 删除，权限使用oaGrid:release
+    @RequiresPermissions("oaGrid:release")
     @RequestMapping(value = "/oaGridParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map oaGridParty_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {

@@ -1231,9 +1231,7 @@ public class MemberController extends MemberBaseController {
             throw new UnauthorizedException();
         }
 
-        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
-            return "member/member/teacher_view";
-        return "member/member/student_view";
+        return "member/member/member_view";
     }
 
     private List<String> getTeacherExportTitles() {
