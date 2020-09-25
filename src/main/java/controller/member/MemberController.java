@@ -957,6 +957,8 @@ public class MemberController extends MemberBaseController {
                             Byte politicalStatus,
                             Byte gender,
                             Byte age,
+                            Integer startAge,
+                            Integer endAge,
                             String[] nation,
                             String[] nativePlace,
                             @RequestDateRange DateRange _growTime,
@@ -1059,7 +1061,18 @@ public class MemberController extends MemberBaseController {
                     break;
             }
         }
-
+        if (endAge != null) {
+            //  >= 不含（减一）
+            Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1));
+            Date brith_start=DateUtils.getFirstDayOfMonth(brith);
+            criteria.andBirthGreaterThanOrEqualTo(brith_start);
+        }
+        if (startAge != null) {
+            // <= 包含
+            Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge);
+            Date brith_end=DateUtils.getLastDayOfMonth(brith);
+            criteria.andBirthLessThanOrEqualTo(brith_end);
+        }
         if (StringUtils.isNotBlank(grade)) {
             criteria.andGradeLike(SqlUtils.trimLike(grade));
         }

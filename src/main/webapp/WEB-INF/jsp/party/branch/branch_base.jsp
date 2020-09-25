@@ -116,7 +116,10 @@ pageEncoding="UTF-8"%>
 						</c:if>${user.realname}</td>
 						<td class="bg-center">${user.code}</td>
 						<td class="bg-left">
-								${typeMap.get(branchMember.typeId).name}
+							<c:forEach items="${fn:split(branchMember.types, ',')}" var="typeId" varStatus="vs">
+								${cm:getMetaType(typeId).name}
+								${vs.last?"":"、"}
+							</c:forEach>
 						</td>
 					</tr>
 				</c:forEach>

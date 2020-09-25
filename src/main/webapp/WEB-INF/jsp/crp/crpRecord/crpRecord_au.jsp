@@ -254,13 +254,14 @@
             $("#userSelectsDiv").hide();
             $("select[name=cadreId]").attr("required", "required");
             $("select[name=userId]").removeAttr("required");
-
+            $("textarea[name=presentPost]").requireField(true);
         } else {
             $("#userSelectsDiv").show();
             $("#cadreSelectsDiv").hide();
 
             $("select[name=userId]").attr("required", "required");
             $("select[name=cadreId]").removeAttr("required");
+            $("textarea[name=presentPost]").requireField(false);
         }
     }
     $('input[name=isPresentCadre]').on('switchChange.bootstrapSwitch', function (event, state) {

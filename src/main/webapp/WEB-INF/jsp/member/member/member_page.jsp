@@ -16,7 +16,7 @@
              data-url-export="${ctx}/member_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
-             ||not empty param.age ||not empty param.gender||not empty selectNations||not empty param.nativePlace
+             ||not empty param.age ||not empty param.startAge ||not empty param.endAge||not empty param.gender||not empty selectNations||not empty param.nativePlace
              ||not empty param.eduLevel ||not empty param.eduType
              ||not empty param.education ||not empty param.postClass||not empty param.staffStatus
              ||not empty param._retireTime ||not empty param.isHonorRetire
@@ -195,6 +195,13 @@
                                             <script>
                                                 $("#searchForm select[name=age]").val('${param.age}');
                                             </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>起止年龄</label>
+                                            <div class="input-group">
+                                                <input class="num" type="text" name="startAge"
+                                                       value="${param.startAge}" style="width: 50px!important;"> 至 <input class="num" type="text" name="endAge" value="${param.endAge}" style="width: 50px!important;">
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>民族</label>

@@ -1,3 +1,7 @@
+-- 2020.09.25 sxx
+
+--  执行 /test/branch_member.jsp
+
 -- 2020.09.24 sxx
 ALTER TABLE `ow_branch_member`
 	DROP FOREIGN KEY `FK_ow_branch_member_base_meta_type`;
