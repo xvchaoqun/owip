@@ -7,6 +7,7 @@
 <%@ page import="java.util.HashSet" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,7 +15,7 @@
 </head>
 <body>
 <%
-    BranchMemberService BranchMemberService = CmTag.getBean(BranchMemberService.class);
+    BranchMemberService branchMemberService = CmTag.getBean(BranchMemberService.class);
     BranchMemberMapper branchMemberMapper = CmTag.getBean(BranchMemberMapper.class);
 
     List<BranchMember> branchMembers = branchMemberMapper.selectByExample(new BranchMemberExample());
@@ -28,14 +29,22 @@
             Set<String> types = new HashSet<>();
             for (BranchMember oldRecord : oldRecords) {
                 types.add(oldRecord.getTypes());
+                Date assignDate = oldRecord.getAssignDate();
+                if(assignDate!=null){
+                    if(branchMember.getAssignDate()==null){
+                        branchMember.setAssignDate(assignDate);
+                    }else if(branchMember.getAssignDate().after(assignDate)){
+                        branchMember.setAssignDate(assignDate);
+                    }
+                }
             }
             branchMember.setId(null);
             branchMember.setTypes(StringUtils.join(types,","));
 
-            BranchMemberService.insertSelective(branchMember,branchMember.getIsAdmin());
+            branchMemberService.insertSelective(branchMember,branchMember.getIsAdmin());
             Integer[] delIds = oldRecords.stream().map(BranchMember::getId).collect(Collectors.toList())
                     .stream().toArray(Integer[]::new);
-            BranchMemberService.batchDel(delIds);
+            branchMemberService.batchDel(delIds);
         }
     }
 %>

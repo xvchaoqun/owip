@@ -24,7 +24,7 @@ pageEncoding="UTF-8" %>
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=3"}><i class="fa fa-times"></i> 审批未通过(${cm:trimToZero(pm_denyCount)})</a>
                         </li>
-                        <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
+                        <div class="buttons pull-left" style="left:20px; position: relative">
                             <shiro:hasPermission name="pmMeeting2:edit">
                                 <button class="openView btn btn-info btn-sm"
                                         data-url="${ctx}/pmMeeting2_au?edit=true">

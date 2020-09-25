@@ -801,7 +801,7 @@
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
             <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.certNo==undefined) return '--'
+
                 if(!rowObject.isGraduate) return '--'
                 return $.button.modal({
                             style:"btn-success",

@@ -17,6 +17,7 @@ update sys_config set site_copyright = replace(site_copyright, @keyowrd, repeat(
 update sys_config set mobile_title = '组工系统';
 
 update cet_record set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+update cet_record set title = replace(title, @keyowrd, repeat('*', char_length(@keyowrd))) where title like concat('%',@keyowrd,'%');
 
 update cet_record set organizer = replace(organizer, @keyowrd, repeat('*', char_length(@keyowrd))) where organizer like concat('%',@keyowrd,'%');
 

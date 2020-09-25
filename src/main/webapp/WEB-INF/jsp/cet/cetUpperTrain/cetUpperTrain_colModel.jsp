@@ -117,7 +117,7 @@
     }},
     {label: '培训成绩', name: 'score'},
     {label: '是否<br/>结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 50},
-    <c:if test="${_p_cetSupportCert}">
+    <c:if test="${cls==1 && _p_cetSupportCert}">
     {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
         if(!rowObject.isGraduate) return '--'

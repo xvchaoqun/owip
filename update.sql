@@ -1,9 +1,12 @@
 
+20200924
+西工大
+
 ALTER TABLE `ow_branch_member`
 	DROP FOREIGN KEY `FK_ow_branch_member_base_meta_type`;
 ALTER TABLE `ow_branch_member`
 	CHANGE COLUMN `type_id` `types` VARCHAR(50) NOT NULL COMMENT '职务，关联元数据（书记、副书记、各类委员）,以逗号分隔' AFTER `user_id`;
--- 更新ow_branch_member_view,ext_branch_view,ext_branch_view2
+-- 更新 ow_branch_member_view,ext_branch_view,ext_branch_view2
 
 20200923
 西工大

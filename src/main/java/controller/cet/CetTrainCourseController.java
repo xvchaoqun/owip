@@ -106,12 +106,12 @@ public class CetTrainCourseController extends CetBaseController {
         CetTrainCourseExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order asc");
 
-        if(projectId!=null) { // 二级党委培训
+        if(trainId!=null) { // 党校培训
+
+            criteria.andTrainIdEqualTo(trainId);
+        }else if(projectId!=null) { // 二级党委培训
 
             criteria.andProjectIdEqualTo(projectId);
-
-        }else if(trainId!=null) { // 党校培训
-            criteria.andTrainIdEqualTo(trainId);
         }else{
             criteria.andIdIsNull();
         }
