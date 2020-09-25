@@ -179,7 +179,6 @@ public class BranchMemberService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, int groupId, int userId,Integer[] types) {
 
-        // 20190405注释 可能存在兼职情况
         {
             // 同一个人不可以在同一个委员会
             BranchMemberExample example = new BranchMemberExample();
