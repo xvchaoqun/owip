@@ -12,18 +12,19 @@ pageEncoding="UTF-8"%>
         <c:set var="sysUser" value="${cm:getUserById(branchMember.userId)}"/>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
-            <div class="col-xs-6 ${branchMember!=null?'label-text':''}">
                 <c:if test="${branchMember==null}">
+                    <div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/sysUser_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.username}</option>
                     </select>
+                    </div>
                 </c:if>
                 <c:if test="${branchMember!=null}">
-                     ${cm:getUserById(branchMember.userId).realname}(${cm:getUserById(branchMember.userId).code})
-                    <%--${sysUser.realname}(${sysUser.username})--%>
+                    <div class="col-xs-6 label-text">
+                    ${sysUser.realname}(${sysUser.username})
+                    </div>
                 </c:if>
-            </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>选择职务</label>
