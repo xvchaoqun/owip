@@ -2,13 +2,10 @@
 <%@ page import="persistence.party.BranchMemberMapper" %>
 <%@ page import="service.party.BranchMemberService" %>
 <%@ page import="sys.tags.CmTag" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashSet" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.stream.Collectors" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="org.apache.commons.lang3.BooleanUtils" %>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,7 +26,11 @@
         if(oldRecords.size()>1){
             Set<String> types = new HashSet<>();
             boolean isAdmin = false;
+            List<Integer> delIds = new ArrayList<>();
             for (BranchMember oldRecord : oldRecords) {
+
+                delIds.add(oldRecord.getId());
+
                 if(!isAdmin && BooleanUtils.isTrue(oldRecord.getIsAdmin())){
                     isAdmin = true;
                 }
@@ -48,9 +49,12 @@
             branchMember.setTypes(StringUtils.join(types,","));
 
             branchMemberService.insertSelective(branchMember,branchMember.getIsAdmin());
-            Integer[] delIds = oldRecords.stream().map(BranchMember::getId).collect(Collectors.toList())
-                    .stream().toArray(Integer[]::new);
-            branchMemberService.batchDel(delIds);
+            /*Integer[] delIds = oldRecords.stream().map(BranchMember::getId).collect(Collectors.toList())
+                    .stream().toArray(Integer[]::new);*/
+
+            if(delIds.size()>0) {
+                branchMemberService.batchDel(delIds.toArray(new Integer[]{}));
+            }
         }
     }
 %>
