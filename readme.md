@@ -53,7 +53,7 @@ select owner, column_name, data_type,data_length from all_tab_columns  where Tab
 (
 
 set @oldCadreId = 2054;
-set @newCadreId = 1932;
+set @newCadreId = 1932; // 变更的工号（即正确的工号）对应的干部档案id
 
 update cadre_work set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
 

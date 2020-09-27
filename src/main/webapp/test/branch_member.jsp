@@ -8,6 +8,7 @@
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.stream.Collectors" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="org.apache.commons.lang3.BooleanUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -27,7 +28,11 @@
         List<BranchMember> oldRecords = branchMemberMapper.selectByExample(example);
         if(oldRecords.size()>1){
             Set<String> types = new HashSet<>();
+            boolean isAdmin = false;
             for (BranchMember oldRecord : oldRecords) {
+                if(!isAdmin && BooleanUtils.isTrue(oldRecord.getIsAdmin())){
+                    isAdmin = true;
+                }
                 types.add(oldRecord.getTypes());
                 Date assignDate = oldRecord.getAssignDate();
                 if(assignDate!=null){
@@ -38,6 +43,7 @@
                     }
                 }
             }
+            branchMember.setIsAdmin(isAdmin);
             branchMember.setId(null);
             branchMember.setTypes(StringUtils.join(types,","));
 
