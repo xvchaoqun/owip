@@ -26,6 +26,12 @@
 
                 }, frozen: true
             },
+            {label: '职务', name: 'types', width: 150,formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--';
+                    return ($.map(cellvalue.split(","), function(typeId){
+                        return $.jgrid.formatter.MetaType(typeId);
+                    })).join("，")
+            }},
             <c:if test="${empty param.isHistory}">
             {label: '是否离任', name: 'isHistory', width: 80,
                 formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on: '已离任', off: '否'}, frozen: true},
@@ -62,12 +68,7 @@
                     return $.party(rowObject.groupPartyId, rowObject.groupBranchId);
                 }, frozen: true
             },
-            {label: '职务', name: 'types', width: 150,formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--';
-                    return ($.map(cellvalue.split(","), function(typeId){
-                        return $.jgrid.formatter.MetaType(typeId);
-                    })).join("，")
-            }},
+
             {label: '是否双带头人', name: 'isDoubleLeader', formatter: function (cellvalue, options, rowObject) {
 
                     var isShow = false;
