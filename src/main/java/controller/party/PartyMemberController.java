@@ -214,7 +214,7 @@ public class PartyMemberController extends BaseController {
             partyMemberService.insertSelective(record, autoAdmin);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加基层党组织成员：%s", record.getId()));
         } else {
-
+            record.setUserId(null);
             partyMemberService.updateByPrimaryKey(record, autoAdmin);
             logger.info(addLog(LogConstants.LOG_PARTY, "更新基层党组织成员：%s", record.getId()));
         }

@@ -160,7 +160,7 @@ public class BranchMemberController extends BaseController {
             branchMemberService.insertSelective(record, autoAdmin);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加支部成员：%s", record.getId()));
         } else {
-
+            record.setUserId(null);
             branchMemberService.updateByPrimaryKeySelective(record, autoAdmin);
             logger.info(addLog(LogConstants.LOG_PARTY, "更新支部成员：%s", record.getId()));
         }
