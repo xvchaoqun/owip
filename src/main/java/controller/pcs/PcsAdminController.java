@@ -1,6 +1,7 @@
 package controller.pcs;
 
 import controller.global.OpException;
+import domain.party.Branch;
 import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
@@ -21,7 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import persistence.party.common.OwAdmin;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
+import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -33,6 +39,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static sys.constants.PcsConstants.PCS_BRANCH_ADMIN;
+import static sys.constants.PcsConstants.PCS_PARTY_ADMIN;
 
 @Controller
 @RequestMapping("/pcs")
@@ -75,7 +84,7 @@ public class PcsAdminController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PcsAdminExample example = new PcsAdminExample();
-        Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
+        Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andCategoryEqualTo(PCS_PARTY_ADMIN);
         example.setOrderByClause("party_id asc");
 
         if (partyId != null) {
@@ -269,6 +278,125 @@ public class PcsAdminController extends PcsBaseController {
             logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会分党委管理员信息：%s", StringUtils.join(ids, ",")));
         }
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPartyList:admin")
+    @RequestMapping("/pcs_admin")
+    public String pcs_admin(Integer partyId,Integer branchId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        if (partyId != null || branchId != null) {
+            if (null == pageSize) {
+                pageSize = 5;
+            }
+            if (null == pageNo) {
+                pageNo = 1;
+            }
+            pageNo = Math.max(1, pageNo);
+
+            PcsAdminExample example = new PcsAdminExample();
+            Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andCategoryEqualTo(PCS_BRANCH_ADMIN);
+            if (partyId != null) {
+                criteria.andPartyIdEqualTo(partyId);
+            }
+            if (branchId != null) {
+                criteria.andBranchIdEqualTo(branchId);
+            }
+            modelMap.put("pcsBranch", pcsBranchService.get(configId,partyId,branchId));
+            long count = pcsAdminMapper.countByExample(example);
+
+            if ((pageNo - 1) * pageSize >= count) {
+                pageNo = Math.max(1, pageNo - 1);
+            }
+            List<PcsAdmin> records = pcsAdminMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            modelMap.put("pcsAdmins", records);
+
+            CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+            String searchStr = "&pageSize=" + pageSize;
+
+            if (partyId != null) {
+                searchStr += "&partyId=" + partyId;
+            }
+            if (branchId != null) {
+                searchStr += "&branchId=" + branchId;
+            }
+            commonList.setSearchStr(searchStr);
+            modelMap.put("commonList", commonList);
+        }
+        return "pcs/pcsAdmin/pcs_admin";
+    }
+
+    @RequiresPermissions("pcsPartyList:admin")
+    @RequestMapping(value = "/pcs_admin_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcs_admin_au(PcsAdmin record, HttpServletRequest request) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+
+        PartyHelper.checkAuth(partyId, branchId);
+        if(pcsAdminService.idDuplicate(record.getId(),record.getUserId(),partyId)){
+            throw new OpException("添加重复，已经是其他支部管理员。");
+        }
+
+        SysUserView sysUser = sysUserService.findById(record.getUserId());
+
+        // 没有"党代会-支部管理员"角色，则添加
+        if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_PCS_BRANCH)) {
+            sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PCS_BRANCH);
+        }
+
+        record.setConfigId(configId);
+        record.setCategory(PCS_BRANCH_ADMIN);
+        pcsAdminMapper.insertSelective(record);
+        /*logger.info(addLog(LogConstants.LOG_PARTY, "添加党支部管理员：%s， %s", uv.getCode(), branch.getName()));*/
+
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPartyList:admin")
+    @RequestMapping(value = "/pcs_admin_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcs_admin_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
+
+        if (id != null) {
+            PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
+            if (pcsAdmin != null) {
+                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                    if (pcsAdmin.getUserId().intValue() == loginUser.getId()) {
+                        return failed("不能删除自己");
+                    }
+                }
+                SysUserView uv = sysUserService.findById(pcsAdmin.getUserId());
+                Party party = null;
+                Integer partyId = pcsAdmin.getPartyId();
+                if (partyId != null) {
+
+                    party = partyService.findAll().get(partyId);
+                    PartyHelper.checkAuth(partyId);
+                }
+                Branch branch = null;
+                Integer branchId = pcsAdmin.getBranchId();
+                if (branchId != null) {
+
+                    branch = branchService.findAll().get(branchId);
+                    PartyHelper.checkAuth(branch.getPartyId(), branchId);
+                }
+
+                pcsAdminMapper.deleteByPrimaryKey(id);
+                logger.info(addLog(LogConstants.LOG_PARTY, "删除党组织管理员：%s, %s%s"
+                        , uv.getCode(), party == null ? "" : party.getName(), branch == null ? "" : branch.getName()));
+            }
+        }
         return success(FormUtils.SUCCESS);
     }
 }

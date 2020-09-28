@@ -4,6 +4,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.member.MemberView;
 import domain.pcs.*;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
@@ -150,8 +151,8 @@ public class PcsCandidateService extends PcsBaseMapper {
              record.setTitle(cv.getTitle());
         }
         if(StringUtils.isBlank(record.getTitle())){
-            SysUserView uv = cv.getUser();
-            record.setTitle(uv.getUnit());
+            SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+            record.setTitle(sysUserInfo.getUnit());
         }
         record.setGender(memberView.getGender());
         record.setNation(memberView.getNation());

@@ -169,7 +169,7 @@ public class PcsExportService extends PcsBaseMapper {
 
         // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null, true, new RowBounds());
 
         int branchCount = pcsBranchBeans.size();
         int memberCount = 0;
@@ -284,7 +284,7 @@ public class PcsExportService extends PcsBaseMapper {
 
         Party party = partyService.findAll().get(partyId);
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null,null,  null, new RowBounds());
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-3_5.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -386,7 +386,7 @@ public class PcsExportService extends PcsBaseMapper {
         Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
         // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null, true, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             Integer partyId = pcsBranchBean.getPartyId();
@@ -478,7 +478,7 @@ public class PcsExportService extends PcsBaseMapper {
         List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, partyId, true, new RowBounds());
 
         List<PcsBranchBean> pcsBranchBeans =
-                    iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+                    iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, null, new RowBounds());
 
         if(records.size()>0 && records.get(0).getReportId()!=null){
            Integer reportId=records.get(0).getReportId();

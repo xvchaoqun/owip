@@ -125,4 +125,15 @@ public class PcsConstants {
         RESULT_STATUS_MAP.put(RESULT_STATUS_ABSTAIN, "弃权");
         RESULT_STATUS_MAP.put(RESULT_STATUS_OTHER, "另选他人");
     }
+
+    //党代会管理员类别
+    public final static byte PCS_PARTY_ADMIN = 1;
+    public final static byte PCS_BRANCH_ADMIN = 2;
+    public final static Map<Byte, String> PCS_ADMIN_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        PCS_ADMIN_MAP.put(PCS_PARTY_ADMIN, "党代会分党委管理员");
+        PCS_ADMIN_MAP.put(PCS_BRANCH_ADMIN, "党代会支部管理员");
+    }
 }

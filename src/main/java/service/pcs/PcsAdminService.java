@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.party.common.OwAdmin;
-import service.base.MetaTypeService;
 import service.party.PartyAdminService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -23,17 +22,15 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static sys.constants.PcsConstants.PCS_BRANCH_ADMIN;
+import static sys.constants.PcsConstants.PCS_PARTY_ADMIN;
 
 @Service
 public class PcsAdminService extends PcsBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private MetaTypeService metaTypeService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -118,7 +115,7 @@ public class PcsAdminService extends PcsBaseMapper {
     }*/
 
     // 获取分党委管理员信息（每个用户最多只管理一个分党委）
-    public PcsAdmin getAdmin(int userId) {
+    public PcsAdmin getPartyAdmin(int userId) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
@@ -133,7 +130,7 @@ public class PcsAdminService extends PcsBaseMapper {
         pcsAdmin.setPartyId(partyId);
 
         PcsAdminExample example = new PcsAdminExample();
-        example.createCriteria().andConfigIdEqualTo(configId).andUserIdEqualTo(userId);
+        example.createCriteria().andConfigIdEqualTo(configId).andCategoryEqualTo(PCS_PARTY_ADMIN).andUserIdEqualTo(userId);
         List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
 
         if(pcsAdmins.size()>0){ // 如果还没录入管理员信息，则读取分党委管理员的信息
@@ -150,7 +147,26 @@ public class PcsAdminService extends PcsBaseMapper {
         return pcsAdmin;
     }
 
-    public boolean idDuplicate(Integer id, int userId) {
+    // 获取党代会支部管理员
+    public List<Integer> getBranchAdmin(int userId) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+
+        PcsAdminExample example = new PcsAdminExample();
+        example.createCriteria().andConfigIdEqualTo(configId).andUserIdEqualTo(userId).andCategoryEqualTo(PCS_BRANCH_ADMIN);
+        List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
+        List<Integer> ids=new ArrayList<>();
+        if (pcsAdmins.size() > 0){
+            for (PcsAdmin record : pcsAdmins) {
+                ids.add(record.getBranchId());
+            }
+        }
+        return ids;
+    }
+
+    public boolean idDuplicate(Integer id, int userId,Integer partyId) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
@@ -159,6 +175,7 @@ public class PcsAdminService extends PcsBaseMapper {
         PcsAdminExample.Criteria criteria =
                         example.createCriteria().andUserIdEqualTo(userId).andConfigIdEqualTo(configId);
         if (id != null) criteria.andIdNotEqualTo(id);
+        if (partyId != null) criteria.andPartyIdNotEqualTo(partyId);
 
         return pcsAdminMapper.countByExample(example) > 0;
     }
@@ -173,10 +190,10 @@ public class PcsAdminService extends PcsBaseMapper {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        if (idDuplicate(id, userId)) {
+        if (idDuplicate(id, userId,null)) {
 
             //在分党委管理员与党代会管理员信息中partyId不一致时，可以添加
-            PcsAdmin _pcsAdmin = getAdmin(userId);
+            PcsAdmin _pcsAdmin = getPartyAdmin(userId);
 
             PcsAdminExample example = new PcsAdminExample();
             PcsAdminExample.Criteria criteria =
@@ -201,6 +218,7 @@ public class PcsAdminService extends PcsBaseMapper {
 
         } else {
             record.setConfigId(configId);
+            record.setCategory(PCS_PARTY_ADMIN);
             pcsAdminMapper.insertSelective(record);
         }
     }

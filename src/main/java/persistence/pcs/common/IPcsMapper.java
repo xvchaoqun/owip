@@ -150,6 +150,7 @@ public interface IPcsMapper {
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
             @Param("branchId") Integer branchId,
+            @Param("branchIds") List<Integer> branchIds,
             @Param("isFinished") Boolean isFinished,
             RowBounds rowBounds);
     public int countPcsBranchBeanList(
@@ -157,6 +158,7 @@ public interface IPcsMapper {
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
             @Param("branchId") Integer branchId,
+            @Param("branchIds") List<Integer> branchIds,
             @Param("isFinished") Boolean isFinished);
 
     // 获取被推荐人都有哪些支部推荐了（只统计已上报的党支部，除直属党支部）

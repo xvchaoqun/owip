@@ -47,7 +47,7 @@ public class PcsPrListController extends PcsBaseController {
     @RequestMapping("/pcsPrList_export")
     public String pcsPrList_export(String file, HttpServletResponse response) throws IOException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
@@ -102,7 +102,7 @@ public class PcsPrListController extends PcsBaseController {
 
         if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
 
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
                 throw new UnauthorizedException();
             }
@@ -129,7 +129,7 @@ public class PcsPrListController extends PcsBaseController {
 
         byte stage = PcsConstants.PCS_STAGE_THIRD;
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
@@ -154,7 +154,7 @@ public class PcsPrListController extends PcsBaseController {
             ShiroHelper.checkPermission("pcsPrList:list");
         }
         if(partyId==null){
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
                 throw new UnauthorizedException();
             }
@@ -177,7 +177,7 @@ public class PcsPrListController extends PcsBaseController {
     @RequestMapping("/pcsPrList_report_page")
     public String pcsPrList_report_page( ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
 
@@ -199,7 +199,7 @@ public class PcsPrListController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsPrList_report() {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
@@ -240,7 +240,7 @@ public class PcsPrListController extends PcsBaseController {
     @RequestMapping("/pcsPrList_candidates")
     public String pcsPrList_candidates(ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
@@ -256,7 +256,7 @@ public class PcsPrListController extends PcsBaseController {
     public void do_pcsPrList_selectUser(Integer[] userIds,
                                          HttpServletResponse response) throws IOException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         Map<Integer, PcsPrCandidate> selectedMap = pcsPrCandidateService.findSelectedMap(configId,

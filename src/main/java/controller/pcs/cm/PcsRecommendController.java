@@ -41,6 +41,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import static sys.constants.MemberConstants.*;
+import static sys.constants.PcsConstants.PCS_BRANCH_ADMIN;
 import static sys.constants.PcsConstants.PCS_USER_TYPE_MAP;
 
 @Controller
@@ -52,22 +53,31 @@ public class PcsRecommendController extends PcsBaseController {
     @RequiresPermissions("pcsRecommend:list")
     @RequestMapping("/pcsRecommend")
     public String pcsRecommend( byte stage,Integer branchId, ModelMap modelMap) {
-
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        int partyId = pcsAdmin.getPartyId();
-
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        PcsParty pcsParty = pcsPartyService.get(pcsConfig.getId(), partyId);
-        if(pcsParty!=null) {
-            modelMap.put("isDirectBranch", pcsParty.getIsDirectBranch());
+        Integer configId = pcsConfig.getId();
+        Integer userId = ShiroHelper.getCurrentUserId();
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(userId);
+        Integer partyId = null;
+        if(pcsAdmin!=null){
+            partyId = pcsAdmin.getPartyId();
+            PcsParty pcsParty = pcsPartyService.get(pcsConfig.getId(), partyId);
+            if(pcsParty!=null) {
+                modelMap.put("isDirectBranch", pcsParty.getIsDirectBranch());
+            }
+        }else{
+            PcsAdminExample example = new PcsAdminExample();
+            example.createCriteria().andConfigIdEqualTo(configId).andUserIdEqualTo(userId).andCategoryEqualTo(PCS_BRANCH_ADMIN);
+            List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
+            if(pcsAdmins.size()>0){
+                partyId =  pcsAdmins.get(0).getPartyId();
+            }
         }
         modelMap.put("partyId", partyId);
-
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId, pcsConfig.getId(), stage));
         if(branchId!=null){
             modelMap.put("branch", branchService.findAll().get(branchId));
         }
 
-        modelMap.put("allowModify", pcsPartyService.allowModify(partyId, pcsConfig.getId(), stage));
 
         return "pcs/pcsRecommend/pcsRecommend_page";
     }
@@ -81,9 +91,15 @@ public class PcsRecommendController extends PcsBaseController {
                                   Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
-        int partyId = pcsAdmin.getPartyId();
+        Integer partyId = null;
+        List<Integer> branchIds=new ArrayList<>();
+        if(pcsAdmin!=null){
+            partyId = pcsAdmin.getPartyId();
+        }else{
+            branchIds = pcsAdminService.getBranchAdmin(ShiroHelper.getCurrentUserId());
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -93,13 +109,13 @@ public class PcsRecommendController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeanList(configId, stage, partyId, branchId, null);
+        int count = iPcsMapper.countPcsBranchBeanList(configId, stage, partyId, branchId, branchIds, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, branchId, null,
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, branchId, branchIds, null,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -129,9 +145,16 @@ public class PcsRecommendController extends PcsBaseController {
         }else {
             ShiroHelper.checkPermission("pcsRecommend:edit");
 
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-            if (pcsAdmin.getPartyId() != partyId) {
-                throw new UnauthorizedException();
+            PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
+            if(pcsAdmin!=null){
+                if(pcsAdmin.getPartyId() != partyId){
+                    throw new UnauthorizedException();
+                }
+            }else{
+                List<Integer> branchIds = pcsAdminService.getBranchAdmin(ShiroHelper.getCurrentUserId());
+                if(branchIds.size()>0 && !branchIds.contains(branchId)){
+                    throw new UnauthorizedException();
+                }
             }
 
             // for test
@@ -158,11 +181,17 @@ public class PcsRecommendController extends PcsBaseController {
     @RequestMapping("/pcsRecommend_au")
     public String pcsRecommend_au(byte stage, int partyId, Integer branchId, ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if(pcsAdmin.getPartyId() != partyId){
-            throw new UnauthorizedException();
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
+        if(pcsAdmin!=null){
+            if(pcsAdmin.getPartyId() != partyId){
+                throw new UnauthorizedException();
+            }
+        }else{
+           List<Integer> branchIds = pcsAdminService.getBranchAdmin(ShiroHelper.getCurrentUserId());
+            if(branchIds.size()>0 && !branchIds.contains(branchId)){
+                throw new UnauthorizedException();
+            }
         }
-
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
@@ -249,7 +278,7 @@ public class PcsRecommendController extends PcsBaseController {
                                                    MultipartFile xlsx,
                                                    ModelMap modelMap) throws IOException, InvalidFormatException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
 
         if (!ShiroHelper.isPermitted("pcsOw:admin")
                 &&(pcsAdmin!=null&&pcsAdmin.getPartyId() != partyId)) {
@@ -367,7 +396,7 @@ public class PcsRecommendController extends PcsBaseController {
     @RequestMapping(value = "/pcsRecommend_sync", method = RequestMethod.POST)
     @ResponseBody
     public void pcsRecommend_sync(byte stage,HttpServletResponse response) throws IOException {
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();

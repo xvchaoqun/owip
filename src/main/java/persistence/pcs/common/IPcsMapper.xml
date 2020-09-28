@@ -256,6 +256,12 @@
             <if test="branchId!=null">
                 and pb.branch_id=#{branchId}
             </if>
+            <if test="branchIds != null and branchIds.size > 0">
+                and pb.branch_id in
+                <foreach collection="branchIds" open="(" close = ")" item = "branchId" separator=",">
+                    #{branchId}
+                </foreach>
+            </if>
             <if test="isFinished!=null">
                 and pr.is_finished=#{isFinished}
             </if>

@@ -264,7 +264,7 @@ public class PcsPollController extends PcsBaseController {
 
         if(ShiroHelper.lackRole(RoleConstants.ROLE_ODADMIN)){
 
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if(pcsAdmin==null ||pcsAdmin.getPartyId()!=partyId){
                 return failed("没有权限");
             }
