@@ -58,6 +58,7 @@
                 'data-url="${ctx}/pmd/pmdOrder_query?sn={0}&code={1}"><i class="fa fa-search"></i> 查询支付接口</button>')
                         .format(rowObject.sn, rowObject.payer);
             }},
+            <shiro:hasPermission name="pmdOw:closeTrade">
             { label: '关闭订单',name: '_close', width:150, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isSuccess) return '--'
                 if(rowObject.isClosed) return '已关闭'
@@ -65,6 +66,7 @@
                 'data-callback="_reload2" data-url="${ctx}/pmd/pmdOrder_closeTrade?sn={0}"><i class="fa fa-close"></i> 关闭订单</button>')
                         .format(rowObject.sn);
             }},
+            </shiro:hasPermission>
             { label: '支付人',name: 'payername'},
             { label: '支付账号',name: 'payer', width:120},
             /*{ label: '缴费人账号类型',name: 'payertype', width:150, formatter: function (cellvalue, options, rowObject) {

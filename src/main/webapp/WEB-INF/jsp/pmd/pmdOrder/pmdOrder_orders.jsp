@@ -29,7 +29,9 @@
                 <td>${o.isClosed?'已关闭':'正常'}</td>
                 <td>
                     <c:if test="${!o.isSuccess && !o.isClosed}">
+                        <shiro:hasPermission name="pmdOw:closeTrade">
                         <button class="btn btn-danger btn-xs" onclick="_closeTrade('${o.sn}')">关闭订单</button>
+                        </shiro:hasPermission>
                     </c:if>
                     <c:if test="${o.isBatch}">
                         (批量代缴)

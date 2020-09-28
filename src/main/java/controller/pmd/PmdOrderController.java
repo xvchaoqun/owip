@@ -97,7 +97,7 @@ public class PmdOrderController extends PmdBaseController {
         return;
     }
     
-    @RequiresPermissions("pmdOw:admin")
+    @RequiresPermissions("pmdOw:closeTrade")
     @RequestMapping(value = "/pmdOrder_closeTrade", method = RequestMethod.POST)
     @ResponseBody
     public Map pmdOrder_closeTrade(String sn, HttpServletRequest request) throws IOException {
