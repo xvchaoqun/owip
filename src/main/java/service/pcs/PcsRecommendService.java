@@ -38,7 +38,7 @@ public class PcsRecommendService extends PcsBaseMapper {
     public PcsBranchBean get(int partyId, Integer branchId, int configId, byte stage) {
 
         List<PcsBranchBean> pcsRecommends = iPcsMapper.selectPcsBranchBeanList(configId, stage,
-                partyId, branchId, null, new RowBounds());
+                partyId, branchId, null,null, new RowBounds());
 
         return (pcsRecommends.size()>0)?pcsRecommends.get(0):null;
     }
@@ -145,7 +145,8 @@ public class PcsRecommendService extends PcsBaseMapper {
             _pcsCandidate.setPositiveVote(formBean.getPositiveVote());
             _pcsCandidate.setAddTime(now);
 
-            if(_pcsCandidate.getPositiveVote().intValue()>_pcsCandidate.getVote()){
+            if(_pcsCandidate.getPositiveVote()!=null && _pcsCandidate.getVote()!=null &&
+                    _pcsCandidate.getPositiveVote().intValue()>_pcsCandidate.getVote()){
 
                 SysUserView uv = CmTag.getUserById(userId);
                 throw new OpException("数据有误，委员（{0}）推荐提名的正式党员数大于推荐提名的党员数", uv.getRealname());

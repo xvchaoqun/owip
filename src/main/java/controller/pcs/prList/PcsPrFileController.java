@@ -4,7 +4,6 @@ import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.pcs.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -46,7 +45,7 @@ public class PcsPrFileController extends PcsBaseController {
 
         if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
 
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
                 throw new UnauthorizedException();
             }
@@ -81,7 +80,7 @@ public class PcsPrFileController extends PcsBaseController {
 
         if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
 
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
                 throw new UnauthorizedException();
             }
@@ -103,7 +102,7 @@ public class PcsPrFileController extends PcsBaseController {
     public Map do_pcsPrFile_au(PcsPrFile record, MultipartFile _file,
                                       HttpServletRequest request) throws IOException, InterruptedException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }

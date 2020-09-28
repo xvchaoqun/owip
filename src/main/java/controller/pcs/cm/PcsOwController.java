@@ -160,7 +160,7 @@ public class PcsOwController extends PcsBaseController {
 
         // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null,true, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             Integer partyId = pcsBranchBean.getPartyId();
@@ -280,7 +280,7 @@ public class PcsOwController extends PcsBaseController {
 
         // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null,true, new RowBounds());
         // 非直属党支部的分党委ID - 已推荐支部ID<SET>
         Map<Integer, Set<Integer>> recommendPartyIdMap = new HashMap<>();
         // 直属党支部ID<SET>
@@ -555,13 +555,13 @@ public class PcsOwController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeanList(configId, stage, partyId, branchId, null);
+        int count = iPcsMapper.countPcsBranchBeanList(configId, stage, partyId, branchId, null,null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, branchId, null,
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, branchId, null,null,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

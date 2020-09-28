@@ -31,6 +31,7 @@ public class RoleConstants {
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会-组织部管理员
     public static final String ROLE_PCS_ADMIN2 = "role_pcs_admin2"; // 党代会-组织部管理员（党代表）
+    public static final String ROLE_PCS_BRANCH = "role_pcs_branch"; // 党代会-支部管理员
     public static final String ROLE_PCS_PR = "role_pcs_pr"; // 党代表
     public static final String ROLE_PCS_VOTE_DW = "role_pcs_vote_dw"; // 党代会-两委选举-党委录入
     public static final String ROLE_PCS_VOTE_JW = "role_pcs_vote_jw"; // 党代会-两委选举-纪委录入

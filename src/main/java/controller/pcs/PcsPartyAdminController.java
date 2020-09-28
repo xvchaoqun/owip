@@ -36,7 +36,7 @@ public class PcsPartyAdminController extends PcsBaseController {
     @RequestMapping("/pcsPartyAdmin")
     public String pcsPartyAdmin(ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
@@ -72,7 +72,7 @@ public class PcsPartyAdminController extends PcsBaseController {
             return failed("手机号码有误："+ mobile);
         }
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null || !partyMemberService.isPartySecretary(pcsAdmin.getUserId(), pcsAdmin.getPartyId())) {
 
         }
@@ -119,7 +119,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         PcsAdmin admin = pcsAdminMapper.selectByPrimaryKey(id);
         if (admin == null) return success();
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null || !partyMemberService.isPartySecretary(pcsAdmin.getUserId(), pcsAdmin.getPartyId())
                 || admin.getPartyId().intValue() != pcsAdmin.getPartyId()) {
             throw new UnauthorizedException();

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.utils.ContextHelper;
 
 import java.util.ArrayList;
@@ -46,6 +47,14 @@ public class PcsPartyService extends PcsBaseMapper {
         // 组织部已经下发该阶段名单之后，则分党委不可修改数据
         if(pcsOwService.hasIssue(configId, stage)) return false;
 
+        if(stage== PcsConstants.PCS_STAGE_SECOND && !pcsOwService.hasIssue(configId, PcsConstants.PCS_STAGE_FIRST)){
+            return false;
+        }
+
+        if(stage== PcsConstants.PCS_STAGE_THIRD && !pcsOwService.hasIssue(configId, PcsConstants.PCS_STAGE_SECOND)){
+            return false;
+        }
+
         // 分党委已经报送，不可以修改数据
         PcsAdminReportExample example = new PcsAdminReportExample();
         example.createCriteria().andPartyIdEqualTo(partyId)
@@ -59,7 +68,7 @@ public class PcsPartyService extends PcsBaseMapper {
     public List<PcsBranchBean> notFinishedPcsBranchBeans(int partyId, int configId, byte stage){
         List<PcsBranchBean> records = new ArrayList<>();
         List<PcsBranchBean> pcsBranchBeans = iPcsMapper
-                .selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+                .selectPcsBranchBeanList(configId, stage, partyId, null, null,null, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             if(BooleanUtils.isNotTrue(pcsBranchBean.getIsFinished())) records.add(pcsBranchBean);
@@ -81,7 +90,7 @@ public class PcsPartyService extends PcsBaseMapper {
 
         // 归档各支部的党员数量
         List<PcsBranchBean> pcsBranchBeans = iPcsMapper
-                .selectPcsBranchBeanList(configId, stage, partyId, null, true, new RowBounds());
+                .selectPcsBranchBeanList(configId, stage, partyId, null, null, true, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             PcsRecommend record = new PcsRecommend();

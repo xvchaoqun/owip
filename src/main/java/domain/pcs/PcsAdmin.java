@@ -17,6 +17,10 @@ public class PcsAdmin implements Serializable {
 
     private Integer partyId;
 
+    private Integer branchId;
+
+    private Byte category;
+
     private Integer userId;
 
     private String unit;
@@ -49,6 +53,22 @@ public class PcsAdmin implements Serializable {
 
     public void setPartyId(Integer partyId) {
         this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public Byte getCategory() {
+        return category;
+    }
+
+    public void setCategory(Byte category) {
+        this.category = category;
     }
 
     public Integer getUserId() {

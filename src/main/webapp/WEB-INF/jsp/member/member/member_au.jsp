@@ -213,7 +213,8 @@
     </div>
 </form>
 <div class="clearfix form-actions center">
-        <button class="btn btn-info" type="submit">
+        <button class="btn btn-info" type="submit"
+                data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
             <i class="ace-icon fa fa-check bigger-110"></i>
             提交
         </button>
@@ -251,6 +252,7 @@
     });
     $("#memberForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#body-content-view button[type=submit]").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
@@ -259,6 +261,7 @@
                         $.hideView();
                         //});
                     }
+                    $btn.button('reset');
                 }
             });
         }

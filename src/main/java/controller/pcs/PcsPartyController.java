@@ -175,7 +175,7 @@ public class PcsPartyController extends PcsBaseController {
     @RequestMapping("/pcsParty_export")
     public String pcsParty_export(String file, byte stage, Byte type, HttpServletResponse response) throws IOException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
@@ -238,14 +238,14 @@ public class PcsPartyController extends PcsBaseController {
     @RequestMapping("/pcsParty_branch_table_page")
     public String pcsParty_branch_table_page(byte stage,ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
+        List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null,null, new RowBounds());
         modelMap.put("records", records);
 
         return "pcs/pcsParty/pcsParty_branch_table_page";
@@ -255,7 +255,7 @@ public class PcsPartyController extends PcsBaseController {
     @RequestMapping("/pcsParty_report_page")
     public String pcsParty_report_page(byte stage, ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
 
@@ -275,7 +275,7 @@ public class PcsPartyController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsParty_report_check(byte stage) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
@@ -296,7 +296,7 @@ public class PcsPartyController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsParty_report(byte stage) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
@@ -326,7 +326,7 @@ public class PcsPartyController extends PcsBaseController {
                                             Integer pageSize, Integer pageNo) throws IOException {
 
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }

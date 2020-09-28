@@ -394,7 +394,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null, true, new RowBounds());
 
         for (PcsBranchBean bean : pcsBranchBeans) {
 
@@ -424,7 +424,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         // 获得完成推荐的支部（含直属党支部）（与两委统计数据保持一致）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null, true, new RowBounds());
 
         int memberCount = 0;
         int studentMemberCount = 0;

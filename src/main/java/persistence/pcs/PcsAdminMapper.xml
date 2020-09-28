@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="category" jdbcType="TINYINT" property="category" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -69,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, config_id, party_id, user_id, unit, mobile, remark
+    id, config_id, party_id, branch_id, category, user_id, unit, mobile, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsAdminExample" resultMap="BaseResultMap">
     select
@@ -102,12 +104,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsAdmin">
-    insert into pcs_admin (id, config_id, party_id, 
-      user_id, unit, mobile, 
+    insert into pcs_admin (id, config_id, party_id,  branch_id, category,
+      user_id, unit, mobile,
       remark)
-    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER},
+      #{branchId,jdbcType=INTEGER}, #{category,jdbcType=TINYINT},#{userId,jdbcType=INTEGER},
+      #{unit,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsAdmin">
     insert into pcs_admin
@@ -120,6 +122,12 @@
       </if>
       <if test="partyId != null">
         party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="category != null">
+        category,
       </if>
       <if test="userId != null">
         user_id,
@@ -143,6 +151,12 @@
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=TINYINT},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -176,6 +190,12 @@
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=TINYINT},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
@@ -198,6 +218,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       config_id = #{record.configId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=TINYINT},
       user_id = #{record.userId,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -214,6 +236,12 @@
       </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=TINYINT},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -234,6 +262,8 @@
     update pcs_admin
     set config_id = #{configId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
+       branch_id = #{branchId,jdbcType=INTEGER},
+      category = #{category,jdbcType=TINYINT},
       user_id = #{userId,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

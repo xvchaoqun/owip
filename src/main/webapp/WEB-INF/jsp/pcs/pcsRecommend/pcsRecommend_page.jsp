@@ -17,13 +17,14 @@
                     ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                     ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
 
-                <shiro:hasPermission name="pcsPoll:list">
-                <button id="syncBtn" class="btn btn-info btn-sm"
-                ${!allowModify?"disabled":""}><i class="fa fa-refresh "></i> 同步汇总各党支部${param.stage==PCS_STAGE_FIRST?"“一下”":""}
-                    ${param.stage==PCS_STAGE_SECOND?"“二下”":""}
-                    ${param.stage==PCS_STAGE_THIRD?"“三下”":""}结果</button>
-                </shiro:hasPermission>
-                
+                <shiro:hasAnyRoles name="${ROLE_PARTYADMIN}">
+                    <shiro:hasPermission name="pcsPoll:list">
+                    <button id="syncBtn" class="btn btn-info btn-sm"
+                    ${!allowModify?"disabled":""}><i class="fa fa-refresh "></i> 同步汇总各党支部${param.stage==PCS_STAGE_FIRST?"“一下”":""}
+                        ${param.stage==PCS_STAGE_SECOND?"“二下”":""}
+                        ${param.stage==PCS_STAGE_THIRD?"“三下”":""}结果</button>
+                    </shiro:hasPermission>
+                </shiro:hasAnyRoles>
                 <c:if test="${param.stage==PCS_STAGE_FIRST}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="750"

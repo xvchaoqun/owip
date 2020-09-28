@@ -288,7 +288,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
         PcsPrCandidate candidate = new PcsPrCandidate();
         if(userId==null) return candidate;
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         Map<Integer, PcsPrCandidate> selectedMap = pcsPrCandidateService.findSelectedMap(configId, stage, partyId);

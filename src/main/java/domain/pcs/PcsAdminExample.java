@@ -284,6 +284,126 @@ public class PcsAdminExample {
             return (Criteria) this;
         }
 
+        public Criteria andBranchIdIsNull() {
+            addCriterion("branch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIsNotNull() {
+            addCriterion("branch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdEqualTo(Integer value) {
+            addCriterion("branch_id =", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotEqualTo(Integer value) {
+            addCriterion("branch_id <>", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThan(Integer value) {
+            addCriterion("branch_id >", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_id >=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThan(Integer value) {
+            addCriterion("branch_id <", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_id <=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIn(List<Integer> values) {
+            addCriterion("branch_id in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotIn(List<Integer> values) {
+            addCriterion("branch_id not in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id not between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNull() {
+            addCriterion("category is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNotNull() {
+            addCriterion("category is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryEqualTo(Byte value) {
+            addCriterion("category =", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotEqualTo(Byte value) {
+            addCriterion("category <>", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThan(Byte value) {
+            addCriterion("category >", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThanOrEqualTo(Byte value) {
+            addCriterion("category >=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThan(Byte value) {
+            addCriterion("category <", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThanOrEqualTo(Byte value) {
+            addCriterion("category <=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIn(List<Byte> values) {
+            addCriterion("category in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotIn(List<Byte> values) {
+            addCriterion("category not in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryBetween(Byte value1, Byte value2) {
+            addCriterion("category between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotBetween(Byte value1, Byte value2) {
+            addCriterion("category not between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;
