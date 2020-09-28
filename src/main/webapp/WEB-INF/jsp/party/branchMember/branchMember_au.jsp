@@ -22,6 +22,7 @@ pageEncoding="UTF-8"%>
                 </c:if>
                 <c:if test="${branchMember!=null}">
                     <div class="col-xs-6 label-text">
+                        <input type="hidden" name="userId" value="${sysUser.id}">
                     ${sysUser.realname}(${sysUser.username})
                     </div>
                 </c:if>

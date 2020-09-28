@@ -423,8 +423,10 @@ public class SysUserController extends BaseController {
             SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
             modelMap.put("ui", ui);
 
-            SyncStatus userSync = new SyncStatus(ui.getSync());
-            modelMap.put("userSync", userSync);
+            if(ui!=null) {
+                SyncStatus userSync = new SyncStatus(ui.getSync());
+                modelMap.put("userSync", userSync);
+            }
 
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
             modelMap.put("sysUser", sysUser);

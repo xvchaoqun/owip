@@ -21,6 +21,7 @@
 
         <c:if test="${partyMember!=null}">
           <div class="col-xs-6 label-text">
+              <input type="hidden" name="userId" value="${uv.id}">
               ${uv.realname}(${uv.code})
           </div>
         </c:if>

@@ -1,21 +1,15 @@
+20200928
+南航
+
+-- 更新 utils
+
 20200927
+西工大，北航
 
 --  执行 /test/branch_member.jsp
 
 20200924
 西工大
-
-ALTER TABLE `ow_branch_member`
-	DROP FOREIGN KEY `FK_ow_branch_member_base_meta_type`;
-ALTER TABLE `ow_branch_member`
-	CHANGE COLUMN `type_id` `types` VARCHAR(50) NOT NULL COMMENT '职务，关联元数据（书记、副书记、各类委员）,以逗号分隔' AFTER `user_id`;
--- 更新 ow_branch_member_view,ext_branch_view,ext_branch_view2
-
-20200923
-西工大
--- 删除 pcs.cm.PcsPartyController
-
-20200922
 
 update ow_party_member_group set is_deleted=1  where is_deleted=0 and is_present=0
 and party_id in(select * from (select party_id from ow_party_member_group where is_deleted=0 group by party_id having count(*)>1)tmp);
@@ -34,14 +28,23 @@ ALTER TABLE `ow_party_member_group`
 ALTER TABLE `ow_branch_member_group`
 	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `sort_order`,
 	DROP COLUMN `is_present`;
+
+-- 执行 /test/party_admin.jsp
+
+-- 更新导入样表
+
+ALTER TABLE `ow_branch_member`
+	CHANGE COLUMN `type_id` `types` VARCHAR(50) NOT NULL COMMENT '类别，关联元数据（书记、副书记、各类委员）' AFTER `user_id`,
+	DROP INDEX `FK_ow_branch_member_base_meta_type`,
+	DROP FOREIGN KEY `FK_ow_branch_member_base_meta_type`;
+
 -- 更新 ow_party_member_group_view  ow_party_member_view
 -- ow_branch_member_group_view   ow_branch_member_view
 -- ow_party_view  ow_branch_view
 -- ext_branch_view  ext_branch_view2
 
--- 执行 /test/party_admin.jsp
 
--- 更新导入样表
+-- 删除 pcs.cm.PcsPartyController
 
 20200921
 
@@ -162,23 +165,19 @@ VALUES ('pcsPrWhiteList', '党代表白名单', ' ', '1', '77', '所有分党委
 20200909
 西工大， 戏曲
 
-ALTER TABLE `pm_meeting2`
-	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '附件地址' AFTER `file_name`;
-ALTER TABLE `pm_meeting2`
-	CHANGE COLUMN `file_name` `file_name` TEXT NULL DEFAULT NULL COMMENT '附件名称' AFTER `recorder`;
-
-
-20200908
-
 ALTER TABLE `cet_plan_course_obj`
 	ADD COLUMN `period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '完成学时数，针对上级网上专题班, 自主学习' AFTER `is_finished`;
 
 update cet_plan_course_obj o, (select plan_course_obj_id, sum(period) period from cet_plan_course_obj_result group by plan_course_obj_id) r
 set o.period=r.period where o.id=r.plan_course_obj_id;
 
-20200907
+ALTER TABLE `pm_meeting2`
+	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '附件地址' AFTER `file_name`;
+ALTER TABLE `pm_meeting2`
+	CHANGE COLUMN `file_name` `file_name` TEXT NULL DEFAULT NULL COMMENT '附件名称' AFTER `recorder`;
 
--- 更新 jx.ext.jar
+
+
 
 20200907
 南航
