@@ -60,7 +60,7 @@
                                     <div class="col-xs-6">
                                         <select required data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
                                             <option></option>
-                                            <c:import url="/metaTypes?__code=mc_sc_letter_reply_type"/>
+                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_letter_reply_type').id}"/>
                                         </select>
                                         <script type="text/javascript">
                                             $("#modalForm select[name=type]").val(${scLetterReply.type});
@@ -145,7 +145,7 @@
             <td style="text-align: left">
                 <select data-rel="select2" class="content" data-placeholder="请选择" data-width="240">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_sc_letter_reply_content"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_letter_reply_content').id}"/>
                 </select>
             </td>
         </tr>

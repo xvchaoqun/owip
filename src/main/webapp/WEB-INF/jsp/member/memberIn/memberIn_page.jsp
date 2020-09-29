@@ -136,7 +136,7 @@
                                             <label>类别</label>
                                                 <select data-rel="select2" name="type" data-width="120" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__code=mc_member_in_out_type"/>
+                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_member_in_out_type').id}"/>
                                                 </select>
                                                 <script>
                                                     $("#searchForm select[name=type]").val(${param.type});

@@ -168,9 +168,13 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">审核意见</label>
                                     <div class="col-xs-8 label-text" style="font-size: 15px;">
-                                        <div class="input-group">
-                                            <input type="checkbox" class="big" value="1"/> 通过审核
-                                            <input type="checkbox" class="big" value="2"/> 未通过审核
+                                        <div class="input-group" >
+                                            <%--<input type="checkbox" class="big" value="1"/> 通过审核
+                                            <input type="checkbox" class="big" value="2"/> 未通过审核--%>
+                                            <input  required name="type" type="radio" class="ace" value="1"/>
+                                            <span class="lbl" style="padding-right: 5px;"> 通过审核</span>
+                                            <input  required name="type" type="radio" class="ace" value="2"/>
+                                            <span class="lbl" style="padding-right: 5px;"> 未通过审核</span>
                                         </div>
                                     </div>
                                 </div>
@@ -223,11 +227,7 @@
     $("#approvalForm").validate({
         submitHandler: function (form) {
 
-            var type = $('#approvalForm input[type=checkbox]:checked').val();
-            if (type != 1 && type != 2) {
-                SysMsg.warning("请选择审核意见");
-                return;
-            }
+            var type = $('#approvalForm input[type=radio]:checked').val();
 
             $(form).ajaxSubmit({
                 data: {pass: (type == 1)},

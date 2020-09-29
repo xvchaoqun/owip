@@ -60,6 +60,7 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
+                                <input type="hidden" name="metaClassId" value="${metaClassId}">
                                         <div class="form-group">
                                             <label>名称</label>
                                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
@@ -116,13 +117,15 @@
             </shiro:hasPermission>
         ]
     }).jqGrid("setFrozenColumns");
+  /*  $("#jqGrid").jqGrid('setSelection',${metaClassId});*/
     $(window).triggerHandler('resize.jqGrid');
-
-    function openView(classId, pageNo){
-        pageNo = pageNo||1;
-        $.loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
+    $.register.date($('.date-picker'));
+    function openView(){
+        $.loadModal( "${ctx}/metaClass_type?id="+${metaClassId} + "&pageNo=1",
             '<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">600</shiro:lacksPermission>');
     }
 
-    $.register.date($('.date-picker'));
+    if(${metaClassId!=null}){
+       openView();
+    }
 </script>

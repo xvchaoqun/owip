@@ -69,7 +69,7 @@
                                                 <select required data-rel="select2" data-width="240"
                                                         name="type" data-placeholder="请选择">
                                                     <option></option>
-                                                    <jsp:include page="/metaTypes?__code=mc_sc_group_topic_type"/>
+                                                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_group_topic_type').id}"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#modalForm select[name=type]").val(${scGroupTopic.type});
@@ -195,7 +195,7 @@
                                             <select required data-rel="select2" data-width="273"
                                                     name="scType" data-placeholder="请选择">
                                                 <option></option>
-                                                <jsp:include page="/metaTypes?__code=mc_sc_type"/>
+                                                <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_type').id}"/>
                                             </select>
                                             <script type="text/javascript">
                                                 $("#modalForm select[name=scType]").val(${scGroupTopic.scType});

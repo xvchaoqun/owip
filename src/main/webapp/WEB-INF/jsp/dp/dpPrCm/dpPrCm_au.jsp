@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
                 <select required data-width="270" class="form-control" name="type" data-rel="select2"
                         data-placeholder="请选择分类">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_dp_prcm_type"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_prcm_type').id}"/>
                 </select>
                 <script>
                     $("#modalForm select[name=type]").val('${dpPrCm.type}');

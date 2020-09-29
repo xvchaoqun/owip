@@ -25,7 +25,7 @@
                 <select required class="col-xs-6" required name="type" data-width="270"
                         data-rel="select2" data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_sc_shift"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_shift').id}"/>
                 </select>
                 <script type="text/javascript">
                     $("#modalForm select[name=type]").val(${scShift.type});

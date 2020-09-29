@@ -158,13 +158,13 @@
                 <div class="form-group">
                     <label>行政级别</label>
                         <select class="multiselect" multiple="" name="adminLevels">
-                            <c:import url="/metaTypes?__code=mc_admin_level"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                         </select>
                 </div>
                 <div class="form-group">
                     <label>职务属性</label>
                         <select class="multiselect" multiple="" name="postTypes">
-                            <c:import url="/metaTypes?__code=mc_post"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                         </select>
                 </div>
                 <div class="form-group">

@@ -1287,8 +1287,8 @@ $(document).on("select2:close", '[data-rel="select2"], [data-rel="select2-ajax"]
     $(':focus').blur();
      var el = $(this);
     if(el.val()==="__NEW") {
-		var code = el.find("option:selected").data("code");
-        window.open("#/metaClass?code="+code, "_blank")
+		var id = el.find("option:selected").data("id");
+        window.open("#/metaClass?metaClassId="+id/*, "_blank"*/)
         $(this).val(null).change();
     }
 });

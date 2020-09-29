@@ -195,7 +195,7 @@
                             data-width="235"
                             data-placeholder="请选择">
                         <option></option>
-                        <c:import url="/metaTypes?__code=mc_member_add_type"/>
+                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_member_add_type').id}"/>
                     </select>
                     <script type="text/javascript">
                         $("#memberForm select[name=addType]").val('${member.addType}');

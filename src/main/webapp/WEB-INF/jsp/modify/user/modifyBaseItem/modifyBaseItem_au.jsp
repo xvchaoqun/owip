@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
                             <select required data-rel="select2" name="modifyValue"
                                     data-placeholder="请选择" data-width="162">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_health"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_health').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("select[name=modifyValue]").val('${record.modifyValue}');
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
                                     data-placeholder="请选择" data-width="162">
                                 <option></option>
                                 <option value="0">中共党员</option>
-				                <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+				                <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_democratic_party').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("select[name=modifyValue]").val('${record.modifyValue}');

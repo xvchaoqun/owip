@@ -29,7 +29,7 @@
                         <div class="col-xs-3">
                             <select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_family_title"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_family_title').id}"/>
                             </select>
                             <script>
                                 $("#modal select[name=title]").val("${cadreFamily.title}");
@@ -66,7 +66,7 @@
                             <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"
                                     data-width="125">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_political_status"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_political_status').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#modal form select[name=politicalStatus]").val(${cadreFamily.politicalStatus});

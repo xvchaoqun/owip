@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,18 +34,19 @@ public class MetaTypeController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/metaTypes")
-    public String metaTypes(String __code, String extraAttr, ModelMap modelMap) {
-
+    public String metaTypes(Integer __id, String extraAttr, ModelMap modelMap) {
+        MetaClass  metaClass = metaClassMapper.selectByPrimaryKey(__id);
         if (StringUtils.isNotBlank(extraAttr)) {
             List<MetaType> metaTypes = new ArrayList<>();
-            for (MetaType metaType : metaTypeService.metaTypes(__code).values()) {
+
+            for (MetaType metaType : metaTypeService.metaTypes(metaClass.getCode()).values()) {
                 if (StringUtils.equals(extraAttr, metaType.getExtraAttr())) {
                     metaTypes.add(metaType);
                 }
             }
             modelMap.put("metaTypes", metaTypes);
         } else {
-            modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
+            modelMap.put("metaTypes", metaTypeService.metaTypes(metaClass.getCode()).values());
         }
 
         return "base/metaType/metaTypes";

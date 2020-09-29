@@ -22,7 +22,7 @@
 						<select data-rel="select2" name="eduId"
 								data-placeholder="请选择" data-width="193">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_edu"/>
+							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_edu').id}"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=eduId]").val(${dpEdu.eduId});
@@ -133,7 +133,7 @@
 						<select required data-rel="select2" name="learnStyle"
 								data-placeholder="请选择" data-width="193">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_learn_style"/>
+							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_learn_style').id}"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=learnStyle]").val(${dpEdu.learnStyle});

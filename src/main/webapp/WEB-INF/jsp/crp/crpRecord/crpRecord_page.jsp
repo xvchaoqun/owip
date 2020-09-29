@@ -161,7 +161,7 @@
                                                 <select required data-rel="select2" name="toUnitType"
                                                         data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__code=${unitCode}"/>
+                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode(unitCode).id}"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=toUnitType]").val(${param.toUnitType});
@@ -173,7 +173,7 @@
                                             <select required data-rel="select2" name="tempPostType"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:import url="/metaTypes?__code=${postCode}"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode(postCode).id}"/>
                                             </select>
                                             <script type="text/javascript">
                                                 $("#searchForm select[name=tempPostType]").val(${param.tempPostType});

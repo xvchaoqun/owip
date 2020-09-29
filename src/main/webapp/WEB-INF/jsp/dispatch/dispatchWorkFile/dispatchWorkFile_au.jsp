@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-
+<c:set var="mc_dwf_work_type" value="mc_dwf_work_type_${cm:getMetaType(type).extraAttr}"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${dispatchWorkFile!=null}">编辑</c:if><c:if test="${dispatchWorkFile==null}">添加</c:if>干部工作文件
@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select data-rel="select2" name="unitType" data-placeholder="请选择" data-width="270">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_dwf_unit_type"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_unit_type').id}"/>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=unitType]").val('${dispatchWorkFile.unitType}');
@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select data-rel="select2" name="workType" data-placeholder="请选择" data-width="270">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_dwf_work_type_${cm:getMetaType(type).extraAttr}"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_work_type').id}"/>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=workType]").val('${dispatchWorkFile.workType}');
@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select required name="privacyType" data-placeholder="请选择" data-width="270">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_dwf_privacy_type"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_privacy_type').id}"/>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=privacyType]").val('${dispatchWorkFile.privacyType}');

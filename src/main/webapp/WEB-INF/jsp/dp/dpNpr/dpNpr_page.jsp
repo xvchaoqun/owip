@@ -119,7 +119,7 @@ pageEncoding="UTF-8" %>
                                 <label>所属类别</label>
                                 <select data-width="180" name="type" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_dp_npr_type"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_npr_type').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=type]").val('${param.type}');     </script>
                             </div>
@@ -127,7 +127,7 @@ pageEncoding="UTF-8" %>
                                 <label>所属级别</label>
                                 <select data-width="180" name="level" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_dp_npr_level"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_npr_level').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=level]").val('${param.level}');     </script>
                             </div>

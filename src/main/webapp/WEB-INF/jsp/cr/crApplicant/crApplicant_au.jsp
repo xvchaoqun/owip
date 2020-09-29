@@ -57,7 +57,7 @@ pageEncoding="UTF-8"%>
 						  <select ${empty cadre?"":"disabled"} data-rel="select2" data-width="100"
 									name="eva" id="eva_${y}" data-placeholder="请选择">
 								<option></option>
-								<c:import url="/metaTypes?__code=mc_cadre_eva"/>
+								<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_eva').id}"/>
 							</select>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						  </span>

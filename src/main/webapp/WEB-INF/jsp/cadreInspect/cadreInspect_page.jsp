@@ -119,7 +119,7 @@ pageEncoding="UTF-8" %>
                                                 <label>行政级别</label>
                                                     <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
                                                         <option></option>
-                                                        <jsp:include page="/metaTypes?__code=mc_admin_level"/>
+                                                        <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                                                     </select>
                                                     <script type="text/javascript">
                                                         $("#searchForm select[name=adminLevel]").val(${param.adminLevel});
@@ -129,7 +129,7 @@ pageEncoding="UTF-8" %>
                                                 <label>职务属性</label>
                                                     <select data-rel="select2" name="postType" data-placeholder="请选择职务属性">
                                                         <option></option>
-                                                        <jsp:include page="/metaTypes?__code=mc_post"/>
+                                                        <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                                                     </select>
                                                     <script type="text/javascript">
                                                         $("#searchForm select[name=postType]").val(${param.postType});

@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label"><span class="star">*</span>选择职务</label>
             <div class="col-xs-6">
                 <select required class="multiselect" multiple="" data-width="272" name="types">
-                    <jsp:include page="/metaTypes?__code=mc_branch_member_type"/>
+                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_branch_member_type').id}"/>
                 </select>
                 <script>
 

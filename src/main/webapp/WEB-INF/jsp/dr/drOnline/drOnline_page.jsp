@@ -122,7 +122,7 @@ pageEncoding="UTF-8" %>
                             <label>推荐类型</label>
                             <select data-width="230" name="type" data-rel="select2" data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_dr_type"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dr_type').id}"/>
                             </select>
                             <script>         $("#searchForm select[name=type]").val('${param.type}');     </script>
                         </div>

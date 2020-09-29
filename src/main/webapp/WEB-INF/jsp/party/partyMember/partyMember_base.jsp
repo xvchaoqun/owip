@@ -563,7 +563,7 @@
                                                     data-placeholder="请选择">
                                                 <option></option>
                                                 <option value="0">中共党员</option>
-                                                <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+                                                <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_democratic_party').id}"/>
                                             </select>
                                         </c:if>
                                     </c:if>
@@ -677,7 +677,7 @@
                                     <select required data-rel="select2" name="health"
                                             data-placeholder="请选择" data-width="162">
                                         <option></option>
-                                        <c:import url="/metaTypes?__code=mc_health"/>
+                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_health').id}"/>
                                     </select>
                                     <script type="text/javascript">
                                         $("select[name=health]").val('${uv.health}');

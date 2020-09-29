@@ -46,10 +46,12 @@ public class MetaClassController extends BaseController {
     @RequestMapping("/metaClass")
     public String metaClass(@RequestParam(required = false, defaultValue = "1") int cls,
                             @RequestParam(required = false, defaultValue = "0")Boolean isDeleted,
+                            Integer metaClassId,
                             ModelMap modelMap) {
 
         modelMap.put("cls",cls);
         modelMap.put("isDeleted",isDeleted);
+        modelMap.put("metaClassId",metaClassId);
         return "base/metaClass/metaClass_page";
     }
 
@@ -61,7 +63,7 @@ public class MetaClassController extends BaseController {
                                HttpServletRequest request,
                                @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,
-                               String name, String code,
+                               Integer metaClassId,String name, String code,
                                @RequestParam(required = false, defaultValue = "0")Boolean isDeleted,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer[] ids, // 导出的记录
@@ -78,7 +80,9 @@ public class MetaClassController extends BaseController {
         MetaClassExample example = new MetaClassExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
-
+        if (metaClassId != null) {
+            criteria.andIdEqualTo(metaClassId);
+        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }

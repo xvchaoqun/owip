@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">支部类型</label>
 				<div class="col-xs-8">
 					<select class="multiselect" multiple="" name="types" data-width="372" data-placeholder="请选择">
-                        <c:import url="/metaTypes?__code=mc_branch_type"/>
+                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_branch_type').id}"/>
                     </select>
                     <script type="text/javascript">
                         $.register.multiselect($('#modalForm select[name=types]'), '${branch.types}'.split(","));
@@ -114,7 +114,7 @@ pageEncoding="UTF-8"%>
 							data-width="120"
 							data-rel="select2" data-placeholder="请选择单位属性">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_branch_unit_type"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_branch_unit_type').id}"/>
 					</select>
 					<script>
 						$("#modalForm select[name=unitTypeId]").val('${branch.unitTypeId}');

@@ -58,7 +58,7 @@
                 <div class="col-xs-8">
                     <select required data-rel="select2" name="originalJob" data-width="100%" data-placeholder="请选择">
                         <option></option>
-                        <c:import url="/metaTypes?__code=mc_job"/>
+                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_job').id}"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=originalJob]").val("${memberInflow.originalJob}");

@@ -61,7 +61,7 @@
                                     <label>兼审单位职务属性</label>
                                     <select required data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                                         <option></option>
-                                        <jsp:include page="/metaTypes?__code=mc_post"/>
+                                        <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                                     </select>
                                     <script>
                                         $("#searchForm select[name=postId]").val('${param.postId}');

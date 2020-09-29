@@ -24,7 +24,7 @@
                 style="width: 250px;">
             <option value="-1">非中共党员</option>
             <option value="0">中共党员</option>
-            <c:import url="/metaTypes?__code=mc_democratic_party"/>
+            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_democratic_party').id}"/>
             <shiro:hasRole name="${ROLE_SUPER}">
                 <option value="-2">空</option>
             </shiro:hasRole>
@@ -67,7 +67,7 @@
         <div class="input">
             <select class="multiselect" multiple="" name="labels"
                     data-placeholder="请选择">
-                <c:import url="/metaTypes?__code=mc_cadre_label"/>
+                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_label').id}"/>
             </select>
         </div>
     </div>
@@ -79,7 +79,7 @@
             <select data-rel="select2" data-width="100" name="state"
                     data-placeholder="请选择">
                 <option></option>
-                <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_state').id}"/>
             </select>
             <script type="text/javascript">
                 $("#searchForm select[name=state]").val(${param.state});
@@ -103,7 +103,7 @@
     <label>部门属性</label>
     <div class="input">
         <select class="multiselect" multiple="" name="unitTypes">
-            <c:import url="/metaTypes?__code=mc_unit_type"/>
+            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_unit_type').id}"/>
         </select>
     </div>
 </div>
@@ -189,7 +189,7 @@
     <label>行政级别</label>
     <div class="input">
         <select class="multiselect" multiple="" name="adminLevels">
-            <c:import url="/metaTypes?__code=mc_admin_level"/>
+            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
         </select>
     </div>
 </div>
@@ -197,7 +197,7 @@
     <label>最高学历</label>
     <div class="input">
         <select class="multiselect" multiple="" name="maxEdus">
-            <c:import url="/metaTypes?__code=mc_edu"/>
+            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_edu').id}"/>
             <option value="-1">无(仅查询无最高学历的干部)</option>
         </select>
     </div>
@@ -231,7 +231,7 @@
     <label>职务属性</label>
     <div class="input">
         <select class="multiselect" multiple="" name="postTypes">
-            <c:import url="/metaTypes?__code=mc_post"/>
+            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
         </select>
     </div>
 </div>
@@ -329,7 +329,7 @@
         <input ${param.andWorkTypes!=1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="0">并集)</label>
     <div class="input">
         <select class="multiselect" multiple="" name="workTypes" data-placeholder="请选择">
-            <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
+            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_work_type').id}"/>
         </select>
     </div>
 </div>

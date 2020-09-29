@@ -92,7 +92,7 @@
                                                 <label>获奖类型</label>
                                                 <select name="rewardType" data-rel="select2" data-placeholder="请选择获奖类型">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__code=mt_party_reward"/>
+                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mt_party_reward').id}"/>
                                                 </select>
                                                 <script>         $("#searchForm select[name=rewardType]").val('${param.rewardType}');     </script>
 

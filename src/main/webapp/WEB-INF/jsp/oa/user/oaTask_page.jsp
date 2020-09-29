@@ -59,7 +59,7 @@
                                                     data-width="150"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:import url="/metaTypes?__code=mc_oa_task_type"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_oa_task_type').id}"/>
                                             </select>
                                             <script>
                                                 $("#searchForm select[name=type]").val('${param.type}');

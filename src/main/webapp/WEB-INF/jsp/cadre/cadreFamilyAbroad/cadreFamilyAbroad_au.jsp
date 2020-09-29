@@ -57,7 +57,7 @@
                         data-width="273"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_abroad_type"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_abroad_type').id}"/>
                 </select>
                 <script type="text/javascript">
                     $("#modal form select[name=type]").val(${cadreFamilyAbroad.type});

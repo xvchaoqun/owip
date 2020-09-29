@@ -109,19 +109,19 @@
                                         <div class="form-group">
                                             <label>任免方式</label>
                                                 <select class="multiselect" multiple="" name="wayId" data-placeholder="请选择">
-                                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
+                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_way').id}"/>
                                                 </select>
                                         </div>
                                         <div class="form-group">
                                             <label>任免程序</label>
                                                 <select class="multiselect" multiple="" name="procedureId" data-placeholder="请选择">
-                                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
+                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_procedure').id}"/>
                                                 </select>
                                         </div>
                                         <div class="form-group">
                                             <label>行政级别</label>
                                                 <select class="multiselect" multiple="" name="adminLevel" data-placeholder="请选择">
-                                                    <c:import url="/metaTypes?__code=mc_admin_level"/>
+                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                                                 </select>
                                         </div>
                                         <div class="form-group">

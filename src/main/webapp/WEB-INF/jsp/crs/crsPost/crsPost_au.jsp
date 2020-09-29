@@ -90,7 +90,7 @@
                         <select required data-rel="select2" data-width="273"
                                 name="adminLevel" data-placeholder="请选择行政级别">
                             <option></option>
-                            <jsp:include page="/metaTypes?__code=mc_admin_level"/>
+                            <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                         </select>
                         <script type="text/javascript">
                             $("#modalForm select[name=adminLevel]").val(${crsPost.adminLevel});

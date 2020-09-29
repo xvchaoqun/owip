@@ -153,7 +153,7 @@
                                                 <label>原职业</label>
                                                 <select data-rel="select2" name="originalJob" data-placeholder="请选择">
                                                     <option></option>
-                                                    <jsp:include page="/metaTypes?__code=mc_job"/>
+                                                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_job').id}"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=originalJob]").val(${param.originalJob});
@@ -163,7 +163,7 @@
                                                 <label>外出流向</label>
                                                 <select data-rel="select2" name="direction" data-placeholder="请选择">
                                                     <option></option>
-                                                    <jsp:include page="/metaTypes?__code=mc_flow_direction"/>
+                                                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_flow_direction').id}"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=direction]").val(${param.direction});

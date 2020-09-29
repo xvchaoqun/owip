@@ -255,7 +255,7 @@
                         <select data-rel="select2" name="health"
                                 data-placeholder="请选择" data-width="162">
                             <option></option>
-                            <c:import url="/metaTypes?__code=mc_health"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_health').id}"/>
                         </select>
                         <script type="text/javascript">
                             $("select[name=health]").val('${ui.health}');

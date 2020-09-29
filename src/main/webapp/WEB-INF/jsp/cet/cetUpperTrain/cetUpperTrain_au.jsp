@@ -97,7 +97,7 @@
                     <div class="col-xs-7">
                         <select  data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="252">
                             <option></option>
-                            <jsp:include page="/metaTypes?__code=mc_post"/>
+                            <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                         </select>
                         <script type="text/javascript">
                             $("#modalForm select[name=postType]").val(${cetUpperTrain.postType});
@@ -174,7 +174,7 @@
                     <div class="col-xs-7">
                         <select required data-rel="select2" name="organizer" data-width="252" data-placeholder="请选择">
                             <option></option>
-                            <c:import url="/metaTypes?__code=mc_cet_upper_train_organizer"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_upper_train_organizer').id}"/>
                             <option value="0">其他</option>
                         </select>
                         <script type="text/javascript">
@@ -249,7 +249,7 @@
                     <div class="col-xs-8">
                         <div class="input-group">
                             <select class="multiselect" multiple="" name="category" data-width="223" data-placeholder="请选择">
-                                <c:import url="/metaTypes?__code=mc_cet_project_category"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_project_category').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $.register.multiselect($('#modalForm select[name=category]'), '${cetUpperTrain.category}'.split(","));
@@ -263,7 +263,7 @@
                     <div class="col-xs-7">
                         <select required data-rel="select2" name="trainType" data-width="252" data-placeholder="请选择">
                             <option></option>
-                            <c:import url="/metaTypes?__code=mc_cet_upper_train_type"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_upper_train_type').id}"/>
                         </select>
                         <script type="text/javascript">
                             $("#modalForm select[name=trainType]").val(${cetUpperTrain.trainType});

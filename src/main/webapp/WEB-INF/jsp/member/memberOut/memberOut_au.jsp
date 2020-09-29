@@ -94,7 +94,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-width="180" data-placeholder="请选择"  >
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
+							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_member_in_out_type').id}"/>
 						</select>
 						<script>
 							$("#modalForm select[name=type]").val(${memberOut.type});

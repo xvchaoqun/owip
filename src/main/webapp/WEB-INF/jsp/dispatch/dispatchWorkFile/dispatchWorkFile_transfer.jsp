@@ -24,7 +24,7 @@
             <div class="col-xs-4">
                 <select required data-rel="select2" name="type" data-placeholder="请选择" data-width="273">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_work_file_type&extraAttr=${cm:getMetaType(param.type).extraAttr}"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_work_file_type').id}&extraAttr=${cm:getMetaType(param.type).extraAttr}"/>
                 </select>
             </div>
         </div>

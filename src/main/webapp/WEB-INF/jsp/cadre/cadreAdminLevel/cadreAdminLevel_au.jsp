@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required data-rel="select2" name="adminLevel" data-placeholder="请选择">
                         <option></option>
-                        <c:import url="/metaTypes?__code=mc_admin_level"/>
+                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                     </select>
                     <script type="text/javascript">
                         $("#modal form select[name=adminLevel]").val(${cadreAdminLevel.adminLevel});

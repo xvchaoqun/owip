@@ -25,7 +25,7 @@
                                     <label>行政级别</label>
                                     <div class="input">
                                         <select class="multiselect" multiple="" name="adminLevels">
-                                            <c:import url="/metaTypes?__code=mc_admin_level"/>
+                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                                         </select>
                                     </div>
                                 </div>
@@ -35,7 +35,7 @@
                                         <div class="input">
                                             <select class="multiselect" multiple="" name="labels"
                                                     data-placeholder="请选择">
-                                                <c:import url="/metaTypes?__code=mc_cadre_label"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_label').id}"/>
                                             </select>
                                         </div>
                                     </div>

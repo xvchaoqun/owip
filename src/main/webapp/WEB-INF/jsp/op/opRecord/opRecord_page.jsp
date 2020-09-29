@@ -63,7 +63,7 @@ pageEncoding="UTF-8" %>
                                 <label>行政级别</label>
                                 <select data-width="300" name="adminLevel" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_admin_level"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=adminLevel]").val('${param.adminLevel}');     </script>
                             </div>
@@ -71,7 +71,7 @@ pageEncoding="UTF-8" %>
                                 <label>组织处理方式</label>
                                 <select data-width="300" name="type" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_op_type"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=type]").val('${param.type}');     </script>
                             </div>
@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
                                 <label>针对问题-函询</label>
                                 <select data-width="300" name="issue" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_op_type_ask"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type_ask').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=issue]").val('${param.issue}');     </script>
                             </div>
@@ -87,7 +87,7 @@ pageEncoding="UTF-8" %>
                                 <label>针对问题-提醒</label>
                                 <select data-width="300" name="issue" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_op_type_remind"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type_remind').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=issue]").val('${param.issue}');     </script>
                             </div>
@@ -95,7 +95,7 @@ pageEncoding="UTF-8" %>
                                 <label>针对问题-诫勉</label>
                                 <select data-width="300" name="issue" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_op_type_encourage"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type_encourage').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=issue]").val('${param.issue}');     </script>
                             </div>
@@ -103,7 +103,7 @@ pageEncoding="UTF-8" %>
                                 <label>开展方式</label>
                                 <select data-width="300" name="way" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_op_way"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_way').id}"/>
                                 </select>
                                 <script>         $("#searchForm select[name=way]").val('${param.way}');     </script>
                             </div>

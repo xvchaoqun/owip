@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="mc_dwf_work_type" value="mc_dwf_work_type_${cm:getMetaType(param.type).extraAttr}"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -94,7 +95,7 @@
                                         <div class="form-group">
                                             <label>发文单位</label>
                                             <select class="multiselect" multiple="" name="unitTypes">
-                                                <c:import url="/metaTypes?__code=mc_dwf_unit_type"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_unit_type').id}"/>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -112,13 +113,13 @@
                                         <div class="form-group">
                                             <label>所属专项工作</label>
                                             <select class="multiselect" multiple="" name="workTypes">
-                                                <c:import url="/metaTypes?__code=mc_dwf_work_type_${cm:getMetaType(param.type).extraAttr}"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_work_type').id}"/>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>保密级别</label>
                                             <select class="multiselect" multiple="" name="privacyTypes">
-                                                <c:import url="/metaTypes?__code=mc_dwf_privacy_type"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_privacy_type').id}"/>
                                             </select>
                                         </div>
                                         <div class="clearfix form-actions center">

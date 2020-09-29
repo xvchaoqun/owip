@@ -77,7 +77,7 @@
                                     <div class="col-xs-6">
                                         <select data-rel="select2" id="_resultType" data-placeholder="请选择" data-width="240">
                                             <option></option>
-                                            <c:import url="/metaTypes?__code=mc_sc_matter_check_result_type"/>
+                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_matter_check_result_type').id}"/>
                                         </select>
                                         <div class="space-4"></div>
                                         <input class="form-control" type="text" name="resultType"
@@ -131,7 +131,7 @@
                                     <div class="col-xs-6">
                                         <select data-rel="select2" id="_handleType" data-placeholder="请选择" data-width="240">
                                             <option></option>
-                                            <c:import url="/metaTypes?__code=mc_sc_matter_check_handle_type"/>
+                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_matter_check_handle_type').id}"/>
                                         </select>
                                         <div class="space-4"></div>
                                         <textarea class="form-control noEnter" name="handleType" rows="3">${scMatterCheckItem.handleType}</textarea>

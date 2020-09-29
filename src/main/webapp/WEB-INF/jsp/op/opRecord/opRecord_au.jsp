@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 					<select data-rel="select2" name="adminLevel"
 							data-width="272" data-placeholder="请选择">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_admin_level"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=adminLevel]").val(${opRecord.adminLevel});
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 					<select required data-width="270" class="form-control" name="type" data-rel="select2"
 						data-placeholder="请选择组织处理方式">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_op_type"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type').id}"/>
 					</select>
 					<script>
 						$("#modalForm select[name=type]").val('${opRecord.type}');
@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
 			<select data-width="270" class="form-control" name="issue" data-rel="select2"
 					data-placeholder="请选择针对问题">
 				<option></option>
-				<c:import url="/metaTypes?__code=mc_op_type_ask"/>
+				<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type_ask').id}"/>
 			</select>
 			<script>
 				$("#modalForm select[name=issue]").val('${opRecord.issue}');
@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
 				<select data-width="270" class="form-control" name="issue" data-rel="select2"
 						data-placeholder="请选择针对问题">
 					<option></option>
-					<c:import url="/metaTypes?__code=mc_op_type_remind"/>
+					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type_remind').id}"/>
 				</select>
 				<script>
 					$("#modalForm select[name=issue]").val('${opRecord.issue}');
@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 				<select data-width="270" class="form-control" name="issue" data-rel="select2"
 						data-placeholder="请选择针对问题">
 					<option></option>
-					<c:import url="/metaTypes?__code=mc_op_type_encourage"/>
+					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_type_encourage').id}"/>
 				</select>
 				<script>
 					$("#modalForm select[name=issue]").val('${opRecord.issue}');
@@ -114,7 +114,7 @@ pageEncoding="UTF-8"%>
 					<select required data-width="270" class="form-control" name="way" data-rel="select2"
 							data-placeholder="请选择开展方式">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_op_way"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_way').id}"/>
 					</select>
 					<script>
 						$("#modalForm select[name=way]").val('${opRecord.way}');
@@ -127,7 +127,7 @@ pageEncoding="UTF-8"%>
 					<select required data-width="270" class="form-control" name="talkType" data-rel="select2"
 							data-placeholder="请选择开展方式">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_op_talktype"/>
+						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_op_talktype').id}"/>
 					</select>
 					<script>
 						$("#modalForm select[name=talkType]").val('${opRecord.talkType}');

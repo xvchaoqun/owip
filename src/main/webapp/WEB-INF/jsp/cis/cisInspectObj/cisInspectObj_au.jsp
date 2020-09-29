@@ -30,7 +30,7 @@
             <div class="col-xs-6">
                 <select required data-rel="select2" name="typeId" data-placeholder="请选择" data-width="270">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_cis_type"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cis_type').id}"/>
                 </select>
                 <script type="text/javascript">
                     $("#modal form select[name=typeId]").val(${cisInspectObj==null?(cm:getMetaTypeByCode("mt_cis_type_assign").id):cisInspectObj.typeId});

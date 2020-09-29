@@ -92,7 +92,7 @@
                         <select required class="form-control" name="unitTypeId" data-rel="select2"
                                 data-placeholder="请选择">
                             <option></option>
-                            <c:import url="/metaTypes?__code=mc_party_unit_type"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_unit_type').id}"/>
                         </select>
                         <script>
                             $("#modalForm select[name=unitTypeId]").val('${party.unitTypeId}');
@@ -105,7 +105,7 @@
                         <select required class="form-control" name="classId" data-rel="select2"
                                 data-placeholder="请选择分类">
                             <option></option>
-                            <c:import url="/metaTypes?__code=mc_party_class"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_class').id}"/>
                         </select>
                         <script>
                             $("#modalForm select[name=classId]").val('${party.classId}');
@@ -118,7 +118,7 @@
                     <div class="col-xs-8">
                         <select required data-rel="select2" name="typeId" data-placeholder="请选择组织类型">
                             <option></option>
-                            <c:import url="/metaTypes?__code=mc_party_type"/>
+                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_type').id}"/>
                         </select>
                         <script>
                             $("#modalForm select[name=typeId]").val('${party.typeId}');

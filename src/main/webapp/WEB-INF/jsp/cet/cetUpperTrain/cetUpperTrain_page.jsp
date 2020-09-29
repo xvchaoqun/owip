@@ -190,7 +190,7 @@
                                         data-width="150"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_post"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#searchForm select[name=postType]").val(${param.postType});
@@ -202,7 +202,7 @@
                                     <select  class="multiselect" multiple="" name="identities"
                                             data-width="120"
                                             data-placeholder="请选择">
-                                        <c:import url="/metaTypes?__code=mc_cet_identity"/>
+                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_identity').id}"/>
                                     </select>
                                     <script type="text/javascript">
                                         $.register.multiselect($('#searchForm select[name=identities]'), ${cm:toJSONArray(selectIdentities)});
@@ -215,7 +215,7 @@
                                         data-width="200"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_organizer"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_upper_train_organizer').id}"/>
                                     <option value="0">其他</option>
                                 </select>
                                 <script type="text/javascript">
@@ -244,7 +244,7 @@
                                         data-width="120"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_type"/>
+                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_upper_train_type').id}"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#searchForm select[name=trainType]").val(${param.trainType});

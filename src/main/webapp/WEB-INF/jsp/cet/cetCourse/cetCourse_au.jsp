@@ -53,7 +53,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 				<select required data-rel="select2" name="teachMethod" data-placeholder="请选择" data-width="275">
 					<option></option>
-					<c:import url="/metaTypes?__code=mc_cet_teach_method"/>
+					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_teach_method').id}"/>
 				</select>
 				<script type="text/javascript">
 					$("#modalForm select[name=teachMethod]").val(${cetCourse.teachMethod});

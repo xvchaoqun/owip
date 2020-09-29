@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 				<select required data-rel="select2" data-width="273"
 						name="type" data-placeholder="请选择">
 					<option></option>
-					<c:import url="/metaTypes?__code=mc_cadre_eva"/>
+					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_eva').id}"/>
 				</select>
 				<script type="text/javascript">
 					$("#modal form select[name=type]").val(${dpEva.type});

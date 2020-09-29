@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 				<select required data-rel="select2" name="type" data-width="264"
 						data-placeholder="请选择">
 					<option></option>
-					<c:import url="/metaTypes?__code=mc_pmd_fee_type"/>
+					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_pmd_fee_type').id}"/>
 				</select>
 				<script type="text/javascript">
 					$("#modalForm select[name=type]").val(${pmdFee.type});

@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
                             data-width="272"
                             data-placeholder="请选择属性">
                         <option></option>
-                        <c:import url="/metaTypes?__code=mc_dispatch_attr"/>
+                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_attr').id}"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=attr]").val(${dispatchType.attr});

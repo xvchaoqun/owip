@@ -171,7 +171,7 @@
                                                 <label>原职业</label>
                                                 <select data-rel="select2" name="originalJob" data-placeholder="请选择">
                                                     <option></option>
-                                                    <jsp:include page="/metaTypes?__code=mc_job"/>
+                                                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_job').id}"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=originalJob]").val(${param.originalJob});

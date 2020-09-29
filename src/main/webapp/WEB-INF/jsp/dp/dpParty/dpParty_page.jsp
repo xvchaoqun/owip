@@ -110,7 +110,7 @@ pageEncoding="UTF-8" %>
                                 <label>所属民主党派类别</label>
                                     <select data-width="230" name="classId" data-rel="select2" data-placeholder="请选择">
                                         <option></option>
-                                        <c:import url="/metaTypes?__code=mc_dp_party_class"/>
+                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_party_class').id}"/>
                                     </select>
                                 <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
                             </div>

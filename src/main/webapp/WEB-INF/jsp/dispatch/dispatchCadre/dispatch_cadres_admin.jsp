@@ -64,7 +64,7 @@
           <div class="col-xs-6">
             <select required data-rel="select2" name="cadreTypeId" data-width="220" data-placeholder="请选择干部类型">
               <option></option>
-              <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
+              <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_type').id}"/>
             </select>
             <script type="text/javascript">
               $("#cadreForm select[name=cadreTypeId]").val('${dispatchCadre.cadreTypeId}');
@@ -76,7 +76,7 @@
           <div class="col-xs-6">
             <select data-rel="select2" name="wayId" data-width="220" data-placeholder="请选择任免方式">
               <option></option>
-              <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
+              <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_way').id}"/>
             </select>
             <script type="text/javascript">
               $("#cadreForm select[name=wayId]").val('${dispatchCadre.wayId}');
@@ -88,7 +88,7 @@
           <div class="col-xs-6">
             <select class="form-control" data-rel="select2" name="procedureId" data-width="220" data-placeholder="请选择任免程序">
               <option></option>
-              <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
+              <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_procedure').id}"/>
             </select>
             <script type="text/javascript">
               $("#cadreForm select[name=procedureId]").val('${dispatchCadre.procedureId}');
@@ -127,7 +127,7 @@
           <div class="col-xs-6">
             <select required name="postType" data-rel="select2" data-width="220" data-placeholder="请选择职务属性">
               <option></option>
-              <c:import url="/metaTypes?__code=mc_post"/>
+              <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
             </select>
             <script>
               $("#cadreForm select[name=postType]").val('${dispatchCadre.postType}');
@@ -139,7 +139,7 @@
           <div class="col-xs-6">
             <select required class="form-control" data-rel="select2" data-width="220" name="adminLevel" data-placeholder="请选择行政级别">
               <option></option>
-              <c:import url="/metaTypes?__code=mc_admin_level"/>
+              <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
             </select>
             <script type="text/javascript">
               $("#cadreForm select[name=adminLevel]").val('${dispatchCadre.adminLevel}');

@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-8">
                 <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_state').id}"/>
                 </select>
                 <script type="text/javascript">
                     $("#modalForm select[name=state]").val(${cadre.state});

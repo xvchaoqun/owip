@@ -41,7 +41,7 @@
                 <select required data-rel="select2" name="postId"
                         data-width="272" data-placeholder="请选择职务属性">
                     <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_post"/>
+                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                 </select>
                 <script>
                     $("#modalForm select[name=postId]").val('${abroadAdditionalPost.postId}');

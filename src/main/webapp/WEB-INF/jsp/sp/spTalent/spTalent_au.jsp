@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
                     <select class="col-xs-6" name="politicsStatus"
                             data-rel="select2" data-placeholder="请选择">
                         <option></option>
-                        <c:import url="/metaTypes?__code=mc_political_status"/>
+                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_political_status').id}"/>
                     </select>
 				</div>
                 <script>

@@ -65,13 +65,13 @@
                                           style="width: 250px;">
                                       <option value="-1">非党干部</option>
                                       <option value="0">中共党员</option>
-                                      <c:import url="/metaTypes?__code=mc_democratic_party"/>
+                                      <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_democratic_party').id}"/>
                                   </select>
                               </div>
                               <div class="form-group">
                                   <label>最高学历</label>
                                   <select class="multiselect" multiple="" name="maxEdus">
-                                      <c:import url="/metaTypes?__code=mc_edu"/>
+                                      <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_edu').id}"/>
                                   </select>
                               </div>
                               <div class="form-group">

@@ -139,7 +139,7 @@
                                 <div class="col-xs-9">
                                     <div class="input-group">
                                         <select class="multiselect" multiple="" name="category" data-width="308" data-placeholder="请选择">
-                                            <c:import url="/metaTypes?__code=mc_cet_project_category"/>
+                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_project_category').id}"/>
                                         </select>
                                         <script type="text/javascript">
                                             $.register.multiselect($('#projectForm select[name=category]'), '${cetProject.category}'.split(","));

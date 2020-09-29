@@ -176,10 +176,15 @@ public class PmMeeting2Controller extends PmBaseController {
             List<String> saveFileNames = new ArrayList<>();
             for (MultipartFile file : _file) {
                 String originalFilename = file.getOriginalFilename();
-                String path = upload(file, "pmMeeting");
-
+                String ext = FileUtils.getExtention(originalFilename);
+                String savePath = null;
+                if(StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                    savePath = upload(file, "pmMeeting");
+                }else{
+                    savePath = uploadThumbPic(file, "pmMeeting",1024,768);
+                }
                 saveFileNames.add(originalFilename);
-                saveFilePaths.add(path);
+                saveFilePaths.add(savePath);
             }
             if (id == null) {
                 record.setFileName(StringUtils.join(saveFileNames, ";"));

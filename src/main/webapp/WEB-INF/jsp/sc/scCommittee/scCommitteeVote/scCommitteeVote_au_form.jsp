@@ -97,7 +97,7 @@
                             <select required name="postType" data-rel="select2" data-width="130"
                                     data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_post"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
                             </select>
                             <script>
                                 $("#voteForm select[name=postType]").val('${scCommitteeVote.postType}');
@@ -109,7 +109,7 @@
                                     name="adminLevel"
                                     data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_admin_level"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#voteForm select[name=adminLevel]").val('${scCommitteeVote.adminLevel}');
@@ -148,7 +148,7 @@
                             <select required data-rel="select2" name="cadreTypeId" data-width="150"
                                     data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_type').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#voteForm select[name=cadreTypeId]").val('${scCommitteeVote.cadreTypeId}');
@@ -158,7 +158,7 @@
                         <td class="bg-left">
                             <select data-rel="select2" name="wayId" data-width="130" data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_way').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#voteForm select[name=wayId]").val('${scCommitteeVote.wayId}');
@@ -169,7 +169,7 @@
                             <select class="form-control" data-rel="select2" data-width="140" name="procedureId"
                                     data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_cadre_procedure').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#voteForm select[name=procedureId]").val('${scCommitteeVote.procedureId}');

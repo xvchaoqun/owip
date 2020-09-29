@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </select>
             <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
                 <option></option>
-                <c:import url="/metaTypes?__code=mc_leader_unit"/>
+                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_leader_unit').id}"/>
             </select>
         </div>
         <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/>

@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
                 <select required data-rel="select2" name="rewardLevel"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_reward_level"/>
+                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_reward_level').id}"/>
                 </select>
                 <script type="text/javascript">
                     $("#modalForm select[name=rewardLevel]").val(${cadreReward.rewardLevel});

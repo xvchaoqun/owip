@@ -194,7 +194,7 @@ pageEncoding="UTF-8" %>
                                     data-width="120"
                                     data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__code=mc_cet_upper_train_type2"/>
+                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_upper_train_type2').id}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#searchForm select[name=projectTypeId]").val(${param.projectTypeId});

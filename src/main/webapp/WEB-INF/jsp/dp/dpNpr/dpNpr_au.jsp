@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
                         <select data-width="270" class="form-control" name="type" data-rel="select2"
 							data-placeholder="请选择类别">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_dp_npr_type"/>
+							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_npr_type').id}"/>
 						</select>
 					<script>
 						$("#modalForm select[name=type]").val('${dpNpr.type}');
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
                         <select data-width="270" class="form-control" name="level" data-rel="select2"
 						data-placeholder="请选择级别">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_dp_npr_level"/>
+							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_npr_level').id}"/>
 						</select>
 					<script>
 						$("#modalForm select[name=level]").val("${dpNpr.level}")

@@ -199,7 +199,7 @@ pageEncoding="UTF-8" %>
                                         <label>证件名称</label>
                                             <select data-rel="select2" name="classId" data-placeholder="请选择证件名称">
                                                 <option></option>
-                                                <c:import url="/metaTypes?__code=mc_passport_type"/>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_passport_type').id}"/>
                                             </select>
                                             <script type="text/javascript">
                                                 $("#searchForm select[name=classId]").val(${param.classId});
