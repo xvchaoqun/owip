@@ -18,7 +18,8 @@ ALTER TABLE `pcs_admin`
 
 update pcs_admin set category=1 where category is null;
 
-INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_branch', '党代会-支部管理员', 1, '469,476,470,477,479,491,492', '-1', NULL, 0, 0, 64, '');
+INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`,
+                        `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_branch', '党代会-支部管理员', 1, '469,476,470,477,479,491,492', '-1', NULL, 0, 0, 64, '');
 
 
 
