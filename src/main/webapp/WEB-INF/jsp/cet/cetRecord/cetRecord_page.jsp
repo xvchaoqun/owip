@@ -134,13 +134,13 @@
             {label: '年度', name: 'year', width: 60, frozen: true},
             {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
             {label: '参训人姓名', name: 'user.realname', frozen:true},
+            <c:if test="${_p_cetSupportCert}">
             {label: '是否<br/>结业', name: 'isGraduate', formatter: function (cellvalue, options, rowObject) {
               if (cellvalue==undefined) {
                 return '--'
               }
               return cellvalue?'是':'否'
             }, width: 50},
-            <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.isGraduate) return '--'

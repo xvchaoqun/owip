@@ -55,6 +55,8 @@
                 data-need-id="false"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             设置应完成学时</button>
+
+        <c:if test="${_p_cetSupportCert}">
         <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
                 data-title="自动结业"
                 data-msg="确定自动结业？（根据已设置的“达到结业要求的学时数”和学员已完成学时数自动计算）"
@@ -71,6 +73,7 @@
             <i class="prompt fa fa-question-circle"
                data-prompt="选择某一个参训人员，进行手动结业/取消结业"></i> 手动结业
         </button>
+        </c:if>
         <shiro:hasRole name="${ROLE_SUPER}">
          <button data-url="${ctx}/cet/archiveProjectObj?projectId=${cetProject.id}"
                 data-title="归档培训学时"
@@ -585,10 +588,12 @@
             </c:if>
             </c:if>
             <c:if test="${cls==3}">
+            <c:if test="${_p_cetSupportCert}">
             { label: '是否结业',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return cellvalue?"是":"否"
             },frozen: true},
+            </c:if>
             { label: '完成学时/总学时',name: '_finish', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return "{0}/{1}".format(Math.trimToZero(rowObject.objInfo.period), '${cm:stripTrailingZeros(cetProjectPlan.period)}')
@@ -798,8 +803,9 @@
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
-            {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
             <c:if test="${_p_cetSupportCert}">
+            {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
+
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.isGraduate) return '--'

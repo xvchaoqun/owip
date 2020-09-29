@@ -1,3 +1,27 @@
+
+20200929
+
+
+update sys_resource set permission='pmdOw:admin' where permission='pmdOw:*';
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (781, 0, '关闭订单', '', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmdOw:closeTrade', NULL, NULL, NULL, 1, NULL);
+
+
+ALTER TABLE `pcs_admin`
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL COMMENT '所属党支部' AFTER `party_id`,
+	ADD COLUMN `category` TINYINT(3) UNSIGNED NULL COMMENT '类别， 1 分党委管理员 2 党支部管理员' AFTER `branch_id`;
+
+ALTER TABLE `pcs_admin`
+	DROP INDEX `config_id_user_id`,
+	DROP FOREIGN KEY `FK_pcs_admin_pcs_config`;
+
+update pcs_admin set category=1 where category is null;
+
+INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_branch', '党代会-支部管理员', 1, '469,476,470,477,479,491,492', '-1', NULL, 0, 0, 64, '');
+
+
+
 20200928
 南航
 

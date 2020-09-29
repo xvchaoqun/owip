@@ -18,7 +18,9 @@
         <th>培训类型</th>
         <th>培训班主办方</th>
         <th width="100">完成学时数</th>
+        <c:if test="${_p_cetSupportCert}">
         <th width="100">是否已结业</th>
+        </c:if>
         <th width="100">完成百分比</th>
     </tr>
     </thead>
@@ -42,9 +44,11 @@
             <td>
                 ${cm:trimToZero(record.period)}
             </td>
+            <c:if test="${_p_cetSupportCert}">
             <td>
                 ${record.isGraduate?"已结业":"未结业"}
             </td>
+            </c:if>
             <td>
                 <c:if test="${empty record.shouldFinishPeriod}">--</c:if>
                 <c:if test="${not empty record.shouldFinishPeriod}">

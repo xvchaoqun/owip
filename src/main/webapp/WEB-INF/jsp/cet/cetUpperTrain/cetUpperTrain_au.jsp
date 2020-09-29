@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp"%>
 <c:set var="CET_UPPER_TRAIN_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_OW%>"/>
 <c:set var="CET_UPPER_TRAIN_TYPE_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_UNIT%>"/>
 <c:set var="CET_UPPER_TRAIN_TYPE_ABROAD" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD%>"/>
@@ -375,6 +376,7 @@
                                value="${cetUpperTrain.score}" maxlength="20">
                     </div>
                 </div>
+                <c:if test="${_p_cetSupportCert}">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>是否结业</label>
                     <div class="col-xs-7">
@@ -396,6 +398,7 @@
                         </div>
                     </div>
                 </div>
+                </c:if>
                 <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
                     <div class="form-group">

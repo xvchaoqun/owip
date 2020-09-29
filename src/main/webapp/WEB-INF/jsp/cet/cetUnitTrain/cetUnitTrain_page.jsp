@@ -241,9 +241,11 @@
               return ret;
             }},
             {label: '培训成绩', name: 'score'},
+
+            <c:if test="${_p_cetSupportCert}">
             {label: '是否<br/>结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 50},
 
-            <c:if test="${reRecord!=1 && cetUnitProject.status==CET_UNIT_PROJECT_STATUS_PASS && _p_cetSupportCert}">
+            <c:if test="${reRecord!=1 && cetUnitProject.status==CET_UNIT_PROJECT_STATUS_PASS}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.isGraduate || rowObject.status!='${CET_UNITTRAIN_RERECORD_PASS}') return '--'
@@ -253,6 +255,7 @@
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},
+            </c:if>
             </c:if>
             /*{label: '操作人', name: 'addUser.realname'},*/
             /*{label: '添加时间', name: 'addTime', width: 150},*/

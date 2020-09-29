@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="../constants.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${param.apply!=1}">${cetUnitTrain!=null?'编辑':'添加'}二级党委培训记录</c:if>
@@ -133,6 +134,7 @@ pageEncoding="UTF-8"%>
 						   value="${cetUnitTrain.score}" maxlength="20">
 				</div>
 			</div>
+				<c:if test="${_p_cetSupportCert}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>是否结业</label>
 				<div class="col-xs-7">
@@ -154,6 +156,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
+				</c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">

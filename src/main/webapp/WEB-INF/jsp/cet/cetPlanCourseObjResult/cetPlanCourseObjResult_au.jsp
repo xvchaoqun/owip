@@ -21,12 +21,14 @@ pageEncoding="UTF-8"%>
                     <input required class="form-control period" type="text" name="period" value="${cetPlanCourseObj.period}">
 				</div>
 			</div>
+		<c:if test="${_p_cetSupportCert}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">是否结业</label>
 				<div class="col-xs-6">
                     <input type="checkbox" class="big" name="isFinished" ${(cetPlanCourseObj.isFinished)?"checked":""}/>
 				</div>
 			</div>
+		</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">提交学习心得数</label>
 				<div class="col-xs-6">

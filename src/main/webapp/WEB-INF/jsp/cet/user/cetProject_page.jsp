@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp"%>
 <div class="row">
     <div class="col-xs-12">
 
@@ -106,10 +107,12 @@ pageEncoding="UTF-8" %>
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
+            <c:if test="${_p_cetSupportCert}">
             { label: '是否结业',name: 'obj.isGraduate',formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(rowObject.obj.shouldFinishPeriod)==0) return '--'
                 return cellvalue?"已结业":"未结业"
             }}
+            </c:if>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

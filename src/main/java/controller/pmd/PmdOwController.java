@@ -44,7 +44,7 @@ public class PmdOwController extends PmdBaseController {
         return "forward:/pmd/pmdMonth";
     }
 
-    @RequiresPermissions("pmdOw:export")
+    @RequiresPermissions("pmdOw:admin")
     @RequestMapping("/pmdOw_export_page")
     public String pmdOw_export_page(int monthId, ModelMap modelMap) throws IOException {
 
@@ -53,7 +53,7 @@ public class PmdOwController extends PmdBaseController {
         return "pmd/pmdMonth/pmdOw_export_page";
     }
 
-    @RequiresPermissions("pmdOw:export")
+    @RequiresPermissions("pmdOw:admin")
     @RequestMapping("/pmdOw_export")
     public String pmdOw_export(int monthId, HttpServletResponse response) throws IOException {
 
@@ -65,7 +65,7 @@ public class PmdOwController extends PmdBaseController {
         return null;
     }
 
-    @RequiresPermissions("pmdOw:export")
+    @RequiresPermissions("pmdOw:admin")
     @RequestMapping("/pmdOw_parties_export")
     public String pmdOw_parties_export(int monthId, boolean isDetail, HttpServletResponse response) throws IOException {
 
@@ -81,7 +81,7 @@ public class PmdOwController extends PmdBaseController {
     @Autowired
     private PmdPayViewMapper pmdPayViewMapper;
 
-    @RequiresPermissions("pmdOw:export")
+    @RequiresPermissions("pmdOw:admin")
     @RequestMapping("/pmdOw_pay_export")
     public void pmdOw_pay_export(int monthId, HttpServletResponse response) throws IOException {
 

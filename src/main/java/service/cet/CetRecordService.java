@@ -340,11 +340,11 @@ public class CetRecordService extends CetBaseMapper {
         BigDecimal finishPeriod = finishPeriodMap.get(0);
 
         // 还没有完成学时不计入
-        if(BooleanUtils.isNotTrue(o.getIsGraduate())){
+        /*if(BooleanUtils.isNotTrue(o.getIsGraduate())){
 
             delByType(sourceType, projectObjId);
             return;
-        }
+        }*/
 
         CetRecord r = get(sourceType, projectObjId);
         if(r==null){

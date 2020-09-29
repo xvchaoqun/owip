@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="../constants.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>学习详情（${sysUser.realname}）</h3>
@@ -29,10 +30,12 @@ pageEncoding="UTF-8"%>
         <td colspan="2">上传学习心得数</td>
         <td colspan="2">${cetPlanCourseObj.num}</td>
     </tr>
+    <c:if test="${_p_cetSupportCert}">
     <tr>
         <td colspan="2">是否结业</td>
         <td colspan="2">${(cetPlanCourseObj.isFinished)?"是":"否"}</td>
     </tr>
+    </c:if>
     </tbody>
 </table>
 </div>
