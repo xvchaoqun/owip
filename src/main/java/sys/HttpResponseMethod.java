@@ -216,11 +216,30 @@ public interface HttpResponseMethod {
         return upload(file, saveFolder, "pdf", 0, 0);
     }
 
+    /**
+     * 上传缩略图（保存原图）
+     *
+     * @param file
+     * @param saveFolder
+     * @param sImgWidth
+     * @param sImgHeight
+     * @return
+     * @throws IOException
+     */
     default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
 
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
+    /**
+     * 上传缩略图（不保存原图）
+     * @param file
+     * @param saveFolder
+     * @param sImgWidth
+     * @param sImgHeight
+     * @return
+     * @throws IOException
+     */
     default String uploadThumbPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
 
          // 系统允许上传文件白名单
