@@ -221,6 +221,37 @@ public interface HttpResponseMethod {
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
+    default String uploadThumbPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
+
+         // 系统允许上传文件白名单
+        if(file!=null && !ContentTypeUtils.isAnyFormat(file, CmTag.getStringProperty("upload_file_whitelist"))){
+
+            logger.warn(accessLog("不允许上传的文件格式:" + file.getOriginalFilename()));
+            throw new OpException("不允许上传的文件格式");
+        }
+
+        if (file == null || file.isEmpty()) return null;
+
+        SpringProps springProps = CmTag.getBean(SpringProps.class);
+
+        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
+        String FILE_SEPARATOR = File.separator;
+
+        String realPath = FILE_SEPARATOR + saveFolder +
+                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
+                FILE_SEPARATOR + UUID.randomUUID().toString();
+        String originalFilename = file.getOriginalFilename();
+        String savePath = realPath + FileUtils.getExtention(originalFilename);
+
+        Thumbnails.of(file.getInputStream())
+                    .size(sImgWidth, sImgHeight)
+                    //.outputFormat("jpg")
+                    .outputQuality(1.0f)
+                    .toFile(springProps.uploadPath + savePath);
+
+        return savePath;
+    }
+
     default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException {
 
         if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image") == -1) {
