@@ -40,9 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by lm on 2017/8/27.
- */
 @Service
 public class PcsPrExportService extends PcsBaseMapper {
 
