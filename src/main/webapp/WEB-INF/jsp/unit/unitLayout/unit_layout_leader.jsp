@@ -24,11 +24,11 @@
                 <table class="table table-striped table-center table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="col-xs-1">工作证号</th>
-                        <th>姓名</th>
-                        <th>职务</th>
-                        <th>行政级别</th>
-                        <th width="300">分管工作</th>
+                        <th width="120">工作证号</th>
+                        <th width="100">姓名</th>
+                        <th width="150">职务</th>
+                        <th width="80">行政级别</th>
+                        <th>分管工作</th>
                         <th>分管机关部门</th>
                         <th>联系学部、院、系（所）</th>
                     </tr>
