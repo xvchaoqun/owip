@@ -128,10 +128,11 @@
                                                     data-width="150"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:forEach items="${oaTaskTypes}" var="oaTaskType">
+                                              <%--  <c:forEach items="${oaTaskTypes}" var="oaTaskType">
                                                     <c:set var="_type" value="${cm:getMetaType(oaTaskType)}"/>
                                                     <option value="${_type.id}">${_type.name}</option>
-                                                </c:forEach>
+                                                </c:forEach>--%>
+                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_oa_task_type').id}"/>
                                             </select>
                                             <script>
                                                 $("#searchForm select[name=type]").val('${param.type}');
