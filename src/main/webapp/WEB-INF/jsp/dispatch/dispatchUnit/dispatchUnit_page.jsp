@@ -55,7 +55,7 @@
                                             <label>调整方式</label>
                                                 <select data-rel="select2" name="type" data-width="100" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dispatch_unit_type').id}"/>
+                                                    <c:import url="/metaTypes?__code=mc_dispatch_unit_type"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=type]").val('${param.type}');

@@ -485,13 +485,13 @@
                 <div class="form-group">
                     <label>行政级别</label>
                         <select class="multiselect" multiple="" name="adminLevels">
-                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
+                            <c:import url="/metaTypes?__code=mc_admin_level"/>
                         </select>
                 </div>
                 <div class="form-group">
                     <label>职务属性</label>
                         <select class="multiselect" multiple="" name="postTypes">
-                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                            <c:import url="/metaTypes?__code=mc_post"/>
                         </select>
                 </div>
                 <div class="form-group">
@@ -500,7 +500,7 @@
                             style="width: 250px;">
                         <option value="-1">非党干部</option>
                         <option value="0">中共党员</option>
-                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_democratic_party').id}"/>
+                        <c:import url="/metaTypes?__code=mc_democratic_party"/>
                     </select>
                 </div>
                 <c:if test="${cls==1}">

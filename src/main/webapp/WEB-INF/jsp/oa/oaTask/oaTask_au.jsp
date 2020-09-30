@@ -23,7 +23,7 @@
                     <select class="col-xs-6" required name="type" data-width="270"
                             data-rel="select2" data-placeholder="请选择">
                         <option></option>
-                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_oa_task_type').id}"/>
+                        <c:import url="/metaTypes?__code=mc_oa_task_type"/>
                     </select>
                 </div>
                 <script>

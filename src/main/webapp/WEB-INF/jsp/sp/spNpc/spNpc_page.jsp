@@ -73,7 +73,7 @@ pageEncoding="UTF-8" %>
                                 <select class="col-xs-6" required name="type"
                                         data-rel="select2" data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sp_npc_type').id}"/>
+                                    <c:import url="/metaTypes?__code=mc_sp_npc_type"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#searchForm select[name=type]").val('${param.type}')

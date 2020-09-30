@@ -95,8 +95,8 @@
                                         data-width="272" data-placeholder="请选择职务">
                                     <option></option>
                                     <jsp:include
-                                            page="/metaTypes?__id=${cm:getMetaClassByCode(type==CM_MEMBER_TYPE_JW?'mc_committee_member_jw'
-                                            :'mc_committee_member_dw').id}"/>
+                                            page="/metaTypes?__code=${type==CM_MEMBER_TYPE_JW?'mc_committee_member_jw'
+                                            :'mc_committee_member_dw'}"/>
                                 </select>
                                 <script>
                                     $("#searchForm select[name=post]").val('${param.post}');

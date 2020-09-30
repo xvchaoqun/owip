@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MC_DWF_WORK_TYPE" value="mc_dwf_work_type_${cm:getMetaType(param.type).extraAttr}"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -95,7 +94,7 @@
                                         <div class="form-group">
                                             <label>发文单位</label>
                                             <select class="multiselect" multiple="" name="unitTypes">
-                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_unit_type').id}"/>
+                                                <c:import url="/metaTypes?__code=mc_dwf_unit_type"/>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -113,13 +112,13 @@
                                         <div class="form-group">
                                             <label>所属专项工作</label>
                                             <select class="multiselect" multiple="" name="workTypes">
-                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode(MC_DWF_WORK_TYPE).id}"/>
+                                                <c:import url="/metaTypes?__code=mc_dwf_work_type_${cm:getMetaType(param.type).extraAttr}"/>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>保密级别</label>
                                             <select class="multiselect" multiple="" name="privacyTypes">
-                                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dwf_privacy_type').id}"/>
+                                                <c:import url="/metaTypes?__code=mc_dwf_privacy_type"/>
                                             </select>
                                         </div>
                                         <div class="clearfix form-actions center">

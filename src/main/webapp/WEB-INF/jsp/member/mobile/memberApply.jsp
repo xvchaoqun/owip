@@ -83,7 +83,7 @@
         <div class="col-sm-9">
             <select required name="classId" data-rel="select2" data-placeholder="请选择" data-width="100%">
                 <option></option>
-                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_class').id}"/>
+                <c:import url="/metaTypes?__code=mc_party_class"/>
             </select>
             <script>
                 $("#modalForm select[name=classId]").val("${party.classId}")

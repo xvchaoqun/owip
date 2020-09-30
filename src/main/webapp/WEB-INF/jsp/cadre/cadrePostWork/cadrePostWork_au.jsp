@@ -35,7 +35,7 @@
                 <select required data-rel="select2" name="level"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post_work_level').id}"/>
+                    <c:import url="/metaTypes?__code=mc_post_work_level"/>
                 </select>
                 <script type="text/javascript">
                     $("#modal form select[name=level]").val(${cadrePostWork.level});

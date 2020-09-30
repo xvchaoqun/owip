@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required class="form-control"  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                         <option></option>
-                        <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                        <jsp:include page="/metaTypes?__code=mc_post"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=postId]").val(${unitCadreTransfer.postId});

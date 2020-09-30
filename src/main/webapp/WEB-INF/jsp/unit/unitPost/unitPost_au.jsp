@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					 <select required data-rel="select2" name="adminLevel" data-placeholder="请选择">
 						<option></option>
-						<jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
+						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
 					</select>
 
 					<script type="text/javascript">
@@ -106,7 +106,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select required name="postType" data-rel="select2" data-placeholder="请选择">
 						<option></option>
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+						<c:import url="/metaTypes?__code=mc_post"/>
 					</select>
 					<script>
 						$("#modalForm select[name=postType]").val('${unitPost.postType}');
@@ -119,7 +119,7 @@ pageEncoding="UTF-8"%>
 					<select required data-rel="select2" name="postClass"
 							 data-placeholder="请选择">
 						<option></option>
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post_class').id}"/>
+						<c:import url="/metaTypes?__code=mc_post_class"/>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=postClass]").val(${unitPost.postClass});

@@ -69,7 +69,7 @@
                                             <div class="input-group">
                                                 <select data-rel="select2" name="letterType" data-placeholder="请选择" data-width="180">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_letter_type').id}"/>
+                                                    <c:import url="/metaTypes?__code=mc_sc_letter_type"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=type]").val(${param.letterType});

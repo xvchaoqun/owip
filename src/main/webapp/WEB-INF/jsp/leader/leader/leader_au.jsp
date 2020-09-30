@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required data-rel="select2" data-width="272" name="typeId" data-placeholder="请选择类别">
                         <option></option>
-                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_leader_type').id}"/>
+                        <c:import url="/metaTypes?__code=mc_leader_type"/>
                     </select>
                     <script type="text/javascript">
                         $("#modal form select[name=typeId]").val(${leader.typeId});

@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 				<select required data-rel="select2" data-width="273"
 						name="classId" data-placeholder="请选择证件名称">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_passport_type').id}"/>
+					<c:import url="/metaTypes?__code=mc_passport_type"/>
 				</select>
 				<script type="text/javascript">
 					$("#modal form select[name=classId]").val(${scPassport.classId});

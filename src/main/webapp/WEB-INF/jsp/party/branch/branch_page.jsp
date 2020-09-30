@@ -166,14 +166,14 @@
                                         <label>支部类型</label>
                                          <select class="multiselect" multiple="" name="types"
                                                                 data-placeholder="请选择">
-                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_branch_type').id}"/>
+                                            <c:import url="/metaTypes?__code=mc_branch_type"/>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label>单位属性</label>
                                             <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性"> 
                                                 <option></option>
-                                                  <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_branch_unit_type').id}"/>
+                                                  <c:import url="/metaTypes?__code=mc_branch_unit_type"/>
                                             </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
                                     </div>

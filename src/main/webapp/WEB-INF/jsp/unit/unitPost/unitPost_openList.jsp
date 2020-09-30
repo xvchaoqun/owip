@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     <label>单位类型</label>
                                     <select class="multiselect" multiple="" name="unitTypes">
-                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_unit_type').id}"/>
+                                        <c:import url="/metaTypes?__code=mc_unit_type"/>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -94,7 +94,7 @@
                                     <label>职务属性</label>
                                     <select name="postType" data-rel="select2" data-placeholder="请选择职务属性">
                                         <option></option>
-                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                                        <c:import url="/metaTypes?__code=mc_post"/>
                                     </select>
                                     <script>
                                         $("#searchForm select[name=postType]").val('${param.postType}');
@@ -104,7 +104,7 @@
                                     <label>职务类别</label>
                                     <select data-rel="select2" name="postClass" data-placeholder="请选择">
                                         <option></option>
-                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post_class').id}"/>
+                                        <c:import url="/metaTypes?__code=mc_post_class"/>
                                     </select>
                                     <script type="text/javascript">
                                         $("#searchForm select[name=postClass]").val(${param.postClass});

@@ -138,7 +138,7 @@ not empty param.unitId || not empty param.userId}"/>
                             <select class="col-xs-6" name="category"
                                     data-rel="select2" data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cg_type').id}"/>
+                                <c:import url="/metaTypes?__code=mc_cg_type"/>
                             </select>
                         </div>
                         <script>

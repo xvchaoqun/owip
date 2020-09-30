@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 				<select required data-width="270" class="form-control" name="classId" data-rel="select2"
 						data-placeholder="请选择分类">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_party_class').id}"/>
+					<c:import url="/metaTypes?__code=mc_dp_party_class"/>
 				</select>
 				<script>
 					$("#modalForm select[name=classId]").val('${dpParty.classId}');

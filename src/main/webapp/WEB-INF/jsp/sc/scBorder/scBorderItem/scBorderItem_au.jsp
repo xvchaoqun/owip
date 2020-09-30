@@ -25,7 +25,7 @@
             <div class="col-xs-6">
                 <select  data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择行政级别">
                     <option></option>
-                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
+                    <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                 </select>
                 <script type="text/javascript">
                     $("#modalForm select[name=adminLevel]").val(${scBorderItem.adminLevel});

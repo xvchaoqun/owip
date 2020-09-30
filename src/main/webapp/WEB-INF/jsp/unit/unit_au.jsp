@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 								data-width="272"
 								data-placeholder="请选择单位类型">
                             <option></option>
-                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_unit_type').id}"/>
+                            <c:import url="/metaTypes?__code=mc_unit_type"/>
                         </select>
                         <script type="text/javascript">
                             $("#modal form select[name=typeId]").val(${unit.typeId});

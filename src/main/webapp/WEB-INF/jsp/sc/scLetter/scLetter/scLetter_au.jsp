@@ -73,7 +73,7 @@
                                     <div class="col-xs-6">
                                         <select data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
                                             <option></option>
-                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_letter_type').id}"/>
+                                            <c:import url="/metaTypes?__code=mc_sc_letter_type"/>
                                         </select>
                                         <script type="text/javascript">
                                             $("#modalForm select[name=type]").val(${scLetter.type});

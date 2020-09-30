@@ -114,7 +114,7 @@
                     <div class="col-xs-8">
                         <div class="input-group">
                             <select class="multiselect" multiple="" name="category" data-width="223" data-placeholder="请选择">
-                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_project_category').id}"/>
+                                <c:import url="/metaTypes?__code=mc_cet_project_category"/>
                             </select>
                             <script type="text/javascript">
                                 $.register.multiselect($('#modalForm select[name=category]'), '${cetUnitProject.category}'.split(","));

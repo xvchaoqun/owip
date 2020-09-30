@@ -78,7 +78,7 @@
                                     <label>职务</label>
                                     <select name="types" data-rel="select2" data-width="120" data-placeholder="请选择"> 
                                         <option></option>
-                                         <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_branch_member_type').id}"/>
+                                         <c:import url="/metaTypes?__code=mc_branch_member_type"/>
                                     </select> 
                                     <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
                                 </div>

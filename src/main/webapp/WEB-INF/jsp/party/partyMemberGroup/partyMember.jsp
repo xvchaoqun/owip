@@ -81,7 +81,7 @@
                                     <label>${_p_partyName}类别</label>
                                     <select name="classId" data-rel="select2" data-placeholder="请选择">
                                         <option></option>
-                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_class').id}"/>
+                                        <c:import url="/metaTypes?__code=mc_party_class"/>
                                     </select>
                                     <script>
                                         $("#searchForm select[name=classId]").val('${param.classId}');
@@ -101,7 +101,7 @@
                                     <label>职务</label>
                                     <select name="postId" data-rel="select2" data-placeholder="请选择"> 
                                         <option></option>
-                                         <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_member_post').id}"/>
+                                         <c:import url="/metaTypes?__code=mc_party_member_post"/>
                                     </select> 
                                     <script>
                                         $("#searchForm select[name=postId]").val('${param.postId}');
@@ -110,7 +110,7 @@
                                 <div class="form-group">
                                     <label>分工</label>
                                     <select name="typeIds" class="multiselect" multiple="" data-placeholder="请选择"> 
-                                          <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_member_type').id}"/>
+                                          <c:import url="/metaTypes?__code=mc_party_member_type"/>
                                     </select> 
                                 </div>
                                 <div class="clearfix form-actions center">

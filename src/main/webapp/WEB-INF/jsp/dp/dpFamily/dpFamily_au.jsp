@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-3">
 				<select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_family_title').id}"/>
+					<c:import url="/metaTypes?__code=mc_family_title"/>
 				</select>
 				<script>
 					$("#modal select[name=title]").val("${dpFamily.title}");
@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
 				<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"
 						data-width="125">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_political_status').id}"/>
+					<c:import url="/metaTypes?__code=mc_political_status"/>
 				</select>
 				<script type="text/javascript">
 					$("#modal form select[name=politicalStatus]").val(${dpFamily.politicalStatus});

@@ -34,19 +34,18 @@ public class MetaTypeController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/metaTypes")
-    public String metaTypes(Integer __id, String extraAttr, ModelMap modelMap) {
-        MetaClass  metaClass = metaClassMapper.selectByPrimaryKey(__id);
+    public String metaTypes(String __code, String extraAttr, ModelMap modelMap) {
+
         if (StringUtils.isNotBlank(extraAttr)) {
             List<MetaType> metaTypes = new ArrayList<>();
-
-            for (MetaType metaType : metaTypeService.metaTypes(metaClass.getCode()).values()) {
+            for (MetaType metaType : metaTypeService.metaTypes(__code).values()) {
                 if (StringUtils.equals(extraAttr, metaType.getExtraAttr())) {
                     metaTypes.add(metaType);
                 }
             }
             modelMap.put("metaTypes", metaTypes);
         } else {
-            modelMap.put("metaTypes", metaTypeService.metaTypes(metaClass.getCode()).values());
+            modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
         }
 
         return "base/metaType/metaTypes";

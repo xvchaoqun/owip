@@ -97,7 +97,7 @@
                         <div class="col-xs-7">
                             <select required data-rel="select2" name="toUnitType" data-width="220" data-placeholder="请选择">
                                 <option></option>
-                                <c:import url="/metaTypes?__id=${cm:getMetaClassByCode(unitCode).id}"/>
+                                <c:import url="/metaTypes?__code=${unitCode}"/>
                             </select>
                             <script type="text/javascript">
                                 $("#modalForm select[name=toUnitType]").val(${crpRecord.toUnitType});
@@ -127,7 +127,7 @@
                     <div class="col-xs-7">
                         <select required data-rel="select2" name="tempPostType" data-width="220" data-placeholder="请选择">
                             <option></option>
-                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode(postCode).id}"/>
+                            <c:import url="/metaTypes?__code=${postCode}"/>
                         </select>
                         <script type="text/javascript">
                             $("#modalForm select[name=tempPostType]").val(${crpRecord.tempPostType});

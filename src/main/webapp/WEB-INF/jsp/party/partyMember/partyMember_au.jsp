@@ -31,7 +31,7 @@
     <div class="col-xs-6">
       <select required data-rel="select2" name="postId" data-placeholder="请选择"  data-width="260">
         <option></option>
-        <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_member_post').id}"/>
+        <jsp:include page="/metaTypes?__code=mc_party_member_post"/>
       </select>
       <script>
         $("#modal select[name=postId]").val('${partyMember.postId}');
@@ -42,7 +42,7 @@
     <label class="col-xs-3 control-label">分工</label>
     <div class="col-xs-6">
       <select name="_typeIds" class="multiselect" multiple="" data-placeholder="请选择" style="position: relative"> 
-          <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_member_type').id}"/>
+          <c:import url="/metaTypes?__code=mc_party_member_type"/>
       </select> 
     </div>
   </div>

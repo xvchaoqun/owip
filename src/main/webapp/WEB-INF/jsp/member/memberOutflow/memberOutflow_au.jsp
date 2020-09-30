@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="originalJob" data-placeholder="请选择">
 							<option></option>
-							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_job').id}"/>
+							<c:import url="/metaTypes?__code=mc_job"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=originalJob]").val(${memberOutflow.originalJob});
@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="direction" data-placeholder="请选择">
 							<option></option>
-							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_flow_direction').id}"/>
+							<c:import url="/metaTypes?__code=mc_flow_direction"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=direction]").val(${memberOutflow.direction});

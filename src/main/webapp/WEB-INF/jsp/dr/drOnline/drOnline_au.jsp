@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 					<select required data-rel="select2" data-width="273"
 							name="type" data-placeholder="请选择推荐类型">
 						<option></option>
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dr_type').id}"/>
+						<c:import url="/metaTypes?__code=mc_dr_type"/>
 					</select>
 					<script type="text/javascript">
 						$("#modalForm select[name=type]").val(${drOnline.type});

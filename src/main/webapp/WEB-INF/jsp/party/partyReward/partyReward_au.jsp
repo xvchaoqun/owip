@@ -157,10 +157,10 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请选择">
 						<option></option>
 						<c:if test="${cls==OW_PARTY_REPU_PARTY}">
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mt_party_reward').id}"/>
+						<c:import url="/metaTypes?__code=mt_party_reward"/>
 						</c:if>
 						<c:if test="${cls==OW_PARTY_REPU_BRANCH}">
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mt_branch_reward').id}"/>
+						<c:import url="/metaTypes?__code=mt_branch_reward"/>
 						</c:if>
 					</select>
 					<script type="text/javascript">
@@ -174,7 +174,7 @@ pageEncoding="UTF-8"%>
 					<select required data-rel="select2" name="rewardLevel" data-width="270"
 							data-placeholder="请选择">
 						<option></option>
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_reward_level').id}"/>
+						<c:import url="/metaTypes?__code=mc_party_reward_level"/>
 					</select>
 					<script type="text/javascript">
 						$("#modalForm select[name=rewardLevel]").val(${partyReward.rewardLevel});

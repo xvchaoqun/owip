@@ -122,7 +122,7 @@
                                             data-width="150"
                                             data-placeholder="请选择">
                                         <option></option>
-                                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                                        <c:import url="/metaTypes?__code=mc_post"/>
                                     </select>
                                     <script type="text/javascript">
                                         $("#trianSearchForm select[name=postType]").val(${param.postType});
@@ -134,7 +134,7 @@
                                         <select  class="multiselect" multiple="" name="identities"
                                                  data-width="120"
                                                  data-placeholder="请选择">
-                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cet_identity').id}"/>
+                                            <c:import url="/metaTypes?__code=mc_cet_identity"/>
                                         </select>
                                         <script type="text/javascript">
                                             $.register.multiselect($('#trianSearchForm select[name=identities]'), ${cm:toJSONArray(selectIdentities)});

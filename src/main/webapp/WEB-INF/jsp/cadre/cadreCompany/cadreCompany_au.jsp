@@ -39,7 +39,7 @@
                         <select required data-rel="select2" name="type"
                                 data-placeholder="请选择" data-width="225">
                             <option></option>
-                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_company_type').id}"/>
+                            <c:import url="/metaTypes?__code=mc_cadre_company_type"/>
                         </select>
                         <script type="text/javascript">
                             $("#modal form select[name=type]").val(${cadreCompany.type});

@@ -74,7 +74,7 @@
                                     <label>职务</label>
                                     <select name="postId" data-rel="select2" data-placeholder="请选择"> 
                                         <option></option>
-                                         <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_party_member_post').id}"/>
+                                         <c:import url="/metaTypes?__code=mc_dp_party_member_post"/>
                                     </select> 
                                     <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
                                 </div>

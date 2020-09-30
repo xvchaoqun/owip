@@ -150,7 +150,7 @@
                                            ${y}年：<select ${empty cadre?"required":"disabled"} data-rel="select2" data-width="100"
                                                         name="eva" id="eva_${y}" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_eva').id}"/>
+                                                    <c:import url="/metaTypes?__code=mc_cadre_eva"/>
                                                 </select>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             <script>

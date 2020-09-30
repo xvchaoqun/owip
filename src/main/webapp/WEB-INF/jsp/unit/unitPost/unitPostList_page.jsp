@@ -130,7 +130,7 @@
                     <label>行政级别</label>
                     <select  data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
 						<option></option>
-						<jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
+						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
 					</select>
                     <script type="text/javascript">
                         $("#searchForm2 select[name=adminLevel]").val('${param.adminLevel}');
@@ -140,7 +140,7 @@
                     <label>职务属性</label>
                     <select name="postType" data-rel="select2" data-placeholder="请选择职务属性">
                         <option></option>
-                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                        <c:import url="/metaTypes?__code=mc_post"/>
                     </select>
                     <script>
                         $("#searchForm2 select[name=postType]").val('${param.postType}');
@@ -150,7 +150,7 @@
                     <label>职务类别</label>
                     <select data-rel="select2" name="postClass" data-width="100" data-placeholder="请选择">
                         <option></option>
-                        <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post_class').id}"/>
+                        <c:import url="/metaTypes?__code=mc_post_class"/>
                     </select>
                     <script type="text/javascript">
                         $("#searchForm2 select[name=postClass]").val(${param.postClass});

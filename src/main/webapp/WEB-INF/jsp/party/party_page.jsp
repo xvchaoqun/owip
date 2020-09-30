@@ -111,7 +111,7 @@ pageEncoding="UTF-8" %>
                                         <label>${_p_partyName}类别</label>
                                             <select name="classId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
-                                                  <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_class').id}"/>
+                                                  <c:import url="/metaTypes?__code=mc_party_class"/>
                                             </select> 
                                             <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
                                              
@@ -129,7 +129,7 @@ pageEncoding="UTF-8" %>
                                         <label>组织类型</label>
                                         <select data-rel="select2" name="typeId" data-placeholder="请选择组织类型">
                                             <option></option>
-                                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_type').id}"/>
+                                            <c:import url="/metaTypes?__code=mc_party_type"/>
                                         </select>
                                         <script>
                                             $("#searchForm select[name=typeId]").val('${param.typeId}');
@@ -139,7 +139,7 @@ pageEncoding="UTF-8" %>
                                         <label>单位属性</label>
                                             <select name="unitTypeId" data-width="120" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
-                                                  <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_unit_type').id}"/>
+                                                  <c:import url="/metaTypes?__code=mc_party_unit_type"/>
                                             </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
                                     </div>

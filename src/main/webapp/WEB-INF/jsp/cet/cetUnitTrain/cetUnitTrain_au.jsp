@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select  data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="252">
                         <option></option>
-                        <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                        <jsp:include page="/metaTypes?__code=mc_post"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=postType]").val(${cetUnitTrain.postType});

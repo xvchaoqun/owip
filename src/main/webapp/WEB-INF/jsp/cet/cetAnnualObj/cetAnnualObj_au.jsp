@@ -46,7 +46,7 @@
             <div class="col-xs-7">
                 <select data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="272">
                     <option></option>
-                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+                    <jsp:include page="/metaTypes?__code=mc_post"/>
                 </select>
             </div>
         </div>

@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				<select required data-rel="select2" name="rewardType"
 						data-placeholder="请选择">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_dp_reward_type').id}"/>
+					<c:import url="/metaTypes?__code=mc_dp_reward_type"/>
 				</select>
 				<script type="text/javascript">
 					$("#modalForm select[name=rewardType]").val(${dpReward.rewardType});
@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 				<select data-rel="select2" name="rewardLevel"
 						data-placeholder="请选择">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_reward_level').id}"/>
+					<c:import url="/metaTypes?__code=mc_reward_level"/>
 				</select>
 				<script type="text/javascript">
 					$("#modalForm select[name=rewardLevel]").val(${dpReward.rewardLevel});

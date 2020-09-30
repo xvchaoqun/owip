@@ -44,7 +44,7 @@
                                     <div class="col-xs-6">
                                         <select required data-rel="select2" name="userType" data-placeholder="请选择">
                                             <option></option>
-                                            <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_abroad_user_type').id}"/>
+                                            <jsp:include page="/metaTypes?__code=mc_abroad_user_type"/>
                                         </select>
                                         <script type="text/javascript">
                                             $("#modalForm select[name=userType]").val(${memberStay.userType});
@@ -408,7 +408,7 @@
                                     <div class="col-xs-7">
                                         <select required data-rel="select2" name="userType" data-placeholder="请选择">
                                             <option></option>
-                                            <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_abroad_user_type').id}"/>
+                                            <jsp:include page="/metaTypes?__code=mc_abroad_user_type"/>
                                         </select>
                                         <script type="text/javascript">
                                             $("#modalForm select[name=userType]").val(${memberStay.userType});

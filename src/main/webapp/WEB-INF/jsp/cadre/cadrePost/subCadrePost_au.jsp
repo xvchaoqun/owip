@@ -38,7 +38,7 @@
 						<select required data-rel="select2" name="postType"
 								data-width="272" data-placeholder="请选择">
 							<option></option>
-							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post').id}"/>
+							<c:import url="/metaTypes?__code=mc_post"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=postType]").val(${cadrePost.postType});
@@ -51,7 +51,7 @@
 						<select required data-rel="select2" name="adminLevel"
 								data-width="272" data-placeholder="请选择">
 							<option></option>
-							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_admin_level').id}"/>
+							<c:import url="/metaTypes?__code=mc_admin_level"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=adminLevel]").val(${cadrePost.adminLevel});
@@ -64,7 +64,7 @@
 						<select required data-rel="select2" name="postClassId"
 								data-width="272" data-placeholder="请选择">
 							<option></option>
-							<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_post_class').id}"/>
+							<c:import url="/metaTypes?__code=mc_post_class"/>
 						</select>
 						<script type="text/javascript">
 							$("#modal form select[name=postClassId]").val(${cadrePost.postClassId});

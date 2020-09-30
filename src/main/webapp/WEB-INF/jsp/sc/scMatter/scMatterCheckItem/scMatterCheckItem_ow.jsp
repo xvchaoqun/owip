@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select data-rel="select2" id="_owHandleType" data-placeholder="请选择" data-width="240">
 						<option></option>
-						<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_matter_check_ow_handle_type').id}"/>
+						<c:import url="/metaTypes?__code=mc_sc_matter_check_ow_handle_type"/>
 					</select>
 					<div class="space-4"></div>
                         <input required class="form-control" type="text"

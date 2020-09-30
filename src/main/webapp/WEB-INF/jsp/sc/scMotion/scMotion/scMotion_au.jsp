@@ -105,7 +105,7 @@
                 <select required data-rel="select2" data-width="273"
                         name="scType" data-placeholder="请选择">
                     <option></option>
-                    <jsp:include page="/metaTypes?__id=${cm:getMetaClassByCode('mc_sc_type').id}"/>
+                    <jsp:include page="/metaTypes?__code=mc_sc_type"/>
                 </select>
                 <script type="text/javascript">
                     $("#modalForm select[name=scType]").val(${scMotion.scType});

@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				<select class="col-xs-6" required name="type" data-width="270"
 					data-rel="select2" data-placeholder="请选择">
 					<option></option>
-					<c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_school_position').id}"/>
+					<c:import url="/metaTypes?__code=mc_party_school_position"/>
 				</select>
 			</div>
 			<script>

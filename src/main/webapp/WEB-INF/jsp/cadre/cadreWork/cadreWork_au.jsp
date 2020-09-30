@@ -72,7 +72,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <select required class="multiselect" multiple="" name="workTypes" data-width="273" data-placeholder="请选择">
-                            <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_cadre_work_type').id}"/>
+                            <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
                         </select>
                         <script type="text/javascript">
                             $.register.multiselect($('#modalForm select[name=workTypes]'), '${cadreWork.workTypes}'.split(","));

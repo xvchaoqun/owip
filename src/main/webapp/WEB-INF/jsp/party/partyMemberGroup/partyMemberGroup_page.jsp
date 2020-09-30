@@ -105,7 +105,7 @@
                                                 <label>${_p_partyName}类别</label>
                                                 <select name="classId" data-rel="select2" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:import url="/metaTypes?__id=${cm:getMetaClassByCode('mc_party_class').id}"/>
+                                                    <c:import url="/metaTypes?__code=mc_party_class"/>
                                                 </select>
                                                 <script>
                                                     $("#searchForm select[name=classId]").val('${param.classId}');
