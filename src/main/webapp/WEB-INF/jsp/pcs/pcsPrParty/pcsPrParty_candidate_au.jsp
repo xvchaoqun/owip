@@ -361,7 +361,8 @@
                     .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
         }
         },
-        {label: '学历学位', name: 'education'},
+        {label: '学历', name: 'education'},
+        {label: '学位', name: 'degree'},
         /*
         {
             label: '参加工作时间',

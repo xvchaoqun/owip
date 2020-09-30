@@ -296,12 +296,14 @@ public class PcsPrListController extends PcsBaseController {
                         candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
                         //candidate.setEduId(cv.getEduId());
                         candidate.setEducation(CmTag.getMetaTypeName(cv.getEduId()));
+                        candidate.setDegree(cv.getDegree());
                         candidate.setWorkTime(cv.getWorkTime());
                         candidate.setPost(cv.getPost());
                     }else{
                         // 是普通教师
                         candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_TEACHER);
                         candidate.setEducation(teacherInfo.getEducation());
+                        candidate.setDegree(teacherInfo.getDegree());
                         candidate.setWorkTime(teacherInfo.getWorkTime());
                         candidate.setIsRetire(teacherInfo.getIsRetire());
                         candidate.setProPost(teacherInfo.getProPost());

@@ -115,7 +115,8 @@
             {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m',baseDate: '${_ageBaseDate}'}},
             {label: '民族', name: 'nation', width: 60},
-            {label: '学历学位', name: 'education'},
+            {label: '学历', name: 'education'},
+            {label: '学位', name: 'degree'},
             /*
             {
                 label: '参加工作时间',

@@ -127,6 +127,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
             record.setWorkTime(ti.getWorkTime());
             record.setProPost(ti.getProPost());
             record.setEducation(ti.getEducation());
+            record.setDegree(ti.getDegree());
             record.setIsRetire(ti.getIsRetire());
         }
         StudentInfo si = studentInfoMapper.selectByPrimaryKey(userId);
@@ -147,6 +148,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
         if(cv!=null) {
             //record.setEduId(cv.getEduId());
             record.setEducation(CmTag.getMetaTypeName(cv.getEduId()));
+            record.setDegree(cv.getDegree());
             record.setPost(cv.getPost());
             if(cv.getStatus()== CadreConstants.CADRE_STATUS_LEADER) {
                 record.setLeaderSortOrder(cv.getSortOrder());

@@ -15,6 +15,7 @@
     <result column="work_time" jdbcType="DATE" property="workTime" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
     <result column="is_retire" jdbcType="BIT" property="isRetire" />
     <result column="edu_level" jdbcType="VARCHAR" property="eduLevel" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
@@ -100,7 +101,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, recommend_id, user_id, code, realname, leader_sort_order, user_type, edu_id, 
-    post, grow_time, work_time, pro_post, education, is_retire, edu_level, party_id, 
+    post, grow_time, work_time, pro_post, education, degree, is_retire, edu_level, party_id, 
     config_id, stage, party_sort_order, unit_name, branch_vote, type, gender, birth, 
     nation, mobile, email, vote, positive_vote, vote3, is_chosen, is_proposal, proposal_sort_order, 
     is_from_stage, sort_order, realname_sort_order, add_time
@@ -140,28 +141,28 @@
       code, realname, leader_sort_order, 
       user_type, edu_id, post, 
       grow_time, work_time, pro_post, 
-      education, is_retire, edu_level, 
-      party_id, config_id, stage, 
-      party_sort_order, unit_name, branch_vote, 
-      type, gender, birth, nation, 
-      mobile, email, vote, 
-      positive_vote, vote3, is_chosen, 
-      is_proposal, proposal_sort_order, is_from_stage, 
-      sort_order, realname_sort_order, add_time
-      )
+      education, degree, is_retire, 
+      edu_level, party_id, config_id, 
+      stage, party_sort_order, unit_name, 
+      branch_vote, type, gender, 
+      birth, nation, mobile, 
+      email, vote, positive_vote, 
+      vote3, is_chosen, is_proposal, 
+      proposal_sort_order, is_from_stage, sort_order, 
+      realname_sort_order, add_time)
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{leaderSortOrder,jdbcType=INTEGER}, 
       #{userType,jdbcType=TINYINT}, #{eduId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
       #{growTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, 
-      #{education,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, #{eduLevel,jdbcType=VARCHAR}, 
-      #{partyId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{partySortOrder,jdbcType=INTEGER}, #{unitName,jdbcType=VARCHAR}, #{branchVote,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, 
-      #{positiveVote,jdbcType=INTEGER}, #{vote3,jdbcType=INTEGER}, #{isChosen,jdbcType=BIT}, 
-      #{isProposal,jdbcType=BIT}, #{proposalSortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{realnameSortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}
-      )
+      #{education,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, 
+      #{eduLevel,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
+      #{stage,jdbcType=TINYINT}, #{partySortOrder,jdbcType=INTEGER}, #{unitName,jdbcType=VARCHAR}, 
+      #{branchVote,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, 
+      #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, #{positiveVote,jdbcType=INTEGER}, 
+      #{vote3,jdbcType=INTEGER}, #{isChosen,jdbcType=BIT}, #{isProposal,jdbcType=BIT}, 
+      #{proposalSortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{realnameSortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate
@@ -204,6 +205,9 @@
       </if>
       <if test="education != null">
         education,
+      </if>
+      <if test="degree != null">
+        degree,
       </if>
       <if test="isRetire != null">
         is_retire,
@@ -317,6 +321,9 @@
       </if>
       <if test="education != null">
         #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
       </if>
       <if test="isRetire != null">
         #{isRetire,jdbcType=BIT},
@@ -440,6 +447,9 @@
       <if test="record.education != null">
         education = #{record.education,jdbcType=VARCHAR},
       </if>
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
       <if test="record.isRetire != null">
         is_retire = #{record.isRetire,jdbcType=BIT},
       </if>
@@ -532,6 +542,7 @@
       work_time = #{record.workTime,jdbcType=DATE},
       pro_post = #{record.proPost,jdbcType=VARCHAR},
       education = #{record.education,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
       is_retire = #{record.isRetire,jdbcType=BIT},
       edu_level = #{record.eduLevel,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=INTEGER},
@@ -598,6 +609,9 @@
       </if>
       <if test="education != null">
         education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
       </if>
       <if test="isRetire != null">
         is_retire = #{isRetire,jdbcType=BIT},
@@ -688,6 +702,7 @@
       work_time = #{workTime,jdbcType=DATE},
       pro_post = #{proPost,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
       is_retire = #{isRetire,jdbcType=BIT},
       edu_level = #{eduLevel,jdbcType=VARCHAR},
       party_id = #{partyId,jdbcType=INTEGER},

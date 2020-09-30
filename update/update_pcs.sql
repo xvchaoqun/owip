@@ -1,3 +1,7 @@
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `pro_post`,
+	ADD COLUMN `degree` VARCHAR(50) NULL DEFAULT NULL COMMENT '学位' AFTER `education`;
+
 -- 2020.9.28 sxx
 
 ALTER TABLE `pcs_admin`

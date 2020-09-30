@@ -30,6 +30,8 @@ public class PcsPrCandidate implements Serializable {
 
     private String education;
 
+    private String degree;
+
     private Boolean isRetire;
 
     private String eduLevel;
@@ -182,6 +184,14 @@ public class PcsPrCandidate implements Serializable {
 
     public void setEducation(String education) {
         this.education = education == null ? null : education.trim();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
     }
 
     public Boolean getIsRetire() {
