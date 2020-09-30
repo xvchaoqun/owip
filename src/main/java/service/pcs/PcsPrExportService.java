@@ -349,8 +349,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
     // 获取学历、工作时间、职别、职务
     public Map<String, String> getUserInfoMap(int userId) {
-        String edu = "-";
-        String degree = "-";
+
         String workTime = "-";
         String proPost = "-";
         String post = "-";
@@ -361,15 +360,11 @@ public class PcsPrExportService extends PcsBaseMapper {
             CadreView cv = cadreService.dbFindByUserId(userId);
             if (cv != null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())) {
                 // 是干部
-                edu = metaTypeService.getName(cv.getEduId());
-                degree = cv.getDegree();
                 workTime = DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMM);
                 post = cv.getPost();
                 proPost = "干部";
             } else {
                 // 是普通教师
-                edu = teacherInfo.getEducation();
-                degree = teacherInfo.getDegree();
                 workTime = DateUtils.formatDate(teacherInfo.getWorkTime(), DateUtils.YYYYMM);
                 proPost = teacherInfo.getProPost();
             }
@@ -380,8 +375,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("edu", edu);
-        map.put("degree", degree);
+
         map.put("workTime", workTime);
         map.put("proPost", proPost);
         map.put("post", post);
@@ -979,11 +973,11 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(userInfoMap.get("edu"));
+            cell.setCellValue(bean.getEducation());
 
             // 学位
             cell = row.getCell(column++);
-            cell.setCellValue(userInfoMap.get("degree"));
+            cell.setCellValue(bean.getDegree());
 /*
             // 参加工作时间
             cell = row.getCell(column++);
@@ -1144,11 +1138,11 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(userInfoMap.get("edu"));
+            cell.setCellValue(bean.getEducation());
 
             // 学位
             cell = row.getCell(column++);
-            cell.setCellValue(userInfoMap.get("degree"));
+            cell.setCellValue(bean.getDegree());
 /*
             // 参加工作时间
             cell = row.getCell(column++);
@@ -1281,11 +1275,11 @@ public class PcsPrExportService extends PcsBaseMapper {
             Map<String, String> userInfoMap = getUserInfoMap(bean.getUserId());
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(userInfoMap.get("edu"));
+            cell.setCellValue(bean.getEducation());
 
             // 学位
             cell = row.getCell(column++);
-            cell.setCellValue(userInfoMap.get("degree"));
+            cell.setCellValue(bean.getDegree());
 /*
             // 参加工作时间
             cell = row.getCell(column++);
