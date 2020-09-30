@@ -5,5 +5,5 @@
   <option value="${metaType.id}" data-bool-attr="${metaType.boolAttr}" data-extra-attr="${metaType.extraAttr}">${metaType.name}</option>
 </c:forEach>
 <shiro:hasPermission name="metaClass:edit">
-<option value="__NEW" data-id="${param.__id}">编辑属性</option>
+<option value="__NEW" data-id="${cm:getMetaClassByCode(param.__code).id}">编辑属性</option>
 </shiro:hasPermission>

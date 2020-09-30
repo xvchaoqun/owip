@@ -159,7 +159,7 @@
                 <if test="projectId!=null">
                     and cp.id=#{projectId}
                 </if>
-                and cp.is_valid=1 and cpp.type=#{type} and cpo.user_id=#{userId} and cpco.is_finished=1
+                and cp.is_valid=1 and cpp.type=#{type} and cpo.user_id=#{userId}
             </where>
     </select>
     <!--<select id="getSpecialFinishPeriod" parameterType="map" resultType="DECIMAL">

@@ -319,14 +319,14 @@ public interface ICetMapper {
     @Select("select sum(cc.period) from cet_plan_course_obj cpco " +
             "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
             "left join cet_course cc on cc.id=cpc.course_id " +
-            "where cpc.plan_id=#{planId} and is_finished=1 and obj_id=#{objId}")
+            "where cpc.plan_id=#{planId} and obj_id=#{objId}")
     BigDecimal getSelfFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 
     @Select("select obj_id as objId, sum(cc.period) as period from cet_plan_course_obj cpco " +
             "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
             "left join cet_course cc on cc.id=cpc.course_id " +
-            "where cpc.plan_id=#{planId} and is_finished=1 group by obj_id")
+            "where cpc.plan_id=#{planId} group by obj_id")
     List<FinishPeriodBean> getSelfFinishPeriods(@Param("planId") int planId);
 
     // 获取培训对象在一个培训方案中的已完成学时（针对分组研讨）
@@ -344,16 +344,9 @@ public interface ICetMapper {
     // 获取培训对象在一个培训方案中的已完成学时（针对上级网上专题）
     @Select("select cpco.period from cet_plan_course_obj cpco " +
             "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
-            "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
+            "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId}")
     BigDecimal getSpecialPlanFinishPeriod(@Param("planId") int planId,
                                              @Param("objId") int objId);
-    /*@Select("select sum(cci.period) from cet_plan_course_obj_result cpcor " +
-            "left join cet_course_item cci on cci.id=cpcor.course_item_id " +
-            "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
-            "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
-            "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
-    BigDecimal getSpecialPlanFinishPeriod(@Param("planId") int planId,
-                                             @Param("objId") int objId);*/
 
     // 获取课程总学时，针对上级网上专题
     @Select("select sum(cci.period) from cet_course cc " +
@@ -365,13 +358,6 @@ public interface ICetMapper {
                                              @Param("userId") int userId,
                                              @Param("year") Integer year,
                                              @Param("projectId") Integer projectId);
-
- /*   @Select("select cpco.obj_id as objId, sum(cci.period) as period from cet_plan_course_obj_result cpcor " +
-            "left join cet_course_item cci on cci.id=cpcor.course_item_id " +
-            "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
-            "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
-            "where cpc.plan_id=#{planId} and cpco.is_finished=1 group by cpco.obj_id")
-    List<FinishPeriodBean> getSpecialFinishPeriods(@Param("planId") int planId);*/
 
     // 获取培训对象在一个培训方案中的已完成学时（针对撰写心得体会）
     @Select("select cpp.period from cet_project_plan cpp " +
