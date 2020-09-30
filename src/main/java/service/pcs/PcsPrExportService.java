@@ -973,11 +973,11 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getEducation());
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getEducation()));
 
             // 学位
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getDegree());
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getDegree()));
 /*
             // 参加工作时间
             cell = row.getCell(column++);
@@ -1138,11 +1138,11 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getEducation());
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getEducation()));
 
             // 学位
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getDegree());
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getDegree()));
 /*
             // 参加工作时间
             cell = row.getCell(column++);
@@ -1275,11 +1275,11 @@ public class PcsPrExportService extends PcsBaseMapper {
             Map<String, String> userInfoMap = getUserInfoMap(bean.getUserId());
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getEducation());
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getEducation()));
 
             // 学位
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getDegree());
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getDegree()));
 /*
             // 参加工作时间
             cell = row.getCell(column++);
