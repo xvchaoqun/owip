@@ -141,10 +141,12 @@ public class SystemController extends BaseController {
             sql = sql.replaceAll("`", "\\\\`");
         }
         //sql = sql.replaceAll("\"", "\\\\\"");
-        String cmd = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",
+        String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
+
+        String cmd = MessageFormat.format("mysql -h{4} -u{0} -p\"{1}\" -e\"use {2};{3}\"",
                 PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"),
-                PropertiesUtils.getString("db.schema"), sql);
+                PropertiesUtils.getString("db.schema"), sql, host);
 
         List<String> returnLines = new ArrayList<>();
         try {
@@ -258,8 +260,9 @@ public class SystemController extends BaseController {
         String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                 DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "dbbackup";
         FileUtils.mkdirs(tmpdir, false);
+        String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
 
-        boolean backup = MySqlUtils.backup(PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url")), PropertiesUtils.getString("jdbc_user"),
+        boolean backup = MySqlUtils.backup(host, PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, dbName);
 
         // 打成压缩包下载

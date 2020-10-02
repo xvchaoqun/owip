@@ -1,14 +1,7 @@
 
 20201002
-大工 -- 北师大
+大工，北邮 -- 北师大
 
-ALTER TABLE `pcs_pr_candidate`
-	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `pro_post`,
-	ADD COLUMN `degree` VARCHAR(50) NULL DEFAULT NULL COMMENT '学位' AFTER `education`;
-
-
-20200930
--- 更新 utils
 
 20200929
 
@@ -33,6 +26,11 @@ INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`
                         `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_branch', '党代会-支部管理员', 1, '469,476,470,477,479,491,492', '-1', NULL, 0, 0, 64, '');
 
 
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `pro_post`,
+	ADD COLUMN `degree` VARCHAR(50) NULL DEFAULT NULL COMMENT '学位' AFTER `education`;
+
+-- 更新 utils
 
 20200928
 南航
