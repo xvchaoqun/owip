@@ -1,4 +1,6 @@
 
+20201002
+大工 -- 北师大
 
 ALTER TABLE `pcs_pr_candidate`
 	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `pro_post`,
