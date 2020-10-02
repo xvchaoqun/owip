@@ -1,6 +1,6 @@
 
 20201002
-大工，北邮 -- 北师大
+大工，北邮，戏曲 -- 北师大
 
 
 20200929
@@ -144,12 +144,12 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 20200916
 西工大，北邮
 
--- 更新 utils
 
-20200916
 insert INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('payTest', '支付测试', 'false', 3, 78, '党费收缴支付测试');
 -- 更新 jx.ext.jar
+-- 更新 utils
+
 
 20200914
 南航，戏曲
