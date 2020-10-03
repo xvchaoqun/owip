@@ -10,6 +10,7 @@ import domain.sys.*;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xwpf.usermodel.*;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -1494,5 +1495,515 @@ public class CadreAdformService extends BaseMapper {
         if(zipout!=null){
             zipout.close();
         }
+    }
+
+    @Transactional
+    public void importDocxRm(String path) throws IOException {
+
+        FileInputStream is = new FileInputStream(path);//载入文档 //如果是office2007  docx格式
+        if(path.toLowerCase().endsWith("docx")){
+            //word 2007 图片不会被读取， 表格中的数据会被放在字符串的最后
+            XWPFDocument xwpf = new XWPFDocument(is);//得到word文档的信息
+            Iterator<XWPFTable> it = xwpf.getTablesIterator();//得到word中的表格
+            Map<String, String> dataMap = new HashMap<>();//如<姓名,李**>
+
+            int page = 0;
+            //获得数据
+            while(it.hasNext()){
+
+                XWPFTable table = it.next();
+                List<XWPFTableRow> rows=table.getRows();
+                //读取每一行数据
+                for (int i = 0; i < rows.size(); i++) {
+                    if ((page == 0 && (i == 4 || i == 5))
+                            || (page == 1 && i >= 12)){
+                        continue;
+                    }
+                    //家庭成员表头
+                    List<XWPFTableCell> _cells = null;
+                    if (page == 1 && (i >= 5 && i <= 11)){
+                        _cells = rows.get(4).getTableCells();
+                    }
+                    XWPFTableRow  row = rows.get(i);
+                    //这里行是从1开始
+                    //System.out.println(String.format("第%s页第%s行", page + 1, i + 1));
+                    //读取每一列数据
+                    List<XWPFTableCell> cells = row.getTableCells();
+                    for (int j = 0; j < cells.size(); j=j+2) {
+                        String key = null;
+                        String value = null;
+                        if ((page == 0 && i < 4 && j + 1 == cells.size())
+                                || (page == 1 && (i == 4 || j + 1 == cells.size()))){
+                            continue;
+                        }
+                        if (page == 1 && (i >= 5 && i <= 11)){
+                            key = ContentUtils.removeAllBlank(_cells.get(j + 1).getText()) + (i - 4);
+                            value = ContentUtils.removeAllBlank(cells.get(j + 1).getText());
+                            j--;
+                        }else {
+                            key = ContentUtils.removeAllBlank(cells.get(j).getText());
+                            value = ContentUtils.removeAllBlank(cells.get(j + 1).getText());
+
+                        }
+                        dataMap.put(key, value);
+                        //输出当前的单元格的数据
+                        //System.out.println(key + ":" + value);
+                    }
+                }
+                page++;
+            }
+
+            //存储数据
+            String realname= dataMap.get("姓名");
+            String birth = null;
+            if (StringUtils.isNotBlank(dataMap.get("出生年月（岁）"))) {
+                birth = (dataMap.get("出生年月（岁）").split("（"))[0];
+            }
+            CadreView cv = null;
+            {
+                CadreViewExample example = new CadreViewExample();
+                example.createCriteria().andRealnameEqualTo(realname);
+                SysUserViewExample userExample = new SysUserViewExample();
+                userExample.createCriteria().andRealnameEqualTo(realname).andLockedEqualTo(false);
+
+                List<CadreView> cadreViews = cadreViewMapper.selectByExample(example);
+
+                int size = cadreViews.size();
+                if (size == 1) {
+                    cv = cadreViews.get(0);
+                } else if (size > 1) {
+                    int count = 0;
+                    for (CadreView cadreView : cadreViews) {
+                        String _birth = DateUtils.formatDate(cadreView.getBirth(), "yyyyMM");
+                        if (_birth.equals(birth)){
+                            cv = cadreView;
+                            count++;
+                        }
+                    }
+                    if (count > 1)
+                        throw new OpException("存在{0}个姓名为{1}的干部，无法导入。", count, realname);
+                }
+            }
+
+            String title = dataMap.get("现任职务");
+            if (cv == null) { // 不存在干部时先插入一个处级干部
+
+                SysUserView uv = null;
+                SysUserViewExample example = new SysUserViewExample();
+                example.createCriteria().andRealnameEqualTo(realname)
+                        .andTypeEqualTo(SystemConstants.USER_TYPE_JZG);
+                List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
+                if (uvs.size() == 0) {
+                    throw new OpException("{0}不存在系统账号，请核对姓名是否与系统内的一致。", realname);
+                } else if (uvs.size() > 1) {
+                    for (SysUserView _uv : uvs) {
+                        String _birth = DateUtils.formatDate(_uv.getBirth(), "yyyyMM");
+                        if (_birth.equals(birth)){
+                            uv = _uv;
+                        }
+                    }
+
+                    if(uv == null) {
+                        throw new OpException("{0}存在多个系统账号，无法导入。", realname);
+                    }
+                }
+
+                SysConfig sysConfig = CmTag.getSysConfig();
+                int userId = uv.getId();
+                Cadre cadre = new Cadre();
+                cadre.setUserId(userId);
+                cadre.setTitle(title.replaceAll("^" + sysConfig.getSchoolName().replaceAll("\\*", "\\\\*")
+                        + "|" + sysConfig.getSchoolShortName().replaceAll("\\*", "\\\\*"), ""));
+                cadre.setStatus(CadreConstants.CADRE_STATUS_CJ);
+
+                cadreService.insertSelective(cadre);
+
+                cv = CmTag.getCadreByUserId(userId);
+            }
+
+            String nativePlace = dataMap.get("籍贯");
+            String homeplace = dataMap.get("出生地");
+            String health = dataMap.get("健康状况");
+            String specialty = dataMap.get("熟悉专业有何专长");
+            String proPost = dataMap.get("专业技术职务");
+
+            String resume = dataMap.get("简历");
+            String avatarBase64 = dataMap.get("照片");
+
+            int userId = cv.getUserId();
+            SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
+            int cadreId = cv.getId();
+            SysUserInfo ui = new SysUserInfo();
+            ui.setUserId(userId);
+            ui.setNativePlace(nativePlace);
+            ui.setHomeplace(homeplace);
+
+            //照片
+            List<XWPFPictureData> picList = xwpf.getAllPictures();
+            if (picList != null && picList.size() > 0){
+                String tmpAvatarFile = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                        DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR
+                        + "lrmx" + FILE_SEPARATOR + "avatar" + FILE_SEPARATOR;
+                FileUtils.mkdirs(tmpAvatarFile, false);
+                for (XWPFPictureData pic : picList) {
+                    String tmpFile = tmpAvatarFile + cv.getCode() + ".jpg";
+                    byte[] bytev = pic.getData();
+                    // 大于300bites的图片我们才弄下来，消除word中莫名的小图片的影响
+                    /*if (bytev.length > 300) {
+                        FileOutputStream fos = new FileOutputStream(tmpFile);
+                        fos.write(bytev);
+                    }*/
+                    FileOutputStream fos = new FileOutputStream(tmpFile);
+                    fos.write(bytev);
+                    String avatar = avatarService.copyToAvatar(new File(tmpFile));
+                    if (avatar != null) {
+                        ui.setAvatar(avatar);
+                    }
+                    FileUtils.delFile(tmpFile);
+                }
+
+            }
+
+            MetaType healthType = CmTag.getMetaTypeByName("mc_health", health);
+            if (healthType != null) {
+                ui.setHealth(healthType.getId());
+            }
+            ui.setSpecialty(specialty);
+            ui.setResume(resume);
+            // 导入简历部分
+            importDocxResume(cadreId, resume, realname);
+            cadreEduService.checkHighEdu(cadreId, true);
+
+            sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+
+            title = StringUtils.removeStart(title, CmTag.getSysConfig().getSchoolName());
+            if (StringUtils.isNotBlank(title)) {
+                Cadre c = new Cadre();
+                c.setId(cadreId);
+                c.setTitle(title);
+                cadreMapper.updateByPrimaryKeySelective(c);
+            }
+
+            String workTime = dataMap.get("参加工作时间");
+            Date _workTime = DateUtils.parseStringToDate(workTime);
+            if (_workTime != null) {
+                TeacherInfo record = new TeacherInfo();
+                record.setUserId(userId);
+                record.setWorkTime(_workTime);
+                teacherInfoMapper.updateByPrimaryKeySelective(record);
+            }
+
+            MetaClass mcFamilyTitle = CmTag.getMetaClassByCode("mc_family_title");
+            for (int i = 1; i < 8; i++) {
+                String _title = dataMap.get("称谓" + i);
+                if(StringUtils.isBlank(_title))
+                    continue;
+                MetaType familyTitle = CmTag.getMetaTypeByName("mc_family_title", _title);
+                if (familyTitle == null && _title.length() > 3){
+                   //throw new OpException("{0}的家人成为有问题", realname);
+                    logger.error("家庭称谓有误{0}", realname);
+                    continue;
+                }
+                // 不存在的称谓，则创建一个新的元数据类型
+                if(familyTitle==null && StringUtils.isNotBlank(_title)){
+                    familyTitle = new MetaType();
+                    familyTitle.setClassId(mcFamilyTitle.getId());
+                    familyTitle.setCode(metaTypeService.genCode());
+                    familyTitle.setName(_title);
+                    metaTypeService.insertSelective(familyTitle);
+                }
+
+                CadreFamily cf = new CadreFamily();
+                cf.setCadreId(cadreId);
+                if (familyTitle != null) {
+                    cf.setTitle(familyTitle.getId());
+                }
+
+                String _realname = dataMap.get("姓名" + i);
+                String _birthday = null;
+                if (StringUtils.isNotBlank(dataMap.get("年龄" + i))){
+
+                    try {
+                        int age = Integer.valueOf(dataMap.get("年龄" + i));
+                        _birthday = Integer.valueOf(DateUtils.getCurrentDateTime("yyyy")) - age + DateUtils.getCurrentDateTime("MMdd");
+                    }catch (Exception e){
+                        logger.error(_realname, e);
+                    }
+
+                }
+                String _politicalStatus = dataMap.get("政治面貌" + i);
+                String _unit = dataMap.get("工作单位及职务" + i);
+
+                boolean withGod = StringUtils.contains(_unit, "去世");
+
+                cf.setRealname(_realname);
+                cf.setBirthday(DateUtils.parseStringToDate(_birthday));
+                MetaType politicalStatus = CmTag.getMetaTypeByName("mc_political_status", _politicalStatus);
+                if (politicalStatus != null) {
+                    cf.setPoliticalStatus(politicalStatus.getId());
+                }
+                cf.setUnit(_unit);
+                cf.setWithGod(withGod);
+                cf.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+
+                CadreFamily cadreFamily = cadreFamilyService.get(cadreId, _realname);
+                if (cadreFamily == null) {
+                    cadreFamilyService.insertSelective(cf);
+                } else {
+                    cf.setId(cadreFamily.getId());
+                    cadreFamilyMapper.updateByPrimaryKeySelective(cf);
+                }
+            }
+
+            // 导入年度考核结果
+            String ces = dataMap.get("核结果年度考");
+            if (StringUtils.isNotBlank(ces)) {
+
+                Map<Integer, MetaType> evaTypes = CmTag.getMetaTypes("mc_cadre_eva");
+                List<String> evaResultList = new ArrayList<>();
+                Map<String, Integer> evaMap = new HashMap<>();//<name, id>
+                for (MetaType metaType : evaTypes.values()) {
+                    evaResultList.add(metaType.getName());
+                    evaMap.put(metaType.getName(), metaType.getId());
+                }
+                String[] ceses = ces.split("，|,|。");
+                for (String cese : ceses) {
+                    if (StringUtils.isNotBlank(cese)) {
+                        Pattern pattern = Pattern.compile("([1|2]\\d{3})[^\\d]+");
+                        Matcher matcher = pattern.matcher(cese);
+
+                        List<Integer> yearList = new ArrayList<>();
+                        while (matcher.find()) {
+                            String _year = matcher.group(1);
+                            //System.out.println("_year = " + _year);
+
+                            yearList.add(Integer.valueOf(_year));
+                        }
+
+                        String evaResultsReg = StringUtils.join(evaResultList, "|");
+                        if (StringUtils.isNotBlank(evaResultsReg)) {
+                            pattern = Pattern.compile(MessageFormat.format("[^{0}]*({0})[^{0}]*", evaResultsReg));
+                            matcher = pattern.matcher(cese);
+
+                            String result = null;
+                            if (matcher.find()) {
+                                result = matcher.group(1);
+                            }else {
+                                continue;
+                            }
+
+                            List<CadreEva> cadreEvaList = new ArrayList<>();
+                            for (Integer year : yearList) {
+                                CadreEva cadreEva = new CadreEva();
+                                cadreEva.setCadreId(cadreId);
+                                cadreEva.setYear(year);
+                                Integer evaType = evaMap.get(result);
+                                cadreEva.setType(evaType);
+                                cadreEvaList.add(cadreEva);
+                                //System.out.println(String.format("%s年%s", year, result));
+                            }
+                            cadreEvaService.batchImport(cadreEvaList);
+                        }
+                    }
+                }
+            }
+
+            cacheHelper.clearUserCache(_sysUser);
+            CmTag.clearCadreCache(userId);
+
+            is.close();
+        }
+
+    }
+
+    /**
+     * 导入word格式的任免审批表的简历部分
+     *
+     * @param cadreId
+     * @param resume  word格式任免审批表简历内容
+     */
+    private void importDocxResume(int cadreId, String resume, String realname) {
+
+        List<ResumeRow> resumeRows = CadreUtils.parseDocxResume(resume, realname);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
+        // <row, 主要工作经历或学习经历的ID> 辅助数组，用于其间工作
+        Map<Integer, Integer> fidMap = new HashMap<>();
+
+        for (ResumeRow resumeRow : resumeRows) {
+
+            if (resumeRow.isEdu) {
+                // 学习经历
+                CadreEdu cadreEdu = new CadreEdu();
+                cadreEdu.setCadreId(cadreId);
+
+                Byte degreeType = null;
+                String degree = null;
+                Integer eduId = null;
+                if (StringUtils.contains(resumeRow.desc, "中专")) {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_zz").getId();
+                } else if (StringUtils.containsAny(resumeRow.desc, "大专", "专科")) {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_zk").getId();
+                } else if (StringUtils.contains(resumeRow.desc, "进修")) {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_jxxx").getId();
+                } else if (StringUtils.contains(resumeRow.desc, "课程班")) {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_yjskcb").getId();
+                } else if (StringUtils.contains(resumeRow.desc, "博士")) {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_doctor").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_BS;
+                    degree = "博士学位";
+                } else if (StringUtils.contains(resumeRow.desc, "同等")
+                        && StringUtils.contains(resumeRow.desc, "硕士")) { // 硕士同等学历、同等学历硕士
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_sstd").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_SS;
+                    degree = "硕士学位";
+                } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生")) {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_master").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_SS;
+                    degree = "硕士学位";
+                } else if (StringUtils.contains(resumeRow.desc, "初中") || StringUtils.contains(resumeRow.desc, "中学")){
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_cz").getId();
+                } else if (StringUtils.contains(resumeRow.desc, "高中")){
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_gz").getId();
+                } else {
+                    eduId = CmTag.getMetaTypeByCode("mt_edu_bk").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_XS;
+                    degree = "学士学位";
+                }
+
+                cadreEdu.setEduId(eduId);
+                cadreEdu.setEnrolTime(resumeRow.start);
+                cadreEdu.setFinishTime(resumeRow.end);
+                cadreEdu.setIsGraduated(resumeRow.end!=null && !StringUtils.contains(resumeRow.desc, "在读"));
+                cadreEdu.setIsHighEdu(false);
+                cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
+
+                //处理学校/学院/专业字段
+                String str = resumeRow.desc;
+                String school = PatternUtils.withdraw("[.*攻读]?(.*大学|.*初中|.*中学|.*中国戏曲学院|.*研究院).*", str);
+                String dep = PatternUtils.withdraw("[.*大学|.*中国戏曲学院|.*研究院]?(.*学院|.*系).*", str);
+                String major = PatternUtils.withdraw("[.*大学|.*中国戏曲学院|.*研究院][.*学院|.*系](.*专业).*", str);
+
+                if (StringUtils.isNotBlank(school)) {
+                    cadreEdu.setSchool(school);
+                }
+                if (StringUtils.isNotBlank(dep)) {
+                    if(StringUtils.isNotBlank(school)){
+                        dep = dep.replaceAll(school, "");
+                    }
+                    cadreEdu.setDep(dep);
+                }
+                if (StringUtils.isNotBlank(major)) {
+                    if (StringUtils.isNotBlank(dep)){
+                        major = major.replaceAll(dep, "");
+                    }
+                    cadreEdu.setMajor(major);
+                }
+
+           /* if (resumeRow.fRow == null) {
+                cadreEdu.setSchool(resumeRow.desc); // 全日制描述放入学校字段，需要手动编辑
+            } else {*/
+                cadreEdu.setRemark(resumeRow.desc); // 在职描述放入备注字段，需要手动编辑
+                //}
+
+                byte schoolType = CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC;
+                if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
+                    schoolType = CadreConstants.CADRE_SCHOOL_TYPE_ABROAD;
+                } else if (StringUtils.containsAny(resumeRow.desc,
+                        CmTag.getSysConfig().getSchoolName(),
+                        CmTag.getSysConfig().getSchoolShortName())) {
+                    schoolType = CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL;
+
+                    cadreEdu.setDegreeUnit(CmTag.getSysConfig().getSchoolName());
+                }
+                cadreEdu.setSchoolType(schoolType);
+
+                int learnStyle = CmTag.getMetaTypeByCode("mt_fulltime").getId();
+                if (resumeRow.fRow != null) {
+                    learnStyle = CmTag.getMetaTypeByCode("mt_onjob").getId();
+                }
+                cadreEdu.setLearnStyle(learnStyle);
+
+                if (eduId == CmTag.getMetaTypeByCode("mt_edu_zz").getId() || eduId == CmTag.getMetaTypeByCode("mt_edu_zk").getId())
+                    cadreEdu.setHasDegree(false);
+                else
+                    cadreEdu.setHasDegree(cadreEdu.getIsGraduated());
+                if (cadreEdu.getHasDegree()) {
+                    cadreEdu.setDegree(degree);
+                    cadreEdu.setDegreeType(degreeType);
+                    if (schoolType != CadreConstants.CADRE_SCHOOL_TYPE_ABROAD) {
+                        cadreEdu.setDegreeCountry("中国");
+                    }
+
+                    cadreEdu.setDegreeUnit(StringUtils.trimToEmpty(cadreEdu.getDegreeUnit()));
+                    cadreEdu.setDegreeTime(cadreEdu.getFinishTime());
+                }
+
+                //cadreEdu.setRemark(resumeRow.desc);
+
+                CadreEdu byEduTime = cadreEduService.getByEduTime(cadreId, cadreEdu.getEnrolTime(), cadreEdu.getFinishTime());
+                if (byEduTime == null) {
+                    try {
+                        cadreEduService.insertSelective(cadreEdu);
+                        if (resumeRow.row != null) {
+                            // 暂存学习经历ID
+                            fidMap.put(resumeRow.row, cadreEdu.getId());
+                        }
+                    } catch (Exception ex) {
+                        throw new OpException("{0}学习经历有误：{1}", cadre.getRealname(), ex.getMessage());
+                    }
+                } else {
+
+                    if (resumeRow.row != null) {
+                        fidMap.put(resumeRow.row, byEduTime.getId());
+                    }
+                    cadreEdu.setId(byEduTime.getId());
+                    cadreEduMapper.updateByPrimaryKeySelective(cadreEdu);
+                }
+            } else {
+                // 工作经历
+                CadreWork cadreWork = new CadreWork();
+                cadreWork.setIsEduWork(false);
+                cadreWork.setCadreId(cadreId);
+                cadreWork.setStartTime(resumeRow.start);
+                cadreWork.setEndTime(resumeRow.end);
+                cadreWork.setDetail(resumeRow.desc);
+                cadreWork.setNote(resumeRow.note);
+
+                int workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_jg").getId();
+                if (StringUtils.containsAny(resumeRow.desc, "学院", "系", "专业", "教师", "讲师", "助教", "教授")) {
+                    workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_xy").getId();
+                } else if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
+                    workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_abroad").getId();
+                }
+                cadreWork.setWorkTypes(workType+"");
+                cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
+                        "主任", "处级", "部长", "书记"));
+
+                CadreWork byWorkTime = cadreWorkService.getByWorkTime(cadreId, cadreWork.getStartTime(), cadreWork.getEndTime());
+                if (byWorkTime == null) {
+                    if (resumeRow.fRow == null) {
+                        // 保存主要工作经历
+                        cadreWorkService.insertSelective(cadreWork);
+                        if (resumeRow.row != null) {
+                            // 暂存主要工作经历ID
+                            fidMap.put(resumeRow.row, cadreWork.getId());
+                        }
+                    } else {
+                        // 保存其间工作经历
+                        cadreWork.setFid(fidMap.get(resumeRow.fRow)); // 读取主要工作经历ID
+                        cadreWork.setIsEduWork(resumeRow.isEduWork);
+                        cadreWorkService.insertSelective(cadreWork);
+                    }
+
+                } else {
+                    if (resumeRow.row != null) {
+                        fidMap.put(resumeRow.row, byWorkTime.getId());
+                    }
+                    cadreWork.setId(byWorkTime.getId());
+                    cadreWorkService.updateByPrimaryKeySelective(cadreWork);
+                }
+            }
+        }
+
     }
 }

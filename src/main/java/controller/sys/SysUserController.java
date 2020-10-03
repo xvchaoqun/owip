@@ -968,7 +968,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_batchImport";
     }
 
-    //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行插入插座。如果是教师同时会更新教师表
+    //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行添加账号信息操作；若账号为空，则跳过该账号。如果是教师同时会更新教师表
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_batchImport", method = RequestMethod.POST)
     @ResponseBody
@@ -988,7 +988,7 @@ public class SysUserController extends BaseController {
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
             int col = 0;
-            String userCode = StringUtils.trimToNull(xlsRow.get(col++));
+            String userCode = ContentUtils.removeAllBlank(xlsRow.get(col++));
             if (StringUtils.isBlank(userCode)) {
                 continue; // 学工号为空则忽略行
             }
@@ -1040,18 +1040,15 @@ public class SysUserController extends BaseController {
             uv.setNation(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(col++)));
-            uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//籍贯
-
-            SysUserInfo uvi = sysUserInfoMapper.selectByPrimaryKey(uv.getId());
-            uvi.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
-            sysUserInfoMapper.updateByPrimaryKeySelective(uvi);
+            uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//户籍地
+            uv.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
 
             TeacherInfo teacherInfo = new TeacherInfo();
             if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());
                 }
-                teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称
+                teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称/专业技术职务
                 teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
