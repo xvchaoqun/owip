@@ -73,6 +73,9 @@ delete from cadre where id=@oldCadreId;
 
 )
 
+## 判断性别和身份证是否一致
+select realname, unit, idcard, gender from sys_user_info  where length(idcard)=18 and SUBSTRING(idcard, 17, 1)%2!=gender%2;
+select realname, unit, idcard, gender from sys_user_info  where length(idcard)=15 and SUBSTRING(idcard, 14, 1)%2!=gender%2;
 
 ### 查询某个党委的离退休费
 select m.code, m.realname, s.ltxf from ow_member_teacher m
