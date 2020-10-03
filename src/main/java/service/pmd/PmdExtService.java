@@ -34,6 +34,7 @@ public class PmdExtService extends PmdBaseMapper{
     private static Map<String, Integer> eduNormMap;
 
     // 高级人才收费标准
+    @Deprecated
     public Map<String, Integer> getRcchNormMap(){
 
         if(rcchNormMap!=null) return rcchNormMap;
@@ -43,6 +44,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 职称级别收费标准
+    @Deprecated
     public Map<String, Integer> getProPostLevelNormMap(){
 
         if(proPostLevelNormMap!=null) return proPostLevelNormMap;
@@ -52,6 +54,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 管理岗位等级收费标准
+    @Deprecated
     public Map<String, Integer> getManagerLevelNormMap(){
 
         if(managerLevelNormMap!=null) return managerLevelNormMap;
@@ -61,6 +64,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 工勤岗位等级收费标准
+    @Deprecated
     public Map<String, Integer> getOfficeLevelNormMap(){
 
         if(officeLevelNormMap!=null) return officeLevelNormMap;
@@ -70,6 +74,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // （非事业编-校聘-最高学历）党费标准
+    @Deprecated
     public Map<String, Integer> getEduNormMap(){
 
         if(eduNormMap!=null) return eduNormMap;
@@ -77,7 +82,7 @@ public class PmdExtService extends PmdBaseMapper{
         eduNormMap = getPayMap("classpath:xml/pmd/xp_xl.xml");
         return eduNormMap;
     }
-
+    @Deprecated
     private Map<String, Integer> getPayMap(String classpath){
 
         Map<String, Integer> map = new LinkedHashMap<>();
@@ -118,6 +123,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 */
     // 如果是在职事业编的高级人才，返回对应的最大缴纳金额，否则返回-1
+    @Deprecated
     public int getMaxRCCHDuePay(MemberView member){
 
         int duePay = -1;
@@ -145,6 +151,7 @@ public class PmdExtService extends PmdBaseMapper{
         return duePay;
     }
 
+    @Deprecated
     class PostDuePayBean{
 
         private int duePay;
@@ -173,6 +180,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 根据专技、管理、工勤3种等级得到最高的缴纳金额，都不匹配否则返回-1
+    @Deprecated
     public PostDuePayBean getPostDuePay(MemberView member){
 
         int duePay = -1;
@@ -231,15 +239,6 @@ public class PmdExtService extends PmdBaseMapper{
         return resultMap;
     }*/
 
-    public boolean isSYB(MemberView memberView){
-
-        String staffStatus = StringUtils.trim(memberView.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberView.getAuthorizedType());
-
-        return StringUtils.equals(staffStatus, "在职")
-                && StringUtils.equals(authorizedType, "事业编");
-    }
-
     // 在职非事业编党员（校聘、学生助理）
     // <userId, MemberTeacher>
     /*public Map<Integer, MemberTeacher> getFSYB(){
@@ -258,18 +257,8 @@ public class PmdExtService extends PmdBaseMapper{
         return resultMap;
     }*/
 
-    public boolean isXP(MemberView memberView){
-
-        String staffStatus = StringUtils.trim(memberView.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberView.getAuthorizedType());
-        String staffType = StringUtils.trim(memberView.getStaffType());
-
-        return StringUtils.equals(staffStatus, "在职")
-                && !StringUtils.equals(authorizedType, "事业编")
-                && StringUtils.equals(staffType, "校聘") ;
-    }
-
     // 校聘应交额度
+    @Deprecated
     public int getXPDuePay(MemberView member){
 
         int duePay = -1;
@@ -294,6 +283,7 @@ public class PmdExtService extends PmdBaseMapper{
         return duePay;
     }
 
+    @Deprecated
     public boolean isXSZL(MemberView member){
 
         String staffStatus = StringUtils.trim(member.getStaffStatus());
@@ -306,6 +296,7 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 学生助理应交额度
+    @Deprecated
     public int getXSZLDuePay(MemberView member){
 
         int duePay = -1;
@@ -322,6 +313,26 @@ public class PmdExtService extends PmdBaseMapper{
         }
 
         return duePay;
+    }
+
+    public boolean isSYB(MemberView memberView){
+
+        String staffStatus = StringUtils.trim(memberView.getStaffStatus());
+        String authorizedType = StringUtils.trim(memberView.getAuthorizedType());
+
+        return StringUtils.equals(staffStatus, "在职")
+                && StringUtils.equals(authorizedType, "事业编");
+    }
+
+    public boolean isXP(MemberView memberView){
+
+        String staffStatus = StringUtils.trim(memberView.getStaffStatus());
+        String authorizedType = StringUtils.trim(memberView.getAuthorizedType());
+        String staffType = StringUtils.trim(memberView.getStaffType());
+
+        return StringUtils.equals(staffStatus, "在职")
+                && !StringUtils.equals(authorizedType, "事业编")
+                && StringUtils.equals(staffType, "校聘") ;
     }
 
     // 离退休人员党费计算基数

@@ -316,9 +316,9 @@
         ]]>
         -- 离退教职工
         sum(if(type=2, 1, 0)) as lt,
-        -- 不带薪就读学生党员
+        -- 不带薪学生党员
         sum(if(type=3 and has_salary=0, 1, 0)) as bdx,
-        -- 带薪就读学生党员
+        -- 带薪学生党员
         sum(if(type=3 and has_salary=1, 1, 0)) as dx
         from pmd_member pm where month_id=#{monthId} and party_id=#{partyId}
         <if test="type==1">

@@ -60,16 +60,17 @@
             </div>
         </div>
         <c:if test="${param.configMemberType==PMD_MEMBER_TYPE_STUDENT}">
-            <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>是否带薪就读</label>
+            <input type="hidden" name="hasSalary" value="0">
+            <%--<div class="form-group">
+                <label class="col-xs-4 control-label"><span class="star">*</span>是否带薪</label>
 
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="hasSalary"
                             data-width="270"
                             data-placeholder="请选择">
                         <option></option>
-                        <option value="0">不带薪就读</option>
-                        <option value="1">带薪就读</option>
+                        <option value="0">不带薪</option>
+                        <option value="1">带薪</option>
                     </select>
                     <c:if test="${not empty pmdMember.hasSalary}">
                         <script>
@@ -77,7 +78,7 @@
                         </script>
                     </c:if>
                 </div>
-            </div>
+            </div>--%>
         </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label">额度（单位：人民币）</label>
@@ -111,10 +112,12 @@
         //console.log(setType)
 
         if (setType == "${PMD_NORM_SET_TYPE_SET}") {
+            $("input[name=hasSalary]", "#modalForm").val(1);
             $("input[name=amount]", "#modalForm").val('')
                     .prop("disabled", false)
                     .attr("required", "required");
         } else {
+            $("input[name=hasSalary]", "#modalForm").val(0);
             $("input[name=amount]", "#modalForm").val(amount)
                     .prop("disabled", true).removeAttr("required");
         }

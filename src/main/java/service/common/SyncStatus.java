@@ -8,7 +8,8 @@ import java.util.Set;
 
 /**
  * 同步字段是否只同步一次，0或空代表每次都同步覆盖，1代表仅同步一次，后面不覆盖，
- * 字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像、专业技术职务级别
+ * 字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、
+ * 户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像、专业技术职务级别、所在单位
  */
 public class SyncStatus {
 
@@ -27,6 +28,7 @@ public class SyncStatus {
     public boolean homePhone;
     public boolean avatar;
     public boolean proPostLevel; // 专业技术职务级别（职称）
+    public boolean unit; // 所在单位（院系）
 
     public SyncStatus(Integer sync) {
 
@@ -48,6 +50,7 @@ public class SyncStatus {
         int i = 0;
 
         // 倒序解析
+        unit = getBit(status, i++);
         proPostLevel = getBit(status, i++);
         avatar = getBit(status, i++);
         homePhone = getBit(status, i++);
@@ -67,7 +70,7 @@ public class SyncStatus {
 
     public int toSync(){
 
-        // 正序解析
+        // 正序生成
         return Integer.parseUnsignedInt(toBit(realname)
                 + toBit(gender)
                 + toBit(birth)
@@ -82,7 +85,8 @@ public class SyncStatus {
                 + toBit(phone)
                 + toBit(homePhone)
                 + toBit(avatar)
-                + toBit(proPostLevel), 2);
+                + toBit(proPostLevel)
+                + toBit(unit), 2);
     }
 
     public void combine(SyncStatus other){
@@ -102,6 +106,7 @@ public class SyncStatus {
         this.homePhone = this.homePhone || other.homePhone;
         this.avatar = this.avatar || other.avatar;
         this.proPostLevel = this.proPostLevel || other.proPostLevel;
+        this.unit = this.unit || other.unit;
     }
 
     public void setByNames(String names){
@@ -126,6 +131,7 @@ public class SyncStatus {
         this.homePhone = this.homePhone || nameSet.contains("homePhone");
         this.avatar = this.avatar || nameSet.contains("avatar");
         this.proPostLevel = this.proPostLevel || nameSet.contains("proPostLevel");
+        this.unit = this.unit || nameSet.contains("unit");
     }
 
     // pos是status的倒序位数
@@ -214,4 +220,7 @@ public class SyncStatus {
 
     public boolean isProPostLevel() { return proPostLevel; }
 
+    public boolean isUnit() {
+        return unit;
+    }
 }

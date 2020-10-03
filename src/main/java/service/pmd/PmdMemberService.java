@@ -313,7 +313,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
             if(pmdMember.getType()==PmdConstants.PMD_MEMBER_TYPE_STUDENT
                     && hasSalary ==null){
-                throw new OpException("{0}是否带薪就读？", uv.getRealname());
+                throw new OpException("{0}是否带薪？", uv.getRealname());
             }
 
             if(pmdMember.getMonthId()!=currentMonthId){
@@ -388,6 +388,7 @@ public class PmdMemberService extends PmdBaseMapper {
             PmdMember record = new PmdMember();
             record.setConfigMemberTypeId(configMemberTypeId);
             record.setConfigMemberTypeName(pmdConfigMemberType.getName());
+            record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
             record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
             record.setConfigMemberTypeNormName(pmdConfigMemberType.getPmdNorm().getName());
             record.setSalary(retireBase);
