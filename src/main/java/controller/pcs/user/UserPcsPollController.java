@@ -4,6 +4,8 @@ import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.sys.SysUserView;
@@ -140,7 +142,7 @@ public class UserPcsPollController extends PcsBaseController {
 
         logger.debug(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS,"退出系统"));
 
-        return "redirect:/user/pcs/login?isFinished="+ BooleanUtils.isTrue(isFinished);
+        return "redirect:/user/ddh?isFinished="+ BooleanUtils.isTrue(isFinished);
     }
 
     @RequestMapping(value = "/agree", method = RequestMethod.POST)
@@ -487,6 +489,9 @@ public class UserPcsPollController extends PcsBaseController {
         }
         List<MemberView> members = memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != members && members.size() > 0) {
 
@@ -512,7 +517,22 @@ public class UserPcsPollController extends PcsBaseController {
                 //option.put("user", userBeanService.get(member.getUserId()));
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
-                    option.put("unit", extService.getUnit(uv.getId()));
+
+                    String unit = "";
+                    Integer _partyId = member.getPartyId();
+                    Integer _branchId = member.getBranchId();
+                    if(_branchId!=null){
+                        Branch branch = branchMap.get(_branchId);
+                        if(branch!=null){
+                            unit = StringUtils.defaultIfBlank(branch.getShortName(), branch.getName());
+                        }
+                    }else{
+                        Party party = partyMap.get(_partyId);
+                        if(party!=null){
+                            unit = StringUtils.defaultIfBlank(party.getShortName(), party.getName());
+                        }
+                    }
+                    option.put("unit", unit);
                 }
                 options.add(option);
             }

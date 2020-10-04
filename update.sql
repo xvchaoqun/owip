@@ -1,4 +1,9 @@
 
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `pro_post_level` `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务级别（职称级别）' AFTER `pro_post_time`,
+	CHANGE COLUMN `post_level` `post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '任职级别（职员级别）' AFTER `post`;
+
 20201003
 大工
 

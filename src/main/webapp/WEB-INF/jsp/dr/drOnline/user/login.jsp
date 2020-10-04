@@ -9,11 +9,11 @@
     <t:link href="/css/main.css"/>
     <t:link href="/css/dr.css"/>
     <!--[if lt IE 9]>
-    <script type="text/javascript">location.href = "${ctx}/page/browsers.jsp?type=unsupport&url=/dr/login";</script>
+    <script type="text/javascript">location.href = "${ctx}/page/browsers.jsp?type=unsupport&url=/mztj";</script>
     <![endif]-->
 </head>
 <body class="login_body">
-<form id="login-form" method="post" action="${ctx}/user/dr/login" autocomplete="off" disableautocomplete>
+<form id="login-form" method="post" action="${ctx}/user/mztj" autocomplete="off" disableautocomplete>
     <table class="dr_login_bg" border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
         <tbody>
         <tr>

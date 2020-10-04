@@ -39,9 +39,9 @@
                             <td align="right">
                                 <span style='font-size:14.0pt;font-family:黑体;'>系统网址：</span>
                             </td>
-                            <td align="left">${homeURL}/dr/login</td>
+                            <td align="left">${homeURL}/mztj</td>
                             <td rowspan="4" align="center" width="150">
-                                <c:set var="loginUrl" value="${homeURL}/dr/login?u=${inspector.username}&p=${inspector.passwd}"/>
+                                <c:set var="loginUrl" value="${homeURL}/mztj?u=${inspector.username}&p=${inspector.passwd}"/>
                                 <span style="display: none">${loginUrl}</span>
                                 <div class="qrcode"
                                      data-url="${loginUrl}"
