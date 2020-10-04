@@ -82,7 +82,7 @@
 					$passwd.focus();
 					return;
 				}
-				$.post("${ctx}/user/mztj?isMobile=1", {"username": $username.val(), "passwd": $passwd.val()}, function(ret){
+				$.post("${ctx}/mztj?isMobile=1", {"username": $username.val(), "passwd": $passwd.val()}, function(ret){
 					if (ret.success) {
 						location.href = "${ctx}/user/dr/index?isMobile=1";
 					}else {
