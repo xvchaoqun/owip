@@ -142,7 +142,7 @@ public class UserPcsPollController extends PcsBaseController {
 
         logger.debug(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS,"退出系统"));
 
-        return "redirect:/user/ddh?isFinished="+ BooleanUtils.isTrue(isFinished);
+        return "redirect:/user/pcs/login?isFinished="+ BooleanUtils.isTrue(isFinished);
     }
 
     @RequestMapping(value = "/agree", method = RequestMethod.POST)
