@@ -6,7 +6,6 @@ import domain.unit.UnitPostView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -14,6 +13,11 @@ import java.util.List;
  * Created by fafa on 2015/11/28.
  */
 public interface IUnitMapper {
+
+    @Select("select max(code) from unit where code like '${code}%'")
+    String getUnitMaxCode(@Param("code") String code);
+    @Select("select max(code) from unit_post where code like '${code}%'")
+    String getUnitPostMaxCode(@Param("code") String code);
 
     @ResultMap("persistence.unit.UnitPostMapper.BaseResultMap")
     @Select("select * from unit_post where id in(${ids}) order by status asc, sort_order desc")

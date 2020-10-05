@@ -3,26 +3,19 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>导入${CADRE_STATUS_MAP.get(status)}</h3>
+    <h3>导入干部</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cadreAll_import" method="post">
         <div class="form-group">
             <label class="col-xs-offset-1 col-xs-4 control-label"><span class="star">*</span> 内设机构起始编码</label>
             <div class="col-xs-6">
-                <input type="text" name="unitCode"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-offset-1 col-xs-4 control-label"><span class="star">*</span> 岗位起始编码</label>
-            <div class="col-xs-6">
-                <input type="text" name="unitPostCode"/>
+                <input type="text" name="unitCode" class="digits" data-rule-min="1000"/>
             </div>
         </div>
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-4 control-label"><span class="star">*</span> Excel文件</label>
 			<div class="col-xs-6">
-				<input type="hidden" name="status" value="${status}"/>
 				<input type="file" name="xlsx" required extension="xlsx"/>
 			</div>
 		</div>

@@ -1186,9 +1186,7 @@ public class CadreController extends BaseController {
     @RequestMapping(value = "/cadreAll_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreAll_import(HttpServletRequest request,
-                                  Byte status,
-                                  String unitCode,//后三位必须为数字
-                                  String unitPostCode//后三位必须为数字
+                                  Byte status, String unitCode //后三位必须为数字
                                    ) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -1199,7 +1197,7 @@ public class CadreController extends BaseController {
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
-        cadreService.cadreAll_import(xlsRows, status, unitCode, unitPostCode);
+        cadreService.cadreAll_import(xlsRows, status, unitCode);
 
         int unitCount = (int) unitMapper.countByExample(new UnitExample());
         int unitPostCount = (int) unitPostMapper.countByExample(new UnitPostExample());

@@ -3,6 +3,7 @@ package service.cadre;
 import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
@@ -42,6 +43,7 @@ import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
 import sys.constants.*;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 import sys.utils.PatternUtils;
@@ -658,7 +660,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     }
 
     @Transactional
-    public void cadreAll_import(List<Map<Integer, String>> xlsRows, Byte status, String unitCode, String unitPostCode){
+    public void cadreAll_import(List<Map<Integer, String>> xlsRows, Byte status, String unitCode){
 
         cadreAdminLevelMapper.deleteByExample(new CadreAdminLevelExample());
         cadrePostMapper.deleteByExample(new CadrePostExample());
@@ -666,12 +668,12 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         unitPostMapper.deleteByExample(new UnitPostExample());
         unitMapper.deleteByExample(new UnitExample());
 
+        // 清空职务属性
+        commonMapper.excuteSql("delete bmt.* from base_meta_type bmt , base_meta_class bmc where bmt.class_id=bmc.id and bmc.code='mc_post'");
+
         Set<Unit> unitList = new HashSet<>();
         List<UnitPost> unitPostList = new ArrayList<>();
         List<Cadre> cadreList = new ArrayList<>();
-        //用于生成编码
-        int unitCount = 1;
-        int unitpostCount = 1;
 
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
@@ -689,7 +691,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 }else{
                     Unit unit = new Unit();
                     unit.setName(name);
-                    unit.setCode(genCode(unitCode, unitCount, true));
+                    unit.setCode(genCode(unitCode, true));
                     unit.setCreateTime(new Date());
                     unit.setStatus((byte) 1);
                     unit.setSortOrder(getNextSortOrder("unit", "status=" + status));
@@ -704,7 +706,6 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                     }else{
                         unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关职能部处").getId());
                     }
-                    unitCount++;
                     unitList.add(unit);
                     unitMapper.insertSelective(unit);
 
@@ -713,7 +714,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
             //2、岗位
             CadrePost mainPost = new CadrePost();
-            String unitPostName = StringUtils.trimToNull(xlsRow.get(4));
+            String unitPostName = ContentUtils.trimAll(xlsRow.get(4)).replaceAll("<[　| | |\\s]*br[　| | |\\s]*[/]?>", "");
             if (StringUtils.isBlank(unitPostName)){
                 throw new OpException("第{0}行所在单位及职务为空", row);
             }
@@ -724,18 +725,25 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 String name = unitPostNames[i];
                 UnitPost unitPost = new UnitPost();
                 unitPost.setName(name);
-                unitPost.setCode(genCode(unitPostCode, unitpostCount, false));
+
                 unitPost.setIsCpc(true);
                 unitPost.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
-                String _unitName = unitNames[ArrayUtils.indexOf(unitPostNames, name)];
+                int idx = ArrayUtils.indexOf(unitPostNames, name);
+                if(idx<0 || unitNames.length<=idx) continue;
+                String _unitName = unitNames[idx];
                 UnitExample example = new UnitExample();
                 example.createCriteria().andNameEqualTo(_unitName);
                 if (unitMapper.countByExample(example) > 0){
-                    unitPost.setUnitId(unitMapper.selectByExample(example).get(0).getId());
+
+                    Unit unit = unitMapper.selectByExample(example).get(0);
+                    unitPost.setUnitId(unit.getId());
+
+                    unitPost.setCode(genCode(unit.getCode(), false));
                 }else {
                     throw new OpException("第{0}行的第{1}个岗位对应的单位为空", row, ArrayUtils.indexOf(unitPostNames, name) + 1);
                 }
 
+                MetaClass mcPost = CmTag.getMetaClassByCode("mc_post");
                 MetaType postType = null;
                 MetaType adminLevel = null;
                 MetaType postClass = null;
@@ -745,7 +753,13 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
                     String _postType = StringUtils.trimToNull(xlsRow.get(9));//职务属性（主职）
                     postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                    if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                    if (postType == null){
+                        postType = new MetaType();
+                        postType.setClassId(mcPost.getId());
+                        postType.setCode(metaTypeService.genCode());
+                        postType.setName(_postType);
+                        metaTypeService.insertSelective(postType);
+                    }
 
                     String _adminLevel = StringUtils.trimToNull(xlsRow.get(10));//岗位级别（主职）
                     adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
@@ -762,7 +776,13 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
                     String _postType = StringUtils.trimToNull(xlsRow.get(16));//职务属性（兼职1）
                     postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                    if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                    if (postType == null){
+                        postType = new MetaType();
+                        postType.setClassId(mcPost.getId());
+                        postType.setCode(metaTypeService.genCode());
+                        postType.setName(_postType);
+                        metaTypeService.insertSelective(postType);
+                    }
 
                     String _adminLevel = StringUtils.trimToNull(xlsRow.get(17));//岗位级别（兼职1）
                     adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
@@ -779,7 +799,13 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
                     String _postType = StringUtils.trimToNull(xlsRow.get(21));//职务属性（兼职2）
                     postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                    if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                    if (postType == null){
+                        postType = new MetaType();
+                        postType.setClassId(mcPost.getId());
+                        postType.setCode(metaTypeService.genCode());
+                        postType.setName(_postType);
+                        metaTypeService.insertSelective(postType);
+                    }
 
                     String _adminLevel = StringUtils.trimToNull(xlsRow.get(22));//岗位级别（兼职1）
                     adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
@@ -812,19 +838,29 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             Cadre cadre = new Cadre();
             String userCode = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(userCode)) {
-                throw new OpException("第{0}行工作证号为空", row);
+                logger.error("第{0}行工作证号为空", row);
+                continue;
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null) {
-                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+                logger.error("第{0}行工作证号[{1}]不存在", row, userCode);
+                continue;
             }
             int userId = uv.getId();
             cadre.setUserId(userId);
             cadre.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
-            cadre.setTitle(StringUtils.trimToNull(xlsRow.get(4)));
+            cadre.setTitle(unitPostName);
             String _isDouble = StringUtils.trimToNull(xlsRow.get(5));
             cadre.setIsDouble(StringUtils.equals(_isDouble, "是"));
+
+            status = CadreConstants.CADRE_STATUS_LEADER;
+            if(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(3)), "处级")){
+                status = CadreConstants.CADRE_STATUS_CJ;
+            }else if(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(3)), "科级")){
+                status = CadreConstants.CADRE_STATUS_KJ;
+            }
             cadre.setStatus(status);
+
             if (cadre.getIsDouble()) {
 
                 List<Integer> doubleUnitIds = new ArrayList<>();
@@ -868,7 +904,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             //4、主职
             cv = dbFindByUserId(userId);
             if (cv == null) {
-                throw new OpException("第{0}行工作证号[{1}]不在干部库中", row, userCode);
+                logger.error("第{0}行工作证号[{1}]不在干部库中", row, userCode);
+                continue;
             }
             UnitPost mainUnitPost = unitPostMapper.selectByPrimaryKey(mainPost.getUnitPostId());
             mainPost.setPostName(mainUnitPost.getName());
@@ -1032,20 +1069,37 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     }
 
     //获得不重复的编码
-    public String genCode(String code, int count, boolean isUnit){
+    public String genCode(String code, boolean isUnit){
 
         boolean isExisted;
+        int count = 0;
         do {
 
-            code = StringUtils.substring(code, 0, code.length() - 3) + String.format("%03d", count);
-
             if (isUnit) {
+
+                code = StringUtils.substring(code, 0, code.length() - 3);
+                String unitMaxCode = iUnitMapper.getUnitMaxCode(code);
+                if(unitMaxCode==null){
+                    count = 1;
+                }else {
+                    count = Integer.valueOf(unitMaxCode.substring(unitMaxCode.length() - 3)) + 1;
+                }
+
+                code = code + String.format("%03d", count);
                 UnitExample example = new UnitExample();
                 example.createCriteria().andCodeEqualTo(code);
 
                 isExisted = unitMapper.countByExample(example) > 0;
             }else {
+                String unitPostMaxCode = iUnitMapper.getUnitPostMaxCode(code);
+                if(unitPostMaxCode==null){
+                    count = 1;
+                }else {
+                    count = Integer.valueOf(unitPostMaxCode.substring(unitPostMaxCode.length() - 3)) + 1;
+                }
                 UnitPostExample example = new UnitPostExample();
+
+                code = code + String.format("%03d", count);
                 example.createCriteria().andCodeEqualTo(code);
 
                 isExisted = unitPostMapper.countByExample(example) > 0;
