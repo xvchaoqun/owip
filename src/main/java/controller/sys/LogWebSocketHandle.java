@@ -9,6 +9,7 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @ServerEndpoint(value = "/log", configurator = HttpSessionConfigurator.class)
 public class LogWebSocketHandle {
@@ -28,8 +29,13 @@ public class LogWebSocketHandle {
                 return;
             }
 
+            String path = "/opt/logs";
+            List<String> pathParam = session.getRequestParameterMap().get("path");
+            if(pathParam!=null && pathParam.size()>0) {
+                path = pathParam.get(0);
+            }
             // 执行tail -f命令
-            String cmd = "tail -f ~/tomcat_logs/info.$(date \\+%Y-%m-%d).log";
+            String cmd = "tail -f "+ path +"/info.$(date \\+%Y-%m-%d).log";
             process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
             //String cmd = "ping -t localhost";

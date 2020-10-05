@@ -1,4 +1,5 @@
 
+20201005
 
 ALTER TABLE `sys_teacher_info`
 	CHANGE COLUMN `pro_post_level` `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务级别（职称级别）' AFTER `pro_post_time`,
@@ -14,7 +15,7 @@ VALUES ('sync', '同步字段是否只同步一次', '0110111101101100', 1, 51, 
 
 
 20201002
-大工，北邮，戏曲，南航 -- 北师大
+大工，北邮，戏曲，南航
 
 
 20200929
