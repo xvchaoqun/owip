@@ -37,7 +37,9 @@ public class AbroadAdditionalPostController extends AbroadBaseController {
     @RequestMapping("/abroadAdditionalPost")
     public String abroadAdditionalPost(Integer cadreId, ModelMap modelMap) {
 
-        modelMap.put("cadre", cadreService.get(cadreId));
+        if(cadreId!=null) {
+            modelMap.put("cadre", cadreService.get(cadreId));
+        }
         return "abroad/abroadAdditionalPost/abroadAdditionalPost_page";
     }
 

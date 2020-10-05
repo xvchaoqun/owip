@@ -201,7 +201,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                                  Byte type, Boolean isModify,
                                  // 1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批 -1: 已删除的记录
                                  int status,
-                                 String sort, String order, Integer pageNo, Integer pageSize, int export) {
+                                 String sort, String order, Integer pageNo, Integer pageSize, int export, Integer[] ids) {
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -240,6 +240,10 @@ public class ApplySelfService extends AbroadBaseMapper {
         }
 
         if (export == 1) {
+            
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+
             applySelf_export(example, response);
             return null;
         }
@@ -916,7 +920,8 @@ public class ApplySelfService extends AbroadBaseMapper {
 
             List<String> passportList = new ArrayList<>();
             String needPassports = record.getNeedPassports();
-            if (needPassports != null) {
+
+            if (needPassports != null && !StringUtils.equalsIgnoreCase(needPassports, "null")) {
                 String[] passportIds = needPassports.split(",");
                 for (String passportIdStr : passportIds) {
                     int passportId = Integer.parseInt(passportIdStr);

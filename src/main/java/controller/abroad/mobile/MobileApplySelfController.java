@@ -56,7 +56,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		modelMap.put("status", status);
 
 		Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
-				type, null, status, sort, order, pageNo, springProps.mPageSize, export);
+				type, null, status, sort, order, pageNo, springProps.mPageSize, export, null);
 		if(map == null) return null; // 导出
 
 		//request.setAttribute("isView", false);

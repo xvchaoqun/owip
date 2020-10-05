@@ -91,6 +91,7 @@
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
+            <columnOverride column="is_retire" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
         </table>-->

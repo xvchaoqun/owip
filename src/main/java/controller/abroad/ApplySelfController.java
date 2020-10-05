@@ -388,11 +388,12 @@ public class ApplySelfController extends AbroadBaseController {
                                // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
                                @RequestParam(required = false, defaultValue = "0") int status,// -1: 已删除的记录
                                @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
 
         Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
-                type, isModify, status, sort, order, pageNo, springProps.pageSize, export);
+                type, isModify, status, sort, order, pageNo, springProps.pageSize, export, ids);
         if (map == null) return; // 导出
         CommonList commonList = (CommonList) map.get("commonList");
 
