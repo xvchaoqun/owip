@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>职级</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>职称级别</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="postLevel"
                         data-placeholder="请选择">
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${_cadrePostPro_noNeed?'':'<span class="star">*</span>'} 职称级别</label>
+            <label class="col-xs-4 control-label">${_cadrePostPro_noNeed?'':'<span class="star">*</span>'} 职称分级</label>
 
             <div class="col-xs-6">
                 <c:set value="${cm:getMetaType(cadrePostPro.level)}" var="level"/>
