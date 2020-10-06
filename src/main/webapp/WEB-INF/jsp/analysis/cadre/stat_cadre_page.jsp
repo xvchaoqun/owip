@@ -217,7 +217,7 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=2 height=46 class=xl94>政治面貌
+                        <td rowspan=3 height=46 class=xl94>政治面貌
                         </td>
                         <td class=xl70>中共党员</td>
                         <jsp:include page="row.jsp">
@@ -233,6 +233,15 @@
                             <jsp:param name="row" value="8"/>
                             <jsp:param name="firstTypeCode" value="politicsStatus" />
                             <jsp:param name="firstTypeNum" value="2" />
+                        </jsp:include>
+                    </tr>
+                    <tr>
+                        <td height=23 class=xl70>群众
+                        </td>
+                        <jsp:include page="row.jsp">
+                            <jsp:param name="row" value="Qz"/>
+                            <jsp:param name="firstTypeCode" value="politicsStatus" />
+                            <jsp:param name="firstTypeNum" value="3" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -307,7 +316,7 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=3 height=69 class=xl94>职称分布
+                        <td rowspan=4 height=69 class=xl94>职称分布
                         </td>
                         <td height=23 class=xl70>正高</td>
                         <jsp:include page="row.jsp">
@@ -326,12 +335,21 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td height=23 class=xl70 style="white-space: nowrap">中级及以下
+                        <td height=23 class=xl70 style="white-space: nowrap">中（初）级
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="18"/>
                             <jsp:param name="firstTypeCode" value="postLevel" />
                             <jsp:param name="firstTypeNum" value="3" />
+                        </jsp:include>
+                    </tr>
+                    <tr>
+                        <td height=23 class=xl70 style="white-space: nowrap">其他
+                        </td>
+                        <jsp:include page="row.jsp">
+                            <jsp:param name="row" value="_otherZc"/>
+                            <jsp:param name="firstTypeCode" value="postLevel" />
+                            <jsp:param name="firstTypeNum" value="4" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -388,7 +406,7 @@
                         <td height=23 class=xl70>${cm:getMetaType(entity.key).name}
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="${23+vs.index+2}"/>
+                            <jsp:param name="row" value="${23+vs.index+4}"/>
                             <jsp:param name="firstTypeCode" value="education"/>
                             <jsp:param name="firstTypeNum" value="${entity.key}"/>
                         </jsp:include>

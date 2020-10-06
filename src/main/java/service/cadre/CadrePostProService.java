@@ -59,7 +59,8 @@ public class CadrePostProService extends BaseMapper {
             int userId = cadre.getUserId();
             String proPost = SqlUtils.toParamValue(metaTypeService.getName(record.getPost()));
             String proPostTime = SqlUtils.toParamValue(DateUtils.formatDate(record.getHoldTime(), DateUtils.YYYY_MM_DD));
-            String proPostLevel = SqlUtils.toParamValue(metaTypeService.getName(record.getLevel()));
+            //String proPostLevel = SqlUtils.toParamValue(metaTypeService.getName(record.getLevel()));
+            String proPostLevel = SqlUtils.toParamValue(record.getPostLevel());
             String proPostLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(record.getGradeTime(), DateUtils.YYYY_MM_DD));
 
             commonMapper.excuteSql(String.format("update sys_teacher_info set pro_post=%s, " +

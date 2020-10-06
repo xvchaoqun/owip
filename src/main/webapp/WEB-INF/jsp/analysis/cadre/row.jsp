@@ -3,7 +3,7 @@
 <c:set value="row${param.row}" var="key"></c:set>
 <c:set value="${rs.get(key)}" var="row"></c:set>
 <c:set value="${cm:encodeQueryString(pageContext.request.queryString)}&firstTypeCode=${param.firstTypeCode}&firstTypeNum=${param.firstTypeNum}" var="params"/>
-<td ${(empty param.type && param.row==1)?'class=xl83 colspan=2':'class=xl73'}>
+<td ${(empty param.type && param.row=="1")?'class=xl83 colspan=2':'class=xl73'}>
     <c:if test="${row.get(0)==0}">0</c:if>
     <c:if test="${row.get(0)>0}">
         <c:if test="${param.firstTypeCode == null}">
@@ -15,7 +15,7 @@
         </c:if>
     </c:if>
 </td>
-<c:if test="${not empty param.type || param.row!=1}">
+<c:if test="${not empty param.type || param.row!='1'}">
     <td class=xl83>${row.get(1)}</td>
 </c:if>
 <td class=xl71>

@@ -78,13 +78,12 @@ public interface StatCadreMapper {
 
     //政治面貌
     List<CadreView> psList(@Param("s")CadreSearchBean searchBean,
-                           @Param("isOw") Boolean isOw,
-                           @Param("dpTypeId")Integer dpTypeId, @Param("crowdId")int crowdId);
+                           @Param("firstTypeNum") int firstTypeNum,
+                           @Param("crowdId")int crowdId);
 
     //职称分布
     List<CadreView> postLevelList(@Param("s")CadreSearchBean searchBean,
-                                  @Param("postLevel")String postLevel,
-                                  @Param("isRegexp")Boolean isRegexp);
+                                  @Param("firstTypeNum") int firstTypeNum);
 
     //学位
     List<CadreView> degreeList(@Param("s")CadreSearchBean searchBean,
