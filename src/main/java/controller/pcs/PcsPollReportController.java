@@ -201,6 +201,13 @@ public class PcsPollReportController extends PcsBaseController {
             userIdList.addAll(Arrays.asList(userId));
         }
 
+        if (export == 1) {
+            List<PcsFinalResult> records = iPcsMapper.selectReport(type, configId, stage, userIdList, partyId, branchId, partyIdList, branchIdList,
+                new RowBounds());
+            pcsPollReport_export(records, stage, response);
+            return;
+        }
+
         int count = 0;
         count = iPcsMapper.countReport(type, configId, stage, userIdList, partyId, branchId, partyIdList, branchIdList);
         if ((pageNo - 1) * pageSize >= count) {
@@ -208,11 +215,6 @@ public class PcsPollReportController extends PcsBaseController {
         }
 
         List<PcsFinalResult> records = iPcsMapper.selectReport(type, configId, stage, userIdList, partyId, branchId, partyIdList, branchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
-        if (export == 1) {
-            pcsPollReport_export(records, stage, response);
-            return;
-        }
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
