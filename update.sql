@@ -1,4 +1,7 @@
 
+20201008
+西工大，北航
+
 ALTER TABLE `ow_member`
 	ADD COLUMN `sort_order` FLOAT UNSIGNED NULL DEFAULT NULL COMMENT '排序，用于下拉选' AFTER `integrity`;
 -- 更新 ow_member_view
@@ -71,11 +74,6 @@ INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`
 ALTER TABLE `pcs_pr_candidate`
 	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `pro_post`,
 	ADD COLUMN `degree` VARCHAR(50) NULL DEFAULT NULL COMMENT '学位' AFTER `education`;
-
--- 更新 utils
-
-20200928
-南航
 
 -- 更新 utils
 
