@@ -27,6 +27,7 @@
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="profile" jdbcType="VARCHAR" property="profile" />
     <result column="integrity" jdbcType="DECIMAL" property="integrity" />
+    <result column="sort_order" jdbcType="REAL" property="sortOrder" />
     <result column="user_source" jdbcType="TINYINT" property="userSource" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="code" jdbcType="VARCHAR" property="code" />
@@ -40,6 +41,8 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="branch_sort_order" jdbcType="INTEGER" property="branchSortOrder" />
     <result column="out_status" jdbcType="TINYINT" property="outStatus" />
@@ -71,7 +74,7 @@
     <result column="from_type" jdbcType="VARCHAR" property="fromType" />
     <result column="talent_type" jdbcType="VARCHAR" property="talentType" />
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
-    <result column="is_retire" jdbcType="BIT" property="isRetire" />
+    <result column="is_retire" jdbcType="BOOLEAN" property="isRetire" />
     <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
     <result column="retire_time" jdbcType="DATE" property="retireTime" />
     <result column="is_high_level_talent" jdbcType="BIT" property="isHighLevelTalent" />
@@ -124,16 +127,16 @@
     user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
     positive_branch, create_time, update_time, party_post, party_reward, other_reward, 
-    label, profile, integrity, user_source, username, code, realname, gender, nation, 
-    native_place, birth, idcard, mobile, email, unit, unit_id, party_sort_order, branch_sort_order, 
-    out_status, out_handle_time, education, degree, degree_time, major, school, school_type, 
-    degree_school, authorized_type, staff_type, staff_status, on_job, main_post_level, 
-    post_class, post, post_level, pro_post, pro_post_level, manage_level, office_level, 
-    title_level, marital_status, address, arrive_time, work_time, from_type, talent_type, 
-    talent_title, is_retire, is_honor_retire, retire_time, is_high_level_talent, delay_year, 
-    period, actual_graduate_time, expect_graduate_time, actual_enrol_time, sync_source, 
-    student_type, is_full_time, enrol_year, grade, edu_type, edu_way, edu_level, edu_category, 
-    xj_status
+    label, profile, integrity, sort_order, user_source, username, code, realname, gender, 
+    nation, native_place, birth, idcard, mobile, email, unit, unit_id, party_name, branch_name, 
+    party_sort_order, branch_sort_order, out_status, out_handle_time, education, degree, 
+    degree_time, major, school, school_type, degree_school, authorized_type, staff_type, 
+    staff_status, on_job, main_post_level, post_class, post, post_level, pro_post, pro_post_level, 
+    manage_level, office_level, title_level, marital_status, address, arrive_time, work_time, 
+    from_type, talent_type, talent_title, is_retire, is_honor_retire, retire_time, is_high_level_talent, 
+    delay_year, period, actual_graduate_time, expect_graduate_time, actual_enrol_time, 
+    sync_source, student_type, is_full_time, enrol_year, grade, edu_type, edu_way, edu_level, 
+    edu_category, xj_status
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberViewExample" resultMap="BaseResultMap">
     select

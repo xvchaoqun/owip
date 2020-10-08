@@ -446,6 +446,7 @@ public class UserPcsPollController extends PcsBaseController {
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria();
 
+        example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){

@@ -198,7 +198,7 @@ public class SystemConstants {
         USER_REG_STATUS_MAP.put(USER_REG_STATUS_PASS, "申请通过");
     }
 
-    // 学位类型，1 学士 2 硕士 3 博士
+    // 学位类型，1 学士 2 硕士 3 博士（仅三类，不允许添加）
     public final static byte DEGREE_TYPE_XS = 1;
     public final static byte DEGREE_TYPE_SS = 2;
     public final static byte DEGREE_TYPE_BS = 3;

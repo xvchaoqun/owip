@@ -1,4 +1,31 @@
 
+ALTER TABLE `ow_member`
+	ADD COLUMN `sort_order` FLOAT UNSIGNED NULL DEFAULT NULL COMMENT '排序，用于下拉选' AFTER `integrity`;
+-- 更新 ow_member_view
+
+update  sys_resource set url='/m/cadreList?type=11' where permission='m:cadreList:leader';
+update  sys_resource set url='/m/cadreList?type=2' where permission='m:cadreList';
+update  sys_resource set url='/m/cadreList?type=1' where permission='m:cadreList:leader';
+
+
+-- 以下已更新北化工
+/*
+ALTER TABLE `abroad_approval_log`
+	DROP FOREIGN KEY `FK_abroad_apply_approval_abroad_approver_type`;
+ALTER TABLE `abroad_approval_order`
+	DROP INDEX `FK_abroad_approval_order_abroad_approval_identity`,
+	DROP INDEX `FK_abroad_approval_order_abroad_approver_type`,
+	DROP FOREIGN KEY `FK_abroad_approval_order_abroad_approver_type`,
+	DROP FOREIGN KEY `FK_abroad_approval_order_abroad_approval_identity`;
+ALTER TABLE `abroad_approver`
+	DROP INDEX `type_id`,
+	DROP FOREIGN KEY `abroad_approver_ibfk_2`;
+ALTER TABLE `abroad_applicat_cadre`
+	DROP INDEX `FK_abroad_applicat_user_abroad_applicat_type`,
+	DROP FOREIGN KEY `FK_abroad_applicat_user_abroad_applicat_type`;
+*/
+	
+
 20201005
 
 ALTER TABLE `sys_teacher_info`

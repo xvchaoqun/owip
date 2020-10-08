@@ -192,7 +192,12 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td colspan=2 height=23 class=xl70>聘任制（无级别）</td>
+                        <td colspan=2 height=23 class=xl70>聘任制（无级别）
+                        <span class="prompt" data-title="聘任制（无级别）说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>统计“无行政级别”的干部</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
+                        </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="4"/>
                             <jsp:param name="firstTypeCode" value="adminLevel"/>
@@ -218,6 +223,11 @@
                     </tr>
                     <tr>
                         <td rowspan=3 height=46 class=xl94>政治面貌
+                            <span class="prompt" data-title="政治面貌说明" data-width="450"
+							  data-prompt="<ul>
+							  <li>同时是中共党员和民主党派成员的，分别计入统计数据</li>
+							  <li>“群众”是指既不是中共党员，也不是民主党派成员</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
                         </td>
                         <td class=xl70>中共党员</td>
                         <jsp:include page="row.jsp">
@@ -317,6 +327,11 @@
                     </tr>
                     <tr>
                         <td rowspan=4 height=69 class=xl94>职称分布
+                            <span class="prompt" data-title="职称分布说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>此处是针对职级（职称级别）的分布进行统计</li>
+							  <li>“其他”是指初级以下或无职称或职称信息暂缺的人员</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
                         </td>
                         <td height=23 class=xl70>正高</td>
                         <jsp:include page="row.jsp">
@@ -353,7 +368,11 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=3 height=69 class=xl94>学位分布
+                        <td rowspan=4 height=69 class=xl94>学位分布
+                            <span class="prompt" data-title="学位分布说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>“其他”是指没有取得学位或学位信息暂缺的人员</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
                         </td>
                         <td height=23 class=xl70>博士
                         </td>
@@ -382,7 +401,20 @@
                         </jsp:include>
                     </tr>
                     <tr>
+                        <td height=23 class=xl70>其他
+                        </td>
+                        <jsp:include page="row.jsp">
+                            <jsp:param name="row" value="_otherDegree"/>
+                            <jsp:param name="firstTypeCode" value="degree" />
+                            <jsp:param name="firstTypeNum" value="4" />
+                        </jsp:include>
+                    </tr>
+                    <tr>
                         <td colspan=2 height=23 class=xl70>专职干部
+                            <span class="prompt" data-title="专职干部说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>统计非“双肩挑”的干部</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="22"/>
@@ -406,7 +438,7 @@
                         <td height=23 class=xl70>${cm:getMetaType(entity.key).name}
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="${23+vs.index+4}"/>
+                            <jsp:param name="row" value="${23+vs.index+5}"/>
                             <jsp:param name="firstTypeCode" value="education"/>
                             <jsp:param name="firstTypeNum" value="${entity.key}"/>
                         </jsp:include>

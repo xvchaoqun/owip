@@ -251,20 +251,19 @@
     <!-- 学位 -->
     <select id="cadre_stat_degree" resultMap="BaseResultMap" parameterType="map">
         select degree_type, count(*) as num from cadre_view where 1=1
-        <include refid="andSql" />
-         and degree_type is not null  group by degree_type
+        <include refid="andSql" /> group by degree_type
     </select>
     <!-- 学位-行政级别 -->
     <select id="cadre_stat_degree_adminLevel" resultMap="BaseResultMap" parameterType="map">
         select degree_type, admin_level_code, count(*) as num from cadre_view where 1=1
         <include refid="andSql" />
-         and degree_type is not null and admin_level_code is not null  group by degree_type, admin_level_code
+         and admin_level_code is not null  group by degree_type, admin_level_code
     </select>
     <!-- 学位-性别 -->
     <select id="cadre_stat_degree_gender" resultMap="BaseResultMap" parameterType="map">
         select degree_type, gender, count(*) as num from cadre_view where 1=1
         <include refid="andSql" />
-         and degree_type is not null and gender is not null  group by degree_type, gender
+         and gender is not null  group by degree_type, gender
     </select>
 
     <!-- 学历 -->
@@ -391,8 +390,12 @@
 
         select * from cadre_view where 1=1
         <include refid="andSql" />
-        and degree_type =#{degreeType}
-        and degree_type is not null
+        <if test="degreeType==4">
+            and (degree_type is null or degree_type not in(1,2,3))
+        </if>
+        <if test="degreeType!=4">
+            and degree_type =#{degreeType}
+        </if>
         order by sort_order desc
     </select>
 

@@ -13,8 +13,6 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -400,6 +398,8 @@ public class CommonController extends BaseController {
 
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria();
+
+        example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
 
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
