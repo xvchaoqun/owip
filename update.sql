@@ -1,4 +1,7 @@
 
+
+update  sys_resource set name='批量生成、导出账号' where permission = 'memberReg:import';
+
 20201008
 西工大，北航
 
