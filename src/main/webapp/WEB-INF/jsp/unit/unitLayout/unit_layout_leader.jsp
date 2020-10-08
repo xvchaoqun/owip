@@ -29,8 +29,8 @@
                         <th width="150">职务</th>
                         <th width="80">行政级别</th>
                         <th>分管工作</th>
-                        <th>分管机关部门</th>
-                        <th>联系学部、院、系（所）</th>
+                        <th style="min-width: 200px">分管机关部门</th>
+                        <th style="min-width: 200px">联系学部、院、系（所）</th>
                     </tr>
                     </thead>
                     <tbody>

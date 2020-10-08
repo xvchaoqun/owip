@@ -392,7 +392,8 @@ public class CadreExportService extends BaseMapper {
 
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    //DateUtils.formatDate(record.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMM),
                     record.getBirth() == null ? "" : DateUtils.yearOffNow(birthToDay?record.getBirth():DateUtils.getFirstDayOfMonth(record.getBirth())) + "",
                     StringUtils.trimToEmpty(partyName),
 

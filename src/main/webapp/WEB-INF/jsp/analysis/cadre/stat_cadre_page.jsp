@@ -435,8 +435,7 @@
                         <c:if test="${vs.first}">
                         <td rowspan=${eduCount} height=92 class=xl94>学历分布</td>
                         </c:if>
-                        <td height=23 class=xl70>${cm:getMetaType(entity.key).name}
-                        </td>
+                        <td height=23 class=xl70 style="white-space: nowrap">${cm:getMetaType(entity.key).name}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="${23+vs.index+5}"/>
                             <jsp:param name="firstTypeCode" value="education"/>
