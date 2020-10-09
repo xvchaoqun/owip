@@ -1621,6 +1621,7 @@ public class CadreAdformService extends BaseMapper {
                 cv = CmTag.getCadreByUserId(userId);
             }
 
+            String nation = dataMap.get("民族");
             String nativePlace = dataMap.get("籍贯");
             String homeplace = dataMap.get("出生地");
             String health = dataMap.get("健康状况");
@@ -1628,13 +1629,13 @@ public class CadreAdformService extends BaseMapper {
             String proPost = dataMap.get("专业技术职务");
 
             String resume = dataMap.get("简历");
-            String avatarBase64 = dataMap.get("照片");
 
             int userId = cv.getUserId();
             SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
             int cadreId = cv.getId();
             SysUserInfo ui = new SysUserInfo();
             ui.setUserId(userId);
+            ui.setNation(nation);
             ui.setNativePlace(nativePlace);
             ui.setHomeplace(homeplace);
 

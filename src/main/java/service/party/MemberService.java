@@ -578,7 +578,7 @@ public class MemberService extends MemberBaseMapper {
             @CacheEvict(value = "Party:ALL", allEntries = true),
             @CacheEvict(value = "MemberApply", allEntries = true)
     })
-    public Map<String, Object> importMemberUpdate(XSSFSheet sheet,
+    public Map<String, Object> importMemberAllInfo(XSSFSheet sheet,
                                                   List<Map<Integer, String>> xlsRows,
                                                   Map<String, Byte> politicalStatusMap,
                                                   String startCode) {
@@ -665,9 +665,21 @@ public class MemberService extends MemberBaseMapper {
                 party.setShortName("");
                 MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", "事业单位");
                 party.setUnitTypeId(partyUnitType.getId());
-                MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
+                //党总支类别
+                MetaType partyClass = null;
+                if (partyName.contains("直属")){
+                    partyClass = CmTag.getMetaTypeByName("mc_party_class", "直属党支部");
+                }else {
+                    partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
+                }
                 party.setClassId(partyClass.getId());
-                MetaType partyType = CmTag.getMetaTypeByName("mc_party_type", "院系党组织");
+                //组织类型
+                MetaType partyType = null;
+                if (partyName.contains("附属")){
+                    partyType = CmTag.getMetaTypeByName("mc_party_type", "附属学校党组织");
+                }else {
+                    partyType = CmTag.getMetaTypeByName("mc_party_type", "院系党组织");
+                }
                 party.setTypeId(partyType.getId());
                 party.setIsEnterpriseBig(false);
                 party.setIsEnterpriseNationalized(false);

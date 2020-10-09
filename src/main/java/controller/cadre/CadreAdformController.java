@@ -197,8 +197,8 @@ public class CadreAdformController extends BaseController {
             try {
                 cadreAdformService.importDocxRm(file.getAbsolutePath());
             }catch (Exception e){
-                logger.info(log(LogConstants.LOG_ADMIN,
-                        "11111{0}", file.getName()));
+                /*logger.info(log(LogConstants.LOG_ADMIN,
+                        "11111{0}", file.getName()));*/
                 logger.error(file.getName(), e);
                 fails.add(e.getMessage());
             }
