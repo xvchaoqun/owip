@@ -7,6 +7,7 @@ import domain.oa.OaGridPartyDataExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.RecordFormatException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +61,12 @@ public class OaGridPartyDataService extends OaBaseMapper {
     @Transactional
     public void importData(OaGridParty record, MultipartFile _excelFilePath) throws IOException, InvalidFormatException {
 
-        Workbook workbook = WorkbookFactory.create(_excelFilePath.getInputStream());
+        Workbook workbook = null;
+        try {
+            workbook = WorkbookFactory.create(_excelFilePath.getInputStream());
+        }catch (RecordFormatException ex){
+            throw new OpException("Excel版本过低，请使用高版本的Office Excel打开此文件并保存后重新上传。");
+        }
         Sheet sheet = workbook.getSheetAt(0);
 
         Integer gridPartyId = record.getId();

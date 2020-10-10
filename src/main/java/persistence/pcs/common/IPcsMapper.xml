@@ -141,12 +141,12 @@
         </where>
     </sql>
     <select id="selectPcsPrPartyBeanList" resultMap="PrPartyBaseResultMap" parameterType="map">
-        select pp.*, if(ppr.id is null, pp.branch_count, ppr.branch_count) as real_branch_count,
-             if(ppr.id is null, pp.member_count, ppr.member_count) as real_member_count,
-             if(ppr.id is null, pp.positive_count, ppr.positive_count) as real_positive_count,
-             if(ppr.id is null, pp.student_member_count, ppr.student_member_count) as real_student_member_count,
-             if(ppr.id is null, pp.teacher_member_count, ppr.teacher_member_count) as real_teacher_member_count,
-             if(ppr.id is null, pp.retire_member_count, ppr.retire_member_count) as real_retire_member_count,
+        select pp.*, if(ppr.id is null or ppr.has_report=0, pp.branch_count, ppr.branch_count) as real_branch_count,
+             if(ppr.id is null or ppr.has_report=0, pp.member_count, ppr.member_count) as real_member_count,
+             if(ppr.id is null or ppr.has_report=0, pp.positive_count, ppr.positive_count) as real_positive_count,
+             if(ppr.id is null or ppr.has_report=0, pp.student_member_count, ppr.student_member_count) as real_student_member_count,
+             if(ppr.id is null or ppr.has_report=0, pp.teacher_member_count, ppr.teacher_member_count) as real_teacher_member_count,
+             if(ppr.id is null or ppr.has_report=0, pp.retire_member_count, ppr.retire_member_count) as real_retire_member_count,
                ${stage} as stage, pp.config_id,
         ppr.expect_member_count,ppr.expect_positive_member_count,
         ppr.actual_member_count, ppr.actual_positive_member_count, ppr.has_report,

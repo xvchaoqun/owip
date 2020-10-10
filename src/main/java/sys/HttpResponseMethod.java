@@ -3,7 +3,6 @@ package sys;
 import controller.global.OpException;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -274,7 +273,7 @@ public interface HttpResponseMethod {
     default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException {
 
         if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image") == -1) {
-            throw new FileFormatException("文件格式错误，请上传pdf或图片文件");
+            throw new OpException("文件格式错误，请上传pdf或图片文件");
         }
 
         if (StringUtils.contains(file.getContentType(), "pdf")) {

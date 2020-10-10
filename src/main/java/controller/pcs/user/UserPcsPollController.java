@@ -4,8 +4,6 @@ import controller.global.OpException;
 import controller.pcs.PcsBaseController;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
-import domain.party.Branch;
-import domain.party.Party;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.sys.SysUserView;
@@ -25,12 +23,15 @@ import persistence.pcs.common.PcsTempResult;
 import service.sys.SysLoginLogService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PcsHelper;
 import sys.tags.CmTag;
+import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.HttpRequestDeviceUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -140,7 +141,9 @@ public class UserPcsPollController extends PcsBaseController {
 
         PcsPollInspector inspector = PcsHelper.doLogout(request);
 
-        logger.debug(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS,"退出系统"));
+        if(inspector!=null) {
+            logger.debug(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS, "退出系统"));
+        }
 
         return "redirect:/user/pcs/login?isFinished="+ BooleanUtils.isTrue(isFinished);
     }
@@ -152,6 +155,10 @@ public class UserPcsPollController extends PcsBaseController {
                      HttpServletRequest request){
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
+
+        if(inspector==null){
+            throw new OpException("登录超时，请您重新登录");
+        }
 
         PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
 
@@ -217,6 +224,229 @@ public class UserPcsPollController extends PcsBaseController {
         return (isMobile)?"pcs/pcsPoll/mobile/login":"pcs/pcsPoll/user/login";
     }
 
+     // 一下阶段批量选人
+    @RequestMapping(value = "/select", method = RequestMethod.POST)
+    @ResponseBody
+    public Map submit(int userId, boolean hasSelected, byte type, HttpServletRequest request) {
+
+        PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
+
+        if(inspector==null){
+            throw new OpException("登录超时，请您重新登录");
+        }
+
+        PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
+        Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
+        Set<Integer> userIdSet = firstResultMap.get(type);
+
+        if(userIdSet==null){
+            userIdSet = new LinkedHashSet<>();
+        }
+        if(hasSelected){
+
+            int hasSelectedCount = userIdSet.size();
+            int maxNum = 0;
+            if (type == PcsConstants.PCS_USER_TYPE_PR){
+                PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
+                maxNum = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
+            }else if (type == PcsConstants.PCS_USER_TYPE_DW){
+                maxNum = CmTag.getIntProperty("pcs_poll_dw_num");
+            }else if (type == PcsConstants.PCS_USER_TYPE_JW){
+                maxNum = CmTag.getIntProperty("pcs_poll_jw_num");
+            }
+            if(hasSelectedCount>=maxNum){
+                throw new OpException("超出数量限制");
+            }
+
+            userIdSet.add(userId);
+        }else{
+            userIdSet.remove(userId);
+        }
+        firstResultMap.put(type, userIdSet);
+
+        tempResult.setFirstResultMap(firstResultMap);
+        String tempdata = pcsPollResultService.getStringTemp(tempResult);
+
+        PcsPollInspector record = new PcsPollInspector();
+        record.setId(inspector.getId());
+        record.setTempdata(tempdata);
+        pcsPollInspectorService.updateByPrimaryKeySelective(record);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("selectedCount", userIdSet.size());
+        return resultMap;
+    }
+
+    @RequestMapping("/member_selects_page")
+    public String member_selects_page(byte type, Integer partyId, String str, boolean isMobile,
+                                      HttpServletRequest request, HttpServletResponse response,
+                                      Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
+
+        if(inspector==null){
+            throw new OpException("登录超时，请您重新登录");
+        }
+
+        PcsTempResult tempResult = pcsPollResultService.getTempResult(inspector.getTempdata());
+        Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
+        Set<Integer> userIdSet = firstResultMap.get(type);
+
+        modelMap.put("userIdSet", userIdSet);
+
+        int maxNum = 0;
+        if (type == PcsConstants.PCS_USER_TYPE_PR){
+            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
+            maxNum = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
+        }else if (type == PcsConstants.PCS_USER_TYPE_DW){
+            maxNum = CmTag.getIntProperty("pcs_poll_dw_num");
+        }else if (type == PcsConstants.PCS_USER_TYPE_JW){
+            maxNum = CmTag.getIntProperty("pcs_poll_jw_num");
+        }
+
+        modelMap.put("maxNum", maxNum);
+
+        if (null == pageSize) {
+            pageSize = 20;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        MemberViewExample example = new MemberViewExample();
+        MemberViewExample.Criteria criteria = example.createCriteria();
+
+        example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
+
+        if(partyId != null){
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        str = StringUtils.trimToNull(str);
+        if (str != null) {
+            criteria.andRealnameLike(SqlUtils.like(str));
+        }
+
+        int count = (int) memberViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+
+        List<MemberView> records = memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("records", records);
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        String searchStr = "&pageSize=" + pageSize + "&type=" + type + "&isMobile=" + (isMobile?1:0);
+        if (partyId != null) {
+            searchStr += "&partyId=" + partyId;
+        }
+        if(str!=null){
+            searchStr += "&str=" + str;
+        }
+
+        commonList.setSearchStr(searchStr);
+        modelMap.put("commonList", commonList);
+
+        return "pcs/pcsPoll/member_selects_page";
+    }
+
+    // 根据类别、状态、账号或姓名或学工号 查询 党员
+    @RequestMapping("/member_selects")
+    @ResponseBody
+    public Map member_selects(Integer pageSize,
+                              Integer partyId,
+                              Integer branchId,
+                              Byte type, // 党员类别
+                              Boolean isRetire,
+                              Boolean noAuth, // 默认需要读取权限
+                              @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
+                              Integer pageNo,
+                              String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        MemberViewExample example = new MemberViewExample();
+        MemberViewExample.Criteria criteria = example.createCriteria()
+                .andPoliticalStatusEqualTo(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE)
+                .andStatusIn(Arrays.asList(MemberConstants.MEMBER_STATUS_NORMAL, MemberConstants.MEMBER_STATUS_TRANSFER));
+
+        example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
+        List<Integer> adminPartyIdList = null;
+        List<Integer> adminBranchIdList = null;
+        if (BooleanUtils.isNotTrue(noAuth)) {
+            adminPartyIdList = loginUserService.adminPartyIdList();
+            adminBranchIdList = loginUserService.adminBranchIdList();
+
+            criteria.addPermits(adminPartyIdList, adminBranchIdList);
+        }
+
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        if (type != null) {
+            criteria.andTypeEqualTo(type);
+        }
+
+        if (isRetire != null) {
+            criteria.andIsRetireEqualTo(isRetire);
+        }
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if (searchStr != null) {
+            criteria.andUserLike(searchStr);
+        }
+
+        int count = (int) memberViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<MemberView> members = memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+        if (null != members && members.size() > 0) {
+
+            for (MemberView member : members) {
+                Map<String, Object> option = new HashMap<>();
+                SysUserView uv = sysUserService.findById(member.getUserId());
+                option.put("id", member.getUserId() + "");
+                option.put("text", member.getRealname());
+
+                option.put("username", member.getUsername());
+                option.put("locked", uv.getLocked());
+                option.put("code", member.getCode());
+                option.put("realname", member.getRealname());
+                option.put("gender", member.getGender());
+                option.put("birth", member.getBirth());
+                option.put("nation", member.getNation());
+
+                if (needPrivate) {
+                    option.put("idcard", member.getIdcard());
+                    option.put("politicalStatus", member.getPoliticalStatus());
+                    option.put("mobile", member.getMobile());
+                }
+                option.put("unit", StringUtils.defaultIfBlank(member.getBranchName(), member.getPartyName()));
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
     // 保存/提交推荐数据
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
@@ -227,6 +457,11 @@ public class UserPcsPollController extends PcsBaseController {
                       Byte type, HttpServletRequest request) {
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
+
+        if(inspector==null){
+            throw new OpException("登录超时，请您重新登录");
+        }
+
         int pollId = inspector.getPollId();
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
 
@@ -353,8 +588,8 @@ public class UserPcsPollController extends PcsBaseController {
             }
         }
 
-        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS, "{0}投票结果，{1}",
-                isSubmit?"提交":"保存", pcsPoll.getName()));
+        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_PCS, "{0}投票结果",
+                isSubmit?"提交":"保存"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -364,184 +599,59 @@ public class UserPcsPollController extends PcsBaseController {
 
         PcsPollInspector inspector = PcsHelper.getSessionInspector(request);
 
-        if (inspector != null) {
+        if(inspector==null){
+            throw new OpException("登录超时，请您重新登录");
+        }
 
-            PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
-            modelMap.put("stage", pcsPoll.getStage());
-            String tempdata = inspector.getTempdata();
-            PcsTempResult tempResult = pcsPollResultService.getTempResult(tempdata);
-            int prCount = 0;
-            int dwCount = 0;
-            int jwCount = 0;
-            if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {
-                Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
-                for (Map.Entry<Byte, Set<Integer>> entry : firstResultMap.entrySet()){
-                    if (entry.getKey() == PcsConstants.PCS_USER_TYPE_PR){
-                        prCount = entry.getValue().size();
-                    }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_DW) {
-                        dwCount = entry.getValue().size();
-                    }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_JW){
-                        jwCount = entry.getValue().size();
-                    }
+        PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
+        modelMap.put("stage", pcsPoll.getStage());
+        String tempdata = inspector.getTempdata();
+        PcsTempResult tempResult = pcsPollResultService.getTempResult(tempdata);
+        int prCount = 0;
+        int dwCount = 0;
+        int jwCount = 0;
+        if (pcsPoll.getStage() == PcsConstants.PCS_POLL_FIRST_STAGE) {
+            Map<Byte, Set<Integer>> firstResultMap = tempResult.getFirstResultMap();
+            for (Map.Entry<Byte, Set<Integer>> entry : firstResultMap.entrySet()){
+                if (entry.getKey() == PcsConstants.PCS_USER_TYPE_PR){
+                    prCount = entry.getValue().size();
+                }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_DW) {
+                    dwCount = entry.getValue().size();
+                }else if (entry.getKey() == PcsConstants.PCS_USER_TYPE_JW){
+                    jwCount = entry.getValue().size();
                 }
-            }else {
-                Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
-                Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
-
-                Byte _type= 0;
-                for (String key : secondResultMap.keySet()){
-                    int count = 0;
-                    _type = Byte.valueOf(key.split("_")[0]);
-
-                    if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_AGREE){
-                        count++;
-                    }else if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_DISAGREE){
-                        if (otherResultMap.containsKey(key + "_4")){
-                            count++;
-                        }
-                    }
-
-                    if (_type == PcsConstants.PCS_USER_TYPE_PR){
-                        prCount += count;
-                    }else if (_type == PcsConstants.PCS_USER_TYPE_DW) {
-                        dwCount += count;
-                    }else if (_type == PcsConstants.PCS_USER_TYPE_JW){
-                        jwCount += count;
-                    }
-                }
-
             }
-            modelMap.put("prCount", prCount);
-            modelMap.put("dwCount", dwCount);
-            modelMap.put("jwCount", jwCount);
+        }else {
+            Map<String, Byte> secondResultMap = tempResult.getSecondResultMap();
+            Map<String, Integer> otherResultMap = tempResult.getOtherResultMap();
+
+            Byte _type= 0;
+            for (String key : secondResultMap.keySet()){
+                int count = 0;
+                _type = Byte.valueOf(key.split("_")[0]);
+
+                if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_AGREE){
+                    count++;
+                }else if (secondResultMap.get(key) == PcsConstants.RESULT_STATUS_DISAGREE){
+                    if (otherResultMap.containsKey(key + "_4")){
+                        count++;
+                    }
+                }
+
+                if (_type == PcsConstants.PCS_USER_TYPE_PR){
+                    prCount += count;
+                }else if (_type == PcsConstants.PCS_USER_TYPE_DW) {
+                    dwCount += count;
+                }else if (_type == PcsConstants.PCS_USER_TYPE_JW){
+                    jwCount += count;
+                }
+            }
 
         }
+        modelMap.put("prCount", prCount);
+        modelMap.put("dwCount", dwCount);
+        modelMap.put("jwCount", jwCount);
 
         return "pcs/pcsPoll/user/submit_info";
-    }
-
-    // 根据类别、状态、账号或姓名或学工号 查询 党员
-    @RequestMapping("/member_selects")
-    @ResponseBody
-    public Map member_selects(Integer pageSize,
-                              Integer partyId,
-                              Integer branchId,
-                              Byte type, // 党员类别
-                              Boolean isRetire,
-                              Byte politicalStatus,
-                              Byte[] status, // 党员状态
-                              Boolean noAuth, // 默认需要读取权限
-                              @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
-                              Integer pageNo,
-                              String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        MemberViewExample example = new MemberViewExample();
-        MemberViewExample.Criteria criteria = example.createCriteria();
-
-        example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
-        List<Integer> adminPartyIdList = null;
-        List<Integer> adminBranchIdList = null;
-        if (BooleanUtils.isNotTrue(noAuth)){
-            adminPartyIdList = loginUserService.adminPartyIdList();
-            adminBranchIdList = loginUserService.adminBranchIdList();
-
-            criteria.addPermits(adminPartyIdList, adminBranchIdList);
-        }
-
-        if(partyId!=null){
-            criteria.andPartyIdEqualTo(partyId);
-        }
-        if(branchId!=null){
-            criteria.andBranchIdEqualTo(branchId);
-        }
-
-        if(type!=null){
-            criteria.andTypeEqualTo(type);
-        }
-
-        if(isRetire!=null){
-            criteria.andIsRetireEqualTo(isRetire);
-        }
-
-        if(politicalStatus!=null){
-            criteria.andPoliticalStatusEqualTo(politicalStatus);
-        }
-
-        if(status!=null && status.length>0){
-            criteria.andStatusIn(Arrays.asList(status));
-        }
-
-        searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) {
-            criteria.andUserLike(searchStr);
-        }
-
-        int count = (int) memberViewMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<MemberView> members = memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
-        Map<Integer, Party> partyMap = partyService.findAll();
-        Map<Integer, Branch> branchMap = branchService.findAll();
-
-        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
-        if (null != members && members.size() > 0) {
-
-            for (MemberView member : members) {
-                Map<String, Object> option = new HashMap<>();
-                SysUserView uv = sysUserService.findById(member.getUserId());
-                option.put("id", member.getUserId() + "");
-                option.put("text", member.getRealname());
-
-                option.put("username", member.getUsername());
-                option.put("locked", uv.getLocked());
-                option.put("code", member.getCode());
-                option.put("realname", member.getRealname());
-                option.put("gender", member.getGender());
-                option.put("birth", member.getBirth());
-                option.put("nation", member.getNation());
-
-                if(needPrivate) {
-                    option.put("idcard", member.getIdcard());
-                    option.put("politicalStatus", member.getPoliticalStatus());
-                    option.put("mobile", member.getMobile());
-                }
-                //option.put("user", userBeanService.get(member.getUserId()));
-
-                if (StringUtils.isNotBlank(uv.getCode())) {
-
-                    String unit = "";
-                    Integer _partyId = member.getPartyId();
-                    Integer _branchId = member.getBranchId();
-                    if(_branchId!=null){
-                        Branch branch = branchMap.get(_branchId);
-                        if(branch!=null){
-                            unit = StringUtils.defaultIfBlank(branch.getShortName(), branch.getName());
-                        }
-                    }else{
-                        Party party = partyMap.get(_partyId);
-                        if(party!=null){
-                            unit = StringUtils.defaultIfBlank(party.getShortName(), party.getName());
-                        }
-                    }
-                    option.put("unit", unit);
-                }
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
     }
 }

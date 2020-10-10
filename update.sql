@@ -3,7 +3,7 @@
 update  sys_resource set name='批量生成、导出账号' where permission = 'memberReg:import';
 
 20201008
-西工大，北航
+西工大，北航，北化工（停止同步更新）
 
 ALTER TABLE `ow_member`
 	ADD COLUMN `sort_order` FLOAT UNSIGNED NULL DEFAULT NULL COMMENT '排序，用于下拉选' AFTER `integrity`;
@@ -2050,7 +2050,7 @@ VALUES ('label_adminLevelNone', '无行政级别标签', '无行政级别', '1',
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 3, 59, '');
 
--- 如果任职时间精确到月，需要更新一下数据库
+-- 如果任职时间精确到月postTimeToDay=false，需要更新一下数据库
 -- update cadre_admin_level set s_work_time=DATE_FORMAT(s_work_time,'%y-%m-01');
 -- update cadre_admin_level set e_work_time=DATE_FORMAT(e_work_time,'%y-%m-01');
 -- update cadre_post set np_work_time=DATE_FORMAT(np_work_time,'%y-%m-01');
