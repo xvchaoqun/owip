@@ -53,10 +53,21 @@ public class UnitTeamController extends BaseController {
     @RequiresPermissions("unitTeam:list")
     @RequestMapping("/unitTeam")
     public String unitTeam(HttpServletResponse response,
+                           Integer partyId,
+                           Integer branchId,
                            @RequestParam(required = false, defaultValue = "0") int list,
                            ModelMap modelMap) {
         if(list==1){ // 党委班子届满列表
             return "party/partyMemberGroup/partyGroupList_page";
+        }
+        if (list==3){//支部委员会届满列表
+            if (partyId != null){
+                modelMap.put("party", partyMapper.selectByPrimaryKey(partyId));
+            }
+            if (branchId != null){
+                modelMap.put("branch", branchMapper.selectByPrimaryKey(branchId));
+            }
+            return "party/branchMemberGroup/branchGroupList_page";
         }
         if(list==2){ // 行政班子届满列表
             return "unit/unitTeam/unitTeamList_page";

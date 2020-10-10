@@ -38,6 +38,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -88,6 +89,7 @@ public class PartyMemberGroupController extends BaseController {
     @RequestMapping("/partyMemberGroup_data")
     public void partyMemberGroup_data(HttpServletResponse response,
                                       @RequestParam(required = false, defaultValue = "1") Byte status,
+                                      Integer year,
                                       String name,
                                       Integer classId,
                                       Integer partyId,
@@ -151,6 +153,15 @@ public class PartyMemberGroupController extends BaseController {
         }
         if (isTranTime!=null) {
             criteria.andTranTimeLessThanOrEqualTo(new Date());
+        }
+        if (year != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            Date lastYear = new Date();
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(lastYear);
+            cl.add(Calendar.YEAR, -1);
+            lastYear = cl.getTime();
+            criteria.andTranTimeLessThan(DateUtils.parseStringToDate(sdf.format(lastYear)));
         }
         if (export == 1) {
             if (ids != null && ids.length > 0)
