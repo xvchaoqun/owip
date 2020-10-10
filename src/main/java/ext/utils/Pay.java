@@ -317,7 +317,7 @@ public class Pay implements IPay {
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
         if (!uv.isCasUser() && !springProps.devMode) {
-            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
+            throw new OpException("您的账号不是校园门户账号，不能使用校园卡支付。");
         }
     }
 
