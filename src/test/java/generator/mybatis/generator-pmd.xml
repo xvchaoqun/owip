@@ -31,10 +31,10 @@
                domainObjectName="pmd.PmdOrder" mapperName="pmd.PmdOrderMapper">
              <columnOverride column="params" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="pmd_fee"
+        <!--<table tableName="pmd_fee"
                domainObjectName="pmd.PmdFee" mapperName="pmd.PmdFeeMapper">
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="pmd_order_item"
                domainObjectName="pmd.PmdOrderItem" mapperName="pmd.PmdOrderItemMapper">
         </table>-->
@@ -92,14 +92,14 @@
             <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
 
-        <!--<table tableName="pmd_branch" domainObjectName="pmd.PmdBranch" mapperName="pmd.PmdBranchMapper">
+        <table tableName="pmd_branch" domainObjectName="pmd.PmdBranch" mapperName="pmd.PmdBranchMapper">
         </table>
         <table tableName="pmd_branch_view"
         enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
         domainObjectName="pmd.PmdBranchView" mapperName="pmd.PmdBranchViewMapper">
-        </table>-->
+        </table>
         <!--<table tableName="pmd_pay_party_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

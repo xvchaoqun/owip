@@ -17,6 +17,8 @@ public class PmdBranch implements Serializable {
 
     private String branchName;
 
+    private Integer partySortOrder;
+
     private Integer sortOrder;
 
     private Integer historyDelayMemberCount;
@@ -105,6 +107,14 @@ public class PmdBranch implements Serializable {
 
     public void setBranchName(String branchName) {
         this.branchName = branchName == null ? null : branchName.trim();
+    }
+
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
     }
 
     public Integer getSortOrder() {

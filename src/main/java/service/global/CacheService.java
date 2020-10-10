@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.abroad.ApproverType;
 import domain.base.LayerType;
 import domain.base.Location;
 import domain.base.MetaType;
 import domain.cadre.CadreViewExample;
-import domain.cet.CetTrainEvaTable;
 import domain.dispatch.DispatchType;
 import domain.party.Branch;
 import domain.party.Party;
@@ -412,9 +410,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
         baseMixins.put(Branch.class, PartyOptionMixin.class);
         baseMixins.put(Unit.class, UnitOptionMixin.class);
         baseMixins.put(DispatchType.class, OptionMixin.class);
-        baseMixins.put(ApproverType.class, OptionMixin.class);
         baseMixins.put(Location.class, OptionMixin.class);
-        baseMixins.put(CetTrainEvaTable.class, OptionMixin.class);
         baseMixins.put(SysRole.class, OptionMixin.class);
         baseMixins.put(LayerType.class, OptionMixin.class);
 

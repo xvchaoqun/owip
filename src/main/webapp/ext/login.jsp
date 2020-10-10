@@ -4,9 +4,6 @@
 <c:set value="${empty _pMap['cas_url']?'/cas':_pMap['cas_url']}" var="_p_casUrl"/>
 <c:set value="${_pMap['default_login_btns']=='true'}" var="_p_defaultLoginBtns"/>
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
-<shiro:user>
-    <c:redirect url="/"/>
-</shiro:user>
 <!DOCTYPE html>
 <html>
 <head>

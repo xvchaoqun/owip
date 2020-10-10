@@ -8,6 +8,7 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="party_name" jdbcType="VARCHAR" property="partyName" />
     <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="history_delay_member_count" jdbcType="INTEGER" property="historyDelayMemberCount" />
     <result column="history_delay_pay" jdbcType="DECIMAL" property="historyDelayPay" />
@@ -61,11 +62,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, month_id, party_id, branch_id, party_name, branch_name, sort_order, history_delay_member_count, 
-    history_delay_pay, has_report, member_count, due_pay, finish_member_count, online_finish_member_count, 
-    real_pay, online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
-    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, report_user_id, report_time, 
-    report_ip, pay_month, month_status
+    id, month_id, party_id, branch_id, party_name, branch_name, party_sort_order, sort_order, 
+    history_delay_member_count, history_delay_pay, has_report, member_count, due_pay, 
+    finish_member_count, online_finish_member_count, real_pay, online_real_pay, cash_real_pay, 
+    delay_pay, delay_member_count, real_delay_member_count, real_delay_pay, online_real_delay_pay, 
+    cash_real_delay_pay, report_user_id, report_time, report_ip, pay_month, month_status
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdBranchViewExample" resultMap="BaseResultMap">
     select

@@ -624,7 +624,8 @@ public class PmdMonthService extends PmdBaseMapper {
                 record.setBranchId(branchId);
                 record.setPartyName(partyName);
                 record.setBranchName(branch.getName());
-                record.setSortOrder(party.getSortOrder());
+                record.setPartySortOrder(party.getSortOrder());
+                record.setSortOrder(branch.getSortOrder());
                 record.setHasReport(false);
 
                 pmdBranchMapper.insertSelective(record);
@@ -773,7 +774,8 @@ public class PmdMonthService extends PmdBaseMapper {
                     record.setBranchId(branchId);
                     record.setPartyName(partyName);
                     record.setBranchName(branch.getName());
-                    record.setSortOrder(party.getSortOrder());
+                    record.setPartySortOrder(party.getSortOrder());
+                    record.setSortOrder(branch.getSortOrder());
                     record.setHasReport(false);
 
                     pmdBranchMapper.insertSelective(record);

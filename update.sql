@@ -5,6 +5,11 @@
 
 update  sys_resource set name='批量生成、导出账号' where permission = 'memberReg:import';
 
+ALTER TABLE `pmd_branch`
+	CHANGE COLUMN `sort_order` `party_sort_order` INT(10) UNSIGNED NULL COMMENT '党委的顺序' AFTER `branch_name`,
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL COMMENT '支部的顺序' AFTER `party_sort_order`;
+-- 更新 pmd_branch_view
+
 20201008
 西工大，北航，北化工（停止同步更新）
 

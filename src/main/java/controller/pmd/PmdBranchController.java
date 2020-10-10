@@ -80,7 +80,7 @@ public class PmdBranchController extends PmdBaseController {
         PmdBranchViewExample example = new PmdBranchViewExample();
         PmdBranchViewExample.Criteria criteria = example.createCriteria()
                 .andMonthStatusNotEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
-        example.setOrderByClause("pay_month desc, sort_order desc, id desc");
+        example.setOrderByClause("pay_month desc, party_sort_order desc, sort_order desc");
 
         if (payMonth != null) {
             criteria.andPayMonthEqualTo(DateUtils.getFirstDateOfMonth(payMonth));

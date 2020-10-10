@@ -517,6 +517,66 @@ public class PmdBranchViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPartySortOrderIsNull() {
+            addCriterion("party_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIsNotNull() {
+            addCriterion("party_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderEqualTo(Integer value) {
+            addCriterion("party_sort_order =", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotEqualTo(Integer value) {
+            addCriterion("party_sort_order <>", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThan(Integer value) {
+            addCriterion("party_sort_order >", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order >=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThan(Integer value) {
+            addCriterion("party_sort_order <", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order <=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIn(List<Integer> values) {
+            addCriterion("party_sort_order in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotIn(List<Integer> values) {
+            addCriterion("party_sort_order not in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order not between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

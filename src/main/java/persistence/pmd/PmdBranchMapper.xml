@@ -8,6 +8,7 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="party_name" jdbcType="VARCHAR" property="partyName" />
     <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="history_delay_member_count" jdbcType="INTEGER" property="historyDelayMemberCount" />
     <result column="history_delay_pay" jdbcType="DECIMAL" property="historyDelayPay" />
@@ -88,11 +89,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, month_id, party_id, branch_id, party_name, branch_name, sort_order, history_delay_member_count, 
-    history_delay_pay, has_report, member_count, due_pay, finish_member_count, online_finish_member_count, 
-    real_pay, online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
-    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, report_user_id, report_time, 
-    report_ip
+    id, month_id, party_id, branch_id, party_name, branch_name, party_sort_order, sort_order, 
+    history_delay_member_count, history_delay_pay, has_report, member_count, due_pay, 
+    finish_member_count, online_finish_member_count, real_pay, online_real_pay, cash_real_pay, 
+    delay_pay, delay_member_count, real_delay_member_count, real_delay_pay, online_real_delay_pay, 
+    cash_real_delay_pay, report_user_id, report_time, report_ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdBranchExample" resultMap="BaseResultMap">
     select
@@ -127,9 +128,9 @@
   <insert id="insert" parameterType="domain.pmd.PmdBranch">
     insert into pmd_branch (id, month_id, party_id, 
       branch_id, party_name, branch_name, 
-      sort_order, history_delay_member_count, history_delay_pay, 
-      has_report, member_count, due_pay, 
-      finish_member_count, online_finish_member_count, 
+      party_sort_order, sort_order, history_delay_member_count, 
+      history_delay_pay, has_report, member_count, 
+      due_pay, finish_member_count, online_finish_member_count, 
       real_pay, online_real_pay, cash_real_pay, 
       delay_pay, delay_member_count, real_delay_member_count, 
       real_delay_pay, online_real_delay_pay, cash_real_delay_pay, 
@@ -137,9 +138,9 @@
       )
     values (#{id,jdbcType=INTEGER}, #{monthId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, #{historyDelayPay,jdbcType=DECIMAL}, 
-      #{hasReport,jdbcType=BIT}, #{memberCount,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, 
-      #{finishMemberCount,jdbcType=INTEGER}, #{onlineFinishMemberCount,jdbcType=INTEGER}, 
+      #{partySortOrder,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, 
+      #{historyDelayPay,jdbcType=DECIMAL}, #{hasReport,jdbcType=BIT}, #{memberCount,jdbcType=INTEGER}, 
+      #{duePay,jdbcType=DECIMAL}, #{finishMemberCount,jdbcType=INTEGER}, #{onlineFinishMemberCount,jdbcType=INTEGER}, 
       #{realPay,jdbcType=DECIMAL}, #{onlineRealPay,jdbcType=DECIMAL}, #{cashRealPay,jdbcType=DECIMAL}, 
       #{delayPay,jdbcType=DECIMAL}, #{delayMemberCount,jdbcType=INTEGER}, #{realDelayMemberCount,jdbcType=INTEGER}, 
       #{realDelayPay,jdbcType=DECIMAL}, #{onlineRealDelayPay,jdbcType=DECIMAL}, #{cashRealDelayPay,jdbcType=DECIMAL}, 
@@ -166,6 +167,9 @@
       </if>
       <if test="branchName != null">
         branch_name,
+      </if>
+      <if test="partySortOrder != null">
+        party_sort_order,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -246,6 +250,9 @@
       </if>
       <if test="branchName != null">
         #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="partySortOrder != null">
+        #{partySortOrder,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -336,6 +343,9 @@
       <if test="record.branchName != null">
         branch_name = #{record.branchName,jdbcType=VARCHAR},
       </if>
+      <if test="record.partySortOrder != null">
+        party_sort_order = #{record.partySortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -409,6 +419,7 @@
       branch_id = #{record.branchId,jdbcType=INTEGER},
       party_name = #{record.partyName,jdbcType=VARCHAR},
       branch_name = #{record.branchName,jdbcType=VARCHAR},
+      party_sort_order = #{record.partySortOrder,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       history_delay_member_count = #{record.historyDelayMemberCount,jdbcType=INTEGER},
       history_delay_pay = #{record.historyDelayPay,jdbcType=DECIMAL},
@@ -450,6 +461,9 @@
       </if>
       <if test="branchName != null">
         branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="partySortOrder != null">
+        party_sort_order = #{partySortOrder,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -521,6 +535,7 @@
       branch_id = #{branchId,jdbcType=INTEGER},
       party_name = #{partyName,jdbcType=VARCHAR},
       branch_name = #{branchName,jdbcType=VARCHAR},
+      party_sort_order = #{partySortOrder,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       history_delay_member_count = #{historyDelayMemberCount,jdbcType=INTEGER},
       history_delay_pay = #{historyDelayPay,jdbcType=DECIMAL},
