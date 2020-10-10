@@ -158,7 +158,7 @@ public class CadreUtils {
 
         int row = 1;
         Map<Integer, Integer> resumeMap = new LinkedHashMap<>();
-        Pattern pattern = Pattern.compile("(([\\(|（][其|期]间[:|：])?[1|2]\\d{3}\\.[0-9]{1,2}[\\-—～－]{1,2})+");
+        Pattern pattern = Pattern.compile("(([\\(|（][其|期]间[:|：]?)?[1|2]\\d{3}\\.[0-9]{1,2}[\\-—～－]{1,2})+");
         Matcher matcher = pattern.matcher(resume);
 
         Integer _start = null;
@@ -203,7 +203,7 @@ public class CadreUtils {
             newRow.row = row++;
 
             // 提取其间经历
-            subLine = PatternUtils.withdraw("([（|\\(]([其|期]间[：|:])?[0-9]{4}\\.[0-9]{1,2}[\\-—～－]{1,2}.+[）|\\)])[;|；|。|\\s]?", line);
+            subLine = PatternUtils.withdraw("([（|\\(]([其|期]间[：|:]?)?[0-9]{4}\\.[0-9]{1,2}[\\-—～－]{1,2}.+[）|\\)])[;|；|。|\\s]?", line);
             if (StringUtils.isNotBlank(subLine)) {
                 line = line.replace(subLine, "");
             }
@@ -222,7 +222,7 @@ public class CadreUtils {
                 for (String sub : subLines) {
 
                     //sub = sub.trim().replace("[其|期]间[：|:]", "");
-                    sub = RegExUtils.removePattern(sub.trim(), "[其|期]间[：|:]");
+                    sub = RegExUtils.removePattern(sub.trim(), "[其|期]间[：|:]?");
                     ResumeRow r = new ResumeRow();
                     r.fRow = newRow.row;
                     r.isEduWork = newRow.isEdu;

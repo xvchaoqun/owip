@@ -213,7 +213,7 @@ public class MemberController extends MemberBaseController {
         if (inSchool) {
             resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         } else if (all) {
-            resultMap = memberService.importMemberUpdate(sheet, xlsRows, politicalStatusMap, startCode);
+            resultMap = memberService.importMemberAllInfo(sheet, xlsRows, politicalStatusMap, startCode);
         }else {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
