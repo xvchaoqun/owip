@@ -12,23 +12,7 @@
     <result column="has_reset" jdbcType="BIT" property="hasReset" />
     <result column="has_set_salary" jdbcType="BIT" property="hasSetSalary" />
     <result column="retire_salary" jdbcType="DECIMAL" property="retireSalary" />
-    <result column="gwgz" jdbcType="DECIMAL" property="gwgz" />
-    <result column="xjgz" jdbcType="DECIMAL" property="xjgz" />
-    <result column="gwjt" jdbcType="DECIMAL" property="gwjt" />
-    <result column="zwbt" jdbcType="DECIMAL" property="zwbt" />
-    <result column="zwbt1" jdbcType="DECIMAL" property="zwbt1" />
-    <result column="shbt" jdbcType="DECIMAL" property="shbt" />
-    <result column="sbf" jdbcType="DECIMAL" property="sbf" />
-    <result column="xlf" jdbcType="DECIMAL" property="xlf" />
-    <result column="gzcx" jdbcType="DECIMAL" property="gzcx" />
-    <result column="shiyebx" jdbcType="DECIMAL" property="shiyebx" />
-    <result column="yanglaobx" jdbcType="DECIMAL" property="yanglaobx" />
-    <result column="yiliaobx" jdbcType="DECIMAL" property="yiliaobx" />
-    <result column="gsbx" jdbcType="DECIMAL" property="gsbx" />
-    <result column="shengyubx" jdbcType="DECIMAL" property="shengyubx" />
-    <result column="qynj" jdbcType="DECIMAL" property="qynj" />
-    <result column="zynj" jdbcType="DECIMAL" property="zynj" />
-    <result column="gjj" jdbcType="DECIMAL" property="gjj" />
+    <result column="salary" jdbcType="VARCHAR" property="salary" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -90,9 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, mobile, config_member_type, config_member_type_id, is_online_pay, due_pay, 
-    has_salary, has_reset, has_set_salary, retire_salary, gwgz, xjgz, gwjt, zwbt, zwbt1, 
-    shbt, sbf, xlf, gzcx, shiyebx, yanglaobx, yiliaobx, gsbx, shengyubx, qynj, zynj, 
-    gjj
+    has_salary, has_reset, has_set_salary, retire_salary, salary
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdConfigMemberExample" resultMap="BaseResultMap">
     select
@@ -128,21 +110,11 @@
     insert into pmd_config_member (user_id, mobile, config_member_type, 
       config_member_type_id, is_online_pay, due_pay, 
       has_salary, has_reset, has_set_salary, 
-      retire_salary, gwgz, xjgz, 
-      gwjt, zwbt, zwbt1, 
-      shbt, sbf, xlf, gzcx, 
-      shiyebx, yanglaobx, yiliaobx, 
-      gsbx, shengyubx, qynj, 
-      zynj, gjj)
+      retire_salary, salary)
     values (#{userId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{configMemberType,jdbcType=TINYINT}, 
       #{configMemberTypeId,jdbcType=INTEGER}, #{isOnlinePay,jdbcType=BIT}, #{duePay,jdbcType=DECIMAL}, 
       #{hasSalary,jdbcType=BIT}, #{hasReset,jdbcType=BIT}, #{hasSetSalary,jdbcType=BIT}, 
-      #{retireSalary,jdbcType=DECIMAL}, #{gwgz,jdbcType=DECIMAL}, #{xjgz,jdbcType=DECIMAL}, 
-      #{gwjt,jdbcType=DECIMAL}, #{zwbt,jdbcType=DECIMAL}, #{zwbt1,jdbcType=DECIMAL}, 
-      #{shbt,jdbcType=DECIMAL}, #{sbf,jdbcType=DECIMAL}, #{xlf,jdbcType=DECIMAL}, #{gzcx,jdbcType=DECIMAL}, 
-      #{shiyebx,jdbcType=DECIMAL}, #{yanglaobx,jdbcType=DECIMAL}, #{yiliaobx,jdbcType=DECIMAL}, 
-      #{gsbx,jdbcType=DECIMAL}, #{shengyubx,jdbcType=DECIMAL}, #{qynj,jdbcType=DECIMAL}, 
-      #{zynj,jdbcType=DECIMAL}, #{gjj,jdbcType=DECIMAL})
+      #{retireSalary,jdbcType=DECIMAL}, #{salary,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdConfigMember">
     insert into pmd_config_member
@@ -177,56 +149,8 @@
       <if test="retireSalary != null">
         retire_salary,
       </if>
-      <if test="gwgz != null">
-        gwgz,
-      </if>
-      <if test="xjgz != null">
-        xjgz,
-      </if>
-      <if test="gwjt != null">
-        gwjt,
-      </if>
-      <if test="zwbt != null">
-        zwbt,
-      </if>
-      <if test="zwbt1 != null">
-        zwbt1,
-      </if>
-      <if test="shbt != null">
-        shbt,
-      </if>
-      <if test="sbf != null">
-        sbf,
-      </if>
-      <if test="xlf != null">
-        xlf,
-      </if>
-      <if test="gzcx != null">
-        gzcx,
-      </if>
-      <if test="shiyebx != null">
-        shiyebx,
-      </if>
-      <if test="yanglaobx != null">
-        yanglaobx,
-      </if>
-      <if test="yiliaobx != null">
-        yiliaobx,
-      </if>
-      <if test="gsbx != null">
-        gsbx,
-      </if>
-      <if test="shengyubx != null">
-        shengyubx,
-      </if>
-      <if test="qynj != null">
-        qynj,
-      </if>
-      <if test="zynj != null">
-        zynj,
-      </if>
-      <if test="gjj != null">
-        gjj,
+      <if test="salary != null">
+        salary,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -260,56 +184,8 @@
       <if test="retireSalary != null">
         #{retireSalary,jdbcType=DECIMAL},
       </if>
-      <if test="gwgz != null">
-        #{gwgz,jdbcType=DECIMAL},
-      </if>
-      <if test="xjgz != null">
-        #{xjgz,jdbcType=DECIMAL},
-      </if>
-      <if test="gwjt != null">
-        #{gwjt,jdbcType=DECIMAL},
-      </if>
-      <if test="zwbt != null">
-        #{zwbt,jdbcType=DECIMAL},
-      </if>
-      <if test="zwbt1 != null">
-        #{zwbt1,jdbcType=DECIMAL},
-      </if>
-      <if test="shbt != null">
-        #{shbt,jdbcType=DECIMAL},
-      </if>
-      <if test="sbf != null">
-        #{sbf,jdbcType=DECIMAL},
-      </if>
-      <if test="xlf != null">
-        #{xlf,jdbcType=DECIMAL},
-      </if>
-      <if test="gzcx != null">
-        #{gzcx,jdbcType=DECIMAL},
-      </if>
-      <if test="shiyebx != null">
-        #{shiyebx,jdbcType=DECIMAL},
-      </if>
-      <if test="yanglaobx != null">
-        #{yanglaobx,jdbcType=DECIMAL},
-      </if>
-      <if test="yiliaobx != null">
-        #{yiliaobx,jdbcType=DECIMAL},
-      </if>
-      <if test="gsbx != null">
-        #{gsbx,jdbcType=DECIMAL},
-      </if>
-      <if test="shengyubx != null">
-        #{shengyubx,jdbcType=DECIMAL},
-      </if>
-      <if test="qynj != null">
-        #{qynj,jdbcType=DECIMAL},
-      </if>
-      <if test="zynj != null">
-        #{zynj,jdbcType=DECIMAL},
-      </if>
-      <if test="gjj != null">
-        #{gjj,jdbcType=DECIMAL},
+      <if test="salary != null">
+        #{salary,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -352,56 +228,8 @@
       <if test="record.retireSalary != null">
         retire_salary = #{record.retireSalary,jdbcType=DECIMAL},
       </if>
-      <if test="record.gwgz != null">
-        gwgz = #{record.gwgz,jdbcType=DECIMAL},
-      </if>
-      <if test="record.xjgz != null">
-        xjgz = #{record.xjgz,jdbcType=DECIMAL},
-      </if>
-      <if test="record.gwjt != null">
-        gwjt = #{record.gwjt,jdbcType=DECIMAL},
-      </if>
-      <if test="record.zwbt != null">
-        zwbt = #{record.zwbt,jdbcType=DECIMAL},
-      </if>
-      <if test="record.zwbt1 != null">
-        zwbt1 = #{record.zwbt1,jdbcType=DECIMAL},
-      </if>
-      <if test="record.shbt != null">
-        shbt = #{record.shbt,jdbcType=DECIMAL},
-      </if>
-      <if test="record.sbf != null">
-        sbf = #{record.sbf,jdbcType=DECIMAL},
-      </if>
-      <if test="record.xlf != null">
-        xlf = #{record.xlf,jdbcType=DECIMAL},
-      </if>
-      <if test="record.gzcx != null">
-        gzcx = #{record.gzcx,jdbcType=DECIMAL},
-      </if>
-      <if test="record.shiyebx != null">
-        shiyebx = #{record.shiyebx,jdbcType=DECIMAL},
-      </if>
-      <if test="record.yanglaobx != null">
-        yanglaobx = #{record.yanglaobx,jdbcType=DECIMAL},
-      </if>
-      <if test="record.yiliaobx != null">
-        yiliaobx = #{record.yiliaobx,jdbcType=DECIMAL},
-      </if>
-      <if test="record.gsbx != null">
-        gsbx = #{record.gsbx,jdbcType=DECIMAL},
-      </if>
-      <if test="record.shengyubx != null">
-        shengyubx = #{record.shengyubx,jdbcType=DECIMAL},
-      </if>
-      <if test="record.qynj != null">
-        qynj = #{record.qynj,jdbcType=DECIMAL},
-      </if>
-      <if test="record.zynj != null">
-        zynj = #{record.zynj,jdbcType=DECIMAL},
-      </if>
-      <if test="record.gjj != null">
-        gjj = #{record.gjj,jdbcType=DECIMAL},
+      <if test="record.salary != null">
+        salary = #{record.salary,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -420,23 +248,7 @@
       has_reset = #{record.hasReset,jdbcType=BIT},
       has_set_salary = #{record.hasSetSalary,jdbcType=BIT},
       retire_salary = #{record.retireSalary,jdbcType=DECIMAL},
-      gwgz = #{record.gwgz,jdbcType=DECIMAL},
-      xjgz = #{record.xjgz,jdbcType=DECIMAL},
-      gwjt = #{record.gwjt,jdbcType=DECIMAL},
-      zwbt = #{record.zwbt,jdbcType=DECIMAL},
-      zwbt1 = #{record.zwbt1,jdbcType=DECIMAL},
-      shbt = #{record.shbt,jdbcType=DECIMAL},
-      sbf = #{record.sbf,jdbcType=DECIMAL},
-      xlf = #{record.xlf,jdbcType=DECIMAL},
-      gzcx = #{record.gzcx,jdbcType=DECIMAL},
-      shiyebx = #{record.shiyebx,jdbcType=DECIMAL},
-      yanglaobx = #{record.yanglaobx,jdbcType=DECIMAL},
-      yiliaobx = #{record.yiliaobx,jdbcType=DECIMAL},
-      gsbx = #{record.gsbx,jdbcType=DECIMAL},
-      shengyubx = #{record.shengyubx,jdbcType=DECIMAL},
-      qynj = #{record.qynj,jdbcType=DECIMAL},
-      zynj = #{record.zynj,jdbcType=DECIMAL},
-      gjj = #{record.gjj,jdbcType=DECIMAL}
+      salary = #{record.salary,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -471,56 +283,8 @@
       <if test="retireSalary != null">
         retire_salary = #{retireSalary,jdbcType=DECIMAL},
       </if>
-      <if test="gwgz != null">
-        gwgz = #{gwgz,jdbcType=DECIMAL},
-      </if>
-      <if test="xjgz != null">
-        xjgz = #{xjgz,jdbcType=DECIMAL},
-      </if>
-      <if test="gwjt != null">
-        gwjt = #{gwjt,jdbcType=DECIMAL},
-      </if>
-      <if test="zwbt != null">
-        zwbt = #{zwbt,jdbcType=DECIMAL},
-      </if>
-      <if test="zwbt1 != null">
-        zwbt1 = #{zwbt1,jdbcType=DECIMAL},
-      </if>
-      <if test="shbt != null">
-        shbt = #{shbt,jdbcType=DECIMAL},
-      </if>
-      <if test="sbf != null">
-        sbf = #{sbf,jdbcType=DECIMAL},
-      </if>
-      <if test="xlf != null">
-        xlf = #{xlf,jdbcType=DECIMAL},
-      </if>
-      <if test="gzcx != null">
-        gzcx = #{gzcx,jdbcType=DECIMAL},
-      </if>
-      <if test="shiyebx != null">
-        shiyebx = #{shiyebx,jdbcType=DECIMAL},
-      </if>
-      <if test="yanglaobx != null">
-        yanglaobx = #{yanglaobx,jdbcType=DECIMAL},
-      </if>
-      <if test="yiliaobx != null">
-        yiliaobx = #{yiliaobx,jdbcType=DECIMAL},
-      </if>
-      <if test="gsbx != null">
-        gsbx = #{gsbx,jdbcType=DECIMAL},
-      </if>
-      <if test="shengyubx != null">
-        shengyubx = #{shengyubx,jdbcType=DECIMAL},
-      </if>
-      <if test="qynj != null">
-        qynj = #{qynj,jdbcType=DECIMAL},
-      </if>
-      <if test="zynj != null">
-        zynj = #{zynj,jdbcType=DECIMAL},
-      </if>
-      <if test="gjj != null">
-        gjj = #{gjj,jdbcType=DECIMAL},
+      <if test="salary != null">
+        salary = #{salary,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
@@ -536,23 +300,7 @@
       has_reset = #{hasReset,jdbcType=BIT},
       has_set_salary = #{hasSetSalary,jdbcType=BIT},
       retire_salary = #{retireSalary,jdbcType=DECIMAL},
-      gwgz = #{gwgz,jdbcType=DECIMAL},
-      xjgz = #{xjgz,jdbcType=DECIMAL},
-      gwjt = #{gwjt,jdbcType=DECIMAL},
-      zwbt = #{zwbt,jdbcType=DECIMAL},
-      zwbt1 = #{zwbt1,jdbcType=DECIMAL},
-      shbt = #{shbt,jdbcType=DECIMAL},
-      sbf = #{sbf,jdbcType=DECIMAL},
-      xlf = #{xlf,jdbcType=DECIMAL},
-      gzcx = #{gzcx,jdbcType=DECIMAL},
-      shiyebx = #{shiyebx,jdbcType=DECIMAL},
-      yanglaobx = #{yanglaobx,jdbcType=DECIMAL},
-      yiliaobx = #{yiliaobx,jdbcType=DECIMAL},
-      gsbx = #{gsbx,jdbcType=DECIMAL},
-      shengyubx = #{shengyubx,jdbcType=DECIMAL},
-      qynj = #{qynj,jdbcType=DECIMAL},
-      zynj = #{zynj,jdbcType=DECIMAL},
-      gjj = #{gjj,jdbcType=DECIMAL}
+      salary = #{salary,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdConfigMemberExample" resultMap="BaseResultMap">

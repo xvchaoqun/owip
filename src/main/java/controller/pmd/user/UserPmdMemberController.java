@@ -1,15 +1,15 @@
 package controller.pmd.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.pmd.PmdBaseController;
-import ext.domain.ExtRetireSalary;
-import ext.domain.ExtRetireSalaryExample;
 import domain.pmd.*;
 import domain.sys.SysUserView;
+import ext.domain.ExtRetireSalary;
+import ext.domain.ExtRetireSalaryExample;
 import ext.service.ExtRetireSalaryImport;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -95,6 +95,14 @@ public class UserPmdMemberController extends PmdBaseController {
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
         modelMap.put("pmdConfigMember", pmdConfigMember);
 
+        Map<String,BigDecimal> salaryMap = null;
+        try {
+            salaryMap = new ObjectMapper().readValue(pmdConfigMember.getSalary(), HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        modelMap.put("salaryMap", salaryMap);
+
         if(pmdConfigMember.getConfigMemberType()== PmdConstants.PMD_MEMBER_TYPE_RETIRE){
 
             return "pmd/user/pmdMember_setRetireBase";
@@ -106,7 +114,7 @@ public class UserPmdMemberController extends PmdBaseController {
         modelMap.put("pmdNorm", pmdNorm);
 
         if(BooleanUtils.isTrue(pmdConfigMember.getHasSetSalary())) {
-            modelMap.put("duePay", pmdExtService.calDuePay(pmdConfigMember));
+            modelMap.put("duePay", pmdExtService.calDuePay(pmdConfigMember.getUserId(), pmdConfigMember.getSalary()));
         }
 
         return "pmd/user/pmdMember_setSalary";
@@ -118,7 +126,7 @@ public class UserPmdMemberController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdMember_calDuePay(PmdConfigMember record, HttpServletRequest request) {
 
-        BigDecimal duePay = pmdExtService.calDuePay(record);
+        BigDecimal duePay = pmdExtService.calDuePay(record.getUserId(), pmdExtService.formSalaryToJSON(request));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("duePay", duePay);
 
@@ -135,7 +143,7 @@ public class UserPmdMemberController extends PmdBaseController {
 
         int userId = checkPayAuth(pmdMemberId, isSelf);
         record.setUserId(userId);
-        pmdConfigMemberService.setSalary(record, isSelf);
+        pmdConfigMemberService.setSalary(record, isSelf, request);
         return success(FormUtils.SUCCESS);
     }
 

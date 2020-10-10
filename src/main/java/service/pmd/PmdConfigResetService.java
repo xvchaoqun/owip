@@ -9,6 +9,7 @@ import domain.member.Member;
 import domain.member.MemberExample;
 import domain.pmd.*;
 import domain.sys.SysUserView;
+import ext.service.PmdExtService;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.sys.LogService;
-import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
@@ -41,10 +40,6 @@ public class PmdConfigResetService extends PmdBaseMapper {
     private PmdNormService pmdNormService;
     @Autowired
     private PmdConfigMemberService pmdConfigMemberService;
-    @Autowired
-    private SysApprovalLogService sysApprovalLogService;
-    @Autowired
-    private LogService logService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -97,32 +92,8 @@ public class PmdConfigResetService extends PmdBaseMapper {
         PmdConfigMember _pmdConfigMember = new PmdConfigMember();
         _pmdConfigMember.setUserId(userId);
 
-        BigDecimal gwgz = ejs.getGwgz();
-        BigDecimal xpgz = ejs.getXpgz();
-        if (gwgz == null || (xpgz != null && gwgz.compareTo(xpgz) < 0))
-            gwgz = xpgz;
-        _pmdConfigMember.setGwgz(gwgz);
-
-        _pmdConfigMember.setXjgz(ejs.getXjgz());
-        _pmdConfigMember.setGwjt(ejs.getGwjt());
-        _pmdConfigMember.setZwbt(ejs.getZwbt());
-        _pmdConfigMember.setZwbt1(ejs.getZwbt1());
-        _pmdConfigMember.setShbt(ejs.getShbt());
-        _pmdConfigMember.setSbf(ejs.getSbf());
-        _pmdConfigMember.setXlf(ejs.getXlf());
-
-        BigDecimal gzcx = ejs.getGzcx();
-        if (gzcx != null) {
-            gzcx = gzcx.multiply(BigDecimal.valueOf(-1));
-        }
-        _pmdConfigMember.setGzcx(gzcx);
-
-        _pmdConfigMember.setShiyebx(ejs.getSygr());
-        _pmdConfigMember.setYanglaobx(ejs.getYanglaogr());
-        _pmdConfigMember.setYiliaobx(ejs.getYiliaogr());
-        _pmdConfigMember.setZynj(ejs.getNjgr());
-        _pmdConfigMember.setGjj(ejs.getZfgjj());
-        BigDecimal duePay = pmdExtService.calDuePay(_pmdConfigMember);
+        _pmdConfigMember.setSalary(pmdExtService.getSalaryJSON(ejs));
+        BigDecimal duePay = pmdExtService.calDuePay(userId, pmdConfigMember.getSalary());
         _pmdConfigMember.setDuePay(duePay);
         _pmdConfigMember.setHasReset(true);
 

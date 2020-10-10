@@ -1,5 +1,33 @@
 
 
+-- 删除 service.pmd.PmdExeService
+
+ALTER TABLE `pmd_config_member`
+	ADD COLUMN `salary` TEXT NULL DEFAULT NULL COMMENT '工资项，JSON格式' AFTER `retire_salary`;
+
+-- 执行 /test/pmd_update.jsp
+
+ALTER TABLE `pmd_config_member`
+	DROP COLUMN `gwgz`,
+	DROP COLUMN `xjgz`,
+	DROP COLUMN `gwjt`,
+	DROP COLUMN `zwbt`,
+	DROP COLUMN `zwbt1`,
+	DROP COLUMN `shbt`,
+	DROP COLUMN `sbf`,
+	DROP COLUMN `xlf`,
+	DROP COLUMN `gzcx`,
+	DROP COLUMN `shiyebx`,
+	DROP COLUMN `yanglaobx`,
+	DROP COLUMN `yiliaobx`,
+	DROP COLUMN `gsbx`,
+	DROP COLUMN `shengyubx`,
+	DROP COLUMN `qynj`,
+	DROP COLUMN `zynj`,
+	DROP COLUMN `gjj`;
+
+
+
 20201010
 南航（停止同步更新）
 

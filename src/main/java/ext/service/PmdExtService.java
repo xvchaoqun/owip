@@ -1,29 +1,57 @@
-package service.pmd;
+package ext.service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import domain.member.Member;
 import domain.member.MemberView;
-import domain.pmd.PmdConfigMember;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUserView;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtRetireSalary;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import persistence.pmd.common.IPmdMapper;
+import service.party.BranchService;
+import service.party.MemberService;
+import service.party.PartyService;
+import service.sys.SysUserService;
+import sys.gson.GsonUtils;
+import sys.tags.CmTag;
+import sys.utils.ExportHelper;
+import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lm on 2017/11/15.
  */
 @Service
-public class PmdExtService extends PmdBaseMapper{
+public class PmdExtService {
+
+    @Autowired
+    protected IPmdMapper iPmdMapper;
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected BranchService branchService;
+    @Autowired
+    protected MemberService memberService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -149,6 +177,38 @@ public class PmdExtService extends PmdBaseMapper{
         }
 
         return duePay;
+    }
+
+    // 保存工资项到 党员缴费分类 表
+    public String getSalaryJSON(ExtJzgSalary ejs) {
+
+        BigDecimal gwgz = ejs.getGwgz();
+        BigDecimal xpgz = ejs.getXpgz();
+        if (gwgz == null || (xpgz != null && gwgz.compareTo(xpgz) < 0))
+            gwgz = xpgz;
+        Map<String, BigDecimal> salaryMap = new HashMap<>();
+
+        salaryMap.put("gwgz", gwgz);
+        salaryMap.put("xjgz", ejs.getXjgz());
+        salaryMap.put("gwjt", ejs.getGwjt());
+        salaryMap.put("zwbt", ejs.getZwbt());
+        salaryMap.put("zwbt1", ejs.getZwbt1());
+        salaryMap.put("shbt", ejs.getShbt());
+        salaryMap.put("sbf", ejs.getSbf());
+        salaryMap.put("xlf", ejs.getXlf());
+
+        BigDecimal gzcx = ejs.getGzcx();
+        if (gzcx != null) {
+            gzcx = gzcx.multiply(BigDecimal.valueOf(-1));
+        }
+        salaryMap.put("gzcx", gzcx);
+        salaryMap.put("shiyebx", ejs.getSygr());
+        salaryMap.put("yanglaobx", ejs.getYanglaogr());
+        salaryMap.put("yiliaobx", ejs.getYiliaogr());
+        salaryMap.put("zynj", ejs.getNjgr());
+        salaryMap.put("gjj", ejs.getZfgjj());
+
+        return JSONUtils.toString(salaryMap, false);
     }
 
     @Deprecated
@@ -365,26 +425,67 @@ public class PmdExtService extends PmdBaseMapper{
         return duePay;
     }
 
-    // 根据工资计算党费（ 针对在职、校聘教职工）
-    public BigDecimal calDuePay(PmdConfigMember record) {
+    private BigDecimal getParamValue(HttpServletRequest req, String paramName){
 
-        BigDecimal gwgz = NumberUtils.trimToZero(record.getGwgz());
-        BigDecimal xjgz = NumberUtils.trimToZero(record.getXjgz());
-        BigDecimal gwjt = NumberUtils.trimToZero(record.getGwjt());
-        BigDecimal zwbt = NumberUtils.trimToZero(record.getZwbt());
-        BigDecimal zwbt1 = NumberUtils.trimToZero(record.getZwbt1());
-        BigDecimal shbt = NumberUtils.trimToZero(record.getShbt());
-        BigDecimal sbf = NumberUtils.trimToZero(record.getSbf());
-        BigDecimal xlf = NumberUtils.trimToZero(record.getXlf());
-        BigDecimal gzcx = NumberUtils.trimToZero(record.getGzcx());
-        BigDecimal shiyebx = NumberUtils.trimToZero(record.getShiyebx());
-        BigDecimal yanglaobx = NumberUtils.trimToZero(record.getYanglaobx());
-        BigDecimal yiliaobx = NumberUtils.trimToZero(record.getYiliaobx());
-        BigDecimal gsbx = NumberUtils.trimToZero(record.getGsbx());
-        BigDecimal shengyubx = NumberUtils.trimToZero(record.getShengyubx());
-        BigDecimal qynj = NumberUtils.trimToZero(record.getQynj());
-        BigDecimal zynj = NumberUtils.trimToZero(record.getZynj());
-        BigDecimal gjj = NumberUtils.trimToZero(record.getGjj());
+        String value = req.getParameter(paramName);
+        if(value==null) return null;
+        
+        return new BigDecimal(value);
+    }
+    
+    // 表单参数转换成工资JSON
+    public String formSalaryToJSON(HttpServletRequest req){
+
+        Map<String, BigDecimal> salaryMap = new HashMap<>();
+        salaryMap.put("gwgz", getParamValue(req, "gwgz"));
+        salaryMap.put("xjgz", getParamValue(req, "xjgz"));
+        salaryMap.put("gwjt", getParamValue(req, "gwjt"));
+        salaryMap.put("zwbt", getParamValue(req, "zwbt"));
+        salaryMap.put("zwbt1", getParamValue(req, "zwbt1"));
+        salaryMap.put("shbt", getParamValue(req, "shbt"));
+        salaryMap.put("sbf", getParamValue(req, "sbf"));
+        salaryMap.put("xlf", getParamValue(req, "xlf"));
+        salaryMap.put("gzcx", getParamValue(req, "gzcx"));
+        salaryMap.put("shiyebx", getParamValue(req, "shiyebx"));
+        salaryMap.put("yanglaobx", getParamValue(req, "yanglaobx"));
+        salaryMap.put("yiliaobx", getParamValue(req, "yiliaobx"));
+        salaryMap.put("zynj", getParamValue(req, "zynj"));
+        salaryMap.put("gjj", getParamValue(req, "gjj"));
+
+        return JSONUtils.toString(salaryMap, false);
+    }
+
+    private BigDecimal getJsonObjValue(JsonObject jo, String name){
+
+        if(jo==null) return BigDecimal.ZERO;
+        JsonElement je = jo.get(name);
+        if(je==null) return BigDecimal.ZERO;
+        
+        return NumberUtils.trimToZero(je.getAsBigDecimal());
+    }
+    // 根据工资计算党费（ 针对在职、校聘教职工）
+    public BigDecimal calDuePay(int userId, String salaryJSON)  {
+
+        JsonObject jo = GsonUtils.toJsonObject(salaryJSON);
+        if(jo==null) return BigDecimal.ZERO;
+
+        BigDecimal gwgz = getJsonObjValue(jo, "gwgz");
+        BigDecimal xjgz = getJsonObjValue(jo, "xjgz");
+        BigDecimal gwjt = getJsonObjValue(jo, "gwjt");
+        BigDecimal zwbt = getJsonObjValue(jo, "zwbt");
+        BigDecimal zwbt1 = getJsonObjValue(jo, "zwbt1");
+        BigDecimal shbt = getJsonObjValue(jo, "shbt");
+        BigDecimal sbf = getJsonObjValue(jo, "sbf");
+        BigDecimal xlf = getJsonObjValue(jo, "xlf");
+        BigDecimal gzcx = getJsonObjValue(jo, "gzcx");
+        BigDecimal shiyebx = getJsonObjValue(jo, "shiyebx");
+        BigDecimal yanglaobx = getJsonObjValue(jo, "yanglaobx");
+        BigDecimal yiliaobx = getJsonObjValue(jo, "yiliaobx");
+        BigDecimal gsbx = getJsonObjValue(jo, "gsbx");
+        BigDecimal shengyubx = getJsonObjValue(jo, "shengyubx");
+        BigDecimal qynj = getJsonObjValue(jo, "qynj");
+        BigDecimal zynj = getJsonObjValue(jo, "zynj");
+        BigDecimal gjj = getJsonObjValue(jo, "gjj");
 
         // 前几项合计
         BigDecimal total = gwgz.add(xjgz).add(gwjt).add(zwbt).add(zwbt1).add(shbt).add(sbf).add(xlf)
@@ -465,9 +566,117 @@ public class PmdExtService extends PmdBaseMapper{
         }
         
         if(partyBase.compareTo(BigDecimal.ZERO)<=0){
-            logger.info("党费计算有误，工号{}", record.getUser().getCode());
+            logger.info("党费计算有误，工号{}", CmTag.getUserById(userId).getCode());
             return null;
         }
         return partyBase.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+
+    public void extJzgSalary_export(String salaryMonth, List<ExtJzgSalary> records, HttpServletResponse response) {
+
+        int rownum = records.size();
+        String[] titles = {"日期|100","工号|100","姓名|50","所在分党委|350|left","所在党支部|350|left","校聘工资|80", "薪级工资|80",
+                "岗位工资|80","岗位津贴|80","职务补贴|80","职务补贴1|80","生活补贴|80",
+                "书报费|80","洗理费|80","工资冲销|80","失业个人|80","养老个人|80",
+                "医疗个人|80","年金个人|80","住房公积金|80","在职人员工资合计|80","校聘人员工资合计|80"};
+        List<String[]> valuesList = new ArrayList<>();
+         Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        for (int i = 0; i < rownum; i++) {
+            ExtJzgSalary record = records.get(i);
+            String partyName = null;
+            String branchName = null;
+            SysUserView uv = sysUserService.findByCode(record.getZgh());
+            if(uv!=null){
+                Member member = memberService.get(uv.getUserId());
+                if(member!=null){
+                    Party party = partyMap.get(member.getPartyId());
+                    if(party!=null){
+                        partyName = party.getName();
+                    }
+                    if(member.getBranchId()!=null) {
+                        Branch branch = branchMap.get(member.getBranchId());
+                        if (branch != null) {
+                            branchName = branch.getName();
+                        }
+                    }
+                }
+            }
+            String[] values = {
+                    record.getRq(),
+                    record.getZgh(),
+                    record.getXm(),
+                    partyName,
+                    branchName,
+                    NumberUtils.stripTrailingZeros(record.getXpgz()),
+                    NumberUtils.stripTrailingZeros(record.getXjgz()),
+
+                    NumberUtils.stripTrailingZeros(record.getGwgz()),
+                    NumberUtils.stripTrailingZeros(record.getGwjt()),
+                    NumberUtils.stripTrailingZeros(record.getZwbt()),
+                    NumberUtils.stripTrailingZeros(record.getZwbt1()),
+                    NumberUtils.stripTrailingZeros(record.getShbt()),
+
+                    NumberUtils.stripTrailingZeros(record.getSbf()),
+                    NumberUtils.stripTrailingZeros(record.getXlf()),
+                    NumberUtils.stripTrailingZeros(record.getGzcx()),
+                    NumberUtils.stripTrailingZeros(record.getSygr()),
+                    NumberUtils.stripTrailingZeros(record.getYanglaogr()),
+
+                    NumberUtils.stripTrailingZeros(record.getYiliaogr()),
+                    NumberUtils.stripTrailingZeros(record.getNjgr()),
+                    NumberUtils.stripTrailingZeros(record.getZfgjj()),
+                    NumberUtils.stripTrailingZeros(record.getZzryhj()),
+                    NumberUtils.stripTrailingZeros(record.getXpryhj())
+            };
+            valuesList.add(values);
+        }
+        String fileName = "在职教职工党费工资基数(" + salaryMonth + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    public void extRetireSalary_export(String salaryMonth, List<ExtRetireSalary> records, HttpServletResponse response) {
+
+        int rownum = records.size();
+        String[] titles = {"日期|100","工号|100","姓名|50","所在分党委|350|left","所在党支部|350|left","党费计算基数|80"};
+        List<String[]> valuesList = new ArrayList<>();
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        for (int i = 0; i < rownum; i++) {
+            ExtRetireSalary record = records.get(i);
+            String realname = null;
+            String partyName = null;
+            String branchName = null;
+            SysUserView uv = sysUserService.findByCode(record.getZgh());
+            if(uv!=null){
+                realname = uv.getRealname();
+                Member member = memberService.get(uv.getUserId());
+                if(member!=null){
+                    Party party = partyMap.get(member.getPartyId());
+                    if(party!=null){
+                        partyName = party.getName();
+                    }
+                    if(member.getBranchId()!=null) {
+                        Branch branch = branchMap.get(member.getBranchId());
+                        if (branch != null) {
+                            branchName = branch.getName();
+                        }
+                    }
+                }
+            }
+            String[] values = {
+                    record.getRq(),
+                    record.getZgh(),
+                    realname,
+                    partyName,
+                    branchName,
+                    NumberUtils.stripTrailingZeros(record.getBase())
+            };
+            valuesList.add(values);
+        }
+        String fileName = "离退休党费计算基数(" + salaryMonth + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

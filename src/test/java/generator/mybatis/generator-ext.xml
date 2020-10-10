@@ -24,7 +24,7 @@
         <javaClientGenerator targetPackage="ext.persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <table tableName="ext_bks" domainObjectName="ExtBks" mapperName="ExtBksMapper">
+        <!--<table tableName="ext_bks" domainObjectName="ExtBks" mapperName="ExtBksMapper">
         </table>
         <table tableName="ext_jzg" domainObjectName="ExtJzg" mapperName="ExtJzgMapper">
         </table>
@@ -33,7 +33,7 @@
         <table tableName="ext_abroad" domainObjectName="ExtAbroad">
         </table>
         <table tableName="ext_retire_salary" domainObjectName="ExtRetireSalary"  mapperName="ExtRetireSalaryMapper">
-        </table>
+        </table>-->
         <table tableName="ext_jzg_salary" domainObjectName="ExtJzgSalary"  mapperName="ExtJzgSalaryMapper">
         </table>
 

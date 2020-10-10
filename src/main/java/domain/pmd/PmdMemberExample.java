@@ -2370,7 +2370,7 @@ public class PmdMemberExample {
             super();
         }
 
-        public PmdMemberExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             if(ShiroHelper.hasRole(RoleConstants.ROLE_PMD_OW))
                 return this;
@@ -2379,9 +2379,9 @@ public class PmdMemberExample {
             if(branchIdList==null) branchIdList = new ArrayList<>();
 
             if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
-                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR id in(" + StringUtils.join(branchIdList, ",") + "))");
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
             if(partyIdList.isEmpty() && !branchIdList.isEmpty())
-                andIdIn(branchIdList);
+                andBranchIdIn(branchIdList);
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
             if(branchIdList.isEmpty() && partyIdList.isEmpty())
