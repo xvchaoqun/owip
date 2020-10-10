@@ -1,5 +1,8 @@
 
 
+20201010
+南航（停止同步更新）
+
 update  sys_resource set name='批量生成、导出账号' where permission = 'memberReg:import';
 
 20201008

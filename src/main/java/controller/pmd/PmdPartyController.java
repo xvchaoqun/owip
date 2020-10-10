@@ -5,7 +5,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +84,7 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         if(cls==1) {
-            //if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
+            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
 
                 int userId = ShiroHelper.getCurrentUserId();
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
@@ -94,7 +93,7 @@ public class PmdPartyController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
-            //}
+            }
         }else if(cls==2){
 
             ShiroHelper.checkRole(RoleConstants.ROLE_PMD_OW);

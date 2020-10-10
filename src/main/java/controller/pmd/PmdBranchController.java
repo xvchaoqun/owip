@@ -5,7 +5,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +40,12 @@ public class PmdBranchController extends PmdBaseController {
     public String pmdBranch(@RequestParam(required = false, defaultValue = "1") Byte cls,
                             Integer monthId,
                             Integer partyId,
+                            Integer branchId,
                             ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("party", partyService.findAll().get(partyId));
+        modelMap.put("branch", branchService.findAll().get(branchId));
 
         if (cls == 2) {
             // 分党委管理员访问支部列表
@@ -64,6 +66,7 @@ public class PmdBranchController extends PmdBaseController {
                                Boolean hasReport,
                                Integer monthId,
                                Integer partyId,
+                               Integer branchId,
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -87,13 +90,11 @@ public class PmdBranchController extends PmdBaseController {
         }
 
         if (cls == 1) {
-            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
-            if (adminBranchIds.size() > 0) {
-                criteria.andBranchIdIn(adminBranchIds);
-            } else {
-                criteria.andBranchIdIsNull();
-            }
 
+            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
+
+            criteria.addPermits(adminPartyIds, adminBranchIds);
         } else if (cls == 2) {
             // 此时必须传入monthId和partyId
             criteria.andMonthIdEqualTo(monthId);
@@ -112,6 +113,13 @@ public class PmdBranchController extends PmdBaseController {
             }
         } else {
             criteria.andIdIsNull();
+        }
+
+        if(partyId!=null){
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if(branchId!=null){
+            criteria.andBranchIdEqualTo(branchId);
         }
 
         long count = pmdBranchViewMapper.countByExample(example);

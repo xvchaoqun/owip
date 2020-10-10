@@ -3,7 +3,6 @@ package controller.pmd.user;
 import com.google.gson.Gson;
 import controller.global.OpException;
 import controller.pmd.PmdBaseController;
-import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
@@ -27,10 +26,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/user/pmd")
@@ -59,11 +55,12 @@ public class UserPmdPayController extends PmdBaseController {
                 throw new OpException("不允许给本人代缴");
             }
             // 代缴（只允许支部管理员或直属支部管理员进行代缴）
+            pmdMemberService.checkAdmin(pmdMemberId);
+            /*
             Integer partyId = pmdMember.getPartyId();
             Integer branchId = pmdMember.getBranchId();
 
             Member member = memberService.get(userId);
-
             if(partyService.isDirectBranch(partyId)){
 
                 if(member==null || member.getPartyId().intValue()!=partyId) {
@@ -81,6 +78,7 @@ public class UserPmdPayController extends PmdBaseController {
                 if(member==null || member.getPartyId().intValue()!=partyId
                         || member.getBranchId().intValue()!=branchId) {
 
+
                     List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
                     Set<Integer> adminBranchIdSet = new HashSet<>();
                     adminBranchIdSet.addAll(adminBranchIds);
@@ -88,7 +86,7 @@ public class UserPmdPayController extends PmdBaseController {
                         throw new UnauthorizedException();
                     }
                 }
-            }
+            }*/
         }
 
         return _pmdMember;

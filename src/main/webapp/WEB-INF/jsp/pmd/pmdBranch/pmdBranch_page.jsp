@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="multi-row-head-table myTableDiv"
                  data-url-page="${ctx}/pmd/pmdBranch"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.hasReport || not empty param.payMonth
+            <c:set var="_query" value="${not empty param.hasReport || not empty param.partyId || not empty param.branchId || not empty param.payMonth
              || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<a class="popupBtn btn btn-warning btn-sm"
@@ -52,6 +52,25 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
+                            <div class="form-group">
+                                <label>所在${_p_partyName}</label>
+                                <select class="form-control" data-width="250"  data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/party_selects"
+                                        name="partyId" data-placeholder="请选择${_p_partyName}">
+                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                <label>所在党支部</label>
+                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                                        name="branchId" data-placeholder="请选择党支部">
+                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                                </select>
+                            </div>
+                            <script>
+                                $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+                            </script>
                             <div class="form-group">
                                 <label>缴纳月份</label>
                                 <div class="input-group" style="width: 120px;">

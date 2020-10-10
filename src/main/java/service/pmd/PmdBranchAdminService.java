@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.party.BranchAdminService;
 import service.party.BranchMemberService;
-import service.party.PartyService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 
@@ -22,8 +22,6 @@ public class PmdBranchAdminService extends PmdBaseMapper {
     private PmdPayBranchService pmdPayBranchService;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private PartyService partyService;
     @Autowired
     private BranchMemberService branchMemberService;
     @Autowired
@@ -41,16 +39,18 @@ public class PmdBranchAdminService extends PmdBaseMapper {
      */
     public boolean isBranchAdmin(int userId, Integer partyId, Integer branchId){
 
-        if(partyService.isDirectBranch(partyId)){
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_PMD_OW))
+            return true;
 
-            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-            Set<Integer> adminPartyIdSet = new HashSet<>();
-            adminPartyIdSet.addAll(adminPartyIds);
+        List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+        Set<Integer> adminPartyIdSet = new HashSet<>();
+        adminPartyIdSet.addAll(adminPartyIds);
+        if (adminPartyIdSet.contains(partyId)) {
+            return true;
+        }
 
-            if (adminPartyIdSet.contains(partyId)) {
-                return true;
-            }
-        }else{
+        if(branchId!=null){
+
             List<Integer> adminBranchIds = getAdminBranchIds(userId);
             Set<Integer> adminBranchIdSet = new HashSet<>();
             adminBranchIdSet.addAll(adminBranchIds);

@@ -9,7 +9,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -146,12 +145,11 @@ public class PmdMemberController extends PmdBaseController {
         example.setOrderByClause("month_id desc, type asc, id asc");
 
         if (cls == 1) {
+
+            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
-            if (adminBranchIds.size() > 0) {
-                criteria.andBranchIdIn(adminBranchIds);
-            } else {
-                criteria.andBranchIdIsNull();
-            }
+
+            criteria.addPermits(adminPartyIds, adminBranchIds);
         } else if (cls == 2) {
             // 直属党支部访问党员列表
             // 此时必须传入partyId
@@ -294,7 +292,7 @@ public class PmdMemberController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        if (branchId != null) {
+        /*if (branchId != null) {
             List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
             Set<Integer> adminBranchIdSet = new HashSet<>();
             adminBranchIdSet.addAll(adminBranchIds);
@@ -305,6 +303,9 @@ public class PmdMemberController extends PmdBaseController {
             Set<Integer> adminPartyIdSet = new HashSet<>();
             adminPartyIdSet.addAll(adminPartyIds);
             if (!partyService.isDirectBranch(partyId) || !adminPartyIdSet.contains(partyId)) return;
+        }*/
+        if(!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)){
+            return;
         }
 
         long count = 0;
