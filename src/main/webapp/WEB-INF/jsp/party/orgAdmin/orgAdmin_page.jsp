@@ -20,6 +20,14 @@
                     </c:if>
                     <div class="tab-content">
                         <div class="tab-pane in active">
+                            <div class="jqgrid-vertical-offset buttons">
+                                <button data-url="${ctx}org/orgAdmin_batchDel?type=${param.type}"
+                                        data-title="删除"
+                                        data-msg="确定删除这{0}条数据？"
+                                        class="jqBatchBtn btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                            </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
@@ -136,6 +144,7 @@
                 }
             },
             </c:if>
+            {hidden:true,name:'userId'},{hidden:true,name:'partyId'}
 
         ]
     }).jqGrid("setFrozenColumns")

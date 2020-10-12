@@ -2,6 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['owCheckIntegrity']=='true'}" var="_p_owCheckIntegrity"/>
+<c:set value="<%=OwConstants.OW_ORG_ADMIN_PARTY%>" var="OW_ORG_ADMIN_PARTY"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -41,10 +42,17 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>--%>
                     </shiro:hasPermission>
 
-                <button data-url="${ctx}/org_admin"
+                <button data-url="${ctx}/org_admin?isPartyAdmin=1"
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
+                <shiro:hasRole name="${ROLE_SUPER}">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}org/orgAdmin_import?type=${OW_ORG_ADMIN_PARTY}"
+                            data-rel="tooltip" data-placement="top" title="批量导入管理员"><i class="fa fa-upload"></i>
+                        导入管理员
+                    </button>
+                </shiro:hasRole>
                 <shiro:hasPermission name="party:add">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/party_import"

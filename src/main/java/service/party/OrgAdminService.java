@@ -1,8 +1,7 @@
 package service.party;
 
 import controller.global.OpException;
-import domain.party.OrgAdmin;
-import domain.party.OrgAdminExample;
+import domain.party.*;
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,8 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.util.Date;
@@ -22,6 +24,8 @@ import java.util.List;
 @Service
 public class OrgAdminService extends BaseMapper {
 
+    @Autowired
+    private BranchService branchService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -128,5 +132,128 @@ public class OrgAdminService extends BaseMapper {
 
             del(orgAdmin.getId(), orgAdmin.getUserId());
         }
+    }
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "AdminPartyIdList"),
+            @CacheEvict(value = "AdminBranchIdList")
+    })
+    public int batchImport(List<OrgAdmin> records) {
+
+        int count = 0;
+
+        for (OrgAdmin record : records) {
+            Byte type = record.getType();
+            Integer userId = record.getUserId();
+            SysUserView sysUser = sysUserService.findById(userId);
+
+            if (type == OwConstants.OW_ORG_ADMIN_PARTY) {
+                if (partyAdminService.adminParty(userId, record.getPartyId())) {
+                    continue;
+                }
+                if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_PARTYADMIN)) {
+                    sysUserService.addRole(userId, RoleConstants.ROLE_PARTYADMIN);
+                }
+            }else if (type == OwConstants.OW_ORG_ADMIN_BRANCH){
+                if(branchAdminService.adminBranch(userId, record.getBranchId())){
+                    continue;
+                }
+                if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_BRANCHADMIN)) {
+                    sysUserService.addRole(userId, RoleConstants.ROLE_BRANCHADMIN);
+                }
+            }
+
+            orgAdminMapper.insertSelective(record);
+            count++;
+
+        }
+
+        return count;
+    }
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "AdminPartyIdList"),
+            @CacheEvict(value = "AdminBranchIdList")
+    })
+    public void batchDel(String[] ids, boolean isPartyAdmin, SysUserView loginUser) {
+
+        for (String id : ids) {
+
+            String[] str = id.split("_");
+            int userId = Integer.parseInt(str[1]);
+            int type = Integer.parseInt(str[2]);//type=1表示委员会成员 type=2表示普通管理员
+
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                if (userId == loginUser.getId()) {
+                    throw new OpException("不能删除自己");
+                }
+            }
+
+            if (type == 2) {
+                OrgAdmin orgAdmin = (OrgAdmin) getAdmin(id, isPartyAdmin);
+
+                if (isPartyAdmin){
+                    PartyHelper.checkAuth(orgAdmin.getPartyId());
+                }else {
+                    int branchId = orgAdmin.getBranchId();
+                    Branch branch =  branchService.findAll().get(branchId);
+                    PartyHelper.checkAuth(branch.getPartyId(), branchId);
+                }
+                del(orgAdmin.getId(), orgAdmin.getUserId());
+            }else {
+                if (isPartyAdmin){
+                    PartyMemberView pmv = (PartyMemberView) getAdmin(id, isPartyAdmin);
+                    partyAdminService.setPartyAdmin(pmv.getId(), false);
+                }else {
+                    BranchMemberView bmv = (BranchMemberView) getAdmin(id,isPartyAdmin);
+                    branchAdminService.setBranchAdmin(bmv.getId(), false);
+                }
+            }
+        }
+
+    }
+
+    public Object getAdmin(String owAdminId, boolean isPartyAdmin){
+
+        String[] str = owAdminId.split("_");
+
+        int owId = Integer.parseInt(str[0]);//分党委id或者党支部id（根据isPartyAdmin判断）
+        int userId = Integer.parseInt(str[1]);
+        int type = Integer.parseInt(str[2]);//1委员会成员 2管理员
+
+        if (type == 1){
+            if (isPartyAdmin) {
+                PartyMemberViewExample example = new PartyMemberViewExample();
+                example.createCriteria().andUserIdEqualTo(userId).andGroupPartyIdEqualTo(owId);
+                List<PartyMemberView> pmv = partyMemberViewMapper.selectByExample(example);
+                if (pmv != null && pmv.size() > 0) {
+                    return pmv.get(0);
+                }
+            } else {
+                BranchMemberViewExample example = new BranchMemberViewExample();
+                example.createCriteria().andUserIdEqualTo(userId).andBranchIdEqualTo(owId);
+                List<BranchMemberView> bmv = branchMemberViewMapper.selectByExample(example);
+                if (bmv != null && bmv.size() > 0) {
+                    return bmv.get(0);
+                }
+            }
+        }else if (type == 2){
+            OrgAdminExample example = new OrgAdminExample();
+            OrgAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+            if (isPartyAdmin){
+                criteria.andPartyIdEqualTo(owId);
+            }else {
+                criteria.andBranchIdEqualTo(owId);
+            }
+            List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExample(example);
+            if (orgAdmins != null && orgAdmins.size() > 0) {
+
+                return orgAdmins.get(0);
+            }
+        }
+
+        return null;
     }
 }

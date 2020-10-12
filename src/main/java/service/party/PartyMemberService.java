@@ -218,7 +218,8 @@ public class PartyMemberService extends BaseMapper {
 
             for (OwAdmin record : owAdmins) { // 一般只有一个
 
-                partyAdminService.setPartyAdmin(record.getId(), true);
+                PartyMemberView pmv = (PartyMemberView) orgAdminService.getAdmin(record.getId(), true);
+                partyAdminService.setPartyAdmin(pmv.getId(), false);
             }
         }
 
@@ -231,7 +232,8 @@ public class PartyMemberService extends BaseMapper {
             List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
 
             for (OwAdmin record : owAdmins) {
-                orgAdminService.del(record.getId(), record.getUserId());
+                OrgAdmin oa = (OrgAdmin) orgAdminService.getAdmin(record.getId(), true);
+                orgAdminService.del(oa.getId(), record.getUserId());
             }
         }
     }
