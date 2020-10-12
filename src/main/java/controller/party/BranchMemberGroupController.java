@@ -36,6 +36,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -86,11 +87,13 @@ public class BranchMemberGroupController extends BaseController {
     @RequestMapping("/branchMemberGroup_data")
     public void branchMemberGroup_data(HttpServletResponse response,
                                        @RequestParam(required = false, defaultValue = "1") Byte status,
+                                       Integer year,
                                        Integer partyId,
                                        Integer branchId,
                                        String name,
                                        @RequestDateRange DateRange _appointTime,
                                        @RequestDateRange DateRange _tranTime,
+                                       Byte isTranTime,
                                        @RequestParam(required = false, defaultValue = "0") int export,
                                        Integer[] ids, // 导出的记录
                                        Integer pageSize, Integer pageNo) throws IOException {
@@ -144,6 +147,18 @@ public class BranchMemberGroupController extends BaseController {
 
         if (_tranTime.getEnd()!=null) {
             criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
+        }
+        if (isTranTime!=null) {
+            criteria.andTranTimeLessThanOrEqualTo(new Date());
+        }
+        if (year != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            Date lastYear = new Date();
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(lastYear);
+            cl.add(Calendar.YEAR, -1);
+            lastYear = cl.getTime();
+            criteria.andTranTimeLessThan(DateUtils.parseStringToDate(sdf.format(lastYear)));
         }
 
         if (export == 1) {
