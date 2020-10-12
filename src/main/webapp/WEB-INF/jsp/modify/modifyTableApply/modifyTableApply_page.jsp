@@ -116,7 +116,7 @@
                         + '<i class="fa fa-search"></i> 详情</button>';
             }
             },
-            <shiro:hasRole name="${ROLE_CADREADMIN}">
+            <shiro:hasPermission name="modifyTableApply:*">
             <c:if test="${cls==1}">
             {
                 label: '组织部审核', name: '_check', formatter: function (cellvalue, options, rowObject) {
@@ -127,7 +127,7 @@
             }
             },
             </c:if>
-            </shiro:hasRole>
+            </shiro:hasPermission>
 
             {
                 label: '审核状态', name: 'status', formatter: function (cellvalue, options, rowObject) {

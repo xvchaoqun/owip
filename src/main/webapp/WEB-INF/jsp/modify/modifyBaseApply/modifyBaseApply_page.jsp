@@ -21,12 +21,12 @@
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?type=${param.type}&status=2"><i
                                 class="fa fa-check"></i> 审核完成</a>
                     </li>
-                    <shiro:hasRole name="${ROLE_CADREADMIN}">
+                    <shiro:hasPermission name="modifyBaseApply:*">
                         <li class="<c:if test="${status==3}">active</c:if>">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?type=${param.type}&status=3"><i
                                     class="fa fa-times"></i> 已删除</a>
                         </li>
-                    </shiro:hasRole>
+                    </shiro:hasPermission>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane in active">
@@ -140,7 +140,7 @@
             }
             },
             <c:if test="${status!=3}">
-            <shiro:hasRole name="${ROLE_CADREADMIN}">
+            <shiro:hasPermission name="modifyBaseApply:*">
             {
                 label: '组织部审核', name: '_approval', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
@@ -153,7 +153,7 @@
             },
             {label: '最后审核时间', name: 'checkTime', width: 150},
             {label: '最后审核IP', name: 'checkIp', width: 120},
-            </shiro:hasRole>
+            </shiro:hasPermission>
             </c:if>
             {
                 hidden: true, name: '_status', formatter: function (cellvalue, options, rowObject) {

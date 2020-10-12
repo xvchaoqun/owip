@@ -19,7 +19,6 @@ import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
-import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -28,7 +27,10 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ModifyTableApplyController extends ModifyBaseController {
@@ -47,8 +49,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
         if (cls == null) {
             // 默认列表
-            cls = (byte) (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ,
-                    RoleConstants.ROLE_CADRE_KJ, RoleConstants.ROLE_CADRE_DP) ? 0 : 1);
+            cls = (byte) (ShiroHelper.isPermitted("userModifyCadre:menu") ? 0 : 1);
         }
         modelMap.put("cls", cls);
 
