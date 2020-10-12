@@ -496,6 +496,11 @@
 		<function-signature>int trimToZero(java.lang.Integer)</function-signature>
 	</function>
 	<function>
+		<name>trimDouble</name>
+		<function-class>sys.utils.NumberUtils</function-class>
+		<function-signature>java.lang.String trimDouble(java.lang.Double)(java.math.Double)</function-signature>
+	</function>
+	<function>
 		<name>stripTrailingZeros</name>
 		<function-class>sys.utils.NumberUtils</function-class>
 		<function-signature>java.lang.String stripTrailingZeros(java.math.BigDecimal)</function-signature>

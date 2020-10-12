@@ -19,21 +19,21 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>岗位工资</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gwgz}
+                            ${cm:trimDouble(salaryMap.gwgz)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gwgz" value="${salaryMap.gwgz}">
+                                   type="text" name="gwgz" value="${cm:trimDouble(salaryMap.gwgz)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>薪级工资</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.xjgz}
+                            ${cm:trimDouble(salaryMap.xjgz)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="xjgz" value="${salaryMap.xjgz}">
+                                   type="text" name="xjgz" value="${cm:trimDouble(salaryMap.xjgz)}">
                         </c:if>
                     </td>
                 </tr>
@@ -41,21 +41,21 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>岗位津贴</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gwjt}
+                            ${cm:trimDouble(salaryMap.gwjt)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gwjt" value="${salaryMap.gwjt}">
+                                   type="text" name="gwjt" value="${cm:trimDouble(salaryMap.gwjt)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>职务补贴</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.zwbt}
+                            ${cm:trimDouble(salaryMap.zwbt)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="zwbt" value="${salaryMap.zwbt}">
+                                   type="text" name="zwbt" value="${cm:trimDouble(salaryMap.zwbt)}">
                         </c:if>
                     </td>
                 </tr>
@@ -63,21 +63,21 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>职务补贴1</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.zwbt1}
+                            ${cm:trimDouble(salaryMap.zwbt1)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="zwbt1" value="${salaryMap.zwbt1}">
+                                   type="text" name="zwbt1" value="${cm:trimDouble(salaryMap.zwbt1)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>生活补贴</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.shbt}
+                            ${cm:trimDouble(salaryMap.shbt)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="shbt" value="${salaryMap.shbt}">
+                                   type="text" name="shbt" value="${cm:trimDouble(salaryMap.shbt)}">
                         </c:if>
                     </td>
                 </tr>
@@ -85,21 +85,21 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>书报费</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.sbf}
+                            ${cm:trimDouble(salaryMap.sbf)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="sbf" value="${salaryMap.sbf}">
+                                   type="text" name="sbf" value="${cm:trimDouble(salaryMap.sbf)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>洗理费</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.xlf}
+                            ${cm:trimDouble(salaryMap.xlf)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="xlf" value="${salaryMap.xlf}">
+                                   type="text" name="xlf" value="${cm:trimDouble(salaryMap.xlf)}">
                         </c:if>
                     </td>
                 </tr>
@@ -107,11 +107,11 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>工资冲销</td>
                     <td colspan="3">
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gzcx}
+                            ${cm:trimDouble(salaryMap.gzcx)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gzcx" value="${salaryMap.gzcx}">
+                                   type="text" name="gzcx" value="${cm:trimDouble(salaryMap.gzcx)}">
                             <span style="font-size: 8px;">注：工资明细中工资冲销的负号“-”不要录入。</span>
                         </c:if>
                     </td>
@@ -120,22 +120,22 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人失业保险</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.shiyebx}
+                            ${cm:trimDouble(salaryMap.shiyebx)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="shiyebx" value="${salaryMap.shiyebx}">
+                                   type="text" name="shiyebx" value="${cm:trimDouble(salaryMap.shiyebx)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人养老保险</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.yanglaobx}
+                            ${cm:trimDouble(salaryMap.yanglaobx)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
                                    type="text" name="yanglaobx"
-                                   value="${salaryMap.yanglaobx}">
+                                   value="${cm:trimDouble(salaryMap.yanglaobx)}">
                         </c:if>
                     </td>
                 </tr>
@@ -143,21 +143,21 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人职业年金</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.zynj}
+                            ${cm:trimDouble(salaryMap.zynj)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="zynj" value="${salaryMap.zynj}">
+                                   type="text" name="zynj" value="${cm:trimDouble(salaryMap.zynj)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣住房公积金</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gjj}
+                            ${cm:trimDouble(salaryMap.gjj)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gjj" value="${salaryMap.gjj}">
+                                   type="text" name="gjj" value="${cm:trimDouble(salaryMap.gjj)}">
                         </c:if>
                     </td>
                 </tr>
@@ -167,21 +167,21 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>校聘工资</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gwgz}
+                            ${cm:trimDouble(salaryMap.gwgz)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gwgz" value="${salaryMap.gwgz}">
+                                   type="text" name="gwgz" value="${cm:trimDouble(salaryMap.gwgz)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>岗位津贴</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gwjt}
+                            ${cm:trimDouble(salaryMap.gwjt)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gwjt" value="${salaryMap.gwjt}">
+                                   type="text" name="gwjt" value="${cm:trimDouble(salaryMap.gwjt)}">
                         </c:if>
                     </td>
                 </tr>
@@ -189,22 +189,22 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人失业保险</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.shiyebx}
+                            ${cm:trimDouble(salaryMap.shiyebx)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="shiyebx" value="${salaryMap.shiyebx}">
+                                   type="text" name="shiyebx" value="${cm:trimDouble(salaryMap.shiyebx)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人养老保险</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.yanglaobx}
+                            ${cm:trimDouble(salaryMap.yanglaobx)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
                                    type="text" name="yanglaobx"
-                                   value="${salaryMap.yanglaobx}">
+                                   value="${cm:trimDouble(salaryMap.yanglaobx)}">
                         </c:if>
                     </td>
                 </tr>
@@ -212,22 +212,22 @@
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人医疗保险</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.yiliaobx}
+                            ${cm:trimDouble(salaryMap.yiliaobx)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
                                    type="text" name="yiliaobx"
-                                   value="${salaryMap.yiliaobx}">
+                                   value="${cm:trimDouble(salaryMap.yiliaobx)}">
                         </c:if>
                     </td>
                     <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣住房公积金</td>
                     <td>
                         <c:if test="${param.view==1}">
-                            ${salaryMap.gjj}
+                            ${cm:trimDouble(salaryMap.gjj)}
                         </c:if>
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
-                                   type="text" name="gjj" value="${salaryMap.gjj}">
+                                   type="text" name="gjj" value="${cm:trimDouble(salaryMap.gjj)}">
                         </c:if>
                     </td>
                 </tr>
@@ -237,7 +237,7 @@
                 <td colspan="2" style="text-align: center">
                     <span id="duePaySpan">
                     <c:if test="${param.view==1 || param.view==2}">
-                        ${cm:stripTrailingZeros(pmdConfigMember.duePay)}
+                        ${cm:trimDouble(pmdConfigMember.duePay)}
                     </c:if>
                     <c:if test="${param.view!=1 && param.view!=2}">
                         ${duePay}
