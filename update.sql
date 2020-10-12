@@ -1,4 +1,8 @@
 
+20201010
+南航 -- 北师大
+
+drop view IF EXISTS pcs_party_view;
 
 -- 删除 service.pmd.PmdExeService
 
@@ -26,7 +30,7 @@ ALTER TABLE `pmd_config_member`
 	DROP COLUMN `zynj`,
 	DROP COLUMN `gjj`;
 
-
+-- 更新 utils
 
 20201010
 南航（停止同步更新）

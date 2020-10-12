@@ -1,6 +1,5 @@
 package ext.service;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import domain.member.Member;
 import domain.member.MemberView;
@@ -28,6 +27,7 @@ import sys.tags.CmTag;
 import sys.utils.ExportHelper;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
+import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -427,10 +427,7 @@ public class PmdExtService {
 
     private BigDecimal getParamValue(HttpServletRequest req, String paramName){
 
-        String value = req.getParameter(paramName);
-        if(value==null) return null;
-        
-        return new BigDecimal(value);
+        return RequestUtils.getAsBigDecimal(req, paramName);
     }
     
     // 表单参数转换成工资JSON
@@ -457,17 +454,14 @@ public class PmdExtService {
 
     private BigDecimal getJsonObjValue(JsonObject jo, String name){
 
-        if(jo==null) return BigDecimal.ZERO;
-        JsonElement je = jo.get(name);
-        if(je==null) return BigDecimal.ZERO;
-        
-        return NumberUtils.trimToZero(je.getAsBigDecimal());
+        return NumberUtils.trimToZero(GsonUtils.getAsBigDecimal(jo, name));
     }
     // 根据工资计算党费（ 针对在职、校聘教职工）
     public BigDecimal calDuePay(int userId, String salaryJSON)  {
 
+        if(StringUtils.isBlank(salaryJSON)) return null;
         JsonObject jo = GsonUtils.toJsonObject(salaryJSON);
-        if(jo==null) return BigDecimal.ZERO;
+        if(jo==null) return null;
 
         BigDecimal gwgz = getJsonObjValue(jo, "gwgz");
         BigDecimal xjgz = getJsonObjValue(jo, "xjgz");

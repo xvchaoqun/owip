@@ -151,6 +151,7 @@ public class PcsPartyService extends PcsBaseMapper {
                     PcsParty _pcsParty= pcsParties.get(0);
                     _pcsParty.setId(pcsParty.getId());
                     _pcsParty.setCurrentStage(pcsParty.getCurrentStage());
+                    _pcsParty.setIsDeleted(pcsParty.getIsDeleted());
                    pcsPartyMapper.updateByPrimaryKey(_pcsParty);
 
                     for (PcsBranch record:pcsBranches){
@@ -204,6 +205,7 @@ public class PcsPartyService extends PcsBaseMapper {
                    record.setCurrentStage(pcsParty.getCurrentStage());
                    pcsPartyMapper.updateByPrimaryKey(record);
                }else{
+                    record.setIsDeleted(false);
                    pcsPartyMapper.insertSelective(record);
                }
            }
