@@ -5,8 +5,6 @@ import domain.member.Member;
 import domain.member.MemberStay;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
@@ -36,8 +33,6 @@ public class UserMemberStayController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/memberStay")
     public String memberStay(Integer userId, // 申请人
                              Integer id, // memberStay记录ID, 管理员在后台修改时传入
@@ -54,8 +49,7 @@ public class UserMemberStayController extends MemberBaseController {
 
         modelMap.put("type", type);
 
-        if(userId==null || !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)) {
+        if(userId==null) {
             // 确认普通用户只能提交自己的申请
             userId = ShiroHelper.getCurrentUserId();
         }
@@ -108,8 +102,6 @@ public class UserMemberStayController extends MemberBaseController {
         return "member/user/memberStay/memberStay";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_au(Integer userId, // 申请人
@@ -117,21 +109,15 @@ public class UserMemberStayController extends MemberBaseController {
                                     MultipartFile _letter,
                                    HttpServletRequest request) throws IOException, InterruptedException {
 
-        if(userId==null || !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)) {
+        if(userId==null) {
             // 确认普通用户只能提交自己的申请
             userId = ShiroHelper.getCurrentUserId();
         }
 
-        // 如果是管理员修改则以record.id为准
-        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)){
-            if(record.getId()!=null){
-                MemberStay memberStay = memberStayMapper.selectByPrimaryKey(record.getId());
-                userId = memberStay.getUserId();
-            }
+        if(record.getId()!=null){
+            MemberStay memberStay = memberStayMapper.selectByPrimaryKey(record.getId());
+            userId = memberStay.getUserId();
         }
-
 
         Member member = memberService.get(userId);
         Integer partyId = member.getPartyId();
@@ -250,7 +236,6 @@ public class UserMemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberStay_back(int id,  String remark){

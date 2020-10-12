@@ -6,14 +6,11 @@ import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -32,7 +29,6 @@ import java.util.Map;
 @Controller
 public class ApplyApprovalLogController extends MemberBaseController {
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog")
     public String applyApprovalLog(Integer id, Byte type, ModelMap modelMap) {
 
@@ -92,10 +88,6 @@ public class ApplyApprovalLogController extends MemberBaseController {
         return "member/applyApprovalLog/applyApprovalLog_page";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,
-            RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN,
-            RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_data")
     public void applyApprovalLog_data(HttpServletResponse response,
                                       Integer id,
@@ -191,16 +183,45 @@ public class ApplyApprovalLogController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLogs")
-    public String applyApprovalLogs(HttpServletRequest request, String idName, Byte type, ModelMap modelMap) {
+    public String applyApprovalLogs(HttpServletRequest request, String idName, byte type, ModelMap modelMap) {
 
         idName = StringUtils.defaultIfBlank(idName, "id");
         String idStr = request.getParameter(idName);
+        int id = Integer.parseInt(idStr);
 
         ApplyApprovalLogExample example = new ApplyApprovalLogExample();
         ApplyApprovalLogExample.Criteria criteria = example.createCriteria();
-        criteria.andRecordIdEqualTo(Integer.parseInt(idStr));
+
+        if (type != OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER) {
+            criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        } else {
+
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+                MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+                List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+                List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+                Integer partyId1 = memberTransfer.getPartyId();
+                Integer branchId1 = memberTransfer.getBranchId();
+                Integer toPartyId = memberTransfer.getToPartyId();
+                Integer toBranchId = memberTransfer.getToBranchId();
+
+                // 既不是转入支部的管理员或转入分党委的管理员，也不是转出的管理员，没有权限查看
+                if (!adminPartyIdList.contains(partyId1)
+                        && !adminPartyIdList.contains(toPartyId)) {
+                    if (branchId1 == null || !adminBranchIdList.contains(branchId1)) {
+                        if (toBranchId == null || !adminBranchIdList.contains(toBranchId)) {
+
+                            throw new UnauthorizedException();
+                        }
+                    }
+                }
+            }
+        }
+
+        criteria.andRecordIdEqualTo(id);
         criteria.andTypeEqualTo(type);
         example.setOrderByClause("create_time desc");
         List<ApplyApprovalLog> applyApprovalLogs = applyApprovalLogMapper.selectByExample(example);
