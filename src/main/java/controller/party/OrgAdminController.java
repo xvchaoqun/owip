@@ -1,12 +1,18 @@
 package controller.party;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.party.Branch;
 import domain.party.OrgAdmin;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.party.common.OwAdmin;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -23,16 +31,14 @@ import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
+import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class OrgAdminController extends BaseController {
@@ -231,13 +237,14 @@ public class OrgAdminController extends BaseController {
         return "party/orgAdmin/orgAdmin_au";
     }
 
+    //@param isPartyAdmin  区分分党委管理员和党支部管理员
     //@RequiresPermissions("orgAdmin:del")
     @RequestMapping(value = "/orgAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_orgAdmin_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
+    public Map do_orgAdmin_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, String id, boolean isPartyAdmin) {
 
         if (id != null) {
-            OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
+            OrgAdmin orgAdmin = (OrgAdmin) orgAdminService.getAdmin(id, isPartyAdmin);
             if (orgAdmin != null) {
                 if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
                     if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
@@ -260,7 +267,7 @@ public class OrgAdminController extends BaseController {
                     PartyHelper.checkAuth(branch.getPartyId(), branchId);
                 }
 
-                orgAdminService.del(id, orgAdmin.getUserId());
+                orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
                 logger.info(addLog(LogConstants.LOG_PARTY, "删除党组织管理员：%s, %s%s"
                         , uv.getCode(), party == null ? "" : party.getName(), branch == null ? "" : branch.getName()));
             }
@@ -325,6 +332,92 @@ public class OrgAdminController extends BaseController {
         Map resultMap = success();
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/org/orgAdmin_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map orgAdmin_batchDel(@CurrentUser SysUserView loginUser, HttpServletRequest request, String[] ids, byte type, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            boolean isPartyAdmin = type==OwConstants.OW_ORG_ADMIN_PARTY?true:false;
+            orgAdminService.batchDel(ids, isPartyAdmin, loginUser);
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除管理员：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/org/orgAdmin_import")
+    public String orgAdmin_import(ModelMap modelMap) {
+
+        return "party/orgAdmin/orgAdmin_import";
+    }
+
+    @RequestMapping(value = "/org/orgAdmin_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_orgAdmin_import(HttpServletRequest request, byte type) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<OrgAdmin> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            OrgAdmin record = new OrgAdmin();
+            row++;
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+            if(StringUtils.isBlank(code)){
+                throw new OpException("第{0}行编号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null){
+                throw new OpException("第{0}行账号不存在", row);
+            }
+            record.setUserId(uv.getUserId());
+
+            String owCode = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(owCode)) {
+                throw new OpException("第{0}行{1}编码为空", row, type==OwConstants.OW_ORG_ADMIN_PARTY?"基层党组织":"党支部");
+            }
+            if (type == OwConstants.OW_ORG_ADMIN_PARTY) {
+
+                Party party = partyService.getByCode(owCode);
+                if (party == null) {
+                    throw new OpException("第{0}行基层党组织不存在", row);
+                }
+                record.setPartyId(party.getId());
+            }else if (type == OwConstants.OW_ORG_ADMIN_BRANCH){
+
+                Branch branch = branchService.getByCode(owCode);
+                if (branch == null){
+                    throw new OpException("第{0}行党支部不存在", row);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            record.setType(type);
+            record.setCreateTime(new Date());
+            records.add(record);
+        }
+
+        int addCount = orgAdminService.batchImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
         return resultMap;
     }
 }
