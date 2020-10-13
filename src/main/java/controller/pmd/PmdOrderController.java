@@ -115,6 +115,8 @@ public class PmdOrderController extends PmdBaseController {
         OrderQueryResult queryResult = pmdOrderService.query(sn);
         modelMap.put("hasPay", queryResult.isHasPay());
 
+        modelMap.put("ret", queryResult.getRet());
+
         PmdOrder order = pmdOrderMapper.selectByPrimaryKey(sn);
         modelMap.put("order", order);
 

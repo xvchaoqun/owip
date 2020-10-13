@@ -5,6 +5,14 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
                             `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (2552, 0, '支部委员会届满列表', '', 'url', '', 'unitTeam?list=3', 867, '0/1/867/', 1, 'unitTeam:list3', NULL, NULL, NULL, 1, 95);
 
+-- 去重
+delete ppr.* from pcs_poll_result ppr,  (select max(id) maxid, inspector_id,user_id,type, count(*) num from pcs_poll_result group by inspector_id,user_id, type having count(*)>1)tmp
+where ppr.inspector_id=tmp.inspector_id and ppr.user_id=tmp.user_id and ppr.type = tmp.type and ppr.id != tmp.maxid;
+-- 加唯一索引
+ALTER TABLE `pcs_poll_result`
+	ADD UNIQUE INDEX `inspector_id_type_user_id` (`inspector_id`, `type`, `user_id`);
+
+
 20201010
 南航 -- 北师大
 

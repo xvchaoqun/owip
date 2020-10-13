@@ -268,7 +268,7 @@
                 return;
             }
             if ($.trim($party.val()) == "") {
-                alert("请选择分党委。");
+                alert("请选择${_p_partyName}。");
                 return;
             }
 
@@ -280,7 +280,7 @@
                 success: function (data) {
 
                     if (data.success) {
-                        alert("注册成功，请耐心等待分党委审核。")
+                        alert("注册成功，请耐心等待${_p_partyName}审核。")
                         location.reload();
                     } else {
                         alert(data.msg)

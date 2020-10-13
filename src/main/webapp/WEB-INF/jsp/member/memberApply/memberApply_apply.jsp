@@ -366,7 +366,7 @@
                                     待支部发展为预备党员
                                 </option>
                                 <option value="0">
-                                    支部已提交，待分党委审核
+                                    支部已提交，待${_p_partyName}审核
                                 </option>
                             </select>
                             <script>

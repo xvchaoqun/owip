@@ -43,9 +43,9 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>分党委id</label>
+                            <label>${_p_partyName}id</label>
                             <input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"
-                                   placeholder="请输入分党委id">
+                                   placeholder="请输入${_p_partyName}id">
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -76,7 +76,7 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/pmQuarterParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '分党委id',name: 'partyId'},
+                { label: '${_p_partyName}id',name: 'partyId'},
                 { label: '召开会议支部数量',name: 'branchNum'},
                 { label: '不召开会议支部数量',name: 'exculdeBranchNum'}
         ]
