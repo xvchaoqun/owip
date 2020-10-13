@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class BranchMemberGroupController extends BaseController {
@@ -59,9 +60,14 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup")
     public String branchMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
+                                    Integer[] types,
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
+
+        if(types!=null){
+            modelMap.put("selectTypes", Arrays.asList(types));
+        }
 
         modelMap.put("status", status);
 
@@ -94,6 +100,14 @@ public class BranchMemberGroupController extends BaseController {
                                        @RequestDateRange DateRange _appointTime,
                                        @RequestDateRange DateRange _tranTime,
                                        Byte isTranTime,
+
+                                       //党支部中的字段
+                                       Integer[] types,
+                                       Integer unitTypeId,
+                                       Boolean isStaff,
+                                       Boolean isPrefessional,
+                                       Boolean isBaseTeam,
+
                                        @RequestParam(required = false, defaultValue = "0") int export,
                                        Integer[] ids, // 导出的记录
                                        Integer pageSize, Integer pageNo) throws IOException {
@@ -159,6 +173,33 @@ public class BranchMemberGroupController extends BaseController {
             cl.add(Calendar.YEAR, -1);
             lastYear = cl.getTime();
             criteria.andTranTimeLessThan(DateUtils.parseStringToDate(sdf.format(lastYear)));
+        }
+
+        BranchViewExample branchViewExample = new BranchViewExample();
+        BranchViewExample.Criteria branchCriteria = branchViewExample.createCriteria();
+        if (types != null) {
+            branchCriteria.andTypesContain(new HashSet<>(Arrays.asList(types)));
+        }
+        if (unitTypeId != null) {
+            branchCriteria.andUnitTypeIdEqualTo(unitTypeId);
+        }
+        if (isStaff != null) {
+            branchCriteria.andIsStaffEqualTo(isStaff);
+        }
+        if (isPrefessional != null) {
+            branchCriteria.andIsPrefessionalEqualTo(isPrefessional);
+        }
+        if (isBaseTeam != null) {
+            branchCriteria.andIsBaseTeamEqualTo(isBaseTeam);
+        }
+        List<BranchView> branchViewList = branchViewMapper.selectByExample(branchViewExample);
+        if (branchViewList != null && branchViewList.size() > 0){
+            List<Integer> branchIdList = branchViewList.stream().map(BranchView::getId).collect(Collectors.toList());
+            criteria.andBranchIdIn(branchIdList);
+        }
+        if ((types != null || unitTypeId != null || isStaff != null || isPrefessional != null || isBaseTeam != null)
+                && branchViewList != null && branchViewList.size() == 0){
+            criteria.andBranchIdIsNull();
         }
 
         if (export == 1) {

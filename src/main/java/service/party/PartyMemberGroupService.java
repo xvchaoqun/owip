@@ -4,9 +4,11 @@ import controller.global.OpException;
 import domain.party.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.LoginUserService;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -15,6 +17,8 @@ import java.util.List;
 @Service
 public class PartyMemberGroupService extends BaseMapper {
 
+    @Autowired
+    protected LoginUserService loginUserService;
     // 查找现任班子
     public PartyMemberGroup getPresentGroup(int partyId){
 
@@ -238,5 +242,22 @@ public class PartyMemberGroupService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             partyMemberGroupMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    //按照partyId统计应换届的党委班子的数量
+    public int count(int partyId) {
+
+        PartyMemberGroupExample example = new PartyMemberGroupExample();
+        PartyMemberGroupExample.Criteria criteria = example.createCriteria()
+                .andIsDeletedEqualTo(false).andTranTimeLessThanOrEqualTo(new Date());
+        List<Integer> partyIdList = loginUserService.adminPartyIdList();
+        if (partyIdList.contains(partyId)) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        else {
+            criteria.andPartyIdIsNull();
+        }
+
+        return (int) partyMemberGroupMapper.countByExample(example);
     }
 }

@@ -10,8 +10,8 @@
                  data-url-co="${ctx}/branchMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.name||not empty param.partyId
-            ||not empty param.branchId|| not empty param._appointTime || not empty param._tranTime}"/>
-
+            ||not empty param.branchId|| not empty param._appointTime || not empty param._tranTime||not empty param.isStaff
+            ||not empty param.isPrefessional||not empty param.isBaseTeam||not empty param.types ||not empty param.unitTypeId}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
 
@@ -129,6 +129,58 @@
                                                            type="text" name="_tranTime" value="${param._tranTime}"/>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>支部类型</label>
+                                                <select class="multiselect" multiple="" name="types"
+                                                        data-placeholder="请选择">
+                                                    <c:import url="/metaTypes?__code=mc_branch_type"/>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>单位属性</label>
+                                                <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性">
+                                                    <option></option>
+                                                    <c:import url="/metaTypes?__code=mc_branch_unit_type"/>
+                                                </select>
+                                                <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>是否是教工党支部</label>
+                                                <select name="isStaff"
+                                                        data-rel="select2"
+                                                        data-width="80"
+                                                        data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isStaff]").val('${param.isStaff}');
+                                                </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>是否一线教学科研党支部</label>
+                                                <select name="isPrefessional" data-width="80" data-rel="select2" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isPrefessional]").val('${param.isPrefessional}');
+                                                </script>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>是否建立在团队</label>
+                                                <select name="isBaseTeam" data-width="80" data-rel="select2" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isBaseTeam]").val('${param.isBaseTeam}');
+                                                </script>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
@@ -156,6 +208,8 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $.register.multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/branchMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
