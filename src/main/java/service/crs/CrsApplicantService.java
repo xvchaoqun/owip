@@ -370,11 +370,8 @@ public class CrsApplicantService extends CrsBaseMapper {
 
         CadreView cv = cadreService.dbFindByUserId(userId);
 
-        // 如果是 干部、民主党派、考察对象或优秀年轻干部，则直接返回干部ID
-        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ,
-                RoleConstants.ROLE_CADRE_DP,
-                RoleConstants.ROLE_CADREINSPECT,
-                RoleConstants.ROLE_CADRERESERVE)){
+        // 如果有修改申请干部信息的权限，则直接返回干部ID
+        if(ShiroHelper.isPermitted("userModifyCadre:menu")){
             return cv.getId();
         }
 
@@ -391,6 +388,10 @@ public class CrsApplicantService extends CrsBaseMapper {
                 record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
                 record.setIsDouble(cv.getIsDouble());
                 cadreService.updateByPrimaryKeySelective(record);
+
+                // 添加应聘干部角色
+                sysUserService.addRole(userId, RoleConstants.ROLE_CADRERECRUIT);
+                ShiroHelper.refreshRoles();
             }
         }else{
             // 普通教师 第一次访问的情况，需要先初始化 应聘干部
@@ -399,13 +400,8 @@ public class CrsApplicantService extends CrsBaseMapper {
             record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
 
             cadreService.insertSelective(record);
-
             cadreId = record.getId();
-        }
-
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADRERECRUIT)) {
-
-            // 为普通教师添加应聘干部角色
+            // 添加应聘干部角色
             sysUserService.addRole(userId, RoleConstants.ROLE_CADRERECRUIT);
             ShiroHelper.refreshRoles();
         }

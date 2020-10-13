@@ -142,9 +142,9 @@
                     hash = "#/user/cadre?cadreId={0}&to={1}&type=1".format(ret.cadreId, $.trim(to));
                 else {
                     hash = "#/cadre_view?cadreId={0}&to={1}".format(ret.cadreId, $.trim(to));
-                    <shiro:hasAnyRoles name="${ROLE_CADRE_CJ},${ROLE_CADRE_DP},${ROLE_CADRE_KJ}">
+                    <shiro:hasPermission name="userModifyCadre:menu">
                     hash = "#/modifyBaseApply";
-                    </shiro:hasAnyRoles>
+                    </shiro:hasPermission>
                 }*/
 
                 $("#sidebar").load("/menu?_=" + new Date().getTime(),function(){

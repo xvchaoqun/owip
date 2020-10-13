@@ -1,4 +1,5 @@
 
+20201013
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
@@ -14,11 +15,11 @@ ALTER TABLE `pcs_poll_result`
 
 
 20201010
-南航 -- 北师大
+南航
 
 drop view IF EXISTS pcs_party_view;
 
--- 删除 service.pmd.PmdExeService
+-- 删除 service.pmd.PmdExtService
 
 ALTER TABLE `pmd_config_member`
 	ADD COLUMN `salary` TEXT NULL DEFAULT NULL COMMENT '工资项，JSON格式' AFTER `retire_salary`;
