@@ -5,10 +5,11 @@
 # 打包某版本变更文件``
 tar -cf D:\tmp\owip\one.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 8339bd9d  -- . ':(exclude)doc/*')
 
-tar -cf one.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 8f0cf524  -- . ':(exclude)doc/*')
+tar -cf one.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 4ae50f66  -- . ':(exclude)doc/*')
 
 # 打包某版本（不含此版本更新的内容）到最新版本的所有变更文件
-tar -cf D:\tmp\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d 38f5546b HEAD --name-only  -- . ':(exclude)doc/*')
+tar -cf D:\tmp\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d 944f9aa4 HEAD --name-only  -- . ':(exclude)doc/*')
+tar -cf all.zip $(git diff --diff-filter=d 944f9aa4 HEAD --name-only  -- . ':(exclude)doc/*')
 
 tar -cf all.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . ':(exclude)doc/*')
 

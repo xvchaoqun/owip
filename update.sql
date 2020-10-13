@@ -1,6 +1,8 @@
 
 20201013
 
+北航
+
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
                             `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
@@ -12,6 +14,9 @@ where ppr.inspector_id=tmp.inspector_id and ppr.user_id=tmp.user_id and ppr.type
 -- 加唯一索引
 ALTER TABLE `pcs_poll_result`
 	ADD UNIQUE INDEX `inspector_id_type_user_id` (`inspector_id`, `type`, `user_id`);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (76, 0, '隐藏科级干部', '', 'function', '', NULL, 88, '0/1/88/', 1, 'hide:kj', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (77, 0, '隐藏离任干部', '', 'function', '', NULL, 88, '0/1/88/', 1, 'hide:cadreLeave', NULL, NULL, NULL, 1, NULL);
 
 
 20201010
