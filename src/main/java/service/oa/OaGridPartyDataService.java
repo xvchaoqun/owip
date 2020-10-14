@@ -8,9 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.RecordFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import sys.utils.ExcelToHtmlUtils;
 import sys.utils.ExcelUtils;
 
 import java.io.IOException;
@@ -21,6 +24,8 @@ import java.util.Map;
 
 @Service
 public class OaGridPartyDataService extends OaBaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Transactional
     public void insertSelective(OaGridPartyData record){
@@ -90,15 +95,19 @@ public class OaGridPartyDataService extends OaBaseMapper {
                     OaGridPartyData data = new OaGridPartyData();
                     data.setGridPartyId(gridPartyId);
                     data.setCellLabel(ExcelUtils.toColLabel(col+1) + row);
-                    Cell num = dataRow.getCell(col++);
+                    Cell cell = dataRow.getCell(col++);
                     try {
+
+                        String val = ExcelToHtmlUtils.getCellValue(cell);
                         //为空或者只读的表格略过
-                        if (num == null || StringUtils.isBlank(getValue(num)) || (readOnlyPos != null &&
+                        if (cell == null || StringUtils.isBlank(val) || (readOnlyPos != null &&
                                 ExcelUtils.inCellArea(ExcelUtils.toColLabel(col) + row, readOnlyPos))){
                             continue;
                         }
-                        data.setNum(Double.valueOf(getValue(num)).intValue());
-                    }catch (Exception e){
+                        data.setNum(Double.valueOf(val).intValue());
+                    }catch (Exception ex){
+
+                        logger.info("党统表格读取数据异常：", ex);
                         throw new OpException("报送表格格式或数据有误，请严格按表格模板填写后提交");
                     }
 
@@ -115,18 +124,6 @@ public class OaGridPartyDataService extends OaBaseMapper {
 
         batchimport(records);
 
-    }
-
-    public String getValue(Cell cell) {
-        if (cell.getCellType() == cell.CELL_TYPE_BOOLEAN) {
-            return String.valueOf(cell.getBooleanCellValue());
-        } else if (cell.getCellType() == cell.CELL_TYPE_NUMERIC) {
-            return String.valueOf(cell.getNumericCellValue());
-        } else if (cell.getCellType() == cell.CELL_TYPE_FORMULA){
-            return null;
-        }else{
-            return String.valueOf(cell.getStringCellValue());
-        }
     }
 
     @Transactional
