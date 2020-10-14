@@ -542,7 +542,7 @@
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
             var $this = $(this)
-            var ids  = $(this).getGridParam("selarrrow");
+            var ids  = $this.getGridParam("selarrrow");
             if(ids.length==0){
                 SysMsg.warning("请选择行", "提示");
                 return ;

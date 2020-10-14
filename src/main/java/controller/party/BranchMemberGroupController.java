@@ -15,6 +15,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +90,8 @@ public class BranchMemberGroupController extends BaseController {
         return "party/branchMemberGroup/branchMemberGroup_page";
     }
 
-    @RequiresPermissions("branchMemberGroup:list")
+    // unitTeam:list :  支部委员会届满列表
+    @RequiresPermissions(value= {"branchMemberGroup:list","unitTeam:list"}, logical = Logical.OR )
     @RequestMapping("/branchMemberGroup_data")
     public void branchMemberGroup_data(HttpServletResponse response,
                                        @RequestParam(required = false, defaultValue = "1") Byte status,

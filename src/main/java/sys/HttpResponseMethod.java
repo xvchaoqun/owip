@@ -261,6 +261,8 @@ public interface HttpResponseMethod {
         String originalFilename = file.getOriginalFilename();
         String savePath = realPath + FileUtils.getExtention(originalFilename);
 
+        FileUtils.mkdirs(springProps.uploadPath + savePath, true);
+
         Thumbnails.of(file.getInputStream())
                     .size(sImgWidth, sImgHeight)
                     //.outputFormat("jpg")

@@ -1,4 +1,11 @@
 
+
+ALTER TABLE `ow_party_member_group`
+	DROP FOREIGN KEY `FK_ow_party_member_group_ow_party_member_group`;
+ALTER TABLE `ow_party_member_group`
+	ADD CONSTRAINT `FK_ow_party_member_group_ow_party_member_group` FOREIGN KEY (`fid`) REFERENCES `ow_party_member_group` (`id`) ON DELETE SET NULL;
+
+
 20201013
 
 北航
