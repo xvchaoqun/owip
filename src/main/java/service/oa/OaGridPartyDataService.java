@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.utils.ExcelToHtmlUtils;
 import sys.utils.ExcelUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -72,6 +73,26 @@ public class OaGridPartyDataService extends OaBaseMapper {
         }catch (RecordFormatException ex){
             throw new OpException("Excel版本过低，请使用高版本的Office Excel打开此文件并保存后重新上传。");
         }
+
+        importData(record, workbook);
+    }
+
+    @Transactional
+    public void importData(OaGridParty record, File file) throws IOException, InvalidFormatException {
+
+        Workbook workbook = null;
+        try {
+            workbook = WorkbookFactory.create(file);
+        }catch (RecordFormatException ex){
+            throw new OpException("Excel版本过低，请使用高版本的Office Excel打开此文件并保存后重新上传。");
+        }
+
+        importData(record, workbook);
+    }
+
+    public void importData(OaGridParty record, Workbook workbook) throws IOException, InvalidFormatException {
+
+
         Sheet sheet = workbook.getSheetAt(0);
 
         Integer gridPartyId = record.getId();
