@@ -1,4 +1,4 @@
-
+20201014
 
 ALTER TABLE `ow_party_member_group`
 	DROP FOREIGN KEY `FK_ow_party_member_group_ow_party_member_group`;
