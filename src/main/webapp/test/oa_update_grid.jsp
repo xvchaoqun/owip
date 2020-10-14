@@ -5,6 +5,8 @@
 <%@ page import="java.io.File" %>
 <%@ page import="java.util.List" %>
 <%@ page import="service.SpringProps" %>
+<%@ page import="org.springframework.util.StringUtils" %>
+<%@ page import="controller.global.OpException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,18 +14,36 @@
 </head>
 <body>
 <%
+
     OaGridPartyMapper oaGridPartyMapper = CmTag.getBean(OaGridPartyMapper.class);
-    OaGridPartyDataService oaGridPartyDataService  = CmTag.getBean(OaGridPartyDataService.class);
+    OaGridPartyDataService oaGridPartyDataService = CmTag.getBean(OaGridPartyDataService.class);
     SpringProps springProps = CmTag.getBean(SpringProps.class);
 
-    OaGridPartyExample example = new OaGridPartyExample();
-    example.createCriteria().andExcelFilePathIsNotNull();
-    List<OaGridParty> oaGridPartyList = oaGridPartyMapper.selectByExample(example);
+    Integer id = null;//分党委id
+    try {
+        id = Integer.valueOf(request.getParameter("id"));
+    }catch (Exception e){
+        throw new OpException("参数异常");
+    }
 
-    for (OaGridParty oaGridParty : oaGridPartyList) {
+    if (id == null) {
 
-        File file = new File(springProps.uploadPath + oaGridParty.getExcelFilePath());
-        oaGridPartyDataService.importData(oaGridParty, file);
+        OaGridPartyExample example = new OaGridPartyExample();
+        example.createCriteria().andExcelFilePathIsNotNull();
+        List<OaGridParty> oaGridPartyList = oaGridPartyMapper.selectByExample(example);
+
+        for (OaGridParty oaGridParty : oaGridPartyList) {
+
+            File file = new File(springProps.uploadPath + oaGridParty.getExcelFilePath());
+            oaGridPartyDataService.importData(oaGridParty, file);
+        }
+    }else {
+        OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
+        if (oaGridParty != null && oaGridParty.getExcelFilePath() != null){
+            File file = new File(springProps.uploadPath + oaGridParty.getExcelFilePath());
+            oaGridPartyDataService.importData(oaGridParty, file);
+        }
+
     }
 
 %>

@@ -241,7 +241,9 @@ public class OaGridPartyController extends OaBaseController {
 
     @RequiresPermissions("oaGridParty:edit")
     @RequestMapping("/oaGridParty_preview")
-    public String oaGridParty_preview(int id, boolean tpl, boolean isSave, ModelMap modelMap) throws IOException, InvalidFormatException {
+    public String oaGridParty_preview(int id,
+                                      Integer type,//1源文件 2数据库中的数据 3模板
+                                      ModelMap modelMap) throws IOException, InvalidFormatException {
 
         OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
 
@@ -252,15 +254,21 @@ public class OaGridPartyController extends OaBaseController {
         int row = oaGrid.getRow();
         int col = ExcelUtils.toColIndex(oaGrid.getCol());
         String path = springProps.uploadPath + oaGrid.getTemplateFilePath();
+        String table = null;
 
-        if (isSave){
-            path = springProps.uploadPath + oaGridParty.getExcelFilePath();
+        if (type == 1){
+            if(StringUtils.isNotBlank(oaGridParty.getExcelFilePath())) {
+                path = springProps.uploadPath + oaGridParty.getExcelFilePath();
+            }
+            table = ExcelToHtmlUtils.toHtml(path, true, oaGrid.getRow(),
+                    ExcelUtils.toColIndex(oaGrid.getCol()));
 
-        }
-        String table = ExcelToHtmlUtils.toHtml(path, true, oaGrid.getRow(),
-                ExcelUtils.toColIndex(oaGrid.getCol()));
+        }else if (type == 3){
+            table = ExcelToHtmlUtils.toHtml(path, true, oaGrid.getRow(),
+                    ExcelUtils.toColIndex(oaGrid.getCol()));
 
-        if(!tpl && !isSave) {
+        }else if(type == 2){
+
             OaGridPartyDataExample example = new OaGridPartyDataExample();
             example.createCriteria().andGridPartyIdEqualTo(id);
             List<OaGridPartyData> dataList = oaGridPartyDataMapper.selectByExample(example);
