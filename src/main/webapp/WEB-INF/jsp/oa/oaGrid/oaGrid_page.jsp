@@ -162,7 +162,7 @@ pageEncoding="UTF-8" %>
             {label: '已报送文件<br/>打包下载', name: '_zip', formatter: function (cellvalue, options, rowObject) {
                     var str='';
                     if(rowObject.templateFilePath!=undefined){
-                        str = '<button class="downloadBtn btn btn-xs btn-success" data-url="${ctx}/oa/oaGrid_zipExport?id={0}"><i class="fa fa-download"></i> 下载</button> &nbsp;'
+                        str = '<button class="downloadBtn btn btn-xs btn-warning" data-url="${ctx}/oa/oaGrid_zipExport?id={0}"><i class="fa fa-download"></i> 下载</button> &nbsp;'
                             .format(rowObject.id);
                         return str;
                     }
