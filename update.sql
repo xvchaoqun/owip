@@ -1,3 +1,6 @@
+
+-- 更新 utils
+
 20201014
 
 ALTER TABLE `ow_party_member_group`

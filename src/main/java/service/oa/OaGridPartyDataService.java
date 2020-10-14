@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import sys.utils.ExcelToHtmlUtils;
 import sys.utils.ExcelUtils;
 
 import java.io.File;
@@ -119,7 +118,7 @@ public class OaGridPartyDataService extends OaBaseMapper {
                     Cell cell = dataRow.getCell(col++);
                     try {
 
-                        String val = ExcelToHtmlUtils.getCellValue(cell);
+                        String val = ExcelUtils.getCellValue(cell);
                         //为空或者只读的表格略过
                         if (cell == null || StringUtils.isBlank(val) || (readOnlyPos != null &&
                                 ExcelUtils.inCellArea(ExcelUtils.toColLabel(col) + row, readOnlyPos))){
