@@ -360,10 +360,7 @@ public class PmdMemberService extends PmdBaseMapper {
             if(!isSalary){
                 // 其他类别：清空工资项
                 commonMapper.excuteSql(String.format("update pmd_config_member " +
-                                "set gwgz=null,xjgz=null,gwjt=null,zwbt=null," +
-                        "zwbt1=null,shbt=null,sbf=null,xlf=null, gzcx=null, " +
-                        "shiyebx=null,yanglaobx=null,yiliaobx=null,gsbx=null,shengyubx=null, " +
-                        "qynj=null,zynj=null,gjj=null where user_id=%s", userId));
+                                "set salary=null where user_id=%s", userId));
             }
 
             {
