@@ -1,14 +1,12 @@
 package controller.oa;
 
-import domain.oa.OaGrid;
-import domain.oa.OaGridExample;
-import domain.oa.OaGridParty;
-import domain.oa.OaGridPartyExample;
+import domain.oa.*;
 import domain.oa.OaGridPartyExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +25,7 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @Controller
@@ -243,22 +241,47 @@ public class OaGridPartyController extends OaBaseController {
 
     @RequiresPermissions("oaGridParty:edit")
     @RequestMapping("/oaGridParty_preview")
-    public String oaGridParty_preview(int id, boolean tpl, ModelMap modelMap) {
+    public String oaGridParty_preview(int id, boolean tpl, ModelMap modelMap) throws IOException, InvalidFormatException {
 
         OaGridParty oaGridParty = oaGridPartyMapper.selectByPrimaryKey(id);
 
         // 权限校验
         PartyHelper.checkAuth(oaGridParty.getPartyId());
 
-        OaGrid oaGrid = oaGridParty.getOaGrid();
+        int gridId = oaGridParty.getGridId();
 
-        String path = springProps.uploadPath + oaGridParty.getExcelFilePath();
-        if(tpl){
-            path = springProps.uploadPath + oaGrid.getTemplateFilePath();
-        }
-
+        OaGrid oaGrid = oaGridMapper.selectByPrimaryKey(gridId);
+        int row = oaGrid.getRow();
+        int col = ExcelUtils.toColIndex(oaGrid.getCol());
+        String path = springProps.uploadPath + oaGrid.getTemplateFilePath();
         String table = ExcelToHtmlUtils.toHtml(path, true, oaGrid.getRow(),
                 ExcelUtils.toColIndex(oaGrid.getCol()));
+
+        if(!tpl) {
+            OaGridPartyDataExample example = new OaGridPartyDataExample();
+            example.createCriteria().andGridPartyIdEqualTo(id);
+            List<OaGridPartyData> dataList = oaGridPartyDataMapper.selectByExample(example);
+
+            File file = new File(path);
+            InputStream is = new FileInputStream(file);
+            Workbook wb = WorkbookFactory.create(is);
+
+            Sheet sheet = wb.getSheetAt(0);
+            String cellLabel = null;
+            Row dataRow = null;
+            Cell dataCell = null;
+            for (OaGridPartyData data : dataList) {
+                cellLabel = data.getCellLabel();
+                dataRow = sheet.getRow(ExcelUtils.getRowIndex(cellLabel) - 1);
+                dataCell = dataRow.getCell(ExcelUtils.getColIndex(cellLabel) - 1);
+                dataCell.setCellValue(data.getNum());
+            }
+
+            sheet.setForceFormulaRecalculation(true);//强制执行sheet的函数
+            table = ExcelToHtmlUtils.toHtml(wb, true, row, col);
+        }
+
+
         modelMap.put("table", table);
 
         return "oa/oaGridParty/oaGridParty_preview";
