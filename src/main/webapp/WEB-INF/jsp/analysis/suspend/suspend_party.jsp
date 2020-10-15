@@ -24,7 +24,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="col-sm-12">
-                        <c:if test="${partyMemberGroupCount>0}">
+
                             <div class="infobox infobox-blue"
                                  <c:if test="${partyMemberGroupCount>0}">data-url="${ctx}/partyMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
                                 <div class="infobox-icon">
@@ -37,8 +37,8 @@
                                     <div class="infobox-content">应换届党委班子</div>
                                 </div>
                             </div>
-                        </c:if>
-                        <c:if test="${branchMemberGroupCount>0}">
+
+
                             <div class="infobox infobox-blue"
                                  <c:if test="${branchMemberGroupCount>0}">data-url="${ctx}/branchMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
                                 <div class="infobox-icon">
@@ -51,8 +51,8 @@
                                     <div class="infobox-content">应换届支部委员会</div>
                                 </div>
                             </div>
-                        </c:if>
-                        <c:if test="${studentGrowOdCheckCount+teacherGrowOdCheckCount>0}">
+
+
                             <div class="infobox infobox-pink">
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-hand-lizard-o"></i>
@@ -73,8 +73,7 @@
                                     <div class="infobox-content">领取志愿书审批</div>
                                 </div>
                             </div>
-                        </c:if>
-                        <c:if test="${studentPositiveOdCheckCount+teacherPositiveOdCheckCount>0}">
+
                             <div class="infobox infobox-red">
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-star"></i>
@@ -95,7 +94,6 @@
                                     <div class="infobox-content">预备党员转正审批</div>
                                 </div>
                             </div>
-                        </c:if>
 
                         <div class="infobox infobox-blue"
                              <c:if test="${memberOutCount>0}">data-url="${ctx}/memberOut?partyId=${param.partyId}&cls=1"</c:if>>
