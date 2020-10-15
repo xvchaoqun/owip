@@ -38,7 +38,6 @@
                                 </div>
                             </div>
 
-
                             <div class="infobox infobox-blue"
                                  <c:if test="${branchMemberGroupCount>0}">data-url="${ctx}/branchMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
                                 <div class="infobox-icon">
@@ -59,16 +58,12 @@
                                 </div>
                                 <div class="infobox-data">
                           <span class="infobox-data-number">
-                            <c:if test="${studentGrowOdCheckCount>0}">
                             <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_STU}&growStatus=-1">
                             <span class="count">${studentGrowOdCheckCount}</span><span
                                     style="font-size: 10pt;">学生</span></span>
-                            </c:if>
-                            <c:if test="${teacherGrowOdCheckCount>0}">
                              <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_TEACHER}&growStatus=-1">
                             <span class="count">${teacherGrowOdCheckCount}</span><span
                                      style="font-size: 10pt;">教职工</span></span>
-                            </c:if>
                             </span>
                                     <div class="infobox-content">领取志愿书审批</div>
                                 </div>
@@ -80,16 +75,12 @@
                                 </div>
                                 <div class="infobox-data">
                           <span class="infobox-data-number">
-                            <c:if test="${studentPositiveOdCheckCount>0}">
                                 <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${OW_APPLY_TYPE_STU}&positiveStatus=1">
                                     <span class="count">${studentPositiveOdCheckCount}</span><span
                                         style="font-size: 10pt;">学生</span></span>
-                            </c:if>
-                            <c:if test="${teacherPositiveOdCheckCount>0}">
                                  <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${OW_APPLY_TYPE_TEACHER}&positiveStatus=1">
                                     <span class="count">${teacherPositiveOdCheckCount}</span><span
                                          style="font-size: 10pt;">教职工</span></span>
-                            </c:if>
                           </span>
                                     <div class="infobox-content">预备党员转正审批</div>
                                 </div>
