@@ -92,14 +92,15 @@ public class PmdConfigResetService extends PmdBaseMapper {
         PmdConfigMember _pmdConfigMember = new PmdConfigMember();
         _pmdConfigMember.setUserId(userId);
 
-        _pmdConfigMember.setSalary(pmdExtService.getSalaryJSON(ejs));
-        BigDecimal duePay = pmdExtService.calDuePay(userId, pmdConfigMember.getSalary());
+        String salaryJSON = pmdExtService.getSalaryJSON(ejs);
+        _pmdConfigMember.setSalary(salaryJSON);
+        BigDecimal duePay = pmdExtService.calDuePay(userId, salaryJSON);
         _pmdConfigMember.setDuePay(duePay);
         _pmdConfigMember.setHasReset(true);
 
         pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
 
-        pmdConfigMemberService.updatePmdMemberDuePay(userId, duePay, "党费重新计算-更新党费计算工资");
+        pmdConfigMemberService.updatePmdMemberDuePay(userId, duePay, "更新党费额度");
     }
 
     // 党费重新计算-更新党费计算工资（离退休）

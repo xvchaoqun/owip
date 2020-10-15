@@ -96,10 +96,12 @@ public class UserPmdMemberController extends PmdBaseController {
         modelMap.put("pmdConfigMember", pmdConfigMember);
 
         Map<String, Double> salaryMap = null;
-        try {
-            salaryMap = new ObjectMapper().readValue(pmdConfigMember.getSalary(), HashMap.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(pmdConfigMember.getSalary()!=null) {
+            try {
+                salaryMap = new ObjectMapper().readValue(pmdConfigMember.getSalary(), HashMap.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         modelMap.put("salaryMap", salaryMap);
 

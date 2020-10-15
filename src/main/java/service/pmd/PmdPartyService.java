@@ -208,13 +208,22 @@ public class PmdPartyService extends PmdBaseMapper {
         int partyId = pmdParty.getPartyId();
         // 如果是直属党支部
         if(PartyHelper.isDirectBranch(partyId)){
-            PmdMemberPayExample example = new PmdMemberPayExample();
-            example.createCriteria().andPayMonthIdEqualTo(monthId)
-                    .andChargePartyIdEqualTo(partyId).andHasPayEqualTo(true)
-                    .andIsOnlinePayEqualTo(true); // 现金缴费删除？
-            if(pmdMemberPayMapper.countByExample(example)>0){
-                throw new OpException("存在已缴费记录，不允许删除");
+            {
+                PmdMemberPayExample example = new PmdMemberPayExample();
+                example.createCriteria().andPayMonthIdEqualTo(monthId)
+                        .andChargePartyIdEqualTo(partyId).andHasPayEqualTo(true)
+                        .andIsOnlinePayEqualTo(true); // 现金缴费删除？
+                if (pmdMemberPayMapper.countByExample(example) > 0) {
+                    throw new OpException("存在已缴费记录，不允许删除");
+                }
             }
+
+            {
+                PmdMemberExample example = new PmdMemberExample();
+                example.createCriteria().andMonthIdEqualTo(monthId).andPartyIdEqualTo(partyId);
+                pmdMemberMapper.deleteByExample(example);
+            }
+
         }else {
             PmdBranchExample example = new PmdBranchExample();
             example.createCriteria().andPartyIdEqualTo(partyId).andMonthIdEqualTo(monthId);
