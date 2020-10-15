@@ -1,3 +1,8 @@
+
+-- 2020.10.15 ly
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2553, 0, '分党委党建代办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:party', NULL, NULL, NULL, 1, NULL);
+
+
 2019-11-13
 
 -- 修改资源名称 桑文帅
