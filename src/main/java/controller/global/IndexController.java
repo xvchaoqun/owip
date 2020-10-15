@@ -114,6 +114,8 @@ public class IndexController extends BaseController {
 		String toPage = "user_base"; // 默认进入个人基本信息页
 		if(ShiroHelper.isPermitted("stat:ow")){
 			toPage = "stat_ow_page"; // 党建信息统计页
+		}else if(ShiroHelper.isPermitted("stat:party")){
+			toPage = "stat_party_page"; // 党建信息统计页
 		}
 		modelMap.put("to", toPage);
 

@@ -1,9 +1,13 @@
 
+20201015
+哈工大 -- 北师大
 
 delete from base_meta_class where code='mc_branch_staff_type';
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2553, 0, '分党委党建代办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:party', NULL, NULL, NULL, 1, NULL);
+
 20201014
-西工大、哈工大
+西工大
 -- 更新 utils
 
 20201014

@@ -21,14 +21,14 @@
                         <a href="javascript:;" data-url="${ctx}/stat_ow_page">党建信息统计</a>
                     </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="stat:party">
+                    <li class="${to=='stat_party_page'?'active':''}">
+                        <a href="javascript:;" data-url="${ctx}/stat_party_page">${_p_partyName}信息统计</a>
+                    </li>
+                </shiro:hasPermission>
                 <shiro:hasPermission name="stat:sys">
                     <li>
                         <a href="javascript:;" data-url="${ctx}/stat_sys_page">系统信息统计</a>
-                    </li>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="stat:party">
-                    <li>
-                        <a href="javascript:;" data-url="${ctx}/stat_party_page">${_p_partyName}信息统计</a>
                     </li>
                 </shiro:hasPermission>
             </ul>
