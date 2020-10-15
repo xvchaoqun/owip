@@ -16,6 +16,21 @@
 		<function-signature>domain.sys.SysConfig getSysConfig()</function-signature>
 	</function>
 	<function>
+		<name>getBoolProperty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>boolean getBoolProperty(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getStringProperty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String getStringProperty(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getIntProperty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Integer getIntProperty(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>isSuperAccount</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Boolean isSuperAccount(java.lang.String)</function-signature>
