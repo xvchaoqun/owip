@@ -85,8 +85,6 @@ update  sys_resource set url='/m/cadreList?type=2' where permission='m:cadreList
 update  sys_resource set url='/m/cadreList?type=1' where permission='m:cadreList:leader';
 
 
--- 以下已更新北化工
-/*
 ALTER TABLE `abroad_approval_log`
 	DROP FOREIGN KEY `FK_abroad_apply_approval_abroad_approver_type`;
 ALTER TABLE `abroad_approval_order`
@@ -100,7 +98,6 @@ ALTER TABLE `abroad_approver`
 ALTER TABLE `abroad_applicat_cadre`
 	DROP INDEX `FK_abroad_applicat_user_abroad_applicat_type`,
 	DROP FOREIGN KEY `FK_abroad_applicat_user_abroad_applicat_type`;
-*/
 	
 
 20201005
@@ -193,6 +190,7 @@ ALTER TABLE `ow_branch_member`
 
 
 -- 删除 pcs.cm.PcsPartyController
+-- 删除 service.base.OneSendService
 
 20200921
 

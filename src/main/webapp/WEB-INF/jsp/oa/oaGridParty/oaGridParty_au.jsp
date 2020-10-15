@@ -43,7 +43,7 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label"><c:if test="${empty oaGridParty.excelFilePath}"><span
-                        class="star">*</span></c:if> 上传结果文件</label>
+                        class="star">*</span></c:if> 上传数据文件</label>
                 <div class="col-xs-6">
                     <input ${empty oaGridParty.excelFilePath?'required':''} class="form-control" type="file"
                                                                             name="_excelFilePath" style="width: 400px"/>

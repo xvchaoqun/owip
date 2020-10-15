@@ -148,7 +148,7 @@ pageEncoding="UTF-8" %>
                     }
                     return '--';
                 }},
-            {label: '汇总统计', name: '_summary',width:130, formatter: function (cellvalue, options, rowObject) {
+            {label: '已报送文件<br/>汇总统计', name: '_summary',width:130, formatter: function (cellvalue, options, rowObject) {
                     var str='';
                     if(rowObject.templateFilePath!=undefined){
                         str = '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGrid_preview?id={0}&summary=1"  title="EXCEL文件预览" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'

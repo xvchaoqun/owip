@@ -137,7 +137,7 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}&type=3"  title="表格模板预览" data-width="1100" data-height="850" class="openUrl"><i class="fa fa-search"></i> {1}</button>'
                         .format(rowObject.id,rowObject.gridName)
                 }},
-            { label: '已上传<br/>数据文件预览',name: '_excelFilePath',width:150, formatter: function (cellvalue, options, rowObject) {
+            { label: '已上传<br/>的数据文件',name: '_excelFilePath',width:150, formatter: function (cellvalue, options, rowObject) {
                 var str='';
                 if(rowObject.excelFilePath!=undefined){
                     str = '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}&type=1"  title="已上传数据文件预览" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
@@ -148,10 +148,10 @@ pageEncoding="UTF-8" %>
                 }
                 return '--';
                 }},
-            { label: '提交后台的<br/>数据',name: '_excelFilePath',width:80, formatter: function (cellvalue, options, rowObject) {
+            { label: '报送的<br/>表格数据',name: '_excelFilePath',width:80, formatter: function (cellvalue, options, rowObject) {
                     var str='';
                     if(rowObject.excelFilePath!=undefined){
-                        return '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}&type=2"  title="预览提交后台的数据" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                        return '<button href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}&type=2"  title="预览提交后台的数据" data-width="1100" data-height="850" class="openUrl btn btn-xs btn-warning"><i class="fa fa-search"></i> 预览</button>'
                                 .format(rowObject.id);
                     }
                     return '--';
