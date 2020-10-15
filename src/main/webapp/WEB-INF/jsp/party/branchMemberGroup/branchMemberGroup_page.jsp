@@ -246,7 +246,7 @@
                     if (!rowObject.isDeleted && rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
-            <c:if test="${cls==-1}">
+            <c:if test="${status==-1}">
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',

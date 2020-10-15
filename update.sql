@@ -1,5 +1,9 @@
+
+
+delete from base_meta_class where code='mc_branch_staff_type';
+
 20201014
-西工大
+西工大、哈工大
 -- 更新 utils
 
 20201014
