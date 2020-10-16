@@ -406,7 +406,7 @@ public class PmdMemberController extends PmdBaseController {
         int monthId = currentPmdMonth.getId();
         PmdMember pmdMember = pmdMemberService.get(monthId, userId);
         if (pmdMember != null) {
-            return failed(pmdMember.getUser().getRealname() + "已经在缴费列表中，请勿重复添加。");
+            return failed(pmdMember.getUser().getRealname() + "已存在缴费记录，请勿重复添加。");
         }
 
         Member member = memberService.get(userId);

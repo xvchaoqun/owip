@@ -54,6 +54,8 @@ public class PmdMonthService extends PmdBaseMapper {
     @Autowired
     protected PmdPayBranchService pmdPayBranchService;
     @Autowired
+    protected PmdMemberService pmdMemberService;
+    @Autowired
     protected PmdBranchService pmdBranchService;
     @Autowired
     protected PmdPartyService pmdPartyService;
@@ -103,7 +105,7 @@ public class PmdMonthService extends PmdBaseMapper {
                 .andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByExampleSelective(record, example);
     }
-    
+
     // 更新结算数据（当结算有误时调用）
     @Transactional
     public void updateEnd(int monthId, boolean updateEndTime) {
@@ -126,7 +128,7 @@ public class PmdMonthService extends PmdBaseMapper {
         } catch (NoSuchMethodException e) {
             logger.error("异常", e);
         }
-        
+
         pmdMonthMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -265,7 +267,11 @@ public class PmdMonthService extends PmdBaseMapper {
                 .andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
         List<Member> members = memberMapper.selectByExample(example);
         for (Member member : members) {
-            addOrResetMember(null, currentMonth, member, false);
+
+            PmdMember pmdMember = pmdMemberService.get(monthId, member.getUserId());
+            if(pmdMember==null) { // 只处理当月未有缴费记录的党员
+                addOrResetMember(null, currentMonth, member, false);
+            }
         }
 
         {
@@ -672,7 +678,11 @@ public class PmdMonthService extends PmdBaseMapper {
                     .andPartyIdEqualTo(partyId).andBranchIdIsNull();
             List<Member> members = memberMapper.selectByExample(example);
             for (Member member : members) {
-                addOrResetMember(null, currentPmdMonth, member, false);
+
+                PmdMember pmdMember = pmdMemberService.get(monthId, member.getUserId());
+                if(pmdMember==null) { // 只处理当月未有缴费记录的党员
+                    addOrResetMember(null, currentPmdMonth, member, false);
+                }
             }
 
         } else {
