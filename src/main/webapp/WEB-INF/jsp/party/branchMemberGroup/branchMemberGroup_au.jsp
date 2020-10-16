@@ -80,19 +80,6 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">实际换届时间</label>
-            <div class="col-xs-8">
-                <div class="input-group" style="width: 150px">
-                    <input class="form-control date-picker" name="_actualTranTime" type="text"
-                           data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(branchMemberGroup.actualTranTime,'yyyy-MM-dd')}"/>
-                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
-                <span class="help-block">注：实际换届时填写，完成修改后请撤销该支部委员会</span>
-            </div>
-        </div>
-
         <%--<div class="form-group">
             <label class="col-xs-3 control-label">发文</label>
             <div class="col-xs-8">

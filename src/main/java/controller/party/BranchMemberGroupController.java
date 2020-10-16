@@ -64,6 +64,7 @@ public class BranchMemberGroupController extends BaseController {
                                     Integer[] types,
                                     Integer userId,
                                     Integer partyId,
+                                    Integer[] branchTypes,
                                     Integer branchId, ModelMap modelMap) {
 
         if(types!=null){
@@ -84,6 +85,9 @@ public class BranchMemberGroupController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         if (status == 2) {
+            if(branchTypes!=null){
+                modelMap.put("selectBranchTypes", Arrays.asList(branchTypes));
+            }
             return "party/branchMember/branchMemberList_page";
         }
 
@@ -238,7 +242,6 @@ public class BranchMemberGroupController extends BaseController {
     @ResponseBody
     public Map do_branchMemberGroup_au(BranchMemberGroup record,
                                        String _tranTime,
-                                       String _actualTranTime,
                                        String _appointTime,
                                        HttpServletRequest request) {
 
@@ -246,9 +249,6 @@ public class BranchMemberGroupController extends BaseController {
 
         if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_actualTranTime)) {
-            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
         }
         if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
@@ -405,18 +405,29 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:del")
     @RequestMapping(value = "/branchMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMemberGroup_batchDel(HttpServletRequest request,
+    public Map do_branchMemberGroup_batchDel(HttpServletRequest request,
+                                             String _actualTranTime,
                                           @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
                                           Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length > 0) {
-            branchMemberGroupService.batchDel(ids, isDeleted);
+            branchMemberGroupService.batchDel(ids, isDeleted, _actualTranTime);
             logger.info(addLog(LogConstants.LOG_PARTY, "撤销支部委员会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("branchMemberGroup:del")
+    @RequestMapping("/branchMemberGroup_batchDel")
+    public String branchMemberGroup_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("branchMemberGroup", branchMemberGroupMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/branchMemberGroup/branchMemberGroup_batchDel";
+    }
+
 
     // 完全删除已撤销的班子
     @RequiresPermissions("branchMemberGroup:realDel")

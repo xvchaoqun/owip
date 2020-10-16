@@ -44,7 +44,7 @@
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${status>=0}">
                                     <shiro:hasPermission name="branchMemberGroup:del">
-                                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                            data-url="${ctx}/branchMemberGroup_batchDel" data-title="撤销支部委员会"
                                            data-msg="确定撤销这{0}个支部委员会吗？"><i class="fa fa-history"></i> 撤销</a>
                                         【注：撤销操作将同时删除相关管理员权限，请谨慎操作！】
