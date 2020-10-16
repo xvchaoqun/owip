@@ -1,3 +1,8 @@
+
+-- 2020.10.16 ly
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2554, 0, '支部添加', '', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmdBranch:edit', NULL, NULL, NULL, 1, NULL);
+
+
 -- 2020.03.27 桑文帅
 -- 建表语句
 
