@@ -3,6 +3,7 @@ package service.party;
 import controller.global.OpException;
 import domain.party.*;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import service.BaseMapper;
 import service.LoginUserService;
 import service.sys.SysUserService;
 import sys.helper.PartyHelper;
+import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
 import java.util.*;
@@ -163,7 +165,7 @@ public class BranchMemberGroupService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, boolean isDeleted) {
+    public void batchDel(Integer[] ids, boolean isDeleted, String _actualTranTime) {
         
         if (ids == null || ids.length == 0) return;
         
@@ -192,6 +194,9 @@ public class BranchMemberGroupService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         BranchMemberGroup record = new BranchMemberGroup();
         record.setIsDeleted(isDeleted);
+        if (isDeleted && StringUtils.isNotBlank(_actualTranTime)) {
+            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
+        }
         branchMemberGroupMapper.updateByExampleSelective(record, example);
     }
 

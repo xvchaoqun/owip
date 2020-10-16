@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class BranchMemberController extends BaseController {
@@ -67,6 +68,14 @@ public class BranchMemberController extends BaseController {
                                   Boolean isDeleted,
                                   Boolean isHistory,
                                   Boolean isDoubleLeader,
+
+                                  //党支部中的字段
+                                  Integer[] branchTypes,
+                                  Integer unitTypeId,
+                                  Boolean isStaff,
+                                  Boolean isPrefessional,
+                                  Boolean isBaseTeam,
+
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
@@ -106,6 +115,32 @@ public class BranchMemberController extends BaseController {
         }
         if (isDoubleLeader != null) {
             criteria.andIsDoubleLeaderEqualTo(isDoubleLeader);
+        }
+        BranchViewExample branchViewExample = new BranchViewExample();
+        BranchViewExample.Criteria branchCriteria = branchViewExample.createCriteria();
+        if (branchTypes != null) {
+            branchCriteria.andTypesContain(new HashSet<>(Arrays.asList(branchTypes)));
+        }
+        if (unitTypeId != null) {
+            branchCriteria.andUnitTypeIdEqualTo(unitTypeId);
+        }
+        if (isStaff != null) {
+            branchCriteria.andIsStaffEqualTo(isStaff);
+        }
+        if (isPrefessional != null) {
+            branchCriteria.andIsPrefessionalEqualTo(isPrefessional);
+        }
+        if (isBaseTeam != null) {
+            branchCriteria.andIsBaseTeamEqualTo(isBaseTeam);
+        }
+        List<BranchView> branchViewList = branchViewMapper.selectByExample(branchViewExample);
+        if (branchViewList != null && branchViewList.size() > 0){
+            List<Integer> branchIdList = branchViewList.stream().map(BranchView::getId).collect(Collectors.toList());
+            criteria.andGroupBranchIdIn(branchIdList);
+        }
+        if ((branchTypes != null || unitTypeId != null || isStaff != null || isPrefessional != null || isBaseTeam != null)
+                && branchViewList != null && branchViewList.size() == 0){
+            criteria.andGroupBranchIdIsNull();//根据委员会对应的的branchId
         }
 
         if (export == 1) {

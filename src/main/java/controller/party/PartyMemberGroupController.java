@@ -197,7 +197,6 @@ public class PartyMemberGroupController extends BaseController {
     @ResponseBody
     public Map do_partyMemberGroup_au(PartyMemberGroup record,
                                       String _tranTime,
-                                      String _actualTranTime,
                                       String _appointTime,
                                       HttpServletRequest request) {
 
@@ -205,9 +204,6 @@ public class PartyMemberGroupController extends BaseController {
 
         if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_actualTranTime)) {
-            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
         }
         if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
@@ -358,16 +354,27 @@ public class PartyMemberGroupController extends BaseController {
     @RequiresPermissions("partyMemberGroup:del")
     @RequestMapping(value = "/partyMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyMemberGroup_batchDel(HttpServletRequest request,
+    public Map do_partyMemberGroup_batchDel(HttpServletRequest request,
+                                            String _actualTranTime,
                                          @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
                                          Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
-            partyMemberGroupService.batchDel(ids, isDeleted);
+            partyMemberGroupService.batchDel(ids, isDeleted, _actualTranTime);
             logger.info(addLog(LogConstants.LOG_PARTY, "撤销基层党组织领导班子：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("partyMemberGroup:del")
+    @RequestMapping("/partyMemberGroup_batchDel")
+    public String partyMemberGroup_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("partyMemberGroup", partyMemberGroupMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/partyMemberGroup/partyMemberGroup_batchDel";
     }
 
     // 完全删除已撤销的班子
