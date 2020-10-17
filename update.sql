@@ -1,6 +1,20 @@
 
+
+
+ALTER TABLE `pcs_candidate`
+	ADD INDEX `config_id` (`config_id`);
+
+
+	ALTER TABLE `pcs_recommend`
+	ADD COLUMN `has_report` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分党委是否已报送' AFTER `is_finished`;
+
+	update pcs_recommend pr, pcs_admin_report par set pr.has_report=1
+	where par.config_id=pr.config_id and par.party_id=pr.party_id and par.stage=pr.stage;
+
+
+
 20201015
-哈工大 -- 北师大
+哈工大
 
 delete from base_meta_class where code='mc_branch_staff_type';
 

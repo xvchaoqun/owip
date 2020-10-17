@@ -144,7 +144,7 @@
             }},
             {label: '推荐提名<br/>的党员数', name: 'totalVote'},
             {label: '推荐提名<br/>的正式党员数', name: 'totalPositiveVote'},
-            {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
+            /*{label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},*/
             {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
             {label: '推荐党支部<br/>实参会党员数', name: 'actualMemberCount'},
             {
