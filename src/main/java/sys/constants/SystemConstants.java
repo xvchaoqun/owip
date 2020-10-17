@@ -95,6 +95,7 @@ public class SystemConstants {
     public static final byte LOGIN_TYPE_CAS = 3;
     public static final byte LOGIN_TYPE_MOBILE = 4;
     public static final byte LOGIN_TYPE_TRAIN_INSPECTOR = 5;
+    public static final byte LOGIN_TYPE_APP = 9;
     public static final byte LOGIN_TYPE_WX = 10;
     public static final byte LOGIN_TYPE_SWITCH = 20;
     public static final byte LOGIN_TYPE_DR = 30;
@@ -107,6 +108,7 @@ public class SystemConstants {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "单点登录");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_TRAIN_INSPECTOR, "评课账号登录");
+        LOGIN_TYPE_MAP.put(LOGIN_TYPE_APP, "APP");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_WX, "微信");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_SWITCH, "切换账号");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_DR, "民主推荐登录");
