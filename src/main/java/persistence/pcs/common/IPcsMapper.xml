@@ -382,15 +382,11 @@
         count(pc.id) as branch_count,
         sum(pc.vote) as total_vote,
         sum(pc.positive_vote) as total_positive_vote,
-        -- sum(ifnull(prv.member_count,0)) as member_count,
-        sum(ifnull(prv.expect_member_count, 0)) as expect_member_count,
-        sum(ifnull(prv.actual_member_count, 0)) as actual_member_count,
+        sum(ifnull(pr.expect_member_count, 0)) as expect_member_count,
+        sum(ifnull(pr.actual_member_count, 0)) as actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status, if(pc.cadre_status=6, pc.cadre_sort_order, 0) as leader_sort_order
         from pcs_candidate pc
-        left join (select pb.*, pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch pb
-        left join pcs_recommend pr on pr.config_id=pb.config_id and (pr.branch_id=pb.branch_id or
-        (pb.is_direct_branch=1 and pb.party_id=pr.party_id)) where pr.config_id=#{configId} and pr.stage=#{stage}) prv on
-        prv.party_id=pc.party_id and (prv.is_direct_branch=1 or prv.branch_id=pc.branch_id)
+        left join pcs_recommend pr on pc.recommend_id=pr.id
         left join cadre c on c.user_id=pc.user_id
         <include refid="searchBranchCandidates"/>
         group by pc.user_id
