@@ -1,5 +1,7 @@
 package controller.pmd;
 
+import controller.global.OpException;
+import domain.party.Party;
 import domain.pmd.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -230,7 +232,7 @@ public class PmdBranchController extends PmdBaseController {
     }
 
 
-    /*@RequiresPermissions("pmdBranch:edit")
+    @RequiresPermissions("pmdBranch:edit")
     @RequestMapping(value = "/pmdBranch_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdBranch_au(PmdBranch record, HttpServletRequest request) {
@@ -238,12 +240,18 @@ public class PmdBranchController extends PmdBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            pmdBranchService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_PMD, "添加每月参与线上收费的党支部：%s", record.getId()));
-        } else {
+            int partyId = record.getPartyId();
+            int branchId = record.getBranchId();
 
-            pmdBranchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_PMD, "更新每月参与线上收费的党支部：%s", record.getId()));
+            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+            PmdBranchExample example = new PmdBranchExample();
+            example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId()).andPartyIdEqualTo(partyId)
+                    .andBranchIdEqualTo(branchId);
+            if ((int)pmdBranchMapper.countByExample(example) > 0)
+                throw new OpException("添加重复");
+            record.setMonthId(currentPmdMonth.getId());
+            pmdBranchService.insertSelective(record, currentPmdMonth);
+            logger.info(addLog(LogConstants.LOG_PMD, "添加每月参与线上收费的党支部：%s", branchId));
         }
 
         return success(FormUtils.SUCCESS);
@@ -251,15 +259,14 @@ public class PmdBranchController extends PmdBaseController {
 
     @RequiresPermissions("pmdBranch:edit")
     @RequestMapping("/pmdBranch_au")
-    public String pmdBranch_au(Integer id, ModelMap modelMap) {
+    public String pmdBranch_au(Integer partyId, ModelMap modelMap) {
 
-        if (id != null) {
-            PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
-            modelMap.put("pmdBranch", pmdBranch);
+        if (partyId != null) {
+            Party party = partyService.findAll().get(partyId);
+            modelMap.put("party", party);
         }
         return "pmd/pmdBranch/pmdBranch_au";
     }
-*/
     // 删除当月的缴费党支部（不包含直属党支部），（如果党支部下存在已缴费的记录，则只删除该党支部下的未缴费的记录，党支部仍然保留）
     @RequiresPermissions("pmdBranch:del")
     @RequestMapping(value = "/pmdBranch_del", method = RequestMethod.POST)

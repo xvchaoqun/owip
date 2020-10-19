@@ -3,30 +3,27 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${pmdBranch!=null}">编辑</c:if><c:if test="${pmdBranch==null}">添加</c:if>每月参与线上收费的党支部</h3>
+    <h3>添加每月参与线上收费的党支部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmdBranch_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="id" value="${pmdBranch.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>所属月份</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="monthId" value="${pmdBranch.monthId}">
-				</div>
-			</div>
+    <form class="form-horizontal" action="${ctx}/pmd/pmdBranch_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <%--<input type="hidden" name="id" value="${pmdBranch.id}">--%>
+			<input type="hidden" name="partyId" value="${param.partyId}"/>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>所属党委</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="partyId" value="${pmdBranch.partyId}">
+				<div class="col-xs-6 label-text">
+                        ${party.name}
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group" id="branchDiv">
 				<label class="col-xs-3 control-label"><span class="star">*</span>党支部</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="branchId" value="${pmdBranch.branchId}">
+					<select required class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1&partyId=${param.partyId}&del=0"
+							name="branchId" data-placeholder="请选择" data-width="270">
+					</select>
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>所属党委</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyName" value="${pmdBranch.partyName}">
@@ -145,7 +142,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="reportIp" value="${pmdBranch.reportIp}">
 				</div>
-			</div>
+			</div>--%>
     </form>
 </div>
 <div class="modal-footer">
@@ -161,12 +158,13 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+                        $("#jqGrid2").trigger("reloadGrid");
                     }
                 }
             });
         }
     });
+    $.register.ajax_select($('#modalForm select[name=branchId]'));
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

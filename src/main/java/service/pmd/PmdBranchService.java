@@ -1,6 +1,8 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.pmd.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -169,9 +171,18 @@ public class PmdBranchService extends PmdBaseMapper {
     }
 
     @Transactional
-    public void insertSelective(PmdBranch record) {
+    public void insertSelective(PmdBranch record, PmdMonth currentPmdMonth) {
 
+        Party party = partyMapper.selectByPrimaryKey(record.getPartyId());
+        Branch branch = branchMapper.selectByPrimaryKey(record.getBranchId());
+        record.setPartyName(party.getName());
+        record.setBranchName(branch.getName());
+        record.setPartySortOrder(party.getSortOrder());
+        record.setSortOrder(branch.getSortOrder());
+        record.setHasReport(false);
         pmdBranchMapper.insertSelective(record);
+        pmdMonthService.addBranch(record.getPartyId(), record.getBranchId(), currentPmdMonth);
+
     }
 
     @Transactional
