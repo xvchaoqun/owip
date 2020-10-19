@@ -9,11 +9,11 @@
         <shiro:lacksPermission name="pmdBranch:report">
             return '<span class="text-warning">未报送</span>'
         </shiro:lacksPermission>
-      <shrio:hasPermission name="pmdBranch:report">
+      <shiro:hasPermission name="pmdBranch:report">
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
       'data-url="${ctx}/pmd/pmdBranch_report?id={0}&cls=${cls}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
               .format(rowObject.id, rowObject.canReport ? '' : 'disabled');
-      </shrio:hasPermission>
+      </shiro:hasPermission>
 
     }, frozen:true},
     /*{ label: '报表',name: '_table', frozen: true},*/
