@@ -12,26 +12,26 @@ pageEncoding="UTF-8"%>
 		<c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
 		<c:if test="${count>1}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label"> 撤销领导班子个数</label>
-				<div class="col-xs-9 label-text">
+				<label class="col-xs-4 control-label"> 撤销领导班子个数</label>
+				<div class="col-xs-6 label-text">
 						${count} 个
 				</div>
 			</div>
 		</c:if>
 		<c:if test="${count==1}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
-				<div class="col-xs-9 label-text">
+				<label class="col-xs-4 control-label">名称</label>
+				<div class="col-xs-6 label-text">
 						${partyMemberGroup.name}
 				</div>
 			</div>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 实际换届时间</label>
-			<div class="col-xs-9">
-				<div class="input-group" style="width: 270px">
+			<label class="col-xs-4 control-label"><span class="star">*</span> 实际换届时间</label>
+			<div class="col-xs-6">
+				<div class="input-group" style="width: 150px">
 					<input required class="form-control date-picker" name="_actualTranTime" type="text"
-						   data-date-format="yyyy-mm-dd"/>
+						   data-date-format="yyyy-mm-dd" value="${_today}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
