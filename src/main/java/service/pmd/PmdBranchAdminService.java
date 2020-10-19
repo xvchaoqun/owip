@@ -12,6 +12,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.util.*;
 
@@ -39,7 +40,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
      */
     public boolean isBranchAdmin(int userId, Integer partyId, Integer branchId){
 
-        if(ShiroHelper.hasRole(RoleConstants.ROLE_PMD_OW))
+        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL))
             return true;
 
         List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);

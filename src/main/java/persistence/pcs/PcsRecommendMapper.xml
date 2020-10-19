@@ -9,6 +9,7 @@
     <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="has_report" jdbcType="BIT" property="hasReport" />
     <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="member_count" jdbcType="INTEGER" property="memberCount" />
     <result column="positive_count" jdbcType="INTEGER" property="positiveCount" />
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, party_id, branch_id, expect_member_count, actual_member_count, config_id, is_finished, 
-    stage, member_count, positive_count, student_member_count, teacher_member_count, 
+    has_report, stage, member_count, positive_count, student_member_count, teacher_member_count, 
     retire_member_count
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsRecommendExample" resultMap="BaseResultMap">
@@ -115,13 +116,13 @@
     </selectKey>
     insert into pcs_recommend (party_id, branch_id, expect_member_count, 
       actual_member_count, config_id, is_finished, 
-      stage, member_count, positive_count, 
-      student_member_count, teacher_member_count, 
+      has_report, stage, member_count, 
+      positive_count, student_member_count, teacher_member_count, 
       retire_member_count)
     values (#{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, 
       #{actualMemberCount,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{isFinished,jdbcType=BIT}, 
-      #{stage,jdbcType=TINYINT}, #{memberCount,jdbcType=INTEGER}, #{positiveCount,jdbcType=INTEGER}, 
-      #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
+      #{hasReport,jdbcType=BIT}, #{stage,jdbcType=TINYINT}, #{memberCount,jdbcType=INTEGER}, 
+      #{positiveCount,jdbcType=INTEGER}, #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
       #{retireMemberCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsRecommend">
@@ -147,6 +148,9 @@
       </if>
       <if test="isFinished != null">
         is_finished,
+      </if>
+      <if test="hasReport != null">
+        has_report,
       </if>
       <if test="stage != null">
         stage,
@@ -185,6 +189,9 @@
       </if>
       <if test="isFinished != null">
         #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="hasReport != null">
+        #{hasReport,jdbcType=BIT},
       </if>
       <if test="stage != null">
         #{stage,jdbcType=TINYINT},
@@ -236,6 +243,9 @@
       <if test="record.isFinished != null">
         is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
+      <if test="record.hasReport != null">
+        has_report = #{record.hasReport,jdbcType=BIT},
+      </if>
       <if test="record.stage != null">
         stage = #{record.stage,jdbcType=TINYINT},
       </if>
@@ -268,6 +278,7 @@
       actual_member_count = #{record.actualMemberCount,jdbcType=INTEGER},
       config_id = #{record.configId,jdbcType=INTEGER},
       is_finished = #{record.isFinished,jdbcType=BIT},
+      has_report = #{record.hasReport,jdbcType=BIT},
       stage = #{record.stage,jdbcType=TINYINT},
       member_count = #{record.memberCount,jdbcType=INTEGER},
       positive_count = #{record.positiveCount,jdbcType=INTEGER},
@@ -299,6 +310,9 @@
       <if test="isFinished != null">
         is_finished = #{isFinished,jdbcType=BIT},
       </if>
+      <if test="hasReport != null">
+        has_report = #{hasReport,jdbcType=BIT},
+      </if>
       <if test="stage != null">
         stage = #{stage,jdbcType=TINYINT},
       </if>
@@ -328,6 +342,7 @@
       actual_member_count = #{actualMemberCount,jdbcType=INTEGER},
       config_id = #{configId,jdbcType=INTEGER},
       is_finished = #{isFinished,jdbcType=BIT},
+      has_report = #{hasReport,jdbcType=BIT},
       stage = #{stage,jdbcType=TINYINT},
       member_count = #{memberCount,jdbcType=INTEGER},
       positive_count = #{positiveCount,jdbcType=INTEGER},

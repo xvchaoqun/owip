@@ -314,18 +314,13 @@
     <select id="selectPartyCandidateList" resultMap="CandidateBaseResultMap" parameterType="map">
         select pc.*, group_concat(distinct pc.party_id) as party_ids,group_concat(distinct pc.branch_id) as branch_ids,
         count( pc.id) as branch_count, sum(pc.vote) total_vote, sum(pc.positive_vote) total_positive_vote, sum(pr.expect_member_count) as expect_member_count,
-        sum(pr.actual_member_count) as actual_member_count, sum(pb.member_count) as member_count, pcc.id as chosen_id,
+        sum(pr.actual_member_count) as actual_member_count, pcc.id as chosen_id,
         pcc.sort_order, if(pc.cadre_status=6, pc.cadre_sort_order, 0) as leader_sort_order
         from pcs_candidate pc left join pcs_recommend pr on pr.id=pc.recommend_id
-
-        left join pcs_branch pb on pb.config_id=pc.config_id and (pc.branch_id=pb.branch_id or (pb.is_direct_branch=1 and pb.party_id=pc.party_id))
-
         left join pcs_candidate_chosen pcc on pc.config_id=pcc.config_id and pc.stage=pcc.stage and pc.type=pcc.type and
         pc.user_id=pcc.user_id
-
-        left join pcs_admin_report par on par.config_id=pc.config_id and par.party_id=pc.party_id and par.stage=pc.stage
         <where>
-            pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType} and par.id>0
+            pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType} and pr.has_report=1
             <if test="userId!=null">
                 and pc.user_id=#{userId}
             </if>
@@ -356,9 +351,9 @@
         select count(distinct pc.user_id) from pcs_candidate pc
         left join pcs_candidate_chosen pcc on pc.config_id=pcc.config_id
         and pc.stage=pcc.stage and pc.type=pcc.type and pc.user_id=pcc.user_id
-        left join pcs_admin_report par on par.config_id=pc.config_id and par.party_id=pc.party_id and par.stage=pc.stage
+        left join pcs_recommend pr on pr.id=pc.recommend_id
         <where>
-            pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType} and par.id>0
+            pc.config_id=#{configId} and pc.stage=#{stage} and pc.type=#{candidateType} and pr.has_report=1
             <if test="userId!=null">
                 and pc.user_id=#{userId}
             </if>
@@ -387,15 +382,11 @@
         count(pc.id) as branch_count,
         sum(pc.vote) as total_vote,
         sum(pc.positive_vote) as total_positive_vote,
-        sum(ifnull(prv.member_count,0)) as member_count,
-        sum(ifnull(prv.expect_member_count, 0)) as expect_member_count,
-        sum(ifnull(prv.actual_member_count, 0)) as actual_member_count,
+        sum(ifnull(pr.expect_member_count, 0)) as expect_member_count,
+        sum(ifnull(pr.actual_member_count, 0)) as actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status, if(pc.cadre_status=6, pc.cadre_sort_order, 0) as leader_sort_order
         from pcs_candidate pc
-        left join (select pb.*, pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch pb
-        left join pcs_recommend pr on pr.config_id=pb.config_id and (pr.branch_id=pb.branch_id or
-        (pb.is_direct_branch=1 and pb.party_id=pr.party_id)) where pr.config_id=#{configId} and pr.stage=#{stage}) prv on
-        prv.party_id=pc.party_id and (prv.is_direct_branch=1 or prv.branch_id=pc.branch_id)
+        left join pcs_recommend pr on pc.recommend_id=pr.id
         left join cadre c on c.user_id=pc.user_id
         <include refid="searchBranchCandidates"/>
         group by pc.user_id

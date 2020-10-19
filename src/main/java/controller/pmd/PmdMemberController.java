@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -153,7 +153,7 @@ public class PmdMemberController extends PmdBaseController {
         } else if (cls == 2) {
             // 直属党支部访问党员列表
             // 此时必须传入partyId
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);
@@ -168,7 +168,7 @@ public class PmdMemberController extends PmdBaseController {
         } else if (cls == 3) {
             // 分党委（不包含直属党支部）访问党员列表
             // 此时必须传入partyId,branchId
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);
@@ -352,7 +352,7 @@ public class PmdMemberController extends PmdBaseController {
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
         //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();
@@ -366,7 +366,7 @@ public class PmdMemberController extends PmdBaseController {
     }
 
     // 批量删除未缴费记录
-    @RequiresPermissions("pmdMember:allList")
+    @RequiresPermissions("pmdMember:del")
     @RequestMapping(value = "/pmdMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_batchDel(Integer[] ids, HttpServletRequest request) {
@@ -415,7 +415,7 @@ public class PmdMemberController extends PmdBaseController {
             throw  new OpException("操作失败，支部已报送。");
         }
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     member.getPartyId(), member.getBranchId())) {
                 throw new UnauthorizedException();
@@ -464,7 +464,7 @@ public class PmdMemberController extends PmdBaseController {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();

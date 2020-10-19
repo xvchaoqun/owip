@@ -21,6 +21,7 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -101,7 +102,7 @@ public class PmdBranchController extends PmdBaseController {
             // 此时必须传入monthId和partyId
             criteria.andMonthIdEqualTo(monthId);
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);

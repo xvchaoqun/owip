@@ -2,7 +2,7 @@ package domain.pmd;
 
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -2372,7 +2372,7 @@ public class PmdMemberExample {
 
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
-            if(ShiroHelper.hasRole(RoleConstants.ROLE_PMD_OW))
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

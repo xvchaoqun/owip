@@ -524,6 +524,66 @@ public class PcsRecommendExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasReportIsNull() {
+            addCriterion("has_report is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportIsNotNull() {
+            addCriterion("has_report is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportEqualTo(Boolean value) {
+            addCriterion("has_report =", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportNotEqualTo(Boolean value) {
+            addCriterion("has_report <>", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportGreaterThan(Boolean value) {
+            addCriterion("has_report >", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_report >=", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportLessThan(Boolean value) {
+            addCriterion("has_report <", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_report <=", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportIn(List<Boolean> values) {
+            addCriterion("has_report in", values, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportNotIn(List<Boolean> values) {
+            addCriterion("has_report not in", values, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_report between", value1, value2, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_report not between", value1, value2, "hasReport");
+            return (Criteria) this;
+        }
+
         public Criteria andStageIsNull() {
             addCriterion("stage is null");
             return (Criteria) this;

@@ -270,7 +270,7 @@
                         'data-url="${ctx}/pcs/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">未推荐</a>')
                                 .format(rowObject.userId, 0);
             }},*/
-            {label: '推荐党支部<br/>所含党员数', name: 'memberCount'},
+            /*{label: '推荐党支部<br/>所含党员数', name: 'memberCount'},*/
             {label: '推荐党支部<br/>应参会党员数', name: 'expectMemberCount'},
             {label: '推荐党支部<br/>实参会党员数', name: 'actualMemberCount'},
 

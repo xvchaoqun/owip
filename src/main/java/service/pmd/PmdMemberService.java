@@ -72,7 +72,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
         if (partyService.isDirectBranch(partyId)) {
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
                     && !adminPartyIdSet.contains(partyId)) {
                 throw new UnauthorizedException();
             }
@@ -83,7 +83,7 @@ public class PmdMemberService extends PmdBaseMapper {
             }
         } else {
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
                     && !adminPartyIdSet.contains(partyId)
                     && !adminBranchIdSet.contains(branchId)) {
                 throw new UnauthorizedException();
@@ -365,7 +365,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
             {
                 // 除了组织部管理员，其他人员不允许修改党员一级类别
-                if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+                if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
                         && configMemberType!=pmdConfigMember.getConfigMemberType()){
                     throw new OpException("{0}不允许修改党员类别。", uv.getRealname());
                 }

@@ -16,6 +16,11 @@ import java.util.Map;
  */
 public interface IPcsMapper {
 
+    // 分党委报送两委数据/分党委两委数据被退回，更新党支部两委数据报送字段
+    @Update("update pcs_recommend pr, pcs_admin_report par set pr.has_report=#{hasReport} " +
+            "where par.config_id=pr.config_id and par.stage=pr.stage and par.party_id=pr.party_id and par.id=#{parId}")
+    void updatePcsRecommendReport(@Param("parId") int parId,@Param("hasReport") boolean hasReport);
+
     //更新后党代会分党委统计结果（在设置不参与/参与、删除党支部、同步党组织信息时）
     @Update("update pcs_party pp,(select count(*) as branch_count, sum(member_count) as member_count, " +
             "sum(positive_count) as positive_count, sum(student_member_count) as student_member_count, " +
