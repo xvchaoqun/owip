@@ -1,5 +1,6 @@
 
-
+20201019
+吉大 -- 北师大
 
 ALTER TABLE `pcs_candidate`
 	ADD INDEX `config_id` (`config_id`);
@@ -11,6 +12,20 @@ ALTER TABLE `pcs_candidate`
 	update pcs_recommend pr, pcs_admin_report par set pr.has_report=1
 	where par.config_id=pr.config_id and par.party_id=pr.party_id and par.stage=pr.stage;
 
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+`parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (1300, 0, '显示所有分党委和支部', '给组织部管理员', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmd:viewAll', NULL, NULL, NULL, 1, NULL);
+
+update sys_resource set permission='pmdMonth:list' where permission='pmdOw:admin';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+`parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (1301, 0, '组织部管理员操作权限', '给组织部管理员', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmdOw:admin', NULL, NULL, NULL, 1, NULL);
+
+update sys_resource set permission='pmdMember:helpSetSalary' where permission='userPmdMember:helpSetSalary';
+
+-- 修改党费组织部管理员权限
 
 
 20201015
@@ -98,6 +113,10 @@ ALTER TABLE `pmd_branch`
 20201008
 西工大，北航，北化工（停止同步更新）
 
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `pro_post_level` `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务级别（职称级别）' AFTER `pro_post_time`,
+	CHANGE COLUMN `post_level` `post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '任职级别（职员级别）' AFTER `post`;
+
 ALTER TABLE `ow_member`
 	ADD COLUMN `sort_order` FLOAT UNSIGNED NULL DEFAULT NULL COMMENT '排序，用于下拉选' AFTER `integrity`;
 -- 更新 ow_member_view
@@ -122,11 +141,6 @@ ALTER TABLE `abroad_applicat_cadre`
 	DROP FOREIGN KEY `FK_abroad_applicat_user_abroad_applicat_type`;
 	
 
-20201005
-
-ALTER TABLE `sys_teacher_info`
-	CHANGE COLUMN `pro_post_level` `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务级别（职称级别）' AFTER `pro_post_time`,
-	CHANGE COLUMN `post_level` `post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '任职级别（职员级别）' AFTER `post`;
 
 20201003
 大工（停止同步更新）

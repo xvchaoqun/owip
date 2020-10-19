@@ -66,6 +66,8 @@ public class SystemConstants {
     public static final String PERMISSION_PARTYVIEWALL = "party:viewAll"; // 查看所有党委、支部的权限
     public static final String PERMISSION_DPPARTYVIEWALL = "dp:viewAll"; //查看民主党派的权限
 
+    public static final String PERMISSION_PMDVIEWALL = "pmd:viewAll"; // 党费收缴查看所有党委、支部的权限
+
     public static final String PERMISSION_ABROADADMIN = "abroad:admin"; // 因私管理员权限
 
     public static final String PERMISSION_CLAADMIN = "cla:admin"; // 请假管理员权限

@@ -6,9 +6,14 @@
     { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
 
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
+        <shiro:lacksPermission name="pmdBranch:report">
+            return '<span class="text-warning">未报送</span>'
+        </shiro:lacksPermission>
+      <shrio:hasPermission name="pmdBranch:report">
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
       'data-url="${ctx}/pmd/pmdBranch_report?id={0}&cls=${cls}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
               .format(rowObject.id, rowObject.canReport ? '' : 'disabled');
+      </shrio:hasPermission>
 
     }, frozen:true},
     /*{ label: '报表',name: '_table', frozen: true},*/

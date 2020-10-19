@@ -64,7 +64,7 @@ public class CasController extends BaseController {
     public String sysLogin_switch_back(HttpServletRequest request, HttpServletResponse response) {
 
         String switchUser = (String) request.getSession().getAttribute("_switchUser");
-        if (StringUtils.isBlank(switchUser)){
+        if (StringUtils.isBlank(switchUser)) {
 
             return loginUserService.redirect("/", response);
         }
@@ -100,7 +100,7 @@ public class CasController extends BaseController {
 
         String wxCode = request.getParameter("code");
         String username = shortMsgService.wxUserToCode(wxCode);
-        logger.info("wxCode="+wxCode + " username="+ username);
+        logger.info("wxCode=" + wxCode + " username=" + username);
 
         return loginUserService.directLogin(username, SystemConstants.LOGIN_TYPE_WX,
                 request, response, null);

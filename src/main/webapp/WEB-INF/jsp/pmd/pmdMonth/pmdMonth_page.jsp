@@ -46,7 +46,7 @@
                                     </button>
                                 </c:if>
                             </shiro:hasPermission>
-                            <shiro:hasRole name="${ROLE_ADMIN}">
+                            <shiro:hasPermission name="pmdMonth:end">
                                 <button class="jqItemBtn btn btn-danger btn-sm"
                                         data-title="更新结算"
                                         data-msg="确定更新结算？（仅更新汇总数据）"
@@ -54,7 +54,7 @@
                                    data-id-name="monthId"
                                    data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
                                     更新结算</button>
-                            </shiro:hasRole>
+                            </shiro:hasPermission>
                         </div>
                         <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -120,19 +120,24 @@
                 <c:if test="${initMonthId>0&&processMemberCount>=0}">
                 return '<div class="progressDiv"><i class="fa fa-clock-o fa-spin"></i> 正在启动</div>'
                 </c:if>
+                    <shiro:hasPermission name="pmdMonth:edit">
                 return ('<button class="popupBtn btn btn-success btn-xs"' +
                 'data-url="${ctx}/pmd/pmdMonth_start?monthId={0}"><i class="fa fa-cogs"></i> 启动</button>')
                         .format(rowObject.id);
+                </shiro:hasPermission>
             }, frozen: true
             },
             {
                 label: '结算', name: '_end', width:80, formatter: function (cellvalue, options, rowObject) {
 
                 if (_isEnd(rowObject))  return '<span class="text-success">已结算</span>';
-                if (!rowObject.canEnd) return "-";
+                if (!rowObject.canEnd) return "--";
+
+                <shiro:hasPermission name="pmdMonth:end">
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
                 'data-url="${ctx}/pmd/pmdMonth_end?monthId={0}"><i class="fa fa-rmb"></i> 结算</button>')
                         .format(rowObject.id);
+                    </shiro:hasPermission>
             }, frozen: true
             },
             {label: '结算时间', name: 'endTime', width:150, formatter: $.jgrid.formatter.date,
@@ -140,7 +145,7 @@
             {
                 label: '对账和报表', name: '_report', formatter: function (cellvalue, options, rowObject) {
 
-                if (_isEnd(rowObject) == false)  return "-";
+                if (_isEnd(rowObject) == false)  return "--";
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="700" ' +
                 'data-url="${ctx}/pmd/pmdOw_export_page?monthId={0}"><i class="fa fa-download"></i> 报表</button>')
                         .format(rowObject.id);

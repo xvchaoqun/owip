@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-plus"></i> 添加
                         </button>
                     </shiro:hasPermission>
-                    <shiro:hasPermission name="pmdMember:allList">
+                    <shiro:hasPermission name="pmdMember:del">
                         <button data-url="${ctx}/pmd/pmdMember_batchDel"
                                 data-title="批量删除"
                                 data-msg="<div class='model-alert-tip'>确定删除这{0}条缴费记录？<br/>（仅删除未缴费记录，删除后不可恢复，请谨慎操作）</div>"
@@ -42,11 +42,13 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-trash"></i> 批量删除
                         </button>
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="pmdMember:selectMemberType">
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                             data-url="${ctx}/pmd/pmdMember_selectMemberType"
                             data-grid-id="#jqGrid">
                         <i class="fa fa-check-square-o"></i> 选择党员类别
                     </button>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="pmdMember:setIsOnlinePay">
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
@@ -55,6 +57,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-edit"></i> 修改缴费方式
                     </button>
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="pmdMember:helpSetSalary">
                     <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-width="600"
                             data-url="${ctx}/user/pmd/pmdMember_setSalary"
@@ -66,9 +69,10 @@ pageEncoding="UTF-8" %>
                             data-width="600"
                             data-url="${ctx}/user/pmd/pmdMember_setSalary"
                             data-grid-id="#jqGrid"
-                            data-querystr="&isSelf=0&view=2"
+                            data-querystr="&isSelf=0&view=1"
                             data-id-name="pmdMemberId">
                         <i class="fa fa-rmb"></i> 查看党费应交额</button>
+                    </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pmd.common.PmdReportBean;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
@@ -107,7 +107,7 @@ public class PmdBranchService extends PmdBaseMapper {
         int partyId = pmdBranch.getPartyId();
         int branchId = pmdBranch.getBranchId();
         // 组织部管理员、分党委管理员、党支部管理员允许报送
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     throw new UnauthorizedException();
@@ -141,7 +141,7 @@ public class PmdBranchService extends PmdBaseMapper {
         if(pmdBranch==null) return false;
 
         // 组织部管理员、分党委管理员、党支部管理员允许报送
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     return false;

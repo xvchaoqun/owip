@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -56,13 +56,13 @@ public class UserPmdMemberController extends PmdBaseController {
             //return ShiroHelper.getCurrentUserId();
         }else{
             // 组织部管理员或支部管理员可代替设置工资
-            ShiroHelper.checkPermission("userPmdMember:helpSetSalary");
+            ShiroHelper.checkPermission("pmdMember:helpSetSalary");
 
             PmdMember _pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
             PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), _pmdMember.getUserId());
 
-            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 // （只允许支部管理员或直属支部管理员进行代缴）
                 Integer partyId = pmdMember.getPartyId();
                 Integer branchId = pmdMember.getBranchId();
