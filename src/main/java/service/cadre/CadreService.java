@@ -10,6 +10,7 @@ import domain.cadreInspect.CadreInspect;
 import domain.cm.CmMemberView;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUser;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;
@@ -861,6 +862,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             }
             cadre.setStatus(status);
 
+            cadre.setRemark(StringUtils.trimToNull(xlsRow.get(32)));
+
             if (cadre.getIsDouble()) {
 
                 List<Integer> doubleUnitIds = new ArrayList<>();
@@ -1051,11 +1054,25 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 }
             }
 
+            String _growTime = StringUtils.trimToNull(xlsRow.get(28));
+            String _partyType = StringUtils.trimToNull(xlsRow.get(29));
+            if (StringUtils.isNotBlank(_partyType)){
+                for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_PARTY_TYPE_MAP.entrySet()) {
+                    if (entry.getValue().equals(_partyType)){
+                        byte partyType = entry.getKey();
+                        CadreParty record = new CadreParty();
+                        record.setUserId(userId);
+                        record.setType(partyType);
+                        record.setGrowTime(DateUtils.parseStringToDate(_growTime));
+                    }
+                }
+            }
+
             //7、其他
             TeacherInfo teacherInfo = new TeacherInfo();
             teacherInfo.setUserId(userId);
             teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(27)));
-            teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(29))));
+            teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(30))));
             TeacherInfo _teacherIfo = teacherInfoMapper.selectByPrimaryKey(userId);
             if (_teacherIfo != null){
                 teacherInfo.setIsRetire(_teacherIfo.getIsRetire());
@@ -1064,6 +1081,12 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 teacherInfo.setIsRetire(false);
                 teacherInfoMapper.insertSelective(teacherInfo);
             }
+
+            SysUserInfo userInfo = new SysUserInfo();
+            userInfo.setUserId(userId);
+            userInfo.setMobile(StringUtils.trimToNull(xlsRow.get(31)));
+            sysUserInfoMapper.updateByPrimaryKey(userInfo);
+
             row++;
         }
     }
