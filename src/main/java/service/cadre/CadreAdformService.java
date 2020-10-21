@@ -818,8 +818,12 @@ public class CadreAdformService extends BaseMapper {
 
         CadreView cv = null;
         {
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(CadreConstants.CADRE_STATUS_CJ);
+            statusList.add(CadreConstants.CADRE_STATUS_KJ);
             CadreViewExample example = new CadreViewExample();
-            CadreViewExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(realname);
+            CadreViewExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(realname)
+                    .andStatusIn(statusList);
             SysUserViewExample userExample = new SysUserViewExample();
             userExample.createCriteria().andIdcardEqualTo(idcard).andLockedEqualTo(false);
             if (sysUserViewMapper.selectByExample(userExample).size() > 0) {

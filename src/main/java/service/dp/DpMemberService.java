@@ -166,7 +166,7 @@ public class DpMemberService extends DpBaseMapper {
         }else if (dpMember != null){
             Assert.isTrue(dpMemberMapper.updateByPrimaryKeySelective(record) == 1,"db insert failed");
         }
-        sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST,RoleConstants.ROLE_DP_PARTY);
+        sysUserService.addRole(userId, RoleConstants.ROLE_DP_MEMBER);
 
         return isAdd;
     }
@@ -185,6 +185,7 @@ public class DpMemberService extends DpBaseMapper {
     public void del(Integer userId){
 
         dpMemberMapper.deleteByPrimaryKey(userId);
+        sysUserService.delRole(userId, RoleConstants.ROLE_DP_MEMBER);
     }
 
     @Transactional
@@ -200,7 +201,7 @@ public class DpMemberService extends DpBaseMapper {
 
         //更新系统角色
         for(Integer userId: userIds){
-            sysUserService.changeRole(userId, RoleConstants.ROLE_DP_PARTY, RoleConstants.ROLE_GUEST);
+            sysUserService.delRole(userId, RoleConstants.ROLE_DP_MEMBER);
         }
 
     }

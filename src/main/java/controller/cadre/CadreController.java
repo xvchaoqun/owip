@@ -1182,6 +1182,12 @@ public class CadreController extends BaseController {
         return "cadre/cadreAll_import";
     }
 
+    //导入时会先清空相关的表，然后进行导入
+    /*  填表须知：
+        用兼字连接的职位会一分为二；
+        有兼职的需要填写相应数量的所在单位，用逗号隔开；
+        兼职不是必填
+     */
     @RequiresPermissions("cadre:import")
     @RequestMapping(value = "/cadreAll_import", method = RequestMethod.POST)
     @ResponseBody

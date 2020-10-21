@@ -49,11 +49,11 @@ pageEncoding="UTF-8" %>
                         data-url="${ctx}/dp/dpMember_data?cls=${cls}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-                <c:if test="${cls!=7}">
+                <%--<c:if test="${cls!=7}">
                     <a data-type="${DP_MEMBER_TYPE_MEMBER}" class="syncBtn btn btn-success btn-sm"
                        data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
                        autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
-                </c:if>
+                </c:if>--%>
                 <c:if test="${cls==7}">
                     <shiro:hasPermission name="dpMember:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
