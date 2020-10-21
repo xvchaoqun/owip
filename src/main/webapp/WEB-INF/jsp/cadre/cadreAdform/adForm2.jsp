@@ -94,49 +94,49 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:1.0pt;border-right:1.0pt;border-color:windowtext;border-style:
   solid;padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>姓</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>姓</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>名</span></p>
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.realname}</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>性</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>性</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>别</span></p>
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${GENDER_MAP.get(bean.gender)}</span></p>
   </td>
   <td width=95 colspan=3 style='width:70.9pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>出生年月</span><span
-  lang=EN-US style='font-size:11.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>(&nbsp;&nbsp; </span><span style='font-size:11.0pt;
+  style='font-family:仿宋_GB2312;color:windowtext'>出生年月</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'><br/>(&nbsp;&nbsp; </span><span style='
   font-family:仿宋_GB2312;color:windowtext'>岁</span><span lang=EN-US
-  style='font-size:11.0pt;font-family:"Times New Roman",serif;color:windowtext'>)</span></p>
+  style='font-family:"Times New Roman",serif;color:windowtext'>)</span></p>
   </td>
   <td width=94 style='width:70.35pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${cm:formatDate(bean.birth, "yyyy.MM")}</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-family:仿宋_GB2312;color:windowtext'>（</span><span lang=EN-US
@@ -154,49 +154,49 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>民</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>民</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>族</span></p>
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.nation}</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>籍</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>籍</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>贯</span></p>
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.nativePlace}</span></p>
   </td>
   <td width=95 colspan=3 style='width:70.9pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>出</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>生</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>地</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>出</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>生</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>地</span></p>
   </td>
   <td width=94 style='width:70.35pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.homeplace}</span></p>
   </td>
  </tr>
@@ -205,21 +205,21 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>入</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>入</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>党</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>时</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>时</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>间</span></p>
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>
        <c:if test="${bean.dpTypeId>0}">
           <c:if test="${not empty bean.owGrowTime}">${cm:formatDate(bean.owGrowTime, "yyyy.MM")}；</c:if>${cm:getMetaType(bean.dpTypeId).extraAttr}<c:forEach items="${bean.dpParties}" var="dpParty">；${cm:getMetaType(dpParty.classId).extraAttr}</c:forEach>
@@ -235,28 +235,28 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>参加工</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>参加工</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>作时间</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>作时间</span></p>
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${cm:formatDate(bean.workTime, "yyyy.MM")}</span></p>
   </td>
   <td width=95 colspan=3 style='width:70.9pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>健康状况</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>健康状况</span></p>
   </td>
   <td width=94 style='width:70.35pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'> ${bean.health}</span></p>
   </td>
  </tr>
@@ -265,30 +265,30 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>专业技</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>专业技</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>术职务</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>术职务</span></p>
   </td>
   <td width=167 colspan=4 style='width:124.95pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.proPost}</span></p>
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>熟悉专业</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>熟悉专业</span></p>
     <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>有何专长</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>有何专长</span></p>
   </td>
   <td width=188 colspan=4 style='width:141.25pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.specialty}</span></p>
   </td>
  </tr>
@@ -297,32 +297,32 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>学</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>学</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>历</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>学</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>学</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>位</span></p>
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>全日制</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>全日制</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>教</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>教</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>育</span></p>
   </td>
   <td width=170 colspan=4 style='width:127.55pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>
    ${bean.edu}
         <br/>
@@ -333,13 +333,13 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>毕业院校系及专业</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>毕业院校系及专业</span></p>
   </td>
   <td width=217 colspan=2 style='width:162.5pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}</span></p>
   </td>
  </tr>
@@ -348,21 +348,21 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>在</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>在</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>职</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>教</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>教</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>育</span></p>
   </td>
   <td width=170 colspan=4 style='width:127.55pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>
    ${bean.inEdu}
         <br/>
@@ -373,13 +373,13 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>毕业院校系及专业</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>毕业院校系及专业</span></p>
   </td>
   <td width=217 colspan=2 style='width:162.5pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}</span></p>
   </td>
  </tr>
@@ -388,21 +388,21 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;border-right:
   solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>现</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
-  仿宋_GB2312;color:windowtext'>任</span><span lang=EN-US style='font-size:14.0pt;
+  style='font-family:仿宋_GB2312;color:windowtext'>现</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
+  仿宋_GB2312;color:windowtext'>任</span><span lang=EN-US style='
   font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>职</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>职</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>务</span></p>
   </td>
   <td width=481 colspan=9 style='width:360.95pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.post}</span></p>
   </td>
  </tr>
@@ -411,21 +411,21 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;border-right:
   solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>拟</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
-  仿宋_GB2312;color:windowtext'>任</span><span lang=EN-US style='font-size:14.0pt;
+  style='font-family:仿宋_GB2312;color:windowtext'>拟</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
+  仿宋_GB2312;color:windowtext'>任</span><span lang=EN-US style='
   font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>职</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>职</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>务</span></p>
   </td>
   <td width=481 colspan=9 style='width:360.95pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.inPost}</span></p>
   </td>
  </tr>
@@ -434,21 +434,21 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;border-right:
   solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>拟</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
-  仿宋_GB2312;color:windowtext'>免</span><span lang=EN-US style='font-size:14.0pt;
+  style='font-family:仿宋_GB2312;color:windowtext'>拟</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
+  仿宋_GB2312;color:windowtext'>免</span><span lang=EN-US style='
   font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>职</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  style='font-family:仿宋_GB2312;color:windowtext'>职</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
   仿宋_GB2312;color:windowtext'>务</span></p>
   </td>
   <td width=481 colspan=9 style='width:360.95pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.prePost}</span></p>
   </td>
  </tr>
@@ -457,27 +457,27 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:338.95pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>简</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>简</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>历</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>历</span></p>
   </td>
   <td width=572 colspan=11 class="resume" style='vertical-align: top;width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
@@ -497,19 +497,19 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:77.5pt;border-top: solid windowtext 1.5pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>奖</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>奖</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>惩</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>惩</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>情</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>情</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>况</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>况</span></p>
   </td>
   <td width=572 colspan=11 class="reward" style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;border-top: solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:77.5pt'>
   <p class="MsoNormal" align=left style='text-align:left;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${bean.reward}</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>${bean.reward}</span></p>
   </td>
  </tr>
  <tr style='height:63.7pt'>
@@ -517,17 +517,17 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:63.7pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>年核</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>年核</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>度结</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>度结</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>考果</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>考果</span></p>
   </td>
   <td width=572 colspan=11 style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:63.7pt'>
   <p class=MsoNormal align=center style='text-align:left;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${bean.ces}</span></p>
   </td>
  </tr>
@@ -536,19 +536,19 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:69.55pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>任</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>任</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>免</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>免</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>理</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>理</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>由</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>由</span></p>
   </td>
   <td width=572 colspan=11 style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:69.55pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${bean.reason}</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>${bean.reason}</span></p>
   </td>
  </tr>
  <tr>
@@ -557,81 +557,81 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>家</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>家</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>庭</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>庭</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>主</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>主</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>要</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>要</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>成</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>成</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>员</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>员</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>及</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>及</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>重</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>重</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>要</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>要</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>社</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>社</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>会</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>会</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>关</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>关</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>系</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>系</span></p>
   </td>
   <td width=72 style='width:54.05pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>称谓</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>称谓</span></p>
   </td>
   <td width=85 colspan=2 style='width:63.8pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>姓名</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>姓名</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>出生</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>出生</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>年月</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>年月</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>政</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>治</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>政</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>治</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>面</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>貌</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>面</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>貌</span></p>
   </td>
   <td width=264 colspan=4 style='width:197.95pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>工</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>作</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>单</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>位</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>及</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>职</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>务</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>工</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>作</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>单</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>位</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>及</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>职</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>务</span></p>
   </td>
  </tr>
    <c:forEach items="${bean.cadreFamilys}" var="f">
@@ -640,21 +640,21 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${cm:getMetaType(f.title).name}</span></p>
   </td>
   <td width=85 colspan=2 style='width:63.8pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${f.realname}</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'><c:if test="${f.birthday!=null}">
             ${cm:formatDate(f.birthday, "yyyy.MM")}
           </c:if></span></p>
@@ -663,14 +663,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 7.4pt 0cm 7.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${cm:getMetaType(f.getPoliticalStatus()).name}</span></p>
   </td>
   <td width=264 colspan=4 style='width:197.95pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=left style='text-align:left;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>${f.unit}</span></p>
   </td>
  </tr>
@@ -682,35 +682,35 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
      border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
      padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
      <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-     lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+     lang=EN-US style='font-family:"Times New Roman",serif;
      color:windowtext'></span></p>
      </td>
      <td width=85 colspan=2 style='width:63.8pt;border-top:none;border-left:none;
      border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
      padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
      <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-     lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+     lang=EN-US style='font-family:"Times New Roman",serif;
      color:windowtext'></span></p>
      </td>
      <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
      border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
      padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
      <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-     lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+     lang=EN-US style='font-family:"Times New Roman",serif;
      color:windowtext'></span></p>
      </td>
      <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
      border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
      padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
      <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-     lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+     lang=EN-US style='font-family:"Times New Roman",serif;
      color:windowtext'></span></p>
      </td>
      <td width=264 colspan=4 style='width:197.95pt;border-top:none;border-left:
      none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
      padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
      <p class=MsoNormal align=left style='text-align:left;line-height:15.0pt'><span
-     lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+     lang=EN-US style='font-family:"Times New Roman",serif;
      color:windowtext'></span></p>
      </td>
     </tr>
@@ -721,36 +721,36 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:75.05pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>呈</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>呈</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>报</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>报</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>单</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>单</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>位</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>位</span></p>
   </td>
   <td width=572 colspan=11 style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:75.05pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=right style='text-align:right;line-height:15.0pt;
-  word-break:break-all'><span lang=EN-US style='font-size:14.0pt;font-family:
+  word-break:break-all'><span lang=EN-US style='font-family:
   "Times New Roman",serif;color:windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  </span><%--<span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${cm:formatDate(bean.reportDate, "yyyy年MM月dd日")}</span>--%>
-  <span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>年</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
-  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='font-size:14.0pt;
+  </span><%--<span style='font-family:仿宋_GB2312;color:windowtext'>${cm:formatDate(bean.reportDate, "yyyy年MM月dd日")}</span>--%>
+  <span style='font-family:仿宋_GB2312;color:windowtext'>年</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
+  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='
   font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>日</span>
+  style='font-family:仿宋_GB2312;color:windowtext'>日</span>
   </p>
   </td>
  </tr>
@@ -759,106 +759,106 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>审</span><span
+  style='font-family:仿宋_GB2312;color:windowtext'>审</span><span
   style='font-size:30.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>意</span></p>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>意</span></p>
   <p class=MsoNormal align=center style='margin-left:-21.0pt;text-align:center;
-  line-height:15.0pt'><span style='font-size:14.0pt;font-family:仿宋_GB2312;
+  line-height:15.0pt'><span style='font-family:仿宋_GB2312;
   color:windowtext'>批</span></p>
   <p class=MsoNormal align=center style='margin-left:-21.0pt;text-align:center;
-  line-height:15.0pt'><span style='font-size:14.0pt;font-family:仿宋_GB2312;
+  line-height:15.0pt'><span style='font-family:仿宋_GB2312;
   color:windowtext'>机</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>关</span><span
+  style='font-family:仿宋_GB2312;color:windowtext'>关</span><span
   style='font-size:30.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>见</span></p>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>见</span></p>
   </td>
   <td width=233 colspan=5 style='width:174.55pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (</span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>盖章</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  style='font-family:仿宋_GB2312;color:windowtext'>盖章</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>)</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>年</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
-  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='font-size:14.0pt;
+  style='font-family:仿宋_GB2312;color:windowtext'>年</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
+  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='
   font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>日</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>日</span></p>
   </td>
   <td width=85 colspan=3 style='width:63.8pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>行</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>任</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>行</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>任</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>政</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>免</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>政</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>免</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>机</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>意</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>机</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>意</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>关</span><span
-  style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>见</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>关</span><span
+  style='font-family:"Times New Roman",serif;color:windowtext'>
+  </span><span style='font-family:仿宋_GB2312;color:windowtext'>见</span></p>
   </td>
   <td width=254 colspan=3 style='width:190.85pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (</span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>盖章</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  style='font-family:仿宋_GB2312;color:windowtext'>盖章</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>)</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt'><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  lang=EN-US style='font-family:"Times New Roman",serif;
   color:windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>年</span><span
-  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
-  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='font-size:14.0pt;
+  style='font-family:仿宋_GB2312;color:windowtext'>年</span><span
+  lang=EN-US style='font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-family:
+  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='
   font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>日</span></p>
+  style='font-family:仿宋_GB2312;color:windowtext'>日</span></p>
   </td>
  </tr>
  <tr>
  <td colspan="12" style='border:none'>
- <p class=MsoNormal><span style='font-size:14.0pt;font-family:仿宋_GB2312'>填表人：</span></p>
+ <p class=MsoNormal><span style='font-family:仿宋_GB2312'>填表人：</span></p>
  </td>
  </tr>
  <tr height=0>

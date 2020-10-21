@@ -3,8 +3,9 @@
 西工大
 
 -- 更新 Utils
--- 加入 GraphicsMagick  (im4java.jar)
-
+-- 加入 GraphicsMagick
+-- gm.command=/opt/GraphicsMagick-1.3.35/bin
+-- im4java.jar
 
 ALTER TABLE `pmd_config_member_type`
 	ADD UNIQUE INDEX `type_name` (`type`, `name`);
