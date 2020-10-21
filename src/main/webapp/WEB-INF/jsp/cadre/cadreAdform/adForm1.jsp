@@ -25,9 +25,9 @@
 .p18{margin-right:0.175in;margin-top:0.108333334in;text-align:end;hyphenate:auto;font-family:Times New Roman;font-size:12pt;}
 .p19{text-indent:0.072916664in;margin-top:0.108333334in;text-align:justify;hyphenate:auto;font-family:Times New Roman;font-size:10pt;}
 .td0{padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td1{width:0.89513886in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td2{width:0.875in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td3{width:1.125in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td1{font-size:smaller;width:0.89513886in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td2{font-size:smaller;width:0.875in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td3{font-size:smaller;width:1.125in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td4{width:1.8498611in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td5{width:1.25in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td6{width:1.75in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
@@ -103,7 +103,7 @@ td.bolder{font-weight: bolder}
         <div><span>（${bean.age}岁）</span></div>
       </td>
       <td class="td5 center" rowspan="4">
-        <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
+        <img src="data:image/jpeg;base64,${bean.avatar}" width="100%"/>
       </td>
     </tr>
     <tr>

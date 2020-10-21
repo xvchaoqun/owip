@@ -1,7 +1,6 @@
 package sys;
 
 import controller.global.OpException;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +9,7 @@ import service.SpringProps;
 import service.sys.LogService;
 import shiro.ShiroHelper;
 import sys.tags.CmTag;
+import sys.tool.graphicsmagick.GmTool;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -134,13 +134,11 @@ public interface HttpResponseMethod {
      * @param sImgWidth
      * @param sImgHeight
      * @return
-     * @throws IOException
-     * @throws InterruptedException
      */
     default String upload(MultipartFile file, String saveFolder,
                           String type,
                           int sImgWidth,
-                          int sImgHeight) throws IOException {
+                          int sImgHeight){
 
         // 系统允许上传文件白名单
         if(file!=null && !ContentTypeUtils.isAnyFormat(file, CmTag.getStringProperty("upload_file_whitelist"))){
@@ -179,23 +177,24 @@ public interface HttpResponseMethod {
             // 需要缩略图的情况
             String shortImgPath = realPath + "_s"
                     + StringUtils.defaultIfBlank(FileUtils.getExtention(originalFilename), ".jpg");
-
-            Thumbnails.of(file.getInputStream())
-                    .size(sImgWidth, sImgHeight)
-                    //.outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.uploadPath + shortImgPath);
+            String filePath = springProps.uploadPath + savePath;
+            try {
+                GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+                gmTool.scaleResize(filePath, shortImgPath, sImgWidth, sImgHeight);
+            }catch (Exception ex){
+                throw new OpException("文件上传失败：" + ex.getMessage());
+            }
         }
 
         return savePath;
     }
 
-    default String upload(MultipartFile file, String saveFolder) throws IOException {
+    default String upload(MultipartFile file, String saveFolder) {
 
         return upload(file, saveFolder, null, 0, 0);
     }
 
-    default String uploadDocOrPdf(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadDocOrPdf(MultipartFile file, String saveFolder){
 
         if (StringUtils.contains(file.getContentType(), "pdf")) {
 
@@ -205,12 +204,12 @@ public interface HttpResponseMethod {
         }
     }
 
-    default String uploadDoc(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadDoc(MultipartFile file, String saveFolder) {
 
         return upload(file, saveFolder, "doc", 0, 0);
     }
 
-    default String uploadPdf(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadPdf(MultipartFile file, String saveFolder) {
 
         return upload(file, saveFolder, "pdf", 0, 0);
     }
@@ -223,9 +222,8 @@ public interface HttpResponseMethod {
      * @param sImgWidth
      * @param sImgHeight
      * @return
-     * @throws IOException
      */
-    default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
+    default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) {
 
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
@@ -237,9 +235,8 @@ public interface HttpResponseMethod {
      * @param sImgWidth
      * @param sImgHeight
      * @return
-     * @throws IOException
      */
-    default String uploadThumbPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
+    default String uploadThumbPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight){
 
          // 系统允许上传文件白名单
         if(file!=null && !ContentTypeUtils.isAnyFormat(file, CmTag.getStringProperty("upload_file_whitelist"))){
@@ -261,18 +258,19 @@ public interface HttpResponseMethod {
         String originalFilename = file.getOriginalFilename();
         String savePath = realPath + FileUtils.getExtention(originalFilename);
 
-        FileUtils.mkdirs(springProps.uploadPath + savePath, true);
-
-        Thumbnails.of(file.getInputStream())
-                    .size(sImgWidth, sImgHeight)
-                    //.outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.uploadPath + savePath);
+        try {
+            String filePath = springProps.uploadPath + savePath;
+            FileUtils.saveFile(file, new File(filePath));
+            GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+            gmTool.scaleResize(filePath, filePath, sImgWidth, sImgHeight);
+        }catch (Exception ex){
+            throw new OpException("文件上传失败：" + ex.getMessage());
+        }
 
         return savePath;
     }
 
-    default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadPdfOrImage(MultipartFile file, String saveFolder) {
 
         if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image") == -1) {
             throw new OpException("文件格式错误，请上传pdf或图片文件");

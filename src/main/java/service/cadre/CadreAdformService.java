@@ -264,8 +264,8 @@ public class CadreAdformService extends BaseMapper {
                 + FILE_SEPARATOR + "img" + FILE_SEPARATOR + "default.png");
 
         // 头像默认大小
-        bean.setAvatarWidth(145);
-        bean.setAvatarHeight(203);
+        bean.setAvatarWidth(CmTag.getIntProperty("avatarWidth", 135));
+        bean.setAvatarHeight(CmTag.getIntProperty("avatarHeight", 180));
         try {
             BufferedImage _avatar = ImageIO.read(avatar);
             bean.setAvatarWidth(_avatar.getWidth());

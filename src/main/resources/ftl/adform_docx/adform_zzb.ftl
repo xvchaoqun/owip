@@ -489,44 +489,61 @@
                     </w:p>
                 </w:tc>
                 <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="102.90pt" w:type="dxa"/>
-                        <w:vMerge w:val="restart"/>
-                        <w:vAlign w:val="center"/>
-                    </w:tcPr>
-                    <w:p w14:paraId="65F6BE89" w14:textId="2858257A" w:rsidR="00176812" w:rsidRPr="00DD2F82"
-                         w:rsidRDefault="00BD779B" w:rsidP="00176812">
-                        <w:pPr>
-                            <w:jc w:val="center"/>
-                        </w:pPr>
-                        <w:bookmarkStart w:id="3" w:name="P0192A_12"/>
-                        <w:bookmarkEnd w:id="3"/>
-                        <w:r>
-                            <w:rPr>
-                                <w:noProof/>
-                            </w:rPr>
-                            <w:drawing>
-								<wp:inline distT="0" distB="0" distL="0" distR="0">
-									<wp:extent cx="1245600" cy="1522800"/>
-									<wp:effectExtent l="0" t="0" r="0" b="1270"/>
-									<wp:docPr id="2" name="图片 2" descr="C:\Users\fafa\Downloads\1993000039.jpg"/>
+					<w:tcPr>
+						<w:tcW w:w="102.90pt"
+     							w:type="dxa"/>
+						<w:vMerge w:val="restart"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00176812"
+   						w:rsidRPr="00DD2F82"
+   						w:rsidRDefault="00BD779B"
+   						w:rsidP="00176812">
+						<w:pPr>
+							<w:jc w:val="center"/>
+						</w:pPr>
+						<w:bookmarkStart w:id="3"
+               							w:name="P0192A_12"/>
+						<w:bookmarkEnd w:id="3"/>
+						<w:r>
+							<w:rPr>
+								<w:noProof/>
+							</w:rPr>
+							<w:drawing>
+								<wp:inline distT="0"
+         									distB="0"
+         									distL="0"
+         									distR="0">
+									<wp:extent cx="1285875"
+         										cy="1731645"/>
+									<wp:effectExtent l="0"
+               										t="0"
+               										r="9525"
+               										b="1905"/>
+									<wp:docPr id="2"
+        										name="图片 2"
+        										descr="C:\Users\fafa\Downloads\1993000039.jpg"/>
 									<wp:cNvGraphicFramePr>
-										<a:graphicFrameLocks xmlns:a="http://purl.oclc.org/ooxml/drawingml/main" noChangeAspect="1"/>
+										<a:graphicFrameLocks xmlns:a="http://purl.oclc.org/ooxml/drawingml/main"
+                   											noChangeAspect="1"/>
 									</wp:cNvGraphicFramePr>
 									<a:graphic xmlns:a="http://purl.oclc.org/ooxml/drawingml/main">
 										<a:graphicData uri="http://purl.oclc.org/ooxml/drawingml/picture">
 											<pic:pic xmlns:pic="http://purl.oclc.org/ooxml/drawingml/picture">
 												<pic:nvPicPr>
-													<pic:cNvPr id="0" name="Picture 1"/>
+													<pic:cNvPr id="0"
+         														name="Picture 1"/>
 													<pic:cNvPicPr>
-														<a:picLocks noChangeAspect="1" noChangeArrowheads="1"/>
+														<a:picLocks noChangeAspect="1"
+          															noChangeArrowheads="1"/>
 													</pic:cNvPicPr>
 												</pic:nvPicPr>
 												<pic:blipFill>
 													<a:blip r:embed="rId6">
 														<a:extLst>
 															<a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}">
-																<a14:useLocalDpi xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main" val="0"/>
+																<a14:useLocalDpi xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main"
+               																	val="0"/>
 															</a:ext>
 														</a:extLst>
 													</a:blip>
@@ -537,8 +554,10 @@
 												</pic:blipFill>
 												<pic:spPr bwMode="auto">
 													<a:xfrm>
-														<a:off x="0" y="0"/>
-														<a:ext cx="1245600" cy="1522800"/>
+														<a:off x="0"
+     															y="0"/>
+														<a:ext cx="1289324"
+     															cy="1736290"/>
 													</a:xfrm>
 													<a:prstGeom prst="rect">
 														<a:avLst/>
@@ -553,9 +572,9 @@
 									</a:graphic>
 								</wp:inline>
 							</w:drawing>
-                        </w:r>
-                    </w:p>
-                </w:tc>
+						</w:r>
+					</w:p>
+				</w:tc>
             </w:tr>
             <w:tr w:rsidR="00176812" w:rsidRPr="009F3EEF" w14:paraId="01088B92" w14:textId="77777777"
                   w:rsidTr="00176812">

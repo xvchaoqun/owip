@@ -172,7 +172,10 @@ public class PmdMonthController extends PmdBaseController {
         }*/
 
         PartyExample example = new PartyExample();
-        example.createCriteria().andIsDeletedEqualTo(false).andIdNotIn(hasSelectedPartyIds);
+        PartyExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
+        if(hasSelectedPartyIds.size()>0) {
+            criteria.andIdNotIn(hasSelectedPartyIds);
+        }
         example.setOrderByClause(" sort_order desc");
         List<Party> partyList = partyMapper.selectByExample(example);
         modelMap.put("partyList", partyList);

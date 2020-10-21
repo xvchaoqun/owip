@@ -37,7 +37,7 @@
                 <table class="table table-unhover table-bordered table-striped">
                     <tbody>
                     <tr>
-                        <td rowspan="6" style="text-align: center;vertical-align: middle;
+                        <td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
                             <img src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"
                                  class="avatar">
@@ -136,7 +136,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colspan="2">
                             健康状况
                         </td>
                         <td>
@@ -847,9 +847,9 @@
             </div>
         </form>
         <style>
-            .ace-file-container {
+            /*.ace-file-container {
                 height: 200px !important;
-            }
+            }*/
 
             .ace-file-multiple .ace-file-container .ace-file-name .ace-icon {
                 line-height: 120px !important;
@@ -879,8 +879,8 @@
             thumbnail: 'large',
             maxSize:${_uploadMaxSize},
             droppable: true,
-            previewWidth: 143,
-            previewHeight: 198,
+            previewWidth: 135,
+            previewHeight: 180,
             allowExt: ['jpg', 'jpeg', 'png', 'gif'],
             allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
         })

@@ -89,10 +89,10 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
 22.0pt;font-family:方正小标宋简体;letter-spacing:5.0pt'>干部任免审批表</span></p>
  </td>
  </tr>
- <tr style='height:31.45pt'>
+ <tr style=''>
   <td width=79 style='width:59.1pt;border-top:1.5pt;border-left:1.5pt;
   border-bottom:1.0pt;border-right:1.0pt;border-color:windowtext;border-style:
-  solid;padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  solid;padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>姓</span><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
@@ -101,14 +101,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${bean.realname}</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>性</span><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
@@ -117,14 +117,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${GENDER_MAP.get(bean.gender)}</span></p>
   </td>
   <td width=95 colspan=3 style='width:70.9pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>出生年月</span><span
   lang=EN-US style='font-size:11.0pt;font-family:"Times New Roman",serif;
@@ -134,7 +134,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=94 style='width:70.35pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${cm:formatDate(bean.birth, "yyyy.MM")}</span></p>
@@ -145,18 +145,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=123 rowspan=4 style='width:92.15pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
-  <p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
-  style='font-size:16.0pt;font-family:"Times New Roman",serif;color:windowtext;
-  letter-spacing:5.0pt'>
-    <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
-  </span></p>
+  padding:0;'>
+  <img src="data:image/jpeg;base64,${bean.avatar}" width="100%"/>
   </td>
  </tr>
- <tr style='height:31.45pt'>
+ <tr style='height:21.45pt'>
   <td width=79 style='width:59.1pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>民</span><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
@@ -165,14 +161,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${bean.nation}</span></p>
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>籍</span><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
@@ -181,14 +177,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${bean.nativePlace}</span></p>
   </td>
   <td width=95 colspan=3 style='width:70.9pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>出</span><span
   style='font-size:14.0pt;font-family:"Times New Roman",serif;color:windowtext'>
@@ -198,16 +194,16 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=94 style='width:70.35pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${bean.homeplace}</span></p>
   </td>
  </tr>
- <tr style='height:31.45pt'>
+ <tr style=''>
   <td width=79 style='width:59.1pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>入</span><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
@@ -221,7 +217,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=91 colspan=2 style='width:68.25pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>
@@ -237,7 +233,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=76 colspan=2 style='width:2.0cm;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>参加工</span></p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
@@ -245,20 +241,20 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${cm:formatDate(bean.workTime, "yyyy.MM")}</span></p>
   </td>
   <td width=95 colspan=3 style='width:70.9pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext;white-space:nowrap'>健康状况</span></p>
   </td>
   <td width=94 style='width:70.35pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'> ${bean.health}</span></p>
@@ -296,7 +292,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   color:windowtext'>${bean.specialty}</span></p>
   </td>
  </tr>
- <tr style='height:31.45pt'>
+ <tr style=''>
   <td width=79 rowspan=2 style='width:59.1pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
@@ -485,7 +481,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
   <td width=572 colspan=11 class="resume" style='vertical-align: top;width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:338.95pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;height:375.55pt'>
   ${bean.resumeDesc}
   </td>
  </tr>
