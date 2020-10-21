@@ -179,7 +179,7 @@ public class PmMeeting2Controller extends PmBaseController {
                 String ext = FileUtils.getExtention(originalFilename);
                 String savePath = null;
                 if(StringUtils.equalsIgnoreCase(ext, ".pdf")){
-                    savePath = upload(file, "pmMeeting");
+                    savePath = uploadCompressPdf(file, "pmMeeting");
                 }else{
                     savePath = uploadThumbPic(file, "pmMeeting",1024,768);
                 }

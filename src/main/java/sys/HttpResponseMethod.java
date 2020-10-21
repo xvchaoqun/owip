@@ -151,12 +151,8 @@ public interface HttpResponseMethod {
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 
-        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
-        String FILE_SEPARATOR = File.separator;
+        String realPath = createSavePath(saveFolder);
 
-        String realPath = FILE_SEPARATOR + saveFolder +
-                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
-                FILE_SEPARATOR + UUID.randomUUID().toString();
         String originalFilename = file.getOriginalFilename();
         String savePath = realPath + FileUtils.getExtention(originalFilename);
         FileUtils.copyFile(file, new File(springProps.uploadPath + savePath));
@@ -214,6 +210,31 @@ public interface HttpResponseMethod {
         return upload(file, saveFolder, "pdf", 0, 0);
     }
 
+    // 对超过1M的pdf进行压缩（不保留原pdf)
+    default String uploadCompressPdf(MultipartFile file, String saveFolder) {
+
+        SpringProps springProps = CmTag.getBean(SpringProps.class);
+
+        String pdfPath = upload(file, saveFolder, "pdf", 0, 0);
+        long fileLength = FileUtils.getFileLength(new File(springProps.uploadPath + pdfPath));
+
+        if(fileLength > 1*1024*1024){ // 超过1M对pdf进行压缩
+            try {
+                String realPath = createSavePath(saveFolder) + ".pdf";
+                PdfUtils.optimize(PropertiesUtils.getString("gs.command"),
+                        springProps.uploadPath + pdfPath, springProps.uploadPath + realPath);
+                // 删除原pdf
+                FileUtils.delFile(springProps.uploadPath + pdfPath);
+
+                return realPath;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return pdfPath;
+    }
+
     /**
      * 上传缩略图（保存原图）
      *
@@ -228,6 +249,15 @@ public interface HttpResponseMethod {
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
+    // 创建上传的文件保存路径
+    default String createSavePath(String saveFolder){
+
+        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
+        String FILE_SEPARATOR = File.separator;
+        return FILE_SEPARATOR + saveFolder +
+                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
+                FILE_SEPARATOR + UUID.randomUUID().toString();
+    }
     /**
      * 上传缩略图（不保存原图）
      * @param file
@@ -249,12 +279,7 @@ public interface HttpResponseMethod {
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 
-        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
-        String FILE_SEPARATOR = File.separator;
-
-        String realPath = FILE_SEPARATOR + saveFolder +
-                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
-                FILE_SEPARATOR + UUID.randomUUID().toString();
+        String realPath = createSavePath(saveFolder);
         String originalFilename = file.getOriginalFilename();
         String savePath = realPath + FileUtils.getExtention(originalFilename);
 
