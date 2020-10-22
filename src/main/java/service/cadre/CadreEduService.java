@@ -91,9 +91,9 @@ public class CadreEduService extends BaseMapper {
         CadreEduExample.Criteria criteria = example.createCriteria()
                 .andCadreIdEqualTo(cadreId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        criteria.andEnrolTimeEqualTo(enrolTime);
+        criteria.andEnrolTimeEqualTo(DateUtils.getFirstDateOfMonth(enrolTime));
         if (finishTime != null) {
-            criteria.andFinishTimeEqualTo(finishTime);
+            criteria.andFinishTimeEqualTo(DateUtils.getFirstDateOfMonth(finishTime));
         } else {
             criteria.andFinishTimeIsNull();
         }
