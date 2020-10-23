@@ -849,6 +849,43 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_active_contact")
+    public String apply_active_contact(Integer[] ids, ModelMap modelMap) {
+
+        boolean inSchool = true; // 默认校内
+        if(ids.length==1) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
+            String _contactUsers = memberApply.getConcatUsers();
+
+            if(StringUtils.isNotBlank(_contactUsers)){
+                inSchool = false;
+                if(StringUtils.isNotBlank(_contactUsers)){
+                    String[] contactUsers = _contactUsers.split(",");
+                    modelMap.put("contactUsers", contactUsers);
+                }
+            }else{
+                String _contactUserIds = memberApply.getConcatUserIds();
+                Set<Integer> contactUserIds = NumberUtils.toIntSet(_contactUserIds, ",");
+                modelMap.put("contactUserIds", contactUserIds);
+            }
+        }
+        modelMap.put("inSchool", inSchool);
+
+        return "member/memberApply/apply_active_contact";
+    }
+
+    // 提交 确定培养联系人
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_active_contact", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_apply_active_contact(Integer[] ids, Integer[] contactUserIds,
+                                       String[] contactUsers, HttpServletRequest request) {
+
+        memberApplyOpService.apply_active_contact(ids, contactUserIds, contactUsers);
+        return success();
+    }
+
+    @RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate")
     public String apply_candidate() {
 

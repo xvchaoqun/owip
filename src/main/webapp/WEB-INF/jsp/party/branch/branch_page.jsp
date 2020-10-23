@@ -352,9 +352,13 @@
             {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.presentGroupId>0 &&
-                        rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
-                        return "class='danger'";
+                    if (rowObject.presentGroupId > 0){
+                        if($.yearOffNow(rowObject.tranTime) > 0) {
+                            return "class='dark-danger'"; // 超过1年，深红
+                        }else if($.dayOffNow(rowObject.tranTime) > 0){
+                            return "class='danger'";
+                        }
+                    }
                 }},
             <c:if test="${cls==2}">
             {

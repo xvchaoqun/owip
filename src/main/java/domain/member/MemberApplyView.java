@@ -64,6 +64,10 @@ public class MemberApplyView implements Serializable {
 
     private String activeGrade;
 
+    private String concatUserIds;
+
+    private String concatUsers;
+
     private Date candidateTime;
 
     private Date candidateTrainStartTime;
@@ -73,6 +77,10 @@ public class MemberApplyView implements Serializable {
     private String candidateGrade;
 
     private Byte candidateStatus;
+
+    private String sponsorUserIds;
+
+    private String sponsorUsers;
 
     private Date planTime;
 
@@ -91,6 +99,10 @@ public class MemberApplyView implements Serializable {
     private Date growTime;
 
     private Byte growStatus;
+
+    private String growConcatUserIds;
+
+    private String growConcatUsers;
 
     private Integer positivePublicId;
 
@@ -232,6 +244,22 @@ public class MemberApplyView implements Serializable {
         this.activeGrade = activeGrade == null ? null : activeGrade.trim();
     }
 
+    public String getConcatUserIds() {
+        return concatUserIds;
+    }
+
+    public void setConcatUserIds(String concatUserIds) {
+        this.concatUserIds = concatUserIds == null ? null : concatUserIds.trim();
+    }
+
+    public String getConcatUsers() {
+        return concatUsers;
+    }
+
+    public void setConcatUsers(String concatUsers) {
+        this.concatUsers = concatUsers == null ? null : concatUsers.trim();
+    }
+
     public Date getCandidateTime() {
         return candidateTime;
     }
@@ -270,6 +298,22 @@ public class MemberApplyView implements Serializable {
 
     public void setCandidateStatus(Byte candidateStatus) {
         this.candidateStatus = candidateStatus;
+    }
+
+    public String getSponsorUserIds() {
+        return sponsorUserIds;
+    }
+
+    public void setSponsorUserIds(String sponsorUserIds) {
+        this.sponsorUserIds = sponsorUserIds == null ? null : sponsorUserIds.trim();
+    }
+
+    public String getSponsorUsers() {
+        return sponsorUsers;
+    }
+
+    public void setSponsorUsers(String sponsorUsers) {
+        this.sponsorUsers = sponsorUsers == null ? null : sponsorUsers.trim();
     }
 
     public Date getPlanTime() {
@@ -342,6 +386,22 @@ public class MemberApplyView implements Serializable {
 
     public void setGrowStatus(Byte growStatus) {
         this.growStatus = growStatus;
+    }
+
+    public String getGrowConcatUserIds() {
+        return growConcatUserIds;
+    }
+
+    public void setGrowConcatUserIds(String growConcatUserIds) {
+        this.growConcatUserIds = growConcatUserIds == null ? null : growConcatUserIds.trim();
+    }
+
+    public String getGrowConcatUsers() {
+        return growConcatUsers;
+    }
+
+    public void setGrowConcatUsers(String growConcatUsers) {
+        this.growConcatUsers = growConcatUsers == null ? null : growConcatUsers.trim();
     }
 
     public Integer getPositivePublicId() {

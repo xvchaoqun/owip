@@ -11,7 +11,6 @@ import domain.member.MemberView;
 import domain.member.MemberViewExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,6 @@ import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
-import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
@@ -474,16 +472,16 @@ public class CommonController extends BaseController {
                 }
                 //option.put("user", userBeanService.get(member.getUserId()));
 
-                /*if (StringUtils.isNotBlank(uv.getCode())) {
+                if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("unit", extService.getUnit(uv.getId()));
-                }*/
+                }
 
-                String branchName = StringUtils.defaultIfBlank(member.getBranchName(), member.getPartyName());
+                /*String branchName = StringUtils.defaultIfBlank(member.getBranchName(), member.getPartyName());
                 String schoolName = CmTag.getSysConfig().getSchoolName();
                 String schoolShortName = CmTag.getSysConfig().getSchoolShortName();
                 branchName = RegExUtils.replaceFirst(branchName,
                         "[中共|中国共产党]"+ "["+ schoolShortName +"|"+ schoolName +"]", "");
-                option.put("unit", branchName);
+                option.put("unit", branchName);*/
 
                 options.add(option);
             }

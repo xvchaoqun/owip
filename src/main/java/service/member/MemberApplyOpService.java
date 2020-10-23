@@ -120,6 +120,49 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }
 
+    // 积极分子：确定培养联系人
+    @Transactional
+    public void apply_active_contact(Integer[] userIds, Integer[] contactUserIds, String[] contactUsers){
+
+        for (int userId : userIds) {
+
+            String _contactUsers = "";
+            MemberApply memberApply = memberApplyService.get(userId);
+            MemberApply record = new MemberApply();
+            if(contactUserIds.length>0) {
+
+                List<String> users = new ArrayList<>();
+                for (Integer contactUserId : contactUserIds) {
+                    users.add(CmTag.getUserById(contactUserId).getRealname());
+                }
+                _contactUsers = StringUtils.join(users);
+
+                // 校内培养联系人
+                record.setConcatUserIds(StringUtils.join(contactUserIds, ","));
+                record.setConcatUsers("");
+            }else{
+                // 校外培养联系人
+                record.setConcatUserIds("");
+                record.setConcatUsers(StringUtils.join(contactUsers, ","));
+
+                _contactUsers = StringUtils.join(contactUsers);
+            }
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_ACTIVE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "确定培养联系人：" + _contactUsers);
+            }
+        }
+    }
+
     // 积极分子：提交 确定为发展对象
     @Transactional
     public void apply_candidate(Integer[] userIds, String _candidateTime,

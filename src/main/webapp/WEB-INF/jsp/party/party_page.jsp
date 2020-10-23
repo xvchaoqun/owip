@@ -293,7 +293,7 @@ pageEncoding="UTF-8" %>
             { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                  <shiro:hasPermission name="member:list">
-                return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                     </shiro:hasPermission>
                     <shiro:lacksPermission name="member:list">
                     return cellvalue;
@@ -341,9 +341,13 @@ pageEncoding="UTF-8" %>
             {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.presentGroupId>0 &&
-                        rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
-                        return "class='danger'";
+                    if (rowObject.presentGroupId > 0){
+                        if($.yearOffNow(rowObject.tranTime) > 0) {
+                            return "class='dark-danger'"; // 超过1年，深红
+                        }else if($.dayOffNow(rowObject.tranTime) > 0){
+                            return "class='danger'";
+                        }
+                    }
                 }},
             </shiro:hasPermission>
             /*{

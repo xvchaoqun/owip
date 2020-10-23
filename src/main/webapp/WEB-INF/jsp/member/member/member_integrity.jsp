@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 <c:set var="STUDENT" value="<%=MemberConstants.MEMBER_TYPE_STUDENT%>" />
 <c:set var="member_needGrowTime" value="${_pMap['member_needGrowTime']=='true'}"/>
 <div class="modal-header">

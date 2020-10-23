@@ -81,6 +81,13 @@
             </button>
         </c:when>
         <c:when test="${stage==OW_APPLY_STAGE_ACTIVE}">
+
+            <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                    data-url="${ctx}/apply_active_contact">
+                <i class="fa fa-users"></i>
+                确定培养联系人
+            </button>
+
             <button id="candidateBtn" ${candidateCount>0?'':'disabled'}
                     class="jqOpenViewBtn btn btn-success btn-sm"
                     data-url="${ctx}/memberApply_approval"
@@ -447,7 +454,7 @@
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${stage<7}">
-            {label: '当前状态', name: 'applyStatus', width: 200, align: 'left'},
+            {label: '状态', name: 'applyStatus', width: 200, frozen: true},
             </c:if>
             {label: '${type==OW_APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen: true},
             {
@@ -656,14 +663,14 @@
         caption: "支部批量通过",
         btnbase: "jqBatchBtn btn btn-success btn-sm",
         buttonicon: "fa fa-check-circle-o",
-        props: 'data-url="${ctx}/apply_pass" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
+        props: 'data-url="${ctx}/apply_pass" data-title="通过" data-msg="确定通过这{0}个申请吗？<div>（仅对状态为“待支部审核”的记录有效）</div>" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "支部批量不通过",
         btnbase: "jqBatchBtn btn btn-danger btn-sm",
         buttonicon: "fa fa-times-circle-o",
-        props: 'data-url="${ctx}/apply_deny" data-title="不通过" data-msg="确定拒绝这{0}个申请吗？" data-callback="page_reload"'
+        props: 'data-url="${ctx}/apply_deny" data-title="不通过" data-msg="确定退回这{0}个申请吗？<div>（仅对状态为“待支部审核”的记录有效）</div>" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager', {
@@ -785,7 +792,7 @@
 
     function apply_deny(userId, gotoNext) {
 
-        SysMsg.confirm("确定拒绝该申请？", "操作确认", function () {
+        SysMsg.confirm("确定退回该申请？", "操作确认", function () {
             $.post("${ctx}/apply_deny", {ids: [userId]}, function (ret) {
                 if (ret.success) {
                     //page_reload();

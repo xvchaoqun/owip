@@ -307,7 +307,7 @@ public class EnterApplyService extends MemberBaseMapper{
                     throw new OpException("系统错误");
                 if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_INIT &&
                         _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY){
-                    throw new OpException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("操作失败，申请已进入审核阶段。");
                 }
 
                 MemberApply record = new MemberApply();
@@ -337,7 +337,7 @@ public class EnterApplyService extends MemberBaseMapper{
                     throw new OpException("系统错误");
                 if(_memberReturn.getStatus()!=MemberConstants.MEMBER_RETURN_STATUS_APPLY &&
                         _memberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_DENY){
-                    throw new OpException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("操作失败，申请已进入审核阶段。");
                 }
 
                 MemberReturn record = new MemberReturn();
@@ -367,7 +367,7 @@ public class EnterApplyService extends MemberBaseMapper{
                     throw new OpException("系统错误");
                 if(_memberIn.getStatus()!=MemberConstants.MEMBER_IN_STATUS_APPLY &&
                         _memberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_BACK){
-                    throw new OpException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("操作失败，申请已进入审核阶段。");
                 }
 
                 MemberIn record = new MemberIn();
@@ -399,7 +399,7 @@ public class EnterApplyService extends MemberBaseMapper{
                     throw new OpException("系统错误");
                 if(_memberInflow.getInflowStatus()!=MemberConstants.MEMBER_INFLOW_STATUS_APPLY &&
                         _memberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_BACK){
-                    throw new OpException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("操作失败，申请已进入审核阶段。");
                 }
 
                 MemberInflow record = new MemberInflow();

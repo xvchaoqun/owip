@@ -60,7 +60,7 @@
                                                 class="fa fa-users"></i>   党委委员</span>
                             <span style="margin-left: 20px">
                             <select id="dwUserId" data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
                                     data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>
@@ -100,7 +100,7 @@
                                                 class="fa fa-users"></i>   纪委委员</span>
                             <span style="margin-left: 20px">
                             <select id="jwUserId" data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
                                     data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>

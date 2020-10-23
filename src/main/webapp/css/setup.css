@@ -372,6 +372,10 @@ body {
     background-color: #eadda9;
 }
 
+td.dark-danger{
+    background-color:#f28a8a
+}
+
 /*@-moz-document url-prefix() {
     .table > thead:first-child > tr:first-child > th:last-child {
         border-right: 0;

@@ -7,7 +7,7 @@
     <div class="widget-header">
       <h5 class="widget-title bigger lighter">
         <i class="fa fa-history"></i>
-        审核记录
+        审核记录（点击查看详情）
       </h5>
       <div class="widget-toolbar">
         <a href="javascript:;" data-action="collapse">
