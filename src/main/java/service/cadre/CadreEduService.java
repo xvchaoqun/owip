@@ -91,9 +91,9 @@ public class CadreEduService extends BaseMapper {
         CadreEduExample.Criteria criteria = example.createCriteria()
                 .andCadreIdEqualTo(cadreId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        criteria.andEnrolTimeEqualTo(DateUtils.getFirstDateOfMonth(enrolTime));
+        criteria.andEnrolTimeEqualTo(enrolTime);
         if (finishTime != null) {
-            criteria.andFinishTimeEqualTo(DateUtils.getFirstDateOfMonth(finishTime));
+            criteria.andFinishTimeEqualTo(finishTime);
         } else {
             criteria.andFinishTimeIsNull();
         }
@@ -793,6 +793,11 @@ public class CadreEduService extends BaseMapper {
 
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
         if (cadreEdus.size() > 0){
+            CadreEdu cadreEdu = new CadreEdu();
+            cadreEdu.setIsHighDegree(!flag);
+            cadreEdu.setIsHighEdu(false);
+            cadreEduMapper.updateByExampleSelective(cadreEdu, example);
+
             CadreEdu record = new CadreEdu();
             record.setId(cadreEdus.get(cadreEdus.size() - 1).getId());
             record.setIsHighDegree(flag);

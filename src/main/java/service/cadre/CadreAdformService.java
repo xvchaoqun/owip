@@ -264,8 +264,8 @@ public class CadreAdformService extends BaseMapper {
                 + FILE_SEPARATOR + "img" + FILE_SEPARATOR + "default.png");
 
         // 头像默认大小
-        bean.setAvatarWidth(CmTag.getIntProperty("avatarWidth", 135));
-        bean.setAvatarHeight(CmTag.getIntProperty("avatarHeight", 180));
+        bean.setAvatarWidth(135);
+        bean.setAvatarHeight(180);
         try {
             BufferedImage _avatar = ImageIO.read(avatar);
             bean.setAvatarWidth(_avatar.getWidth());
@@ -1137,12 +1137,16 @@ public class CadreAdformService extends BaseMapper {
         for (ResumeRow resumeRow : resumeRows) {
 
             if (resumeRow.isEdu) {
+                CadreEdu byEduTime = cadreEduService.getByEduTime(cadreId, resumeRow.start, resumeRow.end);
+                if (byEduTime != null){
+                    continue;
+                }
                 // 学习经历
                 CadreEdu cadreEdu = new CadreEdu();
                 cadreEdu.setCadreId(cadreId);
 
                 Byte degreeType = null;
-                String degree = null;
+                String degree = "";
                 Integer eduId = null;
                 if (StringUtils.contains(resumeRow.desc, "中专")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_zz").getId();
@@ -1179,35 +1183,10 @@ public class CadreAdformService extends BaseMapper {
                 cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
 
                 //处理学校/学院/专业字段
-                String str = resumeRow.desc;
-                String school = PatternUtils.withdraw("[.*攻读]?(.*大学).*", str);
-                String dep = PatternUtils.withdraw("[.*大学]?(.*学院|.*系).*", str);
-                String major = PatternUtils.withdraw("[.*大学|\\s][.*学院|.*系\\s](.*专业).*", str);
-
-                if (StringUtils.isNotBlank(school)) {
-                    cadreEdu.setSchool(school);
-                }
-                if (StringUtils.isNotBlank(dep)) {
-                    if(StringUtils.isNotBlank(school)){
-                        dep = dep.replaceAll(school, "");
-                    }
-                    cadreEdu.setDep(dep);
-                }
-                if (StringUtils.isNotBlank(major)) {
-                    if (StringUtils.isNotBlank(dep)){
-                        major = major.replaceAll(dep, "");
-                    }
-                    cadreEdu.setMajor(major);
-                }
-
-               /* if (resumeRow.fRow == null) {
-                    cadreEdu.setSchool(resumeRow.desc); // 全日制描述放入学校字段，需要手动编辑
-                } else {*/
-                cadreEdu.setRemark(resumeRow.desc); // 在职描述放入备注字段，需要手动编辑
-                //}
+                analysisEdu(cadreEdu, resumeRow.desc);
 
                 byte schoolType = CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC;
-                if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
+                if (StringUtils.containsAny(resumeRow.desc, "留学", "国外", "日本", "韩国", "美国", "英国", "法国")) {
                     schoolType = CadreConstants.CADRE_SCHOOL_TYPE_ABROAD;
                 } else if (StringUtils.containsAny(resumeRow.desc,
                         CmTag.getSysConfig().getSchoolName(),
@@ -1233,15 +1212,18 @@ public class CadreAdformService extends BaseMapper {
                     cadreEdu.setDegreeType(degreeType);
                     if (schoolType != CadreConstants.CADRE_SCHOOL_TYPE_ABROAD) {
                         cadreEdu.setDegreeCountry("中国");
+                    }else if (StringUtils.containsAny(resumeRow.desc,  "日本", "韩国", "美国", "英国", "法国")){
+                        Pattern pattern = Pattern.compile("日本|韩国|美国|英国|法国|加拿大");
+                        Matcher matcher = pattern.matcher(resumeRow.desc);
+                        if (matcher.find()) {
+                            cadreEdu.setDegreeCountry(matcher.group());
+                        }
                     }
 
                     cadreEdu.setDegreeUnit(StringUtils.trimToEmpty(cadreEdu.getDegreeUnit()));
                     cadreEdu.setDegreeTime(cadreEdu.getFinishTime());
                 }
 
-                //cadreEdu.setRemark(resumeRow.desc);
-
-                CadreEdu byEduTime = cadreEduService.getByEduTime(cadreId, cadreEdu.getEnrolTime(), cadreEdu.getFinishTime());
                 if (byEduTime == null) {
                     try {
                         cadreEduService.insertSelective(cadreEdu);
@@ -1252,15 +1234,12 @@ public class CadreAdformService extends BaseMapper {
                     } catch (Exception ex) {
                         throw new OpException("{0}学习经历有误：{1}", cadre.getRealname(), ex.getMessage());
                     }
-                } else {
-
-                    if (resumeRow.row != null) {
-                        fidMap.put(resumeRow.row, byEduTime.getId());
-                    }
-                    cadreEdu.setId(byEduTime.getId());
-                    cadreEduMapper.updateByPrimaryKeySelective(cadreEdu);
                 }
             } else {
+                CadreWork byWorkTime = cadreWorkService.getByWorkTime(cadreId, resumeRow.start, resumeRow.end);
+                if (byWorkTime != null){
+                    continue;
+                }
                 // 工作经历
                 CadreWork cadreWork = new CadreWork();
                 cadreWork.setIsEduWork(false);
@@ -1280,7 +1259,6 @@ public class CadreAdformService extends BaseMapper {
                 cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
                         "主任", "处级", "部长", "书记"));
 
-                CadreWork byWorkTime = cadreWorkService.getByWorkTime(cadreId, cadreWork.getStartTime(), cadreWork.getEndTime());
                 if (byWorkTime == null) {
                     if (resumeRow.fRow == null) {
                         // 保存主要工作经历
@@ -1296,15 +1274,113 @@ public class CadreAdformService extends BaseMapper {
                         cadreWorkService.insertSelective(cadreWork);
                     }
 
-                } else {
-                    if (resumeRow.row != null) {
-                        fidMap.put(resumeRow.row, byWorkTime.getId());
-                    }
-                    cadreWork.setId(byWorkTime.getId());
-                    cadreWorkService.updateByPrimaryKeySelective(cadreWork);
                 }
             }
         }
+    }
+
+    //解析学校院系专业
+    public void analysisEdu(CadreEdu cadreEdu, String eduStr){
+
+        if (StringUtils.containsAny(eduStr, "中专生", "大专生", "专科生", "自考[本科]", "函授大专生", "函授本科", "成人教育本科", "博士生联合培养",
+                "进修", "学习", "联合培养博士研究生", "直博", "", "", "", "", "")){
+            cadreEdu.setNote(PatternUtils.withdraw(".*([大|中]+专生|专科生|自考[本科]|函授大专生|函授本科|[博士生]*联合培养[博士研究生]*" +
+                    "|[研究生]*[课程]*进修[班]*|[证书班]*学习|直博).*", eduStr));
+        }
+        cadreEdu.setRemark(eduStr); // 学习经历放入备注，用来核对信息
+
+        String otherStr = PatternUtils.withdraw("(^[同等学力]*攻读).*", eduStr);
+        String school = "";
+        String dep = "";
+        String major = "";
+        if (StringUtils.isBlank(otherStr)){
+            otherStr = PatternUtils.withdraw("^同等学力.*", eduStr);
+        }
+        if (StringUtils.isNotBlank(otherStr)) {
+            eduStr = eduStr.replace(otherStr, "");
+        }
+        if (StringUtils.contains(eduStr, "大学")){
+                    /*Pattern pattern = Pattern.compile("大学");
+                    Matcher matcher = pattern.matcher(str);
+                    if (matcher.find()) {
+                        school = str.substring(0, matcher.end());
+                    }*/
+            school = getFirstMatch("大学", eduStr);
+        }else if (StringUtils.contains(eduStr, "学校")){
+            school = PatternUtils.withdraw("(.*学校)", eduStr);
+        }else if (StringUtils.contains(eduStr, "学院")){
+                    /*Pattern pattern = Pattern.compile("学院");
+                    Matcher matcher = pattern.matcher(str);
+                    if (matcher.find()) {
+                        school = str.substring(0, matcher.end());
+                    }*/
+            school = getFirstMatch("学院", eduStr);
+        }else if (StringUtils.contains(eduStr, "师范")){
+            school = PatternUtils.withdraw(eduStr, "(.*师范).*");
+        }else if (PatternUtils.match("(中科院|.*党校).*", eduStr)){
+            //比较特殊，少有
+            school = PatternUtils.withdraw("(中科院|.*党校).*", eduStr);
+        }
+        if (StringUtils.isNotBlank(school)) {
+            eduStr = eduStr.replace(school, "");
+
+            if (PatternUtils.match("(.*(?!关)系(?!统)).*", eduStr)) {//关系系统
+                dep = getFirstMatch("(?!关)系(?!统)", eduStr);
+                //dep = PatternUtils.withdraw("(.*系(?!统)).*", str);
+            } else if (StringUtils.contains(eduStr, "学院")) {
+                dep = getFirstMatch("学院", eduStr);
+            } else if (StringUtils.contains(eduStr, "部") && !StringUtils.contains(eduStr, "干部")) {//干部
+                dep = PatternUtils.withdraw("(.*部).*", eduStr);
+            } else if (StringUtils.contains(eduStr, "所")) {
+                dep = PatternUtils.withdraw("(.*所).*", eduStr);
+            } else if (StringUtils.contains(eduStr, "中心")) {
+                dep = PatternUtils.withdraw("(.*中心).*", eduStr);
+            } else if (StringUtils.contains(eduStr, "研究院")) {
+                dep = PatternUtils.withdraw("(.*研究院).*", eduStr);
+            } else if (StringUtils.contains(eduStr, "(.*实验室).*")){
+                dep = PatternUtils.withdraw("(.*实验室).*",eduStr);
+            }
+            if (StringUtils.contains(dep, "专业")){
+                dep = "";
+            }
+            if (StringUtils.isNotBlank(dep)) {
+                eduStr = eduStr.replace(dep, "");
+            }
+            if (PatternUtils.match("(.*专业).*", eduStr)) {
+                major = getFirstMatch("专业", eduStr);
+                //major = PatternUtils.withdraw("(.*专业).*", str);
+            } else if (StringUtils.containsAny(eduStr, "本科生", "研究生", "博士生", "进修")) {
+                Pattern pattern = Pattern.compile("本科生|研究生|博士生|进修");
+                Matcher matcher = pattern.matcher(eduStr);
+                if (matcher.find()) {
+                    major = eduStr.substring(0, matcher.start());
+                }
+                //major = str.split("本科生|研究生|博士生|进修")[0];
+            }
+        }else {
+            CadreView cv = cadreService.get(cadreEdu.getCadreId());
+            throw new OpException(cv.getRealname() + "的学习经历或工作经历需要调整");
+        }
+        if (StringUtils.isNotBlank(school)) {
+            cadreEdu.setSchool(school);
+        }
+        if (StringUtils.isNotBlank(dep)) {
+            cadreEdu.setDep(dep);
+        }
+        if (StringUtils.isNotBlank(major)) {
+            cadreEdu.setMajor(major);
+        }
+
+    }
+
+    //得到最先匹配到该reg的数据
+    public String getFirstMatch(String reg, String data){
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(data);
+        if (matcher.find()) {
+            return data.substring(0, matcher.end());
+        }
+        return null;
     }
 
     // 输出中组部任免审批表
@@ -1565,8 +1641,11 @@ public class CadreAdformService extends BaseMapper {
             }
             CadreView cv = null;
             {
+                List<Byte> statusList = new ArrayList<>();
+                statusList.add(CadreConstants.CADRE_STATUS_CJ);
+                statusList.add(CadreConstants.CADRE_STATUS_KJ);
                 CadreViewExample example = new CadreViewExample();
-                example.createCriteria().andRealnameEqualTo(realname);
+                example.createCriteria().andRealnameEqualTo(realname).andStatusIn(statusList);
                 SysUserViewExample userExample = new SysUserViewExample();
                 userExample.createCriteria().andRealnameEqualTo(realname).andLockedEqualTo(false);
 
@@ -1838,11 +1917,16 @@ public class CadreAdformService extends BaseMapper {
 
             if (resumeRow.isEdu) {
                 // 学习经历
+                CadreEdu byEduTime = cadreEduService.getByEduTime(cadreId, resumeRow.start, resumeRow.end);
+                if (byEduTime != null){
+                    continue;
+                }
+                // 学习经历
                 CadreEdu cadreEdu = new CadreEdu();
                 cadreEdu.setCadreId(cadreId);
 
                 Byte degreeType = null;
-                String degree = null;
+                String degree = "";
                 Integer eduId = null;
                 if (StringUtils.contains(resumeRow.desc, "中专")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_zz").getId();
@@ -1883,35 +1967,10 @@ public class CadreAdformService extends BaseMapper {
                 cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
 
                 //处理学校/学院/专业字段
-                String str = resumeRow.desc;
-                String school = PatternUtils.withdraw("[.*攻读]?(.*大学|.*初中|.*中学|.*中国戏曲学院|.*研究院).*", str);
-                String dep = PatternUtils.withdraw("[.*大学|.*中国戏曲学院|.*研究院]?(.*学院|.*系).*", str);
-                String major = PatternUtils.withdraw("[.*大学|.*中国戏曲学院|.*研究院][.*学院|.*系](.*专业).*", str);
-
-                if (StringUtils.isNotBlank(school)) {
-                    cadreEdu.setSchool(school);
-                }
-                if (StringUtils.isNotBlank(dep)) {
-                    if(StringUtils.isNotBlank(school)){
-                        dep = dep.replaceAll(school, "");
-                    }
-                    cadreEdu.setDep(dep);
-                }
-                if (StringUtils.isNotBlank(major)) {
-                    if (StringUtils.isNotBlank(dep)){
-                        major = major.replaceAll(dep, "");
-                    }
-                    cadreEdu.setMajor(major);
-                }
-
-           /* if (resumeRow.fRow == null) {
-                cadreEdu.setSchool(resumeRow.desc); // 全日制描述放入学校字段，需要手动编辑
-            } else {*/
-                cadreEdu.setRemark(resumeRow.desc); // 在职描述放入备注字段，需要手动编辑
-                //}
+                analysisEdu(cadreEdu, resumeRow.desc);
 
                 byte schoolType = CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC;
-                if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
+                if (StringUtils.containsAny(resumeRow.desc, "留学", "国外", "日本", "韩国", "美国", "英国", "法国")) {
                     schoolType = CadreConstants.CADRE_SCHOOL_TYPE_ABROAD;
                 } else if (StringUtils.containsAny(resumeRow.desc,
                         CmTag.getSysConfig().getSchoolName(),
@@ -1937,6 +1996,12 @@ public class CadreAdformService extends BaseMapper {
                     cadreEdu.setDegreeType(degreeType);
                     if (schoolType != CadreConstants.CADRE_SCHOOL_TYPE_ABROAD) {
                         cadreEdu.setDegreeCountry("中国");
+                    }else if (StringUtils.containsAny(resumeRow.desc,  "日本", "韩国", "美国", "英国", "法国")) {
+                        Pattern pattern = Pattern.compile("日本|韩国|美国|英国|法国|加拿大");
+                        Matcher matcher = pattern.matcher(resumeRow.desc);
+                        if (matcher.find()) {
+                            cadreEdu.setDegreeCountry(matcher.group());
+                        }
                     }
 
                     cadreEdu.setDegreeUnit(StringUtils.trimToEmpty(cadreEdu.getDegreeUnit()));
@@ -1944,8 +2009,6 @@ public class CadreAdformService extends BaseMapper {
                 }
 
                 //cadreEdu.setRemark(resumeRow.desc);
-
-                CadreEdu byEduTime = cadreEduService.getByEduTime(cadreId, cadreEdu.getEnrolTime(), cadreEdu.getFinishTime());
                 if (byEduTime == null) {
                     try {
                         cadreEduService.insertSelective(cadreEdu);
@@ -1956,15 +2019,12 @@ public class CadreAdformService extends BaseMapper {
                     } catch (Exception ex) {
                         throw new OpException("{0}学习经历有误：{1}", cadre.getRealname(), ex.getMessage());
                     }
-                } else {
-
-                    if (resumeRow.row != null) {
-                        fidMap.put(resumeRow.row, byEduTime.getId());
-                    }
-                    cadreEdu.setId(byEduTime.getId());
-                    cadreEduMapper.updateByPrimaryKeySelective(cadreEdu);
                 }
             } else {
+                CadreWork byWorkTime = cadreWorkService.getByWorkTime(cadreId, resumeRow.start, resumeRow.end);
+                if (byWorkTime != null){
+                    continue;
+                }
                 // 工作经历
                 CadreWork cadreWork = new CadreWork();
                 cadreWork.setIsEduWork(false);
@@ -1984,7 +2044,6 @@ public class CadreAdformService extends BaseMapper {
                 cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
                         "主任", "处级", "部长", "书记"));
 
-                CadreWork byWorkTime = cadreWorkService.getByWorkTime(cadreId, cadreWork.getStartTime(), cadreWork.getEndTime());
                 if (byWorkTime == null) {
                     if (resumeRow.fRow == null) {
                         // 保存主要工作经历
@@ -2000,12 +2059,6 @@ public class CadreAdformService extends BaseMapper {
                         cadreWorkService.insertSelective(cadreWork);
                     }
 
-                } else {
-                    if (resumeRow.row != null) {
-                        fidMap.put(resumeRow.row, byWorkTime.getId());
-                    }
-                    cadreWork.setId(byWorkTime.getId());
-                    cadreWorkService.updateByPrimaryKeySelective(cadreWork);
                 }
             }
         }
