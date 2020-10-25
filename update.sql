@@ -1,4 +1,6 @@
 
+20201025
+北航 -- 北师大
 
 ALTER TABLE `ow_member_apply`
 	ADD COLUMN `concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' AFTER `active_grade`,
