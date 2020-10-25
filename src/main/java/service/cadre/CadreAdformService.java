@@ -8,6 +8,7 @@ import domain.base.MetaType;
 import domain.cadre.*;
 import domain.sys.*;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xwpf.usermodel.*;
@@ -506,13 +507,13 @@ public class CadreAdformService extends BaseMapper {
         /*CadrePost mainCadrePost = cadrePostService.getFirstMainCadrePost(cadreId);
         bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());*/
         // 现任职务
+        bean.setPost(cadre.getTitle());
         String schoolName = sysConfigService.getSchoolName();
-        if (!StringUtils.startsWith(cadre.getTitle(), schoolName)) {
+        if (BooleanUtils.isNotTrue(cadre.getIsOutside())
+                && !StringUtils.startsWith(cadre.getTitle(), schoolName)) {
             if(StringUtils.isNotBlank(cadre.getTitle())) {
                 bean.setPost(schoolName + StringUtils.trimToEmpty(cadre.getTitle()));
             }
-        } else {
-            bean.setPost(cadre.getTitle());
         }
 
         // 学习经历

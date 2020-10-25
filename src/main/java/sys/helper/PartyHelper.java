@@ -145,7 +145,7 @@ public class PartyHelper {
                 stage = "申请未通过";
                 break;
             case OwConstants.OW_APPLY_STAGE_PASS:
-                stage = "待支部确定为入党积极分子";
+                stage = "申请通过，待支部确定为入党积极分子";
                 break;
             case OwConstants.OW_APPLY_STAGE_ACTIVE:
                 if (memberApply.getCandidateStatus() == null || memberApply.getCandidateTime() == null) {

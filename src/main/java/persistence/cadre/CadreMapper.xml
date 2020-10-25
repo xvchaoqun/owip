@@ -10,6 +10,7 @@
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="is_outside" jdbcType="BIT" property="isOutside" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="profile" jdbcType="VARCHAR" property="profile" />
@@ -79,8 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, is_dep, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
-    label, profile, remark, original_post, appoint_date, depose_date, sort_order, status
+    id, user_id, is_dep, has_crp, is_double, double_unit_ids, state, title, is_outside, 
+    dispatch_cadre_id, label, profile, remark, original_post, appoint_date, depose_date, 
+    sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
     select
@@ -118,16 +120,16 @@
     </selectKey>
     insert into cadre (user_id, is_dep, has_crp, 
       is_double, double_unit_ids, state, 
-      title, dispatch_cadre_id, label, 
-      profile, remark, original_post, 
-      appoint_date, depose_date, sort_order, 
-      status)
+      title, is_outside, dispatch_cadre_id, 
+      label, profile, remark, 
+      original_post, appoint_date, depose_date, 
+      sort_order, status)
     values (#{userId,jdbcType=INTEGER}, #{isDep,jdbcType=BIT}, #{hasCrp,jdbcType=BIT}, 
       #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, #{label,jdbcType=VARCHAR}, 
-      #{profile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{originalPost,jdbcType=VARCHAR}, 
-      #{appointDate,jdbcType=DATE}, #{deposeDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{title,jdbcType=VARCHAR}, #{isOutside,jdbcType=BIT}, #{dispatchCadreId,jdbcType=INTEGER}, 
+      #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{originalPost,jdbcType=VARCHAR}, #{appointDate,jdbcType=DATE}, #{deposeDate,jdbcType=DATE}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.Cadre">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -155,6 +157,9 @@
       </if>
       <if test="title != null">
         title,
+      </if>
+      <if test="isOutside != null">
+        is_outside,
       </if>
       <if test="dispatchCadreId != null">
         dispatch_cadre_id,
@@ -205,6 +210,9 @@
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="isOutside != null">
+        #{isOutside,jdbcType=BIT},
       </if>
       <if test="dispatchCadreId != null">
         #{dispatchCadreId,jdbcType=INTEGER},
@@ -268,6 +276,9 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
+      <if test="record.isOutside != null">
+        is_outside = #{record.isOutside,jdbcType=BIT},
+      </if>
       <if test="record.dispatchCadreId != null">
         dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       </if>
@@ -310,6 +321,7 @@
       double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
+      is_outside = #{record.isOutside,jdbcType=BIT},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       label = #{record.label,jdbcType=VARCHAR},
       profile = #{record.profile,jdbcType=VARCHAR},
@@ -346,6 +358,9 @@
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="isOutside != null">
+        is_outside = #{isOutside,jdbcType=BIT},
       </if>
       <if test="dispatchCadreId != null">
         dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
@@ -386,6 +401,7 @@
       double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
+      is_outside = #{isOutside,jdbcType=BIT},
       dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       label = #{label,jdbcType=VARCHAR},
       profile = #{profile,jdbcType=VARCHAR},

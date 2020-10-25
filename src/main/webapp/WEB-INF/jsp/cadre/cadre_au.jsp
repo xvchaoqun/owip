@@ -110,6 +110,11 @@
             <div class="col-xs-6">
                 <textarea class="form-control" name="title">${cadre.title}</textarea>
             </div>
+            <div class="col-xs-2" style="padding-left: 0px">
+				<input type="checkbox" name="isOutside"
+				${cadre.isOutside?'checked':''}
+					   style="width: 15px;height: 15px;margin-top: 8px; vertical-align: -2px"> 校外任职
+			</div>
         </div>
 
         <div class="form-group">

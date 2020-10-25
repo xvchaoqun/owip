@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
-<c:set var="OW_APPLY_STAGE_PASS" value="<%=OwConstants.OW_APPLY_STAGE_PASS%>"/>
-<c:set var="OW_APPLY_STAGE_ACTIVE" value="<%=OwConstants.OW_APPLY_STAGE_ACTIVE%>"/>
-<c:set var="OW_APPLY_STAGE_CANDIDATE" value="<%=OwConstants.OW_APPLY_STAGE_CANDIDATE%>"/>
-<c:set var="OW_APPLY_STAGE_PLAN" value="<%=OwConstants.OW_APPLY_STAGE_PLAN%>"/>
-<c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
-<c:set var="OW_APPLY_STAGE_GROW" value="<%=OwConstants.OW_APPLY_STAGE_GROW%>"/>
+<%@ include file="constants.jsp" %>
 <div style="width: 900px">
     <h3>${empty memberApply?"添加":"修改"}(${OW_APPLY_STAGE_MAP.get(cm:toByte(param.stage))})</h3>
     <hr/>
@@ -78,6 +72,19 @@
                         </div>
                     </div>
                 </div>
+                    <c:if test="${_p_contactUsers_count>0}">
+                <div class="form-group">
+                    <label class="col-xs-6 control-label">培养联系人
+                    <button type="button" class="popupBtn btn btn-xs btn-warning"
+                                data-url="${ctx}/apply_active_contact?ids=${sysUser.id}&gotoNext=2"><i class="fa fa-edit"></i></button>
+                    </label>
+                    <div class="col-xs-6 label-text">
+                        <input type="hidden" name="contactUsers" value="${memberApply.contactUsers}">
+                        <input type="hidden" name="contactUserIds" value="${memberApply.contactUserIds}">
+                       <label class="contactUsers">${memberApply.contactUsers}</label>
+                    </div>
+                </div>
+                    </c:if>
                 <c:if test="${_pMap['memberApply_needActiveTrain']=='true'}">
                     <div class="form-group">
                         <label class="col-xs-6 control-label">积极分子参加培训时间</label>
@@ -106,8 +113,8 @@
                         </div>
                     </div>
                 </c:if>
-            </div>
-            <div class="col-xs-5">
+                </c:if>
+
                 <c:if test="${param.stage>OW_APPLY_STAGE_ACTIVE}">
                     <div class="form-group">
                         <label class="col-xs-6 control-label">确定为发展对象时间</label>
@@ -121,6 +128,19 @@
                             </div>
                         </div>
                     </div>
+                    <c:if test="${_p_sponsorUsers_count>0}">
+                    <div class="form-group">
+                        <label class="col-xs-6 control-label">入党介绍人
+                        <button type="button" class="popupBtn btn btn-xs btn-warning"
+                                    data-url="${ctx}/apply_candidate_sponsor?ids=${sysUser.id}&gotoNext=2"><i class="fa fa-edit"></i></button>
+                        </label>
+                        <div class="col-xs-6 label-text">
+                           <input type="hidden" name="sponsorUsers" value="${memberApply.sponsorUsers}">
+                           <input type="hidden" name="sponsorUserIds" value="${memberApply.sponsorUserIds}">
+                           <label class="sponsorUsers">${memberApply.sponsorUsers}</label>
+                        </div>
+                    </div>
+                        </c:if>
                     <div class="form-group">
                         <label class="col-xs-6 control-label">发展对象参加培训时间</label>
 
@@ -131,7 +151,7 @@
                                        value="${cm:formatDate(memberApply.candidateTrainStartTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
-                            <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
+                            <c:if test="${_memberApply_needCandidateTrain}">
                                 至
                                 <div class="input-group" style="width: 150px">
                                     <input class="form-control date-picker" name="candidateTrainEndTime" type="text"
@@ -142,7 +162,8 @@
                             </c:if>
                         </div>
                     </div>
-                    <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
+                    </c:if>
+                    <c:if test="${_memberApply_needCandidateTrain}">
                         <div class="form-group">
                             <label class="col-xs-6 control-label">发展对象结业考试成绩</label>
                             <div class="col-xs-4">
@@ -151,6 +172,9 @@
                             </div>
                         </div>
                     </c:if>
+            </div>
+            <div class="col-xs-5">
+
                     <c:if test="${param.stage>OW_APPLY_STAGE_CANDIDATE}">
                         <div class="form-group">
                             <label class="col-xs-6 control-label">列入发展计划时间</label>
@@ -164,6 +188,7 @@
                                 </div>
                             </div>
                         </div>
+                        </c:if>
                         <c:if test="${param.stage>OW_APPLY_STAGE_PLAN}">
                             <div class="form-group">
                                 <label class="col-xs-6 control-label">领取志愿书时间</label>
@@ -178,40 +203,50 @@
                                     </div>
                                 </div>
                             </div>
+                            </c:if>
                             <c:if test="${param.stage>OW_APPLY_STAGE_DRAW}">
+                            <div class="form-group">
+                                <label class="col-xs-6 control-label">入党时间</label>
+
+                                <div class="col-xs-3">
+                                    <div class="input-group" style="width: 150px">
+                                        <input class="form-control date-picker" name="growTime" type="text"
+                                               data-date-format="yyyy.mm.dd"
+                                               value="${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}"/>
+                                        <span class="input-group-addon"> <i
+                                                class="fa fa-calendar bigger-110"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                                <c:if test="${_p_growContactUsers_count>0}">
+                                    <div class="form-group">
+                                        <label class="col-xs-6 control-label">培养联系人
+                                        <button type="button" class="popupBtn btn btn-xs btn-warning"
+                                                    data-url="${ctx}/apply_grow_contact?ids=${sysUser.id}&gotoNext=2"><i class="fa fa-edit"></i></button>
+                                        </label>
+                                        <div class="col-xs-6 label-text">
+                                            <input type="hidden" name="growContactUsers" value="${memberApply.growContactUsers}">
+                                            <input type="hidden" name="growContactUserIds" value="${memberApply.growContactUserIds}">
+                                           <label class="growContactUsers">${memberApply.growContactUsers}</label>
+                                        </div>
+                                    </div>
+                                        </c:if>
+                            </c:if>
+                            <c:if test="${param.stage>OW_APPLY_STAGE_GROW}">
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">入党时间</label>
+                                    <label class="col-xs-6 control-label">转正时间</label>
 
                                     <div class="col-xs-3">
                                         <div class="input-group" style="width: 150px">
-                                            <input class="form-control date-picker" name="growTime" type="text"
+                                            <input class="form-control date-picker" name="positiveTime" type="text"
                                                    data-date-format="yyyy.mm.dd"
-                                                   value="${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}"/>
+                                                   value="${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <c:if test="${param.stage>OW_APPLY_STAGE_GROW}">
-                                    <div class="form-group">
-                                        <label class="col-xs-6 control-label">转正时间</label>
-
-                                        <div class="col-xs-3">
-                                            <div class="input-group" style="width: 150px">
-                                                <input class="form-control date-picker" name="positiveTime" type="text"
-                                                       data-date-format="yyyy.mm.dd"
-                                                       value="${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}"/>
-                                                <span class="input-group-addon"> <i
-                                                        class="fa fa-calendar bigger-110"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:if>
                             </c:if>
-                        </c:if>
-                    </c:if>
-                </c:if>
-                </c:if>
                 <div class="form-group">
                     <label class="col-sm-4 control-label no-padding-right"> 备注</label>
                     <div class="col-sm-7">

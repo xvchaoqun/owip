@@ -320,9 +320,10 @@ $.fn.extend({
             },options));
     },
     // Form表单元素设置必填/可填
-    requireField: function (required, disabled) {
+    requireField: function (required, disabled, empty) {
 
         disabled = disabled || false;
+        empty = empty || false;
         //console.log("required="+ required + " disabled="+ disabled)
         if (required) {
             $(this).prop("disabled", disabled)
@@ -334,7 +335,7 @@ $.fn.extend({
             $(this).prop("disabled", disabled)
                 .removeAttr("required")
                 .closest(".form-group").find(".control-label span.star").remove();
-            if (!$(this).is(":checkbox") && !$(this).is(":radio")) {
+            if (!$(this).is(":checkbox") && !$(this).is(":radio") && empty) {
                 $(this).val('');
             }
             //console.log($(this).closest(".form-group").find(".control-label span.star").html())

@@ -17,8 +17,8 @@
     <result column="active_train_start_time" jdbcType="DATE" property="activeTrainStartTime" />
     <result column="active_train_end_time" jdbcType="DATE" property="activeTrainEndTime" />
     <result column="active_grade" jdbcType="VARCHAR" property="activeGrade" />
-    <result column="concat_user_ids" jdbcType="VARCHAR" property="concatUserIds" />
-    <result column="concat_users" jdbcType="VARCHAR" property="concatUsers" />
+    <result column="contact_user_ids" jdbcType="VARCHAR" property="contactUserIds" />
+    <result column="contact_users" jdbcType="VARCHAR" property="contactUsers" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
     <result column="candidate_train_start_time" jdbcType="DATE" property="candidateTrainStartTime" />
     <result column="candidate_train_end_time" jdbcType="DATE" property="candidateTrainEndTime" />
@@ -35,8 +35,8 @@
     <result column="grow_public_id" jdbcType="INTEGER" property="growPublicId" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="grow_status" jdbcType="TINYINT" property="growStatus" />
-    <result column="grow_concat_user_ids" jdbcType="VARCHAR" property="growConcatUserIds" />
-    <result column="grow_concat_users" jdbcType="VARCHAR" property="growConcatUsers" />
+    <result column="grow_contact_user_ids" jdbcType="VARCHAR" property="growContactUserIds" />
+    <result column="grow_contact_users" jdbcType="VARCHAR" property="growContactUsers" />
     <result column="positive_public_id" jdbcType="INTEGER" property="positivePublicId" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="positive_status" jdbcType="TINYINT" property="positiveStatus" />
@@ -79,10 +79,10 @@
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, type, apply_time, fill_time, remark, apply_stage, stage, 
     reason, pass_time, active_time, active_train_start_time, active_train_end_time, active_grade, 
-    concat_user_ids, concat_users, candidate_time, candidate_train_start_time, candidate_train_end_time, 
+    contact_user_ids, contact_users, candidate_time, candidate_train_start_time, candidate_train_end_time, 
     candidate_grade, candidate_status, sponsor_user_ids, sponsor_users, plan_time, plan_status, 
     draw_time, draw_status, apply_sn_id, apply_sn, grow_public_id, grow_time, grow_status, 
-    grow_concat_user_ids, grow_concat_users, positive_public_id, positive_time, positive_status, 
+    grow_contact_user_ids, grow_contact_users, positive_public_id, positive_time, positive_status, 
     is_remove, create_time, _status, member_status, party_sort_order, branch_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberApplyViewExample" resultMap="BaseResultMap">

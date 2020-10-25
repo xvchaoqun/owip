@@ -889,6 +889,7 @@ public class CadreController extends BaseController {
                            HttpServletRequest request) {
 
         record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
+        record.setIsOutside(BooleanUtils.isTrue(record.getIsOutside()));
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){
             /*if(unitIds==null || unitIds.length==0) {

@@ -809,6 +809,7 @@ public class MemberApplyService extends MemberBaseMapper {
         member.setApplyTime(memberApply.getApplyTime());
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());
+        member.setSponsor(memberApply.getSponsorUsers()); // 入党介绍人
         member.setGrowTime(memberApply.getGrowTime());
 
         member.setCreateTime(new Date());

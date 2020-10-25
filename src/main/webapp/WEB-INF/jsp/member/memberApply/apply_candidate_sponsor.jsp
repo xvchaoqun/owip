@@ -4,10 +4,10 @@ pageEncoding="UTF-8"%>
 <%@ include file="constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>确定培养联系人</h3>
+    <h3>确定入党介绍人</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/apply_active_contact" autocomplete="off" disableautocomplete id="applyForm" method="post">
+    <form class="form-horizontal" action="${ctx}/apply_candidate_sponsor" autocomplete="off" disableautocomplete id="applyForm" method="post">
         <input type="hidden" name="ids" value="${param.ids}">
         <c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
         <c:if test="${count>1}">
@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>培养联系人类型</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>入党介绍人类型</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group inSchool">
-            <label class="col-xs-4 control-label">培养联系人1</label>
+            <label class="col-xs-4 control-label">入党介绍人1</label>
             <div class="col-xs-6 required">
                 <c:set var="sysUser" value="${cm:getUserById(userIds[0])}"/>
                 <select name="userId1" data-rel="select2-ajax" data-width="270"
@@ -50,8 +50,8 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group inSchool">
-            <label class="col-xs-4 control-label">培养联系人2</label>
-            <div class="col-xs-6 ${_p_contactUsers_count==2?'required':''}">
+            <label class="col-xs-4 control-label">入党介绍人2</label>
+            <div class="col-xs-6 ${_p_sponsorUsers_count==2?'required':''}">
                 <c:set var="sysUser" value="${cm:getUserById(userIds[1])}"/>
                 <select name="userId2" data-rel="select2-ajax" data-width="270"
                         data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
@@ -61,17 +61,17 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group outSchool">
-            <label class="col-xs-4 control-label">培养联系人1</label>
+            <label class="col-xs-4 control-label">入党介绍人1</label>
             <div class="col-xs-6 required">
                 <input style="width: 100px" class="form-control" type="text" name="user1" value="${users[0]}">
-                <span class="help-block">注：请输入一位培养联系人的姓名</span>
+                <span class="help-block">注：请输入一位入党介绍人的姓名</span>
             </div>
         </div>
         <div class="form-group outSchool">
-            <label class="col-xs-4 control-label">培养联系人2</label>
-            <div class="col-xs-6 ${_p_contactUsers_count==2?'required':''}">
+            <label class="col-xs-4 control-label">入党介绍人2</label>
+            <div class="col-xs-6 ${_p_sponsorUsers_count==2?'required':''}">
                 <input style="width: 100px" class="form-control" type="text" name="user2" value="${users[1]}">
-                <span class="help-block">注：请输入一位培养联系人的姓名</span>
+                <span class="help-block">注：请输入一位入党介绍人的姓名</span>
             </div>
         </div>
     </form>
@@ -124,9 +124,9 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         goto_next("${param.gotoNext}", function(){
-                            $("label.contactUsers").html(ret.contactUsers)
-                            $("#modalForm input[name=contactUsers]").val(ret.contactUsers)
-                            $("#modalForm input[name=contactUserIds]").val(ret.contactUserIds)
+                            $("label.sponsorUsers").html(ret.sponsorUsers)
+                            $("#modalForm input[name=sponsorUsers]").val(ret.sponsorUsers)
+                            $("#modalForm input[name=sponsorUserIds]").val(ret.sponsorUserIds)
                         });
                     }
                     $btn.button('reset');

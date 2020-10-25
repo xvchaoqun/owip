@@ -1066,143 +1066,143 @@ public class MemberApplyExample {
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsIsNull() {
-            addCriterion("concat_user_ids is null");
+        public Criteria andContactUserIdsIsNull() {
+            addCriterion("contact_user_ids is null");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsIsNotNull() {
-            addCriterion("concat_user_ids is not null");
+        public Criteria andContactUserIdsIsNotNull() {
+            addCriterion("contact_user_ids is not null");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsEqualTo(String value) {
-            addCriterion("concat_user_ids =", value, "concatUserIds");
+        public Criteria andContactUserIdsEqualTo(String value) {
+            addCriterion("contact_user_ids =", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsNotEqualTo(String value) {
-            addCriterion("concat_user_ids <>", value, "concatUserIds");
+        public Criteria andContactUserIdsNotEqualTo(String value) {
+            addCriterion("contact_user_ids <>", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsGreaterThan(String value) {
-            addCriterion("concat_user_ids >", value, "concatUserIds");
+        public Criteria andContactUserIdsGreaterThan(String value) {
+            addCriterion("contact_user_ids >", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsGreaterThanOrEqualTo(String value) {
-            addCriterion("concat_user_ids >=", value, "concatUserIds");
+        public Criteria andContactUserIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("contact_user_ids >=", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsLessThan(String value) {
-            addCriterion("concat_user_ids <", value, "concatUserIds");
+        public Criteria andContactUserIdsLessThan(String value) {
+            addCriterion("contact_user_ids <", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsLessThanOrEqualTo(String value) {
-            addCriterion("concat_user_ids <=", value, "concatUserIds");
+        public Criteria andContactUserIdsLessThanOrEqualTo(String value) {
+            addCriterion("contact_user_ids <=", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsLike(String value) {
-            addCriterion("concat_user_ids like", value, "concatUserIds");
+        public Criteria andContactUserIdsLike(String value) {
+            addCriterion("contact_user_ids like", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsNotLike(String value) {
-            addCriterion("concat_user_ids not like", value, "concatUserIds");
+        public Criteria andContactUserIdsNotLike(String value) {
+            addCriterion("contact_user_ids not like", value, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsIn(List<String> values) {
-            addCriterion("concat_user_ids in", values, "concatUserIds");
+        public Criteria andContactUserIdsIn(List<String> values) {
+            addCriterion("contact_user_ids in", values, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsNotIn(List<String> values) {
-            addCriterion("concat_user_ids not in", values, "concatUserIds");
+        public Criteria andContactUserIdsNotIn(List<String> values) {
+            addCriterion("contact_user_ids not in", values, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsBetween(String value1, String value2) {
-            addCriterion("concat_user_ids between", value1, value2, "concatUserIds");
+        public Criteria andContactUserIdsBetween(String value1, String value2) {
+            addCriterion("contact_user_ids between", value1, value2, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUserIdsNotBetween(String value1, String value2) {
-            addCriterion("concat_user_ids not between", value1, value2, "concatUserIds");
+        public Criteria andContactUserIdsNotBetween(String value1, String value2) {
+            addCriterion("contact_user_ids not between", value1, value2, "contactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersIsNull() {
-            addCriterion("concat_users is null");
+        public Criteria andContactUsersIsNull() {
+            addCriterion("contact_users is null");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersIsNotNull() {
-            addCriterion("concat_users is not null");
+        public Criteria andContactUsersIsNotNull() {
+            addCriterion("contact_users is not null");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersEqualTo(String value) {
-            addCriterion("concat_users =", value, "concatUsers");
+        public Criteria andContactUsersEqualTo(String value) {
+            addCriterion("contact_users =", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersNotEqualTo(String value) {
-            addCriterion("concat_users <>", value, "concatUsers");
+        public Criteria andContactUsersNotEqualTo(String value) {
+            addCriterion("contact_users <>", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersGreaterThan(String value) {
-            addCriterion("concat_users >", value, "concatUsers");
+        public Criteria andContactUsersGreaterThan(String value) {
+            addCriterion("contact_users >", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersGreaterThanOrEqualTo(String value) {
-            addCriterion("concat_users >=", value, "concatUsers");
+        public Criteria andContactUsersGreaterThanOrEqualTo(String value) {
+            addCriterion("contact_users >=", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersLessThan(String value) {
-            addCriterion("concat_users <", value, "concatUsers");
+        public Criteria andContactUsersLessThan(String value) {
+            addCriterion("contact_users <", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersLessThanOrEqualTo(String value) {
-            addCriterion("concat_users <=", value, "concatUsers");
+        public Criteria andContactUsersLessThanOrEqualTo(String value) {
+            addCriterion("contact_users <=", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersLike(String value) {
-            addCriterion("concat_users like", value, "concatUsers");
+        public Criteria andContactUsersLike(String value) {
+            addCriterion("contact_users like", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersNotLike(String value) {
-            addCriterion("concat_users not like", value, "concatUsers");
+        public Criteria andContactUsersNotLike(String value) {
+            addCriterion("contact_users not like", value, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersIn(List<String> values) {
-            addCriterion("concat_users in", values, "concatUsers");
+        public Criteria andContactUsersIn(List<String> values) {
+            addCriterion("contact_users in", values, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersNotIn(List<String> values) {
-            addCriterion("concat_users not in", values, "concatUsers");
+        public Criteria andContactUsersNotIn(List<String> values) {
+            addCriterion("contact_users not in", values, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersBetween(String value1, String value2) {
-            addCriterion("concat_users between", value1, value2, "concatUsers");
+        public Criteria andContactUsersBetween(String value1, String value2) {
+            addCriterion("contact_users between", value1, value2, "contactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andConcatUsersNotBetween(String value1, String value2) {
-            addCriterion("concat_users not between", value1, value2, "concatUsers");
+        public Criteria andContactUsersNotBetween(String value1, String value2) {
+            addCriterion("contact_users not between", value1, value2, "contactUsers");
             return (Criteria) this;
         }
 
@@ -2206,143 +2206,143 @@ public class MemberApplyExample {
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsIsNull() {
-            addCriterion("grow_concat_user_ids is null");
+        public Criteria andGrowContactUserIdsIsNull() {
+            addCriterion("grow_contact_user_ids is null");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsIsNotNull() {
-            addCriterion("grow_concat_user_ids is not null");
+        public Criteria andGrowContactUserIdsIsNotNull() {
+            addCriterion("grow_contact_user_ids is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsEqualTo(String value) {
-            addCriterion("grow_concat_user_ids =", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsEqualTo(String value) {
+            addCriterion("grow_contact_user_ids =", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsNotEqualTo(String value) {
-            addCriterion("grow_concat_user_ids <>", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsNotEqualTo(String value) {
+            addCriterion("grow_contact_user_ids <>", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsGreaterThan(String value) {
-            addCriterion("grow_concat_user_ids >", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsGreaterThan(String value) {
+            addCriterion("grow_contact_user_ids >", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsGreaterThanOrEqualTo(String value) {
-            addCriterion("grow_concat_user_ids >=", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("grow_contact_user_ids >=", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsLessThan(String value) {
-            addCriterion("grow_concat_user_ids <", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsLessThan(String value) {
+            addCriterion("grow_contact_user_ids <", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsLessThanOrEqualTo(String value) {
-            addCriterion("grow_concat_user_ids <=", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsLessThanOrEqualTo(String value) {
+            addCriterion("grow_contact_user_ids <=", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsLike(String value) {
-            addCriterion("grow_concat_user_ids like", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsLike(String value) {
+            addCriterion("grow_contact_user_ids like", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsNotLike(String value) {
-            addCriterion("grow_concat_user_ids not like", value, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsNotLike(String value) {
+            addCriterion("grow_contact_user_ids not like", value, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsIn(List<String> values) {
-            addCriterion("grow_concat_user_ids in", values, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsIn(List<String> values) {
+            addCriterion("grow_contact_user_ids in", values, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsNotIn(List<String> values) {
-            addCriterion("grow_concat_user_ids not in", values, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsNotIn(List<String> values) {
+            addCriterion("grow_contact_user_ids not in", values, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsBetween(String value1, String value2) {
-            addCriterion("grow_concat_user_ids between", value1, value2, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsBetween(String value1, String value2) {
+            addCriterion("grow_contact_user_ids between", value1, value2, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUserIdsNotBetween(String value1, String value2) {
-            addCriterion("grow_concat_user_ids not between", value1, value2, "growConcatUserIds");
+        public Criteria andGrowContactUserIdsNotBetween(String value1, String value2) {
+            addCriterion("grow_contact_user_ids not between", value1, value2, "growContactUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersIsNull() {
-            addCriterion("grow_concat_users is null");
+        public Criteria andGrowContactUsersIsNull() {
+            addCriterion("grow_contact_users is null");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersIsNotNull() {
-            addCriterion("grow_concat_users is not null");
+        public Criteria andGrowContactUsersIsNotNull() {
+            addCriterion("grow_contact_users is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersEqualTo(String value) {
-            addCriterion("grow_concat_users =", value, "growConcatUsers");
+        public Criteria andGrowContactUsersEqualTo(String value) {
+            addCriterion("grow_contact_users =", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersNotEqualTo(String value) {
-            addCriterion("grow_concat_users <>", value, "growConcatUsers");
+        public Criteria andGrowContactUsersNotEqualTo(String value) {
+            addCriterion("grow_contact_users <>", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersGreaterThan(String value) {
-            addCriterion("grow_concat_users >", value, "growConcatUsers");
+        public Criteria andGrowContactUsersGreaterThan(String value) {
+            addCriterion("grow_contact_users >", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersGreaterThanOrEqualTo(String value) {
-            addCriterion("grow_concat_users >=", value, "growConcatUsers");
+        public Criteria andGrowContactUsersGreaterThanOrEqualTo(String value) {
+            addCriterion("grow_contact_users >=", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersLessThan(String value) {
-            addCriterion("grow_concat_users <", value, "growConcatUsers");
+        public Criteria andGrowContactUsersLessThan(String value) {
+            addCriterion("grow_contact_users <", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersLessThanOrEqualTo(String value) {
-            addCriterion("grow_concat_users <=", value, "growConcatUsers");
+        public Criteria andGrowContactUsersLessThanOrEqualTo(String value) {
+            addCriterion("grow_contact_users <=", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersLike(String value) {
-            addCriterion("grow_concat_users like", value, "growConcatUsers");
+        public Criteria andGrowContactUsersLike(String value) {
+            addCriterion("grow_contact_users like", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersNotLike(String value) {
-            addCriterion("grow_concat_users not like", value, "growConcatUsers");
+        public Criteria andGrowContactUsersNotLike(String value) {
+            addCriterion("grow_contact_users not like", value, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersIn(List<String> values) {
-            addCriterion("grow_concat_users in", values, "growConcatUsers");
+        public Criteria andGrowContactUsersIn(List<String> values) {
+            addCriterion("grow_contact_users in", values, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersNotIn(List<String> values) {
-            addCriterion("grow_concat_users not in", values, "growConcatUsers");
+        public Criteria andGrowContactUsersNotIn(List<String> values) {
+            addCriterion("grow_contact_users not in", values, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersBetween(String value1, String value2) {
-            addCriterion("grow_concat_users between", value1, value2, "growConcatUsers");
+        public Criteria andGrowContactUsersBetween(String value1, String value2) {
+            addCriterion("grow_contact_users between", value1, value2, "growContactUsers");
             return (Criteria) this;
         }
 
-        public Criteria andGrowConcatUsersNotBetween(String value1, String value2) {
-            addCriterion("grow_concat_users not between", value1, value2, "growConcatUsers");
+        public Criteria andGrowContactUsersNotBetween(String value1, String value2) {
+            addCriterion("grow_contact_users not between", value1, value2, "growContactUsers");
             return (Criteria) this;
         }
 

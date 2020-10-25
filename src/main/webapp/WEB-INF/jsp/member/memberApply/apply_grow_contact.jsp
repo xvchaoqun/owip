@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3>确定培养联系人</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/apply_active_contact" autocomplete="off" disableautocomplete id="applyForm" method="post">
+    <form class="form-horizontal" action="${ctx}/apply_grow_contact" autocomplete="off" disableautocomplete id="applyForm" method="post">
         <input type="hidden" name="ids" value="${param.ids}">
         <c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
         <c:if test="${count>1}">
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group inSchool">
             <label class="col-xs-4 control-label">培养联系人2</label>
-            <div class="col-xs-6 ${_p_contactUsers_count==2?'required':''}">
+            <div class="col-xs-6 ${_p_growContactUsers_count==2?'required':''}">
                 <c:set var="sysUser" value="${cm:getUserById(userIds[1])}"/>
                 <select name="userId2" data-rel="select2-ajax" data-width="270"
                         data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group outSchool">
             <label class="col-xs-4 control-label">培养联系人2</label>
-            <div class="col-xs-6 ${_p_contactUsers_count==2?'required':''}">
+            <div class="col-xs-6 ${_p_growContactUsers_count==2?'required':''}">
                 <input style="width: 100px" class="form-control" type="text" name="user2" value="${users[1]}">
                 <span class="help-block">注：请输入一位培养联系人的姓名</span>
             </div>
@@ -124,9 +124,9 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         goto_next("${param.gotoNext}", function(){
-                            $("label.contactUsers").html(ret.contactUsers)
-                            $("#modalForm input[name=contactUsers]").val(ret.contactUsers)
-                            $("#modalForm input[name=contactUserIds]").val(ret.contactUserIds)
+                            $("label.growContactUsers").html(ret.growContactUsers)
+                            $("#modalForm input[name=growContactUsers]").val(ret.growContactUsers)
+                            $("#modalForm input[name=growContactUserIds]").val(ret.growContactUserIds)
                         });
                     }
                     $btn.button('reset');

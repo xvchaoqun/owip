@@ -60,6 +60,8 @@ public class CadreReserveView implements Serializable {
 
     private String title;
 
+    private Boolean isOutside;
+
     private Integer dispatchCadreId;
 
     private String label;
@@ -362,6 +364,14 @@ public class CadreReserveView implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public Boolean getIsOutside() {
+        return isOutside;
+    }
+
+    public void setIsOutside(Boolean isOutside) {
+        this.isOutside = isOutside;
     }
 
     public Integer getDispatchCadreId() {

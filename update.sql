@@ -1,13 +1,25 @@
 
 
 ALTER TABLE `ow_member_apply`
-	ADD COLUMN `concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，针对校内，逗号分割' AFTER `active_grade`,
-	ADD COLUMN `concat_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，针对校外，逗号分割' AFTER `concat_user_ids`,
-	ADD COLUMN `sponsor_user_ids` VARCHAR(50) NULL COMMENT '入党介绍人，针对校内，逗号分割' AFTER `candidate_status`,
-	ADD COLUMN `sponsor_users` VARCHAR(50) NULL COMMENT '入党介绍人姓名，针对校外，逗号分割' AFTER `sponsor_user_ids`,
-	ADD COLUMN `grow_concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，针对校内，逗号分割' AFTER `grow_status`,
-	ADD COLUMN `grow_concat_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，针对校外，逗号分割' AFTER `grow_concat_user_ids`;
+	ADD COLUMN `concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' AFTER `active_grade`,
+	ADD COLUMN `concat_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' AFTER `concat_user_ids`,
+	ADD COLUMN `sponsor_user_ids` VARCHAR(50) NULL COMMENT '入党介绍人，如果为空则是校外，否则校内，逗号分割' AFTER `candidate_status`,
+	ADD COLUMN `sponsor_users` VARCHAR(50) NULL COMMENT '入党介绍人姓名，逗号分割' AFTER `sponsor_user_ids`,
+	ADD COLUMN `grow_concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' AFTER `grow_status`,
+	ADD COLUMN `grow_concat_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' AFTER `grow_concat_user_ids`;
 -- 更新 ow_member_apply_view
+
+ALTER TABLE `cadre`
+	ADD COLUMN `is_outside` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否校外任职' AFTER `title`;
+
+-- 更新cadre_view
+
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('contactUsers_count', '培养联系人数量', '0', 2, 79, '入党积极分子阶段');
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('sponsorUsers_count', '入党介绍人数量', '0', 2, 80, '');
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('growContactUsers_count', '培养联系人数量', '0', 2, 81, '预备党员阶段');
 
 
 20201021

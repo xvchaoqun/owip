@@ -1,15 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
-<c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
-<c:set var="OW_APPLY_STAGE_PASS" value="<%=OwConstants.OW_APPLY_STAGE_PASS%>"/>
-<c:set var="OW_APPLY_STAGE_ACTIVE" value="<%=OwConstants.OW_APPLY_STAGE_ACTIVE%>"/>
-<c:set var="OW_APPLY_STAGE_CANDIDATE" value="<%=OwConstants.OW_APPLY_STAGE_CANDIDATE%>"/>
-<c:set var="OW_APPLY_STAGE_PLAN" value="<%=OwConstants.OW_APPLY_STAGE_PLAN%>"/>
-<c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
-<c:set var="OW_APPLY_STAGE_GROW" value="<%=OwConstants.OW_APPLY_STAGE_GROW%>"/>
-<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
+<%@ include file="constants.jsp" %>
 
 <div class="modal-body">
 
@@ -37,7 +29,7 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                入党申请信息
+                                党员发展信息
                                 <c:if test="${memberApply.stage!=OW_APPLY_STAGE_DENY}">
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
@@ -85,10 +77,38 @@
                                     <div class="profile-info-name"> 党支部 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" id="login">${cm:displayParty(null, memberApply.branchId)}</span>
+                                        <span class="editable">${cm:displayParty(null, memberApply.branchId)}</span>
                                     </div>
                                 </div>
                             </c:if>
+                            <c:if test="${_p_contactUsers_count>0 && memberApply.stage==OW_APPLY_STAGE_ACTIVE}">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 培养联系人 </div>
+
+                                    <div class="profile-info-value">
+                                        ${memberApply.contactUsers}
+                                    </div>
+                                </div>
+                            </c:if>
+                            <c:if test="${_p_sponsorUsers_count>0 && memberApply.stage==OW_APPLY_STAGE_CANDIDATE}">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 入党介绍人 </div>
+
+                                    <div class="profile-info-value">
+                                        ${memberApply.sponsorUsers}
+                                    </div>
+                                </div>
+                            </c:if>
+                            <c:if test="${_p_growContactUsers_count>0 && memberApply.stage==OW_APPLY_STAGE_GROW}">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 培养联系人 </div>
+
+                                    <div class="profile-info-value">
+                                        ${memberApply.growContactUsers}
+                                    </div>
+                                </div>
+                            </c:if>
+
                             <div class="profile-info-row">
                                 <div class="profile-info-name"> 备注 </div>
 

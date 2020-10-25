@@ -64,9 +64,9 @@ public class MemberApplyView implements Serializable {
 
     private String activeGrade;
 
-    private String concatUserIds;
+    private String contactUserIds;
 
-    private String concatUsers;
+    private String contactUsers;
 
     private Date candidateTime;
 
@@ -100,9 +100,9 @@ public class MemberApplyView implements Serializable {
 
     private Byte growStatus;
 
-    private String growConcatUserIds;
+    private String growContactUserIds;
 
-    private String growConcatUsers;
+    private String growContactUsers;
 
     private Integer positivePublicId;
 
@@ -244,20 +244,20 @@ public class MemberApplyView implements Serializable {
         this.activeGrade = activeGrade == null ? null : activeGrade.trim();
     }
 
-    public String getConcatUserIds() {
-        return concatUserIds;
+    public String getContactUserIds() {
+        return contactUserIds;
     }
 
-    public void setConcatUserIds(String concatUserIds) {
-        this.concatUserIds = concatUserIds == null ? null : concatUserIds.trim();
+    public void setContactUserIds(String contactUserIds) {
+        this.contactUserIds = contactUserIds == null ? null : contactUserIds.trim();
     }
 
-    public String getConcatUsers() {
-        return concatUsers;
+    public String getContactUsers() {
+        return contactUsers;
     }
 
-    public void setConcatUsers(String concatUsers) {
-        this.concatUsers = concatUsers == null ? null : concatUsers.trim();
+    public void setContactUsers(String contactUsers) {
+        this.contactUsers = contactUsers == null ? null : contactUsers.trim();
     }
 
     public Date getCandidateTime() {
@@ -388,20 +388,20 @@ public class MemberApplyView implements Serializable {
         this.growStatus = growStatus;
     }
 
-    public String getGrowConcatUserIds() {
-        return growConcatUserIds;
+    public String getGrowContactUserIds() {
+        return growContactUserIds;
     }
 
-    public void setGrowConcatUserIds(String growConcatUserIds) {
-        this.growConcatUserIds = growConcatUserIds == null ? null : growConcatUserIds.trim();
+    public void setGrowContactUserIds(String growContactUserIds) {
+        this.growContactUserIds = growContactUserIds == null ? null : growContactUserIds.trim();
     }
 
-    public String getGrowConcatUsers() {
-        return growConcatUsers;
+    public String getGrowContactUsers() {
+        return growContactUsers;
     }
 
-    public void setGrowConcatUsers(String growConcatUsers) {
-        this.growConcatUsers = growConcatUsers == null ? null : growConcatUsers.trim();
+    public void setGrowContactUsers(String growContactUsers) {
+        this.growContactUsers = growContactUsers == null ? null : growContactUsers.trim();
     }
 
     public Integer getPositivePublicId() {

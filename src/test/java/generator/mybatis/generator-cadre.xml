@@ -37,6 +37,8 @@
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>
@@ -49,6 +51,8 @@
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>
@@ -60,6 +64,8 @@
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
       </table>
