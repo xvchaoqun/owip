@@ -79,7 +79,7 @@ public class CadreUtils {
 
                 subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{2})?([\\-—～－]{1,2})?.*)[）|\\)]", subLine);
                 subLine = subLine.replaceAll("[)|）][(|（]", "；");
-                String[] subLines = subLine.split("；");
+                String[] subLines = subLine.split("；|;");
                 for (String sub : subLines) {
 
                     //sub = sub.trim().replace("[其|期]间[：|:]", "");
@@ -140,9 +140,12 @@ public class CadreUtils {
         }
 
         // 判断是否是学习经历
-        r.isEdu = (StringUtils.containsAny(desc,
-                "中学", "初中", "高中", "学习", "进修", "毕业", "中专", "大专", "专科", "学士", "硕士", "博士", "学位")
-        || r.desc.endsWith("学生")|| r.desc.endsWith("本科")|| r.desc.endsWith("本科生")|| r.desc.endsWith("研究生") || r.desc.endsWith("读大学"));
+        r.isEdu = ((StringUtils.containsAny(desc,  "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "博士")
+                || r.desc.endsWith("学生")|| r.desc.endsWith("本科")|| r.desc.endsWith("本科生")|| r.desc.endsWith("研究生") || r.desc.endsWith("读大学"))
+                && !StringUtils.containsAny(desc, "助教", "讲师", "教师", "校长"))
+                || (StringUtils.contains(desc, "学位") && !StringUtils.containsAny(desc, "学位委员", "学位办公室"))
+                || (StringUtils.contains(desc, "毕业") && !StringUtils.contains(desc, "毕业生就业"))
+                || (StringUtils.contains(desc, "硕士") && !StringUtils.containsAny(desc, "硕士教育中心", "硕士办公室"));
 
         // 博士后算工作经历
         if(r.isEdu && StringUtils.contains(desc, "博士后")){

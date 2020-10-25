@@ -715,7 +715,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
             //2、岗位
             CadrePost mainPost = new CadrePost();
-            String unitPostName = ContentUtils.trimAll(xlsRow.get(4)).replaceAll("<[　| | |\\s]*br[　| | |\\s]*[/]?>", "");
+            String unitPostName = ContentUtils.trimHtml(ContentUtils.trimHtml(ContentUtils.trimAll(xlsRow.get(4))));
             if (StringUtils.isBlank(unitPostName)){
                 throw new OpException("第{0}行所在单位及职务为空", row);
             }
