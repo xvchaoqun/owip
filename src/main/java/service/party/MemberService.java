@@ -380,7 +380,7 @@ public class MemberService extends MemberBaseMapper {
 
     // 修改党籍信息时使用，保留修改记录
     @Transactional
-    public int updateByPrimaryKeySelective(Member record, String reason) {
+    public void updateByPrimaryKeySelective(Member record, String reason) {
 
         Integer userId = record.getUserId();
         {
@@ -394,7 +394,11 @@ public class MemberService extends MemberBaseMapper {
         // 先保留历史记录
         addModify(userId, reason);
 
-        return updateByPrimaryKeySelective(record);
+        updateByPrimaryKeySelective(record);
+
+        if(record.getStatus()!=null && record.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
+            sysUserService.addRole(userId, RoleConstants.ROLE_MEMBER);
+        }
     }
 
     public void addModify(int userId, String reason) {

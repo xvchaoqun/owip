@@ -148,6 +148,7 @@
 
         </div>
         <div class="col-xs-5">
+            <c:if test="${empty member.politicalStatus || member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
                 <div class="col-xs-8">
@@ -166,6 +167,7 @@
                                   name="positiveBranch" rows="3">${member.positiveBranch}</textarea>
                 </div>
             </div>
+            </c:if>
             <div class="form-group">
                 <label class="col-xs-3 control-label">党内职务</label>
                 <div class="col-xs-8">

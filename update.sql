@@ -1,4 +1,7 @@
 
+-- 执行 /test/member_add_role.jsp
+--     /test/member_del_role.jsp
+
 20201025
 北航 -- 北师大
 
