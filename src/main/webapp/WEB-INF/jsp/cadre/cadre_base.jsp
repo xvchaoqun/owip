@@ -528,14 +528,23 @@
                             <tr>
                                 <td rowspan="5" style="text-align: center;
 				                         width: 50px;background-color: #fff;">
-                                    <div style="width:145px">
+                                    <div id="avatarDiv" style="width:145px">
                                         <input type="file" name="_avatar" id="_avatar"/>
                                     </div>
                                     <div>
+                                        <input type="hidden" name="base64Avatar">
+                                        <img width="135" height="180" src="about:blank" style="position: absolute; left:-300px"/>
                                         <button type="button" class="btn btn-xs btn-primary"
                                                 onclick='$("#_avatar").click()'>
                                             <i class="fa fa-upload"></i> 重传
                                         </button>
+                                        <shiro:hasPermission name="avatar:sync">
+                                        <button type="button" class="runBtn btn btn-xs btn-warning"
+                                                data-url="${ctx}/avatar/sync?userId=${uv.id}"
+                                                data-callback="_avatarSync">
+                                            <i class="fa fa-refresh"></i> 同步
+                                        </button>
+                                        </shiro:hasPermission>
                                     </div>
                                 </td>
                                 <td class="bg-right">
@@ -847,16 +856,27 @@
             </div>
         </form>
         <style>
-            /*.ace-file-container {
-                height: 200px !important;
-            }*/
-
             .ace-file-multiple .ace-file-container .ace-file-name .ace-icon {
                 line-height: 120px !important;
             }
         </style>
     </c:if>
     <script>
+        function _avatarSync(btn, ret){
+            if(!ret.success || $.trim(ret.photoBase64)==''){
+                SysMsg.info("头像接口读取失败，无此人头像");
+                return;
+            }
+            //console.log(ret.photoBase64)
+            var $img = $("img", $(btn).closest("div"));
+            $img.attr("src", "data:image/png;base64,"+ ret.photoBase64)
+
+            setTimeout(function(){
+                $("input[name=base64Avatar]").val(ret.photoBase64)
+                $("#avatarDiv img").css("background-image", "url("+ $.getBase64Image($img.get(0))+")")
+            }, 200)
+        }
+
         <shiro:hasPermission name="cadre:updateWithoutRequired">
         $('span.star').css("color", "gray");
         $('input, textarea').prop("required", false);

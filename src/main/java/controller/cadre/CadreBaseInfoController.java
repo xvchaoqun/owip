@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.cadre.CadreParty;
 import domain.cadre.CadreView;
 import domain.cadreReserve.CadreReserve;
@@ -17,13 +18,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sun.misc.BASE64Decoder;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
+import sys.tool.graphicsmagick.GmTool;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
@@ -45,6 +48,7 @@ public class CadreBaseInfoController extends BaseController {
     @ResponseBody
     public Map do_cadreBaseInfo(int cadreId,
                                 MultipartFile _avatar,
+                                String base64Avatar,
                                 Integer dpTypeId,
                                 String _dpAddTime,
                                 @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
@@ -125,10 +129,31 @@ public class CadreBaseInfoController extends BaseController {
         if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
+        SysUserInfo record = new SysUserInfo();
 
         String avatar = avatarService.uploadAvatar(_avatar);
-        SysUserInfo record = new SysUserInfo();
+        if(StringUtils.isBlank(avatar) && StringUtils.isNotBlank(base64Avatar)){
+
+             //将字符串转换为byte数组
+            byte[] bytes = new BASE64Decoder().decodeBuffer(base64Avatar);
+            //转化为输入流
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+            avatar = FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
+                    + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + cadre.getCode()
+                    + "." + StringUtils.defaultIfBlank(ImageUtils.getBase64ImageFormat(base64Avatar), "jpg");
+
+            String filePath = springProps.avatarFolder + avatar;
+            FileUtils.saveFile(inputStream, filePath);
+            try {
+                GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+                gmTool.scaleResize(filePath, filePath, CmTag.getIntProperty("avatarWidth", 135),
+                        CmTag.getIntProperty("avatarHeight", 135));
+            }catch (Exception ex){
+                throw new OpException("上传失败：" + ex.getMessage());
+            }
+        }
         record.setAvatar(avatar);
+
         record.setAvatarUploadTime(new Date());
         record.setUserId(cadre.getUserId());
         record.setNativePlace(nativePlace);

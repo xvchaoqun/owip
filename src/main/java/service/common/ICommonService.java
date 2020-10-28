@@ -27,6 +27,11 @@ public abstract class ICommonService {
     @Autowired
     private ExtService extService;
 
+    // 同步用户头像
+    public String syncAvatar(Integer userId){
+        return null;
+    };
+
     // 党员发展时间节点限制
     public void checkMemberApplyData(MemberApply record) {
 

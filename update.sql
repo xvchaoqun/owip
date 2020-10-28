@@ -1,17 +1,41 @@
 
--- 执行 /test/member_add_role.jsp
---     /test/member_del_role.jsp
+20201028
+哈工大
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (990, 0, '同步头像接口', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'avatar:sync', 2, NULL, NULL, 1, NULL);
+-- 更新 Utils
 
 20201025
-北航 -- 北师大
+西工大，，北邮
+
+-- 执行 /test/member_add_role.jsp
+--     /test/member_del_role.jsp
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids like '%,8,%';
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`!=1 and u.role_ids like '%,8,%';
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids not like '%,8,%';
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids not like '%,8,%';
+-- 更新 Utils
+
+-- 北航
+/*ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `concat_user_ids` `contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' COLLATE 'utf8_general_ci' AFTER `active_grade`,
+	CHANGE COLUMN `concat_users` `contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' COLLATE 'utf8_general_ci' AFTER `contact_user_ids`,
+	CHANGE COLUMN `grow_concat_user_ids` `grow_contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' COLLATE 'utf8_general_ci' AFTER `grow_status`,
+	CHANGE COLUMN `grow_concat_users` `grow_contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' COLLATE 'utf8_general_ci' AFTER `grow_contact_user_ids`;
+*/-- 北航
+
+20201025
+北航
 
 ALTER TABLE `ow_member_apply`
-	ADD COLUMN `concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' AFTER `active_grade`,
-	ADD COLUMN `concat_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' AFTER `concat_user_ids`,
+	ADD COLUMN `contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' AFTER `active_grade`,
+	ADD COLUMN `contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' AFTER `contact_user_ids`,
 	ADD COLUMN `sponsor_user_ids` VARCHAR(50) NULL COMMENT '入党介绍人，如果为空则是校外，否则校内，逗号分割' AFTER `candidate_status`,
 	ADD COLUMN `sponsor_users` VARCHAR(50) NULL COMMENT '入党介绍人姓名，逗号分割' AFTER `sponsor_user_ids`,
-	ADD COLUMN `grow_concat_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' AFTER `grow_status`,
-	ADD COLUMN `grow_concat_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' AFTER `grow_concat_user_ids`;
+	ADD COLUMN `grow_contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' AFTER `grow_status`,
+	ADD COLUMN `grow_contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' AFTER `grow_contact_user_ids`;
 -- 更新 ow_member_apply_view
 
 ALTER TABLE `cadre`

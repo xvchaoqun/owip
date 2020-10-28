@@ -246,6 +246,11 @@ public class MemberService extends MemberBaseMapper {
         record.setBranchId(branchId);
         memberMapper.updateByExampleSelective(record, example);
 
+        for (Integer userId : userIds) {
+            // 保留历史记录
+            addModify(userId, "内部组织关系变动");
+        }
+
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新党员发展的预备党员
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
@@ -279,6 +284,11 @@ public class MemberService extends MemberBaseMapper {
         }
 
         iMemberMapper.changeMemberParty(partyId, branchId, example);
+
+        for (Integer userId : userIds) {
+            // 保留历史记录
+            addModify(userId, "校内组织关系转移");
+        }
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新党员发展的预备党员
