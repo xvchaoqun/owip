@@ -146,8 +146,8 @@ public class CadreBaseInfoController extends BaseController {
             FileUtils.saveFile(inputStream, filePath);
             try {
                 GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
-                gmTool.scaleResize(filePath, filePath, CmTag.getIntProperty("avatarWidth", 135),
-                        CmTag.getIntProperty("avatarHeight", 135));
+                gmTool.scaleResize(filePath, filePath, CmTag.getIntProperty("avatarWidth", 400),
+                        CmTag.getIntProperty("avatarHeight", 500));
             }catch (Exception ex){
                 throw new OpException("上传失败：" + ex.getMessage());
             }
