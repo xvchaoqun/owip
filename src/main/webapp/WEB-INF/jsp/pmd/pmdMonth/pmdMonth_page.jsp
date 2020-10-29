@@ -33,12 +33,13 @@
                                         data-grid-id="#jqGrid"
                                         ><i class="fa fa-edit"></i> 编辑缴费党委
                                 </button>
-
+                                <shiro:hasPermission name="pmdSendMsg:notify">
                                 <button class="popupBtn btn btn-warning btn-sm"
                                     ${(empty _pmdMonth)?'disabled':''}
                                         data-url="${ctx}/pmd/pmdSendMsg_notifyPartyAdmins"
                                         ><i class="fa fa-send"></i> 通知党委管理员
                                 </button>
+                                </shiro:hasPermission>
                                 <c:if test="${not empty _pmdMonth}">
                                     <button class="popupBtn btn btn-info btn-sm"
                                             data-url="${ctx}/pmd/pmdMonth_addParty">

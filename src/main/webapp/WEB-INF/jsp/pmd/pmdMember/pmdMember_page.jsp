@@ -115,7 +115,7 @@
                                 data-id-name="userId">
                             <i class="fa fa-send"></i> 通知
                         </button>--%>
-                        <c:if test="${_show_msg_btns}">
+                        <shiro:hasPermission name="pmdSendMsg:notify">
                             <button class="popupBtn btn btn-danger btn-sm tooltip-error"
                                     data-rel="tooltip" data-placement="top" title="本月党费收缴已经启动，通知本支部党员缴纳党费。"
                                     data-url="${ctx}/pmd/pmdSendMsg_notifyMembers?partyId=${param.partyId}&branchId=${param.branchId}"
@@ -129,7 +129,7 @@
                                     data-querystr="partyId=${param.partyId}&branchId=${param.branchId}"
                                     data-need-id="false"><i class="fa fa-send"></i> 发送提醒
                             </button>
-                        </c:if>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="pmdMember:selectMemberType">
                         <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectMemberType"
