@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -164,7 +163,7 @@ public class PmdBranchController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
         
             pmdBranchService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党支部报送：%s", id));

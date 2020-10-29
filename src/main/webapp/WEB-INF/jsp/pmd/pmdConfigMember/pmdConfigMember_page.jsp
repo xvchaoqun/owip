@@ -160,7 +160,6 @@
             {label: '姓名', name: 'user.realname', frozen: true, formatter: function (cellvalue, options, rowObject){
                  return $.member(rowObject.user.id, cellvalue);
             }},
-            {label: '手机号码', name: 'mobile', width: 110, frozen: true},
             { label: '缴费方式',name: 'isOnlinePay', width: 90, formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions: {on: '线上缴费', off:'<span class="text-success bolder">现金缴费</span>'}, frozen: true},
             {
@@ -183,7 +182,7 @@
                 return '--'
             }},
             {
-                label: '党费计算基数', name: 'retireSalary', formatter: function (cellvalue, options, rowObject) {
+                label: '退休基数', name: 'retireSalary', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_RETIRE}') return '--'
                 return $.trim(cellvalue)
             }
