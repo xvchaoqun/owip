@@ -1291,7 +1291,7 @@ var _modal_width;
                     if (size != undefined) {
                         $.tip({
                             $target: $file.closest(".ace-file-input"), $container: $("#pageContent") || $("body"),
-                            msg: "文件<span class='text-danger'>[{0}]</span>超过{1}M大小".format(size, _uploadMaxSize / (1024 * 1024)),
+                            msg: "文件<span class='text-danger'>[{0}]</span>超过{1}M大小".format(size, maxSize / (1024 * 1024)),
                             my: 'left center', at: 'right center'
                         });
                         return;
