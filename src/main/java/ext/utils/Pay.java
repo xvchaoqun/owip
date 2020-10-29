@@ -292,6 +292,7 @@ public class Pay implements IPay {
         notifyBean.setAmt(amt);
         notifyBean.setStatusCode(state);
         notifyBean.setHasPay(StringUtils.equals(state, "1"));
+        notifyBean.setSuccessMsg("pok");
 
         return notifyBean;
     }

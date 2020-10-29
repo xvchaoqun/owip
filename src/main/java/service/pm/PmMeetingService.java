@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.common.FreemarkerService;
 import service.party.BranchMemberService;
 import service.party.MemberService;
+import service.party.PartyService;
 import service.sys.LogService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
@@ -33,6 +34,9 @@ import static sys.constants.PmConstants.*;
 @Service("PmMeetingService")
 public class PmMeetingService extends PmBaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private PartyService partyService;
     @Autowired
     MemberService memberService;
     @Autowired
@@ -94,6 +98,10 @@ public class PmMeetingService extends PmBaseMapper {
             throw new OpException("该记录已审核通过，不能再次修改");
         }
         pmMeetingMapper.updateByPrimaryKeySelective(record);
+
+        if (partyService.isDirectBranch(record.getPartyId())){
+            commonMapper.excuteSql("update pm_meeting set branch_id=null where id=" + record.getId());
+        }
 
         for (PmMeetingFile pmMeetingFile : pmMeetingFiles) {
             pmMeetingFile.setMeetingId(record.getId());
