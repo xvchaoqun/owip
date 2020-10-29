@@ -422,7 +422,7 @@ public class PmdMemberController extends PmdBaseController {
             }
         }
 
-        pmdMonthService.addOrResetPmdMember(userId, null);
+        pmdExtService.addOrResetPmdMember(userId, null);
 
         return success(FormUtils.SUCCESS);
     }

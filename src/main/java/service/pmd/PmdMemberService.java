@@ -14,7 +14,6 @@ import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -564,7 +563,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
                 if(pmdMember.getMonthId() == currentMonthId && pmdMember.getIsDelay()==false) {
                     // 现金缴费 -> 线上缴费
-                    pmdMonthService.addOrResetPmdMember(pmdMember.getUserId(), pmdMemberId);
+                    pmdExtService.addOrResetPmdMember(pmdMember.getUserId(), pmdMemberId);
 
                 }else if(pmdMember.getMonthId() != currentMonthId && pmdMember.getIsDelay()){
                     // 现金缴费 -> 延迟缴费

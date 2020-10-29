@@ -1,13 +1,16 @@
 package ext.service;
 
 import com.google.gson.JsonObject;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberView;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.pmd.*;
 import domain.sys.SysUserView;
 import ext.domain.ExtJzgSalary;
 import ext.domain.ExtRetireSalary;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Node;
@@ -15,19 +18,32 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
+import persistence.common.CommonMapper;
+import persistence.member.common.IMemberMapper;
+import persistence.pmd.PmdConfigMemberMapper;
+import persistence.pmd.PmdMemberMapper;
+import persistence.pmd.PmdMemberPayMapper;
 import persistence.pmd.common.IPmdMapper;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.pmd.PmdConfigMemberService;
+import service.pmd.PmdConfigMemberTypeService;
+import service.pmd.PmdConfigResetService;
+import service.pmd.PmdMonthService;
+import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
+import sys.constants.MemberConstants;
+import sys.constants.PmdConstants;
+import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
+import sys.helper.PmdHelper;
 import sys.tags.CmTag;
-import sys.utils.ExportHelper;
-import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
-import sys.utils.RequestUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,13 +61,35 @@ public class PmdExtService {
     @Autowired
     protected IPmdMapper iPmdMapper;
     @Autowired
-    protected SysUserService sysUserService;
+    protected PmdConfigMemberMapper pmdConfigMemberMapper;
+    @Autowired
+    protected PmdMemberMapper pmdMemberMapper;
+    @Autowired
+    protected PmdMemberPayMapper pmdMemberPayMapper;
+    @Autowired
+    protected PmdMonthService pmdMonthService;
+    @Autowired
+    protected IMemberMapper iMemberMapper;
+    @Autowired
+    protected CommonMapper commonMapper;
     @Autowired
     protected PartyService partyService;
     @Autowired
     protected BranchService branchService;
     @Autowired
-    protected MemberService memberService;
+    private PmdExtService pmdExtService;
+    @Autowired
+    private PmdConfigMemberService pmdConfigMemberService;
+    @Autowired
+    private PmdConfigMemberTypeService pmdConfigMemberTypeService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private PmdConfigResetService pmdConfigResetService;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -672,5 +710,291 @@ public class PmdExtService {
         }
         String fileName = "离退休党费计算基数(" + salaryMonth + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    // 添加或重置党员缴费记录
+    @Transactional
+    public PmdMember addOrResetMember(Integer pmdMemberId,
+                                      PmdMonth pmdMonth,
+                                      Member member, boolean forceResetPmdConfigMember) {
+
+        int monthId = pmdMonth.getId();
+        int userId = member.getUserId();
+        SysUserView uv = sysUserService.findById(userId);
+
+        /**
+         * 读取党员缴费分类
+          */
+        // 党员分类
+        Byte configMemberType = null;
+        // 标准对应的额度，系统自动计算得到
+        BigDecimal duePay = null;
+        // 党员分类别
+        Integer configMemberTypeId = null;
+        // 离退休人员党费计算基数
+        BigDecimal retireBase = null;
+
+        Boolean hasSalary = null;
+        // 是否需要提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要（辅助字段）
+        Boolean needSetSalary = false;
+        // 党费缴纳标准（辅助字段）
+        String duePayReason = null;
+
+        Boolean isOnlinePay = true;
+
+        if(forceResetPmdConfigMember){ // 强制重置
+
+            pmdConfigMemberService.del(userId);
+        }
+
+        PmdConfigMember pmdConfigMember = pmdConfigMemberMapper.selectByPrimaryKey(userId);
+        if (pmdConfigMember != null && pmdConfigMember.getConfigMemberType() != null) {
+            configMemberType = pmdConfigMember.getConfigMemberType();
+            duePay = pmdConfigMember.getDuePay();
+            configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
+            retireBase = pmdConfigMember.getRetireSalary();
+            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                hasSalary = BooleanUtils.isTrue(pmdConfigMember.getHasSalary());
+            }
+            needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
+            isOnlinePay = pmdConfigMember.getIsOnlinePay();
+
+            if(pmdMemberId!=null){
+
+                isOnlinePay = true;
+                // 缴费方式更新为线上缴费（现金缴费修改为线上缴费时调用）
+                PmdConfigMember record = new PmdConfigMember();
+                record.setUserId(userId);
+                record.setIsOnlinePay(true);
+                pmdConfigMemberMapper.updateByPrimaryKeySelective(record);
+            }
+
+        } else {
+            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                configMemberType = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
+            } else {
+                MemberView memberView = iMemberMapper.getMemberView(userId);
+                configMemberType = memberView.getIsRetire() ? PmdConstants.PMD_MEMBER_TYPE_RETIRE
+                        : PmdConstants.PMD_MEMBER_TYPE_ONJOB;
+                // 附属学校
+                Set<String> partyCodeSet = new HashSet<>();
+                partyCodeSet.add("030300");
+                partyCodeSet.add("030500");
+                int partyId = member.getPartyId();
+                Party party = partyService.findAll().get(partyId);
+                String partyCode = party.getCode();
+                if (partyCodeSet.contains(partyCode)) {
+                    configMemberType = PmdConstants.PMD_MEMBER_TYPE_OTHER;
+                }
+
+                Map<Byte, PmdConfigMemberType> formulaMap = pmdConfigMemberTypeService.formulaMap();
+                if (configMemberType == PmdConstants.PMD_MEMBER_TYPE_RETIRE) {
+
+                    // 设定分类别：离退休
+                    PmdConfigMemberType pmdConfigMemberType = formulaMap.get(PmdConstants.PMD_FORMULA_TYPE_RETIRE);
+                    if (pmdConfigMemberType != null) {
+                        configMemberTypeId = pmdConfigMemberType.getId();
+                    }
+
+                    retireBase = pmdExtService.getRetireBase(memberView.getCode());
+                    duePay = pmdExtService.getDuePayFromRetireBase(retireBase);
+                } else {
+                    boolean syb = pmdExtService.isSYB(memberView);
+                    if (syb) {
+
+                        needSetSalary = true;
+
+                        // 设定分类别：在职在编教职工
+                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(PmdConstants.PMD_FORMULA_TYPE_ONJOB);
+                        if (pmdConfigMemberType != null) {
+                            configMemberTypeId = pmdConfigMemberType.getId();
+                        }
+
+                    } else if (pmdExtService.isXP(memberView)) {
+
+                        needSetSalary = true;
+
+                        // 设定分类别：校聘教职工
+                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(PmdConstants.PMD_FORMULA_TYPE_EXTERNAL);
+                        if (pmdConfigMemberType != null) {
+                            configMemberTypeId = pmdConfigMemberType.getId();
+                        }
+                    }
+                }
+            }
+
+            PmdConfigMember record = new PmdConfigMember();
+            record.setUserId(userId);
+            record.setConfigMemberType(configMemberType);
+            record.setConfigMemberTypeId(configMemberTypeId);
+            record.setDuePay(duePay);
+            record.setRetireSalary(retireBase);
+            // 默认线上缴费
+            record.setIsOnlinePay(true);
+            // ???
+            record.setHasReset(true);
+
+            pmdConfigMemberService.insertSelective(record);
+
+            // 更新新加入缴费党员的计算工资
+            String salaryMonth = DateUtils.formatDate(pmdConfigResetService.getSalaryMonth(), "yyyyMM");
+            if(salaryMonth!=null) {
+
+                ExtJzgSalary ejs = iPmdMapper.getExtJzgSalary(salaryMonth, uv.getCode());
+                pmdConfigResetService.updateDuePayByJzgSalary(ejs);
+                // 也可能是离退休老师
+                ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(salaryMonth, uv.getCode());
+                pmdConfigResetService.updateDuePayByRetireSalary(ers);
+            }
+        }
+
+        Integer _pmdMemberId = null;
+        // 新建党员快照
+        PmdMember _pmdMember = new PmdMember();
+        {
+            _pmdMember.setMonthId(monthId);
+            _pmdMember.setPayMonth(pmdMonth.getPayMonth());
+            _pmdMember.setUserId(userId);
+            _pmdMember.setPartyId(member.getPartyId());
+            _pmdMember.setBranchId(member.getBranchId());
+
+            if(configMemberType != PmdConstants.PMD_MEMBER_TYPE_STUDENT){
+
+                MemberView memberView = iMemberMapper.getMemberView(userId);
+                _pmdMember.setTalentTitle(memberView.getTalentTitle());
+                _pmdMember.setPostClass(memberView.getPostClass());
+                _pmdMember.setMainPostLevel(memberView.getMainPostLevel());
+                _pmdMember.setProPostLevel(memberView.getProPostLevel());
+                _pmdMember.setManageLevel(memberView.getManageLevel());
+                _pmdMember.setOfficeLevel(memberView.getOfficeLevel());
+                _pmdMember.setAuthorizedType(memberView.getAuthorizedType());
+                _pmdMember.setStaffType(memberView.getStaffType());
+            }
+
+            _pmdMember.setType(configMemberType);
+            if(configMemberTypeId!=null){
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+                if(pmdConfigMemberType!=null) {
+                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+
+                    _pmdMember.setConfigMemberTypeId(configMemberTypeId);
+                    _pmdMember.setConfigMemberTypeName(pmdConfigMemberType.getName());
+                    _pmdMember.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
+                    _pmdMember.setConfigMemberTypeNormName(pmdNorm.getName());
+
+                    duePayReason = pmdConfigMemberType.getName();
+                    /*if(pmdNorm.getType() == PmdConstants.PMD_NORM_SET_TYPE_FORMULA){
+                        switch (pmdNorm.getFormulaType()){
+                            case PmdConstants.PMD_FORMULA_TYPE_ONJOB:
+                            case PmdConstants.PMD_FORMULA_TYPE_EXTERNAL:
+                                needSetSalary = true;
+                                break;
+                        }
+                    }*/
+                }
+            }
+            _pmdMember.setConfigMemberDuePay(duePay);
+            _pmdMember.setSalary(retireBase);
+            _pmdMember.setDuePay(duePay);
+
+            // 只针对学生党员
+            _pmdMember.setHasSalary(hasSalary);
+            _pmdMember.setNeedSetSalary(needSetSalary);
+            _pmdMember.setDuePayReason(duePayReason);
+
+            //record.setRealPay(new BigDecimal(0));
+            _pmdMember.setIsDelay(false);
+            _pmdMember.setHasPay(false);
+
+            _pmdMember.setIsOnlinePay(true);
+
+            if(pmdMemberId==null) {
+                pmdMemberMapper.insertSelective(_pmdMember);
+                _pmdMemberId = _pmdMember.getId();
+            }else{
+                _pmdMember.setId(pmdMemberId);
+                _pmdMember.setRealPay(new BigDecimal(0));
+                pmdMemberMapper.updateByPrimaryKeySelective(_pmdMember);
+
+                if(duePay==null){ //  防止 现金 改为 线上 缴费时，pmd_config_member的due_pay变为null
+                    commonMapper.excuteSql(String.format("update pmd_member set due_pay=null " +
+                    " where id=%s", pmdMemberId));
+                }
+            }
+        }
+
+        if(pmdMemberId==null) {
+            // 同步至党员账本
+            PmdMemberPay record = new PmdMemberPay();
+            record.setMemberId(_pmdMemberId);
+            record.setHasPay(false);
+
+            pmdMemberPayMapper.insertSelective(record);
+        }else{
+
+            commonMapper.excuteSql("update pmd_member_pay set real_pay=null, " +
+                    "has_pay=0, is_online_pay=1, pay_month_id=null where member_id=" + pmdMemberId);
+        }
+
+        // 当党员默认为现金缴费时，同步添加当月的缴费记录时，需要更新为已缴费
+        if(!isOnlinePay){
+
+            if(/*pmdMemberId != null || */duePay == null){
+
+                // 重置缴费信息时，不可能为现金缴费
+                throw new OpException("参数有误（重置缴费信息时，不可能为现金缴费），{0}, {1}", uv.getRealname(), uv.getCode());
+            }
+
+            commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +
+                    "is_online_pay=0 where id=%s", duePay, _pmdMemberId));
+
+            int partyId = _pmdMember.getPartyId();
+            Integer branchId = _pmdMember.getBranchId();
+
+            commonMapper.excuteSql(String.format("update pmd_member_pay set real_pay=%s, " +
+                    "has_pay=1, is_online_pay=0, pay_month_id=%s, charge_party_id=%s, charge_branch_id=%s"
+                    +" where member_id=%s" , duePay, monthId, partyId, branchId,  _pmdMemberId));
+        }
+
+        // 启动收缴党费时记录进度
+        if(PmdHelper.processMemberCount>=0) PmdHelper.processMemberCount++;
+
+        return _pmdMember;
+    }
+
+    // 添加或重置党员缴费记录
+    @Transactional
+    @CacheEvict(value = "PmdConfigMember", key = "#userId")
+    public void addOrResetPmdMember(int userId, Integer pmdMemberId){
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        Member member = memberService.get(userId);
+        if(currentPmdMonth==null || member==null){
+
+            throw new OpException("{1}缴费记录失败，未到缴费月份或不是党员：{0}",
+                    sysUserService.findById(member.getUserId()).getRealname(),
+                    pmdMemberId==null?"添加":"更新");
+        }
+
+        PmdMember pmdMember = addOrResetMember(pmdMemberId, currentPmdMonth, member, true);
+
+        Date salaryMonth = pmdConfigResetService.getSalaryMonth();
+        if(salaryMonth!=null) {
+
+            String _salaryMonth = DateUtils.formatDate(salaryMonth, "yyyyMM");
+            SysUserView uv = sysUserService.findById(userId);
+
+            ExtJzgSalary ejs = iPmdMapper.getExtJzgSalary(_salaryMonth, uv.getCode());
+            // 更新在职教职工工资
+            pmdConfigResetService.updateDuePayByJzgSalary(ejs);
+
+            ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(_salaryMonth, uv.getCode());
+            // 更新离退休人员党费计算基数
+            pmdConfigResetService.updateDuePayByRetireSalary(ers);
+        }
+
+        sysApprovalLogService.add(pmdMember.getId(), userId, SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                (pmdMemberId==null?"添加":"更新")+ "缴费记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 }
