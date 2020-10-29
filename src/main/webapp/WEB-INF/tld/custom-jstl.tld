@@ -293,6 +293,16 @@
 		<function-signature>domain.sys.HtmlFragment getHtmlFragment(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>getAttachFile</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.sys.AttachFile getAttachFile(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>attachFileExisted</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>boolean attachFileExisted(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>getContentTpl</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.base.ContentTpl getContentTpl(java.lang.String)</function-signature>

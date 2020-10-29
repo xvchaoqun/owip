@@ -62,6 +62,7 @@ public class CmTag {
     public static ApplicationContext context = ApplicationContextSupport.getContext();
     static CacheService cacheService = context.getBean(CacheService.class);
     static CacheHelper cacheHelper = context.getBean(CacheHelper.class);
+    static AttachFileService attachFileService = context.getBean(AttachFileService.class);
     static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
     static ContentTplService contentTplService = context.getBean(ContentTplService.class);
     static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
@@ -236,6 +237,20 @@ public class CmTag {
             htmlFragment.setContent(HtmlUtils.htmlUnescape(htmlFragment.getContent()));
         }
         return htmlFragment;
+    }
+
+    // 仅供jstl标签调用
+    public static AttachFile getAttachFile(String code) {
+
+        return attachFileService.get(code);
+    }
+    // 仅供jstl标签调用
+    public static boolean attachFileExisted(String code) {
+
+        AttachFile attachFile = attachFileService.get(code);
+        if(attachFile==null) return false;
+
+        return BooleanUtils.isNotTrue(attachFile.getIsDeleted());
     }
 
     public static List<SysResource> getSysResourcePath(Integer id, Boolean isMobile) {

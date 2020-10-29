@@ -12,11 +12,11 @@ pageEncoding="UTF-8" %>
              || not empty param.code || not empty param.sort}"/>
 
             <div class="jqgrid-vertical-offset buttons">
+                <c:if test="${cm:attachFileExisted('af_pmd_member_help')}">
                 <a class="popupBtn btn btn-warning btn-sm"
-                   data-width="850"
-                   data-url="${ctx}/hf_content?code=hf_pmd_member">
+                   data-url="${ctx}/pdf_preview?code=af_pmd_member_help&np=1">
                     <i class="fa fa-info-circle"></i> 使用说明</a>
-
+                </c:if>
                 <c:if test="${canSetSalary}">
                 <a class="popupBtn btn btn-success btn-sm"
                    data-width="600"

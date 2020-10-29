@@ -11,33 +11,10 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.payMonth ||not empty param.hasReport
              || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-
+                <c:if test="${cm:attachFileExisted('af_pmd_help')}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-url="${ctx}/pdf_preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
-               <%-- <a class="popupBtn btn btn-warning btn-sm"
-                   data-width="800"
-                   data-url="${ctx}/hf_content?code=hf_pmd_party">
-                    <i class="fa fa-info-circle"></i> 操作说明</a>--%>
-                <%--<shiro:hasPermission name="pmdParty:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmdParty_au"><i class="fa fa-plus"></i> 添加</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pmdParty_au"
-                       data-grid-id="#jqGrid"
-                       ><i class="fa fa-edit"></i>
-                        修改</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="pmdParty:del">
-                    <button data-url="${ctx}/pmdParty_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
-                </shiro:hasPermission>--%>
-                <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>--%>
+                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
