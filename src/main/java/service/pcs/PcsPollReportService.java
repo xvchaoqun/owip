@@ -42,7 +42,7 @@ public class PcsPollReportService extends PcsBaseMapper {
 
         PcsPollExample example1 = new PcsPollExample();
         PcsPollExample.Criteria criteria = example1.createCriteria().andStageEqualTo(stage).andConfigIdEqualTo(configId)
-                .andPartyIdEqualTo(partyId);
+                .andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
