@@ -55,6 +55,8 @@ public class MemberView implements Serializable {
 
     private BigDecimal integrity;
 
+    private Float sortOrder;
+
     private Byte userSource;
 
     private String username;
@@ -80,6 +82,10 @@ public class MemberView implements Serializable {
     private String unit;
 
     private Integer unitId;
+
+    private String partyName;
+
+    private String branchName;
 
     private Integer partySortOrder;
 
@@ -383,6 +389,14 @@ public class MemberView implements Serializable {
         this.integrity = integrity;
     }
 
+    public Float getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Float sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
     public Byte getUserSource() {
         return userSource;
     }
@@ -485,6 +499,22 @@ public class MemberView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName == null ? null : partyName.trim();
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName == null ? null : branchName.trim();
     }
 
     public Integer getPartySortOrder() {

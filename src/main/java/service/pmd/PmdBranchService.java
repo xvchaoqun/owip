@@ -1,6 +1,8 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.pmd.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pmd.common.PmdReportBean;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
@@ -105,7 +107,7 @@ public class PmdBranchService extends PmdBaseMapper {
         int partyId = pmdBranch.getPartyId();
         int branchId = pmdBranch.getBranchId();
         // 组织部管理员、分党委管理员、党支部管理员允许报送
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     throw new UnauthorizedException();
@@ -139,7 +141,7 @@ public class PmdBranchService extends PmdBaseMapper {
         if(pmdBranch==null) return false;
 
         // 组织部管理员、分党委管理员、党支部管理员允许报送
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     return false;
@@ -169,9 +171,18 @@ public class PmdBranchService extends PmdBaseMapper {
     }
 
     @Transactional
-    public void insertSelective(PmdBranch record) {
+    public void insertSelective(PmdBranch record, PmdMonth currentPmdMonth) {
 
+        Party party = partyMapper.selectByPrimaryKey(record.getPartyId());
+        Branch branch = branchMapper.selectByPrimaryKey(record.getBranchId());
+        record.setPartyName(party.getName());
+        record.setBranchName(branch.getName());
+        record.setPartySortOrder(party.getSortOrder());
+        record.setSortOrder(branch.getSortOrder());
+        record.setHasReport(false);
         pmdBranchMapper.insertSelective(record);
+        pmdMonthService.addBranch(record.getPartyId(), record.getBranchId(), currentPmdMonth);
+
     }
 
     @Transactional

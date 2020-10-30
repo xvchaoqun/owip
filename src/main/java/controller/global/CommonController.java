@@ -13,8 +13,6 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -401,6 +399,8 @@ public class CommonController extends BaseController {
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria();
 
+        example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
+
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
@@ -475,6 +475,14 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("unit", extService.getUnit(uv.getId()));
                 }
+
+                /*String branchName = StringUtils.defaultIfBlank(member.getBranchName(), member.getPartyName());
+                String schoolName = CmTag.getSysConfig().getSchoolName();
+                String schoolShortName = CmTag.getSysConfig().getSchoolShortName();
+                branchName = RegExUtils.replaceFirst(branchName,
+                        "[中共|中国共产党]"+ "["+ schoolShortName +"|"+ schoolName +"]", "");
+                option.put("unit", branchName);*/
+
                 options.add(option);
             }
         }

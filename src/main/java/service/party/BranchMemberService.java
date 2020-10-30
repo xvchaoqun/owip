@@ -142,7 +142,8 @@ public class BranchMemberService extends BaseMapper {
 
             for (OwAdmin record : owAdmins) { // 一般只有一个
 
-                branchAdminService.setBranchAdmin(record.getId(), false);
+                BranchMemberView bmv = (BranchMemberView) orgAdminService.getAdmin(record.getId(), false);
+                branchAdminService.setBranchAdmin(bmv.getId(), false);
             }
         }
 
@@ -155,7 +156,8 @@ public class BranchMemberService extends BaseMapper {
 
             for (OwAdmin record : owAdmins) { // 一般只有一个
 
-                orgAdminService.del(record.getId(), record.getUserId());
+                OrgAdmin oa = (OrgAdmin) orgAdminService.getAdmin(record.getId(), false);
+                orgAdminService.del(oa.getId(), record.getUserId());
             }
         }
     }

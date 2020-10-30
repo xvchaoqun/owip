@@ -17,6 +17,8 @@ public class PcsRecommend implements Serializable {
 
     private Boolean isFinished;
 
+    private Boolean hasReport;
+
     private Byte stage;
 
     private Integer memberCount;
@@ -85,6 +87,14 @@ public class PcsRecommend implements Serializable {
 
     public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public Boolean getHasReport() {
+        return hasReport;
+    }
+
+    public void setHasReport(Boolean hasReport) {
+        this.hasReport = hasReport;
     }
 
     public Byte getStage() {

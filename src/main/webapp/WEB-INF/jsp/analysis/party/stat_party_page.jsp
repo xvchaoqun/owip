@@ -2,6 +2,9 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row" id="cartogram">
+    <shiro:hasPermission name="suspend:party">
+        <c:import url="/suspend_party?partyId=${partyId}"/>
+    </shiro:hasPermission>
     <div class="col-xs-12">
         <div class="row">
             <div class="col-xs-12">

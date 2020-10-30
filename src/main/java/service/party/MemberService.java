@@ -246,6 +246,11 @@ public class MemberService extends MemberBaseMapper {
         record.setBranchId(branchId);
         memberMapper.updateByExampleSelective(record, example);
 
+        for (Integer userId : userIds) {
+            // 保留历史记录
+            addModify(userId, "内部组织关系变动");
+        }
+
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新党员发展的预备党员
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
@@ -279,6 +284,11 @@ public class MemberService extends MemberBaseMapper {
         }
 
         iMemberMapper.changeMemberParty(partyId, branchId, example);
+
+        for (Integer userId : userIds) {
+            // 保留历史记录
+            addModify(userId, "校内组织关系转移");
+        }
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新党员发展的预备党员
@@ -380,7 +390,7 @@ public class MemberService extends MemberBaseMapper {
 
     // 修改党籍信息时使用，保留修改记录
     @Transactional
-    public int updateByPrimaryKeySelective(Member record, String reason) {
+    public void updateByPrimaryKeySelective(Member record, String reason) {
 
         Integer userId = record.getUserId();
         {
@@ -394,7 +404,11 @@ public class MemberService extends MemberBaseMapper {
         // 先保留历史记录
         addModify(userId, reason);
 
-        return updateByPrimaryKeySelective(record);
+        updateByPrimaryKeySelective(record);
+
+        if(record.getStatus()!=null && record.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
+            sysUserService.addRole(userId, RoleConstants.ROLE_MEMBER);
+        }
     }
 
     public void addModify(int userId, String reason) {
@@ -578,7 +592,7 @@ public class MemberService extends MemberBaseMapper {
             @CacheEvict(value = "Party:ALL", allEntries = true),
             @CacheEvict(value = "MemberApply", allEntries = true)
     })
-    public Map<String, Object> importMemberUpdate(XSSFSheet sheet,
+    public Map<String, Object> importMemberAllInfo(XSSFSheet sheet,
                                                   List<Map<Integer, String>> xlsRows,
                                                   Map<String, Byte> politicalStatusMap,
                                                   String startCode) {
@@ -665,9 +679,21 @@ public class MemberService extends MemberBaseMapper {
                 party.setShortName("");
                 MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", "事业单位");
                 party.setUnitTypeId(partyUnitType.getId());
-                MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
+                //党总支类别
+                MetaType partyClass = null;
+                if (partyName.contains("直属")){
+                    partyClass = CmTag.getMetaTypeByName("mc_party_class", "直属党支部");
+                }else {
+                    partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
+                }
                 party.setClassId(partyClass.getId());
-                MetaType partyType = CmTag.getMetaTypeByName("mc_party_type", "院系党组织");
+                //组织类型
+                MetaType partyType = null;
+                if (partyName.contains("附属")){
+                    partyType = CmTag.getMetaTypeByName("mc_party_type", "附属学校党组织");
+                }else {
+                    partyType = CmTag.getMetaTypeByName("mc_party_type", "院系党组织");
+                }
                 party.setTypeId(partyType.getId());
                 party.setIsEnterpriseBig(false);
                 party.setIsEnterpriseNationalized(false);

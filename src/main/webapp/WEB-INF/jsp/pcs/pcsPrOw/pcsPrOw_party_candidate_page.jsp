@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label>被推荐人</label>
                             <select name="userId" data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>&status=${MEMBER_STATUS_NORMAL}"
+                                    data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=MEMBER_POLITICAL_STATUS_POSITIVE&status=${MEMBER_STATUS_NORMAL}"
                                     data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>

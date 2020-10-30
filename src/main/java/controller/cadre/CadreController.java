@@ -10,7 +10,9 @@ import domain.dispatch.DispatchCadre;
 import domain.party.BranchMember;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import domain.unit.UnitExample;
 import domain.unit.UnitPost;
+import domain.unit.UnitPostExample;
 import freemarker.template.TemplateException;
 import mixin.CadreDispatchMixin;
 import mixin.CadreEduMixin;
@@ -23,7 +25,6 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dom4j.DocumentException;
@@ -888,6 +889,7 @@ public class CadreController extends BaseController {
                            HttpServletRequest request) {
 
         record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
+        record.setIsOutside(BooleanUtils.isTrue(record.getIsOutside()));
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){
             /*if(unitIds==null || unitIds.length==0) {
@@ -1172,4 +1174,51 @@ public class CadreController extends BaseController {
         cadreService.batchSortByUnit(status);
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("cadre:import")
+    @RequestMapping("/cadreAll_import")
+    public String cadreAll_import(byte status, ModelMap modelMap) {
+
+        modelMap.put("status", status);
+        return "cadre/cadreAll_import";
+    }
+
+    //导入时会先清空相关的表，然后进行导入
+    /*  填表须知：
+        用兼字连接的职位会一分为二；
+        有兼职的需要填写相应数量的所在单位，用逗号隔开；
+        兼职不是必填
+     */
+    @RequiresPermissions("cadre:import")
+    @RequestMapping(value = "/cadreAll_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreAll_import(HttpServletRequest request,
+                                  Byte status, String unitCode //后三位必须为数字
+                                   ) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        cadreService.cadreAll_import(xlsRows, status, unitCode);
+
+        int unitCount = (int) unitMapper.countByExample(new UnitExample());
+        int unitPostCount = (int) unitPostMapper.countByExample(new UnitPostExample());
+        int cadreCount = (int) cadreMapper.countByExample(new CadreExample());
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("unitCount", unitCount);
+        resultMap.put("unitPostCount", unitPostCount);
+        resultMap.put("cadreCount", cadreCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部成功，共导入{0}个单位，{1}个岗位，{2}个干部",
+                unitCount, unitPostCount, cadreCount));
+
+        return resultMap;
+    }
+
 }

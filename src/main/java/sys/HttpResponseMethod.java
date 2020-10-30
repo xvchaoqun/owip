@@ -1,9 +1,7 @@
 package sys;
 
 import controller.global.OpException;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +9,7 @@ import service.SpringProps;
 import service.sys.LogService;
 import shiro.ShiroHelper;
 import sys.tags.CmTag;
+import sys.tool.graphicsmagick.GmTool;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -135,13 +134,11 @@ public interface HttpResponseMethod {
      * @param sImgWidth
      * @param sImgHeight
      * @return
-     * @throws IOException
-     * @throws InterruptedException
      */
     default String upload(MultipartFile file, String saveFolder,
                           String type,
                           int sImgWidth,
-                          int sImgHeight) throws IOException {
+                          int sImgHeight){
 
         // 系统允许上传文件白名单
         if(file!=null && !ContentTypeUtils.isAnyFormat(file, CmTag.getStringProperty("upload_file_whitelist"))){
@@ -154,12 +151,8 @@ public interface HttpResponseMethod {
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 
-        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
-        String FILE_SEPARATOR = File.separator;
+        String realPath = createSavePath(saveFolder);
 
-        String realPath = FILE_SEPARATOR + saveFolder +
-                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
-                FILE_SEPARATOR + UUID.randomUUID().toString();
         String originalFilename = file.getOriginalFilename();
         String savePath = realPath + FileUtils.getExtention(originalFilename);
         FileUtils.copyFile(file, new File(springProps.uploadPath + savePath));
@@ -180,23 +173,24 @@ public interface HttpResponseMethod {
             // 需要缩略图的情况
             String shortImgPath = realPath + "_s"
                     + StringUtils.defaultIfBlank(FileUtils.getExtention(originalFilename), ".jpg");
-
-            Thumbnails.of(file.getInputStream())
-                    .size(sImgWidth, sImgHeight)
-                    //.outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.uploadPath + shortImgPath);
+            String filePath = springProps.uploadPath + savePath;
+            try {
+                GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+                gmTool.scaleResize(filePath, shortImgPath, sImgWidth, sImgHeight);
+            }catch (Exception ex){
+                throw new OpException("文件上传失败：" + ex.getMessage());
+            }
         }
 
         return savePath;
     }
 
-    default String upload(MultipartFile file, String saveFolder) throws IOException {
+    default String upload(MultipartFile file, String saveFolder) {
 
         return upload(file, saveFolder, null, 0, 0);
     }
 
-    default String uploadDocOrPdf(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadDocOrPdf(MultipartFile file, String saveFolder){
 
         if (StringUtils.contains(file.getContentType(), "pdf")) {
 
@@ -206,14 +200,39 @@ public interface HttpResponseMethod {
         }
     }
 
-    default String uploadDoc(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadDoc(MultipartFile file, String saveFolder) {
 
         return upload(file, saveFolder, "doc", 0, 0);
     }
 
-    default String uploadPdf(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadPdf(MultipartFile file, String saveFolder) {
 
         return upload(file, saveFolder, "pdf", 0, 0);
+    }
+
+    // 对超过1M的pdf进行压缩（不保留原pdf)
+    default String uploadCompressPdf(MultipartFile file, String saveFolder) {
+
+        SpringProps springProps = CmTag.getBean(SpringProps.class);
+
+        String pdfPath = upload(file, saveFolder, "pdf", 0, 0);
+        long fileLength = FileUtils.getFileLength(new File(springProps.uploadPath + pdfPath));
+
+        if(fileLength > 1*1024*1024){ // 超过1M对pdf进行压缩
+            try {
+                String realPath = createSavePath(saveFolder) + ".pdf";
+                PdfUtils.optimize(PropertiesUtils.getString("gs.command"),
+                        springProps.uploadPath + pdfPath, springProps.uploadPath + realPath);
+                // 删除原pdf
+                FileUtils.delFile(springProps.uploadPath + pdfPath);
+
+                return realPath;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return pdfPath;
     }
 
     /**
@@ -224,13 +243,21 @@ public interface HttpResponseMethod {
      * @param sImgWidth
      * @param sImgHeight
      * @return
-     * @throws IOException
      */
-    default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
+    default String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) {
 
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
+    // 创建上传的文件保存路径
+    default String createSavePath(String saveFolder){
+
+        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
+        String FILE_SEPARATOR = File.separator;
+        return FILE_SEPARATOR + saveFolder +
+                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
+                FILE_SEPARATOR + UUID.randomUUID().toString();
+    }
     /**
      * 上传缩略图（不保存原图）
      * @param file
@@ -238,9 +265,8 @@ public interface HttpResponseMethod {
      * @param sImgWidth
      * @param sImgHeight
      * @return
-     * @throws IOException
      */
-    default String uploadThumbPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException {
+    default String uploadThumbPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight){
 
          // 系统允许上传文件白名单
         if(file!=null && !ContentTypeUtils.isAnyFormat(file, CmTag.getStringProperty("upload_file_whitelist"))){
@@ -253,28 +279,26 @@ public interface HttpResponseMethod {
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 
-        // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
-        String FILE_SEPARATOR = File.separator;
-
-        String realPath = FILE_SEPARATOR + saveFolder +
-                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
-                FILE_SEPARATOR + UUID.randomUUID().toString();
+        String realPath = createSavePath(saveFolder);
         String originalFilename = file.getOriginalFilename();
         String savePath = realPath + FileUtils.getExtention(originalFilename);
 
-        Thumbnails.of(file.getInputStream())
-                    .size(sImgWidth, sImgHeight)
-                    //.outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.uploadPath + savePath);
+        try {
+            String filePath = springProps.uploadPath + savePath;
+            FileUtils.saveFile(file, new File(filePath));
+            GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+            gmTool.scaleResize(filePath, filePath, sImgWidth, sImgHeight);
+        }catch (Exception ex){
+            throw new OpException("文件上传失败：" + ex.getMessage());
+        }
 
         return savePath;
     }
 
-    default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException {
+    default String uploadPdfOrImage(MultipartFile file, String saveFolder) {
 
         if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image") == -1) {
-            throw new FileFormatException("文件格式错误，请上传pdf或图片文件");
+            throw new OpException("文件格式错误，请上传pdf或图片文件");
         }
 
         if (StringUtils.contains(file.getContentType(), "pdf")) {

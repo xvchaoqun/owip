@@ -632,6 +632,66 @@ public class CadreExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsOutsideIsNull() {
+            addCriterion("is_outside is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideIsNotNull() {
+            addCriterion("is_outside is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideEqualTo(Boolean value) {
+            addCriterion("is_outside =", value, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideNotEqualTo(Boolean value) {
+            addCriterion("is_outside <>", value, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideGreaterThan(Boolean value) {
+            addCriterion("is_outside >", value, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_outside >=", value, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideLessThan(Boolean value) {
+            addCriterion("is_outside <", value, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_outside <=", value, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideIn(List<Boolean> values) {
+            addCriterion("is_outside in", values, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideNotIn(List<Boolean> values) {
+            addCriterion("is_outside not in", values, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_outside between", value1, value2, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOutsideNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_outside not between", value1, value2, "isOutside");
+            return (Criteria) this;
+        }
+
         public Criteria andDispatchCadreIdIsNull() {
             addCriterion("dispatch_cadre_id is null");
             return (Criteria) this;

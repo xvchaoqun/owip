@@ -1,5 +1,9 @@
 package domain.pmd;
 
+import org.apache.commons.lang3.StringUtils;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -510,6 +514,66 @@ public class PmdBranchViewExample {
 
         public Criteria andBranchNameNotBetween(String value1, String value2) {
             addCriterion("branch_name not between", value1, value2, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIsNull() {
+            addCriterion("party_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIsNotNull() {
+            addCriterion("party_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderEqualTo(Integer value) {
+            addCriterion("party_sort_order =", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotEqualTo(Integer value) {
+            addCriterion("party_sort_order <>", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThan(Integer value) {
+            addCriterion("party_sort_order >", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order >=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThan(Integer value) {
+            addCriterion("party_sort_order <", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order <=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIn(List<Integer> values) {
+            addCriterion("party_sort_order in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotIn(List<Integer> values) {
+            addCriterion("party_sort_order not in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order not between", value1, value2, "partySortOrder");
             return (Criteria) this;
         }
 
@@ -1848,6 +1912,25 @@ public class PmdBranchViewExample {
 
         protected Criteria() {
             super();
+        }
+
+        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andIdIsNull();
+            return this;
         }
     }
 

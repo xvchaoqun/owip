@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -50,12 +51,14 @@ public class PmdPayBranchController extends PmdBaseController {
         PmdPayBranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, branch_id desc");
 
-        int userId = ShiroHelper.getCurrentUserId();
-        List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-        if(adminPartyIds.size()>0) {
-            criteria.andPartyIdIn(adminPartyIds);
-        }else{
-            criteria.andPartyIdIsNull();
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+            int userId = ShiroHelper.getCurrentUserId();
+            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+            if (adminPartyIds.size() > 0) {
+                criteria.andPartyIdIn(adminPartyIds);
+            } else {
+                criteria.andPartyIdIsNull();
+            }
         }
 
         if (monthId != null) {

@@ -33,7 +33,7 @@
 					<c:if test="${param.parentId>0}">子</c:if>节点名称
 				</label>
 				<div class="col-xs-6 ">
-					<form:input path="name" class="form-control"/>
+					<form:input path="name" class="form-control" htmlEscape="false"/>
 				</div>
 		</div>
 		<div class="form-group">
@@ -53,14 +53,14 @@
 		<div class="form-group menuNeeded">
 				<label class="col-xs-4 control-label">排序</label>
 				<div class="col-xs-6 ">
-					<form:input path="sortOrder"  class="form-control" />
+					<form:input path="sortOrder"  class="digits form-control" />
 				</div>
 		</div>
 		<div class="form-group menuNeeded">
 				<label class="col-xs-4 control-label">菜单样式</label>
 
 			<div class="col-xs-6">
-				<form:input path="menuCss"  class="form-control" cssStyle="margin-bottom: 5px;"/>
+				<form:input path="menuCss"  class="form-control" cssStyle="margin-bottom: 5px;"  htmlEscape="false"/>
 				<%
 					List<String> icons = new LinkedList<String>();
 
@@ -90,13 +90,13 @@
 		<div class="form-group menuNeeded">
 				<label class="col-xs-4 control-label">URL路径</label>
 				<div class="col-xs-6 ">
-					<form:input path="url"  class="form-control" />
+					<form:input path="url"  class="form-control"  htmlEscape="false"/>
 				</div>
 		</div>
 		<div class="form-group">
 				<label class="col-xs-4 control-label">权限字符串</label>
 				<div class="col-xs-6 ">
-					<form:input path="permission"  class="form-control" />
+					<form:input path="permission"  class="form-control"  htmlEscape="false"/>
 					<div class="help-inline">公共资源的节点才允许为空(由系统开发者维护)</div>
 				</div>
 		</div>

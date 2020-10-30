@@ -31,7 +31,7 @@
             </label>
 
             <div class="col-xs-6 ">
-                <form:input path="title" class="form-control"/>
+                <form:input path="title" class="form-control"  htmlEscape="false"/>
             </div>
         </div>
         <div class="form-group">
@@ -49,14 +49,14 @@
             <label class="col-xs-3 control-label">排序</label>
 
             <div class="col-xs-6 ">
-                <form:input path="sortOrder" class="form-control"/>
+                <form:input path="sortOrder" class="digits form-control"/>
             </div>
         </div>
         <div class="form-group menuNeeded">
             <label class="col-xs-3 control-label">URL路径</label>
 
             <div class="col-xs-6 ">
-                <form:input path="url" class="form-control"/>
+                <form:input path="url" class="form-control"  htmlEscape="false"/>
             </div>
         </div>
         <div class="form-group">

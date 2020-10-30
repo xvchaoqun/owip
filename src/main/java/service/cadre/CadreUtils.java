@@ -8,7 +8,9 @@ import sys.utils.DateUtils;
 import sys.utils.PatternUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +79,7 @@ public class CadreUtils {
 
                 subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{2})?([\\-—～－]{1,2})?.*)[）|\\)]", subLine);
                 subLine = subLine.replaceAll("[)|）][(|（]", "；");
-                String[] subLines = subLine.split("；");
+                String[] subLines = subLine.split("；|;");
                 for (String sub : subLines) {
 
                     //sub = sub.trim().replace("[其|期]间[：|:]", "");
@@ -105,12 +107,12 @@ public class CadreUtils {
             content = PatternUtils.withdraw("[（|\\(](.*)[）|\\)]", content);
         }
 
-        String _times = PatternUtils.withdraw("([0-9]{4}\\.[0-9]{2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{2})?)", content);
+        String _times = PatternUtils.withdraw("([0-9]{4}\\.[0-9]{1,2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{1,2})?)", content);
         if(StringUtils.isBlank(_times)){
             return 1;
             //throw new OpException(realname + "第{0}行{1}简历读取时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
-        List<String> times = PatternUtils.withdrawAll("([0-9]{4}\\.[0-9]{2})", _times);
+        List<String> times = PatternUtils.withdrawAll("([0-9]{4}\\.[0-9]{1,2})", _times);
         if (times.size() >= 2) {
             r.start = DateUtils.parseStringToDate(times.get(0));
             r.end = DateUtils.parseStringToDate(times.get(1));
@@ -122,7 +124,7 @@ public class CadreUtils {
             throw new OpException(realname + "第{0}行{1}简历读取起始时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
 
-        String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{2})?\\s*(.*)",
+        String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{1,2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{1,2})?\\s*(.*)",
                 content, 2);
         desc = desc.replaceAll("[——|——现在]","");
         Pattern c = Pattern.compile("至今");
@@ -138,9 +140,12 @@ public class CadreUtils {
         }
 
         // 判断是否是学习经历
-        r.isEdu = (StringUtils.containsAny(desc,
-                "学习", "进修", "毕业", "中专", "大专", "专科", "学士", "硕士", "博士", "学位")
-        || r.desc.endsWith("学生")|| r.desc.endsWith("本科")|| r.desc.endsWith("本科生")|| r.desc.endsWith("研究生") || r.desc.endsWith("读大学"));
+        r.isEdu = ((StringUtils.containsAny(desc,  "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "博士")
+                || r.desc.endsWith("学生")|| r.desc.endsWith("本科")|| r.desc.endsWith("本科生")|| r.desc.endsWith("研究生") || r.desc.endsWith("读大学"))
+                && !StringUtils.containsAny(desc, "助教", "讲师", "教师", "校长"))
+                || (StringUtils.contains(desc, "学位") && !StringUtils.containsAny(desc, "学位委员", "学位办公室"))
+                || (StringUtils.contains(desc, "毕业") && !StringUtils.contains(desc, "毕业生就业"))
+                || (StringUtils.contains(desc, "硕士") && !StringUtils.containsAny(desc, "硕士教育中心", "硕士办公室"));
 
         // 博士后算工作经历
         if(r.isEdu && StringUtils.contains(desc, "博士后")){
@@ -149,5 +154,103 @@ public class CadreUtils {
 
         //System.out.println("desc = " + desc + "      "  + r.isEdu);
         return 0;
+    }
+
+    //解析简历（word2007版本）
+    public static List<ResumeRow> parseDocxResume(String resume, String realname) {
+
+        int row = 1;
+        Map<Integer, Integer> resumeMap = new LinkedHashMap<>();
+        Pattern pattern = Pattern.compile("(([\\(|（][其|期]间[:|：]?)?[1|2]\\d{3}\\.[0-9]{1,2}[\\-—～－]{1,2})+");
+        Matcher matcher = pattern.matcher(resume);
+
+        Integer _start = null;
+        Integer _end = null;
+        Integer _mid = null;
+        while (matcher.find()) {
+            //String _year = matcher.group(1);
+            //System.out.println("_year = " + _year);
+            _start = matcher.start(1);
+            _end = _start;
+            if (_mid != null){
+                resumeMap.put(_mid, _end);
+            }
+            resumeMap.put(_start, _end);
+            _mid = _start;
+
+        }
+
+        List<ResumeRow> resumeRows = new ArrayList<>();
+        List<String> lineList = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : resumeMap.entrySet()){
+
+            String line = StringUtils.substring(resume, entry.getKey(), entry.getValue()==entry.getKey()?resume.length():entry.getValue());
+            if ((getCount("\\(|（", line) != getCount("\\)|）", line)) || PatternUtils.match(".*([其|期]间).*", line)){
+                int lastIdx = lineList.size()-1;
+                lineList.set(lastIdx, StringUtils.trimToEmpty(lineList.get(lastIdx))+StringUtils.trimToEmpty(line));
+            }else{
+                lineList.add(line);
+            }
+        }
+
+        for (String line : lineList) {
+
+            // 读取每行经历
+            line = line.trim();
+            ResumeRow newRow = new ResumeRow();
+            String subLine = null;
+            /*if(PatternUtils.match("\\s*[（|\\(].*", line)){ // 如果是换行的其间经历
+                newRow.fRow = row-1;
+                newRow.isEduWork = resumeRows.get(resumeRows.size()-1).isEdu;
+            }else{*/
+            newRow.row = row++;
+
+            // 提取其间经历
+            subLine = PatternUtils.withdraw("([（|\\(]([其|期]间[：|:]?)?[0-9]{4}\\.[0-9]{1,2}[\\-—～－]{1,2}.+[）|\\)])[;|；|。|\\s]?", line);
+            if (StringUtils.isNotBlank(subLine)) {
+                line = line.replace(subLine, "");
+            }
+            //}
+
+            parseResumeRow(newRow, line, realname);
+            resumeRows.add(newRow);
+
+            // 处理其间经历
+            if (StringUtils.isNotBlank(subLine)) {
+                subLine = subLine.trim();
+
+                subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{1,2})?([\\-—～－]{1,2})?.*)[）|\\)]", subLine);
+                subLine = subLine.replaceAll("[)|）][(|（]", "；");
+                String[] subLines = subLine.split("；");
+                for (String sub : subLines) {
+
+                    //sub = sub.trim().replace("[其|期]间[：|:]", "");
+                    sub = RegExUtils.removePattern(sub.trim(), "[其|期]间[：|:]?");
+                    ResumeRow r = new ResumeRow();
+                    r.fRow = newRow.row;
+                    r.isEduWork = newRow.isEdu;
+                    if(parseResumeRow(r, sub, realname) == 1){
+                        newRow.note = sub;
+                        continue;
+                    }
+                    resumeRows.add(r);
+                }
+            }
+        }
+
+        return resumeRows;
+    }
+
+    public static int getCount(String reg, String data){
+
+        int count = 0;
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(data);
+
+        while (matcher.find()){
+            count++;
+        }
+
+        return count;
     }
 }

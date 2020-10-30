@@ -6,6 +6,14 @@
     <span>列表默认显示已到应换届时间的班子，如需查询其他，请从搜索中查询</span>
 </div>--%>
 <c:set var="_query" value="${not empty param.timeLevel || not empty param._deposeTime || not empty param.name}"/>
+    <div class="jqgrid-vertical-offset buttons">
+        <div class="type-select" style="float: left;">
+            <span class="yearCheckbox">
+                <input ${param.year==1?"checked":""} type="checkbox" class="big" value="1"> 应换届时间超过一年
+                </span>
+        </div>
+        <div style="clear: both"/>
+    </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
             <div class="widget-header">
                 <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
@@ -18,6 +26,7 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <form class="form-inline search-form" id="searchForm">
+                        <input type="hidden" name="year" value="${param.year}">
                         <div class="form-group">
                             <label>党委班子名称</label>
                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
@@ -48,6 +57,11 @@
 <div id="body-content-view"></div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
+    $(":checkbox", ".yearCheckbox").click(function () {
+        $("#searchForm input[name=year]").val($(this).prop("checked") ? $(this).val() : '');
+        $("#searchForm .jqSearchBtn").click();
+    })
 
   $("#jqGrid").jqGrid({
         rownumbers: true,
@@ -88,13 +102,6 @@
                         rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }
-            },
-            {
-                label: '实际换届时间',
-                name: 'actualTranTime',
-                width: 130,
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
             }
         ]
     }).jqGrid("setFrozenColumns")

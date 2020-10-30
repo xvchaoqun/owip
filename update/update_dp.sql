@@ -1,4 +1,9 @@
 
+-- 2020.10.19 ly 角色
+INSERT INTO `sys_role` (`id`, `code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES (75, 'dp_member', '民主党派成员', 1, '-1', '-1', NULL, 0, 0, 65, '');
+UPDATE `db_owip_bupt`.`sys_role` SET `name`='民主党派干部成员' WHERE  `id`=70;
+UPDATE sys_user set role_ids=REPLACE(role_ids, ',69,',',75,') WHERE role_ids LIKE '%,69,%';
+
 -- 20191226 ly 基本情况登记表权限
 
 replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2524, 0, '基本情况登记表', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpInfoForm:list', NULL, NULL, NULL, 1, 90);

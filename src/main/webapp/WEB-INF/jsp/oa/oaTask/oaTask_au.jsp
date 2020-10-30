@@ -20,11 +20,13 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><c:if test="${fn:length(oaTaskTypes)>1}"><span
                             class="star">*</span></c:if>工作类型</label>
-                    <select class="col-xs-6" required name="type" data-width="270"
+                    <div class="col-xs-6">
+                    <select required name="type" data-width="270"
                             data-rel="select2" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_oa_task_type"/>
                     </select>
+                    </div>
                 </div>
                 <script>
                     $("#modalForm select[name=type]").val('${oaTask.type}');

@@ -5,7 +5,7 @@ import java.util.List;
 // 分党委或支部管理员
 public class OwAdmin {
 
-    private Integer id; // 其他管理员是org_admin表的id，班子成员是party_member/branch_member表的id
+    private String id; // 其他管理员是org_admin表的id，班子成员是party_member/branch_member表的id
     private Integer groupId; // 班子成员所属班子ID，其他管理员为空
     private Integer userId;
     private Integer partyClassId;
@@ -24,11 +24,11 @@ public class OwAdmin {
     List<Integer> adminPartyIdList;
     List<Integer> adminBranchIdList;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public OwAdmin setId(Integer id) {
+    public OwAdmin setId(String id) {
         this.id = id;
         return this;
     }

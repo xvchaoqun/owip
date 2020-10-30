@@ -239,11 +239,13 @@
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id);
             //console.log(id)
-            var ids = $(this).getGridParam("selarrrow");
+
+            var $this = $(this);
+            var ids = $this.getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#partyApprovalBtn").prop("disabled", true);
             } else if (status) {
-                var rowData = $(this).getRowData(id);
+                var rowData = $this.getRowData(id);
                 $("#partyApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_STAY_STATUS_APPLY%>");
             } else {
                 $("*[data-count]").each(function () {

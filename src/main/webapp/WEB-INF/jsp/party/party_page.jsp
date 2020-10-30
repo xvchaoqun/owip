@@ -2,6 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['owCheckIntegrity']=='true'}" var="_p_owCheckIntegrity"/>
+<c:set value="<%=OwConstants.OW_ORG_ADMIN_PARTY%>" var="OW_ORG_ADMIN_PARTY"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -41,10 +42,17 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>--%>
                     </shiro:hasPermission>
 
-                <button data-url="${ctx}/org_admin"
+                <button data-url="${ctx}/org_admin?isPartyAdmin=1"
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
+                <shiro:hasRole name="${ROLE_SUPER}">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}org/orgAdmin_import?type=${OW_ORG_ADMIN_PARTY}"
+                            data-rel="tooltip" data-placement="top" title="批量导入管理员"><i class="fa fa-upload"></i>
+                        导入管理员
+                    </button>
+                </shiro:hasRole>
                 <shiro:hasPermission name="party:add">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/party_import"
@@ -285,7 +293,7 @@ pageEncoding="UTF-8" %>
             { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                  <shiro:hasPermission name="member:list">
-                return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                     </shiro:hasPermission>
                     <shiro:lacksPermission name="member:list">
                     return cellvalue;
@@ -333,9 +341,13 @@ pageEncoding="UTF-8" %>
             {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.presentGroupId>0 &&
-                        rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
-                        return "class='danger'";
+                    if (rowObject.presentGroupId > 0){
+                        if($.yearOffNow(rowObject.tranTime) > 0) {
+                            return "class='dark-danger'"; // 超过1年，深红
+                        }else if($.dayOffNow(rowObject.tranTime) > 0){
+                            return "class='danger'";
+                        }
+                    }
                 }},
             </shiro:hasPermission>
             /*{

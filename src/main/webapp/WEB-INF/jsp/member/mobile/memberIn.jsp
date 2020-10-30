@@ -281,7 +281,7 @@
 
     $('#modalForm select[name=politicalStatus]').change(function () {
         var $input = $("#modalForm  input[name=_positiveTime]");
-        if ($(this).val() == '<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>') {
+        if ($(this).val() == '${MEMBER_POLITICAL_STATUS_POSITIVE}') {
             $input.attr("required", "required");
         } else {
             $input.removeAttr("required");

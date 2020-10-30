@@ -1,11 +1,12 @@
 package controller.pmd;
 
+import controller.global.OpException;
+import domain.party.Party;
 import domain.pmd.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -41,9 +42,12 @@ public class PmdBranchController extends PmdBaseController {
     public String pmdBranch(@RequestParam(required = false, defaultValue = "1") Byte cls,
                             Integer monthId,
                             Integer partyId,
+                            Integer branchId,
                             ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("party", partyService.findAll().get(partyId));
+        modelMap.put("branch", branchService.findAll().get(branchId));
 
         if (cls == 2) {
             // 分党委管理员访问支部列表
@@ -64,6 +68,7 @@ public class PmdBranchController extends PmdBaseController {
                                Boolean hasReport,
                                Integer monthId,
                                Integer partyId,
+                               Integer branchId,
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -77,7 +82,7 @@ public class PmdBranchController extends PmdBaseController {
         PmdBranchViewExample example = new PmdBranchViewExample();
         PmdBranchViewExample.Criteria criteria = example.createCriteria()
                 .andMonthStatusNotEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
-        example.setOrderByClause("pay_month desc, sort_order desc, id desc");
+        example.setOrderByClause("pay_month desc, party_sort_order desc, sort_order desc");
 
         if (payMonth != null) {
             criteria.andPayMonthEqualTo(DateUtils.getFirstDateOfMonth(payMonth));
@@ -87,18 +92,16 @@ public class PmdBranchController extends PmdBaseController {
         }
 
         if (cls == 1) {
-            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
-            if (adminBranchIds.size() > 0) {
-                criteria.andBranchIdIn(adminBranchIds);
-            } else {
-                criteria.andBranchIdIsNull();
-            }
 
+            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
+
+            criteria.addPermits(adminPartyIds, adminBranchIds);
         } else if (cls == 2) {
             // 此时必须传入monthId和partyId
             criteria.andMonthIdEqualTo(monthId);
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);
@@ -112,6 +115,13 @@ public class PmdBranchController extends PmdBaseController {
             }
         } else {
             criteria.andIdIsNull();
+        }
+
+        if(partyId!=null){
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if(branchId!=null){
+            criteria.andBranchIdEqualTo(branchId);
         }
 
         long count = pmdBranchViewMapper.countByExample(example);
@@ -153,7 +163,7 @@ public class PmdBranchController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
         
             pmdBranchService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党支部报送：%s", id));
@@ -222,7 +232,7 @@ public class PmdBranchController extends PmdBaseController {
     }
 
 
-    /*@RequiresPermissions("pmdBranch:edit")
+    @RequiresPermissions("pmdBranch:edit")
     @RequestMapping(value = "/pmdBranch_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdBranch_au(PmdBranch record, HttpServletRequest request) {
@@ -230,12 +240,18 @@ public class PmdBranchController extends PmdBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            pmdBranchService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_PMD, "添加每月参与线上收费的党支部：%s", record.getId()));
-        } else {
+            int partyId = record.getPartyId();
+            int branchId = record.getBranchId();
 
-            pmdBranchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_PMD, "更新每月参与线上收费的党支部：%s", record.getId()));
+            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+            PmdBranchExample example = new PmdBranchExample();
+            example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId()).andPartyIdEqualTo(partyId)
+                    .andBranchIdEqualTo(branchId);
+            if ((int)pmdBranchMapper.countByExample(example) > 0)
+                throw new OpException("添加重复");
+            record.setMonthId(currentPmdMonth.getId());
+            pmdBranchService.insertSelective(record, currentPmdMonth);
+            logger.info(addLog(LogConstants.LOG_PMD, "添加每月参与线上收费的党支部：%s", branchId));
         }
 
         return success(FormUtils.SUCCESS);
@@ -243,15 +259,14 @@ public class PmdBranchController extends PmdBaseController {
 
     @RequiresPermissions("pmdBranch:edit")
     @RequestMapping("/pmdBranch_au")
-    public String pmdBranch_au(Integer id, ModelMap modelMap) {
+    public String pmdBranch_au(Integer partyId, ModelMap modelMap) {
 
-        if (id != null) {
-            PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
-            modelMap.put("pmdBranch", pmdBranch);
+        if (partyId != null) {
+            Party party = partyService.findAll().get(partyId);
+            modelMap.put("party", party);
         }
         return "pmd/pmdBranch/pmdBranch_au";
     }
-*/
     // 删除当月的缴费党支部（不包含直属党支部），（如果党支部下存在已缴费的记录，则只删除该党支部下的未缴费的记录，党支部仍然保留）
     @RequiresPermissions("pmdBranch:del")
     @RequestMapping(value = "/pmdBranch_del", method = RequestMethod.POST)

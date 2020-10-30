@@ -145,7 +145,7 @@ public class OaGridPartyService extends OaBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY,
                     report == OaConstants.OA_GRID_PARTY_REPORT?"报送":"退回", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                    null);
+                    backReason);
         }
     }
 

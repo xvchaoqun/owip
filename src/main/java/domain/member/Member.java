@@ -53,6 +53,8 @@ public class Member implements Serializable {
 
     private BigDecimal integrity;
 
+    private Float sortOrder;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -245,5 +247,13 @@ public class Member implements Serializable {
 
     public void setIntegrity(BigDecimal integrity) {
         this.integrity = integrity;
+    }
+
+    public Float getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Float sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

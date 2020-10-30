@@ -182,7 +182,7 @@ public class BranchService extends BaseMapper {
                     for (BranchMemberGroup branchMemberGroup : branchMemberGroups) {
                         groupIds.add(branchMemberGroup.getId());
                     }
-                    branchMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}), true);
+                    branchMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}), true, null);
                 }
 
                 // 删除所有的支部管理员

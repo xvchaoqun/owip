@@ -9,7 +9,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -146,16 +145,15 @@ public class PmdMemberController extends PmdBaseController {
         example.setOrderByClause("month_id desc, type asc, id asc");
 
         if (cls == 1) {
+
+            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
-            if (adminBranchIds.size() > 0) {
-                criteria.andBranchIdIn(adminBranchIds);
-            } else {
-                criteria.andBranchIdIsNull();
-            }
+
+            criteria.addPermits(adminPartyIds, adminBranchIds);
         } else if (cls == 2) {
             // 直属党支部访问党员列表
             // 此时必须传入partyId
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);
@@ -170,7 +168,7 @@ public class PmdMemberController extends PmdBaseController {
         } else if (cls == 3) {
             // 分党委（不包含直属党支部）访问党员列表
             // 此时必须传入partyId,branchId
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);
@@ -294,7 +292,7 @@ public class PmdMemberController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        if (branchId != null) {
+        /*if (branchId != null) {
             List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
             Set<Integer> adminBranchIdSet = new HashSet<>();
             adminBranchIdSet.addAll(adminBranchIds);
@@ -305,6 +303,9 @@ public class PmdMemberController extends PmdBaseController {
             Set<Integer> adminPartyIdSet = new HashSet<>();
             adminPartyIdSet.addAll(adminPartyIds);
             if (!partyService.isDirectBranch(partyId) || !adminPartyIdSet.contains(partyId)) return;
+        }*/
+        if(!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)){
+            return;
         }
 
         long count = 0;
@@ -351,7 +352,7 @@ public class PmdMemberController extends PmdBaseController {
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
         //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();
@@ -365,7 +366,7 @@ public class PmdMemberController extends PmdBaseController {
     }
 
     // 批量删除未缴费记录
-    @RequiresPermissions("pmdMember:allList")
+    @RequiresPermissions("pmdMember:del")
     @RequestMapping(value = "/pmdMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_batchDel(Integer[] ids, HttpServletRequest request) {
@@ -405,7 +406,7 @@ public class PmdMemberController extends PmdBaseController {
         int monthId = currentPmdMonth.getId();
         PmdMember pmdMember = pmdMemberService.get(monthId, userId);
         if (pmdMember != null) {
-            return failed(pmdMember.getUser().getRealname() + "已经在缴费列表中，请勿重复添加。");
+            return failed(pmdMember.getUser().getRealname() + "已存在缴费记录，请勿重复添加。");
         }
 
         Member member = memberService.get(userId);
@@ -414,14 +415,14 @@ public class PmdMemberController extends PmdBaseController {
             throw  new OpException("操作失败，支部已报送。");
         }
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     member.getPartyId(), member.getBranchId())) {
                 throw new UnauthorizedException();
             }
         }
 
-        pmdMonthService.addOrResetPmdMember(userId, null);
+        pmdExtService.addOrResetPmdMember(userId, null);
 
         return success(FormUtils.SUCCESS);
     }
@@ -463,7 +464,7 @@ public class PmdMemberController extends PmdBaseController {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();

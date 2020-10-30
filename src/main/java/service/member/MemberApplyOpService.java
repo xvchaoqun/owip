@@ -5,6 +5,7 @@ import domain.member.*;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import ext.service.ExtCommonService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -120,6 +121,51 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }
 
+    // 积极分子：确定培养联系人
+    @Transactional
+    public String apply_active_contact(Integer[] userIds, Integer[] contactUserIds, String[] contactUsers){
+
+        String _contactUsers = "";
+        String _contactUserIds = "";
+        if(ArrayUtils.getLength(contactUserIds)>0 && contactUserIds[0]!=null) {
+            List<String> users = new ArrayList<>();
+            for (Integer contactUserId : contactUserIds) {
+                SysUserView uv = CmTag.getUserById(contactUserId);
+                if(uv!=null) {
+                    users.add(uv.getRealname());
+                }
+            }
+            _contactUsers = StringUtils.join(users, ",");
+            _contactUserIds = StringUtils.join(contactUserIds, ",");
+        }else{
+            _contactUsers = StringUtils.join(contactUsers, ",");
+        }
+
+        for (int userId : userIds) {
+
+            MemberApply memberApply = memberApplyService.get(userId);
+            MemberApply record = new MemberApply();
+            record.setContactUserIds(_contactUserIds);
+            record.setContactUsers(_contactUsers);
+
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_ACTIVE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "确定培养联系人：" + _contactUsers);
+            }
+        }
+
+        return _contactUsers;
+    }
+
     // 积极分子：提交 确定为发展对象
     @Transactional
     public void apply_candidate(Integer[] userIds, String _candidateTime,
@@ -131,29 +177,13 @@ public class MemberApplyOpService extends MemberBaseMapper {
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
 
-            /*DateTime dt = new DateTime(memberApply.getActiveTime());
-            DateTime afterActiveTimeOneYear = dt.plusYears(1);
-            if (afterActiveTimeOneYear.isAfterNow()) {
-                throw new OpException("确定为入党积极分子满一年之后才能被确定为发展对象。");
-            }*/
-
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             memberApply.setCandidateTime(candidateTime);
             extCommonService.checkMemberApplyData(memberApply);
-            /*DateTime afterActiveTimeTwoYear = dt.plusYears(2);
-            if (candidateTime.before(afterActiveTimeOneYear.toDate())
-                    || candidateTime.after(afterActiveTimeTwoYear.toDate())) {
-                throw new OpException("确定为发展对象时间与成为积极分子的时间间隔必须大于等于1年，且小于等于2年");
-            }*/
 
-            Date candidateTrainStartTime = DateUtils.parseDate(_candidateTrainStartTime, DateUtils.YYYY_MM_DD);
-            if(candidateTrainStartTime!=null && candidateTrainStartTime.before(memberApply.getActiveTime())){
-                throw new OpException("培训起始时间应该在确定为入党积极分子之后");
-            }
-
-            Date candidateTrainEndTime = DateUtils.parseDate(_candidateTrainEndTime, DateUtils.YYYY_MM_DD);
-            if(candidateTrainEndTime!=null && candidateTrainEndTime.before(candidateTrainStartTime)){
-                throw new OpException("培训结束时间应该在培训起始时间之后");
+            if(CmTag.getIntProperty("contactUsers_count", 0)>0
+                    && StringUtils.isBlank(memberApply.getContactUsers())){
+                throw new OpException("请确定培养联系人。");
             }
 
             MemberApply record = new MemberApply();
@@ -215,6 +245,53 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }
 
+     // 发展对象：确定入党介绍人
+    @Transactional
+    public String apply_candidate_sponsor(Integer[] userIds, Integer[] sponsorUserIds, String[] sponsorUsers){
+
+        String _sponsorUsers = "";
+        String _sponsorUserIds = "";
+        if (ArrayUtils.getLength(sponsorUserIds) > 0 && sponsorUserIds[0] != null) {
+
+            List<String> users = new ArrayList<>();
+            for (Integer sponsorUserId : sponsorUserIds) {
+                SysUserView uv = CmTag.getUserById(sponsorUserId);
+                if (uv != null) {
+                    users.add(uv.getRealname());
+                }
+            }
+            _sponsorUsers = StringUtils.join(users, ",");
+            _sponsorUserIds = StringUtils.join(sponsorUserIds, ",");
+        } else {
+            _sponsorUsers = StringUtils.join(sponsorUsers, ",");
+        }
+
+        for (int userId : userIds) {
+
+
+            MemberApply memberApply = memberApplyService.get(userId);
+            MemberApply record = new MemberApply();
+            record.setSponsorUsers(_sponsorUsers);
+            record.setSponsorUserIds(_sponsorUserIds);
+
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_PLAN),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "确定入党介绍人：" + _sponsorUsers);
+            }
+        }
+
+        return _sponsorUsers;
+    }
+
     // 发展对象：提交 列入发展计划
     @Transactional
     public void apply_plan(Integer[] userIds, String _planTime, int loginUserId){
@@ -225,17 +302,14 @@ public class MemberApplyOpService extends MemberBaseMapper {
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
 
-
-            /*if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
-                throw new OpException("不在开放时间范围");
-            }*/
             Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
             memberApply.setPlanTime(planTime);
             extCommonService.checkMemberApplyData(memberApply);
 
-            /*if(planTime.before(memberApply.getCandidateTime())){
-                throw new OpException("列入发展计划时间应该在确定为发展对象之后");
-            }*/
+            if(CmTag.getIntProperty("sponsorUsers_count", 0)>0
+                    && StringUtils.isBlank(memberApply.getSponsorUsers())){
+                throw new OpException("请确定入党介绍人。");
+            }
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
@@ -271,11 +345,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
-            Integer partyId = memberApply.getPartyId();
 
-            /*if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
-                throw new OpException("不在开放时间范围");
-            }*/
             MemberApply record = new MemberApply();
             record.setStage(OwConstants.OW_APPLY_STAGE_PLAN);
             record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
@@ -310,9 +380,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
             Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
             memberApply.setDrawTime(drawTime);
             extCommonService.checkMemberApplyData(memberApply);
-            /*if(drawTime.before(memberApply.getPlanTime())){
-                throw new OpException("领取志愿书时间应该在列入发展计划之后");
-            }*/
 
             MemberApply record = new MemberApply();
 
@@ -438,9 +505,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }catch (OpException ex){
                 throw new OpException("{0}：" + ex.getMessage(), realname);
             }
-            /*if(_memberApply.getDrawTime()!=null && growTime.before(_memberApply.getDrawTime())){
-                throw new OpException("{0}发展时间应该在领取志愿书之后", realname);
-            }*/
 
             if(directParty && partyAdmin){
 
@@ -497,6 +561,53 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }
 
+    // 预备党员：确定培养联系人
+    @Transactional
+    public String apply_grow_contact(Integer[] userIds, Integer[] growContactUserIds, String[] growContactUsers){
+
+        String _contactUsers = "";
+        String _contactUserIds = "";
+        if(ArrayUtils.getLength(growContactUserIds)>0 && growContactUserIds[0]!=null) {
+
+            List<String> users = new ArrayList<>();
+            for (Integer contactUserId : growContactUserIds) {
+                SysUserView uv = CmTag.getUserById(contactUserId);
+                if(uv!=null) {
+                    users.add(uv.getRealname());
+                }
+            }
+            _contactUsers = StringUtils.join(users, ",");
+            _contactUserIds = StringUtils.join(growContactUserIds, ",");
+        }else{
+            _contactUsers = StringUtils.join(growContactUsers, ",");
+        }
+
+        for (int userId : userIds) {
+
+
+            MemberApply memberApply = memberApplyService.get(userId);
+            MemberApply record = new MemberApply();
+            record.setContactUsers(_contactUsers);
+            record.setContactUserIds(_contactUserIds);
+
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW);
+
+            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "确定培养联系人：" + _contactUsers);
+            }
+        }
+
+        return _contactUsers;
+    }
+
     // 预备党员：提交 正式党员
     @Transactional
     public void apply_positive(Integer[] userIds, String _positiveTime, int loginUserId){
@@ -521,11 +632,11 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }catch (OpException ex){
                 throw new OpException("{0}：" + ex.getMessage(), uv.getRealname());
             }
-            /*if(memberApply.getGrowTime()!=null) { // 后台添加的党员，入党时间可能为空
-                if (positiveTime.before(memberApply.getGrowTime())) {
-                    throw new OpException("转正时间应该在发展之后");
-                }
-            }*/
+
+            if(CmTag.getIntProperty("growContactUsers_count", 0)>0
+                    && StringUtils.isBlank(memberApply.getGrowContactUsers())){
+                throw new OpException("请确定培养联系人。");
+            }
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核

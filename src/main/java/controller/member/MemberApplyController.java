@@ -6,6 +6,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -566,6 +567,13 @@ public class MemberApplyController extends MemberBaseController {
         Integer branchId = record.getBranchId();
         Byte stage = record.getStage();
 
+        record.setContactUsers(StringUtils.trimToEmpty(record.getContactUsers()));
+        record.setContactUserIds(StringUtils.trimToEmpty(record.getContactUserIds()));
+        record.setSponsorUsers(StringUtils.trimToEmpty(record.getSponsorUsers()));
+        record.setSponsorUserIds(StringUtils.trimToEmpty(record.getSponsorUserIds()));
+        record.setGrowContactUsers(StringUtils.trimToEmpty(record.getGrowContactUsers()));
+        record.setGrowContactUserIds(StringUtils.trimToEmpty(record.getGrowContactUserIds()));
+
         Integer oldPartyId = null;
         Integer oldBranchId = null;
         MemberApply _memberApply = memberApplyService.get(userId);
@@ -849,6 +857,56 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_active_contact")
+    public String apply_active_contact(Integer[] ids, ModelMap modelMap) {
+
+        byte inSchool = 1; // 默认校内
+        if(ids.length==1) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
+            String _userIds = memberApply.getContactUserIds();
+            String _users = memberApply.getContactUsers();
+            if(StringUtils.isBlank(_userIds)
+                    &&StringUtils.isNotBlank(_users)){
+                inSchool = 0;
+                if(StringUtils.isNotBlank(_users)){
+                    String[] users = _users.split(",");
+                    modelMap.put("users", users);
+                }
+            }else{
+
+                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
+                modelMap.put("userIds", userIds.toArray());
+            }
+        }
+        modelMap.put("inSchool", inSchool);
+
+        return "member/memberApply/apply_active_contact";
+    }
+
+    // 提交 确定培养联系人
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_active_contact", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_apply_active_contact(Integer[] ids, Integer[] userIds,
+                                       String[] users, HttpServletRequest request) {
+
+        String contactUsers = memberApplyOpService.apply_active_contact(ids, userIds, users);
+        Map<String, Object> resultMap = success();
+        resultMap.put("contactUsers", contactUsers);
+
+        // 添加时赋值
+        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
+            if(userIds.length==2 && userIds[1]!=null){
+                if(userIds[0].intValue()==userIds[1]){
+                    return failed("不可选择相同的培养联系人");
+                }
+            }
+            resultMap.put("contactUserIds", StringUtils.join(userIds, ","));
+        }
+        return resultMap;
+    }
+
+    @RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate")
     public String apply_candidate() {
 
@@ -878,6 +936,55 @@ public class MemberApplyController extends MemberBaseController {
         memberApplyOpService.apply_candidate_check(ids, loginUser.getId());
 
         return success();
+    }
+
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_candidate_sponsor")
+    public String apply_candidate_sponsor(Integer[] ids, ModelMap modelMap) {
+
+        byte inSchool = 1; // 默认校内
+        if(ids.length==1) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
+            String _userIds = memberApply.getSponsorUserIds();
+            String _users = memberApply.getSponsorUsers();
+            if(StringUtils.isBlank(_userIds)
+                    &&StringUtils.isNotBlank(_users)){
+                inSchool = 0;
+                if(StringUtils.isNotBlank(_users)){
+                    String[] users = _users.split(",");
+                    modelMap.put("users", users);
+                }
+            }else{
+
+                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
+                modelMap.put("userIds", userIds.toArray());
+            }
+        }
+        modelMap.put("inSchool", inSchool);
+
+        return "member/memberApply/apply_candidate_sponsor";
+    }
+
+    // 提交 确定入党介绍人
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_candidate_sponsor", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_apply_candidate_sponsor(Integer[] ids, Integer[] userIds,
+                                       String[] users, HttpServletRequest request) {
+
+        String sponsorUsers = memberApplyOpService.apply_candidate_sponsor(ids, userIds, users);
+        Map<String, Object> resultMap = success();
+        resultMap.put("sponsorUsers", sponsorUsers);
+        // 添加时赋值
+        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
+            if(userIds.length==2&& userIds[1]!=null){
+                if(userIds[0].intValue()==userIds[1]){
+                    return failed("不可选择相同的入党介绍人");
+                }
+            }
+            resultMap.put("sponsorUserIds", StringUtils.join(userIds, ","));
+        }
+        return resultMap;
     }
 
     @RequiresPermissions("memberApply:admin")
@@ -1008,6 +1115,54 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_grow_contact")
+    public String apply_grow_contact(Integer[] ids, ModelMap modelMap) {
+
+        byte inSchool = 1; // 默认校内
+        if(ids.length==1) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
+            String _userIds = memberApply.getGrowContactUserIds();
+            String _users = memberApply.getGrowContactUsers();
+            if(StringUtils.isBlank(_userIds)
+                    &&StringUtils.isNotBlank(_users)){
+                inSchool = 0;
+                if(StringUtils.isNotBlank(_users)){
+                    String[] users = _users.split(",");
+                    modelMap.put("users", users);
+                }
+            }else{
+
+                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
+                modelMap.put("userIds", userIds.toArray());
+            }
+        }
+        modelMap.put("inSchool", inSchool);
+
+        return "member/memberApply/apply_grow_contact";
+    }
+
+    // 提交 确定培养联系人
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/apply_grow_contact", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_apply_grow_contact(Integer[] ids, Integer[] userIds,
+                                       String[] users, HttpServletRequest request) {
+
+        String growContactUsers = memberApplyOpService.apply_grow_contact(ids, userIds, users);
+        Map<String, Object> resultMap = success();
+        resultMap.put("growContactUsers", growContactUsers);
+        // 添加时赋值
+        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
+            if(userIds.length==2&& userIds[1]!=null){
+                if(userIds[0].intValue()==userIds[1]){
+                    return failed("不可选择相同的培养联系人");
+                }
+            }
+            resultMap.put("growContactUserIds", StringUtils.join(userIds, ","));
+        }
+        return resultMap;
+    }
 
     @RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_positive")

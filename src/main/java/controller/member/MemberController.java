@@ -213,7 +213,7 @@ public class MemberController extends MemberBaseController {
         if (inSchool) {
             resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         } else if (all) {
-            resultMap = memberService.importMemberUpdate(sheet, xlsRows, politicalStatusMap, startCode);
+            resultMap = memberService.importMemberAllInfo(sheet, xlsRows, politicalStatusMap, startCode);
         }else {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
@@ -229,15 +229,24 @@ public class MemberController extends MemberBaseController {
             ExportHelper.save(workbook, springProps.uploadPath + savePath);
             resultMap.put("file", savePath);
             resultMap.put("filename", filename);
-        }
-        int partyAdd = (int) resultMap.get("partyAdd");
-        int branchAdd = (int) resultMap.get("branchAdd");
-        int successCount = (int) resultMap.get("successCount");
-        int totalCount = (int) resultMap.get("total");
 
-        logger.info(log(LogConstants.LOG_ADMIN,
+            int partyAdd = (int) resultMap.get("partyAdd");
+            int branchAdd = (int) resultMap.get("branchAdd");
+            int successCount = (int) resultMap.get("successCount");
+            int totalCount = (int) resultMap.get("total");
+
+            logger.info(log(LogConstants.LOG_ADMIN,
                 "导入党员成功，分党委{2}条记录，党支部{3}条记录，总共{0}条记录，其中成功导入{1}条记录",
                 totalCount, successCount, partyAdd, branchAdd));
+        }else{
+
+            int successCount = (int) resultMap.get("successCount");
+            int totalCount = (int) resultMap.get("total");
+
+            logger.info(log(LogConstants.LOG_ADMIN,
+                    "导入党员成功，总共{0}条记录，其中成功导入{1}条记录",
+                    totalCount, successCount));
+        }
 
         return resultMap;
     }

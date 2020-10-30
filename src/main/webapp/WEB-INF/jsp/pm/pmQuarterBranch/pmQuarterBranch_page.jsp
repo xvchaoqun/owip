@@ -62,9 +62,9 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>分党委</label>
+                            <label>${_p_partyName}</label>
                             <%--<input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"--%>
-                                   <%--placeholder="请输入分党委id">--%>
+                                   <%--placeholder="请输入${_p_partyName}id">--%>
                         </div>
                         <div class="form-group">
                             <label>支部</label>

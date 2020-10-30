@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
@@ -139,5 +140,81 @@ public class CadreAdformController extends BaseController {
         Integer cadreIds[] = {cadreId};
 
         cadreAdformService.export(cadreIds, null, BooleanUtils.isTrue(isWord), adFormType, request, response);
+    }
+
+    @RequiresPermissions("cadre:import")
+    @RequestMapping("/cadreAdform_docxImport")
+    public String cadreAdform_docxImport(ModelMap modelMap) {
+
+        return "cadre/cadreAdform/cadreAdform_docxImport";
+    }
+
+    //解析docx格式的任免审批文件
+    @RequiresPermissions("cadre:import")
+    @RequestMapping(value = "/cadreAdform_docxImport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreAdform_docxImport(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        List<File> fileList = new ArrayList<>();
+        String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "docx";;
+        String filepath = null;
+
+        MultipartFile docx = multipartRequest.getFile("docx");
+        if(docx!=null) {
+
+            FileUtils.mkdirs(tmpdir, false);
+
+            filepath = tmpdir + FILE_SEPARATOR + docx.getOriginalFilename();
+            FileUtils.copyFile(docx, new File(filepath));
+            fileList.add(new File(filepath));
+        }
+
+        MultipartFile zip = multipartRequest.getFile("zip");
+
+        if(zip!=null) {
+
+            String zipDir = tmpdir + FILE_SEPARATOR + "zip";
+            FileUtils.mkdirs(tmpdir, false);
+
+            filepath = zipDir + FILE_SEPARATOR + zip.getOriginalFilename();
+            FileUtils.copyFile(zip, new File(filepath));
+
+            String destDir = tmpdir + FILE_SEPARATOR + "unzip";
+
+            //FileUtils.mkdirs(destDir, false);
+            ZipUtils.unzipFile(filepath, destDir, Charset.forName("gbk"));
+
+            // 遍历 destDir
+            FileUtils.listFiles(fileList, destDir, "^.*\\.docx$");
+        }
+
+        List<String> fails = new ArrayList<>();
+        for (File file : fileList) {
+
+            try {
+                cadreAdformService.importDocxRm(file.getAbsolutePath());
+            }catch (Exception e){
+                /*logger.info(log(LogConstants.LOG_ADMIN,
+                        "11111{0}", file.getName()));*/
+                logger.error(file.getName(), e);
+                fails.add(e.getMessage());
+            }
+        }
+
+        FileUtils.deleteDir(new File(tmpdir));
+
+        int totalCount = fileList.size();
+        Map<String, Object> resultMap = success();
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("fails", fails);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部任免审批表成功，总共{0}份，其中成功导入{1}份",
+                totalCount, totalCount - fails.size()));
+
+        return resultMap;
     }
 }

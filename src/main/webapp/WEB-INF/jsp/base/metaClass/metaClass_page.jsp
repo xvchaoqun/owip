@@ -120,12 +120,14 @@
   /*  $("#jqGrid").jqGrid('setSelection',${metaClassId});*/
     $(window).triggerHandler('resize.jqGrid');
     $.register.date($('.date-picker'));
-    function openView(){
-        $.loadModal( "${ctx}/metaClass_type?id="+${metaClassId} + "&pageNo=1",
+
+    function openView(classId, pageNo){
+        pageNo = pageNo||1;
+        $.loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
             '<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">600</shiro:lacksPermission>');
     }
 
-    if(${metaClassId!=null}){
-       openView();
-    }
+    <c:if test="${metaClassId!=null}">
+        openView(${metaClassId}, 1);
+    </c:if>
 </script>

@@ -33,10 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/oa")
@@ -271,6 +268,32 @@ public class OaGridController extends OaBaseController {
         ExportHelper.output(wb, oaGrid.getName() + FileUtils.getExtention(path), response);
 
         logger.info(log( LogConstants.LOG_OA, "下载汇总数据文件：{0}", id));
+
+
+    }
+
+    @RequiresPermissions("oaGrid:list")
+    @RequestMapping("/oaGrid_zipExport")
+    public void oaGrid_zipExport(int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        OaGrid oaGrid = oaGridMapper.selectByPrimaryKey(id);
+
+        OaGridPartyExample example = new OaGridPartyExample();
+        example.createCriteria().andGridIdEqualTo(id).andStatusEqualTo(OaConstants.OA_GRID_PARTY_REPORT);
+        List<OaGridParty> oaGridPartyList = oaGridPartyMapper.selectByExample(example);
+
+        Map<String, File> fileMap = new LinkedHashMap<>();
+        for (OaGridParty oaGridParty : oaGridPartyList) {
+
+            String excelFilePath = oaGridParty.getExcelFilePath();
+
+            fileMap.put(oaGridParty.getPartyName() + "_" + oaGrid.getName() + FileUtils.getExtention(excelFilePath),
+                    new File(springProps.uploadPath + excelFilePath));
+        }
+        DownloadUtils.addFileDownloadCookieHeader(response);
+
+        DownloadUtils.zip(fileMap, oaGrid.getName(), request, response);
+        logger.info(log( LogConstants.LOG_OA, "打包下载党统报送数据文件：{0}", id));
 
     }
 

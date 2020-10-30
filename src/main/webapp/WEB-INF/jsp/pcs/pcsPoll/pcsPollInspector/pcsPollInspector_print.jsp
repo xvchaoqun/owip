@@ -36,9 +36,9 @@
                             <td align="right">
                                 <span style='font-size:14.0pt;font-family:黑体;'>网址：</span>
                             </td>
-                            <td style="word-wrap:break-word;word-break:break-all;" align="left">${homeURL}/pcs/login</td>
+                            <td style="word-wrap:break-word;word-break:break-all;" align="left">${homeURL}/ddh</td>
                             <td rowspan="4" align="center" width="105">
-                                <c:set var="loginUrl" value="${homeURL}/pcs/login?u=${inspector.username}&p=${inspector.passwd}"/>
+                                <c:set var="loginUrl" value="${homeURL}/ddh?u=${inspector.username}&p=${inspector.passwd}"/>
                                 <span style="display: none">${loginUrl}</span>
                                 <div class="qrcode"
                                      data-url="${loginUrl}"

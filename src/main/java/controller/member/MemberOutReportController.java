@@ -8,7 +8,6 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.UserRes;
@@ -48,12 +46,6 @@ public class MemberOutReportController extends MemberBaseController {
                                 Integer type,
                                 @RequestParam(defaultValue = "pdf") String format,
                                 Model model) throws IOException {
-
-        // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
-            throw new UnauthorizedException();
-        }
 
         UserRes verify = UserResUtils.verify(ids);
         String res = verify.getRes();
@@ -118,12 +110,6 @@ public class MemberOutReportController extends MemberBaseController {
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
                                Model model) throws IOException {
-
-        // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
-            throw new UnauthorizedException();
-        }
 
         UserRes verify = UserResUtils.verify(ids);
         String res = verify.getRes();

@@ -2,6 +2,7 @@ package controller.global;
 
 import bean.AvatarImportResult;
 import controller.BaseController;
+import ext.service.ExtCommonService;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +36,9 @@ import java.util.Map;
  */
 @Controller
 public class AvatarController extends BaseController {
+
+    @Autowired
+    protected ExtCommonService extCommonService;
 
     // 头像
     @GetMapping(value="/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -167,5 +172,25 @@ public class AvatarController extends BaseController {
         UserRes res = UserResUtils.verify(path);
 
         DownloadUtils.download(request, response, springProps.avatarFolder + res.getRes(), filename);
+    }
+
+    @RequiresPermissions("avatar:sync")
+    @RequestMapping(value = "/avatar/sync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map avatar_sync(int userId, HttpServletRequest request) throws IOException {
+
+        String photoBase64 = null;
+        try {
+            photoBase64 = extCommonService.syncAvatar(userId);
+        }catch (Exception ex){
+            return failed("头像接口读取失败：" + ex.getMessage());
+        }
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "同步头像：%s ", userId));
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("photoBase64", photoBase64);
+
+        return resultMap;
     }
 }

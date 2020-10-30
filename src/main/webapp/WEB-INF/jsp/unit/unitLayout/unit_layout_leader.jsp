@@ -26,11 +26,11 @@
                     <tr>
                         <th width="120">工作证号</th>
                         <th width="100">姓名</th>
-                        <th width="150">职务</th>
+                        <th width="200">职务</th>
                         <th width="80">行政级别</th>
                         <th>分管工作</th>
-                        <th>分管机关部门</th>
-                        <th>联系学部、院、系（所）</th>
+                        <th style="min-width: 150px">分管机关部门</th>
+                        <th style="min-width: 150px">联系学部、院、系（所）</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
                             <td nowrap>
                             <t:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
                             </td>
-                            <td nowrap style="text-align: left">${cadre.title}</td>
+                            <td style="text-align: left">${cadre.title}</td>
                             <td nowrap>${cm:getMetaType(cadre.adminLevel).name}</td>
                             <td style="text-align: left">${leader.job}</td>
                             <td style="text-align: left">

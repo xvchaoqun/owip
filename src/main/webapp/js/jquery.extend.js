@@ -320,9 +320,10 @@ $.fn.extend({
             },options));
     },
     // Form表单元素设置必填/可填
-    requireField: function (required, disabled) {
+    requireField: function (required, disabled, empty) {
 
         disabled = disabled || false;
+        empty = empty || false;
         //console.log("required="+ required + " disabled="+ disabled)
         if (required) {
             $(this).prop("disabled", disabled)
@@ -334,7 +335,7 @@ $.fn.extend({
             $(this).prop("disabled", disabled)
                 .removeAttr("required")
                 .closest(".form-group").find(".control-label span.star").remove();
-            if (!$(this).is(":checkbox") && !$(this).is(":radio")) {
+            if (!$(this).is(":checkbox") && !$(this).is(":radio") && empty) {
                 $(this).val('');
             }
             //console.log($(this).closest(".form-group").find(".control-label span.star").html())
@@ -550,6 +551,17 @@ var _modal_width;
                 return '<span>{0}</span>'.format(_time1);
             }
             return '--';
+        },
+        getBase64Image:function(img){
+          var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            var dataURL = canvas.toDataURL("image/png");
+
+            return dataURL;
+            //return dataURL.replace("data:image/png;base64,", "");
         },
         isBlank: function (str) {
             return $.trim(str) == '';
@@ -888,54 +900,112 @@ var _modal_width;
             }
             return date.format(format);
         },
-        //计算天数差的函数，通用
-        dayDiff: function (sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
-            if (sDate1 == undefined || sDate2 == undefined) return '--'
-            var aDate, oDate1, oDate2, iDays
-            sDate1 = sDate1.substr(0, 10)
-            sDate2 = sDate2.substr(0, 10)
-            oDate1 = new Date(sDate1.replaceAll("-", "/")).getTime();   //转换为2006/12/18格式，兼容IE
-            oDate2 = new Date(sDate2.replaceAll("-", "/")).getTime();
-            //console.log(oDate1)
-            //console.log(oDate2)
-            iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数
-            return iDays + 1; // 第一天和最后一天都算
-        },
-        //计算月份差
-        monthDiff: function (date1, date2) {
+        /**
+         * 计算天数差的函数
+         *
+         * 参数均为yyyy-MM-dd格式
+         * startDate<endDate 返回正数
+         * startDate>endDate 返回负数
+         */
+        dayDiff: function (startDate, endDate) {
 
-            if (date1 == undefined || date2 == undefined) return '--'
-            //默认格式为"2003-03-03",根据自己需要改格式和方法
-            // console.log("date1=" + date1)
-            var year1 = date1.substr(0, 4);
-            var year2 = date2.substr(0, 4);
-            var month1 = date1.substr(5, 2);
-            var month2 = date2.substr(5, 2);
-            var day1 = date1.substr(8, 2);
-            var day2 = date2.substr(8, 2);
+            if (startDate == undefined || endDate == undefined) return '--'
+            var sDate, eDate, days
+            startDate = startDate.substr(0, 10)
+            endDate = endDate.substr(0, 10)
+            //console.log("startDate="+startDate + " endDate="+endDate);
+
+            sDate = new Date(startDate.replaceAll("-", "/")).getTime();   //转换为2006/12/18格式，兼容IE
+            eDate = new Date(endDate.replaceAll("-", "/")).getTime();
+            days = parseInt((eDate - sDate) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数
+
+            return days + (days>0?1:-1); // 第一天和最后一天都算
+        },
+        /**
+         * 计算月份差
+         *
+         * 参数均为yyyy-MM-dd格式
+         * startDate<endDate 返回正数/0
+         * startDate>endDate 返回负数/0
+         */
+        monthDiff: function (startDate, endDate) {
+
+            if (startDate == undefined || endDate == undefined) return '--'
+
+            var year1 = startDate.substr(0, 4);
+            var year2 = endDate.substr(0, 4);
+            var month1 = startDate.substr(5, 2);
+            var month2 = endDate.substr(5, 2);
+            var day1 = startDate.substr(8, 2);
+            var day2 = endDate.substr(8, 2);
 
             var len = (year2 - year1) * 12 + (month2 - month1);
 
-            if (len > 0 && month1 == month2 && day2 < day1) // 月份相同，日在后面，则这个月不能算
+            if (len > 0 && month1 == month2 && day2 < day1) { // 月份相同，日在后面，则这个月不能算
                 len--;
+            }else if(len < 0 && month1 == month2 && day2 > day1){
+                len++;
+            }
 
             return len;
+        },
+        /**
+         * 计算年份差
+         *
+         * 参数均为yyyy-MM-dd格式
+         * startDate<endDate 返回正数/0
+         * startDate>endDate 返回负数/0
+         */
+        yearDiff: function (startDate, endDate) {
 
+            if (startDate == undefined || endDate == undefined) return '--'
+
+            var year1 = startDate.substr(0, 4);
+            var year2 = endDate.substr(0, 4);
+            var month1 = startDate.substr(5, 2);
+            var month2 = endDate.substr(5, 2);
+            var day1 = startDate.substr(8, 2);
+            var day2 = endDate.substr(8, 2);
+
+            var len = year2 - year1;
+
+            if (len > 0 && (month2 < month1 || (month1 == month2 && day2 < day1))) { // 月份在后面，或月份相同，日在后面，要减掉一年
+                len--;
+            }else if(len < 0 && (month2 > month1 || (month1 == month2 && day2 > day1))){
+                len++;
+            }
+
+            return len;
         },
-        monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
-            return $.monthDiff(date, $.date(new Date(), 'yyyy-MM-dd'));
+        dayOffNow: function (startDate) {// 距离现在多少天，date格式：yyyy-MM-dd
+            return $.dayDiff(startDate, $.date(new Date(), 'yyyy-MM-dd'));
         },
-        yearOffNow: function (date) {// 距离现在多少年，date格式：yyyy-MM-dd
-            return Math.floor($.monthOffNow(date) / 12);
+        monthOffNow: function (startDate) {// 距离现在多少月，date格式：yyyy-MM-dd
+            return $.monthDiff(startDate, $.date(new Date(), 'yyyy-MM-dd'));
         },
-        calAge: function (date) {// 计算年龄，date格式：yyyy-MM-dd
-            var year = $.yearOffNow(date);
+        yearOffNow: function (startDate) {// 距离现在多少年，date格式：yyyy-MM-dd
+            return Math.floor($.monthOffNow(startDate) / 12);
+        },
+        calAge: function (birthDate, baseDate) {// 计算年龄，date格式：yyyy-MM-dd
+
+            baseDate = baseDate || $.date(new Date(), 'yyyy-MM-dd');
+            var year = $.yearDiff(birthDate, baseDate);
+            if(year<0) return '--'
             if (year == 0) {
-                var month = $.monthOffNow(date);
+                var month = $.monthDiff(birthDate, baseDate);
+                if(month<0) return '--'
                 if (month == 0) return "未满月";
                 return month + "个月";
             }
             return year + "岁";
+        },
+        age: function (birthDate, baseDate) {// 计算年龄，date格式：yyyy-MM-dd
+
+            baseDate = baseDate || $.date(new Date(), 'yyyy-MM-dd');
+            var year = $.yearDiff(birthDate, baseDate);
+            if(year<=0) return '--'
+
+            return year;
         },
         // 身份证号获取 出生年月日（yyyy-MM-dd）
         getBirthdayByIdcard:function(idcard){
@@ -1221,7 +1291,7 @@ var _modal_width;
                     if (size != undefined) {
                         $.tip({
                             $target: $file.closest(".ace-file-input"), $container: $("#pageContent") || $("body"),
-                            msg: "文件<span class='text-danger'>[{0}]</span>超过{1}M大小".format(size, _uploadMaxSize / (1024 * 1024)),
+                            msg: "文件<span class='text-danger'>[{0}]</span>超过{1}M大小".format(size, maxSize / (1024 * 1024)),
                             my: 'left center', at: 'right center'
                         });
                         return;
@@ -1649,7 +1719,8 @@ if ($.jgrid) {
             }
 
             baseDate = baseDate || $.date(new Date(), 'yyyy-MM-dd');
-            return Math.floor($.monthDiff(cellvalue, $.date(baseDate, 'yyyy-MM-dd')) / 12);
+
+            return $.age(cellvalue, baseDate);
         },
         MetaType: function (cellvalue, options, rowObject) {
 

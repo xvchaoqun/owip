@@ -17,11 +17,15 @@
     <result column="active_train_start_time" jdbcType="DATE" property="activeTrainStartTime" />
     <result column="active_train_end_time" jdbcType="DATE" property="activeTrainEndTime" />
     <result column="active_grade" jdbcType="VARCHAR" property="activeGrade" />
+    <result column="contact_user_ids" jdbcType="VARCHAR" property="contactUserIds" />
+    <result column="contact_users" jdbcType="VARCHAR" property="contactUsers" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
     <result column="candidate_train_start_time" jdbcType="DATE" property="candidateTrainStartTime" />
     <result column="candidate_train_end_time" jdbcType="DATE" property="candidateTrainEndTime" />
     <result column="candidate_grade" jdbcType="VARCHAR" property="candidateGrade" />
     <result column="candidate_status" jdbcType="TINYINT" property="candidateStatus" />
+    <result column="sponsor_user_ids" jdbcType="VARCHAR" property="sponsorUserIds" />
+    <result column="sponsor_users" jdbcType="VARCHAR" property="sponsorUsers" />
     <result column="plan_time" jdbcType="DATE" property="planTime" />
     <result column="plan_status" jdbcType="TINYINT" property="planStatus" />
     <result column="draw_time" jdbcType="DATE" property="drawTime" />
@@ -31,6 +35,8 @@
     <result column="grow_public_id" jdbcType="INTEGER" property="growPublicId" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="grow_status" jdbcType="TINYINT" property="growStatus" />
+    <result column="grow_contact_user_ids" jdbcType="VARCHAR" property="growContactUserIds" />
+    <result column="grow_contact_users" jdbcType="VARCHAR" property="growContactUsers" />
     <result column="positive_public_id" jdbcType="INTEGER" property="positivePublicId" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="positive_status" jdbcType="TINYINT" property="positiveStatus" />
@@ -98,9 +104,10 @@
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, type, apply_time, fill_time, remark, apply_stage, stage, 
     reason, pass_time, active_time, active_train_start_time, active_train_end_time, active_grade, 
-    candidate_time, candidate_train_start_time, candidate_train_end_time, candidate_grade, 
-    candidate_status, plan_time, plan_status, draw_time, draw_status, apply_sn_id, apply_sn, 
-    grow_public_id, grow_time, grow_status, positive_public_id, positive_time, positive_status, 
+    contact_user_ids, contact_users, candidate_time, candidate_train_start_time, candidate_train_end_time, 
+    candidate_grade, candidate_status, sponsor_user_ids, sponsor_users, plan_time, plan_status, 
+    draw_time, draw_status, apply_sn_id, apply_sn, grow_public_id, grow_time, grow_status, 
+    grow_contact_user_ids, grow_contact_users, positive_public_id, positive_time, positive_status, 
     is_remove, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberApplyExample" resultMap="BaseResultMap">
@@ -139,25 +146,29 @@
       remark, apply_stage, stage, 
       reason, pass_time, active_time, 
       active_train_start_time, active_train_end_time, active_grade, 
-      candidate_time, candidate_train_start_time, candidate_train_end_time, 
-      candidate_grade, candidate_status, plan_time, 
-      plan_status, draw_time, draw_status, 
-      apply_sn_id, apply_sn, grow_public_id, 
-      grow_time, grow_status, positive_public_id, 
-      positive_time, positive_status, is_remove, 
-      create_time)
+      contact_user_ids, contact_users, candidate_time, 
+      candidate_train_start_time, candidate_train_end_time, 
+      candidate_grade, candidate_status, sponsor_user_ids, 
+      sponsor_users, plan_time, plan_status, 
+      draw_time, draw_status, apply_sn_id, 
+      apply_sn, grow_public_id, grow_time, 
+      grow_status, grow_contact_user_ids, grow_contact_users, 
+      positive_public_id, positive_time, positive_status, 
+      is_remove, create_time)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{applyTime,jdbcType=DATE}, #{fillTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{applyStage,jdbcType=TINYINT}, #{stage,jdbcType=TINYINT}, 
       #{reason,jdbcType=VARCHAR}, #{passTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
       #{activeTrainStartTime,jdbcType=DATE}, #{activeTrainEndTime,jdbcType=DATE}, #{activeGrade,jdbcType=VARCHAR}, 
-      #{candidateTime,jdbcType=DATE}, #{candidateTrainStartTime,jdbcType=DATE}, #{candidateTrainEndTime,jdbcType=DATE}, 
-      #{candidateGrade,jdbcType=VARCHAR}, #{candidateStatus,jdbcType=TINYINT}, #{planTime,jdbcType=DATE}, 
-      #{planStatus,jdbcType=TINYINT}, #{drawTime,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, 
-      #{applySnId,jdbcType=INTEGER}, #{applySn,jdbcType=VARCHAR}, #{growPublicId,jdbcType=INTEGER}, 
-      #{growTime,jdbcType=DATE}, #{growStatus,jdbcType=TINYINT}, #{positivePublicId,jdbcType=INTEGER}, 
-      #{positiveTime,jdbcType=DATE}, #{positiveStatus,jdbcType=TINYINT}, #{isRemove,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{contactUserIds,jdbcType=VARCHAR}, #{contactUsers,jdbcType=VARCHAR}, #{candidateTime,jdbcType=DATE}, 
+      #{candidateTrainStartTime,jdbcType=DATE}, #{candidateTrainEndTime,jdbcType=DATE}, 
+      #{candidateGrade,jdbcType=VARCHAR}, #{candidateStatus,jdbcType=TINYINT}, #{sponsorUserIds,jdbcType=VARCHAR}, 
+      #{sponsorUsers,jdbcType=VARCHAR}, #{planTime,jdbcType=DATE}, #{planStatus,jdbcType=TINYINT}, 
+      #{drawTime,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, #{applySnId,jdbcType=INTEGER}, 
+      #{applySn,jdbcType=VARCHAR}, #{growPublicId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
+      #{growStatus,jdbcType=TINYINT}, #{growContactUserIds,jdbcType=VARCHAR}, #{growContactUsers,jdbcType=VARCHAR}, 
+      #{positivePublicId,jdbcType=INTEGER}, #{positiveTime,jdbcType=DATE}, #{positiveStatus,jdbcType=TINYINT}, 
+      #{isRemove,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberApply">
     insert into ow_member_apply
@@ -207,6 +218,12 @@
       <if test="activeGrade != null">
         active_grade,
       </if>
+      <if test="contactUserIds != null">
+        contact_user_ids,
+      </if>
+      <if test="contactUsers != null">
+        contact_users,
+      </if>
       <if test="candidateTime != null">
         candidate_time,
       </if>
@@ -221,6 +238,12 @@
       </if>
       <if test="candidateStatus != null">
         candidate_status,
+      </if>
+      <if test="sponsorUserIds != null">
+        sponsor_user_ids,
+      </if>
+      <if test="sponsorUsers != null">
+        sponsor_users,
       </if>
       <if test="planTime != null">
         plan_time,
@@ -248,6 +271,12 @@
       </if>
       <if test="growStatus != null">
         grow_status,
+      </if>
+      <if test="growContactUserIds != null">
+        grow_contact_user_ids,
+      </if>
+      <if test="growContactUsers != null">
+        grow_contact_users,
       </if>
       <if test="positivePublicId != null">
         positive_public_id,
@@ -311,6 +340,12 @@
       <if test="activeGrade != null">
         #{activeGrade,jdbcType=VARCHAR},
       </if>
+      <if test="contactUserIds != null">
+        #{contactUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="contactUsers != null">
+        #{contactUsers,jdbcType=VARCHAR},
+      </if>
       <if test="candidateTime != null">
         #{candidateTime,jdbcType=DATE},
       </if>
@@ -325,6 +360,12 @@
       </if>
       <if test="candidateStatus != null">
         #{candidateStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sponsorUserIds != null">
+        #{sponsorUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorUsers != null">
+        #{sponsorUsers,jdbcType=VARCHAR},
       </if>
       <if test="planTime != null">
         #{planTime,jdbcType=DATE},
@@ -352,6 +393,12 @@
       </if>
       <if test="growStatus != null">
         #{growStatus,jdbcType=TINYINT},
+      </if>
+      <if test="growContactUserIds != null">
+        #{growContactUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="growContactUsers != null">
+        #{growContactUsers,jdbcType=VARCHAR},
       </if>
       <if test="positivePublicId != null">
         #{positivePublicId,jdbcType=INTEGER},
@@ -424,6 +471,12 @@
       <if test="record.activeGrade != null">
         active_grade = #{record.activeGrade,jdbcType=VARCHAR},
       </if>
+      <if test="record.contactUserIds != null">
+        contact_user_ids = #{record.contactUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactUsers != null">
+        contact_users = #{record.contactUsers,jdbcType=VARCHAR},
+      </if>
       <if test="record.candidateTime != null">
         candidate_time = #{record.candidateTime,jdbcType=DATE},
       </if>
@@ -438,6 +491,12 @@
       </if>
       <if test="record.candidateStatus != null">
         candidate_status = #{record.candidateStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.sponsorUserIds != null">
+        sponsor_user_ids = #{record.sponsorUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sponsorUsers != null">
+        sponsor_users = #{record.sponsorUsers,jdbcType=VARCHAR},
       </if>
       <if test="record.planTime != null">
         plan_time = #{record.planTime,jdbcType=DATE},
@@ -465,6 +524,12 @@
       </if>
       <if test="record.growStatus != null">
         grow_status = #{record.growStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.growContactUserIds != null">
+        grow_contact_user_ids = #{record.growContactUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.growContactUsers != null">
+        grow_contact_users = #{record.growContactUsers,jdbcType=VARCHAR},
       </if>
       <if test="record.positivePublicId != null">
         positive_public_id = #{record.positivePublicId,jdbcType=INTEGER},
@@ -503,11 +568,15 @@
       active_train_start_time = #{record.activeTrainStartTime,jdbcType=DATE},
       active_train_end_time = #{record.activeTrainEndTime,jdbcType=DATE},
       active_grade = #{record.activeGrade,jdbcType=VARCHAR},
+      contact_user_ids = #{record.contactUserIds,jdbcType=VARCHAR},
+      contact_users = #{record.contactUsers,jdbcType=VARCHAR},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
       candidate_train_start_time = #{record.candidateTrainStartTime,jdbcType=DATE},
       candidate_train_end_time = #{record.candidateTrainEndTime,jdbcType=DATE},
       candidate_grade = #{record.candidateGrade,jdbcType=VARCHAR},
       candidate_status = #{record.candidateStatus,jdbcType=TINYINT},
+      sponsor_user_ids = #{record.sponsorUserIds,jdbcType=VARCHAR},
+      sponsor_users = #{record.sponsorUsers,jdbcType=VARCHAR},
       plan_time = #{record.planTime,jdbcType=DATE},
       plan_status = #{record.planStatus,jdbcType=TINYINT},
       draw_time = #{record.drawTime,jdbcType=DATE},
@@ -517,6 +586,8 @@
       grow_public_id = #{record.growPublicId,jdbcType=INTEGER},
       grow_time = #{record.growTime,jdbcType=DATE},
       grow_status = #{record.growStatus,jdbcType=TINYINT},
+      grow_contact_user_ids = #{record.growContactUserIds,jdbcType=VARCHAR},
+      grow_contact_users = #{record.growContactUsers,jdbcType=VARCHAR},
       positive_public_id = #{record.positivePublicId,jdbcType=INTEGER},
       positive_time = #{record.positiveTime,jdbcType=DATE},
       positive_status = #{record.positiveStatus,jdbcType=TINYINT},
@@ -571,6 +642,12 @@
       <if test="activeGrade != null">
         active_grade = #{activeGrade,jdbcType=VARCHAR},
       </if>
+      <if test="contactUserIds != null">
+        contact_user_ids = #{contactUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="contactUsers != null">
+        contact_users = #{contactUsers,jdbcType=VARCHAR},
+      </if>
       <if test="candidateTime != null">
         candidate_time = #{candidateTime,jdbcType=DATE},
       </if>
@@ -585,6 +662,12 @@
       </if>
       <if test="candidateStatus != null">
         candidate_status = #{candidateStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sponsorUserIds != null">
+        sponsor_user_ids = #{sponsorUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorUsers != null">
+        sponsor_users = #{sponsorUsers,jdbcType=VARCHAR},
       </if>
       <if test="planTime != null">
         plan_time = #{planTime,jdbcType=DATE},
@@ -612,6 +695,12 @@
       </if>
       <if test="growStatus != null">
         grow_status = #{growStatus,jdbcType=TINYINT},
+      </if>
+      <if test="growContactUserIds != null">
+        grow_contact_user_ids = #{growContactUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="growContactUsers != null">
+        grow_contact_users = #{growContactUsers,jdbcType=VARCHAR},
       </if>
       <if test="positivePublicId != null">
         positive_public_id = #{positivePublicId,jdbcType=INTEGER},
@@ -647,11 +736,15 @@
       active_train_start_time = #{activeTrainStartTime,jdbcType=DATE},
       active_train_end_time = #{activeTrainEndTime,jdbcType=DATE},
       active_grade = #{activeGrade,jdbcType=VARCHAR},
+      contact_user_ids = #{contactUserIds,jdbcType=VARCHAR},
+      contact_users = #{contactUsers,jdbcType=VARCHAR},
       candidate_time = #{candidateTime,jdbcType=DATE},
       candidate_train_start_time = #{candidateTrainStartTime,jdbcType=DATE},
       candidate_train_end_time = #{candidateTrainEndTime,jdbcType=DATE},
       candidate_grade = #{candidateGrade,jdbcType=VARCHAR},
       candidate_status = #{candidateStatus,jdbcType=TINYINT},
+      sponsor_user_ids = #{sponsorUserIds,jdbcType=VARCHAR},
+      sponsor_users = #{sponsorUsers,jdbcType=VARCHAR},
       plan_time = #{planTime,jdbcType=DATE},
       plan_status = #{planStatus,jdbcType=TINYINT},
       draw_time = #{drawTime,jdbcType=DATE},
@@ -661,6 +754,8 @@
       grow_public_id = #{growPublicId,jdbcType=INTEGER},
       grow_time = #{growTime,jdbcType=DATE},
       grow_status = #{growStatus,jdbcType=TINYINT},
+      grow_contact_user_ids = #{growContactUserIds,jdbcType=VARCHAR},
+      grow_contact_users = #{growContactUsers,jdbcType=VARCHAR},
       positive_public_id = #{positivePublicId,jdbcType=INTEGER},
       positive_time = #{positiveTime,jdbcType=DATE},
       positive_status = #{positiveStatus,jdbcType=TINYINT},

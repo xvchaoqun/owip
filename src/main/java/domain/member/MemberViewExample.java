@@ -1719,6 +1719,66 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Float value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Float value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Float value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Float value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Float value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Float value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Float> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Float> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Float value1, Float value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Float value1, Float value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andUserSourceIsNull() {
             addCriterion("user_source is null");
             return (Criteria) this;
@@ -2617,6 +2677,146 @@ public class MemberViewExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameIsNull() {
+            addCriterion("party_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameIsNotNull() {
+            addCriterion("party_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameEqualTo(String value) {
+            addCriterion("party_name =", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameNotEqualTo(String value) {
+            addCriterion("party_name <>", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameGreaterThan(String value) {
+            addCriterion("party_name >", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameGreaterThanOrEqualTo(String value) {
+            addCriterion("party_name >=", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameLessThan(String value) {
+            addCriterion("party_name <", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameLessThanOrEqualTo(String value) {
+            addCriterion("party_name <=", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameLike(String value) {
+            addCriterion("party_name like", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameNotLike(String value) {
+            addCriterion("party_name not like", value, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameIn(List<String> values) {
+            addCriterion("party_name in", values, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameNotIn(List<String> values) {
+            addCriterion("party_name not in", values, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameBetween(String value1, String value2) {
+            addCriterion("party_name between", value1, value2, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyNameNotBetween(String value1, String value2) {
+            addCriterion("party_name not between", value1, value2, "partyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameIsNull() {
+            addCriterion("branch_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameIsNotNull() {
+            addCriterion("branch_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameEqualTo(String value) {
+            addCriterion("branch_name =", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotEqualTo(String value) {
+            addCriterion("branch_name <>", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameGreaterThan(String value) {
+            addCriterion("branch_name >", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameGreaterThanOrEqualTo(String value) {
+            addCriterion("branch_name >=", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameLessThan(String value) {
+            addCriterion("branch_name <", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameLessThanOrEqualTo(String value) {
+            addCriterion("branch_name <=", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameLike(String value) {
+            addCriterion("branch_name like", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotLike(String value) {
+            addCriterion("branch_name not like", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameIn(List<String> values) {
+            addCriterion("branch_name in", values, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotIn(List<String> values) {
+            addCriterion("branch_name not in", values, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameBetween(String value1, String value2) {
+            addCriterion("branch_name between", value1, value2, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotBetween(String value1, String value2) {
+            addCriterion("branch_name not between", value1, value2, "branchName");
             return (Criteria) this;
         }
 

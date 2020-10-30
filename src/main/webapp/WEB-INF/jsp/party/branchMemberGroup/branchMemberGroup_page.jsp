@@ -10,8 +10,8 @@
                  data-url-co="${ctx}/branchMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.name||not empty param.partyId
-            ||not empty param.branchId|| not empty param._appointTime || not empty param._tranTime}"/>
-
+            ||not empty param.branchId|| not empty param._appointTime || not empty param._tranTime||not empty param.isStaff
+            ||not empty param.isPrefessional||not empty param.isBaseTeam||not empty param.types ||not empty param.unitTypeId}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
 
@@ -44,7 +44,7 @@
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${status>=0}">
                                     <shiro:hasPermission name="branchMemberGroup:del">
-                                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                            data-url="${ctx}/branchMemberGroup_batchDel" data-title="撤销支部委员会"
                                            data-msg="确定撤销这{0}个支部委员会吗？"><i class="fa fa-history"></i> 撤销</a>
                                         【注：撤销操作将同时删除相关管理员权限，请谨慎操作！】
@@ -129,6 +129,58 @@
                                                            type="text" name="_tranTime" value="${param._tranTime}"/>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>支部类型</label>
+                                                <select class="multiselect" multiple="" name="types"
+                                                        data-placeholder="请选择">
+                                                    <c:import url="/metaTypes?__code=mc_branch_type"/>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>单位属性</label>
+                                                <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性">
+                                                    <option></option>
+                                                    <c:import url="/metaTypes?__code=mc_branch_unit_type"/>
+                                                </select>
+                                                <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>是否是教工党支部</label>
+                                                <select name="isStaff"
+                                                        data-rel="select2"
+                                                        data-width="80"
+                                                        data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isStaff]").val('${param.isStaff}');
+                                                </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>是否一线教学科研党支部</label>
+                                                <select name="isPrefessional" data-width="80" data-rel="select2" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isPrefessional]").val('${param.isPrefessional}');
+                                                </script>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>是否建立在团队</label>
+                                                <select name="isBaseTeam" data-width="80" data-rel="select2" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isBaseTeam]").val('${param.isBaseTeam}');
+                                                </script>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
@@ -156,6 +208,8 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $.register.multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/branchMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -189,10 +243,15 @@
             {label: '应换届时间', name: 'tranTime', width: 130,
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (!rowObject.isDeleted && rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
-                        return "class='danger'";
+                    if (!rowObject.isDeleted){
+                        if($.yearOffNow(rowObject.tranTime) > 0) {
+                            return "class='dark-danger'"; // 超过1年，深红
+                        }else if($.dayOffNow(rowObject.tranTime) > 0){
+                            return "class='danger'";
+                        }
+                    }
                 }},
-            <c:if test="${cls==-1}">
+            <c:if test="${status==-1}">
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',

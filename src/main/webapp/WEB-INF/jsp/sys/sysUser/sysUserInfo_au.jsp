@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <h3>修改人员基本信息（其中带<span style="color: red">*</span>的字段每天会被校园门户账号信息进行同步覆盖）</h3>
 <hr/>
-<form class="form-horizontal" action="${ctx}/sysUserInfo_au" autocomplete="off" disableautocomplete id="modalForm"
+<form class="form-horizontal" action="${ctx}/sysUserInfo_au" autocomplete="off" disableautocomplete id="infoForm"
       method="post" enctype="multipart/form-data">
     <input type="hidden" name="userId" value="${sysUser.id}">
 
@@ -97,7 +97,7 @@
                         </c:forEach>
                     </select>
                     <script>
-                        $("#modalForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
+                        $("#infoForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
                     </script>
                 </div>
                 <c:if test="${!sync.nation}">
@@ -151,7 +151,18 @@
 
         </div>
         <div class="col-xs-4">
-
+            <div class="form-group">
+                <label class="col-xs-4 control-label"><c:if test="${!sync.unit}"><span class="star">*</span></c:if> 所在单位（院系）</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="unit" value="${ui.unit}">
+                </div>
+                <c:if test="${!sync.unit}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.unit?"checked":""}
+                               data-name="unit" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
+            </div>
             <c:if test="${sysUser.type==USER_TYPE_JZG}">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><c:if test="${!sync.proPost}"><span class="star">*</span></c:if> 专业技术职务</label>
@@ -289,10 +300,10 @@
     </div>
 </div>
 <style>
-  .ace-file-container{
+  #infoForm .ace-file-container{
     height: 200px!important;
   }
-  .ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
+  #infoForm .ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
     line-height: 120px!important;
   }
 </style>
@@ -339,10 +350,10 @@
       </c:if>
 
     $("#body-content-view button[type=submit]").click(function () {
-        $("#modalForm").submit();
+        $("#infoForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#infoForm").validate({
         submitHandler: function (form) {
 
             var syncNames = $.map($("input.syncOnce:checked"), function(input){
@@ -362,6 +373,6 @@
         }
     });
     $.register.date($('.date-picker'));
-    //$("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
+    //$("#infoForm :checkbox").bootstrapSwitch();
+    $('#infoForm [data-rel="select2"]').select2();
 </script>

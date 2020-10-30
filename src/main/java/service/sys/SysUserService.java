@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.*;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -28,9 +27,12 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
+import sys.tool.graphicsmagick.GmTool;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
+import sys.utils.PropertiesUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -54,12 +56,15 @@ public class SysUserService extends BaseMapper {
 
         String savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR + userId + ".png";
 
-        FileUtils.mkdirs(springProps.uploadPath + savePath);
-        Thumbnails.of(sign.getInputStream())
-                .size(750, 500)
-                //.outputFormat("png")
-                .outputQuality(1.0f)
-                .toFile(springProps.uploadPath + savePath);
+        String filePath = springProps.uploadPath + savePath;
+        FileUtils.saveFile(sign, new File(filePath));
+
+        try {
+            GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+            gmTool.scaleResize(filePath, filePath, 750, 500);
+        }catch (Exception ex){
+            throw new OpException("上传失败：" + ex.getMessage());
+        }
 
         return savePath;
     }

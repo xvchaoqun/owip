@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import domain.pcs.PcsPoll;
 import domain.pcs.PcsPollInspector;
 import domain.pcs.PcsPollResult;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,10 @@ public class PcsPollResultService extends PcsBaseMapper {
 
     @Transactional
     public void submitResult(PcsPollInspector inspector) {
+
+        if(BooleanUtils.isTrue(inspector.getIsFinished())){
+            return; // 已经提交过
+        }
 
         int pollId = inspector.getPollId();
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);

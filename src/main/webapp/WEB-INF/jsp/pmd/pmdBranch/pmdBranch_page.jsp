@@ -8,36 +8,14 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="multi-row-head-table myTableDiv"
                  data-url-page="${ctx}/pmd/pmdBranch"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.hasReport || not empty param.payMonth
+            <c:set var="_query" value="${not empty param.hasReport || not empty param.partyId || not empty param.branchId || not empty param.payMonth
              || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <%--<a class="popupBtn btn btn-warning btn-sm"
-                   data-width="800"
-                   data-url="${ctx}/hf_content?code=hf_pmd_branch">
-                    <i class="fa fa-info-circle"></i> 操作说明</a>--%>
 
+                <c:if test="${cm:attachFileExisted('af_pmd_help')}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-url="${ctx}/pdf_preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
-                <%--<shiro:hasPermission name="pmdBranch:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmdBranch_au"><i class="fa fa-plus"></i> 添加</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pmdBranch_au"
-                       data-grid-id="#jqGrid"
-                       ><i class="fa fa-edit"></i>
-                        修改</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="pmdBranch:del">
-                    <button data-url="${ctx}/pmdBranch_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
-                </shiro:hasPermission>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>--%>
+                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -52,6 +30,25 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
+                            <div class="form-group">
+                                <label>所在${_p_partyName}</label>
+                                <select class="form-control" data-width="250"  data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/party_selects"
+                                        name="partyId" data-placeholder="请选择${_p_partyName}">
+                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                <label>所在党支部</label>
+                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                                        name="branchId" data-placeholder="请选择党支部">
+                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                                </select>
+                            </div>
+                            <script>
+                                $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+                            </script>
                             <div class="form-group">
                                 <label>缴纳月份</label>
                                 <div class="input-group" style="width: 120px;">

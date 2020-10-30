@@ -793,6 +793,11 @@ public class CadreEduService extends BaseMapper {
 
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
         if (cadreEdus.size() > 0){
+            CadreEdu cadreEdu = new CadreEdu();
+            cadreEdu.setIsHighDegree(!flag);
+            cadreEdu.setIsHighEdu(false);
+            cadreEduMapper.updateByExampleSelective(cadreEdu, example);
+
             CadreEdu record = new CadreEdu();
             record.setId(cadreEdus.get(cadreEdus.size() - 1).getId());
             record.setIsHighDegree(flag);

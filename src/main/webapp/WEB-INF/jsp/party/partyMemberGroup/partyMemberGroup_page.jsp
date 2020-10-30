@@ -59,7 +59,7 @@
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${status>=0}">
                                     <shiro:hasPermission name="partyMemberGroup:del">
-                                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                            data-url="${ctx}/partyMemberGroup_batchDel" data-title="撤销领导班子"
                                            data-msg="确定撤销这{0}个领导班子吗？"><i class="fa fa-history"></i> 撤销</a>
                                         【注：撤销操作将同时删除相关管理员，请谨慎操作！】
@@ -217,8 +217,13 @@
             {label: '应换届时间', name: 'tranTime', width: 130,
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (!rowObject.isDeleted && rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
-                        return "class='danger'";
+                    if (!rowObject.isDeleted){
+                        if($.yearOffNow(rowObject.tranTime) > 0) {
+                            return "class='dark-danger'"; // 超过1年，深红
+                        }else if($.dayOffNow(rowObject.tranTime) > 0){
+                            return "class='danger'";
+                        }
+                    }
                 }
             },
             <c:if test="${status==-1}">

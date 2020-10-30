@@ -2,6 +2,7 @@ package service.pmd;
 
 import controller.global.OpException;
 import domain.pmd.*;
+import ext.service.PmdExtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
@@ -116,7 +118,7 @@ public class PmdConfigMemberService extends PmdBaseMapper {
     // 计算应缴党费额度
     @Transactional
     @CacheEvict(value = "PmdConfigMember", key = "#record.userId")
-    public void setSalary(PmdConfigMember record, boolean isSelf) {
+    public void setSalary(PmdConfigMember record, boolean isSelf, HttpServletRequest request) {
 
         int userId = record.getUserId();
         if(!canSetSalary(userId)){
@@ -132,7 +134,7 @@ public class PmdConfigMemberService extends PmdBaseMapper {
         record.setUserId(userId);
         record.setConfigMemberType(null);
         record.setConfigMemberTypeId(null);
-        BigDecimal duePay = pmdExtService.calDuePay(record);
+        BigDecimal duePay = pmdExtService.calDuePay(userId, pmdExtService.formSalaryToJSON(request));
         record.setDuePay(duePay);
         //record.setHasSetSalary(true);
         record.setHasReset(true);

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 <c:set var="member_needGrowTime" value="${_pMap['member_needGrowTime']=='true'}"/>
 <div style="width: 900px">
 <h3>${empty member?'添加党员':'修改党籍信息'}</h3>
@@ -149,6 +148,7 @@
 
         </div>
         <div class="col-xs-5">
+            <c:if test="${empty member.politicalStatus || member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
                 <div class="col-xs-8">
@@ -167,6 +167,7 @@
                                   name="positiveBranch" rows="3">${member.positiveBranch}</textarea>
                 </div>
             </div>
+            </c:if>
             <div class="form-group">
                 <label class="col-xs-3 control-label">党内职务</label>
                 <div class="col-xs-8">

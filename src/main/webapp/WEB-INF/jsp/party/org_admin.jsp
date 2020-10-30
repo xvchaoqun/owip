@@ -54,7 +54,7 @@
         <div class="space-10"></div>
     <div class="popTableDiv"
          data-url-page="${ctx}/org_admin?partyId=${party.id}&branchId=${branch.id}"
-         data-url-del="${ctx}/orgAdmin_del">
+         data-url-del="${ctx}/orgAdmin_del?isPartyAdmin=${param.isPartyAdmin}">
         <c:if test="${commonList.recNum>0}">
             <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>

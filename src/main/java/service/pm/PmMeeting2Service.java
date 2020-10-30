@@ -24,7 +24,7 @@ import static sys.constants.SystemConstants.*;
 public class PmMeeting2Service extends PmBaseMapper {
 
     @Autowired
-    PartyService partyService;
+    private PartyService partyService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
@@ -123,7 +123,9 @@ public class PmMeeting2Service extends PmBaseMapper {
         if(record.getType2()==null){
             commonMapper.excuteSql("update pm_meeting2 set type2=null,number2=null,time2=null where id=" + record.getId());
         }
-
+        if (partyService.isDirectBranch(record.getPartyId())){
+            commonMapper.excuteSql("update pm_meeting set branch_id=null where id=" + record.getId());
+        }
     }
 
     @Transactional

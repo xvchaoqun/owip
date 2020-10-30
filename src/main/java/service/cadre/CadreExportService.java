@@ -392,7 +392,8 @@ public class CadreExportService extends BaseMapper {
 
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    //DateUtils.formatDate(record.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMM),
                     record.getBirth() == null ? "" : DateUtils.yearOffNow(birthToDay?record.getBirth():DateUtils.getFirstDayOfMonth(record.getBirth())) + "",
                     StringUtils.trimToEmpty(partyName),
 
@@ -551,9 +552,9 @@ public class CadreExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
-            // 出生时间
-            String birth = DateUtils.formatDate(uv.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
-            /*DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMM);*/
+            // 出生时间，仅导出年月
+            //String birth = DateUtils.formatDate(uv.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+            String birth = DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
@@ -629,10 +630,14 @@ public class CadreExportService extends BaseMapper {
             String adminLevelStartTime = ""; // 现职级始任时间
             String adminLevelYear = ""; // 任现职级年限
 
-            if(cv.getNpWorkTime()!=null) {
-                postStartTime = DateUtils.formatDate(cv.getNpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+            Date _postStartTime = cv.getNpWorkTime();
+            if(_postStartTime==null){
+                _postStartTime = cv.getLpWorkTime(); // 有些学校只维护了任职时间，没有维护任职始任时间，导出时导出任职时间
+            }
+            if(_postStartTime!=null) {
+                postStartTime = DateUtils.formatDate(_postStartTime, CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
                         /*DateUtils.formatDate(cv.getNpWorkTime(), DateUtils.YYYYMM);*/
-                Integer year = DateUtils.intervalYearsUntilNow(cv.getNpWorkTime());
+                Integer year = DateUtils.intervalYearsUntilNow(_postStartTime);
                 if (year == 0) postYear = "未满一年";
                 else postYear = year + "";
             }

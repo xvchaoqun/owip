@@ -304,7 +304,9 @@ public class PassportDrawController extends AbroadBaseController {
 
             applySelf.setPeerStaff(peerStaff);
             applySelf.setCostSource(record.getCostSource());
-            applySelf.setNeedPassports(classId + "");
+            if(classId!=null) {
+                applySelf.setNeedPassports(classId + "");
+            }
             applySelf.setCreateTime(new Date());
             applySelf.setStatus(true);
             applySelf.setIsFinish(true);
@@ -514,7 +516,9 @@ public class PassportDrawController extends AbroadBaseController {
                 applySelf.setReason(reason);
                 applySelf.setPeerStaff(peerStaff);
                 applySelf.setCostSource(costSource);
-                applySelf.setNeedPassports(passport.getClassId() + "");
+                if(passport.getClassId()!=null) {
+                    applySelf.setNeedPassports(passport.getClassId() + "");
+                }
                 applySelf.setCreateTime(now);
                 applySelf.setStatus(true);
                 applySelf.setIsFinish(true);

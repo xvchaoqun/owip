@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['memberApply_timeLimit']=='true'}" var="_memberApply_timeLimit"/>
-<c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
 
 <div class="widget-box">
     <div class="widget-header">

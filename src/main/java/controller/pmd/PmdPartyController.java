@@ -5,7 +5,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -85,7 +84,7 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         if(cls==1) {
-            //if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)){
 
                 int userId = ShiroHelper.getCurrentUserId();
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
@@ -94,10 +93,10 @@ public class PmdPartyController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
-            //}
+            }
         }else if(cls==2){
 
-            ShiroHelper.checkRole(RoleConstants.ROLE_PMD_OW);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
             criteria.andMonthIdEqualTo(monthId);
         }else {
             criteria.andIdIsNull();
@@ -147,7 +146,7 @@ public class PmdPartyController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
         
             pmdPartyService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党委报送：%s", id));

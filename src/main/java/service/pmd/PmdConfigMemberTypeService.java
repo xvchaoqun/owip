@@ -3,6 +3,7 @@ package service.pmd;
 import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdConfigMemberTypeExample;
 import domain.pmd.PmdNorm;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import sys.constants.PmdConstants;
+import sys.utils.ContentUtils;
 
 import java.util.*;
 
@@ -58,6 +60,17 @@ public class PmdConfigMemberTypeService extends PmdBaseMapper {
         }
 
         return map;
+    }
+
+    // 根据类别、分类别名称查找
+    public PmdConfigMemberType get(byte configMemberType, String name){
+
+        if(name == null) return null;
+
+        PmdConfigMemberTypeExample example = new PmdConfigMemberTypeExample();
+        example.createCriteria().andTypeEqualTo(configMemberType).andNameEqualTo(ContentUtils.trimAll(name));
+        List<PmdConfigMemberType> pmdConfigMemberTypes = pmdConfigMemberTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return pmdConfigMemberTypes.size()>0?pmdConfigMemberTypes.get(0):null;
     }
 
     @Cacheable(value = "PmdConfigMemberType", key = "#id")

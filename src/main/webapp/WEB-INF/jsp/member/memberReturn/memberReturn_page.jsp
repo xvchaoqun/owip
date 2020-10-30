@@ -370,14 +370,16 @@
         btnbase:"btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
-            var ids  = $(this).getGridParam("selarrrow");
+
+            var $this = $(this);
+            var ids  = $this.getGridParam("selarrrow");
             if(ids.length==0){
                 SysMsg.warning("请选择行", "提示");
                 return ;
             }
             var minStatus;
             $.each(ids, function (i, id) {
-                var rowData = $(this).getRowData(id);
+                var rowData = $this.getRowData(id);
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             })
 

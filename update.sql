@@ -1,6 +1,244 @@
 
-20200930
+20201029
+
+南航
+
+-- 更新jx.ext
+
+20201028
+哈工大
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (990, 0, '同步头像接口', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'avatar:sync', 2, NULL, NULL, 1, NULL);
+-- 更新 Utils
+
+20201025
+西工大，，北邮
+
+-- 执行 /test/member_add_role.jsp
+--     /test/member_del_role.jsp
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids like '%,8,%';
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`!=1 and u.role_ids like '%,8,%';
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids not like '%,8,%';
+-- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids not like '%,8,%';
+-- 更新 Utils
+
+-- 北航
+/*ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `concat_user_ids` `contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' COLLATE 'utf8_general_ci' AFTER `active_grade`,
+	CHANGE COLUMN `concat_users` `contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' COLLATE 'utf8_general_ci' AFTER `contact_user_ids`,
+	CHANGE COLUMN `grow_concat_user_ids` `grow_contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' COLLATE 'utf8_general_ci' AFTER `grow_status`,
+	CHANGE COLUMN `grow_concat_users` `grow_contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' COLLATE 'utf8_general_ci' AFTER `grow_contact_user_ids`;
+*/-- 北航
+
+20201025
+北航
+
+ALTER TABLE `ow_member_apply`
+	ADD COLUMN `contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' AFTER `active_grade`,
+	ADD COLUMN `contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' AFTER `contact_user_ids`,
+	ADD COLUMN `sponsor_user_ids` VARCHAR(50) NULL COMMENT '入党介绍人，如果为空则是校外，否则校内，逗号分割' AFTER `candidate_status`,
+	ADD COLUMN `sponsor_users` VARCHAR(50) NULL COMMENT '入党介绍人姓名，逗号分割' AFTER `sponsor_user_ids`,
+	ADD COLUMN `grow_contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' AFTER `grow_status`,
+	ADD COLUMN `grow_contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' AFTER `grow_contact_user_ids`;
+-- 更新 ow_member_apply_view
+
+ALTER TABLE `cadre`
+	ADD COLUMN `is_outside` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否校外任职' AFTER `title`;
+
+-- 更新cadre_view
+
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('contactUsers_count', '培养联系人数量', '0', 2, 79, '入党积极分子阶段');
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('sponsorUsers_count', '入党介绍人数量', '0', 2, 80, '');
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('growContactUsers_count', '培养联系人数量', '0', 2, 81, '预备党员阶段');
+
+
+20201021
+西工大
+
+-- 更新 Utils
+-- 加入 GraphicsMagick
+-- gm.command=/opt/GraphicsMagick-1.3.35/bin
+-- im4java.jar
+
+ALTER TABLE `pmd_config_member_type`
+	ADD UNIQUE INDEX `type_name` (`type`, `name`);
+
+
+INSERT INTO `sys_role` (`id`, `code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`)
+VALUES (75, 'dp_member', '民主党派成员', 1, '-1', '-1', NULL, 0, 0, 65, '');
+UPDATE `sys_role` SET `name`='民主党派干部成员' WHERE  `id`=70;
+UPDATE sys_user set role_ids=REPLACE(role_ids, ',69,',',75,') WHERE role_ids LIKE '%,69,%';
+
+
+20201019
+
+北邮
+
+-- 党费收缴
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (2554, 0, '支部添加', '', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmdBranch:edit', NULL, NULL, NULL, 1, NULL);
+
+20201019
+吉大
+
+ALTER TABLE `pcs_candidate`
+	ADD INDEX `config_id` (`config_id`);
+
+
+	ALTER TABLE `pcs_recommend`
+	ADD COLUMN `has_report` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分党委是否已报送' AFTER `is_finished`;
+
+	update pcs_recommend pr, pcs_admin_report par set pr.has_report=1
+	where par.config_id=pr.config_id and par.party_id=pr.party_id and par.stage=pr.stage;
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+`parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (1300, 0, '显示所有分党委和支部', '给组织部管理员', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmd:viewAll', NULL, NULL, NULL, 1, NULL);
+
+update sys_resource set permission='pmdMonth:list' where permission='pmdOw:admin';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+`parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (1301, 0, '组织部管理员操作权限', '给组织部管理员', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmdOw:admin', NULL, NULL, NULL, 1, NULL);
+
+update sys_resource set permission='pmdMember:helpSetSalary' where permission='userPmdMember:helpSetSalary';
+
+-- 修改党费组织部管理员权限
+
+
+20201015
+哈工大
+
+delete from base_meta_class where code='mc_branch_staff_type';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2553, 0, '分党委党建代办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:party', NULL, NULL, NULL, 1, NULL);
+
+20201014
+西工大
 -- 更新 utils
+
+20201014
+
+ALTER TABLE `ow_party_member_group`
+	DROP FOREIGN KEY `FK_ow_party_member_group_ow_party_member_group`;
+ALTER TABLE `ow_party_member_group`
+	ADD CONSTRAINT `FK_ow_party_member_group_ow_party_member_group` FOREIGN KEY (`fid`) REFERENCES `ow_party_member_group` (`id`) ON DELETE SET NULL;
+
+
+20201013
+
+北航
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2552, 0, '支部委员会届满列表', '', 'url', '', 'unitTeam?list=3', 867, '0/1/867/', 1, 'unitTeam:list3', NULL, NULL, NULL, 1, 95);
+
+-- 去重
+delete ppr.* from pcs_poll_result ppr,  (select max(id) maxid, inspector_id,user_id,type, count(*) num from pcs_poll_result group by inspector_id,user_id, type having count(*)>1)tmp
+where ppr.inspector_id=tmp.inspector_id and ppr.user_id=tmp.user_id and ppr.type = tmp.type and ppr.id != tmp.maxid;
+-- 加唯一索引
+ALTER TABLE `pcs_poll_result`
+	ADD UNIQUE INDEX `inspector_id_type_user_id` (`inspector_id`, `type`, `user_id`);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (76, 0, '隐藏科级干部', '', 'function', '', NULL, 88, '0/1/88/', 1, 'hide:kj', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (77, 0, '隐藏离任干部', '', 'function', '', NULL, 88, '0/1/88/', 1, 'hide:cadreLeave', NULL, NULL, NULL, 1, NULL);
+
+
+20201010
+南航
+
+drop view IF EXISTS pcs_party_view;
+
+-- 删除 service.pmd.PmdExtService
+
+ALTER TABLE `pmd_config_member`
+	ADD COLUMN `salary` TEXT NULL DEFAULT NULL COMMENT '工资项，JSON格式' AFTER `retire_salary`;
+
+-- 执行 /test/pmd_update.jsp
+
+ALTER TABLE `pmd_config_member`
+	DROP COLUMN `gwgz`,
+	DROP COLUMN `xjgz`,
+	DROP COLUMN `gwjt`,
+	DROP COLUMN `zwbt`,
+	DROP COLUMN `zwbt1`,
+	DROP COLUMN `shbt`,
+	DROP COLUMN `sbf`,
+	DROP COLUMN `xlf`,
+	DROP COLUMN `gzcx`,
+	DROP COLUMN `shiyebx`,
+	DROP COLUMN `yanglaobx`,
+	DROP COLUMN `yiliaobx`,
+	DROP COLUMN `gsbx`,
+	DROP COLUMN `shengyubx`,
+	DROP COLUMN `qynj`,
+	DROP COLUMN `zynj`,
+	DROP COLUMN `gjj`;
+
+-- 更新 utils
+
+20201010
+南航（停止同步更新）
+
+update  sys_resource set name='批量生成、导出账号' where permission = 'memberReg:import';
+
+ALTER TABLE `pmd_branch`
+	CHANGE COLUMN `sort_order` `party_sort_order` INT(10) UNSIGNED NULL COMMENT '党委的顺序' AFTER `branch_name`,
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL COMMENT '支部的顺序' AFTER `party_sort_order`;
+-- 更新 pmd_branch_view
+
+20201008
+西工大，北航，北化工（停止同步更新）
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `pro_post_level` `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务级别（职称级别）' AFTER `pro_post_time`,
+	CHANGE COLUMN `post_level` `post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '任职级别（职员级别）' AFTER `post`;
+
+ALTER TABLE `ow_member`
+	ADD COLUMN `sort_order` FLOAT UNSIGNED NULL DEFAULT NULL COMMENT '排序，用于下拉选' AFTER `integrity`;
+-- 更新 ow_member_view
+
+update  sys_resource set url='/m/cadreList?type=11' where permission='m:cadreList:leader';
+update  sys_resource set url='/m/cadreList?type=2' where permission='m:cadreList';
+update  sys_resource set url='/m/cadreList?type=1' where permission='m:cadreList:leader';
+
+
+ALTER TABLE `abroad_approval_log`
+	DROP FOREIGN KEY `FK_abroad_apply_approval_abroad_approver_type`;
+ALTER TABLE `abroad_approval_order`
+	DROP INDEX `FK_abroad_approval_order_abroad_approval_identity`,
+	DROP INDEX `FK_abroad_approval_order_abroad_approver_type`,
+	DROP FOREIGN KEY `FK_abroad_approval_order_abroad_approver_type`,
+	DROP FOREIGN KEY `FK_abroad_approval_order_abroad_approval_identity`;
+ALTER TABLE `abroad_approver`
+	DROP INDEX `type_id`,
+	DROP FOREIGN KEY `abroad_approver_ibfk_2`;
+ALTER TABLE `abroad_applicat_cadre`
+	DROP INDEX `FK_abroad_applicat_user_abroad_applicat_type`,
+	DROP FOREIGN KEY `FK_abroad_applicat_user_abroad_applicat_type`;
+	
+
+
+20201003
+大工（停止同步更新）
+
+-- 更新utils、导入样表
+
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('sync', '同步字段是否只同步一次', '0110111101101100', 1, 51, '0或空代表每次都同步覆盖，1代表仅同步一次，后面不覆盖，字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像、专业技术职务级别、所在单位');
+
+
+20201002
+大工，北邮，戏曲，南航
+
 
 20200929
 
@@ -25,9 +263,9 @@ INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`
                         `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_pcs_branch', '党代会-支部管理员', 1, '469,476,470,477,479,491,492', '-1', NULL, 0, 0, 64, '');
 
 
-
-20200928
-南航
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `education` `education` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `pro_post`,
+	ADD COLUMN `degree` VARCHAR(50) NULL DEFAULT NULL COMMENT '学位' AFTER `education`;
 
 -- 更新 utils
 
@@ -73,6 +311,7 @@ ALTER TABLE `ow_branch_member`
 
 
 -- 删除 pcs.cm.PcsPartyController
+-- 删除 service.base.OneSendService
 
 20200921
 
@@ -138,12 +377,12 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 20200916
 西工大，北邮
 
--- 更新 utils
 
-20200916
 insert INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('payTest', '支付测试', 'false', 3, 78, '党费收缴支付测试');
 -- 更新 jx.ext.jar
+-- 更新 utils
+
 
 20200914
 南航，戏曲
@@ -2001,7 +2240,7 @@ VALUES ('label_adminLevelNone', '无行政级别标签', '无行政级别', '1',
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 3, 59, '');
 
--- 如果任职时间精确到月，需要更新一下数据库
+-- 如果任职时间精确到月postTimeToDay=false，需要更新一下数据库
 -- update cadre_admin_level set s_work_time=DATE_FORMAT(s_work_time,'%y-%m-01');
 -- update cadre_admin_level set e_work_time=DATE_FORMAT(e_work_time,'%y-%m-01');
 -- update cadre_post set np_work_time=DATE_FORMAT(np_work_time,'%y-%m-01');

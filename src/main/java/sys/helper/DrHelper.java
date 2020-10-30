@@ -16,6 +16,9 @@ public class DrHelper {
 
         HttpSession session = request.getSession(true);
         session.setAttribute(DRONLINE_INSPECTOR_LOGIN_SESSION_NAME, inspectorId);
+
+        // 8小时超时
+        session.setMaxInactiveInterval(8 * 60 * 60);
     }
 
     public static Integer getSession(HttpServletRequest request){

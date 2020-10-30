@@ -31,22 +31,27 @@
                             <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_CJ}" class="loadPage"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_CJ)}</a>
                         </li>
-
+                        <shiro:lacksPermission name="hide:cadreLeave">
                         <li class="<c:if test="${status==CADRE_STATUS_CJ_LEAVE}">active</c:if>">
                             <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_CJ_LEAVE}"
                                class="loadPage"><i
                                     class="fa fa-history"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_CJ_LEAVE)}</a>
                         </li>
+                        </shiro:lacksPermission>
                         <c:if test="${_p_hasKjCadre}">
+                        <shiro:lacksPermission name="hide:kj">
                         <li class="<c:if test="${status==CADRE_STATUS_KJ}">active</c:if>">
                             <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_KJ}" class="loadPage"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_KJ)}</a>
                         </li>
+                            <shiro:lacksPermission name="hide:cadreLeave">
                         <li class="<c:if test="${status==CADRE_STATUS_KJ_LEAVE}">active</c:if>">
                             <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_KJ_LEAVE}"
                                class="loadPage"><i
                                     class="fa fa-history"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_KJ_LEAVE)}</a>
                         </li>
+                            </shiro:lacksPermission>
+                        </shiro:lacksPermission>
                         </c:if>
                         <shiro:hasPermission name="cadre:list">
                             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
@@ -121,6 +126,14 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-success" role="menu"
                                                 style="z-index: 1031">
+                                                <shiro:hasRole name="${ROLE_SUPER}">
+                                                    <li>
+                                                        <a href="javascript:;" class="popupBtn"
+                                                           data-url="${ctx}/cadreAll_import?status=${status}">
+                                                            <i class="fa fa-file-excel-o"></i> 干部信息一张表导入</a>
+                                                    </li>
+                                                    <li role="separator" class="divider"></li>
+                                                </shiro:hasRole>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadre_import?status=${status}">
@@ -185,6 +198,14 @@
                                                        data-url="${ctx}/cadreAdform_import">
                                                         <i class="fa fa-file-excel-o"></i> 导入中组部干部任免审批表</a>
                                                 </li>
+                                                <shiro:hasRole name="${ROLE_SUPER}">
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="popupBtn"
+                                                           data-url="${ctx}/cadreAdform_docxImport">
+                                                            <i class="fa fa-file-excel-o"></i> 导入干部任免审批表（word格式）</a>
+                                                    </li>
+                                                </shiro:hasRole>
                                             </ul>
                                         </div>
                                     </shiro:hasPermission>

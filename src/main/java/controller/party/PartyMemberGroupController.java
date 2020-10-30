@@ -14,6 +14,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -84,10 +86,12 @@ public class PartyMemberGroupController extends BaseController {
         return "party/partyMemberGroup/partyMemberGroup_page";
     }
 
-    @RequiresPermissions("partyMemberGroup:list")
+    // unitTeam:list :  党委班子届满列表
+    @RequiresPermissions(value= {"partyMemberGroup:list","unitTeam:list"}, logical = Logical.OR )
     @RequestMapping("/partyMemberGroup_data")
     public void partyMemberGroup_data(HttpServletResponse response,
                                       @RequestParam(required = false, defaultValue = "1") Byte status,
+                                      Integer year,
                                       String name,
                                       Integer classId,
                                       Integer partyId,
@@ -152,6 +156,15 @@ public class PartyMemberGroupController extends BaseController {
         if (isTranTime!=null) {
             criteria.andTranTimeLessThanOrEqualTo(new Date());
         }
+        if (year != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            Date lastYear = new Date();
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(lastYear);
+            cl.add(Calendar.YEAR, -1);
+            lastYear = cl.getTime();
+            criteria.andTranTimeLessThan(DateUtils.parseStringToDate(sdf.format(lastYear)));
+        }
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -184,7 +197,6 @@ public class PartyMemberGroupController extends BaseController {
     @ResponseBody
     public Map do_partyMemberGroup_au(PartyMemberGroup record,
                                       String _tranTime,
-                                      String _actualTranTime,
                                       String _appointTime,
                                       HttpServletRequest request) {
 
@@ -192,9 +204,6 @@ public class PartyMemberGroupController extends BaseController {
 
         if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_actualTranTime)) {
-            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
         }
         if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
@@ -345,16 +354,27 @@ public class PartyMemberGroupController extends BaseController {
     @RequiresPermissions("partyMemberGroup:del")
     @RequestMapping(value = "/partyMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyMemberGroup_batchDel(HttpServletRequest request,
+    public Map do_partyMemberGroup_batchDel(HttpServletRequest request,
+                                            String _actualTranTime,
                                          @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
                                          Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
-            partyMemberGroupService.batchDel(ids, isDeleted);
+            partyMemberGroupService.batchDel(ids, isDeleted, _actualTranTime);
             logger.info(addLog(LogConstants.LOG_PARTY, "撤销基层党组织领导班子：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("partyMemberGroup:del")
+    @RequestMapping("/partyMemberGroup_batchDel")
+    public String partyMemberGroup_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("partyMemberGroup", partyMemberGroupMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/partyMemberGroup/partyMemberGroup_batchDel";
     }
 
     // 完全删除已撤销的班子

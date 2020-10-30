@@ -15,6 +15,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,9 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class BranchMemberGroupController extends BaseController {
@@ -58,9 +61,15 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup")
     public String branchMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
+                                    Integer[] types,
                                     Integer userId,
                                     Integer partyId,
+                                    Integer[] branchTypes,
                                     Integer branchId, ModelMap modelMap) {
+
+        if(types!=null){
+            modelMap.put("selectTypes", Arrays.asList(types));
+        }
 
         modelMap.put("status", status);
 
@@ -76,21 +85,35 @@ public class BranchMemberGroupController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         if (status == 2) {
+            if(branchTypes!=null){
+                modelMap.put("selectBranchTypes", Arrays.asList(branchTypes));
+            }
             return "party/branchMember/branchMemberList_page";
         }
 
         return "party/branchMemberGroup/branchMemberGroup_page";
     }
 
-    @RequiresPermissions("branchMemberGroup:list")
+    // unitTeam:list :  支部委员会届满列表
+    @RequiresPermissions(value= {"branchMemberGroup:list","unitTeam:list"}, logical = Logical.OR )
     @RequestMapping("/branchMemberGroup_data")
     public void branchMemberGroup_data(HttpServletResponse response,
                                        @RequestParam(required = false, defaultValue = "1") Byte status,
+                                       Integer year,
                                        Integer partyId,
                                        Integer branchId,
                                        String name,
                                        @RequestDateRange DateRange _appointTime,
                                        @RequestDateRange DateRange _tranTime,
+                                       Byte isTranTime,
+
+                                       //党支部中的字段
+                                       Integer[] types,
+                                       Integer unitTypeId,
+                                       Boolean isStaff,
+                                       Boolean isPrefessional,
+                                       Boolean isBaseTeam,
+
                                        @RequestParam(required = false, defaultValue = "0") int export,
                                        Integer[] ids, // 导出的记录
                                        Integer pageSize, Integer pageNo) throws IOException {
@@ -145,6 +168,45 @@ public class BranchMemberGroupController extends BaseController {
         if (_tranTime.getEnd()!=null) {
             criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
         }
+        if (isTranTime!=null) {
+            criteria.andTranTimeLessThanOrEqualTo(new Date());
+        }
+        if (year != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+            Date lastYear = new Date();
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(lastYear);
+            cl.add(Calendar.YEAR, -1);
+            lastYear = cl.getTime();
+            criteria.andTranTimeLessThan(DateUtils.parseStringToDate(sdf.format(lastYear)));
+        }
+
+        BranchViewExample branchViewExample = new BranchViewExample();
+        BranchViewExample.Criteria branchCriteria = branchViewExample.createCriteria();
+        if (types != null) {
+            branchCriteria.andTypesContain(new HashSet<>(Arrays.asList(types)));
+        }
+        if (unitTypeId != null) {
+            branchCriteria.andUnitTypeIdEqualTo(unitTypeId);
+        }
+        if (isStaff != null) {
+            branchCriteria.andIsStaffEqualTo(isStaff);
+        }
+        if (isPrefessional != null) {
+            branchCriteria.andIsPrefessionalEqualTo(isPrefessional);
+        }
+        if (isBaseTeam != null) {
+            branchCriteria.andIsBaseTeamEqualTo(isBaseTeam);
+        }
+        List<BranchView> branchViewList = branchViewMapper.selectByExample(branchViewExample);
+        if (branchViewList != null && branchViewList.size() > 0){
+            List<Integer> branchIdList = branchViewList.stream().map(BranchView::getId).collect(Collectors.toList());
+            criteria.andBranchIdIn(branchIdList);
+        }
+        if ((types != null || unitTypeId != null || isStaff != null || isPrefessional != null || isBaseTeam != null)
+                && branchViewList != null && branchViewList.size() == 0){
+            criteria.andBranchIdIsNull();
+        }
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -180,7 +242,6 @@ public class BranchMemberGroupController extends BaseController {
     @ResponseBody
     public Map do_branchMemberGroup_au(BranchMemberGroup record,
                                        String _tranTime,
-                                       String _actualTranTime,
                                        String _appointTime,
                                        HttpServletRequest request) {
 
@@ -188,9 +249,6 @@ public class BranchMemberGroupController extends BaseController {
 
         if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_actualTranTime)) {
-            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
         }
         if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
@@ -347,18 +405,29 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:del")
     @RequestMapping(value = "/branchMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMemberGroup_batchDel(HttpServletRequest request,
+    public Map do_branchMemberGroup_batchDel(HttpServletRequest request,
+                                             String _actualTranTime,
                                           @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
                                           Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length > 0) {
-            branchMemberGroupService.batchDel(ids, isDeleted);
+            branchMemberGroupService.batchDel(ids, isDeleted, _actualTranTime);
             logger.info(addLog(LogConstants.LOG_PARTY, "撤销支部委员会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("branchMemberGroup:del")
+    @RequestMapping("/branchMemberGroup_batchDel")
+    public String branchMemberGroup_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("branchMemberGroup", branchMemberGroupMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/branchMemberGroup/branchMemberGroup_batchDel";
+    }
+
 
     // 完全删除已撤销的班子
     @RequiresPermissions("branchMemberGroup:realDel")

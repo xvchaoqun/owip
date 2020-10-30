@@ -16,6 +16,21 @@
 		<function-signature>domain.sys.SysConfig getSysConfig()</function-signature>
 	</function>
 	<function>
+		<name>getBoolProperty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>boolean getBoolProperty(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getStringProperty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String getStringProperty(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getIntProperty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Integer getIntProperty(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>isSuperAccount</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Boolean isSuperAccount(java.lang.String)</function-signature>
@@ -278,6 +293,16 @@
 		<function-signature>domain.sys.HtmlFragment getHtmlFragment(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>getAttachFile</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.sys.AttachFile getAttachFile(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>attachFileExisted</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>boolean attachFileExisted(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>getContentTpl</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.base.ContentTpl getContentTpl(java.lang.String)</function-signature>
@@ -494,6 +519,11 @@
 		<name>trimToZero</name>
 		<function-class>sys.utils.NumberUtils</function-class>
 		<function-signature>int trimToZero(java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>trimDouble</name>
+		<function-class>sys.utils.NumberUtils</function-class>
+		<function-signature>java.lang.String trimDouble(java.lang.Double)(java.math.Double)</function-signature>
 	</function>
 	<function>
 		<name>stripTrailingZeros</name>

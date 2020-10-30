@@ -115,7 +115,7 @@
                                 data-id-name="userId">
                             <i class="fa fa-send"></i> 通知
                         </button>--%>
-                        <c:if test="${_show_msg_btns}">
+                        <shiro:hasPermission name="pmdSendMsg:notify">
                             <button class="popupBtn btn btn-danger btn-sm tooltip-error"
                                     data-rel="tooltip" data-placement="top" title="本月党费收缴已经启动，通知本支部党员缴纳党费。"
                                     data-url="${ctx}/pmd/pmdSendMsg_notifyMembers?partyId=${param.partyId}&branchId=${param.branchId}"
@@ -129,12 +129,15 @@
                                     data-querystr="partyId=${param.partyId}&branchId=${param.branchId}"
                                     data-need-id="false"><i class="fa fa-send"></i> 发送提醒
                             </button>
-                        </c:if>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pmdMember:selectMemberType">
                         <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectMemberType"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-check-square-o"></i> 选择党员类别
                         </button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pmdMember:helpSetSalary">
                         <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                                 data-width="600"
                                 data-url="${ctx}/user/pmd/pmdMember_setSalary"
@@ -142,6 +145,7 @@
                                 data-querystr="&isBranchAdmin=1&isSelf=0"
                                 data-id-name="pmdMemberId">
                             <i class="fa fa-rmb"></i> 修改党费应交额</button>
+                        </shiro:hasPermission>
                         <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                                 data-url="${ctx}/user/pmd/payConfirm"
                                 data-querystr="&isSelfPay=0"
@@ -168,11 +172,13 @@
                                 <i class="fa fa-hourglass-3"></i> 取消延迟缴费
                             </button>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="pmdMember:selectReduceNorm">
                         <button id="selectReduceNormBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectReduceNorm"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-minus-circle"></i> 党费减免
                         </button>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="pmdMember:setIsOnlinePay">
                         <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"

@@ -40,39 +40,7 @@ public class PmdConfigMember implements Serializable {
 
     private BigDecimal retireSalary;
 
-    private BigDecimal gwgz;
-
-    private BigDecimal xjgz;
-
-    private BigDecimal gwjt;
-
-    private BigDecimal zwbt;
-
-    private BigDecimal zwbt1;
-
-    private BigDecimal shbt;
-
-    private BigDecimal sbf;
-
-    private BigDecimal xlf;
-
-    private BigDecimal gzcx;
-
-    private BigDecimal shiyebx;
-
-    private BigDecimal yanglaobx;
-
-    private BigDecimal yiliaobx;
-
-    private BigDecimal gsbx;
-
-    private BigDecimal shengyubx;
-
-    private BigDecimal qynj;
-
-    private BigDecimal zynj;
-
-    private BigDecimal gjj;
+    private String salary;
 
     private static final long serialVersionUID = 1L;
 
@@ -156,139 +124,11 @@ public class PmdConfigMember implements Serializable {
         this.retireSalary = retireSalary;
     }
 
-    public BigDecimal getGwgz() {
-        return gwgz;
+    public String getSalary() {
+        return salary;
     }
 
-    public void setGwgz(BigDecimal gwgz) {
-        this.gwgz = gwgz;
-    }
-
-    public BigDecimal getXjgz() {
-        return xjgz;
-    }
-
-    public void setXjgz(BigDecimal xjgz) {
-        this.xjgz = xjgz;
-    }
-
-    public BigDecimal getGwjt() {
-        return gwjt;
-    }
-
-    public void setGwjt(BigDecimal gwjt) {
-        this.gwjt = gwjt;
-    }
-
-    public BigDecimal getZwbt() {
-        return zwbt;
-    }
-
-    public void setZwbt(BigDecimal zwbt) {
-        this.zwbt = zwbt;
-    }
-
-    public BigDecimal getZwbt1() {
-        return zwbt1;
-    }
-
-    public void setZwbt1(BigDecimal zwbt1) {
-        this.zwbt1 = zwbt1;
-    }
-
-    public BigDecimal getShbt() {
-        return shbt;
-    }
-
-    public void setShbt(BigDecimal shbt) {
-        this.shbt = shbt;
-    }
-
-    public BigDecimal getSbf() {
-        return sbf;
-    }
-
-    public void setSbf(BigDecimal sbf) {
-        this.sbf = sbf;
-    }
-
-    public BigDecimal getXlf() {
-        return xlf;
-    }
-
-    public void setXlf(BigDecimal xlf) {
-        this.xlf = xlf;
-    }
-
-    public BigDecimal getGzcx() {
-        return gzcx;
-    }
-
-    public void setGzcx(BigDecimal gzcx) {
-        this.gzcx = gzcx;
-    }
-
-    public BigDecimal getShiyebx() {
-        return shiyebx;
-    }
-
-    public void setShiyebx(BigDecimal shiyebx) {
-        this.shiyebx = shiyebx;
-    }
-
-    public BigDecimal getYanglaobx() {
-        return yanglaobx;
-    }
-
-    public void setYanglaobx(BigDecimal yanglaobx) {
-        this.yanglaobx = yanglaobx;
-    }
-
-    public BigDecimal getYiliaobx() {
-        return yiliaobx;
-    }
-
-    public void setYiliaobx(BigDecimal yiliaobx) {
-        this.yiliaobx = yiliaobx;
-    }
-
-    public BigDecimal getGsbx() {
-        return gsbx;
-    }
-
-    public void setGsbx(BigDecimal gsbx) {
-        this.gsbx = gsbx;
-    }
-
-    public BigDecimal getShengyubx() {
-        return shengyubx;
-    }
-
-    public void setShengyubx(BigDecimal shengyubx) {
-        this.shengyubx = shengyubx;
-    }
-
-    public BigDecimal getQynj() {
-        return qynj;
-    }
-
-    public void setQynj(BigDecimal qynj) {
-        this.qynj = qynj;
-    }
-
-    public BigDecimal getZynj() {
-        return zynj;
-    }
-
-    public void setZynj(BigDecimal zynj) {
-        this.zynj = zynj;
-    }
-
-    public BigDecimal getGjj() {
-        return gjj;
-    }
-
-    public void setGjj(BigDecimal gjj) {
-        this.gjj = gjj;
+    public void setSalary(String salary) {
+        this.salary = salary == null ? null : salary.trim();
     }
 }

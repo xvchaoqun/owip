@@ -1,5 +1,6 @@
 package controller.pmd;
 
+import ext.common.pay.OrderNotifyBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,10 +31,12 @@ public class PmdPayController extends PmdBaseController {
     
         Map<String, String[]> parameterMap = request.getParameterMap();
         logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(parameterMap, false));
+        String successMsg = "";
         if(parameterMap.size()>0) {
-            pmdOrderService.notify(request, true);
+            OrderNotifyBean notify = pmdOrderService.notify(request, true);
+            successMsg = notify.getSuccessMsg();
         }
         // 支付服务器要求返回200返回码
-        response.getWriter().write("pok");
+        response.getWriter().write(successMsg);
     }
 }

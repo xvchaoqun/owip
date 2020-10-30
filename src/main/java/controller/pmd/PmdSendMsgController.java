@@ -5,7 +5,6 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -14,12 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
@@ -82,7 +80,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdSendMsg_notifyPartyAdmins(HttpServletRequest request) {
 
-        ShiroHelper.checkRole(RoleConstants.ROLE_PMD_OW);
+        ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
 
         pmdSendMsgService.notifyPartyAdmins();
 
@@ -116,7 +114,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdSendMsg_notifyBranchAdmins(int partyId, HttpServletRequest request) {
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 throw new UnauthorizedException();
             }
@@ -176,7 +174,7 @@ public class PmdSendMsgController extends PmdBaseController {
     public Map do_pmdSendMsg_urgeMembers(Integer[] ids,
                                          int partyId, Integer branchId, HttpServletRequest request) {
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new UnauthorizedException();
             }

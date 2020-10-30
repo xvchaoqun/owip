@@ -31,11 +31,21 @@
             <div class="multi-row-head-table tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
                     <c:if test="${param.monthId==_pmdMonth.id}">
+                        <shiro:hasPermission name="pmdSendMsg:notify">
                     <button class="popupBtn btn btn-warning btn-sm"
                         ${(empty _pmdMonth)?'disabled':''}
                                       data-url="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins?partyId=${param.partyId}"
                             ><i class="fa fa-send"></i> 通知全部支部管理员
                     </button>
+                        </shiro:hasPermission>
+                    <shiro:hasPermission name="pmdBranch:edit">
+                        <button data-url="${ctx}/pmd/pmdBranch_au?partyId=${param.partyId}"
+                            ${(empty _pmdMonth)?'disabled':''}
+                                data-title="添加"
+                                class="popupBtn btn btn-success btn-sm">
+                            <i class="fa fa-plus"></i> 添加
+                        </button>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="pmdBranch:del">
                         <button id="delBtn" data-url="${ctx}/pmd/pmdBranch_batchDel"
                             ${(empty _pmdMonth)?'disabled':''}

@@ -3,6 +3,7 @@ package service.pmd;
 import controller.global.OpException;
 import domain.pmd.*;
 import domain.sys.SysUserView;
+import ext.service.PmdExtService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.util.Assert;
@@ -13,7 +14,6 @@ import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -71,7 +71,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
         if (partyService.isDirectBranch(partyId)) {
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
                     && !adminPartyIdSet.contains(partyId)) {
                 throw new UnauthorizedException();
             }
@@ -82,7 +82,7 @@ public class PmdMemberService extends PmdBaseMapper {
             }
         } else {
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
                     && !adminPartyIdSet.contains(partyId)
                     && !adminBranchIdSet.contains(branchId)) {
                 throw new UnauthorizedException();
@@ -313,7 +313,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
             if(pmdMember.getType()==PmdConstants.PMD_MEMBER_TYPE_STUDENT
                     && hasSalary ==null){
-                throw new OpException("{0}是否带薪就读？", uv.getRealname());
+                throw new OpException("{0}是否带薪？", uv.getRealname());
             }
 
             if(pmdMember.getMonthId()!=currentMonthId){
@@ -359,15 +359,12 @@ public class PmdMemberService extends PmdBaseMapper {
             if(!isSalary){
                 // 其他类别：清空工资项
                 commonMapper.excuteSql(String.format("update pmd_config_member " +
-                                "set gwgz=null,xjgz=null,gwjt=null,zwbt=null," +
-                        "zwbt1=null,shbt=null,sbf=null,xlf=null, gzcx=null, " +
-                        "shiyebx=null,yanglaobx=null,yiliaobx=null,gsbx=null,shengyubx=null, " +
-                        "qynj=null,zynj=null,gjj=null where user_id=%s", userId));
+                                "set salary=null where user_id=%s", userId));
             }
 
             {
                 // 除了组织部管理员，其他人员不允许修改党员一级类别
-                if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+                if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
                         && configMemberType!=pmdConfigMember.getConfigMemberType()){
                     throw new OpException("{0}不允许修改党员类别。", uv.getRealname());
                 }
@@ -388,6 +385,7 @@ public class PmdMemberService extends PmdBaseMapper {
             PmdMember record = new PmdMember();
             record.setConfigMemberTypeId(configMemberTypeId);
             record.setConfigMemberTypeName(pmdConfigMemberType.getName());
+            record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
             record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
             record.setConfigMemberTypeNormName(pmdConfigMemberType.getPmdNorm().getName());
             record.setSalary(retireBase);
@@ -565,7 +563,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
                 if(pmdMember.getMonthId() == currentMonthId && pmdMember.getIsDelay()==false) {
                     // 现金缴费 -> 线上缴费
-                    pmdMonthService.addOrResetPmdMember(pmdMember.getUserId(), pmdMemberId);
+                    pmdExtService.addOrResetPmdMember(pmdMember.getUserId(), pmdMemberId);
 
                 }else if(pmdMember.getMonthId() != currentMonthId && pmdMember.getIsDelay()){
                     // 现金缴费 -> 延迟缴费

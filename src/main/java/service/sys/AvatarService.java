@@ -4,7 +4,6 @@ import bean.AvatarImportResult;
 import controller.global.OpException;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.SpringProps;
+import sys.tags.CmTag;
+import sys.tool.graphicsmagick.GmTool;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.PatternUtils;
+import sys.utils.PropertiesUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by fafa on 2016/12/2.
@@ -37,17 +41,7 @@ public class AvatarService extends BaseMapper{
 
         String avatar = null;
         if(_avatar!=null && !_avatar.isEmpty()){
-            //String originalFilename = _avatar.getOriginalFilename();
-            avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
-                    + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + System.currentTimeMillis()
-                    + StringUtils.defaultIfBlank(FileUtils.getExtention(_avatar.getOriginalFilename()), ".jpg");
-
-            FileUtils.mkdirs(springProps.avatarFolder + avatar);
-            Thumbnails.of(_avatar.getInputStream())
-                    .size(143, 198)
-                    //.outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.avatarFolder + avatar);
+           avatar = saveAvatar(_avatar.getInputStream(), _avatar.getOriginalFilename());
         }
 
         return avatar;
@@ -58,17 +52,31 @@ public class AvatarService extends BaseMapper{
 
         String avatar = null;
         if(file!=null && file.exists()){
+            avatar = saveAvatar(new FileInputStream(file), file.getName());
+        }
+
+        return avatar;
+    }
+
+    public String saveAvatar(InputStream is, String filename) throws IOException {
+
+        String avatar = null;
+        if(is!=null){
             //String originalFilename = _avatar.getOriginalFilename();
             avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
                     + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + System.currentTimeMillis()
-                    + StringUtils.defaultIfBlank(FileUtils.getExtention(file.getName()), ".jpg");
+                    + StringUtils.defaultIfBlank(FileUtils.getExtention(filename), ".jpg");
 
-            FileUtils.mkdirs(springProps.avatarFolder + avatar);
-            Thumbnails.of(file)
-                    .size(143, 198)
-                    //.outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.avatarFolder + avatar);
+            String filePath = springProps.avatarFolder + avatar;
+            FileUtils.saveFile(is, filePath);
+
+            try {
+                GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+                gmTool.scaleResize(filePath, filePath, CmTag.getIntProperty("avatarWidth", 400),
+                        CmTag.getIntProperty("avatarHeight", 500));
+            }catch (Exception ex){
+                throw new OpException("上传失败：" + ex.getMessage());
+            }
         }
 
         return avatar;
@@ -86,9 +94,8 @@ public class AvatarService extends BaseMapper{
         if(FileUtils.exists(springProps.avatarFolder + avatar)){
             try {
                 FileUtils.mkdirs(springProps.avatarFolder + backup);
-                Thumbnails.of(springProps.avatarFolder + avatar)
-                        .scale(1f)
-                        .toFile(springProps.avatarFolder + backup);
+                FileUtils.copyFile(springProps.avatarFolder + avatar,
+                        springProps.avatarFolder + backup);
             }catch (Exception ex){
                 throw new OpException("图片保存失败：" + ex.getMessage());
             }

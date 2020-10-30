@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
                 },frozen:true },
                 { label: '年度',name: 'year',align:'left'},
                 { label: '季度',name: 'quarter',align:'left'},
-                { label: '数量(分党委或支部数量)',name: 'num', width:200,align:'left',
+                { label: '数量(${_p_partyName}或支部数量)',name: 'num', width:200,align:'left',
                      formatter: function (cellvalue, options, rowObject) {
                         return (rowObject.isFinished)?cellvalue:rowObject.f.branchCount;}
                 },

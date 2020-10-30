@@ -5,9 +5,7 @@ import domain.cadre.CadreView;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
 import ext.utils.CasUtils;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,10 +87,6 @@ public class IndexController extends BaseController {
 		return "faq";
 	}
 
-	@RequiresRoles(value = {RoleConstants.ROLE_ADMIN,
-			RoleConstants.ROLE_ODADMIN,
-			RoleConstants.ROLE_PARTYADMIN,
-			RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
 	@RequestMapping("/help")
 	public String help(ModelMap modelMap) {
 
@@ -120,6 +114,8 @@ public class IndexController extends BaseController {
 		String toPage = "user_base"; // 默认进入个人基本信息页
 		if(ShiroHelper.isPermitted("stat:ow")){
 			toPage = "stat_ow_page"; // 党建信息统计页
+		}else if(ShiroHelper.isPermitted("stat:party")){
+			toPage = "stat_party_page"; // 党建信息统计页
 		}
 		modelMap.put("to", toPage);
 
@@ -131,7 +127,7 @@ public class IndexController extends BaseController {
 	public String user_base() {
 
 		int userId = ShiroHelper.getCurrentUserId();
-		if(ShiroHelper.hasRole(RoleConstants.ROLE_CADRE_CJ)
+		if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ, RoleConstants.ROLE_CADRE_KJ)
 				&& ShiroHelper.isPermitted("userCadre:menu")){
 			// 是干部且有干部个人信息查看的权限 （可能校领导去除了这个权限）
 			CadreView cadre = cadreService.dbFindByUserId(userId);

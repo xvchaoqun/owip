@@ -110,23 +110,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsAdminReport">
-    insert into pcs_admin_report (id, party_id, user_id, 
-      config_id, stage, create_time, 
-      branch_count, member_count, positive_count, 
-      student_member_count, teacher_member_count, 
-      retire_member_count, ip)
-    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{branchCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, #{positiveCount,jdbcType=INTEGER}, 
-      #{studentMemberCount,jdbcType=INTEGER}, #{teacherMemberCount,jdbcType=INTEGER}, 
-      #{retireMemberCount,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pcs_admin_report (party_id, user_id, config_id, 
+      stage, create_time, branch_count, 
+      member_count, positive_count, student_member_count, 
+      teacher_member_count, retire_member_count, 
+      ip)
+    values (#{partyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, 
+      #{stage,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{branchCount,jdbcType=INTEGER}, 
+      #{memberCount,jdbcType=INTEGER}, #{positiveCount,jdbcType=INTEGER}, #{studentMemberCount,jdbcType=INTEGER}, 
+      #{teacherMemberCount,jdbcType=INTEGER}, #{retireMemberCount,jdbcType=INTEGER}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsAdminReport">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into pcs_admin_report
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="partyId != null">
         party_id,
       </if>
@@ -165,9 +168,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PmdHelper;
 import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
@@ -172,7 +172,10 @@ public class PmdMonthController extends PmdBaseController {
         }*/
 
         PartyExample example = new PartyExample();
-        example.createCriteria().andIsDeletedEqualTo(false).andIdNotIn(hasSelectedPartyIds);
+        PartyExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
+        if(hasSelectedPartyIds.size()>0) {
+            criteria.andIdNotIn(hasSelectedPartyIds);
+        }
         example.setOrderByClause(" sort_order desc");
         List<Party> partyList = partyMapper.selectByExample(example);
         modelMap.put("partyList", partyList);
@@ -279,7 +282,7 @@ public class PmdMonthController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkRole(RoleConstants.ROLE_ADMIN);
+            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
             pmdMonthService.updateEnd(monthId, true);
             logger.info(addLog(LogConstants.LOG_PMD, "更新结算缴费， %s", monthId));
             

@@ -25,7 +25,7 @@
                                data-url="${ctx}/pcs/pcsPrOw_check"><i class="fa fa-check-square"></i> 批量审批</a>
 
                         <span style="margin-left: 20px;">
-                            分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成上传共${hasReportCount}个（通过审核${passCount}个），未上传${hasNotReportCount}个。
+                            ${_p_partyName}、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成上传共${hasReportCount}个（通过审核${passCount}个），未上传${hasNotReportCount}个。
                         </span>
                         </div>
                         <div class="space-4"></div>

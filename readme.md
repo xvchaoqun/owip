@@ -2,13 +2,14 @@
 
 -- powershell
 
-# 打包某版本变更文件
-tar -cf D:\tmp\owip\one.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only af3b21af  -- . ':(exclude)doc/*')
+# 打包某版本变更文件``
+tar -cf D:\gitData\owip\one.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 8339bd9d  -- . ':(exclude)doc/*')
 
-tar -cf one.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 98423295  -- . ':(exclude)doc/*')
+tar -cf one.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 4ae50f66  -- . ':(exclude)doc/*')
 
 # 打包某版本（不含此版本更新的内容）到最新版本的所有变更文件
-tar -cf D:\tmp\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d c9df2d06 HEAD --name-only  -- . ':(exclude)doc/*')
+tar -cf D:\gitData\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d 9e60f81f HEAD --name-only  -- . ':(exclude)doc/*')
+tar -cf all.zip $(git diff --diff-filter=d 944f9aa4 HEAD --name-only  -- . ':(exclude)doc/*')
 
 tar -cf all.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . ':(exclude)doc/*')
 
@@ -16,7 +17,7 @@ tar -cf all.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . '
 -- 打包commit文件
 # 打包更新文件（不含删除文件）set
 cd /cygdrive/d/IdeaProjects/owip
-git diff-tree --diff-filter=d -r --no-commit-id --name-only 5d7c68d2  -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/tmp/update.zip
+git diff-tree --diff-filter=d -r --no-commit-id --name-only 5d7c68d2  -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/gitData/update.zip
 
 # 查看删除的文件
 git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd6217ce9e72751e0e9e645777c3
@@ -26,7 +27,7 @@ git diff --name-only --diff-filter=ACMRT HEAD^ | xargs tar -cf patch.tar
 
 #提前“前（不含）后（含）”两个版本之间变更的文件
 cd /cygdrive/d/IdeaProjects/owip
-git diff --diff-filter=d c8799d86 b0cedcb0 --name-only -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/tmp/diff.zip
+git diff --diff-filter=d c8799d86 b0cedcb0 --name-only -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/gitData/diff.zip
 
 -- 忽略文件
 git update-index --assume-unchanged pom.xml
@@ -73,6 +74,9 @@ delete from cadre where id=@oldCadreId;
 
 )
 
+## 判断性别和身份证是否一致
+select realname, unit, idcard, gender from sys_user_info  where length(idcard)=18 and SUBSTRING(idcard, 17, 1)%2!=gender%2;
+select realname, unit, idcard, gender from sys_user_info  where length(idcard)=15 and SUBSTRING(idcard, 14, 1)%2!=gender%2;
 
 ### 查询某个党委的离退休费
 select m.code, m.realname, s.ltxf from ow_member_teacher m

@@ -5,15 +5,13 @@
 
 	<rule>
 		<note>pcs_login</note>
-		<condition type="method">GET</condition>
-		<from>^/pcs/login</from>
+		<from>^/ddh</from>
 		<to>/user/pcs/login</to>
 	</rule>
 
 	<rule>
 		<note>dr_login</note>
-		<condition type="method">GET</condition>
-		<from>^/dr/login</from>
+		<from>^/mztj</from>
 		<to>/user/dr/login</to>
 	</rule>
 

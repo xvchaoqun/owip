@@ -12,4 +12,5 @@
 <![endif]-->
 <t:link href="/css/extend.css"/>
 <t:link href="/css/setup.css"/>
+<style>.avatar {width: ${_p_avatarWidth}px;}</style>
 <style>${_pMap['globalCss']}</style>

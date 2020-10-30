@@ -39,6 +39,7 @@
 <c:set value="${_pMap['hasKjCadre']=='true'}" var="_p_hasKjCadre"/>
 <c:set value="${_pMap['useCadreState']=='true'}" var="_p_useCadreState"/>
 <c:set value="${_pMap['show_msg_btns']=='true'}" var="_show_msg_btns" />
+<c:set value="${empty _pMap['avatarWidth']?135:_pMap['avatarWidth']}" var="_p_avatarWidth"/>
 <c:set value="${empty _pMap['label_adminLevelNone']?'无行政级别':_pMap['label_adminLevelNone']}" var="_p_label_adminLevelNone"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
@@ -98,6 +99,8 @@
 <c:set var="MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_TYPE_MAP%>"/>
 
 <c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
+<c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 
 <c:set var="DISPATCH_CADRE_TYPE_MAP" value="<%=DispatchConstants.DISPATCH_CADRE_TYPE_MAP%>"/>
 

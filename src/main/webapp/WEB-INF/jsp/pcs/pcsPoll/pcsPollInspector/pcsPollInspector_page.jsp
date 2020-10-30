@@ -42,7 +42,7 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-download"></i> 导出</button>
                     <span style='font-size:14.0pt;font-weight:bolder;padding-left: 20px;'>
-                        <a href="${homeURL}/pcs/login" target="_blank" style="border-bottom: 2px solid;">点此查看登录地址</a>
+                        <a href="${homeURL}/ddh" target="_blank" style="border-bottom: 2px solid;">点此查看登录地址</a>
                     </span>
                         </c:if>
                 </div>

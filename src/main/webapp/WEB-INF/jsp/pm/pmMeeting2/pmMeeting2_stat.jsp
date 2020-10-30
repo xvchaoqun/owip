@@ -158,7 +158,7 @@
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
                             'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&cls={5}"><u>{6}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${cls},count);
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, $.trim(rowObject.branchId),${cls},count);
                 }
             },
             { label: '支部党员大会',name: 'count1',formatter: function (cellvalue, options, rowObject) {
@@ -166,7 +166,7 @@
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
                             'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH},${cls},cellvalue);
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, $.trim(rowObject.branchId),${PARTY_MEETING2_BRANCH},${cls},cellvalue);
                 }
             },
             { label: '支部委员会',name: 'count2',formatter: function (cellvalue, options, rowObject) {
@@ -174,14 +174,14 @@
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
                             'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_COMMITTEE},${cls},cellvalue);
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, $.trim(rowObject.branchId),${PARTY_MEETING2_BRANCH_COMMITTEE},${cls},cellvalue);
                 }
             },
             { label: '党小组会',name: 'count3',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined||cellvalue==0) return '0'
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
                             'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_GROUP},${cls},cellvalue);
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, $.trim(rowObject.branchId),${PARTY_MEETING2_BRANCH_GROUP},${cls},cellvalue);
                 }
             },
             { label: '党课',name: 'count4',formatter: function (cellvalue, options, rowObject) {
@@ -189,7 +189,7 @@
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
                             'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_CLASS},${cls},cellvalue);
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, $.trim(rowObject.branchId),${PARTY_MEETING2_BRANCH_CLASS},${cls},cellvalue);
                 }
             },
             { label: '主题党日活动',name: 'count5',formatter: function (cellvalue, options, rowObject) {
@@ -197,7 +197,7 @@
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
                             'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_ACTIVITY},${cls},cellvalue);
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, $.trim(rowObject.branchId),${PARTY_MEETING2_BRANCH_ACTIVITY},${cls},cellvalue);
                 }
             },
     ]

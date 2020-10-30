@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>确定为发展对象</h3>
@@ -35,7 +36,7 @@ pageEncoding="UTF-8"%>
                            data-date-format="yyyy-mm-dd"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
-                <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
+                <c:if test="${_memberApply_needCandidateTrain}">
                 至
                 <div class="input-group">
                     <input class="form-control date-picker" name="_candidateTrainEndTime" type="text"
@@ -45,7 +46,7 @@ pageEncoding="UTF-8"%>
                 </c:if>
             </div>
         </div>
-         <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
+         <c:if test="${_memberApply_needCandidateTrain}">
         <div class="form-group">
             <label class="col-xs-5 control-label">发展对象结业考试成绩</label>
             <div class="col-xs-4">

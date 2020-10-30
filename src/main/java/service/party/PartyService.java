@@ -190,7 +190,7 @@ public class PartyService extends BaseMapper {
                         for (PartyMemberGroup partyMemberGroup : partyMemberGroups) {
                             groupIds.add(partyMemberGroup.getId());
                         }
-                        partyMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}), true);
+                        partyMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}), true, null);
                     }
                 }
                 // 删除所有的支部

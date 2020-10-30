@@ -66,6 +66,8 @@ public class SystemConstants {
     public static final String PERMISSION_PARTYVIEWALL = "party:viewAll"; // 查看所有党委、支部的权限
     public static final String PERMISSION_DPPARTYVIEWALL = "dp:viewAll"; //查看民主党派的权限
 
+    public static final String PERMISSION_PMDVIEWALL = "pmd:viewAll"; // 党费收缴查看所有党委、支部的权限
+
     public static final String PERMISSION_ABROADADMIN = "abroad:admin"; // 因私管理员权限
 
     public static final String PERMISSION_CLAADMIN = "cla:admin"; // 请假管理员权限
@@ -95,6 +97,7 @@ public class SystemConstants {
     public static final byte LOGIN_TYPE_CAS = 3;
     public static final byte LOGIN_TYPE_MOBILE = 4;
     public static final byte LOGIN_TYPE_TRAIN_INSPECTOR = 5;
+    public static final byte LOGIN_TYPE_APP = 9;
     public static final byte LOGIN_TYPE_WX = 10;
     public static final byte LOGIN_TYPE_SWITCH = 20;
     public static final byte LOGIN_TYPE_DR = 30;
@@ -107,6 +110,7 @@ public class SystemConstants {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "单点登录");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_TRAIN_INSPECTOR, "评课账号登录");
+        LOGIN_TYPE_MAP.put(LOGIN_TYPE_APP, "APP");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_WX, "微信");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_SWITCH, "切换账号");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_DR, "民主推荐登录");
@@ -198,7 +202,7 @@ public class SystemConstants {
         USER_REG_STATUS_MAP.put(USER_REG_STATUS_PASS, "申请通过");
     }
 
-    // 学位类型，1 学士 2 硕士 3 博士
+    // 学位类型，1 学士 2 硕士 3 博士（仅三类，不允许添加）
     public final static byte DEGREE_TYPE_XS = 1;
     public final static byte DEGREE_TYPE_SS = 2;
     public final static byte DEGREE_TYPE_BS = 3;

@@ -1652,6 +1652,66 @@ public class MemberExample {
             addCriterion("integrity not between", value1, value2, "integrity");
             return (Criteria) this;
         }
+
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Float value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Float value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Float value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Float value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Float value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Float value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Float> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Float> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Float value1, Float value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Float value1, Float value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -134,6 +134,8 @@ public class PartyHelper {
         return getApplyStatus(memberApply);
     }
     public static String getApplyStatus(MemberApply memberApply) {
+
+        String partyName = CmTag.getStringProperty("partyName");
         String stage = "";
         switch (memberApply.getStage()) {
             case OwConstants.OW_APPLY_STAGE_INIT:
@@ -149,7 +151,7 @@ public class PartyHelper {
                 if (memberApply.getCandidateStatus() == null || memberApply.getCandidateTime() == null) {
                     stage = "待支部确定为发展对象";
                 } else if (memberApply.getCandidateStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
+                    stage = "支部已提交，待"+ partyName +"审核";
                 } else if (memberApply.getCandidateStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
                     stage = "已审核";
                 }
@@ -158,19 +160,15 @@ public class PartyHelper {
                 if (memberApply.getPlanStatus() == null || memberApply.getPlanTime() == null) {
                     stage = "待支部列入发展计划";
                 } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
+                    stage = "支部已提交，待"+ partyName +"审核";
                 } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
                     stage = "已审核";
                 }
                 break;
             case OwConstants.OW_APPLY_STAGE_PLAN:
                 if (memberApply.getDrawStatus() == null || memberApply.getDrawTime() == null) {
-                    stage = "待分党委提交领取志愿书";
-                } /*else if (memberApply.getDrawStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "待分党委审核";
-                } else if (memberApply.getDrawStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "已审核";
-                }*/
+                    stage = "待"+ partyName +"提交领取志愿书";
+                }
                 break;
             case OwConstants.OW_APPLY_STAGE_DRAW:
                 if (memberApply.getGrowStatus() == null) {
@@ -178,16 +176,16 @@ public class PartyHelper {
                 } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
                     stage = "待支部发展为预备党员";
                 } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
+                    stage = "支部已提交，待"+ partyName +"审核";
                 }
                 break;
             case OwConstants.OW_APPLY_STAGE_GROW:
                 if (memberApply.getPositiveStatus() == null || memberApply.getPositiveTime() == null) {
                     stage = "待支部提交预备党员转正";
                 } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
+                    stage = "支部已提交，待"+ partyName +"审核";
                 } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "分党委已审核，待组织部审核";
+                    stage = partyName +"已审核，待组织部审核";
                 } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
                     stage = "已审核";
                 }
