@@ -471,13 +471,13 @@
             </foreach>
         </if>
         <if test="(partyIdList != null and partyIdList.size > 0)and(branchIdList != null and branchIdList.size > 0)">
-            and r.party_id in
+            and (r.party_id in
             <foreach collection="partyIdList" open="(" close = ")" item = "partyId" separator=",">
                 #{partyId}
             </foreach>
             or r.branch_id in
             <foreach collection="branchIdList" open="(" close = ")" item = "branchId" separator=",">
-                #{branchId}
+                #{branchId})
             </foreach>
         </if>
         <if test="(partyIdList == null or partyIdList.size == 0)and(branchIdList != null and branchIdList.size > 0)">
