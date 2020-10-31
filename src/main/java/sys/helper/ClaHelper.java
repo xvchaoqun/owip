@@ -49,11 +49,11 @@ public class ClaHelper {
         return claApprovalLogService.getAdminFirstTrialStatus(applyId);
     }
 
-    public static Map getClaApprovalTdBeanMap(Integer applySelfId) {
+    public static Map getClaApprovalTdBeanMap(Integer applyId) {
 
         ClaApplyService claApplyService = CmTag.getBean(ClaApplyService.class);
         if(claApplyService==null) return null;
-        return claApplyService.getApprovalTdBeanMap(applySelfId);
+        return claApplyService.getApprovalTdBeanMap(applyId);
     }
 
     public static ClaApprovalLog getClaApprovalLog(Integer applySelfId, Integer approverTypeId) {
