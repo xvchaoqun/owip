@@ -78,7 +78,6 @@ public class PcsRecommendController extends PcsBaseController {
             modelMap.put("branch", branchService.findAll().get(branchId));
         }
 
-
         return "pcs/pcsRecommend/pcsRecommend_page";
     }
 
@@ -138,11 +137,8 @@ public class PcsRecommendController extends PcsBaseController {
                                   String items,
                                   HttpServletRequest request) throws UnsupportedEncodingException {
 
-        if(ShiroHelper.isPermitted("pcsOw:admin")){
-            // 管理员可以修改，但不改变状态
-            isFinish = null;
+        if(!ShiroHelper.isPermitted("pcsOw:admin")){
 
-        }else {
             ShiroHelper.checkPermission("pcsRecommend:edit");
 
             PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
