@@ -234,6 +234,7 @@ public class CadreCompanyController extends BaseController {
                                   String approvalUnit,
                                   @RequestParam(defaultValue = "1") Byte cls,
                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, defaultValue = "0") int idType,
                                   Integer[] ids, // 导出的记录（干部id)
                                   @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
                                   Integer reserveType, // 年轻干部类别
@@ -301,8 +302,14 @@ public class CadreCompanyController extends BaseController {
         }
 
         if (export == 1) {
-            if (ids!=null && ids.length>0)
-                criteria.andCadreIdIn(Arrays.asList(ids));
+            if (ids!=null && ids.length>0) {
+
+                if(idType==1){
+                    criteria.andIdIn(Arrays.asList(ids));
+                }else {
+                    criteria.andCadreIdIn(Arrays.asList(ids));
+                }
+            }
 
             cadreCompanyService.export(ids, cadreStatus, example, exportType, reserveType, response);
             return;

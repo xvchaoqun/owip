@@ -95,7 +95,7 @@
 
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-url="${ctx}/cadreCompany_data"
-                           data-querystr="module=${module}"
+                           data-querystr="module=${module}&idType=1"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果">
                             <i class="fa fa-download"></i> 导出</a>
                     </c:if>
