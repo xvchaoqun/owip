@@ -68,10 +68,10 @@
                             </shiro:hasPermission>
                             </c:if>
                             <c:if test="${cls!=4}">
-                                <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                <%--<button class="jqOpenViewBtn btn btn-warning btn-sm"
                                    data-url="${ctx}/oa/oaTaskUser"
                                    data-id-name="taskId"
-                                   data-open-by="page"><i class="fa fa-search"></i> 报送详情</button>
+                                   data-open-by="page"><i class="fa fa-search"></i> 报送详情</button>--%>
                             </c:if>
                             <c:if test="${cls==1}">
                                 <button id="finishBtn" class="jqItemBtn btn btn-success btn-sm"
@@ -200,19 +200,25 @@
                                 .format(rowObject.id, rowObject.name);
             }},
             {
-                label: '附件', name: '_files', formatter: function (cellvalue, options, rowObject) {
+                label: '附件', name: '_files', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="popupBtn btn btn-info btn-xs" data-width="500" data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件({1})</button>'
                                 .format(rowObject.id, Math.trimToZero(rowObject.fileCount))
             }},
             {
-                label: '任务对象<br/>(已报送/总数)', name: '_users', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '任务对象<br/>(总人数)', name: '_users', width: 120, formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="openView btn btn-warning btn-xs" ' +
-                        'data-url="${ctx}/oa/oaTask_users?id={0}"><i class="fa fa-search"></i> 查看({2}/{1})</button>'
-                                .format(rowObject.id, Math.trimToZero(rowObject.userCount),
-                                    Math.trimToZero(rowObject.reportCount))
+                return '<button class="openView btn btn-primary btn-xs" ' +
+                        'data-url="${ctx}/oa/oaTask_users?id={0}"><i class="fa fa-search"></i> 查看({1})</button>'
+                                .format(rowObject.id, Math.trimToZero(rowObject.userCount))
+            }},
+            {
+                label: '报送详情<br/>(已报送人数)', name: '_users', formatter: function (cellvalue, options, rowObject) {
+
+                return '<button class="openView btn btn-success btn-xs" ' +
+                        'data-url="${ctx}/oa/oaTaskUser?taskId={0}"><i class="fa fa-search"></i> 详情({1})</button>'
+                                .format(rowObject.id,Math.trimToZero(rowObject.reportCount))
             }},
             <c:if test="${cls==1}">
             {
@@ -252,7 +258,7 @@
             {label: '联系方式', name: 'contact', width: 250},
             {label: '要求报送<br/>文件数量', name: 'userFileCount'},
 
-            {label: '已完成数', name: 'finishCount', width: 80},
+            {label: '已完成数<br/>（已审批）', name: 'finishCount', width: 80},
             {label: '完成率', name: '_rate', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.userCount==0) return '--'
                 return parseFloat(rowObject.finishCount*100/rowObject.userCount).toFixed(2) + "%";

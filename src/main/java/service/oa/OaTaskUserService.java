@@ -158,12 +158,12 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
             OaTaskUserExample example = new OaTaskUserExample();
             example.createCriteria().andTaskIdEqualTo(taskId)
                     .andIsDeleteEqualTo(false)
-                    .andUserIdEqualTo(taskUserId).andHasReportEqualTo(true)
-                    .andStatusEqualTo(OaConstants.OA_TASK_USER_STATUS_INIT);
+                    .andUserIdEqualTo(taskUserId).andHasReportEqualTo(true);
 
             oaTaskUserMapper.updateByExampleSelective(record, example);
         }
 
+        iOaTaskMapper.refreshCount(taskId);
     }
 
     // 报送任务（本人或负责人）
@@ -215,6 +215,8 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
 
         cacheHelper.clearOaTaskUserCount(userId);
         oaTaskUserMapper.updateByPrimaryKeySelective(record);
+
+        iOaTaskMapper.refreshCount(taskId);
     }
 
     // 删除报送附件（本人或负责人）
@@ -258,6 +260,8 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
 
         commonMapper.excuteSql("update oa_task_user set status=null, report_user_id=null, " +
                 "report_time=null where id=" + oaTaskUser.getId());
+
+        iOaTaskMapper.refreshCount(taskId);
     }
 
     // 退回（管理员）
@@ -274,6 +278,10 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
 
         commonMapper.excuteSql("update oa_task_user set status=null, report_user_id=null, " +
                 "report_time=null where id=" + id);
+
+        OaTaskUser oaTaskUser = oaTaskUserMapper.selectByPrimaryKey(id);
+        int taskId = oaTaskUser.getTaskId();
+        iOaTaskMapper.refreshCount(taskId);
     }
 
     // 下发任务短信通知
