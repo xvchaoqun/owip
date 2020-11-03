@@ -12,7 +12,7 @@
 					<span class="blue">
 						<i class="ace-icon fa fa-smile-o"></i>
 					</span>
-                    您没有权限访问系统
+                    您没有权限访问
                 </h3>
                 <hr/>
                 <div>

@@ -2,6 +2,7 @@
 <%@ page import="sys.utils.HttpUtils" %>
 <%@ page import="com.google.gson.JsonElement" %>
 <%@ page import="sys.gson.GsonUtils" %>
+<%@ page import="sys.tags.CmTag" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,8 +17,8 @@
     String code = request.getParameter("code");
     out.write("<br/>返回code：" + code);
 
-    String corpId = "";
-    String corpSecret = "";
+    String corpId = CmTag.getStringProperty("wx.corpID");
+    String corpSecret = CmTag.getStringProperty("wx.corpSecret");
 
     String requestUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpId}&corpsecret={corpSecret}"
             .replace("{corpId}", corpId).replace("{corpSecret}", corpSecret);
