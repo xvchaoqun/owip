@@ -1,5 +1,18 @@
 
 20201103
+
+ALTER TABLE `ow_member_certify`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `certify_date`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `party_id`,
+	ADD COLUMN `status` TINYINT(3) NOT NULL COMMENT '状态，-1返回修改 0申请 1分党委审批 2党支部审批 ' AFTER `branch_id`,
+	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`,
+	ADD COLUMN `reason` VARCHAR(100) NULL DEFAULT NULL COMMENT '返回修改原因' AFTER `is_back`,
+	ADD COLUMN `apply_time` DATETIME NULL DEFAULT NULL COMMENT '申请时间' AFTER `reason`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2541, 0, '临时组织关系介绍信', '党员个人权限', 'url', '', '/member/memberCertify?cls=0', 258, '0/1/258/', 1, 'userMemberCertify:*', NULL, NULL, NULL, 1, 400);
+
+20201103
 北航，南航
 
 20201102

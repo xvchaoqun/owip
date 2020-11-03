@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="member_in_bj" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2b04da4f-5544-45ba-95c6-02f02e15260b">
 	<property name="ireport.zoom" value="0.42409761837248505"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="672"/>
+	<property name="ireport.y" value="788"/>
 	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="fs" fontSize="16"/>
 	<field name="from" class="java.lang.String"/>
 	<field name="to" class="java.lang.String"/>
@@ -14,6 +14,7 @@
 	<field name="day" class="java.lang.String"/>
 	<field name="ps" class="java.lang.String"/>
 	<field name="title" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
 	<detail>
 		<band height="3508" splitType="Stretch">
 			<image isUsingCache="false">
@@ -138,6 +139,13 @@
 					<font size="66"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" stretchType="RelativeToBandHeight" x="1073" y="2730" width="1077" height="152" uuid="2589d914-22f0-4bee-a68e-5d96d9ff4be4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="fs" size="66" isBold="false" pdfEncoding="Cp1252"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
