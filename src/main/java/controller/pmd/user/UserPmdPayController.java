@@ -3,6 +3,7 @@ package controller.pmd.user;
 import com.google.gson.Gson;
 import controller.global.OpException;
 import controller.pmd.PmdBaseController;
+import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
@@ -22,6 +23,7 @@ import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -54,39 +56,17 @@ public class UserPmdPayController extends PmdBaseController {
             if(userId==pmdMember.getUserId()){
                 throw new OpException("不允许给本人代缴");
             }
-            // 代缴（只允许支部管理员或直属支部管理员进行代缴）
-            pmdMemberService.checkAdmin(pmdMemberId);
-            /*
+
             Integer partyId = pmdMember.getPartyId();
             Integer branchId = pmdMember.getBranchId();
 
             Member member = memberService.get(userId);
-            if(partyService.isDirectBranch(partyId)){
+            if(member==null || !(NumberUtils.intEqual(partyId, member.getPartyId())
+                    && NumberUtils.intEqual(branchId, member.getBranchId()))){
 
-                if(member==null || member.getPartyId().intValue()!=partyId) {
-
-                    List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-                    Set<Integer> adminPartyIdSet = new HashSet<>();
-                    adminPartyIdSet.addAll(adminPartyIds);
-
-                    if (!adminPartyIdSet.contains(partyId)) {
-                        throw new UnauthorizedException();
-                    }
-                }
-            }else{
-
-                if(member==null || member.getPartyId().intValue()!=partyId
-                        || member.getBranchId().intValue()!=branchId) {
-
-
-                    List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
-                    Set<Integer> adminBranchIdSet = new HashSet<>();
-                    adminBranchIdSet.addAll(adminBranchIds);
-                    if (!adminBranchIdSet.contains(branchId)) {
-                        throw new UnauthorizedException();
-                    }
-                }
-            }*/
+                // 不在同一个支部时，只允许支部管理员或直属支部管理员进行代缴
+                pmdMemberService.checkAdmin(pmdMemberId);
+            }
         }
 
         return _pmdMember;
