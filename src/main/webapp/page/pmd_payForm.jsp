@@ -11,7 +11,7 @@
 <body>
 <div>跳转至支付平台，请稍后...</div>
 <c:set value="<%=Pay.payURL%>" var="_payURL"/>
-<form id="form" action="${cm:getStringProperty("payTest")?null:_payURL}" target="_self" method="post">
+<form id="form" action="${cm:getStringProperty("payTest")?null:_payURL}" method="post">
     <input type="hidden" name="tranamt" value="${param.tranamt}"/>
     <input type="hidden" name="account" value="${param.account}"/>
     <input type="hidden" name="sno" value="${param.sno}"/>

@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
-<form action="${ctx}/page/pmd_payForm.jsp" target="_blank" method="get">
+<form action="${ctx}/page/pmd_payForm.jsp" method="get">
     <input type="hidden" name="tranamt" value="{{=order.tranamt}}"/>
     <input type="hidden" name="account" value="{{=order.account}}"/>
     <input type="hidden" name="sno" value="{{=order.sno}}"/>
