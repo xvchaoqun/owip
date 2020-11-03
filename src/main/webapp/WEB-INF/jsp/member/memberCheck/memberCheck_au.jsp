@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">${memberCheck.politicalStatus==${MEMBER_POLITICAL_STATUS_POSITIVE}?'<span class="star">*</span>':''} 转正时间</label>
+                <label class="col-xs-3 control-label">${memberCheck.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
                 <div class="col-xs-8">
                     <div ${memberCheck.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'required':''} class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="positiveTime" type="text"

@@ -8,8 +8,8 @@
 <body>
 <%
     WeixinService weixinService = CmTag.getBean(WeixinService.class);
-    //String redirectUrL = CmTag.getStringProperty("siteHome") + "/wxLogin?url=/";
-    String redirectUrL = CmTag.getStringProperty("siteHome") + "/page/wxLogin.jsp";
+    String redirectUrL = CmTag.getStringProperty("siteHome") + "/wxLogin?url=/pmd/pmdMember";
+    //String redirectUrL = CmTag.getStringProperty("siteHome") + "/page/wxLogin.jsp";
     String wxUrl = weixinService.getAuthorizeUrl(redirectUrL);
 
     System.out.println("wxUrl = " + wxUrl);
