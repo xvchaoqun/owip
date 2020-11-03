@@ -494,9 +494,7 @@ public class CadreReserveController extends BaseController {
                 criteria.andDegreeTypeEqualTo(degreeType);
             }
         }
-        if(StringUtils.isNotBlank(major)){
-            criteria.andMajorLikeIn(major);
-        }
+
         if (proPosts != null) {
             List<String> _proPosts = new ArrayList<String>(Arrays.asList(proPosts));
             if (_proPosts.contains("0")) {
@@ -549,6 +547,16 @@ public class CadreReserveController extends BaseController {
         if (workTypes != null){
             List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
                     BooleanUtils.isTrue(andWorkTypes), CadreConstants.CADRE_STATUS_RESERVE);
+            if(cadreIds.size()==0){
+                criteria.andIdIsNull();
+            }else {
+                criteria.andIdIn(cadreIds);
+            }
+        }
+        if (StringUtils.isNotBlank(major)){
+            String[] majors=major.split(SystemConstants.STRING_SEPARTOR);
+            List<String> majorList= Arrays.asList(majors);
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfMajor(majorList, CadreConstants.CADRE_STATUS_RESERVE);
             if(cadreIds.size()==0){
                 criteria.andIdIsNull();
             }else {

@@ -35,11 +35,26 @@
          select distinct cadre_id from cadre_work cw
          left join cadre c on cw.cadre_id=c.id
          <where>
+            cw.status=0 and
             <if test="cadreStatus != null">
               c.status = #{cadreStatus} and
             </if>
-            <foreach collection="detailList" item="detail" separator=" or ">
+            <foreach collection="detailList" item="detail" open="(" close=")" separator=" or ">
                 cw.detail like '%${detail}%'
+            </foreach>
+        </where>
+    </select>
+
+    <select id="getCadreIdsOfMajor" parameterType="map" resultType="java.lang.Integer" >
+         select distinct cadre_id from cadre_edu ce
+         left join cadre c on ce.cadre_id=c.id
+         <where>
+            ce.status=0 and
+            <if test="cadreStatus != null">
+              c.status = #{cadreStatus} and
+            </if>
+            <foreach collection="majorList" item="major" open="(" close=")" separator=" or ">
+                ce.major like '%${major}%'
             </foreach>
         </where>
     </select>
