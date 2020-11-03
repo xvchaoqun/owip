@@ -12,7 +12,7 @@
     //String redirectUrL = CmTag.getStringProperty("siteHome") + "/page/wxLogin.jsp";
     String wxUrl = weixinService.getAuthorizeUrl(redirectUrL);
 
-    System.out.println("wxUrl = " + wxUrl);
+    //System.out.println("wxUrl = " + wxUrl);
 
     request.getSession().setAttribute("wxUrl", wxUrl);
     response.sendRedirect(wxUrl);
