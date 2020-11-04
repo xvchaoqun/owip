@@ -1,11 +1,7 @@
 package service.pmd;
 
 import domain.party.Party;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdParty;
-import domain.pmd.PmdPartyExample;
-import domain.pmd.PmdPartyView;
-import domain.pmd.PmdPartyViewExample;
+import domain.pmd.*;
 import domain.sys.SysUserView;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -15,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.pmd.common.PmdExcelReportBean;
-import service.BaseMapper;
 import service.sys.SysConfigService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
+import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
@@ -303,12 +299,12 @@ public class PmdExportService extends PmdBaseMapper {
         cell.setCellValue(pmdParty.getOnlineRealDelayPay().toString());
 
 
-        String notPay = pmdParty.getDuePay().subtract(pmdParty.getRealPay()).toString();
+        String delayPay = pmdParty.getDelayPay().toString();
         row = sheet.getRow(startRow++);
         cell = row.getCell(2);
-        cell.setCellValue(notPay);
+        cell.setCellValue(delayPay);
         cell = row.getCell(9);
-        cell.setCellValue(notPay);
+        cell.setCellValue(delayPay);
 
         String schoolName = getSchoolName();
         row = sheet.getRow(14);
@@ -504,6 +500,7 @@ public class PmdExportService extends PmdBaseMapper {
         str = cell.getStringCellValue().replace("school", schoolName);
         cell.setCellValue(str);
 
+        sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, !isDetail?2:12));
         return wb;
     }
 }
