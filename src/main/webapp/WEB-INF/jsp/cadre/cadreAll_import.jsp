@@ -29,7 +29,8 @@
                     <c:set var="sampleCode" value="sample_cadre"/>
                 </c:otherwise>
             </c:choose>
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=${sample_cadreAll}">干部信息一张表导入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">内设机构起始编码可以按照以下格式：年份+001。例如：2020001</span><br>
+        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=${sampleCode}">干部录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

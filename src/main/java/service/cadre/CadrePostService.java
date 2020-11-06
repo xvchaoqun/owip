@@ -5,6 +5,7 @@ import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
 import domain.unit.UnitPost;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import service.dispatch.DispatchCadreRelateService;
 import service.global.CacheHelper;
 import sys.constants.DispatchConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -281,5 +283,33 @@ public class CadrePostService extends BaseMapper {
         boolean isMainPost = entity.getIsMainPost();
         int cadreId = entity.getCadreId();
         changeOrder("unit", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost, ORDER_BY_DESC, id, addNum);
+    }
+
+    public List<CadrePost> getCadrePost(int cadreId, String postName,List<String> postUnitIds){
+
+        List<CadrePost> cadrePostList = new ArrayList<>();
+        if (StringUtils.isBlank(postName) && postUnitIds == null){
+            CadrePostExample example = new CadrePostExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            cadrePostList = cadrePostMapper.selectByExample(example);
+        }else {
+            for (String postUnitId : postUnitIds) {
+                String _postName = postUnitId.split("_")[0];
+                Integer _unitId = Integer.valueOf(postUnitId.split("_")[1]);
+                CadrePostExample example = new CadrePostExample();
+                CadrePostExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andUnitIdEqualTo(_unitId);
+                if (StringUtils.isNotBlank(postName) && StringUtils.equals(postName, _postName)) {
+                    criteria.andPostNameEqualTo(postName);
+                    return cadrePostMapper.selectByExample(example);
+                } else {
+                    criteria.andPostNameEqualTo(_postName);
+                }
+                List<CadrePost> cadrePostList1 = cadrePostMapper.selectByExample(example);
+                if (cadrePostList1 != null && cadrePostList1.size() > 0)
+                    cadrePostList.addAll(cadrePostList1);
+
+            }
+        }
+        return cadrePostList;
     }
 }
