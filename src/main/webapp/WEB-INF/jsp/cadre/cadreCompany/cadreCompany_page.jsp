@@ -78,6 +78,9 @@ pageEncoding="UTF-8" %>
     </shiro:lacksPermission>
     </c:if>
 <c:if test="${cls==1}">
+    <a class="downloadBtn btn btn-success btn-sm tooltip-success" data-method="get"
+                           data-url="${ctx}/cadreCompany_data?cadreId=${param.cadreId}&export=1">
+                            <i class="fa fa-download"></i> 导出</a>
     <shiro:hasPermission name="export:cadreCompanyConfirm">
     <c:if test="${cm:getCadreById(param.cadreId).status==CADRE_STATUS_CJ}">
         <a class="downloadBtn btn btn-success btn-sm tooltip-success" data-method="get"
