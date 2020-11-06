@@ -1,7 +1,222 @@
 
+20201106
+
+南航 -- 北师大
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (985, 0, '导出兼职确认表', '', 'function', '', NULL, 353, '0/1/353/', 1, 'export:cadreCompanyConfirm', NULL, NULL, NULL, 1, NULL);
+
+
+-- 党内奖惩、任职、考核， 已更新北邮
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2500, 0, '党内奖惩信息', '', 'menu', '', NULL, 260, '0/1/260/', 0, 'RePu:function', 1, NULL, NULL, 1, 99);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2501, 0, '查看党内奖励', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyReward:list', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2502, 0, '编辑党内奖励', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyReward:edit', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2503, 0, '查看党内惩罚', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyPunish:list', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2504, 0, '编辑党内惩罚', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyPunish:edit', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2505, 0, '党内任职信息', '', 'url', '', '/party/partyPostList_page', 260, '0/1/260/', 0, 'partyPost:menu', 1, NULL, NULL, 1, 90);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2506, 0, '编辑党内任职', '', 'function', '', NULL, 2505, '0/1/260/2505/', 1, 'partyPost:edit', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2507, 0, '查看党内任职', '', 'function', '', NULL, 2505, '0/1/260/2505/', 1, 'partyPost:list', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2508, 0, '分党委奖惩', '', 'url', '', '/party/partyRePu_page?type=1', 2500, '0/1/260/2500/', 1, 'partyRePu:menu', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2509, 0, '党支部奖惩', '', 'url', '', '/party/partyRePu_page?type=2', 2500, '0/1/260/2500/', 1, 'branchRePu:menu', 1, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2510, 0, '个人奖惩', '', 'url', '', '/party/partyRePu_page?type=3', 2500, '0/1/260/2500/', 1, 'memberRePu:menu', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2520, 0, '党员信息采集表权限', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'memberInfoForm:*', 3, NULL, NULL, 1, NULL);
+
+
+drop table if EXISTS ow_party_eva;
+CREATE TABLE `ow_party_eva` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '干部',
+	`year` INT(10) UNSIGNED NOT NULL COMMENT '年份',
+	`type` INT(10) UNSIGNED NOT NULL COMMENT '考核情况，关联元数据',
+	`remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='年度考核记录，支部书记'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+;
+
+drop table if EXISTS ow_party_post;
+CREATE TABLE `ow_party_post` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党员',
+	`start_date` DATE NULL COMMENT '开始日期',
+	`end_date` DATE NULL COMMENT '结束日期',
+	`detail` VARCHAR(100) NULL COMMENT '工作单位及担任职务' COLLATE 'utf8_general_ci',
+	`remark` VARCHAR(300) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='党内任职经历'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=2
+;
+
+drop table if EXISTS ow_party_punish;
+CREATE TABLE `ow_party_punish` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1 分党委 2 党支部 3 个人',
+	`party_id` INT(10) UNSIGNED NULL,
+	`branch_id` INT(10) UNSIGNED NULL,
+	`user_id` INT(10) UNSIGNED NULL,
+	`punish_time` DATE NULL COMMENT '处分日期',
+	`end_time` DATE NULL COMMENT '处分期限',
+	`name` VARCHAR(200) NULL COMMENT '受何种处分' COLLATE 'utf8_general_ci',
+	`unit` VARCHAR(300) NULL COMMENT '处分单位' COLLATE 'utf8_general_ci',
+	`sort_order` INT(10) UNSIGNED NULL COMMENT '排序',
+	`remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='党内惩罚信息'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+;
+
+drop table if EXISTS ow_party_report;
+CREATE TABLE `ow_party_report` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`year` INT(10) UNSIGNED NULL COMMENT '年度',
+	`party_id` INT(10) UNSIGNED NULL COMMENT '所属分党委',
+	`party_name` VARCHAR(50) NULL COMMENT '所属分党委名称' COLLATE 'utf8_general_ci',
+	`branch_id` INT(10) UNSIGNED NULL COMMENT '所属党支部',
+	`branch_name` VARCHAR(50) NULL COMMENT '所属党支部名称' COLLATE 'utf8_general_ci',
+	`report_file` VARCHAR(200) NULL COMMENT '工作总结word' COLLATE 'utf8_general_ci',
+	`eva_result` TINYINT(3) UNSIGNED NULL COMMENT '考核结果',
+	`eva_file` VARCHAR(200) NULL COMMENT '考核结果文件pdf' COLLATE 'utf8_general_ci',
+	`remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	`status` TINYINT(3) UNSIGNED NULL COMMENT '状态  1未报送  2 已报送',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='党支部考核'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=168
+;
+
+drop table if EXISTS ow_party_reward;
+CREATE TABLE `ow_party_reward` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1 分党委 2 党支部 3 个人',
+	`party_id` INT(10) UNSIGNED NULL,
+	`branch_id` INT(10) UNSIGNED NULL,
+	`user_id` INT(10) UNSIGNED NULL,
+	`reward_time` DATE NULL COMMENT '获奖日期',
+	`reward_level` INT(10) UNSIGNED NULL COMMENT '奖励级别',
+	`reward_type` INT(10) UNSIGNED NULL COMMENT '获奖类型',
+	`name` VARCHAR(200) NULL COMMENT '获得奖项' COLLATE 'utf8_general_ci',
+	`unit` VARCHAR(300) NULL COMMENT '颁奖单位' COLLATE 'utf8_general_ci',
+	`proof` VARCHAR(255) NULL COMMENT '获奖证书' COLLATE 'utf8_general_ci',
+	`proof_filename` VARCHAR(255) NULL COMMENT '获奖证书文件名' COLLATE 'utf8_general_ci',
+	`remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	`sort_order` INT(10) UNSIGNED NULL COMMENT '排序',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='党内奖励信息'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT
+;
+
+
+DROP VIEW IF EXISTS `ow_party_post_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_post_view` AS
+SELECT opp.*,om.party_id,om.branch_id,op.sort_order as party_sort_order,ob.sort_order as branch_sort_order
+from ow_party_post opp
+left join ow_member om ON opp.user_id=om.user_id
+left join ow_party op ON op.id=om.party_id
+left join ow_branch ob ON ob.id=om.branch_id;
+
+DROP VIEW IF EXISTS `ow_party_punish_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_punish_view` AS
+SELECT opp.*,op.sort_order as party_sort_order,ob.sort_order as branch_sort_order,ob.party_id as branch_party_id,om.party_id as user_party_id,om.branch_id as user_branch_id
+from ow_party_punish opp
+left join ow_party op ON opp.party_id=op.id
+left join ow_branch ob ON opp.branch_id=ob.id
+left join ow_member om on opp.user_id=om.user_id;
+
+DROP VIEW IF EXISTS `ow_party_reward_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_reward_view` AS
+SELECT opr.*,op.sort_order as party_sort_order,ob.sort_order as branch_sort_order,ob.party_id as branch_party_id,om.party_id as user_party_id,om.branch_id as user_branch_id
+from ow_party_reward opr
+left join ow_party op ON opr.party_id=op.id
+left join ow_branch ob ON opr.branch_id=ob.id
+left join ow_member om on opr.user_id=om.user_id;
+
+
+INSERT INTO `base_meta_class` (`id`,  `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`) VALUES (2596,  '分党委获奖类型', '组织机构管理', '基层党组织', 'mt_party_reward', '', '', '', 2601);
+INSERT INTO `base_meta_class` (`id`,  `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`) VALUES (2597, '党支部获奖类型', '组织机构管理', '党支部管理', 'mt_branch_reward', '', '', '', 2602);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2596, '校级先进党组织', 'mt_qmcq98', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2596, '省部级先进党组织', 'mt_uttewz', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2596, '国家级先进党组织', 'mt_klwpii', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '校级先进党支部', 'mt_ie6tsu', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '省部级先进党支部', 'mt_idzxhq', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '国家级先进党支部', 'mt_cko3mg', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '校级红色“1+1”', 'mt_37xxui', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '省部级红色“1+1”', 'mt_krnrhg', NULL, '', '', 5, 1);
+
+drop table if EXISTS ow_member_report;
+CREATE TABLE `ow_member_report` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`year` INT(10) UNSIGNED NULL COMMENT '年度',
+	`user_id` INT(10) UNSIGNED NULL COMMENT '用户id',
+	`party_id` INT(10) UNSIGNED NULL COMMENT '所属分党委',
+	`party_name` VARCHAR(50) NULL COMMENT '所属分党委名称' COLLATE 'utf8_general_ci',
+	`branch_id` INT(10) UNSIGNED NULL COMMENT '所属党支部',
+	`branch_name` VARCHAR(50) NULL COMMENT '所属党支部名称' COLLATE 'utf8_general_ci',
+	`report_file` VARCHAR(200) NULL COMMENT '述职报告word' COLLATE 'utf8_general_ci',
+	`eva_result` TINYINT(3) UNSIGNED NULL COMMENT '考核结果',
+	`eva_file` VARCHAR(200) NULL COMMENT '考核结果文件pdf' COLLATE 'utf8_general_ci',
+	`remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	`status` TINYINT(3) UNSIGNED NULL COMMENT '状态  1未报送  2 已报送',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='党组织书记考核'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=370
+;
+
+replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2712, 0, '党支部考核', '', 'url', '', '/member/memberReport', 260, '0/1/260/', 0, 'owReport:menu', NULL, NULL, NULL, 1, 80);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2713, 0, '党组织书记考核:查看', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2714, 0, '党组织书记考核:编辑', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2715, 0, '党支部考核:查看', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2716, 0, '党支部考核:编辑', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:edit', NULL, NULL, NULL, 1, NULL);
+-- 党内奖惩， 已更新北邮
+
+20201104
+大工
+
+20201103
+
+ALTER TABLE `ow_member_certify`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `certify_date`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `party_id`,
+	ADD COLUMN `status` TINYINT(3) NOT NULL COMMENT '状态，-1返回修改 0申请 1分党委审批 2党支部审批 ' AFTER `branch_id`,
+	ADD COLUMN `is_back` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否打回，当前状态是否是打回的' AFTER `status`,
+	ADD COLUMN `reason` VARCHAR(100) NULL DEFAULT NULL COMMENT '返回修改原因' AFTER `is_back`,
+	ADD COLUMN `apply_time` DATETIME NULL DEFAULT NULL COMMENT '申请时间' AFTER `reason`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2541, 0, '临时组织关系介绍信', '党员个人权限', 'url', '', '/member/memberCertify?cls=0', 258, '0/1/258/', 1, 'userMemberCertify:*', NULL, NULL, NULL, 1, 400);
+
+20201103
+北航，南航
+
+20201102
+南航
+-- 更新utils
+20201102
+北邮
+
+-- 执行 /test/oa_task.jsp
+
 20201029
 
-南航
+南航，北航，西工大，北邮
 
 -- 更新jx.ext
 
@@ -23,14 +238,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids not like '%,8,%';
 -- select count(*) from sys_user u, ow_member m where m.user_id=u.id and m.`status`=1 and u.role_ids not like '%,8,%';
 -- 更新 Utils
-
--- 北航
-/*ALTER TABLE `ow_member_apply`
-	CHANGE COLUMN `concat_user_ids` `contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，如果为空则是校外，否则校内，逗号分割' COLLATE 'utf8_general_ci' AFTER `active_grade`,
-	CHANGE COLUMN `concat_users` `contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，逗号分割' COLLATE 'utf8_general_ci' AFTER `contact_user_ids`,
-	CHANGE COLUMN `grow_concat_user_ids` `grow_contact_user_ids` VARCHAR(50) NULL COMMENT '培养联系人，预备党员阶段，如果为空则是校外，否则校内，逗号分割' COLLATE 'utf8_general_ci' AFTER `grow_status`,
-	CHANGE COLUMN `grow_concat_users` `grow_contact_users` VARCHAR(50) NULL COMMENT '培养联系人姓名，预备党员阶段，逗号分割' COLLATE 'utf8_general_ci' AFTER `grow_contact_user_ids`;
-*/-- 北航
 
 20201025
 北航

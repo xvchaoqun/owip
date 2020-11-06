@@ -39,13 +39,13 @@
                 <select class="form-control"  data-rel="select2-ajax"
                         data-ajax-url="${ctx}/branch_selects?auth=1"
                         name="branchId" data-placeholder="请选择党支部" data-width="272">
-                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                    <option value="${partyReport.branch.id}" delete="${partyReport.branch.isDeleted}">${partyReport.branch.name}</option>
                 </select>
             </div>
         </div>
         <script>
             $.register.party_branch_select($("#modalForm"), "branchDiv",
-                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}",  "${party.classId}" );
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${partyReport.party.id}",  "${partyReport.party.classId}" );
         </script>
        <%-- <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span> 工作总结</label>

@@ -424,8 +424,16 @@ public class CadreController extends BaseController {
                 criteria.andEduIdIn(Arrays.asList(maxEdus));
             }
         }
-        if(StringUtils.isNotBlank(major)){
-                criteria.andMajorLikeIn(major);
+        if (StringUtils.isNotBlank(major)){
+
+            String[] majors=major.split(SystemConstants.STRING_SEPARTOR);
+            List<String> majorList= Arrays.asList(majors);
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfMajor(majorList, status);
+            if(cadreIds.size()==0){
+                criteria.andIdIsNull();
+            }else {
+                criteria.andIdIn(cadreIds);
+            }
         }
         if (postTypes != null) {
             criteria.andPostTypeIn(Arrays.asList(postTypes));

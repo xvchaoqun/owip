@@ -4152,21 +4152,6 @@ public class CadreReserveViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andMajorLikeIn(String value) {
-
-            String[] majors = value.split(SystemConstants.STRING_SEPARTOR);
-            List searchSqlList = new ArrayList<>();
-
-            for (String major : majors) {
-                searchSqlList.add("major like '%" + major + "%'");
-            }
-
-            if(searchSqlList.size()>0)
-                addCriterion("(" + StringUtils.join(searchSqlList, " or ") + ")");
-
-            return (Criteria) this;
-        }
-
         public Criteria andMajorIn(List<String> values) {
             addCriterion("major in", values, "major");
             return (Criteria) this;

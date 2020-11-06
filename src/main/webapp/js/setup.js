@@ -390,7 +390,7 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
 $(document).on("click", ".downloadBtn", function () {
 
     var $this = $(this);
-    $this.download($this.data("url"), $this.data("type")||'export');
+    $this.download($this.data("url"), $this.data("type")||'export', {}, $this.data("method")||'post');
     return false;
 });
 

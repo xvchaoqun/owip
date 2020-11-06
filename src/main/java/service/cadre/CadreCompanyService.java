@@ -14,7 +14,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +29,9 @@ import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 @Service
@@ -411,6 +409,90 @@ public class CadreCompanyService extends BaseMapper {
 
         String fileName = String.format("%s兼职情况汇总表", schoolName + cadreType);
         ExportHelper.output(wb, fileName + ".xlsx", response);
+    }
+
+    // 兼职情况确认表
+    public void exportConfirm(int cadreId, CadreCompanyViewExample example, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        List<CadreCompanyView> records = cadreCompanyViewMapper.selectByExample(example);
+
+        CadreView cv = CmTag.getCadreById(cadreId);
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cadre/cadre_company_list_confirm.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFRow row = sheet.getRow(1);
+        XSSFCell cell = row.getCell(2);
+        cell.setCellValue(cv.getRealname());
+        cell = row.getCell(5);
+        cell.setCellValue(cv.getTitle());
+
+        int startRow = 4;
+        int rowCount = Math.min(records.size(), 16); // 最多16个兼职
+
+        if(rowCount==0){
+
+            row = sheet.getRow(startRow);
+            cell = row.getCell(1);
+            cell.setCellValue("无此类情况");
+        }else {
+            for (int i = 0; i < rowCount; i++) {
+
+                CadreCompanyView record = records.get(i);
+                int column = 0;
+                row = sheet.getRow(startRow++);
+
+                // 序号
+                column++;
+
+                // 兼职单位及职务
+                cell = row.getCell(column);
+                cell.setCellValue(record.getUnit() + record.getPost());
+                column += 3;
+
+                // 兼职类型
+                String _type = "";
+                int type = record.getType();
+                if (type == CmTag.getMetaTypeByCode("mt_cadre_company_other").getId()) {
+                    _type = StringUtils.defaultString(record.getTypeOther(), "其他");
+                } else {
+                    _type = CmTag.getMetaType(type).getName();
+                }
+                cell = row.getCell(column++);
+                cell.setCellValue(_type);
+
+                // 兼职起始时间
+                cell = row.getCell(column++);
+                cell.setCellValue(DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM));
+
+                // 审批单位
+                cell = row.getCell(column++);
+                cell.setCellValue(record.getApprovalUnit());
+
+                // 是否取酬
+                cell = row.getCell(column++);
+                cell.setCellValue(BooleanUtils.isTrue(record.getHasPay()) ? "是" : "否");
+            }
+        }
+
+        String fileName = String.format("兼职情况确认表") + ".xlsx";
+        //ExportHelper.output(wb, fileName + ".xlsx", response);
+
+        String tmpdirFolder = springProps.uploadPath + File.separator + "tmp" + File.separator +
+                        DateUtils.getCurrentTimeMillis();
+        String tmpdir = tmpdirFolder + File.separator + "cadre_company";
+        FileUtils.mkdirs(tmpdir, false);
+
+        String filepath = tmpdir + File.separator + fileName;
+        FileOutputStream output = FileUtils.fos(filepath);
+        wb.write(output);
+        output.close();
+
+        String pdfPath = FileUtils.getFileName(filepath) + ".pdf";
+        FileUtils.word2pdf(filepath, pdfPath);
+        DownloadUtils.download(request, response, pdfPath, "");
+
+        FileUtils.deleteDir(FileUtils.newFile(tmpdirFolder));
     }
 
     // 导出统计表 （最多支持7个兼职类别）

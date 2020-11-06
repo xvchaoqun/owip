@@ -14,6 +14,7 @@ import sys.constants.MemberConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
+import sys.tags.CmTag;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +81,7 @@ public class MemberCertifyReportController extends MemberBaseController {
         map.put("year", DateUtils.getYear(record.getCertifyDate()));
         map.put("month", DateUtils.getMonth(record.getCertifyDate()));
         map.put("day", DateUtils.getDay(record.getCertifyDate()));
+        map.put("unit", "中共" + CmTag.getSysConfig().getSchoolName()+"委员会组织部");
 
         return map;
 

@@ -1,8 +1,13 @@
+<%@ page import="sys.utils.HttpRequestDeviceUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
-<form action="${ctx}/page/pmd_payForm.jsp" target="_blank" method="get">
+<%
+    boolean isMobile = HttpRequestDeviceUtils.isMobileDevice(request);
+    request.setAttribute("isMobile", isMobile);
+%>
+<form action="${ctx}/page/pmd_payForm.jsp" <c:if test="${!isMobile}">target="_blank"</c:if> method="get">
     <input type="hidden" name="tranamt" value="{{=order.tranamt}}"/>
     <input type="hidden" name="account" value="{{=order.account}}"/>
     <input type="hidden" name="sno" value="{{=order.sno}}"/>

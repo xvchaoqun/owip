@@ -164,7 +164,6 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label"><span class="star">*</span> 受何种处分</label>
 				<div class="col-xs-6">
 					<textarea required class="form-control" name="name">${partyPunish.name}</textarea>
-					<span class="help-block">注：不要加书名号。</span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -210,5 +209,5 @@ pageEncoding="UTF-8"%>
     //$('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
 	$.register.date($('.input-group.date'));
-	$.register.user_select($('[data-rel="select2-ajax"]'));
+	$.register.user_select($('select[name=userId]'));
 </script>

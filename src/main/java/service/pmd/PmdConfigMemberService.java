@@ -138,6 +138,7 @@ public class PmdConfigMemberService extends PmdBaseMapper {
         record.setDuePay(duePay);
         //record.setHasSetSalary(true);
         record.setHasReset(true);
+        record.setSalary(pmdExtService.formSalaryToJSON(request));
 
         pmdConfigMemberMapper.updateByPrimaryKeySelective(record);
 

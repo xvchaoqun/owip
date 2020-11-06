@@ -43,7 +43,7 @@
                                     </c:if>
                                 <shiro:hasPermission name="cadreParty:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/cadreParty_batchDel" data-title="删除"
+                                       data-url="${ctx}/cadreParty_batchDel?type=${type}" data-title="删除"
                                        data-msg="确定删除这{0}条数据吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </div>

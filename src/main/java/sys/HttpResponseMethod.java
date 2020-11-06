@@ -171,7 +171,7 @@ public interface HttpResponseMethod {
 
         } */else if (StringUtils.equalsIgnoreCase(type, "pic")) {
             // 需要缩略图的情况
-            String shortImgPath = realPath + "_s"
+            String shortImgPath = springProps.uploadPath + realPath + "_s"
                     + StringUtils.defaultIfBlank(FileUtils.getExtention(originalFilename), ".jpg");
             String filePath = springProps.uploadPath + savePath;
             try {

@@ -195,11 +195,15 @@ public class CadrePartyController extends BaseController {
     @RequiresPermissions("cadreParty:del")
     @RequestMapping(value = "/cadreParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, Byte type, Integer[] ids, ModelMap modelMap) {
 
         if (null != ids){
             cadreService.cadreParty_batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部党派：%s", StringUtils.join(ids, ",")));
+            String name = "民主党派";
+            if(type!=null&& type==CadreConstants.CADRE_PARTY_TYPE_DP){
+                name = "党员（干部）";
+            }
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除%s：%s", name, StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

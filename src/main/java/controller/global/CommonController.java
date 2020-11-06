@@ -115,7 +115,7 @@ public class CommonController extends BaseController {
             Byte[] types, // 指定多个干部类别
             // type=0 所有干部（包括优秀年轻干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
             @RequestParam(defaultValue = "1", required = false) Byte type,
-            Byte status, // 特定干部类别 (优先级最高)
+            Byte[] status, // 特定干部类别 (优先级最高)
             Integer[] unitIds, // 所属单位
             Integer pageSize,
             // key=0，选项value=cadreId key=1 ，选项value=userId
@@ -141,7 +141,7 @@ public class CommonController extends BaseController {
 
         Set<Byte> cadreStatusSet = new HashSet<>();
         if (status != null) {
-            cadreStatusSet.add(status);
+            cadreStatusSet.addAll(new ArrayList<>(Arrays.asList(status)));
         } else {
             if (types == null) {
                 if (type == 1) {

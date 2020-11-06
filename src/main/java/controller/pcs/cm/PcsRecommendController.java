@@ -78,7 +78,6 @@ public class PcsRecommendController extends PcsBaseController {
             modelMap.put("branch", branchService.findAll().get(branchId));
         }
 
-
         return "pcs/pcsRecommend/pcsRecommend_page";
     }
 
@@ -138,11 +137,8 @@ public class PcsRecommendController extends PcsBaseController {
                                   String items,
                                   HttpServletRequest request) throws UnsupportedEncodingException {
 
-        if(ShiroHelper.isPermitted("pcsOw:admin")){
-            // 管理员可以修改，但不改变状态
-            isFinish = null;
+        if(!ShiroHelper.isPermitted("pcsOw:admin")){
 
-        }else {
             ShiroHelper.checkPermission("pcsRecommend:edit");
 
             PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
@@ -323,7 +319,7 @@ public class PcsRecommendController extends PcsBaseController {
                 throw new OpException("第{0}行姓名为空", row);
             }
             realname = ContentUtils.trimAll(realname);
-            List<MemberView> members = iMemberMapper.findMembers(realname,
+            List<MemberView> members = iMemberMapper.findMembers(realname, null,
                     MEMBER_TYPE_TEACHER, MEMBER_POLITICAL_STATUS_POSITIVE,
                     new ArrayList<>(Arrays.asList(MEMBER_STATUS_NORMAL, MEMBER_STATUS_TRANSFER)));
             if(members.size()==1){

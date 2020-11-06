@@ -31,16 +31,16 @@ public class PmdBranchAdminService extends PmdBaseMapper {
     private BranchAdminService branchAdminService;
 
     /**
-     * 判断是否是支部管理员
+     * 判断是管理支部
      *
      * @param userId
      * @param partyId
      * @param branchId
      * @return
      */
-    public boolean isBranchAdmin(int userId, Integer partyId, Integer branchId){
+    public boolean adminBranch(int userId, Integer partyId, Integer branchId) {
 
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL))
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL))
             return true;
 
         List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
@@ -50,16 +50,22 @@ public class PmdBranchAdminService extends PmdBaseMapper {
             return true;
         }
 
-        if(branchId!=null){
-
-            List<Integer> adminBranchIds = getAdminBranchIds(userId);
-            Set<Integer> adminBranchIdSet = new HashSet<>();
-            adminBranchIdSet.addAll(adminBranchIds);
-            if (adminBranchIdSet.contains(branchId)) {
-                return true;
-            }
+        if (branchId != null) {
+            return isBranchAdmin(userId, branchId);
         }
 
+        return false;
+    }
+
+    // 判断是否是支部管理员
+    public boolean isBranchAdmin(int userId, int branchId) {
+
+        List<Integer> adminBranchIds = getAdminBranchIds(userId);
+        Set<Integer> adminBranchIdSet = new HashSet<>();
+        adminBranchIdSet.addAll(adminBranchIds);
+        if (adminBranchIdSet.contains(branchId)) {
+            return true;
+        }
         return false;
     }
 
@@ -128,7 +134,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
                     record.setUserId(branchAdminId);
                     record.setType(PmdConstants.PMD_ADMIN_TYPE_OW);
 
-                    if(!isBranchAdmin(branchAdminId, partyId, branchId)) {
+                    if (!isBranchAdmin(branchAdminId, branchId)) {
                         pmdBranchAdminMapper.insertSelective(record);
                         sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_BRANCH);
                     }
@@ -147,7 +153,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
 
         Byte type = PmdConstants.PMD_ADMIN_TYPE_ADD;
 
-        if(branchMemberService.isPresentAdmin(userId, partyId, branchId)){
+        if (branchMemberService.isPresentAdmin(userId, partyId, branchId)) {
             type = PmdConstants.PMD_ADMIN_TYPE_OW;
         }
         record.setType(type);

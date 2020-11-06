@@ -7,7 +7,7 @@
             <c:if test="${param.admin==1}">
                 <h4 class="widget-title lighter smaller"
             style="position:absolute; top: -50px; right: 400px;">
-                <a href="javascript:;" style="color: red;font-weight: bolder;line-height: 30px"
+                <a id="backToBranchListBtn" href="javascript:;" style="color: red;font-weight: bolder;line-height: 30px"
                    data-load-el="#step-body-content-view"
                    data-url="${ctx}/pcs/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"
                    class="loadPage">
@@ -151,17 +151,17 @@
                                             autocomplete="off" ${!allowModify?"disabled":""}
                                             class="btn btn-primary btn-lg"><i class="fa fa-save"></i> 暂存
                                     </button>
-
-                                    <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
+                            </c:if>
+                            <c:if test="${param.admin==1}">
+                                    <button id="updateBtn" data-loading-text="保存中..." data-success-text="已保存成功"
+                                            autocomplete="off" ${!allowModify?"disabled":""}
+                                            class="btn btn-info btn-lg"><i class="fa fa-edit"></i> 修改
+                                    </button>
+                            </c:if>
+                            <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                             autocomplete="off"  ${!allowModify?"disabled":""}
                                             class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交推荐票
                                     </button>
-                            </c:if>
-                            <c:if test="${param.admin==1 && allowModify}">
-                                    <button id="updateBtn" data-loading-text="保存中..." data-success-text="已保存成功"
-                                            autocomplete="off" class="btn btn-info btn-lg"><i class="fa fa-edit"></i> 修改
-                                    </button>
-                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -482,7 +482,12 @@
 
                 if (ret.success) {
                     if (_isFinish == 1) {
+                        <c:if test="${param.admin==1}">
+                        $("#backToBranchListBtn").click();
+                        </c:if>
+                        <c:if test="${param.admin!=1}">
                         $.hideView();
+                        </c:if>
                         $("#submitBtn").button("reset");
                     } else if(_isFinish == 0){
                         /*$.tip({

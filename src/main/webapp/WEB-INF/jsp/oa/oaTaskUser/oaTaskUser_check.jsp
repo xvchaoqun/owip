@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>审核（仅对已报送且未审批的任务对象有效）</h3>
+    <h3>审核</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/oa/oaTaskUser_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -49,6 +49,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
+    <div class="note">该操作仅对已报送的任务对象有效</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>

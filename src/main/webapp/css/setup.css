@@ -373,7 +373,7 @@ body {
 }
 
 td.dark-danger{
-    background-color:#f28a8a
+    background-color:#f28a8a!important;
 }
 
 /*@-moz-document url-prefix() {

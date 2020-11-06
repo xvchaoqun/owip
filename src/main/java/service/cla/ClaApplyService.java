@@ -99,8 +99,14 @@ public class ClaApplyService extends ClaBaseMapper {
 
             ClaApproverType mainPostApproverType = claApproverTypeService.getMainPostApproverType();
             ClaApproverType leaderApproverType = claApproverTypeService.getLeaderApproverType();
-            Map<Integer, ClaApproverBlackList> mainPostBlackList = claApproverBlackListService.findAll(mainPostApproverType.getId());
-            Map<Integer, ClaApproverBlackList> leaderBlackList = claApproverBlackListService.findAll(leaderApproverType.getId());
+            Map<Integer, ClaApproverBlackList> mainPostBlackList = new HashMap<>();
+            if(mainPostApproverType!=null) {
+               mainPostBlackList = claApproverBlackListService.findAll(mainPostApproverType.getId());
+            }
+            Map<Integer, ClaApproverBlackList> leaderBlackList = new HashMap<>();
+            if(leaderApproverType!=null) {
+                leaderBlackList = claApproverBlackListService.findAll(leaderApproverType.getId());
+            }
 
             CadreView cadre = CmTag.getCadreById(cadreId);
             Integer unitId = cadre.getUnitId();

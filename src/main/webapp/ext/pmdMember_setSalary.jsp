@@ -307,7 +307,7 @@
                     success: function (ret) {
                         if (ret.success) {
                             if (isPreview == 1) {
-                                console.log(ret.duePay)
+                                //console.log(ret.duePay)
                                 if(ret.duePay==undefined || ret.duePay<=0){
                                     $("#duePaySpan").html('<span style="color:red;font-size: 14px">工资数据有误，请核对后调整</span>');
                                 }else {
