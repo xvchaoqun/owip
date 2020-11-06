@@ -111,7 +111,7 @@ public class OwConstants {
     static {
         //OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_REMOVE, "已移除");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_DENY, "未通过");
-        OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_INIT, "申请");
+        OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_INIT, "入党申请人");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_ACTIVE, "入党积极分子");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_CANDIDATE, "发展对象");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_PLAN, "列入发展计划");

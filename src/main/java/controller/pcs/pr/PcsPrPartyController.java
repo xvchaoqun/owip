@@ -409,7 +409,7 @@ public class PcsPrPartyController extends PcsBaseController {
             }
             realname = ContentUtils.trimAll(realname);
             List<MemberView> members = iMemberMapper.findMembers(realname,
-                    null, MEMBER_POLITICAL_STATUS_POSITIVE,
+                    null, null, MEMBER_POLITICAL_STATUS_POSITIVE,
                     new ArrayList<>(Arrays.asList(MEMBER_STATUS_NORMAL, MEMBER_STATUS_TRANSFER)));
             if(members.size()==1){
                 userId = members.get(0).getUserId();

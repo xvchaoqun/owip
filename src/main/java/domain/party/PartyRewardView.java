@@ -1,6 +1,7 @@
 package domain.party;
 
 import domain.sys.SysUserView;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -30,6 +31,7 @@ public class PartyRewardView implements Serializable {
 
     private String unit;
 
+    @SignRes
     private String proof;
 
     private String proofFilename;

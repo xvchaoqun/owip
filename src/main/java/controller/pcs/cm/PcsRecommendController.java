@@ -319,7 +319,7 @@ public class PcsRecommendController extends PcsBaseController {
                 throw new OpException("第{0}行姓名为空", row);
             }
             realname = ContentUtils.trimAll(realname);
-            List<MemberView> members = iMemberMapper.findMembers(realname,
+            List<MemberView> members = iMemberMapper.findMembers(realname, null,
                     MEMBER_TYPE_TEACHER, MEMBER_POLITICAL_STATUS_POSITIVE,
                     new ArrayList<>(Arrays.asList(MEMBER_STATUS_NORMAL, MEMBER_STATUS_TRANSFER)));
             if(members.size()==1){

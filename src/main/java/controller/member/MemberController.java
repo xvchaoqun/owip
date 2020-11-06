@@ -1540,8 +1540,8 @@ public class MemberController extends MemberBaseController {
     }
 
     @RequiresPermissions("member:list")
-    @RequestMapping("/member_integrity_view")
-    public String integrity(Integer userId,ModelMap modelMap){
+    @RequestMapping("/member_integrity")
+    public String member_integrity(Integer userId,ModelMap modelMap){
 
         MemberView memberView = iMemberMapper.getMemberView(userId);
 
@@ -1553,7 +1553,7 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("member:list")
     @RequestMapping(value = "/member_integrity", method = RequestMethod.POST)
     @ResponseBody
-    public Map member_integrity(Integer memberId){
+    public Map do_member_integrity(Integer memberId){
 
         MemberView memberView = iMemberMapper.getMemberView(memberId);
         memberService.checkIntegrity(memberView);

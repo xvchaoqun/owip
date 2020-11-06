@@ -221,7 +221,8 @@ public class CadreCompanyController extends BaseController {
 
     @RequiresPermissions("cadreCompany:list")
     @RequestMapping("/cadreCompany_data")
-    public void cadreCompany_data(HttpServletResponse response,
+    public void cadreCompany_data(HttpServletRequest request,
+                                  HttpServletResponse response,
                                   Integer cadreId,
                                   Byte module, // 1 校领导 2干部
                                   Byte cadreStatus,
@@ -235,6 +236,7 @@ public class CadreCompanyController extends BaseController {
                                   @RequestParam(defaultValue = "1") Byte cls,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, defaultValue = "0") int idType,
+                                  @RequestParam(required = false, defaultValue = "0") int formatType, // 0：汇总表 1： 确认表
                                   Integer[] ids, // 导出的记录（干部id)
                                   @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
                                   Integer reserveType, // 年轻干部类别
@@ -311,7 +313,11 @@ public class CadreCompanyController extends BaseController {
                 }
             }
 
-            cadreCompanyService.export(ids, cadreStatus, example, exportType, reserveType, response);
+            if(formatType==1){
+                cadreCompanyService.exportConfirm(cadreId, example, request, response);
+            }else {
+                cadreCompanyService.export(ids, cadreStatus, example, exportType, reserveType, response);
+            }
             return;
         }
 

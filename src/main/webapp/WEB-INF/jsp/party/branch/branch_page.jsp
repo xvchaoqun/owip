@@ -287,7 +287,7 @@
             {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
                     var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
-                    return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/branch_integrity_view" data-id-name="branchId">' +
+                    return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/branch_integrity" data-id-name="branchId">' +
                         '<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                         '<div class="progress-bar progress-bar-{1}" style="width:{0}"></div></div></a>')
                         .format(progress,rowObject.integrity==1?"success":"danger")

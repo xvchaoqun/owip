@@ -15,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -615,8 +614,8 @@ public class BranchController extends BaseController {
     }
 
     @RequiresPermissions("branch:list")
-    @RequestMapping("/branch_integrity_view")
-    public String member_integrity_view(Integer branchId,ModelMap modelMap){
+    @RequestMapping("/branch_integrity")
+    public String branch_integrity(Integer branchId,ModelMap modelMap){
 
         BranchView branchView = branchService.getBranchView(branchId);
         modelMap.put("branchView",branchView);
@@ -626,7 +625,7 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping(value = "/branch_integrity", method = RequestMethod.POST)
     @ResponseBody
-    public Map branch_integrity(Integer branchId){
+    public Map do_branch_integrity(Integer branchId){
 
         BranchView branchView = branchService.getBranchView(branchId);
         branchService.checkIntegrity(branchView);

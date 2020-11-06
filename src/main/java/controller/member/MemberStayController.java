@@ -289,9 +289,9 @@ public class MemberStayController extends MemberBaseController {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
 
-            String title = "出国（境）毕业生党员组织关系暂留表";
+            String title = "出国（境）党员组织关系暂留表";
             if(type == MemberConstants.MEMBER_STAY_TYPE_INTERNAL)
-                title = "非出国（境）毕业生党员组织关系暂留表";
+                title = "非出国（境）党员组织关系暂留表";
 
             SXSSFWorkbook wb = memberStayExportService.toXlsx(type, example, title);
             ExportHelper.output(wb, title + ".xlsx", response);

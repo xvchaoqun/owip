@@ -530,8 +530,8 @@ public class PartyController extends BaseController {
     }
 
     @RequiresPermissions("party:list")
-    @RequestMapping("/party_integrity_view")
-    public String member_integrity_view(Integer partyId,ModelMap modelMap){
+    @RequestMapping("/party_integrity")
+    public String party_integrity(Integer partyId,ModelMap modelMap){
 
         PartyView partyView = partyService.getPartyView(partyId);
         modelMap.put("partyView",partyView);
@@ -541,7 +541,7 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:list")
     @RequestMapping(value = "/party_integrity", method = RequestMethod.POST)
     @ResponseBody
-    public Map party_integrity(Integer partyId){
+    public Map do_party_integrity(Integer partyId){
 
         PartyView partyView = partyService.getPartyView(partyId);
         partyService.checkIntegrity(partyView);
