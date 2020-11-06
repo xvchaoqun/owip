@@ -128,10 +128,12 @@ public class PmdBranchAdminService extends PmdBaseMapper {
                     record.setUserId(branchAdminId);
                     record.setType(PmdConstants.PMD_ADMIN_TYPE_OW);
 
-                    if(!isBranchAdmin(branchAdminId, partyId, branchId)) {
+                    /*if(!isBranchAdmin(branchAdminId, partyId, branchId)) {
                         pmdBranchAdminMapper.insertSelective(record);
                         sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_BRANCH);
-                    }
+                    }*/
+                    pmdBranchAdminMapper.insertSelective(record);
+                    sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_BRANCH);
                 }
             }
         }

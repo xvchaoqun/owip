@@ -98,10 +98,12 @@ public class PmdPartyAdminService extends PmdBaseMapper {
                 record.setUserId(partyAdminId);
                 record.setType(PmdConstants.PMD_ADMIN_TYPE_OW);
 
-                if(!isPartyAdmin(partyAdminId, partyId)) {
+                /*if(!isPartyAdmin(partyAdminId, partyId)) {
                     pmdPartyAdminMapper.insertSelective(record);
                     sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
-                }
+                }*/
+                pmdPartyAdminMapper.insertSelective(record);
+                sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
             }
         }
 
