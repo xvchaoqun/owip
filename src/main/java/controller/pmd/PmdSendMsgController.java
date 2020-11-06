@@ -175,7 +175,7 @@ public class PmdSendMsgController extends PmdBaseController {
                                          int partyId, Integer branchId, HttpServletRequest request) {
 
         if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
-            if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+            if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new UnauthorizedException();
             }
         }

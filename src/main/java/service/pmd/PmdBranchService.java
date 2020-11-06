@@ -109,7 +109,7 @@ public class PmdBranchService extends PmdBaseMapper {
         // 组织部管理员、分党委管理员、党支部管理员允许报送
         if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     throw new UnauthorizedException();
                 }
             }
@@ -143,7 +143,7 @@ public class PmdBranchService extends PmdBaseMapper {
         // 组织部管理员、分党委管理员、党支部管理员允许报送
         if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     return false;
                 }
             }

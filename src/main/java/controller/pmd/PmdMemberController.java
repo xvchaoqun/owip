@@ -304,7 +304,7 @@ public class PmdMemberController extends PmdBaseController {
             adminPartyIdSet.addAll(adminPartyIds);
             if (!partyService.isDirectBranch(partyId) || !adminPartyIdSet.contains(partyId)) return;
         }*/
-        if(!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)){
+        if(!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)){
             return;
         }
 
@@ -353,7 +353,7 @@ public class PmdMemberController extends PmdBaseController {
 
         //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
-            if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
+            if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();
             }
@@ -416,7 +416,7 @@ public class PmdMemberController extends PmdBaseController {
         }
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
-            if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
+            if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(),
                     member.getPartyId(), member.getBranchId())) {
                 throw new UnauthorizedException();
             }

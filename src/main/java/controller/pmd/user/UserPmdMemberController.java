@@ -68,7 +68,7 @@ public class UserPmdMemberController extends PmdBaseController {
                 Integer branchId = pmdMember.getBranchId();
 
                 int userId = ShiroHelper.getCurrentUserId();
-                if (!pmdBranchAdminService.isBranchAdmin(userId, partyId, branchId)) {
+                if (!pmdBranchAdminService.adminBranch(userId, partyId, branchId)) {
                     throw new UnauthorizedException();
                 }
             }

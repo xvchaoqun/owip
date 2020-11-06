@@ -13,10 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -172,7 +170,7 @@ public class PmdPayService extends PmdBaseMapper {
             // 组织部管理员、分党委管理员、党支部管理员允许延迟
             if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
                 if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                    if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                    if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                         throw new UnauthorizedException();
                     }
                 }
