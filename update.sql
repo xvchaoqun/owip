@@ -1,4 +1,11 @@
 
+20201106
+
+南航 -- 北师大
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (985, 0, '导出兼职确认表', '', 'function', '', NULL, 353, '0/1/353/', 1, 'export:cadreCompanyConfirm', NULL, NULL, NULL, 1, NULL);
+
 
 -- 党内奖惩、任职、考核， 已更新北邮
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2500, 0, '党内奖惩信息', '', 'menu', '', NULL, 260, '0/1/260/', 0, 'RePu:function', 1, NULL, NULL, 1, 99);
@@ -89,6 +96,31 @@ ENGINE=InnoDB
 AUTO_INCREMENT=168
 ;
 
+drop table if EXISTS ow_party_reward;
+CREATE TABLE `ow_party_reward` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1 分党委 2 党支部 3 个人',
+	`party_id` INT(10) UNSIGNED NULL,
+	`branch_id` INT(10) UNSIGNED NULL,
+	`user_id` INT(10) UNSIGNED NULL,
+	`reward_time` DATE NULL COMMENT '获奖日期',
+	`reward_level` INT(10) UNSIGNED NULL COMMENT '奖励级别',
+	`reward_type` INT(10) UNSIGNED NULL COMMENT '获奖类型',
+	`name` VARCHAR(200) NULL COMMENT '获得奖项' COLLATE 'utf8_general_ci',
+	`unit` VARCHAR(300) NULL COMMENT '颁奖单位' COLLATE 'utf8_general_ci',
+	`proof` VARCHAR(255) NULL COMMENT '获奖证书' COLLATE 'utf8_general_ci',
+	`proof_filename` VARCHAR(255) NULL COMMENT '获奖证书文件名' COLLATE 'utf8_general_ci',
+	`remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	`sort_order` INT(10) UNSIGNED NULL COMMENT '排序',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='党内奖励信息'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT
+;
+
+
 DROP VIEW IF EXISTS `ow_party_post_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ow_party_post_view` AS
 SELECT opp.*,om.party_id,om.branch_id,op.sort_order as party_sort_order,ob.sort_order as branch_sort_order
@@ -153,8 +185,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2714, 0, '党组织书记考核:编辑', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2715, 0, '党支部考核:查看', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:list', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2716, 0, '党支部考核:编辑', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:edit', NULL, NULL, NULL, 1, NULL);
-
-
 -- 党内奖惩， 已更新北邮
 
 20201104
