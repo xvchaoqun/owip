@@ -203,6 +203,9 @@ ALTER TABLE `ow_member_certify`
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (2541, 0, '临时组织关系介绍信', '党员个人权限', 'url', '', '/member/memberCertify?cls=0', 258, '0/1/258/', 1, 'userMemberCertify:*', NULL, NULL, NULL, 1, 400);
 
+-- 培训bug
+-- update cet_train_course ctc, cet_train ct, cet_project_plan cpp set ctc.project_id=cpp.project_id where ctc.train_id=ct.id and ct.plan_id=cpp.id;
+
 20201103
 北航，南航
 

@@ -1,5 +1,6 @@
 package service;
 
+import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import service.party.BranchAdminService;
 import service.party.PartyAdminService;
 import service.sys.SysLoginLogService;
+import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
@@ -36,6 +38,8 @@ public class LoginUserService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysResourceService sysResourceService;
     @Autowired
     private SysLoginLogService sysLoginLogService;
     @Autowired
@@ -116,6 +120,14 @@ public class LoginUserService {
         if (!url.startsWith("/")) {
             url = "/" + url;
         }
+        // 是否校验权限
+        if(StringUtils.equals(request.getParameter("checkAuth"), "1")){
+            SysResource sysResource = sysResourceService.getByUrl(url);
+            if(sysResource==null || !ShiroHelper.isPermitted(sysResource.getPermission())){
+                url = ""; // 资源不存在或没有权限，则跳转至首页
+            }
+        }
+
         return redirect((HttpRequestDeviceUtils.isMobileDevice(request) ? "" : "/#") + url, response);
     }
 

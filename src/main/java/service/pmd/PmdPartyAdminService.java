@@ -62,6 +62,19 @@ public class PmdPartyAdminService extends PmdBaseMapper {
         return pmdPartyAdminMapper.selectByExample(example);
     }
 
+    // 得到所有分党委ID
+    public List<Integer> getAllPartyIds() {
+
+        PmdPartyAdminExample example = new PmdPartyAdminExample();
+        List<PmdPartyAdmin> pmdPartyAdmins = pmdPartyAdminMapper.selectByExample(example);
+
+        List<Integer> adminPartyIds = new ArrayList<>();
+        for (PmdPartyAdmin pmdPartyAdmin : pmdPartyAdmins) {
+            adminPartyIds.add(pmdPartyAdmin.getPartyId());
+        }
+
+        return adminPartyIds;
+    }
     // 得到一个管理员管理的所有分党委ID
     public List<Integer> getAdminPartyIds(int userId) {
 

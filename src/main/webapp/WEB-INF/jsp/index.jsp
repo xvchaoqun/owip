@@ -50,9 +50,15 @@
                 </c:if>
             </c:if>
             <c:if test="${not empty sessionScope._switchUser}">
-                <a href="${ctx}/sysLogin_switch_back">
+                <a href="javascript:;" onclick="_switchBack()">
                     <i class="fa fa-reply"></i> 返回主账号
                 </a>
+                <script>
+                    function _switchBack(){
+                        var hash = $.trim(location.hash);
+                        location.href = "${ctx}/sysLogin_switch_back?checkAuth=1&url=" + encodeURI(hash.substr(1));
+                    }
+                </script>
             </c:if>
         </div>
         <c:set var="isSuperAccount" value="${cm:isSuperAccount(_user.username)}"/>
