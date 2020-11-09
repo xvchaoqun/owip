@@ -10,9 +10,8 @@ import domain.sys.TeacherInfo;
 import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -592,10 +591,11 @@ public class MemberService extends MemberBaseMapper {
             @CacheEvict(value = "Party:ALL", allEntries = true),
             @CacheEvict(value = "MemberApply", allEntries = true)
     })
-    public Map<String, Object> importMemberAllInfo(XSSFSheet sheet,
-                                                  List<Map<Integer, String>> xlsRows,
-                                                  Map<String, Byte> politicalStatusMap,
-                                                  String startCode) {
+    public Map<String, Object> importMemberAllInfo(XSSFWorkbook workbook,
+                                                   XSSFSheet sheet,
+                                                   List<Map<Integer, String>> xlsRows,
+                                                   Map<String, Byte> politicalStatusMap,
+                                                   String startCode) {
 
         Date now = new Date();
         List<Member> records = new ArrayList<>();
@@ -629,7 +629,16 @@ public class MemberService extends MemberBaseMapper {
                     cell = _row.createCell(0);
                 }
                 cell.setCellValue(StringUtils.trimToEmpty(userCode));
-                if (codeMap.get(userCode).size() > 0) {
+                if (codeMap.get(userCode).size() > 1) {
+                    //设置字体
+                    XSSFFont font = workbook.createFont();
+                    font.setColor(HSSFColor.RED.index);
+
+                    //设置样式
+                    XSSFCellStyle style = workbook.createCellStyle();
+                    style.setFont(font);
+                    cell.setCellStyle(style);
+
                     cell = _row.createCell(cellNum);
                     cell.setCellValue(StringUtils.join(codeMap.get(userCode), "、"));
                 }
