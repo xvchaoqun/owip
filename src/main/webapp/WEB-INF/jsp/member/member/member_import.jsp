@@ -76,6 +76,9 @@
                                     var result = '操作成功，导入{3}条${_p_partyName}记录，导入{4}条党支部记录，总共{0}条党员记录，其中成功导入{1}条党员记录，<font color="red">{2}条党员记录覆盖</font>';
                                     SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount, ret.partyAdd, ret.branchAdd), '成功',function(){
                                         page_reload();
+                                        var url = ("${ctx}/attach_download?path={0}&filename={1}")
+                                            .format(ret.file, ret.filename)
+                                        $btn.download(url);
                                     });
                                 }
                                 $.reloadMetaData(function(){

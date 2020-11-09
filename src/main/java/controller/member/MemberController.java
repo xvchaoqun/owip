@@ -213,7 +213,7 @@ public class MemberController extends MemberBaseController {
         if (inSchool) {
             resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         } else if (all) {
-            resultMap = memberService.importMemberAllInfo(sheet, xlsRows, politicalStatusMap, startCode);
+            resultMap = memberService.importMemberAllInfo(workbook, sheet, xlsRows, politicalStatusMap, startCode);
         }else {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
@@ -227,7 +227,7 @@ public class MemberController extends MemberBaseController {
             FileUtils.mkdirs(springProps.uploadPath + savePath, true);
 
             ExportHelper.save(workbook, springProps.uploadPath + savePath);
-            resultMap.put("file", savePath);
+            resultMap.put("file", UserResUtils.sign(savePath));
             resultMap.put("filename", filename);
 
             int partyAdd = (int) resultMap.get("partyAdd");
