@@ -22,6 +22,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
+import service.crp.CrpRecordService;
 import service.party.*;
 import service.sys.SysConfigService;
 import sys.constants.CadreConstants;
@@ -82,6 +83,8 @@ public class CadreInfoFormService extends BaseMapper {
     protected PartyRewardService partyRewardService;
     @Autowired
     protected PartyPunishService partyPunishService;
+    @Autowired
+    protected CrpRecordService crpRecordService;
 
     public void export(Integer[] cadreIds, Integer reserveType, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, TemplateException {
@@ -335,7 +338,9 @@ public class CadreInfoFormService extends BaseMapper {
                         "cadreWorks", "/cadre/cadreWork.ftl") : work.getContent());*/
         bean.setWorkDesc(freemarkerService.freemarker(cadreWorkService.list(cadreId),
                 "cadreWorks", "/cadre/cadreWork.ftl"));
-
+       //挂职经历
+        bean.setCrpDesc(freemarkerService.freemarker(crpRecordService.findRecords(uv.getUserId()),
+                "crpRecords", "/cadre/cadreCrp.ftl"));
         // 社会或学术兼职
         /*CadreInfo parttime = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_PARTTIME);
         String _parttime = null;
@@ -624,7 +629,9 @@ public class CadreInfoFormService extends BaseMapper {
         String resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历",
                 bean.getLearnDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"))
                 + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历",
-                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"));
+                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"))
+                + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("挂职/借调经历",
+                bean.getCrpDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"));
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));

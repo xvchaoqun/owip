@@ -129,6 +129,8 @@ public class CadreInfoForm {
     private String learnDesc;
     // 工作经历
     private String workDesc;
+    // 挂职经历
+    private String crpDesc;
     // 简历
     private String resumeDesc;
     // 任职经历
@@ -567,6 +569,14 @@ public class CadreInfoForm {
 
     public void setWorkDesc(String workDesc) {
         this.workDesc = workDesc;
+    }
+
+    public String getCrpDesc() {
+        return crpDesc;
+    }
+
+    public void setCrpDesc(String crpDesc) {
+        this.crpDesc = crpDesc;
     }
 
     public String getResumeDesc() {
