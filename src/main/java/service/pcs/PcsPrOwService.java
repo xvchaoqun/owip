@@ -30,11 +30,8 @@ public class PcsPrOwService extends PcsBaseMapper {
         for (int partyId : partyIds) {
 
             PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
-            // 必须是已上报、未审核的才能审核
-            if (pcsPrRecommend == null
-                    || !pcsPrRecommend.getHasReport()
-                    || pcsPrRecommend.getStatus() != PcsConstants.PCS_PR_RECOMMEND_STATUS_INIT) continue;
-
+            // 必须是已上报的才能审核
+            if (pcsPrRecommend == null || !pcsPrRecommend.getHasReport()) continue;
 
             PcsPrRecommend record = new PcsPrRecommend();
             record.setId(pcsPrRecommend.getId());

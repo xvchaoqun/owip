@@ -5,6 +5,7 @@ import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.base.MetaClass;
 import domain.base.MetaType;
+import domain.base.MetaTypeExample;
 import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
 import domain.cm.CmMemberView;
@@ -13,10 +14,7 @@ import domain.sys.SysUser;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import domain.unit.Unit;
-import domain.unit.UnitExample;
-import domain.unit.UnitPost;
-import domain.unit.UnitPostExample;
+import domain.unit.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -39,6 +37,7 @@ import service.cm.CmMemberService;
 import service.global.CacheHelper;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
+import service.unit.UnitPostService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
@@ -59,6 +58,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
     public static final String TABLE_NAME = "cadre";
 
+    @Autowired(required = false)
+    private UnitPostService unitPostService;
     @Autowired(required = false)
     private CadreAdminLevelService cadreAdminLevelService;
     @Autowired(required = false)
@@ -660,369 +661,153 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         iCadreMapper.updateCadreByTmpSort(count);
     }
 
+    /*
+            1、可以录入有岗位的干部
+            2、可以录入空岗（若每次都有空岗，则都会添加一个新的，不会覆盖）
+
+        * */
     @Transactional
     public void cadreAll_import(List<Map<Integer, String>> xlsRows, Byte status, String unitCode){
 
-        cadreAdminLevelMapper.deleteByExample(new CadreAdminLevelExample());
-        cadrePostMapper.deleteByExample(new CadrePostExample());
-        cadreMapper.deleteByExample(new CadreExample());
-        unitPostMapper.deleteByExample(new UnitPostExample());
-        unitMapper.deleteByExample(new UnitExample());
-
         // 清空职务属性
-        commonMapper.excuteSql("delete bmt.* from base_meta_type bmt , base_meta_class bmc where bmt.class_id=bmc.id and bmc.code='mc_post'");
+        if (unitPostMapper.countByExample(new UnitPostExample()) == 0) {
+            commonMapper.excuteSql("delete bmt.* from base_meta_type bmt , base_meta_class bmc where bmt.class_id=bmc.id and bmc.code='mc_post'");
+        }
 
-        Set<Unit> unitList = new HashSet<>();
-        List<UnitPost> unitPostList = new ArrayList<>();
-        List<Cadre> cadreList = new ArrayList<>();
+        List<String> codeList = new ArrayList<>();//记录已导入人员,用于跳过重复的人员
+        List<Integer> postIdList = new ArrayList<>();//将撤销的岗位id
+        List<UnitPost> _unitPostList = new ArrayList<>();//记录空岗，用于最后添加
+        Map<Integer, List<String>> postUnitMap = new HashMap<>();//主职/兼职记录,默认第一条为主职 <cadreId, unitPostName_unitId>
 
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
 
-            //1、内设机构
-            String unitName = StringUtils.trimToNull(xlsRow.get(6));
-            if (StringUtils.isBlank(unitName)){
-                throw new OpException("第{0}行所在单位为空", row);
-            }
-            String[] unitNames = unitName.split(",|，");
-            for (String name : unitNames) {
-                //单位重复则跳过
-                if (unitList.stream().map(Unit::getName).collect(Collectors.toList()).contains(name)) {
-                    continue;
-                }else{
-                    Unit unit = new Unit();
-                    unit.setName(name);
-                    unit.setCode(genCode(unitCode, true));
-                    unit.setCreateTime(new Date());
-                    unit.setStatus((byte) 1);
-                    unit.setSortOrder(getNextSortOrder("unit", "status=" + status));
-                    if(PatternUtils.match(".*(党委|组织部|党).*", name)){
-                        unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关党委").getId());
-                    }else if (PatternUtils.match(".*(系|院|班).*", name)){
-                        unit.setTypeId(metaTypeService.findByName("mc_unit_type", "学部、院、系所").getId());
-                    }else if (PatternUtils.match(".*(附属|附).*", name)){
-                        unit.setTypeId(metaTypeService.findByName("mc_unit_type", "附属单位").getId());
-                    }else if (PatternUtils.match(".*(公司).*", name)){
-                        unit.setTypeId(metaTypeService.findByName("mc_unit_type", "经营性单位").getId());
-                    }else{
-                        unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关职能部处").getId());
-                    }
-                    unitList.add(unit);
-                    unitMapper.insertSelective(unit);
-
-                }
-            }
-
-            //2、岗位
-            CadrePost mainPost = new CadrePost();
-            String unitPostName = ContentUtils.trimHtml(ContentUtils.trimHtml(ContentUtils.trimAll(xlsRow.get(4))));
+            row++;
+            //1、处级干部
+            String unitPostName = ContentUtils.trimHtml(xlsRow.get(4));
             if (StringUtils.isBlank(unitPostName)){
                 throw new OpException("第{0}行所在单位及职务为空", row);
             }
-            String[] unitPostNames = unitPostName.split("兼");
-            CadrePost partTimePost1 = null;
-            CadrePost partTimePost2 = null;
-            for (int i = 0; i < unitPostNames.length; i++){
-                String name = unitPostNames[i];
-                UnitPost unitPost = new UnitPost();
-                unitPost.setName(name);
+            Cadre cadre = new Cadre();
+            int userId = 0;
+            int cadreId = 0;
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isNotBlank(userCode)) {//工号为空时，录入的可能是一条空闲岗位，这些记录需要核对是否确实没有任职人员
+                //跳过重复记录
+                if (codeList.contains(userCode)){
+                    continue;
+                }
+                codeList.add(userCode);
 
-                unitPost.setIsCpc(true);
-                unitPost.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
-                int idx = ArrayUtils.indexOf(unitPostNames, name);
-                if(idx<0 || unitNames.length<=idx) continue;
-                String _unitName = unitNames[idx];
-                UnitExample example = new UnitExample();
-                example.createCriteria().andNameEqualTo(_unitName);
-                if (unitMapper.countByExample(example) > 0){
+                SysUserView uv = sysUserService.findByCode(userCode);
+                if (uv == null) {
+                    logger.error("第{0}行工作证号[{1}]不存在", row, userCode);
+                    continue;
+                }
+                userId = uv.getId();
+                cadre.setUserId(userId);
+                cadre.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
+                cadre.setTitle(unitPostName);
+                String _isDouble = StringUtils.trimToNull(xlsRow.get(5));
+                cadre.setIsDouble(StringUtils.equals(_isDouble, "是"));
 
-                    Unit unit = unitMapper.selectByExample(example).get(0);
-                    unitPost.setUnitId(unit.getId());
+                status = CadreConstants.CADRE_STATUS_LEADER;
+                if (StringUtils.contains(StringUtils.trimToNull(xlsRow.get(3)), "处级")) {
+                    status = CadreConstants.CADRE_STATUS_CJ;
+                } else if (StringUtils.contains(StringUtils.trimToNull(xlsRow.get(3)), "科级")) {
+                    status = CadreConstants.CADRE_STATUS_KJ;
+                }
+                cadre.setStatus(status);
 
-                    unitPost.setCode(genCode(unit.getCode(), false));
-                }else {
-                    throw new OpException("第{0}行的第{1}个岗位对应的单位为空", row, ArrayUtils.indexOf(unitPostNames, name) + 1);
+                if (cadre.getIsDouble()) {
+
+                    String doubleUnitName = StringUtils.trimToNull(xlsRow.get(7));
+                    if (StringUtils.isNotBlank(doubleUnitName))
+                        insertUnit(doubleUnitName, unitCode, status);
                 }
 
-                MetaClass mcPost = CmTag.getMetaClassByCode("mc_post");
-                MetaType postType = null;
-                MetaType adminLevel = null;
-                MetaType postClass = null;
-                if (i == 0){
+                String remark = StringUtils.trimToNull(xlsRow.get(32));
+                cadre.setRemark(remark);
+                CadreView cv = dbFindByUserId(userId);
+                if (cv == null) {
 
+                    insertSelective(cadre);
+                } else {
+                    cadre.setId(cv.getId());
+                    updateByPrimaryKeySelective(cadre);
+                }
+                cacheHelper.clearCadreCache(cadreId);
+                cadreId = cadre.getId();
+            }
+
+            //2、内设机构
+            String[] unitPostNames = StringUtils.split(unitPostName, ",|，");
+            List<String> postUnitList = new ArrayList<>();
+            String unitName = ContentUtils.trimHtml(xlsRow.get(6));
+            if (StringUtils.isBlank(unitName)){
+                throw new OpException("第{0}行所在单位为空", row);
+            }
+            String[] unitNames = StringUtils.split(unitName, ",|，");
+            if (unitPostNames.length != unitNames.length)
+                throw new OpException("第{0}行单位和岗位的数量不对应", row);
+
+            for (String name : unitNames) {
+
+                Unit unit = insertUnit(name, unitCode, status);
+
+                //添加岗位_单位map或者空岗
+                if (cadreId == 0){
+                    UnitPost unitPost = new UnitPost();
+                    unitPost.setName(unitPostName);
+                    unitPost.setIsCpc(true);
+                    unitPost.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
+                    unitPost.setUnitId(unit.getId());
                     unitPost.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
-
                     String _postType = StringUtils.trimToNull(xlsRow.get(9));//职务属性（主职）
-                    postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                    if (postType == null){
-                        postType = new MetaType();
-                        postType.setClassId(mcPost.getId());
-                        postType.setCode(metaTypeService.genCode());
-                        postType.setName(_postType);
-                        metaTypeService.insertSelective(postType);
-                    }
-
                     String _adminLevel = StringUtils.trimToNull(xlsRow.get(10));//岗位级别（主职）
-                    adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                    MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
                     if (adminLevel == null)throw new OpException("第{0}行岗位级别[{1}]不存在", row, _postType);
 
                     String _postClass = StringUtils.trimToNull(xlsRow.get(11));
-                    postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
+                    MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
                     if (postClass == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
-
                     unitPost.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(12)), "是"));
-                }else if (i == 1){
 
-                    unitPost.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(15)), "是"));
-
-                    String _postType = StringUtils.trimToNull(xlsRow.get(16));//职务属性（兼职1）
-                    postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                    if (postType == null){
-                        postType = new MetaType();
-                        postType.setClassId(mcPost.getId());
-                        postType.setCode(metaTypeService.genCode());
-                        postType.setName(_postType);
-                        metaTypeService.insertSelective(postType);
-                    }
-
-                    String _adminLevel = StringUtils.trimToNull(xlsRow.get(17));//岗位级别（兼职1）
-                    adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
-                    if (adminLevel == null)throw new OpException("第{0}行岗位级别[{1}]不存在", row, _postType);
-
-                    String _postClass = StringUtils.trimToNull(xlsRow.get(18));
-                    postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
-                    if (postClass == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
-
-                    unitPost.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(19)), "是"));
-                }else if (i == 2){
-
-                    unitPost.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(20)), "是"));
-
-                    String _postType = StringUtils.trimToNull(xlsRow.get(21));//职务属性（兼职2）
-                    postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                    if (postType == null){
-                        postType = new MetaType();
-                        postType.setClassId(mcPost.getId());
-                        postType.setCode(metaTypeService.genCode());
-                        postType.setName(_postType);
-                        metaTypeService.insertSelective(postType);
-                    }
-
-                    String _adminLevel = StringUtils.trimToNull(xlsRow.get(22));//岗位级别（兼职1）
-                    adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
-                    if (adminLevel == null)throw new OpException("第{0}行岗位级别[{1}]不存在", row, _postType);
-
-                    String _postClass = StringUtils.trimToNull(xlsRow.get(23));
-                    postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
-                    if (postClass == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
-
-                    unitPost.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(24)), "是"));
+                    unitPost.setPostType(metaTypeService.findOrCreate("mc_post", _postType).getId());
+                    unitPost.setAdminLevel(adminLevel.getId());
+                    unitPost.setPostClass(postClass.getId());
+                    _unitPostList.add(unitPost);
+                    continue;
+                }else {
+                    int index = ArrayUtils.indexOf(unitNames, name);
+                    postUnitList.add(unitPostNames[index] + "_" + unit.getId());
+                    postUnitMap.put(cadreId, postUnitList);
                 }
-                unitPost.setPostType(postType.getId());
-                unitPost.setAdminLevel(adminLevel.getId());
-                unitPost.setPostClass(postClass.getId());
-
-                unitPostMapper.insertSelective(unitPost);
-                if (i == 0){
-                    mainPost.setUnitPostId(unitPost.getId());
-                }else if(i == 1){
-                    partTimePost1  = new CadrePost();
-                    partTimePost1.setUnitPostId(unitPost.getId());
-                }else if (i == 2){
-                    partTimePost2  = new CadrePost();
-                    partTimePost2.setUnitPostId(unitPost.getId());
-                }
-                //unitPostList.add(unitPost);
             }
-
-            //3、处级干部
-            Cadre cadre = new Cadre();
-            String userCode = StringUtils.trim(xlsRow.get(0));
-            if (StringUtils.isBlank(userCode)) {
-                logger.error("第{0}行工作证号为空", row);
+            if (cadreId == 0){//录入空闲岗位，跳过以下步骤
                 continue;
             }
-            SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) {
-                logger.error("第{0}行工作证号[{1}]不存在", row, userCode);
-                continue;
-            }
-            int userId = uv.getId();
-            cadre.setUserId(userId);
-            cadre.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
-            cadre.setTitle(unitPostName);
-            String _isDouble = StringUtils.trimToNull(xlsRow.get(5));
-            cadre.setIsDouble(StringUtils.equals(_isDouble, "是"));
 
-            status = CadreConstants.CADRE_STATUS_LEADER;
-            if(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(3)), "处级")){
-                status = CadreConstants.CADRE_STATUS_CJ;
-            }else if(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(3)), "科级")){
-                status = CadreConstants.CADRE_STATUS_KJ;
-            }
-            cadre.setStatus(status);
-
-            cadre.setRemark(StringUtils.trimToNull(xlsRow.get(32)));
-
-            if (cadre.getIsDouble()) {
-
-                List<Integer> doubleUnitIds = new ArrayList<>();
-                Map<String, String> unitMap = unitList.stream().collect(Collectors.toMap(Unit::getName, Unit::getCode));
-                String _unitCode = unitMap.get(StringUtils.trimToNull(xlsRow.get(6)));
-                if (StringUtils.isNotBlank(_unitCode)) {
-                    Unit unit = unitService.findRunUnitByCode(_unitCode);
-                    if (unit == null) {
-                        throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, _unitCode);
-                    }
-                    doubleUnitIds.add(unit.getId());
-                }
-
-                _unitCode = unitMap.get(StringUtils.trimToNull(xlsRow.get(7)));
-                if (StringUtils.isNotBlank(_unitCode)) {
-                    Unit unit = unitService.findRunUnitByCode(_unitCode);
-                    if (unit == null) {
-                        throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, _unitCode);
-                    }
-                    doubleUnitIds.add(unit.getId());
-                }
-
-                if (doubleUnitIds.size() > 0) {
-                    cadre.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
+            //3、首先删除干部不再任职的干部现任职务；删除对应干部的职级信息
+            List<CadrePost> _post = cadrePostService.getCadrePost(cadreId, null, postUnitMap.get(cadreId));//将要任的职务
+            List<CadrePost> hasPost = cadrePostService.getCadrePost(cadreId, null, null);//现在任的职务
+            for (CadrePost cadrePost : hasPost) {
+                if (!Arrays.asList(_post).contains(cadrePost)){
+                    postIdList.add(cadrePost.getUnitPostId());
+                    cadrePostMapper.deleteByPrimaryKey(cadrePost.getId());
+                }else {
+                    cadrePost.setIsMainPost(false);
+                    cadrePost.setIsFirstMainPost(false);
+                    cadrePostMapper.updateByPrimaryKeySelective(cadrePost);
                 }
             }
 
-            CadreView cv = dbFindByUserId(userId);
-            if (cv == null) {
-
-                insertSelective(cadre);
-            } else {
-                cadre.setId(cv.getId());
-                updateByPrimaryKeySelective(cadre);
-            }
-            int cadreId = cadre.getId();
-            cacheHelper.clearCadreCache(cadreId);
-
-            //cadreList.add(cadre);
-
-            //4、主职
-            cv = dbFindByUserId(userId);
-            if (cv == null) {
-                logger.error("第{0}行工作证号[{1}]不在干部库中", row, userCode);
-                continue;
-            }
-            UnitPost mainUnitPost = unitPostMapper.selectByPrimaryKey(mainPost.getUnitPostId());
-            mainPost.setPostName(mainUnitPost.getName());
-            mainPost.setIsPrincipal(mainUnitPost.getIsPrincipal());
-            mainPost.setAdminLevel(mainUnitPost.getAdminLevel());
-            mainPost.setPostType(mainUnitPost.getPostType());
-            mainPost.setPostClassId(mainUnitPost.getPostClass());
-            mainPost.setUnitId(mainUnitPost.getUnitId());
-
-            mainPost.setCadreId(cv.getId());
-            mainPost.setPost(mainUnitPost.getName());
-            mainPost.setIsFirstMainPost(true);
-            mainPost.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
-            mainPost.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14))));
-            mainPost.setIsMainPost(true);
-            CadrePost cadreMainCadrePost = cadrePostService.getFirstMainCadrePost(cadreId);
-            if (cadreMainCadrePost != null) {
-
-                mainPost.setId(cadreMainCadrePost.getId());
-                mainPost.setSortOrder(cadreMainCadrePost.getSortOrder());
-                // 覆盖更新
-                cadrePostMapper.updateByPrimaryKey(mainPost);
-            } else {
-
-                mainPost.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + mainPost.getCadreId()
-                        + " and is_main_post=" + mainPost.getIsMainPost()));
-                cadrePostService.insertSelective(mainPost);
+            List<CadreAdminLevel> cadreAdminLevelList = cadreAdminLevelService.getCadreAdminLevels(cadreId);
+            for (CadreAdminLevel cadreAdminLevel : cadreAdminLevelList) {
+                cadreAdminLevelMapper.deleteByPrimaryKey(cadreAdminLevel.getId());
             }
 
-            cacheHelper.clearCadreCache(cadreId);
-
-            //5、兼职
-            if (partTimePost1 != null){
-                UnitPost partUnitPost = unitPostMapper.selectByPrimaryKey(partTimePost1.getUnitPostId());
-                partTimePost1.setUnitPostId(partUnitPost.getId());
-                partTimePost1.setPostName(partUnitPost.getName());
-                partTimePost1.setPost(partUnitPost.getName());
-                partTimePost1.setPostType(partUnitPost.getPostType());
-                partTimePost1.setAdminLevel(partUnitPost.getAdminLevel());
-                partTimePost1.setPostClassId(partUnitPost.getPostClass());
-                partTimePost1.setUnitId(partUnitPost.getUnitId());
-
-                partTimePost1.setCadreId(cadreId);
-                partTimePost1.setIsCpc(partUnitPost.getIsCpc());
-                partTimePost1.setIsMainPost(false);
-
-                CadrePost subCadrePost = null;
-                List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
-                for (CadrePost _cadrePost : subCadrePosts) {
-                    if(_cadrePost.getUnitId().intValue() == partTimePost1.getUnitId()){
-                        subCadrePost = _cadrePost; // 该兼职已存在
-                        break;
-                    }
-                }
-
-                if (subCadrePost != null) {
-
-                    partTimePost1.setId(subCadrePost.getId());
-                    partTimePost1.setSortOrder(subCadrePost.getSortOrder());
-                    partTimePost1.setIsFirstMainPost(false);
-                    // 覆盖更新
-                    cadrePostMapper.updateByPrimaryKey(partTimePost1);
-                } else {
-
-                    partTimePost1.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + partTimePost1.getCadreId()
-                            + " and is_main_post=" + partTimePost1.getIsMainPost()));
-                    cadrePostService.insertSelective(partTimePost1);
-                }
-
-                cacheHelper.clearCadreCache(cadreId);
-
-            }
-
-            if (partTimePost2 != null){
-                UnitPost partUnitPost = unitPostMapper.selectByPrimaryKey(partTimePost2.getUnitPostId());
-                partTimePost2.setUnitPostId(partUnitPost.getId());
-                partTimePost2.setPostName(partUnitPost.getName());
-                partTimePost2.setPost(partUnitPost.getName());
-                partTimePost2.setPostType(partUnitPost.getPostType());
-                partTimePost2.setAdminLevel(partUnitPost.getAdminLevel());
-                partTimePost2.setPostClassId(partUnitPost.getPostClass());
-                partTimePost2.setUnitId(partUnitPost.getUnitId());
-
-                partTimePost2.setCadreId(cadreId);
-                partTimePost2.setIsCpc(partUnitPost.getIsCpc());
-                partTimePost2.setIsMainPost(false);
-
-                CadrePost subCadrePost = null;
-                List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
-                for (CadrePost _cadrePost : subCadrePosts) {
-                    if(_cadrePost.getUnitId().intValue() == partTimePost2.getUnitId()){
-                        subCadrePost = _cadrePost; // 该兼职已存在
-                        break;
-                    }
-                }
-
-                if (subCadrePost != null) {
-
-                    partTimePost2.setId(subCadrePost.getId());
-                    partTimePost2.setSortOrder(subCadrePost.getSortOrder());
-                    partTimePost2.setIsFirstMainPost(false);
-                    // 覆盖更新
-                    cadrePostMapper.updateByPrimaryKey(partTimePost2);
-                } else {
-
-                    partTimePost2.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + partTimePost2.getCadreId()
-                            + " and is_main_post=" + partTimePost2.getIsMainPost()));
-                    cadrePostService.insertSelective(partTimePost2);
-                }
-
-                cacheHelper.clearCadreCache(cadreId);
-            }
-
-            //6、职级
+            //4、职级
             List<CadreAdminLevel> adminLevelList = new ArrayList<>();
             Date viceStartDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(25)));
             Date mainStartDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(26)));
@@ -1054,21 +839,47 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 }
             }
 
+            //5、干部其他信息
+            CadreParty cadreParty = new CadreParty();
+            Byte partyType = null;
             String _growTime = StringUtils.trimToNull(xlsRow.get(28));
             String _partyType = StringUtils.trimToNull(xlsRow.get(29));
-            if (StringUtils.isNotBlank(_partyType)){
-                for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_PARTY_TYPE_MAP.entrySet()) {
-                    if (entry.getValue().equals(_partyType)){
-                        byte partyType = entry.getKey();
-                        CadreParty record = new CadreParty();
-                        record.setUserId(userId);
-                        record.setType(partyType);
-                        record.setGrowTime(DateUtils.parseStringToDate(_growTime));
-                    }
+            if (StringUtils.isNotBlank(_growTime) && StringUtils.isBlank(_partyType) || StringUtils.equals(_partyType, "中共党员")){//默认"中共党员"
+                partyType = CadreConstants.CADRE_PARTY_TYPE_OW;
+                cadreParty.setUserId(userId);
+                cadreParty.setType(partyType);
+                cadreParty.setGrowTime(DateUtils.parseStringToDate(_growTime));
+                CadrePartyExample cadrePartyExample = new CadrePartyExample();
+                cadrePartyExample.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(partyType);
+                if (cadrePartyMapper.countByExample(cadrePartyExample) > 0){
+                    cadrePartyMapper.updateByExampleSelective(cadreParty, cadrePartyExample);
+                }else {
+                    cadrePartyMapper.insertSelective(cadreParty);
+                }
+
+            }else if (StringUtils.isNotBlank(_partyType) && !StringUtils.equals(_partyType, "中共党员")){
+                partyType = CadreConstants.CADRE_PARTY_TYPE_DP;
+                cadreParty.setUserId(userId);
+                cadreParty.setType(partyType);
+                cadreParty.setGrowTime(DateUtils.parseStringToDate(_growTime));
+                MetaClass metaClass = CmTag.getMetaClassByCode("mc_democratic_party");
+                MetaTypeExample metaTypeExample = new MetaTypeExample();
+                metaTypeExample.createCriteria().andExtraAttrEqualTo(_partyType).andClassIdEqualTo(metaClass.getId());
+                List<MetaType> metaTypes = metaTypeMapper.selectByExample(metaTypeExample);
+                if (metaTypes != null && metaTypes.size() > 0) {
+                    cadreParty.setIsFirst(true);
+                    cadreParty.setClassId(metaTypes.get(0).getId());
+                }
+                CadrePartyExample cadrePartyExample = new CadrePartyExample();
+                cadrePartyExample.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(partyType);
+                if (cadrePartyMapper.countByExample(cadrePartyExample) > 0){
+                    cadrePartyMapper.updateByExampleSelective(cadreParty, cadrePartyExample);
+                }else {
+                    cadrePartyMapper.insertSelective(cadreParty);
                 }
             }
 
-            //7、其他
+            //6、其他
             TeacherInfo teacherInfo = new TeacherInfo();
             teacherInfo.setUserId(userId);
             teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(27)));
@@ -1082,13 +893,252 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 teacherInfoMapper.insertSelective(teacherInfo);
             }
 
-            SysUserInfo userInfo = new SysUserInfo();
-            userInfo.setUserId(userId);
-            userInfo.setMobile(StringUtils.trimToNull(xlsRow.get(31)));
-            sysUserInfoMapper.updateByPrimaryKey(userInfo);
+            //7、账号
+            String mobile = StringUtils.trimToNull(xlsRow.get(31));
+            if (StringUtils.isNotBlank(mobile)) {
+                SysUserInfo userInfo = new SysUserInfo();
+                userInfo.setUserId(userId);
+                userInfo.setMobile(mobile);
+                sysUserInfoMapper.updateByPrimaryKeySelective(userInfo);
+            }
+        }
+
+        row = 1;
+        codeList.removeAll(codeList);
+        for (Map<Integer, String> xlsRow : xlsRows) {
 
             row++;
+            String userCode = StringUtils.trim(xlsRow.get(0));
+
+            //跳过空岗和重复记录
+            if (StringUtils.isBlank(userCode)) {
+                logger.error("第{0}行工作证号为空", row);
+                continue;
+            }else if (codeList.contains(userCode)){
+                continue;
+            }
+            codeList.add(userCode);
+
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                logger.error("第{0}行工作证号[{1}]不存在", row, userCode);
+                continue;
+            }
+            Cadre cadre = getByUserId(uv.getUserId());
+            int cadreId = cadre.getId();
+            CadreView cv = CmTag.getCadreById(cadreId);
+
+            //6、岗位
+            List<String> postUnitList = postUnitMap.get(cadreId);//<岗位名称_单位Id>
+            for (int i = 0; i < postUnitList.size(); i++){
+                String postName = ContentUtils.trimHtml(postUnitList.get(i).split("_")[0]);
+                Integer unitId = Integer.valueOf(postUnitList.get(i).split("_")[1]);
+                UnitPost unitPost = new UnitPost();
+                //主职
+                if (i == 0){
+                    CadrePost mainPost = new CadrePost();
+                    CadrePostExample cadrePostExample = new CadrePostExample();
+                    cadrePostExample.createCriteria().andPostNameEqualTo(postName).andUnitIdEqualTo(unitId).andCadreIdEqualTo(cadreId);
+                    List<CadrePost> mainPostList = cadrePostMapper.selectByExample(cadrePostExample);
+                    if (mainPostList == null || mainPostList.size() == 0){//不存在主职
+                        UnitPostViewExample unitPostExample = new UnitPostViewExample();
+                        unitPostExample.createCriteria().andUnitIdEqualTo(unitId).andNameEqualTo(postName).andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL).andCadreIdIsNull();
+                        List<UnitPostView> unitPostList = unitPostViewMapper.selectByExample(unitPostExample);
+                        if (unitPostList == null || unitPostList.size() == 0){//不存在岗位
+                            unitPost.setName(postName);
+                            setUnitPost(unitId, unitPost);
+                            unitPost.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
+                            String _postType = StringUtils.trimToNull(xlsRow.get(9));//职务属性（主职）
+                            String _adminLevel = StringUtils.trimToNull(xlsRow.get(10));//岗位级别（主职）
+                            MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                            if (adminLevel == null)throw new OpException("第{0}行岗位级别[{1}]不存在", row, _postType);
+
+                            String _postClass = StringUtils.trimToNull(xlsRow.get(11));
+                            MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
+                            if (postClass == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                            unitPost.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(12)), "是"));
+
+                            unitPost.setPostType(metaTypeService.findOrCreate("mc_post", _postType).getId());
+                            unitPost.setAdminLevel(adminLevel.getId());
+                            unitPost.setPostClass(postClass.getId());
+                            unitPostMapper.insertSelective(unitPost);
+                        }else {//存在岗位
+                            unitPost = unitPostMapper.selectByPrimaryKey(unitPostList.get(0).getId());
+                            postIdList.remove(unitPostList.get(0).getId());
+                        }
+                        mainPost.setUnitPostId(unitPost.getId());
+                        mainPost.setPostName(unitPost.getName());
+                        mainPost.setIsPrincipal(unitPost.getIsPrincipal());
+                        mainPost.setAdminLevel(unitPost.getAdminLevel());
+                        mainPost.setPostType(unitPost.getPostType());
+                        mainPost.setPostClassId(unitPost.getPostClass());
+                        mainPost.setUnitId(unitPost.getUnitId());
+
+                        mainPost.setCadreId(cv.getId());
+                        mainPost.setPost(unitPost.getName());
+                        mainPost.setIsFirstMainPost(true);
+                        mainPost.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
+                        mainPost.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14))));
+                        mainPost.setIsMainPost(true);
+                        mainPost.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + mainPost.getCadreId()
+                                + " and is_main_post=" + mainPost.getIsMainPost()));
+                        cadrePostService.insertSelective(mainPost);
+
+                        cacheHelper.clearCadreCache(cadreId);
+                    }else{
+                        mainPost = mainPostList.get(0);
+                        mainPost.setIsMainPost(true);
+                        mainPost.setIsFirstMainPost(true);
+                        cadrePostMapper.updateByPrimaryKeySelective(mainPost);
+                    }
+                }else {//兼职
+
+                    CadrePost partPost = new CadrePost();
+                    CadrePostExample cadrePostExample = new CadrePostExample();
+                    cadrePostExample.createCriteria().andPostNameEqualTo(postName).andUnitIdEqualTo(unitId).andCadreIdEqualTo(cadreId);
+                    List<CadrePost> partPostList = cadrePostMapper.selectByExample(cadrePostExample);
+                    if (partPostList == null || partPostList.size() == 0) {//不存在兼职
+                        UnitPostViewExample unitPostExample = new UnitPostViewExample();
+                        unitPostExample.createCriteria().andUnitIdEqualTo(unitId).andNameEqualTo(postName).andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL).andCadreIdIsNull();
+                        List<UnitPostView> unitPostList = unitPostViewMapper.selectByExample(unitPostExample);
+                        String _postType = "";
+                        MetaType adminLevel = null;
+                        MetaType postClass = null;
+                        if (unitPostList == null || unitPostList.size() == 0){//不存在岗位
+                            unitPost.setName(postName);
+                            setUnitPost(unitId, unitPost);
+                            if (i==1){
+                                unitPost.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(15)), "是"));
+                                _postType = StringUtils.trimToNull(xlsRow.get(16));//职务属性（主职）
+                                String _adminLevel = StringUtils.trimToNull(xlsRow.get(17));//岗位级别（主职）
+                                adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                                if (adminLevel == null)throw new OpException("第{0}行岗位级别[{1}]不存在", row, _postType);
+
+                                String _postClass = StringUtils.trimToNull(xlsRow.get(18));
+                                postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
+                                if (postClass == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                                unitPost.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(19)), "是"));
+                            }else if (i==2){
+                                unitPost.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(20)), "是"));
+                                _postType = StringUtils.trimToNull(xlsRow.get(21));//职务属性（主职）
+                                String _adminLevel = StringUtils.trimToNull(xlsRow.get(22));//岗位级别（主职）
+                                adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                                if (adminLevel == null)throw new OpException("第{0}行岗位级别[{1}]不存在", row, _postType);
+
+                                String _postClass = StringUtils.trimToNull(xlsRow.get(23));
+                                postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
+                                if (postClass == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                                unitPost.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(24)), "是"));
+                            }
+
+                            unitPost.setPostType(metaTypeService.findOrCreate("mc_post", _postType).getId());
+                            unitPost.setAdminLevel(adminLevel.getId());
+                            unitPost.setPostClass(postClass.getId());
+                            unitPostMapper.insertSelective(unitPost);
+                        }else {
+                            unitPost = unitPostMapper.selectByPrimaryKey(unitPostList.get(0).getId());
+                            postIdList.remove(unitPostList.get(0).getId());
+                        }
+                        partPost.setUnitPostId(unitPost.getId());
+                        partPost.setPostName(unitPost.getName());
+                        partPost.setIsPrincipal(unitPost.getIsPrincipal());
+                        partPost.setAdminLevel(unitPost.getAdminLevel());
+                        partPost.setPostType(unitPost.getPostType());
+                        partPost.setPostClassId(unitPost.getPostClass());
+                        partPost.setUnitId(unitPost.getUnitId());
+
+                        partPost.setCadreId(cv.getId());
+                        partPost.setPost(unitPost.getName());
+                        partPost.setIsMainPost(false);
+
+                        partPost.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + partPost.getCadreId()
+                                + " and is_main_post=" + partPost.getIsMainPost()));
+                        cadrePostService.insertSelective(partPost);
+
+                        cacheHelper.clearCadreCache(cadreId);
+                    }else{
+                        partPost = partPostList.get(0);
+                        partPost.setIsMainPost(true);
+                        partPost.setIsFirstMainPost(true);
+                        cadrePostMapper.updateByPrimaryKeySelective(partPost);
+                    }
+                }
+            }
         }
+
+        //撤销不需要的岗位，插入空岗
+        UnitPostViewExample needDelete = new UnitPostViewExample();
+        needDelete.createCriteria().andIdIn(postIdList).andCadreIdIsNull();
+        List<UnitPostView> needDeletePost = unitPostViewMapper.selectByExample(needDelete);
+        for (UnitPostView unitPostView : needDeletePost) {
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostView.getId());
+            unitPost.setStatus(SystemConstants.UNIT_POST_STATUS_ABOLISH);
+            unitPostMapper.updateByPrimaryKey(unitPost);
+        }
+
+        for (UnitPost unitPost : _unitPostList) {
+            Unit unit = unitMapper.selectByPrimaryKey(unitPost.getUnitId());
+            unitPost.setCode(genCode(unit.getCode(), false));
+            unitPostMapper.insertSelective(unitPost);
+        }
+
+        //最后撤销单位
+        List<Unit> unitList = unitMapper.selectByExample(new UnitExample());
+        for (Unit unit : unitList) {
+            int unitId = unit.getId();
+            UnitPostExample unitPostExample = new UnitPostExample();
+            UnitPostExample.Criteria criteria = unitPostExample.createCriteria().andUnitIdEqualTo(unitId);
+            int unitPostCount = (int) unitPostMapper.countByExample(unitPostExample);
+
+            CadrePostExample cadrePostExample = new CadrePostExample();
+            cadrePostExample.createCriteria().andUnitIdEqualTo(unitId);
+            int cadrePostCount = (int) cadrePostMapper.countByExample(cadrePostExample);
+
+            criteria.andStatusNotEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
+            int _unitPostCount = (int) unitPostMapper.countByExample(unitPostExample);
+
+            if ((unitPostCount == _unitPostCount) || (unitPostCount == 0 && cadrePostCount == 0)) {
+                unit.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
+                unitMapper.updateByPrimaryKey(unit);
+            }
+        }
+    }
+
+    //插入单
+    public Unit insertUnit(String name, String unitCode, Byte status) {
+
+        Unit unit = new Unit();
+        UnitExample uExample = new UnitExample();
+        uExample.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN).andIsDeletedEqualTo(false);
+        List<Unit> unitList = unitMapper.selectByExample(uExample);
+        List<String> unitNameList = unitList.stream().map(Unit::getName).collect(Collectors.toList());
+        if (unitNameList.contains(name)) {
+            UnitExample unitExample = new UnitExample();
+            unitExample.createCriteria().andNameEqualTo(name).andIsDeletedEqualTo(false).andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+            unit = unitMapper.selectByExample(unitExample).get(0);
+        }else {
+            unit = new Unit();
+            unit.setName(name);
+            unit.setCode(genCode(unitCode, true));
+            unit.setCreateTime(new Date());
+            unit.setStatus(SystemConstants.UNIT_STATUS_RUN);
+            unit.setSortOrder(getNextSortOrder("unit", "status=" + status));
+                        /*if(PatternUtils.match(".*(党委|组织部|党).*", name)){
+                            unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关党委").getId());
+                        }else */
+            if (PatternUtils.match(".*(系|院|班).*", name)) {
+                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "学部、院、系所").getId());
+            } else if (PatternUtils.match(".*(附属|附).*", name)) {
+                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "附属单位").getId());
+            } else if (PatternUtils.match(".*(公司).*", name)) {
+                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "经营性单位").getId());
+            } else {
+                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关职能部处").getId());
+            }
+            unitMapper.insertSelective(unit);
+        }
+
+        return unit;
     }
 
     //获得不重复的编码
@@ -1133,5 +1183,15 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }while (isExisted && count<=999);
 
         return code;
+    }
+
+    public void setUnitPost(int unitId, UnitPost unitPost){
+
+        Unit unit = unitMapper.selectByPrimaryKey(unitId);
+        unitPost.setIsCpc(true);
+        unitPost.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
+        unitPost.setUnitId(unitId);
+        unitPost.setCode(genCode(unit.getCode(), false));
+
     }
 }

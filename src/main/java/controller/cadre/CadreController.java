@@ -1191,12 +1191,6 @@ public class CadreController extends BaseController {
         return "cadre/cadreAll_import";
     }
 
-    //导入时会先清空相关的表，然后进行导入
-    /*  填表须知：
-        用兼字连接的职位会一分为二；
-        有兼职的需要填写相应数量的所在单位，用逗号隔开；
-        兼职不是必填
-     */
     @RequiresPermissions("cadre:import")
     @RequestMapping(value = "/cadreAll_import", method = RequestMethod.POST)
     @ResponseBody
@@ -1211,20 +1205,25 @@ public class CadreController extends BaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+        int _unitCount = (int) unitMapper.countByExample(new UnitExample());
+        int _unitPostCount = (int) unitPostMapper.countByExample(new UnitPostExample());
+        CadreExample cadreExample = new CadreExample();
+        cadreExample.createCriteria().andStatusNotEqualTo(CadreConstants.CADRE_STATUS_NOT_CADRE);
+        int _cadreCount = (int) cadreMapper.countByExample(cadreExample);
 
         cadreService.cadreAll_import(xlsRows, status, unitCode);
 
         int unitCount = (int) unitMapper.countByExample(new UnitExample());
         int unitPostCount = (int) unitPostMapper.countByExample(new UnitPostExample());
-        int cadreCount = (int) cadreMapper.countByExample(new CadreExample());
+        int cadreCount = (int) cadreMapper.countByExample(cadreExample);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("unitCount", unitCount);
-        resultMap.put("unitPostCount", unitPostCount);
-        resultMap.put("cadreCount", cadreCount);
+        resultMap.put("unitCount", unitCount - _unitCount);
+        resultMap.put("unitPostCount", unitPostCount - _unitPostCount);
+        resultMap.put("cadreCount", cadreCount - _cadreCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
                 "导入干部成功，共导入{0}个单位，{1}个岗位，{2}个干部",
-                unitCount, unitPostCount, cadreCount));
+                unitCount - _unitCount, unitPostCount - _unitPostCount, cadreCount - _cadreCount));
 
         return resultMap;
     }

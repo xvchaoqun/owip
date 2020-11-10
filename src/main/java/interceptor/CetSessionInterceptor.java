@@ -2,6 +2,7 @@ package interceptor;
 
 import domain.cet.CetProject;
 import domain.cet.CetTraineeType;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,21 +34,24 @@ public class CetSessionInterceptor implements AsyncHandlerInterceptor {
         boolean adminProject = true;
         if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
 
-            adminProject = false;
-            int projectId = NumberUtils.toInt(request.getParameter("projectId"));
-            if (projectId > 0) {
+            String servletPath = request.getServletPath();
+            if(!StringUtils.containsAny(servletPath, "/cet/cetUnitTrain")){
+                adminProject = false;
+                int projectId = NumberUtils.toInt(request.getParameter("projectId"));
+                if (projectId > 0) {
 
-                CetProjectMapper cetProjectMapper = CmTag.getBean(CetProjectMapper.class);
-                CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
-                if(sys.utils.NumberUtils.contains(cetProject.getStatus(), CetConstants.CET_PROJECT_STATUS_UNREPORT
-                    , CetConstants.CET_PROJECT_STATUS_UNPASS)) {
+                    CetProjectMapper cetProjectMapper = CmTag.getBean(CetProjectMapper.class);
+                    CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+                    if(sys.utils.NumberUtils.contains(cetProject.getStatus(), CetConstants.CET_PROJECT_STATUS_UNREPORT
+                        , CetConstants.CET_PROJECT_STATUS_UNPASS)) {
 
-                    ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
-                    int userId = ShiroHelper.getCurrentUserId();
-                    List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(userId);
+                        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
+                        int userId = ShiroHelper.getCurrentUserId();
+                        List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(userId);
 
-                    if (adminPartyIdList.contains(cetProject.getCetPartyId())) {
-                        adminProject = true;
+                        if (adminPartyIdList.contains(cetProject.getCetPartyId())) {
+                            adminProject = true;
+                        }
                     }
                 }
             }

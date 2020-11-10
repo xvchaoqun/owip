@@ -235,4 +235,19 @@ public class MetaTypeService extends BaseMapper {
         String key = CmTag.getStringProperty("meta_type_valid_key");
         return MD5Util.md5Hex(StringUtils.trimToEmpty(key) + id, "utf-8");
     }
+
+    @Transactional
+    public MetaType findOrCreate(String code, String name){
+
+        MetaClass metaClass = CmTag.getMetaClassByCode(code);
+        MetaType metaType = CmTag.getMetaTypeByName(code, name);
+        if (metaType == null){
+            metaType = new MetaType();
+            metaType.setClassId(metaClass.getId());
+            metaType.setCode(genCode());
+            metaType.setName(name);
+            insertSelective(metaType);
+        }
+        return metaType;
+    }
 }

@@ -1,7 +1,7 @@
 
 20201106
 
-南航 -- 北师大
+南航
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (985, 0, '导出兼职确认表', '', 'function', '', NULL, 353, '0/1/353/', 1, 'export:cadreCompanyConfirm', NULL, NULL, NULL, 1, NULL);
@@ -19,7 +19,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2508, 0, '分党委奖惩', '', 'url', '', '/party/partyRePu_page?type=1', 2500, '0/1/260/2500/', 1, 'partyRePu:menu', 2, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2509, 0, '党支部奖惩', '', 'url', '', '/party/partyRePu_page?type=2', 2500, '0/1/260/2500/', 1, 'branchRePu:menu', 1, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2510, 0, '个人奖惩', '', 'url', '', '/party/partyRePu_page?type=3', 2500, '0/1/260/2500/', 1, 'memberRePu:menu', 2, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2520, 0, '党员信息采集表权限', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'memberInfoForm:*', 3, NULL, NULL, 1, NULL);
+replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2520, 0, '党员信息采集表权限', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'memberInfoForm:*', 3, NULL, NULL, 1, NULL);
 
 
 drop table if EXISTS ow_party_eva;
@@ -202,6 +202,9 @@ ALTER TABLE `ow_member_certify`
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (2541, 0, '临时组织关系介绍信', '党员个人权限', 'url', '', '/member/memberCertify?cls=0', 258, '0/1/258/', 1, 'userMemberCertify:*', NULL, NULL, NULL, 1, 400);
+
+-- 培训bug
+-- update cet_train_course ctc, cet_train ct, cet_project_plan cpp set ctc.project_id=cpp.project_id where ctc.train_id=ct.id and ct.plan_id=cpp.id;
 
 20201103
 北航，南航

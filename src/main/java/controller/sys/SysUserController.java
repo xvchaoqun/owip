@@ -12,12 +12,10 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -828,6 +826,14 @@ public class SysUserController extends BaseController {
             }
 
             if (codeList.size() > 1) {
+                //设置字体
+                XSSFFont font = workbook.createFont();
+                font.setColor(HSSFColor.RED.index);
+
+                //设置样式
+                XSSFCellStyle style = workbook.createCellStyle();
+                style.setFont(font);
+                cell.setCellStyle(style);
 
                 if (rowAddCol < cellNum) {
                     rowAddCol = cellNum;
