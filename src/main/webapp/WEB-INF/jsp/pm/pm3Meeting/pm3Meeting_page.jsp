@@ -274,7 +274,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id);
                     return str;
                 }},
-            { label: '起始时间',name: 'startTime', width:150,formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
+            { label: '开始时间',name: 'startTime', width:150,formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
             { label: '结束时间',name: 'endTime', width:150,formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
             { label: '地点',name: 'address',align:'left', width: 200},
             { label: '主持人',name: 'presenter',formatter:function (cellvalue, options, rowObject){

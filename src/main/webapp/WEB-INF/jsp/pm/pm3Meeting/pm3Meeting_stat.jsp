@@ -7,10 +7,10 @@
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="${cls==1?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3MeetingStat?cls=1"}><i class="fa fa-calendar-o "></i> 月度汇总</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3MeetingStat?cls=1"}><i class="fa fa-calendar"></i> 月度汇总</a>
                 </li>
                 <li class="${cls==2?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3MeetingStat?cls=2"}><i class="fa fa-calendar"></i> 年度汇总</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3MeetingStat?cls=2"}><i class="fa fa-calendar-o"></i> 年度汇总</a>
                 </li>
             </ul>
             <div class="space-4"></div>
