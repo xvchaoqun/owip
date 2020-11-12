@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pm.Pm3MeetingMapper">
+  <resultMap id="BaseResultMap" type="domain.pm.Pm3Meeting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="quarter" jdbcType="TINYINT" property="quarter" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="presenter" jdbcType="INTEGER" property="presenter" />
+    <result column="recorder" jdbcType="INTEGER" property="recorder" />
+    <result column="absents" jdbcType="VARCHAR" property="absents" />
+    <result column="absent_reason" jdbcType="VARCHAR" property="absentReason" />
+    <result column="Invitee" jdbcType="VARCHAR" property="invitee" />
+    <result column="due_num" jdbcType="INTEGER" property="dueNum" />
+    <result column="attend_num" jdbcType="INTEGER" property="attendNum" />
+    <result column="absent_num" jdbcType="INTEGER" property="absentNum" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_back" jdbcType="BIT" property="isBack" />
+    <result column="check_opinion" jdbcType="VARCHAR" property="checkOpinion" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, party_id, branch_id, type, name, start_time, end_time, year, quarter, month, 
+    address, presenter, recorder, absents, absent_reason, Invitee, due_num, attend_num, 
+    absent_num, content, status, is_back, check_opinion, remark, is_delete
+  </sql>
+  <select id="selectByExample" parameterType="domain.pm.Pm3MeetingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm3_meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pm3_meeting
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pm3_meeting
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pm.Pm3MeetingExample">
+    delete from pm3_meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pm.Pm3Meeting">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pm3_meeting (party_id, branch_id, type, 
+      name, start_time, end_time, 
+      year, quarter, month, 
+      address, presenter, recorder, 
+      absents, absent_reason, Invitee, 
+      due_num, attend_num, absent_num, 
+      content, status, is_back, 
+      check_opinion, remark, is_delete
+      )
+    values (#{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{year,jdbcType=INTEGER}, #{quarter,jdbcType=TINYINT}, #{month,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, 
+      #{absents,jdbcType=VARCHAR}, #{absentReason,jdbcType=VARCHAR}, #{invitee,jdbcType=VARCHAR}, 
+      #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, #{absentNum,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, 
+      #{checkOpinion,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pm.Pm3Meeting">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pm3_meeting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="quarter != null">
+        quarter,
+      </if>
+      <if test="month != null">
+        month,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="presenter != null">
+        presenter,
+      </if>
+      <if test="recorder != null">
+        recorder,
+      </if>
+      <if test="absents != null">
+        absents,
+      </if>
+      <if test="absentReason != null">
+        absent_reason,
+      </if>
+      <if test="invitee != null">
+        Invitee,
+      </if>
+      <if test="dueNum != null">
+        due_num,
+      </if>
+      <if test="attendNum != null">
+        attend_num,
+      </if>
+      <if test="absentNum != null">
+        absent_num,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isBack != null">
+        is_back,
+      </if>
+      <if test="checkOpinion != null">
+        check_opinion,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="quarter != null">
+        #{quarter,jdbcType=TINYINT},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="presenter != null">
+        #{presenter,jdbcType=INTEGER},
+      </if>
+      <if test="recorder != null">
+        #{recorder,jdbcType=INTEGER},
+      </if>
+      <if test="absents != null">
+        #{absents,jdbcType=VARCHAR},
+      </if>
+      <if test="absentReason != null">
+        #{absentReason,jdbcType=VARCHAR},
+      </if>
+      <if test="invitee != null">
+        #{invitee,jdbcType=VARCHAR},
+      </if>
+      <if test="dueNum != null">
+        #{dueNum,jdbcType=INTEGER},
+      </if>
+      <if test="attendNum != null">
+        #{attendNum,jdbcType=INTEGER},
+      </if>
+      <if test="absentNum != null">
+        #{absentNum,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null">
+        #{isBack,jdbcType=BIT},
+      </if>
+      <if test="checkOpinion != null">
+        #{checkOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pm.Pm3MeetingExample" resultType="java.lang.Long">
+    select count(*) from pm3_meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pm3_meeting
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.quarter != null">
+        quarter = #{record.quarter,jdbcType=TINYINT},
+      </if>
+      <if test="record.month != null">
+        month = #{record.month,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.presenter != null">
+        presenter = #{record.presenter,jdbcType=INTEGER},
+      </if>
+      <if test="record.recorder != null">
+        recorder = #{record.recorder,jdbcType=INTEGER},
+      </if>
+      <if test="record.absents != null">
+        absents = #{record.absents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.absentReason != null">
+        absent_reason = #{record.absentReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invitee != null">
+        Invitee = #{record.invitee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dueNum != null">
+        due_num = #{record.dueNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.attendNum != null">
+        attend_num = #{record.attendNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.absentNum != null">
+        absent_num = #{record.absentNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.isBack != null">
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
+      <if test="record.checkOpinion != null">
+        check_opinion = #{record.checkOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pm3_meeting
+    set id = #{record.id,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      year = #{record.year,jdbcType=INTEGER},
+      quarter = #{record.quarter,jdbcType=TINYINT},
+      month = #{record.month,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      presenter = #{record.presenter,jdbcType=INTEGER},
+      recorder = #{record.recorder,jdbcType=INTEGER},
+      absents = #{record.absents,jdbcType=VARCHAR},
+      absent_reason = #{record.absentReason,jdbcType=VARCHAR},
+      Invitee = #{record.invitee,jdbcType=VARCHAR},
+      due_num = #{record.dueNum,jdbcType=INTEGER},
+      attend_num = #{record.attendNum,jdbcType=INTEGER},
+      absent_num = #{record.absentNum,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
+      check_opinion = #{record.checkOpinion,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pm.Pm3Meeting">
+    update pm3_meeting
+    <set>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="quarter != null">
+        quarter = #{quarter,jdbcType=TINYINT},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="presenter != null">
+        presenter = #{presenter,jdbcType=INTEGER},
+      </if>
+      <if test="recorder != null">
+        recorder = #{recorder,jdbcType=INTEGER},
+      </if>
+      <if test="absents != null">
+        absents = #{absents,jdbcType=VARCHAR},
+      </if>
+      <if test="absentReason != null">
+        absent_reason = #{absentReason,jdbcType=VARCHAR},
+      </if>
+      <if test="invitee != null">
+        Invitee = #{invitee,jdbcType=VARCHAR},
+      </if>
+      <if test="dueNum != null">
+        due_num = #{dueNum,jdbcType=INTEGER},
+      </if>
+      <if test="attendNum != null">
+        attend_num = #{attendNum,jdbcType=INTEGER},
+      </if>
+      <if test="absentNum != null">
+        absent_num = #{absentNum,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null">
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
+      <if test="checkOpinion != null">
+        check_opinion = #{checkOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pm.Pm3Meeting">
+    update pm3_meeting
+    set party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      name = #{name,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      year = #{year,jdbcType=INTEGER},
+      quarter = #{quarter,jdbcType=TINYINT},
+      month = #{month,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      presenter = #{presenter,jdbcType=INTEGER},
+      recorder = #{recorder,jdbcType=INTEGER},
+      absents = #{absents,jdbcType=VARCHAR},
+      absent_reason = #{absentReason,jdbcType=VARCHAR},
+      Invitee = #{invitee,jdbcType=VARCHAR},
+      due_num = #{dueNum,jdbcType=INTEGER},
+      attend_num = #{attendNum,jdbcType=INTEGER},
+      absent_num = #{absentNum,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
+      check_opinion = #{checkOpinion,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pm.Pm3MeetingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm3_meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

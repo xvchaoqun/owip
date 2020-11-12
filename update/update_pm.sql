@@ -1,3 +1,55 @@
+
+-- 2020.11.12 ly
+DROP TABLE IF EXISTS `pm3_guide`;
+CREATE TABLE IF NOT EXISTS `pm3_guide` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `meeting_month` date NOT NULL COMMENT '年月',
+  `guide_files` text COMMENT '组织生活指南，多个文件，逗号分割',
+  `guide_filenames` text COMMENT '组织生活指南文件名，逗号分割',
+  `report_time` datetime DEFAULT NULL COMMENT '报送时间，精确到分（定点发布短信提醒时间）',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='组织生活指南';
+
+-- Data exporting was unselected.
+-- Dumping structure for table db_owip.pm3_meeting
+DROP TABLE IF EXISTS `pm3_meeting`;
+CREATE TABLE IF NOT EXISTS `pm3_meeting` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `party_id` int(10) unsigned DEFAULT NULL COMMENT '分党委id',
+  `branch_id` int(10) unsigned DEFAULT NULL COMMENT '支部id',
+  `type` tinyint(3) unsigned DEFAULT NULL COMMENT '会议类型 1 支委会 2 党员大会  3 党小组会  4 党课  5 组织生活会民主评议党员 6 主题党日',
+  `name` varchar(200) DEFAULT NULL COMMENT '主题',
+  `start_time` datetime DEFAULT NULL COMMENT '起始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `year` int(10) unsigned DEFAULT NULL COMMENT '年份',
+  `quarter` tinyint(3) unsigned DEFAULT NULL COMMENT '季度',
+  `month` int(10) unsigned DEFAULT NULL COMMENT '月份，按起始时间计算',
+  `address` varchar(200) DEFAULT NULL COMMENT '地点',
+  `presenter` int(10) unsigned DEFAULT NULL COMMENT '主持人',
+  `recorder` int(10) unsigned DEFAULT NULL COMMENT '记录人',
+  `absents` mediumtext COMMENT '缺席人员，从党员库（含已转出）中选择',
+  `absent_reason` varchar(300) DEFAULT NULL COMMENT '缺席原因',
+  `Invitee` varchar(200) DEFAULT NULL COMMENT '列席人员，输入文本',
+  `due_num` int(10) unsigned DEFAULT NULL COMMENT '应到人数',
+  `attend_num` int(10) unsigned DEFAULT NULL COMMENT '实到人数',
+  `absent_num` int(10) unsigned DEFAULT NULL COMMENT '缺席人数',
+  `content` mediumtext COMMENT '主要内容',
+  `status` tinyint(3) unsigned DEFAULT NULL COMMENT '状态， 0 暂存 1 待审核 2 分党委审核通过 3 组织部审核通过',
+  `is_back` tinyint(1) unsigned DEFAULT NULL COMMENT '是否退回',
+  `check_opinion` varchar(200) DEFAULT NULL COMMENT '审核意见',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `is_delete` tinyint(1) unsigned DEFAULT NULL COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='组织生活月报';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2555, 0, '组织生活管理', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pm3Meeting:menu', NULL, NULL, NULL, 1, 4460);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2556, 0, '组织生活月报', '', 'url', '', '/pm/pm3Meeting', 2555, '0/1/2555/', 1, 'pm3Meeting:*', NULL, NULL, NULL, 1, 1000);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2557, 0, '组织生活指南', '', 'url', '', '/pm/pm3Guide', 2555, '0/1/2555/', 0, 'pm3Guide:*', NULL, NULL, NULL, 1, 800);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2558, 0, '操作组织生活指南', '给组织部管理员', 'function', '', NULL, 2557, '0/1/2555/2557/', 1, 'pm3GuideOw:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2559, 0, '月报汇总', '', 'url', '', '/pm/pm3MeetingStat', 2555, '0/1/2555/', 1, 'pm3MeetingStat:*', NULL, NULL, NULL, 1, 900);
+
+
 2020-09-17
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2792, 0, '三会一课2:退回', '', 'function', '', NULL, 2783, '0/1/2783/', 1, 'pmMeeting2:back', NULL, NULL, NULL, 1, NULL);
 

@@ -31,6 +31,10 @@ public interface IPmMapper {
                           @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                           @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
+    Map selectPmInitCount3(@Param("addPermits") Boolean addPermits,
+                           @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                           @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
     List<PmMeetingStat> selectPmMeetingStat(@Param("display") Byte display,
                                             @Param("year") Integer year,
                                             @Param("quarter") Byte quarter,
@@ -75,6 +79,30 @@ public interface IPmMapper {
                            @Param("addPermits") Boolean addPermits,
                            @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                            @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
+    List<PmMeetingStat> selectPm3MeetingStat(@Param("display") Byte display,
+                                              @Param("year") Integer year,
+                                             @Param("quarter") Byte quarter,
+                                              @Param("month") Integer month,
+                                              @Param("partyId") Integer partyId,
+                                              @Param("branchId") Integer branchId,
+                                              @Param("status") Byte status,
+                                              @Param("addPermits") Boolean addPermits,
+                                              @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                                              @Param("adminBranchIdList") List<Integer> adminBranchIdList,
+                                              RowBounds rowBounds);
+
+    int countPm3MeetingStat(@Param("display") Byte display,
+                            @Param("year") Integer year,
+                            @Param("quarter") Byte quarter,
+                            @Param("month") Integer month,
+                            @Param("partyId") Integer partyId,
+                            @Param("branchId") Integer branchId,
+                            @Param("status") Byte status,
+                            @Param("addPermits") Boolean addPermits,
+                            @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                            @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
 //    Map selectPmBackCount(@Param("adminPartyIdList") List<Integer> adminPartyIdList,
 //                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 //

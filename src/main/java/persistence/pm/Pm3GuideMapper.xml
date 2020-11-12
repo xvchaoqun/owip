@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pm.Pm3GuideMapper">
+  <resultMap id="BaseResultMap" type="domain.pm.Pm3Guide">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="meeting_month" jdbcType="DATE" property="meetingMonth" />
+    <result column="guide_files" jdbcType="VARCHAR" property="guideFiles" />
+    <result column="guide_filenames" jdbcType="VARCHAR" property="guideFilenames" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, meeting_month, guide_files, guide_filenames, report_time, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.pm.Pm3GuideExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm3_guide
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pm3_guide
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pm3_guide
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pm.Pm3GuideExample">
+    delete from pm3_guide
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pm.Pm3Guide">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pm3_guide (meeting_month, guide_files, guide_filenames, 
+      report_time, remark)
+    values (#{meetingMonth,jdbcType=DATE}, #{guideFiles,jdbcType=VARCHAR}, #{guideFilenames,jdbcType=VARCHAR}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pm.Pm3Guide">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pm3_guide
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="meetingMonth != null">
+        meeting_month,
+      </if>
+      <if test="guideFiles != null">
+        guide_files,
+      </if>
+      <if test="guideFilenames != null">
+        guide_filenames,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="meetingMonth != null">
+        #{meetingMonth,jdbcType=DATE},
+      </if>
+      <if test="guideFiles != null">
+        #{guideFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="guideFilenames != null">
+        #{guideFilenames,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pm.Pm3GuideExample" resultType="java.lang.Long">
+    select count(*) from pm3_guide
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pm3_guide
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.meetingMonth != null">
+        meeting_month = #{record.meetingMonth,jdbcType=DATE},
+      </if>
+      <if test="record.guideFiles != null">
+        guide_files = #{record.guideFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guideFilenames != null">
+        guide_filenames = #{record.guideFilenames,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportTime != null">
+        report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pm3_guide
+    set id = #{record.id,jdbcType=INTEGER},
+      meeting_month = #{record.meetingMonth,jdbcType=DATE},
+      guide_files = #{record.guideFiles,jdbcType=VARCHAR},
+      guide_filenames = #{record.guideFilenames,jdbcType=VARCHAR},
+      report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pm.Pm3Guide">
+    update pm3_guide
+    <set>
+      <if test="meetingMonth != null">
+        meeting_month = #{meetingMonth,jdbcType=DATE},
+      </if>
+      <if test="guideFiles != null">
+        guide_files = #{guideFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="guideFilenames != null">
+        guide_filenames = #{guideFilenames,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pm.Pm3Guide">
+    update pm3_guide
+    set meeting_month = #{meetingMonth,jdbcType=DATE},
+      guide_files = #{guideFiles,jdbcType=VARCHAR},
+      guide_filenames = #{guideFilenames,jdbcType=VARCHAR},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pm.Pm3GuideExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm3_guide
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -11,6 +11,10 @@ import sys.HttpResponseMethod;
 public class PmBaseController extends PmBaseMapper implements HttpResponseMethod {
 
     @Autowired
+    protected Pm3MeetingService pm3MeetingService;
+    @Autowired
+    protected Pm3GuideService pm3GuideService;
+    @Autowired
     protected SysUserService sysUserService;
     @Autowired
     protected LoginUserService loginUserService;

@@ -51,6 +51,15 @@
         <include refid="member_selects_permits"/>
     </select>
 
+    <select id="selectPmInitCount3" parameterType="map" resultType="map">
+        select sum(if(status=0,1,0)) as pm_initCount,
+        sum(if(status=1,1,0)) as pm_partyCount ,
+         sum(if(status=2,1,0)) as pm_owCount,
+        sum(if(status=3,1,0)) as pm_passCount from pm3_meeting m
+        where m.is_delete=0
+        <include refid="member_selects_permits"/>
+    </select>
+
     <select id="selectPmMeetingStat" parameterType="map" resultType="persistence.pm.common.PmMeetingStat">
         select pm.id,pm.year,pm.quarter,pm.month,pm.party_id partyId,pm.branch_id branchId,
         count(case when pm.type='1' then 1 end) count1,count(case when pm.type='2' then 1 end) count2,count(case when pm.type='3' then 1 end) count3,
@@ -151,5 +160,56 @@
 
         group by year,quarter,<if test="display==2">month,</if>party_id,branch_id
         ) pm;
+    </select>
+
+    <select id="selectPm3MeetingStat" parameterType="map" resultType="persistence.pm.common.PmMeetingStat">
+        select pm.id,pm.year,pm.quarter,pm.month,pm.party_id partyId,pm.branch_id branchId,
+        count(case when pm.type='1' then 1 end) count1,count(case when pm.type='2' then 1 end) count2,count(case when pm.type='3' then 1 end) count3,
+        count(case when pm.type='4' then 1 end) count4,count(case when pm.type='5' then 1 end) count5,count(case when pm.type='6' then 1 end) count6 from pm3_meeting pm
+        where status = #{status} and is_delete=0
+        <if test="year!=null">
+            and year =#{year}
+        </if>
+        <if test="quarter!=null">
+            and quarter =#{quarter}
+        </if>
+        <if test="month!=null">
+            and month =#{month}
+        </if>
+        <if test="partyId!=null">
+            and party_id =#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id =#{branchId}
+        </if>
+        <include refid="member_selects_permits"/>
+
+        group by year,<if test="display==1">month,</if> party_id,branch_id;
+
+    </select>
+
+    <select id="countPm3MeetingStat" parameterType="map" resultType="java.lang.Integer" >
+        select count(*) from(
+        select count(*) from pm3_meeting pm
+        where status = #{status} and is_delete=0
+        <if test="year!=null">
+            and year =#{year}
+        </if>
+        <if test="quarter!=null">
+            and quarter =#{quarter}
+        </if>
+        <if test="month!=null">
+            and month =#{month}
+        </if>
+        <if test="partyId!=null">
+            and party_id =#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id =#{branchId}
+        </if>
+        <include refid="member_selects_permits"/>
+
+        group by year,<if test="display==1">month,</if> party_id,branch_id
+        ) pm1;
     </select>
 </mapper>

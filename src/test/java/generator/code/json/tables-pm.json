@@ -6,13 +6,31 @@
   "folder": "pm",
   "tables": [
     {
+      "table": "pm3_meeting",
+      "key": "id",
+      "searchColumns": "party_id,branch_id,year,name,type",
+      "showColumns": "party_id,branch_id,type,name,start_time,end_time,year,quarter,month,presenter,address,recorder,absents,absent_reason,Invitee,due_num,attend_num,absent_num,content,status,is_back,check_opinion",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_PM",
+      "ignore": false
+    },
+    {
+      "table": "pm3_guide",
+      "key": "id",
+      "searchColumns": "meeting_month",
+      "showColumns": "id,meeting_month,guide_files,guide_filenames,report_time",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_PM",
+      "ignore": false
+    },
+    {
       "table": "pm_quarter",
       "key": "id",
       "searchColumns": "quarter",
       "showColumns": "year,quarter,num,due_num,finish_num",
       "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_PM",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pm_quarter_branch",
@@ -21,7 +39,7 @@
       "showColumns": "year,quarter,branch_name,is_exclude,meeting_num",
       "excludeEditColumns": "id,party_id,branch_id",
       "logType": "LogConstants.LOG_PM",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pm_quarter_party",
@@ -30,7 +48,7 @@
       "showColumns": "year,quarter,party_id,branch_num,exculde_branch_num",
       "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_PM",
-      "ignore": false
+      "ignore": true
     }
   ]
 }
