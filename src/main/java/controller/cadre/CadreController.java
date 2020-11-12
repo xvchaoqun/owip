@@ -45,10 +45,7 @@ import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
-import sys.constants.DispatchConstants;
-import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -61,6 +58,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static sys.constants.CadreConstants.*;
 
 @Controller
 public class CadreController extends BaseController {
@@ -75,7 +74,7 @@ public class CadreController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/cadre")
-    public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_CJ + "") Byte status,
+    public String cadre_page(@RequestParam(required = false, defaultValue = CADRE_STATUS_CJ + "") Byte status,
                              String[] nation,
                              Integer[] dpTypes,
                              Integer[] unitIds,
@@ -207,7 +206,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_data")
     public void cadre_data(HttpServletResponse response,
                            HttpServletRequest request,
-                           @RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_CJ + "") Byte status,
+                           @RequestParam(required = false, defaultValue = CADRE_STATUS_CJ + "") Byte status,
                            Integer cadreId,
                            Byte gender,
                            Integer startAge,
@@ -1018,6 +1017,20 @@ public class CadreController extends BaseController {
         record.setIsDouble(cadre.getIsDouble());
         record.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(record);
+
+        if((cadreStatus==CADRE_STATUS_LEADER ||cadreStatus==CADRE_STATUS_CJ
+                ||cadreStatus==CADRE_STATUS_KJ) &&(status==CADRE_STATUS_LEADER_LEAVE
+                ||status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE)){
+            //添加离任干部角色
+            sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_LEAVE);
+        }
+        if((cadreStatus==CADRE_STATUS_LEADER_LEAVE ||cadreStatus==CADRE_STATUS_CJ_LEAVE
+                ||cadreStatus==CADRE_STATUS_KJ_LEAVE) &&(status==CADRE_STATUS_LEADER
+                ||status==CADRE_STATUS_CJ ||status==CADRE_STATUS_KJ)){
+            //去除离任干部角色
+            sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_LEAVE);
+        }
+
 
         return success(FormUtils.SUCCESS);
     }

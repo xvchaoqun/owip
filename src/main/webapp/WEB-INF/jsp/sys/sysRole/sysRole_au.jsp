@@ -24,27 +24,28 @@
             <div class="tab-content" style="padding-bottom: 0px">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div class="col-xs-6" style="width: 600px;float: left">
-                            <form class="form-horizontal" id="submitForm" action="${ctx}/sysRole_au" method="post">
+                       <form class="form-horizontal" id="submitForm" action="${ctx}/sysRole_au" method="post">
+                           <div class="col-xs-6" style="width: 355px;height: 574px; float: left;border: 1px dotted">
+                               <div class="title"  style="height: 40px;line-height: 50px;font-weight: bolder;">角色信息：</div>
                                 <input type="hidden" name="id" value="${sysRole.id}">
                                 <div class="form-group">
-                                    <label class="col-xs-2 control-label"><span class="star">*</span>代码</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>代码</label>
 
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-8">
                                         <input required class="form-control" ${(!cm:isSuperAccount(_user.username) && sysRole.code eq ROLE_ADMIN)?'disabled':''}
                                         type="text" name="code" value="${sysRole.code}">
                                         <span class="help-block small danger">如需修改，请联系系统开发人员</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label required class="col-xs-2 control-label"><span class="star">*</span>名称</label>
+                                    <label required class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-8">
                                         <input class="form-control" type="text" name="name"
                                                value="${sysRole.name}">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                               <%-- <div class="form-group">
                                     <label required class="col-xs-2 control-label"><span class="star">*</span>类型</label>
 
                                     <div class="col-xs-9 ">
@@ -52,17 +53,17 @@
                                             <span class="lbl" style="padding-right: 5px;"> 加权限</span>
                                         <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_MINUS}" ${type==SYS_ROLE_TYPE_MINUS?'checked':''}/>
                                             <span class="lbl" style="padding-right: 5px;"> 减权限</span>
-                                        <%--<input type="checkbox" class="big" name="type" ${type==null?"checked":""} data-off-text="减" data-on-text="加"/>--%>
+                                        &lt;%&ndash;<input type="checkbox" class="big" name="type" ${type==null?"checked":""} data-off-text="减" data-on-text="加"/>&ndash;%&gt;
                                     </div>
-                                </div>
+                                </div>--%>
                                 <div class="form-group">
-                                    <label class="col-xs-2 control-label">备注</label>
+                                    <label class="col-xs-3 control-label">备注</label>
 
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-8">
                                         <textarea class="form-control" name="remark">${sysRole.remark}</textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                               <%-- <div class="form-group">
                                     <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">网页端资源</label>
                                     <div class="col-xs-9">
                                         <div id="tree3" style="height: 203px;"></div>
@@ -73,13 +74,44 @@
                                     <div class="col-xs-9">
                                         <div id="m_tree3" style="height: 203px;"></div>
                                     </div>
-                                </div>
+                                </div>--%>
+                           </div>
 
-                            </form>
-                        </div>
+                           <div class="col-xs-6" style="width: 400px;float: left;margin-left:15px;border: 1px dotted">
+                                   <div class="title"  style="height: 40px;line-height: 50px;font-weight: bolder;">角色加权限：</div>
+                               <div class="form-group">
+                                  <%-- <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">网页端资源</label>--%>
+                                   <div class="col-xs-12">
+                                       <div class="treeDiv" data-add="1" data-mobile="0" style="height: 258px;"></div>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                  <%-- <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">手机端资源</label>--%>
+                                   <div class="col-xs-12">
+                                       <div class="treeDiv" data-add="1" data-mobile="1" style="height: 258px;"></div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-xs-6" style="width: 400px;float: left;margin-left:15px;border: 1px dotted">
+                               <div class="title"  style="height: 40px;line-height: 50px;font-weight: bolder;">角色减权限：</div>
+                               <div class="form-group">
+                                   <%-- <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">网页端资源</label>--%>
+                                   <div class="col-xs-12">
+                                       <div class="treeDiv" data-add="0" data-mobile="0" style="height: 258px;"></div>
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <%-- <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">手机端资源</label>--%>
+                                   <div class="col-xs-12">
+                                       <div class="treeDiv" data-add="0" data-mobile="1" style="height: 258px;"></div>
+                                   </div>
+                               </div>
+                           </div>
+                       </form>
+
                         <shiro:hasPermission name="menu:preview">
-                        <div class="col-xs-6 sidebar-review">
-                            <div id="sidebar-review" style="float: left;margin-right: 20px;">
+                        <div class="col-xs-6 sidebar-review" style="width: 450px;margin-left:15px">
+                            <div id="sidebar-review" style="float: left;margin-right: 10px;">
                                 <div class="title">网页菜单预览：
                                     <div style="position: absolute;left: 120px;top: 0px;">
                                         <a href="javascript:;" class="popupBtn btn btn-xs btn-success" data-width="800" data-url="${ctx}/sysRole_permissions?id=${sysRole.id}&isMobile=0">
@@ -126,11 +158,12 @@
             $("input[type=checkbox]").not(this).prop("checked", false);
         }
     });
-    function _initMenu() {
 
-        $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
-        $("#sidebar-review #sidebar-collapse").removeClass("sidebar-collapse")
-        $("#sidebar-review ul.submenu").each(function () {
+    function _initMenu(isMobile) {
+        var $sidebar = $(isMobile==1?"#m-sidebar-review":"#sidebar-review");
+        $("a", $sidebar).removeClass("hashchange").removeAttr("href")
+        $("#sidebar-collapse", $sidebar).removeClass("sidebar-collapse")
+        $("ul.submenu", $sidebar).each(function () {
             if ($("li", this).length == 0) {
                 $(this).closest("li").find(".menu-text").css("color", "red");
                 $(this).remove();
@@ -138,23 +171,59 @@
         })
         //console.log("-----------------" + $("#sidebar-review #sidebar-collapse").attr("class"))
     }
-    _initMenu();
-    function _m_initMenu() {
+    _initMenu(0);
+    _initMenu(1);
 
-        $("#m-sidebar-review a").removeClass("hashchange").removeAttr("href")
-        $("#m-sidebar-review #sidebar-collapse").removeClass("sidebar-collapse")
-        $("#m-sidebar-review ul.submenu").each(function () {
-            if ($("li", this).length == 0) {
-                $(this).closest("li").find(".menu-text").css("color", "red");
-                $(this).remove();
-            }
-        })
-        //console.log("-----------------" + $("#sidebar-review #sidebar-collapse").attr("class"))
+    var addTreeData = ${addTree};
+    addTreeData.title = "网页端资源";
+    initTree(1, 0, addTreeData)
+    var mAddTreeData = ${mAddTree};
+    mAddTreeData.title = "手机端资源";
+    initTree(1, 1, mAddTreeData)
+
+    var minusTreeData = ${minusTree};
+    minusTreeData.title = "网页端资源";
+    initTree(0, 0, minusTreeData)
+
+    var mMinusTreeData = ${mMinusTree};
+    mMinusTreeData.title = "手机端资源";
+    initTree(0, 1, mMinusTreeData)
+
+    function initTree(add, mobile, initData){
+
+        $("div.treeDiv[data-add="+add+"][data-mobile="+mobile+"]").dynatree({
+            checkbox: true,
+            selectMode: 2,
+            children: initData,
+            onSelect: function (select, node) {
+                //node.expand(node.data.isFolder && node.isSelected());
+                <shiro:hasPermission name="menu:preview">
+                var resIds = $.map($("div.treeDiv[data-add=1][data-mobile="+mobile+"]").dynatree("getSelectedNodes"), function (node) {
+                    //if(!node.data.isFolder)
+                    return node.data.key;
+                });
+                var minusResIds = $.map($("div.treeDiv[data-add=0][data-mobile="+mobile+"]").dynatree("getSelectedNodes"), function (node) {
+                    //if(!node.data.isFolder)
+                    return node.data.key;
+                });
+                var $sidebar = $(mobile==1?"#m-sidebar-review":"#sidebar-review");
+                $('.sidebar',$sidebar).load("${ctx}/menu_preview",{isMobile:mobile, resIds:resIds, minusResIds:minusResIds},function(){
+                    _initMenu(mobile);
+                });
+
+
+                </shiro:hasPermission>
+            },
+            onCustomRender: function (node) {
+                if (node.data.tooltip != null)
+                    return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
+                        .format(node.data.tooltip, node.data.title)
+            },
+            cookieId: "dynatree-Cb3",
+            idPrefix: "dynatree-Cb3-"
+        });
     }
-    _m_initMenu()
-
-
-    var treeData = ${tree};
+   /* var treeData = ${tree};
     treeData.title = "选择资源";
     $("#tree3").dynatree({
         checkbox: true,
@@ -206,7 +275,7 @@
         },
         cookieId: "dynatree-Cb3",
         idPrefix: "dynatree-Cb3-"
-    });
+    });*/
 
     $("#submitBtn").click(function () {
         $("#submitForm").submit();
@@ -215,17 +284,25 @@
     $("#submitForm").validate({
         submitHandler: function (form) {
 
-            var resIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+            var addIds = $.map($("div.treeDiv[data-add=1][data-mobile=0]").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
-            var m_resIds = $.map($("#m_tree3").dynatree("getSelectedNodes"), function (node) {
+            var mAddIds = $.map($("div.treeDiv[data-add=1][data-mobile=1]").dynatree("getSelectedNodes"), function (node) {
+                //if(!node.data.isFolder)
+                return node.data.key;
+            });
+            var minusIds = $.map($("div.treeDiv[data-add=0][data-mobile=0]").dynatree("getSelectedNodes"), function (node) {
+                //if(!node.data.isFolder)
+                return node.data.key;
+            });
+            var mMinusIds = $.map($("div.treeDiv[data-add=0][data-mobile=1]").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
-                data: {resIds: resIds, m_resIds:m_resIds},
+                data: {addIds: addIds, mAddIds:mAddIds,minusIds: minusIds, mMinusIds:mMinusIds},
                 success: function (data) {
                     if (data.success) {
                         $.reloadMetaData(function(){

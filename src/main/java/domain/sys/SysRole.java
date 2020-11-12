@@ -15,6 +15,10 @@ public class SysRole implements Serializable {
 
     private String mResourceIds;
 
+    private String resourceIdsMinus;
+
+    private String mResourceIdsMinus;
+
     private Integer userCount;
 
     private Byte available;
@@ -73,6 +77,22 @@ public class SysRole implements Serializable {
 
     public void setmResourceIds(String mResourceIds) {
         this.mResourceIds = mResourceIds == null ? null : mResourceIds.trim();
+    }
+
+    public String getResourceIdsMinus() {
+        return resourceIdsMinus;
+    }
+
+    public void setResourceIdsMinus(String resourceIdsMinus) {
+        this.resourceIdsMinus = resourceIdsMinus == null ? null : resourceIdsMinus.trim();
+    }
+
+    public String getmResourceIdsMinus() {
+        return mResourceIdsMinus;
+    }
+
+    public void setmResourceIdsMinus(String mResourceIdsMinus) {
+        this.mResourceIdsMinus = mResourceIdsMinus == null ? null : mResourceIdsMinus.trim();
     }
 
     public Integer getUserCount() {

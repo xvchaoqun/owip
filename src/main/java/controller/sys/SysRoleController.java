@@ -16,11 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -50,8 +48,8 @@ public class SysRoleController extends BaseController {
 
 	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole")
-	public String sysRole(@RequestParam(required = false, defaultValue = SystemConstants.SYS_ROLE_TYPE_ADD+"")Byte type, ModelMap modelMap) {
-		modelMap.put("type", type);
+	public String sysRole() {
+
 		return "sys/sysRole/sysRole_page";
 	}
 
@@ -62,7 +60,6 @@ public class SysRoleController extends BaseController {
 							 Integer resourceId,
 							 String code,
 							 String name,
-							 Byte type,// 1 加权限  2 减权限
 							 Integer pageSize,
 							 Integer pageNo) throws IOException {
 		
@@ -93,9 +90,6 @@ public class SysRoleController extends BaseController {
 		if(StringUtils.isNotBlank(name)){
 			criteria.andNameLike(SqlUtils.like(name));
 		}
-		if(type!=null){
-			criteria.andTypeEqualTo(type);
-		}
 
 		long count = sysRoleMapper.countByExample(example);
 		if((pageNo-1)*pageSize >= count){
@@ -120,10 +114,12 @@ public class SysRoleController extends BaseController {
 	@RequestMapping(value="/sysRole_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
-			SysRole sysRole, 
-			Integer[] resIds,
-			Integer[] m_resIds,
-			HttpServletRequest request) {
+			                 SysRole sysRole,
+			                 Integer[] addIds,
+							 Integer[] mAddIds,
+							 Integer[] minusIds,
+							 Integer[] mMinusIds,
+							 HttpServletRequest request) {
 
 		String code = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getCode()));
 		if(!CmTag.isSuperAccount(loginUser.getUsername())
@@ -134,15 +130,25 @@ public class SysRoleController extends BaseController {
 			return failed("添加重复");
 		}
 
-		if(resIds==null || resIds.length==0)
+		if(addIds==null || addIds.length==0)
 			sysRole.setResourceIds("-1");
 		else
-			sysRole.setResourceIds(StringUtils.join(resIds, ","));
+			sysRole.setResourceIds(StringUtils.join(addIds, ","));
 
-		if(m_resIds==null || m_resIds.length==0)
+		if(mAddIds==null || mAddIds.length==0)
 			sysRole.setmResourceIds("-1");
 		else
-			sysRole.setmResourceIds(StringUtils.join(m_resIds, ","));
+			sysRole.setmResourceIds(StringUtils.join(mAddIds, ","));
+
+		if(minusIds==null || minusIds.length==0)
+			sysRole.setResourceIdsMinus("-1");
+		else
+			sysRole.setResourceIdsMinus(org.apache.commons.lang.StringUtils.join(minusIds, ","));
+
+		if(mMinusIds==null || mMinusIds.length==0)
+			sysRole.setmResourceIdsMinus("-1");
+		else
+			sysRole.setmResourceIdsMinus(org.apache.commons.lang.StringUtils.join(mMinusIds, ","));
 
 		if(sysRole.getId() == null){
 			if(code==null){
@@ -160,13 +166,14 @@ public class SysRoleController extends BaseController {
 
 	@RequiresPermissions("sysRole:edit")
 	@RequestMapping("/sysRole_au")
-	public String sysRole_au(Integer id,Byte type, ModelMap modelMap) throws IOException {
+	public String sysRole_au(Integer id, ModelMap modelMap) throws IOException {
 
-		modelMap.put("type", type);
 		modelMap.addAttribute("op", "添加");
 
-		Set<Integer> selectIdSet = new HashSet<Integer>();
-		Set<Integer> mSelectIdSet = new HashSet<Integer>();
+		Set<Integer> addIdsSet = new HashSet<Integer>();
+		Set<Integer> mAddIdsSet = new HashSet<Integer>();
+		Set<Integer> minusIdsSet = new HashSet<Integer>();
+		Set<Integer> mMinusIdsSet = new HashSet<Integer>();
 		if(id != null){
 
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
@@ -175,7 +182,7 @@ public class SysRoleController extends BaseController {
 				String[] resourceIds = resourceIdsStr.split(",");
 				for(String resourceId:resourceIds){
 					if(StringUtils.isNotBlank(resourceId)){
-						selectIdSet.add(Integer.parseInt(resourceId));
+						addIdsSet.add(Integer.parseInt(resourceId));
 					}
 				}
 			}
@@ -184,19 +191,43 @@ public class SysRoleController extends BaseController {
 				String[] resourceIds = mResourceIdsStr.split(",");
 				for(String resourceId:resourceIds){
 					if(StringUtils.isNotBlank(resourceId)){
-						mSelectIdSet.add(Integer.parseInt(resourceId));
+						mAddIdsSet.add(Integer.parseInt(resourceId));
+					}
+				}
+			}
+			String resourceIdsMinusStr = sysRole.getResourceIdsMinus();
+			if(resourceIdsMinusStr!=null){
+				String[] resourceIds = resourceIdsMinusStr.split(",");
+				for(String resourceId:resourceIds){
+					if(StringUtils.isNotBlank(resourceId)){
+						minusIdsSet.add(Integer.parseInt(resourceId));
+					}
+				}
+			}
+			String mResourceIdsMinusStr = sysRole.getmResourceIdsMinus();
+			if(mResourceIdsMinusStr!=null){
+				String[] resourceIds = mResourceIdsMinusStr.split(",");
+				for(String resourceId:resourceIds){
+					if(StringUtils.isNotBlank(resourceId)){
+						mMinusIdsSet.add(Integer.parseInt(resourceId));
 					}
 				}
 			}
 			modelMap.put("sysRole", sysRole);
 			modelMap.addAttribute("op", "修改");
 		}
-		
-		TreeNode tree = sysResourceService.getTree(selectIdSet, false);
-		modelMap.put("tree", JSONUtils.toString(tree));
 
-		TreeNode mTree = sysResourceService.getTree(mSelectIdSet, true);
-		modelMap.put("mTree", JSONUtils.toString(mTree));
+		TreeNode addTree = sysResourceService.getTree(addIdsSet, false);
+		modelMap.put("addTree", JSONUtils.toString(addTree)); //加权限网页端资源
+
+		TreeNode mAddTree = sysResourceService.getTree(mAddIdsSet, true);
+		modelMap.put("mAddTree", JSONUtils.toString(mAddTree)); //加权限手机端资源
+
+		TreeNode minusTree = sysResourceService.getTree(minusIdsSet, false);
+		modelMap.put("minusTree", JSONUtils.toString(minusTree)); //减权限网页端资源
+
+		TreeNode mMinusTree = sysResourceService.getTree(mMinusIdsSet, true);
+		modelMap.put("mMinusTree", JSONUtils.toString(mMinusTree)); //减权限手机端资源
 		
 		return "sys/sysRole/sysRole_au";
 	}
@@ -220,7 +251,7 @@ public class SysRoleController extends BaseController {
 		SysRole record=new SysRole();
 		record.setCode(sysRole.getCode());
 		record.setName(sysRole.getName());
-		record.setType(sysRole.getType());
+		/*record.setType(sysRole.getType());*/
 		record.setResourceIds(oldSysRole.getResourceIds());
 		record.setmResourceIds(oldSysRole.getmResourceIds());
 

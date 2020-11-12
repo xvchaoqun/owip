@@ -514,6 +514,146 @@ public class SysRoleExample {
             return (Criteria) this;
         }
 
+        public Criteria andResourceIdsMinusIsNull() {
+            addCriterion("resource_ids_minus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusIsNotNull() {
+            addCriterion("resource_ids_minus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusEqualTo(String value) {
+            addCriterion("resource_ids_minus =", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusNotEqualTo(String value) {
+            addCriterion("resource_ids_minus <>", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusGreaterThan(String value) {
+            addCriterion("resource_ids_minus >", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusGreaterThanOrEqualTo(String value) {
+            addCriterion("resource_ids_minus >=", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusLessThan(String value) {
+            addCriterion("resource_ids_minus <", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusLessThanOrEqualTo(String value) {
+            addCriterion("resource_ids_minus <=", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusLike(String value) {
+            addCriterion("resource_ids_minus like", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusNotLike(String value) {
+            addCriterion("resource_ids_minus not like", value, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusIn(List<String> values) {
+            addCriterion("resource_ids_minus in", values, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusNotIn(List<String> values) {
+            addCriterion("resource_ids_minus not in", values, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusBetween(String value1, String value2) {
+            addCriterion("resource_ids_minus between", value1, value2, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResourceIdsMinusNotBetween(String value1, String value2) {
+            addCriterion("resource_ids_minus not between", value1, value2, "resourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusIsNull() {
+            addCriterion("m_resource_ids_minus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusIsNotNull() {
+            addCriterion("m_resource_ids_minus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusEqualTo(String value) {
+            addCriterion("m_resource_ids_minus =", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusNotEqualTo(String value) {
+            addCriterion("m_resource_ids_minus <>", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusGreaterThan(String value) {
+            addCriterion("m_resource_ids_minus >", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusGreaterThanOrEqualTo(String value) {
+            addCriterion("m_resource_ids_minus >=", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusLessThan(String value) {
+            addCriterion("m_resource_ids_minus <", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusLessThanOrEqualTo(String value) {
+            addCriterion("m_resource_ids_minus <=", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusLike(String value) {
+            addCriterion("m_resource_ids_minus like", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusNotLike(String value) {
+            addCriterion("m_resource_ids_minus not like", value, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusIn(List<String> values) {
+            addCriterion("m_resource_ids_minus in", values, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusNotIn(List<String> values) {
+            addCriterion("m_resource_ids_minus not in", values, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusBetween(String value1, String value2) {
+            addCriterion("m_resource_ids_minus between", value1, value2, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsMinusNotBetween(String value1, String value2) {
+            addCriterion("m_resource_ids_minus not between", value1, value2, "mResourceIdsMinus");
+            return (Criteria) this;
+        }
+
         public Criteria andUserCountIsNull() {
             addCriterion("user_count is null");
             return (Criteria) this;

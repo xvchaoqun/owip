@@ -88,7 +88,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+       <!-- <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
@@ -98,7 +98,7 @@
              <columnOverride column="m_res_ids_add" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
          <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
              <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="res_ids_add" jdbcType="VARCHAR"></columnOverride>
@@ -119,11 +119,13 @@
         </table>-->
         <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
          </table>-->
-        <!-- <table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
+         <table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_resource_ids" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
+             <columnOverride column="resource_ids_minus" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="m_resource_ids_minus" jdbcType="VARCHAR"></columnOverride>
+         </table>
           <!--<table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>-->
