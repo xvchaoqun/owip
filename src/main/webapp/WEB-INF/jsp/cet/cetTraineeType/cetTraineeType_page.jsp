@@ -73,9 +73,6 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '参训人员类型',name: 'name', width:150, align:'left'},
             { label: '类型代码',name: 'code', width:150, align:'left'},
-            { label: '信息模板',name: 'templateId', width:400, align:'left',formatter:function(cellvalue, options, rowObject){
-                return _cMap.CET_TRAINEE_TYPE_TEMPLATE_MAP[cellvalue];
-            }},
             {
                 label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetTraineeType_changeOrder"}

@@ -135,8 +135,8 @@
         </table>-->
         <!--<table tableName="cet_plan_course" domainObjectName="cet.CetPlanCourse" mapperName="cet.CetPlanCourseMapper">
         </table>-->
-        <table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
-        </table>
+        <!--<table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
+        </table>-->
         <!--<table tableName="cet_plan_course_obj_result" domainObjectName="cet.CetPlanCourseObjResult"
                mapperName="cet.CetPlanCourseObjResultMapper">
         </table>-->
@@ -191,8 +191,8 @@
                enableDeleteByExample="false">
         </table>-->
 
-        <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
-        </table>-->
+        <table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
+        </table>
 
         <!--<table tableName="cet_column_course_view" domainObjectName="cet.CetColumnCourseView" mapperName="cet.CetColumnCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

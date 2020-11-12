@@ -99,19 +99,6 @@ public class CetConstants {
         /*CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OTHER_UNIT, "其他单位主办");*/
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_WRITE, "撰写心得体会");
     }
-    // 参训人员类型模板
-    public final static byte CET_TRAINEE_TYPE_TEMPLATE_A = 1;
-    public final static byte CET_TRAINEE_TYPE_TEMPLATE_B = 2;
-    public final static byte CET_TRAINEE_TYPE_TEMPLATE_C = 3;
-    public final static byte CET_TRAINEE_TYPE_TEMPLATE_D = 4;
-    public final static Map<Byte, String> CET_TRAINEE_TYPE_TEMPLATE_MAP = new LinkedHashMap();
-
-    static {
-        CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_A, "干部、优秀年轻干部");
-        CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_B, "分党委班子成员、党支部班子成员、组织员");
-        CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_C, "入党积极分子、发展对象");
-        CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_D, "党员");
-    }
 
     // 课程中心 类型，0 线下课程 1 线上课程 2 自主学习 3 实践教学 4 网上专题培训班
     public final static byte CET_COURSE_TYPE_OFFLINE = 0;

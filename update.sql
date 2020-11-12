@@ -1,4 +1,16 @@
 
+20201112
+西工大
+ALTER TABLE `cet_trainee_type`
+	DROP INDEX `code`;
+
+ALTER TABLE `cet_trainee_type`
+	DROP COLUMN `template_id`;
+
+20201110
+
+西工大
+
 20201106
 
 南航

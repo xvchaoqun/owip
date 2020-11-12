@@ -4,7 +4,7 @@
 <script>
   <c:if test="${empty param.type || param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
   var colModel = [
-      {label: '课程编号', name: 'sn', frozen:true},
+      {label: '课程编号', name: 'sn', width: 120, frozen:true},
       {label: '设立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
       {label: '课程名称', name: 'name', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">

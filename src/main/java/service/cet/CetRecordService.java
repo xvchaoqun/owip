@@ -266,7 +266,7 @@ public class CetRecordService extends CetBaseMapper {
         r.setYear(p.getYear());
         r.setUserId(t.getUserId());
         r.setTraineeTypeId(t.getTraineeTypeId());
-        //r.setOtherTraineeType(t.getOtherTraineeType());
+        r.setOtherTraineeType(t.getOtherTraineeType());
         r.setTitle(t.getTitle());
         r.setStartDate(p.getStartDate());
         r.setEndDate(p.getEndDate());
@@ -354,7 +354,7 @@ public class CetRecordService extends CetBaseMapper {
         r.setYear(p.getYear());
         r.setUserId(o.getUserId());
         r.setTraineeTypeId(o.getTraineeTypeId());
-        //r.setOtherTraineeType(t.getOtherTraineeType());
+        r.setOtherTraineeType(o.getOtherTraineeType());
         r.setTitle(o.getTitle());
         r.setStartDate(p.getStartDate());
         r.setEndDate(p.getEndDate());

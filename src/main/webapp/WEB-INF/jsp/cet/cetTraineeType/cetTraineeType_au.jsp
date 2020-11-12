@@ -22,24 +22,6 @@ pageEncoding="UTF-8"%>
                         <span class="label-inline"> * 由开发人员维护</span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>信息模板</label>
-				<div class="col-xs-6">
-                    <select required name="templateId" data-rel="select2"
-                            data-width="275"
-                            data-placeholder="请选择">
-                        <option></option>
-                        <c:forEach var="template" items="${CET_TRAINEE_TYPE_TEMPLATE_MAP}">
-                            <option value="${template.key}">
-                                    ${template.value}
-                            </option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=templateId]").val("${cetTraineeType.templateId}");
-                    </script>
-				</div>
-			</div>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>

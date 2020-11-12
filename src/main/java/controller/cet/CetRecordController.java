@@ -71,6 +71,7 @@ public class CetRecordController extends CetBaseController {
     public void cetRecord_data(HttpServletResponse response,
                                Integer year,
                                Byte type,
+                               String name,
                                Integer repeatType,
                                Integer userId,
                                Integer traineeTypeId,
@@ -100,6 +101,9 @@ public class CetRecordController extends CetBaseController {
         }
         if(type!=null){
             criteria.andTypeEqualTo(type);
+        }
+        if(StringUtils.isNotBlank(name)){
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

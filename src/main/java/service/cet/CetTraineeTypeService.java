@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -29,17 +28,6 @@ public class CetTraineeTypeService extends CetBaseMapper {
             return upperTrainTypes.get(0);
         }
         return null;
-    }
-
-    public boolean idDuplicate(Integer id, String code) {
-
-        Assert.isTrue(StringUtils.isNotBlank(code), "null");
-
-        CetTraineeTypeExample example = new CetTraineeTypeExample();
-        CetTraineeTypeExample.Criteria criteria = example.createCriteria();
-        if (id != null) criteria.andIdNotEqualTo(id);
-
-        return cetTraineeTypeMapper.countByExample(example) > 0;
     }
 
     @Transactional

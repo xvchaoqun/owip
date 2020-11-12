@@ -7,7 +7,7 @@
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.year ||not empty param.userId||not empty param.type
+                   value="${not empty param.year ||not empty param.userId||not empty param.type||not empty param.name
                    ||not empty param.traineeTypeId || not empty param.trainDate || not empty param.sort || not empty param.repeatType}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -50,7 +50,7 @@
                                    value="${param.year}"/>
                             </div>
                             <div class="form-group">
-                                <label>培训类型</label>
+                                <label>培训类别</label>
                                  <select name="type" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
                                     <c:forEach items="<%=CetConstants.CET_TYPE_MAP%>" var="entity">
@@ -60,6 +60,11 @@
                                 <script>
                                     $("#searchForm select[name=type]").val('${param.type}')
                                 </script>
+                            </div>
+                            <div class="form-group">
+                                <label>培训内容</label>
+                                <input class="form-control search-query" name="name" type="text" value="${param.name}"
+                                       placeholder="请输入培训内容">
                             </div>
                             <div class="form-group">
                                 <label>参训人员类型</label>

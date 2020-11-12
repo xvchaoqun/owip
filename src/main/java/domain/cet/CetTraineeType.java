@@ -9,8 +9,6 @@ public class CetTraineeType implements Serializable {
 
     private String code;
 
-    private Integer templateId;
-
     private Integer sortOrder;
 
     private Boolean isDeleted;
@@ -41,14 +39,6 @@ public class CetTraineeType implements Serializable {
 
     public void setCode(String code) {
         this.code = code == null ? null : code.trim();
-    }
-
-    public Integer getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(Integer templateId) {
-        this.templateId = templateId;
     }
 
     public Integer getSortOrder() {

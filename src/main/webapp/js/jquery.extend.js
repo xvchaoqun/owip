@@ -913,13 +913,15 @@ var _modal_width;
             var sDate, eDate, days
             startDate = startDate.substr(0, 10)
             endDate = endDate.substr(0, 10)
-            //console.log("startDate="+startDate + " endDate="+endDate);
+
 
             sDate = new Date(startDate.replaceAll("-", "/")).getTime();   //转换为2006/12/18格式，兼容IE
             eDate = new Date(endDate.replaceAll("-", "/")).getTime();
             days = parseInt((eDate - sDate) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数
 
-            return days + (days>0?1:-1); // 第一天和最后一天都算
+            //console.log("startDate="+startDate + " endDate="+endDate + " days="+days);
+
+            return days + (days>=0?1:-1); // 第一天和最后一天都算
         },
         /**
          * 计算月份差

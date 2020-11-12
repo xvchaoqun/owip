@@ -160,15 +160,15 @@ public class CetTraineeTypeController extends CetBaseController {
 
         List<CetTraineeType> records = cetTraineeTypeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"参训人员类型|100","信息模板|100","排序|100","备注|100"};
+        String[] titles = {"参训人员类型|100","类型代码|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetTraineeType record = records.get(i);
             String[] values = {
                 record.getName(),
-                            record.getTemplateId()+"",
-                            record.getSortOrder()+"",
-                            record.getRemark()
+                record.getCode()+"",
+                record.getSortOrder()+"",
+                record.getRemark()
             };
             valuesList.add(values);
         }
