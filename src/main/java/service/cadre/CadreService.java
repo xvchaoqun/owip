@@ -258,6 +258,9 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         commonMapper.excuteSql("update cadre_post set unit_post_id=null where id in("
                 + StringUtils.join(postIds, ",") + ")");
 
+        //添加离任干部角色
+        sysUserService.addRole(cadre.getUserId(),RoleConstants.ROLE_CADRE_LEAVE);
+
         return status;
     }
 

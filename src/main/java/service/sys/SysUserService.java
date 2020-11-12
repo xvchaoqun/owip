@@ -439,7 +439,7 @@ public class SysUserService extends BaseMapper {
     }
 
     // 根据账号查找所有的角色（对象）,type=1 加权限  2 减权限
-    public Set<SysRole> findTypeRoles(String username,byte type) {
+    public Set<SysRole> findTypeRoles(String username) {
 
         Set<SysRole> roles = new HashSet<>();
 
@@ -454,7 +454,7 @@ public class SysUserService extends BaseMapper {
         Map<Integer, SysRole> roleMap = sysRoleService.findAll();
         for (Integer roleId : roleIds) {
             SysRole role = roleMap.get(roleId);
-            if (role != null&&role.getType()==type)
+            if (role != null)
                 roles.add(role);
         }
 
@@ -527,17 +527,17 @@ public class SysUserService extends BaseMapper {
     private List<SysResource> findResources(String username, boolean isMobile) {
 
         List<SysResource> resources = new ArrayList<>();
-        Set<SysRole> rolesAdd = findTypeRoles(username, SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限角色Set
-        Set<SysRole> rolesMinus = findTypeRoles(username,SystemConstants.SYS_ROLE_TYPE_MINUS); // 账号减权限角色Set
+        Set<SysRole> roles = findAllRoles(username); // 账号加权限角色Set
+       /* Set<SysRole> rolesMinus = findTypeRoles(username,SystemConstants.SYS_ROLE_TYPE_MINUS); // 账号减权限角色Set*/
 
         String[] usersAdd = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限Set
         String[] usersMinus = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);// 账号减权限Set
 
         Set<Integer> resourceIds = new LinkedHashSet<>();
 
-        for (SysRole roleAdd : rolesAdd) {
+        for (SysRole role : roles) {
 
-            String resourceIdsStr = isMobile ? roleAdd.getmResourceIds() : roleAdd.getResourceIds();
+            String resourceIdsStr = isMobile ? role.getmResourceIds() : role.getResourceIds();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 
@@ -559,9 +559,9 @@ public class SysUserService extends BaseMapper {
             }
         }
 
-        for (SysRole roleMinus : rolesMinus) {
+        for (SysRole role : roles) {
 
-            String resourceIdsStr = isMobile ? roleMinus.getmResourceIds() : roleMinus.getResourceIds();
+            String resourceIdsStr = isMobile ? role.getmResourceIdsMinus() : role.getResourceIdsMinus();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 

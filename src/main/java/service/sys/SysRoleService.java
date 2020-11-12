@@ -19,8 +19,6 @@ import sys.tool.tree.TreeNode;
 
 import java.util.*;
 
-import static sys.constants.SystemConstants.SYS_ROLE_TYPE_ADD;
-
 @Service
 public class SysRoleService extends BaseMapper {
 
@@ -149,14 +147,15 @@ public class SysRoleService extends BaseMapper {
 
 		Set<String> permissions = new HashSet<String>();
 		SysRole sysRole = CmTag.getRole(roleId);
+		Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources(isMobile);
 		String resourceIdsStr = isMobile?sysRole.getmResourceIds():sysRole.getResourceIds();
+		String resourceIdsMinusStr = isMobile?sysRole.getmResourceIdsMinus():sysRole.getResourceIdsMinus();
 
+		//角色加权限
 		if(resourceIdsStr!=null){
-			Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources(isMobile);
 			String[] resourceIds = resourceIdsStr.split(",");
 			for(String resourceId:resourceIds){
 				if(StringUtils.isNotBlank(resourceId)){
-
 					SysResource sysResource = sysResources.get(Integer.parseInt(resourceId));
 					if(sysResource!=null && StringUtils.isNotBlank(sysResource.getPermission())){
 						permissions.add(sysResource.getPermission().trim());
@@ -165,39 +164,32 @@ public class SysRoleService extends BaseMapper {
 			}
 		}
 
+		//角色减权限
+		if(resourceIdsMinusStr!=null) {
+			String[] resourceIds = resourceIdsMinusStr.split(",");
+			for(String resourceId:resourceIds){
+				if(StringUtils.isNotBlank(resourceId)){
+					SysResource sysResource = sysResources.get(Integer.parseInt(resourceId));
+					if (sysResource != null && StringUtils.isNotBlank(sysResource.getPermission())) {
+						permissions.remove(sysResource.getPermission().trim());
+					}
+				}
+			}
+		}
 		return permissions;
 	}
 
 	// checkIsSysHold: 是否考虑系统自动赋予角色，如果考虑，则不允许手动更改。
 	public TreeNode getTree(Set<Integer> selectIdSet, boolean checkIsSysHold){
-		
+
 		if(null == selectIdSet) selectIdSet = new HashSet<Integer>();
-		
+
 		TreeNode root = new TreeNode();
 		root.title = "选择角色";
 		root.expand = true;
 		root.isFolder = true;
 		root.hideCheckbox = true;
-		List<TreeNode> rootChildren = new ArrayList<TreeNode>();
-		root.children = rootChildren;
-
-		List<TreeNode> roleAdd = new ArrayList<TreeNode>();
-		List<TreeNode> roleMinus = new ArrayList<TreeNode>();
-
-		TreeNode node = new TreeNode();
-		node.title = "角色（加权限）";
-		node.isFolder = true;
-		node.expand = true;
-		node.children = roleAdd;
-		rootChildren.add(node);
-
-		node = new TreeNode();
-		node.title = "角色（减权限）";
-		node.isFolder = true;
-		/*node.expand = true;*/
-		node.children = roleMinus;
-		rootChildren.add(node);
-
+		root.children =  new ArrayList<TreeNode>();
 
 		SysRoleExample example = new SysRoleExample();
 		example.setOrderByClause("sort_order desc");
@@ -211,7 +203,7 @@ public class SysRoleService extends BaseMapper {
 				continue;
 			}
 
-			node = new TreeNode();
+			TreeNode node = new TreeNode();
 			node.title = sysRole.getName();
 			node.key = sysRole.getId() + "";
 			node.expand = false;
@@ -228,20 +220,12 @@ public class SysRoleService extends BaseMapper {
 					node.addClass = "unselectable";
 					if (superAccount){
 						// 系统自动维护角色，仅允许超级管理员修改
-						if(sysRole.getType()==SYS_ROLE_TYPE_ADD){  //加权限
-							roleAdd.add(node);
-						}else{
-							roleMinus.add(node);
-						}
+						root.children.add(node);
 					}
 				}
 			}else{
 				// 手动维护角色
-				if(sysRole.getType()==SYS_ROLE_TYPE_ADD){  //加权限
-					roleAdd.add(node);
-				}else{
-					roleMinus.add(node);
-				}
+				root.children.add(node);
 			}
 		}
 		

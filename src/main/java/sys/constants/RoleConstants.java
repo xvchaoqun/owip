@@ -13,6 +13,7 @@ public class RoleConstants {
     public static final String ROLE_LEADER = "leader";
     public static final String ROLE_CADRE_CJ = "cadre";
     public static final String ROLE_CADRE_KJ = "kjCadre";
+    public static final String ROLE_CADRE_LEAVE = "cadre_leave";
     public static final String ROLE_CADRE_DP = "cadreDp"; // 民主党派干部库
     public static final String ROLE_CADRERESERVE = "cadreReserve"; // 优秀年轻干部
     public static final String ROLE_CADREINSPECT = "cadreInspect"; // 考察对象

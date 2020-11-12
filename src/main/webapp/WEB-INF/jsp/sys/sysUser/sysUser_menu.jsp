@@ -21,8 +21,8 @@
                                    varStatus="vs">
                             <li style="margin-top: 0">
                                 <c:if test="${not empty roleMap.get(cm:toInt(id))}">
-                                    ${roleMap.get(cm:toInt(id)).type==SYS_ROLE_TYPE_ADD?'<i class="ace-icon fa fa-plus-circle green"></i>':'<i class="ace-icon fa fa-minus-circle red"></i>'}
-                                    ${roleMap.get(cm:toInt(id)).name}
+                                   <%-- ${roleMap.get(cm:toInt(id)).type==SYS_ROLE_TYPE_ADD?'<i class="ace-icon fa fa-plus-circle green"></i>':'<i class="ace-icon fa fa-minus-circle red"></i>'}--%>
+                                    <i class="ace-icon fa fa-plus-circle green"></i>${roleMap.get(cm:toInt(id)).name}
                                 </c:if>
                             </li>
                         </c:forEach>

@@ -8,6 +8,8 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds" />
     <result column="m_resource_ids" jdbcType="VARCHAR" property="mResourceIds" />
+    <result column="resource_ids_minus" jdbcType="VARCHAR" property="resourceIdsMinus" />
+    <result column="m_resource_ids_minus" jdbcType="VARCHAR" property="mResourceIdsMinus" />
     <result column="user_count" jdbcType="INTEGER" property="userCount" />
     <result column="available" jdbcType="TINYINT" property="available" />
     <result column="is_sys_hold" jdbcType="BIT" property="isSysHold" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, type, resource_ids, m_resource_ids, user_count, available, is_sys_hold, 
-    sort_order, remark
+    id, code, name, type, resource_ids, m_resource_ids, resource_ids_minus, m_resource_ids_minus, 
+    user_count, available, is_sys_hold, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysRoleExample" resultMap="BaseResultMap">
     select
@@ -111,13 +113,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_role (code, name, type, 
-      resource_ids, m_resource_ids, user_count, 
-      available, is_sys_hold, sort_order, 
-      remark)
+      resource_ids, m_resource_ids, resource_ids_minus, 
+      m_resource_ids_minus, user_count, available, 
+      is_sys_hold, sort_order, remark
+      )
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{resourceIds,jdbcType=VARCHAR}, #{mResourceIds,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, 
-      #{available,jdbcType=TINYINT}, #{isSysHold,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+      #{resourceIds,jdbcType=VARCHAR}, #{mResourceIds,jdbcType=VARCHAR}, #{resourceIdsMinus,jdbcType=VARCHAR}, 
+      #{mResourceIdsMinus,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, #{available,jdbcType=TINYINT}, 
+      #{isSysHold,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -139,6 +143,12 @@
       </if>
       <if test="mResourceIds != null">
         m_resource_ids,
+      </if>
+      <if test="resourceIdsMinus != null">
+        resource_ids_minus,
+      </if>
+      <if test="mResourceIdsMinus != null">
+        m_resource_ids_minus,
       </if>
       <if test="userCount != null">
         user_count,
@@ -171,6 +181,12 @@
       </if>
       <if test="mResourceIds != null">
         #{mResourceIds,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIdsMinus != null">
+        #{resourceIdsMinus,jdbcType=VARCHAR},
+      </if>
+      <if test="mResourceIdsMinus != null">
+        #{mResourceIdsMinus,jdbcType=VARCHAR},
       </if>
       <if test="userCount != null">
         #{userCount,jdbcType=INTEGER},
@@ -216,6 +232,12 @@
       <if test="record.mResourceIds != null">
         m_resource_ids = #{record.mResourceIds,jdbcType=VARCHAR},
       </if>
+      <if test="record.resourceIdsMinus != null">
+        resource_ids_minus = #{record.resourceIdsMinus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mResourceIdsMinus != null">
+        m_resource_ids_minus = #{record.mResourceIdsMinus,jdbcType=VARCHAR},
+      </if>
       <if test="record.userCount != null">
         user_count = #{record.userCount,jdbcType=INTEGER},
       </if>
@@ -244,6 +266,8 @@
       type = #{record.type,jdbcType=TINYINT},
       resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{record.mResourceIds,jdbcType=VARCHAR},
+      resource_ids_minus = #{record.resourceIdsMinus,jdbcType=VARCHAR},
+      m_resource_ids_minus = #{record.mResourceIdsMinus,jdbcType=VARCHAR},
       user_count = #{record.userCount,jdbcType=INTEGER},
       available = #{record.available,jdbcType=TINYINT},
       is_sys_hold = #{record.isSysHold,jdbcType=BIT},
@@ -271,6 +295,12 @@
       <if test="mResourceIds != null">
         m_resource_ids = #{mResourceIds,jdbcType=VARCHAR},
       </if>
+      <if test="resourceIdsMinus != null">
+        resource_ids_minus = #{resourceIdsMinus,jdbcType=VARCHAR},
+      </if>
+      <if test="mResourceIdsMinus != null">
+        m_resource_ids_minus = #{mResourceIdsMinus,jdbcType=VARCHAR},
+      </if>
       <if test="userCount != null">
         user_count = #{userCount,jdbcType=INTEGER},
       </if>
@@ -296,6 +326,8 @@
       type = #{type,jdbcType=TINYINT},
       resource_ids = #{resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{mResourceIds,jdbcType=VARCHAR},
+      resource_ids_minus = #{resourceIdsMinus,jdbcType=VARCHAR},
+      m_resource_ids_minus = #{mResourceIdsMinus,jdbcType=VARCHAR},
       user_count = #{userCount,jdbcType=INTEGER},
       available = #{available,jdbcType=TINYINT},
       is_sys_hold = #{isSysHold,jdbcType=BIT},
