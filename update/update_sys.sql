@@ -9,7 +9,7 @@ update sys_role set resource_ids='-1',m_resource_ids='-1' where type=2;
 ALTER TABLE `sys_role`
 	DROP COLUMN `type`;
 
-INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('cadre_leave', '离任干部', NULL, '-1', '-1', '-1', '-1', NULL, 0, 0, 68, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('cadre_leave', '离任干部', '-1', '-1', '-1', '-1', NULL, 0, 0, 68, '');
 
 --执行 /test/sys_role.jsp
 
