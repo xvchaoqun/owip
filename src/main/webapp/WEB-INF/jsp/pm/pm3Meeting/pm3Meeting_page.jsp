@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="pm3Meeting:list">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==0?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3Meeting?cls=0"}><i class="fa fa-list"></i> 未提交(${cm:trimToZero(pm_initCount)})</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3Meeting?cls=0"}><i class="fa fa-list"></i> 待报送(${cm:trimToZero(pm_initCount)})</a>
                         </li>
                         </li>
                         <li class="${cls==1?'active':''}">
@@ -230,9 +230,9 @@ pageEncoding="UTF-8" %>
         colModel: [
             <c:if test="${cls==PM_3_STATUS_SAVE}">
                 <shiro:hasPermission name="pm3Meeting:edit">
-                { label: '提交', name: 'submit',width:80,formatter:function (cellvalue,optins,rowObject) {
-                        return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="提交" data-msg="确定提交这条数据？" data-callback="pm3_reload"' +
-                            'data-url="${ctx}/pm/pm3Meeting_submit?id={0}"><i class="fa fa-hand-paper-o"></i> 提交</button>')
+                { label: '报送', name: 'submit',width:80,formatter:function (cellvalue,optins,rowObject) {
+                        return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="报送" data-msg="确定报送这条数据？" data-callback="pm3_reload"' +
+                            'data-url="${ctx}/pm/pm3Meeting_submit?id={0}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
                             .format(rowObject.id);
                     },frozen: true},
                 </shiro:hasPermission>

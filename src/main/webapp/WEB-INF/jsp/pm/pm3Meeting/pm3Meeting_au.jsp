@@ -240,8 +240,8 @@
 								${pm3Meeting.absentReason}
 							</c:if>
 							<c:if test="${edit}">
-								<input required class="form-control" type="text" name="absentReason"
-									   value="${pm3Meeting.absentReason}">
+								<textarea required class="form-control" name="absentReason">${pm3Meeting.absentReason}</textarea>
+								<span class="help-block">注：如果无缺席人员，请填写“无”</span>
 							</c:if>
 						</td>
 					</tr>
@@ -322,7 +322,7 @@
 		vertical-align: middle;
 	}
 
-	textarea {
+	textarea[name=content] {
 		text-indent: 32px;
 		line-height: 25px;
 		/*font-family: "Arial";*/
