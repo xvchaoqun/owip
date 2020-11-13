@@ -1,4 +1,9 @@
 
+20201113
+
+ALTER TABLE `sc_letter`
+	DROP INDEX `year_type_num`;
+
 20201112
 西工大，南航 -- 北师大
 ALTER TABLE `cet_trainee_type`

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row dispatch_au" style="width: 1510px">
+<div class="row dispatch_au" style="width: 100%">
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">

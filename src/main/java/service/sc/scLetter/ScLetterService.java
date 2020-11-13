@@ -45,7 +45,7 @@ public class ScLetterService extends ScBaseMapper {
         ScLetterExample example = new ScLetterExample();
         ScLetterExample.Criteria criteria = example.createCriteria()
                 .andYearEqualTo(year)
-                .andTypeEqualTo(type).andNumEqualTo(num);
+                .andTypeEqualTo(type).andNumEqualTo(num).andIsDeletedEqualTo(false);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return scLetterMapper.countByExample(example) > 0;
