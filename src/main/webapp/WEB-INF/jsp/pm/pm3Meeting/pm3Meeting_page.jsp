@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
                                 </shiro:hasRole>
                             </c:if>
                             <c:if test="${(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||(cls==PM_3_STATUS_OW&&isOw)}">
-                                <shiro:hasPermission name="pm3Meeting:edit">
+                                <shiro:hasPermission name="pm3Meeting:check">
                                     <button data-url="${ctx}/pm/pm3Meeting_check"
                                             data-title="审核"
                                             data-grid-id="#jqGrid"

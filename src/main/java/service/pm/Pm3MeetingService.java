@@ -11,6 +11,7 @@ import domain.pm.Pm3Meeting;
 import domain.pm.Pm3MeetingExample;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,6 +108,9 @@ public class Pm3MeetingService extends PmBaseMapper {
         if (id == null) return;
 
         Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+            throw new UnauthorizedException();
+        }
         if (PartyHelper.isDirectBranch(record.getPartyId())){
             record.setStatus(PmConstants.PM_3_STATUS_OW);
         }else {
@@ -130,6 +134,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         boolean addPermits = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+
         Pm3MeetingExample example = new Pm3MeetingExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         List<Pm3Meeting> pm3MeetingList = pm3MeetingMapper.selectByExample(example);
@@ -180,6 +185,10 @@ public class Pm3MeetingService extends PmBaseMapper {
     public void download(int id, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         Pm3Meeting pm3Meeting = pm3MeetingMapper.selectByPrimaryKey(id);
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pm3Meeting.getPartyId(), pm3Meeting.getBranchId())){
+            throw new UnauthorizedException();
+        }
+
         Party party = pm3Meeting.getParty();
         Branch branch = null;
         if (!PartyHelper.isDirectBranch(party.getId())){
@@ -229,11 +238,10 @@ public class Pm3MeetingService extends PmBaseMapper {
         }
     }
 
-    private Map<String, Object> getDataMapOfPm3(int id) {
+    private Map<String, Object> getDataMapOfPm3(int id) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<>();
         Pm3Meeting bean = pm3MeetingMapper.selectByPrimaryKey(id);
-        //${!}
         dataMap.put("type", PmConstants.PM_3_BRANCH_MAP.get(bean.getType()));
         dataMap.put("partyName", bean.getParty().getName());
         dataMap.put("branchName", bean.getBranch().getName());
@@ -256,7 +264,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         dataMap.put("absent", absentName + "(" + bean.getAbsentReason() + ")");
         dataMap.put("remark", bean.getRemark());
-        dataMap.put("content", bean.getContent());
+        dataMap.put("content", freemarkerService.genTextareaSegment(bean.getContent(), "/common/editor2.ftl"));
 
         return dataMap;
     }

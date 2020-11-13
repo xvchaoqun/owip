@@ -1,6 +1,8 @@
 package controller.pm;
 
 import domain.base.MetaType;
+import domain.member.MemberView;
+import domain.member.MemberViewExample;
 import domain.party.*;
 import domain.pm.Pm3Meeting;
 import domain.pm.Pm3MeetingExample;
@@ -9,6 +11,7 @@ import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
+import static sys.constants.MemberConstants.MEMBER_STATUS_NORMAL;
 import static sys.helper.PartyHelper.isDirectBranch;
 
 @Controller
@@ -168,12 +172,19 @@ public class Pm3MeetingController extends PmBaseController {
     @RequestMapping(value = "/pm3Meeting_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pm3Meeting_au(Pm3Meeting record,
+                                Byte type1,
+                                Byte type2,
                                 String _startTime,
                                 String _endTime,
                                 String absentIds,//请假人员
                                 HttpServletRequest request) throws InterruptedException, IOException {
 
         Integer id = record.getId();
+        record.setType(type1==1?type1:type2);
+
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+            throw new UnauthorizedException();
+        }
 
         if (StringUtils.isNotBlank(_startTime)){
             record.setStartTime(DateUtils.parseStringToDate(_startTime));
@@ -252,6 +263,12 @@ public class Pm3MeetingController extends PmBaseController {
     public Map pm3Meeting_batchDel(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
+            for (Integer id : ids) {
+                Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
+                if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+                    throw new UnauthorizedException();
+                }
+            }
             pm3MeetingService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PM, "批量删除组织生活月报：{0}", StringUtils.join(ids, ",")));
         }
@@ -265,6 +282,12 @@ public class Pm3MeetingController extends PmBaseController {
     public Map pm3Meeting_back(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
+            for (Integer id : ids) {
+                Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
+                if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+                    throw new UnauthorizedException();
+                }
+            }
             pm3MeetingService.batchBack(ids);
             logger.info(log( LogConstants.LOG_PM, "批量退回组织生活月报：{0}", StringUtils.join(ids, ",")));
         }
@@ -286,13 +309,19 @@ public class Pm3MeetingController extends PmBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pm3Meeting:edit")
+    @RequiresPermissions("pm3Meeting:check")
     @RequestMapping(value = "/pm3Meeting_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pm3Meeting_check(HttpServletRequest request, Integer[] ids, boolean check, String checkOpinion, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
+            for (Integer id : ids) {
+                Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
+                if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+                    throw new UnauthorizedException();
+                }
+            }
             pm3MeetingService.check(ids, check, checkOpinion);
             logger.info(log( LogConstants.LOG_OA, "批量审核组织生活月报：{0}", StringUtils.join(ids, ","), check?"报送":"退回"));
         }
@@ -300,7 +329,7 @@ public class Pm3MeetingController extends PmBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pm3Meeting:edit")
+    @RequiresPermissions("pm3Meeting:check")
     @RequestMapping("/pm3Meeting_check")
     public String pm3Meeting_check(Integer[] ids, ModelMap modelMap) {
 
@@ -325,12 +354,6 @@ public class Pm3MeetingController extends PmBaseController {
                                  Integer partyId,
                                  Integer branchId,
                                  ModelMap modelMap) {
-
-        /*List<String> titles = pm3MeetingService.getTitle(1, cls);
-        List<String> titles1 = pm3MeetingService.getTitle(2, cls);
-
-        modelMap.put("titles", titles);
-        modelMap.put("titles1", titles1);*/
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -405,6 +428,27 @@ public class Pm3MeetingController extends PmBaseController {
                                    ModelMap modelMap) {
 
         return "pm/pm3Meeting/pm3Meeting_count";
+    }
+
+    @RequiresPermissions("pm3Meeting:edit")
+    @RequestMapping("/pm3Meeting_member")
+    public String pm3Meeting_member(Integer partyId,Integer branchId,Byte type,HttpServletRequest request, ModelMap modelMap) {
+
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),partyId,branchId)){
+            throw new UnauthorizedException();
+        }
+        MemberViewExample example = new MemberViewExample();
+        MemberViewExample.Criteria criteria = example.createCriteria();
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+        criteria.andStatusEqualTo(MEMBER_STATUS_NORMAL);
+        List<MemberView> membersViews=memberViewMapper.selectByExample(example);
+        modelMap.put("membersViews",membersViews);
+        return "pm/pm3Meeting/pm3Meeting_member";
     }
 
     public void pm3MeetingStat_export(List<PmMeetingStat> records, Byte cls, HttpServletResponse response) {

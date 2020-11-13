@@ -30,7 +30,7 @@
                     </td>
                     <td nowrap>
                         <div class="hidden-sm hidden-xs action-buttons">
-                            <shiro:hasPermission name="pm3GuideOw:edit">
+                            <shiro:hasPermission name="pm3Guide:edit">
                                 <button class="confirm btn btn-danger btn-xs"
                                         data-title="删除"
                                         data-msg="确定删除？"

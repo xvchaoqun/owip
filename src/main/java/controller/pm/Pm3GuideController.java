@@ -6,6 +6,7 @@ import domain.pm.Pm3GuideExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -62,12 +65,6 @@ public class Pm3GuideController extends PmBaseController {
         if (StringUtils.isNotBlank(_meetingMonth)){
             criteria.andMeetingMonthEqualTo(DateUtils.parseStringToDate(_meetingMonth));
         }
-       /* if (_meetingMonth.getStart()!=null) {
-            criteria.andMeetingMonthGreaterThanOrEqualTo(_meetingMonth.getStart());
-        }
-        if (_meetingMonth.getEnd()!=null){
-            criteria.andMeetingMonthLessThanOrEqualTo(_meetingMonth.getEnd());
-        }*/
 
         long count = pm3GuideMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -89,7 +86,7 @@ public class Pm3GuideController extends PmBaseController {
         return;
     }
 
-    @RequiresPermissions("pm3GuideOw:edit")
+    @RequiresPermissions("pm3Guide:edit")
     @RequestMapping(value = "/pm3Guide_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pm3Guide_au(Pm3Guide record,
@@ -99,6 +96,8 @@ public class Pm3GuideController extends PmBaseController {
                               HttpServletRequest request) {
 
         Integer id = record.getId();
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            throw new UnauthorizedException();
         if (StringUtils.isNotBlank(_meetingMonth)){
             pm3GuideService.isDuplicate(_meetingMonth);
             record.setMeetingMonth(DateUtils.parseDate(_meetingMonth, DateUtils.YYYY_MM));
@@ -138,7 +137,7 @@ public class Pm3GuideController extends PmBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pm3GuideOw:edit")
+    @RequiresPermissions("pm3Guide:edit")
     @RequestMapping("/pm3Guide_au")
     public String pm3Guide_au(Integer id, ModelMap modelMap) {
 
@@ -149,13 +148,16 @@ public class Pm3GuideController extends PmBaseController {
         return "pm/pm3Guide/pm3Guide_au";
     }
 
-    @RequiresPermissions("pm3GuideOw:edit")
+    @RequiresPermissions("pm3Guide:edit")
     @RequestMapping(value = "/pm3Guide_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map pm3Guide_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+                throw new UnauthorizedException();
+
             pm3GuideService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PM, "批量删除组织生活指南：{0}", StringUtils.join(ids, ",")));
         }
@@ -181,12 +183,14 @@ public class Pm3GuideController extends PmBaseController {
         return "pm/pm3Guide/pm3Guide_files";
     }
 
-    @RequiresPermissions("pm3GuideOw:edit")
+    @RequiresPermissions("pm3Guide:edit")
     @RequestMapping(value = "/pm3Guide_delFile", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pm3Guide_delFile(HttpServletRequest request, Integer id, String filePath, String fileName, ModelMap modelMap) {
 
         if (null != id){
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+                throw new UnauthorizedException();
 
             pm3GuideService.delFile(id, filePath);
             logger.info(log(LogConstants.LOG_PM, "删除组织生活指南：{0},{1},{2}", id,fileName,filePath));

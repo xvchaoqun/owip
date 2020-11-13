@@ -1,4 +1,14 @@
 
+
+-- 2020.11.13 ly
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2562, 0, '审核', '', 'function', '', NULL, 2556, '0/1/2555/2556/', 1, 'pm3Meeting:check', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2561, 0, '删除', '', 'function', '', NULL, 2556, '0/1/2555/2556/', 1, 'pm3Meeting:del', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2560, 0, '编辑', '', 'function', '', NULL, 2556, '0/1/2555/2556/', 1, 'pm3Meeting:edit', NULL, NULL, NULL, 1, NULL);
+UPDATE `db_owip`.`sys_resource` SET `permission`='pm3MeetingStat:list' WHERE  `id`=2559;
+UPDATE `db_owip`.`sys_resource` SET `permission`='pm3Guide:edit' WHERE  `id`=2558;
+UPDATE `db_owip`.`sys_resource` SET `permission`='pm3Guide:list' WHERE  `id`=2557;
+UPDATE `db_owip`.`sys_resource` SET `permission`='pm3Meeting:list' WHERE  `id`=2556;
+
 -- 2020.11.12 ly
 DROP TABLE IF EXISTS `pm3_guide`;
 CREATE TABLE IF NOT EXISTS `pm3_guide` (

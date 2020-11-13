@@ -14,7 +14,7 @@
 		<pkg:xmlData>
 			<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
 				<w:body>
-					<w:p w14:paraId="6A3AD44B" w14:textId="77777777" w:rsidR="00395C32" w:rsidRDefault="00395C32" w:rsidP="00C10488">
+					<w:p w14:paraId="6BF0BE9C" w14:textId="3413804D" w:rsidR="00D213A4" w:rsidRPr="00D213A4" w:rsidRDefault="0011675D" w:rsidP="0032395C">
 						<w:pPr>
 							<w:ind w:firstLineChars="100" w:firstLine="320"/>
 							<w:jc w:val="center"/>
@@ -26,7 +26,7 @@
 						</w:pPr>
 						<w:r>
 							<w:rPr>
-								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体"/>
+								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体" w:hint="eastAsia"/>
 								<w:sz w:val="32"/>
 								<w:szCs w:val="32"/>
 							</w:rPr>
@@ -48,7 +48,7 @@
 							</w:rPr>
 							<w:t>${year!}</w:t>
 						</w:r>
-						<w:r w:rsidR="004E3CBE" w:rsidRPr="00D213A4">
+						<w:r w:rsidR="00D213A4" w:rsidRPr="00D213A4">
 							<w:rPr>
 								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体" w:hint="eastAsia"/>
 								<w:sz w:val="32"/>
@@ -56,6 +56,7 @@
 							</w:rPr>
 							<w:t>年</w:t>
 						</w:r>
+						<w:proofErr w:type="gramStart"/>
 						<w:r>
 							<w:rPr>
 								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体"/>
@@ -64,13 +65,38 @@
 							</w:rPr>
 							<w:t>${month!}</w:t>
 						</w:r>
-						<w:r w:rsidR="004E3CBE" w:rsidRPr="00D213A4">
+						<w:r w:rsidR="00D213A4" w:rsidRPr="00D213A4">
 							<w:rPr>
 								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体" w:hint="eastAsia"/>
 								<w:sz w:val="32"/>
 								<w:szCs w:val="32"/>
 							</w:rPr>
-							<w:t>月党员集体活动记录</w:t>
+							<w:t>月</w:t>
+						</w:r>
+						<w:r w:rsidR="00A966B5">
+							<w:rPr>
+								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体" w:hint="eastAsia"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
+							<w:t>党员</w:t>
+						</w:r>
+						<w:proofErr w:type="gramEnd"/>
+						<w:r w:rsidR="00A966B5">
+							<w:rPr>
+								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体" w:hint="eastAsia"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
+							<w:t>集体活动</w:t>
+						</w:r>
+						<w:r w:rsidR="004E3CBE">
+							<w:rPr>
+								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体" w:hint="eastAsia"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
+							<w:t>记录</w:t>
 						</w:r>
 					</w:p>
 					<w:tbl>
@@ -81,23 +107,27 @@
 							<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/>
 						</w:tblPr>
 						<w:tblGrid>
-							<w:gridCol w:w="1560"/>
-							<w:gridCol w:w="3349"/>
+							<w:gridCol w:w="2552"/>
+							<w:gridCol w:w="2268"/>
 							<w:gridCol w:w="1417"/>
-							<w:gridCol w:w="3030"/>
+							<w:gridCol w:w="3119"/>
 						</w:tblGrid>
-						<w:tr w:rsidR="00D213A4" w14:paraId="16CEA9F3" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="00A966B5" w14:paraId="3E739563" w14:textId="77777777" w:rsidTr="00A966B5">
 							<w:trPr>
-								<w:trHeight w:val="717"/>
+								<w:trHeight w:hRule="exact" w:val="663"/>
 							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="76AD0E68" w14:textId="7A96FBEB" w:rsidR="00D213A4" w:rsidRPr="00FD7558" w:rsidRDefault="00D213A4" w:rsidP="00FC4F72">
+								<w:p w14:paraId="17B06F20" w14:textId="77777777" w:rsidR="00A966B5" w:rsidRDefault="00A966B5" w:rsidP="00A966B5">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
+										<w:rPr>
+											<w:sz w:val="28"/>
+										</w:rPr>
 									</w:pPr>
 									<w:r w:rsidRPr="00FD7558">
 										<w:rPr>
@@ -125,7 +155,7 @@
 										</w:rPr>
 										<w:t>）</w:t>
 									</w:r>
-									<w:r w:rsidR="004E3CBE">
+									<w:r>
 										<w:rPr>
 											<w:rFonts w:hint="eastAsia"/>
 											<w:sz w:val="28"/>
@@ -133,40 +163,54 @@
 										<w:t>类型</w:t>
 									</w:r>
 								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="7796" w:type="dxa"/>
-									<w:gridSpan w:val="3"/>
-								</w:tcPr>
-								<w:p w14:paraId="680EB1FA" w14:textId="412C4815" w:rsidR="00D213A4" w:rsidRPr="004E3CBE" w:rsidRDefault="00C10488" w:rsidP="002547B9">
-									<w:pPr>
-										<w:ind w:firstLineChars="821" w:firstLine="2299"/>
-										<w:rPr>
-											<w:sz w:val="28"/>
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:sz w:val="28"/>
-										</w:rPr>
-										<w:t>${type!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-						</w:tr>
-						<w:tr w:rsidR="004E3CBE" w14:paraId="2E90B928" w14:textId="77777777" w:rsidTr="00FC4F72">
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
-								</w:tcPr>
-								<w:p w14:paraId="115A98DC" w14:textId="77777777" w:rsidR="004E3CBE" w:rsidRDefault="004E3CBE" w:rsidP="00AF2C28">
+								<w:p w14:paraId="7B531D72" w14:textId="77777777" w:rsidR="00A966B5" w:rsidRPr="004E3CBE" w:rsidRDefault="00A966B5" w:rsidP="004E3CBE">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
 										<w:rPr>
 											<w:sz w:val="28"/>
 										</w:rPr>
+									</w:pPr>
+								</w:p>
+							</w:tc>
+							<w:tc>
+								<w:tcPr>
+									<w:tcW w:w="6804" w:type="dxa"/>
+									<w:gridSpan w:val="3"/>
+									<w:vAlign w:val="center"/>
+								</w:tcPr>
+								<w:p w14:paraId="3E9D9540" w14:textId="6599ABE0" w:rsidR="00A966B5" w:rsidRDefault="00A966B5" w:rsidP="009C5B7D">
+									<w:pPr>
+										<w:ind w:firstLineChars="0" w:firstLine="0"/>
+										<w:rPr>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
+										</w:rPr>
+									</w:pPr>
+									<w:r>
+										<w:rPr>
+											<w:rFonts w:hint="eastAsia"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
+										</w:rPr>
+										<w:t>${type!}</w:t>
+									</w:r>
+								</w:p>
+							</w:tc>
+						</w:tr>
+						<w:tr w:rsidR="0011675D" w14:paraId="126EA861" w14:textId="77777777" w:rsidTr="00A966B5">
+							<w:trPr>
+								<w:trHeight w:hRule="exact" w:val="663"/>
+							</w:trPr>
+							<w:tc>
+								<w:tcPr>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
+								</w:tcPr>
+								<w:p w14:paraId="0DCD48FB" w14:textId="48D9113C" w:rsidR="00D213A4" w:rsidRPr="00FD7558" w:rsidRDefault="004E3CBE" w:rsidP="004E3CBE">
+									<w:pPr>
+										<w:ind w:firstLineChars="0" w:firstLine="0"/>
+										<w:jc w:val="center"/>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
@@ -179,33 +223,39 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="7796" w:type="dxa"/>
+									<w:tcW w:w="6804" w:type="dxa"/>
 									<w:gridSpan w:val="3"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="5BA6F1A2" w14:textId="12A4C1B4" w:rsidR="004E3CBE" w:rsidRDefault="00C10488" w:rsidP="00C10488">
+								<w:p w14:paraId="177584A7" w14:textId="501DCF91" w:rsidR="00D213A4" w:rsidRPr="009C5B7D" w:rsidRDefault="0011675D" w:rsidP="009C5B7D">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
-										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
 											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 										<w:t>${name!}</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr w:rsidR="00D213A4" w14:paraId="7EFFF6B3" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="0011675D" w14:paraId="311A4501" w14:textId="77777777" w:rsidTr="00A966B5">
+							<w:trPr>
+								<w:trHeight w:hRule="exact" w:val="663"/>
+							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="011BFD31" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="3A3E3D12" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -224,32 +274,30 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="3349" w:type="dxa"/>
+									<w:tcW w:w="2268" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="29CCE31F" w14:textId="2783FFA1" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="00B9BF59" w14:textId="5681CAF3" w:rsidR="00D213A4" w:rsidRPr="009C5B7D" w:rsidRDefault="0011675D" w:rsidP="009C5B7D">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
-										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
 										</w:rPr>
 									</w:pPr>
-									<w:proofErr w:type="spellStart"/>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
 										</w:rPr>
 										<w:t>${time!}</w:t>
 									</w:r>
-									<w:proofErr w:type="spellEnd"/>
 								</w:p>
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
 									<w:tcW w:w="1417" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="3431D715" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="70EE6AB5" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -268,32 +316,37 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="3030" w:type="dxa"/>
+									<w:tcW w:w="3119" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="77151628" w14:textId="1858EB11" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="0580967F" w14:textId="6BE6D10F" w:rsidR="00D213A4" w:rsidRPr="00070618" w:rsidRDefault="0011675D" w:rsidP="00070618">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
-										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 										<w:t>${address!}</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr w:rsidR="00D213A4" w14:paraId="3AD08857" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="0011675D" w14:paraId="17605122" w14:textId="77777777" w:rsidTr="00A966B5">
+							<w:trPr>
+								<w:trHeight w:hRule="exact" w:val="663"/>
+							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="3CA8247E" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="57D5FA0C" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -312,20 +365,21 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="3349" w:type="dxa"/>
+									<w:tcW w:w="2268" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="198CCC2B" w14:textId="235958DD" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="46E69186" w14:textId="01554314" w:rsidR="00D213A4" w:rsidRPr="009C5B7D" w:rsidRDefault="0011675D" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
 											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
 										</w:rPr>
 										<w:t>${presenter!}</w:t>
 									</w:r>
@@ -334,8 +388,9 @@
 							<w:tc>
 								<w:tcPr>
 									<w:tcW w:w="1417" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="498151A8" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="1669A27D" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -354,32 +409,39 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="3030" w:type="dxa"/>
+									<w:tcW w:w="3119" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="0126712D" w14:textId="75CBBB18" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="6D8B62F5" w14:textId="730AD51D" w:rsidR="00D213A4" w:rsidRPr="00024FC3" w:rsidRDefault="0011675D" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
 											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 										<w:t>${recorder!}</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr w:rsidR="00D213A4" w14:paraId="058BDC61" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="0011675D" w14:paraId="290E5AC6" w14:textId="77777777" w:rsidTr="00A966B5">
+							<w:trPr>
+								<w:trHeight w:hRule="exact" w:val="663"/>
+							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="6D0B45E6" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="65155034" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -398,32 +460,31 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="3349" w:type="dxa"/>
+									<w:tcW w:w="2268" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="64857B1E" w14:textId="48A209CF" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="7DB2C656" w14:textId="49582230" w:rsidR="00D213A4" w:rsidRPr="009C5B7D" w:rsidRDefault="0011675D" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
 										</w:rPr>
 									</w:pPr>
-									<w:proofErr w:type="spellStart"/>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
 										</w:rPr>
 										<w:t>${dueNum!}</w:t>
 									</w:r>
-									<w:proofErr w:type="spellEnd"/>
 								</w:p>
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
 									<w:tcW w:w="1417" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="6FD123C2" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="4E6FBD37" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -442,37 +503,38 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="3030" w:type="dxa"/>
+									<w:tcW w:w="3119" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="4555BEF7" w14:textId="3BFA3D04" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="2FBAB715" w14:textId="54904C30" w:rsidR="00D213A4" w:rsidRPr="00024FC3" w:rsidRDefault="0011675D" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
-									<w:proofErr w:type="spellStart"/>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 										<w:t>${attendNum!}</w:t>
 									</w:r>
-									<w:proofErr w:type="spellEnd"/>
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr w:rsidR="00D213A4" w14:paraId="686AA9FC" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="0011675D" w14:paraId="10F2DA2D" w14:textId="77777777" w:rsidTr="00A966B5">
 							<w:trPr>
-								<w:trHeight w:val="756"/>
+								<w:trHeight w:hRule="exact" w:val="663"/>
 							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="61923620" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="26BD35F9" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -491,32 +553,41 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="7796" w:type="dxa"/>
+									<w:tcW w:w="6804" w:type="dxa"/>
 									<w:gridSpan w:val="3"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="41334F01" w14:textId="4CFA94A4" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="43CC5558" w14:textId="290ED97D" w:rsidR="00D213A4" w:rsidRPr="00070618" w:rsidRDefault="0011675D" w:rsidP="00024FC3">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
-										<w:jc w:val="center"/>
+										<w:jc w:val="left"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 										<w:t>${absent!}</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr w:rsidR="00D213A4" w14:paraId="4A74D2AD" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="0011675D" w14:paraId="52CCFCA1" w14:textId="77777777" w:rsidTr="00A966B5">
+							<w:trPr>
+								<w:trHeight w:hRule="exact" w:val="663"/>
+							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="5F081378" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
+								<w:p w14:paraId="4FA8B595" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="002547B9">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -555,36 +626,40 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="7796" w:type="dxa"/>
+									<w:tcW w:w="6804" w:type="dxa"/>
 									<w:gridSpan w:val="3"/>
+									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="53DFC426" w14:textId="537EBEF4" w:rsidR="00D213A4" w:rsidRDefault="00C10488" w:rsidP="002547B9">
+								<w:p w14:paraId="164AE8AD" w14:textId="43EF9E2E" w:rsidR="00D213A4" w:rsidRPr="00A45EB3" w:rsidRDefault="0011675D" w:rsidP="00024FC3">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
-										<w:jc w:val="center"/>
+										<w:jc w:val="left"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 										<w:t>${remark!}</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr w:rsidR="00D213A4" w14:paraId="3578B700" w14:textId="77777777" w:rsidTr="00FC4F72">
+						<w:tr w:rsidR="0011675D" w14:paraId="18D8968C" w14:textId="77777777" w:rsidTr="00630176">
 							<w:trPr>
-								<w:trHeight w:val="6382"/>
+								<w:trHeight w:val="7776"/>
 							</w:trPr>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="1560" w:type="dxa"/>
+									<w:tcW w:w="2552" w:type="dxa"/>
 									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="7EC30DC3" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="004E3CBE">
+								<w:p w14:paraId="4A88E760" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="00564A87">
 									<w:pPr>
 										<w:ind w:firstLineChars="0" w:firstLine="0"/>
 										<w:jc w:val="center"/>
@@ -603,42 +678,34 @@
 							</w:tc>
 							<w:tc>
 								<w:tcPr>
-									<w:tcW w:w="7796" w:type="dxa"/>
+									<w:tcW w:w="6804" w:type="dxa"/>
 									<w:gridSpan w:val="3"/>
-									<w:vAlign w:val="center"/>
 								</w:tcPr>
-								<w:p w14:paraId="76E47566" w14:textId="3674B8CF" w:rsidR="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="00C10488">
+								${content!}
+								<w:p w14:paraId="709B8209" w14:textId="5363A38A" w:rsidR="0011675D" w:rsidRPr="00070618" w:rsidRDefault="0011675D" w:rsidP="00A966B5">
 									<w:pPr>
-										<w:ind w:firstLine="560"/>
-										<w:jc w:val="left"/>
+										<w:ind w:firstLine="420"/>
 										<w:rPr>
-											<w:sz w:val="28"/>
+											<w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+											<w:sz w:val="21"/>
+											<w:szCs w:val="21"/>
 										</w:rPr>
 									</w:pPr>
-									<w:r w:rsidRPr="007A48AF">
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
-										</w:rPr>
-										<w:t xml:space="preserve">　　</w:t>
-									</w:r>
-									<w:r w:rsidR="00C10488">
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia"/>
-											<w:sz w:val="28"/>
-										</w:rPr>
-										<w:t>${content!}</w:t>
-									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
 					</w:tbl>
-					<w:p w14:paraId="73115908" w14:textId="77777777" w:rsidR="00D213A4" w:rsidRPr="00D213A4" w:rsidRDefault="00D213A4" w:rsidP="00D213A4">
+					<w:p w14:paraId="4C094D7A" w14:textId="77777777" w:rsidR="004E3CBE" w:rsidRDefault="004E3CBE" w:rsidP="00753B2F">
 						<w:pPr>
 							<w:ind w:firstLineChars="0" w:firstLine="0"/>
+							<w:rPr>
+								<w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hAnsi="黑体"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
 						</w:pPr>
 					</w:p>
-					<w:sectPr w:rsidR="00D213A4" w:rsidRPr="00D213A4">
+					<w:sectPr w:rsidR="004E3CBE">
 						<w:headerReference w:type="even" r:id="rId6"/>
 						<w:headerReference w:type="default" r:id="rId7"/>
 						<w:footerReference w:type="even" r:id="rId8"/>
@@ -677,7 +744,7 @@
 		<pkg:xmlData>
 			<w:footnotes xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
 				<w:footnote w:type="separator" w:id="-1">
-					<w:p w14:paraId="0D4D336D" w14:textId="77777777" w:rsidR="00AB1F9A" w:rsidRDefault="00AB1F9A" w:rsidP="00024A75">
+					<w:p w14:paraId="33D97C8E" w14:textId="77777777" w:rsidR="00032CB1" w:rsidRDefault="00032CB1" w:rsidP="00346B56">
 						<w:pPr>
 							<w:ind w:firstLine="480"/>
 						</w:pPr>
@@ -687,7 +754,7 @@
 					</w:p>
 				</w:footnote>
 				<w:footnote w:type="continuationSeparator" w:id="0">
-					<w:p w14:paraId="41109C41" w14:textId="77777777" w:rsidR="00AB1F9A" w:rsidRDefault="00AB1F9A" w:rsidP="00024A75">
+					<w:p w14:paraId="5053104E" w14:textId="77777777" w:rsidR="00032CB1" w:rsidRDefault="00032CB1" w:rsidP="00346B56">
 						<w:pPr>
 							<w:ind w:firstLine="480"/>
 						</w:pPr>
@@ -703,7 +770,7 @@
 		<pkg:xmlData>
 			<w:endnotes xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
 				<w:endnote w:type="separator" w:id="-1">
-					<w:p w14:paraId="0C29D157" w14:textId="77777777" w:rsidR="00AB1F9A" w:rsidRDefault="00AB1F9A" w:rsidP="00024A75">
+					<w:p w14:paraId="6D476D95" w14:textId="77777777" w:rsidR="00032CB1" w:rsidRDefault="00032CB1" w:rsidP="00346B56">
 						<w:pPr>
 							<w:ind w:firstLine="480"/>
 						</w:pPr>
@@ -713,7 +780,7 @@
 					</w:p>
 				</w:endnote>
 				<w:endnote w:type="continuationSeparator" w:id="0">
-					<w:p w14:paraId="1F99E4D0" w14:textId="77777777" w:rsidR="00AB1F9A" w:rsidRDefault="00AB1F9A" w:rsidP="00024A75">
+					<w:p w14:paraId="110BA698" w14:textId="77777777" w:rsidR="00032CB1" w:rsidRDefault="00032CB1" w:rsidP="00346B56">
 						<w:pPr>
 							<w:ind w:firstLine="480"/>
 						</w:pPr>
@@ -728,7 +795,7 @@
 	<pkg:part pkg:name="/word/header1.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml">
 		<pkg:xmlData>
 			<w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
-				<w:p w14:paraId="36BA3E48" w14:textId="77777777" w:rsidR="00024A75" w:rsidRDefault="00024A75">
+				<w:p w14:paraId="49F916CE" w14:textId="77777777" w:rsidR="00346B56" w:rsidRDefault="00346B56">
 					<w:pPr>
 						<w:pStyle w:val="a4"/>
 						<w:ind w:firstLine="360"/>
@@ -740,7 +807,7 @@
 	<pkg:part pkg:name="/word/header2.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml">
 		<pkg:xmlData>
 			<w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
-				<w:p w14:paraId="2EBDF21F" w14:textId="77777777" w:rsidR="00024A75" w:rsidRDefault="00024A75">
+				<w:p w14:paraId="5AF535D9" w14:textId="77777777" w:rsidR="00346B56" w:rsidRDefault="00346B56">
 					<w:pPr>
 						<w:pStyle w:val="a4"/>
 						<w:ind w:firstLine="360"/>
@@ -752,7 +819,7 @@
 	<pkg:part pkg:name="/word/footer1.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
 		<pkg:xmlData>
 			<w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
-				<w:p w14:paraId="0546C54E" w14:textId="77777777" w:rsidR="00024A75" w:rsidRDefault="00024A75">
+				<w:p w14:paraId="38312DA2" w14:textId="77777777" w:rsidR="00346B56" w:rsidRDefault="00346B56">
 					<w:pPr>
 						<w:pStyle w:val="a6"/>
 						<w:ind w:firstLine="360"/>
@@ -764,7 +831,7 @@
 	<pkg:part pkg:name="/word/footer2.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
 		<pkg:xmlData>
 			<w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
-				<w:p w14:paraId="6E855AB6" w14:textId="77777777" w:rsidR="00024A75" w:rsidRDefault="00024A75">
+				<w:p w14:paraId="7B3C0154" w14:textId="77777777" w:rsidR="00346B56" w:rsidRDefault="00346B56">
 					<w:pPr>
 						<w:pStyle w:val="a6"/>
 						<w:ind w:firstLine="360"/>
@@ -776,7 +843,7 @@
 	<pkg:part pkg:name="/word/header3.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml">
 		<pkg:xmlData>
 			<w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
-				<w:p w14:paraId="4E61CBB8" w14:textId="77777777" w:rsidR="00024A75" w:rsidRDefault="00024A75">
+				<w:p w14:paraId="0F691662" w14:textId="77777777" w:rsidR="00346B56" w:rsidRDefault="00346B56">
 					<w:pPr>
 						<w:pStyle w:val="a4"/>
 						<w:ind w:firstLine="360"/>
@@ -788,7 +855,7 @@
 	<pkg:part pkg:name="/word/footer3.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
 		<pkg:xmlData>
 			<w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex wp14">
-				<w:p w14:paraId="29E4DD00" w14:textId="77777777" w:rsidR="00024A75" w:rsidRDefault="00024A75">
+				<w:p w14:paraId="20A28957" w14:textId="77777777" w:rsidR="00346B56" w:rsidRDefault="00346B56">
 					<w:pPr>
 						<w:pStyle w:val="a6"/>
 						<w:ind w:firstLine="360"/>
@@ -1099,6 +1166,10 @@
 				<w:zoom w:percent="80"/>
 				<w:bordersDoNotSurroundHeader/>
 				<w:bordersDoNotSurroundFooter/>
+				<w:activeWritingStyle w:appName="MSWord" w:lang="en-US" w:vendorID="64" w:dllVersion="6" w:nlCheck="1" w:checkStyle="0"/>
+				<w:activeWritingStyle w:appName="MSWord" w:lang="zh-CN" w:vendorID="64" w:dllVersion="5" w:nlCheck="1" w:checkStyle="1"/>
+				<w:activeWritingStyle w:appName="MSWord" w:lang="zh-CN" w:vendorID="64" w:dllVersion="0" w:nlCheck="1" w:checkStyle="1"/>
+				<w:activeWritingStyle w:appName="MSWord" w:lang="en-US" w:vendorID="64" w:dllVersion="4096" w:nlCheck="1" w:checkStyle="0"/>
 				<w:proofState w:spelling="clean" w:grammar="clean"/>
 				<w:defaultTabStop w:val="420"/>
 				<w:drawingGridVerticalSpacing w:val="156"/>
@@ -1133,20 +1204,42 @@
 				</w:compat>
 				<w:rsids>
 					<w:rsidRoot w:val="00D213A4"/>
-					<w:rsid w:val="00024A75"/>
-					<w:rsid w:val="00395C32"/>
+					<w:rsid w:val="00024FC3"/>
+					<w:rsid w:val="00032CB1"/>
+					<w:rsid w:val="000356E6"/>
+					<w:rsid w:val="000432B7"/>
+					<w:rsid w:val="00070618"/>
+					<w:rsid w:val="0011675D"/>
+					<w:rsid w:val="00136AE7"/>
+					<w:rsid w:val="00157DCC"/>
+					<w:rsid w:val="001C3ABE"/>
+					<w:rsid w:val="0032395C"/>
+					<w:rsid w:val="00346B56"/>
+					<w:rsid w:val="0038030C"/>
+					<w:rsid w:val="003D39E5"/>
 					<w:rsid w:val="004E3CBE"/>
-					<w:rsid w:val="005752A2"/>
-					<w:rsid w:val="005976D7"/>
-					<w:rsid w:val="00665C02"/>
+					<w:rsid w:val="00564A87"/>
+					<w:rsid w:val="00592524"/>
+					<w:rsid w:val="00630176"/>
+					<w:rsid w:val="00661931"/>
+					<w:rsid w:val="006954D0"/>
+					<w:rsid w:val="00753B2F"/>
+					<w:rsid w:val="00841B0A"/>
 					<w:rsid w:val="008454FE"/>
-					<w:rsid w:val="00AB1F9A"/>
-					<w:rsid w:val="00AC7044"/>
-					<w:rsid w:val="00C10488"/>
-					<w:rsid w:val="00C734ED"/>
+					<w:rsid w:val="00917789"/>
+					<w:rsid w:val="009B2471"/>
+					<w:rsid w:val="009C5B7D"/>
+					<w:rsid w:val="00A45EB3"/>
+					<w:rsid w:val="00A966B5"/>
+					<w:rsid w:val="00B90551"/>
+					<w:rsid w:val="00D12AF2"/>
 					<w:rsid w:val="00D213A4"/>
-					<w:rsid w:val="00D42BF9"/>
-					<w:rsid w:val="00FC4F72"/>
+					<w:rsid w:val="00DE15BA"/>
+					<w:rsid w:val="00E26B6F"/>
+					<w:rsid w:val="00EA1FAE"/>
+					<w:rsid w:val="00EE1177"/>
+					<w:rsid w:val="00EF5ECD"/>
+					<w:rsid w:val="00F80B52"/>
 				</w:rsids>
 				<m:mathPr>
 					<m:mathFont m:val="Cambria Math"/>
@@ -1171,7 +1264,7 @@
 				</w:shapeDefaults>
 				<w:decimalSymbol w:val="."/>
 				<w:listSeparator w:val=","/>
-				<w14:docId w14:val="111C0496"/>
+				<w14:docId w14:val="58407B0B"/>
 				<w15:chartTrackingRefBased/>
 				<w15:docId w15:val="{05BDAC36-43FB-40CD-9AAF-4617237E72C4}"/>
 			</w:settings>
@@ -1633,7 +1726,7 @@
 					<w:link w:val="a5"/>
 					<w:uiPriority w:val="99"/>
 					<w:unhideWhenUsed/>
-					<w:rsid w:val="00024A75"/>
+					<w:rsid w:val="00346B56"/>
 					<w:pPr>
 						<w:pBdr>
 							<w:bottom w:val="single" w:sz="6" w:space="1" w:color="auto"/>
@@ -1655,7 +1748,7 @@
 					<w:basedOn w:val="a0"/>
 					<w:link w:val="a4"/>
 					<w:uiPriority w:val="99"/>
-					<w:rsid w:val="00024A75"/>
+					<w:rsid w:val="00346B56"/>
 					<w:rPr>
 						<w:rFonts w:eastAsia="宋体"/>
 						<w:sz w:val="18"/>
@@ -1668,7 +1761,7 @@
 					<w:link w:val="a7"/>
 					<w:uiPriority w:val="99"/>
 					<w:unhideWhenUsed/>
-					<w:rsid w:val="00024A75"/>
+					<w:rsid w:val="00346B56"/>
 					<w:pPr>
 						<w:tabs>
 							<w:tab w:val="center" w:pos="4153"/>
@@ -1687,7 +1780,7 @@
 					<w:basedOn w:val="a0"/>
 					<w:link w:val="a6"/>
 					<w:uiPriority w:val="99"/>
-					<w:rsid w:val="00024A75"/>
+					<w:rsid w:val="00346B56"/>
 					<w:rPr>
 						<w:rFonts w:eastAsia="宋体"/>
 						<w:sz w:val="18"/>
@@ -1701,7 +1794,7 @@
 					<w:uiPriority w:val="99"/>
 					<w:semiHidden/>
 					<w:unhideWhenUsed/>
-					<w:rsid w:val="00024A75"/>
+					<w:rsid w:val="009C5B7D"/>
 					<w:rPr>
 						<w:sz w:val="18"/>
 						<w:szCs w:val="18"/>
@@ -1713,7 +1806,7 @@
 					<w:link w:val="a8"/>
 					<w:uiPriority w:val="99"/>
 					<w:semiHidden/>
-					<w:rsid w:val="00024A75"/>
+					<w:rsid w:val="009C5B7D"/>
 					<w:rPr>
 						<w:rFonts w:eastAsia="宋体"/>
 						<w:sz w:val="18"/>
@@ -1785,8 +1878,8 @@
 				<dc:description/>
 				<cp:lastModifiedBy>Ly0401</cp:lastModifiedBy>
 				<cp:revision>2</cp:revision>
-				<dcterms:created xsi:type="dcterms:W3CDTF">2020-11-10T09:04:00Z</dcterms:created>
-				<dcterms:modified xsi:type="dcterms:W3CDTF">2020-11-10T09:04:00Z</dcterms:modified>
+				<dcterms:created xsi:type="dcterms:W3CDTF">2020-11-13T03:15:00Z</dcterms:created>
+				<dcterms:modified xsi:type="dcterms:W3CDTF">2020-11-13T03:15:00Z</dcterms:modified>
 			</cp:coreProperties>
 		</pkg:xmlData>
 	</pkg:part>
@@ -1794,10 +1887,10 @@
 		<pkg:xmlData>
 			<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
 				<Template>Normal.dotm</Template>
-				<TotalTime>1</TotalTime>
+				<TotalTime>0</TotalTime>
 				<Pages>1</Pages>
-				<Words>29</Words>
-				<Characters>167</Characters>
+				<Words>21</Words>
+				<Characters>121</Characters>
 				<Application>Microsoft Office Word</Application>
 				<DocSecurity>0</DocSecurity>
 				<Lines>1</Lines>
@@ -1805,7 +1898,7 @@
 				<ScaleCrop>false</ScaleCrop>
 				<Company/>
 				<LinksUpToDate>false</LinksUpToDate>
-				<CharactersWithSpaces>195</CharactersWithSpaces>
+				<CharactersWithSpaces>141</CharactersWithSpaces>
 				<SharedDoc>false</SharedDoc>
 				<HyperlinksChanged>false</HyperlinksChanged>
 				<AppVersion>16.0000</AppVersion>

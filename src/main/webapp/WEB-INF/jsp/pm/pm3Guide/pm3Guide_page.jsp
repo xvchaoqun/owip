@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._meetingMonth}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="pm3GuideOw:edit">
+                <shiro:hasPermission name="pm3Guide:edit">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/pm/pm3Guide_au">
                         <i class="fa fa-plus"></i> 上传生活指南</button>

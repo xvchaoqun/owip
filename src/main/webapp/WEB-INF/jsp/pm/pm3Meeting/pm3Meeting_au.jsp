@@ -76,18 +76,23 @@
 							<c:if test="${edit}">
 								<div class="col-xs-5">
 									<select required data-rel="select2"
-											name="type" data-width="250" data-placeholder="请选择">
+											name="type1" data-width="250" data-placeholder="请选择">
 										<option></option>
-										<c:forEach items="${PM_3_BRANCH_MAP}" var="entity">
+										<option value="1">支部委员会</option>
+										<option value="0">党员集体活动</option>
+									</select>
+								</div>
+								<div class="col-xs-5" id="typeDiv">
+									<select data-rel="select2"
+											name="type2" data-width="250" data-placeholder="请选择">
+										<option></option>
+										<c:forEach items="${PM_3_BRANCH_MAP}" var="entity" begin="1">
 											<option value="${entity.key}">${entity.value}</option>
 										</c:forEach>
 									</select>
 								</div>
 							</c:if>
 						</td>
-						<script>
-							$('#pmForm select[name=type]').val('${pm3Meeting.type}');
-						</script>
 					</tr>
 					<tr>
 						<td width="100"><span class="star">*</span>主题</td>
@@ -141,7 +146,7 @@
 							</c:if>
 							<c:if test="${edit}">
 								<select  ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
-										required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pm3Meeting.partyId}&branchId=${pm3Meeting.branchId}&status=${MEMBER_STATUS_NORMAL}"
+										required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
 										data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
 									<option value="${pm3Meeting.presenter}">${pm3Meeting.presenterUser.realname}-${pm3Meeting.presenterUser.code}</option>
 								</select>
@@ -155,14 +160,11 @@
 							</c:if>
 							<c:if test="${edit}">
 								<select ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
-										required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pm3Meeting.partyId}&branchId=${pm3Meeting.branchId}&status=${MEMBER_STATUS_NORMAL}"
+										required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
 										data-width="270" id="recorder" name="recorder" data-placeholder="请选择">
 									<option value="${pm3Meeting.recorder}">${pm3Meeting.recorderUser.realname}-${pm3Meeting.recorderUser.code}</option>
 								</select>
 							</c:if>
-							<script type="text/javascript">
-								$('#pmForm select[name="recorder"]').val("${pm3Meeting.recorder}").trigger('change');
-							</script>
 						</td>
 					</tr>
 
@@ -353,6 +355,36 @@
 	{{});}}
 </script>
 <script>
+
+	$('#pmForm #typeDiv').addClass('hidden');
+	var type = ${pm3Meeting.type};
+	function selectType(){
+		//console.log(type)
+		if (type==${PM_3_BRANCH_COMMITTEE}){
+			$('#pmForm #typeDiv select[name=type2]').prop("required",false);
+			$('#pmForm #typeDiv').addClass('hidden');
+			$('#pmForm select[name=type1]').val(type);
+		}else {
+			$('#pmForm #typeDiv').removeClass('hidden');
+			$('#pmForm #typeDiv select[name=type2]').prop('required',true);
+			$('#pmForm select[name=type1]').val('0');
+			$('#pmForm select[name=type2]').val(type);
+		}
+	}
+	selectType();
+
+	$('#pmForm select[name=type1]').on('change', function (){
+		//console.log($('#pmForm select[name=type1]').val())
+		if ($('#pmForm select[name=type1]').val()==${PM_3_BRANCH_COMMITTEE}){
+			$('#pmForm #typeDiv select[name=type2]').prop("required",false);
+			$('#pmForm #typeDiv select[name=type2]').val(null).trigger('change');
+			$('#pmForm #typeDiv').addClass('hidden');
+		}else {
+			$('#pmForm #typeDiv').removeClass('hidden');
+			$('#pmForm #typeDiv select[name=type2]').prop("required",true);
+		}
+	})
+
 	var presenterSelect = $('#pmForm select[name="presenter"]');
 	var recorderSelect = $('#pmForm select[name="recorder"]');
 
@@ -466,5 +498,5 @@
 		}
 	});
 
-	$('#pmForm [name="type"]').select2();
+	$('#pmForm [data-rel="select2"]').select2();
 </script>
