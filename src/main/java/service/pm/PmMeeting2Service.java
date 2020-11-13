@@ -87,6 +87,11 @@ public class PmMeeting2Service extends PmBaseMapper {
     public void delFile(int id, int indexId){
 
         PmMeeting2 pmMeeting2 = pmMeeting2Mapper.selectByPrimaryKey(id);
+
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pmMeeting2.getPartyId(), pmMeeting2.getBranchId())){
+            throw new UnauthorizedException();
+        }
+
         String[] fileNames =pmMeeting2.getFileName().split(";");
         String[] filePaths =pmMeeting2.getFilePath().split(";");
 

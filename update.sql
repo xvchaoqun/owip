@@ -1,11 +1,26 @@
 
 20201112
-西工大
+西工大，南航 -- 北师大
 ALTER TABLE `cet_trainee_type`
 	DROP INDEX `code`;
 
 ALTER TABLE `cet_trainee_type`
 	DROP COLUMN `template_id`;
+
+ALTER TABLE `sys_role`
+	ADD COLUMN `resource_ids_minus` TEXT NULL COMMENT '角色减资源，网页端' AFTER `m_resource_ids`,
+	ADD COLUMN `m_resource_ids_minus` TEXT NULL COMMENT '角色减资源，移动端' AFTER `resource_ids_minus`;
+
+update sys_role set resource_ids_minus=resource_ids, m_resource_ids_minus=m_resource_ids where type=2;
+update sys_role set resource_ids='-1',m_resource_ids='-1' where type=2;
+
+INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('cadre_leave', '离任干部', NULL, '-1', '-1', '-1', '-1', NULL, 0, 0, 68, '');
+
+ALTER TABLE `sys_role`
+	DROP COLUMN `type`;
+
+
+-- 执行 /test/sys_role.jsp
 
 20201110
 
