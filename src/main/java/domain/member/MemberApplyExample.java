@@ -436,6 +436,66 @@ public class MemberApplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andJoinApplyTimeIsNull() {
+            addCriterion("join_apply_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeIsNotNull() {
+            addCriterion("join_apply_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("join_apply_time =", value, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("join_apply_time <>", value, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("join_apply_time >", value, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("join_apply_time >=", value, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeLessThan(Date value) {
+            addCriterionForJDBCDate("join_apply_time <", value, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("join_apply_time <=", value, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("join_apply_time in", values, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("join_apply_time not in", values, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("join_apply_time between", value1, value2, "joinApplyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinApplyTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("join_apply_time not between", value1, value2, "joinApplyTime");
+            return (Criteria) this;
+        }
+
         public Criteria andFillTimeIsNull() {
             addCriterion("fill_time is null");
             return (Criteria) this;
@@ -2023,6 +2083,76 @@ public class MemberApplyExample {
 
         public Criteria andApplySnNotBetween(String value1, String value2) {
             addCriterion("apply_sn not between", value1, value2, "applySn");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorIsNull() {
+            addCriterion("draw_acceptor is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorIsNotNull() {
+            addCriterion("draw_acceptor is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorEqualTo(String value) {
+            addCriterion("draw_acceptor =", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorNotEqualTo(String value) {
+            addCriterion("draw_acceptor <>", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorGreaterThan(String value) {
+            addCriterion("draw_acceptor >", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorGreaterThanOrEqualTo(String value) {
+            addCriterion("draw_acceptor >=", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorLessThan(String value) {
+            addCriterion("draw_acceptor <", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorLessThanOrEqualTo(String value) {
+            addCriterion("draw_acceptor <=", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorLike(String value) {
+            addCriterion("draw_acceptor like", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorNotLike(String value) {
+            addCriterion("draw_acceptor not like", value, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorIn(List<String> values) {
+            addCriterion("draw_acceptor in", values, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorNotIn(List<String> values) {
+            addCriterion("draw_acceptor not in", values, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorBetween(String value1, String value2) {
+            addCriterion("draw_acceptor between", value1, value2, "drawAcceptor");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawAcceptorNotBetween(String value1, String value2) {
+            addCriterion("draw_acceptor not between", value1, value2, "drawAcceptor");
             return (Criteria) this;
         }
 

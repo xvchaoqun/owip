@@ -164,7 +164,7 @@
                 <label class="col-xs-3 control-label">转正时所在党支部</label>
                 <div class="col-xs-8">
                     <textarea class="form-control limited noEnter" type="text"  maxlength="100"
-                                  name="positiveBranch" rows="3">${member.positiveBranch}</textarea>
+                                  name="positiveBranch">${member.positiveBranch}</textarea>
                 </div>
             </div>
             </c:if>
@@ -172,21 +172,42 @@
                 <label class="col-xs-3 control-label">党内职务</label>
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text"  maxlength="50"
-                                  name="partyPost" rows="2">${member.partyPost}</textarea>
+                                  name="partyPost">${member.partyPost}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">党内奖励</label>
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-                                  name="partyReward" rows="3">${member.partyReward}</textarea>
+                                  name="partyReward">${member.partyReward}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">其他奖励</label>
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-                                  name="otherReward" rows="3">${member.otherReward}</textarea>
+                                  name="otherReward">${member.otherReward}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注1</label>
+                <div class="col-xs-8">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="remark1">${member.remark1}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注2</label>
+                <div class="col-xs-8">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="remark2">${member.remark2}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注3</label>
+                <div class="col-xs-8">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="remark3">${member.remark3}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -204,10 +225,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>添加/<br/>更新原因</label>
+                <label class="col-xs-3 control-label">添加/<br/>更新原因</label>
                 <div class="col-xs-8">
-						<textarea required class="form-control limited noEnter" type="text"
-                                  name="reason" rows="3"></textarea>
+						<textarea class="form-control limited noEnter" type="text"
+                                  name="reason"></textarea>
                 </div>
             </div>
         </div>

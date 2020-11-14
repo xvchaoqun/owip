@@ -21,6 +21,15 @@ pageEncoding="UTF-8" %>
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3Meeting?cls=3"}><i class="fa fa-check"></i> 审核通过(${cm:trimToZero(pm_passCount)})</a>
                         </li>
+                        <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
+                            <c:if test="${cls==PM_3_STATUS_SAVE||(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||(cls==PM_3_STATUS_OW&&isOw)}">
+                                <shiro:hasPermission name="pm3Meeting:edit">
+                                    <button class="openView btn btn-info btn-sm"
+                                            data-url="${ctx}/pm/pm3Meeting_au?cls=${cls}&edit=true">
+                                        <i class="fa fa-plus"></i> 添加</button>
+                                </shiro:hasPermission>
+                            </c:if>
+                        </div>
                     </ul>
                 </shiro:hasPermission>
                 <div class="tab-content">
@@ -30,9 +39,6 @@ pageEncoding="UTF-8" %>
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==PM_3_STATUS_SAVE||(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||(cls==PM_3_STATUS_OW&&isOw)}">
                                 <shiro:hasPermission name="pm3Meeting:edit">
-                                    <button class="openView btn btn-info btn-sm"
-                                            data-url="${ctx}/pm/pm3Meeting_au?cls=${cls}&edit=true">
-                                        <i class="fa fa-plus"></i> 添加</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                        data-url="${ctx}/pm/pm3Meeting_au?cls=${cls}&edit=true"
                                             data-open-by="page"

@@ -357,10 +357,13 @@
 <script>
 
 	$('#pmForm #typeDiv').addClass('hidden');
-	var type = ${pm3Meeting.type};
+	var type = $.trim(${pm3Meeting.type});
 	function selectType(){
 		//console.log(type)
-		if (type==${PM_3_BRANCH_COMMITTEE}){
+		if (type==null||type==''){
+			$('#pmForm #typeDiv select[name=type2]').prop("required",false);
+			$('#pmForm #typeDiv').addClass('hidden');
+		}else if (type==${PM_3_BRANCH_COMMITTEE}){
 			$('#pmForm #typeDiv select[name=type2]').prop("required",false);
 			$('#pmForm #typeDiv').addClass('hidden');
 			$('#pmForm select[name=type1]').val(type);

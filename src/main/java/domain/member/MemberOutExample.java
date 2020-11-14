@@ -1,8 +1,6 @@
 package domain.member;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
@@ -1235,6 +1233,66 @@ public class MemberOutExample {
 
         public Criteria andHasReceiptNotBetween(Boolean value1, Boolean value2) {
             addCriterion("has_receipt not between", value1, value2, "hasReceipt");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeIsNull() {
+            addCriterion("accept_receipt_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeIsNotNull() {
+            addCriterion("accept_receipt_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("accept_receipt_time =", value, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("accept_receipt_time <>", value, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("accept_receipt_time >", value, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("accept_receipt_time >=", value, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeLessThan(Date value) {
+            addCriterionForJDBCDate("accept_receipt_time <", value, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("accept_receipt_time <=", value, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("accept_receipt_time in", values, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("accept_receipt_time not in", values, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("accept_receipt_time between", value1, value2, "acceptReceiptTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptReceiptTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("accept_receipt_time not between", value1, value2, "acceptReceiptTime");
             return (Criteria) this;
         }
 

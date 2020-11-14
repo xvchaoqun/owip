@@ -44,6 +44,8 @@ public class MemberApplyView implements Serializable {
 
     private Date applyTime;
 
+    private Date joinApplyTime;
+
     private Date fillTime;
 
     private String remark;
@@ -93,6 +95,8 @@ public class MemberApplyView implements Serializable {
     private Integer applySnId;
 
     private String applySn;
+
+    private String drawAcceptor;
 
     private Integer growPublicId;
 
@@ -162,6 +166,14 @@ public class MemberApplyView implements Serializable {
 
     public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public Date getJoinApplyTime() {
+        return joinApplyTime;
+    }
+
+    public void setJoinApplyTime(Date joinApplyTime) {
+        this.joinApplyTime = joinApplyTime;
     }
 
     public Date getFillTime() {
@@ -362,6 +374,14 @@ public class MemberApplyView implements Serializable {
 
     public void setApplySn(String applySn) {
         this.applySn = applySn == null ? null : applySn.trim();
+    }
+
+    public String getDrawAcceptor() {
+        return drawAcceptor;
+    }
+
+    public void setDrawAcceptor(String drawAcceptor) {
+        this.drawAcceptor = drawAcceptor == null ? null : drawAcceptor.trim();
     }
 
     public Integer getGrowPublicId() {

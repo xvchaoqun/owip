@@ -19,6 +19,7 @@
     <result column="valid_days" jdbcType="INTEGER" property="validDays" />
     <result column="handle_time" jdbcType="DATE" property="handleTime" />
     <result column="has_receipt" jdbcType="BIT" property="hasReceipt" />
+    <result column="accept_receipt_time" jdbcType="DATE" property="acceptReceiptTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="is_self_print" jdbcType="BIT" property="isSelfPrint" />
     <result column="is_self_print_count" jdbcType="INTEGER" property="isSelfPrintCount" />
@@ -91,8 +92,8 @@
   <sql id="Base_Column_List">
     id, user_id, party_id, branch_id, phone, type, to_title, to_unit, from_unit, from_address, 
     from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    status, is_self_print, is_self_print_count, is_modify, is_back, reason, apply_time, 
-    print_count, last_print_time, last_print_user_id
+    accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, is_back, 
+    reason, apply_time, print_count, last_print_time, last_print_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutExample" resultMap="BaseResultMap">
     select
@@ -133,19 +134,21 @@
       to_unit, from_unit, from_address, 
       from_phone, from_fax, from_post_code, 
       pay_time, valid_days, handle_time, 
-      has_receipt, status, is_self_print, 
-      is_self_print_count, is_modify, is_back, 
-      reason, apply_time, print_count, 
-      last_print_time, last_print_user_id)
+      has_receipt, accept_receipt_time, status, 
+      is_self_print, is_self_print_count, is_modify, 
+      is_back, reason, apply_time, 
+      print_count, last_print_time, last_print_user_id
+      )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{toTitle,jdbcType=VARCHAR}, 
       #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
       #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
       #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isSelfPrint,jdbcType=BIT}, 
-      #{isSelfPrintCount,jdbcType=INTEGER}, #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, 
-      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, 
-      #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER})
+      #{hasReceipt,jdbcType=BIT}, #{acceptReceiptTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
+      #{isSelfPrint,jdbcType=BIT}, #{isSelfPrintCount,jdbcType=INTEGER}, #{isModify,jdbcType=BIT}, 
+      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberOut">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -200,6 +203,9 @@
       </if>
       <if test="hasReceipt != null">
         has_receipt,
+      </if>
+      <if test="acceptReceiptTime != null">
+        accept_receipt_time,
       </if>
       <if test="status != null">
         status,
@@ -280,6 +286,9 @@
       </if>
       <if test="hasReceipt != null">
         #{hasReceipt,jdbcType=BIT},
+      </if>
+      <if test="acceptReceiptTime != null">
+        #{acceptReceiptTime,jdbcType=DATE},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -373,6 +382,9 @@
       <if test="record.hasReceipt != null">
         has_receipt = #{record.hasReceipt,jdbcType=BIT},
       </if>
+      <if test="record.acceptReceiptTime != null">
+        accept_receipt_time = #{record.acceptReceiptTime,jdbcType=DATE},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -427,6 +439,7 @@
       valid_days = #{record.validDays,jdbcType=INTEGER},
       handle_time = #{record.handleTime,jdbcType=DATE},
       has_receipt = #{record.hasReceipt,jdbcType=BIT},
+      accept_receipt_time = #{record.acceptReceiptTime,jdbcType=DATE},
       status = #{record.status,jdbcType=TINYINT},
       is_self_print = #{record.isSelfPrint,jdbcType=BIT},
       is_self_print_count = #{record.isSelfPrintCount,jdbcType=INTEGER},
@@ -492,6 +505,9 @@
       <if test="hasReceipt != null">
         has_receipt = #{hasReceipt,jdbcType=BIT},
       </if>
+      <if test="acceptReceiptTime != null">
+        accept_receipt_time = #{acceptReceiptTime,jdbcType=DATE},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -543,6 +559,7 @@
       valid_days = #{validDays,jdbcType=INTEGER},
       handle_time = #{handleTime,jdbcType=DATE},
       has_receipt = #{hasReceipt,jdbcType=BIT},
+      accept_receipt_time = #{acceptReceiptTime,jdbcType=DATE},
       status = #{status,jdbcType=TINYINT},
       is_self_print = #{isSelfPrint,jdbcType=BIT},
       is_self_print_count = #{isSelfPrintCount,jdbcType=INTEGER},

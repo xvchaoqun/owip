@@ -989,6 +989,10 @@ public class MemberController extends MemberBaseController {
                             //@RequestDateRange DateRange _retireTime,
                             //Boolean isHonorRetire,
 
+                            String remark1,
+                            String remark2,
+                            String remark3,
+
                             @RequestParam(required = false, defaultValue = "0") int export,
                             Integer[] ids, // 导出的记录
                             Integer[] cols, // 选择导出的列
@@ -1006,10 +1010,21 @@ public class MemberController extends MemberBaseController {
         MemberViewExample.Criteria criteria = example.createCriteria();
 
         String orderStr = "type,is_retire,";
-        if (StringUtils.equalsIgnoreCase(sort, "party")) {
+        if (StringUtils.equalsIgnoreCase(sort, "birth")) {
+            if (StringUtils.equalsIgnoreCase(order, "desc")){
+                order = "asc";
+            }else {
+                order = "desc";
+            }
+            example.setOrderByClause(String.format("birth %s", order));
+        }else if (StringUtils.equalsIgnoreCase(sort, "party")) {
             example.setOrderByClause(String.format("party_sort_order , branch_sort_order %s," + orderStr + " grow_time desc", order));
         } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
+        }else if (StringUtils.equalsIgnoreCase(sort, "positiveTime")) {
+            example.setOrderByClause(String.format("positiveTime %s", order));
+        }else if (StringUtils.equalsIgnoreCase(sort, "outHandleTime")) {
+            example.setOrderByClause(String.format("outHandleTime %s", order));
         }else if (StringUtils.equalsIgnoreCase(sort,"integrity")){
             example.setOrderByClause(String.format("integrity %s", order));
         }else{
@@ -1185,6 +1200,15 @@ public class MemberController extends MemberBaseController {
         if (StringUtils.isNotBlank(idcard)){
             criteria.andIdcardEqualTo(idcard.trim());
         }
+        if (StringUtils.isNotBlank(remark1)){
+            criteria.andRemark1Like(SqlUtils.trimLike(remark1));
+        }
+        if (StringUtils.isNotBlank(remark2)){
+            criteria.andRemark2Like(SqlUtils.trimLike(remark2));
+        }
+        if (StringUtils.isNotBlank(remark3)){
+            criteria.andRemark3Like(SqlUtils.trimLike(remark3));
+        }
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -1267,7 +1291,7 @@ public class MemberController extends MemberBaseController {
                 "到校日期|80",
                 "专业技术职务|120", /*"职称级别|120", "管理岗位等级|120","任职级别|120",*/
                 /*"行政职务|180", */"学历|120", "毕业学校|200", /*"学位授予学校|200",*/
-                "学位|100", /*"人员结构|100", "人才类型|100", "人才称号|200",*/ "手机号码|100"}));
+                "学位|100", /*"人员结构|100", "人才类型|100", "人才称号|200",*/ "手机号码|100","备注1|150","备注2|150","备注3|150"}));
     }
 
     public void teacher_export(int cls, MemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -1357,7 +1381,10 @@ public class MemberController extends MemberBaseController {
                     /*record.getFromType(),*/ // 人员结构
                     /*record.getTalentType(), // 人才类型
                     record.getTalentTitle(),*/
-                    record.getMobile()
+                    record.getMobile(),
+                    record.getRemark1(),
+                    record.getRemark2(),
+                    record.getRemark3()
             }));
 
             if (cls == 3) {
@@ -1388,7 +1415,7 @@ public class MemberController extends MemberBaseController {
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别|150",
-                "培养方式|150", "预计毕业年月|100", "学籍状态|100", "是否出国留学|100"}));
+                "培养方式|150", "预计毕业年月|100", "学籍状态|100", "是否出国留学|100","备注1|150","备注2|150","备注3|150"}));
     }
 
     public void student_export(int cls, MemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -1445,7 +1472,10 @@ public class MemberController extends MemberBaseController {
                     DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
                     record.getXjStatus(),
                     (memberStay != null && memberStay.getStatus() ==
-                            MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) ? "是" : "否"// 是否出国留学
+                            MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) ? "是" : "否",// 是否出国留学
+                    record.getRemark1(),
+                    record.getRemark2(),
+                    record.getRemark3()
             }));
 
             if (cols != null && cols.length > 0) {
@@ -1471,7 +1501,7 @@ public class MemberController extends MemberBaseController {
                 "民族|100", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
-                "手机号码|100"}));
+                "手机号码|100","备注1|150","备注2|150","备注3|150"}));
     }
 
     //导出全部党员
@@ -1520,6 +1550,9 @@ public class MemberController extends MemberBaseController {
                     record.getOtherReward(),
                     metaTypeService.getName(record.getAddType()),
                     record.getMobile(),
+                    record.getRemark1(),
+                    record.getRemark2(),
+                    record.getRemark3()
             }));
 
             if (cols != null && cols.length > 0) {

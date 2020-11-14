@@ -23,7 +23,8 @@
              ||not empty param.politicalStatus||not empty param.userSource
                 ||not empty param._growTime ||not empty param._positiveTime
                 ||not empty param._outHandleTime || not empty param.partyId
-                ||not empty param._integrity||not empty param.studentType||not empty param.grade}"/>
+                ||not empty param._integrity||not empty param.studentType||not empty param.grade||not empty param.remark1
+                ||not empty param.remark2||not empty param.remark3}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
 
@@ -425,6 +426,18 @@
                                             </script>
                                         </div>
                                             </c:if>
+                                        <div class="form-group">
+                                            <label>备注1</label>
+                                            <input type="text" name="remark1" value="${param.remark1}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>备注2</label>
+                                            <input type="text" name="remark2" value="${param.remark2}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>备注3</label>
+                                            <input type="text" name="remark3" value="${param.remark3}">
+                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
@@ -524,7 +537,7 @@
             {label: '性别', name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 120},
-            {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
+            {label: '年龄', name: 'birth', width: 75,sortable: true, formatter: $.jgrid.formatter.AGE},
             <c:if test="${cls!=6&&cls!=7}">
                 {
                     label: '所在党组织', name: 'party', width: 550, formatter: function (cellvalue, options, rowObject) {
@@ -550,6 +563,7 @@
             {
                 label: '转正时间',
                 name: 'positiveTime',
+                sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
@@ -571,6 +585,7 @@
             {
                 label: '转出时间',
                 name: 'outHandleTime',
+                sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
@@ -578,6 +593,9 @@
             <c:if test="${cls==2 || cls==3||cls==7}">
             {label: '人员状态', name: 'staffStatus', width: 120},
             </c:if>
+            {label: '备注1', name: 'remark1', width: 150,align:'left'},
+            {label: '备注2', name: 'remark2', width: 150,align:'left'},
+            {label: '备注3', name: 'remark3', width: 150,align:'left'},
             /*{label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
             {label: '所在院系', name: 'unit', width: 180, align: 'left'},*/
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}

@@ -49,6 +49,8 @@ public class MemberOut implements Serializable {
 
     private Boolean hasReceipt;
 
+    private Date acceptReceiptTime;
+
     private Byte status;
 
     private Boolean isSelfPrint;
@@ -205,6 +207,14 @@ public class MemberOut implements Serializable {
 
     public void setHasReceipt(Boolean hasReceipt) {
         this.hasReceipt = hasReceipt;
+    }
+
+    public Date getAcceptReceiptTime() {
+        return acceptReceiptTime;
+    }
+
+    public void setAcceptReceiptTime(Date acceptReceiptTime) {
+        this.acceptReceiptTime = acceptReceiptTime;
     }
 
     public Byte getStatus() {

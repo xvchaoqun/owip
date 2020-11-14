@@ -502,14 +502,22 @@
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_OUT}">
             {
-                label: '提交书面申请书时间', name: 'applyTime', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '提交书面申请书时间', name: 'applyTime', width: 160, formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.user.birth, 0);
+                }
+            },
+            {
+                label: '入党志愿书接收人', name: 'drawAcceptor', width: 130
+            },
+            {
+                label: '入党申请时间', name: 'joinApplyTime', width:160,formatter: function (cellvalue, options, rowObject) {
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.joinApplyTime, 0);
                 }
             },
             {
                 label: '确定为入党积极分子时间',
                 name: 'activeTime',
-                width: 200,
+                width: 190,
                 formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.applyTime, 2);
                 }

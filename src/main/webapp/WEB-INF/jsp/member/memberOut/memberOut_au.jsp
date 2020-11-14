@@ -194,6 +194,16 @@ pageEncoding="UTF-8"%>
 					</label>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-xs-5 control-label"> 回执接收时间</label>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<input class="form-control date-picker" name="_acceptReceiptTime" type="text"
+							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberOut.acceptReceiptTime,'yyyy-MM-dd')}" />
+						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+					</div>
+				</div>
+			</div>
 
 			<%--<div class="form-group">
 				<label class="col-xs-4 control-label">返回修改原因</label>
@@ -268,5 +278,18 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=politicalStatus]").val('')
 			$("#modalForm input[name=idcard]").val('')
 		}
+	});
+
+	function checkReceipt(){
+		if ($("#modalForm input[name=hasReceipt]").bootstrapSwitch("state")){
+			$("#modalForm input[name=_acceptReceiptTime]").prop('disabled',false);
+		}else {
+			$("#modalForm input[name=_acceptReceiptTime]").val(null).trigger('change');
+			$("#modalForm input[name=_acceptReceiptTime]").prop('disabled',true);
+		}
+	}
+	checkReceipt();
+	$('#modalForm input[name=hasReceipt]').on('switchChange.bootstrapSwitch', function (){
+		checkReceipt();
 	});
 </script>

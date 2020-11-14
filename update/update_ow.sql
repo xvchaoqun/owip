@@ -1,3 +1,19 @@
+
+
+
+-- 2020.11.13 ly
+ALTER TABLE `ow_member`
+	ADD COLUMN `remark1` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注1' AFTER `sort_order`,
+	ADD COLUMN `remark2` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注2' AFTER `remark1`,
+	ADD COLUMN `remark3` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注3' AFTER `remark2`;
+ALTER TABLE `ow_member_apply`
+	ADD COLUMN `draw_acceptor` VARCHAR(30) NULL DEFAULT NULL COMMENT '入党志愿书接收人' AFTER `apply_sn`,
+	ADD COLUMN `join_apply_time` DATE NULL DEFAULT NULL COMMENT '入党申请时间' AFTER `apply_time`;
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `accept_receipt_time` DATE NULL DEFAULT NULL COMMENT '回执接收时间' AFTER `has_receipt`
+-- 更新ow_member_view、ow_member_apply_view、ow_member_out_view
+
+
 -- 2020.09.25 sxx
 
 --  执行 /test/branch_member.jsp

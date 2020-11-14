@@ -17,7 +17,7 @@
                 <c:set var="_query" value="${not empty param.userId ||not empty param.userType||not empty param.type
                 || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
-                ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
+                ||not empty param.partyId ||not empty param.branchId || not empty param._acceptReceiptTime|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="dropdown <c:if test="${cls==1||cls==4||cls==5}">active</c:if>" >
@@ -295,34 +295,42 @@
                                                 </div>
                                             </div>
                                             <c:if test="${cls==3}">
-                                            <div class="form-group">
-                                                <label>是否有回执</label>
-                                                <div class="input-group">
-                                                    <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
-                                                        <option></option>
-                                                        <option value="0">否</option>
-                                                        <option value="1">是</option>
-                                                    </select>
-                                                    <script>
-                                                        $("#searchForm select[name=hasReceipt]").val("${param.hasReceipt}");
-                                                    </script>
-                                                </div>
-                                            </div>
                                                 <div class="form-group">
-                                                <label>是否修改</label>
-                                                <div class="input-group">
-                                                    <select name="isModify" data-rel="select2" data-placeholder="请选择">
-                                                        <option></option>
-                                                        <option value="0">否</option>
-                                                        <option value="1">是</option>
-                                                    </select>
-                                                    <script>
-                                                        $("#searchForm select[name=isModify]").val("${param.isModify}");
-                                                    </script>
+                                                    <label>是否有回执</label>
+                                                    <div class="input-group">
+                                                        <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="0">否</option>
+                                                            <option value="1">是</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=hasReceipt]").val("${param.hasReceipt}");
+                                                        </script>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            </c:if>
-                                            <c:if test="${cls==3}">
+                                                <div class="form-group">
+                                                    <label>回执接收时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_acceptReceiptTime" value="${param._acceptReceiptTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>是否修改</label>
+                                                    <div class="input-group">
+                                                        <select name="isModify" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="0">否</option>
+                                                            <option value="1">是</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=isModify]").val("${param.isModify}");
+                                                        </script>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label>是否已打印</label>
                                                     <div class="input-group">
@@ -457,6 +465,7 @@
             {label: '是否有回执', name: 'hasReceipt', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue?"是":"否"
             }},
+            {label: '回执接收时间', name: 'acceptReceiptTime',width:120,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '是否修改', name: 'isModify', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue?"是":"否"
             }},

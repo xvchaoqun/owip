@@ -242,6 +242,7 @@ public class MemberOutController extends MemberBaseController {
                                String toTitle,
                                String fromUnit,
                                @RequestDateRange DateRange _handleTime,
+                               @RequestDateRange DateRange _acceptReceiptTime,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
@@ -287,6 +288,12 @@ public class MemberOutController extends MemberBaseController {
         }
         if (hasReceipt != null) {
             criteria.andHasReceiptEqualTo(hasReceipt);
+        }
+        if (_acceptReceiptTime.getStart() != null) {
+            criteria.andAcceptReceiptTimeGreaterThanOrEqualTo(_acceptReceiptTime.getStart());
+        }
+        if (_acceptReceiptTime.getEnd() != null) {
+            criteria.andAcceptReceiptTimeLessThanOrEqualTo(_acceptReceiptTime.getEnd());
         }
         if (isBack != null) {
             criteria.andIsBackEqualTo(isBack);
@@ -472,10 +479,15 @@ public class MemberOutController extends MemberBaseController {
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
                                MemberOut record, String _payTime,
+                               String _acceptReceiptTime,
                                Boolean reapply, //  添加或 重新申请 时传入 true
                                String _handleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
+
+        if (StringUtils.isNotBlank(_acceptReceiptTime)){
+            record.setAcceptReceiptTime(DateUtils.parseDate(_acceptReceiptTime, DateUtils.YYYY_MM_DD));
+        }
         if(record.getId()==null) {
             Member member = memberService.get(userId);
             record.setPartyId(member.getPartyId());
@@ -778,7 +790,7 @@ public class MemberOutController extends MemberBaseController {
         int rownum = records.size();
         String[] titles = {"学工号|100", "姓名|50", "性别|50", "人员类别|80", "联系电话|100",
                 "类别|50", "党籍状态|100", "所在分党委|300|left", "所在党支部|300|left", "转入单位抬头|280|left",
-                "转入单位|200|left", "转出单位|200|left", "介绍信有效期天数|120", "办理时间|80", "状态|120"};
+                "转入单位|200|left", "转出单位|200|left", "介绍信有效期天数|120", "办理时间|80","是否有回执|80","回执接收时间|100", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberOutView record = records.get(i);
@@ -812,6 +824,8 @@ public class MemberOutController extends MemberBaseController {
                     record.getFromUnit(),
                     record.getValidDays() + "",
                     DateUtils.formatDate(record.getHandleTime(), DateUtils.YYYY_MM_DD),
+                    BooleanUtils.isTrue(record.getHasReceipt())?"是":"否",
+                    DateUtils.formatDate(record.getAcceptReceiptTime(), DateUtils.YYYY_MM_DD),
                     record.getStatus() == null ? "" : MemberConstants.MEMBER_OUT_STATUS_MAP.get(record.getStatus())
             };
             valuesList.add(values);
