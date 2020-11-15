@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="profile-info-row">
-                                <div class="profile-info-name"> 提交入党申请时间 </div>
+                                <div class="profile-info-name"> 入党申请时间 </div>
 
                                 <div class="profile-info-value">
                                     <span class="editable" id="joinApplyTime">${cm:formatDate(memberApply.joinApplyTime,'yyyy.MM.dd')}</span>

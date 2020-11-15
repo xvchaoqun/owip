@@ -48,6 +48,18 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-6 control-label no-padding-right"> 入党申请时间</label>
+
+                    <div class="col-sm-3">
+                        <div class="input-group" style="width: 150px">
+                            <input class="form-control date-picker" name="joinApplyTime" type="text"
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(memberApply.joinApplyTime,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-6 control-label no-padding-right"><span class="star">*</span>提交书面申请书时间</label>
 
                     <div class="col-sm-3">
@@ -69,18 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-6 control-label no-padding-right"> 提交入党申请时间</label>
 
-                    <div class="col-sm-3">
-                        <div class="input-group" style="width: 150px">
-                            <input class="form-control date-picker" name="joinApplyTime" type="text"
-                                   data-date-format="yyyy.mm.dd"
-                                   value="${cm:formatDate(memberApply.joinApplyTime,'yyyy.MM.dd')}"/>
-                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                        </div>
-                    </div>
-                </div>
                 <c:if test="${param.stage>OW_APPLY_STAGE_PASS}">
                 <div class="form-group">
                     <label class="col-xs-6 control-label">确定为入党积极分子时间</label>

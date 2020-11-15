@@ -714,17 +714,7 @@
                                     <w:tcW w:w="6804" w:type="dxa"/>
                                     <w:gridSpan w:val="3"/>
                                 </w:tcPr>
-                                <w:p w14:paraId="709B8209" w14:textId="5363A38A" w:rsidR="0011675D" w:rsidRPr="00070618"
-                                     w:rsidRDefault="0011675D" w:rsidP="00A966B5">
-                                    <w:pPr>
-                                        <w:ind w:firstLine="420"/>
-                                        <w:rPr>
-                                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
-                                            <w:szCs w:val="21"/>
-                                        </w:rPr>
-                                    </w:pPr>
-                                </w:p>
-                                ${content!}
+                                ${content?default('<w:p/>')}
                             </w:tc>
                         </w:tr>
                     </w:tbl>

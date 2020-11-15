@@ -618,7 +618,7 @@
                                     <w:tcW w:w="7088" w:type="dxa"/>
                                     <w:gridSpan w:val="3"/>
                                 </w:tcPr>
-                                ${content!}
+                                ${content?default('<w:p/>')}
                             </w:tc>
                         </w:tr>
                     </w:tbl>

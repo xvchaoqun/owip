@@ -186,7 +186,7 @@
 								<button type="button" id ="absent" ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
 										class="popupBtn btn btn-info btn-xs"
 										data-width="900"
-										data-url="${ctx}/pmMeeting_member?type=2&partyId=${pm3Meeting.partyId}&branchId=${pm3Meeting.branchId}">
+										data-url="${ctx}/pm/pm3Meeting_member?type=2&partyId=${pm3Meeting.partyId}&branchId=${pm3Meeting.branchId}">
 									<i class="fa fa-plus-circle"></i> 选择</button>
 							</c:if>
 						</td>
@@ -422,7 +422,7 @@
 			$.register.user_select(presenterSelect);
 			$.register.user_select(recorderSelect);
 
-			$('#absent').data('url', "pmMeeting_member?type=2&partyId="+partyId);
+			$('#absent').data('url', "${ctx}/pm/pm3Meeting_member?type=2&partyId="+partyId);
 
 			presenterSelect.removeAttr("disabled");
 			recorderSelect.removeAttr("disabled");
@@ -454,7 +454,7 @@
 		$.register.user_select(presenterSelect);
 		$.register.user_select(recorderSelect);
 
-		$('#absent').data('url', "pmMeeting_member?type=2&partyId="+partyId+"&branchId="+branchId);
+		$('#absent').data('url', "${ctx}/pm/pm3Meeting_member?type=2&partyId="+partyId+"&branchId="+branchId);
 
 		presenterSelect.removeAttr("disabled");
 		recorderSelect.removeAttr("disabled");
