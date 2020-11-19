@@ -1022,9 +1022,9 @@ public class MemberController extends MemberBaseController {
         } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
         }else if (StringUtils.equalsIgnoreCase(sort, "positiveTime")) {
-            example.setOrderByClause(String.format("positiveTime %s", order));
+            example.setOrderByClause(String.format("positive_time %s", order));
         }else if (StringUtils.equalsIgnoreCase(sort, "outHandleTime")) {
-            example.setOrderByClause(String.format("outHandleTime %s", order));
+            example.setOrderByClause(String.format("out_handle_time %s", order));
         }else if (StringUtils.equalsIgnoreCase(sort,"integrity")){
             example.setOrderByClause(String.format("integrity %s", order));
         }else{
