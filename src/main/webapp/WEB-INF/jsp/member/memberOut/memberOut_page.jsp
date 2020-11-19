@@ -296,29 +296,6 @@
                                             </div>
                                             <c:if test="${cls==3}">
                                                 <div class="form-group">
-                                                    <label>是否有回执</label>
-                                                    <div class="input-group">
-                                                        <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <option value="0">否</option>
-                                                            <option value="1">是</option>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=hasReceipt]").val("${param.hasReceipt}");
-                                                        </script>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>回执接收时间</label>
-                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                                               type="text" name="_acceptReceiptTime" value="${param._acceptReceiptTime}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
                                                     <label>是否修改</label>
                                                     <div class="input-group">
                                                         <select name="isModify" data-rel="select2" data-placeholder="请选择">
@@ -342,6 +319,29 @@
                                                         <script>
                                                             $("#searchForm select[name=isPrint]").val("${param.isPrint}");
                                                         </script>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>是否有回执</label>
+                                                    <div class="input-group">
+                                                        <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="0">否</option>
+                                                            <option value="1">是</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=hasReceipt]").val("${param.hasReceipt}");
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>回执接收时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_acceptReceiptTime" value="${param._acceptReceiptTime}"/>
                                                     </div>
                                                 </div>
                                             </c:if>

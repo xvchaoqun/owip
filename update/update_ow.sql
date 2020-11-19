@@ -10,7 +10,7 @@ ALTER TABLE `ow_member_apply`
 	ADD COLUMN `draw_acceptor` VARCHAR(30) NULL DEFAULT NULL COMMENT '入党志愿书接收人' AFTER `apply_sn`,
 	ADD COLUMN `join_apply_time` DATE NULL DEFAULT NULL COMMENT '入党申请时间' AFTER `apply_time`;
 ALTER TABLE `ow_member_out`
-	ADD COLUMN `accept_receipt_time` DATE NULL DEFAULT NULL COMMENT '回执接收时间' AFTER `has_receipt`
+	ADD COLUMN `accept_receipt_time` DATE NULL DEFAULT NULL COMMENT '回执接收时间' AFTER `has_receipt`;
 -- 更新ow_member_view、ow_member_apply_view、ow_member_out_view
 
 
