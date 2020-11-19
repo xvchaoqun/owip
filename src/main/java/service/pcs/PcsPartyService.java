@@ -101,6 +101,9 @@ public class PcsPartyService extends PcsBaseMapper {
             record.setRetireMemberCount(pcsBranchBean.getRetireMemberCount());
             record.setStudentMemberCount(pcsBranchBean.getStudentMemberCount());
 
+            record.setHasReport(true);
+            record.setIsFinished(true);
+
             pcsRecommendMapper.updateByPrimaryKeySelective(record);
         }
 
