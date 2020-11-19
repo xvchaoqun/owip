@@ -15,13 +15,14 @@
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                <c:if test="${_p_cetSupportCert}">
                 <button data-url="${ctx}/cet/cetRecord_selectOrUpdateCertNo"
                         data-title="更新证书编码"
                         data-msg="确定更新证书编码（已选{0}条数据）？<br/>（已存在的证书不会覆盖）"
                         data-grid-id="#jqGrid"
                         class="jqBatchBtn btn btn-warning btn-sm">
                     <i class="fa fa-refresh"></i> 更新证书编码</button>
-
+                </c:if>
                 <button data-url="${ctx}/cet/cetRecord_batchDel"
                         data-title="删除"
                         data-msg="确定删除这{0}条数据？<br/>（同时会删除对应培训类别中的数据，删除的数据无法恢复，请谨慎删除）"

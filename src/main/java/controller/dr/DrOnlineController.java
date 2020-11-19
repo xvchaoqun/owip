@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -259,7 +260,12 @@ public class DrOnlineController extends DrBaseController {
         }
         if (id != null) {
             DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
-            modelMap.put("drOnline", drOnline);
+            if(drOnline!=null) {
+                drOnline.setNotice(HtmlUtils.htmlUnescape(drOnline.getNotice()));
+                drOnline.setInspectorNotice(HtmlUtils.htmlUnescape(drOnline.getInspectorNotice()));
+                drOnline.setMobileNotice(HtmlUtils.htmlUnescape(drOnline.getMobileNotice()));
+                modelMap.put("drOnline", drOnline);
+            }
         }
 
         return "dr/drOnline/drOnline_noticeEdit";

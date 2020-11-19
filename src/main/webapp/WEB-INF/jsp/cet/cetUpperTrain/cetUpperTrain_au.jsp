@@ -586,6 +586,10 @@
             $(".owAuType select[name=userId]").removeAttr("required");
             $("#owAuType_file").removeClass("hidden");
             $("#owAuType_file input[name=xlsx]").attr("required", "required");
+            $.fileInput($("#owAuType_file input[name=xlsx]"), {
+                no_file: '请上传xlsx文件...',
+                allowExt: ['xlsx']
+            });
         }else {
             owAuType_hide();
         }

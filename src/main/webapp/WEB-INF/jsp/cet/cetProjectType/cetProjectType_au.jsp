@@ -16,20 +16,7 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="name" value="${cetProjectType.name}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 分类</label>
-				<div class="col-xs-6">
-					<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="272">
-						<option></option>
-						<c:forEach items="${CET_PROJECT_TYPE_MAP}" var="entity">
-							<option value="${entity.key}">${entity.value}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=type]").val('${cetProjectType.type}')
-					</script>
-				</div>
-			</div>
+
 		<c:if test="${_p_cetSupportCert}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">证书编码</label>

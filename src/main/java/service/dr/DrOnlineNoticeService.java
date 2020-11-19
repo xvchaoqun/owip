@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -61,6 +62,7 @@ public class DrOnlineNoticeService extends DrBaseMapper {
         List<DrOnlineNotice> records = drOnlineNoticeMapper.selectByExample(example);
         Map<Integer, DrOnlineNotice> map = new LinkedHashMap<>();
         for (DrOnlineNotice record : records) {
+            record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
             map.put(record.getId(), record);
         }
 

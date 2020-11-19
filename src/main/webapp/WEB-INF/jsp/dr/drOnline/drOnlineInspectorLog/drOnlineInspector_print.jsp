@@ -98,7 +98,7 @@
                 <td align="left" style="padding-right: 70px">
                     <table style="border: 0px solid;width: 100%; margin: 10px 30px;">
                         <tr>
-                            <td><span style='font-size:12.0pt;font-family:方正小标宋简体'>${drOnline.notice}</span></td>
+                            <td>${cm:htmlUnescape(drOnline.inspectorNotice)}</td>
                         </tr>
                     </table>
                 </td>
