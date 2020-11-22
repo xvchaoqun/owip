@@ -269,7 +269,9 @@ pageEncoding="UTF-8" %>
                 return (rowObject.period>0?rowObject.period:"--")
                     + "/" + (rowObject.requirePeriod>0?rowObject.requirePeriod:"--");
             }},
+            <c:if test="${cls==1||(cls==3&&status==2)}">
             { label: '是否计入<br/>年度学习任务', name: 'isValid', formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">是</span>', off:'<span class="red bolder">否</span>'}},
+            </c:if>
             { label: '参训人数',name: 'objCount', formatter: function (cellvalue, options, rowObject) {
 
                 return Math.trimToZero(rowObject.objCount)-Math.trimToZero(rowObject.quitCount);

@@ -14,7 +14,6 @@ import persistence.pmd.common.PmdExcelReportBean;
 import service.sys.SysConfigService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
-import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
@@ -500,7 +499,7 @@ public class PmdExportService extends PmdBaseMapper {
         str = cell.getStringCellValue().replace("school", schoolName);
         cell.setCellValue(str);
 
-        sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, !isDetail?2:12));
+        //sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, !isDetail?2:12));
         return wb;
     }
 }

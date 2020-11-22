@@ -790,6 +790,7 @@
             </c:if>--%>
             <c:if test="${cls==1}">
             {label: '应完成<br/>学时数', name: 'shouldFinishPeriod', width: 80, frozen: true},
+            <c:if test="${cetProject.status==_PASS}">
             {label: '已完成<br/>学时数', name: 'finishPeriod', width: 80},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
@@ -803,6 +804,7 @@
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
+            </c:if>
             <c:if test="${_p_cetSupportCert}">
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
 
