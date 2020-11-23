@@ -130,7 +130,7 @@
         <div class="form-group ">
             <label class="col-xs-4 control-label">双肩挑单位</label>
             <div class="col-xs-6 input-group" style="padding-left: 12px">
-                <select class="multiselect" multiple="" name="unitIds" data-width="273">
+                <select class="multiselect" multiple="" name="runUnitIds" data-width="273">
                     <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
                         <c:set var="unitList" value="${unitListMap.get(unitType.value.id)}"/>
                         <c:if test="${fn:length(unitList)>0}">
@@ -258,18 +258,10 @@
 
             var selectedUnitIds = [];
             if($("input[name=isDouble]").bootstrapSwitch("state")){
-                selectedUnitIds = $.map($('#modalForm select[name=unitIds] option:selected, ' +
+                selectedUnitIds = $.map($('#modalForm select[name=runUnitIds] option:selected, ' +
                         '#modalForm select[name=historyUnitIds] option:selected'), function(option){
                     return $(option).val();
                 });
-                /*if(selectedUnitIds.length==0){
-                    $.tip({
-                        $target: $("#modalForm select[name=unitIds]").closest(".input-group"),
-                        at: 'right center', my: 'left center', type: 'info',
-                        msg: "请选择双肩挑单位。"
-                    });
-                    return;
-                }*/
             }
 
             var $btn = $("#submitBtn").button('loading');
