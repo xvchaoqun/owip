@@ -198,7 +198,7 @@
 </div>
 <script>
     var doubleUnitIds = '${cadre.doubleUnitIds}';
-    $.register.multiselect($('#modalForm select[name=unitIds]'), doubleUnitIds.split(","), {
+    $.register.multiselect($('#modalForm select[name=runUnitIds]'), doubleUnitIds.split(","), {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
     });
