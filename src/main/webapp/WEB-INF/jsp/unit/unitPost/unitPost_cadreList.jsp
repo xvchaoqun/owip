@@ -96,13 +96,23 @@
                             </script>
                     </div>
                     <div class="form-group">
-                        <label>行政级别</label>
+                        <label>干部行政级别</label>
                         <select data-rel="select2" name="cpAdminLevel" data-width="150" data-placeholder="请选择行政级别">
                             <option></option>
                             <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                         </select>
                         <script type="text/javascript">
                             $("#searchForm select[name=cpAdminLevel]").val(${param.cpAdminLevel});
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <label>岗位级别</label>
+                        <select data-rel="select2" name="adminLevel" data-width="150" data-placeholder="请选择行政级别">
+                            <option></option>
+                            <jsp:include page="/metaTypes?__code=mc_admin_level"/>
+                        </select>
+                        <script type="text/javascript">
+                            $("#searchForm select[name=adminLevel]").val(${param.adminLevel});
                         </script>
                     </div>
                     <div class="form-group">
