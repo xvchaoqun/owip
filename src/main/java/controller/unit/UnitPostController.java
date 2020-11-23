@@ -307,6 +307,7 @@ public class UnitPostController extends BaseController {
                                     Integer unitId,
                                     String code,
                                     String name,
+                                    Integer cpAdminLevel,
                                     Integer adminLevel,
                                     Integer postType,
                                     Integer postClass,
@@ -382,7 +383,10 @@ public class UnitPostController extends BaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
-        if (adminLevel!=null) {
+        if (cpAdminLevel!=null) {
+            criteria.andCpAdminLevelEqualTo(cpAdminLevel);
+        }
+        if (adminLevel != null) {
             criteria.andAdminLevelEqualTo(adminLevel);
         }
         if (postType!=null) {

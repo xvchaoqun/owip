@@ -172,9 +172,13 @@ public class DrOnlinePostService extends DrBaseMapper {
             candidates = StringUtils.join(ids, ",");
         }
 
-        DrOnlinePost post = new DrOnlinePost();
-        post.setId(postId);
-        post.setCandidates(candidates);
-        updateByPrimaryKeySelective(post);
+        if (StringUtils.isBlank(candidates)){
+            commonMapper.excuteSql("update dr_online_post set candidates=null where id=" + postId);
+        }else {
+            DrOnlinePost post = new DrOnlinePost();
+            post.setId(postId);
+            post.setCandidates(candidates);
+            updateByPrimaryKeySelective(post);
+        }
     }
 }

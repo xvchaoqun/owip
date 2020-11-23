@@ -2079,6 +2079,66 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andNpWorkTimeIsNull() {
+            addCriterion("np_work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeIsNotNull() {
+            addCriterion("np_work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time =", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time <>", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("np_work_time >", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time >=", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("np_work_time <", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time <=", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("np_work_time in", values, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("np_work_time not in", values, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("np_work_time between", value1, value2, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("np_work_time not between", value1, value2, "npWorkTime");
+            return (Criteria) this;
+        }
+
         public Criteria andSWorkTimeIsNull() {
             addCriterion("s_work_time is null");
             return (Criteria) this;

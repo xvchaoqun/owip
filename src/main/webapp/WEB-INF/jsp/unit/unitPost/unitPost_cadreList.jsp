@@ -4,7 +4,7 @@
 <div id="body-content" class="multi-row-head-table">
      <c:set var="_query" value="${not empty param.unitId ||not empty param.unitTypes
         ||not empty param.cadreIsPrincipal||not empty param.leaderType ||not empty param.gender  ||not empty param.cadreId
-         ||not empty param.cadrePostType||not empty param.adminLevel ||
+         ||not empty param.cadrePostType||not empty param.adminLevel ||not empty param.cpAdminLevel ||
          (not empty startNowPostAge && startNowPostAge!=8 && startNowPostAge!=10)
          ||not empty param.endNowPostAge
         || not empty param.code || not empty param.sort}"/>
@@ -97,12 +97,12 @@
                     </div>
                     <div class="form-group">
                         <label>行政级别</label>
-                        <select data-rel="select2" name="adminLevel" data-width="150" data-placeholder="请选择行政级别">
+                        <select data-rel="select2" name="cpAdminLevel" data-width="150" data-placeholder="请选择行政级别">
                             <option></option>
                             <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                         </select>
                         <script type="text/javascript">
-                            $("#searchForm select[name=adminLevel]").val(${param.adminLevel});
+                            $("#searchForm select[name=cpAdminLevel]").val(${param.cpAdminLevel});
                         </script>
                     </div>
                     <div class="form-group">

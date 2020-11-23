@@ -92,6 +92,8 @@ public class UnitPostView implements Serializable {
 
     private Date lpWorkTime;
 
+    private Date npWorkTime;
+
     private Date sWorkTime;
 
     private Boolean cadreIsPrincipal;
@@ -348,6 +350,14 @@ public class UnitPostView implements Serializable {
 
     public void setLpWorkTime(Date lpWorkTime) {
         this.lpWorkTime = lpWorkTime;
+    }
+
+    public Date getNpWorkTime() {
+        return npWorkTime;
+    }
+
+    public void setNpWorkTime(Date npWorkTime) {
+        this.npWorkTime = npWorkTime;
     }
 
     public Date getsWorkTime() {
