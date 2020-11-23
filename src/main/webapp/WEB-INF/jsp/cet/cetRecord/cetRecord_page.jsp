@@ -165,7 +165,7 @@
               }}},
             { label: '参训人类型', name: 'traineeTypeId', width: 120, formatter: function (cellvalue, options, rowObject) {
                       if(cellvalue==null)return '--';
-                      if(cellvalue==0) return rowObject.otherTraineeType;
+                      if(cellvalue==0) return $.trim(rowObject.otherTraineeType)==''?'其他':$.trim(rowObject.otherTraineeType);
                       return traineeTypeMap[cellvalue].name
             }},
             {label: '培训<br/>开始时间', name: 'startDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

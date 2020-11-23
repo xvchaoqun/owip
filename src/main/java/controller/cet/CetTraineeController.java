@@ -37,7 +37,7 @@ public class CetTraineeController extends CetBaseController {
 
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee")
-    public String cetTrainee(Integer trainId, int projectId, Integer traineeTypeId,
+    public String cetTrainee(Integer trainId, int projectId,
                              Integer userId,
                              ModelMap modelMap) {
 
@@ -52,13 +52,6 @@ public class CetTraineeController extends CetBaseController {
             typeCountMap.put(_traineeTypeId, num);
         }
         modelMap.put("typeCountMap", typeCountMap);
-
-        if (traineeTypeId == null) {
-            traineeTypeId = cetTraineeTypes.get(0).getId();
-        }
-        modelMap.put("traineeTypeId", traineeTypeId);
-        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
-        modelMap.put("cetTraineeType", cetTraineeType);
 
         if(userId!=null) {
             modelMap.put("sysUser", CmTag.getUserById(userId));
@@ -79,7 +72,7 @@ public class CetTraineeController extends CetBaseController {
     @RequestMapping("/cetTrainee_data")
     public void cetTrainee_data(HttpServletResponse response,
                                 Integer trainId, int projectId,
-                                int traineeTypeId,
+                                //int traineeTypeId,
                                 Integer userId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 Integer[] ids, // 导出的记录
@@ -95,8 +88,7 @@ public class CetTraineeController extends CetBaseController {
 
         CetTraineeViewExample example = new CetTraineeViewExample();
         CetTraineeViewExample.Criteria criteria =
-                example.createCriteria().andProjectIdEqualTo(projectId)
-                        .andTraineeTypeIdEqualTo(traineeTypeId);
+                example.createCriteria().andProjectIdEqualTo(projectId);
 
         if(trainId!=null){
             criteria.andTrainIdEqualTo(trainId);

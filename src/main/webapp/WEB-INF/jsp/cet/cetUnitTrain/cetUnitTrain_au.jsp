@@ -188,7 +188,8 @@ pageEncoding="UTF-8"%>
 <script>
 
 	function traineeTypeChange(){
-		if ($("select[name=traineeTypeId]").val() == "0"){
+		//alert($("#modalForm select[name=traineeTypeId]").val())
+		if ($("#modalForm select[name=traineeTypeId]").val() == "0"){
 			$("#otherTraineeType").removeClass("hidden");
 			$("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).attr("required", "required");
 		}else {
@@ -197,7 +198,7 @@ pageEncoding="UTF-8"%>
 		}
 	}
 
-	$("select[name=traineeTypeId]").on("change", function () {
+	$("#modalForm select[name=traineeTypeId]").on("change", function () {
 		traineeTypeChange();
 	})
 	traineeTypeChange();

@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
+<c:set value="<%=CetConstants.CET_PROJECT_STATUS_PASS%>" var="_PASS"/>
 <div class="space-4"></div>
 <c:set var="_query" value="${not empty param.hasChosen ||not empty param.isCurrentGroup
  ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
@@ -141,41 +142,7 @@
     </shiro:hasPermission>
     </c:if>
     <c:if test="${cls==2}">
-    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
-            data-title="全部设置为必选"
-            data-msg="确定全部设置为必选？<br/>（注：已签到的学员除外）"
-            data-callback="_callback2"
-            class="confirm btn btn-primary btn-sm">
-        <i class="fa fa-check-circle"></i> 全部设置为必选
-    </button>
-    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
-            data-title="全部设置为可选"
-            data-msg="确定全部设置为可选？<br/>（注：此操作将把所有的已选课但未签到的学员重置为未选课，即退课）"
-            data-callback="_callback2"
-            class="confirm btn btn-warning btn-sm">
-        <i class="fa fa-times-circle"></i> 全部设置为可选
-    </button>
-    <button class="popupBtn btn btn-info btn-sm tooltip-success"
-            data-url="${ctx}/cet/cetProjectObj_course_import?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}"
-            data-rel="tooltip" data-placement="top"
-            title="从Excel中导入选课情况"><i class="fa fa-upload"></i> 导入选课情况</button>
 
-    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
-            data-title="设置为必选学员"
-            data-msg="确定将这{0}个学员设置为必选学员？"
-            data-grid-id="#jqGrid2"
-            data-callback="_callback2"
-            class="jqBatchBtn btn btn-primary btn-sm">
-        <i class="fa fa-check"></i> 设置为必选学员
-    </button>
-    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
-            data-title="设置为可选学员"
-            data-msg="确定将这{0}个学员设置为可选学员？<br/>（注：此操作将把已选课但未签到的学员重置为未选课，即退课）"
-            data-grid-id="#jqGrid2"
-            data-callback="_callback2"
-            class="jqBatchBtn btn btn-warning btn-sm">
-        <i class="fa fa-times"></i> 设置为可选学员
-    </button>
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=3&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
             data-title="选课"
             data-msg="确定为这{0}个学员选课？"
@@ -192,13 +159,65 @@
             class="jqBatchBtn btn btn-danger btn-sm">
         <i class="fa fa-times"></i> 退课
     </button>
-    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=4&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
-            data-title="全部退课"
-            data-msg="确定全部退课？<br/>（注：此操作将把所有的已选课但未签到的学员重置为未选课，即全部退课）"
+
+<button class="popupBtn btn btn-info btn-sm tooltip-success"
+            data-url="${ctx}/cet/cetProjectObj_course_import?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}"
+            data-rel="tooltip" data-placement="top"
+            title="从Excel中导入选课情况"><i class="fa fa-upload"></i> 导入选课情况</button>
+        <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">
+                        <i class="fa fa-download"></i>
+                        批量操作 <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                        <li>
+                            <a class="confirm tooltip-success"
+                               data-title="全部设置为必选"
+                                data-msg="确定全部设置为必选？<br/>（注：已签到的学员除外）"
+                                data-callback="_callback2"
+                               data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"><i class="fa fa-check-circle"></i>
+                                全部设置为必选</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a class="confirm tooltip-success"
+                               data-title="全部设置为可选"
+            data-msg="确定全部设置为可选？<br/>（注：此操作将把所有的已选课但未签到的学员重置为未选课，即退课）"
             data-callback="_callback2"
-            class="confirm btn btn-danger btn-sm">
-        <i class="fa fa-times-circle"></i> 全部退课
-    </button>
+                               data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"><i class="fa fa-times-circle"></i>
+                                全部设置为可选</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a class="jqBatchBtn tooltip-success"
+                              data-title="设置为必选学员"
+                                data-msg="确定将这{0}个学员设置为必选学员？"
+                                data-grid-id="#jqGrid2"
+                                data-callback="_callback2"
+                               data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"><i class="fa fa-check"></i>
+                                设置为必选学员</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a class="jqBatchBtn tooltip-success"
+                               data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}&traineeTypeId=${traineeTypeId}"
+            data-title="设置为可选学员"
+            data-msg="确定将这{0}个学员设置为可选学员？<br/>（注：此操作将把已选课但未签到的学员重置为未选课，即退课）"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"><i class="fa fa-times"></i>
+                                设置为可选学员</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="javascript:;" class="jqLinkBtn"
+                               data-need-id="false" data-grid-id="#jqGrid2"
+                               data-url="${ctx}/cg/cgTeam_download?isWord=0">
+                                <i class="fa fa-file-zip-o"></i>
+                                导出概况（zip）</a>
+                        </li>
+                    </ul>
+                </div>
         <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                 data-grid-id="#jqGrid2"
                 data-url="${ctx}/sysApprovalLog?displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ%>"
@@ -807,7 +826,7 @@
             </c:if>
             <c:if test="${_p_cetSupportCert}">
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
-
+            <c:if test="${cetProject.status==_PASS}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.isGraduate) return '--'
@@ -817,6 +836,7 @@
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},
+            </c:if>
             </c:if>
             </c:if>
             /*{label: '联系方式', name: 'mobile', width: 120},

@@ -21,7 +21,7 @@
            data-grid-id="#jqGrid2"
            data-id-name="trainCourseId"><i class="fa fa-edit"></i> 修改课程信息</button>
 
-        <button class="jqOpenViewBtn btn btn-success btn-sm"
+        <button class="jqOpenViewBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_applyStatus"
            data-grid-id="#jqGrid2"
            data-id-name="trainCourseId"><i class="fa fa-hourglass-1"></i> 选课/退课状态</button>

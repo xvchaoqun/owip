@@ -4,13 +4,6 @@
 <div class="space-4"></div>
 <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
-    <div class="type-select">
-        <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
-        <span class="typeCheckbox ${traineeTypeId==cetTraineeType.id?"checked":""}">
-        <input ${traineeTypeId==cetTraineeType.id?"checked":""} type="checkbox" value="${cetTraineeType.id}"> ${cetTraineeType.name}(${cm:trimToZero(typeCountMap.get(cetTraineeType.id))})
-        </span>
-        </c:forEach>
-    </div>
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
@@ -32,7 +25,6 @@
     <div class="widget-body">
         <div class="widget-main no-padding">
             <form class="form-inline search-form" id="searchForm2">
-                <input type="hidden" name="traineeTypeId" value="${traineeTypeId}">
                 <div class="form-group">
                     <label>姓名</label>
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
@@ -49,7 +41,7 @@
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                 data-target="#detail-content${empty param.trainId?'':'2'}"
-                                data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
+                                data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${param.projectId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -69,7 +61,6 @@
     var courseCount = ${courseCount};
     $(".typeCheckbox").click(function () {
         var $input = $("input", $(this));
-        $("#searchForm2 input[name=traineeTypeId]").val($input.val());
         $("#searchForm2 .jqSearchBtn").click();
     })
 
@@ -79,7 +70,7 @@
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
-        url: '${ctx}/cet/cetTrainee_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cet/cetTrainee_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'obj.user.code', width: 110, frozen: true},
               {label: '姓名', name: 'obj.user.realname', width: 120, frozen: true},

@@ -12,7 +12,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -423,10 +422,12 @@ public class CetUnitTrainController extends CetBaseController {
                     _identities.add(metaTypeService.getName(Integer.valueOf(identity)));
                 }
             }
+
             String[] values = {
                     record.getUser().getCode(),
                     record.getUser().getRealname(),
-                    record.getTraineeTypeId() == 0 ? record.getOtherTraineeType() : cetTraineeTypeMapper.selectByPrimaryKey(record.getTraineeTypeId()).getName(),
+                    record.getTraineeTypeId() == 0 ? StringUtils.defaultIfBlank(record.getOtherTraineeType(), "其他")
+                            : cetTraineeTypeMapper.selectByPrimaryKey(record.getTraineeTypeId()).getName(),
                     record.getTitle(),
                     record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
                     record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",

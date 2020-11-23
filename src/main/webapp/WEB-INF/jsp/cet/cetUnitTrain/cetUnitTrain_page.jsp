@@ -191,7 +191,7 @@
             {label: '参训人姓名', name: 'user.realname', frozen:true},
             { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined)return '--';
-                if(cellvalue==0) return rowObject.otherTraineeType;
+                if(cellvalue==0) return $.trim(rowObject.otherTraineeType)==''?'其他':$.trim(rowObject.otherTraineeType);
                 return traineeTypeMap[cellvalue].name;
             }, width:180},
             <c:if test="${reRecord==1}">
