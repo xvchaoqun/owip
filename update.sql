@@ -1,8 +1,15 @@
+20201123
+西工大 -- 北师大
+
+-- 更新  cet_train_obj_view    cet_trainee_view
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+`is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (973, 0, '培训记录查询', '', 'url', '', '/cet/cetTraineeList', 869, '0/1/384/869/', 1, 'cetProject:traineeList', NULL, NULL, NULL, 1, 350);
 
 
 20201123
 
-北航
+北航 -- 北师大
 
 
 -- 更新 unit_post_view

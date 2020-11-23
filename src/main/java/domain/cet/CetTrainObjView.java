@@ -43,6 +43,22 @@ public class CetTrainObjView implements Serializable {
 
     private Integer traineeTypeId;
 
+    private String projectName;
+
+    private Byte projectType;
+
+    private Boolean isPartyProject;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private Integer cetPartyId;
+
+    private Byte projectStatus;
+
+    private Boolean projectIsDeleted;
+
     private Boolean isQuit;
 
     private Integer planId;
@@ -52,6 +68,8 @@ public class CetTrainObjView implements Serializable {
     private Integer courseId;
 
     private BigDecimal period;
+
+    private Boolean isOnline;
 
     private Integer year;
 
@@ -181,6 +199,70 @@ public class CetTrainObjView implements Serializable {
         this.traineeTypeId = traineeTypeId;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
+    }
+
+    public Byte getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(Byte projectType) {
+        this.projectType = projectType;
+    }
+
+    public Boolean getIsPartyProject() {
+        return isPartyProject;
+    }
+
+    public void setIsPartyProject(Boolean isPartyProject) {
+        this.isPartyProject = isPartyProject;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getCetPartyId() {
+        return cetPartyId;
+    }
+
+    public void setCetPartyId(Integer cetPartyId) {
+        this.cetPartyId = cetPartyId;
+    }
+
+    public Byte getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(Byte projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public Boolean getProjectIsDeleted() {
+        return projectIsDeleted;
+    }
+
+    public void setProjectIsDeleted(Boolean projectIsDeleted) {
+        this.projectIsDeleted = projectIsDeleted;
+    }
+
     public Boolean getIsQuit() {
         return isQuit;
     }
@@ -219,6 +301,14 @@ public class CetTrainObjView implements Serializable {
 
     public void setPeriod(BigDecimal period) {
         this.period = period;
+    }
+
+    public Boolean getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Boolean isOnline) {
+        this.isOnline = isOnline;
     }
 
     public Integer getYear() {

@@ -59,11 +59,6 @@
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     var courseCount = ${courseCount};
-    $(".typeCheckbox").click(function () {
-        var $input = $("input", $(this));
-        $("#searchForm2 .jqSearchBtn").click();
-    })
-
     $.register.user_select($("#searchForm2 select[name=userId]"));
 
     var cetTraineeTypeMap = ${cm:toJSONObject(cetTraineeTypeMap)};

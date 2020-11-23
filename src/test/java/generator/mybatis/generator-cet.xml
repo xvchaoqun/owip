@@ -177,22 +177,22 @@
 
         <!--<table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
                mapperName="cet.CetTrainObjViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
-        <!--<table tableName="cet_trainee_view" domainObjectName="cet.CetTraineeView"
+        </table>
+        <table tableName="cet_trainee_view" domainObjectName="cet.CetTraineeView"
                mapperName="cet.CetTraineeViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
-
-        <table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>
+
+        <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
+        </table>-->
 
         <!--<table tableName="cet_column_course_view" domainObjectName="cet.CetColumnCourseView" mapperName="cet.CetColumnCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

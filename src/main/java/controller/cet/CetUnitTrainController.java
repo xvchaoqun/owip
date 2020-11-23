@@ -72,6 +72,7 @@ public class CetUnitTrainController extends CetBaseController {
     public String cetUnitTrain_info(@RequestParam(required = false, defaultValue = "2") Byte cls,
                                     Integer reRecord,
                                     Integer userId,
+                                    Integer cetPartyId,
                                     Integer addUserId,
                                     String projectName,
                                     Integer traineeTypeId,
@@ -80,6 +81,9 @@ public class CetUnitTrainController extends CetBaseController {
 
         if (null != identities){
             modelMap.put("selectIdentities", Arrays.asList(identities));
+        }
+        if (cetPartyId != null) {
+            modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetPartyId));
         }
         modelMap.put("reRecord", reRecord);
         modelMap.put("projectName", projectName);
@@ -131,7 +135,7 @@ public class CetUnitTrainController extends CetBaseController {
                                   Integer addUserId,
                                   @RequestDateRange DateRange _startDate,
                                   @RequestDateRange DateRange _endDate,
-                                  Integer partyId,
+                                  Integer cetPartyId,
                                   String title,
                                   Integer[] identities,
                                   Integer postType,
@@ -207,9 +211,13 @@ public class CetUnitTrainController extends CetBaseController {
         if (null != traineeTypeId){
             criteria.andTraineeTypeIdEqualTo(traineeTypeId);
         }
-        if (partyId != null) {
-            List<Integer> proIds = cetUnitTrainService.getProjectIds(partyId);
-            criteria.andProjectIdIn(proIds);
+        if (cetPartyId != null) {
+            List<Integer> proIds = cetUnitTrainService.getProjectIds(cetPartyId);
+            if(proIds!=null && proIds.size()>0) {
+                criteria.andProjectIdIn(proIds);
+            }else{
+                criteria.andIdIsNull();
+            }
         }
         if (StringUtils.isNotBlank(title)) {
             criteria.andTitleLike(SqlUtils.like(title));

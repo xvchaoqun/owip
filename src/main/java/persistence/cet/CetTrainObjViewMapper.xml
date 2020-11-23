@@ -17,11 +17,20 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_type" jdbcType="TINYINT" property="projectType" />
+    <result column="is_party_project" jdbcType="BIT" property="isPartyProject" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="cet_party_id" jdbcType="INTEGER" property="cetPartyId" />
+    <result column="project_status" jdbcType="TINYINT" property="projectStatus" />
+    <result column="project_is_deleted" jdbcType="BIT" property="projectIsDeleted" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="period" jdbcType="DECIMAL" property="period" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="choose_user_code" jdbcType="VARCHAR" property="chooseUserCode" />
     <result column="choose_user_name" jdbcType="VARCHAR" property="chooseUserName" />
@@ -58,7 +67,9 @@
   <sql id="Base_Column_List">
     id, obj_id, user_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
     sign_type, choose_time, choose_user_id, ip, remark, project_id, trainee_type_id, 
-    is_quit, plan_id, train_id, course_id, period, year, choose_user_code, choose_user_name
+    project_name, project_type, is_party_project, start_date, end_date, cet_party_id, 
+    project_status, project_is_deleted, is_quit, plan_id, train_id, course_id, period, 
+    is_online, year, choose_user_code, choose_user_name
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainObjViewExample" resultMap="BaseResultMap">
     select

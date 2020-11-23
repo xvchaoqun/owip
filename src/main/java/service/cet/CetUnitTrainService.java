@@ -292,10 +292,10 @@ public class CetUnitTrainService extends CetBaseMapper {
         }
     }
 
-    public List<Integer> getProjectIds(Integer partyId) {
+    public List<Integer> getProjectIds(Integer cetPartyId) {
 
         CetPartyExample cetPartyExample = new CetPartyExample();
-        cetPartyExample.createCriteria().andPartyIdEqualTo(partyId);
+        cetPartyExample.createCriteria().andIdEqualTo(cetPartyId);
         List<CetParty> cetParties = cetPartyMapper.selectByExample(cetPartyExample);
         if (cetParties != null && cetParties.size() > 0) {
             List<Integer> cetPartyIds = new ArrayList<>();

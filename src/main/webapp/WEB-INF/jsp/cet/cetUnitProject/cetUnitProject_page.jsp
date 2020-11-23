@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.projectName ||
-             not empty param.partyId || not empty param.unitId || not empty param.startDate || not empty param.endDate || not empty param.projectTypeId
+             not empty param.cetPartyId || not empty param.unitId || not empty param.startDate || not empty param.endDate || not empty param.projectTypeId
              || not empty param.isOnline || not empty param.reportName || not empty param.reporter || not empty param.prePeriod || not empty param.subPeriod
               || not empty param.address}"/>
 
@@ -149,14 +149,13 @@ pageEncoding="UTF-8" %>
                         </div>
                         <div class="form-group">
                             <label>培训主办方</label>
-                            <select required data-rel="select2-ajax"
-                                    data-width="372"
-                                    data-ajax-url="${ctx}/party_selects"
-                                    name="partyId" data-placeholder="请选择">
-                                <option value="${party.id}">${party.name}</option>
+
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
+                                         data-width="308" name="cetPartyId" data-placeholder="请选择二级党委">
+                                <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                             </select>
-                            <script type="text/javascript">
-                                $("#searchForm select[name=partyId]").val(${param.cetParty.partyId});
+                            <script>
+                                $.register.del_select($("#searchForm select[name=cetPartyId]"))
                             </script>
                         </div>
                         <div class="form-group">

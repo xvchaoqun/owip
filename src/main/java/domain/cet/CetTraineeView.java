@@ -1,11 +1,13 @@
 package domain.cet;
 
+import persistence.cet.CetPartyMapper;
 import persistence.cet.CetProjectObjMapper;
 import persistence.cet.CetTrainMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class CetTraineeView implements Serializable {
 
@@ -23,9 +25,15 @@ public class CetTraineeView implements Serializable {
         return cetProjectObjMapper.selectByPrimaryKey(objId);
     }
 
-    private Integer userId;
+    public CetParty getCetParty(){
+
+        if(cetPartyId==null) return null;
+        return CmTag.getBean(CetPartyMapper.class).selectByPrimaryKey(cetPartyId);
+    }
 
     private Integer objId;
+
+    private Integer userId;
 
     private Integer traineeTypeId;
 
@@ -37,6 +45,22 @@ public class CetTraineeView implements Serializable {
 
     private Boolean objIsQuit;
 
+    private String projectName;
+
+    private Byte projectType;
+
+    private Boolean isPartyProject;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private Integer cetPartyId;
+
+    private Byte projectStatus;
+
+    private Boolean projectIsDeleted;
+
     private Long courseCount;
 
     private BigDecimal finishCount;
@@ -45,15 +69,9 @@ public class CetTraineeView implements Serializable {
 
     private BigDecimal finishPeriod;
 
+    private BigDecimal onlineFinishPeriod;
+
     private static final long serialVersionUID = 1L;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getObjId() {
         return objId;
@@ -61,6 +79,14 @@ public class CetTraineeView implements Serializable {
 
     public void setObjId(Integer objId) {
         this.objId = objId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getTraineeTypeId() {
@@ -103,6 +129,70 @@ public class CetTraineeView implements Serializable {
         this.objIsQuit = objIsQuit;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
+    }
+
+    public Byte getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(Byte projectType) {
+        this.projectType = projectType;
+    }
+
+    public Boolean getIsPartyProject() {
+        return isPartyProject;
+    }
+
+    public void setIsPartyProject(Boolean isPartyProject) {
+        this.isPartyProject = isPartyProject;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getCetPartyId() {
+        return cetPartyId;
+    }
+
+    public void setCetPartyId(Integer cetPartyId) {
+        this.cetPartyId = cetPartyId;
+    }
+
+    public Byte getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(Byte projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public Boolean getProjectIsDeleted() {
+        return projectIsDeleted;
+    }
+
+    public void setProjectIsDeleted(Boolean projectIsDeleted) {
+        this.projectIsDeleted = projectIsDeleted;
+    }
+
     public Long getCourseCount() {
         return courseCount;
     }
@@ -133,5 +223,13 @@ public class CetTraineeView implements Serializable {
 
     public void setFinishPeriod(BigDecimal finishPeriod) {
         this.finishPeriod = finishPeriod;
+    }
+
+    public BigDecimal getOnlineFinishPeriod() {
+        return onlineFinishPeriod;
+    }
+
+    public void setOnlineFinishPeriod(BigDecimal onlineFinishPeriod) {
+        this.onlineFinishPeriod = onlineFinishPeriod;
     }
 }

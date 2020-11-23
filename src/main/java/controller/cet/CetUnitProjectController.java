@@ -1,12 +1,13 @@
 package controller.cet;
 
-import domain.cet.*;
+import domain.cet.CetProjectType;
+import domain.cet.CetUnitProject;
+import domain.cet.CetUnitProjectExample;
 import domain.cet.CetUnitProjectExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -47,15 +48,15 @@ public class CetUnitProjectController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitProject")
     public String cetUnitProject(Byte cls,
-                                 Integer partyId,
+                                 Integer cetPartyId,
                                  Integer unitId,
                                  ModelMap modelMap) {
 
         if (unitId != null) {
             modelMap.put("unit", CmTag.getUnit(unitId));
         }
-        if (partyId != null) {
-            modelMap.put("party", partyMapper.selectByPrimaryKey(partyId));
+        if (cetPartyId != null) {
+            modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetPartyId));
         }
 
         boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
@@ -101,7 +102,7 @@ public class CetUnitProjectController extends CetBaseController {
                                     Byte cls,
                                     Integer year,
                                     String projectName,
-                                    Integer partyId,
+                                    Integer cetPartyId,
                                     Integer unitId,
                                     @RequestDateRange DateRange startDate,
                                     @RequestDateRange DateRange endDate,
@@ -138,18 +139,8 @@ public class CetUnitProjectController extends CetBaseController {
         if(StringUtils.isNotBlank(projectName)){
             criteria.andProjectNameLike(SqlUtils.like(projectName));
         }
-        if (partyId != null){
-            CetPartyExample cetPartyExample = new CetPartyExample();
-            cetPartyExample.createCriteria().andPartyIdEqualTo(partyId);
-            List<CetParty> cetparties = cetPartyMapper.selectByExample(cetPartyExample);
-            List<Integer> cetPartyIds = new ArrayList<>();
-            if (cetparties != null) {
-                for (CetParty cetparty : cetparties) {
-                    cetPartyIds.add(cetparty.getId());
-                }
-                criteria.andCetPartyIdIn(cetPartyIds);
-            }
-
+        if (cetPartyId != null){
+            criteria.andCetPartyIdEqualTo(cetPartyId);
         }
         if (unitId != null){
             criteria.andUnitIdEqualTo(unitId);
