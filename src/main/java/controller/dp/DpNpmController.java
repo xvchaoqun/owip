@@ -238,7 +238,7 @@ public class DpNpmController extends DpBaseController {
 
             DpNpm dpNpmAdd = dpNpmService.get(userId);
             if (dpNpmAdd != null){
-                return failed(sysUserService.findById(userId).getRealname() + "用户已是无党派人士");
+                return failed(sysUserService.findById(userId).getRealname() + "账号已是无党派人士");
             }
             status = 1;
             record.setStatus(status);

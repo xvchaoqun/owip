@@ -37,7 +37,7 @@ public class UserPmdPayController extends PmdBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 缴费原则：本人或代缴（支部成员或支部管理员）
-    // （应该判断当月缴费所在的支部，因为用户可能延迟缴费之后进行了组织关系转接）
+    // （应该判断当月缴费所在的支部，因为账号可能延迟缴费之后进行了组织关系转接）
     private PmdMember checkPayAuth(int pmdMemberId, boolean isSelfPay){
 
         PmdMember _pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);

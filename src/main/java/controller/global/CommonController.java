@@ -35,7 +35,7 @@ import java.util.*;
 @Controller
 public class CommonController extends BaseController {
 
-    // 根据账号或姓名或学工号选择用户
+    // 根据账号或姓名或学工号选择账号
     @RequestMapping("/sysUser_selects")
     @ResponseBody
     public Map sysUser_selects(Byte[] types,
@@ -211,7 +211,7 @@ public class CommonController extends BaseController {
         return resultMap;
     }
 
-    // 根据账号或姓名或学工号选择非干部用户
+    // 根据账号或姓名或学工号选择非干部账号
     @RequestMapping("/notCadre_selects")
     @ResponseBody
     public Map notCadre_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
@@ -383,7 +383,7 @@ public class CommonController extends BaseController {
                               Byte politicalStatus,
                               Byte[] status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
-                              Integer[] excludeUserIds, // 排除用户
+                              Integer[] excludeUserIds, // 排除账号
                               @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                               Integer pageNo,
                               String searchStr) throws IOException {
@@ -545,7 +545,7 @@ public class CommonController extends BaseController {
         return resultMap;
     }
 
-    // 根据账号或姓名或学工号选择非党员用户
+    // 根据账号或姓名或学工号选择非党员账号
     @RequestMapping("/notMember_selects")
     @ResponseBody
     public Map notMember_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {

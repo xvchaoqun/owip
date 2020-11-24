@@ -160,7 +160,7 @@ public class PcsAdminController extends PcsBaseController {
 
         List<OwAdmin> owAdmins = partyAdminService.getOwAdmins(record.getUserId());
         if(owAdmins.size()==0) {
-            throw new OpException("该用户不是党代会管理员");
+            throw new OpException("该账号不是党代会管理员");
         }
 
         OwAdmin owAdmin = owAdmins.get(0); // 按分党委顺序仅读取管理的第一个分党委

@@ -204,7 +204,7 @@ public class MemberService extends MemberBaseMapper {
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-        memberApplyService.addOrChangeToGrowApply(userId);
+        memberApplyService.updateByMember(userId);
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
@@ -252,7 +252,7 @@ public class MemberService extends MemberBaseMapper {
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新党员发展的预备党员
-            memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
+            memberApplyService.updateByMember(userId);
         }
     }
 
@@ -291,7 +291,7 @@ public class MemberService extends MemberBaseMapper {
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新党员发展的预备党员
-            memberApplyService.updateWhenModifyMember(userId, partyId, branchId);
+            memberApplyService.updateByMember(userId);
         }
     }
 
@@ -359,18 +359,13 @@ public class MemberService extends MemberBaseMapper {
 
     // 系统内部使用，更新党员状态、党籍状态等
     @Transactional
-    public int updateByPrimaryKeySelective(Member record) {
+    public void updateByPrimaryKeySelective(Member record) {
 
         Integer userId = record.getUserId();
         if (record.getPartyId() != null && record.getBranchId() == null) {
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             iMemberMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
-        }
-
-        if (record.getPartyId() != null) {
-            MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-            memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
         }
 
         Byte politicalStatus = record.getPoliticalStatus();
@@ -384,7 +379,10 @@ public class MemberService extends MemberBaseMapper {
             commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
         }
 
-        return memberMapper.updateByPrimaryKeySelective(record);
+        memberMapper.updateByPrimaryKeySelective(record);
+
+        MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
+        memberApplyService.updateByMember(userId);
     }
 
     // 修改党籍信息时使用，保留修改记录
@@ -442,13 +440,7 @@ public class MemberService extends MemberBaseMapper {
                     + MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(politicalStatus)));
 
             MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-            if (politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
-                // 正式->预备，需要同时修改或添加党员发展【6.预备党员】阶段
-                memberApplyService.addOrChangeToGrowApply(userId);
-            } else {
-                // 预备->正式，需要同时修改党员发展【6.预备党员】阶段->【7.正式党员】阶段
-                memberApplyService.modifyMemberToPositiveStatus(userId);
-            }
+            memberApplyService.updateByMember(userId);
         }
     }
 

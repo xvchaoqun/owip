@@ -32,6 +32,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <c:if test="${param.stage>=OW_APPLY_STAGE_DRAW}">
+            <shiro:hasPermission name="applySnRange:*">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>编码处理方式</label>
             <div class="col-xs-8">
@@ -52,6 +53,7 @@ pageEncoding="UTF-8"%>
                 <span class="help-block">注：此选项仅对退回至“预备党员”之前的阶段，且已分配志愿书编码的申请有效</span>
             </div>
         </div>
+            </shiro:hasPermission>
         </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>退回原因</label>

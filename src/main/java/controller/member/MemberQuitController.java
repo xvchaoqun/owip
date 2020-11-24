@@ -353,7 +353,7 @@ public class MemberQuitController extends MemberBaseController {
         } else {
 
             if(memberQuit.getStatus()==MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY)
-                return failed("该用户已经出党，不可以再次修改。");
+                return failed("该账号已经出党，不可以再次修改。");
 
             if(resubmit!=null && resubmit==1 && memberQuit.getStatus()<MemberConstants.MEMBER_QUIT_STATUS_APPLY){ // 重新提交
                 record.setStatus(MemberConstants.MEMBER_QUIT_STATUS_APPLY);

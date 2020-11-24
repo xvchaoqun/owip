@@ -77,6 +77,16 @@ public class EnterApplyService extends MemberBaseMapper{
         return enterApplies.size()>0?enterApplies.get(0):null;
     }
 
+    public EnterApply getLastApply(int userId){
+
+        EnterApplyExample example = new EnterApplyExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("id asc");
+        List<EnterApply> enterApplies = enterApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return enterApplies.size()>0?enterApplies.get(0):null;
+    }
+
     // 查询当前的有效申请
     public EnterApply checkCurrentApply(int userId, int type){
 
@@ -289,140 +299,142 @@ public class EnterApplyService extends MemberBaseMapper{
 
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
-        if(_enterApply==null)
-            throw new OpException("申请不存在。");
-
-        EnterApply enterApply = new EnterApply();
-        enterApply.setId(_enterApply.getId());
-        enterApply.setStatus(status);
-        enterApply.setRemark(remark);
-        enterApply.setBackTime(new Date());
-        enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-
-        switch (_enterApply.getType()) {
-            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY: {
-                // 状态检查
-                MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-                if(_memberApply==null)
-                    throw new OpException("系统错误");
-                if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_INIT &&
-                        _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY){
-                    throw new OpException("操作失败，申请已进入审核阶段。");
-                }
-
-                MemberApply record = new MemberApply();
-                //record.setBranchId(_memberApply.getBranchId());  ?? 注释2016-12-16
-                record.setStage(OwConstants.OW_APPLY_STAGE_DENY);
-                record.setPassTime(new Date());// 用"通过时间"记录处理时间
-                record.setRemark(remark);
-                MemberApplyExample example = new MemberApplyExample();
-                example.createCriteria().andUserIdEqualTo(userId)
-                        .andStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
-                Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0, "db update failed");
-
-                applyApprovalLogService.add(_memberApply.getUserId(),
-                        _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                        shiroUser.getId(), userType,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        "撤回",
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "撤回党员发展申请");
-                }
-                break;
-            case OwConstants.OW_ENTER_APPLY_TYPE_RETURN: {
-
-                // 状态检查
-                MemberReturn _memberReturn = memberReturnService.get(userId);
-                if(_memberReturn==null)
-                    throw new OpException("系统错误");
-                if(_memberReturn.getStatus()!=MemberConstants.MEMBER_RETURN_STATUS_APPLY &&
-                        _memberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_DENY){
-                    throw new OpException("操作失败，申请已进入审核阶段。");
-                }
-
-                MemberReturn record = new MemberReturn();
-                //record.setBranchId(_memberReturn.getBranchId());
-                record.setStatus(MemberConstants.MEMBER_RETURN_STATUS_DENY);
-                record.setRemark(remark);
-                MemberReturnExample example = new MemberReturnExample();
-                example.createCriteria().andUserIdEqualTo(userId)
-                        .andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_APPLY);
-                Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0, "db update failed");
-
-                applyApprovalLogService.add(_memberReturn.getId(),
-                        _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(),
-                        shiroUser.getId(), userType,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
-                        "撤回",
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "撤回留学党员归国申请");
-                }
-                break;
-
-            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN: {
-
-                // 状态检查
-                MemberIn _memberIn = memberInService.get(userId);
-                if(_memberIn==null)
-                    throw new OpException("系统错误");
-                if(_memberIn.getStatus()!=MemberConstants.MEMBER_IN_STATUS_APPLY &&
-                        _memberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_BACK){
-                    throw new OpException("操作失败，申请已进入审核阶段。");
-                }
-
-                MemberIn record = new MemberIn();
-                //record.setBranchId(_memberIn.getBranchId());
-                if(status==OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT) // 个人撤回
-                    record.setStatus(MemberConstants.MEMBER_IN_STATUS_SELF_BACK);
-                else
-                    record.setStatus(MemberConstants.MEMBER_IN_STATUS_BACK);
-                record.setReason(remark);
-                MemberInExample example = new MemberInExample();
-                example.createCriteria().andUserIdEqualTo(userId)
-                        .andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_APPLY);
-                Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0, "db update failed");
-
-                applyApprovalLogService.add(_memberIn.getId(),
-                        _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(),
-                        shiroUser.getId(), userType,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
-                        "撤回",
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "撤回组织关系转入申请");
-            }
-            break;
-            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW: {
-
-                // 状态检查
-                MemberInflow _memberInflow = memberInflowService.get(userId);
-                if(_memberInflow==null)
-                    throw new OpException("系统错误");
-                if(_memberInflow.getInflowStatus()!=MemberConstants.MEMBER_INFLOW_STATUS_APPLY &&
-                        _memberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_BACK){
-                    throw new OpException("操作失败，申请已进入审核阶段。");
-                }
-
-                MemberInflow record = new MemberInflow();
-                record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_BACK);
-                //record.setBranchId(_memberInflow.getBranchId());
-                record.setReason(remark);
-                MemberInflowExample example = new MemberInflowExample();
-                example.createCriteria().andUserIdEqualTo(userId)
-                        .andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
-                Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0, "db update failed");
-
-                applyApprovalLogService.add(_memberInflow.getId(),
-                        _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(),
-                        shiroUser.getId(), userType,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
-                        "撤回",
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "撤回党员流入申请");
-            }
-            break;
-            default:
-                throw new OpException("参数错误");
+        if(_enterApply==null){
+            _enterApply = getLastApply(userId);
         }
+        if(_enterApply!=null) {
 
+            EnterApply enterApply = new EnterApply();
+            enterApply.setId(_enterApply.getId());
+            enterApply.setStatus(status);
+            enterApply.setRemark(remark);
+            enterApply.setBackTime(new Date());
+            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+
+            switch (_enterApply.getType()) {
+                case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY: {
+                    // 状态检查
+                    MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+                    if (_memberApply == null)
+                        throw new OpException("系统错误");
+                    if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_INIT &&
+                            _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY) {
+                        throw new OpException("操作失败，申请已进入审核阶段。");
+                    }
+
+                    MemberApply record = new MemberApply();
+                    //record.setBranchId(_memberApply.getBranchId());  ?? 注释2016-12-16
+                    record.setStage(OwConstants.OW_APPLY_STAGE_DENY);
+                    record.setPassTime(new Date());// 用"通过时间"记录处理时间
+                    record.setRemark(remark);
+                    MemberApplyExample example = new MemberApplyExample();
+                    example.createCriteria().andUserIdEqualTo(userId)
+                            .andStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+                    Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0, "db update failed");
+
+                    applyApprovalLogService.add(_memberApply.getUserId(),
+                            _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
+                            shiroUser.getId(), userType,
+                            OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                            "撤回",
+                            OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                            "撤回党员发展申请");
+                }
+                break;
+                case OwConstants.OW_ENTER_APPLY_TYPE_RETURN: {
+
+                    // 状态检查
+                    MemberReturn _memberReturn = memberReturnService.get(userId);
+                    if (_memberReturn == null)
+                        throw new OpException("系统错误");
+                    if (_memberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_APPLY &&
+                            _memberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_DENY) {
+                        throw new OpException("操作失败，申请已进入审核阶段。");
+                    }
+
+                    MemberReturn record = new MemberReturn();
+                    //record.setBranchId(_memberReturn.getBranchId());
+                    record.setStatus(MemberConstants.MEMBER_RETURN_STATUS_DENY);
+                    record.setRemark(remark);
+                    MemberReturnExample example = new MemberReturnExample();
+                    example.createCriteria().andUserIdEqualTo(userId)
+                            .andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_APPLY);
+                    Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0, "db update failed");
+
+                    applyApprovalLogService.add(_memberReturn.getId(),
+                            _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(),
+                            shiroUser.getId(), userType,
+                            OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                            "撤回",
+                            OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                            "撤回留学党员归国申请");
+                }
+                break;
+
+                case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN: {
+
+                    // 状态检查
+                    MemberIn _memberIn = memberInService.get(userId);
+                    if (_memberIn == null)
+                        throw new OpException("系统错误");
+                    if (_memberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_APPLY &&
+                            _memberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_BACK) {
+                        throw new OpException("操作失败，申请已进入审核阶段。");
+                    }
+
+                    MemberIn record = new MemberIn();
+                    //record.setBranchId(_memberIn.getBranchId());
+                    if (status == OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT) // 个人撤回
+                        record.setStatus(MemberConstants.MEMBER_IN_STATUS_SELF_BACK);
+                    else
+                        record.setStatus(MemberConstants.MEMBER_IN_STATUS_BACK);
+                    record.setReason(remark);
+                    MemberInExample example = new MemberInExample();
+                    example.createCriteria().andUserIdEqualTo(userId)
+                            .andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_APPLY);
+                    Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0, "db update failed");
+
+                    applyApprovalLogService.add(_memberIn.getId(),
+                            _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(),
+                            shiroUser.getId(), userType,
+                            OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
+                            "撤回",
+                            OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                            "撤回组织关系转入申请");
+                }
+                break;
+                case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW: {
+
+                    // 状态检查
+                    MemberInflow _memberInflow = memberInflowService.get(userId);
+                    if (_memberInflow == null)
+                        throw new OpException("系统错误");
+                    if (_memberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_APPLY &&
+                            _memberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_BACK) {
+                        throw new OpException("操作失败，申请已进入审核阶段。");
+                    }
+
+                    MemberInflow record = new MemberInflow();
+                    record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_BACK);
+                    //record.setBranchId(_memberInflow.getBranchId());
+                    record.setReason(remark);
+                    MemberInflowExample example = new MemberInflowExample();
+                    example.createCriteria().andUserIdEqualTo(userId)
+                            .andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
+                    Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0, "db update failed");
+
+                    applyApprovalLogService.add(_memberInflow.getId(),
+                            _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(),
+                            shiroUser.getId(), userType,
+                            OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                            "撤回",
+                            OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                            "撤回党员流入申请");
+                }
+                break;
+                default:
+                    throw new OpException("参数错误");
+            }
+        }
     }
 }

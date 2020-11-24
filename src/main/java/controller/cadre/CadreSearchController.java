@@ -84,12 +84,12 @@ public class CadreSearchController  extends BaseController {
         String msg = "";
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         if (cadre == null) {
-            msg = "该用户不存在";
+            msg = "该账号不存在";
         } else {
             resultMap.put("realname", cadre.getRealname());
 
             if (cadre == null) {
-                msg = "该用户不是干部";
+                msg = "该账号不是干部";
             } else {
                 resultMap.put("cadreId", cadre.getId());
                 resultMap.put("status", cadre.getStatus());
@@ -110,13 +110,13 @@ public class CadreSearchController  extends BaseController {
 
         SysUserView uv = sysUserService.findById(userId);
         if(uv==null){
-            msg = "该用户不存在。";
+            msg = "该账号不存在。";
         }else{
             resultMap.put("realname", uv.getRealname());
             resultMap.put("userId", uv.getId());
             CadreView cadre = cadreService.dbFindByUserId(userId);
              if (cadre == null) {
-                msg = "该用户还没有干部档案。";
+                msg = "该账号还没有干部档案。";
             } else {
                 resultMap.put("cadreId", cadre.getId());
                 msg = CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus());

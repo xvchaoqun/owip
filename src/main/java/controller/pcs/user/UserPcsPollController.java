@@ -62,7 +62,7 @@ public class UserPcsPollController extends PcsBaseController {
                     modelMap.put("error", "账号或密码错误");
                 }else if (BooleanUtils.isTrue(inspector.getIsFinished())) {
                     logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，用户已完成投票"));
+                            SystemConstants.LOGIN_TYPE_PCS, false, "扫码登录失败，账号已完成投票"));
                     modelMap.put("error", "该账号已完成投票");
                 }else {
 

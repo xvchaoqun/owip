@@ -911,14 +911,15 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 memberApplyService.updateByPrimaryKeySelective(memberApply);
 
                 EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-                if(_enterApply==null)
-                    throw new OpException("申请不存在。");
+                if (_enterApply != null){
 
-                EnterApply enterApply = new EnterApply();
-                enterApply.setId(_enterApply.getId());
-                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                enterApply.setBackTime(new Date());
-                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+                    EnterApply enterApply = new EnterApply();
+                    enterApply.setId(_enterApply.getId());
+                    enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                    enterApply.setBackTime(new Date());
+                    enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+                }
+
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
                         loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,

@@ -44,12 +44,12 @@ public class ApiMemberController extends BaseController {
         Map resultMap;
         SysUserView sysUser = sysUserService.findByCode(code);
         if(sysUser==null){
-            resultMap = ret(-1, "用户不存在");
+            resultMap = ret(-1, "账号不存在");
             return resultMap;
         }
         Member member = memberService.get(sysUser.getId());
         if(member==null){
-            resultMap = ret(-2, "该用户不是党员");
+            resultMap = ret(-2, "该账号不是党员");
             return resultMap;
         }
         if(member.getStatus()!= MemberConstants.MEMBER_STATUS_TRANSFER){

@@ -342,7 +342,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                     List<ModifyBaseItem> modifyBaseItems = iModifyMapper.selectModifyBaseItems(userId, "political_status",
                             ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
                     if (modifyBaseItems.size() > 0) {
-                        throw new OpException("当前不允许修改党派加入时间：该用户存在未审批的“政治面貌”修改申请");
+                        throw new OpException("当前不允许修改党派加入时间：该账号存在未审批的“政治面貌”修改申请");
                     }
 
                     Member member = memberMapper.selectByPrimaryKey(userId);
@@ -388,14 +388,14 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             }
                         }
                         if(!inOwParty){
-                            throw new OpException("该用户不在中共党员库中。");
+                            throw new OpException("该账号不在中共党员库中。");
                         }
 
                     } else if (owType == 2) { // 修改加入民主党派时间
 
                         CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                         if(_cadreParty==null){
-                            throw new OpException("该用户不在民主党员干部库中。");
+                            throw new OpException("该账号不在民主党员干部库中。");
                         }
 
                         if(growTime==null){

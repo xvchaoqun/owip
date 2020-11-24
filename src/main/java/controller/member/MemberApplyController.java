@@ -605,11 +605,20 @@ public class MemberApplyController extends MemberBaseController {
 
         if (StringUtils.equals(op, "add") && _memberApply != null) {
 
-            //当前节点为未通过或者申请状态可直接添加
-            if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY ||
-                    _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_INIT)
-            return failed("{0}已经添加，当前在{1}阶段。",
-                    _memberApply.getUser().getRealname(), OwConstants.OW_APPLY_ALLSTAGE_MAP.get(_memberApply.getStage()));
+            Party party = partyMapper.selectByPrimaryKey(_memberApply.getPartyId());
+
+            // 如果存在党员发展记录，且对应的分党委是现运行分党委时，不允许直接添加发展党员记录
+            if (party != null && BooleanUtils.isNotTrue(party.getIsDeleted())) {
+
+                 // 当前节点不为未通过或者申请状态不可直接添加
+                if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY ||
+                        _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_INIT){
+
+                    return failed("{0}已经添加，当前在{1}阶段，所在二级党委：{2}。请联系所在二级党委完成党员发展流程。",
+                        _memberApply.getUser().getRealname(),
+                        OwConstants.OW_APPLY_ALLSTAGE_MAP.get(_memberApply.getStage()), party.getName());
+                }
+            }
         }
 
         if (_memberApply == null) {
@@ -1326,14 +1335,14 @@ public class MemberApplyController extends MemberBaseController {
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
         if (sysUser == null) {
-            msg = "该用户不存在";
+            msg = "该账号不存在";
         } else {
             code = sysUser.getCode();
             userType = sysUser.getType();
             realname = sysUser.getRealname();
             MemberApply memberApply = memberApplyService.get(userId);
             if (memberApply == null) {
-                msg = "该用户不在党员发展库中";
+                msg = "该账号不在党员发展库中";
             } else {
                 party = PartyHelper.displayParty(memberApply.getPartyId(), memberApply.getBranchId());
                 msg += "所在党员发展阶段【" + OwConstants.OW_APPLY_ALLSTAGE_MAP.get(memberApply.getStage()) + "】";
@@ -1403,7 +1412,7 @@ public class MemberApplyController extends MemberBaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"用户|100", "所属分党委|300|left", "所属党支部|300|left", "类型|150"};
+        String[] titles = {"账号|100", "所属分党委|300|left", "所属党支部|300|left", "类型|150"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);

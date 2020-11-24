@@ -46,7 +46,7 @@ public class MobileLoginController extends BaseController {
 		SysUserView sysUser = sysUserService.findByUsername(username);
 		if(sysUser==null){
 			logger.info(sysLoginLogService.log(null, username,
-					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，用户不存在"));
+					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，账号不存在"));
 			return failed("账号或密码错误");
 		}
 

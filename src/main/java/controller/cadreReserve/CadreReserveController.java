@@ -84,16 +84,16 @@ public class CadreReserveController extends BaseController {
         CadreView cadre = iCadreMapper.getCadre(cadreId);
 
         if (cadre == null) {
-            msg = "该用户不存在";
+            msg = "该账号不存在";
         } else {
             resultMap.put("realname", cadre.getRealname());
 
             if (cadre == null) {
-                msg = "该用户不是年轻干部";
+                msg = "该账号不是年轻干部";
             } else {
                 CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadre.getId());
                 if (cadreReserve == null) {
-                    msg = "该用户不是年轻干部";
+                    msg = "该账号不是年轻干部";
                 } else {
                     resultMap.put("cadreId", cadre.getId());
                     resultMap.put("reserveType", cadreReserve.getType());

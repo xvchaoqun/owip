@@ -28,7 +28,7 @@ import java.util.LinkedList;
 public class KickoutSessionControlFilter extends AccessControlFilter {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private boolean kickoutAfter = false; //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
+    private boolean kickoutAfter = false; //踢出之前登录的/之后登录的账号 默认踢出之前登录的账号
     private int maxSession = 1; //同一个帐号最大会话数 默认1
     private SessionManager sessionManager;
     private Cache<String, Deque<Serializable>> cache;
@@ -81,13 +81,13 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         SysUserView uv = CmTag.getUserByUsername(username);
         if(uv==null || BooleanUtils.isTrue(uv.getLocked())){
             logger.info(sysLoginLogService.log(shiroUser.getId(), username,
-                        null, false, "用户不存在或被锁定"));
+                        null, false, "账号不存在或被锁定"));
             subject.logout();
             return false;
         }
 
         Boolean kickout = (Boolean) session.getAttribute("kickout");
-        //如果队列里没有此sessionId，且用户没有被踢出；放入队列
+        //如果队列里没有此sessionId，且账号没有被踢出；放入队列
         if (!deque.contains(sessionId) && kickout == null) {
             deque.push(sessionId);
 
@@ -125,7 +125,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         /*if (kickout != null) {
             //会话被踢出了
             try {
-                logger.info("用户{}-{}被踢出", shiroUser.getRealname(), username);
+                logger.info("账号{}-{}被踢出", shiroUser.getRealname(), username);
                 subject.logout();
             } catch (Exception e) { //ignore
             }

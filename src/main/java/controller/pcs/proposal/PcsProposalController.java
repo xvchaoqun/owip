@@ -400,7 +400,7 @@ public class PcsProposalController extends PcsBaseController {
 
         List<PcsProposalView> records = pcsProposalViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"提案编号|100", "用户|100", "标题|100", "关键字|100", "提案类型|100", "创建时间|100", "状态|100"};
+        String[] titles = {"提案编号|100", "账号|100", "标题|100", "关键字|100", "提案类型|100", "创建时间|100", "状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PcsProposalView record = records.get(i);

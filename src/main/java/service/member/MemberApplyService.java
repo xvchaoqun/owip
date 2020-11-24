@@ -26,7 +26,6 @@ import sys.constants.OwConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
-import sys.utils.NumberUtils;
 
 import java.util.*;
 
@@ -257,19 +256,25 @@ public class MemberApplyService extends MemberBaseMapper {
     }*/
 
     /**
-     * 已经是预备党员[状态：正常]的情况下，修改相关的党员发展记录
+     * 党员库中直接添加或更新党员时，更新相关的党员发展记录
      * <p>
-     * 1、添加预备党员，需要加入党员发展流程（预备党员阶段）;
-     * 2、党员发展信息已经存在，则修改为预备党员阶段
+     * 情况一：添加或更新为预备党员：
+     * 1、党员发展记录不存在时，需要加入党员发展流程（预备党员阶段）;
+     * 2、党员发展记录存在时，则修改为预备党员阶段
+     *
+     * 情况二：添加或更新为正式党员：
+     * 1、党员发展记录不存在时，不需要操作;
+     * 2、党员发展记录存在时，则修改为正式党员阶段
      *
      * @param userId
      */
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void addOrChangeToGrowApply(int userId) {
+    public void updateByMember(int userId) {
+
         Member member = memberService.get(userId);
         Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL
-                && member.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
+        if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
+
             Date now = new Date();
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
 
@@ -283,21 +288,45 @@ public class MemberApplyService extends MemberBaseMapper {
             record.setActiveTime(member.getActiveTime());
             record.setCandidateTime(member.getCandidateTime());
             record.setGrowTime(member.getGrowTime());
-            record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
-            record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
+
+            byte politicalStatus = member.getPoliticalStatus();
+            byte stage = OwConstants.OW_APPLY_STAGE_GROW;
             if (memberApply == null) { // 还没有党员发展信息
 
-                record.setRemark("预备党员信息添加后同步");
-                record.setFillTime(now);
-                record.setCreateTime(now);
-                record.setIsRemove(false);
-                memberApplyMapper.insertSelective(record);
+                if(politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
+
+                    record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+                    record.setStage(stage);
+                    record.setRemark("预备党员信息添加后同步");
+                    record.setFillTime(now);
+                    record.setCreateTime(now);
+                    record.setIsRemove(false);
+                    memberApplyMapper.insertSelective(record);
+                }else{
+                    stage = OwConstants.OW_APPLY_STAGE_POSITIVE;
+                }
             } else {
 
-                record.setRemark("预备党员信息同步");
-                commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
-                // 考虑更新为直属党支部的情况
-                commonMapper.excuteSql("update ow_member_apply set branch_id=null, positive_status=null, positive_time=null where user_id=" + userId);
+                if(politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
+
+                    record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+                    record.setStage(stage);
+                    record.setRemark("预备党员信息同步");
+                    commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
+                    // 考虑更新为直属党支部的情况
+                    commonMapper.excuteSql("update ow_member_apply set branch_id=null, positive_status=null, positive_time=null where user_id=" + userId);
+                }else{
+
+                    stage = OwConstants.OW_APPLY_STAGE_POSITIVE;
+
+                    record.setPositiveStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+                    record.setPositiveTime(member.getPositiveTime());
+                    record.setStage(stage);
+                    record.setRemark("正式党员信息同步");
+                    // 考虑更新为直属党支部的情况
+                    commonMapper.excuteSql("update ow_member_apply set branch_id=null where user_id=" + userId);
+                }
+
                 memberApplyMapper.updateByPrimaryKeySelective(record);
             }
 
@@ -305,9 +334,9 @@ public class MemberApplyService extends MemberBaseMapper {
                     member.getPartyId(), member.getBranchId(), userId,
                     currentUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                    OwConstants.OW_APPLY_STAGE_MAP.get(stage),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "后台添加或修改为预备党员阶段");
+                    "后台添加或修改党员信息");
         }
     }
 
@@ -500,71 +529,6 @@ public class MemberApplyService extends MemberBaseMapper {
         memberApplyMapper.deleteByExample(example);
     }
 
-    // 修改党员所在党组织时，党员发展信息保持同步。如果该党员是预备党员，则相应的要修改党员发展里的预备党员所在党组织，目的是为了预备党员正常转正；
-    @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
-    public void updateWhenModifyMember(int userId, Integer partyId, Integer branchId) {
-
-        MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-
-        if (_memberApply != null && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW && partyId != null) {
-
-            if(_memberApply.getPartyId() == partyId.intValue() &&
-                    NumberUtils.intEqual(_memberApply.getBranchId(), branchId)){
-
-                return ; // 无变化
-            }
-
-            MemberApply record = new MemberApply();
-            record.setUserId(userId);
-            record.setPartyId(partyId);
-            record.setBranchId(branchId);
-
-            memberApplyMapper.updateByPrimaryKeySelective(record);
-
-            if (partyId != null && branchId == null) {
-                // 修改为直属党支部
-                Assert.isTrue(partyService.isDirectBranch(partyId), "not direct branch");
-                iMemberMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, partyId);
-            }
-
-            applyApprovalLogService.add(_memberApply.getUserId(),
-                    _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    "更新",
-                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "修改党员所在党组织关系，同时修改党员发展的所属组织关系");
-        }
-    }
-
-    // 修改预备党员为正式党员之后，需要相应的修改党员发展信息（如果存在的话）
-    @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
-    public void modifyMemberToPositiveStatus(int userId) {
-
-        Member member = memberMapper.selectByPrimaryKey(userId);
-        if (member.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
-            MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if (_memberApply != null) {
-
-                MemberApply record = new MemberApply();
-                record.setUserId(userId);
-                record.setPositiveTime(member.getPositiveTime());
-                record.setStage(OwConstants.OW_APPLY_STAGE_POSITIVE);
-                memberApplyMapper.updateByPrimaryKeySelective(record);
-
-                applyApprovalLogService.add(_memberApply.getUserId(),
-                        _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        "更新",
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "修改党员为正式党员");
-            }
-        }
-    }
-
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
@@ -722,8 +686,7 @@ public class MemberApplyService extends MemberBaseMapper {
         _record.setPositiveTime(memberApply.getPositiveTime());
         //_record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
-        if (memberService.updateByPrimaryKeySelective(_record) == 0)
-            throw new OpException("状态异常，请稍后再试");
+        memberService.updateByPrimaryKeySelective(_record);
     }
 
     // 成为预备党员 (组织部审核之后，直属党支部提交发展时间)

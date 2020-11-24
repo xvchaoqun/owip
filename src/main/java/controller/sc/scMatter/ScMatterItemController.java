@@ -206,7 +206,7 @@ public class ScMatterItemController extends ScBaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    // 根据账号或姓名或学工号选择用户
+    // 根据账号或姓名或学工号选择账号
     @RequestMapping("/scMatterUser_selects")
     @ResponseBody
     public Map scMatterUser_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {

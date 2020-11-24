@@ -203,7 +203,7 @@ public class ScGroupMemberController extends ScBaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    // 根据账号或姓名或学工号选择用户
+    // 根据账号或姓名或学工号选择账号
     @RequestMapping("/scGroupMember_selects")
     @ResponseBody
     public Map scGroupMember_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {

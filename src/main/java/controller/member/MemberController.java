@@ -570,10 +570,20 @@ public class MemberController extends MemberBaseController {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
-                return failed("该用户已经提交了党员发展申请[当前审批阶段："
-                        + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage())
-                        + ((BooleanUtils.isTrue(memberApply.getIsRemove())) ? "（已移除）" : "")
-                        + "]，不可以直接添加。");
+
+                Party party = partyMapper.selectByPrimaryKey(memberApply.getPartyId());
+                if (party != null && BooleanUtils.isNotTrue(party.getIsDeleted())) {
+
+                    // 如果存在党员发展记录，且对应的分党委是现运行分党委时，不允许直接添加党员
+                    byte stage = memberApply.getStage();
+                    if (stage == OwConstants.OW_APPLY_STAGE_PASS) {
+                        stage = OwConstants.OW_APPLY_STAGE_INIT;
+                    }
+
+                    return failed("该账号已经提交了党员发展申请[当前审批阶段：{0}{1}，所在二级党委：{2}]，" +
+                            "无法直接添加党员，请联系所在二级党委完成党员发展流程。", OwConstants.OW_APPLY_STAGE_MAP.get(stage)
+                            , ((BooleanUtils.isTrue(memberApply.getIsRemove())) ? "（已移除）" : ""), party.getName());
+                }
             }
 
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
@@ -666,7 +676,7 @@ public class MemberController extends MemberBaseController {
                 throw new UnauthorizedException();
 
             if (member.getStatus().equals(MemberConstants.MEMBER_STATUS_NORMAL) && member.getPoliticalStatus().equals(MemberConstants.MEMBER_POLITICAL_STATUS_GROW)) {
-                memberApplyService.addOrChangeToGrowApply(userId);
+                memberApplyService.updateByMember(userId);
                 return success(FormUtils.SUCCESS);
             } else {
                 return failed("该成员是正式党员！");
@@ -681,7 +691,7 @@ public class MemberController extends MemberBaseController {
 
             List<Member> members = memberMapper.selectByExample(example);
             for (Member member : members) {
-                memberApplyService.addOrChangeToGrowApply(member.getUserId());
+                memberApplyService.updateByMember(member.getUserId());
             }
 
             return success(FormUtils.SUCCESS);
@@ -1678,12 +1688,12 @@ public class MemberController extends MemberBaseController {
             SysUserView sysUserView = CmTag.getUserByCode(code);
             if (sysUserView == null) {
 
-                cententCell.setCellValue("该用户不在系统账号库中");
+                cententCell.setCellValue("该账号不在系统账号库中");
                 continue;
             }
             if (memberMapper.selectByPrimaryKey(sysUserView.getUserId()) == null){
 
-                cententCell.setCellValue("该用户不在党员库中");
+                cententCell.setCellValue("该账号不在党员库中");
                 continue;
             }
 

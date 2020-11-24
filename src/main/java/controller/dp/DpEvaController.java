@@ -164,7 +164,7 @@ public class DpEvaController extends DpBaseController {
 
         List<DpEva> records = dpEvaMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"用户id|100","年份|100","时任职务|100","考核情况|100","备注|100"};
+        String[] titles = {"账号id|100","年份|100","时任职务|100","考核情况|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpEva record = records.get(i);

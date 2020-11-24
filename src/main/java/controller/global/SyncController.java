@@ -114,7 +114,7 @@ public class SyncController extends BaseController {
         return failed("学工号不存在");
     }
 
-    // 同步学校用户信息（系统已存在该账号）
+    // 同步学校账号信息（系统已存在该账号）
     @RequiresPermissions("sysSync:user")
     @RequestMapping(value = "/sync_user", method = RequestMethod.POST)
     @ResponseBody

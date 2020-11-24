@@ -157,7 +157,7 @@ public class PmdFeeController extends PmdBaseController {
     public Map do_pmdFee_au(PmdFee record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        //用户ID为空，个人添加
+        //账号ID为空，个人添加
         if (record.getUserId()==null){
             record.setUserId(ShiroHelper.getCurrentUserId());
         }
@@ -228,7 +228,7 @@ public class PmdFeeController extends PmdBaseController {
 
         List<PmdFee> records = pmdFeeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"缴费类型|100","缴费月份|100","用户ID|100","所属分党委|100","所在党支部|100","缴费金额|100","缴费原因|100"};
+        String[] titles = {"缴费类型|100","缴费月份|100","账号ID|100","所属分党委|100","所在党支部|100","缴费金额|100","缴费原因|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PmdFee record = records.get(i);

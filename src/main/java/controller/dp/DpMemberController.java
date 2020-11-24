@@ -72,7 +72,7 @@ public class DpMemberController extends DpBaseController {
         if (unitId != null){
             modelMap.put("unit", unitMapper.selectByPrimaryKey(unitId));
         }
-        //查询登录用户管理的民主党派
+        //查询登录账号管理的民主党派
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
         List<Integer> adminDpPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
 
@@ -369,7 +369,7 @@ public class DpMemberController extends DpBaseController {
             ShiroHelper.checkPermission("dpMember:edit");
             DpMember dpMemberAdd = dpMemberMapper.selectByPrimaryKey(userId);
             if (dpMemberAdd != null ){
-                return failed(sysUserService.findById(userId).getRealname() + "用户已是党派成员");
+                return failed(sysUserService.findById(userId).getRealname() + "账号已是党派成员");
             }
 
             record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);//正常
@@ -654,7 +654,7 @@ public class DpMemberController extends DpBaseController {
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
         if (sysUser == null){
-            msg = "该用户不存在！";
+            msg = "该账号不存在！";
         } else {
             code = sysUser.getCode();
             userType = sysUser.getType();
@@ -662,7 +662,7 @@ public class DpMemberController extends DpBaseController {
             DpMember dpMember = dpMemberService.get(userId);
             unit = dpMember.getUnit();
             if (dpMember == null){
-                msg = "该用户不是党派成员！";
+                msg = "该账号不是党派成员！";
             } else {
                 Integer partyId = dpMember.getPartyId();
                 DpParty dpParty = dpPartyService.findAll().get(partyId);

@@ -208,7 +208,7 @@ public class PcsAdminService extends PcsBaseMapper {
             if (_pcsAdmin.getPartyId().intValue() != oldPcsAdmin.getPartyId()) {
                 record.setId(oldPcsAdmin.getId());
             }else {
-                throw new OpException("该用户已是[{0}]管理员",CmTag.getParty(oldPcsAdmin.getPartyId()).getName());
+                throw new OpException("该账号已是[{0}]管理员",CmTag.getParty(oldPcsAdmin.getPartyId()).getName());
             }
 
         }

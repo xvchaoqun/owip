@@ -285,7 +285,7 @@ public class MemberCheckController extends MemberBaseController {
 
         List<MemberCheck> records = memberCheckMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"用户|100", "当前所属分党委|100", "当前所属党支部|100", "返回修改原因|100"};
+        String[] titles = {"账号|100", "当前所属分党委|100", "当前所属党支部|100", "返回修改原因|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberCheck record = records.get(i);

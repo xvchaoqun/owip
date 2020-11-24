@@ -51,7 +51,7 @@ public class UserDrOnlineController extends DrBaseController {
                     modelMap.put("error", "账号或密码错误");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
                     logger.info(sysLoginLogService.log(null, u,
-                            SystemConstants.LOGIN_TYPE_DR, false, "扫码登录失败，用户已完成测评！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "扫码登录失败，账号已完成测评！"));
                     modelMap.put("error", "该账号已完成推荐");
                 }else {
 

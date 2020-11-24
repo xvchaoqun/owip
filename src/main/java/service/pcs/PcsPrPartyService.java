@@ -163,7 +163,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 int userId = bean.getUserId();
                 SysUserView uv = sysUserService.findById(userId);
                 if(uv==null){
-                    throw new OpException("用户不存在：{0}", userId+"");
+                    throw new OpException("账号不存在：{0}", userId+"");
                 }
 
                 String alertMsg = "，请确认学工号是否正确。";
@@ -171,7 +171,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 Member member = memberService.get(userId);
                 if(member== null && member.getPoliticalStatus()
                         != MEMBER_POLITICAL_STATUS_POSITIVE){
-                    throw new OpException("用户{0}不是正式党员" + alertMsg, uv.getRealname());
+                    throw new OpException("账号{0}不是正式党员" + alertMsg, uv.getRealname());
                 }
 
                 int memberPartyId = member.getPartyId();
@@ -189,7 +189,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 if(memberPartyId != partyId && !whiteCodeSet.contains(code)){
                     Party party = partyMapper.selectByPrimaryKey(partyId);
                     Party memberParty = partyMapper.selectByPrimaryKey(memberPartyId);
-                    throw new OpException("用户{0}（工号：{1}，目前所在党组织：{2}）不是{3}的正式党员" + alertMsg,
+                    throw new OpException("账号{0}（工号：{1}，目前所在党组织：{2}）不是{3}的正式党员" + alertMsg,
                             uv.getRealname(), uv.getCode(), memberParty.getName(), party.getName());
                 }
 
@@ -198,26 +198,26 @@ public class PcsPrPartyService extends PcsBaseMapper {
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
                     if(member.getType()!= MemberConstants.MEMBER_TYPE_TEACHER
                             || teacherInfo==null || BooleanUtils.isTrue(teacherInfo.getIsRetire())){
-                        throw new OpException("用户{0}不是在职教职工" + alertMsg, uv.getRealname());
+                        throw new OpException("账号{0}不是在职教职工" + alertMsg, uv.getRealname());
                     }
                 }else if(type ==PcsConstants.PCS_PR_TYPE_RETIRE){
 
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
                     if(teacherInfo==null || BooleanUtils.isNotTrue(teacherInfo.getIsRetire())){
-                        throw new OpException("用户{0}不是离退休教职工" + alertMsg, uv.getRealname());
+                        throw new OpException("账号{0}不是离退休教职工" + alertMsg, uv.getRealname());
                     }
                 }else if(type ==PcsConstants.PCS_PR_TYPE_STU){
                     if(member.getType()!=MemberConstants.MEMBER_TYPE_STUDENT){
-                        throw new OpException("用户{0}不是学生" + alertMsg, uv.getRealname());
+                        throw new OpException("账号{0}不是学生" + alertMsg, uv.getRealname());
                     }
                 }else{
-                    throw new OpException("用户{0}类型有误" + alertMsg, uv.getRealname());
+                    throw new OpException("账号{0}类型有误" + alertMsg, uv.getRealname());
                 }
 
                 PcsPrCandidate pcsPrCandidate = pcsPrCandidateService.find(userId, configId, stage);
                 if(pcsPrCandidate!=null){
                     Party party = partyService.findAll().get(pcsPrCandidate.getPartyId());
-                    throw new OpException("用户{0}已是{1}的被推荐人，不可重复推荐。",
+                    throw new OpException("账号{0}已是{1}的被推荐人，不可重复推荐。",
                             pcsPrCandidate.getRealname(), party.getName());
                 }
 
