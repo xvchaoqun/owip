@@ -776,9 +776,9 @@ public class SyncService extends BaseMapper {
                 ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extBks.getXm()),
                         StringUtils.trim(extBks.getXmpy())));
 
-                if (StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
+                if (StringUtils.contains(extBks.getXb(), "男"))
                     ui.setGender(SystemConstants.GENDER_MALE);
-                else if (StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
+                else if (StringUtils.contains(extBks.getXb(), "女"))
                     ui.setGender(SystemConstants.GENDER_FEMALE);
 
                 if (StringUtils.isNotBlank(extBks.getCsrq()))

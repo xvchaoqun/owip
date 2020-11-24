@@ -1,5 +1,9 @@
+
+20201124
+哈工大
+
 20201123
-西工大 -- 北师大
+西工大
 
 -- 更新  cet_train_obj_view    cet_trainee_view
 
@@ -9,7 +13,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 20201123
 
-北航 -- 北师大
+北航
 
 
 -- 更新 unit_post_view
