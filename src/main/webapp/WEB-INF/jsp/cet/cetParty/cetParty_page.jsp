@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
 
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.partyId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
 
@@ -67,14 +67,8 @@ pageEncoding="UTF-8" %>
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label>二级党委名称</label>
-                                            <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                                    data-placeholder="请选择二级党委">
-                                                <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
-                                            </select>
-                                            <script>
-                                                $.register.del_select($("#searchForm select[name=partyId]"), 350)
-                                            </script>
+                                            <label>名称</label>
+                                            <input class="form-control search-query" name="name" type="text" value="${param.name}" placeholder="请输入">
                                         </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -111,7 +105,7 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cet/cetParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '二级党委名称', name: 'name', width:450, align:'left'},
+            {label: '名称', name: 'name', width:450, align:'left'},
             { label: '关联基层党组织',  name: 'partyId', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
             },frozen:true },

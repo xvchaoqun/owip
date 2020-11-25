@@ -23,7 +23,7 @@
                                 <label>培训主办方</label>
 
                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
-                                             data-width="308" name="cetPartyId" data-placeholder="请选择二级党委">
+                                             data-width="308" name="cetPartyId" data-placeholder="请选择">
                                     <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                                 </select>
                                 <script>

@@ -8,7 +8,7 @@
 
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cetUnitProject!=null?'编辑':'添加'}二级党委培训班</h3>
+    <h3>${cetUnitProject!=null?'编辑':'添加'}培训班</h3>
 </div>
 <div class="modal-body overflow-visible">
     <form class="form-horizontal" action="${ctx}/cet/cetUnitProject_au" autocomplete="off" disableautocomplete
@@ -138,15 +138,12 @@
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班主办方</label>
                     <div class="col-xs-7">
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
-                                 data-width="223" name="cetPartyId" data-placeholder="请选择二级党委">
+                                 data-width="223" name="cetPartyId" data-placeholder="请选择">
                             <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                         </select>
                         <script>
                             $.register.del_select($("#modalForm select[name=cetPartyId]"))
                         </script>
-                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
-                        <span class="help-block">注：请在【通用设置-二级党委】中维护二级党委及其管理员信息</span>
-                        </shiro:hasRole>
                     </div>
                 </div>
                 <div class="form-group">

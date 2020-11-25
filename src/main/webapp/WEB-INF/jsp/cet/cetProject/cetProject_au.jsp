@@ -112,7 +112,7 @@
                                 <label class="col-xs-3 control-label"><span class="star">*</span>培训班主办方</label>
                                 <div class="col-xs-8">
                                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
-                                             data-width="308" name="cetPartyId" data-placeholder="请选择二级党委">
+                                             data-width="308" name="cetPartyId" data-placeholder="请选择">
                                         <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                                     </select>
                                     <script>
@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>主办单位</label>
+                                <label class="col-xs-3 control-label">主办单位</label>
                                 <div class="col-xs-8">
                                     <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                              data-width="308" data-placeholder="请选择单位">

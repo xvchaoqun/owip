@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="../constants.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${param.apply!=1}">${cetUnitTrain!=null?'编辑':'添加'}二级党委培训记录</c:if>
+    <h3><c:if test="${param.apply!=1}">${cetUnitTrain!=null?'编辑':'添加'}培训记录</c:if>
 		<c:if test="${param.apply==1}">${empty cetUnitTrain?'第二步：请填写培训信息':'修改申请'}</c:if></h3>
 </div>
 <div class="modal-body">

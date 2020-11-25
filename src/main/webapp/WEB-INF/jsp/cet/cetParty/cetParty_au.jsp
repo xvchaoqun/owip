@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${param.batch==1?'从基层党组织中选择':(empty cetParty?'添加':'修改')}二级党委</h3>
+    <h3>${param.batch==1?'从基层党组织中选择':(empty cetParty?'添加':'修改')}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">二级党委名称</label>
+                <label class="col-xs-3 control-label">名称</label>
                 <div class="col-xs-6">
                     <input class="form-control" style="width: 350px" type="text" name="name" value="${cetParty.name}">
                 </div>
@@ -40,8 +40,8 @@
 <div class="modal-footer">
     <c:if test="${param.batch==1}">
         <div class="pull-left">
-            <input type="button" id="partyObjsSelectAll" class="btn btn-success btn-xs" value="二级党委全选"/>
-            <input type="button" title="已添加过的二级党委除外" id="partObjsDeselectAll" class="btn btn-danger btn-xs" value="二级党委全不选"/>
+            <input type="button" id="partyObjsSelectAll" class="btn btn-success btn-xs" value="全选"/>
+            <input type="button" title="已添加过的除外" id="partObjsDeselectAll" class="btn btn-danger btn-xs" value="全不选"/>
         </div>
         <div class="pull-right">
     </c:if>
