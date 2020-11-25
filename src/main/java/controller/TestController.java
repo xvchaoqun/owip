@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.quartz.QuartzManager;
 import sys.spring.Base64File;
 import sys.spring.RequestBase64Image;
@@ -33,8 +35,8 @@ import static org.quartz.TriggerBuilder.newTrigger;
 /**
  * Created by fafa on 2016/1/18.
  */
-//@Controller
-//@RequestMapping("/test")
+@Controller
+@RequestMapping("/m/test")
 public class TestController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,6 +46,16 @@ public class TestController extends BaseController {
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
+    @RequestMapping(value = "/takePhoto")
+    @ResponseBody
+    public Map takePhoto(MultipartFile _photo){
+
+        String folder = "test";
+        upload(_photo, folder);
+
+        return success();
+
+    }
 
     @RequestMapping(value = "/startjob1")
     @ResponseBody

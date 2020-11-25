@@ -2,8 +2,10 @@ package service;
 
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import service.member.EnterApplyService;
 import service.sys.SysUserService;
+import sys.HttpResponseMethod;
 import sys.utils.JSONUtils;
 
 /**
@@ -15,6 +17,7 @@ public class TestServcie {
     private SysUserService sysUserService;
     @Autowired
     private EnterApplyService enterApplyService;
+    @Autowired
 
     public void toMember(int userId){
         SysUserView sysUser1 = sysUserService.findById(userId);
@@ -30,5 +33,11 @@ public class TestServcie {
         enterApplyService.changeRoleMemberToGuest(userId);
         SysUserView sysUser2 = sysUserService.findById(userId);
         System.out.println("sysUser2=" + JSONUtils.toString(sysUser2));
+    }
+
+    public void uploadPhoto(MultipartFile _photo, String folder){
+
+
+
     }
 }
