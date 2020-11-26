@@ -202,7 +202,7 @@
             {
                 label: '附件', name: '_files', width: 80, formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="popupBtn btn btn-info btn-xs" data-width="500" data-callback="_reload"' +
+                return '<button class="popupBtn btn btn-info btn-xs" data-width="800" data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件({1})</button>'
                                 .format(rowObject.id, Math.trimToZero(rowObject.fileCount))
             }},

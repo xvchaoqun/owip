@@ -49,6 +49,16 @@ pageEncoding="UTF-8" %>
                 <div class="space-4"></div>
             </c:if>
             <div class="jqgrid-vertical-offset buttons">
+
+                <c:if test="${status==_UNREPORT}">
+                    <button class="jqBatchBtn btn btn-success btn-sm"
+                            data-title="报送"
+                            data-msg="确认报送这{0}条数据？"
+                                    data-url="${ctx}/cet/cetProject_report"
+                                    data-grid-id="#jqGrid"><i class="fa fa-hand-paper-o"></i>
+                                    报送
+                    </button>
+                </c:if>
                 <shiro:hasRole name="${ROLE_CET_ADMIN}">
                 <c:if test="${status==_REPORT}">
                     <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
@@ -204,7 +214,7 @@ pageEncoding="UTF-8" %>
             { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
               return ('<button class="confirm btn btn-success btn-xs" data-msg="报送后不可修改，请核实后确认。" ' +
                   'data-callback="_reload" ' +
-              'data-url="${ctx}/cet/cetProject_report?id={0}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
+              'data-url="${ctx}/cet/cetProject_report?ids={0}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
                       .format(rowObject.id);
             }, frozen:true},
             </c:if>

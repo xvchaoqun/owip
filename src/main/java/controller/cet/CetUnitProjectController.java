@@ -298,10 +298,10 @@ public class CetUnitProjectController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitProject_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnitProject_report(int id, ModelMap modelMap) {
+    public Map do_cetUnitProject_report(int[] ids, ModelMap modelMap) {
 
-        cetUnitProjectService.report(id);
-        logger.info(addLog(LogConstants.LOG_CET, "二级党委培训报送：%s", id));
+        cetUnitProjectService.report(ids);
+        logger.info(addLog(LogConstants.LOG_CET, "二级党委培训报送：%s", StringUtils.join(ids)));
 
         return success(FormUtils.SUCCESS);
     }

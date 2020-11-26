@@ -126,25 +126,28 @@ public class CetUnitProjectService extends CetBaseMapper {
 
     // 报送
     @Transactional
-    public void report(int id) {
+    public void report(int[] ids) {
 
-        CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
-            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
-                throw new OpException("没有权限。");
+        for (int id : ids) {
+
+            CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+                List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
+                    throw new OpException("没有权限。");
+                }
             }
+
+            CetUnitProject record = new CetUnitProject();
+            record.setId(id);
+            record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_REPORT);
+            cetUnitProjectMapper.updateByPrimaryKeySelective(record);
+
+            sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
+                        "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
-
-        CetUnitProject record = new CetUnitProject();
-        record.setId(id);
-        record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_REPORT);
-        cetUnitProjectMapper.updateByPrimaryKeySelective(record);
-
-        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
-                    "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     public List<Integer> getByStatus(Byte cls, Integer reRecord, List<Integer> adminPartyIdList, String projectName,

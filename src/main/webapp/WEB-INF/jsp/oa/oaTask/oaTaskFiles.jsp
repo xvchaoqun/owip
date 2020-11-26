@@ -40,7 +40,7 @@
             <tbody>
             <c:forEach items="${oaTaskFiles}" var="oaTaskFile" varStatus="st">
                 <tr>
-                    <td nowrap>${oaTaskFile.fileName}</td>
+                    <td nowrap title="${oaTaskFile.fileName}">${cm:substr(oaTaskFile.fileName, 0, 50, '...')}</td>
                     <td nowrap>
                         <div class="hidden-sm hidden-xs action-buttons">
                             <shiro:hasPermission name="oaTask:delFile">

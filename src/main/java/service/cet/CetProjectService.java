@@ -122,25 +122,28 @@ public class CetProjectService extends CetBaseMapper {
 
     // 报送
     @Transactional
-    public void report(int id) {
+    public void report(int[] ids) {
 
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
-            if (!adminPartyIdList.contains(cetProject.getCetPartyId())) {
-                throw new OpException("没有权限。");
+        for (int id : ids) {
+
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+                List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                if (!adminPartyIdList.contains(cetProject.getCetPartyId())) {
+                    throw new OpException("没有权限。");
+                }
             }
+
+            CetProject record = new CetProject();
+            record.setId(id);
+            record.setStatus(CetConstants.CET_PROJECT_STATUS_REPORT);
+            cetProjectMapper.updateByPrimaryKeySelective(record);
+
+            sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
+                        "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
-
-        CetProject record = new CetProject();
-        record.setId(id);
-        record.setStatus(CetConstants.CET_PROJECT_STATUS_REPORT);
-        cetProjectMapper.updateByPrimaryKeySelective(record);
-
-        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_PROJECT,
-                    "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 已选参训人类型

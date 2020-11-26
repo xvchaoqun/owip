@@ -147,7 +147,7 @@ public interface HttpResponseMethod {
             throw new OpException("不允许上传的文件格式");
         }
 
-        if (file == null || file.isEmpty()) return null;
+        if (file == null) return null;
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 
@@ -275,7 +275,7 @@ public interface HttpResponseMethod {
             throw new OpException("不允许上传的文件格式");
         }
 
-        if (file == null || file.isEmpty()) return null;
+        if (file == null) return null;
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 

@@ -381,13 +381,13 @@ public class CetProjectController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetProject:edit")
+   @RequiresPermissions("cetProject:edit")
     @RequestMapping(value = "/cetProject_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProject_report(int id, ModelMap modelMap) {
+    public Map do_cetProject_report(int[] ids, ModelMap modelMap) {
 
-        cetProjectService.report(id);
-        logger.info(addLog(LogConstants.LOG_CET, "二级党委过程培训报送：%s", id));
+        cetProjectService.report(ids);
+        logger.info(addLog(LogConstants.LOG_CET, "二级党委过程培训报送：%s", StringUtils.join(ids)));
 
         return success(FormUtils.SUCCESS);
     }

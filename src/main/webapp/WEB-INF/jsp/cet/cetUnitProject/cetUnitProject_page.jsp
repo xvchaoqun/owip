@@ -58,6 +58,16 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
 
+                <c:if test="${cls==2}">
+                    <button class="jqBatchBtn btn btn-success btn-sm"
+                            data-title="报送"
+                            data-msg="确认报送这{0}条数据？"
+                                    data-url="${ctx}/cet/cetUnitProject_report"
+                                    data-grid-id="#jqGrid"><i class="fa fa-hand-paper-o"></i>
+                                    报送
+                    </button>
+                </c:if>
+
                 <c:if test="${cls!=5 && (cm:hasRole(ROLE_CET_ADMIN) || (cls==2))}">
                 <shiro:hasPermission name="cetUnitProject:edit">
                     <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
@@ -285,7 +295,7 @@ pageEncoding="UTF-8" %>
                 { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
                   return ('<button class="confirm btn btn-success btn-xs" data-msg="报送后不可修改，请核实后确认。" ' +
                       'data-callback="_report" ' +
-                  'data-url="${ctx}/cet/cetUnitProject_report?id={0}&cls=${cls}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
+                  'data-url="${ctx}/cet/cetUnitProject_report?ids={0}&cls=${cls}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
                           .format(rowObject.id);
                 }, frozen:true},
                 </c:if>
