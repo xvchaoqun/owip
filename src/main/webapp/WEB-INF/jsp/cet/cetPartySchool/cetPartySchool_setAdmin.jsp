@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select name="userId" data-rel="select2-ajax" data-width="350"
                             data-ajax-url="${ctx}/sysUser_selects"
-                            data-placeholder="请输入账号或姓名或教工号">
+                            data-placeholder="请输入账号或姓名或工作证号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
                     <script>

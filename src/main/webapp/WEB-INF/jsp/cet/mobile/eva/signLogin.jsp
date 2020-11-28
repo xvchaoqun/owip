@@ -25,7 +25,7 @@
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i>
-												请输入工号登录（首次登录需输入微信号）
+												请输入工作证号登录（首次登录需输入微信号）
 											</h4>
 											<div class="space-6"></div>
 											<form>

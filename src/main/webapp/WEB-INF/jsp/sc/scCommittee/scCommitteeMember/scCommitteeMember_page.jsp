@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <th>序号</th>
-            <th>工号</th>
+            <th>工作证号</th>
             <th>姓名</th>
             <th>职务</th>
         </tr>

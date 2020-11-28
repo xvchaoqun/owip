@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">工号</label>
+				<label class="col-xs-3 control-label">工作证号</label>
 				<div class="col-xs-6 label-text">
                     ${sysUser.code}
 				</div>

@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <select data-rel="select2-ajax" data-width="230"
                                 data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
-                                name="userId" data-placeholder="请输入账号或姓名或教工号">
+                                name="userId" data-placeholder="请输入账号或姓名或工作证号">
                             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                         </select>
                     </div>
@@ -194,7 +194,7 @@
                 </th>
             </tr>
             <tr>
-                <th style="width: 180px;">工号</th>
+                <th style="width: 180px;">工作证号</th>
                 <th>姓名</th>
             </tr>
             </thead>

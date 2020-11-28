@@ -215,7 +215,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/cet/cetUnitTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '参训人姓名', name: 'user.realname', frozen:true},
-            {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
+            {label: '参训人工作证号', width: 110, name: 'user.code', frozen:true},
             { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined)return '--';
                     if(cellvalue==0) return $.trim(rowObject.otherTraineeType)==''?'其他':$.trim(rowObject.otherTraineeType);

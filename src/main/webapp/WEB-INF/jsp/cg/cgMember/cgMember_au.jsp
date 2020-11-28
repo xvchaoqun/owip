@@ -115,7 +115,7 @@ pageEncoding="UTF-8"%>
 		<thead class="multi">
 		<tr>
 			<th>姓名</th>
-			<th>工号</th>
+			<th>工作证号</th>
 			<th></th>
 		</tr>
 		</thead>

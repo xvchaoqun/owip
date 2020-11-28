@@ -20,7 +20,7 @@
 <form class="form-horizontal" action="${ctx}/m/memberInflow" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input type="hidden" name="id" value="${memberInflow.id}">
             <div class="form-group">
-                <label class="col-xs-4 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+                <label class="col-xs-4 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"工作证号":"学号"}</label>
 
                 <div class="col-xs-8 label-text">
                     ${_user.code}

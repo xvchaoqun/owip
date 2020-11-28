@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <thead>
         <tr>
             <td>序号</td>
-            <td>工号</td>
+            <td>工作证号</td>
             <td>姓名</td>
         </tr>
         </thead>

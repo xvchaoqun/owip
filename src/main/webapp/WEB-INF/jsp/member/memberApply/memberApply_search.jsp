@@ -36,7 +36,7 @@
   <div class="col-xs-12">
     <blockquote>
       <small>
-        {{=(ret.userType==${USER_TYPE_JZG})?"教工号":"学号"}}：<span>{{=ret.code}}</span>
+        {{=(ret.userType==${USER_TYPE_JZG})?"工作证号":"学号"}}：<span>{{=ret.code}}</span>
       </small>
       <small>
         姓名：<span>{{=ret.realname}}</span>

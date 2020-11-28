@@ -21,7 +21,7 @@
         <thead>
         <tr>
             <th width="50">序号</th>
-            <th width="80">工号</th>
+            <th width="80">工作证号</th>
             <th width="80">姓名</th>
             <th>所在单位及职务</th>
             <th></th>

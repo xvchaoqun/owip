@@ -108,7 +108,7 @@
         </tr>
         <tr>
             <td>姓名</td>
-            <td>工号</td>
+            <td>工作证号</td>
             <td></td>
         </tr>
         </thead>

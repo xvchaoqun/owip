@@ -12,7 +12,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
-                ${crsApplicant.user.realname}（教工号：${crsApplicant.user.code}）
+                ${crsApplicant.user.realname}（工作证号：${crsApplicant.user.code}）
             </div>
         </div>
         <div class="form-group">

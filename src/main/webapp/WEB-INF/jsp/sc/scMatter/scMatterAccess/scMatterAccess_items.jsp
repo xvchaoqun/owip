@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <tr>
             <td>序号</td>
             <td>姓名</td>
-            <td>工号</td>
+            <td>工作证号</td>
             <td>年度</td>
             <td>填报类型</td>
             <td>封面填表日期</td>

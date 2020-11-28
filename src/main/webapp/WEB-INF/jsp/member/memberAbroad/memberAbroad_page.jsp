@@ -98,7 +98,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '教工号', name: 'user.code', frozen:true},
+            {label: '工作证号', name: 'user.code', frozen:true},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },

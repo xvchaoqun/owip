@@ -8,7 +8,7 @@
   <table id="fixedTable" class="table table-bordered table-center" width="auto" style="white-space:nowrap">
     <thead>
     <tr>
-      <th>工号</th>
+      <th>工作证号</th>
       <th>姓名</th>
       <th>单位及职务</th>
     </tr>

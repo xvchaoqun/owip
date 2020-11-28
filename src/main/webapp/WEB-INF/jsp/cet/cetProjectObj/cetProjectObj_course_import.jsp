@@ -39,7 +39,7 @@
                 </th>
             </tr>
             <tr>
-                <th style="width: 180px;">工号</th>
+                <th style="width: 180px;">工作证号</th>
                 <th>姓名</th>
             </tr>
             </thead>

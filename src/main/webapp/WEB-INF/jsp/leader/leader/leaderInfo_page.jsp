@@ -39,7 +39,7 @@
                                     <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
                                        data-url="${ctx}/cadre_changeCode"
                                        data-id-name="cadreId">
-                                        <i class="fa fa-refresh"></i> 更换工号</a>
+                                        <i class="fa fa-refresh"></i> 更换工作证号</a>
                                 </shiro:hasPermission>
 
                                 <shiro:hasPermission name="cadre:edit">

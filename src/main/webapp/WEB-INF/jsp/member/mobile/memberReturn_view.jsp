@@ -12,7 +12,7 @@
         </div>
         <div class="profile-user-info profile-user-info-striped">
             <div class="profile-info-row">
-                <div class="profile-info-name td"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
+                <div class="profile-info-name td"> ${(_user.type==USER_TYPE_JZG)?"工作证号":"学号"} </div>
 
                 <div class="profile-info-value td">
                     <span class="editable">${_user.code}</span>

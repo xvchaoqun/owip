@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
                             <c:set var="sysUser" value="${cm:getUserById(cm:toInt(param.userId))}"/>
                             <select name="userId" data-rel="select2-ajax" data-width="272"
                                     data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
-                                    data-placeholder="请输入账号或姓名或教工号">
+                                    data-placeholder="请输入账号或姓名或工作证号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>
                         </div>
@@ -123,7 +123,7 @@ pageEncoding="UTF-8" %>
                     rowObject.type=='<%=CetConstants.CET_EXPERT_TYPE_IN%>'?'text-success':'text-primary',
                     _cMap.CET_EXPERT_TYPE_MAP[cellvalue]);
             }, frozen:true},
-            { label: '工号/编号',name: 'code', width:110, formatter:function(cellvalue, options, rowObject){
+            { label: '工作证号/编号',name: 'code', width:110, formatter:function(cellvalue, options, rowObject){
 
                 //console.log("rowObject.type="+rowObject.type)
                 if(rowObject.type=='<%=CetConstants.CET_EXPERT_TYPE_IN%>'

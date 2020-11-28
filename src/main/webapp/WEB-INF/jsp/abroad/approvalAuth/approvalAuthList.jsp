@@ -12,7 +12,7 @@
         <tr>
           <th width="50">序号</th>
           <th nowrap>申请人</th>
-          <th nowrap>工号</th>
+          <th nowrap>工作证号</th>
           <th>所在单位</th>
           <th>现任职务</th>
           <c:forEach items="${approverTypeMap}" var="entity">

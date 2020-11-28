@@ -497,7 +497,7 @@
                     <label>姓名</label>
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${cetProject.id}"
                             data-width="280"
-                            name="userId" data-placeholder="请输入账号或姓名或教工号">
+                            name="userId" data-placeholder="请输入账号或姓名或工作证号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
                 </div>

@@ -111,9 +111,9 @@
                                 <li>
                                     <a href="javascript:;" class="popupBtn"
                                        data-url="${ctx}/sysUser_filterExport"
-                                       data-rel="tooltip" data-placement="top" title="抽取工号"><i
+                                       data-rel="tooltip" data-placement="top" title="抽取工作证号"><i
                                             class="fa fa-download"></i>
-                                        抽取工号</a>
+                                        抽取工作证号</a>
                                 </li>
                                 <li role="separator" class="divider"></li>
                             </shiro:hasPermission>

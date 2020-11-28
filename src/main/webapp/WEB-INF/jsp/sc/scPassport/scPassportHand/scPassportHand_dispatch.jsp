@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
 		<tr>
 			<td>发文号</td>
 			<td>姓名</td>
-			<td>工号</td>
+			<td>工作证号</td>
 			<td>现持有证件情况</td>
 			<td></td>
 		</tr>

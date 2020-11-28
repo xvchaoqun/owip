@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name">  ${(memberReg.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
+                                    <div class="profile-info-name">  ${(memberReg.type==USER_TYPE_JZG)?"工作证号":"学号"} </div>
 
                                     <div class="profile-info-value">
                                         <span class="editable">${memberReg.code}</span>

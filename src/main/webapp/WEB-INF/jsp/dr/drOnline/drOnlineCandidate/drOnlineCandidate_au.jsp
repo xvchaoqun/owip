@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${drOnlineCandidate.id}">
 
 		<div class="form-group">
-			<label class="col-xs-3 control-label">工号</label>
+			<label class="col-xs-3 control-label">工作证号</label>
 			<div class="col-xs-6 label-text">
 				${drOnlineCandidate.user.code}
 			</div>

@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
                 <thead>
                 <tr>
                     <th class="col-xs-5">姓名</th>
-                    <th class="col-xs-5">工号</th>
+                    <th class="col-xs-5">工作证号</th>
                     <c:if test="${commonList.recNum>1}">
                         <th style="width: 50px">排序</th>
                     </c:if>

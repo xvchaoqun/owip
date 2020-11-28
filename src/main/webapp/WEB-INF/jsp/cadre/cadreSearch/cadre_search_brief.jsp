@@ -62,7 +62,7 @@
         <thead class="multi">
         <tr>
             <th width="80">姓名</th>
-            <th width="120">工号</th>
+            <th width="120">工作证号</th>
             <th></th>
         </tr>
         </thead>

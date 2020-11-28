@@ -37,7 +37,7 @@
                         <th colspan="5">应聘人(总共${fn:length(crApplicants)}人)</th>
                     </tr>
                     <tr>
-                        <th>工号</th>
+                        <th>工作证号</th>
                         <th>姓名</th>
                         <th>手机号码</th>
                         <th>第一志愿</th>

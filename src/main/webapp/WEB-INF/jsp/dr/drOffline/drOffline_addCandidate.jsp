@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <th>推荐人选</th>
-            <th>工号</th>
+            <th>工作证号</th>
             <th style="width: 95px">得票总数</th>
             <c:if test="${drOffline.needVoterType}">
                 <c:forEach items="${typeMap}" var="entity">

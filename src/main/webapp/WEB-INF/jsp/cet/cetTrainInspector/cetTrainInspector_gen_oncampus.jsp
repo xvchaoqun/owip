@@ -41,7 +41,7 @@
 </div>
 <div class="modal-footer">
   <div style="text-align: left">
-    注：1.匿名评课，将生成随机账号密码 <br/> 2.实名评课，使用工号登录即可<br/>
+    注：1.匿名评课，将生成随机账号密码 <br/> 2.实名评课，使用工作证号登录即可<br/>
      3.如果有新增选课账号，重复此操作生成新账号即可<br/>
   </div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>

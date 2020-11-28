@@ -32,7 +32,7 @@
             <thead>
             <tr>
                 <td width="100">姓名</td>
-                <td width="100">工号</td>
+                <td width="100">工作证号</td>
                 <td>所在支部</td>
             </tr>
             </thead>

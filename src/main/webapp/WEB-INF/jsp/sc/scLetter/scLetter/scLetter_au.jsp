@@ -150,7 +150,7 @@
         <thead class="multi">
         <tr>
             <th>姓名</th>
-            <th>工号</th>
+            <th>工作证号</th>
             <th>对应的选任纪实</th>
             <th></th>
         </tr>

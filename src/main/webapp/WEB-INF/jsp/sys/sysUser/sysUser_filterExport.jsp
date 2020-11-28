@@ -69,7 +69,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">工号插入列数</label>
+            <label class="col-xs-4 control-label">学工号插入列数</label>
             <div class="col-xs-6">
                 <input class="form-control num"
                        data-rule-min="1"
@@ -124,8 +124,8 @@
     <div class="well" style="margin-bottom: 0">
         <ul>
             <li>仅处理第一个sheet</li>
-            <li>工号将插入最后一列</li>
-            <li>根据以上条件，系统如果仍不能确定唯一性，则对应的行的工号留空</li>
+            <li>学工号将插入最后一列</li>
+            <li>根据以上条件，系统如果仍不能确定唯一性，则对应的行的学工号留空</li>
         </ul>
     </div>
 </div>

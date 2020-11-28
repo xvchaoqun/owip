@@ -43,7 +43,7 @@
         </div>
     </c:if>
     <div class="form-group">
-        <label class="col-xs-5 control-label"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+        <label class="col-xs-5 control-label"> ${(_user.type==USER_TYPE_JZG)?"工作证号":"学号"}</label>
         <div class="col-xs-7 label-text">
             ${_user.code}
         </div>

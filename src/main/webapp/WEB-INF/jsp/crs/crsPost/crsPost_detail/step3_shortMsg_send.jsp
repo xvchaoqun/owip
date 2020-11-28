@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
        <thead>
        <tr>
            <td>姓名</td>
-           <td>教工号</td>
+           <td>工作证号</td>
            <td>手机</td>
        </tr>
        </thead>

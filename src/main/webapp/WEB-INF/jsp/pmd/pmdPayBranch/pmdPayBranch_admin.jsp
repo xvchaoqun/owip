@@ -50,7 +50,7 @@
             <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th class="col-xs-5">工号</th>
+                    <th class="col-xs-5">工作证号</th>
                     <th class="col-xs-5">姓名</th>
                     <th class="col-xs-5">类别</th>
                     <th nowrap></th>

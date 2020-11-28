@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="MEMBER_RETURN_STATUS_DENY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_DENY%>"/>
 
-<div  style="padding-top: 50px;"></div>
 <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_DENY}">
   <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">
@@ -23,7 +22,7 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+            <label class="col-sm-3 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"工作证号":"学号"}</label>
             <div class="col-sm-9 label-text">
               ${_user.code}
             </div>

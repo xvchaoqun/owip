@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <td width="50">序号</td>
-            <td width="100">工号</td>
+            <td width="100">工作证号</td>
             <td width="80">姓名</td>
             <td>回复情况</td>
         </tr>
