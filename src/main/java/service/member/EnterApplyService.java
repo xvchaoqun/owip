@@ -37,8 +37,6 @@ public class EnterApplyService extends MemberBaseMapper{
     @Autowired
     private MemberInService memberInService;
     @Autowired
-    private MemberOutService memberOutService;
-    @Autowired
     private MemberService memberService;
     @Autowired
     private SysUserService sysUserService;
