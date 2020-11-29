@@ -113,8 +113,8 @@ public class EnterApplyController extends MemberBaseController {
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberApply(@CurrentUser SysUserView loginUser, Integer partyId,MemberApply memberApply,
-                              Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
+    public Map do_memberApply(@CurrentUser SysUserView loginUser, Integer partyId, MemberApply memberApply,
+                              Integer branchId, String remark, HttpServletRequest request) {
 
         enterApplyService.checkMemberApplyAuth(loginUser.getId());
 
@@ -138,12 +138,10 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setPartyId(partyId);
         memberApply.setBranchId(branchId);
 
-        Date applyTime = DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD);
-        if (applyTime == null) {
+        if (memberApply.getApplyTime() == null) {
             return failed("提交书面申请书时间不允许为空。");
         }
 
-        memberApply.setApplyTime(applyTime);
         memberApply.setRemark(remark);
         memberApply.setFillTime(new Date());
         memberApply.setCreateTime(new Date());

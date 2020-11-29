@@ -103,10 +103,10 @@
             <label class="col-xs-4 control-label no-padding-right"><span class="star">*</span>提交书面申请书时间</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
-                    <input required class="form-control date-picker" name="_applyTime" type="text"
-                           data-date-format="yyyy-mm-dd"
+                    <input required class="form-control date-picker" name="applyTime" type="text"
+                           data-date-format="yyyy.mm.dd"
                            data-date-end-date="${_today}"
-                           value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}"/>
+                           value="${cm:formatDate(memberApply.applyTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

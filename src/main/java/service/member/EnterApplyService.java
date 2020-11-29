@@ -139,8 +139,12 @@ public class EnterApplyService extends MemberBaseMapper{
 
         if(memberApplyMapper.selectByPrimaryKey(userId)==null) {
             memberApplyMapper.insertSelective(record);
-        }else
+        }else {
+            if(record.getApplyStage()==null){
+                record.setApplyStage(OwConstants.OW_APPLY_STAGE_INIT);
+            }
             memberApplyMapper.updateByPrimaryKey(record);
+        }
 
         EnterApply currentApply = checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
         if(currentApply==null) {

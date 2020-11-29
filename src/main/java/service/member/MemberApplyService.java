@@ -120,6 +120,9 @@ public class MemberApplyService extends MemberBaseMapper {
                     addMemberIfNeeded(record);
                 }
 
+                if(record.getApplyStage()==null){
+                    record.setApplyStage(OwConstants.OW_APPLY_STAGE_INIT);
+                }
                 memberApplyMapper.updateByPrimaryKey(record);
 
                 // 更新志愿书编码状态
