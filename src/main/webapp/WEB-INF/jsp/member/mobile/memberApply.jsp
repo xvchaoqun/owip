@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%@ include file="/WEB-INF/jsp/member/memberApply/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
+
 <c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
@@ -14,7 +15,7 @@
 </c:if>
 <div class="page-header">
       <h1>
-        申请入党
+        党员发展申请
       </h1>
     </div>
 <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post"
@@ -64,42 +65,37 @@
         <label class="col-xs-5 control-label no-padding-right"><span class="star">*</span>提交书面申请书时间</label>
         <div class="col-xs-7">
             <div class="input-group" style="width: 150px">
-                <input required class="form-control date-picker" name="_applyTime" type="text"
-                       data-date-format="yyyy-mm-dd"
+                <input required class="form-control date-picker" name="applyTime" type="text"
+                       data-date-format="yyyy.mm.dd"
                        data-date-end-date="${_today}"
-                       value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}"/>
+                       value="${cm:formatDate(memberApply.applyTime,'yyyy.MM.dd')}"/>
                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
             </div>
         </div>
     </div>
+
     <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>请选择组织机构</label>
-        <div class="col-sm-9">
-            <select required name="classId" data-rel="select2" data-placeholder="请选择" data-width="100%">
-                <option></option>
-                <c:import url="/metaTypes?__code=mc_party_class"/>
-            </select>
-            <script>
-                $("#modalForm select[name=classId]").val("${party.classId}")
-            </script>
+            <label class="col-xs-5 control-label no-padding-right"><span class="star">*</span>联系基层党组织</label>
+            <div class="col-xs-12 ">
+                <select required class="form-control" data-width="100%" data-rel="select2-ajax" data-ajax-url="${ctx}/m/party_selects?del=0"
+                        name="partyId" data-placeholder="请选择">
+                    <option value="${party.id}">${party.name}</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="form-group" id="party" style="${empty party?'display: none;':''}">
-        <div class="col-sm-offset-3 col-sm-9">
-            <select data-rel="select2-ajax" data-width="100%" data-ajax-url="${ctx}/m/party_selects?del=0"
-                    name="partyId" data-placeholder="请选择${_p_partyName}">
-                <option value="${party.id}">${party.name}</option>
-            </select>
+        <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+            <label class="col-xs-5 control-label"><span class="star">*</span>联系党支部</label>
+            <div class="col-xs-12">
+                <select class="form-control" data-width="100%" data-rel="select2-ajax" data-ajax-url="${ctx}/m/branch_selects?del=0"
+                        name="branchId" data-placeholder="请选择党支部">
+                    <option value="${branch.id}">${branch.name}</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="form-group" id="branch" style="${empty branch?'display: none;':''}">
-        <div class="col-sm-offset-3 col-sm-9">
-            <select data-rel="select2-ajax" data-width="100%" data-ajax-url="${ctx}/m/branch_selects?del=0"
-                    name="branchId" data-placeholder="请选择党支部">
-                <option value="${branch.id}">${branch.name}</option>
-            </select>
-        </div>
-    </div>
+        <script>
+            $.register.party_branch_select($("#modalForm"), "branchDiv",
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
+        </script>
 
     <div id="requiresDiv">
 
@@ -258,26 +254,26 @@
             $("#modalForm select[name=appiyStage]").attr("required", "required");
             $("#appiyStageDiv").show();
         }
+        $("#modalForm select[name=applyStage]").change();
     });
 
     var applyMap = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
 
     $("#modalForm select[name=applyStage]").on('change', function () {
+        var applyStage = $(this).val();
         var codes = [];
-
-        for (var key in applyMap) {
-            codes.push(key);
-            if (key == $(this).val()) break;
+        var applyType = $('#modalForm input[name=applyType]:checked').val();
+        if(applyStage>0 && applyType==2) {
+            for (var key in applyMap) {
+                codes.push(key);
+                if (key == $(this).val()) break;
+            }
         }
         $("#requiresDiv").html(_.template($("#contentDiv_tpl").html())({codes: codes}));
-
-        console.log(codes);
-
+        //console.log(codes);
         $.register.date($('.date-picker'));
-    });
+    }).change();
 
-    $.register.class_party_branch_select($("#modalForm"), "party", "branch",
-        '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
     $.register.date($('.date-picker'));
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({

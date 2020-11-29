@@ -92,13 +92,7 @@ public class MemberService extends MemberBaseMapper {
     public void dbUpdate(int userId) {
 
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
-        EnterApply _enterApply = enterApplyService.checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
-        if (_enterApply != null) {
-            EnterApply enterApply = new EnterApply();
-            enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
-            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-        }
+        enterApplyService.checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
 
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
@@ -161,14 +155,6 @@ public class MemberService extends MemberBaseMapper {
     public boolean addOrUpdate(Member record, String remark) {
 
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
-
-        EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
-        if (_enterApply != null) {
-            EnterApply enterApply = new EnterApply();
-            enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
-            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-        }
 
         Integer userId = record.getUserId();
         SysUserView uv = sysUserService.findById(userId);

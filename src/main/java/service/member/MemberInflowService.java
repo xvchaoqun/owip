@@ -3,8 +3,6 @@ package service.member;
 import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
-import domain.party.EnterApply;
-import domain.party.EnterApplyExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -178,14 +175,8 @@ public class MemberInflowService extends MemberBaseMapper {
         //record.setBranchId(memberInflow.getBranchId());
         updateByPrimaryKeySelective(record);
 
-        EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+        enterApplyService.checkCurrentApply(userId,
                 OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
-        if(_enterApply!=null && _enterApply.getType()== OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
-            EnterApply enterApply = new EnterApply();
-            enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
-            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-        }
 
         // 更新系统角色  访客->流入党员
         sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_INFLOWMEMBER);
@@ -220,17 +211,6 @@ public class MemberInflowService extends MemberBaseMapper {
                     memberInflowMapper.updateByPrimaryKeySelective(record);
                 }
                 Integer userId = memberInflow.getUserId();
-                {
-                    EnterApplyExample example = new EnterApplyExample();
-                    example.createCriteria()
-                            .andTypeEqualTo(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW)
-                            .andUserIdEqualTo(userId)
-                            .andStatusEqualTo(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
-                    EnterApply record = new EnterApply();
-                    record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                    enterApplyMapper.updateByExampleSelective(record, example);
-                }
-
                 sysUserService.changeRole(userId, RoleConstants.ROLE_INFLOWMEMBER, RoleConstants.ROLE_GUEST);
 
                 applyApprovalLogService.add(id,
@@ -332,17 +312,8 @@ public class MemberInflowService extends MemberBaseMapper {
 
         if(status==MemberConstants.MEMBER_INFLOW_STATUS_BACK ) { // 后台退回申请，需要重置入口提交状态
             // 状态检查
-            EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+            enterApplyService.checkCurrentApply(userId,
                     OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
-            if (_enterApply == null)
-                throw new OpException("系统错误");
-
-            EnterApply enterApply = new EnterApply();
-            enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-            enterApply.setRemark(reason);
-            enterApply.setBackTime(new Date());
-            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
         }
 
         iMemberMapper.memberInflow_back(id, status);

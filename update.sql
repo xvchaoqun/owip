@@ -1,5 +1,9 @@
 
+
 20201129
+
+drop table ow_enter_apply;
+-- 删除EnterApply类
 
 20201126
 南航

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%@ include file="/WEB-INF/jsp/member/memberApply/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div style="width: 900px">
     <c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
         <div class="alert alert-danger">
@@ -68,7 +68,7 @@
         <div class="form-group">
             <label class="col-xs-4 control-label no-padding-right"><span class="star">*</span>联系基层党组织</label>
             <div class="col-xs-6 ">
-                <select required class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
+                <select required class="form-control"  data-width="300" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                         name="partyId" data-placeholder="请选择">
                     <option value="${party.id}">${party.name}</option>
                 </select>
@@ -77,7 +77,7 @@
         <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
             <label class="col-xs-4 control-label"><span class="star">*</span>联系党支部</label>
             <div class="col-xs-6">
-                <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?del=0"
+                <select class="form-control"  data-width="300" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?del=0"
                         name="branchId" data-placeholder="请选择党支部">
                     <option value="${branch.id}">${branch.name}</option>
                 </select>
@@ -324,8 +324,6 @@
         $.register.date($('.date-picker'));
     }).change();
 
-    $.register.class_party_branch_select($("#modalForm"), "party", "branch",
-        '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
     $.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
 

@@ -2,11 +2,9 @@ package service.member;
 
 import controller.global.OpException;
 import domain.member.*;
-import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -388,17 +386,8 @@ public class MemberInService extends MemberBaseMapper {
 
         if(status==MemberConstants.MEMBER_IN_STATUS_BACK ) { // 后台退回申请，需要重置入口提交状态
             // 状态检查
-            EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+            enterApplyService.checkCurrentApply(userId,
                     OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);
-            //throw new OpException("系统错误");
-            if (_enterApply != null) {
-                EnterApply enterApply = new EnterApply();
-                enterApply.setId(_enterApply.getId());
-                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                enterApply.setRemark(reason);
-                enterApply.setBackTime(new Date());
-                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-            }
         }
 
         iMemberMapper.memberIn_back(id, status);

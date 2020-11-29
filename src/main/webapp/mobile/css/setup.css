@@ -300,12 +300,12 @@ form .star {
 }
 /***detail **/
 .profile-info-name{
-    width: 130px;
+    width: 140px;
 }
 @media only screen and (max-width: 480px){
     .profile-user-info-striped .profile-info-name.td{
         float: left;
-        width: 130px;
+        width: 140px;
         text-align: left;
     }
 }
@@ -316,7 +316,7 @@ form .star {
 }
 @media only screen and (max-width: 480px) {
     .profile-user-info-striped .profile-info-value.td {
-        padding-left: 130px;
+        padding-left: 140px;
     }
 }
 #detail .tab-content{

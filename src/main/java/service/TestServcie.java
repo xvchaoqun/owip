@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import service.member.EnterApplyService;
 import service.sys.SysUserService;
-import sys.HttpResponseMethod;
+import sys.constants.RoleConstants;
 import sys.utils.JSONUtils;
 
 /**
@@ -30,7 +30,8 @@ public class TestServcie {
     public void toGuest(int userId){
         SysUserView sysUser1 = sysUserService.findById(userId);
         System.out.println("sysUser1=" + JSONUtils.toString(sysUser1));
-        enterApplyService.changeRoleMemberToGuest(userId);
+        // 更新系统角色  党员->访客
+        sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
         SysUserView sysUser2 = sysUserService.findById(userId);
         System.out.println("sysUser2=" + JSONUtils.toString(sysUser2));
     }

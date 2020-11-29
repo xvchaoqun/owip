@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%@ include file="constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div style="width: 900px">
     <h3>${empty memberApply?"添加":"修改"}(${OW_APPLY_STAGE_MAP.get(cm:toByte(param.stage))})</h3>
     <hr/>
@@ -29,24 +29,28 @@
                         </div>
                     </c:if>
                 </div>
-                <div class="form-group" id="party">
-                    <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>联系党委</label>
-                    <div class=" col-sm-9">
-                        <select required data-rel="select2-ajax" data-width="350"
-                                data-ajax-url="${ctx}/party_selects?auth=1"
+                <div class="form-group">
+                    <label class="col-xs-3 control-label no-padding-right"><span class="star">*</span>联系基层党组织</label>
+                    <div class="col-xs-9 ">
+                        <select required class="form-control" data-width="300" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                                 name="partyId" data-placeholder="请选择">
-                            <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                            <option value="${party.id}">${party.name}</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group" id="branch">
-                    <div class="col-sm-offset-3 col-sm-9">
-                        <select data-rel="select2-ajax" data-width="350" data-ajax-url="${ctx}/branch_selects?auth=1"
+                <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                    <label class="col-xs-3 control-label"><span class="star">*</span>联系党支部</label>
+                    <div class="col-xs-9">
+                        <select class="form-control" data-width="300" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?del=0"
                                 name="branchId" data-placeholder="请选择党支部">
-                            <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                            <option value="${branch.id}">${branch.name}</option>
                         </select>
                     </div>
                 </div>
+                <script>
+                    $.register.party_branch_select($("#applyAuForm"), "branchDiv",
+                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
+                </script>
                 <div class="form-group">
                     <label class="col-sm-6 control-label no-padding-right"> 入党申请时间</label>
 
@@ -292,8 +296,6 @@
 </div>
 <script>
     $.register.user_select($('#applyAuForm select[name=userId]'));
-    $.register.party_branch_select($("#applyAuForm"), "branch",
-        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
     $.register.date($('.date-picker'));
     $("#applyAuBtn").click(function () {
         $("#applyAuForm").submit();

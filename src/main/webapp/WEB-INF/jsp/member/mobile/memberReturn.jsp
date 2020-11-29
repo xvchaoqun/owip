@@ -27,38 +27,28 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label no-padding-right"><span class="star">*</span>请选择联系党组织</label>
-        <div class="col-xs-7">
-            <select required class="form-control" data-width="100%"
-                    name="classId" data-rel="select2" data-placeholder="请选择">
-                <option></option>
-                <c:import url="/metaTypes?__code=mc_party_class"/>
-            </select>
-            <script>
-                $("#modalForm select[name=classId]").val("${party.classId}")
-            </script>
+            <label class="col-xs-5 control-label no-padding-right"><span class="star">*</span>联系基层党组织</label>
+            <div class="col-xs-12 ">
+                <select required class="form-control" data-width="100%" data-rel="select2-ajax" data-ajax-url="${ctx}/m/party_selects?del=0"
+                        name="partyId" data-placeholder="请选择">
+                    <option value="${party.id}">${party.name}</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="form-group" id="party" style="${empty party?'display: none;':''}">
-        <div class="col-sm-offset-3 col-sm-9">
-            <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/m/party_selects?del=0"
-                    name="partyId" data-width="100%" data-placeholder="请选择${_p_partyName}">
-                <option value="${party.id}">${party.name}</option>
-            </select>
+        <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+            <label class="col-xs-5 control-label"><span class="star">*</span>联系党支部</label>
+            <div class="col-xs-12">
+                <select class="form-control" data-width="100%" data-rel="select2-ajax" data-ajax-url="${ctx}/m/branch_selects?del=0"
+                        name="branchId" data-placeholder="请选择党支部">
+                    <option value="${branch.id}">${branch.name}</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="form-group" id="branch" style="${empty branch?'display: none;':''}">
-        <div class="col-sm-offset-3 col-sm-9">
-            <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/m/branch_selects?del=0"
-                    name="branchId" data-width="100%" data-placeholder="请选择党支部">
-                <option value="${branch.id}">${branch.name}</option>
-            </select>
-        </div>
-    </div>
-    <script>
-        $.register.class_party_branch_select($("#modalForm"), "party", "branch",
-            '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}', null, null, null, true)
-    </script>
+        <script>
+            $.register.party_branch_select($("#modalForm"), "branchDiv",
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
+        </script>
+
     <div class="form-group">
         <label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
         <div class="col-xs-7">

@@ -3,7 +3,6 @@ package service.member;
 import controller.global.OpException;
 import domain.member.*;
 import domain.party.Branch;
-import domain.party.EnterApply;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
@@ -80,18 +79,7 @@ public class MemberApplyService extends MemberBaseMapper {
             if (memberApply == null) {
 
                 // 确定申请不重复
-                EnterApply enterApply = enterApplyService.checkCurrentApply(userId,
-                        OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
-                if (enterApply == null) {
-
-                    enterApply = new EnterApply();
-                    enterApply.setUserId(userId);
-                    enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
-                    enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
-                    enterApply.setCreateTime(new Date());
-
-                    enterApplyMapper.insertSelective(enterApply);
-                }
+                enterApplyService.checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
 
                 memberApplyMapper.insertSelective(record);
 
@@ -632,16 +620,7 @@ public class MemberApplyService extends MemberBaseMapper {
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
         if (_memberApply != null && _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY) {
             // 状态检查
-            EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
-                    OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
-            if (_enterApply != null) {
-                EnterApply enterApply = new EnterApply();
-                enterApply.setId(_enterApply.getId());
-                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                enterApply.setRemark("系统退回");
-                enterApply.setBackTime(new Date());
-                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-            }
+            enterApplyService.checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
 
             MemberApply record = new MemberApply();
             record.setStage(OwConstants.OW_APPLY_STAGE_DENY);
@@ -831,7 +810,8 @@ public class MemberApplyService extends MemberBaseMapper {
                 break;
             case OwConstants.OW_APPLY_STAGE_DENY:
                 iMemberMapper.memberApplyBackToInit(userId);
-                enterApplyService.applyBack(userId, "退回申请", OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApplyService.applyBack(userId, "退回申请",
+                        OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY, OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 break;
         }
     }

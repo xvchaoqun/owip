@@ -7,7 +7,6 @@ import domain.member.MemberQuitExample;
 import domain.pmd.PmdMemberPayViewExample;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -362,7 +361,7 @@ public class MemberQuitService extends MemberBaseMapper {
         }
 
         // 更新系统角色  党员->访客
-        enterApplyService.changeRoleMemberToGuest(userId);
+        sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
     }
 
      // 撤销已减员记录

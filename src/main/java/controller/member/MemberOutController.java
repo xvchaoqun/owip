@@ -701,7 +701,15 @@ public class MemberOutController extends MemberBaseController {
                 option.put("code", uv.getCode());
                 option.put("unit", extService.getUnit(userId));
 
-                option.put("member", iMemberMapper.getMemberView(userId));
+                MemberView mv = iMemberMapper.getMemberView(userId);
+                if(mv!=null) {
+                    option.put("politicalStatus", mv.getPoliticalStatus());
+                    option.put("applyTime", mv.getApplyTime());
+                    option.put("activeTime", mv.getActiveTime());
+                    option.put("candidateTime", mv.getCandidateTime());
+                    option.put("growTime", mv.getGrowTime());
+                    option.put("positiveTime", mv.getPositiveTime());
+                }
                 option.put("record", record);
                 options.add(option);
             }

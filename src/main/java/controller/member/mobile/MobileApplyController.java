@@ -1,8 +1,6 @@
 package controller.member.mobile;
 
-import controller.global.OpException;
 import controller.member.MemberBaseController;
-import domain.party.EnterApply;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +31,13 @@ public class MobileApplyController extends MemberBaseController {
     public String apply_page(HttpServletResponse response, ModelMap modelMap) {
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        EnterApply currentApply = enterApplyService.getCurrentApply(userId);
-        if(currentApply==null) {
+        Byte currentApplyType = enterApplyService.getCurrentApplyType(userId);
+        if(currentApplyType==null) {
             modelMap.put("member", memberService.get(userId));
             return "member/mobile/apply";
         }
-        switch (currentApply.getType()){
+
+        switch (currentApplyType){
             case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY:
                 return "forward:/user/memberApply?isMobile=1";
             case OwConstants.OW_ENTER_APPLY_TYPE_RETURN:

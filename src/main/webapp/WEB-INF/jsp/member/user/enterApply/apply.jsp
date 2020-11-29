@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col-xs-12">
     <div id="body-content">
-        <div class="${fn:length(applyList)>0?"col-xs-8":"col-xs-12"}">
+        <div style="width: 900px">
      <c:if test="${empty member}">
       <div class="well">
         <blockquote>
@@ -58,31 +58,7 @@
           </blockquote>
       </div>
       </div>
-        <c:if test="${fn:length(applyList)>0}">
-        <div class="col-xs-4">
-          <blockquote>
-            <h4 class="green bolder bigger-150">申请记录</h4>
-            <div style="height: 600px;overflow-y: auto">
-              <c:forEach var="apply" items="${applyList}">
-            <hr/>
-            <dt>
-                ${OW_ENTER_APPLY_TYPE_MAP.get(apply.type)}
-                <dd>
-              <ul>
-                <li>提交申请时间：${cm:formatDate(apply.createTime,'yyyy-MM-dd HH:mm')}</li>
-                <li>申请状态：${OW_ENTER_APPLY_STATUS_MAP.get(apply.status)}</li>
-                <c:if test="${not empty apply.remark}">
-                <li>备注：${apply.remark}</li>
-                </c:if>
-                <li>撤销时间：${cm:formatDate(apply.backTime,'yyyy-MM-dd HH:mm')}</li>
-              </ul>
-              </dd>
-            </dt>
-            </c:forEach>
-            </div>
-          </blockquote>
-        </div>
-        </c:if>
+
     </div>
     <div id="body-content-view"></div>
     </div>

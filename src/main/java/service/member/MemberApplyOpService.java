@@ -2,7 +2,6 @@ package service.member;
 
 import controller.global.OpException;
 import domain.member.*;
-import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import ext.service.ExtCommonService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -63,7 +62,8 @@ public class MemberApplyOpService extends MemberBaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             if (memberApply != null && memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY) {
-                enterApplyService.applyBack(userId, remark, OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApplyService.applyBack(userId, remark,
+                        OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY, OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
                         ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
@@ -803,26 +803,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
             record.setIsRemove(isRemove);
             memberApplyMapper.updateByPrimaryKeySelective(record);
 
-            EnterApply enterApply = enterApplyService.getCurrentApply(userId);
-            if(enterApply!=null){
-                if(isRemove) { // 移除
-                    EnterApply _record = new EnterApply();
-                    _record.setId(enterApply.getId());
-                    _record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                    enterApplyMapper.updateByPrimaryKeySelective(_record);
-                }
-            }else{
-                if(!isRemove) { // 撤销移除
-                    EnterApply _record = new EnterApply();
-                    _record.setUserId(userId);
-                    _record.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
-                    _record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
-                    _record.setCreateTime(new Date());
-
-                    enterApplyMapper.insertSelective(_record);
-                }
-            }
-
              String applySnOp = "";
             // 清除已使用的志愿书编码，如果有的话
             applySnService.clearAssign(userId, applySnReuse);
@@ -909,16 +889,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }else {
                 memberApply.setStage(OwConstants.OW_APPLY_STAGE_DENY);
                 memberApplyService.updateByPrimaryKeySelective(memberApply);
-
-                EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-                if (_enterApply != null){
-
-                    EnterApply enterApply = new EnterApply();
-                    enterApply.setId(_enterApply.getId());
-                    enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                    enterApply.setBackTime(new Date());
-                    enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-                }
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,

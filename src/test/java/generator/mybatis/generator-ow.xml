@@ -25,8 +25,6 @@
         </javaClientGenerator>
 
         <!--党建工作-->
-        <!--  <table tableName="ow_enter_apply" domainObjectName="member.EnterApply">
-          </table>-->
         <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>

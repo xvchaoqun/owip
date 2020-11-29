@@ -86,10 +86,10 @@ public class CommonController extends BaseController {
                 }
 
                 if(needPrivate) {
+                    option.put("idcard", uv.getIdcard());
                     Member member = memberService.get(uv.getId());
                     if (member != null) {
                         option.put("politicalStatus", member.getPoliticalStatus());
-                        option.put("idcard", uv.getIdcard());
                     }
                 }
 

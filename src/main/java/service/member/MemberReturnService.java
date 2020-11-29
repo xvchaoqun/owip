@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberReturn;
 import domain.member.MemberReturnExample;
-import domain.party.EnterApply;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,8 +138,6 @@ public class MemberReturnService extends MemberBaseMapper {
     public void checkMember(int userId){
 
         MemberReturn memberReturn = get(userId);
-        if(memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_APPLY)
-            throw new OpException("状态异常");
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
         record.setStatus(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
@@ -151,10 +148,10 @@ public class MemberReturnService extends MemberBaseMapper {
     @Transactional
     public void addMemberByReturn(int userId, byte politicalStatus, boolean isDirect){
 
-        Member _member = memberService.get(userId);
+        /*Member _member = memberService.get(userId);
         if(_member!=null){
             throw new OpException("已经是党员");
-        }
+        }*/
 
         MemberReturn memberReturn = get(userId);
         if(isDirect && memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_APPLY)
@@ -304,21 +301,6 @@ public class MemberReturnService extends MemberBaseMapper {
 
         Integer id = memberReturn.getId();
         Integer userId = memberReturn.getUserId();
-
-        if(status==MemberConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台退回申请，需要重置入口提交状态
-            // 状态检查
-            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-            if (_enterApply != null) {
-
-                EnterApply enterApply = new EnterApply();
-                enterApply.setId(_enterApply.getId());
-                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                enterApply.setRemark(reason);
-                enterApply.setBackTime(new Date());
-                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
-            }
-        }
-
         iMemberMapper.memberReturn_back(id, status);
 
         MemberReturn record = new MemberReturn();

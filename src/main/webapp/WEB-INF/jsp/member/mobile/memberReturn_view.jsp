@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
+
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
@@ -129,7 +130,7 @@
     function _applyBack() {
 
         SysMsg.confirm("确定撤销申请吗？", "撤销申请", function () {
-            $.post("${ctx}/m/applyBack", function (ret) {
+            $.post("${ctx}/m/applyBack?type=${OW_ENTER_APPLY_TYPE_RETURN}", function (ret) {
 
                 if (ret.success) {
                     SysMsg.success("撤销成功。", function () {

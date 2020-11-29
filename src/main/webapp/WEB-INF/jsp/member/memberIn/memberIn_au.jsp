@@ -59,13 +59,14 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">民族</label>
 						<div class="col-xs-6">
-							 <select name="nation" data-rel="select2" data-width="150">
+							 <select name="nation" data-rel="select2" data-placeholder="请选择"  data-width="150">
+								 <option></option>
 								<c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
 									<option value="${nation.name}">${nation.name}</option>
 								</c:forEach>
 							</select>
 							<script>
-								$("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(userBean.nation, '族')}');
+								$("#modalForm select[name=nation]").val('${cm:ensureEndsWith(userBean.nation, '族')}');
 							</script>
 						</div>
 					</div>
@@ -325,12 +326,12 @@ pageEncoding="UTF-8"%>
 
 			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
-			$("#modalForm input[name=nation]").val(nation);
+			$("#modalForm select[name=nation]").val(nation).trigger('change');
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
 			$("#modalForm input[name=gender]").val('');
 			$("#modalForm input[name=age]").val('');
-			$("#modalForm input[name=nation]").val('');
+			$("#modalForm select[name=nation]").val('').trigger('change');
 			$("#modalForm input[name=idcard]").val('')
 		}
 	});
@@ -341,7 +342,6 @@ pageEncoding="UTF-8"%>
 		//console.log(entity)
 		if(entity && entity.id) {
 			var record = entity.record;
-			var member = entity.member;
 			$("#modalForm textarea[name=fromTitle]").val(record.toTitle);
 			$("#modalForm textarea[name=fromUnit]").val(record.fromUnit);
 			$("#modalForm textarea[name=fromAddress]").val(record.fromAddress);
@@ -352,24 +352,12 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=validDays]").val(record.validDays);
 			$("#modalForm input[name=_fromHandleTime]").val($.date(record.handleTime, "yyyy-MM-dd"));
 
-			/*$("#modalForm select[name=userId]").empty()
-						.prepend('<option val="{0}">{1}</option>'.format(entity.id, entity.text));
-			$.register.user_select($("#modalForm select[name=userId]"));*/
-
-			if(member!=undefined) {
-				$("#modalForm select[name=politicalStatus]").val(member.politicalStatus).trigger("change");
-
-				/*$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[member.gender])
-				$("#modalForm input[name=birth]").val($.date(member.birth, "yyyy-MM-dd"))
-				$("#modalForm input[name=nation]").val(member.nation)
-				$("#modalForm input[name=idcard]").val(member.idcard)*/
-
-				$("#modalForm input[name=_applyTime]").val($.date(member.applyTime, "yyyy-MM-dd"));
-				$("#modalForm input[name=_activeTime]").val($.date(member.activeTime, "yyyy-MM-dd"));
-				$("#modalForm input[name=_candidateTime]").val($.date(member.candidateTime, "yyyy-MM-dd"));
-				$("#modalForm input[name=_growTime]").val($.date(member.growTime, "yyyy-MM-dd"));
-				$("#modalForm input[name=_positiveTime]").val($.date(member.positiveTime, "yyyy-MM-dd"));
-			}
+			$("#modalForm select[name=politicalStatus]").val(entity.politicalStatus).trigger("change");
+			$("#modalForm input[name=_applyTime]").val($.date(entity.applyTime, "yyyy-MM-dd"));
+			$("#modalForm input[name=_activeTime]").val($.date(entity.activeTime, "yyyy-MM-dd"));
+			$("#modalForm input[name=_candidateTime]").val($.date(entity.candidateTime, "yyyy-MM-dd"));
+			$("#modalForm input[name=_growTime]").val($.date(entity.growTime, "yyyy-MM-dd"));
+			$("#modalForm input[name=_positiveTime]").val($.date(entity.positiveTime, "yyyy-MM-dd"));
 		}else{
 			$("input,textarea", "#modalForm").val('');
 			$("select", "#modalForm").not(this).val(null).trigger("change");

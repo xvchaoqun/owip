@@ -69,7 +69,7 @@ public class OwConstants {
         OW_ENTER_APPLY_STATUS_MAP.put(OW_ENTER_APPLY_STATUS_PASS, "通过");
     }
 
-    // 权限开通申请类别，1申请入党 2 留学归国申请 3转入申请  4 流入申请
+    // 权限开通申请类别，1党员发展申请 2 留学归国申请 3组织关系转入申请  4 流入党员申请
     public final static byte OW_ENTER_APPLY_TYPE_MEMBERAPPLY = 1;
     public final static byte OW_ENTER_APPLY_TYPE_RETURN = 2;
     public final static byte OW_ENTER_APPLY_TYPE_MEMBERIN = 3;
@@ -77,9 +77,9 @@ public class OwConstants {
     public final static Map<Byte, String> OW_ENTER_APPLY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_MEMBERAPPLY, "申请入党");
+        OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_MEMBERAPPLY, "党员发展申请");
         OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_RETURN, "留学归国党员申请");
-        OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_MEMBERIN, "组织关系转入");
+        OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_MEMBERIN, "组织关系转入申请");
         OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_MEMBERINFLOW, "流入党员申请");
     }
 

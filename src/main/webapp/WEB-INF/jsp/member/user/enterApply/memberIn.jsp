@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="MEMBER_IN_STATUS_BACK" value="<%=MemberConstants.MEMBER_IN_STATUS_BACK%>"/>
 
-<div  style="padding-top: 50px;"></div>
 <c:if test="${memberIn.status==MEMBER_IN_STATUS_BACK}">
   <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">

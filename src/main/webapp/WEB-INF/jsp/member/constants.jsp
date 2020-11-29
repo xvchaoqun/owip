@@ -24,3 +24,17 @@
 <c:set var="OW_APPLY_STAGE_GROW" value="<%=OwConstants.OW_APPLY_STAGE_GROW%>"/>
 <c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
 <c:set var="OW_APPLY_CONTINUE_MAP" value="<%=OwConstants.OW_APPLY_CONTINUE_MAP%>"/>
+<c:set var="OW_ENTER_APPLY_TYPE_MEMBERAPPLY" value="<%=OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY%>"/>
+<c:set var="OW_ENTER_APPLY_TYPE_RETURN" value="<%=OwConstants.OW_ENTER_APPLY_TYPE_RETURN%>"/>
+<c:set var="OW_ENTER_APPLY_TYPE_MEMBERIN" value="<%=OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN%>"/>
+<c:set var="OW_ENTER_APPLY_TYPE_MEMBERINFLOW" value="<%=OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW%>"/>
+
+<c:set var="MEMBER_IN_STATUS_MAP" value="<%=MemberConstants.MEMBER_IN_STATUS_MAP%>"/>
+<c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
+<c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
+
+<c:set var="MEMBER_INFLOW_STATUS_APPLY" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_APPLY%>"/>
+
+<c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
+

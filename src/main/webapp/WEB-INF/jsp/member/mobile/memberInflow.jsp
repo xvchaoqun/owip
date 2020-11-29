@@ -28,7 +28,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>${_p_partyName}</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>请选择${_p_partyName}</label>
 
                 <div class="col-xs-8">
                     <select required class="form-control" data-rel="select2-ajax"
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                <label class="col-xs-4 control-label"><span class="star">*</span>党支部</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>请选择党支部</label>
 
                 <div class="col-xs-8">
                     <select class="form-control" data-rel="select2-ajax" data-width="100%" data-ajax-url="${ctx}/m/branch_selects?del=0"
