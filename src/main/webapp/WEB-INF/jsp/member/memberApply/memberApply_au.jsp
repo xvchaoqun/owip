@@ -5,7 +5,7 @@
 <div style="width: 900px">
     <h3>${empty memberApply?"添加":"修改"}(${OW_APPLY_STAGE_MAP.get(cm:toByte(param.stage))})</h3>
     <hr/>
-    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post"
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="applyAuForm" method="post"
           action="${ctx}/memberApply_au">
         <input type="hidden" name="stage" value="${param.stage}">
         <input type="hidden" name="op" value="${param.op}">
@@ -280,7 +280,7 @@
         </div>
     </form>
     <div class="clearfix form-actions center">
-        <button id="submitBtn"
+        <button id="applyAuBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> 确定</button>
         &nbsp; &nbsp; &nbsp;
@@ -291,17 +291,17 @@
     </div>
 </div>
 <script>
-    $.register.user_select($('#modalForm select[name=userId]'));
-    $.register.party_branch_select($("#modalForm"), "branch",
+    $.register.user_select($('#applyAuForm select[name=userId]'));
+    $.register.party_branch_select($("#applyAuForm"), "branch",
         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
     $.register.date($('.date-picker'));
-    $("#submitBtn").click(function () {
-        $("#modalForm").submit();
+    $("#applyAuBtn").click(function () {
+        $("#applyAuForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#applyAuForm").validate({
         submitHandler: function (form) {
-            var $btn = $("#submitBtn").button('loading');
+            var $btn = $("#applyAuBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {

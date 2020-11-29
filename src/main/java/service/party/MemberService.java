@@ -861,7 +861,6 @@ public class MemberService extends MemberBaseMapper {
             memberApply.setGrowTime(record.getGrowTime());
             memberApply.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             memberApply.setStage(OwConstants.OW_APPLY_STAGE_GROW);
-            memberApply.setApplyStage(OwConstants.OW_APPLY_STAGE_GROW);
 
             memberApply.setRemark("预备党员信息添加后同步");
             memberApply.setFillTime(now);

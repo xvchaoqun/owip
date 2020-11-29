@@ -123,11 +123,12 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        goto_next("${param.gotoNext}", function(){
-                            $("label.contactUsers").html(ret.contactUsers)
-                            $("#modalForm input[name=contactUsers]").val(ret.contactUsers)
-                            $("#modalForm input[name=contactUserIds]").val(ret.contactUserIds)
-                        });
+                        /*goto_next("${param.gotoNext}", function(){
+
+                        });*/
+                        $("label.contactUsers").html(ret.contactUsers)
+                        $("#modalForm input[name=contactUsers]").val(ret.contactUsers)
+                        $("#modalForm input[name=contactUserIds]").val(ret.contactUserIds)
                     }
                     $btn.button('reset');
                 }

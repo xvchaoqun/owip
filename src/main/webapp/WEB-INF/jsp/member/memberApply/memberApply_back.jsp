@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     <h3>退回申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberApply_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberApply_back" autocomplete="off" disableautocomplete id="backForm" method="post">
 
         <input type="hidden" name="ids" value="${param.ids}">
         <div class="form-group">
@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
     <c:if test="${param.stage>OW_APPLY_STAGE_DRAW}">
         <div class="note">注：如果退回至“预备党员”之前的阶段，系统将删除该党员的相关信息，无法恢复，请谨慎操作！</div>
     </c:if>
- <button id="submitBtn" type="button" class="btn btn-primary"
+ <button id="backBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>
 </div>
 
@@ -75,10 +75,10 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2"]').select2({allowClear:false});
 
     $.register.date($('.date-picker'));
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#backBtn").click(function(){$("#backForm").submit();return false;});
+    $("#backForm").validate({
         submitHandler: function (form) {
-             var $btn = $("#submitBtn").button('loading');
+             var $btn = $("#backBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){

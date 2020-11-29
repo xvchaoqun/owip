@@ -76,8 +76,7 @@
                                         <div class="tab-pane in active">
                                             <div class="tabbable" >
                                                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
-                                                    <c:if test="${(stage == OW_APPLY_STAGE_INIT || stage == OW_APPLY_STAGE_DENY) &&
-                                                    (_pMap['memberApply_needContinueDevelop']=='true')}">
+                                                    <c:if test="${stage == OW_APPLY_STAGE_INIT  && _memberApply_needContinueDevelop}">
                                                         <li class="dropdown <c:if test="${type==OW_APPLY_TYPE_STU}">active</c:if>" >
                                                             <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                                                 <i class="fa fa-graduation-cap"></i> 学生
@@ -146,8 +145,7 @@
                                                         </li>
                                                     </c:if>
 
-                                                    <c:if test="${(stage != OW_APPLY_STAGE_INIT && stage != OW_APPLY_STAGE_DENY) ||
-                                                    (_pMap['memberApply_needContinueDevelop']!='true')}">
+                                                    <c:if test="${stage != OW_APPLY_STAGE_INIT || !_memberApply_needContinueDevelop}">
                                                         <li class="<c:if test="${type==OW_APPLY_TYPE_STU}">active</c:if>">
                                                             <a href="javascript:;" class="hashchange"
                                                                data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}'>

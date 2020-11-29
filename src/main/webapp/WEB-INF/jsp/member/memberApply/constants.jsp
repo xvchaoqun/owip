@@ -1,6 +1,7 @@
 <%@ page import="sys.constants.OwConstants" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set value="${_pMap['memberApply_needContinueDevelop']=='true'}" var="_memberApply_needContinueDevelop"/>
 <c:set value="${_pMap['memberApply_timeLimit']=='true'}" var="_memberApply_timeLimit"/>
 <c:set value="${_pMap['memberApply_needCandidateTrain']=='true'}" var="_memberApply_needCandidateTrain"/>
 <c:set value="${_pMap['draw_od_check']=='true'}" var="_p_draw_od_check"/>

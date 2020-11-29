@@ -148,7 +148,6 @@ public interface IMemberMapper {
 
     // 退回至 申请（初始状态）
     @Update("update ow_member_apply set stage=" + OwConstants.OW_APPLY_STAGE_INIT
-            + ", apply_stage=" + OwConstants.OW_APPLY_STAGE_INIT
             + ", active_time=null, pass_time=null"
             + ", candidate_time=null,candidate_train_start_time=null,candidate_train_end_time=null"
             + ",candidate_grade=null,candidate_status=null, active_train_start_time=null, active_train_end_time=null,active_grade=null"

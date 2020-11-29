@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
-<c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
-<c:set var="OW_APPLY_CONTINUE_MAP" value="<%=OwConstants.OW_APPLY_CONTINUE_MAP%>"/>
-<c:set var="OW_APPLY_STAGE_ACTIVE" value="<%=OwConstants.OW_APPLY_STAGE_ACTIVE%>"/>
-<c:set var="OW_APPLY_STAGE_CANDIDATE" value="<%=OwConstants.OW_APPLY_STAGE_CANDIDATE%>"/>
-<c:set var="OW_APPLY_STAGE_PLAN" value="<%=OwConstants.OW_APPLY_STAGE_PLAN%>"/>
-<c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
+<%@ include file="/WEB-INF/jsp/member/memberApply/constants.jsp" %>
 <c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
@@ -25,7 +19,7 @@
     </div>
 <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post"
       action="${ctx}/m/memberApply">
-    <c:if test="${_pMap['memberApply_needContinueDevelop']=='true'}">
+    <c:if test="${_memberApply_needContinueDevelop}">
         <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right">申请类型</label>
             <div class="col-sm-9">
@@ -49,7 +43,7 @@
         </div>
     </div>
 
-    <c:if test="${_pMap['memberApply_needContinueDevelop']=='true'}">
+    <c:if test="${_memberApply_needContinueDevelop}">
         <div class="form-group" hidden id="appiyStageDiv">
             <label class="col-xs-5 control-label no-padding-right"><span class="star">*</span>请选择培养阶段</label>
             <div class="col-xs-7">

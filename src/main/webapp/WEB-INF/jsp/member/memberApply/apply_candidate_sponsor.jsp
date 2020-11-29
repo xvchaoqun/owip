@@ -123,11 +123,11 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        goto_next("${param.gotoNext}", function(){
+                        //goto_next("${param.gotoNext}", function(){
                             $("label.sponsorUsers").html(ret.sponsorUsers)
                             $("#modalForm input[name=sponsorUsers]").val(ret.sponsorUsers)
                             $("#modalForm input[name=sponsorUserIds]").val(ret.sponsorUserIds)
-                        });
+                        //});
                     }
                     $btn.button('reset');
                 }

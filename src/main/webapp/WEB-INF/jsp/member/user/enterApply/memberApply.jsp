@@ -29,17 +29,19 @@
             </div>
         </div>
 
-        <c:if test="${_pMap['memberApply_needContinueDevelop']=='true'}">
+        <c:if test="${_memberApply_needContinueDevelop}">
             <div class="form-group">
                 <label class="col-xs-4 control-label no-padding-right">申请类型</label>
                 <div class="col-xs-6 ">
                     <div class="input-group">
                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                            <input required checked type="radio" name="applyType" id="type1" value="1">
+                            <input required ${(empty memberApply || memberApply.applyStage==0)?'checked':''} type="radio"
+                                   name="applyType" id="type1" value="1">
                             <label for="type1">申请入党</label>
                         </div>
                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                            <input required type="radio" name="applyType" id="type2" value="2">
+                            <input required ${memberApply.applyStage>0?'checked':''} type="radio" name="applyType"
+                                   id="type2" value="2">
                             <label for="type2">申请继续培养</label>
                         </div>
                     </div>
@@ -47,11 +49,11 @@
             </div>
         </c:if>
 
-        <c:if test="${_pMap['memberApply_needContinueDevelop']=='true'}">
+        <c:if test="${_memberApply_needContinueDevelop}">
             <div class="form-group" hidden id="appiyStageDiv">
                 <label class="col-xs-4 control-label no-padding-right"><span class="star">*</span>请选择培养阶段</label>
                 <div class="col-xs-6 ">
-                    <select name="applyStage" data-rel="select2" data-placeholder="请选择" data-width="150">
+                    <select required name="applyStage" data-rel="select2" data-placeholder="请选择" data-width="150">
                         <option></option>
                         <c:forEach items="${OW_APPLY_CONTINUE_MAP}" var="appiyStage">
                             <option value="${appiyStage.key}">${appiyStage.value}</option>
@@ -132,20 +134,17 @@
         </div>
 
 
-        <div class="clearfix form-actions" style="clear: both;margin-bottom: 0">
-            <div class="col-md-offset-3 col-md-9">
+        <div class="clearfix form-actions center" style="clear: both;margin-bottom: 0">
                 <button class="btn btn-info" type="button" id="submitBtn" data-loading-text="提交中..."
                         data-success-text="您的申请已提交成功" autocomplete="off">
                     <i class="ace-icon fa fa-check bigger-110"></i>
                     提交
                 </button>
-
                 &nbsp; &nbsp; &nbsp;
                 <button class="hideView btn btn-default" type="button">
                     <i class="ace-icon fa fa-undo bigger-110"></i>
                     返回
                 </button>
-            </div>
         </div>
     </form>
 </div>
@@ -305,19 +304,25 @@
             $("#modalForm select[name=appiyStage]").attr("required", "required");
             $("#appiyStageDiv").show();
         }
+        $("#modalForm select[name=applyStage]").change();
     });
 
-    var applyMap = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
+    var applyStageMap = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
 
     $("#modalForm select[name=applyStage]").on('change', function () {
+
+        var applyStage = $(this).val();
         var codes = [];
-        for (var key in applyMap) {
-            codes.push(key);
-            if (key == $(this).val()) break;
+        var applyType = $('#modalForm input[name=applyType]:checked').val();
+        if(applyStage>0 && applyType==2) {
+            for (var key in applyStageMap) {
+                codes.push(key);
+                if (key == applyStage) break;
+            }
         }
         $("#requiresDiv").html(_.template($("#contentDiv_tpl").html())({codes: codes}));
         $.register.date($('.date-picker'));
-    });
+    }).change();
 
     $.register.class_party_branch_select($("#modalForm"), "party", "branch",
         '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
@@ -345,4 +350,8 @@
             });
         }
     });
+    <c:if test="${memberApply.stage>=0 && memberApply.applyStage>0}">
+        $("#submitBtn").hide();
+        $(":radio, select, input[type=text], .popupBtn, textarea").attr("disabled", "disabled");
+    </c:if>
 </script>

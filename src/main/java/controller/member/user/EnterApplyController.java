@@ -59,14 +59,18 @@ public class EnterApplyController extends MemberBaseController {
         return null;
     }
 
-    @RequiresRoles(RoleConstants.ROLE_GUEST)
+    //@RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberApply")
-    public String memberApply(Boolean isMobile, ModelMap modelMap) {
+    public String memberApply(Boolean isMobile, Integer userId, boolean preview, ModelMap modelMap) {
 
-        Integer userId = ShiroHelper.getCurrentUserId();
+        if(!ShiroHelper.isPermitted("memberApply:admin")){
+            ShiroHelper.checkRole(RoleConstants.ROLE_GUEST);
+            userId = ShiroHelper.getCurrentUserId();
+        }
+
         EnterApply currentApply = enterApplyService.getCurrentApply(userId);
         isMobile = BooleanUtils.isTrue(isMobile);
-        if (currentApply == null) {
+        if (currentApply == null || preview) {
 
             MemberApply memberApply = memberApplyService.get(ShiroHelper.getCurrentUserId());
             modelMap.put("memberApply", memberApply);
@@ -145,10 +149,6 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setCreateTime(new Date());
         memberApply.setStage(OwConstants.OW_APPLY_STAGE_INIT);
 
-        //默认为申请阶段
-        if (memberApply.getApplyStage() == null){
-            memberApply.setApplyStage(OwConstants.OW_APPLY_STAGE_INIT);
-        }
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(loginUser.getId(),

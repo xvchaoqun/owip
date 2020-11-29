@@ -177,10 +177,14 @@
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${stage<7}">
-            {label: '申请继续培养阶段', name: 'applyStage', width: 200, align: 'left',formatter: function (cellvalue, options, rowObject) {
-                var OW_APPLY_CONTINUE_MAP = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
-                return OW_APPLY_CONTINUE_MAP[cellvalue];
+            {label: '申请继续培养阶段', name: 'applyStage', width: 200, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.OW_APPLY_CONTINUE_MAP[cellvalue]
                 }},
+            {label: '详情', name: '_detail', width: 80,formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="openView btn btn-warning btn-xs" ' +
+                'data-url="${ctx}/user/memberApply?userId={0}&preview=1"><i class="fa fa-search"></i> 详情</button>')
+                        .format(rowObject.userId);
+            }},
             </c:if>
             {label: '${type==OW_APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen: true},
             {

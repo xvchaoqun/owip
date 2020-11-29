@@ -222,7 +222,6 @@ public class MemberApplyController extends MemberBaseController {
                 throw new OpException("第{0}行当前状态[{1}]不存在", row, _stage);
             }
             record.setStage(stage);
-            record.setApplyStage(stage);//apply_stage为申请时所处阶段
 
             record.setIsRemove(false);
             record.setCreateTime(now);
@@ -480,8 +479,8 @@ public class MemberApplyController extends MemberBaseController {
                 criteria.andIsRemoveEqualTo(false);
             }
 
-            //申请入党
-            if (stage == OwConstants.OW_APPLY_STAGE_INIT || stage == OwConstants.OW_APPLY_STAGE_DENY){
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT){
+                // 入党申请人阶段，区分新申请or继续培养
                 if (isApply) {
                     criteria.andApplyStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
                 }else {
@@ -611,7 +610,7 @@ public class MemberApplyController extends MemberBaseController {
             if (party != null && BooleanUtils.isNotTrue(party.getIsDeleted())) {
 
                  // 当前节点不为未通过或者申请状态不可直接添加
-                if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY ||
+                if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY &&
                         _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_INIT){
 
                     return failed("{0}已经添加，当前在{1}阶段，所在二级党委：{2}。请联系所在二级党委完成党员发展流程。",
@@ -631,7 +630,6 @@ public class MemberApplyController extends MemberBaseController {
 
             record.setUserId(userId);
             record.setStage(stage);
-            record.setApplyStage(stage);
 
             if(stage==OwConstants.OW_APPLY_STAGE_DRAW){
                 record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
@@ -865,27 +863,37 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_active_contact")
     public String apply_active_contact(Integer[] ids, ModelMap modelMap) {
 
         byte inSchool = 1; // 默认校内
         if(ids.length==1) {
-            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
-            String _userIds = memberApply.getContactUserIds();
-            String _users = memberApply.getContactUsers();
-            if(StringUtils.isBlank(_userIds)
-                    &&StringUtils.isNotBlank(_users)){
-                inSchool = 0;
-                if(StringUtils.isNotBlank(_users)){
-                    String[] users = _users.split(",");
-                    modelMap.put("users", users);
-                }
-            }else{
-
-                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
-                modelMap.put("userIds", userIds.toArray());
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
             }
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+
+            if(memberApply!=null) {
+                String _userIds = memberApply.getContactUserIds();
+                String _users = memberApply.getContactUsers();
+                if (StringUtils.isBlank(_userIds)
+                        && StringUtils.isNotBlank(_users)) {
+                    inSchool = 0;
+                    if (StringUtils.isNotBlank(_users)) {
+                        String[] users = _users.split(",");
+                        modelMap.put("users", users);
+                    }
+                } else {
+
+                    Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
+                    modelMap.put("userIds", userIds.toArray());
+                }
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
         }
         modelMap.put("inSchool", inSchool);
 
@@ -893,11 +901,21 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     // 提交 确定培养联系人
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_active_contact", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_active_contact(Integer[] ids, Integer[] userIds,
                                        String[] users, HttpServletRequest request) {
+
+        if(ids.length==1) {
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
+        }
 
         String contactUsers = memberApplyOpService.apply_active_contact(ids, userIds, users);
         Map<String, Object> resultMap = success();
@@ -947,27 +965,36 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate_sponsor")
     public String apply_candidate_sponsor(Integer[] ids, ModelMap modelMap) {
 
         byte inSchool = 1; // 默认校内
         if(ids.length==1) {
-            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
-            String _userIds = memberApply.getSponsorUserIds();
-            String _users = memberApply.getSponsorUsers();
-            if(StringUtils.isBlank(_userIds)
-                    &&StringUtils.isNotBlank(_users)){
-                inSchool = 0;
-                if(StringUtils.isNotBlank(_users)){
-                    String[] users = _users.split(",");
-                    modelMap.put("users", users);
-                }
-            }else{
-
-                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
-                modelMap.put("userIds", userIds.toArray());
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
             }
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(memberApply!=null) {
+                String _userIds = memberApply.getSponsorUserIds();
+                String _users = memberApply.getSponsorUsers();
+                if (StringUtils.isBlank(_userIds)
+                        && StringUtils.isNotBlank(_users)) {
+                    inSchool = 0;
+                    if (StringUtils.isNotBlank(_users)) {
+                        String[] users = _users.split(",");
+                        modelMap.put("users", users);
+                    }
+                } else {
+
+                    Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
+                    modelMap.put("userIds", userIds.toArray());
+                }
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
         }
         modelMap.put("inSchool", inSchool);
 
@@ -975,11 +1002,21 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     // 提交 确定入党介绍人
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate_sponsor", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_candidate_sponsor(Integer[] ids, Integer[] userIds,
                                        String[] users, HttpServletRequest request) {
+
+        if(ids.length==1) {
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
+        }
 
         String sponsorUsers = memberApplyOpService.apply_candidate_sponsor(ids, userIds, users);
         Map<String, Object> resultMap = success();
