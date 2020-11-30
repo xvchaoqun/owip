@@ -1,7 +1,7 @@
 
 20201130
 
-大工 -- 北师大
+大工，西工大 -- 北师大
 
 -- 标准化职级，需修改 SyncService  ExtCommonService.formatProPostLevel(proPostLevel)
 update sys_teacher_info set pro_post_level=null where pro_post_level not REGEXP '副高|正高|(中|初)级';

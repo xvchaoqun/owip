@@ -47,5 +47,6 @@ public class RoleConstants {
 
     public static final String ROLE_CET_ADMIN_UPPER = "cet_admin_upper"; // 单位管理员（上级调训）-干部教育培训
     public static final String ROLE_CET_ADMIN_PARTY = "cet_admin_party"; // 二级党委管理员-干部教育培训
+    public static final String ROLE_CET_ADMIN_UNIT_PARTY = "cet_admin_unit_party"; // 二级单位审核员-干部教育培训
     public static final String ROLE_CET_ADMIN_PS = "cet_admin_ps"; // 二级党校管理员-干部教育培训 （弃用）
 }

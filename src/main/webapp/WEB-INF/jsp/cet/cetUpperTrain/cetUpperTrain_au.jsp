@@ -607,6 +607,7 @@
         allowMime: ['application/pdf']
     });
     </c:if>
+    <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
     if ($("#type1").attr("checked")){
         $("#unitDiv").show();
         $("#modalForm select[name=unitId]").prop("disabled", false).attr("required", "required");
@@ -614,6 +615,7 @@
         $("#unitDiv").hide();
         $("#modalForm select[name=unitId]").val(null).trigger("change").prop("disabled", true).removeAttr("required");
     }
+    </c:if>
     $("#modalForm input[name=type]").click(function () {
         if ($(this).val() == ${CET_UPPER_TRAIN_TYPE_UNIT}) {
             $("#unitDiv").show();
