@@ -58,7 +58,7 @@
                                    data-url="${ctx}/oa/oaTask_abolish"
                                    data-grid-id="#jqGrid"><i class="fa fa-times"></i>
                                     作废</a>
-                                <shiro:hasPermission name="	oaTaskShowAll:*">
+                                <shiro:hasPermission name="oaTaskUser:infoMsg">
                                     <a class="jqOpenViewBtn btn btn-info btn-sm"
                                        data-url="${ctx}/oa/oaTaskUser_infoMsg"
                                        data-grid-id="#jqGrid" data-width="800"

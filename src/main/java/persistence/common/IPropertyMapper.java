@@ -20,8 +20,8 @@ public interface IPropertyMapper {
     List<String> studentTypes();
 
     // 民族
-    @Select("select distinct nation from ow_member_view where nation is not null and nation!='' order by nation")
-    List<String> nations();
+    /*@Select("select distinct nation from ow_member_view where nation is not null and nation!='' order by nation")
+    List<String> nations();*/
 
     // 籍贯
     @Select("select distinct native_place from ow_member_view where native_place is not null and native_place!='' order by native_place")

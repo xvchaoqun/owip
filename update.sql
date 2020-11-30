@@ -1,7 +1,7 @@
 
 20201130
 
-西工大 -- 北师大
+大工 -- 北师大
 
 drop table ow_apply_open_time;
 -- 删除ApplyOpenTime类
@@ -39,6 +39,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- 更新 unit_post_view
 
 20201115
+大工
 
 ALTER TABLE `ow_member`
 	ADD COLUMN `remark1` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注1' AFTER `sort_order`,

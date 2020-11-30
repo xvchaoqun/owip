@@ -939,7 +939,6 @@ public class MemberController extends MemberBaseController {
             modelMap.put("staffStatuses", CmTag.getPropertyCaches("staffStatuses"));
             modelMap.put("teacherEducationTypes", CmTag.getPropertyCaches("teacherEducationTypes"));
             modelMap.put("teacherPostClasses", CmTag.getPropertyCaches("teacherPostClasses"));
-            //modelMap.put("nations", CmTag.getPropertyCaches("teacherNations"));
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("teacherNativePlaces"));
         } else if (cls == 1 || cls == 6) { // 学生党员
 
@@ -947,13 +946,10 @@ public class MemberController extends MemberBaseController {
 
             modelMap.put("studentGrades", CmTag.getPropertyCaches("studentGrades"));
             modelMap.put("studentTypes", CmTag.getPropertyCaches("studentTypes"));
-            //modelMap.put("nations", CmTag.getPropertyCaches("studentNations"));
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("studentNativePlaces"));
         } else if (cls == 10) {
 
             titles = getCommonExportTitles();
-
-            modelMap.put("nations", CmTag.getPropertyCaches("nations"));
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("nativePlaces"));
         }
 
