@@ -1,4 +1,10 @@
 
+20201130
+
+西工大 -- 北师大
+
+drop table ow_apply_open_time;
+-- 删除ApplyOpenTime类
 
 20201129
 

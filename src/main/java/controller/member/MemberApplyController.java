@@ -70,8 +70,7 @@ public class MemberApplyController extends MemberBaseController {
 
         if (cls == 1)
             return "forward:/memberApply";
-        if (cls == 2)
-            return "forward:/applyOpenTime";
+        //if (cls == 2)
         if (cls == 3)
             return "forward:/memberApplyLog";
         if (cls == 4)

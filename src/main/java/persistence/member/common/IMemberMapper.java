@@ -248,9 +248,6 @@ public interface IMemberMapper {
     @Update("update sys_teacher_info set retire_time=null where user_id=#{userId}")
     void del_retireTime(@Param("userId") int userId);
 
-    @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
-    void globalApplyOpenTime(@Param("id") int id);
-
     // 更新志愿书编码端使用情况
     @Update("update ow_apply_sn_range asr," +
             "(select range_id, sum(if(is_used=1 and is_abolished=0, 1, 0)) as use_count, " +

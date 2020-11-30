@@ -102,8 +102,6 @@
         </table>-->
         <!--<table tableName="ow_apply_log" domainObjectName="member.ApplyLog">
         </table>-->
-        <!--<table tableName="ow_apply_open_time" domainObjectName="member.ApplyOpenTime">
-        </table>-->
          <!--<table tableName="ow_apply_sn_range" domainObjectName="member.ApplySnRange"
                 mapperName="member.ApplySnRangeMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>

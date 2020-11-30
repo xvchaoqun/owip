@@ -40,14 +40,6 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=4"><i
                 class="fa fa-download"></i> 数据导出</a>
     </li>
-    <shiro:hasRole name="${ROLE_SUPER}">
-    <shiro:hasPermission name="applyOpenTime:*">
-        <li class="${cls==2?'active':''}">
-            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=2"><i
-                    class="fa fa-clock-o"></i> 开放时间</a>
-        </li>
-    </shiro:hasPermission>
-    </shiro:hasRole>
     <li class="${cls==3?'active':''}">
         <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=3"><i class="fa fa-history"></i>
             流程日志</a>

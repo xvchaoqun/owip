@@ -65,8 +65,6 @@ public class MemberBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected MemberModifyMapper memberModifyMapper;
     @Autowired(required = false)
-    protected ApplyOpenTimeMapper applyOpenTimeMapper;
-    @Autowired(required = false)
     protected MemberApplyMapper memberApplyMapper;
     @Autowired(required = false)
     protected MemberApplyViewMapper memberApplyViewMapper;
