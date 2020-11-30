@@ -11,6 +11,10 @@ public class SysMsg implements Serializable {
         return CmTag.getUserById(userId);
     };
 
+    public SysUserView getSendUser(){
+        return CmTag.getUserById(sendUserId);
+    }
+
     private Integer id;
 
     private Integer userId;
@@ -21,7 +25,9 @@ public class SysMsg implements Serializable {
 
     private String content;
 
-    private Date createTime;
+    private Date sendTime;
+
+    private Date confirmTime;
 
     private String ip;
 
@@ -69,12 +75,20 @@ public class SysMsg implements Serializable {
         this.content = content == null ? null : content.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getSendTime() {
+        return sendTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public Date getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
     }
 
     public String getIp() {

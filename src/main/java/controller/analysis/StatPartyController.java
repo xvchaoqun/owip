@@ -2,7 +2,6 @@ package controller.analysis;
 
 import controller.BaseController;
 import domain.party.Branch;
-import domain.party.Party;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -27,38 +26,30 @@ public class StatPartyController extends BaseController {
 
     /**
      * 分党委信息统计
+     *
      * @return
      */
     @RequestMapping("/stat_party_page")
-    public String stat_ow_page(ModelMap modelMap,Integer partyId) {
+    public String stat_ow_page(ModelMap modelMap, Integer partyId) {
 
         int userId = ShiroHelper.getCurrentUserId();
-        List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
-
-        if (partyIds.size()>0) {
-
-            Map<Integer, Party> partyMap = partyService.findAll();
-            List<Party> parties = new ArrayList<>();
-            for (Integer _partyId : partyIds) {
-                parties.add(partyMap.get(_partyId));
+        if (partyId == null) {
+            List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
+            if (partyIds != null && partyIds.size() > 0) {
+                partyId = partyIds.get(0);
             }
-            if (partyId == null) partyId = partyIds.get(0);
-
-            modelMap.put("parties", parties);
-            modelMap.put("checkParty", partyMap.get(partyId));
         }
-
         modelMap.put("partyId", partyId);
         return "analysis/party/stat_party_page";
     }
 
     // 党员数量统计
     @RequestMapping("/stat_party_member_count")
-    public String stat_member_count(Integer type,Integer partyId, Integer branchId, ModelMap modelMap){
+    public String stat_member_count(Integer type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         if (partyId != null) {
             if (type != null) {
-                modelMap.put("otherMap", statService.otherMap(type, partyId));
+                modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
             }
 
             modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
@@ -66,7 +57,7 @@ public class StatPartyController extends BaseController {
             modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
         }
 
-        modelMap.put("isPartyAdmin",true);
+        modelMap.put("isPartyAdmin", true);
         modelMap.put("type", type);
         modelMap.put("partyId", partyId);
         return "analysis/ow/stat_member_count";
@@ -80,7 +71,7 @@ public class StatPartyController extends BaseController {
             modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
         }
 
-        modelMap.put("isPartyAdmin",true);
+        modelMap.put("isPartyAdmin", true);
         modelMap.put("type", type);
         modelMap.put("partyId", partyId);
         return "analysis/ow/stat_member_age";
@@ -100,9 +91,9 @@ public class StatPartyController extends BaseController {
 
     // 二级党委党员数量分布情况
     @RequestMapping("/stat_party_member_party")
-    public String stat_member_party(ModelMap modelMap,Integer partyId) {
+    public String stat_member_party(ModelMap modelMap, Integer partyId) {
 
-        if(partyId!=null) {
+        if (partyId != null) {
             List<String> categories = new ArrayList<>();
             List<Integer> teachers = new ArrayList<>();
             List<Integer> students = new ArrayList<>();
@@ -111,9 +102,9 @@ public class StatPartyController extends BaseController {
             List<MemberStatByBranchBean> memberStatByPartyBeans = statService.branchMap(partyId);
             for (MemberStatByBranchBean bean : memberStatByPartyBeans) {
                 Branch branch = branchMap.get(bean.getBranchId());
-                if(branch!=null) {
+                if (branch != null) {
                     categories.add(StringUtils.defaultIfBlank(branch.getShortName(), branch.getName()));
-                }else{
+                } else {
                     categories.add("支部不存在");
                 }
                 teachers.add(bean.getTeacher());
@@ -130,7 +121,7 @@ public class StatPartyController extends BaseController {
 
     //支部类型统计
     @RequestMapping("/stat_party_branch_type")
-    public String stat_branch_type(ModelMap modelMap,Integer partyId){
+    public String stat_branch_type(ModelMap modelMap, Integer partyId) {
 
         if (partyId != null) {
             modelMap.put("metaTypes", CmTag.getMetaTypes("mc_branch_type"));

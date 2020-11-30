@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${sysMsg!=null?'编辑':'添加'}系统提醒</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sysMsg_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sys/sysMsg_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${sysMsg.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 接收人</label>
@@ -53,10 +53,5 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
 </script>

@@ -16,22 +16,22 @@ import java.util.*;
  * Created by fafa on 2016/8/1.
  */
 @Service
-public class StatService extends BaseMapper{
+public class StatService extends BaseMapper {
 
     // 以分党委分类的党员总数（默认前二十）
-    public List<MemberStatByPartyBean> partyMap(Integer top){
-        if(top==null) top = 20;
+    public List<MemberStatByPartyBean> partyMap(Integer top) {
+        if (top == null) top = 20;
         return statMemberMapper.memberApply_groupByPartyId(top);
     }
 
     //分党委下党支部分类的党员总数
-    public List<MemberStatByBranchBean> branchMap(Integer partyId){
+    public List<MemberStatByBranchBean> branchMap(Integer partyId) {
 
         return statMemberMapper.memberApply_groupByBranchId(partyId);
     }
 
     // 按阶段统计党员发展
-    public Map politicalStatusMap(Integer partyId, Integer branchId){
+    public Map politicalStatusMap(Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _map = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.member_groupByPoliticalStatus(partyId, branchId);
@@ -48,10 +48,17 @@ public class StatService extends BaseMapper{
     }
 
     // 按类型统计党员发展
-    public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId){
+    public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _map = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId);
+        if (statByteBeans.size() == 1) {
+            Byte type = statByteBeans.get(0).getGroupBy();
+            _map.put(type == MemberConstants.MEMBER_TYPE_TEACHER ? MemberConstants.MEMBER_TYPE_STUDENT : MemberConstants.MEMBER_TYPE_TEACHER, 0);
+        } else if (statByteBeans.size() == 0) {
+            _map.put(MemberConstants.MEMBER_TYPE_TEACHER, 0);
+            _map.put(MemberConstants.MEMBER_TYPE_STUDENT, 0);
+        }
         for (StatByteBean statByteBean : statByteBeans) {
             _map.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
@@ -65,7 +72,7 @@ public class StatService extends BaseMapper{
     }
 
     // 按阶段统计党员发展
-    public Map applyMap(Byte type, Integer partyId, Integer branchId){
+    public Map applyMap(Byte type, Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _applyMap = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.memberApply_groupByStage(type, partyId, branchId);
@@ -76,25 +83,26 @@ public class StatService extends BaseMapper{
         Map<Byte, Integer> applyMap = new LinkedHashMap<>();
         for (Byte key : OwConstants.OW_APPLY_STAGE_MAP.keySet()) {
             Integer count = _applyMap.get(key);
-            if(key==OwConstants.OW_APPLY_STAGE_INIT){
+            if (key == OwConstants.OW_APPLY_STAGE_INIT) {
                 Integer initCount = _applyMap.get(OwConstants.OW_APPLY_STAGE_INIT);
                 Integer passCount = _applyMap.get(OwConstants.OW_APPLY_STAGE_PASS);
-                count = (initCount!=null?initCount:0) + (passCount!=null?passCount:0);
+                count = (initCount != null ? initCount : 0) + (passCount != null ? passCount : 0);
             }
             applyMap.put(key, count);
         }
 
         return applyMap;
     }
+
     // 按年龄结构统计
-    public Map ageMap(Byte type, Integer partyId, Integer branchId){
+    public Map ageMap(Byte type, Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _ageMap = new HashMap<>();
         List<StatIntBean> statIntBeans = new ArrayList<>();
 
-        if (type==null || type == MemberConstants.MEMBER_TYPE_TEACHER)
+        if (type == null || type == MemberConstants.MEMBER_TYPE_TEACHER)
             statIntBeans.addAll(statMemberMapper.member_teatcherGroupByBirth(partyId, branchId));
-        if (type==null || type == MemberConstants.MEMBER_TYPE_STUDENT)
+        if (type == null || type == MemberConstants.MEMBER_TYPE_STUDENT)
             statIntBeans.addAll(statMemberMapper.member_studentGroupByBirth(partyId, branchId));
 
         //int year = DateUtils.getCurrentYear();
@@ -102,7 +110,7 @@ public class StatService extends BaseMapper{
             Integer age = statIntBean.getGroupBy();
             byte key = MemberConstants.getMemberAgeRange(age);
             Integer total = _ageMap.get(key);
-            total = (total==null)?statIntBean.getNum():(total+statIntBean.getNum());
+            total = (total == null) ? statIntBean.getNum() : (total + statIntBean.getNum());
             _ageMap.put(key, total);
         }
 
@@ -115,23 +123,23 @@ public class StatService extends BaseMapper{
     }
 
     //统计支部类型
-    public Map branchTypeMap(Integer partyId){
+    public Map branchTypeMap(Integer partyId) {
 
-        Map<Integer,Integer> branchTypeMap = new HashMap();
+        Map<Integer, Integer> branchTypeMap = new HashMap();
         List<String> branchTypes = statMemberMapper.getBranchTypes(partyId);
-        for (String branchType : branchTypes){
+        for (String branchType : branchTypes) {
 
-            for (String type : branchType.split(",")){
+            for (String type : branchType.split(",")) {
 
                 Integer key = Integer.parseInt(type);
                 Integer value = branchTypeMap.get(key);
 
-                if (value == null){
+                if (value == null) {
 
-                    branchTypeMap.put(key,1);
-                }else {
+                    branchTypeMap.put(key, 1);
+                } else {
 
-                    branchTypeMap.put(key,value+1);
+                    branchTypeMap.put(key, value + 1);
                 }
             }
         }
@@ -139,27 +147,27 @@ public class StatService extends BaseMapper{
     }
 
     //党员其他类型统计 1.性别 2.民族
-    public Map otherMap(Integer type,Integer partyId){
+    public Map otherMap(Integer type, Integer partyId, Integer branchId) {
 
         Map otherMap = new LinkedHashMap();
-        if (type == 1){
-            List<StatIntBean> others = statMemberMapper.member_countGroupByGender(partyId);
+        if (type == 1) {
+            List<StatIntBean> others = statMemberMapper.member_countGroupByGender(partyId, branchId);
 
-            for (StatIntBean other : others){
+            for (StatIntBean other : others) {
 
-                if (other.getGroupBy()!=null && (other.getGroupBy().byteValue()==SystemConstants.GENDER_MALE)){
-                    otherMap.put("男",other.getNum());
-                }else if (other.getGroupBy()!=null && (other.getGroupBy().byteValue()==SystemConstants.GENDER_FEMALE)){
-                    otherMap.put("女",other.getNum());
-                }else{
-                    otherMap.put("无数据",other.getNum());
+                if (other.getGroupBy() != null && (other.getGroupBy().byteValue() == SystemConstants.GENDER_MALE)) {
+                    otherMap.put("男", other.getNum());
+                } else if (other.getGroupBy() != null && (other.getGroupBy().byteValue() == SystemConstants.GENDER_FEMALE)) {
+                    otherMap.put("女", other.getNum());
+                } else {
+                    otherMap.put("无数据", other.getNum());
                 }
             }
-        }if (type == 2){
+        } else if (type == 2) {
 
-            otherMap.put("汉族",statMemberMapper.countHan(partyId));
-            otherMap.put("少数民族",statMemberMapper.countMinority(partyId));
-            otherMap.put("无数据",statMemberMapper.countNull(partyId));
+            otherMap.put("汉族", statMemberMapper.countHan(partyId, branchId));
+            otherMap.put("少数民族", statMemberMapper.countMinority(partyId, branchId));
+            otherMap.put("无数据", statMemberMapper.countNull(partyId, branchId));
         }
 
         return otherMap;

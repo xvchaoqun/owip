@@ -39,14 +39,18 @@ public interface StatMemberMapper {
     List<String> getBranchTypes(@Param("partyId")Integer partyId);
 
     // 按性别统计党员人数
-    List<StatIntBean> member_countGroupByGender(@Param("partyId")Integer partyId);
+    List<StatIntBean> member_countGroupByGender(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
     // 统计党员中汉族的人数
-    Integer countHan(@Param("partyId")Integer partyId);
+    Integer countHan(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
     //统计党员中少数民族的人数
-    Integer countMinority(@Param("partyId")Integer partyId);
+    Integer countMinority(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
     //统计党员中民族为空的人数
-    Integer countNull(@Param("partyId")Integer partyId);
+    Integer countNull(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
+
+    //党支部信息统计
+    //
+
 }

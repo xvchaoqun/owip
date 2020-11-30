@@ -2,6 +2,7 @@ package controller.global;
 
 import controller.BaseController;
 import domain.cadre.CadreView;
+import domain.member.Member;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
 import ext.utils.CasUtils;
@@ -118,6 +119,19 @@ public class IndexController extends BaseController {
 			toPage = "stat_party_page"; // 党建信息统计页
 		}
 		modelMap.put("to", toPage);
+		int userId = ShiroHelper.getCurrentUserId();
+		modelMap.put("sysMsgCount", sysMsgService.count(SystemConstants.SYS_MSG_STATUS_UNCONFIRM));
+
+		//是所在支部的管理员才能看到支部信息统计
+		List<Integer> branchIdList=loginUserService.adminBranchIdList();
+		Member member = memberMapper.selectByPrimaryKey(userId);
+		boolean showBranch = false;
+		if (member != null&&member.getBranchId()!=null) {
+			if (branchIdList.contains(member.getBranchId())){
+				showBranch = true;
+			}
+		}
+		modelMap.put("showBranch", showBranch);
 
 		return "index_page";
 	}

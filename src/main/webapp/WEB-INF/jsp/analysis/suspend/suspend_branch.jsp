@@ -20,40 +20,14 @@
                         <i class="ace-icon fa fa-chevron-up"></i>
                     </a>
                 </div>
-                <div style="display: inline-block;position: relative;" id="selectParty">
-                    <c:if test="${not empty parties && fn:length(parties)>1}">
-                        <select data-rel="select2" name="party">
-                            <c:forEach items="${parties}" var="party">
-                                <option value="${party.id}">${party.name}</option>
-                            </c:forEach>
-                        </select>
-                        <c:if test="${not empty checkParty}">
-                            <script type="text/javascript">
-                                $("select[name=party]").val(${checkParty.id});
-                            </script>
-                        </c:if>
-                    </c:if>
-                </div>
             </div>
+
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="col-sm-12">
 
                             <div class="infobox infobox-blue"
-                                 <c:if test="${partyMemberGroupCount>0}">data-url="${ctx}/partyMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
-                                <div class="infobox-icon">
-                                    <i class="ace-icon fa fa-sign-out"></i>
-                                </div>
-                                <div class="infobox-data">
-                                    <span class="infobox-data-number"><span class="count">${partyMemberGroupCount}</span> <span
-                                            style="font-size: 10pt;">应换届</span></span>
-
-                                    <div class="infobox-content">应换届党委班子</div>
-                                </div>
-                            </div>
-
-                            <div class="infobox infobox-blue"
-                                 <c:if test="${branchMemberGroupCount>0}">data-url="${ctx}/branchMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
+                                 <c:if test="${branchMemberGroupCount>0}">data-url="${ctx}/branchMemberGroup?branchId=${param.branchId}&isTranTime=1"</c:if>>
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-sign-out"></i>
                                 </div>
@@ -72,10 +46,10 @@
                                 </div>
                                 <div class="infobox-data">
                           <span class="infobox-data-number">
-                            <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_STU}&growStatus=-1">
+                            <span data-url="${ctx}/memberApply_layout?branchId=${param.branchId}&stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_STU}&growStatus=-1">
                             <span class="count">${studentGrowOdCheckCount}</span><span
                                     style="font-size: 10pt;">学生</span></span>
-                             <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_TEACHER}&growStatus=-1">
+                             <span data-url="${ctx}/memberApply_layout?branchId=${param.branchId}&stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_TEACHER}&growStatus=-1">
                             <span class="count">${teacherGrowOdCheckCount}</span><span
                                      style="font-size: 10pt;">教职工</span></span>
                             </span>
@@ -89,10 +63,10 @@
                                 </div>
                                 <div class="infobox-data">
                           <span class="infobox-data-number">
-                                <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${OW_APPLY_TYPE_STU}&positiveStatus=1">
+                                <span data-url="${ctx}/memberApply_layout?branchId=${param.branchId}&stage=${OW_APPLY_STAGE_GROW}&type=${OW_APPLY_TYPE_STU}&positiveStatus=1">
                                     <span class="count">${studentPositiveOdCheckCount}</span><span
                                         style="font-size: 10pt;">学生</span></span>
-                                 <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${OW_APPLY_TYPE_TEACHER}&positiveStatus=1">
+                                 <span data-url="${ctx}/memberApply_layout?branchId=${param.branchId}&stage=${OW_APPLY_STAGE_GROW}&type=${OW_APPLY_TYPE_TEACHER}&positiveStatus=1">
                                     <span class="count">${teacherPositiveOdCheckCount}</span><span
                                          style="font-size: 10pt;">教职工</span></span>
                           </span>
@@ -101,7 +75,7 @@
                             </div>
 
                         <div class="infobox infobox-blue"
-                             <c:if test="${memberOutCount>0}">data-url="${ctx}/memberOut?partyId=${param.partyId}&cls=1"</c:if>>
+                             <c:if test="${memberOutCount>0}">data-url="${ctx}/memberOut?branchId=${param.branchId}&cls=1"</c:if>>
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-sign-out"></i>
                             </div>
@@ -113,7 +87,7 @@
                             </div>
                         </div>
                         <div class="infobox infobox-green"
-                             <c:if test="${memberInCount>0}">data-url="${ctx}/memberIn?partyId=${param.partyId}&cls=1"</c:if>>
+                             <c:if test="${memberInCount>0}">data-url="${ctx}/memberIn?branchId=${param.branchId}&cls=1"</c:if>>
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-sign-in"></i>
                             </div>
@@ -129,7 +103,7 @@
                         </div>
 
                         <div class="infobox infobox-blue2"
-                             <c:if test="${memberStayCount_abroad>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_ABROAD}&cls=2&partyId=${param.partyId}"</c:if>>
+                             <c:if test="${memberStayCount_abroad>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_ABROAD}&cls=2&branchId=${param.branchId}"</c:if>>
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-plane"></i>
                             </div>
@@ -140,7 +114,7 @@
                             </div>
                         </div>
                         <div class="infobox infobox-blue2"
-                             <c:if test="${memberStayCount_internal>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_INTERNAL}&cls=2&partyId=${param.partyId}"</c:if>>
+                             <c:if test="${memberStayCount_internal>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_INTERNAL}&cls=2&branchId=${param.branchId}"</c:if>>
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-plane"></i>
                             </div>
@@ -157,8 +131,3 @@
     </div>
     <!-- /.col -->
 </div>
-<script>
-    $('.transparent #selectParty').on("click",function(e){
-        e.stopPropagation();
-    })
-</script>

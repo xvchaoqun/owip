@@ -57,10 +57,7 @@
     <!-- 统计党员性别分布情况 -->
     <select id="member_countGroupByGender" resultType="bean.StatIntBean" parameterType="map">
         select gender as groupBy,count(*) as num from ow_member_view where status=1
-        <if test="partyId!=null">
-            and party_id =#{partyId}
-        </if>
-         group by gender order by num desc;
+        <include refid="Where_ow"/> group by gender order by num desc;
     </select>
 
     <!-- 统计支部类型 -->
@@ -75,24 +72,18 @@
     <!-- 统计党员中汉族的人数 -->
     <select id="countHan" resultType="java.lang.Integer" parameterType="map">
         select count(*) from ow_member_view where status=1 and nation like '汉%'
-        <if test="partyId!=null">
-            and party_id =#{partyId}
-        </if>
+        <include refid="Where_ow"/>
     </select>
 
     <!-- 统计党员中少数民族的人数 -->
     <select id="countMinority" resultType="java.lang.Integer" parameterType="map">
         select count(*) from ow_member_view where status=1 and nation not like '汉%' and nation is not null
-        <if test="partyId!=null">
-            and party_id =#{partyId}
-        </if>
+        <include refid="Where_ow"/>
     </select>
 
     <!-- 统计党员中民族为空的人数 -->
     <select id="countNull" resultType="java.lang.Integer" parameterType="map">
         select count(*) from ow_member_view where status=1 and nation is null
-        <if test="partyId!=null">
-            and party_id =#{partyId}
-        </if>
+        <include refid="Where_ow"/>
     </select>
 </mapper>

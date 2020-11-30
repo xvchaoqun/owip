@@ -26,10 +26,10 @@ public class BranchMemberGroupService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private BranchAdminService branchAdminService;
-    
+
     // 查找现任委员会
     public BranchMemberGroup getPresentGroup(int branchId) {
-        
+
         BranchMemberGroupExample _example = new BranchMemberGroupExample();
         _example.createCriteria().andBranchIdEqualTo(branchId).andIsDeletedEqualTo(false);
         List<BranchMemberGroup> branchMemberGroups = branchMemberGroupMapper.selectByExample(_example);
@@ -38,13 +38,13 @@ public class BranchMemberGroupService extends BaseMapper {
             throw new OpException("数据请求错误：现任班子不唯一。");
         }
         if (size == 1) return branchMemberGroups.get(0);
-        
+
         return null;
     }
-    
+
     // 查找班子的所有管理员
     public List<BranchMember> getGroupAdmins(int groupId) {
-        
+
         BranchMemberExample _example = new BranchMemberExample();
         _example.createCriteria().andGroupIdEqualTo(groupId).andIsAdminEqualTo(true);
         return branchMemberMapper.selectByExample(_example);
@@ -70,7 +70,7 @@ public class BranchMemberGroupService extends BaseMapper {
             }
         }
     }*/
-    
+
     // 更新班子为现任班子时，需要把该班子的所有管理员添加“党支部管理员”角色
     /*private void rebuildPresentGroupAdmin(int groupId) {
         
@@ -84,15 +84,15 @@ public class BranchMemberGroupService extends BaseMapper {
             }
         }
     }*/
-    
+
     // 获取支部委员列表 <branchMemberType, List<BranchMember>>
     public Map<Integer,  List<BranchMember>> getBranchMemberListMap(int groupId) {
-        
+
         BranchMemberExample example = new BranchMemberExample();
         example.createCriteria().andGroupIdEqualTo(groupId);
         example.setOrderByClause("sort_order desc");
         List<BranchMember> branchMembers = branchMemberMapper.selectByExample(example);
-        
+
         Map<Integer, List<BranchMember>> branchMemberMap = new LinkedHashMap<>();
         for (BranchMember branchMember : branchMembers) {
 
@@ -106,13 +106,13 @@ public class BranchMemberGroupService extends BaseMapper {
                 branchMemberList.add(branchMember);
             }
         }
-        
+
         return branchMemberMap;
     }
-    
+
     @Transactional
     public int insertSelective(BranchMemberGroup record) {
-        
+
         Branch branch = branchMapper.selectByPrimaryKey(record.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
@@ -166,15 +166,15 @@ public class BranchMemberGroupService extends BaseMapper {
 
     @Transactional
     public void batchDel(Integer[] ids, boolean isDeleted, String _actualTranTime) {
-        
+
         if (ids == null || ids.length == 0) return;
-        
+
         for (Integer id : ids) {
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
             int branchId = branchMemberGroup.getBranchId();
             Branch branch = branchMapper.selectByPrimaryKey(branchId);
             PartyHelper.checkAuth(branch.getPartyId(), branchId);
-            
+
             if (!isDeleted) { // 恢复支部委员会
                 if (branch.getIsDeleted())
                     throw new OpException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除", branch.getName()));
@@ -212,18 +212,18 @@ public class BranchMemberGroupService extends BaseMapper {
                 .andIsDeletedEqualTo(true);
         branchMemberGroupMapper.deleteByExample(example);
     }
-    
+
     @Transactional
     public int updateByPrimaryKeySelective(BranchMemberGroup record) {
-        
+
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         return branchMemberGroupMapper.updateByPrimaryKeySelective(record);
     }
-    
-    
+
+
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * 3.sort_order = LAST_INSERT_ID()+1,
@@ -233,37 +233,37 @@ public class BranchMemberGroupService extends BaseMapper {
      */
     @Transactional
     public void changeOrder(int id, int addNum) {
-        
+
         if (addNum == 0) return;
-        
+
         BranchMemberGroup entity = branchMemberGroupMapper.selectByPrimaryKey(id);
-        
+
         Branch branch = branchMapper.selectByPrimaryKey(entity.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId());
-        
+
         Integer baseSortOrder = entity.getSortOrder();
-        
+
         BranchMemberGroupExample example = new BranchMemberGroupExample();
         if (addNum > 0) {
-            
+
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         } else {
-            
+
             example.createCriteria().andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
-        
+
         List<BranchMemberGroup> overEntities = branchMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
         if (overEntities.size() > 0) {
-            
+
             BranchMemberGroup targetEntity = overEntities.get(overEntities.size() - 1);
-            
+
             if (addNum > 0)
                 commonMapper.downOrder("ow_branch_member_group", null, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("ow_branch_member_group", null, baseSortOrder, targetEntity.getSortOrder());
-            
+
             BranchMemberGroup record = new BranchMemberGroup();
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
@@ -282,6 +282,22 @@ public class BranchMemberGroupService extends BaseMapper {
             criteria.andPartyIdEqualTo(partyId);
         }else {
             criteria.andPartyIdIsNull();
+        }
+
+        return (int) branchMemberGroupViewMapper.countByExample(example);
+    }
+
+    //按照partyId统计应换届的支部委员会的数量
+    public int countBranch(int branchId) {
+
+        BranchMemberGroupViewExample example = new BranchMemberGroupViewExample();
+        BranchMemberGroupViewExample.Criteria criteria = example.createCriteria()
+                .andIsDeletedEqualTo(false).andTranTimeLessThanOrEqualTo(new Date());
+        List<Integer> branchIdList = loginUserService.adminBranchIdList();
+        if (branchIdList.contains(branchId)) {
+            criteria.andBranchIdEqualTo(branchId);
+        }else {
+            criteria.andBranchIdIsNull();
         }
 
         return (int) branchMemberGroupViewMapper.countByExample(example);

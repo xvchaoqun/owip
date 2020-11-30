@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SysMsg;
 import domain.sys.SysMsgExample;
 import domain.sys.SysMsgExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -32,7 +33,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-
+@RequestMapping("/sys")
 public class SysMsgController extends BaseController {
 
     @Autowired
@@ -44,13 +45,31 @@ public class SysMsgController extends BaseController {
 
     @RequiresPermissions("sysMsg:list")
     @RequestMapping("/sysMsg")
-    public String sysMsg(Integer userId, Integer type, ModelMap modelMap) {
+    public String sysMsg(@RequestParam(required = false, defaultValue = "1") Integer cls,
+                         @RequestParam(required = false, defaultValue = "1") Integer page,
+                         Integer userId,
+                         Integer sendUserId,
+                         ModelMap modelMap) {
 
-        if (userId != null){
+        if (userId != null) {
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
+        if (sendUserId != null) {
+            modelMap.put("sendUser", CmTag.getUserById(sendUserId));
+        }
+        modelMap.put("page", page);
+        modelMap.put("cls", cls);
 
-        modelMap.put("type",type);
+        SysMsgExample acceptMsgs = new SysMsgExample();
+        acceptMsgs.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId());
+        modelMap.put("acceptMsg", sysMsgMapper.countByExample(acceptMsgs));
+
+        SysMsgExample sendMsgs = new SysMsgExample();
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            sendMsgs.createCriteria().andSendUserIdEqualTo(ShiroHelper.getCurrentUserId());
+        }
+        modelMap.put("sendMsg", sysMsgMapper.countByExample(sendMsgs));
+
         return "sys/sysMsg/sysMsg_page";
     }
 
@@ -58,11 +77,16 @@ public class SysMsgController extends BaseController {
     @RequestMapping("/sysMsg_data")
     @ResponseBody
     public void sysMsg_data(HttpServletResponse response,
-                                    Integer userId,
-                                    Integer type,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                    Integer[] ids, // 导出的记录
-                                    Integer pageSize, Integer pageNo)  throws IOException{
+                            Integer userId,
+                            Integer sendUserId,
+                            String title,
+                            String content,
+                            Byte status,
+                            @RequestParam(required = false, defaultValue = "1") Integer page,//1接收 2发送
+                            @RequestParam(required = false, defaultValue = "1") Integer cls,
+                            @RequestParam(required = false, defaultValue = "0") int export,
+                            Integer[] ids, // 导出的记录
+                            Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -74,14 +98,36 @@ public class SysMsgController extends BaseController {
 
         SysMsgExample example = new SysMsgExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("send_time desc");
 
-        if (type == 2){
-            userId = ShiroHelper.getCurrentUserId();
+        if (cls == 2) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                if (page == 1) {
+                    criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
+                } else if (page == 2) {
+                    criteria.andSendUserIdEqualTo(ShiroHelper.getCurrentUserId());
+                }
+            } else {
+                if (page == 1) {
+                    criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
+                }
+            }
         }
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (sendUserId != null) {
+            criteria.andSendUserIdEqualTo(sendUserId);
+        }
+        if (StringUtils.isNotBlank(title)) {
+            criteria.andTitleLike(SqlUtils.trimLike(title));
+        }
+        if (StringUtils.isNotBlank(content)) {
+            criteria.andContentLike(SqlUtils.trimLike(content));
+        }
+        if (status != null) {
+            criteria.andStatusEqualTo(status);
         }
 
         long count = sysMsgMapper.countByExample(example);
@@ -89,7 +135,7 @@ public class SysMsgController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysMsg> records= sysMsgMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysMsg> records = sysMsgMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -112,17 +158,12 @@ public class SysMsgController extends BaseController {
 
         if (id == null) {
 
-            record.setCreateTime(new Date());
-            record.setSendUserId(ShiroHelper.getCurrentUserId());
-            record.setIp(ContextHelper.getRealIp());
-            record.setStatus(SystemConstants.SYS_MSG_STATUS_UNREAD);
-
             sysMsgService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_USER, "添加系统提醒：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "添加系统提醒：{0}", record.getId()));
         } else {
 
             sysMsgService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_USER, "更新系统提醒：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "更新系统提醒：{0}", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -135,81 +176,81 @@ public class SysMsgController extends BaseController {
         if (id != null) {
             SysMsg sysMsg = sysMsgMapper.selectByPrimaryKey(id);
             modelMap.put("sysMsg", sysMsg);
+            SysUserView sysUser = CmTag.getUserById(sysMsg.getUserId());
+            modelMap.put("sysUser", sysUser);
         }
         return "sys/sysMsg/sysMsg_au";
     }
 
-    @RequiresPermissions("sysMsg:edit")
+    @RequiresPermissions("sysMsg:list")
     @RequestMapping(value = "/sysMsg_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map sysMsg_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             sysMsgService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_USER, "批量删除系统提醒：{0}", StringUtils.join(ids, ",")));
+            logger.info(log(LogConstants.LOG_PARTY, "批量删除未确认的系统提醒：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequestMapping("/sysMsg_selects")
-    @ResponseBody
-    public Map sysMsg_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        SysMsgExample example = new SysMsgExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
-
-        long count = sysMsgMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<SysMsg> records = sysMsgMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(SysMsg record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
-    }
-
-    @RequiresPermissions("sysMsg:list")
+    /*@RequiresPermissions("sysMsg:list")
     @RequestMapping("/sysMsg_view")
-    public String sysMsg_view(Integer id, Integer type, ModelMap modelMap) {
+    public String sysMsg_view(Integer id, Integer cls, ModelMap modelMap) {
 
         if (id != null) {
             SysMsg sysMsg = sysMsgMapper.selectByPrimaryKey(id);
             modelMap.put("sysMsg", sysMsg);
 
-            if (type == 2){
+            if (cls == 2) {
 
-                sysMsg.setStatus(SystemConstants.SYS_MSG_STATUS_READ);
+                sysMsg.setStatus(SystemConstants.SYS_MSG_STATUS_CONFIRM);
                 sysMsgService.updateByPrimaryKeySelective(sysMsg);
             }
         }
 
-        modelMap.put("type",type);
+        modelMap.put("cls", cls);
         return "sys/sysMsg/sysMsg_view";
+    }*/
+
+    @RequiresPermissions("sysMsg:list")
+    @RequestMapping(value = "/sysMsg_confirm", method = RequestMethod.POST)
+    @ResponseBody
+    public Map sysMsg_confirm(Integer[] ids) {
+
+        if (ids != null && ids.length > 0) {
+            sysMsgService.batchConfirm(ids);
+            logger.info(addLog(LogConstants.LOG_USER, "批量确认提醒：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success();
+    }
+
+    @RequiresPermissions("sysMsg:list")
+    @RequestMapping(value = "/sysMsg_partyRemind", method = RequestMethod.POST)
+    @ResponseBody
+    public Map sysMsg_partyRemind(Integer[] ids) {
+
+        if (ids != null && ids.length > 0) {
+            sysMsgService.partyRemind(ids);
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量提醒领导班子换届：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success();
+    }
+
+    @RequiresPermissions("sysMsg:list")
+    @RequestMapping(value = "/sysMsg_branchRemind", method = RequestMethod.POST)
+    @ResponseBody
+    public Map sysMsg_branchRemind(Integer[] ids) {
+
+        if (ids != null && ids.length > 0) {
+            sysMsgService.branchRemind(ids);
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量提醒支部委员会换届：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success();
     }
 }

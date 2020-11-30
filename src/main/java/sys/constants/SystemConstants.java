@@ -451,14 +451,14 @@ public class SystemConstants {
         ANNUAL_TYPE_MODULE_MAP.put(ANNUAL_TYPE_MODULE_SUBSIDY, "文号");
     }
 
-    //系统提醒状态 1.未读 2.已读
-    public final static byte SYS_MSG_STATUS_UNREAD = 1;
-    public final static byte SYS_MSG_STATUS_READ = 2;
+    //系统提醒状态 1.未确认 2.已确认
+    public final static byte SYS_MSG_STATUS_UNCONFIRM = 1;
+    public final static byte SYS_MSG_STATUS_CONFIRM = 2;
     public final static Map<Byte, String> SYS_MSG_STATUS_MAP = new LinkedHashMap<>();
 
     static {
-        SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_UNREAD,"未读");
-        SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_READ,"已读");
+        SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_UNCONFIRM,"未确认");
+        SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_CONFIRM,"已确认");
     }
 
     //角色类型 1.加权限 2.减权限
