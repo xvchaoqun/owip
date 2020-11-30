@@ -425,63 +425,123 @@ public class SysMsgExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeIsNull() {
-            addCriterion("create_time is null");
+        public Criteria andSendTimeIsNull() {
+            addCriterion("send_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeIsNotNull() {
-            addCriterion("create_time is not null");
+        public Criteria andSendTimeIsNotNull() {
+            addCriterion("send_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeEqualTo(Date value) {
-            addCriterion("create_time =", value, "createTime");
+        public Criteria andSendTimeEqualTo(Date value) {
+            addCriterion("send_time =", value, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotEqualTo(Date value) {
-            addCriterion("create_time <>", value, "createTime");
+        public Criteria andSendTimeNotEqualTo(Date value) {
+            addCriterion("send_time <>", value, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeGreaterThan(Date value) {
-            addCriterion("create_time >", value, "createTime");
+        public Criteria andSendTimeGreaterThan(Date value) {
+            addCriterion("send_time >", value, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("create_time >=", value, "createTime");
+        public Criteria andSendTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("send_time >=", value, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeLessThan(Date value) {
-            addCriterion("create_time <", value, "createTime");
+        public Criteria andSendTimeLessThan(Date value) {
+            addCriterion("send_time <", value, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("create_time <=", value, "createTime");
+        public Criteria andSendTimeLessThanOrEqualTo(Date value) {
+            addCriterion("send_time <=", value, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeIn(List<Date> values) {
-            addCriterion("create_time in", values, "createTime");
+        public Criteria andSendTimeIn(List<Date> values) {
+            addCriterion("send_time in", values, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotIn(List<Date> values) {
-            addCriterion("create_time not in", values, "createTime");
+        public Criteria andSendTimeNotIn(List<Date> values) {
+            addCriterion("send_time not in", values, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
-            addCriterion("create_time between", value1, value2, "createTime");
+        public Criteria andSendTimeBetween(Date value1, Date value2) {
+            addCriterion("send_time between", value1, value2, "sendTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("create_time not between", value1, value2, "createTime");
+        public Criteria andSendTimeNotBetween(Date value1, Date value2) {
+            addCriterion("send_time not between", value1, value2, "sendTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeIsNull() {
+            addCriterion("confirm_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeIsNotNull() {
+            addCriterion("confirm_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeEqualTo(Date value) {
+            addCriterion("confirm_time =", value, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeNotEqualTo(Date value) {
+            addCriterion("confirm_time <>", value, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeGreaterThan(Date value) {
+            addCriterion("confirm_time >", value, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("confirm_time >=", value, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeLessThan(Date value) {
+            addCriterion("confirm_time <", value, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeLessThanOrEqualTo(Date value) {
+            addCriterion("confirm_time <=", value, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeIn(List<Date> values) {
+            addCriterion("confirm_time in", values, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeNotIn(List<Date> values) {
+            addCriterion("confirm_time not in", values, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeBetween(Date value1, Date value2) {
+            addCriterion("confirm_time between", value1, value2, "confirmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeNotBetween(Date value1, Date value2) {
+            addCriterion("confirm_time not between", value1, value2, "confirmTime");
             return (Criteria) this;
         }
 

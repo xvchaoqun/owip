@@ -26,13 +26,14 @@ public class StatOwController extends BaseController {
 
     /**
      * 党建信息统计
+     *
      * @return
      */
     @RequestMapping("/stat_ow_page")
     public String stat_ow_page(ModelMap modelMap) {
 
         Integer statPartyMemberCount = CmTag.getIntProperty("statPartyMemberCount");
-        statPartyMemberCount = (statPartyMemberCount==null)?20:statPartyMemberCount;
+        statPartyMemberCount = (statPartyMemberCount == null) ? 20 : statPartyMemberCount;
 
         modelMap.put("statPartyMemberCount", NumberUtils.toHanStr(statPartyMemberCount));
 
@@ -41,12 +42,12 @@ public class StatOwController extends BaseController {
 
     // 党员数量统计
     @RequestMapping("/stat_member_count")
-    public String stat_member_count(Integer type,Integer partyId, Integer branchId, ModelMap modelMap) {
+    public String stat_member_count(Integer type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
-        if (type != null){
-            modelMap.put("otherMap",statService.otherMap(type,partyId));
+        if (type != null) {
+            modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
         }
-        modelMap.put("type",type);
+        modelMap.put("type", type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
         modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
         modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
@@ -91,17 +92,17 @@ public class StatOwController extends BaseController {
         }
 
         modelMap.put("categories", categories);
-        modelMap.put("teachers",teachers);
-        modelMap.put("students",students);
+        modelMap.put("teachers", teachers);
+        modelMap.put("students", students);
         return "analysis/ow/stat_member_party";
     }
 
     //支部类型统计
     @RequestMapping("/stat_branch_type")
-    public String stat_branch_type(ModelMap modelMap,Integer partyId){
+    public String stat_branch_type(ModelMap modelMap, Integer partyId) {
 
-        modelMap.put("metaTypes",CmTag.getMetaTypes("mc_branch_type"));
-        modelMap.put("branchTypeMap",statService.branchTypeMap(partyId));
+        modelMap.put("metaTypes", CmTag.getMetaTypes("mc_branch_type"));
+        modelMap.put("branchTypeMap", statService.branchTypeMap(partyId));
 
         return "analysis/ow/stat_branch_type";
     }

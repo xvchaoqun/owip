@@ -20,15 +20,6 @@
            timeToLiveSeconds="590"
            memoryStoreEvictionPolicy="LRU"/>
 
-       <cache name="SysMsgCount"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="600"
-           memoryStoreEvictionPolicy="LRU"/>
-
        <cache name="OaTaskUserCount"
            eternal="false"
            maxElementsInMemory="2000"

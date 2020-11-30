@@ -7,7 +7,8 @@
     <result column="send_user_id" jdbcType="INTEGER" property="sendUserId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, send_user_id, title, content, create_time, ip, status
+    id, user_id, send_user_id, title, content, send_time, confirm_time, ip, status
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysMsgExample" resultMap="BaseResultMap">
     select
@@ -104,11 +105,13 @@
   </delete>
   <insert id="insert" parameterType="domain.sys.SysMsg">
     insert into sys_msg (id, user_id, send_user_id, 
-      title, content, create_time, 
-      ip, status)
+      title, content, send_time, 
+      confirm_time, ip, status
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{sendUserId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{confirmTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysMsg">
     insert into sys_msg
@@ -128,8 +131,11 @@
       <if test="content != null">
         content,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="sendTime != null">
+        send_time,
+      </if>
+      <if test="confirmTime != null">
+        confirm_time,
       </if>
       <if test="ip != null">
         ip,
@@ -154,8 +160,11 @@
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -189,8 +198,11 @@
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.sendTime != null">
+        send_time = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.confirmTime != null">
+        confirm_time = #{record.confirmTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
@@ -210,7 +222,8 @@
       send_user_id = #{record.sendUserId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      send_time = #{record.sendTime,jdbcType=TIMESTAMP},
+      confirm_time = #{record.confirmTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
@@ -232,8 +245,11 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="sendTime != null">
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
@@ -250,7 +266,8 @@
       send_user_id = #{sendUserId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}

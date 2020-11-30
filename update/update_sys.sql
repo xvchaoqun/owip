@@ -1,3 +1,18 @@
+
+
+-- 2020.11.25 ly
+UPDATE `sys_resource` SET `name`='系统提醒', `url`='/sys/sysMsg?cls=2' WHERE  `id`=3031;
+UPDATE `sys_resource` SET `name`='系统提醒', `url`='/sys/sysMsg?cls=1' WHERE  `id`=3032;
+ALTER TABLE `sys_msg`
+	ADD COLUMN `confirm_time` DATETIME NULL DEFAULT NULL COMMENT '通知确认时间' AFTER `create_time`;
+ALTER TABLE `sys_msg`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '状态 1.未确认 2.已确认' AFTER `ip`;
+ALTER TABLE `sys_msg`
+	ALTER `create_time` DROP DEFAULT;
+ALTER TABLE `sys_msg`
+	CHANGE COLUMN `create_time` `send_time` DATETIME NOT NULL COMMENT '通知发送时间' AFTER `content`;
+
+
 2020.11.12
 ALTER TABLE `sys_role`
 	ADD COLUMN `resource_ids_minus` TEXT NULL COMMENT '角色减资源，网页端' AFTER `m_resource_ids`,

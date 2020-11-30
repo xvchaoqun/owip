@@ -57,6 +57,13 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
+                                <c:if test="${status==1}">
+                                    <shiro:hasPermission name="sysMsg:list">
+                                        <a class="jqBatchBtn btn btn-success btn-sm tooltip-success"
+                                           data-url="/sys/sysMsg_partyRemind" date-title="提醒班子换届" data-msg="确定发送系统消息，提醒这{0}个领导班子换届吗？"><i
+                                                class="fa fa fa-info-circle"></i> 提醒班子换届</a>
+                                    </shiro:hasPermission>
+                                </c:if>
                                 <c:if test="${status>=0}">
                                     <shiro:hasPermission name="partyMemberGroup:del">
                                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
