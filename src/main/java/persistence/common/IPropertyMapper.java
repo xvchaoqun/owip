@@ -72,6 +72,6 @@ public interface IPropertyMapper {
     List<String> authorizedTypes();
 
     // 干部职称级别
-    @Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
-    List<String> teacherProPostLevels();
+    //@Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
+    //List<String> teacherProPostLevels();
 }

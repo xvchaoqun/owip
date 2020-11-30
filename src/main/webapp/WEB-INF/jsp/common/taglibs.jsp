@@ -75,6 +75,8 @@
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 
+<c:set var="PRO_POST_LEVEL_MAP" value="<%=SystemConstants.PRO_POST_LEVEL_MAP%>"/>
+
 <c:set value="<%=CadreConstants.CADRE_STATUS_CJ%>" var="CADRE_STATUS_CJ"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_KJ%>" var="CADRE_STATUS_KJ"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_LEADER%>" var="CADRE_STATUS_LEADER"/>

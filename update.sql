@@ -3,10 +3,15 @@
 
 大工 -- 北师大
 
+-- 标准化职级，需修改 SyncService  ExtCommonService.formatProPostLevel(proPostLevel)
+update sys_teacher_info set pro_post_level=null where pro_post_level not REGEXP '副高|正高|(中|初)级';
+update sys_teacher_info set pro_post_level = '正高' where pro_post_level like '%正高%';
+update sys_teacher_info set pro_post_level = '副高' where pro_post_level like '%副高%';
+update sys_teacher_info set pro_post_level = '中级' where pro_post_level like '%中级%';
+update sys_teacher_info set pro_post_level = '初级' where pro_post_level like '%初级%';
+
 drop table ow_apply_open_time;
 -- 删除ApplyOpenTime类
-
-20201129
 
 drop table ow_enter_apply;
 -- 删除EnterApply类

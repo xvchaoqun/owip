@@ -154,7 +154,8 @@ public class CadreController extends BaseController {
         if (proPosts != null) {
             modelMap.put("selectProPosts", Arrays.asList(proPosts));
         }
-        modelMap.put("proPostLevels", CmTag.getPropertyCaches("teacherProPostLevels"));
+        modelMap.put("proPostLevels", SystemConstants.PRO_POST_LEVEL_MAP.values());
+
         if (proPostLevels != null) {
             modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
         }

@@ -178,9 +178,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><c:if test="${!sync.proPostLevel}"><span class="star">*</span></c:if> 专业技术职务级别</label>
+                    <label class="col-xs-4 control-label"><c:if test="${!sync.proPostLevel}"><span class="star">*</span></c:if> 职级</label>
                     <div class="col-xs-6">
-                        <input class="form-control" type="text" name="proPostLevel" value="${teacherInfo.proPostLevel}">
+                        <select data-rel="select2" name="proPostLevel" data-width="120"
+                                data-placeholder="请选择">
+                            <option></option>
+                            <c:forEach items="${PRO_POST_LEVEL_MAP}" var="proPostLevel">
+                                <option value="${proPostLevel.value}">${proPostLevel.value}</option>
+                            </c:forEach>
+                        </select>
+                        <script type="text/javascript">
+                            $("#infoForm select[name=proPostLevel]").val('${teacherInfo.proPostLevel}');
+                        </script>
                     </div>
                     <c:if test="${!sync.proPostLevel}">
                         <div class="col-xs-6">
@@ -269,7 +278,7 @@
                             <c:import url="/metaTypes?__code=mc_health"/>
                         </select>
                         <script type="text/javascript">
-                            $("select[name=health]").val('${ui.health}');
+                            $("#infoForm select[name=health]").val('${ui.health}');
                         </script>
                     </div>
                 </div>

@@ -729,7 +729,7 @@ public class SyncService extends BaseMapper {
             if(teacherInfo!=null && StringUtils.isBlank(proPostLevel)){ // 保证下面的职称级别只同步一次，且不被空值覆盖
                 proPostLevel = teacherInfo.getProPostLevel();
             }
-            proPostLevel = SqlUtils.toParamValue(proPostLevel);
+            proPostLevel = SqlUtils.toParamValue(ExtCommonService.formatProPostLevel(proPostLevel));
 
             String proPostLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZjgwfjsj()),
                     DateUtils.YYYY_MM_DD));

@@ -6,6 +6,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.MemberView;
 import domain.sys.*;
+import ext.service.ExtCommonService;
 import mixin.MixinUtils;
 import mixin.SysUserListMixin;
 import org.apache.commons.lang3.BooleanUtils;
@@ -407,7 +408,11 @@ public class SysUserController extends BaseController {
                 teacherInfo = new TeacherInfo();
                 teacherInfo.setUserId(userId);
             }
-            teacherInfo.setProPostLevel(proPostLevel);
+            teacherInfo.setProPostLevel(ExtCommonService.formatProPostLevel(proPostLevel));
+
+            if(StringUtils.isBlank(teacherInfo.getProPostLevel())){
+                commonMapper.excuteSql("update sys_teacher_info set pro_post_level=null where user_id=" + userId);
+            }
         }
         sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
         return success(FormUtils.SUCCESS);
@@ -1055,9 +1060,9 @@ public class SysUserController extends BaseController {
                     teacherInfo.setUserId(uv.getId());
                 }
                 teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称/专业技术职务
-                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+                teacherInfo.setProPostLevel(ExtCommonService.formatProPostLevel(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
-                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+                teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setIsRetire(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
                 Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));

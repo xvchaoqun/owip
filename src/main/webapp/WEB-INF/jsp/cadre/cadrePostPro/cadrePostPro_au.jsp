@@ -49,10 +49,9 @@
                 <select required data-rel="select2" name="postLevel"
                         data-placeholder="请选择">
                     <option></option>
-                    <option value="正高">正高</option>
-                    <option value="副高">副高</option>
-                    <option value="中级">中级</option>
-                    <option value="初级">初级</option>
+                    <c:forEach items="${PRO_POST_LEVEL_MAP}" var="proPostLevel">
+                        <option value="${proPostLevel.value}">${proPostLevel.value}</option>
+                    </c:forEach>
                 </select>
                 <script type="text/javascript">
                     $("#modal form select[name=postLevel]").val('${cadrePostPro.postLevel}');

@@ -257,7 +257,7 @@ public class MobileCadreSearchController extends BaseController {
 		modelMap.put("historyUnitListMap", historyUnitListMap);
 
 		modelMap.put("proPosts", CmTag.getPropertyCaches("teacherProPosts"));
-		modelMap.put("proPostLevels", CmTag.getPropertyCaches("teacherProPostLevels"));
+		modelMap.put("proPostLevels", SystemConstants.PRO_POST_LEVEL_MAP.values());
 		modelMap.put("staffTypes", CmTag.getPropertyCaches("staffTypes"));
 		modelMap.put("authorizedTypes", CmTag.getPropertyCaches("authorizedTypes"));
 

@@ -8,6 +8,7 @@ import domain.party.Party;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import ext.service.ExtCommonService;
 import interceptor.OrderParam;
 import mixin.MemberMixin;
 import mixin.MixinUtils;
@@ -427,7 +428,7 @@ public class MemberController extends MemberBaseController {
             teacherInfo.setOnJob(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setProPostLevel(ExtCommonService.formatProPostLevel(StringUtils.trimToNull(xlsRow.get(col++))));
             //teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
             //teacherInfo.setManageLevel(StringUtils.trimToNull(xlsRow.get(col++)));
             //teacherInfo.setOfficeLevel(StringUtils.trimToNull(xlsRow.get(col++)));

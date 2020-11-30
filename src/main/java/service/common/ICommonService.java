@@ -179,7 +179,7 @@ public abstract class ICommonService {
         System.out.println("formatNation(\"回族（区内）\") = " + formatNation("回族（区内）"));
     }
 
-    // 转换学校的民族至标准格式
+    // 人事库中的民族转换成标准格式
     public static String formatNation(String mz){
 
         if(StringUtils.isBlank(mz)
@@ -202,5 +202,27 @@ public abstract class ICommonService {
             return mz+"族";
         }
         return mz;
+    }
+
+    // 人事库中的职级转换成标准格式
+    public static String formatProPostLevel(String proPostLevel){
+
+        if(StringUtils.contains(proPostLevel, "正高")){
+            return "正高";
+        }
+
+        if(StringUtils.contains(proPostLevel, "副高")){
+            return "副高";
+        }
+
+        if(StringUtils.contains(proPostLevel, "中级")){
+            return "中级";
+        }
+
+        if(StringUtils.contains(proPostLevel, "初级")){
+            return "初级";
+        }
+
+        return null;
     }
 }

@@ -214,6 +214,20 @@ public class SystemConstants {
         DEGREE_TYPE_MAP.put(DEGREE_TYPE_BS, "博士");
     }
 
+    // 职称级别，1 初级 2 中级 3 副高 4 正高
+    public final static byte PRO_POST_LEVEL_CJ = 1;
+    public final static byte PRO_POST_LEVEL_ZJ = 2;
+    public final static byte PRO_POST_LEVEL_FG = 3;
+    public final static byte PRO_POST_LEVEL_ZG = 4;
+    public final static Map<Byte, String> PRO_POST_LEVEL_MAP = new LinkedHashMap();
+
+    static {
+        PRO_POST_LEVEL_MAP.put(PRO_POST_LEVEL_CJ, "初级");
+        PRO_POST_LEVEL_MAP.put(PRO_POST_LEVEL_ZJ, "中级");
+        PRO_POST_LEVEL_MAP.put(PRO_POST_LEVEL_FG, "副高");
+        PRO_POST_LEVEL_MAP.put(PRO_POST_LEVEL_ZG, "正高");
+    }
+
     // 账号类别，1教职工 2本科生 3研究生
     public final static byte USER_TYPE_JZG = 1;
     public final static byte USER_TYPE_BKS = 2;
