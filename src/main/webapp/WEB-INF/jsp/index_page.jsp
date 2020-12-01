@@ -26,6 +26,13 @@
                         <a href="javascript:;" data-url="${ctx}/stat_party_page">${_p_partyName}信息统计</a>
                     </li>
                 </shiro:hasPermission>
+                <c:if test="${showBranch}">
+                    <shiro:hasPermission name="stat:branch">
+                        <li class="${to=='stat_branch_page'?'active':''}">
+                            <a href="javascript:;" data-url="${ctx}/stat_branch_page">党支部信息统计</a>
+                        </li>
+                    </shiro:hasPermission>
+                </c:if>
                 <shiro:hasPermission name="stat:sys">
                     <li>
                         <a href="javascript:;" data-url="${ctx}/stat_sys_page">系统信息统计</a>
@@ -33,6 +40,14 @@
                 </shiro:hasPermission>
             </ul>
         </div>
+    </div>
+    <div class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+
+        <i class="ace-icon fa fa-envelope<c:if test="${sysMsgCount==0}">-open-o</c:if>"></i>
+        您现在共有<a href="${ctx}/#/sys/sysMsg?cls=2">${sysMsgCount}条未确认的系统提醒</a>。
     </div>
     <div class="widget-body">
         <div class="widget-main padding-4">
