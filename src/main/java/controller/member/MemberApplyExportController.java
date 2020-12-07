@@ -151,10 +151,10 @@ public class MemberApplyExportController extends MemberBaseController {
                 criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
             }
             if(type==OwConstants.OW_APPLY_TYPE_STU) {
-                memberPositive_export(example, response);
+                memberPositive_export(example, type, response);
                 logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生预备党员转正信息"));
             }else {
-                memberPositive_export(example, response);
+                memberPositive_export(example, type, response);
                 logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工预备党员转正信息"));
             }
         }
@@ -230,8 +230,9 @@ public class MemberApplyExportController extends MemberBaseController {
                 "培养方式（研究生填写）|180","预计毕业年月|120", "学籍状态|100","籍贯|180","转正时间|100"}));
         if(exportType==3){
             titles.set(11, "领取志愿书时间|130");
-            titles.add(12, "发展程度|100");
-            titles.add(13, "审批状态|250");
+            titles.add(12, "志愿书编码|130");
+            titles.add(13, "发展程度|100");
+            titles.add(14, "审批状态|250");
         }
 
         List<List<String>> valuesList = new ArrayList<>();
@@ -268,8 +269,9 @@ public class MemberApplyExportController extends MemberBaseController {
 
             if(exportType==3){
                 values.set(11, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
-                values.add(12, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
-                values.add(13, memberApply.getApplyStatus());
+                values.add(12, memberApply.getApplySn());
+                values.add(13, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
+                values.add(14, memberApply.getApplyStatus());
             }
 
             valuesList.add(values);
@@ -393,8 +395,9 @@ public class MemberApplyExportController extends MemberBaseController {
                 "学位|100","人员结构|100", /*"人才类型|100", "人才称号|200",*/ "籍贯|100","转正时间|80","手机号码|100"}));
         if(exportType==3){
             titles.set(19, "领取志愿书时间|130");
-            titles.add(20, "发展程度|100");
-            titles.add(21, "审批状态|250");
+            titles.add(20, "志愿书编码|130");
+            titles.add(21, "发展程度|100");
+            titles.add(22, "审批状态|250");
         }
 
         List<List<String>> valuesList = new ArrayList<>();
@@ -463,8 +466,9 @@ public class MemberApplyExportController extends MemberBaseController {
             }));
             if(exportType==3){
                 values.set(19, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
-                values.add(20, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
-                values.add(21, memberApply.getApplyStatus());
+                values.add(20, memberApply.getApplySn());
+                values.add(21, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
+                values.add(22, memberApply.getApplyStatus());
             }
             valuesList.add(values);
         }
@@ -478,7 +482,7 @@ public class MemberApplyExportController extends MemberBaseController {
     }
 
     // 预备党员转正信息导出
-    public void memberPositive_export( MemberApplyExample example, HttpServletResponse response) {
+    public void memberPositive_export( MemberApplyExample example, byte type,  HttpServletResponse response) {
 
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
@@ -515,7 +519,7 @@ public class MemberApplyExportController extends MemberBaseController {
             valuesList.add(values);
         }
 
-        String fileName = "预备党员转正信息";
+        String fileName = ((type==OwConstants.OW_APPLY_TYPE_STU)?"学生":"教师") + "预备党员转正信息";
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }
