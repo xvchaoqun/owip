@@ -1,4 +1,6 @@
 
+20201207
+
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2563, 0, '党支部信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:branch', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2564, 0, '党支部党建待办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:branch', NULL, NULL, NULL, 1, NULL);
 UPDATE `sys_resource` SET `name`='系统提醒', `url`='/sys/sysMsg?cls=2' WHERE  `id`=3031;
@@ -7,7 +9,7 @@ ALTER TABLE `sys_msg`
 	ADD COLUMN `confirm_time` DATETIME NULL DEFAULT NULL COMMENT '通知确认时间' AFTER `create_time`;
 ALTER TABLE `sys_msg`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '状态 1.未确认 2.已确认' AFTER `ip`;
-ALTER TABLE `s  ys_msg`
+ALTER TABLE `sys_msg`
 	ALTER `create_time` DROP DEFAULT;
 ALTER TABLE `sys_msg`
 	CHANGE COLUMN `create_time` `send_time` DATETIME NOT NULL COMMENT '通知发送时间' AFTER `content`;
@@ -15,7 +17,7 @@ ALTER TABLE `sys_msg`
 
 20201130
 
-大工，西工大 -- 北师大
+大工，西工大
 
 -- 标准化职级，需修改 SyncService  ExtCommonService.formatProPostLevel(proPostLevel)
 update sys_teacher_info set pro_post_level=null where pro_post_level not REGEXP '副高|正高|(中|初)级';
