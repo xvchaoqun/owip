@@ -41,14 +41,17 @@
             </ul>
         </div>
     </div>
+    <shiro:hasPermission name="sysMsg:list">
+        <c:if test="${sysMsgCount>0}">
     <div class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">
             <i class="ace-icon fa fa-times"></i>
         </button>
-
         <i class="ace-icon fa fa-envelope<c:if test="${sysMsgCount==0}">-open-o</c:if>"></i>
-        您现在共有<a href="${ctx}/#/sys/sysMsg?cls=2">${sysMsgCount}条未确认的系统提醒</a>。
+        <a href="${ctx}/#/sys/sysMsg?cls=2">您有${sysMsgCount}条未确认的系统提醒</a>。
     </div>
+        </c:if>
+        </shiro:hasPermission>
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8" id="index-content">
