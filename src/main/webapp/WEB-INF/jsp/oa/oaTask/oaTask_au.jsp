@@ -14,7 +14,7 @@
     <div class="widget-body" style="padding-top: 20px;width: 1000px">
         <div class="widget-main">
             <form class="form-horizontal" action="${ctx}/oa/oaTask_au" autocomplete="off" disableautocomplete
-                  id="modalForm" method="post">
+                  id="taskForm" method="post">
                 <input type="hidden" name="id" value="${oaTask.id}">
 
                 <div class="form-group">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <script>
-                    $("#modalForm select[name=type]").val('${oaTask.type}');
+                    $("#taskForm select[name=type]").val('${oaTask.type}');
                 </script>
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><span class="star">*</span>标题</label>
@@ -75,7 +75,7 @@
                 </div>
             </form>
             <div class="modal-footer center">
-                <button id="submitBtn" type="button" class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存
+                <button id="taskSubmitBtn" type="button" class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存
                 </button>
             </div>
             <!-- /.widget-main -->
@@ -93,13 +93,13 @@
         height: '350px',
         width: '715px'
     });
-    $("#submitBtn").click(function () {
-        $("#modalForm").submit();
+    $("#taskSubmitBtn").click(function () {
+        $("#taskForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#taskForm").validate({
         submitHandler: function (form) {
-            var $btn = $("#submitBtn").button('loading');
+            var $btn = $("#taskSubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {content: ke.html()},
                 success: function (ret) {
@@ -114,7 +114,7 @@
         }
     });
     $.register.datetime($('.datetime-picker'));
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
+    $("#taskForm :checkbox").bootstrapSwitch();
+    $('#taskForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

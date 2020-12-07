@@ -43,11 +43,12 @@ public class MemberApplyExportController extends MemberBaseController {
                                    Integer branchId,
                                    @RequestParam(defaultValue = OwConstants.OW_APPLY_TYPE_STU+"")Byte type,
                                     //导出类型：1：申请入党人员信息（包含申请至领取志愿书 5个阶段）
-                                    // 2：发展党员人员信息（即预备党员阶段） 3: 领取志愿书人员信息
+                                    // 2：发展党员人员信息（即预备党员阶段） 3: 领取志愿书人员信息 4: 预备党员转正信息
                                     @RequestParam(defaultValue = "0")Byte exportType,
                                     @RequestDateRange DateRange _applyTime,
                                     @RequestDateRange DateRange _growTime,
                                     @RequestDateRange DateRange _drawTime,
+                                    @RequestDateRange DateRange _positiveTime,
                                     ModelMap modelMap
                     ) throws IOException {
 
@@ -139,6 +140,23 @@ public class MemberApplyExportController extends MemberBaseController {
                 memberTeacher_export(example, exportType, response);
                 logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工领取志愿书信息"));
             }
+        }else if(exportType==4){
+
+            criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_POSITIVE);
+
+            if (_positiveTime.getStart()!=null) {
+                criteria.andPositiveTimeGreaterThanOrEqualTo(_positiveTime.getStart());
+            }
+            if (_positiveTime.getEnd()!=null) {
+                criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
+            }
+            if(type==OwConstants.OW_APPLY_TYPE_STU) {
+                memberPositive_export(example, response);
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生预备党员转正信息"));
+            }else {
+                memberPositive_export(example, response);
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工预备党员转正信息"));
+            }
         }
 
         return null;
@@ -149,7 +167,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         String[] titles = {"学号|100","学生类别|150","姓名|100","性别|50", "出生日期|100", "身份证号|180",
-                "民族|100", "年级|100", "所在分党委、党总支、直属党支部|300|left", "所属党支部|300|left", "发展程度|100",
+                "民族|100", "年级|100", "所在基层党组织|300|left", "所属党支部|300|left", "发展程度|100",
                 "提交书面申请书时间|120" , "确定为入党积极分子时间|120", "确定为发展对象时间|120",
                 "培养层次（研究生填写）|150","培养类型（研究生填写）|150", "教育类别（研究生填写）|150",
                 "培养方式（研究生填写）|150","预计毕业年月|120", "学籍状态|100","籍贯|180"};
@@ -207,7 +225,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"学号|100","学生类别|150","姓名|50","性别|50", "出生日期|100", "身份证号|180",
-                "民族|100", "年级|100", "所在分党委、党总支、直属党支部|300|left", "所属党支部|300|left", "政治面貌|100", "发展时间|100",
+                "民族|100", "年级|100", "所在基层党组织|300|left", "所属党支部|300|left", "政治面貌|100", "发展时间|100",
                 "培养层次（研究生填写）|180","培养类型（研究生填写）|180", "教育类别（研究生填写）|180",
                 "培养方式（研究生填写）|180","预计毕业年月|120", "学籍状态|100","籍贯|180","转正时间|100"}));
         if(exportType==3){
@@ -271,7 +289,7 @@ public class MemberApplyExportController extends MemberBaseController {
         String[] titles = {"工作证号|100","姓名|100","编制类别|100","人员类别|100",
                 "人员状态|100",/*"在岗情况|100","岗位类别|100", "主岗等级|100",*/
                 "性别|100","出生日期|100", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
-                "发展程度|100","所在分党委、党总支、直属党支部|300|left","所在党支部|300|left","所在单位|200",
+                "发展程度|100","所在基层党组织|300|left","所在党支部|300|left","所在单位|200",
                 "提交书面申请书时间|150" , "确定为入党积极分子时间|150", "确定为发展对象时间|150","到校日期|100",
                 "专业技术职务|120","职称级别|120",/*"管理岗位等级|120",*/"任职级别|120","行政职务|180","单位全称|200",
                 "学历|120","毕业学校|200",/*"学位授予学校|200",*/
@@ -369,7 +387,7 @@ public class MemberApplyExportController extends MemberBaseController {
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100","姓名|100","编制类别|100","人员类别|100",
                 "人员状态|80",/*"在岗情况|80","岗位类别|80", "主岗等级|120",*/
                 "性别|100","出生日期|80", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
-                "政治面貌|100","所在分党委、党总支、直属党支部|300|left","所在党支部|300|left", "所在单位|200", "入党时间|80","到校日期|80",
+                "政治面貌|100","所在基层党组织|300|left","所在党支部|300|left", "所在单位|200", "入党时间|80","到校日期|80",
                 "专业技术职务|120","职称|120",/*"管理岗位等级|120",*/"任职级别|100","行政职务|180",
                 "学历|100","毕业学校|200",/*"学位授予学校|200",*/
                 "学位|100","人员结构|100", /*"人才类型|100", "人才称号|200",*/ "籍贯|100","转正时间|80","手机号码|100"}));
@@ -455,6 +473,49 @@ public class MemberApplyExportController extends MemberBaseController {
         if(exportType==3){
             fileName = "教职工领取志愿书导出信息";
         }
+
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    // 预备党员转正信息导出
+    public void memberPositive_export( MemberApplyExample example, HttpServletResponse response) {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        List<MemberApply> records = memberApplyMapper.selectByExample(example);
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"学工号|100","姓名|100",
+                "性别|100","出生日期|80","民族|100", "证件号码|180", 
+                "所在基层党组织|300|left", "所在党支部|300|left", "领取志愿书时间|130", "志愿书编码|130", "入党时间|80", "转正时间|80"}));
+        
+
+        List<List<String>> valuesList = new ArrayList<>();
+        for (MemberApply memberApply:records) {
+
+            UserBean userBean = userBeanService.get(memberApply.getUserId());
+            Byte gender = userBean==null?null:userBean.getGender();
+            Integer partyId = memberApply.getPartyId();
+            Integer branchId = memberApply.getBranchId();
+            Date birth = userBean==null?null:userBean.getBirth();
+
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
+                    userBean==null?"":userBean.getCode(),
+                    userBean==null?"":userBean.getRealname(),
+                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
+                    userBean==null?"":userBean.getNation(),
+                    userBean==null?"":userBean.getIdcard(), // 证件号码
+                    partyId==null?"":partyMap.get(partyId).getName(),
+                    branchId==null?"":branchMap.get(branchId).getName(),
+                    memberApply==null?"":DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD),
+                    memberApply.getApplySn(),
+                    memberApply==null?"":DateUtils.formatDate(memberApply.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    memberApply==null?"":DateUtils.formatDate(memberApply.getPositiveTime(), DateUtils.YYYY_MM_DD)
+            }));
+
+            valuesList.add(values);
+        }
+
+        String fileName = "预备党员转正信息";
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }

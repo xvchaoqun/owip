@@ -213,6 +213,72 @@ pageEncoding="UTF-8" %>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i> 预备党员转正信息导出</h4>
+                                        <div class="widget-toolbar">
+                                            <a href="javascript:;" data-action="collapse">
+                                                <i class="ace-icon fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <form class="form-inline search-form" id="exportForm4">
+                                                <div class="form-group">
+                                                    <label>转正时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_positiveTime" value="${param._positiveTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>${_p_partyName}</label>
+                                                    <select class="form-control" data-rel="select2-ajax"
+                                                            data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
+                                                            name="partyId" data-placeholder="请选择">
+                                                        <option value="${party.id}">${party.name}</option>
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv4">
+                                                    <label >党支部</label>
+                                                    <select class="form-control" data-rel="select2-ajax"
+                                                            data-ajax-url="${ctx}/branch_selects?auth=1"
+                                                            name="branchId" data-placeholder="请选择党支部">
+                                                        <option value="${branch.id}">${branch.name}</option>
+                                                    </select>
+                                                </div>
+                                                <script>
+                                                    $.register.party_branch_select($("#exportForm4"), "branchDiv4",
+                                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                                </script>
+                                                <div class="text-danger bolder">
+                                                    注：
+                                                    <ul>
+                                                        <li>不选${_p_partyName}、党支部则导出全部</li>
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                                <div class="clearfix form-actions center" style="margin-top: 0;margin-bottom: 0;">
+                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply4(this,'${OW_APPLY_TYPE_STU}')">
+                                                        <i class="fa fa-download"></i> 导出学生</button>
+
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply4(this,'${OW_APPLY_TYPE_TEACHER}')">
+                                                        <i class="fa fa-download"></i> 导出教职工
+                                                    </button>
+
+                                                </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -248,11 +314,21 @@ pageEncoding="UTF-8" %>
 
     function _exportApply3(btn, type){
 
-        var _growTime = $("input[name=_drawTime]", "#exportForm3").val();
+        var _drawTime = $("input[name=_drawTime]", "#exportForm3").val();
         var partyId = $("select[name=partyId]", "#exportForm3").val();
         var branchId = $("select[name=branchId]", "#exportForm3").val();
         var url="${ctx}/memberApplyExport?exportType=3&type={0}&partyId={1}&branchId={2}&_drawTime={3}&t={4}"
-                .format(type, partyId, branchId, _growTime, new Date().getTime());
+                .format(type, partyId, branchId, _drawTime, new Date().getTime());
+        $(btn).download(url);
+    }
+
+    function _exportApply4(btn, type){
+
+        var _positiveTime = $("input[name=_positiveTime]", "#exportForm4").val();
+        var partyId = $("select[name=partyId]", "#exportForm4").val();
+        var branchId = $("select[name=branchId]", "#exportForm4").val();
+        var url="${ctx}/memberApplyExport?exportType=4&type={0}&partyId={1}&branchId={2}&_positiveTime={3}&t={4}"
+                .format(type, partyId, branchId, _positiveTime, new Date().getTime());
         $(btn).download(url);
     }
 </script>
