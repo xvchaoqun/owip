@@ -233,7 +233,7 @@ public class MemberOutController extends MemberBaseController {
                                Boolean hasReceipt,
                                Boolean isBack,
                                Boolean isModify,
-                               Boolean isPrint,
+                               Boolean isSelfPrint,
                                Byte userType,
                                Integer type,
                                Integer partyId,
@@ -301,11 +301,11 @@ public class MemberOutController extends MemberBaseController {
         if (isModify != null) {
             criteria.andIsModifyEqualTo(isModify);
         }
-        if (isPrint != null) {
-            if (isPrint)
-                criteria.andPrintCountGreaterThan(0);
+        if (isSelfPrint != null) {
+            if (isSelfPrint)
+                criteria.andIsSelfPrintCountGreaterThan(0);
             else
-                criteria.andPrintCountEqualTo(0);
+                criteria.andIsSelfPrintCountEqualTo(0);
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);

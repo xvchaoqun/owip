@@ -542,7 +542,7 @@ public class CadreInfoFormService extends BaseMapper {
         return partyMemberInfoForm;
     }
 
-    public Map<String, Object> getDataMap(int cadreId) throws IOException, TemplateException {
+    public Map<String, Object> getDataMap(int cadreId, boolean isDocx) throws IOException, TemplateException {
 
         CadreInfoForm bean = getCadreInfoForm(cadreId);
 
@@ -627,11 +627,11 @@ public class CadreInfoFormService extends BaseMapper {
         //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
 
         String resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历",
-                bean.getLearnDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"))
+                bean.getLearnDesc(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl"))
                 + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历",
-                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"))
+                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl"))
                 + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("挂职/借调经历",
-                bean.getCrpDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"));
+                bean.getCrpDesc(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl"));
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
@@ -651,9 +651,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreCompanies.size();
             for (int i = 0; i < 3; i++) {
                 if (size <= i)
-                    companies += getCompanySeg(null, "/infoform/company_docx.ftl");
+                    companies += getCompanySeg(null, "/infoform/company"+(isDocx?"_docx":"")+".ftl");
                 else
-                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company_docx.ftl");
+                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company"+(isDocx?"_docx":"")+".ftl");
             }
             dataMap.put("companies", companies);
         }
@@ -664,9 +664,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreFamilys.size();
             for (int i = 0; i < 6; i++) {
                 if (size <= i)
-                    familys += getFamilySeg(null, "/infoform/family_docx.ftl");
+                    familys += getFamilySeg(null, "/infoform/family"+(isDocx?"_docx":"")+".ftl");
                 else
-                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family_docx.ftl");
+                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family"+(isDocx?"_docx":"")+".ftl");
             }
             dataMap.put("familys", familys);
         }
@@ -677,9 +677,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreFamilyAbroads.size();
             for (int i = 0; i < 2; i++) {
                 if (size <= i)
-                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad_docx.ftl");
+                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad"+(isDocx?"_docx":"")+".ftl");
                 else {
-                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad_docx.ftl");
+                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad"+(isDocx?"_docx":"")+".ftl");
                 }
             }
             dataMap.put("familyAbroads", familyAbroads);
@@ -967,7 +967,7 @@ public class CadreInfoFormService extends BaseMapper {
     // 输出干部信息采集表
     public void process(int cadreId, String preStr, OutputStream outputStream/* Writer out*/) throws IOException, TemplateException {
 
-        Map<String, Object> dataMap = getDataMap(cadreId);
+        Map<String, Object> dataMap = getDataMap(cadreId, true);
         dataMap.put("fillDate", DateUtils.formatDate(new Date(), "yyyy年MM月dd日"));
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());

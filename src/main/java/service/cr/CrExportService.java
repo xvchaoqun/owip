@@ -187,7 +187,7 @@ public class CrExportService extends CrBaseMapper {
             cell.setCellValue(edu);
 
 
-            Map<String, Object> dataMap = cadreInfoFormService.getDataMap(cv.getId());
+            Map<String, Object> dataMap = cadreInfoFormService.getDataMap(cv.getId(), false);
 
             // 全日制教育 学历/学位
             cell = row.getCell(column++);
@@ -278,7 +278,7 @@ public class CrExportService extends CrBaseMapper {
             CadreView cadre = CmTag.getCadreByUserId(crApplicant.getUserId());
 
             int cadreId = cadre.getId();
-            Map<String, Object> applicantDataMap = cadreInfoFormService.getDataMap(cadreId);
+            Map<String, Object> applicantDataMap = cadreInfoFormService.getDataMap(cadreId, false);
             CrPost firstPost = postMap.get(crApplicant.getFirstPostId());
             if(firstPost!=null) {
                 applicantDataMap.put("firstPost", firstPost.getName());

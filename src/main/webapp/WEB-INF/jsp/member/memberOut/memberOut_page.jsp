@@ -15,7 +15,7 @@
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.userType||not empty param.type
-                || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isPrint
+                || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isSelfPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param._acceptReceiptTime|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -308,19 +308,21 @@
                                                         </script>
                                                     </div>
                                                 </div>
+                                                <shiro:hasPermission name="memberOutSelfPrint:edit">
                                                 <div class="form-group">
-                                                    <label>是否已打印</label>
+                                                    <label>是否已自助打印打印</label>
                                                     <div class="input-group">
-                                                        <select name="isPrint" data-rel="select2" data-placeholder="请选择">
+                                                        <select name="isSelfPrint" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="0">否</option>
                                                             <option value="1">是</option>
                                                         </select>
                                                         <script>
-                                                            $("#searchForm select[name=isPrint]").val("${param.isPrint}");
+                                                            $("#searchForm select[name=isSelfPrint]").val("${param.isSelfPrint}");
                                                         </script>
                                                     </div>
                                                 </div>
+                                                </shiro:hasPermission>
                                                 <div class="form-group">
                                                     <label>是否有回执</label>
                                                     <div class="input-group">
@@ -474,11 +476,11 @@
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#"+this.id);
-            _onSelectRow(this)
+            _onSelectRow(this);
         },
         onSelectAll: function (aRowids, status) {
             saveJqgridSelected("#" + this.id);
-            _onSelectRow(this)
+            _onSelectRow(this);
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
@@ -493,8 +495,8 @@
                 $("#odApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>");
 
                 <c:if test="${cls==3}">
-                $(".print").prop("disabled", true)
-                $(".print"+rowData.type).prop("disabled", false)
+                $(".print").prop("disabled", true);
+                $(".print"+rowData.type).prop("disabled", false);
                 </c:if>
 
             }else if (ids.length > 1) {
@@ -512,9 +514,9 @@
 
                 //console.log(printTypes)
                 if(printTypes.length==1){
-                    $(".print"+printTypes[0]).prop("disabled", false)
+                    $(".print"+printTypes[0]).prop("disabled", false);
                 }else{
-                    $(".print").prop("disabled", true)
+                    $(".print").prop("disabled", true);
                 }
                 </c:if>
             } else{
@@ -550,7 +552,7 @@
         btnbase:"btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
-            var $this = $(this)
+            var $this = $(this);
             var ids  = $this.getGridParam("selarrrow");
             if(ids.length==0){
                 SysMsg.warning("请选择行", "提示");
@@ -562,7 +564,7 @@
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             })
 
-            $.loadModal("${ctx}/memberOut_back?ids={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberOut_back?ids={0}&status={1}".format(ids, minStatus));
         }
     });
     </c:if>
