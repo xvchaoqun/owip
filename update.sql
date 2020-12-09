@@ -1,4 +1,7 @@
 
+
+北航
+
 20201207
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2563, 0, '党支部信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:branch', NULL, NULL, NULL, 1, NULL);
