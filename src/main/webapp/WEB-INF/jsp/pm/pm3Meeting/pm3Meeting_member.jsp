@@ -102,7 +102,7 @@
                 }
             });
         });
-        $("#modalForm input[name=absentNum]").val($("#absentTable tbody tr").length);
+        $("#pmForm input[name=absentNum]").val($("#absentTable tbody tr").length);
 
         $("#modal").modal('hide');
     });

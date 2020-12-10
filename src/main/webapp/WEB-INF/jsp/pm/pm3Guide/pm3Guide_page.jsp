@@ -82,10 +82,24 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             { label: '组织生活指南',name: '_files',width:'110',formatter:function(cellvalue, options, rowObject){
-                    return '<button class="popupBtn btn btn-info btn-xs" data-width="500"' +
+                    return '<button class="popupBtn btn btn-info btn-xs" data-width="550"' +
                         'data-url="${ctx}/pm/pm3Guide_files?id={0}"><i class="fa fa-search"></i> 详情</button>'
                             .format(rowObject.id)
                 }},
+            <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
+                { label: '分党委报送详情',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
+                        return '<button class="popupBtn btn btn-info btn-xs" data-width="510"' +
+                            'data-url="${ctx}/pm/pm3Guide_notice?id={0}&isOdAdmin=1"><i class="fa fa-search"></i> 详情</button>'
+                                .format(rowObject.id)
+                    }},
+            </c:if>
+            <c:if test="${cm:hasRole(ROLE_PARTYADMIN)}">
+                { label: '党支部报送详情',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
+                        return '<button class="popupBtn btn btn-info btn-xs" data-width="510"' +
+                            'data-url="${ctx}/pm/pm3Guide_notice?id={0}&isOdAdmin=0"><i class="fa fa-search"></i> 详情</button>'
+                                .format(rowObject.id)
+                    }},
+            </c:if>
             { label: '备注', name: 'remark',width:'252'}
         ]
     }).jqGrid("setFrozenColumns");

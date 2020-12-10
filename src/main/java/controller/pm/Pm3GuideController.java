@@ -1,5 +1,6 @@
 package controller.pm;
 
+import domain.base.ContentTpl;
 import domain.pm.Pm3Guide;
 import domain.pm.Pm3GuideExample;
 import domain.pm.Pm3GuideExample.Criteria;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
+import sys.constants.PmConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -194,6 +198,44 @@ public class Pm3GuideController extends PmBaseController {
 
             pm3GuideService.delFile(id, filePath);
             logger.info(log(LogConstants.LOG_PM, "删除组织生活指南：{0},{1},{2}", id,fileName,filePath));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pm3Guide:list")
+    @RequestMapping("/pm3Guide_notice")
+    public String pm3Guide_notice(int id, boolean isOdAdmin, ModelMap modelMap) {
+
+        Pm3Guide pm3Guide = pm3GuideMapper.selectByPrimaryKey(id);
+
+        int year = DateUtils.getYear(pm3Guide.getMeetingMonth());
+        int month = DateUtils.getMonth(pm3Guide.getMeetingMonth());
+        modelMap.put("partyList", iPmMapper.selectPartyList(year, month, PmConstants.PM_3_STATUS_OW, new RowBounds()));
+        modelMap.put("branchList", iPmMapper.selectBranchList(year, month, loginUserService.adminPartyIdList(), PmConstants.PM_3_STATUS_SAVE, new RowBounds()));
+
+        ContentTpl tpl = null;
+        if (isOdAdmin){
+            tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_PARTY);
+        }else {
+            tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_BRANCH);
+        }
+        tpl.setContent(String.format(tpl.getContent(), DateUtils.formatDate(pm3Guide.getMeetingMonth(), "yyyy年MM月")));
+
+        modelMap.put("tpl", tpl);
+
+        return "pm/pm3Guide/pm3Guide_notice";
+    }
+
+    @RequiresPermissions("pm3Guide:list")
+    @RequestMapping(value = "/pm3Guide_notice", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pm3Guide_notice(HttpServletRequest request, Integer[] ids, boolean isOdAdmin, String notice) {
+
+        if (ids != null && ids.length > 0){
+
+            pm3GuideService.notice(Arrays.asList(ids), isOdAdmin, notice);
+            logger.info(log(LogConstants.LOG_PM, "给{0}发送组织生活提醒：{1}", (isOdAdmin?"分党委管理员":"党支部管理员"), StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

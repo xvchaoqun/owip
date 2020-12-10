@@ -146,7 +146,7 @@
 							</c:if>
 							<c:if test="${edit}">
 								<select  ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
-										required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+										required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
 										data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
 									<option value="${pm3Meeting.presenter}">${pm3Meeting.presenterUser.realname}-${pm3Meeting.presenterUser.code}</option>
 								</select>
@@ -160,7 +160,7 @@
 							</c:if>
 							<c:if test="${edit}">
 								<select ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
-										required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+										required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
 										data-width="270" id="recorder" name="recorder" data-placeholder="请选择">
 									<option value="${pm3Meeting.recorder}">${pm3Meeting.recorderUser.realname}-${pm3Meeting.recorderUser.code}</option>
 								</select>
@@ -416,8 +416,8 @@
 		if(data.class==${cm:getMetaTypeByCode("mt_direct_branch").id}){
 
 
-			presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL});
-			recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL});
+			presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
+			recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
 
 			$.register.user_select(presenterSelect);
 			$.register.user_select(recorderSelect);
@@ -448,8 +448,8 @@
 			return;
 		}
 
-		presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL});
-		recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL});
+		presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
+		recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
 
 		$.register.user_select(presenterSelect);
 		$.register.user_select(recorderSelect);
