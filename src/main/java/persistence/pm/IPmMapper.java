@@ -1,5 +1,7 @@
 package persistence.pm;
 
+import domain.party.Branch;
+import domain.party.Party;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
@@ -113,4 +115,15 @@ public interface IPmMapper {
 //                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
     //@Select("select count(1) from pm_meeting where  branch_id=#{branchId} and type=#{type}")
    // public int getMeetingCount(@Param("branchId")Integer branchId,@Param("type")Byte type);
+
+    List<Party> selectPartyList(@Param("year") int year,
+                                @Param("month") int month,
+                                @Param("status") Byte status,
+                                RowBounds rowBounds);
+
+    List<Branch> selectBranchList(@Param("year") int year,
+                                  @Param("month") int month,
+                                  @Param("partyIdList") List<Integer> partyIdList,
+                                  @Param("status") Byte status,
+                                  RowBounds rowBounds);
 }

@@ -175,4 +175,8 @@ public class ContentTplConstants {
     public final static String CONTENT_TPL_SC_PUBLIC_FINISH_CONFIRM = "ct_sc_public_finish_confirm";
     // 新提任处级干部交证件通知
     public final static String CONTENT_TPL_SC_PASSPORT_MSG = "ct_sc_passport_msg";
+
+    //组织生活短信提醒
+    public final static String PM_3_NOTICE_PARTY = "pm_3_notice_party";
+    public final static String PM_3_NOTICE_BRANCH = "pm_3_notice_branch";
 }

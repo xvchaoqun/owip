@@ -30,12 +30,27 @@
                                 </shiro:hasPermission>
                                 <c:if test="${status>=0}">
                                     <shiro:hasPermission name="branchMemberGroup:realDel">
-                                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                                            data-url="${ctx}/branchMemberGroup_import"
-                                            data-rel="tooltip" data-placement="top" title="批量导入"><i
-                                            class="fa fa-upload"></i>
-                                        批量导入
-                                    </button>
+                                        <div class="btn-group">
+                                            <button data-toggle="dropdown"
+                                                    data-rel="tooltip" data-placement="top" data-html="true"
+                                                    title="<div style='width:180px'>批量导入操作</div>"
+                                                    class="btn btn-info btn-sm dropdown-toggle tooltip-success">
+                                                <i class="fa fa-hand-o-right"></i> 批量导入 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                                <li>
+                                                    <a href="javascript:;" class="popupBtn"
+                                                       data-url="${ctx}/branchMemberGroup_import">
+                                                        <i class="fa fa-upload"></i> 批量导入委员会</a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="javascript:;" class="popupBtn"
+                                                       data-url="${ctx}/branchMember_import">
+                                                        <i class="fa fa-upload"></i> 批量导入委员会成员</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </shiro:hasPermission>
                                 </c:if>
 

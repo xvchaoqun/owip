@@ -26,7 +26,7 @@
                     <shiro:lacksRole name="${ROLE_ODADMIN}">
                         <td nowrap width=450">
                     </shiro:lacksRole>
-                        <a href="${ctx}/attach_download?path=${cm:sign(filePath)}&filename=${fileNames.get(vs.index)}" target="_blank" style="font-size: 14px;font-weight: normal">${fileNames.get(vs.index)}</a>
+                        ${fileNames.get(vs.index)}
                     </td>
                     <td nowrap>
                         <div class="hidden-sm hidden-xs action-buttons">

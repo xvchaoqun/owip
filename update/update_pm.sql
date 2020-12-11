@@ -1,4 +1,8 @@
 
+--2020.12.10 ly
+
+INSERT INTO `base_content_tpl` (`name`, `role_id`, `type`, `code`, `wx_msg_type`, `wx_title`, `wx_url`, `wx_pic`, `content`, `content_type`, `engine`, `param_count`, `param_names`, `param_def_values`, `sort_order`, `user_id`, `create_time`, `update_time`, `is_deleted`, `remark`) VALUES ('组织生活报送提醒', NULL, 1, 'pm_3_notice_branch', NULL, NULL, NULL, NULL, '各位书记/党支部管理员：您好！您管理的党支部%s组织生活月报未报送，请尽快上传报送。[系统短信，请勿回复]', 1, NULL, NULL, NULL, NULL, 69, 100719, '2020-12-10 17:42:57', '2020-12-10 17:56:57', 0, '');
+INSERT INTO `base_content_tpl` (`name`, `role_id`, `type`, `code`, `wx_msg_type`, `wx_title`, `wx_url`, `wx_pic`, `content`, `content_type`, `engine`, `param_count`, `param_names`, `param_def_values`, `sort_order`, `user_id`, `create_time`, `update_time`, `is_deleted`, `remark`) VALUES ('组织生活报送提醒', NULL, 1, 'pm_3_notice_party', NULL, NULL, NULL, NULL, '各位书记/分党委管理员：您好！您管理的党支部%s组织生活月报未报送或者未审批的情况，请审批月报或者提醒党支部尽快上传月报。[系统短信，请勿回复]', 1, NULL, NULL, NULL, NULL, 68, 100719, '2020-12-10 15:41:35', '2020-12-10 17:57:08', 0, '');
 
 -- 2020.11.13 ly
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2562, 0, '审核', '', 'function', '', NULL, 2556, '0/1/2555/2556/', 1, 'pm3Meeting:check', NULL, NULL, NULL, 1, NULL);
