@@ -130,6 +130,9 @@ public class Pm3GuideService extends PmBaseMapper {
                 }
             }
         }
+
+        //调用短信接口
+
     }
 
     //定时发送提醒

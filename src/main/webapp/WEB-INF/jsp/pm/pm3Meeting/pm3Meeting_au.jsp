@@ -17,9 +17,9 @@
 					<input class="form-control" type="hidden" name="id"
 						   value="${param.id}">
 					<c:if test="${adminOnePartyOrBranch==true}">
-						<input class="form-control" type="hidden" name="partyId"
+						<input type="hidden" name="partyId"
 							   value="${pm3Meeting.partyId}">
-						<input class="form-control" type="hidden" name="branchId"
+						<input type="hidden" name="branchId"
 							   value="${pm3Meeting.branchId}">
 					</c:if>
 					<c:if test="${adminOnePartyOrBranch!=true}">
@@ -101,7 +101,7 @@
 								${pm3Meeting.name}
 							</c:if>
 							<c:if test="${edit}">
-								<input  required  class="form-control" type="text" name="name"
+								<input required class="form-control" type="text" name="name"
 										value="${pm3Meeting.name}">
 							</c:if>
 						</td>
@@ -145,8 +145,7 @@
 								${pm3Meeting.presenterUser.realname}
 							</c:if>
 							<c:if test="${edit}">
-								<select  ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
-										required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+								<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
 										data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
 									<option value="${pm3Meeting.presenter}">${pm3Meeting.presenterUser.realname}-${pm3Meeting.presenterUser.code}</option>
 								</select>
@@ -159,8 +158,7 @@
 								${pm3Meeting.recorderUser.realname}
 							</c:if>
 							<c:if test="${edit}">
-								<select ${empty pm3Meeting.partyId&&empty pm3Meeting.branchId?'disabled="disabled"':''}
-										required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+								<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
 										data-width="270" id="recorder" name="recorder" data-placeholder="请选择">
 									<option value="${pm3Meeting.recorder}">${pm3Meeting.recorderUser.realname}-${pm3Meeting.recorderUser.code}</option>
 								</select>
@@ -407,25 +405,13 @@
 		var partyId=partySelect.val();
 		if ($.isBlank(partyId)){
 			$("#pmForm input[name=dueNum]").val('');
-			presenterSelect.attr("disabled",true);
-			recorderSelect.attr("disabled",true);
 			$('#absent').attr("disabled",true);
 			return;
 		}
 		var data = partySelect.select2("data")[0];
 		if(data.class==${cm:getMetaTypeByCode("mt_direct_branch").id}){
 
-
-			presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
-			recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
-
-			$.register.user_select(presenterSelect);
-			$.register.user_select(recorderSelect);
-
 			$('#absent').data('url', "${ctx}/pm/pm3Meeting_member?type=2&partyId="+partyId);
-
-			presenterSelect.removeAttr("disabled");
-			recorderSelect.removeAttr("disabled");
 			$('#absent').removeAttr("disabled");
 
 			var data = partySelect.select2("data")[0];
@@ -442,22 +428,11 @@
 
 		if ($.isBlank(branchId)){
 			$("#pmForm input[name=dueNum]").val('');
-			presenterSelect.attr("disabled",true);
-			recorderSelect.attr("disabled",true);
 			$('#absent').attr("disabled",true);
 			return;
 		}
 
-		presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
-		recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER});
-
-		$.register.user_select(presenterSelect);
-		$.register.user_select(recorderSelect);
-
 		$('#absent').data('url', "${ctx}/pm/pm3Meeting_member?type=2&partyId="+partyId+"&branchId="+branchId);
-
-		presenterSelect.removeAttr("disabled");
-		recorderSelect.removeAttr("disabled");
 		$('#absent').removeAttr("disabled");
 
 		var data = branchSelect.select2("data")[0];

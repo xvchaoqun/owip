@@ -230,7 +230,9 @@ public class Pm3GuideController extends PmBaseController {
     @RequiresPermissions("pm3Guide:list")
     @RequestMapping(value = "/pm3Guide_notice", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pm3Guide_notice(HttpServletRequest request, Integer[] ids, boolean isOdAdmin, String notice) {
+    public Map do_pm3Guide_notice(HttpServletRequest request, Integer[] ids,
+                                  boolean isOdAdmin,//是否是组织部管理员
+                                  String notice) {
 
         if (ids != null && ids.length > 0){
 

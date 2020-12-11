@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static sys.constants.MemberConstants.MEMBER_STATUS_NORMAL;
+import static sys.constants.MemberConstants.MEMBER_STATUS_TRANSFER;
 import static sys.helper.PartyHelper.isDirectBranch;
 
 @Controller
@@ -432,7 +433,7 @@ public class Pm3MeetingController extends PmBaseController {
 
     @RequiresPermissions("pm3Meeting:edit")
     @RequestMapping("/pm3Meeting_member")
-    public String pm3Meeting_member(Integer partyId,Integer branchId,Byte type,HttpServletRequest request, ModelMap modelMap) {
+    public String pm3Meeting_member(Integer partyId,Integer branchId,HttpServletRequest request, ModelMap modelMap) {
 
         if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),partyId,branchId)){
             throw new UnauthorizedException();
@@ -445,7 +446,10 @@ public class Pm3MeetingController extends PmBaseController {
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
-        criteria.andStatusEqualTo(MEMBER_STATUS_NORMAL);
+        List<Byte> statusList = new ArrayList<>();
+        statusList.add(MEMBER_STATUS_NORMAL);
+        statusList.add(MEMBER_STATUS_TRANSFER);
+        criteria.andStatusIn(statusList);
         List<MemberView> membersViews=memberViewMapper.selectByExample(example);
         modelMap.put("membersViews",membersViews);
         return "pm/pm3Meeting/pm3Meeting_member";
