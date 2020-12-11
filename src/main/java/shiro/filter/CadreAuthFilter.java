@@ -40,7 +40,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
             return true;
         }
 
-        if(PatternUtils.match("/cadrePositionReport|/cadrePositionReport_data",
+        if(PatternUtils.match("/cadrePositionReport|/cadrePositionReport_data|/cadrePositionReport_export",
                 WebUtils.getRequestUri((HttpServletRequest) request))
                 && ShiroHelper.isPermitted("cadrePositionReport:list")){
             return true;

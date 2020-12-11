@@ -54,12 +54,17 @@ public class PmdMemberService extends PmdBaseMapper {
         int currentMonthId = currentPmdMonth.getId();
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+
+        Integer partyId = pmdMember.getPartyId();
+        Integer branchId = pmdMember.getBranchId();
+
         // 当前所在的单位快照
         PmdMember _pmdMember = get(currentMonthId, pmdMember.getUserId());
-
-        // 检测党支部或直属党支部是否已经报送了
-        Integer partyId = _pmdMember.getPartyId();
-        Integer branchId = _pmdMember.getBranchId();
+        if(_pmdMember!=null) {
+            // 检测党支部或直属党支部是否已经报送了
+            partyId = _pmdMember.getPartyId();
+            branchId = _pmdMember.getBranchId();
+        }
 
         List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
         Set<Integer> adminPartyIdSet = new HashSet<>();
@@ -550,8 +555,17 @@ public class PmdMemberService extends PmdBaseMapper {
                 throw  new OpException("操作失败，{0}未确认缴费额度。", realname); // 未确认缴费额度
             }
 
+            Integer partyId = pmdMember.getPartyId();
+            Integer branchId = pmdMember.getBranchId();
+
             PmdMember _pmdMember = get(currentMonthId, userId);
-            if(pmdMemberPayService.branchHasReport(_pmdMember.getPartyId(), _pmdMember.getBranchId(), currentPmdMonth)){
+            if(_pmdMember!=null) {
+                // 检测党支部或直属党支部是否已经报送了
+                partyId = _pmdMember.getPartyId();
+                branchId = _pmdMember.getBranchId();
+            }
+
+            if(pmdMemberPayService.branchHasReport(partyId, branchId, currentPmdMonth)){
                 throw  new OpException("操作失败，{0}所在支部已报送。", realname);
             }
 
@@ -599,10 +613,6 @@ public class PmdMemberService extends PmdBaseMapper {
 
                 commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +
                         "is_online_pay=0 where id=%s", duePay, pmdMemberId));
-
-                //PmdMember _pmdMember = get(currentMonthId, userId);
-                int partyId = _pmdMember.getPartyId();
-                Integer branchId = _pmdMember.getBranchId();
 
                 commonMapper.excuteSql(String.format("update pmd_member_pay set real_pay=%s, " +
                         "has_pay=1, is_online_pay=0, pay_month_id=%s, charge_party_id=%s, charge_branch_id=%s"

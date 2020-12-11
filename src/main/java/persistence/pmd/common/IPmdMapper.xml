@@ -58,16 +58,15 @@
 
     <!-- 补缴党员列表 -->
     <sql id="historyDelayMemberList_where">
-        from pmd_member_pay_view pmpv,
-        (select * from pmd_member where month_id=#{currentMonthId}
+        from pmd_member_pay_view pmpv
+        where pmpv.is_delay=1 and ((pmpv.has_pay=1 and pay_month_id=#{currentMonthId}) or pmpv.has_pay=0)
+
         <if test="partyId!=null">
-            and party_id=#{partyId}
+            and pmpv.party_id=#{partyId}
         </if>
         <if test="branchId!=null">
-            and branch_id=#{branchId}
-        </if>) pm
-        where pmpv.user_id=pm.user_id and pmpv.is_delay=1
-        and ((pmpv.has_pay=1 and pay_month_id=#{currentMonthId}) or pmpv.has_pay=0)
+            and pmpv.branch_id=#{branchId}
+        </if>
         <if test="hasPay!=null">
             and pmpv.has_pay=#{hasPay}
         </if>
