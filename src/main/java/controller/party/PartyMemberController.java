@@ -426,6 +426,7 @@ public class PartyMemberController extends BaseController {
                 MetaType partyMemberType = CmTag.getMetaTypeByCode("mt_party_member");
                 record.setPostId(partyMemberType.getId());
             }
+            record.setIsAdmin(StringUtils.equalsIgnoreCase(StringUtils.trim(xlsRow.get(5)), "是"));
 
             records.add(record);
         }

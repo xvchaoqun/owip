@@ -1,14 +1,20 @@
 package controller.party;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.*;
 import domain.party.BranchMemberExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -21,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.party.BranchExportService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -28,10 +36,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -379,6 +384,99 @@ public class BranchMemberController extends BaseController {
         Map resultMap = success();
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
+        return resultMap;
+    }
+
+    @RequiresPermissions("branchMember:edit")
+    @RequestMapping("/branchMember_import")
+    public String branchMember_import(ModelMap modelMap) {
+
+        return "party/branchMember/branchMember_import";
+    }
+
+    @RequiresPermissions("branchMember:edit")
+    @RequestMapping(value = "/branchMember_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_branchMember_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<BranchMember> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            BranchMember record = new BranchMember();
+            row++;
+
+            String partyCode = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行所属分党委编码为空", row);
+            }
+            Party party = partyService.getByCode(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
+            }
+
+            PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(party.getId());
+            if (presentGroup == null) continue; // 如果分党委还未设置当前班子，则忽略导入；
+            record.setGroupId(presentGroup.getId());
+
+            String branchCode = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(branchCode)){
+                throw new OpException("第{0}行所属党支部编码为空", row);
+            }
+            Branch branch = branchService.getByCode(branchCode);
+            if (branch == null) {
+                throw new OpException("第{0}行所属党支部编码[{1}]不存在", row, branchCode);
+            }
+            BranchMemberGroup branchMemberGroup = branchMemberGroupService.getPresentGroup(branch.getId());
+            if (branchMemberGroup == null) continue;// 如果党支部还未设置当前委员会，则忽略导入；
+            record.setGroupId(branchMemberGroup.getId());
+
+            String userCode = StringUtils.trim(xlsRow.get(5));
+            if (StringUtils.isBlank(userCode)) {
+                continue; // 学工号为空则忽略该行
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            record.setUserId(userId);
+
+            String _type = StringUtils.trim(xlsRow.get(6));
+            if (StringUtils.isBlank(_type)){
+                throw new OpException("第{0}行职务为空", row);
+            }
+            MetaType postType = CmTag.getMetaTypeByName("mc_branch_member_type", _type);
+            if (postType == null) {
+                throw new OpException("第{0}行职务[{1}]不存在", row, _type);
+            }else if (postType != null) {
+                    record.setTypes(postType.getId()+"");
+            }
+            record.setIsAdmin(StringUtils.equalsIgnoreCase(StringUtils.trim(xlsRow.get(7)), "是"));
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = branchMemberService.batchImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入支部委员会成员成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
         return resultMap;
     }
 }

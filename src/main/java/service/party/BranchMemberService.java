@@ -12,6 +12,7 @@ import persistence.party.common.OwAdmin;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
+import service.sys.SysUserService;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -35,6 +36,8 @@ public class BranchMemberService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private SysUserService sysUserService;
 
     public TreeNode getTree(Set<Integer> selectIdSet) {
 
@@ -325,5 +328,47 @@ public class BranchMemberService extends BaseMapper {
                 branchAdminService.setBranchAdmin(id, true);
             }
         }
+    }
+
+    public int batchImport(List<BranchMember> records) {
+        int addCount = 0;
+        for (BranchMember record : records) {
+
+            BranchMember _record = get(record.getGroupId(), record.getUserId());
+            boolean autoAdmin = false;
+            if (record.getTypes() != null){
+                MetaType metaType = CmTag.getMetaType(Integer.valueOf(record.getTypes()));
+                if (metaType != null){
+                    autoAdmin = (record.getIsAdmin() || metaType.getBoolAttr());
+                }
+            }
+            if (_record == null) {
+
+                insertSelective(record, autoAdmin);
+                addCount++;
+            } else {
+
+                if (_record.getIsAdmin()) {
+                    // 先清除管理员
+                    branchAdminService.setBranchAdmin(_record.getId(), autoAdmin);
+                }
+
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record, autoAdmin);
+            }
+        }
+
+        return addCount;
+    }
+
+    // 根据委员会、用户ID务获取 委员会成员
+    public BranchMember get(int groupId, int userId) {
+
+        BranchMemberExample example = new BranchMemberExample();
+        BranchMemberExample.Criteria criteria = example.createCriteria()
+                .andGroupIdEqualTo(groupId).andUserIdEqualTo(userId);
+
+        List<BranchMember> branchMembers = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return branchMembers.size() == 1 ? branchMembers.get(0) : null;
     }
 }

@@ -363,10 +363,10 @@ public class PartyMemberService extends BaseMapper {
 
             PartyMember _record = get(record.getGroupId(), record.getUserId(), record.getPostId());
 
-            Integer postId = _record.getPostId();
+            Integer postId = record.getPostId();
             MetaType metaType = CmTag.getMetaType(postId);
             boolean autoAdmin = ((StringUtils.equals(metaType.getCode(), "mt_party_secretary")
-                    || StringUtils.equals(metaType.getCode(), "mt_party_vice_secretary")));
+                    || StringUtils.equals(metaType.getCode(), "mt_party_vice_secretary") || record.getIsAdmin()));
 
             if (_record == null) {
 
