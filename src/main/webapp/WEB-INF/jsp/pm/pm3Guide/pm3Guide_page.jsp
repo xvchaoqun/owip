@@ -86,20 +86,22 @@ pageEncoding="UTF-8" %>
                         'data-url="${ctx}/pm/pm3Guide_files?id={0}"><i class="fa fa-search"></i> 详情</button>'
                             .format(rowObject.id)
                 }},
-            <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
-                { label: '分党委报送详情',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
-                        return '<button class="popupBtn btn btn-info btn-xs" data-width="510"' +
-                            'data-url="${ctx}/pm/pm3Guide_notice?id={0}&isOdAdmin=1"><i class="fa fa-search"></i> 详情</button>'
+            <shiro:hasPermission name="pm3Guide:edit">
+                { label: '未完成分党委',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
+                        return '<button class="popupBtn btn btn-warning btn-xs" data-width="510"' +
+                            'data-url="${ctx}/pm/pm3Guide_notice?id={0}"><i class="fa fa-info-circle"></i> 提醒</button>'
                                 .format(rowObject.id)
                     }},
-            </c:if>
+            </shiro:hasPermission>
+            <shiro:lacksPermission name="pm3Guide:edit">
             <c:if test="${cm:hasRole(ROLE_PARTYADMIN)}">
-                { label: '党支部报送详情',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
-                        return '<button class="popupBtn btn btn-info btn-xs" data-width="510"' +
-                            'data-url="${ctx}/pm/pm3Guide_notice?id={0}&isOdAdmin=0"><i class="fa fa-search"></i> 详情</button>'
+                { label: '未完成党支部',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
+                        return '<button class="popupBtn btn btn-warning btn-xs" data-width="510"' +
+                            'data-url="${ctx}/pm/pm3Guide_notice?id={0}&partyIds=${partyIds}"><i class="fa fa-info-circle"></i> 提醒</button>'
                                 .format(rowObject.id)
                     }},
             </c:if>
+            </shiro:lacksPermission>
             { label: '备注', name: 'remark',width:'252'}
         ]
     }).jqGrid("setFrozenColumns");

@@ -20,8 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
-import sys.constants.PmConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -41,7 +39,16 @@ public class Pm3GuideController extends PmBaseController {
 
     @RequiresPermissions("pm3Guide:list")
     @RequestMapping("/pm3Guide")
-    public String pm3Guide() {
+    public String pm3Guide(ModelMap modelMap) {
+
+        if(!ShiroHelper.isPermitted("pm3Guide:edit")){
+
+            List<Integer> partyIdList = partyAdminService.adminPartyIdList(ShiroHelper.getCurrentUserId());
+            if(partyIdList.size()>0) {
+
+                modelMap.put("partyIds", StringUtils.join(partyIdList, ","));
+            }
+        }
 
         return "pm/pm3Guide/pm3Guide_page";
     }
@@ -100,8 +107,6 @@ public class Pm3GuideController extends PmBaseController {
                               HttpServletRequest request) {
 
         Integer id = record.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
-            throw new UnauthorizedException();
         if (StringUtils.isNotBlank(_meetingMonth)){
             pm3GuideService.isDuplicate(_meetingMonth);
             record.setMeetingMonth(DateUtils.parseDate(_meetingMonth, DateUtils.YYYY_MM));
@@ -159,7 +164,7 @@ public class Pm3GuideController extends PmBaseController {
 
 
         if (null != ids && ids.length>0){
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if (!ShiroHelper.isPermitted("pm3Guide:edit"))
                 throw new UnauthorizedException();
 
             pm3GuideService.batchDel(ids);
@@ -193,7 +198,7 @@ public class Pm3GuideController extends PmBaseController {
     public Map do_pm3Guide_delFile(HttpServletRequest request, Integer id, String filePath, String fileName, ModelMap modelMap) {
 
         if (null != id){
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if (!ShiroHelper.isPermitted("pm3Guide:edit"))
                 throw new UnauthorizedException();
 
             pm3GuideService.delFile(id, filePath);
@@ -205,22 +210,22 @@ public class Pm3GuideController extends PmBaseController {
 
     @RequiresPermissions("pm3Guide:list")
     @RequestMapping("/pm3Guide_notice")
-    public String pm3Guide_notice(int id, boolean isOdAdmin, ModelMap modelMap) {
+    public String pm3Guide_notice(int id, Integer[] partyIds, ModelMap modelMap) {
 
         Pm3Guide pm3Guide = pm3GuideMapper.selectByPrimaryKey(id);
-
-        int year = DateUtils.getYear(pm3Guide.getMeetingMonth());
-        int month = DateUtils.getMonth(pm3Guide.getMeetingMonth());
-        modelMap.put("partyList", iPmMapper.selectPartyList(year, month, PmConstants.PM_3_STATUS_OW, new RowBounds()));
-        modelMap.put("branchList", iPmMapper.selectBranchList(year, month, loginUserService.adminPartyIdList(), PmConstants.PM_3_STATUS_SAVE, new RowBounds()));
+        Date meetingMonth = pm3Guide.getMeetingMonth();
 
         ContentTpl tpl = null;
-        if (isOdAdmin){
+        if (partyIds==null || partyIds.length==0){
+
+            ShiroHelper.checkPermission("pm3Guide:edit");
+            modelMap.put("partyList", pm3GuideService.getUnSubmitPartyList(meetingMonth));
             tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_PARTY);
         }else {
             tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_BRANCH);
+            modelMap.put("branchList", pm3GuideService.getUnSubmitBranchList(meetingMonth, partyIds));
         }
-        tpl.setContent(String.format(tpl.getContent(), DateUtils.formatDate(pm3Guide.getMeetingMonth(), "yyyy年MM月")));
+        tpl.setContent(String.format(tpl.getContent(), DateUtils.formatDate(meetingMonth, "yyyy年MM月")));
 
         modelMap.put("tpl", tpl);
 
@@ -230,15 +235,20 @@ public class Pm3GuideController extends PmBaseController {
     @RequiresPermissions("pm3Guide:list")
     @RequestMapping(value = "/pm3Guide_notice", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pm3Guide_notice(HttpServletRequest request, Integer[] ids,
-                                  boolean isOdAdmin,//是否是组织部管理员
-                                  String notice) {
+    public Map do_pm3Guide_notice(int id, Integer[] partyIds, String notice) {
 
-        if (ids != null && ids.length > 0){
+        Pm3Guide pm3Guide = pm3GuideMapper.selectByPrimaryKey(id);
+        Date meetingMonth = pm3Guide.getMeetingMonth();
 
-            pm3GuideService.notice(Arrays.asList(ids), isOdAdmin, notice);
-            logger.info(log(LogConstants.LOG_PM, "给{0}发送组织生活提醒：{1}", (isOdAdmin?"分党委管理员":"党支部管理员"), StringUtils.join(ids, ",")));
+        if(partyIds==null || partyIds.length==0) {
+
+            ShiroHelper.checkPermission("pm3Guide:edit");
+            pm3GuideService.noticeUnSubmitParty(meetingMonth, notice);
+        }else{
+            pm3GuideService.noticeUnSubmitBranch(meetingMonth, partyIds, notice);
         }
+
+        logger.info(log(LogConstants.LOG_PM, "给{0}发送组织生活提醒", (partyIds==null?"分党委管理员":"党支部管理员")));
 
         return success(FormUtils.SUCCESS);
     }

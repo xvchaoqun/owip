@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.base.OneSendMapper;
+import service.SpringProps;
 import shiro.ShiroHelper;
 
 import java.util.Date;
@@ -23,6 +24,8 @@ public class OneSendService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
+    protected SpringProps springProps;
+    @Autowired
     private OneSendMapper oneSendMapper;
 
     // userList格式：工号|手机号
@@ -30,17 +33,23 @@ public class OneSendService {
 
         if(userList.size()==0) return null;
 
-        OneSendResult oneSendResult = OneSendUtils.sendMsg(userList.toArray(new String[]{}), content);
-
         OneSend _oneSend = new OneSend();
+
+        if (springProps.shortMsgSend) {
+            OneSendResult oneSendResult = OneSendUtils.sendMsg(userList.toArray(new String[]{}), content);
+             _oneSend.setType(oneSendResult.getType());
+             _oneSend.setIsSuccess(oneSendResult.isSuccess());
+             _oneSend.setRet(oneSendResult.getRet());
+        }else{
+            _oneSend.setIsSuccess(false);
+            _oneSend.setRet("test");
+        }
+
         _oneSend.setSendUserId(ShiroHelper.getCurrentUserId());
         _oneSend.setContent(content);
-        _oneSend.setType(oneSendResult.getType());
         _oneSend.setRecivers(StringUtils.join(realnameList, ","));
         _oneSend.setCodes(StringUtils.join(userList, ","));
         _oneSend.setSendTime(new Date());
-        _oneSend.setIsSuccess(oneSendResult.isSuccess());
-        _oneSend.setRet(oneSendResult.getRet());
 
         oneSendMapper.insertSelective(_oneSend);
 

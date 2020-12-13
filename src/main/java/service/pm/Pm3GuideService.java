@@ -1,11 +1,12 @@
 package service.pm;
 
 import controller.global.OpException;
-import domain.base.ContentTpl;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.party.PartyExample;
 import domain.pm.Pm3Guide;
 import domain.pm.Pm3GuideExample;
+import ext.service.OneSendService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.party.common.OwAdmin;
 import service.LoginUserService;
+import service.party.PartyService;
 import shiro.ShiroHelper;
-import sys.constants.ContentTplConstants;
 import sys.constants.PmConstants;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.*;
@@ -28,6 +28,10 @@ public class Pm3GuideService extends PmBaseMapper {
 
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    private PartyService partyService;
+    @Autowired
+    private OneSendService oneSendService;
 
     @Transactional
     public void insertSelective(Pm3Guide record) {
@@ -104,64 +108,94 @@ public class Pm3GuideService extends PmBaseMapper {
         }
     }
 
-    //在这个方法里调用短信接口，使用codeSet
-    public void notice(List<Integer> ids, boolean isOdAdmin, String msg) {
+    // 通知还未提交月报的党委
+    public void noticeUnSubmitParty(Date meetingMonth, String notice){
 
-        if (ids == null || ids.size() == 0) return;
-        Set<String> codeSets = new HashSet<>();//存储需要提醒的管理员工号
-        if (isOdAdmin) {
-            for (Integer id : ids) {
-                OwAdmin owAdmin = new OwAdmin();
-                owAdmin.setPartyId(id);
-                List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
-                if (owAdmins != null && owAdmins.size() > 0) {
-                    Set<String> codes = owAdmins.stream().map(OwAdmin::getCode).collect(Collectors.toSet());
-                    codeSets.addAll(codes);
-                }
-            }
-        } else {
-            for (Integer id : ids) {
-                OwAdmin owAdmin = new OwAdmin();
-                owAdmin.setBranchId(id);
-                List<OwAdmin> owAdmins = iPartyMapper.selectBranchAdminList(owAdmin, new RowBounds());
-                if (owAdmins != null && owAdmins.size() > 0) {
-                    Set<String> codes = owAdmins.stream().map(OwAdmin::getCode).collect(Collectors.toSet());
-                    codeSets.addAll(codes);
-                }
+        List<Party> unSubmitPartyList = getUnSubmitPartyList(meetingMonth);
+
+        List<String> userList = new ArrayList<>();
+        List<String> realnameList = new ArrayList<>();
+        for (Party party : unSubmitPartyList) {
+
+            OwAdmin owAdmin = new OwAdmin();
+            owAdmin.setPartyId(party.getId());
+            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+            if (owAdmins != null && owAdmins.size() > 0) {
+                Set<String> codes = owAdmins.stream().map(OwAdmin::getCode).collect(Collectors.toSet());
+                Set<String> realnames = owAdmins.stream().map(OwAdmin::getRealname).collect(Collectors.toSet());
+                userList.addAll(codes);
+                realnameList.addAll(realnames);
             }
         }
 
-        //调用短信接口
-
+        if(userList.size()>0) {
+            oneSendService.sendMsg(userList, realnameList, notice);
+        }
     }
 
-    //定时发送提醒
-    public void timingNotice() {
+    // 通知还未提交月报的党支部
+    public void noticeUnSubmitBranch(Date meetingMonth, Integer[] partyId, String notice){
 
-        List<Pm3Guide> pm3Guides = pm3GuideMapper.selectByExample(new Pm3GuideExample());
-        ContentTpl partyTpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_PARTY);
-        ContentTpl branchTpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_BRANCH);
-        Date now = new Date();
-        for (Pm3Guide pm3Guide : pm3Guides) {
+        List<Branch> unSubmitBranchList = getUnSubmitBranchList(meetingMonth, partyId);
 
-            if (pm3Guide.getReportTime().after(now)) continue;
+        List<String> userList = new ArrayList<>();
+        List<String> realnameList = new ArrayList<>();
+        for (Branch branch : unSubmitBranchList) {
 
-            Date meetingMonth = pm3Guide.getMeetingMonth();
-            String _meetingMonth = DateUtils.formatDate(meetingMonth, "yyyy年MM月");
-            String partyMsg = String.format(partyTpl.getContent(), _meetingMonth);
-            String branchMsg = String.format(branchTpl.getContent(), _meetingMonth);
-            int year = DateUtils.getYear(meetingMonth);
-            int month = DateUtils.getMonth(meetingMonth);
-            List<Party> partyList = iPmMapper.selectPartyList(year, month, PmConstants.PM_3_STATUS_OW, new RowBounds());
-            List<Branch> branchList = iPmMapper.selectBranchList(year, month, loginUserService.adminPartyIdList(), PmConstants.PM_3_STATUS_SAVE, new RowBounds());
-            if (partyList != null && partyList.size() > 0) {
-                List<Integer> partyIdList = partyList.stream().map(Party::getId).collect(Collectors.toList());
-                notice(partyIdList, true, partyMsg);
-            }
-            if (branchList != null && branchList.size() > 0) {
-                List<Integer> branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
-                notice(branchIdList, false, branchMsg);
+            OwAdmin owAdmin = new OwAdmin();
+            owAdmin.setBranchId(branch.getId());
+            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+            if (owAdmins != null && owAdmins.size() > 0) {
+                Set<String> codes = owAdmins.stream().map(OwAdmin::getCode).collect(Collectors.toSet());
+                Set<String> realnames = owAdmins.stream().map(OwAdmin::getRealname).collect(Collectors.toSet());
+                userList.addAll(codes);
+                realnameList.addAll(realnames);
             }
         }
+
+        if(userList.size()>0) {
+            oneSendService.sendMsg(userList, realnameList, notice);
+        }
+    }
+
+    // 查询还未全部提交月报的党支部的所属分党委列表
+    public List<Party> getUnSubmitPartyList(Date meetingMonth){
+
+        PartyExample example = new PartyExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        example.setOrderByClause("sort_order desc");
+        List<Party> parties = partyMapper.selectByExample(example);
+
+        int year = DateUtils.getYear(meetingMonth);
+        int month = DateUtils.getMonth(meetingMonth);
+
+        List<Party> unSubmitPartyList = new ArrayList<>();
+        for (Party party : parties) {
+
+            int partyId = party.getId();
+            if(partyService.isDirectBranch(partyId)){
+
+                if(iPmMapper.unSubmitDirectBranch(year, month, partyId, PmConstants.PM_3_STATUS_OW)!=null){
+                    unSubmitPartyList.add(party);
+                }
+            }else{
+
+                List<Branch> branches = getUnSubmitBranchList(meetingMonth, new Integer[]{partyId});
+                if(branches.size()>0){
+                    unSubmitPartyList.add(party);
+                }
+            }
+        }
+
+        return unSubmitPartyList;
+    }
+
+    // 查询还未提交月报的党支部
+    public List<Branch> getUnSubmitBranchList(Date meetingMonth, Integer[] partyIds){
+
+        int year = DateUtils.getYear(meetingMonth);
+        int month = DateUtils.getMonth(meetingMonth);
+
+        return iPmMapper.selectUnSubmitBranchList(year, month, Arrays.asList(partyIds), PmConstants.PM_3_STATUS_PARTY);
     }
 }

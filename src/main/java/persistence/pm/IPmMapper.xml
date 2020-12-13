@@ -213,34 +213,20 @@
         ) pm1;
     </select>
 
-    <sql id="Party_Base_Column_List">
-    id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big,
-    is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time,
-    sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted, integrity
-    </sql>
-
-    <select id="selectPartyList" parameterType="map" resultType="domain.party.Party" >
-        SELECT <include refid="Party_Base_Column_List"/> FROM ow_party p
-        WHERE p.is_deleted=0 AND p.id NOT IN (SELECT distinct(party_id) FROM pm3_meeting WHERE year=#{year} and month=#{month} and is_delete=0 and pm3_meeting.status>=#{status})
+    <select id="unSubmitDirectBranch" parameterType="map" resultMap="persistence.party.PartyMapper.BaseResultMap" >
+        SELECT * FROM ow_party p
+        left join pm3_meeting pm on pm.party_id=p.id and pm.is_delete=0  and pm.year=#{year} and pm.month=#{month} and pm.status>=#{status}
+        where p.is_deleted=0 and p.id=#{partyId} and pm.id is null
     </select>
 
-    <sql id="Branch_Base_Column_List">
-    id, code, name, short_name, party_id, types, is_staff, is_prefessional, is_base_team,
-    unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax,
-    email, found_time, transfer_count, sort_order, create_time, is_deleted, integrity
-    </sql>
-
-    <select id="selectBranchList" parameterType="map" resultType="domain.party.Branch" >
-        SELECT <include refid="Branch_Base_Column_List"/> FROM ow_branch b
-        WHERE
-        <if test="partyIdList!=null and partyIdList.size>0">
-            b.party_id in
-            <foreach collection="partyIdList" item="partyId"
+    <select id="selectUnSubmitBranchList" parameterType="map" resultMap="persistence.party.BranchMapper.BaseResultMap" >
+        SELECT * FROM ow_branch b
+        left join pm3_meeting pm on  pm.branch_id=b.id and pm.is_delete=0  and pm.year=#{year} and pm.month=#{month} and pm.status>=#{status}
+        where b.is_deleted=0 and b.party_id in
+        <foreach collection="partyIdList" item="partyId"
                      index="index" open="(" close=")" separator=",">
                 #{partyId}
             </foreach>
-            and
-        </if>
-        b.is_deleted=0 AND b.id NOT IN (SELECT distinct(ifnull(branch_id,0)) FROM pm3_meeting WHERE year=#{year} and month=#{month} and is_delete=0 and pm3_meeting.status>#{status})
+                                 and pm.id is null order by b.sort_order desc
     </select>
 </mapper>

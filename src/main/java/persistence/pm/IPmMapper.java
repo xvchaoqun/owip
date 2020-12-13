@@ -116,14 +116,17 @@ public interface IPmMapper {
     //@Select("select count(1) from pm_meeting where  branch_id=#{branchId} and type=#{type}")
    // public int getMeetingCount(@Param("branchId")Integer branchId,@Param("type")Byte type);
 
-    List<Party> selectPartyList(@Param("year") int year,
+    // 查询直属党支部是否还未提交月报
+    Party unSubmitDirectBranch(@Param("year") int year,
                                 @Param("month") int month,
-                                @Param("status") Byte status,
-                                RowBounds rowBounds);
+                                @Param("partyId") int partyId, // 直属党支部ID
+                                @Param("status") Byte status // >=PM_3_STATUS_OW
+                                );
 
-    List<Branch> selectBranchList(@Param("year") int year,
+    // 查询某些分党委下还未提交月报的支部列表
+    List<Branch> selectUnSubmitBranchList(@Param("year") int year,
                                   @Param("month") int month,
-                                  @Param("partyIdList") List<Integer> partyIdList,
-                                  @Param("status") Byte status,
-                                  RowBounds rowBounds);
+                                  @Param("partyIdList") List partyIdList,
+                                  @Param("status") Byte status  // >=PM_3_STATUS_PARTY
+                                  );
 }
