@@ -58,10 +58,10 @@ public class PmdMemberService extends PmdBaseMapper {
         Integer partyId = pmdMember.getPartyId();
         Integer branchId = pmdMember.getBranchId();
 
-        // 当前所在的单位快照
+        // 当前所在的党支部快照，如果存在则应该由当前所在党支部操作
         PmdMember _pmdMember = get(currentMonthId, pmdMember.getUserId());
         if(_pmdMember!=null) {
-            // 检测党支部或直属党支部是否已经报送了
+
             partyId = _pmdMember.getPartyId();
             branchId = _pmdMember.getBranchId();
         }
@@ -74,6 +74,7 @@ public class PmdMemberService extends PmdBaseMapper {
         Set<Integer> adminBranchIdSet = new HashSet<>();
         adminBranchIdSet.addAll(adminBranchIds);
 
+        // 检测党支部或直属党支部是否已经报送了
         if (partyService.isDirectBranch(partyId)) {
 
             if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
@@ -558,13 +559,15 @@ public class PmdMemberService extends PmdBaseMapper {
             Integer partyId = pmdMember.getPartyId();
             Integer branchId = pmdMember.getBranchId();
 
+            // 当前所在的党支部快照，如果存在则应该由当前所在党支部操作
             PmdMember _pmdMember = get(currentMonthId, userId);
             if(_pmdMember!=null) {
-                // 检测党支部或直属党支部是否已经报送了
+
                 partyId = _pmdMember.getPartyId();
                 branchId = _pmdMember.getBranchId();
             }
 
+            // 检测党支部或直属党支部是否已经报送了
             if(pmdMemberPayService.branchHasReport(partyId, branchId, currentPmdMonth)){
                 throw  new OpException("操作失败，{0}所在支部已报送。", realname);
             }
