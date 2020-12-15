@@ -588,7 +588,7 @@
                         </w:tr>
                         <w:tr w:rsidR="0011675D" w14:paraId="18D8968C" w14:textId="77777777" w:rsidTr="00EA1FAE">
                             <w:trPr>
-                                <w:trHeight w:val="8087"/>
+                                <w:trHeight w:val="7900"/>
                             </w:trPr>
                             <w:tc>
                                 <w:tcPr>

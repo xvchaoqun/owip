@@ -71,15 +71,26 @@ public class WeixinService extends WeixinClient {
         return sendNewsMessage(title, description, toUser, picUrl, redirectUrl);
     }
 
-    @Cacheable(value = "wxAccessToken")
+    @Cacheable(value = "wxAccessToken", key = "corp")
     @Override
-    public String getAccessToken() throws IOException {
-        return getAccessToken(getCorpID(), getCorpSecret()).getToken();
+    public String getCorpAccessToken() throws IOException {
+        return getCorpAccessToken(getCorpID(), getCorpSecret()).getToken();
     }
 
-    @CachePut(value = "wxAccessToken")
-    public String refreshAccessToken() throws IOException {
-        return getAccessToken();
+    @CachePut(value = "wxAccessToken", key = "corp")
+    public String refreshCorpAccessToken() throws IOException {
+        return getCorpAccessToken();
+    }
+
+    @Cacheable(value = "wxAccessToken", key = "app")
+    @Override
+    public String getAppAccessToken() throws IOException {
+        return getCorpAccessToken(getCorpID(), getAppSecret()).getToken();
+    }
+
+    @CachePut(value = "wxAccessToken", key = "app")
+    public String refreshAppAccessToken() throws IOException {
+        return getAppAccessToken();
     }
 
     @Override
@@ -93,7 +104,12 @@ public class WeixinService extends WeixinClient {
     }
 
     @Override
-    public int getAgentId() {
-        return CmTag.getIntProperty("wx.agentId");
+    public String getAgentId() {
+        return CmTag.getStringProperty("wx.agentId");
+    }
+
+    @Override
+    public String getAppSecret() {
+        return CmTag.getStringProperty("wx.appSecret");
     }
 }

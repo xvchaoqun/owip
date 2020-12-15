@@ -73,11 +73,11 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/pm/pm3Guide_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '活动年月',name: 'meetingMonth',
+            { label: '所属月份',name: 'meetingMonth',
                 width:'150',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}},
-            { label: '报送时间',name: 'reportTime',
+            { label: '应报送截止时间',name: 'reportTime',
                 width: '200',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},

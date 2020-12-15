@@ -259,10 +259,15 @@ public class Pm3MeetingService extends PmBaseMapper {
             List<String> realnameList = bean.getAbsentList().stream().map(MemberView::getRealname).collect(Collectors.toList());
             absentName = StringUtils.join(realnameList, ",");
         }else {
-            absentName = "无";
+            absentName = "-";
         }
 
-        dataMap.put("absent", absentName + "(" + bean.getAbsentReason() + ")");
+        if(StringUtils.equals(bean.getAbsentReason(), "无")){
+            dataMap.put("absent", "无");
+        }else{
+            dataMap.put("absent", absentName + "(" + bean.getAbsentReason() + ")");
+        }
+
         dataMap.put("remark", bean.getRemark());
         dataMap.put("content", freemarkerService.genTextareaSegment(bean.getContent(), "/common/editor2.ftl"));
 

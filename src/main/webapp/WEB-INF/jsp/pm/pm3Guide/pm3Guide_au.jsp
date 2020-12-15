@@ -9,15 +9,15 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pm/pm3Guide_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pm3Guide.id}">
 		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 活动年月</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 所属月份</label>
 			<div class="col-xs-6">
 				<input required name="_meetingMonth" class="form-control date-picker" data-date-min-view-mode="1"
 					   data-date-format="yyyy-mm" type="text"
-						value="${cm:formatDate(pm3Guide.meetingMonth, "yyyy-MM")}">
+						value="${cm:formatDate(pm3Guide.meetingMonth, "yyyy-MM")}" style="width: 100px">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-4 control-label"><span class="star">*</span> 报送时间</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 应报送截止时间</label>
 			<div class="col-xs-6">
 				<input required name="_reportTime"  class="form-control datetime-picker " type="text"
 						value="${cm:formatDate(pm3Guide.reportTime, "yyyy-MM-dd HH:mm")}">

@@ -36,11 +36,12 @@ public class WeixinTest extends WeixinClient {
 
     public final static String corpID = "wx1528d303f9296427";
     public final static String corpSecret = "cmffbV-CKzm791JoMZexv8u4dqBD80kgskha8svIj1qL0e7QZR--_hVwGyzLKy0d";
-    public int agentId = 100;
+    public String agentId = "100";
+
 
     @Override
-    public String getAccessToken() throws IOException {
-        return getAccessToken(getCorpID(), getCorpSecret()).getToken();
+    public String getCorpAccessToken() throws IOException {
+        return null;
     }
 
     @Override
@@ -54,7 +55,17 @@ public class WeixinTest extends WeixinClient {
     }
 
     @Override
-    public int getAgentId() {
+    public String getAppAccessToken() throws IOException {
+        return null;
+    }
+
+    @Override
+    public String getAgentId() {
         return agentId;
+    }
+
+    @Override
+    public String getAppSecret() {
+        return null;
     }
 }
