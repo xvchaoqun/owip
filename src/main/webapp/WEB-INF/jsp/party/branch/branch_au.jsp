@@ -42,14 +42,25 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">支部类型</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>支部类型</label>
 				<div class="col-xs-8">
-					<select class="multiselect" multiple="" name="types" data-width="372" data-placeholder="请选择">
+
+					<select required class="form-control" name="types"
+							data-width="372"
+							data-rel="select2" data-placeholder="请选择">
+						<option></option>
+						<c:import url="/metaTypes?__code=mc_branch_type"/>
+					</select>
+					<script>
+						$("#modalForm select[name=types]").val('${branch.types}');
+					</script>
+
+					<%--<select class="multiselect" multiple="" name="types" data-width="372" data-placeholder="请选择">
                         <c:import url="/metaTypes?__code=mc_branch_type"/>
                     </select>
                     <script type="text/javascript">
                         $.register.multiselect($('#modalForm select[name=types]'), '${branch.types}'.split(","));
-                    </script>
+                    </script>--%>
 				</div>
 			</div>
 			<div class="form-group">

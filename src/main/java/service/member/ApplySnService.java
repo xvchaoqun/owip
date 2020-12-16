@@ -18,6 +18,7 @@ import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
+import sys.constants.RoleConstants;
 import sys.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -52,8 +53,10 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void assign(int userId, ApplySn applySn) {
 
-        if (applySn == null || applySn.getYear().intValue()
-                != DateUtils.getCurrentYear() || applySn.getIsUsed() || applySn.getIsAbolished()) {
+
+        if (applySn == null
+                || (ShiroHelper.lackRole(RoleConstants.ROLE_SUPER) && applySn.getYear().intValue() != DateUtils.getCurrentYear())
+                || applySn.getIsUsed() || applySn.getIsAbolished()) {
             throw new OpException("编码{0}不可用。", applySn.getDisplaySn());
         }
 

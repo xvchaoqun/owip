@@ -1,8 +1,15 @@
 
+
+
+-- 领取志愿书不需要组织部审核bug
+-- update ow_member_apply set grow_status=2 where stage=5 and grow_status is null;
+
 20201215
 
 -- 更新utils
--- wx.agentId变为字符串， 新增 wx.appSecret
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('wx.appSecret', '微信应用secret', '4rUjh4NgyYtH_vPJiWjMrLNq7QurHLiY9B9hI_az688', 1, 82, '');
+UPDATE sys_property SET type=1 WHERE  code='wx.agentId';
 
 20201213
 哈工大

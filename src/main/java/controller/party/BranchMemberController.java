@@ -67,6 +67,7 @@ public class BranchMemberController extends BaseController {
     @RequestMapping("/branchMember_data")
     public void branchMember_data(HttpServletResponse response,
                                   Integer groupId,
+                                  Integer partyId,
                                   Integer userId,
                                   Integer types,
                                   Boolean isAdmin,
@@ -98,6 +99,10 @@ public class BranchMemberController extends BaseController {
         example.setOrderByClause("party_sort_order desc, branch_sort_order desc, is_history asc, sort_order desc");
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
 
         if (isDeleted != null) {
             criteria.andIsDeletedEqualTo(isDeleted);

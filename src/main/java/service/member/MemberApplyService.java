@@ -794,7 +794,12 @@ public class MemberApplyService extends MemberBaseMapper {
                 iMemberMapper.memberApplyBackToGrow(userId);
                 break;
             case OwConstants.OW_APPLY_STAGE_DRAW:  // 当前状态为领取志愿书，退回领取志愿书初始状态
-                iMemberMapper.memberApplyBackToDraw(userId);
+
+                Byte growStatus = null;
+                if(!CmTag.getBoolProperty("draw_od_check")) {
+                    growStatus = OwConstants.OW_APPLY_STATUS_OD_CHECKED;
+                }
+                iMemberMapper.memberApplyBackToDraw(userId, growStatus);
                 break;
             case OwConstants.OW_APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= OwConstants.OW_APPLY_STAGE_DRAW)
                 iMemberMapper.memberApplyBackToPlan(userId);

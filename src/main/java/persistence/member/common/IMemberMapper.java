@@ -113,10 +113,11 @@ public interface IMemberMapper {
 
     // 退回至 领取志愿书（初始状态）
     @Update("update ow_member_apply set stage=" + OwConstants.OW_APPLY_STAGE_DRAW
-            + ", grow_status=null, grow_time=null "
+            + ", grow_status=#{growStatus}, grow_time=null "
             + ", positive_status=null, positive_time=null "
             + "where user_id=#{userId} and stage>=" + OwConstants.OW_APPLY_STAGE_DRAW)
-    void memberApplyBackToDraw(@Param("userId") int userId);
+    void memberApplyBackToDraw(@Param("userId") int userId, @Param("growStatus") Byte growStatus);
+
 
     // 退回至 列入发展计划（初始状态）
     @Update("update ow_member_apply set stage=" + OwConstants.OW_APPLY_STAGE_PLAN
