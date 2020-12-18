@@ -293,7 +293,7 @@ public class MemberController extends MemberBaseController {
                 }
                 Branch branch = runBranchMap.get(branchCode);
                 if (branch == null) {
-                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, branchCode);
                 }
                 record.setBranchId(branch.getId());
             }
@@ -477,7 +477,7 @@ public class MemberController extends MemberBaseController {
                 }
                 Branch branch = runBranchMap.get(branchCode);
                 if (branch == null) {
-                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, branchCode);
                 }
                 record.setBranchId(branch.getId());
             }
