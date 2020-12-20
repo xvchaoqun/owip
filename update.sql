@@ -4,6 +4,13 @@
 -- 领取志愿书不需要组织部审核bug
 -- update ow_member_apply set grow_status=2 where stage=5 and grow_status is null;
 
+ALTER TABLE `ow_member`
+	ADD COLUMN `remark4` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注4' AFTER `remark3`,
+	ADD COLUMN `remark5` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注5' AFTER `remark4`,
+	ADD COLUMN `remark6` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注6' AFTER `remark5`;
+
+
+
 20201215
 
 -- 更新utils

@@ -786,6 +786,13 @@ public class MemberService extends MemberBaseMapper {
             record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));//党内职务
             record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setSource(Byte.valueOf(xlsRow.get(col++)));
+            record.setRemark1(xlsRow.get(col++));
+            record.setRemark2(xlsRow.get(col++));
+            record.setRemark3(xlsRow.get(col++));
+            record.setRemark4(xlsRow.get(col++));
+            record.setRemark5(xlsRow.get(col++));
+            record.setRemark6(xlsRow.get(col++));
             record.setCreateTime(now);
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
             // 默认为原有党员导入

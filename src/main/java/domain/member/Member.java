@@ -61,6 +61,12 @@ public class Member implements Serializable {
 
     private String remark3;
 
+    private String remark4;
+
+    private String remark5;
+
+    private String remark6;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -285,5 +291,29 @@ public class Member implements Serializable {
 
     public void setRemark3(String remark3) {
         this.remark3 = remark3 == null ? null : remark3.trim();
+    }
+
+    public String getRemark4() {
+        return remark4;
+    }
+
+    public void setRemark4(String remark4) {
+        this.remark4 = remark4 == null ? null : remark4.trim();
+    }
+
+    public String getRemark5() {
+        return remark5;
+    }
+
+    public void setRemark5(String remark5) {
+        this.remark5 = remark5 == null ? null : remark5.trim();
+    }
+
+    public String getRemark6() {
+        return remark6;
+    }
+
+    public void setRemark6(String remark6) {
+        this.remark6 = remark6 == null ? null : remark6.trim();
     }
 }

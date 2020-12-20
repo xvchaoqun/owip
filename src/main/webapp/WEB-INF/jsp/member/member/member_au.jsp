@@ -192,22 +192,43 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label">备注1</label>
                 <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-                                  name="remark1">${member.remark1}</textarea>
+                    <input class="form-control" type="text"  maxlength="100"
+                                  name="remark1" value="${member.remark1}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">备注2</label>
                 <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-                                  name="remark2">${member.remark2}</textarea>
+                    <input class="form-control" type="text"  maxlength="100"
+                                  name="remark2" value="${member.remark2}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">备注3</label>
                 <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-                                  name="remark3">${member.remark3}</textarea>
+                    <input class="form-control" type="text"  maxlength="100"
+                                  name="remark3" value="${member.remark3}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注4</label>
+                <div class="col-xs-8">
+                    <input class="form-control" type="text"  maxlength="100"
+                                  name="remark4" value="${member.remark4}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注5</label>
+                <div class="col-xs-8">
+                    <input class="form-control" type="text"  maxlength="100"
+                                  name="remark5" value="${member.remark5}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注6</label>
+                <div class="col-xs-8">
+                    <input class="form-control" type="text"  maxlength="100"
+                                  name="remark6" value="${member.remark6}"/>
                 </div>
             </div>
             <div class="form-group">

@@ -35,14 +35,14 @@
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
         </table>-->
 
-        <table tableName="ow_member_out" domainObjectName="member.MemberOut">
+        <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
        </table>
         <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-         </table>
+         </table>-->
         <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
         </table>-->
 
@@ -110,7 +110,7 @@
                 mapperName="member.ApplySnMapper">
          </table>-->
 
-         <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+         <!--<table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>
@@ -122,7 +122,7 @@
                enableDeleteByExample="false">
            <ignoreColumn column="update_time"/>
             <columnOverride column="remark" jdbcType="VARCHAR"/>
-       </table>
+       </table>-->
 
         <!--<table tableName="ow_member_certify" domainObjectName="member.MemberCertify" mapperName="member.MemberCertifyMapper">
         </table>-->
