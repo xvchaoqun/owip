@@ -110,7 +110,7 @@
                 mapperName="member.ApplySnMapper">
          </table>-->
 
-        <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+         <!--<table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>

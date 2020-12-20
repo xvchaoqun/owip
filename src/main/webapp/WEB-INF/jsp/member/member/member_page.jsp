@@ -23,8 +23,10 @@
              ||not empty param.politicalStatus||not empty param.userSource
                 ||not empty param._growTime ||not empty param._positiveTime
                 ||not empty param._outHandleTime || not empty param.partyId
-                ||not empty param._integrity||not empty param.studentType||not empty param.grade||not empty param.remark1
-                ||not empty param.remark2||not empty param.remark3}"/>
+                ||not empty param._integrity||not empty param.studentType||not empty param.grade
+                ||not empty param.remark||not empty param.remark1
+                ||not empty param.remark2||not empty param.remark3||not empty param.remark4
+                ||not empty param.remark5||not empty param.remark6}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
 
@@ -348,8 +350,9 @@
                                         </div>
                                         <c:if test="${cls!=6&&cls!=7}">
                                             <div class="form-group">
-                                                <label>所在${_p_partyName}</label>
-                                                <select class="form-control" data-width="350" data-rel="select2-ajax"
+                                                <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"
+							  data-prompt="选择${_p_partyName}后，会出现党支部的选择（二级联动）"><i class="fa fa-question-circle-o"></i></span></label>
+                                                <select class="form-control" data-width="250" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择">
                                                     <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
@@ -427,16 +430,33 @@
                                         </div>
                                             </c:if>
                                         <div class="form-group">
+                                            <label>备注<span class="prompt" data-title="查询说明"
+							  data-prompt="从“备注1”至“备注6”中查询"><i class="fa fa-question-circle-o"></i></span></label>
+                                            <input type="text" name="remark" value="${param.remark}" style="width: 80px">
+                                        </div>
+                                        <div class="form-group">
                                             <label>备注1</label>
-                                            <input type="text" name="remark1" value="${param.remark1}">
+                                            <input type="text" name="remark1" value="${param.remark1}" style="width: 80px">
                                         </div>
                                         <div class="form-group">
                                             <label>备注2</label>
-                                            <input type="text" name="remark2" value="${param.remark2}">
+                                            <input type="text" name="remark2" value="${param.remark2}" style="width: 80px">
                                         </div>
                                         <div class="form-group">
                                             <label>备注3</label>
-                                            <input type="text" name="remark3" value="${param.remark3}">
+                                            <input type="text" name="remark3" value="${param.remark3}" style="width: 80px">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>备注4</label>
+                                            <input type="text" name="remark4" value="${param.remark4}" style="width: 80px">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>备注5</label>
+                                            <input type="text" name="remark5" value="${param.remark5}" style="width: 80px">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>备注6</label>
+                                            <input type="text" name="remark6" value="${param.remark6}" style="width: 80px">
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -596,6 +616,9 @@
             {label: '备注1', name: 'remark1', width: 150,align:'left'},
             {label: '备注2', name: 'remark2', width: 150,align:'left'},
             {label: '备注3', name: 'remark3', width: 150,align:'left'},
+            {label: '备注4', name: 'remark4', width: 150,align:'left'},
+            {label: '备注5', name: 'remark5', width: 150,align:'left'},
+            {label: '备注6', name: 'remark6', width: 252,align:'left'},
             /*{label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
             {label: '所在院系', name: 'unit', width: 180, align: 'left'},*/
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}

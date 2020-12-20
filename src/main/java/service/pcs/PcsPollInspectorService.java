@@ -121,14 +121,18 @@ public class PcsPollInspectorService extends PcsBaseMapper {
     }
 
     private String buildUsername() {
-        String username = RandomStringUtils.random(5, "abcdefghigklmnopqrstuvwxyz")
-                + RandomStringUtils.random(3, "12345678");
-        PcsPollInspectorExample example = new PcsPollInspectorExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        while (pcsPollInspectorMapper.countByExample(example) > 0){
-            username = RandomStringUtils.random(5, "abcdefghigklmnopqrstuvwxyz")
-                    + RandomStringUtils.random(3, "12345678");
-        }
+
+        PcsPollInspectorExample example = null;
+        String username = null;
+
+        do{
+            username = RandomStringUtils.random(6, "abcdefghijkmnpqrstuvwxy")
+                + RandomStringUtils.random(2, "23456789");
+
+            example = new PcsPollInspectorExample();
+            example.createCriteria().andUsernameEqualTo(username);
+
+        }while (pcsPollInspectorMapper.countByExample(example) > 0);
 
         return username;
     }

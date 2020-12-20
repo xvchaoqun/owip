@@ -30,6 +30,9 @@
     <result column="remark1" jdbcType="VARCHAR" property="remark1" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="remark3" jdbcType="VARCHAR" property="remark3" />
+    <result column="remark4" jdbcType="VARCHAR" property="remark4" />
+    <result column="remark5" jdbcType="VARCHAR" property="remark5" />
+    <result column="remark6" jdbcType="VARCHAR" property="remark6" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -93,7 +96,7 @@
     user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
     positive_branch, create_time, party_post, party_reward, other_reward, label, profile, 
-    integrity, sort_order, remark1, remark2, remark3
+    integrity, sort_order, remark1, remark2, remark3, remark4, remark5, remark6
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">
     select
@@ -135,7 +138,8 @@
       party_post, party_reward, other_reward, 
       label, profile, integrity, 
       sort_order, remark1, remark2, 
-      remark3)
+      remark3, remark4, remark5, 
+      remark6)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{source,jdbcType=TINYINT}, #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=DATE}, 
@@ -145,7 +149,8 @@
       #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, 
       #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{integrity,jdbcType=DECIMAL}, 
       #{sortOrder,jdbcType=REAL}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, 
-      #{remark3,jdbcType=VARCHAR})
+      #{remark3,jdbcType=VARCHAR}, #{remark4,jdbcType=VARCHAR}, #{remark5,jdbcType=VARCHAR}, 
+      #{remark6,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.Member">
     insert into ow_member
@@ -234,6 +239,15 @@
       <if test="remark3 != null">
         remark3,
       </if>
+      <if test="remark4 != null">
+        remark4,
+      </if>
+      <if test="remark5 != null">
+        remark5,
+      </if>
+      <if test="remark6 != null">
+        remark6,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -319,6 +333,15 @@
       </if>
       <if test="remark3 != null">
         #{remark3,jdbcType=VARCHAR},
+      </if>
+      <if test="remark4 != null">
+        #{remark4,jdbcType=VARCHAR},
+      </if>
+      <if test="remark5 != null">
+        #{remark5,jdbcType=VARCHAR},
+      </if>
+      <if test="remark6 != null">
+        #{remark6,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -415,6 +438,15 @@
       <if test="record.remark3 != null">
         remark3 = #{record.remark3,jdbcType=VARCHAR},
       </if>
+      <if test="record.remark4 != null">
+        remark4 = #{record.remark4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark5 != null">
+        remark5 = #{record.remark5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark6 != null">
+        remark6 = #{record.remark6,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -449,7 +481,10 @@
       sort_order = #{record.sortOrder,jdbcType=REAL},
       remark1 = #{record.remark1,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
-      remark3 = #{record.remark3,jdbcType=VARCHAR}
+      remark3 = #{record.remark3,jdbcType=VARCHAR},
+      remark4 = #{record.remark4,jdbcType=VARCHAR},
+      remark5 = #{record.remark5,jdbcType=VARCHAR},
+      remark6 = #{record.remark6,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -538,6 +573,15 @@
       <if test="remark3 != null">
         remark3 = #{remark3,jdbcType=VARCHAR},
       </if>
+      <if test="remark4 != null">
+        remark4 = #{remark4,jdbcType=VARCHAR},
+      </if>
+      <if test="remark5 != null">
+        remark5 = #{remark5,jdbcType=VARCHAR},
+      </if>
+      <if test="remark6 != null">
+        remark6 = #{remark6,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -569,7 +613,10 @@
       sort_order = #{sortOrder,jdbcType=REAL},
       remark1 = #{remark1,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
-      remark3 = #{remark3,jdbcType=VARCHAR}
+      remark3 = #{remark3,jdbcType=VARCHAR},
+      remark4 = #{remark4,jdbcType=VARCHAR},
+      remark5 = #{remark5,jdbcType=VARCHAR},
+      remark6 = #{remark6,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">

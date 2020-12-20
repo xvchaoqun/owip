@@ -569,7 +569,7 @@ public class OrganizerController extends BaseController {
                             throw new OpException("第{0}行联系党支部编码为空", row);
                         }
                         if (branch == null) {
-                            throw new OpException("第{0}行联系党支部编码[{1}]不存在", row, partyCode);
+                            throw new OpException("第{0}行联系党支部编码[{1}]不存在", row, branchCode);
                         }
                         if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),party.getId(),branch.getId())){
                             throw new OpException("您没有权限导入第{0}行联系党支部数据", row);

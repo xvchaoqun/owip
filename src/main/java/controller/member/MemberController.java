@@ -996,9 +996,13 @@ public class MemberController extends MemberBaseController {
                             //@RequestDateRange DateRange _retireTime,
                             //Boolean isHonorRetire,
 
+                            String remark,
                             String remark1,
                             String remark2,
                             String remark3,
+                            String remark4,
+                            String remark5,
+                            String remark6,
 
                             @RequestParam(required = false, defaultValue = "0") int export,
                             Integer[] ids, // 导出的记录
@@ -1207,6 +1211,9 @@ public class MemberController extends MemberBaseController {
         if (StringUtils.isNotBlank(idcard)){
             criteria.andIdcardEqualTo(idcard.trim());
         }
+        if (StringUtils.isNotBlank(remark)){
+            criteria.andRemarkLike(remark);
+        }
         if (StringUtils.isNotBlank(remark1)){
             criteria.andRemark1Like(SqlUtils.trimLike(remark1));
         }
@@ -1215,6 +1222,15 @@ public class MemberController extends MemberBaseController {
         }
         if (StringUtils.isNotBlank(remark3)){
             criteria.andRemark3Like(SqlUtils.trimLike(remark3));
+        }
+        if (StringUtils.isNotBlank(remark4)){
+            criteria.andRemark4Like(SqlUtils.trimLike(remark4));
+        }
+        if (StringUtils.isNotBlank(remark5)){
+            criteria.andRemark5Like(SqlUtils.trimLike(remark5));
+        }
+        if (StringUtils.isNotBlank(remark6)){
+            criteria.andRemark6Like(SqlUtils.trimLike(remark6));
         }
 
         if (export == 1) {
