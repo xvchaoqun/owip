@@ -101,7 +101,7 @@ public class MemberService extends MemberBaseMapper {
             // 同步教职工信息
             syncService.snycTeacherInfo(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_BKS
-                || type == SystemConstants.USER_TYPE_YJS) {
+                || type == SystemConstants.USER_TYPE_SS) {
 
             // 同步研究生信息
             syncService.snycStudent(userId, uv);
@@ -169,7 +169,7 @@ public class MemberService extends MemberBaseMapper {
             // 同步本科生信息
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             syncService.snycStudent(userId, uv);
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
+        } else if (type == SystemConstants.USER_TYPE_SS || type == SystemConstants.USER_TYPE_BS) {
 
             // 同步研究生信息
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
@@ -462,7 +462,7 @@ public class MemberService extends MemberBaseMapper {
 
             memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
             //syncService.snycStudent(userId, newUser);
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
+        } else if (type == SystemConstants.USER_TYPE_SS || type == SystemConstants.USER_TYPE_BS) {
 
             memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
             //syncService.snycStudent(userId, newUser);
@@ -632,7 +632,7 @@ public class MemberService extends MemberBaseMapper {
                 record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
             } else if (type == SystemConstants.USER_TYPE_BKS) {
                 record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
-            } else if (type == SystemConstants.USER_TYPE_YJS) {
+            } else if (type == SystemConstants.USER_TYPE_SS || type == SystemConstants.USER_TYPE_BS) {
                 record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
             } else {
                 throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());

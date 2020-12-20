@@ -65,6 +65,8 @@ public class MemberView implements Serializable {
 
     private Byte userSource;
 
+    private Byte userType;
+
     private String username;
 
     private String code;
@@ -433,6 +435,14 @@ public class MemberView implements Serializable {
 
     public void setUserSource(Byte userSource) {
         this.userSource = userSource;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 
     public String getUsername() {

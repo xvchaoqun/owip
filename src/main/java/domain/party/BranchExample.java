@@ -1,10 +1,9 @@
 package domain.party;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class BranchExample {
     protected String orderByClause;
@@ -460,6 +459,17 @@ public class BranchExample {
 
         public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
             addCriterion("party_id not between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypesContain(Set<String> typesSet) {
+
+            List<String> typesList = new ArrayList<>();
+            for (String types : typesSet) {
+                typesList.add("find_in_set("+types+", types)");
+            }
+            addCriterion("(" + StringUtils.join(typesList, " or ") + ")");
+
             return (Criteria) this;
         }
 

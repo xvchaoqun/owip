@@ -78,7 +78,7 @@ public class MemberConstants {
         MEMBER_POLITICAL_STATUS_MAP.put(MEMBER_POLITICAL_STATUS_POSITIVE, "正式党员");
     }
 
-    // 党员类别，用于党员信息、流动党员、校内组织关系互转
+    // 党员大类别
     public final static byte MEMBER_TYPE_TEACHER = 1; //教工
     public final static byte MEMBER_TYPE_STUDENT = 2; //学生
     public final static Map<Byte, String> MEMBER_TYPE_MAP = new LinkedHashMap<>();

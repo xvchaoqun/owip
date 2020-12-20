@@ -1,5 +1,11 @@
 
 
+-- 2020.12.17 ly
+ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;
+-- 更新ow_member_view
+
+
 -- 2020.11.25 ly
 UPDATE `sys_resource` SET `name`='系统提醒', `url`='/sys/sysMsg?cls=2' WHERE  `id`=3031;
 UPDATE `sys_resource` SET `name`='系统提醒', `url`='/sys/sysMsg?cls=1' WHERE  `id`=3032;

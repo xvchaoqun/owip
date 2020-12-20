@@ -1,5 +1,24 @@
 
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2565, 0, '组织机构年统数据', '组织部', 'url', '', '/stat/owSum', 260, '0/1/260/', 1, 'stat:owSum', NULL, NULL, NULL, 1, 70);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (19, '党工委', 'mt_party_work', NULL, '', '', 113, 1);
+UPDATE `base_meta_type` SET `name`='二级党委' WHERE  `id`=55;
+UPDATE `base_meta_type` SET `name`='二级党总支' WHERE  `id`=56;
+ALTER TABLE `ow_party`
+	ALTER `class_id` DROP DEFAULT;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `class_id` `class_id` INT(10) UNSIGNED NOT NULL COMMENT '党总支类别，关联元数据，党工委、分党委、党总支、直属党支部' AFTER `unit_id`;
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (68, 23, '研究生导师纵向党支部', 'mt_graduate_teacher', NULL, '', '', 122, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (69, 23, '硕博研究生党支部', 'mt_sb_graduate', NULL, '', '', 123, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, 23, '博士生党支部', 'mt_bs_graduate', NULL, '', '', 124, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (71, 23, '硕士生党支部', 'mt_ss_graduate', NULL, '', '', 125, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (72, 23, '本科生辅导员纵向党支部', 'mt_undergraduate_ assistant', NULL, '', '', 126, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (73, 23, '离退休党支部', 'mt_retire', NULL, '', '', 127, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (74, 23, '专任教师党支部', 'mt_professional_teacher', NULL, '', '', 128, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (129, 23, '机关行政产业后勤教工党支部', 'mt_support_teacher', NULL, '', '', 129, 1);
+
+
+
 -- 20191231 ly 党员发展流程时间点限制提醒开关
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('memberApply_timeLimit', '党员发展流程', 'false', 3, 49, '党员发展流程时间点限制提醒:是否显示');
 

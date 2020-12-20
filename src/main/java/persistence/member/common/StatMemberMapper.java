@@ -3,6 +3,7 @@ package persistence.member.common;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -50,7 +51,17 @@ public interface StatMemberMapper {
     //统计党员中民族为空的人数
     Integer countNull(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
-    //党支部信息统计
-    //
+    //年统数据表中统计党支部数量
+    @Select("select count(id) from ow_branch where find_in_set(#{metaId},types)")
+    Integer getBranchCountByType(@Param("metaId")Integer metaId);
+
+    //年统数据表中统计党员数量
+    Integer getMemberCount(@Param("type") Byte type,
+                           @Param("userType") Byte userType,
+                           @Param("isRetire") Boolean isRetire,
+                           @Param("proPostLevel") String proPostLevel,
+                           @Param("branchIdList") List<Integer> branchIdList,
+                           @Param("proPostLevel1") String proPostLevel1,
+                           @Param("proPostLevel2") String proPostLevel2);
 
 }

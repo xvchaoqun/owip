@@ -1,22 +1,32 @@
 package controller.analysis;
 
 import controller.BaseController;
+import domain.base.MetaType;
+import domain.party.Branch;
+import domain.party.BranchExample;
 import domain.party.Party;
+import domain.party.PartyExample;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import persistence.member.common.MemberStatByPartyBean;
 import sys.constants.MemberConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.NumberUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiresPermissions("stat:ow")
@@ -105,5 +115,94 @@ public class StatOwController extends BaseController {
         modelMap.put("branchTypeMap", statService.branchTypeMap(partyId));
 
         return "analysis/ow/stat_branch_type";
+    }
+
+    // 党组织年统数据
+    @RequiresPermissions("stat:owSum")
+    @RequestMapping("/stat/owSum")
+    public String stat_party_sum(@RequestParam(required = false, defaultValue = "0") int export,
+                                 ModelMap modelMap,
+                                 HttpServletResponse response) throws IOException {
+
+                                 List<MetaType> metaTypes = new ArrayList<>();
+        List<Integer> partyCounts = new ArrayList<>();
+        int partySumCount = 0;
+        Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_party_class");
+        for (Map.Entry<Integer, MetaType> entry : metaTypeMap.entrySet()){
+            metaTypes.add(entry.getValue());
+            PartyExample example = new PartyExample();
+            example.createCriteria().andIsDeletedEqualTo(false).andClassIdEqualTo(entry.getValue().getId());
+            int partyCount = (int) partyMapper.countByExample(example);
+            partyCounts.add(partyCount);
+            partySumCount += partyCount;
+        }
+        modelMap.put("metaTypes", metaTypes);
+        modelMap.put("partyCounts", partyCounts);
+        modelMap.put("partySumCount", partySumCount);
+
+        //专任教师党支部
+        Integer professionalCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_professional_teacher").getId());
+        modelMap.put("professionalCount", professionalCount);
+        //机关行政产业后勤教工党支部
+        Integer supportCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_support_teacher").getId());
+        modelMap.put("supportCount", supportCount);
+        //离退休党支部总数
+        Integer retireCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_retire").getId());
+        modelMap.put("retireCount", retireCount);
+        //本科生辅导员纵向党支部
+        Integer undergraduateCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_undergraduate_assistant").getId());
+        modelMap.put("undergraduateCount", undergraduateCount);
+        //研究生导师纵向党支部
+        Integer graduateCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_graduate_teacher").getId());
+        modelMap.put("graduateCount", graduateCount);
+        //硕士生党支部
+        Integer ssCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_ss_graduate").getId());
+        modelMap.put("ssCount", ssCount);
+        //硕博研究生党支部
+        Integer sbCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_sb_graduate").getId());
+        modelMap.put("sbCount", sbCount);
+        //博士生党支部
+        Integer bsCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_bs_graduate").getId());
+        modelMap.put("bsCount", bsCount);
+
+        Integer branchTotalCount = professionalCount+supportCount+retireCount+undergraduateCount+graduateCount+ssCount+sbCount+bsCount;
+        modelMap.put("branchTotalCount", branchTotalCount);
+
+        Set<String> typesSet = new HashSet<>();
+        typesSet.add(CmTag.getMetaTypeByCode("mt_professional_teacher").getId()+"");
+        BranchExample branchExample = new BranchExample();
+        branchExample.createCriteria().andIsDeletedEqualTo(false).andTypesContain(typesSet);
+        List<Branch> branchList = branchMapper.selectByExample(branchExample);
+        List<Integer> branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
+
+        //师生党员总数
+        modelMap.put("totalCount", statMemberMapper.getMemberCount(null, null, null, null ,null,null,null));
+        //教工党员总数
+        modelMap.put("teacherCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, false, null ,null,null,null));
+        //正高级
+        modelMap.put("chiefCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, false, "正高" ,branchIdList,null,null));
+        //副高级
+        modelMap.put("deputyCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, "副高" ,branchIdList,null,null));
+        //中级及以下
+        modelMap.put("middleCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, null ,branchIdList,"正高","副高"));
+        //离退休教工党员总数
+        modelMap.put("retireCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, true, null ,null,null,null));
+        //本科生党员
+        modelMap.put("bksCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BKS, null, null ,null,null,null));
+        //硕士生党员
+        modelMap.put("ssCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_SS, null, null ,null,null,null));
+        //博士生党员
+        modelMap.put("bsCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BS, null, null, null, null ,null));
+
+        if (export == 1) {
+
+            XSSFWorkbook wb = statService.toXlsx(modelMap, partyCounts);
+
+            String fileName = sysConfigService.getSchoolName()
+                    + "基层党组织及党员信息总表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+            ExportHelper.output(wb, fileName + ".xlsx", response);
+            return null;
+        }
+        return "analysis/ow/stat_ow_sum";
     }
 }

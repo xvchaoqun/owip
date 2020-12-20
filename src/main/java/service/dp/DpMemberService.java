@@ -156,7 +156,7 @@ public class DpMemberService extends DpBaseMapper {
 
         //是否是共产党员
         Member member = memberService.get(userId);
-        record.setIsPartyMember(member != null && (member.getType()==1 || member.getType() == 4));
+        record.setIsPartyMember(member != null && (member.getStatus()==1 || member.getStatus() == 4));
 
         boolean isAdd = false;
         DpMember dpMember = get(userId);

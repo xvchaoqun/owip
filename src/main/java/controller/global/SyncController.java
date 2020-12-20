@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.sys.SysSyncService;
 import sys.constants.LogConstants;
@@ -130,7 +129,7 @@ public class SyncController extends BaseController {
             List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
             if(extJzges.size()==1) syncService.syncExtJzg(extJzges.get(0));
         }else {
-            if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
+            if (sysUser.getType() == SystemConstants.USER_TYPE_SS) {
                 extYjsImport.byCode(code);
 
                 ExtYjsExample example = new ExtYjsExample();

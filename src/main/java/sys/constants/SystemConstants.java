@@ -231,13 +231,15 @@ public class SystemConstants {
     // 账号类别，1教职工 2本科生 3研究生
     public final static byte USER_TYPE_JZG = 1;
     public final static byte USER_TYPE_BKS = 2;
-    public final static byte USER_TYPE_YJS = 3;
+    public final static byte USER_TYPE_SS = 3;
+    public final static byte USER_TYPE_BS = 4;
     public final static Map<Byte, String> USER_TYPE_MAP = new LinkedHashMap();
 
     static {
         USER_TYPE_MAP.put(USER_TYPE_JZG, "教职工");
         USER_TYPE_MAP.put(USER_TYPE_BKS, "本科生");
-        USER_TYPE_MAP.put(USER_TYPE_YJS, "研究生");
+        USER_TYPE_MAP.put(USER_TYPE_SS, "硕士研究生");
+        USER_TYPE_MAP.put(USER_TYPE_BS, "博士研究生");
     }
 
     // 同步类型，1人事库 2研究库 3本科生库 4教职工党员出国信息库 5 离退休人员党费计算基数 6教职工工资

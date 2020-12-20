@@ -37,7 +37,7 @@ public class SysOnlineStaticService extends BaseMapper {
                 switch (shiroUser.getType().byteValue()){
                     case SystemConstants.USER_TYPE_BKS:
                         bks++; break;
-                    case SystemConstants.USER_TYPE_YJS:
+                    case SystemConstants.USER_TYPE_SS:
                         yjs++; break;
                     case SystemConstants.USER_TYPE_JZG:
                         jzg++; break;

@@ -86,4 +86,34 @@
         select count(*) from ow_member_view where status=1 and nation is null
         <include refid="Where_ow"/>
     </select>
+
+    <sql id="where_stat_ow_sum">
+        <if test="branchIdList!=null and branchIdList.size>0">
+            and branch_id in
+            <foreach collection="branchIdList" item="branchId"
+                     index="index" open="(" close=")" separator=",">
+                #{branchId}
+            </foreach>
+        </if>
+        <if test="isRetire!=null">
+            and is_retire =#{isRetire}
+        </if>
+        <if test="type!=null">
+            and type =#{type}
+        </if>
+        <if test="userType!=null">
+            and user_type =#{userType}
+        </if>
+        <if test="proPostLevel!=null">
+            and pro_post_level =#{proPostLevel}
+        </if>
+        <if test="proPostLevel1!=null and proPostLevel2!=null">
+            and pro_post_level !=#{proPostLevel1} and pro_post_level!=#{proPostLevel2}
+        </if>
+    </sql>
+    <select id="getMemberCount" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from ow_member_view where status=1
+        <include refid="where_stat_ow_sum"/>
+    </select>
+
 </mapper>

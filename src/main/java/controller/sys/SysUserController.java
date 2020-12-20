@@ -76,7 +76,7 @@ public class SysUserController extends BaseController {
 
             bean = extJzgMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_jzg");
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
+        } else if (type == SystemConstants.USER_TYPE_SS) {
 
             bean = extYjsMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_yjs");

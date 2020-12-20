@@ -828,6 +828,7 @@ public class SysUserService extends BaseMapper {
         }
     }
 
+    // TODO: 2020/12/17 导出账号时，区分硕士博士
     //根据身份证号或姓名找到对应的学工号
     public Map<String, List<String>> getCodes(Byte roleType, //0：混合 1：干部
                                               Byte colType, //0：身份证 1：姓名
@@ -875,8 +876,8 @@ public class SysUserService extends BaseMapper {
                 criteria.andTypeEqualTo(type);
             }
 
-            // 按账号类别 教职工、研究生、本科生的排序
-            example.setOrderByClause("field(type, 1,3,2) asc");
+            // 按账号类别 教职工、博士、硕士、本科生的排序
+            example.setOrderByClause("field(type, 1,4,3,2) asc");
 
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
 
@@ -886,7 +887,17 @@ public class SysUserService extends BaseMapper {
 
                 SysUserView firstUv = uvs.get(0);
                 byte _type = firstUv.getType();
-                if (_type == SystemConstants.USER_TYPE_YJS) {
+                //账号区分硕士和博士以后直接用这段代码即可
+                /*for (SysUserView uv : uvs) {
+                    if (null != birthKey) {
+                        if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
+                            codeList.add(0, uv.getCode());
+                        }
+                    } else {
+                        codeList.add(uv.getCode());
+                    }
+                }*/
+                if (_type == SystemConstants.USER_TYPE_SS || _type == SystemConstants.USER_TYPE_BS) {
                     boolean flag = false;//当账号类型为博士时，flag=true，保证code不会再被硕士类型的账号赋值
                     for (SysUserView uv : uvs) {
 
