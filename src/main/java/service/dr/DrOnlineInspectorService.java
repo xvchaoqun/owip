@@ -3,8 +3,8 @@ package service.dr;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlineInspectorExample;
 import domain.dr.DrOnlineResultExample;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.DrConstants;
@@ -68,17 +68,19 @@ public class DrOnlineInspectorService extends DrBaseMapper {
 
     public String buildUsername(){
 
-        String username = RandomStringUtils.random(5, "abcdefghigklmnopqrstuvwxyz")
-                + RandomStringUtils.random(3, "12345678");
-        DrOnlineInspectorExample example = new DrOnlineInspectorExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        while (drOnlineInspectorMapper.countByExample(example) > 0){
-            username = RandomStringUtils.random(5, "abcdefghigklmnopqrstuvwxyz")
-                    + RandomStringUtils.random(3, "12345678");
-        }
+        DrOnlineInspectorExample example = null;
+        String username = null;
+
+        do{
+            username = RandomStringUtils.random(6, "abcdefghijkmnpqrstuvwxy")
+                + RandomStringUtils.random(2, "23456789");
+
+            example = new DrOnlineInspectorExample();
+            example.createCriteria().andUsernameEqualTo(username);
+
+        }while (drOnlineInspectorMapper.countByExample(example) > 0);
 
         return username;
-
     }
 
     // 作废参评人

@@ -225,17 +225,17 @@ public class CetTrainInspectorService extends CetBaseMapper {
 
     public String buildUsername() {
 
-        //String username = RandomStringUtils.randomAlphabetic(6).toLowerCase() + RandomStringUtils.randomNumeric(2);
-        String username = RandomStringUtils.random(6, "abcdefghijkmnpqrstuvwxy")
-                + RandomStringUtils.random(2, "23456789");
-        CetTrainInspectorExample example = new CetTrainInspectorExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        while (cetTrainInspectorMapper.countByExample(example) > 0) {
+        CetTrainInspectorExample example = null;
+        String username = null;
 
-            //username = RandomStringUtils.randomAlphabetic(6).toLowerCase() + RandomStringUtils.randomNumeric(2);
+        do{
             username = RandomStringUtils.random(6, "abcdefghijkmnpqrstuvwxy")
-                    + RandomStringUtils.random(2, "23456789");
-        }
+                + RandomStringUtils.random(2, "23456789");
+
+            example = new CetTrainInspectorExample();
+            example.createCriteria().andUsernameEqualTo(username);
+
+        }while (cetTrainInspectorMapper.countByExample(example) > 0);
 
         return username;
     }
