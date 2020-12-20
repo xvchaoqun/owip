@@ -109,7 +109,7 @@ public abstract class ICommonService {
             sysSync.combine(userSync);
 
             // 姓名不覆盖
-            if(sysSync.realname && sysUserInfo.getRealname()!=null){
+            if(sysSync.realname && StringUtils.isNotBlank(sysUserInfo.getRealname())){
                 ui.setRealname(null);
             }
 
@@ -122,7 +122,7 @@ public abstract class ICommonService {
                 ui.setBirth(null);
             }
             // 民族
-            if(sysSync.nation && sysUserInfo.getNation()!=null){
+            if(sysSync.nation && StringUtils.isNotBlank(sysUserInfo.getNation())){
                 ui.setNation(null);
             }
 
