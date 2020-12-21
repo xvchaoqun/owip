@@ -218,19 +218,12 @@ public class StatService extends BaseMapper {
         cell = row.getCell(0);
         cell.setCellValue(modelMap.get("partySumCount").toString());
 
-        /*int i=1;
-        for (Integer partyCount : partyCounts) {
-            cell = row.getCell(i);
-            cell.setCellValue(partyCount);
-            i++;
-        }*/
         int j = 5;
         for (int i = 1; i <= partyCounts.size(); i++) {
             cell = row.getCell(j);
             cell.setCellValue(partyCounts.get(i-1)+"");
             j=j+2;
         }
-
 
         //党支部总数
         row = sheet.getRow(8);
