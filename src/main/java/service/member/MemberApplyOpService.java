@@ -489,13 +489,19 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     _memberApply.getGrowStatus()==OwConstants.OW_APPLY_STATUS_UNCHECKED){
                 throw new OpException("{0}已提交，请勿重复操作。", realname);
             }
-            if(_memberApply.getGrowStatus()==null ||
-                    _memberApply.getGrowStatus()!=OwConstants.OW_APPLY_STATUS_OD_CHECKED){
-                throw new OpException("{0}待组织部审核之后，才能提交。", realname);
-            }
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                if (_memberApply.getGrowStatus() == null ||
+                        _memberApply.getGrowStatus() != OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
+                    throw new OpException("{0}待组织部审核之后，才能提交。", realname);
+                }
 
-            if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW){
-                throw new OpException("{0}状态异常，还没到领取志愿书阶段。", realname);
+                if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DRAW) {
+                    throw new OpException("{0}状态异常，还没到领取志愿书阶段。", realname);
+                }
+            }else {
+                if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_CANDIDATE) {
+                    throw new OpException("{0}状态异常，还没到发展对象阶段。", realname);
+                }
             }
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
@@ -515,16 +521,23 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "领取志愿书，直属党支部提交");
+                        CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，直属党支部提交":"领取志愿书，直属党支部提交");
             }else {
                 MemberApply record = new MemberApply();
                 record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
                 record.setGrowTime(growTime);
 
                 MemberApplyExample example = new MemberApplyExample();
-                example.createCriteria().andUserIdEqualTo(userId)
-                        .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
-                        .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
+                if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                    example.createCriteria().andUserIdEqualTo(userId)
+                            .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+                    record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+                    record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+                }else {
+                    example.createCriteria().andUserIdEqualTo(userId)
+                            .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                            .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
+                }
 
                 if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
@@ -535,7 +548,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                             OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                             OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                             OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                            "领取志愿书，支部提交");
+                            CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，支部提交":"领取志愿书，支部提交");
                 }
             }
         }
@@ -557,7 +570,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "领取志愿书，分党委审核");
+                    CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，分党委审核":"领取志愿书，分党委审核");
         }
     }
 
@@ -761,12 +774,14 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 throw new OpException("退回状态有误。");
             }
             String applySnOp = "";
-            // 退回领取志愿书或领取志愿书之前，需要清除志愿书编码
-            if(_stage>=OwConstants.OW_APPLY_STAGE_DRAW && stage <= OwConstants.OW_APPLY_STAGE_DRAW){
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                // 退回领取志愿书或领取志愿书之前，需要清除志愿书编码
+                if (_stage >= OwConstants.OW_APPLY_STAGE_DRAW && stage <= OwConstants.OW_APPLY_STAGE_DRAW) {
 
-                applySnService.clearAssign(userId, BooleanUtils.isTrue(applySnReuse));
-                if(StringUtils.isNotBlank(memberApply.getApplySn())) {
-                    applySnOp = "(" + (BooleanUtils.isTrue(applySnReuse) ? "重新使用编码" : "作废编码") + ")";
+                    applySnService.clearAssign(userId, BooleanUtils.isTrue(applySnReuse));
+                    if (StringUtils.isNotBlank(memberApply.getApplySn())) {
+                        applySnOp = "(" + (BooleanUtils.isTrue(applySnReuse) ? "重新使用编码" : "作废编码") + ")";
+                    }
                 }
             }
 

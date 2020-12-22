@@ -157,12 +157,20 @@ public class PartyHelper {
                 }
                 break;
             case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                if (memberApply.getPlanStatus() == null || memberApply.getPlanTime() == null) {
-                    stage = "待支部列入发展计划";
-                } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待"+ partyName +"审核";
-                } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "已审核";
+                if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                    if (memberApply.getGrowStatus() == null || memberApply.getGrowTime() == null) {
+                        stage = "待支部发展为预备党员";
+                    } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
+                        stage = "支部已提交，待"+ partyName +"审核";
+                    }
+                }else {
+                    if (memberApply.getPlanStatus() == null || memberApply.getPlanTime() == null) {
+                        stage = "待支部列入发展计划";
+                    } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
+                        stage = "支部已提交，待" + partyName + "审核";
+                    } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
+                        stage = "已审核";
+                    }
                 }
                 break;
             case OwConstants.OW_APPLY_STAGE_PLAN:

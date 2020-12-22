@@ -282,7 +282,7 @@ public class CadrePostService extends BaseMapper {
         CadrePost entity = cadrePostMapper.selectByPrimaryKey(id);
         boolean isMainPost = entity.getIsMainPost();
         int cadreId = entity.getCadreId();
-        changeOrder("unit", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost, ORDER_BY_DESC, id, addNum);
+        changeOrder("cadre_post", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost, ORDER_BY_DESC, id, addNum);
     }
 
     public List<CadrePost> getCadrePost(int cadreId, String postName,List<String> postUnitIds){

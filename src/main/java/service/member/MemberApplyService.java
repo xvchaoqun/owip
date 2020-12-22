@@ -300,7 +300,9 @@ public class MemberApplyService extends MemberBaseMapper {
 
                 if(politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
 
-                    record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+                    if(memberApply.getGrowStatus()==null){
+                        record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+                    }
                     record.setStage(stage);
                     record.setRemark("预备党员信息同步");
                     commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
@@ -686,9 +688,14 @@ public class MemberApplyService extends MemberBaseMapper {
         record.setGrowTime(growTime);
 
         MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
+        if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+        }else {
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                    .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
+        }
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
@@ -731,9 +738,16 @@ public class MemberApplyService extends MemberBaseMapper {
         record.setGrowStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+        if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+            record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+            record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
+        }else {
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                    .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+        }
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)

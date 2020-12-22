@@ -6,7 +6,8 @@
 <c:set value="${_pMap['postTimeToDay']=='true'}" var="_p_postTimeToDay"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadrePost!=null}">编辑</c:if><c:if test="${cadrePost==null}">添加</c:if>主职</h3>
+    <c:if test="${empty param.transfer}"><h3><c:if test="${cadrePost!=null}">编辑</c:if><c:if test="${cadrePost==null}">添加</c:if>主职</h3></c:if>
+    <c:if test="${param.transfer==1}"><h3>转移主职到兼职</h3></c:if>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadrePost_au?cadreId=${cadre.id}" autocomplete="off"

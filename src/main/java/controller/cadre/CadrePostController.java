@@ -121,6 +121,7 @@ public class CadrePostController extends BaseController {
                                String _lpWorkTime,
                                String _npWorkTime,
                                Boolean isCpc,
+                               Integer transfer,
                                HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -149,6 +150,9 @@ public class CadrePostController extends BaseController {
             cadrePostService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         } else {
+            if (transfer != null){
+                record.setIsMainPost(!record.getIsMainPost());
+            }
             cadrePostService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         }
@@ -159,6 +163,7 @@ public class CadrePostController extends BaseController {
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping("/cadrePost_au")
     public String cadrePost_au(Integer id,
+                               Integer transfer,
                                @RequestParam(defaultValue = "0") boolean isMainPost,
                                int cadreId, ModelMap modelMap) {
 
@@ -181,6 +186,9 @@ public class CadrePostController extends BaseController {
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
 
+        if (transfer != null){
+            return isMainPost ? "cadre/cadrePost/subCadrePost_au" : "cadre/cadrePost/mainCadrePost_au";
+        }
         return isMainPost ? "cadre/cadrePost/mainCadrePost_au" : "cadre/cadrePost/subCadrePost_au";
     }
 

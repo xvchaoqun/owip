@@ -185,42 +185,67 @@
                                     </c:if>
                                 </li>
 
-                                <li data-step="4" <c:if test="${memberApply.stage>OW_APPLY_STAGE_CANDIDATE}">class="complete"</c:if>>
-                                    <span class="step">4</span>
-                                    <span class="title">列入发展计划</span>
-                                    <c:if test="${memberApply.stage>=OW_APPLY_STAGE_CANDIDATE}"> <span class="subtitle">
-                                            ${cm:formatDate(memberApply.planTime,'yyyy.MM.dd')}
-                                    </span></c:if>
-                                </li>
-                                <li data-step="5" <c:if test="${memberApply.stage>OW_APPLY_STAGE_PLAN}">class="complete"</c:if>>
-                                    <span class="step">5</span>
-                                    <span class="title">领取志愿书</span>
-                                    <c:if test="${memberApply.stage>=OW_APPLY_STAGE_PLAN}"> <span class="subtitle">
+                                <c:choose>
+                                    <c:when test="${_ignore_plan_and_draw}">
+                                        <li data-step="4" <c:if test="${memberApply.stage>OW_APPLY_STAGE_CANDIDATE}">class="complete"</c:if>>
+                                            <span class="step">4</span>
+                                            <span class="title">预备党员</span>
+                                            <c:if test="${memberApply.stage>=OW_APPLY_STAGE_CANDIDATE}">
+                                            <span class="subtitle">
+                                                    ${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}
+                                            </span>
+                                            </c:if>
+                                        </li>
+
+                                        <li data-step="5" <c:if test="${memberApply.stage>OW_APPLY_STAGE_GROW}">class="complete"</c:if>>
+                                            <span class="step">5</span>
+                                            <span class="title">正式党员</span>
+                                            <c:if test="${memberApply.stage>=OW_APPLY_STAGE_GROW}">
+                                            <span class="subtitle">
+                                                    ${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}
+                                            </span>
+                                            </c:if>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li data-step="4" <c:if test="${memberApply.stage>OW_APPLY_STAGE_CANDIDATE}">class="complete"</c:if>>
+                                            <span class="step">4</span>
+                                            <span class="title">列入发展计划</span>
+                                            <c:if test="${memberApply.stage>=OW_APPLY_STAGE_CANDIDATE}"> <span class="subtitle">
+                                                    ${cm:formatDate(memberApply.planTime,'yyyy.MM.dd')}
+                                            </span></c:if>
+                                        </li>
+                                        <li data-step="5" <c:if test="${memberApply.stage>OW_APPLY_STAGE_PLAN}">class="complete"</c:if>>
+                                            <span class="step">5</span>
+                                            <span class="title">领取志愿书</span>
+                                            <c:if test="${memberApply.stage>=OW_APPLY_STAGE_PLAN}"> <span class="subtitle">
                                             ${cm:formatDate(memberApply.drawTime,'yyyy.MM.dd')}
                                         <c:if test="${not empty memberApply.applySn}">
                                             <br/>（${memberApply.applySn}）
                                         </c:if>
                                     </span></c:if>
-                                </li>
-                                <li data-step="6" <c:if test="${memberApply.stage>OW_APPLY_STAGE_DRAW}">class="complete"</c:if>>
-                                    <span class="step">6</span>
-                                    <span class="title">预备党员</span>
-                                    <c:if test="${memberApply.stage>=OW_APPLY_STAGE_DRAW}">
-        <span class="subtitle">
-                ${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}
-        </span>
-                                    </c:if>
-                                </li>
+                                        </li>
+                                        <li data-step="6" <c:if test="${memberApply.stage>OW_APPLY_STAGE_DRAW}">class="complete"</c:if>>
+                                            <span class="step">6</span>
+                                            <span class="title">预备党员</span>
+                                            <c:if test="${memberApply.stage>=OW_APPLY_STAGE_DRAW}">
+                                                <span class="subtitle">
+                                                        ${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}
+                                                </span>
+                                            </c:if>
+                                        </li>
 
-                                <li data-step="7" <c:if test="${memberApply.stage>OW_APPLY_STAGE_GROW}">class="complete"</c:if>>
-                                    <span class="step">7</span>
-                                    <span class="title">正式党员</span>
-                                    <c:if test="${memberApply.stage>=OW_APPLY_STAGE_GROW}">
-        <span class="subtitle">
-                ${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}
-        </span>
-                                    </c:if>
-                                </li>
+                                        <li data-step="7" <c:if test="${memberApply.stage>OW_APPLY_STAGE_GROW}">class="complete"</c:if>>
+                                            <span class="step">7</span>
+                                            <span class="title">正式党员</span>
+                                            <c:if test="${memberApply.stage>=OW_APPLY_STAGE_GROW}">
+                                                <span class="subtitle">
+                                                        ${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}
+                                                </span>
+                                            </c:if>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
                             </ul>
                         </div>
                         <div class="clearfix form-actions center">
@@ -281,15 +306,29 @@
                                 </c:when>
 
                                 <c:when test="${memberApply.stage==OW_APPLY_STAGE_CANDIDATE}">
-                                    <c:if test="${empty memberApply.planStatus}">
-                                        <button ${isAdmin?'':'disabled'}  onclick="apply_plan(${memberApply.userId}, 1)" class="btn btn-success">
-                                            <i class="fa fa-check"></i> 列入发展计划
-                                        </button>
+                                    <c:if test="${_ignore_plan_and_draw}">
+                                        <c:if test="${empty memberApply.growStatus}">
+                                            <button ${isAdmin?'':'disabled'}  onclick="apply_grow(${memberApply.userId}, 1)" class="btn btn-success">
+                                                <i class="fa fa-check"></i> 发展为预备党员
+                                            </button>
+                                        </c:if>
+                                        <c:if test="${memberApply.growStatus==0}">
+                                            <button ${isAdmin?'':'disabled'}  onclick="apply_grow_check(${memberApply.userId}, 1)" class="btn btn-success">
+                                                <i class="fa fa-check"></i> ${_p_partyName}审核
+                                            </button>
+                                        </c:if>
                                     </c:if>
-                                    <c:if test="${memberApply.planStatus==0}">
-                                        <button ${isAdmin?'':'disabled'} onclick="apply_plan_check(${memberApply.userId}, 1)" class="btn btn-success">
-                                            <i class="fa fa-check"></i> 审核
-                                        </button>
+                                    <c:if test="${!_ignore_plan_and_draw}">
+                                        <c:if test="${empty memberApply.planStatus}">
+                                            <button ${isAdmin?'':'disabled'}  onclick="apply_plan(${memberApply.userId}, 1)" class="btn btn-success">
+                                                <i class="fa fa-check"></i> 列入发展计划
+                                            </button>
+                                        </c:if>
+                                        <c:if test="${memberApply.planStatus==0}">
+                                            <button ${isAdmin?'':'disabled'} onclick="apply_plan_check(${memberApply.userId}, 1)" class="btn btn-success">
+                                                <i class="fa fa-check"></i> 审核
+                                            </button>
+                                        </c:if>
                                     </c:if>
                                 </c:when>
                                 <c:when test="${memberApply.stage==OW_APPLY_STAGE_PLAN}">

@@ -1,3 +1,4 @@
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -24,14 +25,20 @@ pageEncoding="UTF-8"%>
                     <c:forEach var="_stage" items="${cm:inverseMap(OW_APPLY_STAGE_MAP)}">
                         <c:if test="${_stage.key<OW_APPLY_STAGE_POSITIVE
                         && _stage.key>=OW_APPLY_STAGE_DENY && _stage.key<=param.stage}">
-                        <option value="${_stage.key}">${_stage.value}</option>
+                            <c:choose>
+                                <c:when test="${(_stage.key==OW_APPLY_STAGE_PLAN||_stage.key==OW_APPLY_STAGE_DRAW)&&_ignore_plan_and_draw}">
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${_stage.key}">${_stage.value}</option>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
                     </c:forEach>
                 </select>
                 <span class="help-block">注：将退回至所选阶段的初始状态</span>
             </div>
         </div>
-        <c:if test="${param.stage>=OW_APPLY_STAGE_DRAW}">
+        <c:if test="${param.stage>=OW_APPLY_STAGE_DRAW&&!_ignore_plan_and_draw}">
             <shiro:hasPermission name="applySnRange:*">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>编码处理方式</label>

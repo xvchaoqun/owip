@@ -50,26 +50,33 @@
                                                 <i class="fa fa-outdent"></i>  已转出的申请
                                             </a>
                                         </li>
+                                        <c:set value="${0}" var="index"/>
                                         <c:forEach items="#{OW_APPLY_STAGE_MAP}" var="applyStage">
-                                            <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
-                                                <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${applyStage.key}'>
-                                                        <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
-                                                    <c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>
-                                                    <span class="badge ${colors[colorKey]}">${colorKey}</span>
-                                                        ${applyStage.value}
-                                                            <c:if test="${applyStage.key==OW_APPLY_STAGE_INIT}">
-                                                                <c:set var="stageCount" value="${stageCountMap[OW_APPLY_STAGE_INIT]+stageCountMap[OW_APPLY_STAGE_PASS]}"/>
-                                                            </c:if>
-                                                            <c:if test="${applyStage.key!=OW_APPLY_STAGE_INIT}">
-                                                                <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
-                                                             </c:if>
+                                            <c:choose>
+                                                <c:when test="${(applyStage.key==OW_APPLY_STAGE_PLAN||applyStage.key==OW_APPLY_STAGE_DRAW)&&_ignore_plan_and_draw}"></c:when>
+                                                <c:otherwise>
+                                                    <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
+                                                        <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${applyStage.key}'>
+                                                                <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
+                                                            <%--<c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>--%>
+                                                            <span class="badge ${colors[index]}">${index}</span>
+                                                                    <c:set value="${index+1}" var="index"/>
+                                                                ${applyStage.value}
+                                                                    <c:if test="${applyStage.key==OW_APPLY_STAGE_INIT}">
+                                                                        <c:set var="stageCount" value="${stageCountMap[OW_APPLY_STAGE_INIT]+stageCountMap[OW_APPLY_STAGE_PASS]}"/>
+                                                                    </c:if>
+                                                                    <c:if test="${applyStage.key!=OW_APPLY_STAGE_INIT}">
+                                                                        <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
+                                                                     </c:if>
 
-                                                    <c:if test="${stageCount>0}">
-                                                    <span class="badge badge-success pull-right"
-                                                        <c:if test="${applyStage.key!=OW_APPLY_STAGE_POSITIVE}"> data-rel="tooltip" title="${stageCount}条待处理审批" </c:if> >${stageCount}</span>
-                                                    </c:if>
-                                                </a>
-                                            </li>
+                                                            <c:if test="${stageCount>0}">
+                                                            <span class="badge badge-success pull-right"
+                                                                <c:if test="${applyStage.key!=OW_APPLY_STAGE_POSITIVE}"> data-rel="tooltip" title="${stageCount}条待处理审批" </c:if> >${stageCount}</span>
+                                                            </c:if>
+                                                        </a>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                     </ul>
                                     <div class="tab-content no-padding-top no-padding-bottom" style="overflow-x: hidden">

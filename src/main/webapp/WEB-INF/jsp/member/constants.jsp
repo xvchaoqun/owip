@@ -8,6 +8,7 @@
 <c:set value="${cm:trimToZero(_pMap['contactUsers_count'])}" var="_p_contactUsers_count"/>
 <c:set value="${cm:trimToZero(_pMap['sponsorUsers_count'])}" var="_p_sponsorUsers_count"/>
 <c:set value="${cm:trimToZero(_pMap['growContactUsers_count'])}" var="_p_growContactUsers_count"/>
+<c:set value="${_pMap['ignore_plan_and_draw']=='true'}" var="_ignore_plan_and_draw"/>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>

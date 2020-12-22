@@ -61,7 +61,14 @@ pageEncoding="UTF-8" %>
                                                     注：
                                                     <ul>
                                                         <li>不选${_p_partyName}、党支部则导出全部</li>
-                                                        <li>导出结果中包含申请至领取志愿书这五个阶段的数据</li>
+                                                        <li>
+                                                            <c:if test="${_ignore_plan_and_draw}">
+                                                                导出结果中包含申请至发展对象这三个阶段的数据
+                                                            </c:if>
+                                                            <c:if test="${!_ignore_plan_and_draw}">
+                                                                导出结果中包含申请至领取志愿书这五个阶段的数据
+                                                            </c:if>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </form>
@@ -149,7 +156,14 @@ pageEncoding="UTF-8" %>
                                 </div>
                                 <div class="widget-box">
                                     <div class="widget-header">
-                                        <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i> 领取志愿书信息导出</h4>
+                                        <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i>
+                                            <c:if test="${_ignore_plan_and_draw}">
+                                                预备党员信息导出
+                                            </c:if>
+                                            <c:if test="${!_ignore_plan_and_draw}">
+                                                领取志愿书信息导出
+                                            </c:if>
+                                        </h4>
                                         <div class="widget-toolbar">
                                             <a href="javascript:;" data-action="collapse">
                                                 <i class="ace-icon fa fa-chevron-down"></i>
@@ -159,16 +173,30 @@ pageEncoding="UTF-8" %>
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <form class="form-inline search-form" id="exportForm3">
-                                                <div class="form-group">
-                                                    <label>领取志愿书时间</label>
-                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                <c:if test="${_ignore_plan_and_draw}">
+                                                    <div class="form-group">
+                                                        <label>发展为预备党员时间</label>
+                                                        <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar bigger-110"></i>
                                                             </span>
-                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                                               type="text" name="_drawTime" value="${param._drawTime}"/>
+                                                            <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                                   type="text" name="_growTime" value="${param._growTime}"/>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </c:if>
+                                                <c:if test="${!_ignore_plan_and_draw}">
+                                                    <div class="form-group">
+                                                        <label>领取志愿书时间</label>
+                                                        <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                            <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                                   type="text" name="_drawTime" value="${param._drawTime}"/>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
                                                 <div class="form-group">
                                                     <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
@@ -195,7 +223,15 @@ pageEncoding="UTF-8" %>
                                                     注：
                                                     <ul>
                                                         <li>不选${_p_partyName}、党支部则导出全部</li>
-                                                        <li>导出结果中包含领取志愿书、预备党员、正式党员这三个阶段的数据</li>
+                                                        <li>
+                                                            <c:if test="${_ignore_plan_and_draw}">
+                                                                导出结果中包含预备党员、正式党员这两个阶段的数据
+                                                            </c:if>
+                                                            <c:if test="${!_ignore_plan_and_draw}">
+                                                                导出结果中包含领取志愿书、预备党员、正式党员这三个阶段的数据
+                                                            </c:if>
+
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </form>
@@ -314,11 +350,18 @@ pageEncoding="UTF-8" %>
 
     function _exportApply3(btn, type){
 
+        var _growTime = $("input[name=_growTime]", "#exportForm3").val();
         var _drawTime = $("input[name=_drawTime]", "#exportForm3").val();
         var partyId = $("select[name=partyId]", "#exportForm3").val();
         var branchId = $("select[name=branchId]", "#exportForm3").val();
-        var url="${ctx}/memberApplyExport?exportType=3&type={0}&partyId={1}&branchId={2}&_drawTime={3}&t={4}"
+        var url="";
+        if (${_ignore_plan_and_draw}){
+            url="${ctx}/memberApplyExport?exportType=3&type={0}&partyId={1}&branchId={2}&_growTime={3}&t={4}"
+                .format(type, partyId, branchId, _growTime, new Date().getTime());
+        }else {
+            url="${ctx}/memberApplyExport?exportType=3&type={0}&partyId={1}&branchId={2}&_drawTime={3}&t={4}"
                 .format(type, partyId, branchId, _drawTime, new Date().getTime());
+        }
         $(btn).download(url);
     }
 

@@ -82,8 +82,14 @@ public abstract class ICommonService {
             throw new OpException("领取志愿书时间应该在列入发展计划之后");
         }
         Date growTime = record.getGrowTime();
-        if (growTime != null && drawTime != null && growTime.before(drawTime)) {
-            throw new OpException("发展时间应该在领取志愿书之后");
+        if (!CmTag.getBoolProperty("ignore_plan_and_draw")){
+            if (growTime != null && candidateTime != null && growTime.before(candidateTime)) {
+                throw new OpException("发展时间应该在确定为发展对象之后");
+            }
+        }else {
+            if (growTime != null && drawTime != null && growTime.before(drawTime)) {
+                throw new OpException("发展时间应该在领取志愿书之后");
+            }
         }
 
         Date positiveTime = record.getPositiveTime();

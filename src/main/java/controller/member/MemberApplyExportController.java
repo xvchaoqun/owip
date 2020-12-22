@@ -83,8 +83,10 @@ public class MemberApplyExportController extends MemberBaseController {
             stageList.add(OwConstants.OW_APPLY_STAGE_PASS);
             stageList.add(OwConstants.OW_APPLY_STAGE_ACTIVE);
             stageList.add(OwConstants.OW_APPLY_STAGE_CANDIDATE);
-            stageList.add(OwConstants.OW_APPLY_STAGE_PLAN);
-            stageList.add(OwConstants.OW_APPLY_STAGE_DRAW);
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                stageList.add(OwConstants.OW_APPLY_STAGE_PLAN);
+                stageList.add(OwConstants.OW_APPLY_STAGE_DRAW);
+            }
             criteria.andStageIn(stageList);
 
             if (_applyTime.getStart()!=null) {
@@ -122,7 +124,9 @@ public class MemberApplyExportController extends MemberBaseController {
         }else if(exportType==3){
 
             List<Byte> stageList = new ArrayList<>();
-            stageList.add(OwConstants.OW_APPLY_STAGE_DRAW);
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                stageList.add(OwConstants.OW_APPLY_STAGE_DRAW);
+            }
             stageList.add(OwConstants.OW_APPLY_STAGE_GROW);
             stageList.add(OwConstants.OW_APPLY_STAGE_POSITIVE);
             criteria.andStageIn(stageList);
@@ -133,12 +137,18 @@ public class MemberApplyExportController extends MemberBaseController {
             if (_drawTime.getEnd()!=null) {
                 criteria.andDrawTimeLessThanOrEqualTo(_drawTime.getEnd());
             }
+            if (_growTime.getStart()!=null){
+                criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+            }
+            if (_growTime.getEnd()!=null){
+                criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
+            }
             if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_export(example, exportType, response);
-                logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生领取志愿书信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生" + (CmTag.getBoolProperty("ignore_plan_and_draw")?"预备党员和正式党员信息":"领取志愿书信息")));
             }else {
                 memberTeacher_export(example, exportType, response);
-                logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工领取志愿书信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工" + (CmTag.getBoolProperty("ignore_plan_and_draw")?"预备党员和正式党员信息":"领取志愿书信息")));
             }
         }else if(exportType==4){
 
@@ -179,9 +189,10 @@ public class MemberApplyExportController extends MemberBaseController {
                 stage="申请入党人员";
             }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_ACTIVE){
                 stage="入党积极分子";
-            }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE
+            }else if(((memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE
                     ||memberApply.getStage()==OwConstants.OW_APPLY_STAGE_PLAN
-                    || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_DRAW){
+                    || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_DRAW)&&!CmTag.getBoolProperty("ignore_plan_and_draw"))
+                    ||(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE&&CmTag.getBoolProperty("ignore_plan_and_draw"))){
                 stage="发展对象";
             }
             SysUserView uv = sysUserService.findById(memberApply.getUserId());
@@ -229,10 +240,15 @@ public class MemberApplyExportController extends MemberBaseController {
                 "培养层次（研究生填写）|180","培养类型（研究生填写）|180", "教育类别（研究生填写）|180",
                 "培养方式（研究生填写）|180","预计毕业年月|120", "学籍状态|100","籍贯|180","转正时间|100"}));
         if(exportType==3){
-            titles.set(11, "领取志愿书时间|130");
-            titles.add(12, "志愿书编码|130");
-            titles.add(13, "发展程度|100");
-            titles.add(14, "审批状态|250");
+            if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                titles.set(11, "发展程度|100");
+                titles.add(12, "审批状态|250");
+            }else {
+                titles.set(11, "领取志愿书时间|130");
+                titles.add(12, "志愿书编码|130");
+                titles.add(13, "发展程度|100");
+                titles.add(14, "审批状态|250");
+            }
         }
 
         List<List<String>> valuesList = new ArrayList<>();
@@ -268,17 +284,22 @@ public class MemberApplyExportController extends MemberBaseController {
             }));
 
             if(exportType==3){
-                values.set(11, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
-                values.add(12, memberApply.getApplySn());
-                values.add(13, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
-                values.add(14, memberApply.getApplyStatus());
+                if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                    values.set(11, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
+                    values.add(12, memberApply.getApplyStatus());
+                }else {
+                    values.set(11, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
+                    values.add(12, memberApply.getApplySn());
+                    values.add(13, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
+                    values.add(14, memberApply.getApplyStatus());
+                }
             }
 
             valuesList.add(values);
         }
         String fileName = "学生发展党员导出信息";
         if(exportType==3)
-            fileName = "学生领取志愿书导出信息";
+            fileName = CmTag.getBoolProperty("ignore_plan_and_draw")?"学生预备党员和正式党员导出信息":"学生领取志愿书导出信息";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
@@ -304,9 +325,10 @@ public class MemberApplyExportController extends MemberBaseController {
                 stage="申请入党人员";
             }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_ACTIVE){
                 stage="入党积极分子";
-            }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE
+            }else if(((memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE
                     ||memberApply.getStage()==OwConstants.OW_APPLY_STAGE_PLAN
-                    || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_DRAW){
+                    || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_DRAW)&&!CmTag.getBoolProperty("ignore_plan_and_draw"))
+                    ||(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE&&CmTag.getBoolProperty("ignore_plan_and_draw"))){
                 stage="发展对象";
             }
 
@@ -394,10 +416,15 @@ public class MemberApplyExportController extends MemberBaseController {
                 "学历|100","毕业学校|200",/*"学位授予学校|200",*/
                 "学位|100","人员结构|100", /*"人才类型|100", "人才称号|200",*/ "籍贯|100","转正时间|80","手机号码|100"}));
         if(exportType==3){
-            titles.set(19, "领取志愿书时间|130");
-            titles.add(20, "志愿书编码|130");
-            titles.add(21, "发展程度|100");
-            titles.add(22, "审批状态|250");
+            if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                titles.set(19, "发展程度|100");
+                titles.add(20, "审批状态|250");
+            }else {
+                titles.set(19, "领取志愿书时间|130");
+                titles.add(20, "志愿书编码|130");
+                titles.add(21, "发展程度|100");
+                titles.add(22, "审批状态|250");
+            }
         }
 
         List<List<String>> valuesList = new ArrayList<>();
@@ -465,17 +492,22 @@ public class MemberApplyExportController extends MemberBaseController {
                     userBean==null?"":userBean.getMobile()
             }));
             if(exportType==3){
-                values.set(19, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
-                values.add(20, memberApply.getApplySn());
-                values.add(21, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
-                values.add(22, memberApply.getApplyStatus());
+                if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                    values.set(19, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
+                    values.add(20, memberApply.getApplyStatus());
+                }else {
+                    values.set(19, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
+                    values.add(20, memberApply.getApplySn());
+                    values.add(21, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
+                    values.add(22, memberApply.getApplyStatus());
+                }
             }
             valuesList.add(values);
         }
 
         String fileName = "教职工发展党员导出信息";
         if(exportType==3){
-            fileName = "教职工领取志愿书导出信息";
+            fileName = CmTag.getBoolProperty("ignore_plan_and_draw")?"教职工预备党员和正式党员导出信息":"教职工领取志愿书导出信息";
         }
 
         ExportHelper.export(titles, valuesList, fileName, response);
@@ -489,8 +521,12 @@ public class MemberApplyExportController extends MemberBaseController {
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"学工号|100","姓名|100",
                 "性别|100","出生日期|80","民族|100", "证件号码|180", 
-                "所在基层党组织|300|left", "所在党支部|300|left", "领取志愿书时间|130", "志愿书编码|130", "入党时间|80", "转正时间|80"}));
-        
+                "所在基层党组织|300|left", "所在党支部|300|left", "入党时间|80", "转正时间|80"}));
+
+        if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+            titles.add(8, "领取志愿书时间|130");
+            titles.add(9, "志愿书编码|130");
+        }
 
         List<List<String>> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
@@ -510,11 +546,13 @@ public class MemberApplyExportController extends MemberBaseController {
                     userBean==null?"":userBean.getIdcard(), // 证件号码
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    memberApply==null?"":DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD),
-                    memberApply.getApplySn(),
                     memberApply==null?"":DateUtils.formatDate(memberApply.getGrowTime(), DateUtils.YYYY_MM_DD),
                     memberApply==null?"":DateUtils.formatDate(memberApply.getPositiveTime(), DateUtils.YYYY_MM_DD)
             }));
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")){
+                values.add(8, memberApply==null?"":DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
+                values.add(9, memberApply.getApplySn());
+            }
 
             valuesList.add(values);
         }

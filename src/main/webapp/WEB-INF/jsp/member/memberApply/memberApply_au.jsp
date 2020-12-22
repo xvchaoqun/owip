@@ -201,8 +201,7 @@
                     </c:if>
             </div>
             <div class="col-xs-5">
-
-                    <c:if test="${param.stage>OW_APPLY_STAGE_CANDIDATE}">
+                    <c:if test="${param.stage>OW_APPLY_STAGE_CANDIDATE&&!_ignore_plan_and_draw}">
                         <div class="form-group">
                             <label class="col-xs-6 control-label">列入发展计划时间</label>
 
@@ -216,7 +215,7 @@
                             </div>
                         </div>
                         </c:if>
-                        <c:if test="${param.stage>OW_APPLY_STAGE_PLAN}">
+                        <c:if test="${param.stage>OW_APPLY_STAGE_PLAN&&!_ignore_plan_and_draw}">
                             <div class="form-group">
                                 <label class="col-xs-6 control-label">领取志愿书时间</label>
 
@@ -231,7 +230,7 @@
                                 </div>
                             </div>
                             </c:if>
-                            <c:if test="${param.stage>OW_APPLY_STAGE_DRAW}">
+                            <c:if test="${(param.stage>OW_APPLY_STAGE_DRAW&&!_ignore_plan_and_draw)||(param.stage>OW_APPLY_STAGE_CANDIDATE&&_ignore_plan_and_draw)}">
                             <div class="form-group">
                                 <label class="col-xs-6 control-label">入党时间</label>
 
