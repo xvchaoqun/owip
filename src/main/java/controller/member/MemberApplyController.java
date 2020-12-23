@@ -642,7 +642,7 @@ public class MemberApplyController extends MemberBaseController {
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
                 record.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
             } else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                    || sysUser.getType() == SystemConstants.USER_TYPE_SS) {
+                    || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
                 record.setType(OwConstants.OW_APPLY_TYPE_STU); // 学生
             } else {
                 throw new UnauthorizedException("没有权限");

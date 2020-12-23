@@ -125,7 +125,7 @@ public class EnterApplyController extends MemberBaseController {
         if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
             memberApply.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
         } else if (uv.getType() == SystemConstants.USER_TYPE_BKS
-                || uv.getType() == SystemConstants.USER_TYPE_SS) {
+                || uv.getType() == SystemConstants.USER_TYPE_YJS) {
             memberApply.setType(OwConstants.OW_APPLY_TYPE_STU); // 学生
         } else {
             return failed("没有权限。");

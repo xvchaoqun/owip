@@ -355,7 +355,7 @@ public class SyncService extends BaseMapper {
         SysUser record = new SysUser();
         record.setUsername(code);
         record.setCode(code);
-        record.setType(SystemConstants.USER_TYPE_SS);
+        record.setType(SystemConstants.USER_TYPE_YJS);
         record.setSource(SystemConstants.USER_SOURCE_YJS);
         record.setLocked(false);
 
@@ -812,7 +812,7 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        if (userType == SystemConstants.USER_TYPE_SS) {  // 同步研究生信息
+        if (userType == SystemConstants.USER_TYPE_YJS) {  // 同步研究生信息
 
             record.setSyncSource(SystemConstants.USER_SOURCE_YJS);
 

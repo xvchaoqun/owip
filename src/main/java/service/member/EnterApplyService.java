@@ -91,7 +91,7 @@ public class EnterApplyService extends MemberBaseMapper {
         SysUserView sysUser = sysUserService.findById(userId);
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG
                 || sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                || sysUser.getType() == SystemConstants.USER_TYPE_SS) {
+                || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
             // 只允许教职工、学生申请留学归国入党申请
         } else {
             throw new UnauthorizedException(sysUser.getRealname() + "不允许进行此项操作。");
@@ -199,7 +199,7 @@ public class EnterApplyService extends MemberBaseMapper {
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG)
             record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
         else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                || sysUser.getType() == SystemConstants.USER_TYPE_SS) {
+                || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
         } else {
             throw new OpException("您不是教工或学生");

@@ -138,7 +138,7 @@ public class ExtService extends BaseMapper {
                 if (StringUtils.isNotBlank(extJzg.getYjxk())) unit += "-" + extJzg.getYjxk();
             }
 
-        } else if (type == SystemConstants.USER_TYPE_SS) {
+        } else if (type == SystemConstants.USER_TYPE_YJS) {
             ExtYjs extYjs = getExtYjs(code);
             if (extYjs != null) {
                 unit = extYjs.getYxsmc();
@@ -161,7 +161,7 @@ public class ExtService extends BaseMapper {
         String code = userBean.getCode();
         Byte type = userBean.getType();
         String dep = null;
-        if (type == SystemConstants.USER_TYPE_SS) {
+        if (type == SystemConstants.USER_TYPE_YJS) {
             ExtYjs extYjs = getExtYjs(code);
             if (extYjs != null) {
                 dep = extYjs.getYxsmc();
@@ -181,7 +181,7 @@ public class ExtService extends BaseMapper {
         String code = userBean.getCode();
         Byte type = userBean.getType();
         String major = null;
-        if (type == SystemConstants.USER_TYPE_SS) {
+        if (type == SystemConstants.USER_TYPE_YJS) {
             ExtYjs extYjs = getExtYjs(code);
             if (extYjs != null) {
                 major = extYjs.getZymc();
