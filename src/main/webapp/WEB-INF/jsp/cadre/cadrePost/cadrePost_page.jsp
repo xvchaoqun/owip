@@ -44,7 +44,7 @@
                             data-url="${ctx}/cadrePost_au?isMainPost=1&cadreId=${param.cadreId}">
                         <i class="fa fa-edit"></i> 修改
                     </button>
-                    <button class="jqOpenViewBtn btn btn-sm btn-info"
+                    <button class="jqOpenViewBtn btn btn-sm btn-warning"
                             data-grid-id="#jqGrid_mainCadrePosts"
                             title="将主职转移到兼任列表"
                             data-url="${ctx}/cadrePost_au?isMainPost=1&cadreId=${param.cadreId}&transfer=1"><i
@@ -91,7 +91,7 @@
                             data-querystr="&isMainPost=0&cadreId=${param.cadreId}">
                         <i class="fa fa-edit"></i> 修改
                     </button>
-                    <button class="jqOpenViewBtn btn btn-sm btn-info"
+                    <button class="jqOpenViewBtn btn btn-sm btn-warning"
                             data-grid-id="#jqGrid_subCadrePosts"
                             data-width="900"
                             title="将兼职转移到主职列表"

@@ -1,4 +1,15 @@
 
+
+
+ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;
+-- 更新ow_member_view
+
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('ignore_plan_and_draw', '党员发展流程节点控制', 'false', 3, 83, '忽略党员发展流程中的“列入发展计划”和“领取志愿书”');
+
+
 20201220
 哈工大  -- 北师大
 

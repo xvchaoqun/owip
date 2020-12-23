@@ -753,8 +753,13 @@ public class MemberApplyService extends MemberBaseMapper {
         if (updateByExampleSelective(userId, record, example) == 0)
             throw new OpException("需要党支部提交发展时间之后，才可以审核");
 
+        memberApplyToMember(memberApply);
+    }
+
+    public Member memberApplyToMember(MemberApply memberApply){
+
         Member member = new Member();
-        member.setUserId(userId);
+        member.setUserId(memberApply.getUserId());
         member.setPartyId(memberApply.getPartyId());
         member.setBranchId(memberApply.getBranchId());
         member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
@@ -775,6 +780,8 @@ public class MemberApplyService extends MemberBaseMapper {
 
         //3. 进入党员库
         memberService.addOrUpdate(member, "发展为预备党员");
+
+        return member;
     }
 
     // 只用于更新部分字段

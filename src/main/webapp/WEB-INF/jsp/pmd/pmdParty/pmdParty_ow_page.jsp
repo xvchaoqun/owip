@@ -48,7 +48,7 @@
                         </button>
                     </shiro:hasPermission>
                     </c:if>
-                    <shiro:hasRole name="${ROLE_ADMIN}">
+                    <shiro:hasRole name="${ROLE_SUPER}">
                                 <button class="jqItemBtn btn btn-danger btn-sm"
                                         data-title="更新报送"
                                         data-msg="确定更新报送？（仅更新汇总数据）"

@@ -629,6 +629,10 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             Member member = memberService.get(userId);
             SysUserView uv = sysUserService.findById(userId);
+            if(member==null){
+                MemberApply memberApply = memberApplyService.get(userId);
+                member = memberApplyService.memberApplyToMember(memberApply);
+            }
             if(member.getStatus()!= MemberConstants.MEMBER_STATUS_NORMAL){
                 throw new OpException(uv.getRealname()+"组织关系已经转出");
             }

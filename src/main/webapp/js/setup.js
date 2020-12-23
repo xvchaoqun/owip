@@ -210,6 +210,11 @@ $(document).on("click", ".widget-header a[data-action=collapse],.panel-heading .
     e.stopPropagation();
 });
 
+$(document).on("focus", "form",function(){
+    $(this).attr('autocomplete', 'off')
+    $(this).attr('disableautocomplete', '')
+})
+
 $(document).on("select2:select", "[data-rel=select2],[data-rel=select2-ajax]", function () {
     //alert(0)
     try {

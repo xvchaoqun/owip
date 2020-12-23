@@ -141,37 +141,86 @@ public class StatOwController extends BaseController {
         modelMap.put("partySumCount", partySumCount);
 
         //专任教师党支部
-        Integer professionalCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_professional_teacher").getId());
-        modelMap.put("professionalCount", professionalCount);
-        //机关行政产业后勤教工党支部
-        Integer supportCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_support_teacher").getId());
-        modelMap.put("supportCount", supportCount);
-        //离退休党支部总数
-        Integer retireCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_retire").getId());
-        modelMap.put("retireCount", retireCount);
-        //本科生辅导员纵向党支部
-        Integer undergraduateCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_undergraduate_assistant").getId());
-        modelMap.put("undergraduateCount", undergraduateCount);
-        //研究生导师纵向党支部
-        Integer graduateCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_graduate_teacher").getId());
-        modelMap.put("graduateCount", graduateCount);
-        //硕士生党支部
-        Integer ssCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_ss_graduate").getId());
-        modelMap.put("ssCount", ssCount);
-        //硕博研究生党支部
-        Integer sbCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_sb_graduate").getId());
-        modelMap.put("sbCount", sbCount);
-        //博士生党支部
-        Integer bsCount = statMemberMapper.getBranchCountByType(CmTag.getMetaTypeByCode("mt_bs_graduate").getId());
-        modelMap.put("bsCount", bsCount);
+        Integer professionalCount = null;
+        MetaType mtProfessionalTeacher = CmTag.getMetaTypeByCode("mt_professional_teacher");
+        if(mtProfessionalTeacher!=null) {
+            professionalCount = statMemberMapper.getBranchCountByType(mtProfessionalTeacher.getId());
+            modelMap.put("professionalCount", professionalCount);
+        }
 
-        Integer branchTotalCount = professionalCount+supportCount+retireCount+undergraduateCount+graduateCount+ssCount+sbCount+bsCount;
+        //机关行政产业后勤教工党支部
+        Integer supportCount = null;
+        MetaType mtSupportTeacher = CmTag.getMetaTypeByCode("mt_support_teacher");
+        if(mtSupportTeacher!=null) {
+            supportCount = statMemberMapper.getBranchCountByType(mtSupportTeacher.getId());
+            modelMap.put("supportCount", supportCount);
+        }
+
+        //离退休党支部总数
+        Integer retireCount = null;
+        MetaType mtRetire = CmTag.getMetaTypeByCode("mt_retire");
+        if(mtSupportTeacher!=null) {
+            retireCount = statMemberMapper.getBranchCountByType(mtRetire.getId());
+            modelMap.put("retireCount", retireCount);
+        }
+
+        //本科生辅导员纵向党支部
+        Integer undergraduateCount = null;
+        MetaType mtUndergraduateAssistant = CmTag.getMetaTypeByCode("mt_undergraduate_assistant");
+        if(mtUndergraduateAssistant!=null) {
+            undergraduateCount = statMemberMapper.getBranchCountByType(mtUndergraduateAssistant.getId());
+            modelMap.put("undergraduateCount", undergraduateCount);
+        }
+        //研究生导师纵向党支部
+        Integer graduateCount = null;
+        MetaType mtGraduateTeacher = CmTag.getMetaTypeByCode("mt_graduate_teacher");
+        if(mtGraduateTeacher!=null) {
+            graduateCount = statMemberMapper.getBranchCountByType(mtGraduateTeacher.getId());
+            modelMap.put("graduateCount", graduateCount);
+        }
+        //硕士生党支部
+        Integer ssCount = null;
+        MetaType mtSsGraduate = CmTag.getMetaTypeByCode("mt_ss_graduate");
+        if(mtSsGraduate!=null) {
+            ssCount = statMemberMapper.getBranchCountByType(mtSsGraduate.getId());
+            modelMap.put("ssCount", ssCount);
+        }
+        //硕博研究生党支部
+        Integer sbCount = null;
+        MetaType mtSbGraduate = CmTag.getMetaTypeByCode("mt_sb_graduate");
+        if(mtSbGraduate!=null) {
+            sbCount = statMemberMapper.getBranchCountByType(mtSbGraduate.getId());
+            modelMap.put("sbCount", sbCount);
+        }
+        //博士生党支部
+        Integer bsCount = null;
+        MetaType mtBsGraduate = CmTag.getMetaTypeByCode("mt_bs_graduate");
+        if(mtBsGraduate!=null) {
+            bsCount = statMemberMapper.getBranchCountByType(mtBsGraduate.getId());
+            modelMap.put("bsCount", bsCount);
+        }
+
+        Integer branchTotalCount = NumberUtils.trimToZero(professionalCount)
+                +NumberUtils.trimToZero(supportCount)
+                +NumberUtils.trimToZero(retireCount)
+                +NumberUtils.trimToZero(undergraduateCount)
+                +NumberUtils.trimToZero(graduateCount)
+                +NumberUtils.trimToZero(ssCount)
+                +NumberUtils.trimToZero(sbCount)
+                +NumberUtils.trimToZero(bsCount);
+
         modelMap.put("branchTotalCount", branchTotalCount);
 
-        Set<String> typesSet = new HashSet<>();
-        typesSet.add(CmTag.getMetaTypeByCode("mt_professional_teacher").getId()+"");
+
         BranchExample branchExample = new BranchExample();
-        branchExample.createCriteria().andIsDeletedEqualTo(false).andTypesContain(typesSet);
+        BranchExample.Criteria criteria = branchExample.createCriteria().andIsDeletedEqualTo(false);
+
+        Set<String> typesSet = new HashSet<>();
+        if(mtProfessionalTeacher!=null) {
+            typesSet.add(mtProfessionalTeacher.getId() + "");
+            criteria.andTypesContain(typesSet);
+        }
+
         List<Branch> branchList = branchMapper.selectByExample(branchExample);
         List<Integer> branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
 
