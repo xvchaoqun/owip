@@ -1,5 +1,6 @@
 
 
+-- 2020.12.23 ly 只给大连理工修改
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2565, 0, '组织机构年统数据', '组织部', 'url', '', '/stat/owSum', 260, '0/1/260/', 1, 'stat:owSum', NULL, NULL, NULL, 1, 70);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (19, '党工委', 'mt_party_work', NULL, '', '', 113, 1);
 UPDATE `base_meta_type` SET `name`='二级党委' WHERE  `id`=55;
@@ -16,8 +17,6 @@ REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `e
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (73, 23, '离退休党支部', 'mt_retire', NULL, '', '', 127, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (74, 23, '专任教师党支部', 'mt_professional_teacher', NULL, '', '', 128, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (129, 23, '机关行政产业后勤教工党支部', 'mt_support_teacher', NULL, '', '', 129, 1);
-
-
 
 -- 20191231 ly 党员发展流程时间点限制提醒开关
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('memberApply_timeLimit', '党员发展流程', 'false', 3, 49, '党员发展流程时间点限制提醒:是否显示');

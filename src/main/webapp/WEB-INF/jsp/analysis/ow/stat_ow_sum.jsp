@@ -121,11 +121,11 @@
                         <td class=xl80 style='border-top:none;border-left:none'>${chiefCount}</td>
                         <td class=xl80 style='border-top:none;border-left:none'>${deputyCount}</td>
                         <td class=xl80 style='border-top:none;border-left:none'>${middleCount}</td>
-                        <td class=xl80 style='border-top:none;border-left:none'>${retireCount}</td>
-                        <td class=xl80 style='border-top:none;border-left:none'>${bksCount+ssCount+bsCount}</td>
-                        <td class=xl80 style='border-top:none;border-left:none'>${bksCount}</td>
-                        <td class=xl80 style='border-top:none;border-left:none'>${ssCount}</td>
-                        <td class=xl80 style='border-top:none;border-left:none'>${bsCount}</td>
+                        <td class=xl80 style='border-top:none;border-left:none'>${retireTeacherCount}</td>
+                        <td class=xl80 style='border-top:none;border-left:none'>${bksStuCount+ssStuCount+bsStuCount}</td>
+                        <td class=xl80 style='border-top:none;border-left:none'>${bksStuCount}</td>
+                        <td class=xl80 style='border-top:none;border-left:none'>${ssStuCount}</td>
+                        <td class=xl80 style='border-top:none;border-left:none'>${bsStuCount}</td>
                     </tr>
                     <tr class=xl69 height=33 style='mso-height-source:userset;height:24.95pt'>
                         <td colspan=2 height=33 class=xl89 width=172 style='border-right:.5pt solid black;

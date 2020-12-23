@@ -64,4 +64,7 @@ public interface StatMemberMapper {
                            @Param("proPostLevel1") String proPostLevel1,
                            @Param("proPostLevel2") String proPostLevel2);
 
+    @Select("select count(*) from ow_member_view where status=1 and type =2 and (user_type = 4 or edu_level like '%博士%')")
+    Integer getBsMemberCount();
+
 }

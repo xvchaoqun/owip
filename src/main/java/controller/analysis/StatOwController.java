@@ -186,13 +186,17 @@ public class StatOwController extends BaseController {
         //中级及以下
         modelMap.put("middleCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, null ,branchIdList,"正高","副高"));
         //离退休教工党员总数
-        modelMap.put("retireCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, true, null ,null,null,null));
+        modelMap.put("retireTeacherCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, true, null ,null,null,null));
         //本科生党员
-        modelMap.put("bksCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BKS, null, null ,null,null,null));
+        int bksStuCount = statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BKS, null, null ,null,null,null);
+        modelMap.put("bksStuCount", bksStuCount);
+
+        int stuCount = statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, null, null, null ,null,null,null);
+        int bsStuCount = statMemberMapper.getBsMemberCount();
         //硕士生党员
-        modelMap.put("ssCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_SS, null, null ,null,null,null));
+        modelMap.put("ssStuCount", stuCount - bsStuCount - bksStuCount);
         //博士生党员
-        modelMap.put("bsCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BS, null, null, null, null ,null));
+        modelMap.put("bsStuCount", bsStuCount);
 
         if (export == 1) {
 

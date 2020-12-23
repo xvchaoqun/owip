@@ -285,19 +285,19 @@ public class StatService extends BaseMapper {
         cell.setCellValue(modelMap.get("middleCount").toString());
 
         cell = row.getCell(8);
-        cell.setCellValue(modelMap.get("retireCount").toString());
+        cell.setCellValue(modelMap.get("retireTeacherCount").toString());
 
         cell = row.getCell(9);
-        cell.setCellValue(Integer.parseInt(modelMap.get("bksCount").toString())+Integer.parseInt(modelMap.get("ssCount").toString())+Integer.parseInt(modelMap.get("bsCount").toString()));
+        cell.setCellValue(Integer.parseInt(modelMap.get("bksStuCount").toString())+Integer.parseInt(modelMap.get("ssStuCount").toString())+Integer.parseInt(modelMap.get("bsStuCount").toString()));
 
         cell = row.getCell(10);
-        cell.setCellValue(modelMap.get("bksCount").toString());
+        cell.setCellValue(modelMap.get("bksStuCount").toString());
 
         cell = row.getCell(11);
-        cell.setCellValue(modelMap.get("ssCount").toString());
+        cell.setCellValue(modelMap.get("ssStuCount").toString());
 
         cell = row.getCell(12);
-        cell.setCellValue(modelMap.get("bsCount").toString());
+        cell.setCellValue(modelMap.get("bsStuCount").toString());
 
     }
 }
