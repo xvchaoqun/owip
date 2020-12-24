@@ -2,6 +2,7 @@ package service.analysis;
 
 import bean.StatByteBean;
 import bean.StatIntBean;
+import domain.party.Party;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
@@ -181,19 +182,20 @@ public class StatService extends BaseMapper {
     }
 
     // 导出组织机构年统数据
-    public XSSFWorkbook toXlsx(ModelMap modelMap, List<Integer> partyCounts) throws IOException {
+    public XSSFWorkbook owToXlsx(ModelMap modelMap, List<Integer> partyCounts) throws IOException {
 
-        InputStream is = getClass().getResourceAsStream("/xlsx/party/stat_ow_sum.xlsx");
+        InputStream is = getClass().getResourceAsStream("/xlsx/party/stat_party_sum.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook(is);
 
-        renderSheetData(wb, modelMap, partyCounts); // 汇总
+        renderOwData(wb, modelMap, partyCounts); // 汇总
 
         wb.removeSheetAt(0);
 
         return wb;
     }
 
-    private void renderSheetData(XSSFWorkbook wb, ModelMap modelMap, List<Integer> partyCounts) {
+    //导出组织机构年统数据同居
+    private void renderOwData(XSSFWorkbook wb, ModelMap modelMap, List<Integer> partyCounts) {
 
         XSSFSheet sheet = wb.cloneSheet(0, null);
         XSSFPrintSetup ps = sheet.getPrintSetup();
@@ -265,6 +267,128 @@ public class StatService extends BaseMapper {
 
         //党员数量
         row = sheet.getRow(13);
+        cell = row.getCell(2);
+        cell.setCellValue(modelMap.get("totalCount").toString());
+
+        cell = row.getCell(3);
+        cell.setCellValue(modelMap.get("teacherCount").toString());
+
+        cell = row.getCell(4);
+        cell.setCellValue(Integer.parseInt(modelMap.get("chiefCount").toString())+Integer.parseInt(modelMap.get("deputyCount").toString())+Integer.parseInt(modelMap.get("middleCount").toString()));
+
+        //Integer.parseInt(modelMap.get("").toString())
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("chiefCount").toString());
+
+        cell = row.getCell(6);
+        cell.setCellValue(modelMap.get("deputyCount").toString());
+
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("middleCount").toString());
+
+        cell = row.getCell(8);
+        cell.setCellValue(modelMap.get("retireTeacherCount").toString());
+
+        cell = row.getCell(9);
+        cell.setCellValue(Integer.parseInt(modelMap.get("bksStuCount").toString())+Integer.parseInt(modelMap.get("ssStuCount").toString())+Integer.parseInt(modelMap.get("bsStuCount").toString()));
+
+        cell = row.getCell(10);
+        cell.setCellValue(modelMap.get("bksStuCount").toString());
+
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("ssStuCount").toString());
+
+        cell = row.getCell(12);
+        cell.setCellValue(modelMap.get("bsStuCount").toString());
+
+    }
+
+    // 导出组织机构年统数据
+    public XSSFWorkbook partyToXlsx(ModelMap modelMap, Integer partyId) throws IOException {
+
+        InputStream is = getClass().getResourceAsStream("/xlsx/party/stat_party_sum.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+
+        renderPartyData(wb, modelMap, partyId); // 汇总
+
+        wb.removeSheetAt(0);
+
+        return wb;
+    }
+
+    //导出分党委年统数据同居
+    private void renderPartyData(XSSFWorkbook wb, ModelMap modelMap, Integer partyId) {
+
+        XSSFSheet sheet = wb.cloneSheet(0, null);
+        XSSFPrintSetup ps = sheet.getPrintSetup();
+        ps.setLandscape(true); // 打印方向，true：横向，false：纵向
+        ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE); //纸张
+
+        Header header = sheet.getHeader();
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue().replace("date", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+        cell.setCellValue(str);
+
+        row = sheet.getRow(0);
+        cell = row.getCell(0);
+        if (partyId != null){
+            Party party = partyMapper.selectByPrimaryKey(partyId);
+            str = cell.getStringCellValue().replace("party", party.getName());
+            cell.setCellValue(str);
+        }else {
+            str = cell.getStringCellValue().replace("party", "支部及党员");
+            cell.setCellValue(str);
+            return;
+        }
+
+        //党支部总数
+        row = sheet.getRow(4);
+        cell = row.getCell(1);
+        cell.setCellValue(modelMap.get("branchTotalCount").toString());
+
+        cell = row.getCell(2);
+        cell.setCellValue(Integer.parseInt(modelMap.get("professionalCount").toString())+Integer.parseInt(modelMap.get("supportCount").toString()));
+
+        cell = row.getCell(3);
+        cell.setCellValue(modelMap.get("professionalCount").toString());
+
+        cell = row.getCell(4);
+        cell.setCellValue(modelMap.get("supportCount").toString());
+
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("retireCount").toString());
+
+        cell = row.getCell(6);
+        cell.setCellValue(Integer.parseInt(modelMap.get("undergraduateCount").toString())+Integer.parseInt(modelMap.get("graduateCount").toString()));
+
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("undergraduateCount").toString());
+
+        cell = row.getCell(8);
+        cell.setCellValue(modelMap.get("graduateCount").toString());
+
+        cell = row.getCell(9);
+        cell.setCellValue(Integer.parseInt(modelMap.get("ssCount").toString())+Integer.parseInt(modelMap.get("sbCount").toString())+Integer.parseInt(modelMap.get("bsCount").toString()));
+
+        cell = row.getCell(10);
+        cell.setCellValue(modelMap.get("ssCount").toString());
+
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("sbCount").toString());
+
+        cell = row.getCell(12);
+        cell.setCellValue(modelMap.get("bsCount").toString());
+
+        //党员数量
+        row = sheet.getRow(9);
         cell = row.getCell(2);
         cell.setCellValue(modelMap.get("totalCount").toString());
 

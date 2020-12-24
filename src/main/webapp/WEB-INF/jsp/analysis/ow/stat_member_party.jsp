@@ -46,14 +46,18 @@ var mychart= {
 				style: {
 					fontWeight: 'bold',
 					color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-				}
+				},
+                x:0,
+                y:-13
 			}
         },
-        /*tooltip: {
-            enabled: false,
+        tooltip: {
             formatter: function() {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    '总量: ' + this.point.stackTotal;
             }
-        },*/
+        },
 	plotOptions: {
 		column: {
 			stacking: 'normal',
@@ -64,17 +68,19 @@ var mychart= {
 					textShadow: '0 0 3px black'
                 },
                 x:0,
-                y:-9
+                y:-8
 			}
 		}
 	},
         series: [{
 			name:'教职工',
-            data: ${cm:toJSONArray(teachers)}
+            data: ${cm:toJSONArray(teachers)},
+            maxPointWidth: 70,
         },{
 			name:'学生',
 			data: ${cm:toJSONArray(students)},
-			color:'#AF4E96'
+			color:'#AF4E96',
+            maxPointWidth: 70,
 		}],
 	legend: {
 		align: 'right',
@@ -93,5 +99,19 @@ var mychart= {
 $(function () {
 	
 	$('#container').highcharts(mychart);
-});		
+});
+(function(H) {
+    var each = H.each;
+    H.wrap(H.seriesTypes.column.prototype, 'drawPoints', function(proceed) {
+        var series = this;
+        if (series.data.length > 0) {
+            var width = series.barW > series.options.maxPointWidth ? series.options.maxPointWidth : series.barW;
+            each(this.data, function(point) {
+                point.shapeArgs.x += (point.shapeArgs.width - width) / 2;
+                point.shapeArgs.width = width;
+            });
+        }
+        proceed.call(this);
+    })
+})(Highcharts);
 </script>

@@ -1,44 +1,73 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
+<div class="row" id="cartogram">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
 
             <div class="tab-content" style="padding: 5px 4px 0px">
                 <table border=0 cellpadding=0 cellspacing=0 width=1283 style='border-collapse:
  collapse;table-layout:fixed;width:966pt'>
-                    <button class="downloadBtn pull-left btn btn-success btn-sm"
-                            data-url="${ctx}/stat/owSum?export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
-                        导出
-                    </button>
+                    <c:if test="${param.cls!=1}">
+                        <button class="downloadBtn pull-left btn btn-success btn-sm"
+                                data-url="${ctx}/stat/owSum?export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
+                            导出
+                        </button>
+                    </c:if>
+                    <c:if test="${param.cls==1}">
+                        <c:if test="${not empty parties && fn:length(parties)>1}">
+                            <select data-rel="select2" name="party">
+                                <c:forEach items="${parties}" var="party">
+                                    <option value="${party.id}">${party.name}</option>
+                                </c:forEach>
+                            </select>
+                            <c:if test="${not empty checkParty}">
+                                <script type="text/javascript">
+                                    $("select[name=party]").val(${checkParty.id});
+                                </script>
+                            </c:if>
+                        </c:if>
+                        <button style="margin-left: 10px" class="downloadBtn btn btn-success btn-sm"
+                                data-url="${ctx}/stat/partySum?partyId=${checkParty.id}&export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
+                            导出
+                        </button>
+                    </c:if>
                     <col width=86 span=2 style='mso-width-source:userset;mso-width-alt:2752;
  width:65pt'>
                     <col width=101 span=11 style='mso-width-source:userset;mso-width-alt:3232;
  width:76pt'>
                     <tr height=52 style='mso-height-source:userset;height:39.0pt'>
                         <td colspan=13 height=52 class=xl99 width=1283 style='height:39.0pt;
-  width:966pt'><a name="Print_Area">${_school}基层党组织及党员信息总表</a></td>
+  width:966pt'><a name="Print_Area">${_school}<c:if test="${param.cls==1}">${checkParty.name}</c:if><c:if test="${param.cls!=1}">基层党组织及党员</c:if>信息总表</a></td>
                     </tr>
                     <tr height=28 style='mso-height-source:userset;height:21.0pt'>
                         <td colspan=13 height=28 class=xl100 style='height:21.0pt'>（数据源自${cm:formatDate(now,'yyyy年MM月dd日')}年统数据）</td>
                     </tr>
-                    <tr height=33 style='mso-height-source:userset;height:24.95pt'>
-                        <td colspan=5 height=33 class=xl70 style='border-right:.5pt solid black;
-  height:24.95pt'>党工委、二级党组织总数</td>
-                        <c:forEach items="${metaTypes}" var="metaType">
-                            <td colspan=2 class=xl73 style='border-left:none'>${metaType.name}</td>
-                        </c:forEach>
-                    </tr>
-                    <tr height=33 style='mso-height-source:userset;height:24.95pt'>
-                        <td colspan=5 height=33 class=xl70 style='border-right:.5pt solid black;
-  height:24.95pt'>${partySumCount}</td>
-                        <c:forEach items="${partyCounts}" var="partyCount">
-                            <td colspan=2 class=xl73 style='border-left:none'>${partyCount}</td>
-                        </c:forEach>
-                    </tr>
-                    <tr height=36 style='height:27.0pt;mso-xlrowspan:2'>
-                        <td height=36 colspan=13 style='height:27.0pt;mso-ignore:colspan'></td>
-                    </tr>
+                    <c:if test="${param.cls!=1}">
+                        <tr height=33 style='mso-height-source:userset;height:24.95pt'>
+                            <td colspan=5 height=33 class=xl70 style='border-right:.5pt solid black;
+      height:24.95pt'>党工委、二级党组织总数</td>
+                            <c:forEach items="${metaTypes}" var="metaType">
+                                <td colspan=2 class=xl73 style='border-left:none'>${metaType.name}</td>
+                            </c:forEach>
+                            <c:set value="${fn:length(metaTypes)}" var="metaLength"/>
+                            <c:forEach begin="1" end="${4-metaLength}" var="length" >
+                                <td colspan=2 class=xl73 style='border-left:none'></td>
+                            </c:forEach>
+                        </tr>
+                        <tr height=33 style='mso-height-source:userset;height:24.95pt'>
+                            <td colspan=5 height=33 class=xl70 style='border-right:.5pt solid black;
+      height:24.95pt'>${partySumCount}</td>
+                            <c:forEach items="${partyCounts}" var="partyCount">
+                                <td colspan=2 class=xl73 style='border-left:none'>${partyCount}</td>
+                            </c:forEach>
+                            <c:forEach begin="1" end="${4-metaLength}" var="length" >
+                                <td colspan=2 class=xl73 style='border-left:none'></td>
+                            </c:forEach>
+                        </tr>
+                        <tr height=36 style='height:27.0pt;mso-xlrowspan:2'>
+                            <td height=36 colspan=13 style='height:27.0pt;mso-ignore:colspan'></td>
+                        </tr>
+                    </c:if>
                     <tr class=xl65 height=34 style='mso-height-source:userset;height:26.1pt'>
                         <td rowspan=2 height=146 class=xl74 width=86 style='height:110.1pt;
   width:65pt'>内设<br>
@@ -617,3 +646,11 @@
         border-left:none;}
 </style>
 
+<script>
+    $('[data-rel="select2"]').change(function () {
+        $.post("${ctx}/stat/partySum?cls=1", {partyId: this.value} , function (html) {
+            $("#cartogram").replaceWith(html);
+        });
+    });
+    $('[data-rel="select2"]').select2();
+</script>

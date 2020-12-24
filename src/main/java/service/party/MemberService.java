@@ -607,10 +607,12 @@ public class MemberService extends MemberBaseMapper {
                     cell = _row.createCell(0);
                 }
                 cell.setCellValue(StringUtils.trimToEmpty(userCode));
-                if (codeMap.get(userCode).size() > 1) {
+                if (codeMap.get(userCode).size() >= 1) {
                     //设置字体
                     XSSFFont font = workbook.createFont();
-                    font.setColor(HSSFColor.RED.index);
+                    if (codeMap.get(userCode).size() > 1) {
+                        font.setColor(HSSFColor.RED.index);
+                    }
 
                     //设置样式
                     XSSFCellStyle style = workbook.createCellStyle();

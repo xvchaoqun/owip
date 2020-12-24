@@ -832,11 +832,12 @@ public class SysUserService extends BaseMapper {
     public Map<String, List<String>> getCodes(Byte roleType, //0：混合 1：干部
                                               Byte colType, //0：身份证 1：姓名
                                               String searchKey, //colType=0:idcard colType=1：realname
-                                              @RequestParam(required = false, defaultValue = "0")Byte type, //类别 教职工、本科生、研究生  0： 混合
+                                              @RequestParam(required = false, defaultValue = "0") Byte type, //类别 教职工、本科生、研究生  0： 混合
                                               String birthKey) {
 
         List<String> codeList = new ArrayList<>();
         Map<String, List<String>> codeMap = new HashMap<>();
+        String unit = "";
         if (roleType == 1) {
 
             CadreViewExample example = new CadreViewExample();
@@ -852,12 +853,14 @@ public class SysUserService extends BaseMapper {
             List<CadreView> cvs = cadreViewMapper.selectByExample(example);
             if (cvs.size() >= 1) {
                 for (CadreView cv : cvs) {
+                    SysUserView uv = CmTag.getUserById(cv.getId());
+                    unit = StringUtils.isBlank(uv.getUnit()) ? "" : "|" + uv.getUnit();
                     if (null != birthKey) {
                         if (birthKey.equals(DateUtils.formatDate(cv.getBirth(), "yyyyMM"))) {
-                            codeList.add(cv.getCode());
+                            codeList.add(cv.getCode() + unit);
                         }
-                    }else {
-                        codeList.add(cv.getCode());
+                    } else {
+                        codeList.add(cv.getCode() + unit);
                     }
                 }
             }
@@ -875,19 +878,22 @@ public class SysUserService extends BaseMapper {
                 criteria.andTypeEqualTo(type);
             }
 
-            // 按账号类别 教职工、博士、硕士、本科生的排序
-            example.setOrderByClause("field(type, 1,4,3,2) asc");
+            // 按账号类别 教职工、研究生、本科生的排序
+            example.setOrderByClause("field(type, 1,3,2) asc");
 
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
 
             if (uvs.size() == 1) {
-                codeList.add(uvs.get(0).getCode());
+
+                unit = StringUtils.isBlank(uvs.get(0).getUnit()) ? "" : "|" + uvs.get(0).getUnit();
+                codeList.add(uvs.get(0).getCode() + unit);
             } else if (uvs.size() > 1) {
 
                 SysUserView firstUv = uvs.get(0);
+                unit = StringUtils.isBlank(firstUv.getUnit()) ? "" : "|" + firstUv.getUnit();
                 byte _type = firstUv.getType();
                 if (_type == SystemConstants.USER_TYPE_YJS) {
-                    boolean flag = false;//当账号类型为博士时，flag=true，保证code不会再被硕士类型的账号赋值
+                    boolean flag = false;//当账号类型为博士或者生日相同或者是党员时，flag=true，并放在第一个位置
                     for (SysUserView uv : uvs) {
 
                         String code = uv.getCode();
@@ -895,40 +901,63 @@ public class SysUserService extends BaseMapper {
                         if (!flag && studentInfo != null) {
                             String _stuType = studentInfo.getType();
                             if (_stuType != null) {
-                                if (_stuType.contains("硕士")) {
-                                    code = uv.getCode();
-                                } else if (_stuType.contains("博士")) {
+                                if (_stuType.contains("博士")) {
                                     flag = true;
-                                    code = uv.getCode();
                                 }
                             }
                         }
-                        if (null != birthKey) {
+                        if (null != birthKey || CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_MEMBER)) {
                             if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
-                                codeList.add(0, code);
+                                flag = true;
                             }
-                        }else {
-                            codeList.add(code);
+                        }
+
+                        if (flag) {
+                            codeList.add(0, code + unit);
+                        } else {
+                            codeList.add(code + unit);
                         }
                     }
-                }else {
-                    //本科生和教职工没有细分，所以直接读取
+                } else if (_type == SystemConstants.USER_TYPE_JZG) {
+                    boolean hasUser = false;
                     for (SysUserView uv : uvs) {
+                        if (uv.getType() != SystemConstants.USER_TYPE_JZG)
+                            continue;
+                        unit = StringUtils.isBlank(uv.getUnit()) ? "" : "|" + uv.getUnit();
                         if (null != birthKey) {
                             if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
-                                codeList.add(0, uv.getCode());
+                                codeList.add(0, uv.getCode() + unit);
                             }
                         } else {
-                            codeList.add(uv.getCode());
+                            if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE_CJ) || CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE_KJ)) {
+                                codeList.add(0, uv.getCode() + unit);
+                                hasUser = true;
+                            } else if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_MEMBER) && !hasUser) {
+                                codeList.add(0, uv.getCode() + unit);
+                            } else {
+                                codeList.add(uv.getCode() + unit);
+                            }
+                        }
+                    }
+                } else if (_type == SystemConstants.USER_TYPE_BKS) {
+                    for (SysUserView uv : uvs) {
+                        unit = StringUtils.isBlank(uv.getUnit()) ? "" : "|" + uv.getUnit();
+                        if (null != birthKey) {
+                            if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
+                                codeList.add(0, uv.getCode() + unit);
+                            }
+                        } else if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_MEMBER)) {
+                            codeList.add(0, uv.getCode() + unit);
+                        } else {
+                            codeList.add(uv.getCode() + unit);
                         }
                     }
                 }
             }
         }
 
-        if(codeList.size() > 0){
-
-            codeMap.put(codeList.get(0), codeList);
+        if (codeList.size() > 0) {
+            codeMap.put(StringUtils.split(codeList.get(0), "|")[0], codeList);
         }
 
         return codeMap;
