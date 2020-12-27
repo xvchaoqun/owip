@@ -147,14 +147,16 @@ public interface ICetMapper {
 
     // 学员的培训列表
     List<CetProject> selectCetProjectList(@Param("userId") Integer userId,
-                                                     @Param("projectType") byte projectType,
-                                                     @Param("year") Integer year,
-                                                     @Param("name") String name, RowBounds rowBounds);
+                                          @Param("projectType") byte projectType,
+                                          @Param("isPartyProject") boolean isPartyProject,
+                                          @Param("year") Integer year,
+                                          @Param("name") String name, RowBounds rowBounds);
 
     int countCetProjectList(@Param("userId") Integer userId,
-                                       @Param("projectType") byte projectType,
-                                       @Param("year") Integer year,
-                                       @Param("name") String name);
+                            @Param("projectType") byte projectType,
+                            @Param("isPartyProject") boolean isPartyProject,
+                            @Param("year") Integer year,
+                            @Param("name") String name);
 
     // 学员的可选课的党校培训班列表
     List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId, RowBounds rowBounds);

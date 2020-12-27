@@ -208,7 +208,7 @@
 
     <sql id="searchUserSelectProjects">
         left join cet_project_obj o on o.project_id=cp.id
-        where cp.is_deleted=0 and cp.type in(3, 4) and o.user_id=#{userId} and o.is_quit=0
+        where  cp.is_deleted=0 and cp.is_party_project=1 and o.user_id=#{userId} and o.is_quit=0
         order by cp.start_date desc
     </sql>
     <resultMap id="ProjectBaseResultMap" type="persistence.cet.common.ICetProject"
@@ -263,7 +263,7 @@
     <!--学员的培训项目列表 -->
     <sql id="searchUserCetProject">
         <where>
-            cpo.is_quit=0 and cpo.user_id=#{userId} and cp.id=cpo.project_id and cp.type=#{projectType}
+            cpo.is_quit=0 and cpo.user_id=#{userId} and cp.id=cpo.project_id and cp.type=#{projectType} and cp.is_party_project=#{isPartyProject}
             <if test="year!=null">
                 and cp.year = #{year}
             </if>

@@ -1,4 +1,5 @@
-
+-- 2020.12.26 sxx
+INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '干部信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:cadre', NULL, NULL, NULL, 1, NULL);
 
 -- 2020.12.22 ly
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('ignore_plan_and_draw', '党员发展流程节点控制', 'false', 3, 83, '打开党员发展流程中的“列入发展计划”和“领取志愿书”');
@@ -22,6 +23,12 @@ ALTER TABLE `sys_msg`
 ALTER TABLE `sys_msg`
 	CHANGE COLUMN `create_time` `send_time` DATETIME NOT NULL COMMENT '通知发送时间' AFTER `content`;
 
+
+2020.11.16
+
+UPDATE `sys_resource` SET `name`='党校培训信息' WHERE  `permission`='userCetProject:*';
+UPDATE `sys_resource` SET `url`='/user/cet/cetProject?type=1&isPartyProject=1' WHERE  `permission`='userCetProject:list3';
+UPDATE `sys_resource` SET `url`='/user/cet/cetProject?type=2&isPartyProject=1' WHERE  `permission`='userCetProject:list4';
 
 2020.11.12
 ALTER TABLE `sys_role`

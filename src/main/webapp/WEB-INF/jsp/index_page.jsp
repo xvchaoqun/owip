@@ -16,6 +16,11 @@
                         <a href="javascript:;" data-url="${ctx}/suspend_page">待办事项</a>
                     </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="stat:cadre">
+                    <li class="${to=='stat_cadre_index_page'?'active':''}">
+                        <a href="javascript:;" data-url="${ctx}/stat_cadre_index_page">干部信息统计</a>
+                    </li>
+                </shiro:hasPermission>
                 <shiro:hasPermission name="stat:ow">
                     <li class="${to=='stat_ow_page'?'active':''}">
                         <a href="javascript:;" data-url="${ctx}/stat_ow_page">党建信息统计</a>

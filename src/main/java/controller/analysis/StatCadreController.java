@@ -18,10 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import persistence.cadre.common.CadreSearchBean;
-import persistence.cadre.common.ICadreEdu;
-import persistence.cadre.common.ICadreWork;
-import persistence.cadre.common.ICarde;
+import persistence.cadre.common.*;
 import sys.constants.CadreConstants;
 import sys.constants.CrpConstants;
 import sys.constants.SystemConstants;
@@ -30,10 +27,12 @@ import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -481,5 +480,198 @@ public class StatCadreController extends BaseController {
 
         modelMap.put("cadreViews",cadreViews);
         return "analysis/cadre/cadres";
+    }
+
+    @RequestMapping("/stat_cadre_index_page")
+    public String stat_cadre_index_page(ModelMap modelMap) {
+
+        Integer statPartyMemberCount = CmTag.getIntProperty("statPartyMemberCount");
+        statPartyMemberCount = (statPartyMemberCount == null) ? 20 : statPartyMemberCount;
+
+        modelMap.put("statPartyMemberCount", NumberUtils.toHanStr(statPartyMemberCount));
+
+        return "analysis/cadre/stat_cadre_index_page";
+    }
+    // 干部数量统计
+    @RequestMapping("/stat_cadre_count")
+    public String stat_cadre_count(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+        // 行政级别
+        Map<String,Integer> statCadreCountMap = new HashMap<>();
+        List<String> statCadreCountType = new ArrayList<>();
+        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_adminLevel(searchBean);
+        for(StatCadreBean scb:adminLevelList){
+            statCadreCountMap.put(CmTag.getMetaTypeByCode(scb.adminLevelCode).getName(),scb.num);
+        }
+        modelMap.put("statCadreCountMap",statCadreCountMap);
+        return "analysis/cadre/stat_cadre_count";
+    }
+
+    // 干部性别，民族统计
+    @RequestMapping("/stat_cadreOther_count")
+    public String stat_cadreOther_count(Integer type ,Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+        Map otherMap = new LinkedHashMap();
+        if (type == 1) {
+            List<StatCadreBean> genderList = statCadreMapper.cadre_stat_gender(searchBean);
+
+            int gender1 = 0, gender2 = 0, gender3 = 0;
+            for (StatCadreBean bean : genderList) {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
+                    gender1=bean.getNum();
+                    otherMap.put("男", bean.getNum());
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
+                    gender2=bean.getNum();
+
+                }else {
+                    gender3=bean.getNum();
+
+                }
+            }
+            otherMap.put("男", gender1);
+            otherMap.put("女", gender2);
+            otherMap.put("无数据",gender3);
+        } else if(type == 2) {
+            List<StatCadreBean> nationList = statCadreMapper.cadre_stat_nation(searchBean);
+
+            int nation1 = 0, nation2 = 0;
+            for (StatCadreBean bean : nationList) {
+                if (StringUtils.contains(bean.getNation(), "汉")) {
+                    nation1 += bean.getNum();
+                } else {
+                    nation2 += bean.getNum();
+                }
+            }
+            otherMap.put("汉族", nation1);
+            otherMap.put("少数民族", nation2);
+            /*modelMap.put("otherMap",otherMap);
+            return "analysis/cadre/stat_cadreNation_count";*/
+        }
+        modelMap.put("otherMap",otherMap);
+        return "analysis/cadre/stat_cadreOther_count";
+    }
+    // 干部数量统计
+    @RequestMapping("/stat_cadreDp_count")
+    public String stat_cadreDp_count(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        MetaType metaType = CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+        int crowdId = metaType.getId();
+        Map cadreDpMap = new LinkedHashMap();
+
+        StatCadreBean totalBean = statCadreMapper.cadre_stat_dp(crowdId, searchBean);
+        cadreDpMap.put("中共党员",totalBean == null ?0:totalBean.getNum2());
+        cadreDpMap.put("民主党派",totalBean == null ?0:totalBean.getNum1());
+        cadreDpMap.put("群众",totalBean == null ?0:totalBean.getNum3());
+
+        modelMap.put("cadreDpMap",cadreDpMap);
+        return "analysis/cadre/stat_cadre_dp";
+    }
+    // 干部数量统计
+    @RequestMapping("/stat_cadreAge_count")
+    public String stat_cadreAge_count(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        Map cadreAgeMap = new LinkedHashMap();
+
+        StatCadreBean totalBean = statCadreMapper.cadre_stat_age(searchBean);
+        cadreAgeMap.put("30岁及以下",totalBean == null ?0:totalBean.getNum1());
+        cadreAgeMap.put("31-35岁",totalBean == null ?0:totalBean.getNum2());
+        cadreAgeMap.put("36-40岁",totalBean == null ?0:totalBean.getNum3());
+        cadreAgeMap.put("41-45岁",totalBean == null ?0:totalBean.getNum4());
+        cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
+        cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
+        cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
+        modelMap.put("cadreAgeMap",cadreAgeMap);
+        return "analysis/cadre/stat_cadre_age";
+    }
+
+    // 干部数量统计
+    @RequestMapping("/stat_cadrePost_count")
+    public String stat_cadrePost_count(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        Map cadrePostMap = new LinkedHashMap();
+
+        StatCadreBean totalBean = statCadreMapper.cadre_stat_post(searchBean);
+        cadrePostMap.put("正高",totalBean == null ?0:totalBean.getNum1());
+        cadrePostMap.put("副高",totalBean == null ?0:totalBean.getNum2());
+        cadrePostMap.put("中（初）级",totalBean == null ?0:totalBean.getNum3());
+        cadrePostMap.put("其他",totalBean == null ?0:totalBean.getNum4());
+        modelMap.put("cadrePostMap",cadrePostMap);
+        return "analysis/cadre/stat_cadre_post";
+    }
+    // 干部数量统计
+    @RequestMapping("/stat_cadreDegree_count")
+    public String stat_cadreDegree_count(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        Map cadreDegreeMap = new LinkedHashMap();
+        int bs = 0, ss = 0, xs = 0, otherDegree=0;
+        List<StatCadreBean> eduList = statCadreMapper.cadre_stat_degree(searchBean);
+        if (eduList != null) {
+            for (StatCadreBean bean : eduList) {
+                if (bean.getDegreeType() == null
+                        || !SystemConstants.DEGREE_TYPE_MAP.containsKey(bean.getDegreeType())) {
+                    otherDegree +=bean.getNum();
+                }else if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_BS) {
+                    bs += bean.getNum();
+                } else if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_SS) {
+                    ss += bean.getNum();
+                } else if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_XS) {
+                    xs += bean.getNum();
+                }
+            }
+        }
+        cadreDegreeMap.put("博士",bs);
+        cadreDegreeMap.put("硕士",ss);
+        cadreDegreeMap.put("学士",xs);
+        cadreDegreeMap.put("其他",otherDegree);
+
+        modelMap.put("cadreDegreeMap",cadreDegreeMap);
+        return "analysis/cadre/stat_cadre_degree";
+    }
+    // 干部数量统计
+    @RequestMapping("/stat_cadreEdu_count")
+    public String stat_cadreEdu_count(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        Map cadreDegreeMap = new LinkedHashMap();
+        List<StatCadreBean> statCadreBeans = statCadreMapper.cadre_stat_edu(searchBean);
+
+        for (StatCadreBean statCadreBean : statCadreBeans) {
+            cadreDegreeMap.put(CmTag.getMetaType(statCadreBean.eduId).getName(), statCadreBean.num);
+        }
+        modelMap.put("cadreEduMap",cadreDegreeMap);
+        return "analysis/cadre/stat_cadre_edu";
+    }
+    @RequestMapping("/stat_cadre_avgAge")
+    public String stat_cadre_avgAge(Byte cadreType, ModelMap modelMap) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreType);
+
+        Map<String,BigDecimal> cadreAvgAge = new HashMap<>();
+        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_avg_age_adminLevel(searchBean);
+        if (adminLevelList != null) {
+            for (StatCadreBean bean : adminLevelList) {
+                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(searchBean.getCadreType()))) {
+                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_HALF_UP));
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(searchBean.getCadreType()))) {
+                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_HALF_UP));
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
+                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_HALF_UP));
+                }
+            }
+        }
+
+        modelMap.put("cadreAvgAge", cadreAvgAge);
+        return "analysis/cadre/stat_cadre_avgAge";
     }
 }

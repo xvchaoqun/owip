@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
@@ -47,6 +48,7 @@ public class UserCetProjectController extends CetBaseController {
     @ResponseBody
     public void cetProject_data(HttpServletRequest request,
                                 byte type, // 培训类型：专题培训、年度培训
+                                @RequestParam(required = false, defaultValue = "0") boolean isPartyProject, // 是否二级党委培训
                                 Integer year,
                                 String name,
                                 Integer pageSize, Integer pageNo)  throws IOException {
@@ -61,12 +63,12 @@ public class UserCetProjectController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        long count = iCetMapper.countCetProjectList(userId, type, year, name);
+        long count = iCetMapper.countCetProjectList(userId, type, isPartyProject, year, name);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetProject> records= iCetMapper.selectCetProjectList(userId, type, year, name,
+        List<CetProject> records= iCetMapper.selectCetProjectList(userId, type, isPartyProject, year, name,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
