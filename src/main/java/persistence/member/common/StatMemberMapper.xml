@@ -95,6 +95,9 @@
                 #{branchId}
             </foreach>
         </if>
+        <if test="partyId!=null">
+            and party_id =#{partyId}
+        </if>
         <if test="isRetire!=null">
             and is_retire =#{isRetire}
         </if>

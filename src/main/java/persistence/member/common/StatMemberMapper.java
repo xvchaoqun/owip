@@ -51,9 +51,13 @@ public interface StatMemberMapper {
     //统计党员中民族为空的人数
     Integer countNull(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
-    //年统数据表中统计党支部数量
+    //组织部年统数据表中统计党支部数量
     @Select("select count(id) from ow_branch where find_in_set(#{metaId},types)")
     Integer getBranchCountByType(@Param("metaId")Integer metaId);
+
+    //分党委年统数据表中统计党支部数量
+    @Select("select count(id) from ow_branch where find_in_set(#{metaId},types) and party_id=#{partyId}")
+    Integer getBCByPartyId(@Param("metaId")Integer metaId, @Param("partyId")Integer partyId);
 
     //年统数据表中统计党员数量
     Integer getMemberCount(@Param("type") Byte type,
@@ -62,9 +66,13 @@ public interface StatMemberMapper {
                            @Param("proPostLevel") String proPostLevel,
                            @Param("branchIdList") List<Integer> branchIdList,
                            @Param("proPostLevel1") String proPostLevel1,
-                           @Param("proPostLevel2") String proPostLevel2);
+                           @Param("proPostLevel2") String proPostLevel2,
+                           @Param("partyId") Integer partyId);
 
     @Select("select count(*) from ow_member_view where status=1 and type =2 and user_type = 3 and edu_level like '%博士%'")
-    Integer getBsMemberCount();
+    Integer getOwBsMemberCount();
+
+    @Select("select count(*) from ow_member_view where party_id=#{partyId} and status=1 and type =2 and user_type = 3 and edu_level like '%博士%'")
+    Integer getPartyBsMemberCount(@Param("partyId") Integer partyId);
 
 }

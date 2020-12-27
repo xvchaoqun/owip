@@ -830,10 +830,12 @@ public class SysUserController extends BaseController {
                 cell.setCellValue(StringUtils.trimToEmpty(code));
             }
 
-            if (codeList.size() > 1) {
+            if (codeList.size() >= 1) {
                 //设置字体
                 XSSFFont font = workbook.createFont();
-                font.setColor(HSSFColor.RED.index);
+                if (codeList.size() > 1) {
+                    font.setColor(HSSFColor.RED.index);
+                }
 
                 //设置样式
                 XSSFCellStyle style = workbook.createCellStyle();

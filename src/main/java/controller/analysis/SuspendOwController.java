@@ -14,6 +14,7 @@ import service.party.PartyMemberGroupService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +62,17 @@ public class SuspendOwController extends MemberBaseController {
     public String suspend_party(int partyId, ModelMap modelMap) {
 
         int userId = ShiroHelper.getCurrentUserId();
+        Map<Integer, Party> partyMap = partyService.findAll();
         List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
+        List<Party> parties = new ArrayList<>();
 
-        if (partyIds.size() > 0) {
-
-            Map<Integer, Party> partyMap = partyService.findAll();
-            List<Party> parties = new ArrayList<>();
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+            for (Integer _partyId : partyMap.keySet()) {
+                parties.add(partyMap.get(_partyId));
+            }
+            modelMap.put("parties", parties);
+            modelMap.put("checkParty", partyMap.get(partyId));
+        }else if (partyIds.size() > 0) {
             for (Integer _partyId : partyIds) {
                 parties.add(partyMap.get(_partyId));
             }
