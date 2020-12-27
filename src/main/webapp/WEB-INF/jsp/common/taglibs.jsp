@@ -42,6 +42,8 @@
 <c:set value="${empty _pMap['avatarWidth']?135:_pMap['avatarWidth']}" var="_p_avatarWidth"/>
 <c:set value="${empty _pMap['label_adminLevelNone']?'无行政级别':_pMap['label_adminLevelNone']}" var="_p_label_adminLevelNone"/>
 
+<c:set var="mt_direct_branch" value="mt_direct_branch"/>
+<c:set var="directBranchTypeId" value="${cm:getMetaTypeByCode(mt_direct_branch).id}"/>
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 

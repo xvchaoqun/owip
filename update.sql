@@ -1,5 +1,6 @@
 
-
+20201227
+-- 北师大
 
 ALTER TABLE `sys_user`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;
@@ -8,6 +9,12 @@ ALTER TABLE `sys_user`
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('ignore_plan_and_draw', '党员发展流程节点控制', 'false', 3, 83, '忽略党员发展流程中的“列入发展计划”和“领取志愿书”');
+
+INSERT INTO `sys_resource` (id, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (170, 0, '干部信息统计', '', 'function', '', NULL, 108,
+                                    '0/1/108/', 1, 'stat:cadre', NULL, NULL, NULL, 1, NULL);
 
 
 20201220

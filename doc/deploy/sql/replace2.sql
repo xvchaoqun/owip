@@ -1,8 +1,29 @@
 
---  set @keyowrd='师大';
 
+
+set @keyowrd='师大';
 set @keyowrd='师范';
+update cadre_course set name = replace(name, @keyowrd, repeat('', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+update cadre_reward set name = replace(name, @keyowrd, repeat('', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+update cadre_reward set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
+update cadre_reward set proof_filename = replace(proof_filename, @keyowrd, repeat('*', char_length(@keyowrd))) where proof_filename like concat('%',@keyowrd,'%');
+update cadre_train set content = replace(content, @keyowrd, repeat('', char_length(@keyowrd))) where content like concat('%',@keyowrd,'%');
+update cadre_train set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
+update cadre_parttime set post = replace(post, @keyowrd, repeat('', char_length(@keyowrd))) where post like concat('%',@keyowrd,'%');
+update cadre_parttime set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
 
+update cadre_punish set name=concat(left(name, 3), repeat('*', char_length(name)-6), right(name, 3)) where char_length(name)>6;
+update cadre_punish set unit=concat(left(unit, 3), repeat('*', char_length(unit)-6), right(unit, 3)) where char_length(unit)>6;
+update cadre_research set name=concat(left(name, 3), repeat('*', char_length(name)-6), right(name, 3)) where char_length(name)>6;
+update cadre_research set unit=concat(left(unit, 3), repeat('*', char_length(unit)-6), right(unit, 3)) where char_length(unit)>6;
+update cadre_book set name=concat(left(name, 3), repeat('*', char_length(name)-6), right(name, 3)) where char_length(name)>6;
+update crs_applicant set career=concat(left(career, 3), '*****') where char_length(career)>6;
+update crs_applicant set report=concat(left(report, 3), '*****') where char_length(report)>6;
+update cadre_paper set name='****' where char_length(name)>6;
+
+
+
+update sys_user_info set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
 
 update pcs_candidate set title = replace(title, @keyowrd, repeat('*', char_length(@keyowrd))) where title like concat('%',@keyowrd,'%');
 
@@ -108,3 +129,5 @@ update sys_attach_file set filename = replace(filename, @keyowrd, repeat('*', ch
 
 set @keyowrd='师';
 update dispatch_type set name = replace(name, @keyowrd, repeat('', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+
+
