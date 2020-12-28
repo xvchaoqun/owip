@@ -2,6 +2,8 @@ package controller.analysis;
 
 import controller.BaseController;
 import domain.party.Branch;
+import domain.party.Party;
+import domain.party.PartyExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.member.common.MemberStatByBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
@@ -33,7 +36,14 @@ public class StatPartyController extends BaseController {
     public String stat_ow_page(ModelMap modelMap, Integer partyId) {
 
         int userId = ShiroHelper.getCurrentUserId();
-        if (partyId == null) {
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && partyId == null) {
+            PartyExample example = new PartyExample();
+            example.setOrderByClause("sort_order desc");
+            List<Party> parties = partyMapper.selectByExample(example);
+            if (parties != null && parties.size() > 0)
+                partyId = parties.get(0).getId();
+
+        }else if (partyId == null) {
             List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
             if (partyIds != null && partyIds.size() > 0) {
                 partyId = partyIds.get(0);
