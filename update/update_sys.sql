@@ -1,3 +1,8 @@
+
+-- 2020.12.28 ly
+UPDATE `sys_resource` SET `remark`='组织部，分党委' WHERE  `id`=2553;
+UPDATE `sys_resource` SET `remark`='组织部，分党委' WHERE  `id`=3033;
+
 -- 2020.12.26 sxx
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '干部信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:cadre', NULL, NULL, NULL, 1, NULL);
 
