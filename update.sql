@@ -1,4 +1,13 @@
 
+202012289
+浙大
+
+ALTER TABLE `sys_approval_log`
+   CHANGE COLUMN `stage` `stage` VARCHAR(500) NULL DEFAULT NULL COMMENT '阶段备注，比如 初审、返回等' AFTER `type`;
+
+20201228
+南航
+
 20201227
 -- 北师大
 

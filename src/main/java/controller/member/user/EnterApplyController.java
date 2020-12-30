@@ -148,6 +148,10 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setCreateTime(new Date());
         memberApply.setStage(OwConstants.OW_APPLY_STAGE_INIT);
 
+        if(memberApply.getApplyStage()==null){
+            memberApply.setApplyStage(OwConstants.OW_APPLY_STAGE_INIT);
+        }
+
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(userId,
