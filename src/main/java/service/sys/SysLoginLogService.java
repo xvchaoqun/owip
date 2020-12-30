@@ -18,6 +18,7 @@ import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.shiro.OnlineSession;
+import sys.tags.CmTag;
 import sys.utils.ContentUtils;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -25,10 +26,7 @@ import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/6/10.
@@ -138,6 +136,8 @@ public class SysLoginLogService extends BaseMapper {
     // 获取当前在线用户
     public List<LoginUser> getLoginUsers() {
 
+        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        Set<String> superAccounts = CmTag.getSuperAccounts();
         List<LoginUser> loginUsers = new ArrayList<>();
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         for (Session session : sessions) {
@@ -156,6 +156,12 @@ public class SysLoginLogService extends BaseMapper {
             if (principals != null) {
                 ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
                 loginUser.setShiroUser(shiroUser);
+
+                if(!superAccount){
+                    // 普通账号不能看超级管理员的在线状态
+                    if(superAccounts.contains(shiroUser.getUsername())) continue;
+                }
+
                 loginUsers.add(loginUser);
             }
             Object switchUser = session.getAttribute("_switchUser");
