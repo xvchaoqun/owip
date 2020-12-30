@@ -1,7 +1,7 @@
 
 
 -- 2020.12.24 ly
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum', 260, '0/1/260/', 1, 'stat:partySum', NULL, NULL, NULL, 1, 60);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum?cls=1', 260, '0/1/260/', 1, 'stat:partySum', NULL, NULL, NULL, 1, 60);
 
 -- 2020.12.23 ly 只给大连理工修改
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2565, 0, '组织机构数据统计', '组织部', 'url', '', '/stat/owSum', 260, '0/1/260/', 1, 'stat:owSum', NULL, NULL, NULL, 1, 70);
