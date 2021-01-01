@@ -69,6 +69,10 @@
                         </div>
                         </c:if>
                         <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="memberOut:edit">
+                                <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
+                                    <i class="fa fa-plus"></i> 添加</a>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="memberOutImport:*">
                                 <button class="popupBtn btn btn-success btn-sm tooltip-primary"
                                    data-url="${ctx}/memberOut_import"
@@ -81,10 +85,6 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberOut:edit">
-                                    <c:if test="${cls==1}">
-                                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
-                                        <i class="fa fa-plus"></i> 添加</a>
-                                    </c:if>
                                     <c:if test="${cls!=2 &&cls!=5}">
                                     <button class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">

@@ -2,12 +2,15 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
+<c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_BACK" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>"/>
 
     <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入
+		<c:if test="${not empty cm:getHtmlFragment(HTML_FRAGMENT_MEMBER_IN_NOTE_BACK).content}">
 		<a class="popupBtn btn btn-success btn-xs"
 		   data-width="800"
-		   data-url="${ctx}/hf_content?code=<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>">
+		   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_MEMBER_IN_NOTE_BACK}">
 			<i class="fa fa-info-circle"></i> 申请说明</a>
+			</c:if>
 	</h3>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberIn_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
