@@ -1,3 +1,6 @@
+20210101
+哈工大
+
 
 20201230
 大工
@@ -22,8 +25,8 @@ ALTER TABLE `sys_approval_log`
 20201227
 -- 北师大
 
-ALTER TABLE `sys_user`
-	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;
+/*ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;*/
 -- 更新ow_member_view
 
 
