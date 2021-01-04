@@ -906,7 +906,9 @@ public class SysUserService extends BaseMapper {
                                 }
                             }
                         }
-                        if (null != birthKey || CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_MEMBER)) {
+                        if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_MEMBER)){
+                            flag = true;
+                        }else if (null != birthKey) {
                             if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
                                 flag = true;
                             }

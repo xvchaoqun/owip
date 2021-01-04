@@ -7,6 +7,7 @@ import domain.party.*;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import ext.service.ExtCommonService;
 import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +61,10 @@ public class MemberService extends MemberBaseMapper {
     private PartyMemberGroupService partyMemberGroupService;
     @Autowired
     private BranchMemberGroupService branchMemberGroupService;
+    @Autowired
+    private ExtCommonService extCommonService;
+    @Autowired
+    private MemberApplyService memberApplyService;
 
     public Member get(int userId) {
 
@@ -559,7 +564,8 @@ public class MemberService extends MemberBaseMapper {
 
     }
 
-    /*党员信息一键导入
+    /*党员信息一键导入(包括党员发展过程的对象)
+        导入时需要先导入正式党员和预备党员，然后在导入发展党员
         导入党员数据，如果有二级党委和党支部的编码，则导入，为空时，按规则生成。
         同时会更新ow_member_apply的数据
     */
@@ -577,6 +583,13 @@ public class MemberService extends MemberBaseMapper {
 
         Date now = new Date();
         List<Member> records = new ArrayList<>();
+        List<MemberApply> applyRecords = new ArrayList<>();
+
+        Map<String, Byte> stageMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : OwConstants.OW_APPLY_STAGE_MAP.entrySet()) {
+
+            stageMap.put(entry.getValue(), entry.getKey());
+        }
         int row = 1;
         Integer partyId = null;
         Integer branchId = null;
@@ -586,6 +599,137 @@ public class MemberService extends MemberBaseMapper {
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             row++;
+
+            String _stage = StringUtils.trimToNull(xlsRow.get(7));//党籍状态，如果不是正式党员或预备党员，放在党员发展中。
+            if (StringUtils.isBlank(_stage)) {
+                throw new OpException("第{0}行党籍状态为空", row);
+            }
+            //添加到党员发展中
+            if (!politicalStatusMap.containsKey(_stage)){
+
+                MemberApply memberApply = new MemberApply();
+                String userCode = ContentUtils.trimAll(xlsRow.get(0));
+                String idcard = ContentUtils.trimAll(xlsRow.get(2));
+                Map<String, List<String>> codeMap = new HashMap<>();
+                if (StringUtils.isBlank(userCode)) {
+                    //通过身份证号得到userCode
+                    if (idcard == null) {
+                        throw new OpException("第{0}行身份证号和学工号都为空", row);
+                    }
+                    Byte _type = 0;
+                    //提取学工号
+                    codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
+                    if (codeMap.size()==0)
+                        continue;
+                    userCode = codeMap.keySet().iterator().next();
+                    XSSFRow _row = sheet.getRow(row - 1);
+                    XSSFCell cell = _row.getCell(0);
+                    if(cell==null){
+                        cell = _row.createCell(0);
+                    }
+                    cell.setCellValue(StringUtils.trimToEmpty(userCode));
+                    if (codeMap.get(userCode).size() >= 1) {
+                        //设置字体
+                        XSSFFont font = workbook.createFont();
+                        if (codeMap.get(userCode).size() > 1) {
+                            font.setColor(HSSFColor.RED.index);
+                        }
+
+                        //设置样式
+                        XSSFCellStyle style = workbook.createCellStyle();
+                        style.setFont(font);
+                        cell.setCellStyle(style);
+
+                        cell = _row.createCell(cellNum);
+                        cell.setCellValue(StringUtils.join(codeMap.get(userCode), "、"));
+                    }
+                }
+                SysUserView uv = sysUserService.findByCode(userCode);
+                if (uv == null) {
+                    throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+                }
+                memberApply.setUserId(uv.getId());
+
+                Byte type = uv.getType();
+                if (type == SystemConstants.USER_TYPE_JZG) {
+                    memberApply.setType(MemberConstants.MEMBER_TYPE_TEACHER);
+                } else if (type == SystemConstants.USER_TYPE_BKS) {
+                    memberApply.setType(MemberConstants.MEMBER_TYPE_STUDENT);
+                } else if (type == SystemConstants.USER_TYPE_YJS) {
+                    memberApply.setType(MemberConstants.MEMBER_TYPE_STUDENT);
+                } else {
+                    throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
+                }
+                memberApply.setUserId(uv.getId());
+
+                //分党委
+                String partyName = ContentUtils.trimAll(xlsRow.get(3));
+                String partyCode = StringUtils.trimToNull(xlsRow.get(4));
+                Party party = new Party();
+                if (StringUtils.isBlank(partyName)){
+                    throw new OpException("第{0}行分党委名称为空", row);
+                }else {
+                    PartyExample example = new PartyExample();
+                    example.createCriteria().andNameLike(partyName).andIsDeletedEqualTo(false);
+                    List<Party> parties = partyMapper.selectByExample(example);
+                    if (parties.size() >= 1){
+                        party = parties.get(0);
+                        partyId = party.getId();
+                    }
+                }
+
+                memberApply.setPartyId(party.getId());
+
+                if (!partyService.isDirectBranch(partyId)) {
+                    String branchName = ContentUtils.trimAll(xlsRow.get(5));
+                    String _branchCode = ContentUtils.trimAll(xlsRow.get(6));
+                    Branch branch = new Branch();
+                    if (StringUtils.isBlank(branchName)) {
+                        throw new OpException("第{0}行党支部名称为空", row);
+                    }
+                    BranchExample example = new BranchExample();
+                    example.createCriteria().andPartyIdEqualTo(partyId).andNameEqualTo(branchName).andIsDeletedEqualTo(false);
+                    List<Branch> branches = branchMapper.selectByExample(example);
+                    if (branches.size() >= 1) {
+                        branch = branches.get(0);
+                    }
+
+                    memberApply.setBranchId(branch.getId());
+                }
+
+                int col = 8;
+                Byte stage = stageMap.get(_stage);
+                if (stage == null) {
+                    throw new OpException("第{0}行党籍状态[{1}]不存在", row, _stage);
+                }
+                memberApply.setStage(stage);
+
+                col++;
+                memberApply.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                memberApply.setFillTime(memberApply.getApplyTime());
+
+                memberApply.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                memberApply.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                memberApply.setSponsorUsers(StringUtils.trimToNull(xlsRow.get(col++)));
+
+                memberApply.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+                memberApply.setIsRemove(false);
+                memberApply.setCreateTime(now);
+
+                /*
+                //是否需要判断数据的逻辑
+                try{
+                    extCommonService.checkMemberApplyData(memberApply);
+                }catch (OpException ex){
+                    throw new OpException("第{0}行数据有误:" + ex.getMessage(), row);
+                }*/
+
+                applyRecords.add(memberApply);
+
+                continue;
+            }
+
             Member record = new Member();
             String userCode = ContentUtils.trimAll(xlsRow.get(0));
             String idcard = ContentUtils.trimAll(xlsRow.get(2));
@@ -805,12 +949,14 @@ public class MemberService extends MemberBaseMapper {
         }
 
         int successCount = batchImportUpdate(records);
+        int applyCount = memberApplyService.batchImport(applyRecords);
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", true);
+        resultMap.put("applyCount", applyCount);
         resultMap.put("msg", StringUtils.defaultIfBlank("success", "success"));
         resultMap.put("successCount", successCount);
-        resultMap.put("total", records.size());
+        resultMap.put("total", records.size() + applyRecords.size());
         resultMap.put("partyAdd", partyAdd);
         resultMap.put("branchAdd", branchAdd);
 
@@ -841,34 +987,36 @@ public class MemberService extends MemberBaseMapper {
             isAdd = true;
         }
 
-        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        Date now = new Date();
-        if (memberApply == null) {
-            memberApply = new MemberApply();
-            memberApply.setUserId(userId);
-            memberApply.setType((record.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
-                    OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
-            memberApply.setPartyId(partyId);
-            memberApply.setBranchId(branchId);
-            memberApply.setApplyTime(record.getApplyTime() == null ? now : record.getApplyTime());
-            memberApply.setActiveTime(record.getActiveTime());
-            memberApply.setCandidateTime(record.getCandidateTime());
-            memberApply.setGrowTime(record.getGrowTime());
-            memberApply.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
-            memberApply.setStage(OwConstants.OW_APPLY_STAGE_GROW);
+        if (record.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            Date now = new Date();
+            if (memberApply == null) {
+                memberApply = new MemberApply();
+                memberApply.setUserId(userId);
+                memberApply.setType((record.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
+                        OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
+                memberApply.setPartyId(partyId);
+                memberApply.setBranchId(branchId);
+                memberApply.setApplyTime(record.getApplyTime() == null ? now : record.getApplyTime());
+                memberApply.setActiveTime(record.getActiveTime());
+                memberApply.setCandidateTime(record.getCandidateTime());
+                memberApply.setGrowTime(record.getGrowTime());
+                memberApply.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+                memberApply.setStage(OwConstants.OW_APPLY_STAGE_GROW);
 
-            memberApply.setRemark("预备党员信息添加后同步");
-            memberApply.setFillTime(now);
-            memberApply.setCreateTime(now);
-            memberApply.setIsRemove(false);
-            memberApply.setPartyId(partyId);
-            memberApply.setBranchId(branchId);
+                memberApply.setRemark("预备党员信息添加后同步");
+                memberApply.setFillTime(now);
+                memberApply.setCreateTime(now);
+                memberApply.setIsRemove(false);
+                memberApply.setPartyId(partyId);
+                memberApply.setBranchId(branchId);
 
-            memberApplyMapper.insertSelective(memberApply);
-        }else {
-            memberApply.setPartyId(partyId);
-            memberApply.setBranchId(branchId);
-            memberApplyMapper.updateByPrimaryKeySelective(memberApply);
+                memberApplyMapper.insertSelective(memberApply);
+            } else {
+                memberApply.setPartyId(partyId);
+                memberApply.setBranchId(branchId);
+                memberApplyMapper.updateByPrimaryKeySelective(memberApply);
+            }
         }
 
         // 更新系统角色  访客->党员

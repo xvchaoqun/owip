@@ -1,4 +1,7 @@
 
+更新大工
+update ow_party set short_name=name where short_name is null or short_name='';
+
 202012289
 浙大
 
