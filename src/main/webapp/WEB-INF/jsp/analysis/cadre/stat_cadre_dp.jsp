@@ -39,7 +39,7 @@
     option = null;
     var data =  getData();
 
-    console.dir(data)
+    //console.dir(data)
     option = {
         tooltip: {
             trigger: 'item',

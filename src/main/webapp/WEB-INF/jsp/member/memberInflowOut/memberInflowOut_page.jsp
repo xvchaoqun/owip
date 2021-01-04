@@ -47,6 +47,11 @@
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflowOut?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="memberInflow:edit">
+                                <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                            </shiro:hasPermission>
+                        </div>
                     </ul>
 
                     <div class="tab-content">
@@ -54,9 +59,6 @@
                             <div class="jqgrid-vertical-offset buttons">
 
                                 <shiro:hasPermission name="memberInflow:edit">
-                                    <c:if test="${cls==1}">
-                                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                                    </c:if>
                                     <c:if test="${cls!=3}">
                                 <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm">
                                     <i class="fa fa-edit"></i> 修改信息

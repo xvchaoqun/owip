@@ -38,6 +38,14 @@
                     <div class="row">
                         <c:if test="${type==MEMBER_STAY_TYPE_ABROAD}">
                             <div class="col-xs-6">
+                                <c:if test="${param.auth=='admin'}">
+                                <div class="form-group">
+                                    <label class="col-xs-6 control-label"> 姓名</label>
+                                    <div class="col-xs-6 label-text">
+                                        ${cm:getUserById(param.userId).realname}
+                                    </div>
+                                </div>
+                                </c:if>
                                 <div class="form-group">
                                     <label class="col-xs-6 control-label"><span class="star">*</span>人员类别</label>
 
@@ -402,6 +410,14 @@
                         <c:if test="${type==MEMBER_STAY_TYPE_INTERNAL}">
 
                             <div class="col-xs-5">
+                                <c:if test="${param.auth=='admin'}">
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label"> 姓名</label>
+                                    <div class="col-xs-6 label-text">
+                                        ${cm:getUserById(param.userId).realname}
+                                    </div>
+                                </div>
+                                </c:if>
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>人员类别</label>
 

@@ -484,8 +484,10 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
     }
 
-    @Cacheable(value = "Cadre", key="#cadreId")
-    public CadreView get(int cadreId){
+    @Cacheable(value = "Cadre", key="#cadreId", condition = "#cadreId!=null")
+    public CadreView get(Integer cadreId){
+
+        if(cadreId==null) return null;
 
         return iCadreMapper.getCadre(cadreId);
     }

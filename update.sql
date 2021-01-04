@@ -1,8 +1,19 @@
+20210101
+哈工大
 
-更新大工
-update ow_party set short_name=name where short_name is null or short_name='';
 
-202012289
+20201230
+大工
+
+update base_meta_type set name='党总支类别' where code='mc_party_class';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`,
+                            `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum?cls=1', 260, '0/1/260/', 1, 'stat:partySum', NULL, NULL, NULL, 1, 60);
+
+
+20201229
 浙大
 
 ALTER TABLE `sys_approval_log`
@@ -14,8 +25,8 @@ ALTER TABLE `sys_approval_log`
 20201227
 -- 北师大
 
-ALTER TABLE `sys_user`
-	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;
+/*ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;*/
 -- 更新ow_member_view
 
 

@@ -22,7 +22,7 @@
                 </div>
                 <div style="display: inline-block;position: relative;" id="selectParty">
                     <c:if test="${(not empty parties && fn:length(parties)>1)||cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
-                        <select data-rel="select2" name="party">
+                        <select data-rel="select2" name="party" data-width="350">
                             <c:forEach items="${parties}" var="party">
                                 <option value="${party.id}">${party.name}</option>
                             </c:forEach>

@@ -27,17 +27,13 @@
     </div>
 </div>
 <script>
-    var dom;
-    if(${param.cadreType == 1}){
-        dom = $('#cadrePost-placeholder_CJ').get(0);
-    }else if(${param.cadreType == 2}){
-        dom = $('#cadrePost-placeholder_KJ').get(0);
-    }
+    var dom = $('#cadrePost-placeholder_${param.cadreType == 1?"CJ":"KJ"}').get(0);
+
     var myChart = echarts.init(dom);
     option = null;
     var data =  getData();
 
-    console.dir(data)
+    //console.dir(data)
     option = {
         tooltip: {
             trigger: 'item',

@@ -27,7 +27,6 @@
     var dom = $('#container_CJ').get(0);
     var myChart = echarts.init(dom);
     var data =  getData();
-    option = null;
     option = {
         tooltip: {},
         legend: {
@@ -73,7 +72,7 @@
             seriesData: seriesData,
         };
     };
-    if (option && typeof option === "object") {
+    if (option && typeof option === "object" && data.indicatorData.length>0) {
         myChart.setOption(option, true);
     }
 </script>
