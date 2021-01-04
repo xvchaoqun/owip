@@ -4,6 +4,8 @@
 
 20201230
 大工
+update ow_party set short_name=name where short_name is null or short_name='';
+
 
 update base_meta_type set name='党总支类别' where code='mc_party_class';
 
