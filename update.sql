@@ -1,3 +1,16 @@
+
+
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+
+delete from cet_train_obj where train_course_id not in(select id from cet_train_course);
+ALTER TABLE `cet_train_obj`
+    ADD CONSTRAINT `FK_cet_train_obj_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+
 20210101
 哈工大
 
