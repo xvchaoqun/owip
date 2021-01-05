@@ -1,4 +1,5 @@
 
+20210105
 
 ALTER TABLE `ow_branch`
 	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;

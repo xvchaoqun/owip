@@ -167,7 +167,7 @@ public class StatService extends BaseMapper {
                     otherMap.put("男", other.getNum());
                 } else if (other.getGroupBy() != null && (other.getGroupBy().byteValue() == SystemConstants.GENDER_FEMALE)) {
                     otherMap.put("女", other.getNum());
-                } else {
+                } else if(other.getNum()>0){
                     otherMap.put("无数据", other.getNum());
                 }
             }
