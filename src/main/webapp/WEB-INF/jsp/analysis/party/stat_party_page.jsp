@@ -24,8 +24,8 @@
                         <div class="row">
                             <c:import url="/stat_party_member_count?partyId=${partyId}"/>
                             <c:import url="/stat_party_member_age?partyId=${partyId}"/>
-                            <c:import url="/stat_party_member_apply?partyId=${partyId}"/>
                             <c:import url="/stat_party_branch_type?partyId=${partyId}"/>
+                            <c:import url="/stat_party_member_apply?partyId=${partyId}"/>
                         </div>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
@@ -37,7 +37,7 @@
             <div class="widget-box transparent">
                 <div class="widget-header widget-header-flat">
                     <h4 class="widget-title lighter">
-                        <i class="ace-icon fa fa-signal"></i>
+                        <i class="ace-icon fa fa-bar-chart"></i>
                         党员人数分布
                     </h4>
                     <div class="widget-toolbar">

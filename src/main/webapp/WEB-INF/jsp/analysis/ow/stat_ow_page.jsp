@@ -25,8 +25,8 @@
                             <div class="row">
                                 <c:import url="/stat_member_count"/>
                                 <c:import url="/stat_member_age"/>
-                                <c:import url="/stat_member_apply"/>
                                 <c:import url="/stat_branch_type"/>
+                                <c:import url="/stat_member_apply"/>
                             </div>
                         </div><!-- /.widget-main -->
                     </div><!-- /.widget-body -->
@@ -38,7 +38,7 @@
                 <div class="widget-box transparent">
                     <div class="widget-header widget-header-flat">
                         <h4 class="widget-title lighter">
-                            <i class="ace-icon fa fa-signal"></i>
+                            <i class="ace-icon fa fa-bar-chart"></i>
                             党员人数分布（前${statPartyMemberCount})
                         </h4>
                         <div class="widget-toolbar">

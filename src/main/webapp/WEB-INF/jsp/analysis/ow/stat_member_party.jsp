@@ -4,114 +4,104 @@
 
 <div id="container" style="height:500px; margin: 0 auto;"></div>
 <script>
-var mychart= {
-        chart: {
-            type: 'column',
-            height:'500'
-        },
-        exporting: {
-        	enabled:false,
-            url: '${ctx}/export',    // 导出图表的服务端处理地址
-            filename: ''    // 返回下载的文件名
-        },
-        title: null,
-		credits: { enabled: false }, // 版权信息
-        xAxis: {
-            categories: ${cm:toJSONArray(categories)},
-			tickmarkPlacement:'on',
-			gridLineWidth:0,
-			gridLineDashStyle: 'ShortDot',
-			 labels: {
-				 rotation: -45,
-				 align: 'right',
-				 style: {
-					 fontSize: '13px',
-					 fontFamily: 'Verdana, sans-serif'
-				 }
-			}
-        },
-        yAxis: {
-            title: {
-                text: ''
-            },
-            lineWidth :1,
-			gridLineWidth:0,
-			endOnTick: true, //是否以刻度结束
-			lineWidth:2,
-			tickWidth:2,
-			minorGridLineWidth:1,
-			minorTickLength:4,
-			stackLabels: {
-				enabled: true,
-				style: {
-					fontWeight: 'bold',
-					color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-				},
-                x:0,
-                y:-13
-			}
-        },
+
+    var myChart = echarts.init($('#container').get(0));
+
+    var label= [
+        <c:forEach items="${categories}" var="category">
+            '${category}',
+        </c:forEach>
+    ];
+
+    var data = [
+        <c:forEach items="${statAgeMap}" var="age">
+            <c:if test="${not empty age.value}">
+                {name: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", value: '${age.value}'},
+            </c:if>
+        </c:forEach>
+    ];
+
+    var sumData = [];
+    var teachers = ${cm:toJSONArray(teachers)};
+    var students = ${cm:toJSONArray(students)};
+
+    for (var i = 0; i<teachers.length; i++){
+        var sumCount = 0;
+        sumCount = teachers[i]+students[i];
+        sumData.push(sumCount);
+    }
+
+
+    var option = {
         tooltip: {
-            formatter: function() {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    '总量: ' + this.point.stackTotal;
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'none'        // 默认为直线，可选为：'line'：直线 | 'shadow'：阴影|' ‘cross’：十字准星指示器'|‘none’：无指示器
             }
         },
-	plotOptions: {
-		column: {
-			stacking: 'normal',
-			dataLabels: {
-				enabled: true,
-				color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-				style: {
-					textShadow: '0 0 3px black'
+        legend: {
+            data: label
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: {
+            type: 'value'
+        },
+        xAxis: {
+            type: 'category',
+            data: label,
+            axisLabel: {rotate: 40, interval: 0}
+        },
+        series: [
+            {
+                name: '党员总数',
+                type: 'bar',
+                barWidth: 20,
+                barGap: '-100%',         // 左移100%，stack不再与上面两个在一列
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',       //  位置设为top
+                        formatter: '{c}',
+                        textStyle: { color: '#000' }
+                    }
                 },
-                x:0,
-                y:-8
-			}
-		}
-	},
-        series: [{
-			name:'教职工',
-            data: ${cm:toJSONArray(teachers)},
-            maxPointWidth: 70,
-        },{
-			name:'学生',
-			data: ${cm:toJSONArray(students)},
-			color:'#AF4E96',
-            maxPointWidth: 70,
-		}],
-	legend: {
-		align: 'right',
-		x: -70,
-		verticalAlign: 'top',
-		y: 20,
-		floating: true,
-		backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
-		borderColor: '#CCC',
-		borderWidth: 1,
-		shadow: false
-	}
+                itemStyle: {
+                    normal: {
+                        color: 'rgba(128, 128, 128, 0.3)'    // 仍为透明
+                    }
+                },
+                data: sumData,
+            },
+            {
+                name: '学生',
+                type: 'bar',
+                barWidth:20,
+                stack: '总量',
+                color:'rgb(200, 103, 175)',
+                label: {
+                    show: true,
+                    position: 'insideRight'
+                },
+                data: ${cm:toJSONArray(students)}
+            },
+            {
+                name: '教工',
+                type: 'bar',
+                barWidth:20,
+                stack: '总量',
+                color:'rgb(124, 181, 236)',
+                label: {
+                    show: true,
+                    position: 'insideRight'
+                },
+                data: ${cm:toJSONArray(teachers)}
+            }
+        ]
     };
-//var mychartStr = JSON.stringify(mychart)/* jQuery.extend(true, {}, oldObject) */;
-
-$(function () {
-	
-	$('#container').highcharts(mychart);
-});
-(function(H) {
-    var each = H.each;
-    H.wrap(H.seriesTypes.column.prototype, 'drawPoints', function(proceed) {
-        var series = this;
-        if (series.data.length > 0) {
-            var width = series.barW > series.options.maxPointWidth ? series.options.maxPointWidth : series.barW;
-            each(this.data, function(point) {
-                point.shapeArgs.x += (point.shapeArgs.width - width) / 2;
-                point.shapeArgs.width = width;
-            });
-        }
-        proceed.call(this);
-    })
-})(Highcharts);
+    myChart.setOption(option);
 </script>

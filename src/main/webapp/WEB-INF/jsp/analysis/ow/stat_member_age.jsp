@@ -3,11 +3,11 @@
 <c:set var="MEMBER_AGE_MAP" value="<%=MemberConstants.MEMBER_AGE_MAP%>"/>
 <c:set var="PIE_COLOR_MAP" value="<%=SystemConstants.PIE_COLOR_MAP%>"/>
 
-<div class="col-sm-4" id="stat_member_age" style="width:350px;float: left;">
+<div class="col-sm-4" id="stat_member_age" style="width:550px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
-                <i class="ace-icon fa fa-signal"></i>
+                <i class="ace-icon fa fa-pie-chart"></i>
                 党员年龄结构
             </h5>
             <div class="widget-toolbar no-border">
@@ -44,94 +44,93 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <div id="memberAge-placeholder"></div>
+                <div id="memberAge-placeholder" style="height: 252px"></div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $(function () {
-        $("#stat_member_age ul li").click(function () {
 
-            var url = "${ctx}/${isPartyAdmin?'stat_party_member_age':'stat_member_age'}";
+    $("#stat_member_age ul li").click(function () {
 
-            $.get(url, {type: $(this).data('type'),partyId: "${partyId}"}, function (html) {
-                $("#stat_member_age").replaceWith(html);
-            });
+        var url = "${ctx}/${isPartyAdmin?'stat_party_member_age':'stat_member_age'}";
+
+        $.get(url, {type: $(this).data('type'),partyId: "${partyId}"}, function (html) {
+            $("#stat_member_age").replaceWith(html);
         });
+    });
 
-        var placeholder = $('#memberAge-placeholder').css({'width': '90%', 'min-height': '135px'});
-        var data = [
-                <c:forEach items="${statAgeMap}" var="age">
-                     <c:if test="${not empty age.value}">
-                    {label: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", data: '${age.value}', color:'${PIE_COLOR_MAP.get(age.key)}'},
-                     </c:if>
-                </c:forEach>
-        ];
+    var myChart = echarts.init($('#memberAge-placeholder').get(0));
 
-        function drawPieChart(placeholder, data, position) {
-            if(data.length==0) return;
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        tilt: 0.7,
-                        highlight: {
-                            opacity: 0.25
-                        },
-                        stroke: {
-                            color: '#fff',
-                            width: 2
-                        },
-                        startAngle: 2,
-                        radius: 1,
+    var label= [
+        <c:forEach items="${statAgeMap}" var="age">
+            <c:if test="${not empty age.value}">
+                '${MEMBER_AGE_MAP.get(age.key)}(${age.value})',
+            </c:if>
+        </c:forEach>
+    ];
+    var data = [
+            <c:forEach items="${statAgeMap}" var="age">
+                 <c:if test="${not empty age.value}">
+                    {name: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", value: '${age.value}'},
+                 </c:if>
+            </c:forEach>
+    ];
+
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: -5,
+            top: 5,
+            bottom: 5,
+            data: label
+        },
+        series: [
+            {
+                name: '党员年龄结构',
+                type: 'pie',
+                radius: '60%',
+                center: ['60%', '60%'],
+                data:data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur:10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            },
+            {
+                name: '党员年龄结构',
+                type: 'pie',
+                radius: '60%',
+                center: ['60%', '60%'],
+                data: data,
+                itemStyle:{            //饼图图形上的文本标签
+                    normal: {
                         label: {
                             show: true,
-                            radius: 2/3,
-                            formatter: function(label, series) {
-                                // series is the series object for the label
-                                return '<div style="color:#fff">' + series['percent'].toFixed(2) + '%</div>';
+                            position: 'inner',
+                            fontSize: 12,
+                            align: "left",
+                            textStyle: {
+                                fontWeight: 300,
+                                fontSize: 12,   //文字的字体大小
+                                color:'white'
                             },
-                            threshold: 0.1
+                            formatter: '{d}%'
+                        },
+                        labelLine:{
+                            show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
                         }
                     }
-                },
-                legend: {
-                    show: true,
-                    position: position || "ne",
-                    labelBoxBorderColor: null,
-                    margin: [-30, 0]
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true
                 }
-            })
-        }
-
-        drawPieChart(placeholder, data);
-
-        //pie chart tooltip example
-        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
-        var previousPoint = null;
-        placeholder.on('plothover', function (event, pos, item) {
-            if (item) {
-                //console.log(item)
-                if (previousPoint != item.seriesIndex) {
-                    previousPoint = item.seriesIndex;
-                    var tip = item.series['label'] + " : " + item.series['percent'].toFixed(2) + '%';
-                    $tooltip.show().children(0).text(tip);
-                }
-                $tooltip.css({top: pos.pageY + 10, left: pos.pageX + 10});
-            } else {
-                $tooltip.hide();
-                previousPoint = null;
             }
-
-        });
-        /////////////////////////////////////
-        $(document).one('ajaxStart.page', function (e) {
-            $tooltip.remove();
-        });
-    })
+        ]
+    };
+    myChart.setOption(option);
 </script>

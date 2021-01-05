@@ -6,7 +6,7 @@
                 <div class="widget-box">
                     <div class="widget-header widget-header-flat widget-header-small">
                         <h5 class="widget-title">
-                            <i class="ace-icon fa fa-signal"></i>
+                            <i class="ace-icon fa fa-area-chart"></i>
                             每日最高在线人数统计
                         </h5>
                         <div class="widget-toolbar no-border">

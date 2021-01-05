@@ -5,7 +5,7 @@
 <c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
 <c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 
-<div class="col-sm-4" id="stat_cadre_count" style="width:500px;float: left;">
+<div class="col-sm-4" id="stat_cadre_count" style="width:550px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
@@ -14,7 +14,7 @@
             </h5>
         </div>
         <div class="widget-body">
-            <div class="widget-main" style="height: 250px">
+            <div class="widget-main">
                 <c:if test="${param.cadreType == 1}">
                     <div id="cadreAge-placeholder_CJ" style="height: 250px"></div>
                 </c:if>
@@ -46,7 +46,7 @@
             legend: {
                 type: 'scroll',
                 orient: 'vertical',
-                right: 10,
+                left: 10,
                 top: 20,
                 bottom: 20,
                 data: data.legendData,
@@ -56,14 +56,14 @@
                     name: '年龄',
                     type: 'pie',
                     radius: '60%',
-                    center: ['40%', '50%'],
+                    center: ['60%', '50%'],
                     data: data.seriesData2,
                 },
                 {
                     name: '年龄',
                     type: 'pie',
                     radius: '60%',
-                    center: ['40%', '50%'],
+                    center: ['60%', '50%'],
                     data: data.seriesData1,
                     itemStyle:{            //饼图图形上的文本标签
                         normal: {

@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
-<div class="col-sm-4" id="stat_member_other" style="width:350px;float: left;">
+<div class="col-sm-4" id="stat_member_other" style="width:750px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
-                <i class="ace-icon fa fa-signal"></i>
+                <i class="ace-icon fa fa-pie-chart"></i>
                 党员基本情况统计
             </h5>
             <div class="widget-toolbar no-border">
@@ -44,15 +44,12 @@
         <div class="widget-body">
             <c:if test="${not empty type}">
                 <div class="widget-main">
-                    <div id="memberOther-placeholder"></div>
+                    <div id="memberOther-placeholder" style="height: 252px"></div>
                 </div>
             </c:if>
             <c:if test="${empty type}">
                 <div class="widget-main">
-                    <div style="min-height: 130px;">
-                        <div class="stat-row">党员总数：<span class="count">${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE) + statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}</span></div>
-                        <div class="stat-row">正式党员人数：<span class="count">${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)}</span><br/>（其中教职工<span class="count">${statPositiveMap.get(MEMBER_TYPE_TEACHER)}</span>人，学生<span class="count">${statPositiveMap.get(MEMBER_TYPE_STUDENT)}</span>人）</div>
-                        <div class="stat-row">预备党员人数：<span class="count">${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}</span><br/>（其中教职工<span class="count">${statGrowMap.get(MEMBER_TYPE_TEACHER)}</span>人，学生<span class="count">${statGrowMap.get(MEMBER_TYPE_STUDENT)}</span>人）</div>
+                    <div id="memberCount-placeholder" style="min-height: 252px;">
                     </div>
                 </div>
             </c:if>
@@ -60,89 +57,170 @@
     </div>
 </div>
 <script>
-    $(function () {
-        $("#stat_member_other ul li").click(function () {
+    $("#stat_member_other ul li").click(function () {
 
-            var url = "${ctx}/${isPartyAdmin?'stat_party_member_count':'stat_member_count'}";
+        var url = "${ctx}/${isPartyAdmin?'stat_party_member_count':'stat_member_count'}";
 
-            $.get(url, {type: $(this).data('type'),partyId: "${partyId}"}, function (html) {
-                $("#stat_member_other").replaceWith(html);
-            });
+        $.get(url, {type: $(this).data('type'),partyId: "${partyId}"}, function (html) {
+            $("#stat_member_other").replaceWith(html);
         });
+    });
+    <c:if test="${empty type}">
+        var countChart = echarts.init($('#memberCount-placeholder').get(0));
 
-        var placeholder = $('#memberOther-placeholder').css({'width': '90%', 'min-height': '135px'});
-        var data = [
+        var memberData = [
+            {name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}', value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)}'},
+            {name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}', value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}'},
+        ];
+
+        var countData = [
+            {name: '教工正式党员', value: '${statPositiveMap.get(MEMBER_TYPE_TEACHER)}'},
+            {name: '学生正式党员', value: '${statPositiveMap.get(MEMBER_TYPE_STUDENT)}'},
+            {name: '教工预备党员', value: '${statGrowMap.get(MEMBER_TYPE_TEACHER)}'},
+            {name: '学生预备党员', value: '${statGrowMap.get(MEMBER_TYPE_STUDENT)}'},
+        ];
+
+        var countOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left:-5,
+                top: -5,
+                bottom: 5,
+                data: ['${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}', '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}', '教工正式党员', '学生正式党员', '教工预备党员', '学生预备党员']
+            },
+            series: [
+                {
+                    name: '党员数量',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: [0, '40%'],
+                    center: ['60%', '60%'],
+                    label: {
+                        position: 'inner'
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: memberData
+                },
+                {
+                    name: '党员数量',
+                    type: 'pie',
+                    radius: ['50%', '65%'],
+                    center: ['60%', '60%'],
+                    label: {
+                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                        backgroundColor: '#eee',
+                        borderColor: '#aaa',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        rich: {
+                            a: {
+                                color: '#999',
+                                lineHeight: 22,
+                                align: 'center'
+                            },
+                            hr: {
+                                borderColor: '#aaa',
+                                width: '50%',
+                                borderWidth: 0.5,
+                                height: 0
+                            },
+                            b: {
+                                fontSize: 14,
+                                lineHeight: 33
+                            },
+                            per: {
+                                color: '#eee',
+                                backgroundColor: '#334455',
+                                padding: [2, 4],
+                                borderRadius: 2
+                            }
+                        }
+                    },
+                    data: countData
+                }
+            ]
+        };
+        countChart.setOption(countOption);
+    </c:if>
+    <c:if test="${not empty type}">
+        var otherChart = echarts.init($('#memberOther-placeholder').get(0));
+
+        var otherLabel= [
             <c:forEach items="${otherMap}" var="other">
-            <c:if test="${not empty other.value}">
-            {label: "${other.key}(${other.value})", data: '${other.value}'/*, color:'${PIE_COLOR_MAP.get(other.key)}'*/},
-            </c:if>
+                <c:if test="${not empty other.value}">
+                    '${other.key}(${other.value})',
+                </c:if>
+            </c:forEach>
+        ];
+        var otherData = [
+            <c:forEach items="${otherMap}" var="other">
+                <c:if test="${not empty other.value}">
+                    {name: "${other.key}(${other.value})", value: '${other.value}'},
+                </c:if>
             </c:forEach>
         ];
 
-        function drawPieChart(placeholder, data, position) {
-            if(data.length==0) return;
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        tilt: 0.7,
-                        highlight: {
-                            opacity: 0.25
-                        },
-                        stroke: {
-                            color: '#fff',
-                            width: 2
-                        },
-                        startAngle: 2,
-                        radius: 1,
-                        label: {
-                            show: true,
-                            radius: 2/3,
-                            formatter: function(label, series) {
-                                // series is the series object for the label
-                                return '<div style="color:#fff">' + series['percent'].toFixed(2) + '%</div>';
-                            },
-                            threshold: 0.1
+        var otherOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: -5,
+                top: 5,
+                bottom: 5,
+                data: otherLabel
+            },
+            series: [
+                {
+                    name: '党员基本情况',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['60%', '60%'],
+                    data:otherData,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur:10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
                         }
                     }
                 },
-                legend: {
-                    show: true,
-                    position: position || "ne",
-                    labelBoxBorderColor: null,
-                    margin: [-30, 0]
+                {
+                    name: '党员基本情况',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['60%', '60%'],
+                    data: otherData,
+                    itemStyle:{            //饼图图形上的文本标签
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'inner',
+                                fontSize: 12,
+                                align: "left",
+                                textStyle: {
+                                    fontWeight: 300,
+                                    fontSize: 12,   //文字的字体大小
+                                    color:'white'
+                                },
+                                formatter: '{d}%'
+                            },
+                            labelLine:{
+                                show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                            }
+                        }
+                    }
                 }
-                ,
-                grid: {
-                    hoverable: true,
-                    clickable: true
-                }
-            })
-        }
-
-        drawPieChart(placeholder, data);
-
-        //pie chart tooltip example
-        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
-        var previousPoint = null;
-        placeholder.on('plothover', function (event, pos, item) {
-            if (item) {
-                //console.log(item)
-                if (previousPoint != item.seriesIndex) {
-                    previousPoint = item.seriesIndex;
-                    var tip = item.series['label'] + " : " + item.series['percent'].toFixed(2) + '%';
-                    $tooltip.show().children(0).text(tip);
-                }
-                $tooltip.css({top: pos.pageY + 10, left: pos.pageX + 10});
-            } else {
-                $tooltip.hide();
-                previousPoint = null;
-            }
-
-        });
-        /////////////////////////////////////
-        $(document).one('ajaxStart.page', function (e) {
-            $tooltip.remove();
-        });
-    })
+            ]
+        };
+        otherChart.setOption(otherOption);
+    </c:if>
 </script>
