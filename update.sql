@@ -39,7 +39,6 @@ ALTER TABLE `sys_approval_log`
 南航
 
 20201227
--- 北师大
 
 /*ALTER TABLE `sys_user`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;*/
@@ -57,7 +56,7 @@ INSERT INTO `sys_resource` (id, `is_mobile`, `name`, `remark`, `type`, `menu_css
 
 
 20201220
-哈工大  -- 北师大
+哈工大
 
 -- 如果领取志愿书不需要组织部审核bug，更新语句
 -- update ow_member_apply set grow_status=2 where stage=5 and grow_status is null;
