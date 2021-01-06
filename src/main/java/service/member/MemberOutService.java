@@ -328,7 +328,9 @@ public class MemberOutService extends MemberBaseMapper {
         if (record.getId() == null) {
 
             archive(userId);
-
+            if (!CmTag.getBoolProperty("use_code_as_identify")) {
+                record.setSn(genSn(record.getYear()));
+            }
             memberOutMapper.insertSelective(record);
         } else {
             memberOutMapper.updateByPrimaryKeySelective(record);
@@ -535,5 +537,19 @@ public class MemberOutService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                 "自动打印",
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "完成");
+    }
+
+    public Integer genSn(Integer year){
+
+        Integer maxSn = null;
+        if (year != null){
+            maxSn = iMemberMapper.selectYearMaxNumber(year);
+        }
+
+        if (maxSn == null){
+            maxSn = 0;
+        }
+
+        return ++maxSn;
     }
 }

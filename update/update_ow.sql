@@ -1,5 +1,10 @@
 
-
+-- 2020.1.5 ly
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,
+	ADD COLUMN `sn` INT(10) UNSIGNED NULL COMMENT '编号 用于生成介绍信编号 依次递增' AFTER `year`,
+	ADD UNIQUE INDEX `year_number` (`year`, `sn`);
+-- 更新ow_member_out_view
 
 -- 2020.11.13 ly
 ALTER TABLE `ow_member`

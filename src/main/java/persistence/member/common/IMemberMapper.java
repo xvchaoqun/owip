@@ -276,4 +276,16 @@ public interface IMemberMapper {
     //更新退休分党委和党支部中，党员的状态为'在职'的改为'退休'。
     @Update("update sys_teacher_info set staff_status='退休', is_retire=1 where user_id in (${userIds})")
     void updateRetireMemberStatus(@Param("userIds") String userIds);
+
+    //某年最大的sn值
+    @Select("select max(sn) max_sn from ow_member_out where year=#{year}")
+    Integer selectYearMaxNumber(@Param("year")Integer year);
+
+    //统计某个月份转入的党员数量
+    Integer countMemberIn(@Param("month") String month,
+                          @Param("partyId") Integer partyId);
+
+    //统计某个月份转出的党员数量
+    Integer countMemberOut(@Param("month") String month,
+                           @Param("partyId") Integer partyId);
 }

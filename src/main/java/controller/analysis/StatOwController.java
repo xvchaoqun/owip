@@ -7,6 +7,7 @@ import domain.party.BranchExample;
 import domain.party.Party;
 import domain.party.PartyExample;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.Now;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -106,6 +108,28 @@ public class StatOwController extends BaseController {
         modelMap.put("teachers", teachers);
         modelMap.put("students", students);
         return "analysis/ow/stat_member_party";
+    }
+
+    //党员每月转入转出统计
+    @RequestMapping("/stat_member_inout")
+    public String stat_member_inout(Integer partyId, ModelMap modelMap) throws ParseException {
+
+        Date now = new Date();
+
+        Set<String> months = new TreeSet<>();
+        months = statService.getMonthBetween(statService.getOtherYear(now, -2), DateUtils.formatDate(now, "yyyy-MM"));
+        Map<String, Integer> countMemberIn = new TreeMap<>();
+        Map<String, Integer> countMemberOut = new TreeMap<>();
+        for (String month : months) {
+
+            countMemberIn.put(month, iMemberMapper.countMemberIn(month, partyId));
+            countMemberOut.put(month, iMemberMapper.countMemberOut(month, partyId));
+        }
+
+        modelMap.put("months", months);
+        modelMap.put("countMemberIn", countMemberIn);
+        modelMap.put("countMemberOut", countMemberOut);
+        return "analysis/ow/stat_member_inout";
     }
 
     //支部类型统计

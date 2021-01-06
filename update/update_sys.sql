@@ -1,4 +1,7 @@
 
+-- 2020.1.6 ly
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
+
 -- 2020.12.28 ly
 UPDATE `sys_resource` SET `remark`='组织部，分党委' WHERE  `id`=2553;
 UPDATE `sys_resource` SET `remark`='组织部，分党委' WHERE  `id`=3033;

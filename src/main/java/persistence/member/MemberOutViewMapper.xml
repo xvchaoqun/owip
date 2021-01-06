@@ -6,6 +6,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="sn" jdbcType="INTEGER" property="sn" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="to_title" jdbcType="VARCHAR" property="toTitle" />
@@ -63,10 +65,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, party_id, branch_id, phone, type, to_title, to_unit, from_unit, from_address, 
-    from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, is_back, 
-    reason, apply_time, print_count, last_print_time, last_print_user_id, member_type, 
+    id, user_id, party_id, branch_id, year, sn, phone, type, to_title, to_unit, from_unit, 
+    from_address, from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, 
+    has_receipt, accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, 
+    is_back, reason, apply_time, print_count, last_print_time, last_print_user_id, member_type, 
     is_retire
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutViewExample" resultMap="BaseResultMap">

@@ -6,6 +6,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="sn" jdbcType="INTEGER" property="sn" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="to_title" jdbcType="VARCHAR" property="toTitle" />
@@ -90,10 +92,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, party_id, branch_id, phone, type, to_title, to_unit, from_unit, from_address, 
-    from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, is_back, 
-    reason, apply_time, print_count, last_print_time, last_print_user_id
+    id, user_id, party_id, branch_id, year, sn, phone, type, to_title, to_unit, from_unit, 
+    from_address, from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, 
+    has_receipt, accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, 
+    is_back, reason, apply_time, print_count, last_print_time, last_print_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutExample" resultMap="BaseResultMap">
     select
@@ -130,23 +132,23 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_member_out (user_id, party_id, branch_id, 
-      phone, type, to_title, 
-      to_unit, from_unit, from_address, 
-      from_phone, from_fax, from_post_code, 
-      pay_time, valid_days, handle_time, 
-      has_receipt, accept_receipt_time, status, 
-      is_self_print, is_self_print_count, is_modify, 
-      is_back, reason, apply_time, 
+      year, sn, phone, type, 
+      to_title, to_unit, from_unit, 
+      from_address, from_phone, from_fax, 
+      from_post_code, pay_time, valid_days, 
+      handle_time, has_receipt, accept_receipt_time, 
+      status, is_self_print, is_self_print_count, 
+      is_modify, is_back, reason, apply_time, 
       print_count, last_print_time, last_print_user_id
       )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{toTitle,jdbcType=VARCHAR}, 
-      #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
-      #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
-      #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{acceptReceiptTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
-      #{isSelfPrint,jdbcType=BIT}, #{isSelfPrintCount,jdbcType=INTEGER}, #{isModify,jdbcType=BIT}, 
-      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{year,jdbcType=INTEGER}, #{sn,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, 
+      #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
+      #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
+      #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{acceptReceiptTime,jdbcType=DATE}, 
+      #{status,jdbcType=TINYINT}, #{isSelfPrint,jdbcType=BIT}, #{isSelfPrintCount,jdbcType=INTEGER}, 
+      #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
       #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER}
       )
   </insert>
@@ -164,6 +166,12 @@
       </if>
       <if test="branchId != null">
         branch_id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="sn != null">
+        sn,
       </if>
       <if test="phone != null">
         phone,
@@ -247,6 +255,12 @@
       </if>
       <if test="branchId != null">
         #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="sn != null">
+        #{sn,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -343,6 +357,12 @@
       <if test="record.branchId != null">
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.sn != null">
+        sn = #{record.sn,jdbcType=INTEGER},
+      </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -426,6 +446,8 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      sn = #{record.sn,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       to_title = #{record.toTitle,jdbcType=VARCHAR},
@@ -465,6 +487,12 @@
       </if>
       <if test="branchId != null">
         branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="sn != null">
+        sn = #{sn,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -546,6 +574,8 @@
     set user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
+      sn = #{sn,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       to_title = #{toTitle,jdbcType=VARCHAR},

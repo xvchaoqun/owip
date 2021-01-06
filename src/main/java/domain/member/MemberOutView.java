@@ -8,6 +8,16 @@ import java.util.Date;
 
 public class MemberOutView implements Serializable {
 
+    public String getCode(){
+        String code = null;
+
+        if (year != null && sn != null){
+            code = year + String.format("%04d", sn);
+        }
+
+        return code;
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -22,6 +32,10 @@ public class MemberOutView implements Serializable {
     private Integer partyId;
 
     private Integer branchId;
+
+    private Integer year;
+
+    private Integer sn;
 
     private String phone;
 
@@ -107,6 +121,22 @@ public class MemberOutView implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getSn() {
+        return sn;
+    }
+
+    public void setSn(Integer sn) {
+        this.sn = sn;
     }
 
     public String getPhone() {

@@ -232,4 +232,20 @@
             </if>
 
     </select>
+
+    <select id="countMemberIn" resultType="int" parameterType="map">
+        select count(*) coun
+        from ow_member_in WHERE STATUS IN (2) and date_format(handle_time, '%Y-%m')=#{month}
+        <if test="partyId != null">
+            and party_id=#{partyId}
+        </if>
+    </select>
+
+    <select id="countMemberOut" resultType="int" parameterType="map">
+        select count(*) coun
+        from ow_member_out WHERE STATUS IN (2,10) and date_format(handle_time, '%Y-%m')=#{month}
+        <if test="partyId != null">
+            and party_id=#{partyId}
+        </if>
+    </select>
 </mapper>

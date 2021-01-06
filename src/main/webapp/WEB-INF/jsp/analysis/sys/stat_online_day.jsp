@@ -21,19 +21,14 @@
     //console.log(data)
     var myChart = echarts.init($('#container').get(0));
     var option = {
-        /*toolbox: {
-                feature: {
-                    dataZoom: {
-                        yAxisIndex: false
-                    },
-                    saveAsImage: {
-                        name:'每日最高在线人数统计',
-                        show:true,
-                        excludeComponents :['toolbox'],
-                        pixelRatio: 2
-                    }
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {
+                    name:'每日最高在线人数统计'
                 }
-            },*/
+            }
+            },
         tooltip: {
             trigger: 'axis',
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
