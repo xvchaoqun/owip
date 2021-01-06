@@ -299,7 +299,7 @@ public class CadreTrainController extends BaseController {
         Integer userId = cadre.getUserId();
         modelMap.put("cadre", cadre);
         CetRecordExample example = new CetRecordExample();
-        CetRecordExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        CetRecordExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId).andIsDeletedEqualTo(false);
         example.setOrderByClause("start_date asc");
         if (StringUtils.isNotBlank(name)){
             criteria.andNameLike(SqlUtils.trimLike(name));

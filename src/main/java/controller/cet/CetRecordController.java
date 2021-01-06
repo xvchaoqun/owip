@@ -89,7 +89,7 @@ public class CetRecordController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetRecordExample example = new CetRecordExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         if (repeatType != null){
             example.setOrderByClause("year desc, start_date desc, user_id desc");
         }else {
@@ -210,7 +210,7 @@ public class CetRecordController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetRecordExample example = new CetRecordExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
