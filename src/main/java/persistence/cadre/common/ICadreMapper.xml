@@ -245,6 +245,19 @@
         and ce.year between #{startYear} and #{endYear} order by c.sort_order asc, ce.year asc
     </select>
 
+    <select id="getCadreEvaResultYear" resultType="java.lang.Integer" parameterType="map">
+        select year from cadre_eva_result
+        <where>
+            <if test="cadreIds != null and cadreIds.length>0">
+                and cadre_id IN
+                <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
+                    #{cadreId}
+                </foreach>
+            </if>
+        </where>
+        group by year order by year desc
+    </select>
+
     <select id="getCadreFamilys" resultMap="persistence.cadre.CadreFamilyMapper.BaseResultMap" parameterType="map">
         select cf.* from cadre_family cf, cadre c where cf.cadre_id=c.id and cf.status=0
         <if test="cadreIds != null and cadreIds.length>0">

@@ -1,3 +1,9 @@
+-- 2021.1.7 sxx
+INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '年终考核测评', '', 'function', '', NULL, 90, '0/1/88/90/', 1, 'cadreEvaResult:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '设置考察对象有效期', '', 'function', '', NULL, 341, '0/1/339/341/', 1, 'cadreInspect:validTime', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '任务报送', '', 'function', '', NULL, 562, '0/1/560/562/', 1, 'userOaTask:report', NULL, NULL, NULL, 1, NULL);
+
+
 -- 2020.12.26 sxx
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '干部信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:cadre', NULL, NULL, NULL, 1, NULL);
 

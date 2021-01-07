@@ -159,6 +159,19 @@
                 if(cellvalue==undefined) return '--';
                 return cellvalue
             }},
+            {
+                label: '报送', name: '_report', formatter: function (cellvalue, options, rowObject) {
+
+                    var hasChecked = (rowObject.status!=undefined && rowObject.status=='<%=OaConstants.OA_TASK_USER_STATUS_PASS%>')
+                    if(hasChecked) return '已审批'
+
+                    return ('<button class="openView btn {2} btn-xs"' +
+                        'data-url="${ctx}/user/oa/oaTaskUser_report?taskId={0}&userId={4}&type=report"><i class="fa {3}"></i> {1}</button>')
+                        .format(rowObject.taskId, (rowObject.hasReport?'修改':'报送'),
+                            (rowObject.hasReport?'btn-primary':'btn-success'),
+                            (rowObject.hasReport?'fa-edit':'fa-check'),rowObject.userId)
+                }
+            },
             {label: '报送情况', name: 'hasReport', formatter: function (cellvalue, options, rowObject) {
 
                 if(!cellvalue) return '未报送';

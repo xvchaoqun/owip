@@ -1,17 +1,16 @@
-package domain.cadreInspect;
+package domain.cadre;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class CadreInspectExample {
+public class CadreEvaResultExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CadreInspectExample() {
+    public CadreEvaResultExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,126 +164,6 @@ public class CadreInspectExample {
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdIsNull() {
-            addCriterion("record_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdIsNotNull() {
-            addCriterion("record_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdEqualTo(Integer value) {
-            addCriterion("record_id =", value, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdNotEqualTo(Integer value) {
-            addCriterion("record_id <>", value, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdGreaterThan(Integer value) {
-            addCriterion("record_id >", value, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("record_id >=", value, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdLessThan(Integer value) {
-            addCriterion("record_id <", value, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdLessThanOrEqualTo(Integer value) {
-            addCriterion("record_id <=", value, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdIn(List<Integer> values) {
-            addCriterion("record_id in", values, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdNotIn(List<Integer> values) {
-            addCriterion("record_id not in", values, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdBetween(Integer value1, Integer value2) {
-            addCriterion("record_id between", value1, value2, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecordIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("record_id not between", value1, value2, "recordId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdIsNull() {
-            addCriterion("assign_unit_post_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdIsNotNull() {
-            addCriterion("assign_unit_post_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdEqualTo(Integer value) {
-            addCriterion("assign_unit_post_id =", value, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdNotEqualTo(Integer value) {
-            addCriterion("assign_unit_post_id <>", value, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdGreaterThan(Integer value) {
-            addCriterion("assign_unit_post_id >", value, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("assign_unit_post_id >=", value, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdLessThan(Integer value) {
-            addCriterion("assign_unit_post_id <", value, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdLessThanOrEqualTo(Integer value) {
-            addCriterion("assign_unit_post_id <=", value, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdIn(List<Integer> values) {
-            addCriterion("assign_unit_post_id in", values, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdNotIn(List<Integer> values) {
-            addCriterion("assign_unit_post_id not in", values, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdBetween(Integer value1, Integer value2) {
-            addCriterion("assign_unit_post_id between", value1, value2, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAssignUnitPostIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("assign_unit_post_id not between", value1, value2, "assignUnitPostId");
-            return (Criteria) this;
-        }
-
         public Criteria andCadreIdIsNull() {
             addCriterion("cadre_id is null");
             return (Criteria) this;
@@ -345,243 +224,253 @@ public class CadreInspectExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andYearIsNull() {
+            addCriterion("year is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+        public Criteria andYearIsNotNull() {
+            addCriterion("year is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Byte value) {
-            addCriterion("type =", value, "type");
+        public Criteria andYearEqualTo(Integer value) {
+            addCriterion("year =", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Byte value) {
-            addCriterion("type <>", value, "type");
+        public Criteria andYearNotEqualTo(Integer value) {
+            addCriterion("year <>", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Byte value) {
-            addCriterion("type >", value, "type");
+        public Criteria andYearGreaterThan(Integer value) {
+            addCriterion("year >", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("type >=", value, "type");
+        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("year >=", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Byte value) {
-            addCriterion("type <", value, "type");
+        public Criteria andYearLessThan(Integer value) {
+            addCriterion("year <", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("type <=", value, "type");
+        public Criteria andYearLessThanOrEqualTo(Integer value) {
+            addCriterion("year <=", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Byte> values) {
-            addCriterion("type in", values, "type");
+        public Criteria andYearIn(List<Integer> values) {
+            addCriterion("year in", values, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Byte> values) {
-            addCriterion("type not in", values, "type");
+        public Criteria andYearNotIn(List<Integer> values) {
+            addCriterion("year not in", values, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Byte value1, Byte value2) {
-            addCriterion("type between", value1, value2, "type");
+        public Criteria andYearBetween(Integer value1, Integer value2) {
+            addCriterion("year between", value1, value2, "year");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("type not between", value1, value2, "type");
+        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("year not between", value1, value2, "year");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andGroupNameIsNull() {
+            addCriterion("group_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andGroupNameIsNotNull() {
+            addCriterion("group_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Byte value) {
-            addCriterion("status =", value, "status");
+        public Criteria andGroupNameEqualTo(String value) {
+            addCriterion("group_name =", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Byte value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andGroupNameNotEqualTo(String value) {
+            addCriterion("group_name <>", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Byte value) {
-            addCriterion("status >", value, "status");
+        public Criteria andGroupNameGreaterThan(String value) {
+            addCriterion("group_name >", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andGroupNameGreaterThanOrEqualTo(String value) {
+            addCriterion("group_name >=", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Byte value) {
-            addCriterion("status <", value, "status");
+        public Criteria andGroupNameLessThan(String value) {
+            addCriterion("group_name <", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andGroupNameLessThanOrEqualTo(String value) {
+            addCriterion("group_name <=", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Byte> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andGroupNameLike(String value) {
+            addCriterion("group_name like", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Byte> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andGroupNameNotLike(String value) {
+            addCriterion("group_name not like", value, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Byte value1, Byte value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andGroupNameIn(List<String> values) {
+            addCriterion("group_name in", values, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andGroupNameNotIn(List<String> values) {
+            addCriterion("group_name not in", values, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdIsNull() {
-            addCriterion("record_user_id is null");
+        public Criteria andGroupNameBetween(String value1, String value2) {
+            addCriterion("group_name between", value1, value2, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdIsNotNull() {
-            addCriterion("record_user_id is not null");
+        public Criteria andGroupNameNotBetween(String value1, String value2) {
+            addCriterion("group_name not between", value1, value2, "groupName");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdEqualTo(Integer value) {
-            addCriterion("record_user_id =", value, "recordUserId");
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdNotEqualTo(Integer value) {
-            addCriterion("record_user_id <>", value, "recordUserId");
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdGreaterThan(Integer value) {
-            addCriterion("record_user_id >", value, "recordUserId");
+        public Criteria andSortOrderEqualTo(Integer value) {
+            addCriterion("sort_order =", value, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("record_user_id >=", value, "recordUserId");
+        public Criteria andSortOrderNotEqualTo(Integer value) {
+            addCriterion("sort_order <>", value, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdLessThan(Integer value) {
-            addCriterion("record_user_id <", value, "recordUserId");
+        public Criteria andSortOrderGreaterThan(Integer value) {
+            addCriterion("sort_order >", value, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("record_user_id <=", value, "recordUserId");
+        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_order >=", value, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdIn(List<Integer> values) {
-            addCriterion("record_user_id in", values, "recordUserId");
+        public Criteria andSortOrderLessThan(Integer value) {
+            addCriterion("sort_order <", value, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdNotIn(List<Integer> values) {
-            addCriterion("record_user_id not in", values, "recordUserId");
+        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_order <=", value, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("record_user_id between", value1, value2, "recordUserId");
+        public Criteria andSortOrderIn(List<Integer> values) {
+            addCriterion("sort_order in", values, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andRecordUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("record_user_id not between", value1, value2, "recordUserId");
+        public Criteria andSortOrderNotIn(List<Integer> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeIsNull() {
-            addCriterion("valid_time is null");
+        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeIsNotNull() {
-            addCriterion("valid_time is not null");
+        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeEqualTo(Date value) {
-            addCriterion("valid_time =", value, "validTime");
+        public Criteria andNumIsNull() {
+            addCriterion("num is null");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeNotEqualTo(Date value) {
-            addCriterion("valid_time <>", value, "validTime");
+        public Criteria andNumIsNotNull() {
+            addCriterion("num is not null");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeGreaterThan(Date value) {
-            addCriterion("valid_time >", value, "validTime");
+        public Criteria andNumEqualTo(Integer value) {
+            addCriterion("num =", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("valid_time >=", value, "validTime");
+        public Criteria andNumNotEqualTo(Integer value) {
+            addCriterion("num <>", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeLessThan(Date value) {
-            addCriterion("valid_time <", value, "validTime");
+        public Criteria andNumGreaterThan(Integer value) {
+            addCriterion("num >", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeLessThanOrEqualTo(Date value) {
-            addCriterion("valid_time <=", value, "validTime");
+        public Criteria andNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("num >=", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeIn(List<Date> values) {
-            addCriterion("valid_time in", values, "validTime");
+        public Criteria andNumLessThan(Integer value) {
+            addCriterion("num <", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeNotIn(List<Date> values) {
-            addCriterion("valid_time not in", values, "validTime");
+        public Criteria andNumLessThanOrEqualTo(Integer value) {
+            addCriterion("num <=", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeBetween(Date value1, Date value2) {
-            addCriterion("valid_time between", value1, value2, "validTime");
+        public Criteria andNumIn(List<Integer> values) {
+            addCriterion("num in", values, "num");
             return (Criteria) this;
         }
 
-        public Criteria andValidTimeNotBetween(Date value1, Date value2) {
-            addCriterion("valid_time not between", value1, value2, "validTime");
+        public Criteria andNumNotIn(List<Integer> values) {
+            addCriterion("num not in", values, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumBetween(Integer value1, Integer value2) {
+            addCriterion("num between", value1, value2, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("num not between", value1, value2, "num");
             return (Criteria) this;
         }
 
@@ -652,66 +541,6 @@ public class CadreInspectExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderIsNull() {
-            addCriterion("sort_order is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderIsNotNull() {
-            addCriterion("sort_order is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderEqualTo(Integer value) {
-            addCriterion("sort_order =", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderNotEqualTo(Integer value) {
-            addCriterion("sort_order <>", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderGreaterThan(Integer value) {
-            addCriterion("sort_order >", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sort_order >=", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderLessThan(Integer value) {
-            addCriterion("sort_order <", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
-            addCriterion("sort_order <=", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderIn(List<Integer> values) {
-            addCriterion("sort_order in", values, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderNotIn(List<Integer> values) {
-            addCriterion("sort_order not in", values, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
-            addCriterion("sort_order between", value1, value2, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
-            addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
     }

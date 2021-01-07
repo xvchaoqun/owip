@@ -1,3 +1,23 @@
+-- 2021.1.7 sxx
+ALTER TABLE `cadre_inspect`
+	ADD COLUMN `valid_time` DATETIME NULL DEFAULT NULL COMMENT '有效期' AFTER `record_user_id`;
+-- 更新 cadre_inspect_view
+
+CREATE TABLE `cadre_eva_result` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '所属干部',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年份',
+	`group_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '测评类别(分区名称)',
+	`sort_order` INT(11) NULL DEFAULT NULL COMMENT '排名',
+	`num` INT(11) NULL DEFAULT NULL COMMENT '总人数',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='干部年度测评结果'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=4
+;
 
 -- 2020.9.3 ly
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES ('更新领导干部的培训信息', '更新培训模块的培训信息至领导干部的培训信息', 'job.cadre.UpdateCadreTrain', '0 0 1 * * ?', 1, 0, 32, '2020-09-01 16:13:32', 0);

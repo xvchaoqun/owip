@@ -9,6 +9,7 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
+    <result column="valid_time" jdbcType="TIMESTAMP" property="validTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_id, assign_unit_post_id, cadre_id, type, status, record_user_id, remark, 
-    sort_order
+    id, record_id, assign_unit_post_id, cadre_id, type, status, record_user_id, valid_time, 
+    remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadreInspect.CadreInspectExample" resultMap="BaseResultMap">
     select
@@ -110,10 +111,12 @@
     </selectKey>
     insert into cadre_inspect (record_id, assign_unit_post_id, cadre_id, 
       type, status, record_user_id, 
-      remark, sort_order)
+      valid_time, remark, sort_order
+      )
     values (#{recordId,jdbcType=INTEGER}, #{assignUnitPostId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{recordUserId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{validTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadreInspect.CadreInspect">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -138,6 +141,9 @@
       </if>
       <if test="recordUserId != null">
         record_user_id,
+      </if>
+      <if test="validTime != null">
+        valid_time,
       </if>
       <if test="remark != null">
         remark,
@@ -164,6 +170,9 @@
       </if>
       <if test="recordUserId != null">
         #{recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="validTime != null">
+        #{validTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -203,6 +212,9 @@
       <if test="record.recordUserId != null">
         record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       </if>
+      <if test="record.validTime != null">
+        valid_time = #{record.validTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -223,6 +235,7 @@
       type = #{record.type,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
       record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      valid_time = #{record.validTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -250,6 +263,9 @@
       <if test="recordUserId != null">
         record_user_id = #{recordUserId,jdbcType=INTEGER},
       </if>
+      <if test="validTime != null">
+        valid_time = #{validTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -267,6 +283,7 @@
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       record_user_id = #{recordUserId,jdbcType=INTEGER},
+      valid_time = #{validTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

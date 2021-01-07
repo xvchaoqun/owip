@@ -1,5 +1,7 @@
 package domain.cadreInspect;
 
+import sys.utils.DateUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -559,6 +561,70 @@ public class CadreInspectViewExample {
 
         public Criteria andRecordUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("record_user_id not between", value1, value2, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeIsNull() {
+            addCriterion("valid_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeIsNotNull() {
+            addCriterion("valid_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeEqualTo(Date value) {
+            addCriterion("valid_time =", value, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeNotEqualTo(Date value) {
+            addCriterion("valid_time <>", value, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeGreaterThan(Date value) {
+            addCriterion("valid_time >", value, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("valid_time >=", value, "validTime");
+            return (Criteria) this;
+        }
+        public Criteria andValidTimeGreaterThanOrIsNull(Date value) {
+            addCriterion("(valid_time is null or valid_time >='"
+                    + DateUtils.formatDate(value, DateUtils.YYYY_MM_DD_HH_MM_SS) +"')");
+            return (Criteria) this;
+        }
+        public Criteria andValidTimeLessThan(Date value) {
+            addCriterion("valid_time <", value, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeLessThanOrEqualTo(Date value) {
+            addCriterion("valid_time <=", value, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeIn(List<Date> values) {
+            addCriterion("valid_time in", values, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeNotIn(List<Date> values) {
+            addCriterion("valid_time not in", values, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeBetween(Date value1, Date value2) {
+            addCriterion("valid_time between", value1, value2, "validTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidTimeNotBetween(Date value1, Date value2) {
+            addCriterion("valid_time not between", value1, value2, "validTime");
             return (Criteria) this;
         }
 

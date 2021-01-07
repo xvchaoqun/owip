@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
@@ -40,11 +39,11 @@ public class UserOaTaskUserController extends OaBaseController {
     @RequiresPermissions("userOaTask:report")
     @RequestMapping(value = "/oaTaskUser_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_oaTaskUser_report(int taskId, String content,
+    public Map do_oaTaskUser_report(int taskId,Integer userId, String content,
                              MultipartFile[] _files,
                              String remark, HttpServletRequest request) throws IOException, InterruptedException {
 
-        oaTaskUserService.report(taskId, content, _files, remark);
+        oaTaskUserService.report(taskId,userId,content, _files, remark);
         logger.info(addLog(LogConstants.LOG_OA, "报送任务：%s", taskId));
 
         return success(FormUtils.SUCCESS);
@@ -52,13 +51,14 @@ public class UserOaTaskUserController extends OaBaseController {
 
     @RequiresPermissions("userOaTask:report")
     @RequestMapping("/oaTaskUser_report")
-    public String oaTaskUser_report(int taskId, ModelMap modelMap) {
+    public String oaTaskUser_report(int taskId,Integer userId, ModelMap modelMap) {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
         modelMap.put("oaTask", oaTask);
         modelMap.put("oaTaskFiles", oaTaskService.getTaskFiles(taskId));
-
-        Integer userId = ShiroHelper.getCurrentUserId();
+        if(userId==null){
+            userId = ShiroHelper.getCurrentUserId();
+        }
         OaTaskUserView oaTaskUser = oaTaskUserService.getRealTaskUser(taskId, userId);
         modelMap.put("oaTaskUser", oaTaskUser);
         modelMap.put("oaTaskUserFiles", oaTaskUserService.getUserFiles(taskId, userId));

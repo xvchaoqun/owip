@@ -138,6 +138,9 @@ public interface ICadreMapper {
     //查询年轻干部五年内考核结果
     List<CadreEva> getCadreReserveEvas(@Param("startYear") int startYear, @Param("endYear") int endYear,
                                        @Param("reserveIds") Integer[] reserveIds, @Param("reserveType") Integer reserveType, @Param("status") Byte status);
+    //查询干部考核年份
+    List<Integer> getCadreEvaResultYear(@Param("cadreIds") Integer[] cadreIds);
+
 
     // 查询干部家庭成员
     List<CadreFamily> getCadreFamilys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);

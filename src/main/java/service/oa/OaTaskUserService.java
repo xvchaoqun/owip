@@ -168,9 +168,8 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
 
     // 报送任务（本人或负责人）
     @Transactional
-    public void report(int taskId, String content, MultipartFile[] files, String remark) throws IOException, InterruptedException {
+    public void report(int taskId,Integer userId, String content, MultipartFile[] files, String remark) throws IOException, InterruptedException {
 
-        int userId = ShiroHelper.getCurrentUserId();
         OaTaskUserView oaTaskUser = getRealTaskUser(taskId, userId);
 
         int userFileCount = NumberUtils.trimToZero(oaTaskUser.getUserFileCount());

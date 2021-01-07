@@ -5,10 +5,12 @@ import controller.global.OpException;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
+import domain.cadreInspect.CadreInspectExample;
 import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -47,12 +49,15 @@ public class CadreInspectController extends BaseController {
 
     @RequiresPermissions("cadreInspect:list")
     @RequestMapping("/cadreInspect")
-    public String cadreInspect(
-            @RequestParam(required = false, defaultValue =
-                    CadreConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
-            Integer userId, ModelMap modelMap) {
+    public String cadreInspect(@RequestParam(required = false,
+                         defaultValue = CadreConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
+                         Integer userId,
+                         @RequestParam(defaultValue = "1") Boolean isValid, //有效期内
+                         ModelMap modelMap) {
 
         modelMap.put("status", status);
+        modelMap.put("isValid", isValid);
+
         if (userId != null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
@@ -70,6 +75,7 @@ public class CadreInspectController extends BaseController {
                                   Integer adminLevel,
                                   Integer postType,
                                   String title,
+                                  @RequestParam(defaultValue = "1") Boolean isValid, //有效期内
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -100,6 +106,14 @@ public class CadreInspectController extends BaseController {
 
         if (StringUtils.isNotBlank(title)) {
             criteria.andTitleLike(SqlUtils.like(title));
+        }
+        if (ShiroHelper.isPermitted("cadreInspect:validTime") &&
+                                status == CadreConstants.CADRE_INSPECT_STATUS_NORMAL) {
+            if(BooleanUtils.isTrue(isValid)){
+                criteria.andValidTimeGreaterThanOrIsNull(new Date());
+            }else{
+                criteria.andValidTimeLessThan(new Date());
+            }
         }
 
         if (export == 1) {
@@ -234,6 +248,29 @@ public class CadreInspectController extends BaseController {
         modelMap.put("id",id);
         return "cadreInspect/cadreInspect_rollback";
     }
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping("/cadreInspect_validTime")
+    public String cadreInspect_validTime(ModelMap modelMap) {
+
+        return "cadreInspect/cadreInspect_validTime";
+    }
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping(value = "/cadreInspect_validTime", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cadreInspect_validTime(HttpServletRequest request, Integer[] ids,String _validTime, ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+            CadreInspect cadreInspect =new CadreInspect();
+            cadreInspect.setValidTime(DateUtils.parseDate(_validTime, DateUtils.YYYY_MM_DD));
+            CadreInspectExample example = new CadreInspectExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+            cadreInspectMapper.updateByExampleSelective(cadreInspect,example);
+
+            logger.info(log( LogConstants.LOG_CG, "批量设置考察对象有效期：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("cadreInspect:abolish")
     @RequestMapping(value = "/cadreInspect_abolish", method = RequestMethod.POST)
@@ -258,7 +295,6 @@ public class CadreInspectController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
-
     @RequiresPermissions("cadreInspect:changeOrder")
     @RequestMapping(value = "/cadreInspect_changeOrder", method = RequestMethod.POST)
     @ResponseBody
