@@ -532,7 +532,9 @@ public class StatCadreController extends BaseController {
             }
             otherMap.put("男", gender1);
             otherMap.put("女", gender2);
-            otherMap.put("无数据",gender3);
+            if(gender3>0) {
+                otherMap.put("无数据", gender3);
+            }
         } else if(type == 2) {
             List<StatCadreBean> nationList = statCadreMapper.cadre_stat_nation(searchBean);
 

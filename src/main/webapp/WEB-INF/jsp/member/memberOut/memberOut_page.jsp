@@ -4,6 +4,7 @@
 <c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
 <c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
 <c:set value="${_pMap['memberOutNeedOwCheck']=='true'}" var="_p_memberOutNeedOwCheck"/>
+<c:set value="${_pMap['use_code_as_identify']=='true'}" var="_use_code_as_identify"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -69,6 +70,10 @@
                         </div>
                         </c:if>
                         <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="memberOut:edit">
+                                <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
+                                    <i class="fa fa-plus"></i> 添加</a>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="memberOutImport:*">
                                 <button class="popupBtn btn btn-success btn-sm tooltip-primary"
                                    data-url="${ctx}/memberOut_import"
@@ -81,10 +86,6 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberOut:edit">
-                                    <c:if test="${cls==1}">
-                                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
-                                        <i class="fa fa-plus"></i> 添加</a>
-                                    </c:if>
                                     <c:if test="${cls!=2 &&cls!=5}">
                                     <button class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
@@ -404,6 +405,12 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${_use_code_as_identify}">
+                {label: '编号', name: 'user.code', width: 120, frozen:true},
+            </c:if>
+            <c:if test="${!_use_code_as_identify}">
+                {label: '编号', name: 'code', width: 120, frozen:true},
+            </c:if>
             {label: '学工号', name: 'user.code', width: 120, frozen:true},
             { label: '姓名', name: 'user.realname',width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<script type="text/javascript" src="${ctx}/js/echarts.min.js"></script>
+
 <div class="row" id="cartogram">
     <div class="row">
         <div class="col-xs-12">
@@ -90,11 +90,3 @@
         </div><!-- /.col -->
     </div>
 </div>
-<script>
-    $('[data-rel="select2"]').change(function () {
-        $.post("${ctx}/stat_party_page", {partyId: this.value}, function (html) {
-            $("#cartogram").replaceWith(html);
-        });
-    });
-    $('[data-rel="select2"]').select2();
-</script>

@@ -108,13 +108,19 @@
                                 </li>
                             </ul>
                         </li>
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
-                        <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                             <shiro:hasPermission name="memberStay:edit">
+                                    <a href="javascript:;" class="popupBtn btn btn-info btn-sm"
+                                       data-url="${ctx}/memberStay_au?type=${param.type}">
+                                        <i class="fa fa-plus"></i> 添加</a>
+                             </shiro:hasPermission>
+                            <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
                                 <a class="downloadBtn btn btn-success btn-sm"
                                    href="javascript:;" data-url="${ctx}/memberStay?export=2&type=${param.type}">
                                     <i class="fa fa-download"></i> 汇总导出</a>
+                                </shiro:hasAnyRoles>
                         </div>
-                        </shiro:hasAnyRoles>
+
                         <c:if test="${(cls==1||cls==11||cls==2||cls==21||cls==3||cls==31) && (approvalCountNew+approvalCountBack)>0}">
                             <div class="pull-right"
                                  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
@@ -126,11 +132,6 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberStay:edit">
-                                    <c:if test="${cls==1}">
-                                        <a href="javascript:;" class="popupBtn btn btn-info btn-sm"
-                                           data-url="${ctx}/memberStay_au?type=${param.type}">
-                                            <i class="fa fa-plus"></i> 添加</a>
-                                    </c:if>
                                     <c:if test="${cls==1||cls==4}">
                                         <button class="jqEditBtn btn btn-primary btn-sm"
                                                 data-url="${ctx}/user/memberStay"

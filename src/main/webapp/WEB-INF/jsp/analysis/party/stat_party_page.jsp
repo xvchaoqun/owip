@@ -24,8 +24,8 @@
                         <div class="row">
                             <c:import url="/stat_party_member_count?partyId=${partyId}"/>
                             <c:import url="/stat_party_member_age?partyId=${partyId}"/>
-                            <c:import url="/stat_party_member_apply?partyId=${partyId}"/>
                             <c:import url="/stat_party_branch_type?partyId=${partyId}"/>
+                            <c:import url="/stat_party_member_apply?partyId=${partyId}"/>
                         </div>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
@@ -37,7 +37,7 @@
             <div class="widget-box transparent">
                 <div class="widget-header widget-header-flat">
                     <h4 class="widget-title lighter">
-                        <i class="ace-icon fa fa-signal"></i>
+                        <i class="ace-icon fa fa-bar-chart"></i>
                         党员人数分布
                     </h4>
                     <div class="widget-toolbar">
@@ -49,6 +49,29 @@
                 <div class="widget-body">
                     <div class="widget-main padding-4">
                         <c:import url="/stat_party_member_party?partyId=${partyId}"/>
+                    </div><!-- /.widget-main -->
+                </div><!-- /.widget-body -->
+            </div><!-- /.widget-box -->
+        </div><!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-flat">
+                    <h4 class="widget-title lighter">
+                        <i class="ace-icon fa fa-line-chart"></i>
+                        党员每月转入转出统计（近两年）
+                    </h4>
+                    <div class="widget-toolbar">
+                        <a href="javascript:;" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main padding-4">
+                        <c:import url="/stat_member_inout?partyId=${partyId}"/>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
             </div><!-- /.widget-box -->

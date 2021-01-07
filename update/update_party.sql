@@ -1,7 +1,7 @@
 
 
 -- 2020.12.24 ly
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum', 260, '0/1/260/', 1, 'stat:partySum', NULL, NULL, NULL, 1, 60);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum?cls=1', 260, '0/1/260/', 1, 'stat:partySum', NULL, NULL, NULL, 1, 60);
 
 -- 2020.12.23 ly 只给大连理工修改
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2565, 0, '组织机构数据统计', '组织部', 'url', '', '/stat/owSum', 260, '0/1/260/', 1, 'stat:owSum', NULL, NULL, NULL, 1, 70);
@@ -16,7 +16,7 @@ REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `e
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (69, 23, '硕博研究生党支部', 'mt_sb_graduate', NULL, '', '', 123, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, 23, '博士生党支部', 'mt_bs_graduate', NULL, '', '', 124, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (71, 23, '硕士生党支部', 'mt_ss_graduate', NULL, '', '', 125, 1);
-REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (72, 23, '本科生辅导员纵向党支部', 'mt_undergraduate_ assistant', NULL, '', '', 126, 1);
+REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (72, 23, '本科生辅导员纵向党支部', 'mt_undergraduate_assistant', NULL, '', '', 126, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (73, 23, '离退休党支部', 'mt_retire', NULL, '', '', 127, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (74, 23, '专任教师党支部', 'mt_professional_teacher', NULL, '', '', 128, 1);
 REPLACE INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (129, 23, '机关行政产业后勤教工党支部', 'mt_support_teacher', NULL, '', '', 129, 1);

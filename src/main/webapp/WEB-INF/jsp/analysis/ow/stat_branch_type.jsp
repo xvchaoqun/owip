@@ -5,23 +5,22 @@
 <c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
 <c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 
-<div class="col-sm-4" id="stat_ow_branch_type" style="width:350px;float: left;">
+<div class="col-sm-4" id="stat_ow_branch_type" style="width:750px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
-                <i class="ace-icon fa fa-signal"></i>
+                <i class="ace-icon fa fa-pie-chart"></i>
                 支部类型统计
             </h5>
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <div id="branchType-placeholder"></div>
+                <div id="branchType-placeholder" style="height: 252px;"></div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $(function () {
         $("#stat_ow_branch_type ul li").click(function () {
 
             $.get("${ctx}/stat_ow_branch_type", {type: $(this).data('type')}, function (html) {
@@ -29,78 +28,73 @@
             });
         });
 
-        var placeholder = $('#branchType-placeholder').css({'width': '90%', 'min-height': '135px'});
-        var data = [
-                <c:forEach items="${branchTypeMap}" var="type">
+        var myChart = echarts.init($('#branchType-placeholder').get(0));
 
-                    {label: "${metaTypes.get(type.key).name}(${type.value})", data: '${type.value}'/*, color:'${PIE_COLOR_MAP.get(apply.key)}'*/},
-                </c:forEach>
+        var label= [
+            <c:forEach items="${branchTypeMap}" var="type">
+                '${metaTypes.get(type.key).name}(${type.value})',
+            </c:forEach>
+        ];
+        var data = [
+            <c:forEach items="${branchTypeMap}" var="type">
+                {name: "${metaTypes.get(type.key).name}(${type.value})", value: '${type.value}'},
+            </c:forEach>
         ];
 
-        function drawPieChart(placeholder, data, position) {
-            if(data.length==0) return;
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        tilt: 0.7,
-                        highlight: {
-                            opacity: 0.25
-                        },
-                        stroke: {
-                            color: '#fff',
-                            width: 2
-                        },
-                        startAngle: 2,
-                        radius: 1,
-                        label: {
-                            show: true,
-                            radius: 2/3,
-                            formatter: function(label, series) {
-                                // series is the series object for the label
-                                return '<div style="color:#fff">' + series['percent'].toFixed(2) + '%</div>';
-                            },
-                            threshold: 0.1
+        var option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left:-5,
+                top: -5,
+                bottom: 5,
+                data: label
+            },
+            series: [
+                {
+                    name: '支部类型',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['60%', '60%'],
+                    data:data,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur:10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
                         }
                     }
                 },
-                legend: {
-                    show: true,
-                    position: position || "ne",
-                    labelBoxBorderColor: null,
-                    margin: [-30, 0]
+                {
+                    name: '支部类型',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['60%', '60%'],
+                    data: data,
+                    itemStyle:{            //饼图图形上的文本标签
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'inner',
+                                fontSize: 12,
+                                align: "left",
+                                textStyle: {
+                                    fontWeight: 300,
+                                    fontSize: 12,   //文字的字体大小
+                                    color:'white'
+                                },
+                                formatter: '{d}%'
+                            },
+                            labelLine:{
+                                show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                            }
+                        }
+                    }
                 }
-                ,
-                grid: {
-                    hoverable: true,
-                    clickable: true
-                }
-            })
-        }
-
-        drawPieChart(placeholder, data);
-
-        //pie chart tooltip example
-        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
-        var previousPoint = null;
-        placeholder.on('plothover', function (event, pos, item) {
-            if (item) {
-                //console.log(item)
-                if (previousPoint != item.seriesIndex) {
-                    previousPoint = item.seriesIndex;
-                    var tip = item.series['label'] + " : " + item.series['percent'].toFixed(2) + '%';
-                    $tooltip.show().children(0).text(tip);
-                }
-                $tooltip.css({top: pos.pageY + 10, left: pos.pageX + 10});
-            } else {
-                $tooltip.hide();
-                previousPoint = null;
-            }
-
-        });
-        /////////////////////////////////////
-        $(document).one('ajaxStart.page', function (e) {
-            $tooltip.remove();
-        });
-    })
+            ]
+        };
+        myChart.setOption(option);
 </script>

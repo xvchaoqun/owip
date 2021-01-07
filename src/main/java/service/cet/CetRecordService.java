@@ -339,6 +339,22 @@ public class CetRecordService extends CetBaseMapper {
         Map<Integer, BigDecimal> finishPeriodMap = cetProjectObjService.getRealObjFinishPeriodMap(projectId, projectObjId);
         BigDecimal finishPeriod = finishPeriodMap.get(0);
 
+        {
+            // 自动结业
+            BigDecimal requirePeriod = p.getRequirePeriod();
+            if (BooleanUtils.isNotTrue(o.getIsGraduate())
+                    && requirePeriod != null && finishPeriod != null
+                 && finishPeriod.compareTo(requirePeriod) >= 0) {
+
+                CetProjectObj record = new CetProjectObj();
+                record.setId(projectObjId);
+                record.setIsGraduate(true);
+                cetProjectObjMapper.updateByPrimaryKeySelective(record);
+
+                o.setIsGraduate(true);
+            }
+        }
+
         // 还没有完成学时不计入
         /*if(BooleanUtils.isNotTrue(o.getIsGraduate())){
 

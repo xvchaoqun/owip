@@ -34,15 +34,17 @@
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=3"}><i class="fa fa-check"></i> 已完成审批<c:if test="${hasApprovalCount>0}">（${hasApprovalCount}）</c:if></a>
                         </li>
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="memberQuit:edit">
+                            <a href="javascript:;" class="editBtn btn btn-info btn-sm">
+                                        <i class="fa fa-plus"></i> 添加</a>
+                            </shiro:hasPermission>
+                        </div>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberQuit:edit">
-                                    <c:if test="${cls==1}">
-                                    <a href="javascript:;" class="editBtn btn btn-info btn-sm">
-                                        <i class="fa fa-plus"></i> 添加</a>
-                                    </c:if>
                                     <c:if test="${cls!=3}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-id-name="userId">

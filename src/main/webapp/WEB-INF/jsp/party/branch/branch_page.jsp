@@ -369,6 +369,7 @@
             },
             </c:if>
             </shiro:hasPermission>
+            { label:'简称', name: 'shortName', align:'left', width: 180},
             {label: '支部类型', name: 'types', align:'left', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(label){

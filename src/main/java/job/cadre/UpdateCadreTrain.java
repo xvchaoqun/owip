@@ -31,7 +31,7 @@ public class UpdateCadreTrain implements Job {
         for (Cadre cadre : cadreList) {
             int userId = cadre.getUserId();
             CetRecordExample example = new CetRecordExample();
-            example.createCriteria().andUserIdEqualTo(userId);
+            example.createCriteria().andUserIdEqualTo(userId).andIsDeletedEqualTo(false);
             example.setOrderByClause("start_date asc");
             List<CetRecord> cetRecords = cetRecordMapper.selectByExample(example);
 

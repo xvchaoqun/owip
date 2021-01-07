@@ -4,6 +4,13 @@ INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '任务报送', '', 'function', '', NULL, 562, '0/1/560/562/', 1, 'userOaTask:report', NULL, NULL, NULL, 1, NULL);
 
 
+-- 2020.1.6 ly
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
+
+-- 2020.12.28 ly
+UPDATE `sys_resource` SET `remark`='组织部，分党委' WHERE  `id`=2553;
+UPDATE `sys_resource` SET `remark`='组织部，分党委' WHERE  `id`=3033;
+
 -- 2020.12.26 sxx
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '干部信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:cadre', NULL, NULL, NULL, 1, NULL);
 

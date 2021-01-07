@@ -50,14 +50,16 @@
                         <li class="${cls==31?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=31"}><i class="fa fa-sign-out"></i> 已转出的流出党员</a>
                         </li>
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="memberOutflow:edit">
+                            <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加</a>
+                            </shiro:hasPermission>
+                        </div>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberOutflow:edit">
-                                    <c:if test="${cls==1}">
-                                    <a class="editBtn btn btn-info btn-sm" data-width="800"><i class="fa fa-plus"></i> 添加流出党员</a>
-                                    </c:if>
                                     <c:if test="${cls!=3&&cls!=31}">
                                 <button  id="editBtn"  class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                                     <i class="fa fa-edit"></i> 修改信息

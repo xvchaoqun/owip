@@ -28,7 +28,7 @@
                             data-url="${ctx}/cmMember_au?type=${type}&isQuit=${isQuit?1:0}">
                         <i class="fa fa-plus"></i> 添加
                     </button>
-                    <shiro:hasPermission name="cmMember:menu">
+                    <shiro:hasPermission name="pcs:menu">
                     <c:if test="${!isQuit && type==CM_MEMBER_TYPE_CW}">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/cmMember_draw" data-width="800">

@@ -279,12 +279,8 @@
         })
     </shiro:lacksRole>
 </script>
-<!-- inline scripts related to this page -->
-<script src="${ctx}/assets/js/flot/jquery.flot.js"></script>
-<script src="${ctx}/assets/js/flot/jquery.flot.pie.js"></script>
-<script src="${ctx}/assets/js/flot/jquery.flot.resize.js"></script>
 <script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
-<script src="${ctx}/extend/js/highcharts.js"></script>
+<script type="text/javascript" src="${ctx}/js/echarts.min.js"></script>
 <script type="text/template" id="common_sort_tpl">
     <a href="javascript:;" class="jqOrderBtn" data-grid-id="{{=grid}}" data-url="{{=url}}" data-id="{{=id}}"
        data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>

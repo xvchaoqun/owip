@@ -376,6 +376,126 @@ public class MemberOutExample {
             return (Criteria) this;
         }
 
+        public Criteria andYearIsNull() {
+            addCriterion("year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIsNotNull() {
+            addCriterion("year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearEqualTo(Integer value) {
+            addCriterion("year =", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotEqualTo(Integer value) {
+            addCriterion("year <>", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThan(Integer value) {
+            addCriterion("year >", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("year >=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThan(Integer value) {
+            addCriterion("year <", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThanOrEqualTo(Integer value) {
+            addCriterion("year <=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIn(List<Integer> values) {
+            addCriterion("year in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotIn(List<Integer> values) {
+            addCriterion("year not in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearBetween(Integer value1, Integer value2) {
+            addCriterion("year between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("year not between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnIsNull() {
+            addCriterion("sn is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnIsNotNull() {
+            addCriterion("sn is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnEqualTo(Integer value) {
+            addCriterion("sn =", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotEqualTo(Integer value) {
+            addCriterion("sn <>", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnGreaterThan(Integer value) {
+            addCriterion("sn >", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sn >=", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnLessThan(Integer value) {
+            addCriterion("sn <", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnLessThanOrEqualTo(Integer value) {
+            addCriterion("sn <=", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnIn(List<Integer> values) {
+            addCriterion("sn in", values, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotIn(List<Integer> values) {
+            addCriterion("sn not in", values, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnBetween(Integer value1, Integer value2) {
+            addCriterion("sn between", value1, value2, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotBetween(Integer value1, Integer value2) {
+            addCriterion("sn not between", value1, value2, "sn");
+            return (Criteria) this;
+        }
+
         public Criteria andPhoneIsNull() {
             addCriterion("phone is null");
             return (Criteria) this;

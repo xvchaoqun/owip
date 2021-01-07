@@ -1,9 +1,47 @@
 
-20201227
--- 北师大
+20210105
 
-ALTER TABLE `sys_user`
-	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+
+delete from cet_train_obj where train_course_id not in(select id from cet_train_course);
+ALTER TABLE `cet_train_obj`
+    ADD CONSTRAINT `FK_cet_train_obj_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+
+20210101
+哈工大
+
+
+20201230
+大工
+update ow_party set short_name=name where short_name is null or short_name='';
+
+
+update base_meta_type set name='党总支类别' where code='mc_party_class';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`,
+                            `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum?cls=1', 260, '0/1/260/', 1, 'stat:partySum', NULL, NULL, NULL, 1, 60);
+
+
+20201229
+浙大
+
+ALTER TABLE `sys_approval_log`
+   CHANGE COLUMN `stage` `stage` VARCHAR(500) NULL DEFAULT NULL COMMENT '阶段备注，比如 初审、返回等' AFTER `type`;
+
+20201228
+南航
+
+20201227
+
+/*ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;*/
 -- 更新ow_member_view
 
 
@@ -18,7 +56,7 @@ INSERT INTO `sys_resource` (id, `is_mobile`, `name`, `remark`, `type`, `menu_css
 
 
 20201220
-哈工大  -- 北师大
+哈工大
 
 -- 如果领取志愿书不需要组织部审核bug，更新语句
 -- update ow_member_apply set grow_status=2 where stage=5 and grow_status is null;

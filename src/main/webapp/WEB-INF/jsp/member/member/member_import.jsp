@@ -33,6 +33,7 @@
                 <a href="${ctx}/attach?code=sample_member_all_update">
                     党员信息一张表导入样表.xlsx</a>（点击下载）的数据格式</span>
             <ul>
+                <li>导入顺序为先导入正式党员和预备党员，然后再导入发展党员</li>
                 <li>填写起始编码，供系统插入新的基层党组织使用</li>
                 <li>转移党员时，系统存在党员信息，则会进行转移，不存在则会先创建一条；
                     若基层党组织存在，则会直接将党员转入相应的基层党组织，没有则会先创建基层党组织</li>
@@ -73,8 +74,8 @@
                             </c:if>
                             <c:if test="${param.all==1}">
                                 if(ret && ret.successCount>=0){
-                                    var result = '操作成功，导入{3}条${_p_partyName}记录，导入{4}条党支部记录，总共{0}条党员记录，其中成功导入{1}条党员记录，<font color="red">{2}条党员记录覆盖</font>';
-                                    SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount, ret.partyAdd, ret.branchAdd), '成功',function(){
+                                    var result = '操作成功，导入{0}条${_p_partyName}记录，导入{1}条党支部记录，总共{2}条党员记录，其中成功导入{3}条正式党员和预备党员记录，导入{4}条发展中党员记录，<font color="red">{5}条党员记录覆盖</font>';
+                                    SysMsg.success(result.format(ret.partyAdd, ret.branchAdd, ret.total, ret.successCount, ret.applyCount, ret.total-ret.successCount-ret.applyCount), '成功',function(){
                                         page_reload();
                                         var url = ("${ctx}/attach_download?path={0}&filename={1}")
                                             .format(ret.file, ret.filename)

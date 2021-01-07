@@ -27,6 +27,7 @@ pageEncoding="UTF-8" %>
                                 <li>
                                     <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=3"><i class="fa fa-hand-o-right"></i> 已审核</a>
                                 </li>
+
                             </ul>
                         </li>
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
@@ -40,6 +41,14 @@ pageEncoding="UTF-8" %>
                         <li class="${cls==7?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=7"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
+
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="memberCertify:edit">
+                                <button class="popupBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/member/memberCertify_au">
+                                    <i class="fa fa-plus"></i> 添加</button>
+                            </shiro:hasPermission>
+                        </div>
                         <c:if test="${(cls==1 || cls==2 || cls==4 || cls==5) && (approvalCountNew+approvalCountBack)>0}">
                             <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
                                 有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
@@ -58,11 +67,6 @@ pageEncoding="UTF-8" %>
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberCertify:edit">
-                                    <c:if test="${cls==1}">
-                                        <button class="popupBtn btn btn-info btn-sm"
-                                                data-url="${ctx}/member/memberCertify_au">
-                                            <i class="fa fa-plus"></i> 添加</button>
-                                    </c:if>
                                     <c:if test="${cls!=3&&cls!=6}">
                                         <button id="modifyBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                                            data-url="${ctx}/member/memberCertify_au"

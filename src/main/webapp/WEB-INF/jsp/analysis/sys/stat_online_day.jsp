@@ -3,100 +3,81 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div id="container" style="height:500px; margin: 0 auto;"></div>
 <script>
-	var data = [];
-	var beans = ${cm:toJSONArray(beans)};
-	beans.forEach(function(bean, i){
-		data.push([Date.UTC(bean.year, bean.month-1, bean.day), bean.onlineCount]);
-	})
+	var data =  generateData();
 
-	if(data.length>0){
-		Highcharts.setOptions({ lang: { resetZoom: "返回", resetZoomTitle: "回到初始状态" }, global: { useUTC: false } });
-		var title = '每日最高在线人数统计（' + Highcharts.dateFormat('%Y年%m月', data[0][0]) + '至' + Highcharts.dateFormat('%Y年%m月', data[data.length-1][0]) + "）";
-		var fromYear = new Date(data[0][0]).getFullYear();
-		var toYear = new Date(data[data.length-1][0]).getFullYear();
-		$('#container').highcharts({
-			credits: { enabled: false },
-			exporting: {
-				type: 'image/png',
-				filename: title,
-				url:'${ctx}/export',
-				buttons: {
-					contextButton: {
-						menuItems: [{
-							text: '打印图片',
-							onclick: function () {
-								this.print();
-							},height:50
-						}, {separator:true
-						},{
-							text: '下载图片',
-							onclick: function () {
-								this.exportChart();
-							}
-						}]
-					}
-				}
-			},
-			chart: {
-				zoomType: 'x'
-			},
-			title: {
-				text: title
-			},
-			xAxis: {
-				type: 'datetime',
-				labels: {
-					formatter: function () {
-						return Highcharts.dateFormat('%Y-%m-%d', this.value);
-					}
-				}
-			},
-			yAxis: {
-				title: {
-					text: '最高在线人数'
-				}
-			},
-			tooltip: {
-				formatter: function () {
-					return Highcharts.dateFormat('%Y-%m-%d', this.x) +'<br/><b>' + this.series.name + '：' +
-							+ this.y.toFixed(2) +"</b>";
-				}
-			},
-			legend: {
-				enabled: false
-			},
-			plotOptions: {
-				area: {
-					fillColor: {
-						linearGradient: {
-							x1: 0,
-							y1: 0,
-							x2: 0,
-							y2: 1
-						},
-						stops: [
-							[0, Highcharts.getOptions().colors[0]],
-							[1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-						]
-					},
-					marker: {
-						radius: 2
-					},
-					lineWidth: 1,
-					states: {
-						hover: {
-							lineWidth: 1
-						}
-					},
-					threshold: null
-				}
-			},
+	function generateData(){
+        var beans = ${cm:toJSONArray(beans)};
+        var categoryData=[];
+        var valueData=[];
+        beans.forEach(function(bean, i){
+            categoryData.push(echarts.format.formatTime('yyyy-MM-dd', new Date(bean.year, bean.month-1, bean.day)));
+            valueData.push(bean.onlineCount);
+        })
+        return {
+            categoryData: categoryData,
+            valueData: valueData
+        };
+    }
+    //console.log(data)
+    var myChart = echarts.init($('#container').get(0));
+    var option = {
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {
+                    name:'每日最高在线人数统计'
+                }
+            }
+            },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'line'        // 默认为直线，可选为：'line'：直线 | 'shadow'：阴影|' ‘cross’：十字准星指示器'|‘none’：无指示器
+            }
+        },
+        grid:{
+            x:45,           //左
+            y:10,           //上
+            x2:20,          //右
+            //y2:25,          //下
+            borderWidth:1
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: data.categoryData
+        },
+        yAxis: {
+            type: 'value',
+        },
+        dataZoom: [{
+            type: 'inside'
+        }, {
+            type: 'slider'
+        }],
+        series: [
+            {
+                name: '每日最高在线人数统计',
+                type: 'line',
+                smooth: true,
+                symbol: 'none',
+                sampling: 'average',
+                itemStyle: {
+                    color: 'rgb(255, 70, 131)'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgb(255, 158, 68)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(255, 70, 131)'
+                    }])
+                },
+                data: data.valueData
+            }
+        ]
+    };
+    myChart.setOption(option);
 
-			series: [{
-				type: 'area',
-				name: '最高在线人数',
-				data: data
-			}]
-		});
-	}
 </script>
