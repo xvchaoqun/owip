@@ -78,6 +78,7 @@
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
         <!--<table tableName="sys_approval_log" domainObjectName="sys.SysApprovalLog" mapperName="sys.SysApprovalLogMapper">
+            <columnOverride column="stage" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <!--<table tableName="sys_log" domainObjectName="sys.SysLog">

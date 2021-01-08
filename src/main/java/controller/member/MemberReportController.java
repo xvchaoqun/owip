@@ -420,7 +420,7 @@ public class MemberReportController extends MemberBaseController {
         SysUserViewExample.Criteria criteria = example.createCriteria().andIdIn(ids);
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andRealnameLike(SqlUtils.like(searchStr));
+            criteria.andUserLike(searchStr.trim());
         }
 
         long count = sysUserViewMapper.countByExample(example);
