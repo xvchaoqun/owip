@@ -113,6 +113,21 @@
                     </div>
                 </div>
 
+                <div class="form-group hidden" id="directTypeDiv">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>直属党支部类型</label>
+                    <div class="col-xs-8">
+                        <select required class="form-control" name="directType"
+                                data-width="253"
+                                data-rel="select2" data-placeholder="请选择">
+                            <option></option>
+                            <c:import url="/metaTypes?__code=mc_branch_type"/>
+                        </select>
+                        <script>
+                            $("#modalForm select[name=directType]").val('${party.directType}');
+                        </script>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>组织类型</label>
                     <div class="col-xs-8">
@@ -125,7 +140,6 @@
                         </script>
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <label class="col-xs-6 control-label">所在单位是否独立法人</label>
@@ -232,6 +246,24 @@
             $(".enterprise").hide();
         }
     }).change();
+
+    $('#modalForm select[name=classId]').on('change', function (){
+       selectDirectType($(this).val());
+    });
+
+    var classId = $('#modalForm select[name=classId]').val();
+    selectDirectType(classId);
+
+    //控制直属党支部选择党支部类型
+   function selectDirectType(classId){
+       if (classId==${cm:getMetaTypeByCode('mt_direct_branch').id}){
+           $('#directTypeDiv').removeClass('hidden');
+           $('#directTypeDiv select[name=directType]').prop('required', true);
+       }else {
+           $('#directTypeDiv select[name=directType]').val(null).trigger("change").prop('required', false);
+           $('#directTypeDiv').addClass('hidden');
+       }
+   }
 
     $.register.del_select($('#modalForm select[name=unitId]'));
     $('[data-rel="tooltip"]').tooltip();

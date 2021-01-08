@@ -1,4 +1,9 @@
 
+-- 2020.1.8 ly
+ALTER TABLE `ow_party`
+	ADD COLUMN `direct_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
+-- 更新ow_party_view、pcs_party_view
+
 -- 2020.1.5 ly
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,

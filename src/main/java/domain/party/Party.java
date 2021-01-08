@@ -26,6 +26,8 @@ public class Party implements Serializable {
 
     private Integer unitTypeId;
 
+    private Integer directType;
+
     private Boolean isEnterpriseBig;
 
     private Boolean isEnterpriseNationalized;
@@ -133,6 +135,14 @@ public class Party implements Serializable {
 
     public void setUnitTypeId(Integer unitTypeId) {
         this.unitTypeId = unitTypeId;
+    }
+
+    public Integer getDirectType() {
+        return directType;
+    }
+
+    public void setDirectType(Integer directType) {
+        this.directType = directType;
     }
 
     public Boolean getIsEnterpriseBig() {

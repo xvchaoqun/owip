@@ -30,6 +30,7 @@ import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -243,6 +244,10 @@ public class PartyController extends BaseController {
         } else {
 
             partyService.updateByPrimaryKeySelective(record);
+            Party party = partyMapper.selectByPrimaryKey(id);
+            if (!PartyHelper.isDirectBranch(id) && party.getDirectType() != null){
+                commonMapper.excuteSql("update ow_party set direct_type = null where id=" + id);
+            }
             logger.info(addLog(LogConstants.LOG_PARTY, "更新基层党组织：%s", record.getId()));
         }
 

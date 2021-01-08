@@ -90,6 +90,12 @@ public class StatService extends BaseMapper {
         Map<Byte, Integer> _applyMap = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.memberApply_groupByStage(type, partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
+            if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                if (statByteBean.getGroupBy().equals(OwConstants.OW_APPLY_STAGE_PLAN)
+                        || statByteBean.getGroupBy().equals(OwConstants.OW_APPLY_STAGE_DRAW)){
+                    continue;
+                }
+            }
             _applyMap.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 

@@ -149,7 +149,7 @@ public class StatOwController extends BaseController {
                                  ModelMap modelMap,
                                  HttpServletResponse response) throws IOException {
 
-                                 List<MetaType> metaTypes = new ArrayList<>();
+        List<MetaType> metaTypes = new ArrayList<>();
         List<Integer> partyCounts = new ArrayList<>();
         int partySumCount = 0;
         Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_party_class");

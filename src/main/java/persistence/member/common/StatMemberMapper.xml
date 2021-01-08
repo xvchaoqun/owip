@@ -66,7 +66,12 @@
         <if test="partyId!=null">
             and party_id =#{partyId}
         </if>
-         and types is not null;
+         and types is not null
+         union all
+         select direct_type from ow_party where is_deleted = 0 and direct_type is not null
+        <if test="partyId!=null">
+            and id =#{partyId}
+        </if>
     </select>
 
     <!-- 统计党员中汉族的人数 -->

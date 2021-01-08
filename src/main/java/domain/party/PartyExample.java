@@ -718,6 +718,66 @@ public class PartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andDirectTypeIsNull() {
+            addCriterion("direct_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeIsNotNull() {
+            addCriterion("direct_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeEqualTo(Integer value) {
+            addCriterion("direct_type =", value, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeNotEqualTo(Integer value) {
+            addCriterion("direct_type <>", value, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeGreaterThan(Integer value) {
+            addCriterion("direct_type >", value, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("direct_type >=", value, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeLessThan(Integer value) {
+            addCriterion("direct_type <", value, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("direct_type <=", value, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeIn(List<Integer> values) {
+            addCriterion("direct_type in", values, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeNotIn(List<Integer> values) {
+            addCriterion("direct_type not in", values, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeBetween(Integer value1, Integer value2) {
+            addCriterion("direct_type between", value1, value2, "directType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("direct_type not between", value1, value2, "directType");
+            return (Criteria) this;
+        }
+
         public Criteria andIsEnterpriseBigIsNull() {
             addCriterion("is_enterprise_big is null");
             return (Criteria) this;

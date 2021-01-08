@@ -357,7 +357,19 @@ pageEncoding="UTF-8" %>
                 formatoptions: {newformat: 'Y.m.d'}
             },*/
             { label:'简称', name: 'shortName', align:'left', width: 180},
-            { label: '${_p_partyName}类别', name: 'classId', width: 90, align:'left', formatter: $.jgrid.formatter.MetaType},
+            { label: '党总支类别', name: 'classId', width: 100, align:'left', formatter:function(cellvalue, options, rowObject){
+                    var _classId = '${cm:getMetaTypeByCode("mt_direct_branch").id}';
+                    var str = $.jgrid.formatter.MetaType(cellvalue);
+                    //console.log($.jgrid.formatter.MetaType(rowObject.directType))
+                    if (_classId==cellvalue){
+                        str += '&nbsp;<span class="prompt" style="cursor: default!important;" data-title="直属党支部类型" data-width="252"' +
+                            'data-prompt="<ul>' +
+                            '<li>' + $.jgrid.formatter.MetaType(rowObject.directType) + '</li>' +
+                            '</ul>"><i class="fa fa-info-circle"></i></span>' +
+                            '</label>';
+                    }
+                    return str;
+                }},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
             { label:'关联单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
             { label: '关联单位<br/>属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},

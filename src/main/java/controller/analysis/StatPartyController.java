@@ -15,6 +15,7 @@ import persistence.member.common.MemberStatByBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
@@ -135,7 +136,12 @@ public class StatPartyController extends BaseController {
                 if (branch != null) {
                     categories.add(StringUtils.defaultIfBlank(branch.getShortName(), branch.getName()));
                 } else {
-                    categories.add("支部不存在");
+                    if (PartyHelper.isDirectBranch(partyId)){
+                        Party party = partyMapper.selectByPrimaryKey(partyId);
+                        categories.add(StringUtils.isBlank(party.getShortName())?party.getName():party.getShortName());
+                    }else {
+                        categories.add("支部不存在");
+                    }
                 }
                 teachers.add(bean.getTeacher());
                 students.add(bean.getStudent());
