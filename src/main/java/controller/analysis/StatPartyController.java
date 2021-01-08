@@ -33,7 +33,7 @@ public class StatPartyController extends BaseController {
      * @return
      */
     @RequestMapping("/stat_party_page")
-    public String stat_ow_page(ModelMap modelMap, Integer partyId) {
+    public String stat_party_page(ModelMap modelMap, Integer partyId) {
 
         int userId = ShiroHelper.getCurrentUserId();
         if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && partyId == null) {
@@ -50,6 +50,26 @@ public class StatPartyController extends BaseController {
             }
         }
         modelMap.put("partyId", partyId);
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
+        List<Party> parties = new ArrayList<>();
+
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            for (Integer _partyId : partyMap.keySet()) {
+                parties.add(partyMap.get(_partyId));
+            }
+            modelMap.put("parties", parties);
+            modelMap.put("checkParty", partyMap.get(partyId));
+        }else if (partyIds.size() > 0) {
+            for (Integer _partyId : partyIds) {
+                parties.add(partyMap.get(_partyId));
+            }
+
+            modelMap.put("parties", parties);
+            modelMap.put("checkParty", partyMap.get(partyId));
+        }
+
         return "analysis/party/stat_party_page";
     }
 

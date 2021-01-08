@@ -7,7 +7,9 @@
 
     var myChart = echarts.init($('#container').get(0));
 
-    var label= [
+    var label = ['学生', '教工'];
+
+    var categories = [
         <c:forEach items="${categories}" var="category">
             '${category}',
         </c:forEach>
@@ -31,7 +33,6 @@
         sumData.push(sumCount);
     }
 
-
     var option = {
         tooltip: {
             trigger: 'axis',
@@ -53,7 +54,7 @@
         },
         xAxis: {
             type: 'category',
-            data: label,
+            data: categories,
             axisLabel: {rotate: 40, interval: 0}
         },
         series: [

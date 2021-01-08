@@ -53,7 +53,11 @@ public class StatService extends BaseMapper {
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
         for (Byte key : MemberConstants.MEMBER_POLITICAL_STATUS_MAP.keySet()) {
-            map.put(key, _map.get(key));
+            if (_map.get(key) == null) {
+                map.put(key, 0);
+            }else {
+                map.put(key, _map.get(key));
+            }
         }
 
         return map;
@@ -64,20 +68,17 @@ public class StatService extends BaseMapper {
 
         Map<Byte, Integer> _map = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId);
-        if (statByteBeans.size() == 1) {
-            Byte type = statByteBeans.get(0).getGroupBy();
-            _map.put(type==MemberConstants.MEMBER_TYPE_TEACHER?MemberConstants.MEMBER_TYPE_TEACHER:MemberConstants.MEMBER_TYPE_STUDENT, 0);
-        } else if (statByteBeans.size() == 0) {
-            _map.put(MemberConstants.MEMBER_TYPE_TEACHER, 0);
-            _map.put(MemberConstants.MEMBER_TYPE_STUDENT, 0);
-        }
         for (StatByteBean statByteBean : statByteBeans) {
             _map.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
         for (Byte key : MemberConstants.MEMBER_TYPE_MAP.keySet()) {
-            map.put(key, _map.get(key));
+            if (_map.get(key) == null) {
+                map.put(key, 0);
+            }else {
+                map.put(key, _map.get(key));
+            }
         }
 
         return map;

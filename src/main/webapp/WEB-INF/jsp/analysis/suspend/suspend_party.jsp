@@ -20,20 +20,6 @@
                         <i class="ace-icon fa fa-chevron-up"></i>
                     </a>
                 </div>
-                <div style="display: inline-block;position: relative;" id="selectParty">
-                    <c:if test="${(not empty parties && fn:length(parties)>1)||cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
-                        <select data-rel="select2" name="party" data-width="350">
-                            <c:forEach items="${parties}" var="party">
-                                <option value="${party.id}">${party.name}</option>
-                            </c:forEach>
-                        </select>
-                        <c:if test="${not empty checkParty}">
-                            <script type="text/javascript">
-                                $("select[name=party]").val(${checkParty.id});
-                            </script>
-                        </c:if>
-                    </c:if>
-                </div>
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4">
@@ -157,8 +143,8 @@
     </div>
     <!-- /.col -->
 </div>
-<script>
+<%--<script>
     $('.transparent #selectParty').on("click",function(e){
         e.stopPropagation();
     })
-</script>
+</script>--%>

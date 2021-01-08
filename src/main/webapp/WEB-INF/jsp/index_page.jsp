@@ -48,7 +48,7 @@
     </div>
     <shiro:hasPermission name="sysMsg:list">
         <c:if test="${sysMsgCount>0}">
-        <div class="alert alert-block alert-success">
+        <div class="alert alert-block alert-success" id="sysMsg">
             <button type="button" class="close" data-dismiss="alert">
                 <i class="ace-icon fa fa-times"></i>
             </button>
@@ -67,3 +67,14 @@
 </div>
 <!-- /.widget-box -->
 <div style="clear: both"></div>
+<style>
+    /*#sysMsg a{
+        color: orange;
+    }*/
+    #sysMsg{
+        height: 40px;
+        padding:7px 15px;
+        margin-bottom: 5px;
+        /*color: orange;*/
+    }
+</style>
