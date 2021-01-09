@@ -11,7 +11,7 @@
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
-    <result column="direct_type" jdbcType="INTEGER" property="directType" />
+    <result column="branch_type" jdbcType="INTEGER" property="branchType" />
     <result column="is_enterprise_big" jdbcType="BIT" property="isEnterpriseBig" />
     <result column="is_enterprise_nationalized" jdbcType="BIT" property="isEnterpriseNationalized" />
     <result column="is_separate" jdbcType="BIT" property="isSeparate" />
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, direct_type, 
+    id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
     is_enterprise_big, is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, 
     found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, update_time, 
     is_deleted, integrity, branch_count, member_count, student_member_count, positive_count, 

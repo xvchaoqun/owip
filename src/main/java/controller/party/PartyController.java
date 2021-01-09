@@ -245,8 +245,8 @@ public class PartyController extends BaseController {
 
             partyService.updateByPrimaryKeySelective(record);
             Party party = partyMapper.selectByPrimaryKey(id);
-            if (!PartyHelper.isDirectBranch(id) && party.getDirectType() != null){
-                commonMapper.excuteSql("update ow_party set direct_type = null where id=" + id);
+            if (!PartyHelper.isDirectBranch(id) && party.getBranchType() != null){
+                commonMapper.excuteSql("update ow_party set branch_type = null where id=" + id);
             }
             logger.info(addLog(LogConstants.LOG_PARTY, "更新基层党组织：%s", record.getId()));
         }

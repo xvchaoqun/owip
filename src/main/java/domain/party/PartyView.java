@@ -23,7 +23,7 @@ public class PartyView implements Serializable {
 
     private Integer unitTypeId;
 
-    private Integer directType;
+    private Integer branchType;
 
     private Boolean isEnterpriseBig;
 
@@ -155,12 +155,12 @@ public class PartyView implements Serializable {
         this.unitTypeId = unitTypeId;
     }
 
-    public Integer getDirectType() {
-        return directType;
+    public Integer getBranchType() {
+        return branchType;
     }
 
-    public void setDirectType(Integer directType) {
-        this.directType = directType;
+    public void setBranchType(Integer branchType) {
+        this.branchType = branchType;
     }
 
     public Boolean getIsEnterpriseBig() {
