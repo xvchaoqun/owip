@@ -1,4 +1,9 @@
 
+
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `direct_type` `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
+-- 更新ow_party_view
+
 20210108
 大工
 

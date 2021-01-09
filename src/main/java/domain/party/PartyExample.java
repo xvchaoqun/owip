@@ -718,63 +718,63 @@ public class PartyExample {
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeIsNull() {
-            addCriterion("direct_type is null");
+        public Criteria andBranchTypeIsNull() {
+            addCriterion("branch_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeIsNotNull() {
-            addCriterion("direct_type is not null");
+        public Criteria andBranchTypeIsNotNull() {
+            addCriterion("branch_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeEqualTo(Integer value) {
-            addCriterion("direct_type =", value, "directType");
+        public Criteria andBranchTypeEqualTo(Integer value) {
+            addCriterion("branch_type =", value, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeNotEqualTo(Integer value) {
-            addCriterion("direct_type <>", value, "directType");
+        public Criteria andBranchTypeNotEqualTo(Integer value) {
+            addCriterion("branch_type <>", value, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeGreaterThan(Integer value) {
-            addCriterion("direct_type >", value, "directType");
+        public Criteria andBranchTypeGreaterThan(Integer value) {
+            addCriterion("branch_type >", value, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("direct_type >=", value, "directType");
+        public Criteria andBranchTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_type >=", value, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeLessThan(Integer value) {
-            addCriterion("direct_type <", value, "directType");
+        public Criteria andBranchTypeLessThan(Integer value) {
+            addCriterion("branch_type <", value, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("direct_type <=", value, "directType");
+        public Criteria andBranchTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_type <=", value, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeIn(List<Integer> values) {
-            addCriterion("direct_type in", values, "directType");
+        public Criteria andBranchTypeIn(List<Integer> values) {
+            addCriterion("branch_type in", values, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeNotIn(List<Integer> values) {
-            addCriterion("direct_type not in", values, "directType");
+        public Criteria andBranchTypeNotIn(List<Integer> values) {
+            addCriterion("branch_type not in", values, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeBetween(Integer value1, Integer value2) {
-            addCriterion("direct_type between", value1, value2, "directType");
+        public Criteria andBranchTypeBetween(Integer value1, Integer value2) {
+            addCriterion("branch_type between", value1, value2, "branchType");
             return (Criteria) this;
         }
 
-        public Criteria andDirectTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("direct_type not between", value1, value2, "directType");
+        public Criteria andBranchTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_type not between", value1, value2, "branchType");
             return (Criteria) this;
         }
 
