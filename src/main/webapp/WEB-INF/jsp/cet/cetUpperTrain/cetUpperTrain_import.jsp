@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="CET_UPPER_TRAIN_TYPE_SCHOOL" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL%>"/>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>批量导入上级调训</h3>
+    <h3>批量导入${type==8?'出国研修':(type==CET_UPPER_TRAIN_TYPE_SCHOOL?'其他培训':'上级调训')}</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cet/cetUpperTrain_import?type=${type}" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cet/${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL?"cetOtherTrain_import":"cetUpperTrain_import"}?type=${type}" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
@@ -20,7 +21,12 @@
                 <a href="${ctx}/attach?code=sample_cetUpperTrain_abroad">出国研修人员录入样表
             </c:if>
             <c:if test="${type!=8}">
+                <c:if test="${type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
+                <a href="${ctx}/attach?code=sample_cetOtherTrain">参训人员录入样表
+                </c:if>
+                <c:if test="${type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <a href="${ctx}/attach?code=sample_cetUpperTrain">参训人员录入样表
+                </c:if>
             </c:if>
                     .xlsx</a>（点击下载）的数据格式</span>
         </div>

@@ -5,8 +5,10 @@ import domain.pmd.PmdFee;
 import domain.pmd.PmdFeeExample;
 import domain.pmd.PmdFeeExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +47,15 @@ public class PmdFeeController extends PmdBaseController {
 
     @RequiresPermissions("pmdFee:list")
     @RequestMapping("/pmdFee")
-    public String pmdFee(ModelMap modelMap) {
+    public String pmdFee(Integer partyId,Integer branchId,ModelMap modelMap) {
 
-        Boolean hasShowUser = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) ||
-                ShiroHelper.hasAnyRoles(RoleConstants.ROLE_PARTYADMIN,RoleConstants.ROLE_BRANCHADMIN);
+        if (partyId != null) {
+            modelMap.put("party",partyMapper.selectByPrimaryKey(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch",branchMapper.selectByPrimaryKey(branchId));
+        }
 
-        modelMap.put("hasShowUser",hasShowUser);
         return "pmd/pmdFee/pmdFee_page";
     }
 
@@ -58,16 +63,16 @@ public class PmdFeeController extends PmdBaseController {
     @RequestMapping("/pmdFee_data")
     @ResponseBody
     public void pmdFee_data(HttpServletResponse response,
-                                    Integer userId,
-                                    Integer partyId,
-                                    Integer branchId,
-                                    Byte isOnlinePay,
-                                    Byte hasPay,
-                                    Date payTime,
-                                Byte status,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                            Integer userId,
+                            Integer partyId,
+                            Integer branchId,
+                            Boolean isOnlinePay,
+                            Boolean hasPay,
+                            Date payTime,
+                            Byte status,
+                            @RequestParam(required = false, defaultValue = "0") int export,
+                            Integer[] ids, // 导出的记录
+                            Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -79,31 +84,12 @@ public class PmdFeeController extends PmdBaseController {
 
         PmdFeeExample example = new PmdFeeExample();
         Criteria criteria = example.createCriteria();
+        example.setOrderByClause("id desc");
 
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+        List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+        List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
 
-            criteria.addPermits(adminPartyIdList,adminBranchIdList);
-
-           /* //如果有管理的分党委，显示所管理的分党委成员
-            if (!adminPartyIdList.isEmpty()){
-                criteria.andPartyIdIn(adminPartyIdList);
-            }
-
-            //如果有管理的党支部，显示所管理的党支部成员
-            if (!adminBranchIdList.isEmpty()){
-                criteria.andBranchIdIn(adminBranchIdList);
-            }
-
-            //如果是党员，只显示自己的数据。
-            if (adminPartyIdList.isEmpty() && adminBranchIdList.isEmpty()){
-                criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
-            }
-
-            //如果有查看所有党委、支部的权限
-            if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
-                criteria = example.createCriteria();
-            }*/
+        criteria.addPermits(adminPartyIds, adminBranchIds);
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
@@ -114,14 +100,14 @@ public class PmdFeeController extends PmdBaseController {
         if (branchId!=null) {
             criteria.andBranchIdEqualTo(branchId);
         }
-        /*if (isOnlinePay!=null) {
+        if (isOnlinePay!=null) {
             criteria.andIsOnlinePayEqualTo(isOnlinePay);
-        }*/
-        /*if (hasPay!=null) {
+        }
+        if (hasPay!=null) {
             criteria.andHasPayEqualTo(hasPay);
-        }*/
+        }
         if (payTime!=null) {
-        criteria.andPayTimeGreaterThan(payTime);
+            criteria.andPayTimeGreaterThan(payTime);
         }
 
         if (export == 1) {
@@ -157,18 +143,18 @@ public class PmdFeeController extends PmdBaseController {
     public Map do_pmdFee_au(PmdFee record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        //账号ID为空，个人添加
-        if (record.getUserId()==null){
-            record.setUserId(ShiroHelper.getCurrentUserId());
-        }
-
         Member member = memberService.get(record.getUserId());
 
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
-        /*if (pmdFeeService.idDuplicate(id, code)) {
+
+        if (pmdFeeService.idDuplicate(id, record.getUserId(),record.getPayMonth())) {
             return failed("添加重复");
-        }*/
+        }
+
+        if(BooleanUtils.isNotTrue(record.getIsOnlinePay())){
+            record.setHasPay(true);
+        }
         if (id == null) {
 
             pmdFeeService.insertSelective(record);
@@ -204,6 +190,14 @@ public class PmdFeeController extends PmdBaseController {
     public Map do_pmdFee_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
+            PmdFee pmdFee=pmdFeeMapper.selectByPrimaryKey(id);
+            Integer loginUserId = ShiroHelper.getCurrentUserId();
+
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                    !pmdPartyAdminService.isPartyAdmin(loginUserId,pmdFee.getPartyId())&&
+                    !pmdBranchAdminService.isBranchAdmin(loginUserId,pmdFee.getBranchId())){
+                throw new UnauthorizedException();
+            }
 
             pmdFeeService.del(id);
             logger.info(log( LogConstants.LOG_PMD, "删除党员缴纳党费：{0}", id));
@@ -228,22 +222,24 @@ public class PmdFeeController extends PmdBaseController {
 
         List<PmdFee> records = pmdFeeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"缴费类型|100","缴费月份|100","账号ID|100","所属分党委|100","所在党支部|100","缴费金额|100","缴费原因|100"};
+        String[] titles = {"缴费月份|100","姓名|100","所属分党委|250","所在党支部|200","缴费方式|100","缴费金额|100","缴费类型|100","缴费原因|100","状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PmdFee record = records.get(i);
             String[] values = {
-                record.getType()+"",
-                            DateUtils.formatDate(record.getPayMonth(), DateUtils.YYYY_MM_DD),
-                            record.getUserId()+"",
-                            record.getPartyId()+"",
-                            record.getBranchId()+"",
-                            //record.getAmt(),
-                            record.getReason()
+                    DateUtils.formatDate(record.getPayMonth(), DateUtils.YYYYMM),
+                    record.getUser().getRealname(),
+                    record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
+                    record.getBranchId() == null ? "" : branchService.findAll().get(record.getBranchId()).getName(),
+                    record.getIsOnlinePay()?"线上缴费":"现金缴费",
+                    record.getAmt()+"",
+                    record.getType()==null?"":CmTag.getMetaType(record.getType()).getName(),
+                    record.getReason(),
+                    record.getHasPay()?"已缴费":"未缴费"
             };
             valuesList.add(values);
         }
-        String fileName = String.format("党员缴纳党费(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        String fileName = String.format("党员补缴党费(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
