@@ -69,8 +69,14 @@
         var countChart = echarts.init($('#memberCount-placeholder').get(0));
 
         var memberData = [
-            {name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}', value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)}'},
-            {name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}', value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}'},
+            {
+                name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}',
+                value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)}',
+            },
+            {
+                name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}',
+                value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}'
+            },
         ];
 
         var countData = [
@@ -97,8 +103,9 @@
                     name: '党员数量',
                     type: 'pie',
                     selectedMode: 'single',
-                    radius: [0, '40%'],
-                    center: ['60%', '60%'],
+                    radius: [0, '30%'],
+                    center: ['60%', '50%'],
+                    startAngle:240,
                     label: {
                         position: 'inner'
                     },
@@ -110,8 +117,9 @@
                 {
                     name: '党员数量',
                     type: 'pie',
-                    radius: ['50%', '65%'],
-                    center: ['60%', '60%'],
+                    radius: ['45%', '55%'],
+                    center: ['60%', '50%'],
+                    startAngle:240,
                     label: {
                         formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
                         backgroundColor: '#eee',
@@ -131,7 +139,7 @@
                                 height: 0
                             },
                             b: {
-                                fontSize: 14,
+                                fontSize: 12,
                                 lineHeight: 33
                             },
                             per: {

@@ -61,26 +61,6 @@ public class SuspendOwController extends MemberBaseController {
     @RequiresPermissions("suspend:party")
     public String suspend_party(int partyId, ModelMap modelMap) {
 
-        int userId = ShiroHelper.getCurrentUserId();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
-        List<Party> parties = new ArrayList<>();
-
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            for (Integer _partyId : partyMap.keySet()) {
-                parties.add(partyMap.get(_partyId));
-            }
-            modelMap.put("parties", parties);
-            modelMap.put("checkParty", partyMap.get(partyId));
-        }else if (partyIds.size() > 0) {
-            for (Integer _partyId : partyIds) {
-                parties.add(partyMap.get(_partyId));
-            }
-
-            modelMap.put("parties", parties);
-            modelMap.put("checkParty", partyMap.get(partyId));
-        }
-
         modelMap.put("partyMemberGroupCount", partyMemberGroupService.count(partyId));
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.count(partyId));
         modelMap.put("studentGrowOdCheckCount", memberApplyService.count(partyId, null,

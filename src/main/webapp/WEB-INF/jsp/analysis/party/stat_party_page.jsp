@@ -2,6 +2,21 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row" id="cartogram">
+    <div style="display: inline-block;position: relative;" id="selectParty">
+        ${_p_partyName}：
+        <c:if test="${(not empty parties && fn:length(parties)>1)||cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
+            <select data-rel="select2" name="party" data-width="350">
+                <c:forEach items="${parties}" var="party">
+                    <option value="${party.id}">${party.name}</option>
+                </c:forEach>
+            </select>
+            <c:if test="${not empty checkParty}">
+                <script type="text/javascript">
+                    $("select[name=party]").val(${checkParty.id});
+                </script>
+            </c:if>
+        </c:if>
+    </div>
     <shiro:hasPermission name="suspend:party">
         <c:import url="/suspend_party?partyId=${partyId}"/>
     </shiro:hasPermission>

@@ -585,40 +585,50 @@
                 width: 130
             },
             </c:if>
-            {
-                label: '列入发展计划时间', name: 'planTime', width: 180, formatter: function (cellvalue, options, rowObject) {
-                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
-                }
-            },
+            <c:if test="${!_ignore_plan_and_draw}">
+                {
+                    label: '列入发展计划时间', name: 'planTime', width: 180, formatter: function (cellvalue, options, rowObject) {
+                        return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
+                    }
+                },
+            </c:if>
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
-            {
-                label: '列入发展计划时间', name: 'planTime', width: 180, formatter: function (cellvalue, options, rowObject) {
-                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
-                }
-            },
+                <c:if test="${!_ignore_plan_and_draw}">
+                    {
+                        label: '列入发展计划时间', name: 'planTime', width: 180, formatter: function (cellvalue, options, rowObject) {
+                            return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
+                        }
+                    },
+                </c:if>
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_PLAN}">
             <shiro:hasPermission name="partyPublic:list">
-            {
-                label: '发展公示日期',
-                name: 'growPublic.pubDate',
-                width: 120,
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
-            },
+                <c:if test="${!_ignore_plan_and_draw}">
+                    {
+                        label: '发展公示日期',
+                        name: 'growPublic.pubDate',
+                        width: 120,
+                        formatter: $.jgrid.formatter.date,
+                        formatoptions: {newformat: 'Y.m.d'}
+                    },
+                </c:if>
             </shiro:hasPermission>
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
-            {
-                label: '领取志愿书时间', name: 'drawTime', width: 160, formatter: function (cellvalue, options, rowObject) {
-                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.planTime, 5, rowObject.growPublic);
-                }
-            },
+                <c:if test="${!_ignore_plan_and_draw}">
+                    {
+                        label: '领取志愿书时间', name: 'drawTime', width: 160, formatter: function (cellvalue, options, rowObject) {
+                            return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.planTime, 5, rowObject.growPublic);
+                        }
+                    },
+                </c:if>
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
             <shiro:hasPermission name="applySnRange:list">
-            {label: '志愿书编码', name: 'applySn', width: 150},
+                <c:if test="${!_ignore_plan_and_draw}">
+                    {label: '志愿书编码', name: 'applySn', width: 150},
+                </c:if>
             </shiro:hasPermission>
             {
                 label: '发展时间', name: 'growTime', formatter: function (cellvalue, options, rowObject) {

@@ -23,6 +23,8 @@ public class PartyView implements Serializable {
 
     private Integer unitTypeId;
 
+    private Integer branchType;
+
     private Boolean isEnterpriseBig;
 
     private Boolean isEnterpriseNationalized;
@@ -151,6 +153,14 @@ public class PartyView implements Serializable {
 
     public void setUnitTypeId(Integer unitTypeId) {
         this.unitTypeId = unitTypeId;
+    }
+
+    public Integer getBranchType() {
+        return branchType;
+    }
+
+    public void setBranchType(Integer branchType) {
+        this.branchType = branchType;
     }
 
     public Boolean getIsEnterpriseBig() {

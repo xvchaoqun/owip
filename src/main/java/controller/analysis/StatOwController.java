@@ -149,7 +149,7 @@ public class StatOwController extends BaseController {
                                  ModelMap modelMap,
                                  HttpServletResponse response) throws IOException {
 
-                                 List<MetaType> metaTypes = new ArrayList<>();
+        List<MetaType> metaTypes = new ArrayList<>();
         List<Integer> partyCounts = new ArrayList<>();
         int partySumCount = 0;
         Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_party_class");
@@ -297,7 +297,7 @@ public class StatOwController extends BaseController {
         List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
         List<Party> parties = new ArrayList<>();
 
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             for (Integer _partyId : partyMap.keySet()) {
                 parties.add(partyMap.get(_partyId));
             }

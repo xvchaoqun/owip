@@ -195,18 +195,20 @@ public class MemberApplyController extends MemberBaseController {
             record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
 
-            record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-            record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-            String applySnStr = StringUtils.trimToNull(xlsRow.get(rowNum++));
-            if (applySnStr != null) {
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+                record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+                String applySnStr = StringUtils.trimToNull(xlsRow.get(rowNum++));
+                if (applySnStr != null) {
 
-                ApplySn applySn = iMemberMapper.getApplySnByDisplaySn(DateUtils.getCurrentYear(), applySnStr);
-                if (applySn == null) {
-                    throw new OpException("第{0}行志愿书编码不存在[{1}]", row, applySnStr);
+                    ApplySn applySn = iMemberMapper.getApplySnByDisplaySn(DateUtils.getCurrentYear(), applySnStr);
+                    if (applySn == null) {
+                        throw new OpException("第{0}行志愿书编码不存在[{1}]", row, applySnStr);
+                    }
+
+                    record.setApplySnId(applySn.getRangeId());
+                    record.setApplySn(applySn.getDisplaySn());
                 }
-
-                record.setApplySnId(applySn.getRangeId());
-                record.setApplySn(applySn.getDisplaySn());
             }
 
             record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
