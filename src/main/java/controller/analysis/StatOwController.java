@@ -297,7 +297,7 @@ public class StatOwController extends BaseController {
         List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
         List<Party> parties = new ArrayList<>();
 
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             for (Integer _partyId : partyMap.keySet()) {
                 parties.add(partyMap.get(_partyId));
             }
