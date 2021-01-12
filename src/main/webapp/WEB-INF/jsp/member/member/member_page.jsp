@@ -618,7 +618,7 @@
             {label: '备注3', name: 'remark3', width: 150,align:'left'},
             {label: '备注4', name: 'remark4', width: 150,align:'left'},
             {label: '备注5', name: 'remark5', width: 150,align:'left'},
-            {label: '备注6', name: 'remark6', width: 252,align:'left'},
+            {label: '备注6', name: 'remark6', width: 150,align:'left'},
             /*{label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
             {label: '所在院系', name: 'unit', width: 180, align: 'left'},*/
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
