@@ -87,6 +87,10 @@
         ];
 
         var countOption = {
+            title: {
+                text: '（党员总数：${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE) + statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}）',
+                left: 'center'
+            },
             tooltip: {
                 trigger: 'item',
                 formatter: '{a} <br/>{b}: {c} ({d}%)'

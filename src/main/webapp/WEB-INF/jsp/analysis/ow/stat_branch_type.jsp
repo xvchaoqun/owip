@@ -35,13 +35,19 @@
                 '${metaTypes.get(type.key).name}(${type.value})',
             </c:forEach>
         ];
+        <c:set var="totalCount" value="0"/>
         var data = [
             <c:forEach items="${branchTypeMap}" var="type">
                 {name: "${metaTypes.get(type.key).name}(${type.value})", value: '${type.value}'},
+                <c:set var="totalCount" value="${totalCount+type.value}"/>
             </c:forEach>
         ];
 
         var option = {
+            title: {
+                text: '（支部总数：${totalCount}）',
+                left: 'center'
+            },
             tooltip: {
                 trigger: 'item',
                 formatter: '{a} <br/>{b} : {c} ({d}%)'
