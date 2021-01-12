@@ -552,11 +552,6 @@ public class MemberOutController extends MemberBaseController {
             logger.info(addLog(LogConstants.LOG_MEMBER, "添加组织关系转出：%s", record.getId()));
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
-            if (!CmTag.getBoolProperty("use_code_as_identify")) {
-                if (before.getYear() == null || (!before.getYear().equals(record.getYear()))) {
-                    record.setSn(memberOutService.genSn(record.getYear()));
-                }
-            }
             // 重新提交未通过的申请
             if (BooleanUtils.isTrue(reapply) && before.getStatus() < MemberConstants.MEMBER_OUT_STATUS_APPLY) {
 
