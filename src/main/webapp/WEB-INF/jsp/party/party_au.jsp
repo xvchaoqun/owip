@@ -113,17 +113,17 @@
                     </div>
                 </div>
 
-                <div class="form-group hidden" id="directTypeDiv">
+                <div class="form-group hidden" id="branchTypeDiv">
                     <label class="col-xs-4 control-label"><span class="star">*</span>直属党支部类型</label>
                     <div class="col-xs-8">
-                        <select required class="form-control" name="directType"
+                        <select required class="form-control" name="branchType"
                                 data-width="253"
                                 data-rel="select2" data-placeholder="请选择">
                             <option></option>
                             <c:import url="/metaTypes?__code=mc_branch_type"/>
                         </select>
                         <script>
-                            $("#modalForm select[name=directType]").val('${party.directType}');
+                            $("#modalForm select[name=branchType]").val('${party.branchType}');
                         </script>
                     </div>
                 </div>
@@ -248,20 +248,20 @@
     }).change();
 
     $('#modalForm select[name=classId]').on('change', function (){
-       selectDirectType($(this).val());
+       selectbranchType($(this).val());
     });
 
     var classId = $('#modalForm select[name=classId]').val();
-    selectDirectType(classId);
+    selectbranchType(classId);
 
     //控制直属党支部选择党支部类型
-   function selectDirectType(classId){
+   function selectbranchType(classId){
        if (classId==${cm:getMetaTypeByCode('mt_direct_branch').id}){
-           $('#directTypeDiv').removeClass('hidden');
-           $('#directTypeDiv select[name=directType]').prop('required', true);
+           $('#branchTypeDiv').removeClass('hidden');
+           $('#branchTypeDiv select[name=branchType]').prop('required', true);
        }else {
-           $('#directTypeDiv select[name=directType]').val(null).trigger("change").prop('required', false);
-           $('#directTypeDiv').addClass('hidden');
+           $('#branchTypeDiv select[name=branchType]').val(null).trigger("change").prop('required', false);
+           $('#branchTypeDiv').addClass('hidden');
        }
    }
 

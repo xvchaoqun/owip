@@ -60,6 +60,8 @@ public class CadreInspectView implements Serializable {
 
     private Integer recordUserId;
 
+    private Date validTime;
+
     private Integer inspectSortOrder;
 
     private Integer id;
@@ -318,6 +320,14 @@ public class CadreInspectView implements Serializable {
 
     public void setRecordUserId(Integer recordUserId) {
         this.recordUserId = recordUserId;
+    }
+
+    public Date getValidTime() {
+        return validTime;
+    }
+
+    public void setValidTime(Date validTime) {
+        this.validTime = validTime;
     }
 
     public Integer getInspectSortOrder() {

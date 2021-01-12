@@ -2,32 +2,41 @@ package service.pmd;
 
 import domain.pmd.PmdFee;
 import domain.pmd.PmdFeeExample;
-import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PmdFeeService extends PmdBaseMapper {
+    @Autowired
+    private PmdPartyAdminService pmdPartyAdminService;
+    @Autowired
+    private PmdBranchAdminService pmdBranchAdminService;
 
-    public boolean idDuplicate(Integer id, String code){
-
-        Assert.isTrue(StringUtils.isNotBlank(code), "null");
+    public boolean idDuplicate(Integer id, Integer userId, Date payMonth){
 
         PmdFeeExample example = new PmdFeeExample();
         PmdFeeExample.Criteria criteria = example.createCriteria();
         if(id!=null) criteria.andIdNotEqualTo(id);
+        criteria.andUserIdEqualTo(userId).andPayMonthEqualTo(payMonth);
 
         return pmdFeeMapper.countByExample(example) > 0;
     }
 
     @Transactional
     public void insertSelective(PmdFee record){
+
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                !pmdPartyAdminService.isPartyAdmin(loginUserId,record.getPartyId())&&
+                !pmdBranchAdminService.isBranchAdmin(loginUserId,record.getBranchId())){
+            throw new UnauthorizedException();
+        }
 
         pmdFeeMapper.insertSelective(record);
     }
@@ -50,8 +59,14 @@ public class PmdFeeService extends PmdBaseMapper {
 
     @Transactional
     public void updateByPrimaryKeySelective(PmdFee record){
-        if(StringUtils.isNotBlank(record.getRemark()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getRemark()), "duplicate");
+
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                !pmdPartyAdminService.isPartyAdmin(loginUserId,record.getPartyId())&&
+                !pmdBranchAdminService.isBranchAdmin(loginUserId,record.getBranchId())){
+            throw new UnauthorizedException();
+        }
+
         pmdFeeMapper.updateByPrimaryKeySelective(record);
     }
 

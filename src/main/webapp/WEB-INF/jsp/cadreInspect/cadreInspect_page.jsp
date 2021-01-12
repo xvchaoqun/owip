@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="_status" items="<%=CadreConstants.CADRE_INSPECT_STATUS_MAP%>">
-                    <li class="<c:if test="${status==_status.key}">active</c:if>">
+                    <li class="<c:if test="${status==_status.key && isValid}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreInspect?status=${_status.key}">
                             <c:if test="${_status.key==CADRE_INSPECT_STATUS_ABOLISH}">
                                 <i class="fa fa-times"></i>
@@ -34,12 +34,27 @@ pageEncoding="UTF-8" %>
                             ${_status.value}</a>
                     </li>
                 </c:forEach>
+              <shiro:hasPermission name="cadreInspect:validTime">
+                <li class="<c:if test="${!isValid}">active</c:if>">
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreInspect?isValid=0">
+                      <i class="fa fa-times"></i> 已过期</a>
+                </li>
+              </shiro:hasPermission>
             </ul>
 
             <div class="tab-content">
                 <div class="tab-pane in active rownumbers">
                     <div class="jqgrid-vertical-offset buttons">
-                        <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
+                       <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
+                        <shiro:hasPermission name="cadreInspect:validTime">
+                            <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/cadreInspect_validTime"
+                                    data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                                设置有效期
+                            </button>
+                        </shiro:hasPermission>
+                       </c:if>
+                        <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL && isValid}">
                         <shiro:hasPermission name="cadreInspect:edit">
                             <a class="popupBtn btn btn-info btn-sm btn-success"
                                data-url="${ctx}/cadreInspect_au"><i class="fa fa-plus"></i>
@@ -50,6 +65,7 @@ pageEncoding="UTF-8" %>
                                 data-url="${ctx}/cadreInspect_au">
                             <i class="fa fa-edit"></i> 修改信息
                         </button>
+
                         <button class="jqOpenViewBtn btn btn-success btn-sm"
                                 data-url="${ctx}/cadreInspect_pass">
                             <i class="fa fa-check"></i> 通过常委会任命
@@ -180,6 +196,15 @@ pageEncoding="UTF-8" %>
             }, frozen: true
             },
             <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
+            <shiro:hasPermission name="cadreInspect:validTime">
+            {label: '有效期', name: 'validTime', width: 150, frozen: true, formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y-m-d'} ,cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    <c:if test="${!isValid}">
+                        return "class='danger'";
+                    </c:if>
+                }
+            },
+            </shiro:hasPermission>
             {label: '排序', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                     var op = {grid: ''}

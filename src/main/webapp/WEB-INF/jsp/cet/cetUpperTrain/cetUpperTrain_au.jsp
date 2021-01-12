@@ -258,6 +258,7 @@
                     </div>
                 </div>
                 </c:if>
+                <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班类型</label>
                     <div class="col-xs-7">
@@ -270,6 +271,7 @@
                         </script>
                     </div>
                 </div>
+                </c:if>
                 </c:if>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 培训班名称</label>

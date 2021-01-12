@@ -742,7 +742,11 @@ public class OaTaskUserViewExample {
             addCriterion("has_report =", value, "hasReport");
             return (Criteria) this;
         }
-
+        public Criteria andHasReportOrTaskStatusEqualTo(Byte status) {
+            addCriterion("(has_report = 1 or (has_report = 0 and task_status = '"
+                    + status +"'))");
+            return (Criteria) this;
+        }
         public Criteria andHasReportNotEqualTo(Boolean value) {
             addCriterion("has_report <>", value, "hasReport");
             return (Criteria) this;

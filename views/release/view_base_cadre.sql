@@ -107,7 +107,7 @@ left join (select cadre_id, verify_grow_time from verify_grow_time where status=
 DROP VIEW IF EXISTS `cadre_inspect_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `cadre_inspect_view` AS
 select ci.id as inspect_id, ci.record_id, ci.assign_unit_post_id, ci.`type` as inspect_type, ci.`status` as inspect_status,
-ci.remark as inspect_remark, ci.record_user_id, ci.sort_order as inspect_sort_order, cv.*
+ci.remark as inspect_remark, ci.record_user_id,ci.valid_time as valid_time, ci.sort_order as inspect_sort_order, cv.*
 from cadre_inspect ci left join cadre_view cv on ci.cadre_id=cv.id;
 
 

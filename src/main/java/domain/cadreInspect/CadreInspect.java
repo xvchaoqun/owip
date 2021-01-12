@@ -1,6 +1,7 @@
 package domain.cadreInspect;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CadreInspect implements Serializable {
     private Integer id;
@@ -16,6 +17,8 @@ public class CadreInspect implements Serializable {
     private Byte status;
 
     private Integer recordUserId;
+
+    private Date validTime;
 
     private String remark;
 
@@ -77,6 +80,14 @@ public class CadreInspect implements Serializable {
 
     public void setRecordUserId(Integer recordUserId) {
         this.recordUserId = recordUserId;
+    }
+
+    public Date getValidTime() {
+        return validTime;
+    }
+
+    public void setValidTime(Date validTime) {
+        this.validTime = validTime;
     }
 
     public String getRemark() {
