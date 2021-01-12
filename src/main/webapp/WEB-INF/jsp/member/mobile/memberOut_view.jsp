@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
-<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
         <div class="profile-user-info profile-user-info-striped">
@@ -21,7 +20,7 @@
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 介绍信编号</div>
                 <div class="profile-info-value td">
-                    <span class="editable">${userBean.code}</span>
+                    <span class="editable">${_use_code_as_identify?userBean.code:memberOut.code}</span>
                 </div>
             </div>
             <div class="profile-info-row">
