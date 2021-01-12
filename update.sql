@@ -1,15 +1,9 @@
 
-
-ALTER TABLE `ow_party`
-	CHANGE COLUMN `direct_type` `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
--- 更新ow_party_view
-
 20210108
 大工
 
 ALTER TABLE `sys_approval_log`
 	CHANGE COLUMN `stage` `stage` TEXT NULL COMMENT '阶段备注，比如 初审、返回等' COLLATE 'utf8_general_ci' AFTER `type`;
-
 
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,
@@ -20,7 +14,7 @@ ALTER TABLE `ow_member_out`
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
 
 ALTER TABLE `ow_party`
-	ADD COLUMN `direct_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
+	ADD COLUMN `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
 -- 更新ow_party_view、XXXX  pcs_party_view （未更新）XXXXXXXXXXX
 
 20210106
@@ -99,6 +93,7 @@ ALTER TABLE `ow_member`
 
 -- 更新utils
 
+-- (以下已更新北化工）
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('wx.appSecret', '微信应用secret', '4rUjh4NgyYtH_vPJiWjMrLNq7QurHLiY9B9hI_az688', 1, 82, '');
 UPDATE sys_property SET type=1 WHERE  code='wx.agentId';
 
