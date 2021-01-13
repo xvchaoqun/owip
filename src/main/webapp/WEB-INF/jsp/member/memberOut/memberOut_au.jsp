@@ -12,25 +12,6 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="reapply" value="${empty memberOut?1:param.reapply}">
 		<div class="row">
 			<div class="col-xs-4">
-			<div class="form-group">
-				<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
-				<c:if test="${not empty userBean}">
-					<div class="col-xs-6 label-text">
-						<input type="hidden" name="userId" value="${userBean.userId}">
-					${userBean.realname}
-					</div>
-				</c:if>
-<c:if test="${empty userBean}">
-				<div class="col-xs-6">
-					<select required data-rel="select2-ajax"
-							data-width="180"
-							data-ajax-url="${ctx}/member_selects?needPrivate=1"
-							name="userId" data-placeholder="请输入账号或姓名或学工号">
-						<option value="${userBean.userId}">${userBean.realname}</option>
-					</select>
-				</div>
-	</c:if>
-			</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><span class="star">*</span>年份</label>
 					<div class="col-xs-6">
@@ -44,6 +25,26 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 				</div>
+			<div class="form-group">
+				<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
+				<c:if test="${not empty userBean}">
+					<div class="col-xs-6 label-text">
+						<input type="hidden" name="userId" value="${userBean.userId}">
+					${userBean.realname}
+					</div>
+				</c:if>
+
+<c:if test="${empty userBean}">
+				<div class="col-xs-6">
+					<select required data-rel="select2-ajax"
+							data-width="180"
+							data-ajax-url="${ctx}/member_selects?needPrivate=1"
+							name="userId" data-placeholder="请输入账号或姓名或学工号">
+						<option value="${userBean.userId}">${userBean.realname}</option>
+					</select>
+				</div>
+	</c:if>
+			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">姓名</label>
 				<div class="col-xs-6">
