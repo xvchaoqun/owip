@@ -640,7 +640,7 @@ public class MemberOutController extends MemberBaseController {
                         || (record.getHandleTime() != null && !StringUtils.equals(DateUtils.formatDate(before.getHandleTime(), "yyyyMMdd"), DateUtils.formatDate(record.getHandleTime(), "yyyyMMdd")))
                         || (record.getHasReceipt() != null && !StringUtils.equals(before.getHasReceipt() + "", record.getHasReceipt() + ""))
                         || (record.getYear() != null && !StringUtils.equals(before.getYear() + "", record.getYear() + ""))
-                        || (!CmTag.getBoolProperty("use_code_as_identify") && ((record.getCode() == null && before.getCode() == null)|| !before.getYear().equals(record.getYear())))
+                        || (!CmTag.getBoolProperty("use_code_as_identify") && ((record.getCode() == null && before.getCode() == null)|| !StringUtils.equals(before.getYear() + "", record.getYear() + "")))
         );
     }
 
