@@ -331,7 +331,7 @@ public class MemberOutService extends MemberBaseMapper {
             memberOutMapper.insertSelective(record);
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
-            if (before.getYear() == null || (!before.getYear().equals(record.getYear()))) {
+            if ((before.getCode() == null && record.getCode() == null) || (!before.getYear().equals(record.getYear()))) {
                 record.setSn(genSn(record.getYear()));
             }
             memberOutMapper.updateByPrimaryKeySelective(record);
@@ -376,7 +376,7 @@ public class MemberOutService extends MemberBaseMapper {
         }
         if (record.getYear() != null) {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
-            if (before.getYear() == null || (!before.getYear().equals(record.getYear()))) {
+            if ((before.getCode() == null && record.getCode() == null) || (!before.getYear().equals(record.getYear()))) {
                 record.setSn(genSn(record.getYear()));
             }
         }
