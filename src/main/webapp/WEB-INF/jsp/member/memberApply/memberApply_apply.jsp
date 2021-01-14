@@ -295,7 +295,7 @@
                data-id-name="userId">
                 <i class="fa fa-refresh"></i> 更换学工号</a>
             <a href="javascript:;"
-               class="jqEditBtn btn btn-danger btn-sm"
+               class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                data-url="${ctx}/memberApply_changeParty"
                data-width="800"
                data-id-name="userId">

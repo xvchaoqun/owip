@@ -7,17 +7,17 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberApply_changeParty" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="userId" value="${memberApply.userId}">
+        <input type="hidden" name="ids" value="${param.ids}">
         <div class="form-group">
-			<label class="col-xs-4 control-label">姓名</label>
+			<label class="col-xs-4 control-label">${count == 1 ? '姓名' : '人数'}</label>
 			<div class="col-xs-6 label-text">
-				${memberApply.user.realname}
+				${count == 1 ? memberApply.user.realname : count}
 			</div>
 		</div>
         <div class="form-group">
-			<label class="col-xs-4 control-label">当前党组织</label>
+			<label class="col-xs-4 control-label">${count == 1 ? '当前党组织' : ''}</label>
 			<div class="col-xs-6 label-text">
-				${cm:displayParty(memberApply.partyId, memberApply.branchId)}
+				${count == 1 ? cm:displayParty(memberApply.partyId, memberApply.branchId) : ''}
 			</div>
 		</div>
         <div class="form-group">
