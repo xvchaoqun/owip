@@ -2,6 +2,21 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row" id="cartogram">
+    <div style="display: inline-block;position: relative;" id="selectParty">
+        ${_p_partyName}：
+        <c:if test="${(not empty parties && fn:length(parties)>1)||cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
+            <select data-rel="select2" name="party" data-width="350">
+                <c:forEach items="${parties}" var="party">
+                    <option value="${party.id}">${party.name}</option>
+                </c:forEach>
+            </select>
+            <c:if test="${not empty checkParty}">
+                <script type="text/javascript">
+                    $("select[name=party]").val(${checkParty.id});
+                </script>
+            </c:if>
+        </c:if>
+    </div>
     <shiro:hasPermission name="suspend:party">
         <c:import url="/suspend_party?partyId=${partyId}"/>
     </shiro:hasPermission>
@@ -49,6 +64,29 @@
                 <div class="widget-body">
                     <div class="widget-main padding-4">
                         <c:import url="/stat_party_member_party?partyId=${partyId}"/>
+                    </div><!-- /.widget-main -->
+                </div><!-- /.widget-body -->
+            </div><!-- /.widget-box -->
+        </div><!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-flat">
+                    <h4 class="widget-title lighter">
+                        <i class="ace-icon fa fa-line-chart"></i>
+                        党员每月转入转出统计（近两年）
+                    </h4>
+                    <div class="widget-toolbar">
+                        <a href="javascript:;" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main padding-4">
+                        <c:import url="/stat_member_inout?partyId=${partyId}"/>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
             </div><!-- /.widget-box -->

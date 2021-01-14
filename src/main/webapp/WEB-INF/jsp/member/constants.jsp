@@ -9,6 +9,9 @@
 <c:set value="${cm:trimToZero(_pMap['sponsorUsers_count'])}" var="_p_sponsorUsers_count"/>
 <c:set value="${cm:trimToZero(_pMap['growContactUsers_count'])}" var="_p_growContactUsers_count"/>
 <c:set value="${_pMap['ignore_plan_and_draw']=='true'}" var="_ignore_plan_and_draw"/>
+<c:set value="${_pMap['memberOutNeedOwCheck']=='true'}" var="_p_memberOutNeedOwCheck"/>
+<c:set value="${_pMap['use_code_as_identify']=='true'}" var="_use_code_as_identify"/>
+
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>
@@ -39,3 +42,8 @@
 
 <c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
 
+<c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
+
+<c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
+<c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>

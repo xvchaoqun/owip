@@ -478,7 +478,8 @@ public class MemberOutController extends MemberBaseController {
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
-                               MemberOut record, String _payTime,
+                               MemberOut record,
+                               String _payTime,
                                String _acceptReceiptTime,
                                Boolean reapply, //  添加或 重新申请 时传入 true
                                String _handleTime, HttpServletRequest request) {
@@ -638,6 +639,8 @@ public class MemberOutController extends MemberBaseController {
                         || (record.getValidDays() != null && !StringUtils.equals(before.getValidDays() + "", record.getValidDays() + ""))
                         || (record.getHandleTime() != null && !StringUtils.equals(DateUtils.formatDate(before.getHandleTime(), "yyyyMMdd"), DateUtils.formatDate(record.getHandleTime(), "yyyyMMdd")))
                         || (record.getHasReceipt() != null && !StringUtils.equals(before.getHasReceipt() + "", record.getHasReceipt() + ""))
+                        || (record.getYear() != null && !StringUtils.equals(before.getYear() + "", record.getYear() + ""))
+                        || (!CmTag.getBoolProperty("use_code_as_identify") && ((record.getCode() == null && before.getCode() == null)|| !StringUtils.equals(before.getYear() + "", record.getYear() + "")))
         );
     }
 

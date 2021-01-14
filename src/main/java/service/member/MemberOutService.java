@@ -326,11 +326,14 @@ public class MemberOutService extends MemberBaseMapper {
         record.setPrintCount(0);
         memberOpService.checkOpAuth(userId);
         if (record.getId() == null) {
-
             archive(userId);
-
+            record.setSn(genSn(record.getYear()));
             memberOutMapper.insertSelective(record);
         } else {
+            MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
+            if ((before.getCode() == null && record.getCode() == null) || (!before.getYear().equals(record.getYear()))) {
+                record.setSn(genSn(record.getYear()));
+            }
             memberOutMapper.updateByPrimaryKeySelective(record);
         }
 
@@ -370,6 +373,12 @@ public class MemberOutService extends MemberBaseMapper {
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             iMemberMapper.updateToDirectBranch("ow_member_out", "id", record.getId(), record.getPartyId());
+        }
+        if (record.getYear() != null) {
+            MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
+            if ((before.getCode() == null && record.getCode() == null) || (!before.getYear().equals(record.getYear()))) {
+                record.setSn(genSn(record.getYear()));
+            }
         }
 
         memberOutMapper.updateByPrimaryKeySelective(record);
@@ -535,5 +544,19 @@ public class MemberOutService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                 "自动打印",
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "完成");
+    }
+
+    public Integer genSn(Integer year){
+
+        Integer maxSn = null;
+        if (year != null){
+            maxSn = iMemberMapper.selectYearMaxNumber(year);
+        }
+
+        if (maxSn == null){
+            maxSn = 0;
+        }
+
+        return ++maxSn;
     }
 }

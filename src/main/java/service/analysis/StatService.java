@@ -2,6 +2,7 @@ package service.analysis;
 
 import bean.StatByteBean;
 import bean.StatIntBean;
+import controller.global.OpException;
 import domain.party.Party;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.xssf.usermodel.*;
@@ -16,8 +17,11 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
+import javax.ws.rs.GET;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -49,7 +53,11 @@ public class StatService extends BaseMapper {
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
         for (Byte key : MemberConstants.MEMBER_POLITICAL_STATUS_MAP.keySet()) {
-            map.put(key, _map.get(key));
+            if (_map.get(key) == null) {
+                map.put(key, 0);
+            }else {
+                map.put(key, _map.get(key));
+            }
         }
 
         return map;
@@ -60,20 +68,17 @@ public class StatService extends BaseMapper {
 
         Map<Byte, Integer> _map = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId);
-        if (statByteBeans.size() == 1) {
-            Byte type = statByteBeans.get(0).getGroupBy();
-            _map.put(type==MemberConstants.MEMBER_TYPE_TEACHER?MemberConstants.MEMBER_TYPE_TEACHER:MemberConstants.MEMBER_TYPE_STUDENT, 0);
-        } else if (statByteBeans.size() == 0) {
-            _map.put(MemberConstants.MEMBER_TYPE_TEACHER, 0);
-            _map.put(MemberConstants.MEMBER_TYPE_STUDENT, 0);
-        }
         for (StatByteBean statByteBean : statByteBeans) {
             _map.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
         for (Byte key : MemberConstants.MEMBER_TYPE_MAP.keySet()) {
-            map.put(key, _map.get(key));
+            if (_map.get(key) == null) {
+                map.put(key, 0);
+            }else {
+                map.put(key, _map.get(key));
+            }
         }
 
         return map;
@@ -85,6 +90,12 @@ public class StatService extends BaseMapper {
         Map<Byte, Integer> _applyMap = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.memberApply_groupByStage(type, partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
+            if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                if (statByteBean.getGroupBy().equals(OwConstants.OW_APPLY_STAGE_PLAN)
+                        || statByteBean.getGroupBy().equals(OwConstants.OW_APPLY_STAGE_DRAW)){
+                    continue;
+                }
+            }
             _applyMap.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 
@@ -167,7 +178,7 @@ public class StatService extends BaseMapper {
                     otherMap.put("男", other.getNum());
                 } else if (other.getGroupBy() != null && (other.getGroupBy().byteValue() == SystemConstants.GENDER_FEMALE)) {
                     otherMap.put("女", other.getNum());
-                } else {
+                } else if(other.getNum()>0){
                     otherMap.put("无数据", other.getNum());
                 }
             }
@@ -423,5 +434,45 @@ public class StatService extends BaseMapper {
         cell = row.getCell(12);
         cell.setCellValue(modelMap.get("bsStuCount").toString());
 
+    }
+
+    //得到两个时间点之间的月份（yyyy-MM格式）
+    public Set<String> getMonthBetween(String minDate, String maxDate) throws ParseException {
+        Set<String> result = new TreeSet<>();
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月
+
+            Calendar min = Calendar.getInstance();
+            Calendar max = Calendar.getInstance();
+            min.setTime(sdf.parse(minDate));
+            min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
+
+            max.setTime(sdf.parse(maxDate));
+            max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 1);
+
+            Calendar curr = min;
+            while (curr.before(max)) {
+                result.add(sdf.format(curr.getTime()));
+                curr.add(Calendar.MONTH, 1);
+            }
+        }catch (OpException e){
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    //得到距date相隔amount年的日期
+    public String getOtherYear(Date date, int amount){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        Calendar c = Calendar.getInstance();
+
+        c.setTime(date);
+        c.add(Calendar.YEAR, amount);
+        Date y = c.getTime();
+
+        return format.format(y);
     }
 }

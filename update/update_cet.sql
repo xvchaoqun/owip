@@ -1,3 +1,6 @@
+-- 2021.1.7 sxx
+ALTER TABLE `cet_train_obj`
+    ADD CONSTRAINT `FK_cet_train_obj_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
 
 -- 2020.9.3 ly 删除西工大培训中的重复数据
 DELETE FROM cet_upper_train WHERE id IN (SELECT tmp.id FROM (SELECT MIN(c.id) AS id,c.user_id,c.train_name, COUNT(*) AS count FROM cet_upper_train c

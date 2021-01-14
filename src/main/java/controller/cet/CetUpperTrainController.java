@@ -6,10 +6,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
-import domain.cet.CetProjectType;
-import domain.cet.CetTraineeType;
-import domain.cet.CetUpperTrain;
-import domain.cet.CetUpperTrainExample;
+import domain.cet.*;
 import domain.cet.CetUpperTrainExample.Criteria;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -23,7 +20,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -52,6 +48,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static sys.constants.CetConstants.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -688,6 +686,9 @@ public class CetUpperTrainController extends CetBaseController {
     @ResponseBody
     public Map do_cetUpperTrain_import(Byte type, HttpServletRequest request) throws InvalidFormatException, IOException {
 
+        Boolean isUnitAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_UNIT_PARTY);
+        Boolean isCetAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN);
+
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
@@ -753,7 +754,7 @@ public class CetUpperTrainController extends CetBaseController {
             }
             record.setYear(Integer.valueOf(_year));
 
-            if (type == 8){
+            if (type == CET_UPPER_TRAIN_TYPE_ABROAD){
                 String trainName = StringUtils.trimToNull(xlsRow.get(col++));
                 if (StringUtils.isBlank(trainName)){
                     throw  new OpException("第{0}行研究方向为空", row);
@@ -775,7 +776,7 @@ public class CetUpperTrainController extends CetBaseController {
                 }
                 record.setPeriod(new BigDecimal(period));
                 record.setScore(StringUtils.trimToNull(xlsRow.get(col++)));
-                record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+                record.setIsValid(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
                 record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
                 record.setType(type);
             }else {
@@ -835,10 +836,15 @@ public class CetUpperTrainController extends CetBaseController {
                     }
                 }
 
-                record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+                record.setIsValid(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
                 record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
             }
-
+            if(isCetAdmin){
+                record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW);
+            }else if(isUnitAdmin){
+                record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT);
+            }
+            record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
             records.add(record);
         }
 
@@ -850,6 +856,166 @@ public class CetUpperTrainController extends CetBaseController {
 
         logger.info(log(LogConstants.LOG_ADMIN,
                 "导入上级调训成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetUpperTrain:import")
+    @RequestMapping(value = "/cetOtherTrain_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetOtherTrain_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        Boolean isUnitAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_UNIT_PARTY);
+        Boolean isCetAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN);
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<CetUpperTrain> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            CetUpperTrain record = new CetUpperTrain();
+
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            int col = 2;
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(col++)));
+            CadreView cadre = cadreService.dbFindByUserId(uv.getId());
+            if (cadre != null) {
+                if (record.getTitle() == null) {
+                    record.setTitle(cadre.getTitle());
+                }
+            }
+            String _identity = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isNotBlank(_identity)) {
+                String[] identities = _identity.split(",|，|、");
+                List<Integer> identityList = new ArrayList<>();
+                for (String s : identities) {
+                    MetaType metaType1 = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType1 != null) {
+                        identityList.add(metaType1.getId());
+                    }
+                }
+                if(identityList.size()>0) {
+                    record.setIdentity("," + StringUtils.join(identityList, ",") + ",");
+                }
+            }else {
+                record.setIdentity("");
+            }
+
+            CetTraineeType cetTraineeType = cetTraineeTypeService.getByName(StringUtils.trim(xlsRow.get(col++)));
+            if(cetTraineeType!=null) {
+                record.setTraineeTypeId(cetTraineeType.getId());
+            }else{
+                record.setTraineeTypeId(0);
+                record.setOtherTraineeType(StringUtils.trim(xlsRow.get(col - 1)));
+            }
+
+            String _year = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_year) || !NumberUtils.isDigits(_year)) {
+                throw new OpException("第{0}行年度有误", row);
+            }
+            record.setYear(Integer.valueOf(_year));
+
+
+            String _organizerType = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_organizerType)) {
+                throw new OpException("第{0}行培训班主办方为空", row);
+            }
+            MetaType organizerType = CmTag.getMetaTypeByName("mc_cet_upper_train_organizer", _organizerType);
+            if (organizerType == null) {
+                record.setOrganizer(0); // 其他主办方
+                record.setOtherOrganizer(_organizerType.replaceAll("<br/>", ""));
+            } else {
+                record.setOrganizer(organizerType.getId());
+            }
+
+            String _specialType = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_specialType)) {
+                throw new OpException("第{0}行培训类别为空", row);
+            }
+
+            Byte type =null;
+            if (_specialType.equals(CET_PROJECT_TYPE_MAP.get(CET_PROJECT_TYPE_SPECIAL))) {
+                type=CET_PROJECT_TYPE_SPECIAL;
+            }else if (_specialType.equals(CET_PROJECT_TYPE_MAP.get(CET_PROJECT_TYPE_DAILY))) {
+                type=CET_PROJECT_TYPE_DAILY;
+            }else{
+                throw new OpException("第{0}行培训类别不存在", row);
+            }
+            record.setSpecialType(type);
+            String _projectType = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_projectType)) {
+                throw new OpException("第{0}行培训班类型为空", row);
+            }
+
+            CetProjectTypeExample example = new CetProjectTypeExample();
+            example.createCriteria().andTypeEqualTo(type).andNameEqualTo(_projectType);
+            List<CetProjectType> cetProjectTypes = cetProjectTypeMapper.selectByExample(example);
+            if (cetProjectTypes.size() == 0) {
+                throw new OpException("第{0}行培训班类型不存在", row);
+            }
+            record.setProjectTypeId(cetProjectTypes.get(0).getId());
+
+            String trainName = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(trainName)) {
+                throw new OpException("第{0}行培训班名称为空", row);
+            }
+            record.setTrainName(trainName);
+
+            record.setIsOnline(StringUtils.equals(xlsRow.get(col++), "线上培训"));
+
+            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+            String period = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
+                throw new OpException("第{0}行培训学时有误", row);
+            }
+            record.setPeriod(new BigDecimal(period));
+
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setScore(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            record.setIsValid(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+            record.setIsGraduate(true); // 导入默认“已结业”
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setType(CET_UPPER_TRAIN_TYPE_SCHOOL);
+            record.setAddType((byte)2);
+            if(isCetAdmin){
+                record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW);
+            }else if(isUnitAdmin){
+                record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT);
+            }
+            record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
+            records.add(record);
+        }
+
+        int addCount = cetUpperTrainService.batchImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", addCount);
+        resultMap.put("total", records.size());
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入其他培训成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;
@@ -936,7 +1102,7 @@ public class CetUpperTrainController extends CetBaseController {
                         record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
                         record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",
                         record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_DAILY ? "日常培训" : "专题培训",
-                        metaTypeService.getName(record.getTrainType()),
+                        record.getProjectTypeId() == null ? "" : cetProjectTypeMapper.selectByPrimaryKey(record.getProjectTypeId()).getName(),
                         record.getTrainName(),
                         record.getIsOnline() ? "线上培训" : "线下培训",
                         DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),

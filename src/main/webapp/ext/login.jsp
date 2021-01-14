@@ -45,8 +45,8 @@
                 <div class="hrefs">
                     <a href="${ctx}/page/browsers.jsp" target="_blank">推荐浏览器</a>
                     <c:if test="${_p_hasPartyModule}">
-                    <a href="" data-target="#reg">立即注册</a>
-                    <a href="${ctx}/find_pass">忘记密码</a>
+                    <%--<a href="" data-target="#reg">立即注册</a>
+                    <a href="${ctx}/find_pass">忘记密码</a>--%>
                     </c:if>
                 </div>
             </div>
@@ -74,8 +74,8 @@
                 <dd style="width: 330px;padding-left: 50px;text-align: right;font-size: 0">
                     <a href="${ctx}/page/browsers.jsp" target="_blank" class="to_reg_btn">推荐浏览器</a>
                     <c:if test="${_p_hasPartyModule}">
-                    <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
-                    <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
+                    <%--<a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
+                    <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>--%>
                     </c:if>
                     <a href="javascript:;" class="cas to_reg_btn">统一身份认证</a>
                 </dd>

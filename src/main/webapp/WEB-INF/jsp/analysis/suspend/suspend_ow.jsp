@@ -7,6 +7,7 @@
 <c:set var="OW_APPLY_TYPE_STU" value="<%=OwConstants.OW_APPLY_TYPE_STU%>"/>
 <c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 <c:set var="OW_APPLY_STAGE_GROW" value="<%=OwConstants.OW_APPLY_STAGE_GROW%>"/>
+<c:set value="${_pMap['ignore_plan_and_draw']=='true'}" var="_ignore_plan_and_draw"/>
 <div class="row">
     <div class="col-sm-12">
         <div class="widget-box transparent">
@@ -24,22 +25,28 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="col-sm-12">
-                        <div class="infobox infobox-pink">
-                            <div class="infobox-icon">
-                                <i class="ace-icon fa fa-hand-lizard-o"></i>
+
+                        <c:if test="${!_ignore_plan_and_draw}">
+                            <div class="infobox infobox-pink">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-hand-lizard-o"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">
+                                        <span data-url="${ctx}/memberApply_layout?stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_STU}&growStatus=-1">
+                                            <span class="count">${studentGrowOdCheckCount}</span>
+                                            <span style="font-size: 10pt;">学生</span>
+                                        </span>
+                                        <span data-url="${ctx}/memberApply_layout?stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_TEACHER}&growStatus=-1">
+                                            <span class="count">${teacherGrowOdCheckCount}</span>
+                                            <span style="font-size: 10pt;">教职工</span>
+                                        </span>
+                                    </span>
+                                    <div class="infobox-content">领取志愿书审批</div>
+                                </div>
                             </div>
-                            <div class="infobox-data">
-                                <span class="infobox-data-number">
-                                <span data-url="${ctx}/memberApply_layout?stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_STU}&growStatus=-1">
-                                <span class="count">${studentGrowOdCheckCount}</span><span
-                                        style="font-size: 10pt;">学生</span></span>
-                                 <span data-url="${ctx}/memberApply_layout?stage=${OW_APPLY_STAGE_DRAW}&type=${OW_APPLY_TYPE_TEACHER}&growStatus=-1">
-                                <span class="count">${teacherGrowOdCheckCount}</span><span
-                                         style="font-size: 10pt;">教职工</span></span>
-                                </span>
-                                <div class="infobox-content">领取志愿书审批</div>
-                            </div>
-                        </div>
+                        </c:if>
+
                         <div class="infobox infobox-red">
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-star"></i>

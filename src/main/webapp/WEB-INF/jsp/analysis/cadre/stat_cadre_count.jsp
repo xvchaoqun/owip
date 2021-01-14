@@ -41,6 +41,10 @@
 
     //console.dir(data)
     option = {
+        title: {
+                text: '（干部总数：'+data.totalCount+'）',
+                left: 'center'
+            },
         tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b} : {d}%'
@@ -92,8 +96,10 @@
         var legendData = [];
          var seriesData1 = [];
          var seriesData2 = [];
+         var totalCount =0;
          var statCadreCountMap = ${cm:toJSONObject(statCadreCountMap)};
              $.each(statCadreCountMap, function (key, value) {
+                 totalCount += value;
                  var item=key+'('+value+')';
                 legendData.push(item);
                 seriesData1.push({
@@ -108,8 +114,8 @@
         return {
             legendData: legendData,
             seriesData1: seriesData1,
-            seriesData2: seriesData2
-
+            seriesData2: seriesData2,
+            totalCount:totalCount
         };
     };
     if (option && typeof option === "object") {

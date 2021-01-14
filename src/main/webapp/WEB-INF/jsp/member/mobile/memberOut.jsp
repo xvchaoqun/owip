@@ -19,6 +19,19 @@
 	<input type="hidden" name="id" value="${memberOut.id}">
 
 			<div class="form-group">
+				<label class="col-xs-5 control-label"><span class="star">*</span>所属年份</label>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<input required autocomplete="off" class="form-control date-picker" placeholder="请选择年份"
+							   name="year" type="text"
+							   data-date-format="yyyy"
+							   data-date-min-view-mode="2"
+							   value="${empty memberOut.year?_thisYear:memberOut.year}"/>
+						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>党员本人联系电话</label>
 				<div class="col-xs-7">
 					<input required class="form-control" maxlength="20" type="text" name="phone" value="${memberOut.phone}">

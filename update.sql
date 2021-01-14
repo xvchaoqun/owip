@@ -1,3 +1,38 @@
+
+20210108
+大工
+
+ALTER TABLE `sys_approval_log`
+	CHANGE COLUMN `stage` `stage` TEXT NULL COMMENT '阶段备注，比如 初审、返回等' COLLATE 'utf8_general_ci' AFTER `type`;
+
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,
+	ADD COLUMN `sn` INT(10) UNSIGNED NULL COMMENT '编号 用于生成介绍信编号 依次递增' AFTER `year`,
+	ADD UNIQUE INDEX `year_number` (`year`, `sn`);
+-- 更新ow_member_out_view
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
+
+ALTER TABLE `ow_party`
+	ADD COLUMN `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
+-- 更新 ow_party_view、XXXX  pcs_party_view （未更新）XXXXXXXXXXX
+
+20210106
+珠海校区
+
+20210105
+
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+
+delete from cet_train_obj where train_course_id not in(select id from cet_train_course);
+ALTER TABLE `cet_train_obj`
+    ADD CONSTRAINT `FK_cet_train_obj_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+
 20210101
 哈工大
 
@@ -25,7 +60,6 @@ ALTER TABLE `sys_approval_log`
 南航
 
 20201227
--- 北师大
 
 /*ALTER TABLE `sys_user`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;*/
@@ -43,7 +77,7 @@ INSERT INTO `sys_resource` (id, `is_mobile`, `name`, `remark`, `type`, `menu_css
 
 
 20201220
-哈工大  -- 北师大
+哈工大
 
 -- 如果领取志愿书不需要组织部审核bug，更新语句
 -- update ow_member_apply set grow_status=2 where stage=5 and grow_status is null;
@@ -59,6 +93,7 @@ ALTER TABLE `ow_member`
 
 -- 更新utils
 
+-- (以下已更新北化工）
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('wx.appSecret', '微信应用secret', '4rUjh4NgyYtH_vPJiWjMrLNq7QurHLiY9B9hI_az688', 1, 82, '');
 UPDATE sys_property SET type=1 WHERE  code='wx.agentId';
 

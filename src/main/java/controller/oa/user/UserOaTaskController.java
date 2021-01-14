@@ -68,10 +68,10 @@ public class UserOaTaskController extends OaBaseController {
 
         switch (cls) {
             case 1:
-                criteria.andHasReportEqualTo(false);
+                criteria.andHasReportEqualTo(false).andTaskStatusEqualTo(OaConstants.OA_TASK_STATUS_PUBLISH);
                 break;
             case 2:
-                criteria.andHasReportEqualTo(true);
+                criteria.andHasReportOrTaskStatusEqualTo(OaConstants.OA_TASK_STATUS_FINISH);
                 break;
         }
 

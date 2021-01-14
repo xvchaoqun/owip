@@ -82,6 +82,7 @@
 <script>
     $("#modalForm input[name=assignType]").click(function () {
         if ($(this).val() == 2) {
+            $("#submitBtn").prop("disabled", false);
             $(".manualAssign").show();
             $(".autoAssign").hide();
             $("#modalForm .manualAssign select").prop("disabled", false).attr("required", "required");

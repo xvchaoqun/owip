@@ -257,7 +257,7 @@ public class CadreTrainService extends BaseMapper {
         List<CetRecord> cetRecords = new ArrayList<>();
         {
             CetRecordExample example = new CetRecordExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
+            example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(false);
             example.setOrderByClause("start_date asc");
             cetRecords = cetRecordMapper.selectByExample(example);
         }

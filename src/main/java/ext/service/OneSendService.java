@@ -36,7 +36,8 @@ public class OneSendService {
         OneSend _oneSend = new OneSend();
 
         if (springProps.shortMsgSend) {
-            OneSendResult oneSendResult = OneSendUtils.sendMsg(userList.toArray(new String[]{}), content);
+            // 发送微信提醒
+            OneSendResult oneSendResult = OneSendUtils.sendWechat(userList.toArray(new String[]{}), "", content);
              _oneSend.setType(oneSendResult.getType());
              _oneSend.setIsSuccess(oneSendResult.isSuccess());
              _oneSend.setRet(oneSendResult.getRet());

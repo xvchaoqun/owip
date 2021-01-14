@@ -52,11 +52,15 @@ public interface StatMemberMapper {
     Integer countNull(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
     //组织部年统数据表中统计党支部数量
-    @Select("select count(id) from ow_branch where find_in_set(#{metaId},types)")
+    @Select("select t1.c1 + t2.c2 " +
+            "from (select ifnull(count(id),0) as c1 from ow_branch where find_in_set(#{metaId},types) AND is_deleted = 0) t1," +
+            "(select ifnull(count(id),0) as c2 from ow_party where branch_type is not null and find_in_set(#{metaId},branch_type) AND is_deleted = 0) t2")
     Integer getBranchCountByType(@Param("metaId")Integer metaId);
 
     //分党委年统数据表中统计党支部数量
-    @Select("select count(id) from ow_branch where find_in_set(#{metaId},types) and party_id=#{partyId}")
+    @Select("select t1.c1 + t2.c2 " +
+            "from (select ifnull(count(id),0) as c1 from ow_branch where find_in_set(#{metaId},types) AND is_deleted = 0 and party_id=#{partyId}) t1," +
+            "(select ifnull(count(id),0) as c2 from ow_party where branch_type is not null and find_in_set(#{metaId},branch_type) AND is_deleted = 0 and id=#{partyId}) t2")
     Integer getBCByPartyId(@Param("metaId")Integer metaId, @Param("partyId")Integer partyId);
 
     //年统数据表中统计党员数量

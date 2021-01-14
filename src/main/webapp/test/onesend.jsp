@@ -33,7 +33,7 @@
 %>
 <form method="post">
   学工号：<input type="text" name="user"><br/><br/>
-  内容：<textarea name="content" rows="5" cols="50">测试发送短信[onesend]</textarea><br/><br/>
+  内容：<textarea name="content" rows="5" cols="50">测试发送微信提醒[onesend]</textarea><br/><br/>
   <input type="submit" value="send">
 </form>
 <br/><br/>

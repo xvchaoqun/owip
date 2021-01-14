@@ -12,6 +12,19 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="reapply" value="${empty memberOut?1:param.reapply}">
 		<div class="row">
 			<div class="col-xs-4">
+				<div class="form-group">
+					<label class="col-xs-5 control-label"><span class="star">*</span>年份</label>
+					<div class="col-xs-6">
+						<div class="input-group date"
+							 data-date-format="yyyy" data-date-min-view-mode="2"
+							 style="width: 100px;">
+							<input required autocomplete="off" class="form-control" placeholder="请选择年份"
+								   name="year" type="text"
+								   value="${empty memberOut.year?_thisYear:memberOut.year}"/>
+							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+						</div>
+					</div>
+				</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
 				<c:if test="${not empty userBean}">
@@ -20,6 +33,7 @@ pageEncoding="UTF-8"%>
 					${userBean.realname}
 					</div>
 				</c:if>
+
 <c:if test="${empty userBean}">
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
@@ -30,13 +44,6 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 	</c:if>
-			</div>
-				<%--<c:if test="${not empty userBean}">--%>
-			<div class="form-group">
-				<label class="col-xs-5 control-label">介绍信编号</label>
-				<div class="col-xs-6">
-                        <input disabled class="form-control" type="text" name="code" value="${userBean.code}">
-				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">姓名</label>
@@ -247,12 +254,12 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+	$.register.date($('.input-group.date'));
 	var $select = $.register.user_select($('#modalForm select[name=userId]'));
 	$select.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {
 			//console.log(entity)
-			var code = entity.code || '';
 			var realname = entity.realname || '';
 			var gender = entity.gender || '';
 			var birth = '';
@@ -262,7 +269,6 @@ pageEncoding="UTF-8"%>
 			var politicalStatus = entity.politicalStatus || '';
 			var idcard = entity.idcard || '';
 
-			$("#modalForm input[name=code]").val(code);
 			$("#modalForm input[name=realname]").val(realname);
 			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
@@ -270,7 +276,6 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=politicalStatus]").val(_cMap.MEMBER_POLITICAL_STATUS_MAP[politicalStatus]);
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
-			$("#modalForm input[name=code]").val('');
 			$("#modalForm input[name=realname]").val('')
 			$("#modalForm input[name=gender]").val('')
 			$("#modalForm input[name=age]").val('')

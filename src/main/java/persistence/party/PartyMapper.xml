@@ -11,6 +11,7 @@
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
+    <result column="branch_type" jdbcType="INTEGER" property="branchType" />
     <result column="is_enterprise_big" jdbcType="BIT" property="isEnterpriseBig" />
     <result column="is_enterprise_nationalized" jdbcType="BIT" property="isEnterpriseNationalized" />
     <result column="is_separate" jdbcType="BIT" property="isSeparate" />
@@ -87,9 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
-    is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted, integrity
+    id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
+    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, 
+    found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted, 
+    integrity
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyExample" resultMap="BaseResultMap">
     select
@@ -127,20 +129,22 @@
     </selectKey>
     insert into ow_party (code, name, short_name, 
       url, unit_id, class_id, 
-      type_id, unit_type_id, is_enterprise_big, 
-      is_enterprise_nationalized, is_separate, phone, 
-      fax, email, mailbox, 
-      found_time, sort_order, create_time, 
-      is_pycj, pycj_date, is_bg, bg_date, 
-      is_deleted, integrity)
+      type_id, unit_type_id, branch_type, 
+      is_enterprise_big, is_enterprise_nationalized, is_separate, 
+      phone, fax, email, 
+      mailbox, found_time, sort_order, 
+      create_time, is_pycj, pycj_date, 
+      is_bg, bg_date, is_deleted, integrity
+      )
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
-      #{typeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, 
-      #{isEnterpriseNationalized,jdbcType=BIT}, #{isSeparate,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, 
-      #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
-      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{isPycj,jdbcType=BIT}, #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, 
-      #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL})
+      #{typeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, #{branchType,jdbcType=INTEGER}, 
+      #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, #{isSeparate,jdbcType=BIT}, 
+      #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isPycj,jdbcType=BIT}, #{pycjDate,jdbcType=DATE}, 
+      #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Party">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -171,6 +175,9 @@
       </if>
       <if test="unitTypeId != null">
         unit_type_id,
+      </if>
+      <if test="branchType != null">
+        branch_type,
       </if>
       <if test="isEnterpriseBig != null">
         is_enterprise_big,
@@ -245,6 +252,9 @@
       </if>
       <if test="unitTypeId != null">
         #{unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="branchType != null">
+        #{branchType,jdbcType=INTEGER},
       </if>
       <if test="isEnterpriseBig != null">
         #{isEnterpriseBig,jdbcType=BIT},
@@ -332,6 +342,9 @@
       <if test="record.unitTypeId != null">
         unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.branchType != null">
+        branch_type = #{record.branchType,jdbcType=INTEGER},
+      </if>
       <if test="record.isEnterpriseBig != null">
         is_enterprise_big = #{record.isEnterpriseBig,jdbcType=BIT},
       </if>
@@ -396,6 +409,7 @@
       class_id = #{record.classId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
       unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
+      branch_type = #{record.branchType,jdbcType=INTEGER},
       is_enterprise_big = #{record.isEnterpriseBig,jdbcType=BIT},
       is_enterprise_nationalized = #{record.isEnterpriseNationalized,jdbcType=BIT},
       is_separate = #{record.isSeparate,jdbcType=BIT},
@@ -442,6 +456,9 @@
       </if>
       <if test="unitTypeId != null">
         unit_type_id = #{unitTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="branchType != null">
+        branch_type = #{branchType,jdbcType=INTEGER},
       </if>
       <if test="isEnterpriseBig != null">
         is_enterprise_big = #{isEnterpriseBig,jdbcType=BIT},
@@ -504,6 +521,7 @@
       class_id = #{classId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
       unit_type_id = #{unitTypeId,jdbcType=INTEGER},
+      branch_type = #{branchType,jdbcType=INTEGER},
       is_enterprise_big = #{isEnterpriseBig,jdbcType=BIT},
       is_enterprise_nationalized = #{isEnterpriseNationalized,jdbcType=BIT},
       is_separate = #{isSeparate,jdbcType=BIT},

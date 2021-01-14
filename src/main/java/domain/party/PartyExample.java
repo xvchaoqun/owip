@@ -718,6 +718,66 @@ public class PartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andBranchTypeIsNull() {
+            addCriterion("branch_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeIsNotNull() {
+            addCriterion("branch_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeEqualTo(Integer value) {
+            addCriterion("branch_type =", value, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeNotEqualTo(Integer value) {
+            addCriterion("branch_type <>", value, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeGreaterThan(Integer value) {
+            addCriterion("branch_type >", value, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_type >=", value, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeLessThan(Integer value) {
+            addCriterion("branch_type <", value, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_type <=", value, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeIn(List<Integer> values) {
+            addCriterion("branch_type in", values, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeNotIn(List<Integer> values) {
+            addCriterion("branch_type not in", values, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeBetween(Integer value1, Integer value2) {
+            addCriterion("branch_type between", value1, value2, "branchType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_type not between", value1, value2, "branchType");
+            return (Criteria) this;
+        }
+
         public Criteria andIsEnterpriseBigIsNull() {
             addCriterion("is_enterprise_big is null");
             return (Criteria) this;

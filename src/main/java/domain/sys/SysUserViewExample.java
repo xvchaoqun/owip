@@ -1,5 +1,6 @@
 package domain.sys;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -940,6 +941,12 @@ public class SysUserViewExample {
         public Criteria andRealnameLessThanOrEqualTo(String value) {
             addCriterion("realname <=", value, "realname");
             return (Criteria) this;
+        }
+
+        public SysUserViewExample.Criteria andUserLike(String search) {
+            addCriterion(MessageFormat.format("(username like {0} or code like {0} or realname like {0})",
+                    "'"+search + "%'"));
+            return (SysUserViewExample.Criteria) this;
         }
 
         public Criteria andRealnameLike(String value) {

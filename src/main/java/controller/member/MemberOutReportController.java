@@ -20,6 +20,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
+import sys.tags.CmTag;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -187,7 +188,11 @@ public class MemberOutReportController extends MemberBaseController {
         map.put("fax", memberOut.getFromFax()); //
         map.put("postCode", memberOut.getFromPostCode());
         map.put("idcard", userBean.getIdcard());
-        map.put("code", userBean.getCode());
+        if (CmTag.getBoolProperty("use_code_as_identify")){
+            map.put("code", userBean.getCode());
+        }else {
+            map.put("code", StringUtils.trimToEmpty(memberOut.getCode()));
+        }
         Date handleTime = memberOut.getHandleTime();
 
         map.put("handleYear", handleTime != null ? DateUtils.getYear(handleTime) : "");

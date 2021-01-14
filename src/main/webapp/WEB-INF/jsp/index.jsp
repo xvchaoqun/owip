@@ -279,10 +279,6 @@
         })
     </shiro:lacksRole>
 </script>
-<!-- inline scripts related to this page -->
-<script src="${ctx}/assets/js/flot/jquery.flot.js"></script>
-<script src="${ctx}/assets/js/flot/jquery.flot.pie.js"></script>
-<script src="${ctx}/assets/js/flot/jquery.flot.resize.js"></script>
 <script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
 <script type="text/javascript" src="${ctx}/js/echarts.min.js"></script>
 <script type="text/template" id="common_sort_tpl">
