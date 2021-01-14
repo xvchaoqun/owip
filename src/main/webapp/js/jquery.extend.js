@@ -1687,7 +1687,7 @@ if ($.jgrid) {
         },
         GENDER: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '--'
-            return _cMap.GENDER_MAP[cellvalue];
+            return $.trim(_cMap.GENDER_MAP[cellvalue]);
         },
         unit: function (cellvalue, options, rowObject) {
             //return cellvalue;

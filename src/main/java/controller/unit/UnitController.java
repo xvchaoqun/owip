@@ -93,13 +93,16 @@ public class UnitController extends BaseController {
                        ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         modelMap.put("cls", cls);
-        if (cls == 4) {
+        if (cls == 4 || cls == 3) {
 
             if (export == 1) {
 
                 XSSFWorkbook wb = unitExportService.exportSchoolUnits();
                 ExportHelper.output(wb, "学校单位列表.xlsx", response);
                 return null;
+            }
+            if (cls == 3) {
+                return "unit/unit_page";
             }
             modelMap.put("schoolUnits", extUnitService.getSchoolUnitMap().values());
 

@@ -887,7 +887,6 @@ public class MemberApplyService extends MemberBaseMapper {
 
     // 更换党组织
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#ids")
     public void changeParty(Integer[] ids, int partyId, Integer branchId, String remark) {
 
         for (Integer userId : ids) {
@@ -913,6 +912,8 @@ public class MemberApplyService extends MemberBaseMapper {
                     "更换党组织",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     remark);
+
+            CmTag.clearCache("MemberApply", userId+"");
         }
     }
 }

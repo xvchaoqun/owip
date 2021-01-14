@@ -42,8 +42,7 @@
                 <ul class="list-unstyled spaced2">
                     <li class="text-warning bigger-110 orange">
                         <i class="ace-icon fa fa-exclamation-triangle"></i>
-                        如果您的账号是<b>校园门户账号</b>，请访问校园门户：
-                        <a href="${_sysConfig.schoolLoginUrl}" target="_blank">${_sysConfig.schoolLoginUrl}</a>，通过【找回密码】功能修改密码；
+                        如果您的账号是<b>校园门户账号</b>，请访问校园门户修改密码；
                     </li>
                     <li class="green">
                         <i class="ace-icon fa fa-circle green"></i>
