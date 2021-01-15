@@ -78,7 +78,7 @@ pageEncoding="UTF-8"%>
 
 
 </div></div></div>
-
+<c:if test="${type==0}">
 <div class="widget-box transparent">
 
 	<div class="widget-header widget-header-flat">
@@ -195,3 +195,4 @@ pageEncoding="UTF-8"%>
 		$("ul[data-target=\"#party-content\"] li.active a").click();
 	}
 </script>
+</c:if>

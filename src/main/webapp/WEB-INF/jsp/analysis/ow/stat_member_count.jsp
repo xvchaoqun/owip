@@ -1,12 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
 <div class="col-sm-4" id="stat_member_other" style="width:750px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="ace-icon fa fa-pie-chart"></i>
-                党员基本情况统计
+                党员数量统计
             </h5>
             <div class="widget-toolbar no-border">
                 <div class="inline dropdown-hover">

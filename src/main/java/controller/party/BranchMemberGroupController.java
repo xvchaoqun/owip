@@ -351,23 +351,23 @@ public class BranchMemberGroupController extends BaseController {
             }
             record.setName(name);
 
-            String branchCode = StringUtils.trimToNull(xlsRow.get(2));
-            if (StringUtils.isBlank(branchCode)) {
-                throw new OpException("第{0}行所在党支部编号为空", row);
+            String branchName = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(branchName)) {
+                throw new OpException("第{0}行所在党支部名称为空", row);
             }
-            Branch branch = branchService.getByCode(branchCode);
+            Branch branch = branchService.getByName(branchName);
             if (branch == null) {
-                throw new OpException("第{0}行所在党支部编号[{1}]不存在", row, branchCode);
+                throw new OpException("第{0}行所在党支部[{1}]不存在", row, branchName);
             }
             record.setBranchId(branch.getId());
 
-            String appointTime = StringUtils.trimToNull(xlsRow.get(3));
+            String appointTime = StringUtils.trimToNull(xlsRow.get(2));
             record.setAppointTime(DateUtils.parseStringToDate(appointTime));
 
-            String tranTime = StringUtils.trimToNull(xlsRow.get(4));
+            String tranTime = StringUtils.trimToNull(xlsRow.get(3));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
 
-            String actualTranTime = StringUtils.trimToNull(xlsRow.get(5));
+            String actualTranTime = StringUtils.trimToNull(xlsRow.get(4));
             record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
 
             record.setIsDeleted(record.getActualTranTime()!=null);

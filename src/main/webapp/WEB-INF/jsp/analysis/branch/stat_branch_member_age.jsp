@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
-<div class="col-sm-4" id="stat_member_age" style="width:550px;float: left;">
+<div class="col-sm-4" id="stat_branch_member_age" style="width:550px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
@@ -12,7 +12,7 @@
                 <div class="inline dropdown-hover">
                     <button class="btn btn-xs btn-info">
                         ${empty type?"全部":(type==MEMBER_TYPE_TEACHER)?"教职工":"学生"}
-                         <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
+                        <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">
                         <li class="${empty type?'active':''}">
@@ -49,12 +49,12 @@
 </div>
 <script>
 
-    $("#stat_member_age ul li").click(function () {
+    $("#stat_branch_member_age ul li").click(function () {
 
-        var url = "${ctx}/${isPartyAdmin?'stat_party_member_age':'stat_member_age'}";
+        var url = "${ctx}/stat_branch_member_age";
 
-        $.get(url, {type: $(this).data('type'),partyId: "${partyId}"}, function (html) {
-            $("#stat_member_age").replaceWith(html);
+        $.get(url, {type: $(this).data('type'),branchId: "${branchId}"}, function (html) {
+            $("#stat_branch_member_age").replaceWith(html);
         });
     });
 
@@ -62,17 +62,17 @@
 
     var label= [
         <c:forEach items="${statAgeMap}" var="age">
-            <c:if test="${not empty age.value}">
-                '${MEMBER_AGE_MAP.get(age.key)}(${age.value})',
-            </c:if>
+        <c:if test="${not empty age.value}">
+        '${MEMBER_AGE_MAP.get(age.key)}(${age.value})',
+        </c:if>
         </c:forEach>
     ];
     var data = [
-            <c:forEach items="${statAgeMap}" var="age">
-                 <c:if test="${not empty age.value}">
-                    {name: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", value: '${age.value}'},
-                 </c:if>
-            </c:forEach>
+        <c:forEach items="${statAgeMap}" var="age">
+        <c:if test="${not empty age.value}">
+        {name: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", value: '${age.value}'},
+        </c:if>
+        </c:forEach>
     ];
 
     var option = {

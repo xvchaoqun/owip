@@ -10,11 +10,11 @@
           id="modalForm" method="post">
         <input type="hidden" name="id" value="${partyMemberGroup.id}">
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>所属${param.type==1?"内设党总支":_p_partyName}</label>
             <c:if test="${empty partyMemberGroup}">
                 <div class="col-xs-8">
                     <select required data-rel="select2-ajax" data-width="292"
-                            data-ajax-url="${ctx}/party_selects?auth=1"
+                            data-ajax-url="${ctx}/party_selects?auth=1&type=${param.type}"
                             name="partyId" data-placeholder="请选择">
                         <option></option>
                     </select>
@@ -120,7 +120,8 @@
                             $("#modal").modal("hide")
                             // SysMsg.success('提交成功。', '成功',function(){
                             $("#jqGrid").trigger("reloadGrid");
-                            $.hashchange();
+                            $("#jqGrid2").trigger("reloadGrid");
+                            //$.hashchange();
                             //  });
                         }
                     }else{

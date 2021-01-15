@@ -375,4 +375,13 @@ public class BranchService extends BaseMapper {
 
         return branch;
     }
+
+    public Branch getByName(String name){
+
+        BranchExample example = new BranchExample();
+        example.createCriteria().andNameEqualTo(name);
+        List<Branch> branchList = branchMapper.selectByExample(example);
+
+        return branchList.size() > 0 ? branchList.get(0) : null;
+    }
 }
