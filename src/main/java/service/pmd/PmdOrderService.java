@@ -385,13 +385,13 @@ public class PmdOrderService extends PmdBaseMapper {
                     .andIsSuccessEqualTo(false).andIsClosedEqualTo(false);
             List<PmdOrder> pmdOrders = pmdOrderMapper.selectByExample(example);
 
-            Set<String> toClosedSnSet = new HashSet<>();
+            Set<String> snSet = new HashSet<>();
             for (PmdOrder pmdOrder : pmdOrders) {
                 String sn = pmdOrder.getSn();
-                toClosedSnSet.add(sn);
+                snSet.add(sn);
             }
 
-            for (String sn : toClosedSnSet) {
+            for (String sn : snSet) {
                 try {
                     closeTrade(sn);
                 } catch (IOException e) {
@@ -459,8 +459,8 @@ public class PmdOrderService extends PmdBaseMapper {
             
             duePay = duePay.add(pmdMember.getDuePay());
             
-            //TO DO: 有重复检测出现
-            checkPayStatus(pmdMemberId, null);
+            //TO DO: 有重复检测出现，接口响应太慢此处不适合检测
+            //checkPayStatus(pmdMemberId, null);
             
             PmdOrderItem _pmdOrderItem = new PmdOrderItem();
             _pmdOrderItem.setSn(orderNo);
