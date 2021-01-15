@@ -3,6 +3,7 @@
 <mapper namespace="persistence.party.PartyViewMapper">
   <resultMap id="BaseResultMap" type="domain.party.PartyView">
     <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="short_name" jdbcType="VARCHAR" property="shortName" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
+    id, fid, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
     is_enterprise_big, is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, 
     found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, update_time, 
     is_deleted, integrity, branch_count, member_count, student_member_count, positive_count, 

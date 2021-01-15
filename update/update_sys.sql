@@ -1,10 +1,14 @@
+
+
+-- 2021.1.14 ly
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_inside_pgb', '启用内设党总支', 'false', 3, 97, '在二级党委和党支部之间加一层内设党总支');
+
 -- 2021.1.7 sxx
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '年终考核测评', '', 'function', '', NULL, 90, '0/1/88/90/', 1, 'cadreEvaResult:*', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '设置考察对象有效期', '', 'function', '', NULL, 341, '0/1/339/341/', 1, 'cadreInspect:validTime', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '任务报送', '', 'function', '', NULL, 562, '0/1/560/562/', 1, 'userOaTask:report', NULL, NULL, NULL, 1, NULL);
 
-
--- 2020.1.6 ly
+-- 2021.1.6 ly
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
 
 -- 2020.12.28 ly
@@ -16,7 +20,6 @@ INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `
 
 -- 2020.12.22 ly
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('ignore_plan_and_draw', '党员发展流程节点控制', 'false', 3, 83, '打开党员发展流程中的“列入发展计划”和“领取志愿书”');
-
 
 -- 2020.12.17 ly
 ALTER TABLE `sys_user`

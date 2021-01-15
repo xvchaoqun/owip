@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class PartyController extends BaseController {
@@ -79,6 +80,10 @@ public class PartyController extends BaseController {
     public String party_view(int id, HttpServletResponse response,  ModelMap modelMap) {
 
         Party party = partyMapper.selectByPrimaryKey(id);
+
+        int type = party.getFid() != null?1:0;
+        modelMap.put("type", type);
+
         modelMap.put("party", party);
 
         return "party/party_view";
@@ -89,6 +94,7 @@ public class PartyController extends BaseController {
     public String party(ModelMap modelMap,
                         @RequestParam(required = false, defaultValue = "0") int export,
                         HttpServletResponse response,
+                        @RequestParam(required = false, defaultValue = "0")Byte type,
                         @RequestParam(required = false, defaultValue = "1")Byte cls) throws IOException {
 
         if(export==2){
@@ -99,6 +105,7 @@ public class PartyController extends BaseController {
         }
 
         modelMap.put("cls", cls);
+        modelMap.put("type", type);
 
         return "party/party_page";
     }
@@ -107,6 +114,7 @@ public class PartyController extends BaseController {
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
                                     @RequestParam(required = false, defaultValue = "1")Byte cls,
+                                    @RequestParam(required = false, defaultValue = "0")Byte type,
                                     @OrderParam(required = false, defaultValue = "desc") String order,
                                     Boolean _integrity,
                                     String sort,
@@ -142,10 +150,22 @@ public class PartyController extends BaseController {
             example.setOrderByClause(String.format("integrity %s, sort_order desc",order));
         }
 
-        criteria.addPermits(loginUserService.adminPartyIdList());
+        //分党委管理员管理自己的内设党总支
+        List<Integer> partyIdList = loginUserService.adminPartyIdList();
+        PartyExample partyExample = new PartyExample();
+        partyExample.createCriteria().andFidIsNotNull().andFidIn(partyIdList);
+        List<Party> partyList = partyMapper.selectByExample(partyExample);
+        List<Integer> pgbList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+        partyIdList.addAll(pgbList);
+        criteria.addPermits(partyIdList);
 
         criteria.andIsDeletedEqualTo(cls==2);
 
+        if (type == 1){
+            criteria.andFidIsNotNull();
+        }else {
+            criteria.andFidIsNull();
+        }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
         }
@@ -245,8 +265,10 @@ public class PartyController extends BaseController {
 
             partyService.updateByPrimaryKeySelective(record);
             Party party = partyMapper.selectByPrimaryKey(id);
-            if (!PartyHelper.isDirectBranch(id) && party.getBranchType() != null){
-                commonMapper.excuteSql("update ow_party set branch_type = null where id=" + id);
+            if (party.getFid() == null) {
+                if (!PartyHelper.isDirectBranch(id) && party.getBranchType() != null) {
+                    commonMapper.excuteSql("update ow_party set branch_type = null where id=" + id);
+                }
             }
             logger.info(addLog(LogConstants.LOG_PARTY, "更新基层党组织：%s", record.getId()));
         }
@@ -286,10 +308,10 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_party_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_party_changeOrder(Integer id, Integer addNum, byte type, HttpServletRequest request) {
 
-        partyService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织调序：%s,%s", id, addNum));
+        partyService.changeOrder(id, addNum, type);
+        logger.info(addLog(LogConstants.LOG_PARTY, (type==1?"内设党总支调序":"基层党组织调序")+"：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -319,16 +341,16 @@ public class PartyController extends BaseController {
 
             Party record = new Party();
             row++;
-            String code = StringUtils.trimToNull(xlsRow.get(0));
-             if(StringUtils.isBlank(code)){
-                throw new OpException("第{0}行编号为空", row);
-            }
-            record.setCode(code);
+            record.setCode(StringUtils.trimToNull(xlsRow.get(0)));
 
             String name = StringUtils.trimToNull(xlsRow.get(1));
              if(StringUtils.isBlank(name)){
                 throw new OpException("第{0}行名称为空", row);
             }
+            Party party = partyService.getByName(name);
+             if (party != null){
+                 record.setId(party.getId());
+             }
             record.setName(name);
 
             String shortName = StringUtils.trimToNull(xlsRow.get(2));
@@ -338,14 +360,13 @@ public class PartyController extends BaseController {
             record.setFoundTime(DateUtils.parseStringToDate(foundTime));
 
             String unitCode = StringUtils.trimToNull(xlsRow.get(4));
-            if(StringUtils.isBlank(unitCode)){
-                throw new OpException("第{0}行单位编码为空", row);
+            if(StringUtils.isNotBlank(unitCode)){
+                Unit unit = unitService.findRunUnitByCode(unitCode);
+                if(unit==null){
+                    throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+                }
+                record.setUnitId(unit.getId());
             }
-            Unit unit = unitService.findRunUnitByCode(unitCode);
-            if(unit==null){
-                throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
-            }
-            record.setUnitId(unit.getId());
 
             String _partyClass = StringUtils.trimToNull(xlsRow.get(5));
             MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", _partyClass);
@@ -439,6 +460,7 @@ public class PartyController extends BaseController {
     @RequestMapping("/party_selects")
     @ResponseBody
     public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect,
+                             @RequestParam(required = false, defaultValue = "0") Byte type,
                              Boolean del,
                              Boolean notBranchAdmin,
                              Boolean isPcs, // 是否党代会
@@ -486,11 +508,26 @@ public class PartyController extends BaseController {
                         }
                     }
                 }
+
+                //管理的所有party
+                PartyExample partyExample = new PartyExample();
+                partyExample.createCriteria().andFidIsNotNull().andFidIn(partyIdList);
+                List<Party> partyList = partyMapper.selectByExample(partyExample);
+                List<Integer> pgbList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+                partyIdList.addAll(pgbList);
+
                 if (partyIdList.size() > 0)
                     criteria.andIdIn(partyIdList);
                 else
                     criteria.andIdIsNull();
             }
+        }
+
+        //分开分党委和内设党总支
+        if (type == 1){
+            criteria.andFidIsNotNull();
+        }else {
+            criteria.andFidIsNull();
         }
 
         // 党代会筛选（必须同时是党代会分党委管理员和系统分党委的管理员）
@@ -591,5 +628,19 @@ public class PartyController extends BaseController {
         }
 
         return "";
+    }
+
+    //批量删除内设党总支
+    @RequiresPermissions("party:del")
+    @RequestMapping(value = "/pgb_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pgb_batchDel(Integer[] ids){
+
+        if (null != ids && ids.length>0){
+            partyService.batchDelPgb(ids);
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除内设党总支：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }

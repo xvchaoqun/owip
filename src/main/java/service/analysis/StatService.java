@@ -195,7 +195,7 @@ public class StatService extends BaseMapper {
     // 导出组织机构年统数据
     public XSSFWorkbook owToXlsx(ModelMap modelMap, List<Integer> partyCounts) throws IOException {
 
-        InputStream is = getClass().getResourceAsStream("/xlsx/party/stat_party_sum.xlsx");
+        InputStream is = getClass().getResourceAsStream("/xlsx/party/stat_ow_sum.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook(is);
 
         renderOwData(wb, modelMap, partyCounts); // 汇总
@@ -205,7 +205,7 @@ public class StatService extends BaseMapper {
         return wb;
     }
 
-    //导出组织机构年统数据同居
+    //导出组织机构年统数据统计
     private void renderOwData(XSSFWorkbook wb, ModelMap modelMap, List<Integer> partyCounts) {
 
         XSSFSheet sheet = wb.cloneSheet(0, null);
@@ -240,6 +240,9 @@ public class StatService extends BaseMapper {
 
         //党支部总数
         row = sheet.getRow(8);
+        cell = row.getCell(0);
+        cell.setCellValue(modelMap.get("pgbCount").toString());
+
         cell = row.getCell(1);
         cell.setCellValue(modelMap.get("branchTotalCount").toString());
         
@@ -314,7 +317,7 @@ public class StatService extends BaseMapper {
 
     }
 
-    // 导出组织机构年统数据
+    // 导出二级党委年统数据
     public XSSFWorkbook partyToXlsx(ModelMap modelMap, Integer partyId) throws IOException {
 
         InputStream is = getClass().getResourceAsStream("/xlsx/party/stat_party_sum.xlsx");
@@ -327,7 +330,7 @@ public class StatService extends BaseMapper {
         return wb;
     }
 
-    //导出分党委年统数据同居
+    //导出单个二级党委年统数据统计
     private void renderPartyData(XSSFWorkbook wb, ModelMap modelMap, Integer partyId) {
 
         XSSFSheet sheet = wb.cloneSheet(0, null);
@@ -362,6 +365,9 @@ public class StatService extends BaseMapper {
 
         //党支部总数
         row = sheet.getRow(4);
+        cell = row.getCell(0);
+        cell.setCellValue(modelMap.get("pgbCount").toString());
+
         cell = row.getCell(1);
         cell.setCellValue(modelMap.get("branchTotalCount").toString());
 

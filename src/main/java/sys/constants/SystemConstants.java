@@ -291,17 +291,6 @@ public class SystemConstants {
         JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_CERTIFY, "打印组织关系介绍信");
     }
 
-    public final static Map<Byte, String> PIE_COLOR_MAP = new LinkedHashMap<>();
-
-    static {
-        PIE_COLOR_MAP.put((byte) 0, "#999");
-        PIE_COLOR_MAP.put((byte) 1, "#68BC31");
-        PIE_COLOR_MAP.put((byte) 2, "#2091CF");
-        PIE_COLOR_MAP.put((byte) 3, "#AF4E96");
-        PIE_COLOR_MAP.put((byte) 4, "#DA5430");
-        PIE_COLOR_MAP.put((byte) 5, "#FEE074");
-    }
-
     // 信息修改申请
     public final static byte RECORD_STATUS_FORMAL = 0; // 正式记录
     public final static byte RECORD_STATUS_MODIFY = 1; // 修改记录

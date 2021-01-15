@@ -6,8 +6,8 @@
 
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-au="${ctx}/partyMemberGroup_au"
-                 data-url-page="${ctx}/partyMemberGroup"
+                 data-url-au="${ctx}/partyMemberGroup_au?type=${type}"
+                 data-url-page="${ctx}/partyMemberGroup?type=${type}"
                  data-url-export="${ctx}/partyMemberGroup_data"
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -21,14 +21,15 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="partyMemberGroup:edit">
                                     <c:if test="${status>=0}">
-                                    <button data-url="${ctx}/partyMemberGroup_au"
+                                    <button data-url="${ctx}/partyMemberGroup_au?type=${type}"
                                             class="popupBtn btn btn-info btn-sm">
                                         <i class="fa fa-plus"></i> 添加
                                     </button>
                                     </c:if>
                                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息</a>
-                                    <c:if test="${status>=0}">
+                                    <c:if test="${type==0}">
+                                        <c:if test="${status>=0}">
                                         <shiro:hasPermission name="partyMemberGroup:realDel">
                                             <div class="btn-group">
                                                 <button data-toggle="dropdown"
@@ -53,39 +54,52 @@
                                             </div>
                                         </shiro:hasPermission>
                                     </c:if>
+                                    </c:if>
                                 </shiro:hasPermission>
-                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
-                                        class="fa fa-download"></i> 导出</a>
-                                <c:if test="${status==1}">
-                                    <shiro:hasPermission name="sysMsg:list">
-                                        <a class="jqBatchBtn btn btn-warning btn-sm tooltip-success"
-                                           data-url="/sys/sysMsg_partyRemind" date-title="提醒班子换届" data-msg="确定发送提醒这{0}个领导班子换届吗？"><i
-                                                class="fa fa fa-info-circle"></i> 换届提醒</a>
-                                    </shiro:hasPermission>
+                                <c:if test="${type==0}">
+                                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
+                                            class="fa fa-download"></i> 导出</a>
+                                    <c:if test="${status==1}">
+                                        <shiro:hasPermission name="sysMsg:list">
+                                            <a class="jqBatchBtn btn btn-warning btn-sm tooltip-success"
+                                               data-url="/sys/sysMsg_partyRemind" date-title="提醒班子换届" data-msg="确定发送提醒这{0}个领导班子换届吗？"><i
+                                                    class="fa fa fa-info-circle"></i> 换届提醒</a>
+                                        </shiro:hasPermission>
+                                    </c:if>
+                                    <c:if test="${status>=0}">
+                                        <shiro:hasPermission name="partyMemberGroup:del">
+                                            <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                                               data-url="${ctx}/partyMemberGroup_batchDel" data-title="撤销领导班子"
+                                               data-msg="确定撤销这{0}个领导班子吗？"><i class="fa fa-history"></i> 撤销</a>
+                                            【注：撤销操作将同时删除相关管理员，请谨慎操作！】
+                                        </shiro:hasPermission>
+                                    </c:if>
+                                    <c:if test="${status==-1}">
+                                        <shiro:hasPermission name="partyMemberGroup:realDel">
+                                            <a class="jqBatchBtn btn btn-danger btn-sm"
+                                               data-url="${ctx}/partyMemberGroup_realDel"
+                                               data-title="删除领导班子"
+                                               data-msg="确定完全删除这{0}个领导班子吗？（不可恢复，请谨慎操作！）"><i class="fa fa-times"></i> 完全删除</a>
+                                        </shiro:hasPermission>
+                                        <shiro:hasPermission name="partyMemberGroup:del">
+                                            <a class="jqBatchBtn btn btn-success btn-sm"
+                                               data-url="${ctx}/partyMemberGroup_batchDel"
+                                               data-querystr="isDeleted=0"
+                                               data-title="恢复已删除领导班子"
+                                               data-msg="确定恢复这{0}个领导班子吗？"><i class="fa fa-reply"></i> 恢复</a>
+                                            【注：恢复操作之后需要重新设置相关管理员！】
+                                        </shiro:hasPermission>
+                                    </c:if>
                                 </c:if>
-                                <c:if test="${status>=0}">
+                                <c:if test="${type==1}">
                                     <shiro:hasPermission name="partyMemberGroup:del">
-                                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                                           data-url="${ctx}/partyMemberGroup_batchDel" data-title="撤销领导班子"
-                                           data-msg="确定撤销这{0}个领导班子吗？"><i class="fa fa-history"></i> 撤销</a>
-                                        【注：撤销操作将同时删除相关管理员，请谨慎操作！】
-                                    </shiro:hasPermission>
-                                </c:if>
-                                <c:if test="${status==-1}">
-                                    <shiro:hasPermission name="partyMemberGroup:realDel">
-                                        <a class="jqBatchBtn btn btn-danger btn-sm"
-                                           data-url="${ctx}/partyMemberGroup_realDel"
-                                           data-title="删除领导班子"
-                                           data-msg="确定完全删除这{0}个领导班子吗？（不可恢复，请谨慎操作！）"><i class="fa fa-times"></i> 完全删除</a>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="partyMemberGroup:del">
-                                        <a class="jqBatchBtn btn btn-success btn-sm"
-                                           data-url="${ctx}/partyMemberGroup_batchDel"
-                                           data-querystr="isDeleted=0"
-                                           data-title="恢复已删除领导班子"
-                                           data-msg="确定恢复这{0}个领导班子吗？"><i class="fa fa-reply"></i> 恢复</a>
-                                        【注：恢复操作之后需要重新设置相关管理员！】
+                                        <button data-url="${ctx}/pgbMemberGroup_batchDel"
+                                                data-title="删除"
+                                                data-msg="确定删除这{0}条数据？"
+                                                class="jqBatchBtn btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i> 删除
+                                        </button>
                                     </shiro:hasPermission>
                                 </c:if>
                             </div>
@@ -119,10 +133,10 @@
                                                 </script>
                                             </div>
                                             <div class="form-group">
-                                                <label>所属${_p_partyName}</label>
+                                                <label>所属${type==1?"内设党总支":_p_partyName}</label>
                                                 <select name="partyId" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects"
-                                                        data-placeholder="请选择所属${_p_partyName}">
+                                                        data-placeholder="请选择所属${type==1?"内设党总支":_p_partyName}">
                                                     <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                                 <script>
@@ -193,25 +207,27 @@
                 },
                 frozen: true
             },
+            <c:if test="${type==0}">
+                {
+                    label: '班子成员管理', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                        return ('<button class="openView btn btn-warning btn-xs" ' +
+                            'data-url="${ctx}/partyMember?groupId={0}">'
+                            + '<i class="fa fa-search"></i> 详情({1})</button>')
+                            .format(rowObject.id, rowObject.memberCount);
+                    }
+                },
+                {
+                    label: '导出班子成员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
+                        if (!rowObject.isDeleted)
+                            return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
+                                'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出</a>')
+                                .format(rowObject.id);
+                        return '--'
+                    }
+                },
+            </c:if>
             {
-                label: '班子成员管理', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
-                    return ('<button class="openView btn btn-warning btn-xs" ' +
-                        'data-url="${ctx}/partyMember?groupId={0}">'
-                        + '<i class="fa fa-search"></i> 详情({1})</button>')
-                        .format(rowObject.id, rowObject.memberCount);
-                }
-            },
-            {
-                label: '导出班子成员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
-                    if (!rowObject.isDeleted)
-                        return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
-                            'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出</a>')
-                            .format(rowObject.id);
-                    return '--'
-                }
-            },
-            {
-                label: '所属${_p_partyName}',
+                label: '所属${type==1?"内设党总支":_p_partyName}',
                 name: 'partyId',
                 align: 'left',
                 width: 380,

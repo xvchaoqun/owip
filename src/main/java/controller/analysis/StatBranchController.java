@@ -12,11 +12,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.helper.PartyHelper;
 
 import java.util.List;
 
 @Controller
-@RequiresPermissions("stat:branch")
 public class StatBranchController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -26,6 +26,7 @@ public class StatBranchController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("stat:branch")
     @RequestMapping("/stat_branch_page")
     public String stat_branch_page(ModelMap modelMap) {
 
@@ -38,52 +39,48 @@ public class StatBranchController extends BaseController {
         }else{
             throw new UnauthorizedException();
         }
-        return "analysis/party/stat_branch_page";
+        return "analysis/branch/stat_branch_page";
     }
 
     // 党员数量统计
+    @RequiresPermissions("stat:branch")
     @RequestMapping("/stat_branch_member_count")
-    public String stat_branch_member_count(Integer type, Integer branchId, ModelMap modelMap) {
+    public String stat_branch_member_count(Integer type, int branchId, ModelMap modelMap) {
 
-        if (branchId != null) {
-            if (type != null) {
-                modelMap.put("otherMap", statService.otherMap(type, null, branchId));
-            }
-
-            modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, branchId));
-            modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId));
-            modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId));
+        PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), null, branchId);
+        if (type != null) {
+            modelMap.put("type", type);
+            modelMap.put("otherMap", statService.otherMap(type, null, branchId));
         }
 
-        modelMap.put("isBranchAdmin", true);
-        modelMap.put("type", type);
+        modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, branchId));
+        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId));
+        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId));
+
         modelMap.put("branchId", branchId);
-        return "analysis/ow/stat_branch_member_count";
+        return "analysis/branch/stat_branch_member_count";
     }
 
     // 党员年龄结构统计
+    @RequiresPermissions("stat:branch")
     @RequestMapping("/stat_branch_member_age")
-    public String stat_branch_member_age(Byte type, Integer branchId, ModelMap modelMap) {
+    public String stat_branch_member_age(Byte type, int branchId, ModelMap modelMap) {
 
-        if (branchId != null) {
-            modelMap.put("statAgeMap", statService.ageMap(type, null, branchId));
-        }
-
-        modelMap.put("isBranchAdmin", true);
+        PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), null, branchId);
+        modelMap.put("statAgeMap", statService.ageMap(type, null, branchId));
         modelMap.put("type", type);
         modelMap.put("branchId", branchId);
-        return "analysis/ow/stat_branch_member_age";
+        return "analysis/branch/stat_branch_member_age";
     }
 
     // 发展党员统计
+    @RequiresPermissions("stat:branch")
     @RequestMapping("/stat_branch_member_apply")
-    public String stat_branch_member_apply(Byte type, Integer branchId, ModelMap modelMap) {
+    public String stat_branch_member_apply(Byte type, int branchId, ModelMap modelMap) {
 
-        if (branchId != null) {
-            modelMap.put("statApplyMap", statService.applyMap(type, null, branchId));
-        }
-
+        PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), null, branchId);
+        modelMap.put("statApplyMap", statService.applyMap(type, null, branchId));
         modelMap.put("type", type);
-        return "analysis/ow/stat_branch_member_apply";
+        return "analysis/branch/stat_branch_member_apply";
     }
 }

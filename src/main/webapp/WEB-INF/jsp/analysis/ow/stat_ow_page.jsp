@@ -73,7 +73,7 @@
 
                     <div class="widget-body">
                         <div class="widget-main padding-4">
-                            <c:import url="/stat_member_inout"/>
+                            <c:import url="/stat_ow_member_inout"/>
                         </div><!-- /.widget-main -->
                     </div><!-- /.widget-body -->
                 </div><!-- /.widget-box -->

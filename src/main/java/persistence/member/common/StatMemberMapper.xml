@@ -119,6 +119,14 @@
             and pro_post_level !=#{proPostLevel1} and pro_post_level!=#{proPostLevel2}
         </if>
     </sql>
+
+    <select id="getPgbCount" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from ow_party where fid is not null
+        <if test="fid!=null">
+            and fid =#{fid}
+        </if>
+    </select>
+
     <select id="getMemberCount" resultType="java.lang.Integer" parameterType="map">
         select count(*) from ow_member_view where status=1
         <include refid="where_stat_ow_sum"/>

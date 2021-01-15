@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class PartyMemberGroupController extends BaseController {
@@ -62,11 +63,13 @@ public class PartyMemberGroupController extends BaseController {
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup")
     public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
+                                   @RequestParam(required = false, defaultValue = "0") Byte type,
                                    Integer partyId,
                                    Integer userId,
                                    Integer[] typeIds,
                                    ModelMap modelMap) {
 
+        modelMap.put("type", type);
         modelMap.put("status", status);
 
         if (partyId != null) {
@@ -91,6 +94,7 @@ public class PartyMemberGroupController extends BaseController {
     @RequestMapping("/partyMemberGroup_data")
     public void partyMemberGroup_data(HttpServletResponse response,
                                       @RequestParam(required = false, defaultValue = "1") Byte status,
+                                      @RequestParam(required = false, defaultValue = "0") Byte type,
                                       Integer year,
                                       String name,
                                       Integer classId,
@@ -121,11 +125,36 @@ public class PartyMemberGroupController extends BaseController {
 
             //if (!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的
 
+            PartyExample partyExample = new PartyExample();
+            PartyExample.Criteria criteria1 = partyExample.createCriteria().andFidIsNotNull();
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            List<Integer> adminPartyIdList = new ArrayList<>();//存储可以查看的二级党委和内设党总支id
+
+            if (type == 1){
+                criteria1.andFidIn(partyIdList);
+                List<Party> partyList = partyMapper.selectByExample(partyExample);
+                adminPartyIdList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+            }else {
+                adminPartyIdList.addAll(partyIdList);
+            }
+
             if (partyIdList.size() > 0)
-                criteria.andPartyIdIn(partyIdList);
+                criteria.andPartyIdIn(adminPartyIdList);
             else criteria.andPartyIdIsNull();
             //}
+        }else {
+
+            PartyExample partyExample = new PartyExample();
+            partyExample.createCriteria().andFidIsNotNull();
+            List<Party> partyList = partyMapper.selectByExample(partyExample);
+            List<Integer> pgbIdList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+            if (pgbIdList.size() > 0){
+                if (type == 1) {
+                    criteria.andPartyIdIn(pgbIdList);
+                }else {
+                    criteria.andPartyIdNotIn(pgbIdList);
+                }
+            }
         }
 
         if (StringUtils.isNotBlank(name)) {
@@ -300,23 +329,23 @@ public class PartyMemberGroupController extends BaseController {
             }
             record.setName(name);
 
-            String partyCode = StringUtils.trimToNull(xlsRow.get(2));
-            if (StringUtils.isBlank(partyCode)) {
-                throw new OpException("第{0}行所属分党委编码为空", row);
+            String partyName = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(partyName)) {
+                throw new OpException("第{0}行所属分党委名称为空", row);
             }
-            Party party = partyService.getByCode(partyCode);
+            Party party = partyService.getByName(partyName);
             if (party == null) {
-                throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
+                throw new OpException("第{0}行所属分党委[{1}]不存在", row, partyName);
             }
             record.setPartyId(party.getId());
 
-            String appointTime = StringUtils.trimToNull(xlsRow.get(3));
+            String appointTime = StringUtils.trimToNull(xlsRow.get(2));
             record.setAppointTime(DateUtils.parseStringToDate(appointTime));
 
-            String tranTime = StringUtils.trimToNull(xlsRow.get(4));
+            String tranTime = StringUtils.trimToNull(xlsRow.get(3));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
 
-            String actualTranTime = StringUtils.trimToNull(xlsRow.get(5));
+            String actualTranTime = StringUtils.trimToNull(xlsRow.get(4));
             record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
 
             record.setIsDeleted(record.getActualTranTime()!=null);
@@ -375,6 +404,20 @@ public class PartyMemberGroupController extends BaseController {
             modelMap.put("partyMemberGroup", partyMemberGroupMapper.selectByPrimaryKey(ids[0]));
         }
         return "/party/partyMemberGroup/partyMemberGroup_batchDel";
+    }
+
+    @RequiresPermissions("partyMemberGroup:del")
+    @RequestMapping("/pgbMemberGroup_batchDel")
+    @ResponseBody
+    public Map pgbMemberGroup_batchDel(HttpServletRequest request,
+                                         Integer[] ids) {
+
+        if (null != ids && ids.length > 0) {
+            partyMemberGroupService.batchDelPgb(ids);
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除内设党总支领导班子：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     // 完全删除已撤销的班子

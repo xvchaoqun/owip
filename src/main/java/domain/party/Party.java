@@ -1,6 +1,7 @@
 package domain.party;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -8,7 +9,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Party implements Serializable {
+
+    public Party getParty(){
+        if (fid != null) {
+            return CmTag.getParty(fid);
+        }
+        return null;
+    }
+
     private Integer id;
+
+    private Integer fid;
 
     private String code;
 
@@ -71,6 +82,14 @@ public class Party implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getFid() {
+        return fid;
+    }
+
+    public void setFid(Integer fid) {
+        this.fid = fid;
     }
 
     public String getCode() {

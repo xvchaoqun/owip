@@ -77,6 +77,11 @@ public class PartyService extends BaseMapper {
 
         PartyExample example = new PartyExample();
         PartyExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+
+        //控制其他模块不会查到内设党总支，后续如果党支部和党员用到内设党总支，再做修改
+        if (CmTag.getBoolProperty("use_inside_pgb")){
+            criteria.andFidIsNull();
+        }
         List<Party> records = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return records.size()==1?records.get(0):null;
@@ -248,9 +253,9 @@ public class PartyService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "Party:ALL", allEntries = true)
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int id, int addNum, byte type) {
 
-        changeOrder("ow_party", "is_deleted=0", ORDER_BY_DESC, id, addNum);
+        changeOrder("ow_party", "is_deleted=0 " + (type==1?"and fid is not null":"and fid is null"), ORDER_BY_DESC, id, addNum);
     }
 
     @Transactional
@@ -397,4 +402,27 @@ public class PartyService extends BaseMapper {
         return startCode + String.format("%02d", num);
     }
 
+    @Transactional
+    @CacheEvict(value = "Party:ALL", allEntries = true)
+    public void batchDelPgb(Integer[] ids) {
+
+        PartyExample example = new PartyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andFidIsNotNull();
+        partyMapper.deleteByExample(example);
+    }
+
+    public Party getByName(String name){
+
+        if (StringUtils.isBlank(name)) return null;
+        PartyExample example = new PartyExample();
+        PartyExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
+
+        //控制其他模块不会查到内设党总支，后续如果党支部和党员用到内设党总支，再做修改
+        if (CmTag.getBoolProperty("use_inside_pgb")){
+            criteria.andFidIsNull();
+        }
+        List<Party> partyList = partyMapper.selectByExample(example);
+
+        return partyList.size() > 0 ? partyList.get(0) : null;
+    }
 }

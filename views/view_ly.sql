@@ -1,4 +1,53 @@
 
+
+-- 2021.1.14 ly
+DROP VIEW IF EXISTS `ow_party_static_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_party_static_view` AS
+select p.id, p.name,
+s.bks, s.ss, s.bs, (s.bks+s.ss+s.bs) as student, s.positive_bks, s.positive_ss, s.positive_bs, (s.positive_bks + s.positive_ss + s.positive_bs) as positive_student,
+t.teacher,t.teacher_retire, (t.teacher+t.teacher_retire) as teacher_total, t.positive_teacher, t.positive_teacher_retire, (t.positive_teacher + t.positive_teacher_retire)as positive_teacher_total,
+b.bks_branch, b.ss_branch, b.bs_branch, b.sb_branch, b.bsb_branch,
+(b.bks_branch + b.ss_branch + b.bs_branch + b.sb_branch + b.bsb_branch) as student_branch_total, b.teacher_branch, b.retire_branch, (b.teacher_branch + b.retire_branch) as teacher_branch_total,
+a.teacher_apply_count, a.student_apply_count
+from ow_party p left join
+(
+select party_id,
+sum(if(edu_level is null, 1, 0)) as bks,
+sum(if(edu_level='硕士', 1, 0)) as ss,
+sum(if(edu_level='博士', 1, 0)) as bs,
+sum(if(edu_level is null and political_status=2, 1, 0)) as positive_bks,
+sum(if(edu_level='硕士' and political_status=2, 1, 0)) as positive_ss,
+sum(if(edu_level='博士' and political_status=2, 1, 0)) as positive_bs
+from ow_member_view where type=2 and status=1 group by party_id
+) s on s.party_id = p.id
+left join
+(
+select party_id,
+sum(if(is_retire, 0, 1)) teacher,
+sum(if(is_retire, 1, 0)) teacher_retire,
+sum(if(!is_retire and political_status=2, 1, 0)) positive_teacher,
+sum(if(is_retire and political_status=2, 1, 0)) positive_teacher_retire
+from ow_member_view where type=1 and status=1 group by party_id
+) t on t.party_id = p.id
+left join
+(select b.party_id,
+sum(if(locate('本科生',bmt.name), 1, 0)) as bks_branch,
+sum(if(locate('硕士',bmt.name), 1, 0)) as ss_branch,
+sum(if(locate('博士',bmt.name), 1, 0)) as bs_branch,
+sum(if(POSITION('硕博' in bmt.name)=1, 1, 0)) as sb_branch,
+sum(if(locate('本硕博',bmt.name), 1, 0)) as bsb_branch,
+sum(if(locate('在职',bmt.name), 1, 0)) as teacher_branch,
+sum(if(locate('离退休',bmt.name), 1, 0)) as retire_branch
+from ow_branch b, base_meta_type bmt where b.is_deleted=0 and find_in_set(bmt.id, b.types) group by b.party_id
+)b on b.party_id = p.id
+left join
+(select p.id as party_id, sum(if(type=1, 1, 0)) as teacher_apply_count, sum(if(type=2, 1, 0)) as student_apply_count from ow_member_apply oma
+left join ow_party p on oma.party_id=p.id
+left join ow_branch b on oma.branch_id=b.id
+where p.is_deleted=0 and (b.is_deleted=0 or b.id is null) group by p.id
+)a on a.party_id = p.id
+where p.is_deleted=0 and p.fid is null order by p.sort_order desc;
+
 -- 2020.12.17 ly
 DROP VIEW IF EXISTS `ow_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_view` AS

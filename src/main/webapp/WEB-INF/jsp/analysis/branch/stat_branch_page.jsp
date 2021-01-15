@@ -22,9 +22,9 @@
                 <div class="widget-body">
                     <div class="widget-main padding-4">
                         <div class="row">
-                            <c:import url="/stat_branch_member_count?branchId=${branchId}"/>
                             <c:import url="/stat_branch_member_age?branchId=${branchId}"/>
                             <c:import url="/stat_branch_member_apply?branchId=${branchId}"/>
+                            <c:import url="/stat_branch_member_count?branchId=${branchId}"/>
                         </div>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->

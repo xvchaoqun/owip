@@ -1,10 +1,16 @@
 
--- 2020.1.8 ly
+-- 2021.1.15 ly
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2567, 0, '基层党组织信息统计', '', 'url', '', '/party/partyInfoStatistics', 260, '0/1/260/', 1, 'stat:infoStatistics', NULL, NULL, NULL, 1, 75);
+ALTER TABLE `ow_party`
+	ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级党组织' AFTER `id`;
+-- 更新view_ly.sql中的ow_party_static_view、更新ow_party_view
+
+-- 2021.1.8 ly
 ALTER TABLE `ow_party`
 	ADD COLUMN `direct_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
 -- 更新ow_party_view、pcs_party_view
 
--- 2020.1.5 ly
+-- 2021.1.5 ly
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,
 	ADD COLUMN `sn` INT(10) UNSIGNED NULL COMMENT '编号 用于生成介绍信编号 依次递增' AFTER `year`,
