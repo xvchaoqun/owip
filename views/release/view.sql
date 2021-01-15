@@ -533,7 +533,7 @@ left join ow_party p on oma.party_id=p.id
 left join ow_branch b on oma.branch_id=b.id
 where p.is_deleted=0 and (b.is_deleted=0 or b.id is null) group by p.id
 )a on a.party_id = p.id
-where p.is_deleted=0 order by p.sort_order desc;
+where p.is_deleted=0 and p.fid is null order by p.sort_order desc;
 -- ----------------------------
 --  View definition for `abroad_passport_apply_view`
 -- ----------------------------
