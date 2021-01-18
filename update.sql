@@ -1,7 +1,10 @@
 
 
+20210118
+-- 南航
+
 20210115
--- 大工  xx 北师大
+-- 大工
 
 ALTER TABLE `cadre_inspect`
 	ADD COLUMN `valid_time` DATETIME NULL DEFAULT NULL COMMENT '有效期' AFTER `record_user_id`;
@@ -26,7 +29,7 @@ AUTO_INCREMENT=4
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2567, 0, '基层党组织信息统计', '', 'url', '', '/party/partyInfoStatistics', 260, '0/1/260/', 1, 'stat:infoStatistics', NULL, NULL, NULL, 1, 75);
 ALTER TABLE `ow_party`
 	ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级党组织' AFTER `id`;
--- 更新view_ly.sql中的ow_party_static_view、更新 ow_party_view
+-- 更新 ow_party_static_view、更新 ow_party_view
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_inside_pgb', '启用内设党总支', 'false', 3, 97, '在二级党委和党支部之间加一层内设党总支');
 
