@@ -223,7 +223,7 @@ public class CadreWorkService extends BaseMapper {
 
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
         // 挂职经历
-        List<CrpRecord> crpRecords = crpRecordService.findRecords(cadre.getUserId());
+        List<CrpRecord> crpRecords = crpRecordService.findRecords(cadre.getUserId(),null);
         for (CrpRecord record : crpRecords) {
 
             String post = record.getPost();
