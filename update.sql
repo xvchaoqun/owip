@@ -1,6 +1,27 @@
 
+
 20210115
 -- 大工  xx 北师大
+
+ALTER TABLE `cadre_inspect`
+	ADD COLUMN `valid_time` DATETIME NULL DEFAULT NULL COMMENT '有效期' AFTER `record_user_id`;
+-- 更新 cadre_inspect_view
+
+CREATE TABLE `cadre_eva_result` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '所属干部',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年份',
+	`group_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '测评类别(分区名称)',
+	`sort_order` INT(11) NULL DEFAULT NULL COMMENT '排名',
+	`num` INT(11) NULL DEFAULT NULL COMMENT '总人数',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='干部年度测评结果'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=4
+;
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2567, 0, '基层党组织信息统计', '', 'url', '', '/party/partyInfoStatistics', 260, '0/1/260/', 1, 'stat:infoStatistics', NULL, NULL, NULL, 1, 75);
 ALTER TABLE `ow_party`

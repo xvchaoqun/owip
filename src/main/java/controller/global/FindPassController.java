@@ -10,7 +10,6 @@ import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by fafa on 2016/9/21.
  */
-@Controller
+//@Controller
 public class FindPassController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

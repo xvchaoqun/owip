@@ -50,8 +50,8 @@ public class MemberRegController extends MemberBaseController {
         return super.checkVerityAuth2(memberReg, memberReg.getPartyId());
     }
 
-    @RequestMapping(value = "/member_reg", method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/member_reg", method = RequestMethod.POST)
+    //@ResponseBody
     public Map do_member_reg(String passwd, Byte type,
                              String realname, String idcard, String phone,
                              Integer party, String captcha, HttpServletRequest request) {
