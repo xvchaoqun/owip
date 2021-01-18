@@ -50,7 +50,7 @@ ALTER TABLE `ow_member_out`
 	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,
 	ADD COLUMN `sn` INT(10) UNSIGNED NULL COMMENT '编号 用于生成介绍信编号 依次递增' AFTER `year`,
 	ADD UNIQUE INDEX `year_number` (`year`, `sn`);
--- 更新ow_member_out_view
+-- 更新 ow_member_out_view
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
 
@@ -63,12 +63,6 @@ ALTER TABLE `ow_party`
 
 20210105
 
-ALTER TABLE `ow_branch`
-	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
-ALTER TABLE `ow_party`
-	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
-	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
-
 delete from cet_train_obj where train_course_id not in(select id from cet_train_course);
 ALTER TABLE `cet_train_obj`
     ADD CONSTRAINT `FK_cet_train_obj_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
@@ -80,6 +74,12 @@ ALTER TABLE `cet_train_obj`
 
 20201230
 大工
+
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
 update ow_party set short_name=name where short_name is null or short_name='';
 
 

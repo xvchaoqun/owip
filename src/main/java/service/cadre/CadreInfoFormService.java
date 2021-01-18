@@ -38,6 +38,9 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.ZipFile;
 
+import static sys.constants.CrpConstants.CRP_RECORD_TYPE_IN;
+import static sys.constants.CrpConstants.CRP_RECORD_TYPE_OUT;
+
 @Service
 public class CadreInfoFormService extends BaseMapper {
 
@@ -339,7 +342,9 @@ public class CadreInfoFormService extends BaseMapper {
         bean.setWorkDesc(freemarkerService.freemarker(cadreWorkService.list(cadreId),
                 "cadreWorks", "/cadre/cadreWork.ftl"));
        //挂职经历
-        bean.setCrpDesc(freemarkerService.freemarker(crpRecordService.findRecords(uv.getUserId()),
+        bean.setCrpDescOut(freemarkerService.freemarker(crpRecordService.findRecords(uv.getUserId(),CRP_RECORD_TYPE_OUT),
+                "crpRecords", "/cadre/cadreCrp.ftl"));
+        bean.setCrpDescIn(freemarkerService.freemarker(crpRecordService.findRecords(uv.getUserId(),CRP_RECORD_TYPE_IN),
                 "crpRecords", "/cadre/cadreCrp.ftl"));
         // 社会或学术兼职
         /*CadreInfo parttime = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_PARTTIME);
@@ -440,7 +445,7 @@ public class CadreInfoFormService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             List<CadreCompany> cadreCompanies = cadreCompanyMapper
-                    .selectByExampleWithRowbounds(example, new RowBounds(0, 3));
+                    .selectByExample(example);
             if (cadreCompanies.size() == 0) {
                 CadreCompany record = new CadreCompany();
                 record.setUnit("无");
@@ -630,8 +635,10 @@ public class CadreInfoFormService extends BaseMapper {
                 bean.getLearnDesc(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl"))
                 + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历",
                 bean.getWorkDesc(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl"))
-                + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("挂职/借调经历",
-                bean.getCrpDesc(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl"));
+                + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("校内挂职/借调经历",
+                bean.getCrpDescIn(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl")
+                + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("校外挂职/借调经历",
+                bean.getCrpDescOut(), true, 440, "/common/oldTitleEditor"+(isDocx?"_docx":"")+".ftl")));
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
@@ -649,8 +656,8 @@ public class CadreInfoFormService extends BaseMapper {
             String companies = "";
             List<CadreCompany> cadreCompanies = bean.getCadreCompanies();
             int size = cadreCompanies.size();
-            for (int i = 0; i < 3; i++) {
-                if (size <= i)
+            for (int i = 0; i < size; i++) {
+                if (size <= 3)
                     companies += getCompanySeg(null, "/infoform/company"+(isDocx?"_docx":"")+".ftl");
                 else
                     companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company"+(isDocx?"_docx":"")+".ftl");
