@@ -152,11 +152,13 @@ public class PartyController extends BaseController {
 
         //分党委管理员管理自己的内设党总支
         List<Integer> partyIdList = loginUserService.adminPartyIdList();
-        PartyExample partyExample = new PartyExample();
-        partyExample.createCriteria().andFidIsNotNull().andFidIn(partyIdList);
-        List<Party> partyList = partyMapper.selectByExample(partyExample);
-        List<Integer> pgbList = partyList.stream().map(Party::getId).collect(Collectors.toList());
-        partyIdList.addAll(pgbList);
+        if (partyIdList.size() > 0) {
+            PartyExample partyExample = new PartyExample();
+            partyExample.createCriteria().andFidIsNotNull().andFidIn(partyIdList);
+            List<Party> partyList = partyMapper.selectByExample(partyExample);
+            List<Integer> pgbList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+            partyIdList.addAll(pgbList);
+        }
         criteria.addPermits(partyIdList);
 
         criteria.andIsDeletedEqualTo(cls==2);
