@@ -48,7 +48,6 @@ import java.util.stream.Collectors;
 public class PartyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private PartyExportService partyExportService;
 
