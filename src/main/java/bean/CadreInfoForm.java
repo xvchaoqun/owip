@@ -131,6 +131,11 @@ public class CadreInfoForm {
     private String workDesc;
     // 挂职经历
     private String crpDesc;
+
+    // 挂职经历(校外)
+    private String crpDescOut;
+    // 挂职经历(校内)
+    private String crpDescIn;
     // 简历
     private String resumeDesc;
     // 任职经历
@@ -570,7 +575,6 @@ public class CadreInfoForm {
     public void setWorkDesc(String workDesc) {
         this.workDesc = workDesc;
     }
-
     public String getCrpDesc() {
         return crpDesc;
     }
@@ -578,7 +582,21 @@ public class CadreInfoForm {
     public void setCrpDesc(String crpDesc) {
         this.crpDesc = crpDesc;
     }
+    public String getCrpDescOut() {
+        return crpDescOut;
+    }
 
+    public void setCrpDescOut(String crpDescOut) {
+        this.crpDescOut = crpDescOut;
+    }
+
+    public String getCrpDescIn() {
+        return crpDescIn;
+    }
+
+    public void setCrpDescIn(String crpDescIn) {
+        this.crpDescIn = crpDescIn;
+    }
     public String getResumeDesc() {
         return resumeDesc;
     }

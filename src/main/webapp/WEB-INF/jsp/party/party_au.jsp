@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/party/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${party!=null}">编辑</c:if><c:if test="${party==null}">添加</c:if>基层党组织</h3>
+    <h3><c:if test="${party!=null}">编辑</c:if><c:if test="${party==null}">添加</c:if>${(_p_use_inside_pgb&&param.type==1)?"内设党总支":"基层党组织"}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/party_au" autocomplete="off" disableautocomplete id="modalForm"
@@ -11,6 +12,19 @@
         <div class="row">
             <div class="col-xs-6">
                 <input type="hidden" name="id" value="${party.id}">
+                <c:if test="${_p_use_inside_pgb&&param.type==1}">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label"><span class="star">*</span>上级党组织</label>
+                        <div class="col-xs-8">
+                            <select required data-rel="select2-ajax"
+                                    data-width="272"
+                                    data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1&notBranchAdmin=1"
+                                    name="fid" data-placeholder="请选择">
+                                <option value="${party.fid}">${party.party.name}</option>
+                            </select>
+                        </div>
+                    </div>
+                </c:if>
                 <div class="form-group">
                     <label class="col-xs-3 control-label"><span class="star">*</span>编号</label>
                     <div class="col-xs-8">
@@ -267,4 +281,7 @@
 
     $.register.del_select($('#modalForm select[name=unitId]'));
     $('[data-rel="tooltip"]').tooltip();
+    <c:if test="${_p_use_inside_pgb&&param.type==1}">
+        $.register.del_select($('#modalForm select[name=fid]'));
+    </c:if>
 </script>

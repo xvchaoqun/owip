@@ -1,12 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
 <div class="col-sm-4" id="stat_member_other" style="width:750px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="ace-icon fa fa-pie-chart"></i>
-                党员基本情况统计
+                党员数量统计
             </h5>
             <div class="widget-toolbar no-border">
                 <div class="inline dropdown-hover">
@@ -87,6 +86,10 @@
         ];
 
         var countOption = {
+            title: {
+                text: '（党员总数：${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE) + statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}）',
+                left: 'center'
+            },
             tooltip: {
                 trigger: 'item',
                 formatter: '{a} <br/>{b}: {c} ({d}%)'

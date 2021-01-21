@@ -303,12 +303,15 @@ td.padding10{
                         ${bean.workDesc}
 
             </c:if>
-            <c:if test="${not empty bean.crpDesc}">
-                <p style="font-weight: bolder;">挂职/借调经历：</p>
 
-                ${bean.crpDesc}
+            <p style="font-weight: bolder;">校内挂职/借调经历：</p>
 
-            </c:if>
+            ${not empty bean.crpDescIn?bean.crpDescIn:"无"}
+
+            <p style="font-weight: bolder;">校外挂职/借调经历：</p>
+            ${not empty bean.crpDescOut?bean.crpDescOut:"无"}
+
+
         </td>
         </tr>
         <tr class="r3">

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
-<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <tbody>
 <tr>
     <td class="bg-right">
@@ -14,7 +13,7 @@
         介绍信编号
     </td>
     <td class="bg-left" style="min-width: 80px">
-        ${userBean.code}
+        ${_use_code_as_identify?userBean.code:memberOut.code}
     </td>
     <td class="bg-right">
         性别

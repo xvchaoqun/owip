@@ -1335,20 +1335,21 @@ public class MemberApplyController extends MemberBaseController {
     // 更换联系党组织
     @RequiresPermissions("memberApply:admin")
     @RequestMapping("/memberApply_changeParty")
-    public String memberApply_changeParty(int userId, ModelMap modelMap) {
-
-        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        modelMap.put("memberApply", memberApply);
-
+    public String memberApply_changeParty(Integer[] ids, ModelMap modelMap) {
+        if (ids.length == 1) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
+            modelMap.put("memberApply", memberApply);
+        }
+        modelMap.put("count", ids.length);
         return "member/memberApply/memberApply_changeParty";
     }
 
     @RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/memberApply_changeParty", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberApply_changeParty(int userId, int partyId, Integer branchId, String remark) {
+    public Map do_memberApply_changeParty(Integer[] ids, int partyId, Integer branchId, String remark) {
 
-        memberApplyService.changeParty(userId, partyId, branchId, remark);
+        memberApplyService.changeParty(ids, partyId, branchId, remark);
 
         return success(FormUtils.SUCCESS);
     }

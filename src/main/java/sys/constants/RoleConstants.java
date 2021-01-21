@@ -25,6 +25,7 @@ public class RoleConstants {
     public static final String ROLE_DP_ADMIN = "role_dp_admin";
     public static final String ROLE_DP_PARTY = "role_dp_party";
     public static final String ROLE_DP_MEMBER = "dp_member";
+    public static final String ROLE_PM_ADMIN = "role_pm_admin";
     // 三大管理员
     public static final String ROLE_ODADMIN = "odAdmin";
     public static final String ROLE_CADREADMIN = "cadreAdmin";

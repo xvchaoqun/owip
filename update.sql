@@ -1,8 +1,44 @@
 
 
+20210118
+-- 南航、西工大
+
+20210115
+-- 大工
+
+ALTER TABLE `cadre_inspect`
+	ADD COLUMN `valid_time` DATETIME NULL DEFAULT NULL COMMENT '有效期' AFTER `record_user_id`;
+-- 更新 cadre_inspect_view
+
+CREATE TABLE `cadre_eva_result` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '所属干部',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年份',
+	`group_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '测评类别(分区名称)',
+	`sort_order` INT(11) NULL DEFAULT NULL COMMENT '排名',
+	`num` INT(11) NULL DEFAULT NULL COMMENT '总人数',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='干部年度测评结果'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=4
+;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2567, 0, '基层党组织信息统计', '', 'url', '', '/party/partyInfoStatistics', 260, '0/1/260/', 1, 'stat:infoStatistics', NULL, NULL, NULL, 1, 75);
 ALTER TABLE `ow_party`
-	CHANGE COLUMN `direct_type` `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
--- 更新ow_party_view
+	ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级党组织' AFTER `id`;
+-- 更新 ow_party_static_view、更新 ow_party_view
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_inside_pgb', '启用内设党总支', 'false', 3, 97, '在二级党委和党支部之间加一层内设党总支');
+
+
+20210115
+-- 更新utils
+
+20210112
+哈工大
 
 20210108
 大工
@@ -10,29 +46,22 @@ ALTER TABLE `ow_party`
 ALTER TABLE `sys_approval_log`
 	CHANGE COLUMN `stage` `stage` TEXT NULL COMMENT '阶段备注，比如 初审、返回等' COLLATE 'utf8_general_ci' AFTER `type`;
 
-
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `year` INT(10) UNSIGNED NULL COMMENT '年份 用于生成介绍信编号' AFTER `branch_id`,
 	ADD COLUMN `sn` INT(10) UNSIGNED NULL COMMENT '编号 用于生成介绍信编号 依次递增' AFTER `year`,
 	ADD UNIQUE INDEX `year_number` (`year`, `sn`);
--- 更新ow_member_out_view
+-- 更新 ow_member_out_view
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_code_as_identify', '用学工号作为编号', 'true', 3, 96, '转出中的编号生成方式：1学工号作为编号；0通过年份和一个四位数字生成编号');
 
 ALTER TABLE `ow_party`
-	ADD COLUMN `direct_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
--- 更新ow_party_view、XXXX  pcs_party_view （未更新）XXXXXXXXXXX
+	ADD COLUMN `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
+-- 更新 ow_party_view、XXXX  pcs_party_view （未更新）XXXXXXXXXXX
 
 20210106
 珠海校区
 
 20210105
-
-ALTER TABLE `ow_branch`
-	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
-ALTER TABLE `ow_party`
-	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
-	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
 
 delete from cet_train_obj where train_course_id not in(select id from cet_train_course);
 ALTER TABLE `cet_train_obj`
@@ -45,6 +74,12 @@ ALTER TABLE `cet_train_obj`
 
 20201230
 大工
+
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '名称' COLLATE 'utf8_general_ci' AFTER `code`,
+	CHANGE COLUMN `short_name` `short_name` VARCHAR(100) NOT NULL COMMENT '简称' COLLATE 'utf8_general_ci' AFTER `name`;
 update ow_party set short_name=name where short_name is null or short_name='';
 
 
@@ -99,6 +134,7 @@ ALTER TABLE `ow_member`
 
 -- 更新utils
 
+-- (以下已更新北化工）
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('wx.appSecret', '微信应用secret', '4rUjh4NgyYtH_vPJiWjMrLNq7QurHLiY9B9hI_az688', 1, 82, '');
 UPDATE sys_property SET type=1 WHERE  code='wx.agentId';
 

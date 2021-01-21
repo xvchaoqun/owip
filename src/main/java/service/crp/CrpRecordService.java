@@ -16,12 +16,14 @@ import java.util.List;
 public class CrpRecordService extends BaseMapper {
 
     // 获取所有的挂职经历
-    public List<CrpRecord> findRecords(int userId){
+    public List<CrpRecord> findRecords(int userId,Byte type){
 
         CrpRecordExample example = new CrpRecordExample();
-        example.createCriteria().andUserIdEqualTo(userId).andIsAddFormEqualTo(true).andIsDeletedEqualTo(false);
+        CrpRecordExample.Criteria criteria =example.createCriteria().andUserIdEqualTo(userId).andIsAddFormEqualTo(true).andIsDeletedEqualTo(false);
         example.setOrderByClause("start_date asc");
-
+        if(type != null){
+            criteria.andTypeEqualTo(type);
+        }
         return crpRecordMapper.selectByExample(example);
     }
 

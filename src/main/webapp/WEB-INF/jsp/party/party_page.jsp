@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="${_pMap['owCheckIntegrity']=='true'}" var="_p_owCheckIntegrity"/>
-<c:set value="<%=OwConstants.OW_ORG_ADMIN_PARTY%>" var="OW_ORG_ADMIN_PARTY"/>
+<%@ include file="/WEB-INF/jsp/party/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
         <div id="body-content">
         <div class="myTableDiv"
-             data-url-au="${ctx}/party_au"
-             data-url-page="${ctx}/party"
+             data-url-au="${ctx}/party_au?type=${type}"
+             data-url-page="${ctx}/party?type=${type}"
              data-url-export="${ctx}/party_data"
              data-url-co="${ctx}/party_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -42,34 +41,45 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>--%>
                     </shiro:hasPermission>
 
-                <button data-url="${ctx}/org_admin?isPartyAdmin=1"
-                        data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
-                    <i class="fa fa-user"></i> 编辑管理员
-                </button>
-                <shiro:hasRole name="${ROLE_SUPER}">
-                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                            data-url="${ctx}org/orgAdmin_import?type=${OW_ORG_ADMIN_PARTY}"
-                            data-rel="tooltip" data-placement="top" title="批量导入管理员"><i class="fa fa-upload"></i>
-                        导入管理员
+                <c:if test="${type==0}">
+                    <button data-url="${ctx}/org_admin?isPartyAdmin=1"
+                            data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
+                        <i class="fa fa-user"></i> 编辑管理员
                     </button>
-                </shiro:hasRole>
-                <shiro:hasPermission name="party:add">
-                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                            data-url="${ctx}/party_import"
-                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                        批量导入
-                    </button>
-                </shiro:hasPermission>
+                    <shiro:hasRole name="${ROLE_SUPER}">
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                data-url="${ctx}org/orgAdmin_import?type=${OW_ORG_ADMIN_PARTY}"
+                                data-rel="tooltip" data-placement="top" title="批量导入管理员"><i class="fa fa-upload"></i>
+                            导入管理员
+                        </button>
+                    </shiro:hasRole>
+                    <shiro:hasPermission name="party:add">
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                data-url="${ctx}/party_import"
+                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                            批量导入
+                        </button>
+                    </shiro:hasPermission>
 
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-                <c:if test="${cls==1}">
+                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+
+                    <c:if test="${cls==1}">
+                        <shiro:hasPermission name="party:del">
+                            <a class="jqBatchBtn btn btn-danger btn-sm"
+                               data-callback="updateCache"
+                               data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
+                               data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
+                            【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
+                        </shiro:hasPermission>
+                    </c:if>
+                </c:if>
+                <c:if test="${type==1}">
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-callback="updateCache"
-                           data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
-                           data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
-                        【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
+                           data-url="${ctx}/pgb_batchDel" data-title="删除"
+                           data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                 </c:if>
                 <c:if test="${cls==2}">
@@ -257,9 +267,14 @@ pageEncoding="UTF-8" %>
             },frozen:true },
             <shiro:hasPermission name="party:changeOrder">
             <c:if test="${cls==1 && !_query}">
-            { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,formatoptions: {url: "${ctx}/party_changeOrder?type=${type}"},frozen:true },
             </c:if>
             </shiro:hasPermission>
+            <c:if test="${type==1}">
+                { label: '上级党组织', name: 'fid',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
+                        return $.party(rowObject.fid);
+                    }},
+            </c:if>
             <c:if test="${_p_owCheckIntegrity}">
             {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
@@ -270,62 +285,64 @@ pageEncoding="UTF-8" %>
                         .format(progress,rowObject.integrity==1?"success":"danger")
                 },sortable: true, align: 'left'},
             </c:if>
-            { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
-                if(rowObject.classId=='${cm:getMetaTypeByCode("mt_direct_branch").id}')
-                    return 1;
-                if(cellvalue==undefined|| cellvalue==0) return 0;
-                 <shiro:hasPermission name="branch:list">
-                return '<a href="#${ctx}/branch?partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
-                    </shiro:hasPermission>
-                    <shiro:lacksPermission name="branch:list">
-                    return cellvalue;
-                </shiro:lacksPermission>
-            }},
-            { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined|| cellvalue==0) return 0;
-                 <shiro:hasPermission name="member:list">
-                return '<a href="#${ctx}/member?cls=10&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+            <c:if test="${type==0}">
+                { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
+                    if(rowObject.classId=='${cm:getMetaTypeByCode("mt_direct_branch").id}')
+                        return 1;
+                    if(cellvalue==undefined|| cellvalue==0) return 0;
+                     <shiro:hasPermission name="branch:list">
+                    return '<a href="#${ctx}/branch?partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                        </shiro:hasPermission>
+                        <shiro:lacksPermission name="branch:list">
+                        return cellvalue;
+                    </shiro:lacksPermission>
+                }},
+                { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
+                    if(cellvalue==undefined|| cellvalue==0) return 0;
+                     <shiro:hasPermission name="member:list">
+                    return '<a href="#${ctx}/member?cls=10&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                        </shiro:hasPermission>
+                        <shiro:lacksPermission name="member:list">
+                        return cellvalue;
+                    </shiro:lacksPermission>
+                }},
+                { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
+                    if(cellvalue==undefined|| cellvalue==0) return 0;
+                     <shiro:hasPermission name="member:list">
+                    return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                        </shiro:hasPermission>
+                        <shiro:lacksPermission name="member:list">
+                        return cellvalue;
+                    </shiro:lacksPermission>
+                }},
+                { label:'在职<br/>教职工', name: 'teacherMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
+                    if(cellvalue==undefined|| cellvalue==0) return 0;
+                    <shiro:hasPermission name="member:list">
+                        return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                     </shiro:hasPermission>
                     <shiro:lacksPermission name="member:list">
-                    return cellvalue;
-                </shiro:lacksPermission>
-            }},
-            { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined|| cellvalue==0) return 0;
-                 <shiro:hasPermission name="member:list">
-                return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                        return cellvalue;
+                    </shiro:lacksPermission>
+                }},
+                { label:'离退休<br/>党员', name: 'retireMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
+                    if(cellvalue==undefined|| cellvalue==0) return 0;
+                    <shiro:hasPermission name="member:list">
+                        return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                     </shiro:hasPermission>
                     <shiro:lacksPermission name="member:list">
-                    return cellvalue;
-                </shiro:lacksPermission>
-            }},
-            { label:'在职<br/>教职工', name: 'teacherMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined|| cellvalue==0) return 0;
-                <shiro:hasPermission name="member:list">
-                    return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
-                </shiro:hasPermission>
-                <shiro:lacksPermission name="member:list">
-                    return cellvalue;
-                </shiro:lacksPermission>
-            }},
-            { label:'离退休<br/>党员', name: 'retireMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined|| cellvalue==0) return 0;
-                <shiro:hasPermission name="member:list">
-                    return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
-                </shiro:hasPermission>
-                <shiro:lacksPermission name="member:list">
-                    return cellvalue;
-                </shiro:lacksPermission>
-            }},
-            { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined|| cellvalue==0) return 0;
-                <shiro:hasPermission name="member:list">
-                    return '<a href="#${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
-                </shiro:hasPermission>
-                <shiro:lacksPermission name="member:list">
-                    return cellvalue;
-                </shiro:lacksPermission>
-            }},
+                        return cellvalue;
+                    </shiro:lacksPermission>
+                }},
+                { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
+                    if(cellvalue==undefined|| cellvalue==0) return 0;
+                    <shiro:hasPermission name="member:list">
+                        return '<a href="#${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="member:list">
+                        return cellvalue;
+                    </shiro:lacksPermission>
+                }},
+            </c:if>
             <shiro:hasPermission name="partyMemberGroup:list">
             /*{ label:'委员会<br/>总数', name: 'groupCount', width: 60, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;

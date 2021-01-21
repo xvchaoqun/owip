@@ -1,10 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
-<c:set var="PIE_COLOR_MAP" value="<%=SystemConstants.PIE_COLOR_MAP%>"/>
-<c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
-<c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
-
+<%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
 <div class="col-sm-4" id="stat_ow_branch_type" style="width:750px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
@@ -35,13 +31,19 @@
                 '${metaTypes.get(type.key).name}(${type.value})',
             </c:forEach>
         ];
+        <c:set var="totalCount" value="0"/>
         var data = [
             <c:forEach items="${branchTypeMap}" var="type">
                 {name: "${metaTypes.get(type.key).name}(${type.value})", value: '${type.value}'},
+                <c:set var="totalCount" value="${totalCount+type.value}"/>
             </c:forEach>
         ];
 
         var option = {
+            title: {
+                text: '（支部总数：${totalCount}）',
+                left: 'center'
+            },
             tooltip: {
                 trigger: 'item',
                 formatter: '{a} <br/>{b} : {c} ({d}%)'

@@ -21,6 +21,7 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
@@ -84,7 +85,6 @@ public class UserMemberOutController extends MemberBaseController {
 
         if(memberOut!=null && memberOut.getStatus() > MemberConstants.MEMBER_OUT_STATUS_BACK)
            return failed("不允许修改");
-
 
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());

@@ -1,10 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
-<c:set var="PIE_COLOR_MAP" value="<%=SystemConstants.PIE_COLOR_MAP%>"/>
-<c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
-<c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
-
 <div class="col-sm-4" id="stat_cadre_count" style="width:550px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
@@ -41,6 +36,10 @@
 
     //console.dir(data)
     option = {
+        title: {
+                text: '（干部总数：'+data.totalCount+'）',
+                left: 'center'
+            },
         tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b} : {d}%'
@@ -92,8 +91,10 @@
         var legendData = [];
          var seriesData1 = [];
          var seriesData2 = [];
+         var totalCount =0;
          var statCadreCountMap = ${cm:toJSONObject(statCadreCountMap)};
              $.each(statCadreCountMap, function (key, value) {
+                 totalCount += value;
                  var item=key+'('+value+')';
                 legendData.push(item);
                 seriesData1.push({
@@ -108,8 +109,8 @@
         return {
             legendData: legendData,
             seriesData1: seriesData1,
-            seriesData2: seriesData2
-
+            seriesData2: seriesData2,
+            totalCount:totalCount
         };
     };
     if (option && typeof option === "object") {

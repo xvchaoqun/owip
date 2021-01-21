@@ -552,11 +552,6 @@ public class MemberOutController extends MemberBaseController {
             logger.info(addLog(LogConstants.LOG_MEMBER, "添加组织关系转出：%s", record.getId()));
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
-            if (!CmTag.getBoolProperty("use_code_as_identify")) {
-                if (before.getYear() == null || (!before.getYear().equals(record.getYear()))) {
-                    record.setSn(memberOutService.genSn(record.getYear()));
-                }
-            }
             // 重新提交未通过的申请
             if (BooleanUtils.isTrue(reapply) && before.getStatus() < MemberConstants.MEMBER_OUT_STATUS_APPLY) {
 
@@ -645,7 +640,7 @@ public class MemberOutController extends MemberBaseController {
                         || (record.getHandleTime() != null && !StringUtils.equals(DateUtils.formatDate(before.getHandleTime(), "yyyyMMdd"), DateUtils.formatDate(record.getHandleTime(), "yyyyMMdd")))
                         || (record.getHasReceipt() != null && !StringUtils.equals(before.getHasReceipt() + "", record.getHasReceipt() + ""))
                         || (record.getYear() != null && !StringUtils.equals(before.getYear() + "", record.getYear() + ""))
-                        || (!CmTag.getBoolProperty("use_code_as_identify") && record.getCode() != null && !StringUtils.equals(before.getCode(), record.getCode()))
+                        || (!CmTag.getBoolProperty("use_code_as_identify") && ((record.getCode() == null && before.getCode() == null)|| !StringUtils.equals(before.getYear() + "", record.getYear() + "")))
         );
     }
 

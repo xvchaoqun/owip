@@ -326,13 +326,14 @@ public class MemberOutService extends MemberBaseMapper {
         record.setPrintCount(0);
         memberOpService.checkOpAuth(userId);
         if (record.getId() == null) {
-
             archive(userId);
-            if (!CmTag.getBoolProperty("use_code_as_identify")) {
-                record.setSn(genSn(record.getYear()));
-            }
+            record.setSn(genSn(record.getYear()));
             memberOutMapper.insertSelective(record);
         } else {
+            MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
+            if ((before.getCode() == null && record.getCode() == null) || (!before.getYear().equals(record.getYear()))) {
+                record.setSn(genSn(record.getYear()));
+            }
             memberOutMapper.updateByPrimaryKeySelective(record);
         }
 
@@ -372,6 +373,12 @@ public class MemberOutService extends MemberBaseMapper {
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             iMemberMapper.updateToDirectBranch("ow_member_out", "id", record.getId(), record.getPartyId());
+        }
+        if (record.getYear() != null) {
+            MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
+            if ((before.getCode() == null && record.getCode() == null) || (!before.getYear().equals(record.getYear()))) {
+                record.setSn(genSn(record.getYear()));
+            }
         }
 
         memberOutMapper.updateByPrimaryKeySelective(record);

@@ -265,4 +265,12 @@ public class PartyMemberGroupService extends BaseMapper {
 
         return (int) partyMemberGroupMapper.countByExample(example);
     }
+
+    @Transactional
+    public void batchDelPgb(Integer[] ids) {
+
+        PartyMemberGroupExample example = new PartyMemberGroupExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        partyMemberGroupMapper.deleteByExample(example);
+    }
 }

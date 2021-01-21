@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
-<c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
-<c:set value="${_pMap['memberOutNeedOwCheck']=='true'}" var="_p_memberOutNeedOwCheck"/>
-<c:set value="${_pMap['use_code_as_identify']=='true'}" var="_use_code_as_identify"/>
-
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -406,10 +402,10 @@
         url: '${ctx}/memberOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${_use_code_as_identify}">
-                {label: '编号', name: 'user.code', width: 120, frozen:true},
+                {label: '介绍信编号', name: 'user.code', width: 120, frozen:true},
             </c:if>
             <c:if test="${!_use_code_as_identify}">
-                {label: '编号', name: 'code', width: 120, frozen:true},
+                {label: '介绍信编号', name: 'code', width: 120, frozen:true},
             </c:if>
             {label: '学工号', name: 'user.code', width: 120, frozen:true},
             { label: '姓名', name: 'user.realname',width: 75, formatter:function(cellvalue, options, rowObject){

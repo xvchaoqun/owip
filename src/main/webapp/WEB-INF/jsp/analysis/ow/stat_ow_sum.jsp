@@ -96,7 +96,7 @@
                         <td class=xl74 width=101 style='border-top:none;border-left:none;width:76pt'>${cm:getMetaTypeByCode('mt_bs_graduate').name}</td>
                     </tr>
                     <tr class=xl66 height=33 style='mso-height-source:userset;height:24.95pt'>
-                        <td height=33 class=xl73 style='height:24.95pt;border-top:none'></td>
+                        <td height=33 class=xl73 style='height:24.95pt;border-top:none'>${pgbCount}</td>
                         <td class=xl70 style='border-top:none;border-left:none'>${branchTotalCount}</td>
                         <td class=xl77 style='border-top:none'>${professionalCount+supportCount}</td>
                         <td class=xl78 style='border-top:none;border-left:none'>${professionalCount}</td>

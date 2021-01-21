@@ -25,7 +25,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.PUT;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.*;
@@ -192,7 +191,7 @@ public class MemberOutReportController extends MemberBaseController {
         if (CmTag.getBoolProperty("use_code_as_identify")){
             map.put("code", userBean.getCode());
         }else {
-            map.put("code", memberOut.getCode()==null?"":memberOut.getCode());
+            map.put("code", StringUtils.trimToEmpty(memberOut.getCode()));
         }
         Date handleTime = memberOut.getHandleTime();
 

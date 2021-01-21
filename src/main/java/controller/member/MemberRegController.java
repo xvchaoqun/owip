@@ -50,8 +50,8 @@ public class MemberRegController extends MemberBaseController {
         return super.checkVerityAuth2(memberReg, memberReg.getPartyId());
     }
 
-    @RequestMapping(value = "/member_reg", method = RequestMethod.POST)
-    @ResponseBody
+    //@RequestMapping(value = "/member_reg", method = RequestMethod.POST)
+    //@ResponseBody
     public Map do_member_reg(String passwd, Byte type,
                              String realname, String idcard, String phone,
                              Integer party, String captcha, HttpServletRequest request) {
@@ -416,10 +416,16 @@ public class MemberRegController extends MemberBaseController {
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         Map<Integer, Party> partyMap = partyService.findAll();
-        Map<String, Party> runPartyMap = new HashMap<>();
+        Map<String, Party> runPartyNameMap = new HashMap<>();
         for (Party party : partyMap.values()) {
             if (BooleanUtils.isNotTrue(party.getIsDeleted())) {
-                runPartyMap.put(party.getCode(), party);
+                runPartyNameMap.put(party.getName(), party);
+            }
+        }
+        Map<String, Party> runPartyShortNameMap = new HashMap<>();
+        for (Party party : partyMap.values()) {
+            if (BooleanUtils.isNotTrue(party.getIsDeleted())) {
+                runPartyShortNameMap.put(party.getShortName(), party);
             }
         }
 
@@ -458,21 +464,19 @@ public class MemberRegController extends MemberBaseController {
             }
 
             String mobile = StringUtils.trimToNull(xlsRow.get(3));
-            /*if (StringUtils.isBlank(mobile)) {
-                throw new OpException("第{0}行手机号为空", mobile);
-            }
-            if (!CmTag.validMobile(mobile)) {
-                return failed("手机号码有误");
-            }*/
             record.setPhone(mobile);
 
-            String partyCode = StringUtils.trim(xlsRow.get(5));
-            if (StringUtils.isBlank(partyCode)) {
-                throw new OpException("第{0}行分党委编码为空", row);
+            String partyName = StringUtils.trim(xlsRow.get(4));
+            if (StringUtils.isBlank(partyName)) {
+                throw new OpException("第{0}行分党委名称为空", row);
             }
-            Party party = runPartyMap.get(partyCode);
+
+            Party party = runPartyNameMap.get(partyName);
             if (party == null) {
-                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+                party = runPartyShortNameMap.get(partyName);
+                if (party == null) {
+                    throw new OpException("第{0}行分党委[{1}]不存在", row, partyName);
+                }
             }
             record.setPartyId(party.getId());
 

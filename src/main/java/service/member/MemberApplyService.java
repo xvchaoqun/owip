@@ -887,30 +887,33 @@ public class MemberApplyService extends MemberBaseMapper {
 
     // 更换党组织
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
-    public void changeParty(int userId, int partyId, Integer branchId, String remark) {
+    public void changeParty(Integer[] ids, int partyId, Integer branchId, String remark) {
 
-        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(memberApply==null || memberApply.getStage()<OwConstants.OW_APPLY_STAGE_INIT
-            || memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW){
-            throw new OpException("原学工号错误或已不在党员发展库中(申请~领取志愿书阶段)。");
-        }
+        for (Integer userId : ids) {
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if (memberApply == null || memberApply.getStage() < OwConstants.OW_APPLY_STAGE_INIT
+                    || memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW) {
+                throw new OpException("原学工号错误或已不在党员发展库中(申请~领取志愿书阶段)。");
+            }
 
-        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),
-                memberApply.getPartyId(), memberApply.getBranchId())) {
+            if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),
+                    memberApply.getPartyId(), memberApply.getBranchId())) {
 
-            throw new UnauthorizedException();
-        }
+                throw new UnauthorizedException();
+            }
 
-        commonMapper.excuteSql("update ow_member_apply set party_id=" + partyId
-                + ", branch_id=" + branchId + " where user_id="+ userId);
+            commonMapper.excuteSql("update ow_member_apply set party_id=" + partyId
+                    + ", branch_id=" + branchId + " where user_id=" + userId);
 
-        applyApprovalLogService.add(userId,
+            applyApprovalLogService.add(userId,
                     partyId, branchId, userId,
                     ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "更换党组织",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     remark);
+
+            CmTag.clearCache("MemberApply", userId+"");
+        }
     }
 }

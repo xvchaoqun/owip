@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.sys.SysUserInfoMapper;
 import service.sys.SysUserService;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -120,7 +121,9 @@ public abstract class ICommonService {
             }
 
             // 性别不覆盖
-            if(sysSync.gender && sysUserInfo.getGender()!=null){
+            if(sysSync.gender && sysUserInfo.getGender()!=null
+                && SystemConstants.GENDER_MAP.containsKey(sysUserInfo.getGender())){
+
                 ui.setGender(null);
             }
             // 出生年月

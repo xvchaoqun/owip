@@ -1,29 +1,39 @@
 package controller.analysis;
 
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.party.Branch;
+import domain.party.BranchExample;
 import domain.party.Party;
 import domain.party.PartyExample;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import persistence.member.common.MemberStatByBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.NumberUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
-@RequiresPermissions("stat:party")
 public class StatPartyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,12 +43,14 @@ public class StatPartyController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_page")
-    public String stat_party_page(ModelMap modelMap, Integer partyId) {
+    public String stat_party_page(Integer partyId, ModelMap modelMap) {
 
         int userId = ShiroHelper.getCurrentUserId();
         if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && partyId == null) {
             PartyExample example = new PartyExample();
+            example.createCriteria().andFidIsNull();
             example.setOrderByClause("sort_order desc");
             List<Party> parties = partyMapper.selectByExample(example);
             if (parties != null && parties.size() > 0)
@@ -50,6 +62,9 @@ public class StatPartyController extends BaseController {
                 partyId = partyIds.get(0);
             }
         }
+        if (partyId == null)
+            throw new UnauthorizedException();
+
         modelMap.put("partyId", partyId);
 
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -58,7 +73,10 @@ public class StatPartyController extends BaseController {
 
         if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             for (Integer _partyId : partyMap.keySet()) {
-                parties.add(partyMap.get(_partyId));
+                //跳过内设党总支
+                if (partyMap.get(_partyId).getFid() == null) {
+                    parties.add(partyMap.get(_partyId));
+                }
             }
             modelMap.put("parties", parties);
             modelMap.put("checkParty", partyMap.get(partyId));
@@ -75,94 +93,284 @@ public class StatPartyController extends BaseController {
     }
 
     // 党员数量统计
+    @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_count")
-    public String stat_member_count(Integer type, Integer partyId, Integer branchId, ModelMap modelMap) {
+    public String stat_party_member_count(Integer type, int partyId, Integer branchId, ModelMap modelMap) {
 
-        if (partyId != null) {
-            if (type != null) {
-                modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
-            }
-
-            modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-            modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
-            modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
+        PartyHelper.checkAuth(partyId);
+        if (type != null) {
+            modelMap.put("type", type);
+            modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
         }
 
+        modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
+        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
+        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
         modelMap.put("isPartyAdmin", true);
-        modelMap.put("type", type);
         modelMap.put("partyId", partyId);
+
         return "analysis/ow/stat_member_count";
     }
 
     // 党员年龄结构统计
+    @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_age")
-    public String stat_member_age(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
+    public String stat_party_member_age(Byte type, int partyId, Integer branchId, ModelMap modelMap) {
 
-        if (partyId != null) {
-            modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
-        }
-
+        PartyHelper.checkAuth(partyId);
+        modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
         modelMap.put("isPartyAdmin", true);
         modelMap.put("type", type);
         modelMap.put("partyId", partyId);
+
         return "analysis/ow/stat_member_age";
     }
 
     // 发展党员统计
+    @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_apply")
-    public String stat_member_apply(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
+    public String stat_party_member_apply(Byte type, int partyId, Integer branchId, ModelMap modelMap) {
 
-        if (partyId != null) {
-            modelMap.put("statApplyMap", statService.applyMap(type, partyId, branchId));
-        }
-
+        PartyHelper.checkAuth(partyId);
+        modelMap.put("statApplyMap", statService.applyMap(type, partyId, branchId));
         modelMap.put("type", type);
+
         return "analysis/ow/stat_member_apply";
     }
 
-    // 二级党委党员数量分布情况
+    // 支部党员数量分布情况
+    @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_party")
-    public String stat_member_party(ModelMap modelMap, Integer partyId) {
+    public String stat_party_member_party(int partyId, ModelMap modelMap) {
 
-        if (partyId != null) {
-            List<String> categories = new ArrayList<>();
-            List<Integer> teachers = new ArrayList<>();
-            List<Integer> students = new ArrayList<>();
+        PartyHelper.checkAuth(partyId);
 
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            List<MemberStatByBranchBean> memberStatByPartyBeans = statService.branchMap(partyId);
-            for (MemberStatByBranchBean bean : memberStatByPartyBeans) {
-                Branch branch = branchMap.get(bean.getBranchId());
-                if (branch != null) {
-                    categories.add(StringUtils.defaultIfBlank(branch.getShortName(), branch.getName()));
-                } else {
-                    if (PartyHelper.isDirectBranch(partyId)){
-                        Party party = partyMapper.selectByPrimaryKey(partyId);
-                        categories.add(StringUtils.isBlank(party.getShortName())?party.getName():party.getShortName());
-                    }else {
-                        categories.add("支部不存在");
-                    }
+        List<String> categories = new ArrayList<>();
+        List<Integer> teachers = new ArrayList<>();
+        List<Integer> students = new ArrayList<>();
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        List<MemberStatByBranchBean> memberStatByPartyBeans = statService.branchMap(partyId);
+        for (MemberStatByBranchBean bean : memberStatByPartyBeans) {
+            Branch branch = branchMap.get(bean.getBranchId());
+            if (branch != null) {
+                categories.add(StringUtils.defaultIfBlank(branch.getShortName(), branch.getName()));
+            } else {
+                if (PartyHelper.isDirectBranch(partyId)){
+                    Party party = partyMapper.selectByPrimaryKey(partyId);
+                    categories.add(StringUtils.isBlank(party.getShortName())?party.getName():party.getShortName());
+                }else {
+                    categories.add("支部不存在");
                 }
-                teachers.add(bean.getTeacher());
-                students.add(bean.getStudent());
             }
-
-            modelMap.put("categories", categories);
-            modelMap.put("teachers", teachers);
-            modelMap.put("students", students);
+            teachers.add(bean.getTeacher());
+            students.add(bean.getStudent());
         }
+
+        modelMap.put("categories", categories);
+        modelMap.put("teachers", teachers);
+        modelMap.put("students", students);
 
         return "analysis/ow/stat_member_party";
     }
 
     //支部类型统计
+    @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_branch_type")
-    public String stat_branch_type(ModelMap modelMap, Integer partyId) {
+    public String stat_party_branch_type(int partyId, ModelMap modelMap) {
 
-        if (partyId != null) {
-            modelMap.put("metaTypes", CmTag.getMetaTypes("mc_branch_type"));
-            modelMap.put("branchTypeMap", statService.branchTypeMap(partyId));
-        }
+        PartyHelper.checkAuth(partyId);
+
+        modelMap.put("metaTypes", CmTag.getMetaTypes("mc_branch_type"));
+        modelMap.put("branchTypeMap", statService.branchTypeMap(partyId));
+
         return "analysis/ow/stat_branch_type";
+    }
+
+    //党员每月转入转出统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_member_inout")
+    public String stat_party_member_inout(int partyId, ModelMap modelMap) throws ParseException {
+
+        PartyHelper.checkAuth(partyId);
+        Date now = new Date();
+
+        Set<String> months = new TreeSet<>();
+        months = statService.getMonthBetween(statService.getOtherYear(now, -2), DateUtils.formatDate(now, "yyyy-MM"));
+        Map<String, Integer> countMemberIn = new TreeMap<>();
+        Map<String, Integer> countMemberOut = new TreeMap<>();
+        for (String month : months) {
+
+            countMemberIn.put(month, iMemberMapper.countMemberIn(month, partyId));
+            countMemberOut.put(month, iMemberMapper.countMemberOut(month, partyId));
+        }
+
+        modelMap.put("months", months);
+        modelMap.put("countMemberIn", countMemberIn);
+        modelMap.put("countMemberOut", countMemberOut);
+
+        return "analysis/ow/stat_member_inout";
+    }
+
+    // 二级党委年统数据
+    @RequiresPermissions("stat:partySum")
+    @RequestMapping("/stat/partySum")
+    public String stat_party_sum(Integer partyId,
+                                 @RequestParam(required = false, defaultValue = "0") Integer export,
+                                 ModelMap modelMap,
+                                 HttpServletResponse response) throws IOException {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
+        List<Party> parties = new ArrayList<>();
+
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            for (Integer _partyId : partyMap.keySet()) {
+                if (partyMap.get(_partyId).getFid() == null) {
+                    parties.add(partyMap.get(_partyId));
+                }
+            }
+        }else if (partyIds.size() > 0) {
+            for (Integer _partyId : partyIds) {
+                parties.add(partyMap.get(_partyId));
+            }
+        }else {
+            throw new UnauthorizedException();
+        }
+        if (partyId == null && parties != null && parties.size() >0)
+            partyId = parties.get(0).getId();
+        Party checkParty = parties.get(0);
+        modelMap.put("parties", parties);
+        modelMap.put("checkParty", checkParty);
+
+        if (partyId!=null) {
+            checkParty = partyMap.get(partyId);
+            modelMap.put("checkParty", checkParty);
+
+            //内设党总支
+            int pgbCount = 0;
+            if (CmTag.getBoolProperty("use_inside_pgb")){
+                pgbCount = statMemberMapper.getPgbCount(checkParty.getId());
+            }
+            modelMap.put("pgbCount", pgbCount);
+
+            //专任教师党支部
+            Integer professionalCount = null;
+            MetaType mtProfessionalTeacher = CmTag.getMetaTypeByCode("mt_professional_teacher");
+            if (mtProfessionalTeacher != null) {
+                professionalCount = statMemberMapper.getBCByPartyId(mtProfessionalTeacher.getId(), partyId);
+                modelMap.put("professionalCount", professionalCount);
+            }
+
+            //机关行政产业后勤教工党支部
+            Integer supportCount = null;
+            MetaType mtSupportTeacher = CmTag.getMetaTypeByCode("mt_support_teacher");
+            if (mtSupportTeacher != null) {
+                supportCount = statMemberMapper.getBCByPartyId(mtSupportTeacher.getId(), partyId);
+                modelMap.put("supportCount", supportCount);
+            }
+
+            //离退休党支部总数
+            Integer retireCount = null;
+            MetaType mtRetire = CmTag.getMetaTypeByCode("mt_retire");
+            if (mtSupportTeacher != null) {
+                retireCount = statMemberMapper.getBCByPartyId(mtRetire.getId(), partyId);
+                modelMap.put("retireCount", retireCount);
+            }
+
+            //本科生辅导员纵向党支部
+            Integer undergraduateCount = null;
+            MetaType mtUndergraduateAssistant = CmTag.getMetaTypeByCode("mt_undergraduate_assistant");
+            if (mtUndergraduateAssistant != null) {
+                undergraduateCount = statMemberMapper.getBCByPartyId(mtUndergraduateAssistant.getId(), partyId);
+                modelMap.put("undergraduateCount", undergraduateCount);
+            }
+            //研究生导师纵向党支部
+            Integer graduateCount = null;
+            MetaType mtGraduateTeacher = CmTag.getMetaTypeByCode("mt_graduate_teacher");
+            if (mtGraduateTeacher != null) {
+                graduateCount = statMemberMapper.getBCByPartyId(mtGraduateTeacher.getId(), partyId);
+                modelMap.put("graduateCount", graduateCount);
+            }
+            //硕士生党支部
+            Integer ssCount = null;
+            MetaType mtSsGraduate = CmTag.getMetaTypeByCode("mt_ss_graduate");
+            if (mtSsGraduate != null) {
+                ssCount = statMemberMapper.getBCByPartyId(mtSsGraduate.getId(), partyId);
+                modelMap.put("ssCount", ssCount);
+            }
+            //硕博研究生党支部
+            Integer sbCount = null;
+            MetaType mtSbGraduate = CmTag.getMetaTypeByCode("mt_sb_graduate");
+            if (mtSbGraduate != null) {
+                sbCount = statMemberMapper.getBCByPartyId(mtSbGraduate.getId(), partyId);
+                modelMap.put("sbCount", sbCount);
+            }
+            //博士生党支部
+            Integer bsCount = null;
+            MetaType mtBsGraduate = CmTag.getMetaTypeByCode("mt_bs_graduate");
+            if (mtBsGraduate != null) {
+                bsCount = statMemberMapper.getBCByPartyId(mtBsGraduate.getId(), partyId);
+                modelMap.put("bsCount", bsCount);
+            }
+
+            Integer branchTotalCount = NumberUtils.trimToZero(professionalCount)
+                    + NumberUtils.trimToZero(supportCount)
+                    + NumberUtils.trimToZero(retireCount)
+                    + NumberUtils.trimToZero(undergraduateCount)
+                    + NumberUtils.trimToZero(graduateCount)
+                    + NumberUtils.trimToZero(ssCount)
+                    + NumberUtils.trimToZero(sbCount)
+                    + NumberUtils.trimToZero(bsCount);
+
+            modelMap.put("branchTotalCount", branchTotalCount);
+
+            BranchExample branchExample = new BranchExample();
+            BranchExample.Criteria criteria = branchExample.createCriteria().andIsDeletedEqualTo(false);
+
+            Set<String> typesSet = new HashSet<>();
+            if (mtProfessionalTeacher != null) {
+                typesSet.add(mtProfessionalTeacher.getId() + "");
+                criteria.andTypesContain(typesSet);
+            }
+
+            List<Branch> branchList = branchMapper.selectByExample(branchExample);
+            List<Integer> branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
+
+            //师生党员总数
+            modelMap.put("totalCount", statMemberMapper.getMemberCount(null, null, null, null, null, null, null, partyId));
+            //教工党员总数
+            modelMap.put("teacherCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, false, null, null, null, null, partyId));
+            //正高级
+            modelMap.put("chiefCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, false, "正高", branchIdList, null, null, partyId));
+            //副高级
+            modelMap.put("deputyCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, "副高", branchIdList, null, null, partyId));
+            //中级及以下
+            modelMap.put("middleCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, null, branchIdList, "正高", "副高", partyId));
+            //离退休教工党员总数
+            modelMap.put("retireTeacherCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, true, null, null, null, null, partyId));
+            //本科生党员
+            int bksStuCount = statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BKS, null, null, null, null, null, partyId);
+            modelMap.put("bksStuCount", bksStuCount);
+
+            int stuCount = statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, null, null, null, null, null, null, partyId);
+            int bsStuCount = statMemberMapper.getPartyBsMemberCount(partyId);
+            //硕士生党员
+            modelMap.put("ssStuCount", stuCount - bsStuCount - bksStuCount);
+            //博士生党员
+            modelMap.put("bsStuCount", bsStuCount);
+        }
+
+        if (export == 1) {
+
+            XSSFWorkbook wb = statService.partyToXlsx(modelMap, partyId);
+
+            String fileName = sysConfigService.getSchoolName() + checkParty.getName()
+                    + "信息总表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+            ExportHelper.output(wb, fileName + ".xlsx", response);
+            return null;
+        }
+        return "analysis/ow/stat_ow_sum";
     }
 }

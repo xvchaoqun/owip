@@ -86,7 +86,7 @@
 
                 <div class="widget-body">
                     <div class="widget-main padding-4">
-                        <c:import url="/stat_member_inout?partyId=${partyId}"/>
+                        <c:import url="/stat_party_member_inout?partyId=${partyId}"/>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
             </div><!-- /.widget-box -->

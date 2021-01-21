@@ -394,6 +394,11 @@ public class CmTag {
         cacheHelper.clearCadreCache(getCadreId(userId));
     }
 
+    public static void clearCache(String name, String key){
+
+        cacheHelper.clearCache(name, key);
+    }
+
     // 获取数据库干部表中的实体（也包含报名人员等非干部）
     public static CadreView getCadreByDb(Integer id) {
 

@@ -31,10 +31,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PmdOrderService extends PmdBaseMapper {
@@ -268,17 +265,17 @@ public class PmdOrderService extends PmdBaseMapper {
         
         // 检查一下是否有批量代缴的记录，如果存在且成功支付，则不允许支付, 如果没有成功支付，则关闭订单
         {
-            List<String> toClosedSnList = new ArrayList<>();
+            Set<String> toClosedSnSet = new HashSet<>();
             List<PmdOrder> pmdOrders = iPmdMapper.notClosedBatchOrder(pmdMemberId);
             for (PmdOrder pmdOrder : pmdOrders) {
                 String sn = pmdOrder.getSn();
                 if (pmdOrder.getIsSuccess()) {
                     throw new OpException("当前缴费记录已批量缴费成功，缴费订单号：{0}, 请勿重复支付。", sn);
                 } else {
-                    toClosedSnList.add(sn);
+                    toClosedSnSet.add(sn);
                 }
             }
-            for (String sn : toClosedSnList) {
+            for (String sn : toClosedSnSet) {
                 try {
                     closeTrade(sn);
                 } catch (IOException e) {
@@ -387,9 +384,14 @@ public class PmdOrderService extends PmdBaseMapper {
                     .andUserIdEqualTo(currentUserId).andIsBatchEqualTo(true)
                     .andIsSuccessEqualTo(false).andIsClosedEqualTo(false);
             List<PmdOrder> pmdOrders = pmdOrderMapper.selectByExample(example);
+
+            Set<String> snSet = new HashSet<>();
             for (PmdOrder pmdOrder : pmdOrders) {
-                
                 String sn = pmdOrder.getSn();
+                snSet.add(sn);
+            }
+
+            for (String sn : snSet) {
                 try {
                     closeTrade(sn);
                 } catch (IOException e) {
@@ -457,8 +459,8 @@ public class PmdOrderService extends PmdBaseMapper {
             
             duePay = duePay.add(pmdMember.getDuePay());
             
-            //TO DO: 有重复检测出现
-            checkPayStatus(pmdMemberId, null);
+            //TO DO: 有重复检测出现，接口响应太慢此处不适合检测
+            //checkPayStatus(pmdMemberId, null);
             
             PmdOrderItem _pmdOrderItem = new PmdOrderItem();
             _pmdOrderItem.setSn(orderNo);

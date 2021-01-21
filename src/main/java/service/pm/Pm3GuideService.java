@@ -144,7 +144,7 @@ public class Pm3GuideService extends PmBaseMapper {
 
             OwAdmin owAdmin = new OwAdmin();
             owAdmin.setBranchId(branch.getId());
-            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+            List<OwAdmin> owAdmins = iPartyMapper.selectBranchAdminList(owAdmin, new RowBounds());
             if (owAdmins != null && owAdmins.size() > 0) {
                 Set<String> codes = owAdmins.stream().map(OwAdmin::getCode).collect(Collectors.toSet());
                 Set<String> realnames = owAdmins.stream().map(OwAdmin::getRealname).collect(Collectors.toSet());

@@ -26,8 +26,20 @@
 			<form class="form-horizontal" action="${ctx}/user/memberOut_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
 				<input type="hidden" name="id" value="${memberOut.id}">
 				<div class="row">
-
 					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="col-xs-5 control-label"><span class="star">*</span>所属年份</label>
+							<div class="col-xs-6">
+								<div class="input-group date"
+									 data-date-format="yyyy" data-date-min-view-mode="2"
+									 style="width: 100px;">
+									<input required autocomplete="off" class="form-control" placeholder="请选择年份"
+										   name="year" type="text"
+										   value="${empty memberOut.year?_thisYear:memberOut.year}"/>
+									<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+								</div>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-xs-5 control-label"><span class="star">*</span>党员本人联系电话</label>
 							<div class="col-xs-7">
@@ -146,6 +158,7 @@
 </div>
 <script>
 	$('textarea.limited').inputlimiter({limit:50});
+	$.register.date($('.input-group.date'));
 	$.register.date($('.date-picker'));
 	$("#submitBtn").click(function(){
 		var $btn = $(this).button('loading');

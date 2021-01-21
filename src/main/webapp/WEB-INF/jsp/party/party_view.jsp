@@ -14,7 +14,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" data-target="#party-content">
                 <li class="active">
-                    <a href="javascript:;" data-url="${ctx}/party_base?id=${param.id}">基本信息</a>
+                    <a href="javascript:;" data-url="${ctx}/party_base?id=${param.id}&type=${type}">基本信息</a>
                 </li>
                 <shiro:hasPermission name="partyReward:list">
                 <li>
@@ -27,7 +27,7 @@
                 </li>
                 </shiro:hasPermission>
                 <li>
-                    <a href="javascript:;" data-url="${ctx}/partyMemberGroup_view?partyId=${param.id}">${_p_partyName}领导班子</a>
+                    <a href="javascript:;" data-url="${ctx}/partyMemberGroup_view?partyId=${param.id}&type=${type}">${type==1?"内设党总支":_p_partyName}领导班子</a>
                 </li>
             </ul>
         </div>
