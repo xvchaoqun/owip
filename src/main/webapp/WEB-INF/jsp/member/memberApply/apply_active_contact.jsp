@@ -126,9 +126,10 @@ pageEncoding="UTF-8"%>
                         /*goto_next("${param.gotoNext}", function(){
 
                         });*/
-                        $("label.contactUsers").html(ret.contactUsers)
-                        $("#modalForm input[name=contactUsers]").val(ret.contactUsers)
-                        $("#modalForm input[name=contactUserIds]").val(ret.contactUserIds)
+                        $("label.contactUsers").html(ret.contactUsers);
+                        $("#applyAuForm input[name=contactUsers]").val(ret.contactUsers);
+                        $("#applyAuForm input[name=contactUserIds]").val(ret.contactUserIds);
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

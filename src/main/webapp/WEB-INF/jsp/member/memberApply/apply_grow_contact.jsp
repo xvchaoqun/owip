@@ -124,10 +124,11 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         goto_next("${param.gotoNext}", function(){
-                            $("label.growContactUsers").html(ret.growContactUsers)
-                            $("#modalForm input[name=growContactUsers]").val(ret.growContactUsers)
-                            $("#modalForm input[name=growContactUserIds]").val(ret.growContactUserIds)
+                            $("label.growContactUsers").html(ret.growContactUsers);
+                            $("#applyAuForm input[name=growContactUsers]").val(ret.growContactUsers);
+                            $("#applyAuForm input[name=growContactUserIds]").val(ret.growContactUserIds);
                         });
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }
