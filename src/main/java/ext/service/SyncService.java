@@ -29,7 +29,11 @@ import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class SyncService extends BaseMapper {
@@ -250,7 +254,7 @@ public class SyncService extends BaseMapper {
             }
 
             // 同步教职工信息
-            snycTeacherInfo(sysUser.getId(), sysUser);
+            snycTeacherInfo(sysUser.getId(), code);
         } catch (Exception ex) {
             logger.error("同步出错", ex);
         }
@@ -386,7 +390,7 @@ public class SyncService extends BaseMapper {
             }
 
             // 同步学生信息
-            snycStudent(sysUser.getId(), sysUser);
+            snycStudent(sysUser.getId(), code, record.getType());
         } catch (Exception ex) {
             logger.error("同步出错", ex);
         }
@@ -493,7 +497,6 @@ public class SyncService extends BaseMapper {
         record.setUsername(code);
         record.setCode(code);
         record.setType(SystemConstants.USER_TYPE_BKS);
-
         record.setSource(SystemConstants.USER_SOURCE_BKS);
         record.setLocked(false);
 
@@ -524,7 +527,7 @@ public class SyncService extends BaseMapper {
             }
 
             // 同步学生信息
-            snycStudent(sysUser.getId(), sysUser);
+            snycStudent(sysUser.getId(), code, record.getType());
         } catch (Exception ex) {
             logger.error("同步出错", ex);
         }
@@ -624,13 +627,14 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步教职工信息
-    public void snycTeacherInfo(int userId, SysUserView uv) {
+    public void snycTeacherInfo(int userId, String code) {
 
+        SysUserView uv = CmTag.getUserByCode(code);
         if(!uv.isCasUser()) return;
 
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
 
-        String code = uv.getCode();
+        //String code = uv.getCode();
         // 教工信息
         TeacherInfo record = new TeacherInfo();
         record.setUserId(userId);
@@ -750,17 +754,16 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步学生党员信息
-    public void snycStudent(int userId, SysUserView uv) {
+    public void snycStudent(int userId, String code, byte userType) {
 
+        SysUserView uv = CmTag.getUserByCode(code);
         if(!uv.isCasUser()) return;
 
         StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
 
-        String code = uv.getCode();
         StudentInfo record = new StudentInfo();
         record.setUserId(userId);
         record.setCreateTime(new Date());
-        byte userType = uv.getType();
 
         if (userType == SystemConstants.USER_TYPE_BKS) {  // 同步本科生信息
 
@@ -862,5 +865,70 @@ public class SyncService extends BaseMapper {
             studentInfoMapper.insertSelective(record);
         else
             studentInfoMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //计算所在年级和是否毕业年级
+    public Map<Integer, Boolean> updateGrade(String enrolYear, String period){
+
+        if (StringUtils.isNotBlank(enrolYear) && StringUtils.isNotBlank(period)) {
+            String[] periods1 = {"2.5"};
+            String[] periods2 = {"1","2","3","4","5"};
+            Map<Integer, Boolean> gradeMap = new HashMap<>();
+            Integer _enrolYear = Integer.valueOf(enrolYear);
+            float _period = 0;
+            for (String str : periods1) {
+                if (StringUtils.contains(period, period)) {
+                    _period = Float.parseFloat(str);
+                }
+            }
+            if (_period == 0){
+                for (String str : periods2) {
+                    if (StringUtils.contains(period, period)) {
+                        _period = Float.parseFloat(str);
+                    }
+                }
+            }
+            if (_period != 0){
+
+                Integer graduateYear = (int) _period + _enrolYear;//毕业年份  2014级的，2015年毕业，但是所在年级为2014级
+                Date now = new Date();
+                Integer year = DateUtils.getYear(now);
+                if (_period == 2.5){
+                    int com = Integer.compare(year, graduateYear);
+                    if (com == -1){
+                        if (DateUtils.compareDate(now, DateUtils.parseStringToDate(year + ".7.1"))){
+                            gradeMap.put(year, false);
+                        }else {
+                            gradeMap.put(year - 1, false);
+                        }
+                    }else if(com == 0){
+                        if (DateUtils.compareDate(now, DateUtils.parseStringToDate(year + ".7.1"))){
+                            gradeMap.put(year, true);
+                        }else {
+                            gradeMap.put(year - 1, false);
+                        }
+                    }else if (com == 1){
+                        gradeMap.put(graduateYear, true);
+                    }
+                }else {
+                    int com = Integer.compare(year, graduateYear);
+                    if (com == -1){
+                        if (DateUtils.compareDate(now, DateUtils.parseStringToDate(year + ".7.1"))){
+                            gradeMap.put(year , false);
+                        }else {
+                            gradeMap.put(year - 1, false);
+                        }
+                    }else if (com == 0){
+                        gradeMap.put(year - 1, true);
+                    }else if (com == 1){
+                        gradeMap.put(graduateYear - 1, true);
+                    }
+                }
+
+                return gradeMap;
+            }
+        }
+
+        return null;
     }
 }

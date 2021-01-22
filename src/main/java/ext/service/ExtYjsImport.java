@@ -4,17 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ext.domain.ExtYjs;
 import ext.domain.ExtYjsExample;
+import ext.persistence.ExtYjsMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ext.persistence.ExtYjsMapper;
 import sys.utils.JSONUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+
 @Service
 public class ExtYjsImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -31,11 +32,11 @@ public class ExtYjsImport extends Source {
 
     public void excute(Integer syncId) {
 
-        logger.info("更新研究生账号库基本信息");
+        logger.info("开始更新研究生账号库基本信息");
         long startTime=System.currentTimeMillis();
         excute(schema, tableName, "order by xh", syncId);
         long endTime=System.currentTimeMillis();
-        logger.info("更新研究生账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
+        logger.info("研究生账号库更新完成，更新研究生账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
     }
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {

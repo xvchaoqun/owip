@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.member.MemberHistoryMapper">
+  <resultMap id="BaseResultMap" type="domain.member.MemberHistory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="type" jdbcType="BOOLEAN" property="type" />
+    <result column="gender" jdbcType="BOOLEAN" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="political_status" jdbcType="BOOLEAN" property="politicalStatus" />
+    <result column="transfer_time" jdbcType="DATE" property="transferTime" />
+    <result column="apply_time" jdbcType="DATE" property="applyTime" />
+    <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
+    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="positive_time" jdbcType="DATE" property="positiveTime" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="remark1" jdbcType="VARCHAR" property="remark1" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="remark3" jdbcType="VARCHAR" property="remark3" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, code, realname, id_card, type, gender, nation, native_place, birth, 
+    party_name, branch_name, political_status, transfer_time, apply_time, active_time, 
+    candidate_time, sponsor, grow_time, positive_time, pro_post, phone, email, remark1, 
+    remark2, remark3
+  </sql>
+  <select id="selectByExample" parameterType="domain.member.MemberHistoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ow_member_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ow_member_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.member.MemberHistoryExample">
+    delete from ow_member_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.member.MemberHistory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ow_member_history (user_id, code, realname, 
+      id_card, type, gender, 
+      nation, native_place, birth, 
+      party_name, branch_name, political_status, 
+      transfer_time, apply_time, active_time, 
+      candidate_time, sponsor, grow_time, 
+      positive_time, pro_post, phone, 
+      email, remark1, remark2, 
+      remark3)
+    values (#{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{idCard,jdbcType=VARCHAR}, #{type,jdbcType=BOOLEAN}, #{gender,jdbcType=BOOLEAN}, 
+      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
+      #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=BOOLEAN}, 
+      #{transferTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
+      #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
+      #{positiveTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, 
+      #{remark3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.member.MemberHistory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ow_member_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="nativePlace != null">
+        native_place,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="partyName != null">
+        party_name,
+      </if>
+      <if test="branchName != null">
+        branch_name,
+      </if>
+      <if test="politicalStatus != null">
+        political_status,
+      </if>
+      <if test="transferTime != null">
+        transfer_time,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="activeTime != null">
+        active_time,
+      </if>
+      <if test="candidateTime != null">
+        candidate_time,
+      </if>
+      <if test="sponsor != null">
+        sponsor,
+      </if>
+      <if test="growTime != null">
+        grow_time,
+      </if>
+      <if test="positiveTime != null">
+        positive_time,
+      </if>
+      <if test="proPost != null">
+        pro_post,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="remark1 != null">
+        remark1,
+      </if>
+      <if test="remark2 != null">
+        remark2,
+      </if>
+      <if test="remark3 != null">
+        remark3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BOOLEAN},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BOOLEAN},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null">
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="partyName != null">
+        #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null">
+        #{politicalStatus,jdbcType=BOOLEAN},
+      </if>
+      <if test="transferTime != null">
+        #{transferTime,jdbcType=DATE},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null">
+        #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="sponsor != null">
+        #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="positiveTime != null">
+        #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="proPost != null">
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null">
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="remark3 != null">
+        #{remark3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.member.MemberHistoryExample" resultType="java.lang.Long">
+    select count(*) from ow_member_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ow_member_history
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=BOOLEAN},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=BOOLEAN},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nativePlace != null">
+        native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.partyName != null">
+        party_name = #{record.partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.branchName != null">
+        branch_name = #{record.branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.politicalStatus != null">
+        political_status = #{record.politicalStatus,jdbcType=BOOLEAN},
+      </if>
+      <if test="record.transferTime != null">
+        transfer_time = #{record.transferTime,jdbcType=DATE},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=DATE},
+      </if>
+      <if test="record.activeTime != null">
+        active_time = #{record.activeTime,jdbcType=DATE},
+      </if>
+      <if test="record.candidateTime != null">
+        candidate_time = #{record.candidateTime,jdbcType=DATE},
+      </if>
+      <if test="record.sponsor != null">
+        sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.positiveTime != null">
+        positive_time = #{record.positiveTime,jdbcType=DATE},
+      </if>
+      <if test="record.proPost != null">
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark1 != null">
+        remark1 = #{record.remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark2 != null">
+        remark2 = #{record.remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark3 != null">
+        remark3 = #{record.remark3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ow_member_history
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=BOOLEAN},
+      gender = #{record.gender,jdbcType=BOOLEAN},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      birth = #{record.birth,jdbcType=DATE},
+      party_name = #{record.partyName,jdbcType=VARCHAR},
+      branch_name = #{record.branchName,jdbcType=VARCHAR},
+      political_status = #{record.politicalStatus,jdbcType=BOOLEAN},
+      transfer_time = #{record.transferTime,jdbcType=DATE},
+      apply_time = #{record.applyTime,jdbcType=DATE},
+      active_time = #{record.activeTime,jdbcType=DATE},
+      candidate_time = #{record.candidateTime,jdbcType=DATE},
+      sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      positive_time = #{record.positiveTime,jdbcType=DATE},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      remark1 = #{record.remark1,jdbcType=VARCHAR},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      remark3 = #{record.remark3,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.member.MemberHistory">
+    update ow_member_history
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BOOLEAN},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=BOOLEAN},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null">
+        native_place = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="partyName != null">
+        party_name = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null">
+        political_status = #{politicalStatus,jdbcType=BOOLEAN},
+      </if>
+      <if test="transferTime != null">
+        transfer_time = #{transferTime,jdbcType=DATE},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null">
+        active_time = #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null">
+        candidate_time = #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="sponsor != null">
+        sponsor = #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null">
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="positiveTime != null">
+        positive_time = #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="proPost != null">
+        pro_post = #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null">
+        remark1 = #{remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        remark2 = #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="remark3 != null">
+        remark3 = #{remark3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.member.MemberHistory">
+    update ow_member_history
+    set user_id = #{userId,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BOOLEAN},
+      gender = #{gender,jdbcType=BOOLEAN},
+      nation = #{nation,jdbcType=VARCHAR},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=DATE},
+      party_name = #{partyName,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR},
+      political_status = #{politicalStatus,jdbcType=BOOLEAN},
+      transfer_time = #{transferTime,jdbcType=DATE},
+      apply_time = #{applyTime,jdbcType=DATE},
+      active_time = #{activeTime,jdbcType=DATE},
+      candidate_time = #{candidateTime,jdbcType=DATE},
+      sponsor = #{sponsor,jdbcType=VARCHAR},
+      grow_time = #{growTime,jdbcType=DATE},
+      positive_time = #{positiveTime,jdbcType=DATE},
+      pro_post = #{proPost,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      remark1 = #{remark1,jdbcType=VARCHAR},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      remark3 = #{remark3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberHistoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_member_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

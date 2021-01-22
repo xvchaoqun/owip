@@ -14,6 +14,8 @@ public class MemberBaseMapper extends CoreBaseMapper {
      * 党建
      */
     @Autowired(required = false)
+    protected MemberHistoryMapper memberHistoryMapper;
+    @Autowired(required = false)
     protected MemberCertifyMapper memberCertifyMapper;
     @Autowired(required = false)
     protected MemberReportMapper memberReportMapper;

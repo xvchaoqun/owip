@@ -7,6 +7,22 @@
   "resFolder": "",
   "tables": [
     {
+      "table": "pgb",
+      "key": "id",
+      "searchColumns": "code,name,unit_id,class_id,type_id,unit_type_id",
+      "showColumns": "fid,code,name,short_name,url,unit_id,class_id,type_id,unit_type_id,phone,email",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    },{
+      "table": "pgb_member_group",
+      "key": "id",
+      "searchColumns": "pgb_id,name",
+      "showColumns": "party_id, name, is_present,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    },{
       "table": "org_admin",
       "key": "id",
       "searchColumns": "user_id,party_id,brach_id",
@@ -134,7 +150,7 @@
       "showColumns": "status,year,party_id,report,eva_result,eva_file",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_MEMBER",
-      "ignore": false
+      "ignore": true
     }
   ]
 }
