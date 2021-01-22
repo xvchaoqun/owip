@@ -862,17 +862,19 @@ public class MemberController extends MemberBaseController {
                          String[] nation,
                          String[] nativePlace,
 
+                         Byte studentLevel,
                          // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
                          Integer cls,
                          ModelMap modelMap) {
 
+        modelMap.put("studentLevel", studentLevel);
         modelMap.put("cls", cls);
 
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(addPermits, adminPartyIdList, adminBranchIdList);
+        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(addPermits, adminPartyIdList, adminBranchIdList, studentLevel);
         if (memberStudentCount != null) {
             modelMap.putAll(memberStudentCount);
         }
@@ -996,6 +998,7 @@ public class MemberController extends MemberBaseController {
                             //@RequestDateRange DateRange _retireTime,
                             //Boolean isHonorRetire,
 
+                            Byte studentLevel,
                             String remark,
                             String remark1,
                             String remark2,
@@ -1210,6 +1213,9 @@ public class MemberController extends MemberBaseController {
         }
         if (StringUtils.isNotBlank(idcard)){
             criteria.andIdcardEqualTo(idcard.trim());
+        }
+        if (studentLevel != null){
+            criteria.andStudentLevelEqualTo(studentLevel);
         }
         if (StringUtils.isNotBlank(remark)){
             criteria.andRemarkLike(remark);

@@ -107,9 +107,9 @@
              <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
           </table>-->
-        <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
+        <table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
-       </table>-->
+       </table>
         <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -148,9 +148,9 @@
            <!--<table tableName="sys_scheduler_log" domainObjectName="sys.SchedulerLog"  mapperName="sys.SchedulerLogMapper">
            </table>-->
 
-        <table tableName="sys_msg" domainObjectName="sys.SysMsg" mapperName="sys.SysMsgMapper">
+        <!--<table tableName="sys_msg" domainObjectName="sys.SysMsg" mapperName="sys.SysMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

@@ -3,8 +3,8 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row" id="cartogram">
     <div style="display: inline-block;position: relative;" id="selectParty">
-        ${_p_partyName}：
         <c:if test="${(not empty parties && fn:length(parties)>1)||cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
+            ${_p_partyName}：
             <select data-rel="select2" name="party" data-width="350">
                 <c:forEach items="${parties}" var="party">
                     <option value="${party.id}">${party.name}</option>

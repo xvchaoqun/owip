@@ -104,8 +104,10 @@ public class StatPartyController extends BaseController {
         }
 
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
-        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
+        modelMap.put("isRetireGrowMap",statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, (byte) 1));
+        modelMap.put("isRetirePositiveMap",statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, (byte) 1));
+        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, null));
+        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, null));
         modelMap.put("isPartyAdmin", true);
         modelMap.put("partyId", partyId);
 

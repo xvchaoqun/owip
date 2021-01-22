@@ -15,6 +15,12 @@
 <c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
 <c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
 
+<c:set var="STUDENT_TYPE_MAP" value="<%=SystemConstants.STUDENT_TYPE_MAP%>"/>
+<c:set var="TEACHER_TYPE_JZG" value="<%=SystemConstants.TEACHER_TYPE_JZG%>"/>
+<c:set var="STUDENT_TYPE_BKS" value="<%=SystemConstants.STUDENT_TYPE_BKS%>"/>
+<c:set var="STUDENT_TYPE_SS" value="<%=SystemConstants.STUDENT_TYPE_SS%>"/>
+<c:set var="STUDENT_TYPE_BS" value="<%=SystemConstants.STUDENT_TYPE_BS%>"/>
+
 <c:set var="OW_APPLY_TYPE_TEACHER" value="<%=OwConstants.OW_APPLY_TYPE_TEACHER%>"/>
 <c:set var="OW_APPLY_TYPE_STU" value="<%=OwConstants.OW_APPLY_TYPE_STU%>"/>
 

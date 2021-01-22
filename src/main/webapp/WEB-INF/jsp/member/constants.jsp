@@ -47,3 +47,9 @@
 
 <c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
 <c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
+
+<c:set var="STUDENT_TYPE_MAP" value="<%=SystemConstants.STUDENT_TYPE_MAP%>"/>
+<c:set var="TEACHER_TYPE_JZG" value="<%=SystemConstants.TEACHER_TYPE_JZG%>"/>
+<c:set var="STUDENT_TYPE_BKS" value="<%=SystemConstants.STUDENT_TYPE_BKS%>"/>
+<c:set var="STUDENT_TYPE_SS" value="<%=SystemConstants.STUDENT_TYPE_SS%>"/>
+<c:set var="STUDENT_TYPE_BS" value="<%=SystemConstants.STUDENT_TYPE_BS%>"/>

@@ -214,6 +214,20 @@ public class SystemConstants {
         DEGREE_TYPE_MAP.put(DEGREE_TYPE_BS, "博士");
     }
 
+    // 学生分类，主要用来区分学生,1234为全局通用的 1 教职工 2本科生 3硕士 4博士
+    public final static byte TEACHER_TYPE_JZG = 1;
+    public final static byte STUDENT_TYPE_BKS = 2;
+    public final static byte STUDENT_TYPE_SS = 3;
+    public final static byte STUDENT_TYPE_BS = 4;
+    public final static Map<Byte, String> STUDENT_TYPE_MAP = new LinkedHashMap();
+
+    static {
+        STUDENT_TYPE_MAP.put(TEACHER_TYPE_JZG, "教职工");
+        STUDENT_TYPE_MAP.put(STUDENT_TYPE_BKS, "本科生");
+        STUDENT_TYPE_MAP.put(STUDENT_TYPE_SS, "硕士研究生");
+        STUDENT_TYPE_MAP.put(STUDENT_TYPE_BS, "博士研究生");
+    }
+
     // 职称级别，1 初级 2 中级 3 副高 4 正高
     public final static byte PRO_POST_LEVEL_CJ = 1;
     public final static byte PRO_POST_LEVEL_ZJ = 2;

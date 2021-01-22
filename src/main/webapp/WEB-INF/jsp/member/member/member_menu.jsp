@@ -1,10 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-  <li class="${cls==1?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1"}><i class="fa fa-th${cls==1?'-large':''}"></i> 学生党员(${cm:trimToZero(student_normalCount)})</a>
-  </li>
+    <li class="dropdown <c:if test="${cls==1}">active</c:if>" >
+        <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+            <i class="fa fa-circle-o"></i>学生党员(${studentLevel==STUDENT_TYPE_BKS?"本科生":(studentLevel==STUDENT_TYPE_SS)?"硕士研究生":(studentLevel==STUDENT_TYPE_BS)?"博士研究生":""}${cm:trimToZero(student_normalCount)})
+            <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+            <li>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1"><i class="fa fa-hand-o-right"></i>学生党员</a>
+            </li>
+            <li>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&studentLevel=${STUDENT_TYPE_BKS}"><i class="fa fa-hand-o-right"></i> 本科生</a>
+            </li>
+            <li>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&studentLevel=${STUDENT_TYPE_SS}"><i class="fa fa-hand-o-right"></i> 硕士研究生</a>
+            </li>
+            <li>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&studentLevel=${STUDENT_TYPE_BS}"><i class="fa fa-hand-o-right"></i> 博士研究生</a>
+            </li>
+        </ul>
+    </li>
   <li class="${cls==2?'active':''}">
   <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=2"}><i class="fa fa-th${cls==2?'-large':''}"></i> 在职教职工党员(${cm:trimToZero(teacher_normalCount)})</a>
   </li>

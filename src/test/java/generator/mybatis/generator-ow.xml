@@ -83,16 +83,17 @@
         <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
              <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
-         </table>
+         </table>-->
         <table tableName="ow_member_view" domainObjectName="member.MemberView"
                mapperName="member.MemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
+            <columnOverride column="student_level" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="is_retire" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="ow_member_check" domainObjectName="member.MemberCheck">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
@@ -161,7 +162,7 @@
        <!-- <table tableName="ow_party_public_user" domainObjectName="party.PartyPublicUser">
         </table>-->
 
-        <table tableName="ow_party" domainObjectName="party.Party">
+        <!--<table tableName="ow_party" domainObjectName="party.Party">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>
@@ -177,7 +178,7 @@
                <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>
+         </table>-->
 
          <!--   <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>

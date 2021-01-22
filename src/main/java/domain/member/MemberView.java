@@ -171,6 +171,8 @@ public class MemberView implements Serializable {
 
     private Boolean isHighLevelTalent;
 
+    private Byte studentLevel;
+
     private Float delayYear;
 
     private String period;
@@ -190,6 +192,12 @@ public class MemberView implements Serializable {
     private String enrolYear;
 
     private String grade;
+
+    private Boolean isGraduate;
+
+    private Boolean isWork;
+
+    private Boolean isGraduateGrade;
 
     private String eduType;
 
@@ -867,6 +875,14 @@ public class MemberView implements Serializable {
         this.isHighLevelTalent = isHighLevelTalent;
     }
 
+    public Byte getStudentLevel() {
+        return studentLevel;
+    }
+
+    public void setStudentLevel(Byte studentLevel) {
+        this.studentLevel = studentLevel;
+    }
+
     public Float getDelayYear() {
         return delayYear;
     }
@@ -945,6 +961,30 @@ public class MemberView implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade == null ? null : grade.trim();
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
+    }
+
+    public Boolean getIsWork() {
+        return isWork;
+    }
+
+    public void setIsWork(Boolean isWork) {
+        this.isWork = isWork;
+    }
+
+    public Boolean getIsGraduateGrade() {
+        return isGraduateGrade;
+    }
+
+    public void setIsGraduateGrade(Boolean isGraduateGrade) {
+        this.isGraduateGrade = isGraduateGrade;
     }
 
     public String getEduType() {

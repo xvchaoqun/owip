@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberReg!=null}">编辑用户注册信息</c:if><c:if test="${memberReg==null}">添加系统账号</c:if></h3>
@@ -13,7 +14,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="userId" value="${memberReg.userId}">
 
 			<div class="form-group">
-				<label class="col-xs-5 control-label"><span class="star">*</span>联系${_p_partyName}</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>联系${_p_partyName}</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
 							data-width="273"
@@ -26,49 +27,58 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
-				<div class="col-xs-6 label-text">
-					<div class="input-group">
-						<c:forEach var="userType" items="${USER_TYPE_MAP}">
-							<label>
-								<input required name="type" type="radio" class="ace" value="${userType.key}"
-									   <c:if test="${memberReg.type==userType.key}">checked</c:if>/>
-								<span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
-							</label>
-						</c:forEach>
+			<c:if test="${empty memberReg}">
+				<div class="form-group">
+					<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
+					<div class="col-xs-6 label-text">
+						<div class="input-group">
+							<c:forEach var="userType" items="${STUDENT_TYPE_MAP}">
+								<label>
+									<input required name="type" type="radio" class="ace" value="${userType.key}"
+										   <c:if test="${memberReg.type==userType.key}">checked</c:if>/>
+									<span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
+								</label>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
-			</div>
+			</c:if>
+
 			<c:if test="${not empty memberReg}">
-			<div class="form-group">
-				<label class="col-xs-5 control-label">用户名</label>
-				<div class="col-xs-6 label-text">
-					${memberReg.username}
+				<div class="form-group">
+					<label class="col-xs-4 control-label">类别</label>
+					<div class="col-xs-6 label-text">
+						${STUDENT_TYPE_MAP.get(memberReg.type)}
+					</div>
 				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-5 control-label">学工号</label>
-				<div class="col-xs-6 label-text">
-					${memberReg.code}
+				<div class="form-group">
+					<label class="col-xs-4 control-label">用户名</label>
+					<div class="col-xs-6 label-text">
+						${memberReg.username}
+					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">学工号</label>
+					<div class="col-xs-6 label-text">
+						${memberReg.code}
+					</div>
+				</div>
 			</c:if>
 			<div class="form-group">
-				<label class="col-xs-5 control-label"><span class="star">*</span>真实姓名</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>真实姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="realname" value="${memberReg.realname}">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-5 control-label"><span class="star">*</span>身份证号码</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>身份证号码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="idcard" value="${memberReg.idcard}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">手机号码</label>
+				<label class="col-xs-4 control-label">手机号码</label>
 				<div class="col-xs-6">
                         <input class="form-control mobile" type="text" name="phone" value="${memberReg.phone}">
 						<span class="help-block">手机号码用于账号本人进行密码找回操作，请正确填写</span>

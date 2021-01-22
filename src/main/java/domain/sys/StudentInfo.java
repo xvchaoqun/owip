@@ -8,6 +8,8 @@ public class StudentInfo implements Serializable {
 
     private String type;
 
+    private Byte studentLevel;
+
     private String eduLevel;
 
     private String eduType;
@@ -23,6 +25,12 @@ public class StudentInfo implements Serializable {
     private String period;
 
     private String grade;
+
+    private Boolean isGraduate;
+
+    private Boolean isWork;
+
+    private Boolean isGraduateGrade;
 
     private Date actualEnrolTime;
 
@@ -54,6 +62,14 @@ public class StudentInfo implements Serializable {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    public Byte getStudentLevel() {
+        return studentLevel;
+    }
+
+    public void setStudentLevel(Byte studentLevel) {
+        this.studentLevel = studentLevel;
     }
 
     public String getEduLevel() {
@@ -118,6 +134,30 @@ public class StudentInfo implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade == null ? null : grade.trim();
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
+    }
+
+    public Boolean getIsWork() {
+        return isWork;
+    }
+
+    public void setIsWork(Boolean isWork) {
+        this.isWork = isWork;
+    }
+
+    public Boolean getIsGraduateGrade() {
+        return isGraduateGrade;
+    }
+
+    public void setIsGraduateGrade(Boolean isGraduateGrade) {
+        this.isGraduateGrade = isGraduateGrade;
     }
 
     public Date getActualEnrolTime() {

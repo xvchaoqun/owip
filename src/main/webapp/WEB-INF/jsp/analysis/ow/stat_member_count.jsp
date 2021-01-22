@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
 <div class="col-sm-4" id="stat_member_other" style="width:750px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
@@ -69,26 +70,46 @@
 
         var memberData = [
             {
-                name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}',
+                name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}(${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)})',
                 value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)}',
             },
             {
-                name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}',
+                name: '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}(${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)})',
                 value: '${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}'
             },
         ];
 
         var countData = [
-            {name: '教工正式党员', value: '${statPositiveMap.get(MEMBER_TYPE_TEACHER)}'},
-            {name: '学生正式党员', value: '${statPositiveMap.get(MEMBER_TYPE_STUDENT)}'},
-            {name: '教工预备党员', value: '${statGrowMap.get(MEMBER_TYPE_TEACHER)}'},
-            {name: '学生预备党员', value: '${statGrowMap.get(MEMBER_TYPE_STUDENT)}'},
+            {name: '离退休正式党员(${isRetirePositiveMap.get(TEACHER_TYPE_JZG)})', value: '${isRetirePositiveMap.get(TEACHER_TYPE_JZG)}'},
+            {name: '教职工正式党员(${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)})', value: '${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)}'},
+            {name: '本科生正式党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BKS)}'},
+            {name: '硕士生正式党员(${statPositiveMap.get(STUDENT_TYPE_SS)})', value: '${statPositiveMap.get(STUDENT_TYPE_SS)}'},
+            {name: '博士生正式党员(${statPositiveMap.get(STUDENT_TYPE_BS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BS)}'},
+            {name: '离退休预备党员(${isRetireGrowMap.get(TEACHER_TYPE_JZG)})', value: '${isRetireGrowMap.get(TEACHER_TYPE_JZG)}'},
+            {name: '教职工预备党员(${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)})', value: '${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)}'},
+            {name: '本科生预备党员(${statGrowMap.get(STUDENT_TYPE_BKS)})', value: '${statGrowMap.get(STUDENT_TYPE_BKS)}'},
+            {name: '硕士生预备党员(${statGrowMap.get(STUDENT_TYPE_SS)})', value: '${statGrowMap.get(STUDENT_TYPE_SS)}'},
+            {name: '博士生预备党员(${statGrowMap.get(STUDENT_TYPE_BS)})', value: '${statGrowMap.get(STUDENT_TYPE_BS)}'}
+        ];
+        var legendTitle = [
+            '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}(${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE)})',
+            '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}(${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)})',
+            '离退休正式党员(${isRetirePositiveMap.get(TEACHER_TYPE_JZG)})',
+            '教职工正式党员(${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)})',
+            '本科生正式党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})',
+            '硕士生正式党员(${statPositiveMap.get(STUDENT_TYPE_SS)})',
+            '博士生正式党员(${statPositiveMap.get(STUDENT_TYPE_BS)})',
+            '离退休预备党员(${isRetireGrowMap.get(TEACHER_TYPE_JZG)})',
+            '教职工预备党员(${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)})',
+            '本科生预备党员(${statGrowMap.get(STUDENT_TYPE_BKS)})',
+            '硕士生预备党员(${statGrowMap.get(STUDENT_TYPE_SS)})',
+            '博士生预备党员(${statGrowMap.get(STUDENT_TYPE_BS)})'
         ];
 
         var countOption = {
             title: {
                 text: '（党员总数：${statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_POSITIVE) + statPoliticalStatusMap.get(MEMBER_POLITICAL_STATUS_GROW)}）',
-                left: 'center'
+                left: 'right'
             },
             tooltip: {
                 trigger: 'item',
@@ -99,17 +120,18 @@
                 left:-5,
                 top: -5,
                 bottom: 5,
-                data: ['${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_POSITIVE)}', '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}', '教工正式党员', '学生正式党员', '教工预备党员', '学生预备党员']
+                data: legendTitle
             },
             series: [
                 {
                     name: '党员数量',
                     type: 'pie',
                     selectedMode: 'single',
-                    radius: [0, '30%'],
-                    center: ['60%', '50%'],
+                    radius: [0, '45%'],
+                    center: ['63%', '53%'],
                     startAngle:240,
                     label: {
+                        color: 'white',
                         position: 'inner'
                     },
                     labelLine: {
@@ -120,10 +142,10 @@
                 {
                     name: '党员数量',
                     type: 'pie',
-                    radius: ['45%', '55%'],
-                    center: ['60%', '50%'],
+                    radius: ['55%', '70%'],
+                    center: ['63%', '53%'],
                     startAngle:240,
-                    label: {
+                    /*label: {
                         formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
                         backgroundColor: '#eee',
                         borderColor: '#aaa',
@@ -152,7 +174,7 @@
                                 borderRadius: 2
                             }
                         }
-                    },
+                    },*/
                     data: countData
                 }
             ]

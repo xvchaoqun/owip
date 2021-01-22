@@ -149,7 +149,7 @@ public class DpMemberService extends DpBaseMapper {
 
         if (type == SystemConstants.USER_TYPE_JZG){
             record.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
-            syncService.snycTeacherInfo(userId, uv);
+            syncService.snycTeacherInfo(userId, uv.getCode());
         }else {
             throw new OpException("账号不是教工。" + uv.getCode() + "," + uv.getRealname());
         }

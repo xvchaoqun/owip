@@ -632,8 +632,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         user = sysUserService.findById(userId);
         newUser = sysUserService.findById(newUserId);
         // 重新同步教职工信息
-        CmTag.snycTeacherInfo(newUserId, user);
-        CmTag.snycTeacherInfo(userId, newUser);
+        CmTag.snycTeacherInfo(newUserId, user.getCode());
+        CmTag.snycTeacherInfo(userId, newUser.getCode());
 
         cacheHelper.clearUserCache(user);
         cacheHelper.clearUserCache(newUser);

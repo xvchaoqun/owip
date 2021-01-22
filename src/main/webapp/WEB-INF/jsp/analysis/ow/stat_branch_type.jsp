@@ -42,7 +42,7 @@
         var option = {
             title: {
                 text: '（支部总数：${totalCount}）',
-                left: 'center'
+                left: 'right'
             },
             tooltip: {
                 trigger: 'item',

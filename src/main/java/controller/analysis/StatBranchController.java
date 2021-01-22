@@ -54,8 +54,10 @@ public class StatBranchController extends BaseController {
         }
 
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, branchId));
-        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId));
-        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId));
+        modelMap.put("isRetireGrowMap",statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, (byte) 1));
+        modelMap.put("isRetirePositiveMap",statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, (byte) 1));
+        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, null));
+        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, null));
 
         modelMap.put("branchId", branchId);
         return "analysis/branch/stat_branch_member_count";

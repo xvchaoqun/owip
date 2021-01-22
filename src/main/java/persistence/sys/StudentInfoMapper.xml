@@ -1,44 +1,48 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.sys.StudentInfoMapper" >
-  <resultMap id="BaseResultMap" type="domain.sys.StudentInfo" >
-    <id column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="edu_level" property="eduLevel" jdbcType="VARCHAR" />
-    <result column="edu_type" property="eduType" jdbcType="VARCHAR" />
-    <result column="edu_category" property="eduCategory" jdbcType="VARCHAR" />
-    <result column="edu_way" property="eduWay" jdbcType="VARCHAR" />
-    <result column="is_full_time" property="isFullTime" jdbcType="BIT" />
-    <result column="enrol_year" property="enrolYear" jdbcType="VARCHAR" />
-    <result column="period" property="period" jdbcType="VARCHAR" />
-    <result column="grade" property="grade" jdbcType="VARCHAR" />
-    <result column="actual_enrol_time" property="actualEnrolTime" jdbcType="DATE" />
-    <result column="expect_graduate_time" property="expectGraduateTime" jdbcType="DATE" />
-    <result column="delay_year" property="delayYear" jdbcType="REAL" />
-    <result column="actual_graduate_time" property="actualGraduateTime" jdbcType="DATE" />
-    <result column="xj_status" property="xjStatus" jdbcType="VARCHAR" />
-    <result column="sync_source" property="syncSource" jdbcType="TINYINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sys.StudentInfoMapper">
+  <resultMap id="BaseResultMap" type="domain.sys.StudentInfo">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="student_level" jdbcType="TINYINT" property="studentLevel" />
+    <result column="edu_level" jdbcType="VARCHAR" property="eduLevel" />
+    <result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+    <result column="edu_category" jdbcType="VARCHAR" property="eduCategory" />
+    <result column="edu_way" jdbcType="VARCHAR" property="eduWay" />
+    <result column="is_full_time" jdbcType="BIT" property="isFullTime" />
+    <result column="enrol_year" jdbcType="VARCHAR" property="enrolYear" />
+    <result column="period" jdbcType="VARCHAR" property="period" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
+    <result column="is_work" jdbcType="BIT" property="isWork" />
+    <result column="is_graduate_grade" jdbcType="BIT" property="isGraduateGrade" />
+    <result column="actual_enrol_time" jdbcType="DATE" property="actualEnrolTime" />
+    <result column="expect_graduate_time" jdbcType="DATE" property="expectGraduateTime" />
+    <result column="delay_year" jdbcType="REAL" property="delayYear" />
+    <result column="actual_graduate_time" jdbcType="DATE" property="actualGraduateTime" />
+    <result column="xj_status" jdbcType="VARCHAR" property="xjStatus" />
+    <result column="sync_source" jdbcType="TINYINT" property="syncSource" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -49,25 +53,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -78,233 +82,274 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    user_id, type, edu_level, edu_type, edu_category, edu_way, is_full_time, enrol_year, 
-    period, grade, actual_enrol_time, expect_graduate_time, delay_year, actual_graduate_time, 
-    xj_status, sync_source, create_time
+  <sql id="Base_Column_List">
+    user_id, type, student_level, edu_level, edu_type, edu_category, edu_way, is_full_time, 
+    enrol_year, period, grade, is_graduate, is_work, is_graduate_grade, actual_enrol_time, 
+    expect_graduate_time, delay_year, actual_graduate_time, xj_status, sync_source, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.StudentInfoExample" >
+  <select id="selectByExample" parameterType="domain.sys.StudentInfoExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from sys_student_info
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sys_student_info
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_student_info
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.sys.StudentInfoExample" >
+  <delete id="deleteByExample" parameterType="domain.sys.StudentInfoExample">
     delete from sys_student_info
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.sys.StudentInfo" >
-    insert into sys_student_info (user_id, type, edu_level, 
-      edu_type, edu_category, edu_way, 
-      is_full_time, enrol_year, period, 
-      grade, actual_enrol_time, expect_graduate_time, 
-      delay_year, actual_graduate_time, xj_status, 
-      sync_source, create_time)
-    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, 
-      #{eduType,jdbcType=VARCHAR}, #{eduCategory,jdbcType=VARCHAR}, #{eduWay,jdbcType=VARCHAR}, 
-      #{isFullTime,jdbcType=BIT}, #{enrolYear,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, 
-      #{grade,jdbcType=VARCHAR}, #{actualEnrolTime,jdbcType=DATE}, #{expectGraduateTime,jdbcType=DATE}, 
-      #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, #{xjStatus,jdbcType=VARCHAR}, 
-      #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="domain.sys.StudentInfo">
+    insert into sys_student_info (user_id, type, student_level, 
+      edu_level, edu_type, edu_category, 
+      edu_way, is_full_time, enrol_year, 
+      period, grade, is_graduate, 
+      is_work, is_graduate_grade, actual_enrol_time, 
+      expect_graduate_time, delay_year, actual_graduate_time, 
+      xj_status, sync_source, create_time
+      )
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{studentLevel,jdbcType=TINYINT}, 
+      #{eduLevel,jdbcType=VARCHAR}, #{eduType,jdbcType=VARCHAR}, #{eduCategory,jdbcType=VARCHAR}, 
+      #{eduWay,jdbcType=VARCHAR}, #{isFullTime,jdbcType=BIT}, #{enrolYear,jdbcType=VARCHAR}, 
+      #{period,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{isGraduate,jdbcType=BIT}, 
+      #{isWork,jdbcType=BIT}, #{isGraduateGrade,jdbcType=BIT}, #{actualEnrolTime,jdbcType=DATE}, 
+      #{expectGraduateTime,jdbcType=DATE}, #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, 
+      #{xjStatus,jdbcType=VARCHAR}, #{syncSource,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.sys.StudentInfo" >
+  <insert id="insertSelective" parameterType="domain.sys.StudentInfo">
     insert into sys_student_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="eduLevel != null" >
+      <if test="studentLevel != null">
+        student_level,
+      </if>
+      <if test="eduLevel != null">
         edu_level,
       </if>
-      <if test="eduType != null" >
+      <if test="eduType != null">
         edu_type,
       </if>
-      <if test="eduCategory != null" >
+      <if test="eduCategory != null">
         edu_category,
       </if>
-      <if test="eduWay != null" >
+      <if test="eduWay != null">
         edu_way,
       </if>
-      <if test="isFullTime != null" >
+      <if test="isFullTime != null">
         is_full_time,
       </if>
-      <if test="enrolYear != null" >
+      <if test="enrolYear != null">
         enrol_year,
       </if>
-      <if test="period != null" >
+      <if test="period != null">
         period,
       </if>
-      <if test="grade != null" >
+      <if test="grade != null">
         grade,
       </if>
-      <if test="actualEnrolTime != null" >
+      <if test="isGraduate != null">
+        is_graduate,
+      </if>
+      <if test="isWork != null">
+        is_work,
+      </if>
+      <if test="isGraduateGrade != null">
+        is_graduate_grade,
+      </if>
+      <if test="actualEnrolTime != null">
         actual_enrol_time,
       </if>
-      <if test="expectGraduateTime != null" >
+      <if test="expectGraduateTime != null">
         expect_graduate_time,
       </if>
-      <if test="delayYear != null" >
+      <if test="delayYear != null">
         delay_year,
       </if>
-      <if test="actualGraduateTime != null" >
+      <if test="actualGraduateTime != null">
         actual_graduate_time,
       </if>
-      <if test="xjStatus != null" >
+      <if test="xjStatus != null">
         xj_status,
       </if>
-      <if test="syncSource != null" >
+      <if test="syncSource != null">
         sync_source,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="eduLevel != null" >
+      <if test="studentLevel != null">
+        #{studentLevel,jdbcType=TINYINT},
+      </if>
+      <if test="eduLevel != null">
         #{eduLevel,jdbcType=VARCHAR},
       </if>
-      <if test="eduType != null" >
+      <if test="eduType != null">
         #{eduType,jdbcType=VARCHAR},
       </if>
-      <if test="eduCategory != null" >
+      <if test="eduCategory != null">
         #{eduCategory,jdbcType=VARCHAR},
       </if>
-      <if test="eduWay != null" >
+      <if test="eduWay != null">
         #{eduWay,jdbcType=VARCHAR},
       </if>
-      <if test="isFullTime != null" >
+      <if test="isFullTime != null">
         #{isFullTime,jdbcType=BIT},
       </if>
-      <if test="enrolYear != null" >
+      <if test="enrolYear != null">
         #{enrolYear,jdbcType=VARCHAR},
       </if>
-      <if test="period != null" >
+      <if test="period != null">
         #{period,jdbcType=VARCHAR},
       </if>
-      <if test="grade != null" >
+      <if test="grade != null">
         #{grade,jdbcType=VARCHAR},
       </if>
-      <if test="actualEnrolTime != null" >
+      <if test="isGraduate != null">
+        #{isGraduate,jdbcType=BIT},
+      </if>
+      <if test="isWork != null">
+        #{isWork,jdbcType=BIT},
+      </if>
+      <if test="isGraduateGrade != null">
+        #{isGraduateGrade,jdbcType=BIT},
+      </if>
+      <if test="actualEnrolTime != null">
         #{actualEnrolTime,jdbcType=DATE},
       </if>
-      <if test="expectGraduateTime != null" >
+      <if test="expectGraduateTime != null">
         #{expectGraduateTime,jdbcType=DATE},
       </if>
-      <if test="delayYear != null" >
+      <if test="delayYear != null">
         #{delayYear,jdbcType=REAL},
       </if>
-      <if test="actualGraduateTime != null" >
+      <if test="actualGraduateTime != null">
         #{actualGraduateTime,jdbcType=DATE},
       </if>
-      <if test="xjStatus != null" >
+      <if test="xjStatus != null">
         #{xjStatus,jdbcType=VARCHAR},
       </if>
-      <if test="syncSource != null" >
+      <if test="syncSource != null">
         #{syncSource,jdbcType=TINYINT},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.sys.StudentInfoExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.sys.StudentInfoExample" resultType="java.lang.Long">
     select count(*) from sys_student_info
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update sys_student_info
-    <set >
-      <if test="record.userId != null" >
+    <set>
+      <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null" >
+      <if test="record.type != null">
         type = #{record.type,jdbcType=VARCHAR},
       </if>
-      <if test="record.eduLevel != null" >
+      <if test="record.studentLevel != null">
+        student_level = #{record.studentLevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.eduLevel != null">
         edu_level = #{record.eduLevel,jdbcType=VARCHAR},
       </if>
-      <if test="record.eduType != null" >
+      <if test="record.eduType != null">
         edu_type = #{record.eduType,jdbcType=VARCHAR},
       </if>
-      <if test="record.eduCategory != null" >
+      <if test="record.eduCategory != null">
         edu_category = #{record.eduCategory,jdbcType=VARCHAR},
       </if>
-      <if test="record.eduWay != null" >
+      <if test="record.eduWay != null">
         edu_way = #{record.eduWay,jdbcType=VARCHAR},
       </if>
-      <if test="record.isFullTime != null" >
+      <if test="record.isFullTime != null">
         is_full_time = #{record.isFullTime,jdbcType=BIT},
       </if>
-      <if test="record.enrolYear != null" >
+      <if test="record.enrolYear != null">
         enrol_year = #{record.enrolYear,jdbcType=VARCHAR},
       </if>
-      <if test="record.period != null" >
+      <if test="record.period != null">
         period = #{record.period,jdbcType=VARCHAR},
       </if>
-      <if test="record.grade != null" >
+      <if test="record.grade != null">
         grade = #{record.grade,jdbcType=VARCHAR},
       </if>
-      <if test="record.actualEnrolTime != null" >
+      <if test="record.isGraduate != null">
+        is_graduate = #{record.isGraduate,jdbcType=BIT},
+      </if>
+      <if test="record.isWork != null">
+        is_work = #{record.isWork,jdbcType=BIT},
+      </if>
+      <if test="record.isGraduateGrade != null">
+        is_graduate_grade = #{record.isGraduateGrade,jdbcType=BIT},
+      </if>
+      <if test="record.actualEnrolTime != null">
         actual_enrol_time = #{record.actualEnrolTime,jdbcType=DATE},
       </if>
-      <if test="record.expectGraduateTime != null" >
+      <if test="record.expectGraduateTime != null">
         expect_graduate_time = #{record.expectGraduateTime,jdbcType=DATE},
       </if>
-      <if test="record.delayYear != null" >
+      <if test="record.delayYear != null">
         delay_year = #{record.delayYear,jdbcType=REAL},
       </if>
-      <if test="record.actualGraduateTime != null" >
+      <if test="record.actualGraduateTime != null">
         actual_graduate_time = #{record.actualGraduateTime,jdbcType=DATE},
       </if>
-      <if test="record.xjStatus != null" >
+      <if test="record.xjStatus != null">
         xj_status = #{record.xjStatus,jdbcType=VARCHAR},
       </if>
-      <if test="record.syncSource != null" >
+      <if test="record.syncSource != null">
         sync_source = #{record.syncSource,jdbcType=TINYINT},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update sys_student_info
     set user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
+      student_level = #{record.studentLevel,jdbcType=TINYINT},
       edu_level = #{record.eduLevel,jdbcType=VARCHAR},
       edu_type = #{record.eduType,jdbcType=VARCHAR},
       edu_category = #{record.eduCategory,jdbcType=VARCHAR},
@@ -313,6 +358,9 @@
       enrol_year = #{record.enrolYear,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=VARCHAR},
       grade = #{record.grade,jdbcType=VARCHAR},
+      is_graduate = #{record.isGraduate,jdbcType=BIT},
+      is_work = #{record.isWork,jdbcType=BIT},
+      is_graduate_grade = #{record.isGraduateGrade,jdbcType=BIT},
       actual_enrol_time = #{record.actualEnrolTime,jdbcType=DATE},
       expect_graduate_time = #{record.expectGraduateTime,jdbcType=DATE},
       delay_year = #{record.delayYear,jdbcType=REAL},
@@ -320,67 +368,80 @@
       xj_status = #{record.xjStatus,jdbcType=VARCHAR},
       sync_source = #{record.syncSource,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.sys.StudentInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sys.StudentInfo">
     update sys_student_info
-    <set >
-      <if test="type != null" >
+    <set>
+      <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="eduLevel != null" >
+      <if test="studentLevel != null">
+        student_level = #{studentLevel,jdbcType=TINYINT},
+      </if>
+      <if test="eduLevel != null">
         edu_level = #{eduLevel,jdbcType=VARCHAR},
       </if>
-      <if test="eduType != null" >
+      <if test="eduType != null">
         edu_type = #{eduType,jdbcType=VARCHAR},
       </if>
-      <if test="eduCategory != null" >
+      <if test="eduCategory != null">
         edu_category = #{eduCategory,jdbcType=VARCHAR},
       </if>
-      <if test="eduWay != null" >
+      <if test="eduWay != null">
         edu_way = #{eduWay,jdbcType=VARCHAR},
       </if>
-      <if test="isFullTime != null" >
+      <if test="isFullTime != null">
         is_full_time = #{isFullTime,jdbcType=BIT},
       </if>
-      <if test="enrolYear != null" >
+      <if test="enrolYear != null">
         enrol_year = #{enrolYear,jdbcType=VARCHAR},
       </if>
-      <if test="period != null" >
+      <if test="period != null">
         period = #{period,jdbcType=VARCHAR},
       </if>
-      <if test="grade != null" >
+      <if test="grade != null">
         grade = #{grade,jdbcType=VARCHAR},
       </if>
-      <if test="actualEnrolTime != null" >
+      <if test="isGraduate != null">
+        is_graduate = #{isGraduate,jdbcType=BIT},
+      </if>
+      <if test="isWork != null">
+        is_work = #{isWork,jdbcType=BIT},
+      </if>
+      <if test="isGraduateGrade != null">
+        is_graduate_grade = #{isGraduateGrade,jdbcType=BIT},
+      </if>
+      <if test="actualEnrolTime != null">
         actual_enrol_time = #{actualEnrolTime,jdbcType=DATE},
       </if>
-      <if test="expectGraduateTime != null" >
+      <if test="expectGraduateTime != null">
         expect_graduate_time = #{expectGraduateTime,jdbcType=DATE},
       </if>
-      <if test="delayYear != null" >
+      <if test="delayYear != null">
         delay_year = #{delayYear,jdbcType=REAL},
       </if>
-      <if test="actualGraduateTime != null" >
+      <if test="actualGraduateTime != null">
         actual_graduate_time = #{actualGraduateTime,jdbcType=DATE},
       </if>
-      <if test="xjStatus != null" >
+      <if test="xjStatus != null">
         xj_status = #{xjStatus,jdbcType=VARCHAR},
       </if>
-      <if test="syncSource != null" >
+      <if test="syncSource != null">
         sync_source = #{syncSource,jdbcType=TINYINT},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.sys.StudentInfo" >
+  <update id="updateByPrimaryKey" parameterType="domain.sys.StudentInfo">
     update sys_student_info
     set type = #{type,jdbcType=VARCHAR},
+      student_level = #{studentLevel,jdbcType=TINYINT},
       edu_level = #{eduLevel,jdbcType=VARCHAR},
       edu_type = #{eduType,jdbcType=VARCHAR},
       edu_category = #{eduCategory,jdbcType=VARCHAR},
@@ -389,6 +450,9 @@
       enrol_year = #{enrolYear,jdbcType=VARCHAR},
       period = #{period,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=VARCHAR},
+      is_graduate = #{isGraduate,jdbcType=BIT},
+      is_work = #{isWork,jdbcType=BIT},
+      is_graduate_grade = #{isGraduateGrade,jdbcType=BIT},
       actual_enrol_time = #{actualEnrolTime,jdbcType=DATE},
       expect_graduate_time = #{expectGraduateTime,jdbcType=DATE},
       delay_year = #{delayYear,jdbcType=REAL},
@@ -398,17 +462,17 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.sys.StudentInfoExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sys.StudentInfoExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from sys_student_info
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

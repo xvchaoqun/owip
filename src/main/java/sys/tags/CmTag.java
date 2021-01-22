@@ -508,9 +508,9 @@ public class CmTag {
 
         return extService.getUnit(userId);
     }
-    public static void snycTeacherInfo(Integer userId, SysUserView uv){
+    public static void snycTeacherInfo(Integer userId, String code){
 
-        syncService.snycTeacherInfo(userId, uv);
+        syncService.snycTeacherInfo(userId, code);
     }
 
     public static Unit getUnit(Integer unitId) {
