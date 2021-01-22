@@ -124,10 +124,11 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         //goto_next("${param.gotoNext}", function(){
-                            $("label.sponsorUsers").html(ret.sponsorUsers)
-                            $("#modalForm input[name=sponsorUsers]").val(ret.sponsorUsers)
-                            $("#modalForm input[name=sponsorUserIds]").val(ret.sponsorUserIds)
+                            $("label.sponsorUsers").html(ret.sponsorUsers);
+                            $("#applyAuForm input[name=sponsorUsers]").val(ret.sponsorUsers);
+                            $("#applyAuForm input[name=sponsorUserIds]").val(ret.sponsorUserIds);
                         //});
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }
