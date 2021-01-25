@@ -14,7 +14,9 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.helper.PartyHelper;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StatBranchController extends BaseController {
@@ -48,16 +50,30 @@ public class StatBranchController extends BaseController {
     public String stat_branch_member_count(Integer type, int branchId, ModelMap modelMap) {
 
         PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), null, branchId);
-        if (type != null) {
-            modelMap.put("type", type);
+        if (type != null && type !=3) {
+
             modelMap.put("otherMap", statService.otherMap(type, null, branchId));
         }
+        Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
+        Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
+        if (type == null){
+            isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, (byte) 1);
+            isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, (byte) 1);
+            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, null);
+            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, null);
+        }else if (type != null && type ==3){
+            isRetirePositiveMap = statService.typeMap(null, null, branchId, (byte) 1);
+            statPositiveMap = statService.typeMap(null, null, branchId, null);
+        }
 
+        modelMap.put("type", type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, branchId));
-        modelMap.put("isRetireGrowMap",statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, (byte) 1));
-        modelMap.put("isRetirePositiveMap",statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, (byte) 1));
-        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, null));
-        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, null));
+        modelMap.put("isRetireGrowMap",isRetireGrowMap);
+        modelMap.put("isRetirePositiveMap",isRetirePositiveMap);
+        modelMap.put("statGrowMap", statGrowMap);
+        modelMap.put("statPositiveMap", statPositiveMap);
 
         modelMap.put("branchId", branchId);
         return "analysis/branch/stat_branch_member_count";
