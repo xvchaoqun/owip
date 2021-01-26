@@ -642,7 +642,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
-        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, false, 440));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), false, false, 440));
         dataMap.put("teachDesc", freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, false, 440));
         dataMap.put("researchDesc", freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, false, 440));
         dataMap.put("otherRewardDesc", freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, false, 440));
@@ -657,11 +657,13 @@ public class CadreInfoFormService extends BaseMapper {
             List<CadreCompany> cadreCompanies = bean.getCadreCompanies();
             int size = cadreCompanies.size();
             for (int i = 0; i < size; i++) {
-                if (size <= 3)
-                    companies += getCompanySeg(null, "/infoform/company"+(isDocx?"_docx":"")+".ftl");
-                else
-                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company"+(isDocx?"_docx":"")+".ftl");
+                companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company"+(isDocx?"_docx":"")+".ftl");
             }
+            for (int i = 0; i < 3-size; i++) { // 最少显示3行
+                companies += getCompanySeg(null, "/infoform/company"+(isDocx?"_docx":"")+".ftl");
+            }
+
+            dataMap.put("companyCount", Math.max(3, size));
             dataMap.put("companies", companies);
         }
 
@@ -669,12 +671,14 @@ public class CadreInfoFormService extends BaseMapper {
             String familys = "";
             List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
             int size = cadreFamilys.size();
-            for (int i = 0; i < 6; i++) {
-                if (size <= i)
-                    familys += getFamilySeg(null, "/infoform/family"+(isDocx?"_docx":"")+".ftl");
-                else
-                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family"+(isDocx?"_docx":"")+".ftl");
+            for (int i = 0; i < size; i++) {
+                familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family"+(isDocx?"_docx":"")+".ftl");
             }
+            for (int i = 0; i < 3-size; i++) { // 最少显示3行
+                familys += getFamilySeg(null, "/infoform/family"+(isDocx?"_docx":"")+".ftl");
+            }
+
+            dataMap.put("familyCount", Math.max(3, size));
             dataMap.put("familys", familys);
         }
 
@@ -682,13 +686,14 @@ public class CadreInfoFormService extends BaseMapper {
             String familyAbroads = "";
             List<CadreFamilyAbroad> cadreFamilyAbroads = bean.getCadreFamilyAbroads();
             int size = cadreFamilyAbroads.size();
-            for (int i = 0; i < 2; i++) {
-                if (size <= i)
-                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad"+(isDocx?"_docx":"")+".ftl");
-                else {
-                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad"+(isDocx?"_docx":"")+".ftl");
-                }
+            for (int i = 0; i < size; i++) {
+                familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad"+(isDocx?"_docx":"")+".ftl");
             }
+            for (int i = 0; i < 2-size; i++) { // 最少显示2行
+                familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad"+(isDocx?"_docx":"")+".ftl");
+            }
+
+            dataMap.put("familyAbroadCount", Math.max(2, size));
             dataMap.put("familyAbroads", familyAbroads);
         }
 

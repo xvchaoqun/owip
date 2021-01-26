@@ -421,7 +421,8 @@ td.padding10{
         </td>
         </tr>
         <tr class="r4">
-            <td class="td1 center bolder" rowspan="5">
+            <c:set var="companyCount" value="${fn:length(bean.cadreCompanies)}"/>
+            <td class="td1 center bolder" rowspan="${2+(companyCount>3?companyCount:3)}">
                 <span>企业、社团</span>
                 <div>
                     <span>兼职情况</span>
@@ -448,9 +449,8 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:set var="cadreCompaniesCount" value="${fn:length(bean.cadreCompanies)}"/>
-        <c:if test="${cadreCompaniesCount<=2}">
-        <c:forEach begin="0" end="${2-cadreCompaniesCount}">
+        <c:if test="${companyCount<=2}">
+        <c:forEach begin="0" end="${2-companyCount}">
         <tr class="r4">
             <td class="td13" colspan="6">
                 <p class="p18"></p>
@@ -471,7 +471,7 @@ td.padding10{
         </tr>
         <tr class="r4">
             <c:set var="familyCount" value="${fn:length(bean.cadreFamilys)}"/>
-            <td class="td1 center bolder" rowspan="${familyCount<6?7:(familyCount+1)}">
+            <td class="td1 center bolder" rowspan="${1 + (familyCount>3?familyCount:3)}">
                     <span>家庭成员</span>
                 <div><span>信息</span></div>
             </td><td class="td15 center bolder">
@@ -507,8 +507,8 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:if test="${familyCount<=5}">
-        <c:forEach begin="0" end="${5-familyCount}">
+        <c:if test="${familyCount<=2}">
+        <c:forEach begin="0" end="${2-familyCount}">
         <tr class="r4">
             <td class="td15">
                 <p class="p18"></p>
@@ -526,7 +526,7 @@ td.padding10{
         </c:if>
         <tr class="r4">
              <c:set var="familyAbroadCount" value="${fn:length(bean.cadreFamilyAbroads)}"/>
-            <td class="td1 center bolder" rowspan="${familyAbroadCount<2?3:(familyAbroadCount+1)}">
+            <td class="td1 center bolder" rowspan="${1 + (familyAbroadCount>2?familyAbroadCount:2)}">
                     <span>配偶、子女移居国（境）外的情况</span>
             </td><td class="td15 center bolder">
                 <span>称  谓</span>
@@ -569,7 +569,8 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
-        <c:if test="${familyAbroadCount==1}">
+        <c:if test="${familyAbroadCount<=1}">
+        <c:forEach begin="0" end="${1-familyAbroadCount}">
         <tr class="r2">
             <td class="td15">
                 <p class="p18"></p>
@@ -591,6 +592,7 @@ td.padding10{
             <p class="p19"></p>
         </td>
         </tr>
+            </c:forEach>
         </c:if>
         </tbody>
     </table>

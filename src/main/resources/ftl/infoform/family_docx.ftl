@@ -1,18 +1,19 @@
-<w:tr w:rsidR="00B03368" w:rsidRPr="00D22114" w14:paraId="4748F924" w14:textId="77777777"
-      w:rsidTr="00B03368">
+<w:tr w:rsidR="00AB13C0">
     <w:trPr>
         <w:cantSplit/>
-        <w:trHeight w:hRule="exact" w:val="672"/>
+        <w:trHeight w:hRule="exact"
+                    w:val="510"/>
         <w:jc w:val="center"/>
     </w:trPr>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="64.85pt" w:type="dxa"/>
+            <w:tcW w:w="1297"
+                   w:type="dxa"/>
             <w:vMerge/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="4C6D95C0" w14:textId="77777777" w:rsidR="00B03368" w:rsidRPr="00D22114"
-             w:rsidRDefault="00B03368" w:rsidP="00000CD6">
+        <w:p w:rsidR="00AB13C0"
+             w:rsidRDefault="00AB13C0">
             <w:pPr>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
@@ -21,66 +22,79 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="49.35pt" w:type="dxa"/>
+            <w:tcW w:w="987"
+                   w:type="dxa"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="2316C11E" w14:textId="77777777" w:rsidR="00B03368" w:rsidRPr="00D22114"
-             w:rsidRDefault="008803C6" w:rsidP="00CD38F3">
+        <w:p w:rsidR="00AB13C0"
+             w:rsidRPr="00874D21"
+             w:rsidRDefault="00F15EBA">
             <w:pPr>
-                <w:spacing w:line="14pt" w:lineRule="exact"/>
-                <w:ind w:startChars="10" w:start="1.20pt"/>
+                <w:spacing w:line="280"
+                           w:lineRule="exact"/>
+                <w:ind w:leftChars="10"
+                       w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
                     <w:bCs/>
                 </w:rPr>
             </w:pPr>
-            <w:r>
+            <w:proofErr w:type="gramStart"/>
+            <w:r w:rsidRPr="00874D21">
                 <w:rPr>
                     <w:rFonts w:hint="eastAsia"/>
-                    <w:bCs/>
                 </w:rPr>
                 <w:t>${a2!}</w:t>
             </w:r>
+            <w:proofErr w:type="gramEnd"/>
         </w:p>
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="48.45pt" w:type="dxa"/>
+            <w:tcW w:w="969"
+                   w:type="dxa"/>
             <w:gridSpan w:val="2"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="3AFB519F" w14:textId="77777777" w:rsidR="00B03368" w:rsidRPr="00D22114"
-             w:rsidRDefault="008803C6" w:rsidP="00B03368">
+        <w:p w:rsidR="00AB13C0"
+             w:rsidRPr="00874D21"
+             w:rsidRDefault="00F15EBA">
             <w:pPr>
-                <w:spacing w:line="14pt" w:lineRule="exact"/>
-                <w:ind w:startChars="10" w:start="1.20pt"/>
+                <w:spacing w:line="280"
+                           w:lineRule="exact"/>
+                <w:ind w:leftChars="10"
+                       w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
                     <w:bCs/>
                 </w:rPr>
             </w:pPr>
-            <w:r>
+            <w:proofErr w:type="gramStart"/>
+            <w:r w:rsidRPr="00874D21">
                 <w:rPr>
                     <w:rFonts w:hint="eastAsia"/>
-                    <w:bCs/>
                 </w:rPr>
                 <w:t>${b2!}</w:t>
             </w:r>
+            <w:proofErr w:type="gramEnd"/>
         </w:p>
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="55.25pt" w:type="dxa"/>
+            <w:tcW w:w="1105"
+                   w:type="dxa"/>
             <w:gridSpan w:val="2"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="567723AB" w14:textId="0CE51BB4" w:rsidR="00B03368" w:rsidRPr="00D22114"
-             w:rsidRDefault="006D270A" w:rsidP="00620654">
+        <w:p w:rsidR="00AB13C0"
+             w:rsidRDefault="00F15EBA">
             <w:pPr>
-                <w:spacing w:line="14pt" w:lineRule="exact"/>
-                <w:ind w:startChars="10" w:start="1.20pt"/>
+                <w:spacing w:line="280"
+                           w:lineRule="exact"/>
+                <w:ind w:leftChars="10"
+                       w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
@@ -98,53 +112,63 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="45.05pt" w:type="dxa"/>
+            <w:tcW w:w="901"
+                   w:type="dxa"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="33A027F8" w14:textId="77777777" w:rsidR="00B03368" w:rsidRPr="00D22114"
-             w:rsidRDefault="008803C6" w:rsidP="00CD38F3">
+        <w:p w:rsidR="00AB13C0"
+             w:rsidRPr="00874D21"
+             w:rsidRDefault="00F15EBA">
             <w:pPr>
-                <w:spacing w:line="14pt" w:lineRule="exact"/>
-                <w:ind w:startChars="10" w:start="1.20pt"/>
+                <w:spacing w:line="280"
+                           w:lineRule="exact"/>
+                <w:ind w:leftChars="10"
+                       w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
                     <w:bCs/>
                 </w:rPr>
             </w:pPr>
-            <w:r>
+            <w:proofErr w:type="gramStart"/>
+            <w:r w:rsidRPr="00874D21">
                 <w:rPr>
                     <w:rFonts w:hint="eastAsia"/>
-                    <w:bCs/>
                 </w:rPr>
                 <w:t>${d2!}</w:t>
             </w:r>
+            <w:proofErr w:type="gramEnd"/>
         </w:p>
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="250.10pt" w:type="dxa"/>
+            <w:tcW w:w="5002"
+                   w:type="dxa"/>
             <w:gridSpan w:val="7"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="222A2E8F" w14:textId="77777777" w:rsidR="00B03368" w:rsidRPr="00D22114"
-             w:rsidRDefault="008803C6" w:rsidP="00620654">
+        <w:p w:rsidR="00AB13C0"
+             w:rsidRPr="00874D21"
+             w:rsidRDefault="00F15EBA">
             <w:pPr>
-                <w:spacing w:line="14pt" w:lineRule="exact"/>
-                <w:ind w:startChars="10" w:start="1.20pt"/>
-                <w:jc w:val="start"/>
+                <w:spacing w:line="280"
+                           w:lineRule="exact"/>
+                <w:ind w:leftChars="10"
+                       w:left="24"/>
+                <w:jc w:val="left"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
                     <w:bCs/>
                 </w:rPr>
             </w:pPr>
-            <w:r>
+            <w:proofErr w:type="gramStart"/>
+            <w:r w:rsidRPr="00874D21">
                 <w:rPr>
                     <w:rFonts w:hint="eastAsia"/>
-                    <w:bCs/>
                 </w:rPr>
                 <w:t>${e2!}</w:t>
             </w:r>
+            <w:proofErr w:type="gramEnd"/>
         </w:p>
     </w:tc>
 </w:tr>
