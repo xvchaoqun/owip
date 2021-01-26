@@ -107,7 +107,7 @@ td.bolder{font-weight: bolder}
       </td>
     </tr>
     <tr>
-      <td class="td1 center bolder" style="height: 40px">
+      <td class="td1 center bolder" style="height: 38px">
         <span>民  族</span>
       </td>
       <td class="td0 center" colspan="2">

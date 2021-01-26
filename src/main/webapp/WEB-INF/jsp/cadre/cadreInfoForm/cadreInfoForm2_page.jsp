@@ -87,79 +87,79 @@ div.WordSection1
 
         </td>
     </tr>
- <tr style='page-break-inside:avoid;height:32.55pt'>
+ <tr style='page-break-inside:avoid;height:22.55pt'>
   <td width=78 style='width:58.3pt;border-top:1.5pt;border-left:1.5pt;
   border-bottom:1.0pt;border-right:1.0pt;border-color:windowtext;border-style:
-  solid;padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  solid;padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>姓名</span></p>
   </td>
   <td width=79 style='width:59.15pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center'>${bean.realname}</p>
   </td>
   <td width=79 style='width:59.05pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>性别</span></p>
   </td>
   <td width=98 style='width:73.35pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center'>${GENDER_MAP.get(bean.gender)}</p>
   </td>
   <td width=92 style='width:58.95pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 14pt;height:32.55pt'>
+  padding:0cm 14pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>出生年月</span></p>
   </td>
   <td width=88 style='width:66.0pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'>${cm:formatDate(bean.birth, "yyyy.MM")}</p>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'>（<span lang=EN-US>${bean.age}</span>岁）</p>
   </td>
   <td width=130 rowspan=4 style='width:97.85pt;border-top:solid windowtext 1.5pt;
   border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
-  <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
+  padding:0;'>
+  <img src="data:image/jpeg;base64,${bean.avatar}" width="100%"/>
   </td>
  </tr>
- <tr style='page-break-inside:avoid;height:32.55pt'>
+ <tr style='page-break-inside:avoid;'>
   <td width=78 style='width:58.3pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>民族</span></p>
   </td>
   <td width=79 style='width:59.15pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'>${bean.nation}</p>
   </td>
   <td width=79 style='width:59.05pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>籍贯</span></p>
   </td>
   <td width=98 style='width:73.35pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center'>${bean.nativePlace}</p>
   </td>
   <td width=92 style='width:68.95pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>出生地</span></p>
   </td>
   <td width=88 style='width:66.0pt;border-top:none;border-left:none;border-bottom:
   solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;
-  height:32.55pt'>
+  '>
   <p class=MsoNormal align=center style='text-align:center'>${bean.homeplace}</p>
   </td>
  </tr>
@@ -209,27 +209,27 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'>${bean.health}</p>
   </td>
  </tr>
- <tr style='page-break-inside:avoid;height:62.3pt'>
+ <tr style='page-break-inside:avoid;height:12.3pt'>
   <td width=78 style='width:58.3pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:62.3pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>专业技术职务</span></p>
   </td>
   <td width=158 colspan=2 style='width:118.25pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:62.3pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'>${bean.proPost}</p>
   </td>
   <td width=98 style='width:73.35pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:62.3pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>熟悉专业有何专长</span></p>
   </td>
   <td width=180 colspan=2 style='width:135.0pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:62.3pt'>
+  padding:0cm 5.4pt 0cm 5.4pt;'>
   <p class=MsoNormal align=center style='text-align:center'>${bean.specialty}</p>
   </td>
  </tr>

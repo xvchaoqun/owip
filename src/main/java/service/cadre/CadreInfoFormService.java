@@ -786,7 +786,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         //dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
-        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, false, 360));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), false, false, 360));
         //dataMap.put("teachDesc", freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, false, 440));
         //dataMap.put("researchDesc", freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, true, 440));
         //dataMap.put("otherRewardDesc", freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, false, 440));

@@ -534,7 +534,7 @@ td.padding10 {
                     </c:if>
                 </td>
                 <td class="td6 center bolder" rowspan="3" colspan="2">
-                    <img src="data:image/jpeg;base64,${bean.avatar}" width="98" style="margin: 5px"/>
+                    <img src="data:image/jpeg;base64,${bean.avatar}" width="100%"/>
                 </td>
             </tr>
             <tr class="r1">

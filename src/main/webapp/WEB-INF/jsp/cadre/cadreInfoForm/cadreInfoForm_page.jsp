@@ -35,8 +35,8 @@
 .td1{width:0.91041666in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td2{width:0.9826389in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td3{/*width:0.98194444in;*/padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td4{width:0.9847222in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td5{/*width:0.9840278in;*/padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td4{font-size:smaller;width:0.9847222in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td5{font-size:smaller;/*width:0.9840278in;*/padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td6{width:1.2972223in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td7{width:1.9645833in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td8{width:1.96875in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
@@ -55,7 +55,7 @@
 .td21{width:1.2715278in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td22{width:1.0881945in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td23{width:1.0854167in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.r1{height:0.43333334in;}
+.r1{height:0.33333334in;}
 .r2{height:0.7083333in;}
 .r3{keep-together:always;}
 .r4{height:0.35416666in;}
@@ -121,7 +121,7 @@ td.padding10{
             <div><span>（${bean.age}岁）</span></div>
             </c:if>
         </td><td class="td6 center bolder"  rowspan="4">
-            <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
+            <img src="data:image/jpeg;base64,${bean.avatar}" width="100%"/>
         </td>
         </tr>
         <tr class="r1">
