@@ -1,4 +1,7 @@
-﻿var _permissions = JSON.parse($.base64.decode(_ps));
+﻿var _permissions =[];
+if(typeof(_ps) != 'undefined') {
+    _permissions = JSON.parse($.base64.decode(_ps));
+}
 /**
  * toPageNo 显示第几页内容
  * pageNo 表示指定页码的变量名称，默认为"pageNo"
