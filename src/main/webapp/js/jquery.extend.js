@@ -1,4 +1,5 @@
-﻿/**
+﻿var _permissions = JSON.parse($.base64.decode(_ps));
+/**
  * toPageNo 显示第几页内容
  * pageNo 表示指定页码的变量名称，默认为"pageNo"
  * uri 请求列表的url地址
