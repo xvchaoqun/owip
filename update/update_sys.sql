@@ -1,4 +1,21 @@
 
+-- 2021.1.27 hwd
+CREATE TABLE `base_api_key` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+	`name` VARCHAR(50) NULL DEFAULT '0' COMMENT 'app名称',
+	`api_key` VARCHAR(50) NULL DEFAULT '0' COMMENT '对应键值',
+	`remark` VARCHAR(50) NOT NULL DEFAULT '0' COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='API接口管理'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=13
+;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3501, 0, '接口管理', '', 'url', '', '/apiKey', 67, '0/1/67/', 1, 'apiKey:*', NULL, NULL, NULL, 1, NULL);
+
+
 -- 2021.1.22
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2634, 0, '党建信息统计', '', 'menu', '组织部，分党委', NULL, 105, '0/1/105/', 0, 'statSummary:menu', NULL, NULL, NULL, 1, 29700);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum?cls=1', 2634, '0/1/105/2634/', 1, 'stat:partySum', 2, NULL, NULL, 1, 60);

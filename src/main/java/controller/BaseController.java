@@ -260,4 +260,6 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected BranchGroupService branchGroupService;
 
+    @Autowired
+    protected ApiKeyService apiKeyService;
 }

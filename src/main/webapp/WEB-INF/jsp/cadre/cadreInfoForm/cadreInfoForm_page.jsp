@@ -73,13 +73,16 @@ td.padding10{
  margin: 0 0 0 9em;
 }
 </style>
-<div style="position: absolute; top:25px; left:10px;">
-    <a href="javascript:;" class="downloadBtn btn btn-primary"
-       data-url="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">
-        <i class="ace-icon fa fa-download "></i>
-        下载(WORD)
-    </a>
-</div>
+<c:if test="${empty hide}">
+    <div style="position: absolute; top:25px; left:10px;">
+        <a href="javascript:;" class="downloadBtn btn btn-primary"
+           data-url="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">
+            <i class="ace-icon fa fa-download "></i>
+            下载(WORD)
+        </a>
+    </div>
+</c:if>
+
 <div>
     <div style="float: left; margin-right: 20px; padding-bottom: 20px">
     <table class="t1">

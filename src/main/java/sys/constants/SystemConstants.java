@@ -1,19 +1,26 @@
 package sys.constants;
 
+import domain.base.ApiKey;
+import interceptor.SignParamsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import persistence.base.ApiKeyMapper;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SystemConstants {
 
-    public final static Map<String, String> appKeyMap = new HashMap<>();
 
-    static {
 
+    /*static {
+
+        appKeyMap.put("ss","373342a018f8f7f2364fd864b71b4af5");
         appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");
         appKeyMap.put("oa", "b887e286bf5d82b7b9712ed03d3e6e0e");
         appKeyMap.put("zcdy", "5931e054d3b59be97b3481f6e604afe6");
-    }
+
+    }*/
 
     public static Map loginFailedResultMap(String message) {
 
