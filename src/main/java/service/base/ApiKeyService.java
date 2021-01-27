@@ -22,7 +22,7 @@ public class ApiKeyService extends BaseMapper {
     public boolean idDuplicate(Integer id, String name){
 
 
-        Assert.isTrue(StringUtils.isNotBlank(name), "null");
+        /*Assert.isTrue(StringUtils.isNotBlank(name), "null");*/
 
         ApiKeyExample example = new ApiKeyExample();
         ApiKeyExample.Criteria criteria = example.createCriteria();
@@ -65,19 +65,19 @@ public class ApiKeyService extends BaseMapper {
         apiKeyMapper.updateByPrimaryKeySelective(record);
     }
 
-    //@Cacheable(value="ApiKey:ALL")
-    public Map<Integer, ApiKey> findAll() {
+
+    @Transactional
+    public ApiKey getApiInfoByName(String name){
 
         ApiKeyExample example = new ApiKeyExample();
-        example.createCriteria();
-
-        List<ApiKey> records = apiKeyMapper.selectByExample(example);
-        Map<Integer, ApiKey> map = new LinkedHashMap<>();
-        for (ApiKey record : records) {
-            map.put(record.getId(), record);
+        example.createCriteria().andNameEqualTo(name);
+        List<ApiKey> apiKeys = apiKeyMapper.selectByExample(example);
+        if (apiKeys.size()>0){
+            return apiKeys.get(0);
+        }else{
+            return null;
         }
 
-        return map;
     }
 
 }

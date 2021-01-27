@@ -1,20 +1,13 @@
 package interceptor;
 
-import domain.base.ApiKey;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import persistence.base.ApiKeyMapper;
-import sys.tags.CmTag;
-import sys.utils.SignatureUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import service.base.ApiKeyService;
+import sys.tags.CmTag;
 import java.util.TreeMap;
 
 public class Signature {
 
-    private ApiKeyMapper apiKeyMapper = CmTag.getBean(ApiKeyMapper.class);
 
     private TreeMap<String,Object> params;
 
@@ -29,17 +22,18 @@ public class Signature {
         return this;
     }
 
-    public final static Map<String, String> appKeyMap = new HashMap<>();
+
 
     public String sign(String app){
-        String keyapi = apiKeyMapper.getApiInfoByName(app);
-        if(keyapi==null){
+        ApiKeyService apiKeyService = CmTag.getBean(ApiKeyService.class);
+        if (apiKeyService.getApiInfoByName(app)==null){
+            return null;
+        }
+        String keyApi = apiKeyService.getApiInfoByName(app).getApiKey();
+        if(keyApi==null){
             throw new SignParamsException("工号不存在或签名错误");
         }
-        String key = keyapi;
-        System.out.println(key);
-        System.out.println(app);
-
+        String key = keyApi;
 
         if(params.size()==0 || StringUtils.isBlank(key)) return null;
 

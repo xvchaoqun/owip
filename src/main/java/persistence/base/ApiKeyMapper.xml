@@ -208,11 +208,4 @@
     </if>
   </select>
 
-  <select id="getApiInfoByName" resultType="string">
-    select api_key from base_api_key where name=#{app}
-  </select>
-
-  <select id="getApiInfo" resultType="domain.base.ApiKey">
-    select * from base_api_key where name=#{name};
-  </select>
 </mapper>

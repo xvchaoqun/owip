@@ -31,8 +31,4 @@ public interface ApiKeyMapper {
 
     int updateByPrimaryKey(ApiKey record);
 
-    String getApiInfoByName(@Param("app") String app);
-
-
-    ApiKey getApiInfo(@Param("name") String name);
 }

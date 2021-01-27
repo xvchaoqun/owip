@@ -73,7 +73,7 @@ td.padding10{
  margin: 0 0 0 9em;
 }
 </style>
-<c:if test="${empty hide}">
+<c:if test="${empty hideDownloadBtn}">
     <div style="position: absolute; top:25px; left:10px;">
         <a href="javascript:;" class="downloadBtn btn btn-primary"
            data-url="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">

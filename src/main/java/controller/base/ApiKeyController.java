@@ -52,12 +52,14 @@ public class ApiKeyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("apiKey:list")
     @RequestMapping("/apiKey")
     public String apiKey() {
 
         return "base/apiKey/apiKey_page";
     }
 
+    @RequiresPermissions("apiKey:list")
     @RequestMapping("/apiKey_data")
     @ResponseBody
     public void apiKey_data(HttpServletResponse response,
@@ -110,14 +112,15 @@ public class ApiKeyController extends BaseController {
         return;
     }
 
+    @RequiresPermissions("apiKey:edit")
     @RequestMapping(value = "/apiKey_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apiKey_au(ApiKey record, HttpServletRequest request,@RequestParam("name")String name,@RequestParam("remark")String remark) {
         Integer id = record.getId();
 
         if (id==null) {
-            ApiKey checkrecord = apiKeyMapper.getApiInfo(name);
-            if (checkrecord!=null){
+            ApiKey checkRecord = apiKeyService.getApiInfoByName(name);
+            if (checkRecord!=null){
                 return failed("添加重复");
             }
             String str = RandomStringUtils.randomNumeric(5);
@@ -145,7 +148,7 @@ public class ApiKeyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("apiKey:edit")*/
+    @RequiresPermissions("apiKey:edit")
     @RequestMapping("/apiKey_au")
     public String apiKey_au(Integer id, ModelMap modelMap) {
 
@@ -156,7 +159,7 @@ public class ApiKeyController extends BaseController {
         return "base/apiKey/apiKey_au";
     }
 
-    //@RequiresPermissions("apiKey:del")
+    @RequiresPermissions("apiKey:del")
     @RequestMapping(value = "/apiKey_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apiKey_del(HttpServletRequest request, Integer id) {
@@ -169,7 +172,7 @@ public class ApiKeyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("apiKey:del")
+    @RequiresPermissions("apiKey:del")
     @RequestMapping(value = "/apiKey_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map apiKey_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -200,59 +203,7 @@ public class ApiKeyController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequestMapping("/apiKey_selects")
-    @ResponseBody
-    public Map apiKey_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        ApiKeyExample example = new ApiKeyExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
-
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
-        }
-
-        long count = apiKeyMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<ApiKey> records = apiKeyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(ApiKey record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getName());
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
-    }
-
-   @RequestMapping("/addapi")
-    public String addApi(@Param("name")String name){
-
-
-
-        return "";
-    }
 
 
 }

@@ -33,13 +33,13 @@ public class ApiCadreInfoFormController extends BaseController {
 
     @NeedSign
     @RequestMapping("/cadreInfo")
-    public String getInfo(@SignParam(value = "code") String code, ModelMap modelMap, @RequestParam("app")String app, HttpSession session){
+    public String getInfo(@SignParam(value = "code") String code, ModelMap modelMap, @RequestParam("app")String app){
 
 
         CadreView cadreView =  iCadreMapper.getCadreByCode(code);
         if(cadreView!=null){
             modelMap.put("bean", cadreInfoFormService.getCadreInfoForm(cadreView.getId()));
-            session.setAttribute("hide",true);
+            modelMap.put("hideDownloadBtn",true);
 
             return "cadre/cadreInfoForm/cadreInfoForm_page";
         }else{
