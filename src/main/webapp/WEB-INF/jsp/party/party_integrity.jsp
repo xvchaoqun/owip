@@ -18,7 +18,7 @@
         <tr>
             <td class="bg-right">所属单位</td>
             <td class="bg-left" style="min-width: 80px">${empty partyView.unitId?"否":"是"}</td>
-            <td class="bg-right">党总支类别</td>
+            <td class="bg-right">党组织类别</td>
             <td class="bg-left" style="min-width: 120px">${empty partyView.classId?"否":"是"}</td>
         </tr>
         <tr>

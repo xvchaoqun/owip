@@ -374,7 +374,7 @@ pageEncoding="UTF-8" %>
                 formatoptions: {newformat: 'Y.m.d'}
             },*/
             { label:'简称', name: 'shortName', align:'left', width: 180},
-            { label: '党总支类别', name: 'classId', width: 100, align:'left', formatter:function(cellvalue, options, rowObject){
+            { label: '党组织类别', name: 'classId', width: 100, align:'left', formatter:function(cellvalue, options, rowObject){
                     var _classId = '${cm:getMetaTypeByCode("mt_direct_branch").id}';
                     var str = $.jgrid.formatter.MetaType(cellvalue);
                     //console.log($.jgrid.formatter.MetaType(rowObject.branchType))
