@@ -25,9 +25,9 @@
         <table id="jqGrid2" class="jqGrid2 table-striped"> </table>
         <div id="jqGridPager2"> </div>
       </div>
-    </div><!-- /.widget-main -->
-  </div><!-- /.widget-body -->
-</div><!-- /.widget-box -->
+    </div>
+  </div>
+</div>
 <script>
   $("#jqGrid2").jqGrid({
     multiselect:false,

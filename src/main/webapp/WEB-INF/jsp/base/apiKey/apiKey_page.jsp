@@ -9,7 +9,8 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="apiKey:edit">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/apiKey_au">
-                        <i class="fa fa-plus"></i> 添加
+                        <i class="fa fa-plus"></i>
+                        添加
                     </button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/apiKey_au"
@@ -23,16 +24,19 @@ pageEncoding="UTF-8" %>
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
+                        <i class="fa fa-trash"></i>
+                        删除
                     </button>
                 </shiro:hasPermission>
 
-                <%--<button class="jqOpenViewBtn btn btn-info btn-sm"
+                <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-url="${ctx}/sysApprovalLog"
-                        data-querystr="&type=<%=SystemConstants.SYS_DP_LOG_TYPE_PARTY%>"
-                        data-open-by="page">
-                    <i class="fa fa-sign-in"></i> 查看操作记录
-                </button>--%>
+                        data-grid-id="#jqGrid"
+                        data-width="850"
+                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_BASE_APIKEY%>">
+                    <i class="fa fa-history"></i>
+                    操作记录
+                </button>
 
 
             </div>
@@ -86,15 +90,11 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/apiKey_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: 'api名称',name: 'name',width:300},
+                { label: 'api名称',name: 'name',width:250},
                 { label: '对应键值',name: 'apiKey',width: 400},
                 { label: '备注',name: 'remark',width: 400}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
 </script>

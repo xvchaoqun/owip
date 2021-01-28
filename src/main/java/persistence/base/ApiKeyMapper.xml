@@ -99,17 +99,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.base.ApiKey">
-    insert into base_api_key (id, name, api_key, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into base_api_key (name, api_key, remark
+      )
+    values (#{name,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ApiKey">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into base_api_key
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -121,9 +124,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -207,5 +207,4 @@
       order by ${orderByClause}
     </if>
   </select>
-
 </mapper>

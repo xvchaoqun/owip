@@ -1031,4 +1031,12 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
+    <cache name="ApiKey:ALL"
+           eternal="false"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
 </ehcache> 
