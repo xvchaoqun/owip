@@ -1,4 +1,8 @@
 
+20210128
+-- 吉大
+
+-- 删除 CetProjectDetailController
 
 20210128
 -- 哈工大
@@ -124,7 +128,7 @@ INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `re
 
 ALTER TABLE `ow_party`
 	ADD COLUMN `branch_type` INT(10) UNSIGNED NULL COMMENT '直属党支部所属支部类型 关联元数据' AFTER `unit_type_id`;
--- 更新 ow_party_view、XXXX  pcs_party_view （未更新）XXXXXXXXXXX
+-- 更新 ow_party_view
 
 20210106
 珠海校区

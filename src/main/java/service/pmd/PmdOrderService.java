@@ -177,30 +177,41 @@ public class PmdOrderService extends PmdBaseMapper {
                     pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
-            OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, isMobile);
-            Map<String, String> paramMap = orderFormBean.getParamMap();
+            Map<String, String> paramMap = Pay.getInstance().orderParamMap(orderNo, amt, payer, isMobile);
             newOrder.setParams(JSONUtils.toString(paramMap, false));
-            // 签名
-            newOrder.setSign(orderFormBean.getSign());
-            
-            int userId = ShiroHelper.getCurrentUserId();
-            
             newOrder.setPayMonth(DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM"));
             newOrder.setMemberId(pmdMemberId);
-            newOrder.setUserId(userId);
+            int currentUserId = ShiroHelper.getCurrentUserId();
+            newOrder.setUserId(currentUserId);
             newOrder.setIsSuccess(false);
             newOrder.setIsClosed(false);
             newOrder.setCreateTime(new Date());
             newOrder.setIp(ContextHelper.getRealIp());
             
             pmdOrderMapper.insertSelective(newOrder);
-            
-            sysApprovalLogService.add(pmdMemberId, userId,
+
+            PmdMemberPay record = new PmdMemberPay();
+            record.setMemberId(pmdMemberId);
+            record.setOrderNo(orderNo);
+            record.setOrderUserId(currentUserId);
+
+            if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
+
+                logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, currentUserId);
+                throw new OpException("缴费请求有误，请稍后再试。");
+            }
+
+            // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, isMobile);
+
+            sysApprovalLogService.add(pmdMemberId, currentUserId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                     "支付已确认，即将跳转支付页面", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "订单号：" + orderNo);
 
+            // 签名
+            newOrder.setSign(orderFormBean.getSign());
             newOrder.setFormMap(orderFormBean.getFormMap());
             return newOrder;
         }
@@ -232,17 +243,6 @@ public class PmdOrderService extends PmdBaseMapper {
         
         // 确认订单信息
         PmdOrder pmdOrder = confirmOrder(oldOrderNo, pmdMemberId, isSelfPay, isMobile);
-        
-        PmdMemberPay record = new PmdMemberPay();
-        record.setMemberId(pmdMemberId);
-        record.setOrderNo(pmdOrder.getSn());
-        record.setOrderUserId(currentUserId);
-        
-        if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
-            
-            logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, currentUserId);
-            throw new OpException("缴费请求有误，请稍后再试。");
-        }
         
         // 如果新生成的订单号和原订单号不一致，则关闭原订单号
         if (StringUtils.isNotBlank(oldOrderNo) && !StringUtils.equals(oldOrderNo, pmdOrder.getSn())) {
@@ -488,11 +488,10 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setPayername(payername);
         newOrder.setAmt(amt);
 
-        OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
-        newOrder.setParams(JSONUtils.toString(orderFormBean.getParamMap(), false));
+        Map<String, String> paramMap = Pay.getInstance().orderParamMap(orderNo, amt, payer, false);
+        newOrder.setParams(JSONUtils.toString(paramMap, false));
         newOrder.setSn(orderNo);
-        newOrder.setSign(orderFormBean.getSign());
-        
+
         newOrder.setPayMonth(currentPayMonth);
         newOrder.setIsBatch(true);
         newOrder.setUserId(currentUserId);
@@ -501,10 +500,13 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setCreateTime(new Date());
         newOrder.setIp(ContextHelper.getRealIp());
 
-        newOrder.setFormMap(orderFormBean.getFormMap());
-
         pmdOrderMapper.insertSelective(newOrder);
-        
+
+        // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
+        OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
+
+        newOrder.setSign(orderFormBean.getSign());
+        newOrder.setFormMap(orderFormBean.getFormMap());
         return newOrder;
     }
     
