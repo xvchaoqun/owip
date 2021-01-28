@@ -3,6 +3,8 @@ package interceptor;
 import org.apache.commons.lang.StringUtils;
 import service.base.ApiKeyService;
 import sys.tags.CmTag;
+import sys.utils.SignatureUtil;
+
 import java.util.TreeMap;
 
 public class Signature {
@@ -29,11 +31,13 @@ public class Signature {
         String keyApi = apiKeyService.findAll().get(app);
         if(keyApi==null){
 
-            throw new SignParamsException("工号不存在或签名错误");
+            throw new SignParamsException("工号不存在");
         }
         String key = keyApi;
+
         if(params.size()==0 || StringUtils.isBlank(key)) return null;
-        return key;
+        
+        return SignatureUtil.signature(params, app, key);
     }
 
     public boolean verify(String app, String sign){
