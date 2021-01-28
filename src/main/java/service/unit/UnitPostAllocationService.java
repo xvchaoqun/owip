@@ -486,7 +486,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
             // 不占职数 现任干部
             cell = row.getCell(column++);
-            cell.setCellValue(getCadres2(wb, bean.getNoCpcVices()));
+            cell.setCellValue(getCadres2(wb, bean.getNoCpcMains()));
 
             // 不占职数 副处级
             cell = row.getCell(column++);
