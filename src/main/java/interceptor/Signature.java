@@ -30,8 +30,7 @@ public class Signature {
         }
         String keyApi = apiKeyService.findAll().get(app);
         if(keyApi==null){
-
-            throw new SignParamsException("工号不存在");
+            throw new SignParamsException("app不存在");
         }
         String key = keyApi;
 

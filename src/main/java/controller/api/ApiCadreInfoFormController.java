@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import persistence.cadre.common.ICadreMapper;
 import service.cadre.CadreInfoFormService;
 
 
@@ -21,12 +20,9 @@ public class ApiCadreInfoFormController extends BaseController {
     @Autowired
     private CadreInfoFormService cadreInfoFormService;
 
-    @Autowired
-    private ICadreMapper iCadreMapper;
-
     @NeedSign
-    @RequestMapping("/cadreInfo")
-    public String getInfo(@SignParam(value = "code") String code, ModelMap modelMap, @RequestParam("app")String app){
+    @RequestMapping("/getCadreInfoForm")
+    public String getCadreInfoForm(@SignParam(value = "code") String code, ModelMap modelMap, @RequestParam("app")String app){
 
 
         CadreView cadreView =  iCadreMapper.getCadreByCode(code);
@@ -36,10 +32,7 @@ public class ApiCadreInfoFormController extends BaseController {
 
             return "cadre/cadreInfoForm/cadreInfoForm_page";
         }else{
-            throw new SignParamsException("工号不存在或签名错误");
+            throw new SignParamsException("信息采集表不存在");
         }
     }
-
-    
-
 }

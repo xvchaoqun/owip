@@ -3,28 +3,29 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${apiKey!=null?'修改':'添加'}API接口</h3>
+    <h3>${apiKey!=null?'修改':'添加'}API秘钥</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/apiKey_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${apiKey.id}">
             <div class ="form-group">
-                <label class="col-xs-3 control-label"> Api名称</label>
+                <label class="col-xs-3 control-label"> 应用名称（app）</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="name" value="${apiKey.name}">
                 </div>
             </div>
             <div class ="form-group">
-                <label class="col-xs-3 control-label">键值</label>
+                <label class="col-xs-3 control-label">秘钥（key）</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="apikey" value="${apiKey.apiKey}">
                 </div>
-                <a id="createApiKey" style="text-decoration:none;">生成键值</a>
+                <a id="createApiKey" class="btn btn-xs btn-primary" style="text-decoration:none;"><i class="fa fa-random"></i>
+                    随机生成</a>
             </div>
             <div class ="form-group">
                 <label class="col-xs-3 control-label">备注</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="remark" value="${apiKey.remark}">
+                    <textarea class="form-control" type="text" name="remark">${apiKey.remark}</textarea>
                 </div>
             </div>
     </form>
@@ -37,21 +38,12 @@ pageEncoding="UTF-8"%>
 </div>
 <script src="${ctx}/js/jquery.md5.js"></script>
 <script>
+
     $("#createApiKey").click(function (){
-        function _getRandomString(len) {
-            len = len || 32;
-            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-            var maxPos = $chars.length;
-            var pwd = '';
-            for (i = 0; i < len; i++) {
-                pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-            }
-            return pwd;
-        };
-        var newApiKey = $.md5(_getRandomString(6));
+
+        var newApiKey = $.md5($.getRandomString(6));
         $("[name='apikey']").val(newApiKey);
     });
-
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
@@ -68,10 +60,4 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
 </script>
