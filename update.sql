@@ -1,5 +1,8 @@
 
 
+20210128
+-- 哈工大
+
 -- 为spring.properties 增加 logback.xxx属性
 
 20210122
@@ -22,7 +25,7 @@ ALTER TABLE `ow_branch_member`
 	DROP FOREIGN KEY `FK_ow_branch_member_sys_user`;
 ALTER TABLE `ow_branch_member`
 	ADD CONSTRAINT `FK_ow_branch_member_sys_user` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE;
--- 更新ow_member_view
+-- 更新 ow_member_view
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2572, 0, '历史党员管理', '', 'url', 'fa fa-star-o', '/member/memberHistory', 105, '0/1/105/', 0, 'memberHistory:list', 2, NULL, NULL, 1, 7537);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2633, 0, '删除', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:', 2, NULL, NULL, 1, NULL);
@@ -169,7 +172,7 @@ ALTER TABLE `sys_approval_log`
 
 /*ALTER TABLE `sys_user`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生' AFTER `code`;*/
--- 更新ow_member_view
+-- 更新 ow_member_view
 
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)

@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>党总支类别</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>党组织类别</label>
                     <div class="col-xs-8">
                         <select required class="form-control" name="classId" data-rel="select2"
                                 data-placeholder="请选择分类">
