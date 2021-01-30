@@ -313,9 +313,8 @@ public class CadreAdformService extends BaseMapper {
                 _fulltimeEdu = StringUtils.trimToEmpty(CmTag.getEduName(firstHighDegree.getEduId()))
                         + StringUtils.trimToEmpty(firstHighDegree.getDegree());
             }
-            if (!isJxxx(secondHighDegree.getEduId())) { // 把第二个最高学位对应的学位和学历放在第二行
-                _fulltimeDegree = StringUtils.trimToEmpty(CmTag.getEduName(secondHighDegree.getEduId()))
-                        + StringUtils.trimToEmpty(secondHighDegree.getDegree());
+            if (!isJxxx(secondHighDegree.getEduId())) { // 把第二个最高学位对应的学历放在第二行（不显示学位）
+                _fulltimeDegree = StringUtils.trimToEmpty(secondHighDegree.getDegree());
             }
 
             bean.setSameSchool(false);
@@ -411,9 +410,8 @@ public class CadreAdformService extends BaseMapper {
                 _onjobEdu = StringUtils.trimToEmpty(CmTag.getEduName(firstHighDegree.getEduId()))
                         + StringUtils.trimToEmpty(firstHighDegree.getDegree());
             }
-            if (!isJxxx(secondHighDegree.getEduId())) { // 把第二个最高学位对应的学位和学历放在第二行
-                _onjobDegree = StringUtils.trimToEmpty(CmTag.getEduName(secondHighDegree.getEduId()))
-                        + StringUtils.trimToEmpty(secondHighDegree.getDegree());
+            if (!isJxxx(secondHighDegree.getEduId())) { // 把第二个最高学位对应学历放在第二行 （不显示学位）
+                _onjobDegree = StringUtils.trimToEmpty(secondHighDegree.getDegree());
             }
 
             bean.setSameInSchool(false);

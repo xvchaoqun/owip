@@ -102,16 +102,19 @@ public class CadreEduService extends BaseMapper {
         return cadreEdus.size() > 0 ? cadreEdus.get(0) : null;
     }
 
+    // 读取需要导师信息的所有学历
     public List<Integer> needTutorEduTypes() {
 
-        MetaType eduDoctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
-        MetaType eduMaster = CmTag.getMetaTypeByCode("mt_edu_master");
-        MetaType eduSstd = CmTag.getMetaTypeByCode("mt_edu_sstd");
-        List<Integer> needTutorEduTypeIds = new ArrayList<>();
-        needTutorEduTypeIds.add(eduDoctor.getId());
-        needTutorEduTypeIds.add(eduMaster.getId());
-        needTutorEduTypeIds.add(eduSstd.getId());
+        Map<Integer, MetaType> eduTypeMap = CmTag.getMetaTypes("mc_edu");
 
+        List<Integer> needTutorEduTypeIds = new ArrayList<>();
+        for (MetaType eduType : eduTypeMap.values()) {
+
+            if(StringUtils.startsWith(eduType.getExtraAttr(), "ss")
+            || StringUtils.startsWith(eduType.getExtraAttr(), "bs")){
+                needTutorEduTypeIds.add(eduType.getId());
+            }
+        }
         return needTutorEduTypeIds;
     }
 

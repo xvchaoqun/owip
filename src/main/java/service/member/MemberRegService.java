@@ -1,6 +1,5 @@
 package service.member;
 
-import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceOctetStreamData;
 import controller.global.OpException;
 import domain.member.MemberReg;
 import domain.member.MemberRegExample;

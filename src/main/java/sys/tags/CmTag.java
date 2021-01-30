@@ -722,12 +722,12 @@ public class CmTag {
         if(eduId==null) return "";
 
         MetaType bk = CmTag.getMetaTypeByCode("mt_edu_bk");
-        MetaType master = CmTag.getMetaTypeByCode("mt_edu_master");
-        MetaType doctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
+        MetaType eduType = CmTag.getMetaType(eduId);
 
         if(eduId == bk.getId().intValue()){
             return "大学";
-        }else if(eduId == master.getId().intValue() || eduId == doctor.getId().intValue()){
+        }else if(eduType!=null && (StringUtils.startsWith(eduType.getExtraAttr(), "ss")
+                ||StringUtils.startsWith(eduType.getExtraAttr(), "bs"))){
             return "研究生";
         }
 
