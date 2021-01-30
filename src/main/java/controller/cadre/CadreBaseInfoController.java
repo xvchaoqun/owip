@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
-import sun.misc.BASE64Decoder;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.security.Base64Utils;
 import sys.tags.CmTag;
 import sys.tool.graphicsmagick.GmTool;
 import sys.utils.*;
@@ -135,7 +135,7 @@ public class CadreBaseInfoController extends BaseController {
         if(StringUtils.isBlank(avatar) && StringUtils.isNotBlank(base64Avatar)){
 
              //将字符串转换为byte数组
-            byte[] bytes = new BASE64Decoder().decodeBuffer(base64Avatar);
+            byte[] bytes = Base64Utils.decode(base64Avatar);
             //转化为输入流
             ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
             avatar = FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)

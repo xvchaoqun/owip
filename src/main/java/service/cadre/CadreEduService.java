@@ -118,13 +118,14 @@ public class CadreEduService extends BaseMapper {
         return needTutorEduTypeIds;
     }
 
-    // 查找某个干部的学习经历
+    // 查找某个干部的学习经历（仅读取填写了开始时间的，高中如果不填写入学时间，则不显示在列表中，仅显示在“学历学位”中）
     public List<CadreEdu> list(int cadreId, Boolean isGraduated) {
 
         List<CadreEdu> cadreEdus = null;
         {
             CadreEduExample example = new CadreEduExample();
             CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andEnrolTimeIsNotNull()
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             if (isGraduated != null)
                 criteria.andIsGraduatedEqualTo(isGraduated);

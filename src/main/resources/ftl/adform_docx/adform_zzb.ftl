@@ -1552,6 +1552,7 @@
 							<w:t>${edu!}</w:t>
 						</w:r>
 					</w:p>
+					<#if degree?? && degree?trim?length gt 1>
 					<w:p w14:paraId="6E97E3ED"
    						w14:textId="0670DF97"
    						w:rsidR="00931B34"
@@ -1572,6 +1573,7 @@
 							<w:t>${degree!}</w:t>
 						</w:r>
 					</w:p>
+					</#if>
 				</w:tc>
 				<w:tc>
 					<w:tcPr>
@@ -1956,6 +1958,7 @@
 							<w:t>${inEdu!}</w:t>
 						</w:r>
 					</w:p>
+					<#if inDegree?? && inDegree?trim?length gt 1>
 					<w:p w14:paraId="11FD0650"
    						w14:textId="0841C575"
    						w:rsidR="00931B34"
@@ -1975,6 +1978,7 @@
 							<w:t>${inDegree!}</w:t>
 						</w:r>
 					</w:p>
+					</#if>
 				</w:tc>
 				<w:tc>
 					<w:tcPr>

@@ -721,18 +721,18 @@ public class CmTag {
 
         if(eduId==null) return "";
 
-        MetaType bk = CmTag.getMetaTypeByCode("mt_edu_bk");
         MetaType eduType = CmTag.getMetaType(eduId);
+        if(eduType==null) return "";
+        if(BooleanUtils.isTrue(eduType.getBoolAttr())) return ""; // 任免表隐藏学历
 
-        if(eduId == bk.getId().intValue()){
+        if(StringUtils.startsWith(eduType.getExtraAttr(), "bk")){
             return "大学";
-        }else if(eduType!=null && (StringUtils.startsWith(eduType.getExtraAttr(), "ss")
-                ||StringUtils.startsWith(eduType.getExtraAttr(), "bs"))){
+        }else if(StringUtils.startsWith(eduType.getExtraAttr(), "ss")
+                ||StringUtils.startsWith(eduType.getExtraAttr(), "bs")){
             return "研究生";
         }
 
-        MetaType edu = CmTag.getMetaType(eduId);
-        return edu.getName();
+        return eduType.getName();
     }
 
     // 获取干部的党派（中共党员+第一民主党派）

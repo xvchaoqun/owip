@@ -341,13 +341,11 @@ public class CadreAdformService extends BaseMapper {
                 if (fulltimeHighEdu.getId().intValue() == fulltimeHighDegree.getId()) {
                     // 最高学历和学位毕业学校及专业相同
                     bean.setSameSchool(true);
-                    /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
-                            + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-                    bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));*/
                     bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                             + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
                             +StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
                     bean.setSchoolDepMajor2(null);
+
                 } else {
                     bean.setSameSchool(false);
                     bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
@@ -360,9 +358,6 @@ public class CadreAdformService extends BaseMapper {
             } else if (fulltimeHighEdu != null) {
 
                 bean.setSameSchool(true);
-                /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
-                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));*/
 
                 bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                             + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
@@ -372,9 +367,6 @@ public class CadreAdformService extends BaseMapper {
             } else if (fulltimeHighDegree != null) {
 
                 bean.setSameSchool(true);
-                /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
-                        + StringUtils.trimToEmpty(fulltimeHighDegree.getDep()));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));*/
 
                 bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
                             + StringUtils.trimToEmpty(fulltimeHighDegree.getDep())
@@ -388,13 +380,18 @@ public class CadreAdformService extends BaseMapper {
                 _fulltimeEdu = CmTag.getEduName(fulltimeHighEdu.getEduId());
 
                 bean.setSameSchool(true);
-                /*bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
-                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));*/
+
                 bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                         + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
                         + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
                 bean.setSchoolDepMajor2(null);
+            }
+
+            MetaType eduType = CmTag.getMetaType(fulltimeHighEdu.getEduId());
+            if(eduType==null
+                    || StringUtils.startsWith(eduType.getExtraAttr(), "cz")
+                    || StringUtils.startsWith(eduType.getExtraAttr(), "gz")){
+                bean.setSchoolDepMajor1(null); // 全日制教育中，初中、高中的学历不显示“毕业院校系及专业”
             }
         }
 
@@ -457,9 +454,6 @@ public class CadreAdformService extends BaseMapper {
             } else if (onjobHighEdu != null) {
 
                 bean.setSameInSchool(true);
-                /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
-                        + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));*/
                 bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
                         + StringUtils.trimToEmpty(onjobHighEdu.getDep())
                         + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
@@ -467,9 +461,6 @@ public class CadreAdformService extends BaseMapper {
             } else if (onjobHighDegree != null) {
 
                 bean.setSameInSchool(true);
-                /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
-                        + StringUtils.trimToEmpty(onjobHighDegree.getDep()));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));*/
                 bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
                         + StringUtils.trimToEmpty(onjobHighDegree.getDep())
                         + StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
@@ -482,9 +473,6 @@ public class CadreAdformService extends BaseMapper {
                 _onjobEdu = CmTag.getEduName(onjobHighEdu.getEduId());
 
                 bean.setSameInSchool(true);
-                /*bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
-                        + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));*/
                 bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
                         + StringUtils.trimToEmpty(onjobHighEdu.getDep())
                         + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
@@ -543,14 +531,19 @@ public class CadreAdformService extends BaseMapper {
         bean.setResumeDesc(StringUtils.trimToNull(_resume));
 
         //年度考核结果
-        Integer evaYears = CmTag.getIntProperty("evaYears");
-        if (evaYears == null) evaYears = 3;
+        int evaYears = CmTag.getIntProperty("evaYears", 3);
         Integer currentYear = DateUtils.getCurrentYear();
-        List<Integer> years = new ArrayList<>();
-        for (Integer i = 0; i < evaYears; i++) {
-            years.add(currentYear - evaYears + i);
+
+        String evaResult = CmTag.getStringProperty("defaultEvaResult"); // {0}年均为合格
+
+        if(StringUtils.isNotBlank(evaResult)) {
+            List<Integer> years = new ArrayList<>();
+            for (Integer i = 0; i < evaYears; i++) {
+                years.add(currentYear - evaYears + i);
+            }
+            evaResult = StringUtils.replace(evaResult, "{0}", StringUtils.join(years, "、"));
         }
-        String evaResult = StringUtils.join(years, "、") + "年均为合格"; // 默认
+
         {
             Map<Integer, String> evaMap = new LinkedHashMap<>();
             CadreEvaExample example = new CadreEvaExample();
