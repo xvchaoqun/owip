@@ -17,7 +17,6 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
-import javax.ws.rs.GET;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -42,7 +41,7 @@ public class StatService extends BaseMapper {
         return statMemberMapper.memberApply_groupByBranchId(partyId);
     }
 
-    // 按阶段统计党员发展
+    // 按正式党员、预备党员统计党员数量
     public Map politicalStatusMap(Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _map = new HashMap<>();
@@ -63,7 +62,7 @@ public class StatService extends BaseMapper {
         return map;
     }
 
-    // 按类型统计党员发展
+    // 按类型统计党员数量
     public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId, Byte isRetire) {
 
         Map<Byte, Integer> _map = new HashMap<>();
@@ -106,7 +105,7 @@ public class StatService extends BaseMapper {
 
     }
 
-    // 按阶段统计党员发展
+    // 按阶段统计发展党员数量
     public Map applyMap(Byte type, Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _applyMap = new HashMap<>();

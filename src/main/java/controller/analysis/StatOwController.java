@@ -92,7 +92,7 @@ public class StatOwController extends BaseController {
         return "analysis/ow/stat_member_age";
     }
 
-    // 发展党员统计
+    // 发展党员数量统计
     @RequiresPermissions("stat:ow")
     @RequestMapping("/stat_member_apply")
     public String stat_member_apply(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
