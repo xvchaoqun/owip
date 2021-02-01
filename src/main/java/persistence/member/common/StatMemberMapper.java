@@ -21,6 +21,10 @@ public interface StatMemberMapper {
                                           @Param("branchId")Integer branchId,
                                           @Param("isRetire") Byte isRetire);
 
+    //统计某阶段各类型发展党员的数量 groupBy为空的为本科生
+    @Select("select count(*) as num, s.student_level as groupBy from ow_member_apply ow LEFT join sys_student_info s on s.user_id=ow.user_id where ow.stage=#{stage} and ow.is_remove=0 group by groupBy")
+    List<StatByteBean> memberApply_groupByLevel(@Param("stage") byte stage);
+
     // 统计教职工党员年龄分布情况
     List<StatIntBean> member_teatcherGroupByBirth(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
