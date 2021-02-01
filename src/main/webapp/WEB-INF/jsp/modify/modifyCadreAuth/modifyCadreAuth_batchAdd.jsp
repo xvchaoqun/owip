@@ -25,8 +25,7 @@
                         <label class="col-xs-2 control-label">请选择干部</label>
 
                         <div class="col-xs-9">
-                            <div id="tree3" style="height: 500px;">
-                                <div class="block-loading"/>
+                            <div id="tree3" style="height: 500px;" class="block-loading">
                             </div>
                         </div>
                     </div>

@@ -9,13 +9,11 @@
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/dr/selectUnitIdsAndInspectorTypeIds" id="modalFrom" method="post">
     <div class="col-xs-6">
-      <div id="unitsTree" style="height: 400px;">
-        <div class="block-loading"/>
+      <div id="unitsTree" style="height: 400px;" class="block-loading">
       </div>
     </div>
     <div class="col-xs-6">
-      <div id="inspectorTypesTree" style="height: 400px;">
-        <div class="block-loading"/>
+      <div id="inspectorTypesTree" style="height: 400px;" class="block-loading">
       </div>
     </div>
   </form>

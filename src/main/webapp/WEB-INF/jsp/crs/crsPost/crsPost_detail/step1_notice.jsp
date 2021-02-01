@@ -35,7 +35,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <div class="swf-file-view">
+            <div class="pdf-file-view" style="width: 730px">
                 <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(crsPost.notice)}"/>
             </div>
         </div>
@@ -48,15 +48,15 @@
             var $this = $(this);
             var $form = $this.closest("form");
             var $btn = $("button", $form).button('loading');
-            var preHtml = $(".swf-file-view").html();
-            $(".swf-file-view").html('<img src="${ctx}/img/loading.gif"/>')
+            var preHtml = $(".pdf-file-view").html();
+            $(".pdf-file-view").html('<img src="${ctx}/img/loading.gif"/>')
             $form.ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $(".swf-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
+                        $(".pdf-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
                     }else{
-                        $(".swf-file-view").html(preHtml);
+                        $(".pdf-file-view").html(preHtml);
                     }
                     $btn.button('reset');
                     $this.attr("disabled", false);

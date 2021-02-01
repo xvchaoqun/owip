@@ -489,31 +489,6 @@ td.dark-danger{
     border: none;
 }
 
-/*.ui-jqgrid .loading {
-    left: 45%;
-    top: 45%;
-
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    font-size: 3em;
-    background-color: transparent;
-    -webkit-animation: fa-spin 1s infinite steps(8);
-    animation: fa-spin 1s infinite steps(8);
-
-    height: 40px;
-    width: 40px;
-    border: none;
-}
-
-.ui-jqgrid .loading:before {
-    content: "\f110";
-}*/
-
 .ui-common-table button {
     /*margin: 0!important;*/
     /* padding: 0!important;*/
@@ -1084,16 +1059,6 @@ br.xs-100 {
     width: 1200px;
 }
 
-.block-loading {
-    width: 35px;
-    height: 35px;
-    /*position: relative;*/
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: url('../img/loading.gif') center center no-repeat;
-}
-
 /*form*/
 form .form-actions {
     margin-bottom: 0px;
@@ -1149,10 +1114,6 @@ form .star {
     float: left;
 }
 
-/*.dispatch_cadres .date-picker {
-    width: 100px;
-}*/
-
 .dispatch_cadres .select-form {
     padding-bottom: 20px;
 }
@@ -1175,7 +1136,7 @@ form .star {
 .dispatch_cadres .swf-file.flash {
 }
 
-.pdf-page{
+.block-loading{
     background-image: url('/img/loading.gif');
     background-repeat: no-repeat;
     background-position:center;
@@ -1211,30 +1172,19 @@ form .star {
     width: 500px;
 }
 
-#dispatch-file-view {
+.pdf-file-view, #dispatch-file-view {
     height: 750px;
-    text-align: center;
-    line-height: 750px;
     overflow-y: auto;
     background-color: #eaeaea;
-    padding: 0;
-}
-
-.swf-file-view {
-    width: 730px;
-    line-height: 750px;
     text-align: center;
-    height: 750px;
-    overflow-y: auto;
+    padding: 0;
+    /*line-height: 750px;*/
 }
 
 .dispatch_au .swf-file.none {
     height: 710px;
     text-align: center;
     line-height: 710px;
-}
-
-.dispatch_au .swf-file.flash {
 }
 
 .passport_apply .preview, .passport_apply .info {

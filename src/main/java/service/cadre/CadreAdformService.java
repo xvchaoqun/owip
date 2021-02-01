@@ -387,11 +387,13 @@ public class CadreAdformService extends BaseMapper {
                 bean.setSchoolDepMajor2(null);
             }
 
-            MetaType eduType = CmTag.getMetaType(fulltimeHighEdu.getEduId());
-            if(eduType==null
-                    || StringUtils.startsWith(eduType.getExtraAttr(), "cz")
-                    || StringUtils.startsWith(eduType.getExtraAttr(), "gz")){
-                bean.setSchoolDepMajor1(null); // 全日制教育中，初中、高中的学历不显示“毕业院校系及专业”
+            if(fulltimeHighEdu!=null) {
+                MetaType eduType = CmTag.getMetaType(fulltimeHighEdu.getEduId());
+                if (eduType == null
+                        || StringUtils.startsWith(eduType.getExtraAttr(), "cz")
+                        || StringUtils.startsWith(eduType.getExtraAttr(), "gz")) {
+                    bean.setSchoolDepMajor1(null); // 全日制教育中，初中、高中的学历不显示“毕业院校系及专业”
+                }
             }
         }
 
