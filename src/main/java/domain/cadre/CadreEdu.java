@@ -96,6 +96,12 @@ public class CadreEdu implements Serializable {
 
     private String note;
 
+    private Boolean noteBracketsExclude;
+
+    private Boolean adformEduExclude;
+
+    private Boolean adformResumeExclude;
+
     private Integer sortOrder;
 
     private Byte status;
@@ -324,6 +330,30 @@ public class CadreEdu implements Serializable {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+
+    public Boolean getNoteBracketsExclude() {
+        return noteBracketsExclude;
+    }
+
+    public void setNoteBracketsExclude(Boolean noteBracketsExclude) {
+        this.noteBracketsExclude = noteBracketsExclude;
+    }
+
+    public Boolean getAdformEduExclude() {
+        return adformEduExclude;
+    }
+
+    public void setAdformEduExclude(Boolean adformEduExclude) {
+        this.adformEduExclude = adformEduExclude;
+    }
+
+    public Boolean getAdformResumeExclude() {
+        return adformResumeExclude;
+    }
+
+    public void setAdformResumeExclude(Boolean adformResumeExclude) {
+        this.adformResumeExclude = adformResumeExclude;
     }
 
     public Integer getSortOrder() {

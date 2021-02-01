@@ -1922,6 +1922,186 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
+        public Criteria andNoteBracketsExcludeIsNull() {
+            addCriterion("note_brackets_exclude is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeIsNotNull() {
+            addCriterion("note_brackets_exclude is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeEqualTo(Boolean value) {
+            addCriterion("note_brackets_exclude =", value, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeNotEqualTo(Boolean value) {
+            addCriterion("note_brackets_exclude <>", value, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeGreaterThan(Boolean value) {
+            addCriterion("note_brackets_exclude >", value, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("note_brackets_exclude >=", value, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeLessThan(Boolean value) {
+            addCriterion("note_brackets_exclude <", value, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeLessThanOrEqualTo(Boolean value) {
+            addCriterion("note_brackets_exclude <=", value, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeIn(List<Boolean> values) {
+            addCriterion("note_brackets_exclude in", values, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeNotIn(List<Boolean> values) {
+            addCriterion("note_brackets_exclude not in", values, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeBetween(Boolean value1, Boolean value2) {
+            addCriterion("note_brackets_exclude between", value1, value2, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoteBracketsExcludeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("note_brackets_exclude not between", value1, value2, "noteBracketsExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeIsNull() {
+            addCriterion("adform_edu_exclude is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeIsNotNull() {
+            addCriterion("adform_edu_exclude is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeEqualTo(Boolean value) {
+            addCriterion("adform_edu_exclude =", value, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeNotEqualTo(Boolean value) {
+            addCriterion("adform_edu_exclude <>", value, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeGreaterThan(Boolean value) {
+            addCriterion("adform_edu_exclude >", value, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("adform_edu_exclude >=", value, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeLessThan(Boolean value) {
+            addCriterion("adform_edu_exclude <", value, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeLessThanOrEqualTo(Boolean value) {
+            addCriterion("adform_edu_exclude <=", value, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeIn(List<Boolean> values) {
+            addCriterion("adform_edu_exclude in", values, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeNotIn(List<Boolean> values) {
+            addCriterion("adform_edu_exclude not in", values, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_edu_exclude between", value1, value2, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformEduExcludeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_edu_exclude not between", value1, value2, "adformEduExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeIsNull() {
+            addCriterion("adform_resume_exclude is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeIsNotNull() {
+            addCriterion("adform_resume_exclude is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeEqualTo(Boolean value) {
+            addCriterion("adform_resume_exclude =", value, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeNotEqualTo(Boolean value) {
+            addCriterion("adform_resume_exclude <>", value, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeGreaterThan(Boolean value) {
+            addCriterion("adform_resume_exclude >", value, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("adform_resume_exclude >=", value, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeLessThan(Boolean value) {
+            addCriterion("adform_resume_exclude <", value, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeLessThanOrEqualTo(Boolean value) {
+            addCriterion("adform_resume_exclude <=", value, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeIn(List<Boolean> values) {
+            addCriterion("adform_resume_exclude in", values, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeNotIn(List<Boolean> values) {
+            addCriterion("adform_resume_exclude not in", values, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_resume_exclude between", value1, value2, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformResumeExcludeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_resume_exclude not between", value1, value2, "adformResumeExclude");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

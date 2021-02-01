@@ -174,6 +174,10 @@ public class CadreEduController extends BaseController {
         record.setIsHighDegree(BooleanUtils.isTrue(record.getIsHighDegree()));
         record.setIsSecondDegree(BooleanUtils.isTrue(record.getIsSecondDegree()));
 
+        record.setNoteBracketsExclude(BooleanUtils.isTrue(record.getNoteBracketsExclude()));
+        record.setAdformEduExclude(BooleanUtils.isTrue(record.getAdformEduExclude()));
+        record.setAdformResumeExclude(BooleanUtils.isTrue(record.getAdformResumeExclude()));
+
         if (id == null) {
 
             if (!toApply) {
