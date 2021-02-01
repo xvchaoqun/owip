@@ -9,8 +9,7 @@
   </div>
   <div class="modal-body">
   <form class="form-horizontal"  action="${ctx}/cet/cetProjectObj_batchSelect" autocomplete="off" disableautocomplete id="modalForm" method="post">
-  <div id="tree3" style="min-height: 400px">
-      <div class="block-loading"/>
+  <div id="tree3" style="min-height: 400px" class="block-loading">
   </div>
   </form>
   </div>

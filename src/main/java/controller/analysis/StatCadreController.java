@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.cadre.common.*;
 import sys.constants.CadreConstants;
 import sys.constants.CrpConstants;
@@ -494,18 +495,25 @@ public class StatCadreController extends BaseController {
     }
     // 干部数量统计
     @RequestMapping("/stat_cadre_count")
-    public String stat_cadre_count(Byte cadreType, ModelMap modelMap) {
+    public String stat_cadre_count() {
+
+        return "analysis/cadre/stat_cadre_count";
+    }
+
+    @RequestMapping("/stat_cadre_count_data")
+    @ResponseBody
+    public Map stat_cadre_count_data(Byte cadreType) {
+
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
         // 行政级别
         Map<String,Integer> statCadreCountMap = new HashMap<>();
-        List<String> statCadreCountType = new ArrayList<>();
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_adminLevel(searchBean);
         for(StatCadreBean scb:adminLevelList){
             statCadreCountMap.put(CmTag.getMetaTypeByCode(scb.adminLevelCode).getName(),scb.num);
         }
-        modelMap.put("statCadreCountMap",statCadreCountMap);
-        return "analysis/cadre/stat_cadre_count";
+
+        return statCadreCountMap;
     }
 
     // 干部性别，民族统计

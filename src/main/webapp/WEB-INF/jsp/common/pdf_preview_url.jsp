@@ -11,7 +11,7 @@
     <title>${filename}</title>
     <script src="${ctx}/extend/js/lazyload.js"></script>
     <style>
-        .pdf-page{
+        .block-loading{
             background-image: url('/img/loading.gif');
             background-repeat: no-repeat;
             background-position:center;
@@ -31,7 +31,7 @@
 </c:if>
 <c:if test="${exists}">
     <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo" varStatus="vs">
-        <div class="pdf-page">
+        <div class="block-loading">
         <img data-src="${ctx}/pdf_image?path=${cm:sign(path)}&pageNo=${pageNo}"
           src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)"
             style="width: 100%;padding-bottom: ${vs.last?0:5}px;">

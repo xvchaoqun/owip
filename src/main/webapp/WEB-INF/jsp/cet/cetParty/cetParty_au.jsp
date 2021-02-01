@@ -8,10 +8,7 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <c:if test="${param.batch==1}">
-            <div class="col-xs-11">
-                <div id="partiesTree" style="height: 400px;">
-                    <div class="block-loading"/>
-                </div>
+            <div id="partiesTree" style="height: 400px;" class="block-loading">
             </div>
         </c:if>
         <c:if test="${param.batch!=1}">

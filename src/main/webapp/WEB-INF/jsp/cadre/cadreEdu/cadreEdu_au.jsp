@@ -182,7 +182,7 @@
 							</label>
 							<span class="secondDegree" style="display: none">
 							<input type="checkbox" name="isSecondDegree" ${cadreEdu.isSecondDegree?"checked":""}> 第二个最高学位 <span class="prompt" data-title="第二个最高学位说明"
-							  data-prompt="如果最高学位是双学位，请在添加第二个最高学位的时候勾选此选项。"><i class="fa fa-question-circle-o"></i></span>
+							  data-prompt="如果存在两个最高学位，请在添加第二个最高学位的时候勾选此选项。"><i class="fa fa-question-circle-o"></i></span>
 							</span>
 						</div>
 					</div>
