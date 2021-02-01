@@ -18,6 +18,8 @@ import sys.HttpResponseMethod;
 
 public class MemberBaseController extends MemberBaseMapper  implements HttpResponseMethod {
     @Autowired
+    protected MemberHistoryService memberHistoryService;
+    @Autowired
     protected MemberCertifyService memberCertifyService;
     @Autowired
     protected MemberReportService memberReportService;

@@ -1,7 +1,6 @@
 package service.cadre;
 
 import bean.ResumeRow;
-import controller.global.OpException;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import sys.utils.DateUtils;
@@ -70,7 +69,8 @@ public class CadreUtils {
                 }
             }
 
-            parseResumeRow(newRow, line, realname);
+            if (parseResumeRow(newRow, line, realname)==1)
+                continue;
             resumeRows.add(newRow);
 
             // 处理其间经历
@@ -121,7 +121,8 @@ public class CadreUtils {
         }
 
         if(r.start==null){
-            throw new OpException(realname + "第{0}行{1}简历读取起始时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
+            return 1;
+            //throw new OpException(realname + "第{0}行{1}简历读取起始时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
 
         String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{1,2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{1,2})?\\s*(.*)",
@@ -133,19 +134,22 @@ public class CadreUtils {
             //System.out.println(mc.end());
             desc = desc.substring(mc.end());
         }
-        r.desc = desc.trim().replaceAll("(；|。|;)*", "");
 
         if(StringUtils.isBlank(desc)){
-            throw new OpException(realname + "第{0}行{1}简历读取为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
-        }
+            desc = "";
+            r.isEdu = false;
+            //throw new OpException(realname + "第{0}行{1}简历读取为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
+        }else {
+            r.desc = desc.trim().replaceAll("(；|。|;)*", "");
 
-        // 判断是否是学习经历
-        r.isEdu = ((StringUtils.containsAny(desc,  "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "博士")
-                || r.desc.endsWith("学生")|| r.desc.endsWith("本科")|| r.desc.endsWith("本科生")|| r.desc.endsWith("研究生") || r.desc.endsWith("读大学"))
-                && !StringUtils.containsAny(desc, "助教", "讲师", "教师", "校长"))
-                || (StringUtils.contains(desc, "学位") && !StringUtils.containsAny(desc, "学位委员", "学位办公室"))
-                || (StringUtils.contains(desc, "毕业") && !StringUtils.contains(desc, "毕业生就业"))
-                || (StringUtils.contains(desc, "硕士") && !StringUtils.containsAny(desc, "硕士教育中心", "硕士办公室"));
+            // 判断是否是学习经历
+            r.isEdu = ((StringUtils.containsAny(desc, "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "博士")
+                    || r.desc.endsWith("学生") || r.desc.endsWith("本科") || r.desc.endsWith("本科生") || r.desc.endsWith("研究生") || r.desc.endsWith("读大学"))
+                    && !StringUtils.containsAny(desc, "工作", "支教", "助教", "讲师", "教师", "校长"))
+                    || (StringUtils.contains(desc, "学位") && !StringUtils.containsAny(desc, "学位委员", "学位办公室"))
+                    || (StringUtils.contains(desc, "毕业") && !StringUtils.contains(desc, "毕业生就业"))
+                    || (StringUtils.contains(desc, "硕士") && !StringUtils.containsAny(desc, "硕士教育中心", "硕士办公室"));
+        }
 
         // 博士后算工作经历
         if(r.isEdu && StringUtils.contains(desc, "博士后")){

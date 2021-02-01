@@ -12,9 +12,11 @@
 </#if>
 <#list dataList as row>
 <w:p>
+    <#if needHanging?? && needHanging>
     <w:pPr>
-        <w:spacing w:line="18pt" w:lineRule="exact"/>
+        <w:ind w:left="2200" w:hanging="${row[1]?starts_with("（")?string("136","2000")}"/>
     </w:pPr>
+    </#if>
     <#list row as col>
     <#if col_index!=0>
     <w:r>

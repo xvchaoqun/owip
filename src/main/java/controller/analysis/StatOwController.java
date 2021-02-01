@@ -7,7 +7,6 @@ import domain.party.BranchExample;
 import domain.party.Party;
 import domain.party.PartyExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.formula.functions.Now;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import persistence.member.common.MemberStatByPartyBean;
-import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -58,13 +56,29 @@ public class StatOwController extends BaseController {
     @RequestMapping("/stat_member_count")
     public String stat_member_count(Integer type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
-        if (type != null) {
+        if (type != null && type !=3) {
             modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
+        }
+        Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
+        Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
+        if (type == null){
+            isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, (byte) 1);
+            isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, (byte) 1);
+            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, null);
+            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, null);
+        }else if (type != null && type ==3){
+            isRetirePositiveMap = statService.typeMap(null, partyId, branchId, (byte) 1);
+            statPositiveMap = statService.typeMap(null, partyId, branchId, null);
         }
         modelMap.put("type", type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
-        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
+        modelMap.put("isRetireGrowMap",isRetireGrowMap);
+        modelMap.put("isRetirePositiveMap",isRetirePositiveMap);
+        modelMap.put("statGrowMap", statGrowMap);
+        modelMap.put("statPositiveMap", statPositiveMap);
+
         return "analysis/ow/stat_member_count";
     }
 

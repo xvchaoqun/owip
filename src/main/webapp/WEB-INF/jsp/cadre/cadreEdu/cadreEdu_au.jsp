@@ -351,9 +351,9 @@
 			$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
 		}
 
+		var eduExtraAttr = $eduId.find("option:selected").data("extra-attr");
 		// 学历为高中、中专不需要填写院系和专业
-		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_gz").id}"
-				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
+		if(typeof eduExtraAttr!='undefined' && (eduExtraAttr.startWith("gz")||eduExtraAttr.startWith("zz"))){
 
 			$("#modalForm input[name=dep]").requireField(false);
 			$("#modalForm input[name=major]").requireField(false)
@@ -362,9 +362,7 @@
 			$("#modalForm input[name=major]").requireField(true);
 		}
 
-		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
-				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"
-				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_sstd").id}"){
+		if(typeof eduExtraAttr!='undefined' && (eduExtraAttr.startWith("ss")||eduExtraAttr.startWith("bs"))){
 			<c:if test="${sysUser.userId!=_user.userId}">
 			$("#modalForm input[name=tutorName]").prop("disabled", false);
 			$("#modalForm input[name=tutorTitle]").prop("disabled", false);
@@ -374,8 +372,8 @@
 			$("#modalForm input[name=tutorTitle]").requireField(true);
 			</c:if>
 		}else{
-			$("#modalForm input[name=tutorName]").requireField(false, true);;
-			$("#modalForm input[name=tutorTitle]").requireField(false, true);;
+			$("#modalForm input[name=tutorName]").requireField(false, true);
+			$("#modalForm input[name=tutorTitle]").requireField(false, true);
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_jxxx").id}"){

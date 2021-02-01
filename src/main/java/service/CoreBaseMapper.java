@@ -255,6 +255,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected StatMemberMapper statMemberMapper;
 
+    @Autowired
+    protected ApiKeyMapper apiKeyMapper;
     @Autowired(required = false)
     protected LocationMapper locationMapper;
     @Autowired(required = false)

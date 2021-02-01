@@ -10,9 +10,6 @@
 </#if>
 <#list dataList as row>
 <w:p>
-    <w:pPr>
-        <w:spacing w:line="18pt" w:lineRule="exact"/>
-    </w:pPr>
     <#list row as col>
     <#if col_index!=0>
     <w:r>

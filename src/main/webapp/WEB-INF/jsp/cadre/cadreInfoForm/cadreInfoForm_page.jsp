@@ -35,8 +35,8 @@
 .td1{width:0.91041666in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td2{width:0.9826389in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td3{/*width:0.98194444in;*/padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td4{width:0.9847222in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td5{/*width:0.9840278in;*/padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td4{font-size:smaller;width:0.9847222in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td5{font-size:smaller;/*width:0.9840278in;*/padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td6{width:1.2972223in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td7{width:1.9645833in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td8{width:1.96875in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
@@ -55,7 +55,7 @@
 .td21{width:1.2715278in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td22{width:1.0881945in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td23{width:1.0854167in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.r1{height:0.43333334in;}
+.r1{height:0.33333334in;}
 .r2{height:0.7083333in;}
 .r3{keep-together:always;}
 .r4{height:0.35416666in;}
@@ -73,13 +73,16 @@ td.padding10{
  margin: 0 0 0 9em;
 }
 </style>
-<div style="position: absolute; top:25px; left:10px;">
-    <a href="javascript:;" class="downloadBtn btn btn-primary"
-       data-url="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">
-        <i class="ace-icon fa fa-download "></i>
-        下载(WORD)
-    </a>
-</div>
+<c:if test="${empty hideDownloadBtn}">
+    <div style="position: absolute; top:25px; left:10px;">
+        <a href="javascript:;" class="downloadBtn btn btn-primary"
+           data-url="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">
+            <i class="ace-icon fa fa-download "></i>
+            下载(WORD)
+        </a>
+    </div>
+</c:if>
+
 <div>
     <div style="float: left; margin-right: 20px; padding-bottom: 20px">
     <table class="t1">
@@ -121,7 +124,7 @@ td.padding10{
             <div><span>（${bean.age}岁）</span></div>
             </c:if>
         </td><td class="td6 center bolder"  rowspan="4">
-            <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
+            <img src="data:image/jpeg;base64,${bean.avatar}" width="100%"/>
         </td>
         </tr>
         <tr class="r1">
@@ -421,7 +424,8 @@ td.padding10{
         </td>
         </tr>
         <tr class="r4">
-            <td class="td1 center bolder" rowspan="5">
+            <c:set var="companyCount" value="${fn:length(bean.cadreCompanies)}"/>
+            <td class="td1 center bolder" rowspan="${2+(companyCount>3?companyCount:3)}">
                 <span>企业、社团</span>
                 <div>
                     <span>兼职情况</span>
@@ -448,9 +452,8 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:set var="cadreCompaniesCount" value="${fn:length(bean.cadreCompanies)}"/>
-        <c:if test="${cadreCompaniesCount<=2}">
-        <c:forEach begin="0" end="${2-cadreCompaniesCount}">
+        <c:if test="${companyCount<=2}">
+        <c:forEach begin="0" end="${2-companyCount}">
         <tr class="r4">
             <td class="td13" colspan="6">
                 <p class="p18"></p>
@@ -471,7 +474,7 @@ td.padding10{
         </tr>
         <tr class="r4">
             <c:set var="familyCount" value="${fn:length(bean.cadreFamilys)}"/>
-            <td class="td1 center bolder" rowspan="${familyCount<6?7:(familyCount+1)}">
+            <td class="td1 center bolder" rowspan="${1 + (familyCount>3?familyCount:3)}">
                     <span>家庭成员</span>
                 <div><span>信息</span></div>
             </td><td class="td15 center bolder">
@@ -507,8 +510,8 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:if test="${familyCount<=5}">
-        <c:forEach begin="0" end="${5-familyCount}">
+        <c:if test="${familyCount<=2}">
+        <c:forEach begin="0" end="${2-familyCount}">
         <tr class="r4">
             <td class="td15">
                 <p class="p18"></p>
@@ -526,7 +529,7 @@ td.padding10{
         </c:if>
         <tr class="r4">
              <c:set var="familyAbroadCount" value="${fn:length(bean.cadreFamilyAbroads)}"/>
-            <td class="td1 center bolder" rowspan="${familyAbroadCount<2?3:(familyAbroadCount+1)}">
+            <td class="td1 center bolder" rowspan="${1 + (familyAbroadCount>2?familyAbroadCount:2)}">
                     <span>配偶、子女移居国（境）外的情况</span>
             </td><td class="td15 center bolder">
                 <span>称  谓</span>
@@ -569,7 +572,8 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
-        <c:if test="${familyAbroadCount==1}">
+        <c:if test="${familyAbroadCount<=1}">
+        <c:forEach begin="0" end="${1-familyAbroadCount}">
         <tr class="r2">
             <td class="td15">
                 <p class="p18"></p>
@@ -591,6 +595,7 @@ td.padding10{
             <p class="p19"></p>
         </td>
         </tr>
+            </c:forEach>
         </c:if>
         </tbody>
     </table>

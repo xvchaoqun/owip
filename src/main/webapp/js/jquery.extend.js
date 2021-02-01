@@ -1,4 +1,8 @@
-﻿/**
+﻿var _permissions =[];
+if(typeof(_ps) != 'undefined') {
+    _permissions = JSON.parse($.base64.decode(_ps));
+}
+/**
  * toPageNo 显示第几页内容
  * pageNo 表示指定页码的变量名称，默认为"pageNo"
  * uri 请求列表的url地址
@@ -1037,6 +1041,16 @@ var _modal_width;
             var isjson = typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase()
                 == "[object object]" && !obj.length;
             return isjson;
+        },
+        getRandomString: function (len) {
+            len = len || 32;
+            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+            var maxPos = $chars.length;
+            var pwd = '';
+            for (i = 0; i < len; i++) {
+                pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+            }
+            return pwd;
         },
         initNavGrid: function (gridId, pagerId) {
             $("#" + gridId).navGrid('#' + pagerId, {

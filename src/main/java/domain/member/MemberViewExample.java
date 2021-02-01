@@ -5653,6 +5653,70 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andStudentLevelIsNull() {
+            addCriterion("student_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelIsNotNull() {
+            addCriterion("student_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelEqualTo(Byte value) {
+            if (value == SystemConstants.STUDENT_TYPE_BKS){
+                addCriterion(MessageFormat.format("(student_level ={0} or student_level is null)", value));
+            }else{
+                addCriterion("student_level =", value, "studentLevel");
+            }
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelNotEqualTo(Byte value) {
+            addCriterion("student_level <>", value, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelGreaterThan(Byte value) {
+            addCriterion("student_level >", value, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelGreaterThanOrEqualTo(Byte value) {
+            addCriterion("student_level >=", value, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelLessThan(Byte value) {
+            addCriterion("student_level <", value, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelLessThanOrEqualTo(Byte value) {
+            addCriterion("student_level <=", value, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelIn(List<Byte> values) {
+            addCriterion("student_level in", values, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelNotIn(List<Byte> values) {
+            addCriterion("student_level not in", values, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelBetween(Byte value1, Byte value2) {
+            addCriterion("student_level between", value1, value2, "studentLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentLevelNotBetween(Byte value1, Byte value2) {
+            addCriterion("student_level not between", value1, value2, "studentLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andDelayYearIsNull() {
             addCriterion("delay_year is null");
             return (Criteria) this;
@@ -6290,6 +6354,186 @@ public class MemberViewExample {
 
         public Criteria andGradeNotBetween(String value1, String value2) {
             addCriterion("grade not between", value1, value2, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIsNull() {
+            addCriterion("is_graduate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIsNotNull() {
+            addCriterion("is_graduate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateEqualTo(Boolean value) {
+            addCriterion("is_graduate =", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotEqualTo(Boolean value) {
+            addCriterion("is_graduate <>", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGreaterThan(Boolean value) {
+            addCriterion("is_graduate >", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate >=", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateLessThan(Boolean value) {
+            addCriterion("is_graduate <", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate <=", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIn(List<Boolean> values) {
+            addCriterion("is_graduate in", values, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotIn(List<Boolean> values) {
+            addCriterion("is_graduate not in", values, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate between", value1, value2, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate not between", value1, value2, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkIsNull() {
+            addCriterion("is_work is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkIsNotNull() {
+            addCriterion("is_work is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkEqualTo(Boolean value) {
+            addCriterion("is_work =", value, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkNotEqualTo(Boolean value) {
+            addCriterion("is_work <>", value, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkGreaterThan(Boolean value) {
+            addCriterion("is_work >", value, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_work >=", value, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkLessThan(Boolean value) {
+            addCriterion("is_work <", value, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_work <=", value, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkIn(List<Boolean> values) {
+            addCriterion("is_work in", values, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkNotIn(List<Boolean> values) {
+            addCriterion("is_work not in", values, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_work between", value1, value2, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsWorkNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_work not between", value1, value2, "isWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeIsNull() {
+            addCriterion("is_graduate_grade is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeIsNotNull() {
+            addCriterion("is_graduate_grade is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeEqualTo(Boolean value) {
+            addCriterion("is_graduate_grade =", value, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeNotEqualTo(Boolean value) {
+            addCriterion("is_graduate_grade <>", value, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeGreaterThan(Boolean value) {
+            addCriterion("is_graduate_grade >", value, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate_grade >=", value, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeLessThan(Boolean value) {
+            addCriterion("is_graduate_grade <", value, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate_grade <=", value, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeIn(List<Boolean> values) {
+            addCriterion("is_graduate_grade in", values, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeNotIn(List<Boolean> values) {
+            addCriterion("is_graduate_grade not in", values, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate_grade between", value1, value2, "isGraduateGrade");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGradeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate_grade not between", value1, value2, "isGraduateGrade");
             return (Criteria) this;
         }
 

@@ -98,14 +98,30 @@ public class StatPartyController extends BaseController {
     public String stat_party_member_count(Integer type, int partyId, Integer branchId, ModelMap modelMap) {
 
         PartyHelper.checkAuth(partyId);
-        if (type != null) {
-            modelMap.put("type", type);
+        if (type != null && type !=3) {
+
             modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
         }
+        Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
+        Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
+        if (type == null){
+            isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, (byte) 1);
+            isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, (byte) 1);
+            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, null);
+            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, null);
+        }else if (type != null && type ==3){
+            isRetirePositiveMap = statService.typeMap(null, partyId, branchId, (byte) 1);
+            statPositiveMap = statService.typeMap(null, partyId, branchId, null);
+        }
 
+        modelMap.put("type", type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
-        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
+        modelMap.put("isRetireGrowMap", isRetireGrowMap);
+        modelMap.put("isRetirePositiveMap", isRetirePositiveMap);
+        modelMap.put("statGrowMap", statGrowMap);
+        modelMap.put("statPositiveMap", statPositiveMap);
         modelMap.put("isPartyAdmin", true);
         modelMap.put("partyId", partyId);
 

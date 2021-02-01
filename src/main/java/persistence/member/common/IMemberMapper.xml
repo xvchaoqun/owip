@@ -118,6 +118,12 @@
     <select id="selectMemberStudentCount" parameterType="map" resultType="map">
         select sum(if(status=1, 1, 0)) as student_normalCount, sum(if(status=4, 1, 0)) as student_transferCount from ow_member_view m
         where m.type=2
+        <if test="studentLevel != null and studentLevel != 2">
+            and m.student_level=#{studentLevel}
+        </if>
+        <if test="studentLevel != null and studentLevel == 2">
+            and (m.student_level=#{studentLevel} or m.student_level is null)
+        </if>
         <include refid="member_selects_permits"/>
     </select>
 

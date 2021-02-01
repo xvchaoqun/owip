@@ -138,7 +138,7 @@ public class PartyMemberGroupController extends BaseController {
                 adminPartyIdList.addAll(partyIdList);
             }
 
-            if (partyIdList.size() > 0)
+            if (adminPartyIdList.size() > 0)
                 criteria.andPartyIdIn(adminPartyIdList);
             else criteria.andPartyIdIsNull();
             //}

@@ -1,8 +1,7 @@
 <#if title??>
     <w:p w14:paraId="372C729E" w14:textId="77777777" w:rsidR="00E759EF" w:rsidRPr="00B62C14" w:rsidRDefault="0087435A" w:rsidP="00B943F3">
         <w:pPr>
-            <w:spacing w:line="22pt" w:lineRule="exact"/>
-            <w:ind w:start="102.05pt" w:hanging="102.05pt"/>
+            <w:ind w:left="2000" w:hanging="2000"/>
             <w:rPr>
                 <w:b/>
             </w:rPr>
@@ -23,16 +22,14 @@
             <#switch col>
                 <#case 0>
                     <w:pPr>
-                        <w:spacing w:line="22pt" w:lineRule="exact"/>
-                        <w:ind w:start="102.05pt" w:hanging="102.05pt"/>
+                        <w:ind w:left="2000" w:hanging="2000"/>
                     </w:pPr>
                     <#break>
                 <#case 1>
                     <w:pPr>
                         <#if row_index==0>
-                            <w:spacing w:line="440" w:line-rule="exact"/>
                         </#if>
-                        <w:ind w:left-chars="350" w:left="105"/>
+                        <w:ind w:startChars="850" w:left="4000" w:hanging="2000"/>
                         <w:rPr>
                             <w:sz w:val="24"/>
                         </w:rPr>
@@ -40,16 +37,14 @@
                     <#break>
                 <#case 2>
                 <w:pPr>
-                    <w:spacing w:line="22pt" w:lineRule="exact"/>
-                    <w:ind w:startChars="850" w:start="204.05pt" w:hanging="102.05pt"/>
+                    <w:ind w:startChars="850" w:left="4000" w:hanging="2000"/>
                 </w:pPr>
                     <#break>
             </#switch>
         </#if>
         <#if col_index!=0>
             <w:pPr>
-                <w:spacing w:line="22pt" w:lineRule="exact"/>
-                <w:ind w:start="102.05pt" w:hanging="102.05pt"/>
+                <w:ind w:left="2000" w:hanging="2000"/>
             </w:pPr>
             <w:r>
                 <w:t xml:space="preserve">${col}</w:t>

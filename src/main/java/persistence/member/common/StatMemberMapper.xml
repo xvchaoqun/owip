@@ -17,7 +17,10 @@
 
     <!-- 统计党员分布情况（预备、正式） -->
     <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, type as groupBy from ow_member where status=1
+        select count(*) as num, student_level as groupBy from ow_member_view where status=1
+        <if test="isRetire!=null">
+            and type=1 and is_retire=#{isRetire}
+        </if>
         <if test="politicalStatus!=null">
             and political_status =#{politicalStatus}
         </if>

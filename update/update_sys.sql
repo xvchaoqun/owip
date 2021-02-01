@@ -1,4 +1,36 @@
 
+-- 2021.01.28 hwd
+ALTER TABLE `base_api_key`
+	CHANGE COLUMN `remark` `remark` VARCHAR(50) NOT NULL COMMENT '备注' AFTER `api_key`;
+
+INSERT INTO `base_api_key` (`name`, `api_key`, `remark`) VALUES ('cadreApi', '5e257013876cc0e69a53bae6037d1491', '');
+
+
+-- 2021.1.27 hwd
+CREATE TABLE `base_api_key` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+	`name` VARCHAR(50) NULL DEFAULT '0' COMMENT 'app名称',
+	`api_key` VARCHAR(50) NULL DEFAULT '0' COMMENT '对应键值',
+	`remark` VARCHAR(50) NOT NULL DEFAULT '0' COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='API接口管理'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=13
+;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4001, 0, '接口管理', '', 'url', '', '/apiKey', 67, '0/1/67/', 1, 'apiKey:*', NULL, NULL, NULL, 1, NULL);
+
+
+-- 2021.1.22
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2634, 0, '党建信息统计', '', 'menu', '组织部，分党委', NULL, 105, '0/1/105/', 0, 'statSummary:menu', NULL, NULL, NULL, 1, 29700);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2566, 0, '二级党委数据统计', '组织部,分党委', 'url', '', '/stat/partySum?cls=1', 2634, '0/1/105/2634/', 1, 'stat:partySum', 2, NULL, NULL, 1, 60);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2565, 0, '组织机构年统数据', '组织部', 'url', '', '/stat/owSum', 2634, '0/1/105/2634/', 1, 'stat:owSum', 1, NULL, NULL, 1, 70);
+
+-- 2021.1.20 ly
+ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生' AFTER `code`;
 
 -- 2021.1.14 ly
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('use_inside_pgb', '启用内设党总支', 'false', 3, 97, '在二级党委和党支部之间加一层内设党总支');

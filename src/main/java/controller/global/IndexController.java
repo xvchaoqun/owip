@@ -41,6 +41,13 @@ public class IndexController extends BaseController {
 	@Autowired(required = false)
 	private OaTaskUserService oaTaskUserService;
 
+	// 权限、系统设置等初始化js
+	@RequestMapping("/js_init")
+	public String js_init() {
+
+		return "common/js_init";
+	}
+
 	// 系统消息数量
 	@RequestMapping("/info")
 	@ResponseBody

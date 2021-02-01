@@ -67,9 +67,9 @@ t.title_level,t.marital_status,t.address,
 t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
 if(isnull(t.is_retire), 0, t.is_retire) as is_retire, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
 
-s.delay_year,s.period,s.actual_graduate_time,
+if(m.type=1,1,s.student_level) as student_level,s.delay_year,s.period,s.actual_graduate_time,
 s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,
-s.enrol_year,s.grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
+s.enrol_year,s.grade,s.is_graduate,s.is_work,s.is_graduate_grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
 
 from ow_member m
 left join sys_user_info ui on ui.user_id=m.user_id

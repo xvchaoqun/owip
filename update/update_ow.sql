@@ -1,4 +1,49 @@
 
+-- 2021.1.22 ly
+ALTER TABLE `ow_apply_approval_log`
+	DROP INDEX `FK_ow_apply_approval_log_sys_user`,
+	DROP INDEX `FK_ow_apply_approval_log_sys_user_2`,
+	DROP FOREIGN KEY `FK_ow_apply_approval_log_sys_user`;
+ALTER TABLE `ow_branch_member`
+	DROP FOREIGN KEY `FK_ow_branch_member_sys_user`;
+ALTER TABLE `ow_branch_member`
+	ADD CONSTRAINT `FK_ow_branch_member_sys_user` FOREIGN KEY (`user_id`) REFERENCES `db_owip_dlut`.`sys_user` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE;
+-- 更新ow_member_view
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2572, 0, '历史党员管理', '', 'url', 'fa fa-star-o', '/member/memberHistory', 105, '0/1/105/', 0, 'memberHistory:list', 2, NULL, NULL, 1, 7537);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2633, 0, '删除', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2573, 0, '编辑', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:edit', 2, NULL, NULL, 1, NULL);
+
+DROP TABLE IF EXISTS `ow_member_history`;
+CREATE TABLE IF NOT EXISTS `ow_member_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL COMMENT '学工号',
+  `realname` varchar(20) NOT NULL COMMENT '姓名',
+  `id_card` varchar(20) DEFAULT NULL COMMENT '身份证号',
+  `type` tinyint(1) unsigned NOT NULL COMMENT '类别，1教工 2学生',
+  `gender` tinyint(1) unsigned DEFAULT NULL COMMENT '性别 1男 2女',
+  `nation` varchar(50) DEFAULT NULL COMMENT '民族',
+  `native_place` varchar(100) DEFAULT NULL COMMENT '籍贯',
+  `birth` date DEFAULT NULL COMMENT '出生时间',
+  `party_name` varchar(200) DEFAULT NULL COMMENT '二级党组织名称',
+  `branch_name` varchar(200) DEFAULT NULL COMMENT '党支部名称',
+  `political_status` tinyint(1) NOT NULL COMMENT '党籍状态 1 预备党员、2 正式党员',
+  `transfer_time` date DEFAULT NULL COMMENT '组织关系转入时间',
+  `apply_time` date DEFAULT NULL COMMENT '提交书面申请书时间',
+  `active_time` date DEFAULT NULL COMMENT '确定为入党积极分子时间',
+  `candidate_time` date DEFAULT NULL COMMENT '确定为发展对象时间',
+  `sponsor` varchar(20) DEFAULT NULL COMMENT '入党介绍人',
+  `grow_time` date DEFAULT NULL COMMENT '入党时间',
+  `positive_time` date DEFAULT NULL COMMENT '转正时间',
+  `pro_post` varchar(50) DEFAULT NULL COMMENT '专业技术职务',
+  `phone` varchar(100) DEFAULT NULL COMMENT '手机',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
+  `remark1` varchar(255) DEFAULT NULL COMMENT '备注1',
+  `remark2` varchar(255) DEFAULT NULL COMMENT '备注2',
+  `remark3` varchar(255) DEFAULT NULL COMMENT '备注3',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='历史党员库';
+
 -- 2021.1.15 ly
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2567, 0, '基层党组织信息统计', '', 'url', '', '/party/partyInfoStatistics', 260, '0/1/260/', 1, 'stat:infoStatistics', NULL, NULL, NULL, 1, 75);
 ALTER TABLE `ow_party`

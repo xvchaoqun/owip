@@ -7,6 +7,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -110,7 +111,9 @@ public class ExceptionHandlerController {
             logger.error(getMsg(request, ex), ex);
             if (ex instanceof FileNotFoundException) {
                 msg = "文件不存在";
-            } else if (ex instanceof HttpRequestMethodNotSupportedException) {
+            }if(ex instanceof UncategorizedSQLException && ex.getMessage().contains("Incorrect string value")) {
+                msg = "内容包含特殊字符，请修改后重试";
+            }else if (ex instanceof HttpRequestMethodNotSupportedException) {
                 ModelAndView mv = new ModelAndView();
                 mv.setViewName("404");
                 return mv;

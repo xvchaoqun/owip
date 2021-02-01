@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="taglibs.jsp"%>
-<script type="text/javascript">
-	var ctx="${ctx}", isMobile=false, _hasLoginPage= ${_hasLoginPage=='true'},
-			_permissions=${cm:toJSONObject(cm:findPermissions(_user.username, false))},
-		_uploadMaxSize=${_uploadMaxSize}, _mobileRegex="${fn:replace(_pMap['mobileRegex'], "\\", "\\\\")}"
-</script>
+<script src="${ctx}/js_init"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript">location.href="${ctx}/page/browsers.jsp?type=unsupport";</script>
 <![endif]-->

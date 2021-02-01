@@ -1,8 +1,7 @@
 <#list dataList as row>
 <w:p w14:paraId="51924773" w14:textId="77777777" w:rsidR="00C5539E" w:rsidRDefault="009907B5">
     <w:pPr>
-        <w:spacing w:line="18pt" w:lineRule="exact"/>
-        <w:ind w:start="100pt" w:hanging="100pt"/>
+        <w:ind w:left="2200" w:hanging="${row[1]?starts_with("（")?string("136","2000")}"/>
     </w:pPr>
     <#list row as col>
         <#if col_index!=0>

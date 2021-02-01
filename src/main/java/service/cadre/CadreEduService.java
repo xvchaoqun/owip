@@ -102,26 +102,30 @@ public class CadreEduService extends BaseMapper {
         return cadreEdus.size() > 0 ? cadreEdus.get(0) : null;
     }
 
+    // 读取需要导师信息的所有学历
     public List<Integer> needTutorEduTypes() {
 
-        MetaType eduDoctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
-        MetaType eduMaster = CmTag.getMetaTypeByCode("mt_edu_master");
-        MetaType eduSstd = CmTag.getMetaTypeByCode("mt_edu_sstd");
-        List<Integer> needTutorEduTypeIds = new ArrayList<>();
-        needTutorEduTypeIds.add(eduDoctor.getId());
-        needTutorEduTypeIds.add(eduMaster.getId());
-        needTutorEduTypeIds.add(eduSstd.getId());
+        Map<Integer, MetaType> eduTypeMap = CmTag.getMetaTypes("mc_edu");
 
+        List<Integer> needTutorEduTypeIds = new ArrayList<>();
+        for (MetaType eduType : eduTypeMap.values()) {
+
+            if(StringUtils.startsWith(eduType.getExtraAttr(), "ss")
+            || StringUtils.startsWith(eduType.getExtraAttr(), "bs")){
+                needTutorEduTypeIds.add(eduType.getId());
+            }
+        }
         return needTutorEduTypeIds;
     }
 
-    // 查找某个干部的学习经历
+    // 查找某个干部的学习经历（仅读取填写了开始时间的，高中如果不填写入学时间，则不显示在列表中，仅显示在“学历学位”中）
     public List<CadreEdu> list(int cadreId, Boolean isGraduated) {
 
         List<CadreEdu> cadreEdus = null;
         {
             CadreEduExample example = new CadreEduExample();
             CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andEnrolTimeIsNotNull()
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             if (isGraduated != null)
                 criteria.andIsGraduatedEqualTo(isGraduated);

@@ -68,7 +68,8 @@ public interface IMemberMapper {
 
     Map selectMemberStudentCount(@Param("addPermits") Boolean addPermits,
                                  @Param("adminPartyIdList") List<Integer> adminPartyIdList,
-                                 @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+                                 @Param("adminBranchIdList") List<Integer> adminBranchIdList,
+                                 @Param("studentLevel") Byte studentLevel);
 
     @Select("select max(code) from ow_member_stay where left(code, 4)=#{year}")
     String getMemberStayMaxCode(@Param("year") int year);

@@ -17,8 +17,9 @@ public interface StatMemberMapper {
 
     // 统计预备/正式党员类别分布情况
     List<StatByteBean> member_groupByType(@Param("politicalStatus")Byte politicalStatus,
-                                                     @Param("partyId")Integer partyId,
-                                                     @Param("branchId")Integer branchId);
+                                          @Param("partyId")Integer partyId,
+                                          @Param("branchId")Integer branchId,
+                                          @Param("isRetire") Byte isRetire);
 
     // 统计教职工党员年龄分布情况
     List<StatIntBean> member_teatcherGroupByBirth(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);

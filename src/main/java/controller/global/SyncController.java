@@ -156,21 +156,27 @@ public class SyncController extends BaseController {
         switch (type){
             case SystemConstants.SYNC_TYPE_JZG:
                 syncService.syncAllJZG(false);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "%s数据同步完成", SystemConstants.SYNC_TYPE_MAP.get(type)));
                 break;
             case SystemConstants.SYNC_TYPE_YJS:
                 syncService.syncAllYJS(false);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "%s数据同步完成", SystemConstants.SYNC_TYPE_MAP.get(type)));
                 break;
             case SystemConstants.SYNC_TYPE_BKS:
                 syncService.syncAllBks(false);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "%s数据同步完成", SystemConstants.SYNC_TYPE_MAP.get(type)));
                 break;
             case SystemConstants.SYNC_TYPE_ABROAD:
                 syncService.syncAllAbroad(false);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "%s数据同步完成", SystemConstants.SYNC_TYPE_MAP.get(type)));
                 break;
             case SystemConstants.SYNC_TYPE_RETIRE_SALARY:
                 syncService.syncRetireSalary(false);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "%s数据同步完成", SystemConstants.SYNC_TYPE_MAP.get(type)));
                 break;
             case SystemConstants.SYNC_TYPE_JZG_SALARY:
                 syncService.syncJzgSalary(false);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "%s数据同步完成", SystemConstants.SYNC_TYPE_MAP.get(type)));
                 break;
         }
 

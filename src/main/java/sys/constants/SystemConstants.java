@@ -1,19 +1,12 @@
 package sys.constants;
 
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SystemConstants {
 
-    public final static Map<String, String> appKeyMap = new HashMap<>();
-
-    static {
-
-        appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");
-        appKeyMap.put("oa", "b887e286bf5d82b7b9712ed03d3e6e0e");
-        appKeyMap.put("zcdy", "5931e054d3b59be97b3481f6e604afe6");
-    }
 
     public static Map loginFailedResultMap(String message) {
 
@@ -214,6 +207,20 @@ public class SystemConstants {
         DEGREE_TYPE_MAP.put(DEGREE_TYPE_BS, "博士");
     }
 
+    // 学生分类，主要用来区分学生,1234为全局通用的 1 教职工 2本科生 3硕士 4博士
+    public final static byte TEACHER_TYPE_JZG = 1;
+    public final static byte STUDENT_TYPE_BKS = 2;
+    public final static byte STUDENT_TYPE_SS = 3;
+    public final static byte STUDENT_TYPE_BS = 4;
+    public final static Map<Byte, String> STUDENT_TYPE_MAP = new LinkedHashMap();
+
+    static {
+        STUDENT_TYPE_MAP.put(TEACHER_TYPE_JZG, "教职工");
+        STUDENT_TYPE_MAP.put(STUDENT_TYPE_BKS, "本科生");
+        STUDENT_TYPE_MAP.put(STUDENT_TYPE_SS, "硕士研究生");
+        STUDENT_TYPE_MAP.put(STUDENT_TYPE_BS, "博士研究生");
+    }
+
     // 职称级别，1 初级 2 中级 3 副高 4 正高
     public final static byte PRO_POST_LEVEL_CJ = 1;
     public final static byte PRO_POST_LEVEL_ZJ = 2;
@@ -358,8 +365,10 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_PROJECT = 11; // 过程培训
     public final static byte SYS_APPROVAL_LOG_TYPE_CR_APPLICANT = 12; // 干部招聘2-报名审核
     public final static byte SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY = 13;//党统
+    public final static byte SYS_APPROVAL_LOG_TYPE_PMD_USER = 14; // 党费收缴(用户)
     public final static byte SYS_APPROVAL_LOG_PM = 20;//三会一课操作
     public final static byte SYS_DP_LOG_TYPE_PARTY = 21;//民主党派操作
+    public final static byte SYS_APPROVAL_LOG_TYPE_BASE_APIKEY = 22;//接口管理
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
@@ -376,8 +385,10 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN, "二级党委培训");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_PROJECT, "过程培训");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY, "党统报送数据");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_USER, "党费收缴(用户)");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_PM, "三会一课");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_DP_LOG_TYPE_PARTY, "民主党派");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_BASE_APIKEY,"接口管理");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员
