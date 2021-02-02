@@ -12,10 +12,10 @@ import java.util.List;
  */
 public interface StatMemberMapper {
 
-    // 统计党员分布情况（预备、正式）
+    // 统计党员分布情况（按预备、正式分类）
     List<StatByteBean> member_groupByPoliticalStatus(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
-    // 统计预备/正式党员类别分布情况
+    // 统计正式或预备党员分布情况（按student_level分类）
     List<StatByteBean> member_groupByType(@Param("politicalStatus")Byte politicalStatus,
                                           @Param("partyId")Integer partyId,
                                           @Param("branchId")Integer branchId,

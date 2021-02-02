@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.analysis.StatOwInfoMapper">
+    <sql id="Where_ow">
+        <if test="partyId!=null">
+            and party_id =#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id =#{branchId}
+        </if>
+    </sql>
+    <!-- 统计党员分布情况（预备、正式） -->
+    <select id="member_groupByPoliticalStatus" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, political_status as groupBy from ow_member_view where status=1
+        <if test="partyId!=null">
+            and partyId = #{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branchId = #{branchId}
+        </if>
+        <if test="enrolYear!=null">
+            and enrol_year = #{enrolYear}
+        </if>
+        <include refid="Where_ow"/> group by groupBy
+    </select>
+
+    <!-- 统计党员分布情况（预备、正式） -->
+    <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, student_level as groupBy from ow_member_view where status=1
+        <if test="politicalStatus!=null">
+            and political_status =#{politicalStatus}
+        </if>
+        <if test="partyId!=null">
+            and partyId = #{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branchId =#{branchId}
+        </if>
+        <if test="isRetire!=null">
+            and type=1 and is_retire=#{isRetire}
+        </if>
+        <if test="enrolYear!=null">
+            and enrol_year = #{enrolYear}
+        </if>
+        <include refid="Where_ow"/> group by groupBy
+    </select>
+
+    <!-- 统计某阶段各类型发展党员的数量 groupBy为空的为本科生 -->
+    <select id="memberApply_groupByLevel" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, s.student_level as groupBy
+        from ow_member_apply ow
+        LEFT join sys_student_info s on s.user_id=ow.user_id
+        where ow.stage=#{stage}
+        <if test="enrolYear!=null">
+            and s.enrol_year = #{enrolYear}
+        </if>
+        <if test="partyId!=null">
+            and ow.party_id =#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and ow.branch_id =#{branchId}
+        </if>
+        and ow.is_remove=0 group by groupBy
+    </select>
+
+    <select id="selectUser_groupByLevel" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, s.student_level as groupBy
+        from sys_user u
+        LEFT join sys_student_info s on s.user_id=u.id
+        where
+        <if test="enrolYear!=null">
+            s.enrol_year = #{enrolYear} and
+        </if>
+        u.locked=0 group by groupBy
+    </select>
+
+</mapper>

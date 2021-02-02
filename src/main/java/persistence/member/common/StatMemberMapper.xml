@@ -9,13 +9,13 @@
             and branch_id =#{branchId}
         </if>
     </sql>
-    <!-- 统计党员分布情况（预备、正式） -->
+    <!--统计党员分布情况（按预备、正式分类）-->
     <select id="member_groupByPoliticalStatus" resultType="bean.StatByteBean" parameterType="map">
         select count(*) as num, political_status as groupBy from ow_member where status=1
         <include refid="Where_ow"/> group by groupBy
     </select>
 
-    <!-- 统计党员分布情况（预备、正式） -->
+    <!-- // 统计正式或预备党员分布情况（按student_level分类） -->
     <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
         select count(*) as num, student_level as groupBy from ow_member_view where status=1
         <if test="isRetire!=null">
