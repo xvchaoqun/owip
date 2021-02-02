@@ -31,94 +31,93 @@
 </div>
 <script>
 
-        var dom;
-        if(${param.type == 1 && param.cadreType == 1}){
-            dom=$('#cadreGender-placeholder_CJ').get(0)
-        }else if(${param.type == 1 && param.cadreType == 2}){
-            dom=$('#cadreGender-placeholder_KJ').get(0)
-        }else if(${param.type == 2 && param.cadreType == 1}){
-            dom= $('#cadreNation-placeholder_CJ').get(0)
-        }else if(${param.type == 2 && param.cadreType == 2}){
-            dom= $('#cadreNation-placeholder_KJ').get(0)
-        }
+        var $div;
+        <c:if test="${param.type == 1 && param.cadreType == 1}">
+             $div=$('#cadreGender-placeholder_CJ');
+        </c:if>
+        <c:if test="${param.type == 1 && param.cadreType == 2}">
+             $div=$('#cadreGender-placeholder_KJ');
+        </c:if>
+        <c:if test="${param.type == 2 && param.cadreType == 1}">
+             $div= $('#cadreNation-placeholder_CJ');
+        </c:if>
+        <c:if test="${param.type == 2 && param.cadreType == 2}">
+             $div= $('#cadreNation-placeholder_KJ');
+        </c:if>
 
-        var myChart = echarts.init(dom);
-        option = null;
-        var data =  getData();
+        (function($displayDiv, cadreType){
+            var cadreOtherChart = echarts.init($displayDiv);
+            cadreOtherChart.showLoading({text: '正在加载数据'});
 
-        //console.dir(data)
-        option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {d}%'
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'vertical',
-                left: 10,
-                top: 20,
-                bottom: 20,
-                data: data.legendData,
-            },
-            series: [
-                {
-                    name: '${param.type == 1?"性别":"民族"}',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: data.seriesData2
-                },
-                {
-                    name: '${param.type == 1?"性别":"民族"}',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: data.seriesData1,
-                    itemStyle:{            //饼图图形上的文本标签
-                        normal: {
-                            label: {
-                                show: true,
-                                position: 'inner',
-                                fontSize: 12,
-                                align: "left",
-                                textStyle: {
-                                    fontWeight: 300,
-                                    fontSize: 12,   //文字的字体大小
-                                    color:'white'
-                                },
-                                formatter: '{d}%'
+            $.get("${ctx}/stat_cadreOther_count_data", {type:${param.type},cadreType:cadreType}, function (otherMap) {
+
+                var legendData = [];
+                var seriesData1 = [];
+                var seriesData2 = [];
+
+                $.each(otherMap, function (key, value) {
+                    var item=key+'('+value+')';
+                    legendData.push(item);
+                    seriesData1.push({
+                        name: item,
+                        value: value
+                    });
+                    seriesData2.push({
+                        name: key,
+                        value: value
+                    });
+                });
+
+             var option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {d}%'
+                    },
+                    legend: {
+                        type: 'scroll',
+                        orient: 'vertical',
+                        left: 10,
+                        top: 20,
+                        bottom: 20,
+                        data: legendData,
+                    },
+                    series: [
+                        {
+                            name: '${param.type == 1?"性别":"民族"}',
+                            type: 'pie',
+                            radius: '60%',
+                            center: ['60%', '50%'],
+                            data: seriesData2
+                        },
+                        {
+                            name: '${param.type == 1?"性别":"民族"}',
+                            type: 'pie',
+                            radius: '60%',
+                            center: ['60%', '50%'],
+                            data: seriesData1,
+                            itemStyle:{            //饼图图形上的文本标签
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        position: 'inner',
+                                        fontSize: 12,
+                                        align: "left",
+                                        textStyle: {
+                                            fontWeight: 300,
+                                            fontSize: 12,   //文字的字体大小
+                                            color:'white'
+                                        },
+                                        formatter: '{d}%'
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            ]
-        };
+                    ]
+                };
 
-        function getData() {
-            var legendData = [];
-            var seriesData1 = [];
-            var seriesData2 = [];
-            var otherMap = ${cm:toJSONObject(otherMap)};
-            $.each(otherMap, function (key, value) {
-                var item=key+'('+value+')';
-                legendData.push(item);
-                seriesData1.push({
-                    name: item,
-                    value: value
-                });
-                seriesData2.push({
-                    name: key,
-                    value: value
-                });
-            });
-            return {
-                legendData: legendData,
-                seriesData1: seriesData1,
-                seriesData2: seriesData2,
+                cadreOtherChart.setOption(option, true);
+                cadreOtherChart.hideLoading();
 
-            };
-        };
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
+            })
+        })($div[0], ${param.cadreType});
 </script>

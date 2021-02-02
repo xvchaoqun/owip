@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+
 <div class="row" id="cartogram">
     <div class="row">
         <div class="col-xs-12">
@@ -82,7 +83,9 @@
                 <div class="widget-body">
                     <div class="widget-main padding-4">
                         <c:import url="/stat_cadre_avgAge?cadreType=1"/>
-                       <%-- <c:import url="/stat_cadre_avgAge?cadreType=2"/>--%>
+                       <%-- <c:if test="${_p_hasKjCadre}">
+                        <c:import url="/stat_cadre_avgAge?cadreType=2"/>
+                        </c:if>--%>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
             </div><!-- /.widget-box -->

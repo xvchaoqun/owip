@@ -493,6 +493,7 @@ public class StatCadreController extends BaseController {
 
         return "analysis/cadre/stat_cadre_index_page";
     }
+
     // 干部数量统计
     @RequestMapping("/stat_cadre_count")
     public String stat_cadre_count() {
@@ -518,7 +519,16 @@ public class StatCadreController extends BaseController {
 
     // 干部性别，民族统计
     @RequestMapping("/stat_cadreOther_count")
-    public String stat_cadreOther_count(Integer type ,Byte cadreType, ModelMap modelMap) {
+    public String stat_cadreOther_count() {
+
+        return "analysis/cadre/stat_cadreOther_count";
+    }
+
+    // 干部性别，民族统计数据
+    @RequestMapping("/stat_cadreOther_count_data")
+    @ResponseBody
+    public Map stat_cadreOther_count(Integer type ,Byte cadreType) {
+
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
         Map otherMap = new LinkedHashMap();
@@ -556,15 +566,23 @@ public class StatCadreController extends BaseController {
             }
             otherMap.put("汉族", nation1);
             otherMap.put("少数民族", nation2);
-            /*modelMap.put("otherMap",otherMap);
-            return "analysis/cadre/stat_cadreNation_count";*/
+
         }
-        modelMap.put("otherMap",otherMap);
-        return "analysis/cadre/stat_cadreOther_count";
+
+        return otherMap;
     }
-    // 干部数量统计
+
+    // 干部政治面貌统计
     @RequestMapping("/stat_cadreDp_count")
-    public String stat_cadreDp_count(Byte cadreType, ModelMap modelMap) {
+    public String stat_cadreDp_count() {
+
+        return "analysis/cadre/stat_cadre_dp";
+    }
+
+    // 干部政治面貌统计数据
+    @RequestMapping("/stat_cadreDp_count_data")
+    @ResponseBody
+    public Map stat_cadreDp_count(Byte cadreType) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
 
@@ -577,12 +595,20 @@ public class StatCadreController extends BaseController {
         cadreDpMap.put("民主党派",totalBean == null ?0:totalBean.getNum1());
         cadreDpMap.put("群众",totalBean == null ?0:totalBean.getNum3());
 
-        modelMap.put("cadreDpMap",cadreDpMap);
-        return "analysis/cadre/stat_cadre_dp";
+        return cadreDpMap;
     }
-    // 干部数量统计
+
+    // 干部年龄统计
     @RequestMapping("/stat_cadreAge_count")
-    public String stat_cadreAge_count(Byte cadreType, ModelMap modelMap) {
+    public String stat_cadreAge_count() {
+
+        return "analysis/cadre/stat_cadre_age";
+    }
+
+    // 干部年龄统计数据
+    @RequestMapping("/stat_cadre_age_data")
+    @ResponseBody
+    public Map stat_cadreAge_count(Byte cadreType) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
 
@@ -596,13 +622,20 @@ public class StatCadreController extends BaseController {
         cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
         cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
         cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
-        modelMap.put("cadreAgeMap",cadreAgeMap);
-        return "analysis/cadre/stat_cadre_age";
+
+        return cadreAgeMap;
     }
 
-    // 干部数量统计
+    // 干部职级统计
     @RequestMapping("/stat_cadrePost_count")
-    public String stat_cadrePost_count(Byte cadreType, ModelMap modelMap) {
+    public String stat_cadrePost_count() {
+        return "analysis/cadre/stat_cadre_post";
+    }
+
+    // 干部职级统计数据
+    @RequestMapping("/stat_cadrePost_count_data")
+    @ResponseBody
+    public Map stat_cadrePost_count(Byte cadreType) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
 
@@ -613,12 +646,20 @@ public class StatCadreController extends BaseController {
         cadrePostMap.put("副高",totalBean == null ?0:totalBean.getNum2());
         cadrePostMap.put("中（初）级",totalBean == null ?0:totalBean.getNum3());
         cadrePostMap.put("其他",totalBean == null ?0:totalBean.getNum4());
-        modelMap.put("cadrePostMap",cadrePostMap);
-        return "analysis/cadre/stat_cadre_post";
+
+        return cadrePostMap;
     }
-    // 干部数量统计
+
+    // 干部学位统计
     @RequestMapping("/stat_cadreDegree_count")
-    public String stat_cadreDegree_count(Byte cadreType, ModelMap modelMap) {
+    public String stat_cadreDegree_count() {
+        return "analysis/cadre/stat_cadre_degree";
+    }
+
+    // 干部学位统计数据
+    @RequestMapping("/stat_cadreDegree_count_data")
+    @ResponseBody
+    public Map stat_cadreDegree_count_data(Byte cadreType) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
 
@@ -644,44 +685,76 @@ public class StatCadreController extends BaseController {
         cadreDegreeMap.put("学士",xs);
         cadreDegreeMap.put("其他",otherDegree);
 
-        modelMap.put("cadreDegreeMap",cadreDegreeMap);
-        return "analysis/cadre/stat_cadre_degree";
+        return cadreDegreeMap;
     }
-    // 干部数量统计
+
+    // 干部学历统计
     @RequestMapping("/stat_cadreEdu_count")
-    public String stat_cadreEdu_count(Byte cadreType, ModelMap modelMap) {
+    public String stat_cadreEdu_count() {
+        return "analysis/cadre/stat_cadre_edu";
+    }
+
+    // 干部数量统计
+    @RequestMapping("/stat_cadreEdu_count_data")
+    @ResponseBody
+    public Map stat_cadreEdu_count_data(Byte cadreType, ModelMap modelMap) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
 
-        Map cadreDegreeMap = new LinkedHashMap();
+        Map cadreEduMap = new LinkedHashMap();
         List<StatCadreBean> statCadreBeans = statCadreMapper.cadre_stat_edu(searchBean);
 
         for (StatCadreBean statCadreBean : statCadreBeans) {
-            cadreDegreeMap.put(CmTag.getMetaType(statCadreBean.eduId).getName(), statCadreBean.num);
+            cadreEduMap.put(CmTag.getMetaType(statCadreBean.eduId).getName(), statCadreBean.num);
         }
-        modelMap.put("cadreEduMap",cadreDegreeMap);
-        return "analysis/cadre/stat_cadre_edu";
+
+        return cadreEduMap;
     }
+
+    // 干部平均年龄统计
     @RequestMapping("/stat_cadre_avgAge")
-    public String stat_cadre_avgAge(Byte cadreType, ModelMap modelMap) {
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreType);
+    public String stat_cadre_avgAge() {
+        return "analysis/cadre/stat_cadre_avgAge";
+    }
+
+    @RequestMapping("/stat_cadre_avgAge_data")
+    @ResponseBody
+    public Map stat_cadre_avgAge_data() {
+        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
+        CadreSearchBean searchBeanCJ = new CadreSearchBean();
+        searchBeanCJ.setCadreType((byte)1);
 
         Map<String,BigDecimal> cadreAvgAge = new HashMap<>();
-        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_avg_age_adminLevel(searchBean);
-        if (adminLevelList != null) {
-            for (StatCadreBean bean : adminLevelList) {
-                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(searchBean.getCadreType()))) {
-                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_HALF_UP));
-                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(searchBean.getCadreType()))) {
-                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_HALF_UP));
+        List<StatCadreBean> adminLevelCJList = statCadreMapper.cadre_avg_age_adminLevel(searchBeanCJ);
+
+        if (adminLevelCJList != null) {
+            for (StatCadreBean bean : adminLevelCJList) {
+                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(searchBeanCJ.getCadreType()))) {
+                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_DOWN));
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(searchBeanCJ.getCadreType()))) {
+                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_DOWN));
                 } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
-                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_HALF_UP));
+                    cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_DOWN));
                 }
             }
         }
 
-        modelMap.put("cadreAvgAge", cadreAvgAge);
-        return "analysis/cadre/stat_cadre_avgAge";
+      if(hasKjCadre){
+            CadreSearchBean searchBeanKJ = new CadreSearchBean();
+            searchBeanKJ.setCadreType((byte)2);
+            List<StatCadreBean> adminLevelKJList = statCadreMapper.cadre_avg_age_adminLevel(searchBeanKJ);
+            if (adminLevelKJList != null) {
+                for (StatCadreBean bean : adminLevelKJList) {
+                    if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(searchBeanKJ.getCadreType()))) {
+                        cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_DOWN));
+                    } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(searchBeanKJ.getCadreType()))) {
+                        cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_DOWN));
+                    } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_vice_kj")) {
+                        cadreAvgAge.put(CmTag.getMetaTypeByCode(bean.adminLevelCode).getName(),bean.val.setScale(1, BigDecimal.ROUND_DOWN));
+                    }
+                }
+            }
+      }
+        return cadreAvgAge;
     }
 }

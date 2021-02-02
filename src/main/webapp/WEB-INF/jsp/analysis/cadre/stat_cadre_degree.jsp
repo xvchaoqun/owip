@@ -23,72 +23,21 @@
 </div>
 <script>
 
-    var dom;
-    if(${param.cadreType == 1}){
-        dom = $('#cadreDegree-placeholder_CJ').get(0);
-    }else if(${param.cadreType == 2}){
-        dom = $('#cadreDegree-placeholder_KJ').get(0);
-    }
+    var $div = $("${param.cadreType == 1?'#cadreDegree-placeholder_CJ':'#cadreDegree-placeholder_KJ'}");
 
-    var myChart = echarts.init(dom);
-    option = null;
-    var data =  getData();
+    (function($displayDiv, cadreType){
 
-    //console.dir(data)
-    option = {
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {d}%'
-        },
-        legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            left: 10,
-            top: 20,
-            bottom: 20,
-            data: data.legendData,
-        },
-        series: [
-            {
-                name: '学位',
-                type: 'pie',
-                radius: '60%',
-                center: ['60%', '50%'],
-                data: data.seriesData2
-            },
-            {
-                name: '学位',
-                type: 'pie',
-                radius: '60%',
-                center: ['60%', '50%'],
-                data: data.seriesData1,
-                itemStyle:{            //饼图图形上的文本标签
-                    normal: {
-                        label: {
-                            show: true,
-                            position: 'inner',
-                            fontSize: 12,
-                            align: "left",
-                            textStyle: {
-                                fontWeight: 300,
-                                fontSize: 12,   //文字的字体大小
-                                color:'white'
-                            },
-                            formatter: '{d}%'
-                        }
-                    }
-                }
-            }
-        ]
-    };
+        var cadreDegreeChart = echarts.init($displayDiv);
+        cadreDegreeChart.showLoading({text: '正在加载数据'});
 
-    function getData() {
-        var legendData = [];
-        var seriesData1 = [];
-        var seriesData2 = [];
-        var cadreDegreeMap = ${cm:toJSONObject(cadreDegreeMap)};
-        $.each(cadreDegreeMap, function (key, value) {
-            var item=key+'('+value+')';
+        $.get("${ctx}/stat_cadreDegree_count_data", {cadreType:cadreType}, function (cadreDegreeMap) {
+
+            var legendData = [];
+            var seriesData1 = [];
+            var seriesData2 = [];
+
+            $.each(cadreDegreeMap, function (key, value) {
+                var item=key+'('+value+')';
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
@@ -98,15 +47,58 @@
                     name: key,
                     value: value
                 });
-        });
-        return {
-            legendData: legendData,
-            seriesData1: seriesData1,
-            seriesData2: seriesData2,
+            });
 
-        };
-    };
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
+           var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {d}%'
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    left: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: legendData,
+                },
+                series: [
+                    {
+                        name: '学位',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData2
+                    },
+                    {
+                        name: '学位',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData1,
+                        itemStyle:{            //饼图图形上的文本标签
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'inner',
+                                    fontSize: 12,
+                                    align: "left",
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 12,   //文字的字体大小
+                                        color:'white'
+                                    },
+                                    formatter: '{d}%'
+                                }
+                            }
+                        }
+                    }
+                ]
+            };
+
+            cadreDegreeChart.setOption(option, true);
+            cadreDegreeChart.hideLoading();
+
+        })
+    })($div[0], ${param.cadreType});
 </script>

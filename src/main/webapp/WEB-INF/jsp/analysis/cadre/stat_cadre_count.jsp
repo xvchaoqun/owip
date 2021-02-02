@@ -22,81 +22,84 @@
     </div>
 </div>
 <script>
-    var $div = $("${param.cadreType == 1?'#cadreCount-placeholder_CJ':'#cadreCount-cadreCount-placeholder_KJ'}");
-    var cadreCountChart = echarts.init($div[0]);
-    cadreCountChart.showLoading({text: '正在加载数据'});
+    var $div = $("${param.cadreType == 1?'#cadreCount-placeholder_CJ':'#cadreCount-placeholder_KJ'}");
 
-    $.get("${ctx}/stat_cadre_count_data", {cadreType:${param.cadreType}}, function (statCadreCountMap) {
+    (function($displayDiv, cadreType){
 
-        var legendData = [];
-        var seriesData1 = [];
-        var seriesData2 = [];
-        var totalCount = 0;
-        $.each(statCadreCountMap, function (key, value) {
-            totalCount += value;
-            var item = key + '(' + value + ')';
-            legendData.push(item);
-            seriesData1.push({
-                name: item,
-                value: value
+        var cadreCountChart= echarts.init($displayDiv);
+        cadreCountChart.showLoading({text: '正在加载数据'});
+        $.get("${ctx}/stat_cadre_count_data", {cadreType:cadreType}, function (statCadreCountMap) {
+
+            var legendData = [];
+            var seriesData1 = [];
+            var seriesData2 = [];
+            var totalCount = 0;
+            $.each(statCadreCountMap, function (key, value) {
+                totalCount += value;
+                var item = key + '(' + value + ')';
+                legendData.push(item);
+                seriesData1.push({
+                    name: item,
+                    value: value
+                });
+                seriesData2.push({
+                    name: key,
+                    value: value
+                });
             });
-            seriesData2.push({
-                name: key,
-                value: value
-            });
-        });
-        var option = {
-            title: {
-                text: totalCount > 0 ? '（干部总数：' + totalCount + '）' : '',
-                left: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {d}%'
-            },
-            legend: {
-                show: true,
-                type: 'scroll',
-                orient: 'vertical',
-                left: 10,
-                top: 20,
-                bottom: 20,
-                data: legendData,
-            },
-            series: [
-                {
-                    name: '行政级别',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: seriesData2
+            var option = {
+                title: {
+                    text: totalCount > 0 ? '（干部总数：' + totalCount + '）' : '',
+                    left: 'center'
                 },
-                {
-                    name: '行政级别',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: seriesData1,
-                    itemStyle: {            //饼图图形上的文本标签
-                        normal: {
-                            label: {
-                                show: true,
-                                position: 'inner',
-                                fontSize: 12,
-                                align: "left",
-                                textStyle: {
-                                    fontWeight: 300,
-                                    fontSize: 12,   //文字的字体大小
-                                    color: 'white'
-                                },
-                                formatter: '{d}%'
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {d}%'
+                },
+                legend: {
+                    show: true,
+                    type: 'scroll',
+                    orient: 'vertical',
+                    left: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: legendData,
+                },
+                series: [
+                    {
+                        name: '行政级别',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData2
+                    },
+                    {
+                        name: '行政级别',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData1,
+                        itemStyle: {            //饼图图形上的文本标签
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'inner',
+                                    fontSize: 12,
+                                    align: "left",
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 12,   //文字的字体大小
+                                        color: 'white'
+                                    },
+                                    formatter: '{d}%'
+                                }
                             }
                         }
                     }
-                }
-            ]
-        };
-        cadreCountChart.setOption(option, true);
-        cadreCountChart.hideLoading();
-    })
+                ]
+            };
+            cadreCountChart.setOption(option, true);
+            cadreCountChart.hideLoading();
+        })
+    })($div[0], ${param.cadreType});
 </script>

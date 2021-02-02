@@ -22,72 +22,18 @@
     </div>
 </div>
 <script>
-        var dom;
-        if(${param.cadreType == 1}){
-            dom = $('#cadreEdu-placeholder_CJ').get(0);
-        }else if(${param.cadreType == 2}){
-            dom = $('#cadreEdu-placeholder_KJ').get(0);
-        }
-        var myChart = echarts.init(dom);
-        option = null;
-        var data =  getData();
+    var $div = $("${param.cadreType == 1?'#cadreEdu-placeholder_CJ':'#cadreEdu-placeholder_KJ'}");
 
-        //console.dir(data)
-        option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {d}%'
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'vertical',
-                left: 10,
-                top: 20,
-                bottom: 20,
-                data: data.legendData,
-            },
-            series: [
-                {
-                    name: '学历',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: data.seriesData2,
-                },
-                {
-                    name: '学历',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: data.seriesData1,
-                    itemStyle:{            //饼图图形上的文本标签
-                        normal: {
-                            label: {
-                                show: true,
-                                position: 'inner',
-                                fontSize: 12,
-                                align: "left",
-                                textStyle: {
-                                    fontWeight: 300,
-                                    fontSize: 12,   //文字的字体大小
-                                    color:'white'
-                                },
-                                formatter: '{d}%'
-                            },
-                            labelLine:{
-                                show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
-                            }
-                        }
-                    }
-                }
-            ]
-        };
+    (function($displayDiv, cadreType){
+        var cadreEduChart = echarts.init($displayDiv);
+        cadreEduChart.showLoading({text: '正在加载数据'});
 
-        function getData() {
+        $.get("${ctx}/stat_cadreEdu_count_data", {cadreType:cadreType}, function (cadreEduMap) {
+
             var legendData = [];
             var seriesData1 = [];
             var seriesData2 = [];
-            var cadreEduMap = ${cm:toJSONObject(cadreEduMap)};
+
             $.each(cadreEduMap, function (key, value) {
                 var item=key+'('+value+')';
                 legendData.push(item);
@@ -100,14 +46,60 @@
                     value: value
                 });
             });
-            return {
-                legendData: legendData,
-                seriesData1: seriesData1,
-                seriesData2: seriesData2,
 
+         var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {d}%'
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    left: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: legendData,
+                },
+                series: [
+                    {
+                        name: '学历',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData2,
+                    },
+                    {
+                        name: '学历',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData1,
+                        itemStyle:{            //饼图图形上的文本标签
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'inner',
+                                    fontSize: 12,
+                                    align: "left",
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 12,   //文字的字体大小
+                                        color:'white'
+                                    },
+                                    formatter: '{d}%'
+                                },
+                                labelLine:{
+                                    show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                                }
+                            }
+                        }
+                    }
+                ]
             };
-        };
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
+
+             cadreEduChart.setOption(option, true);
+             cadreEduChart.hideLoading();
+
+        })
+    })($div[0], ${param.cadreType});
 </script>

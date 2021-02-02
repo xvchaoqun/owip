@@ -22,85 +22,82 @@
     </div>
 </div>
 <script>
-    var dom = $('#cadrePost-placeholder_${param.cadreType == 1?"CJ":"KJ"}').get(0);
 
-    var myChart = echarts.init(dom);
-    option = null;
-    var data =  getData();
+    var $div = $("${param.cadreType == 1?'#cadrePost-placeholder_CJ':'#cadrePost-placeholder_KJ'}");
 
-    //console.dir(data)
-    option = {
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {d}%'
-        },
-        legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            left: 10,
-            top: 20,
-            bottom: 20,
-            data: data.legendData,
-        },
-        series: [
-            {
-                name: '职称',
-                type: 'pie',
-                radius: '60%',
-                center: ['60%', '50%'],
-                data: data.seriesData2
-            },
-            {
-                name: '职称',
-                type: 'pie',
-                radius: '60%',
-                center: ['60%', '50%'],
-                data: data.seriesData1,
-                itemStyle:{            //饼图图形上的文本标签
-                    normal: {
-                        label: {
-                            show: true,
-                            position: 'inner',
-                            fontSize: 12,
-                            align: "left",
-                            textStyle: {
-                                fontWeight: 300,
-                                fontSize: 12,   //文字的字体大小
-                                color:'white'
-                            },
-                            formatter: '{d}%'
-                        }
-                    }
-                }
-            }
-        ]
-    };
+    (function($displayDiv, cadreType){
+        var cadrePostChart = echarts.init($displayDiv);
+        cadrePostChart.showLoading({text: '正在加载数据'});
 
-    function getData() {
-        var legendData = [];
-        var seriesData1 = [];
-        var seriesData2 = [];
-        var cadrePostMap = ${cm:toJSONObject(cadrePostMap)};
-        $.each(cadrePostMap, function (key, value) {
-            var item=key+'('+value+')';
+        $.get("${ctx}/stat_cadrePost_count_data", {cadreType:cadreType}, function (cadrePostMap) {
+
+            var legendData = [];
+            var seriesData1 = [];
+            var seriesData2 = [];
+
+            $.each(cadrePostMap, function (key, value) {
+                var item=key+'('+value+')';
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
                     value: value
                 });
-              seriesData2.push({
-                name: key,
-                value: value
-              });
-        });
-        return {
-            legendData: legendData,
-            seriesData1: seriesData1,
-            seriesData2: seriesData2,
+                seriesData2.push({
+                    name: key,
+                    value: value
+                });
+            });
 
-        };
-    };
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {d}%'
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    left: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: legendData,
+                },
+                series: [
+                    {
+                        name: '职称',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData2
+                    },
+                    {
+                        name: '职称',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData1,
+                        itemStyle:{            //饼图图形上的文本标签
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'inner',
+                                    fontSize: 12,
+                                    align: "left",
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 12,   //文字的字体大小
+                                        color:'white'
+                                    },
+                                    formatter: '{d}%'
+                                }
+                            }
+                        }
+                    }
+                ]
+            };
+
+            cadrePostChart.setOption(option, true);
+            cadrePostChart.hideLoading();
+
+        })
+    })($div[0], ${param.cadreType});
 </script>

@@ -22,69 +22,17 @@
     </div>
 </div>
 <script>
-        var dom;
-        if(${param.cadreType == 1}){
-            dom = $('#cadreAge-placeholder_CJ').get(0);
-        }else if(${param.cadreType == 2}){
-            dom = $('#cadreAge-placeholder_KJ').get(0);
-        }
-        var myChart = echarts.init(dom);
-        option = null;
-        var data =  getData();
+    var $div = $("${param.cadreType == 1?'#cadreAge-placeholder_CJ':'#cadreAge-placeholder_KJ'}");
 
-        //console.dir(data)
-        option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {d}%'
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'vertical',
-                left: 10,
-                top: 20,
-                bottom: 20,
-                data: data.legendData,
-            },
-            series: [
-                {
-                    name: '年龄',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: data.seriesData2,
-                },
-                {
-                    name: '年龄',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '50%'],
-                    data: data.seriesData1,
-                    itemStyle:{            //饼图图形上的文本标签
-                        normal: {
-                            label: {
-                                show: true,
-                                position: 'inner',
-                                fontSize: 12,
-                                align: "left",
-                                textStyle: {
-                                    fontWeight: 300,
-                                    fontSize: 12,   //文字的字体大小
-                                    color:'white'
-                                },
-                                formatter: '{d}%'
-                            }
-                        }
-                    }
-                }
-            ]
-        };
+    (function($displayDiv, cadreType){
+        var cadreAgeChart = echarts.init($displayDiv);
+        cadreAgeChart.showLoading({text: '正在加载数据'});
 
-        function getData() {
+        $.get("${ctx}/stat_cadre_age_data", {cadreType:cadreType}, function (cadreAgeMap) {
+
             var legendData = [];
             var seriesData1= [];
             var seriesData2 = [];
-            var cadreAgeMap = ${cm:toJSONObject(cadreAgeMap)};
             $.each(cadreAgeMap, function (key, value) {
                 var item=key+'('+value+')';
                 legendData.push(item);
@@ -97,14 +45,56 @@
                     value: value
                 });
             });
-            return {
-                legendData: legendData,
-                seriesData1: seriesData1,
-                seriesData2: seriesData2,
-
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {d}%'
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    left: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: legendData,
+                },
+                series: [
+                    {
+                        name: '年龄',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData2,
+                    },
+                    {
+                        name: '年龄',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '50%'],
+                        data: seriesData1,
+                        itemStyle:{            //饼图图形上的文本标签
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'inner',
+                                    fontSize: 12,
+                                    align: "left",
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 12,   //文字的字体大小
+                                        color:'white'
+                                    },
+                                    formatter: '{d}%'
+                                }
+                            }
+                        }
+                    }
+                ]
             };
-        };
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
+
+            cadreAgeChart.setOption(option, true);
+            cadreAgeChart.hideLoading();
+
+        })
+    })($div[0], ${param.cadreType});
 </script>
