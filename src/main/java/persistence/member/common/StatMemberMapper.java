@@ -21,6 +21,12 @@ public interface StatMemberMapper {
                                           @Param("branchId")Integer branchId,
                                           @Param("isRetire") Byte isRetire);
 
+    //统计某阶段各类型发展党员的数量 groupBy为空的为本科生
+    List<StatByteBean> memberApply_groupByLevel(@Param("stage") byte stage,
+                                                @Param("enrolYear") String enrolYear,
+                                                @Param("partyId") Integer partyId,
+                                                @Param("branchId") Integer branchId);
+
     // 统计教职工党员年龄分布情况
     List<StatIntBean> member_teatcherGroupByBirth(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 

@@ -27,6 +27,24 @@
         <include refid="Where_ow"/> group by groupBy
     </select>
 
+    <!-- 统计某阶段各类型发展党员的数量 groupBy为空的为本科生 -->
+    <select id="memberApply_groupByLevel" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, s.student_level as groupBy
+        from ow_member_apply ow
+        LEFT join sys_student_info s on s.user_id=ow.user_id
+        where ow.stage=#{stage}
+        <if test="enrolYear!=null">
+            and s.enrol_year = #{enrolYear}
+        </if>
+        <if test="partyId!=null">
+            and ow.party_id =#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and ow.branch_id =#{branchId}
+        </if>
+        and ow.is_remove=0 group by groupBy
+    </select>
+
     <!-- 统计教职工党员年龄分布情况 -->
     <select id="member_teatcherGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
         select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where type=1 and status=1

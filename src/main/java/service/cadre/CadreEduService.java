@@ -337,6 +337,7 @@ public class CadreEduService extends BaseMapper {
         CadreEduExample example = new CadreEduExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsGraduatedEqualTo(true)
+                .andAdformEduExcludeEqualTo(false)
                 .andLearnStyleEqualTo(learnStyle).andEduIdIsNotNull()
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
 
@@ -362,6 +363,7 @@ public class CadreEduService extends BaseMapper {
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsGraduatedEqualTo(true)
+                .andAdformEduExcludeEqualTo(false)
                 .andHasDegreeEqualTo(true)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
 

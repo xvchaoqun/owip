@@ -7,6 +7,12 @@ INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `re
 VALUES ('defaultEvaResult', '任免表默认考核结果表述', '{0}年均为合格', 1, 98, '');
 -- （哈工大已调）
 
+ALTER TABLE `cadre_edu`
+	CHANGE COLUMN `note` `note` VARCHAR(100) NULL COMMENT '补充说明' COLLATE 'utf8_general_ci' AFTER `remark`,
+	ADD COLUMN `note_brackets_exclude` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '补充说明不加括号' AFTER `note`,
+	ADD COLUMN `adform_edu_exclude` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '不计入任免表学历学位栏' AFTER `note_brackets_exclude`,
+	ADD COLUMN `adform_resume_exclude` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '不计入任免表简历栏' AFTER `adform_edu_exclude`;
+
 
 20210128
 -- 吉大

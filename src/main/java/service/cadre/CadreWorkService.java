@@ -123,6 +123,8 @@ public class CadreWorkService extends BaseMapper {
                 String enrolTime = DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYYMM);
                 if(enrolTime==null) continue; // 忽略没有起始时间的学习经历
 
+                if(BooleanUtils.isTrue(cadreEdu.getAdformResumeExclude())) continue; // 不计入简历
+
                 //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
                 if (learnStyle.intValue() == fulltimeType.getId()) {
 
@@ -136,7 +138,9 @@ public class CadreWorkService extends BaseMapper {
                             StringUtils.trimToEmpty(cadreEdu.getDep()),
                             major,
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId())),
-                            StringUtils.isNotBlank(cadreEdu.getNote()) ? String.format("（%s）", cadreEdu.getNote()) : ""
+                            StringUtils.isNotBlank(cadreEdu.getNote()) ?
+                                    String.format(BooleanUtils.isTrue(cadreEdu.getNoteBracketsExclude())?"%s":"（%s）",
+                                            cadreEdu.getNote()) : ""
                     );
                     eduResume.setDetail(detail);
 
