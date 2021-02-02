@@ -1150,7 +1150,7 @@ public class CadreAdformService extends BaseMapper {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_jxxx").getId();
                 } else if (StringUtils.contains(resumeRow.desc, "课程班")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_yjskcb").getId();
-                } else if (StringUtils.contains(resumeRow.desc, "博士")) {
+                } else if (StringUtils.containsAny(resumeRow.desc, "博士", "硕博连读", "本硕博连读")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_doctor").getId();
                     degreeType = SystemConstants.DEGREE_TYPE_BS;
                     degree = "博士学位";
@@ -1159,7 +1159,7 @@ public class CadreAdformService extends BaseMapper {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_sstd").getId();
                     degreeType = SystemConstants.DEGREE_TYPE_SS;
                     degree = "硕士学位";
-                } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生")) {
+                } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生", "直硕", "本硕连读")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_master").getId();
                     degreeType = SystemConstants.DEGREE_TYPE_SS;
                     degree = "硕士学位";
@@ -1178,27 +1178,6 @@ public class CadreAdformService extends BaseMapper {
 
                 //处理学校/学院/专业字段
                 analysisEdu(cadreEdu, resumeRow.desc);
-                if (StringUtils.isBlank(cadreEdu.getSchool())){
-                    CadreWork cadreWork = new CadreWork();
-                    cadreWork.setIsEduWork(false);
-                    cadreWork.setCadreId(cadreId);
-                    cadreWork.setStartTime(resumeRow.start);
-                    cadreWork.setEndTime(resumeRow.end);
-                    cadreWork.setDetail(resumeRow.desc);
-                    cadreWork.setNote(resumeRow.note);
-
-                    int workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_jg").getId();
-                    if (StringUtils.containsAny(resumeRow.desc, "学院", "系", "专业", "教师", "讲师", "助教", "教授")) {
-                        workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_xy").getId();
-                    } else if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
-                        workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_abroad").getId();
-                    }
-                    cadreWork.setWorkTypes(workType+"");
-                    cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
-                            "主任", "处级", "部长", "书记"));
-                    cadreWorkService.insertSelective(cadreWork);
-                    continue;
-                }
 
                 byte schoolType = CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC;
                 if (StringUtils.containsAny(resumeRow.desc, "留学", "国外", "日本", "韩国", "美国", "英国", "法国")) {
@@ -1247,6 +1226,25 @@ public class CadreAdformService extends BaseMapper {
                             fidMap.put(resumeRow.row, cadreEdu.getId());
                         }
                     } catch (Exception ex) {
+                        //导入出错，会将该条信息录入到工作经历
+                        CadreWork cadreWork = new CadreWork();
+                        cadreWork.setIsEduWork(false);
+                        cadreWork.setCadreId(cadreId);
+                        cadreWork.setStartTime(resumeRow.start);
+                        cadreWork.setEndTime(resumeRow.end);
+                        cadreWork.setDetail(resumeRow.desc);
+                        cadreWork.setNote(resumeRow.note);
+
+                        int workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_jg").getId();
+                        if (StringUtils.containsAny(resumeRow.desc, "学院", "系", "专业", "教师", "讲师", "助教", "教授")) {
+                            workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_xy").getId();
+                        } else if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
+                            workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_abroad").getId();
+                        }
+                        cadreWork.setWorkTypes(workType+"");
+                        cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
+                                "主任", "处级", "部长", "书记"));
+                        cadreWorkService.insertSelective(cadreWork);
                         logger.error("任免审批表：{0}学习经历有误：{1}", cadre.getRealname(), ex.getMessage());
                         //throw new OpException("{0}学习经历有误：{1}", cadre.getRealname(), ex.getMessage());
                     }

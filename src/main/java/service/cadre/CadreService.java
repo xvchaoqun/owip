@@ -53,7 +53,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class CadreService extends BaseMapper implements HttpResponseMethod {
-
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public static final String TABLE_NAME = "cadre";
@@ -669,7 +668,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     /*
             1、可以录入有岗位的干部
             2、可以录入空岗（若每次都有空岗，则都会添加一个新的，不会覆盖）
-
+            3、unitCode编码为完整的编码
         * */
     @Transactional
     public void cadreAll_import(List<Map<Integer, String>> xlsRows, Byte status, String unitCode){
@@ -689,7 +688,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
             row++;
             //1、处级干部
-            String unitPostName = ContentUtils.trimHtml(xlsRow.get(4));
+            String unitPostName = ContentUtils.trimAll(xlsRow.get(4));
             if (StringUtils.isBlank(unitPostName)){
                 throw new OpException("第{0}行所在单位及职务为空", row);
             }
@@ -748,7 +747,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             //2、内设机构
             String[] unitPostNames = StringUtils.split(unitPostName, ",|，");
             List<String> postUnitList = new ArrayList<>();
-            String unitName = ContentUtils.trimHtml(xlsRow.get(6));
+            String unitName = ContentUtils.trimAll(xlsRow.get(6));
             if (StringUtils.isBlank(unitName)){
                 throw new OpException("第{0}行所在单位为空", row);
             }
@@ -849,7 +848,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             Byte partyType = null;
             String _growTime = StringUtils.trimToNull(xlsRow.get(28));
             String _partyType = StringUtils.trimToNull(xlsRow.get(29));
-            if (StringUtils.isNotBlank(_growTime) && StringUtils.isBlank(_partyType) || StringUtils.equals(_partyType, "中共党员")){//默认"中共党员"
+            if (StringUtils.isNotBlank(_growTime) && (StringUtils.isBlank(_partyType) || StringUtils.equals(_partyType, CadreConstants.CADRE_PARTY_TYPE_MAP.get(CadreConstants.CADRE_PARTY_TYPE_OW)))){//默认"中共党员"
                 partyType = CadreConstants.CADRE_PARTY_TYPE_OW;
                 cadreParty.setUserId(userId);
                 cadreParty.setType(partyType);
@@ -862,7 +861,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                     cadrePartyMapper.insertSelective(cadreParty);
                 }
 
-            }else if (StringUtils.isNotBlank(_partyType) && !StringUtils.equals(_partyType, "中共党员")){
+            }else if (StringUtils.isNotBlank(_growTime) && StringUtils.equals(_partyType, CadreConstants.CADRE_PARTY_TYPE_MAP.get(CadreConstants.CADRE_PARTY_TYPE_DP))){
                 partyType = CadreConstants.CADRE_PARTY_TYPE_DP;
                 cadreParty.setUserId(userId);
                 cadreParty.setType(partyType);
@@ -936,7 +935,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             //6、岗位
             List<String> postUnitList = postUnitMap.get(cadreId);//<岗位名称_单位Id>
             for (int i = 0; i < postUnitList.size(); i++){
-                String postName = ContentUtils.trimHtml(postUnitList.get(i).split("_")[0]);
+                String postName = ContentUtils.trimAll(postUnitList.get(i).split("_")[0]);
                 Integer unitId = Integer.valueOf(postUnitList.get(i).split("_")[1]);
                 UnitPost unitPost = new UnitPost();
                 //主职
@@ -1073,7 +1072,12 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
         //撤销不需要的岗位，插入空岗
         UnitPostViewExample needDelete = new UnitPostViewExample();
-        needDelete.createCriteria().andIdIn(postIdList).andCadreIdIsNull();
+        UnitPostViewExample.Criteria criteria1 = needDelete.createCriteria().andCadreIdIsNull();
+        if (postIdList != null && postIdList.size() > 0){
+            criteria1.andIdIn(postIdList);
+        }else {
+            criteria1.andIdIsNull();
+        }
         List<UnitPostView> needDeletePost = unitPostViewMapper.selectByExample(needDelete);
         for (UnitPostView unitPostView : needDeletePost) {
             UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostView.getId());
@@ -1128,17 +1132,14 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             unit.setCreateTime(new Date());
             unit.setStatus(SystemConstants.UNIT_STATUS_RUN);
             unit.setSortOrder(getNextSortOrder("unit", "status=" + status));
-                        /*if(PatternUtils.match(".*(党委|组织部|党).*", name)){
-                            unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关党委").getId());
-                        }else */
             if (PatternUtils.match(".*(系|院|班).*", name)) {
-                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "学部、院、系所").getId());
+                unit.setTypeId(CmTag.getMetaTypeByCode("mt_unit_type_xy").getId());
             } else if (PatternUtils.match(".*(附属|附).*", name)) {
-                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "附属单位").getId());
+                unit.setTypeId(CmTag.getMetaTypeByCode("mc:ryu2r6").getId());
             } else if (PatternUtils.match(".*(公司).*", name)) {
-                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "经营性单位").getId());
+                unit.setTypeId(CmTag.getMetaTypeByCode("mc:7kk9wz").getId());
             } else {
-                unit.setTypeId(metaTypeService.findByName("mc_unit_type", "机关职能部处").getId());
+                unit.setTypeId(CmTag.getMetaTypeByCode("mc:iw29q5").getId());
             }
             unitMapper.insertSelective(unit);
         }

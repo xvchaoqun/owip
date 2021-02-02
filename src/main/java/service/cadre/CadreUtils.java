@@ -3,6 +3,7 @@ package service.cadre;
 import bean.ResumeRow;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 import sys.utils.PatternUtils;
 
@@ -53,7 +54,7 @@ public class CadreUtils {
         for (String line : lineList) {
 
             // 读取每行经历
-            line = line.trim();
+            line = ContentUtils.trimAll(line);
             ResumeRow newRow = new ResumeRow();
             String subLine = null;
             if(PatternUtils.match("\\s*[（|\\(].*", line)){ // 如果是换行的其间经历
@@ -143,7 +144,7 @@ public class CadreUtils {
             r.desc = desc.trim().replaceAll("(；|。|;)*", "");
 
             // 判断是否是学习经历
-            r.isEdu = ((StringUtils.containsAny(desc, "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "博士")
+            r.isEdu = ((StringUtils.containsAny(desc, "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "本硕连读", "直硕", "博士", "硕博连读", "本硕博连读", "直博")
                     || r.desc.endsWith("学生") || r.desc.endsWith("本科") || r.desc.endsWith("本科生") || r.desc.endsWith("研究生") || r.desc.endsWith("读大学"))
                     && !StringUtils.containsAny(desc, "工作", "支教", "助教", "讲师", "教师", "校长"))
                     || (StringUtils.contains(desc, "学位") && !StringUtils.containsAny(desc, "学位委员", "学位办公室"))
