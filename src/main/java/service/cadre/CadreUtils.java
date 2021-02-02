@@ -142,6 +142,7 @@ public class CadreUtils {
             //throw new OpException(realname + "第{0}行{1}简历读取为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }else {
             r.desc = desc.trim().replaceAll("(；|。|;)*", "");
+            r.desc = desc.trim().replaceAll("[\\-—～－]{1,2}", "");
 
             // 判断是否是学习经历
             r.isEdu = ((StringUtils.containsAny(desc, "初中", "中学", "高中", "学习", "进修", "中专", "大专", "专科", "学士", "本硕连读", "直硕", "博士", "硕博连读", "本硕博连读", "直博")
