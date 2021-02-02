@@ -1,5 +1,7 @@
 
 
+20210201
+-- 哈工大
 
 -- （哈工大已调）元数据  同等学历  - > 同等学力 ，  yjs| -> ss| (并修改一下硕士研究生所属大类）
 update base_meta_class set bool_attr='任免表学历学位栏隐藏该学历' where code='mc_edu';

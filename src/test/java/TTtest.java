@@ -104,4 +104,20 @@ public class TTtest {
         String area = instance.getArea("59.64.48.17");
         System.out.println(country + "|" + area);
     }
+
+    @Test
+    public void doConvert() {
+
+        String keyword = "userIdName";
+        if (keyword.matches("[\\S]*[A-Z][\\S]*")) {
+            for (int i = 0; i < keyword.length(); i++) {
+                char key = keyword.charAt(i);
+                if (Character.isUpperCase(key)) {
+                    String keyStr = key + "";
+                    keyword = keyword.replace(keyStr, "_" + keyStr.toLowerCase());
+                }
+            }
+        }
+        System.out.println("keyword = " + keyword);
+    }
 }

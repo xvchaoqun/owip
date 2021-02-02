@@ -12,6 +12,7 @@ import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ApiKeyService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="ApiKey:ALL", allEntries = true)
     public void insertSelective(ApiKey record){
         Assert.isTrue(!idDuplicate(null,"duplicate"));
         apiKeyMapper.insertSelective(record);
@@ -40,11 +42,13 @@ public class ApiKeyService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="ApiKey:ALL", allEntries = true)
     public void del(Integer id){
         apiKeyMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
+    @CacheEvict(value="ApiKey:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
         if(ids==null || ids.length==0) return;
         ApiKeyExample example = new ApiKeyExample();
@@ -53,6 +57,7 @@ public class ApiKeyService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="ApiKey:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(ApiKey record){
         apiKeyMapper.updateByPrimaryKeySelective(record);
         sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
@@ -60,7 +65,6 @@ public class ApiKeyService extends BaseMapper {
     }
 
     @Cacheable(value="ApiKey:ALL")
-    @CacheEvict(value="ApiKey:ALL", allEntries = true)
     public Map<String, String> findAll() {
         ApiKeyExample example = new ApiKeyExample();
         example.createCriteria();
@@ -82,7 +86,5 @@ public class ApiKeyService extends BaseMapper {
         }else{
             return null;
         }
-
     }
-
 }
