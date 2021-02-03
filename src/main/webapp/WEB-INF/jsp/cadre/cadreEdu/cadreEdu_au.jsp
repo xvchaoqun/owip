@@ -143,8 +143,17 @@
 						</script>
 					</div>
 				</div>
+
 				<div class="form-group">
-					<label class="col-xs-5 control-label">是否获得学位</label>
+						<label class="col-xs-5 control-label">备注</label>
+						<div class="col-xs-7">
+							<textarea class="form-control" name="remark" maxlength="100">${cadreEdu.remark}</textarea>
+						</div>
+					</div>
+			</div>
+			<div class="col-xs-6">
+<div class="form-group">
+					<label class="col-xs-4 control-label">是否获得学位</label>
 					<div class="col-xs-7">
 						<label>
 							<input name="hasDegree" ${cadreEdu.hasDegree?"checked":""}  type="checkbox" />
@@ -152,9 +161,6 @@
 						</label>
 					</div>
 				</div>
-			</div>
-			<div class="col-xs-6">
-
 				<div class="form-group">
 					<label class="col-xs-4 control-label">学位</label>
 					<div class="col-xs-8">
@@ -216,8 +222,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-7 control-label">导师现所在单位及职务（职称）</label>
-						<div class="col-xs-5">
+						<label class="col-xs-4 control-label">导师职务</label>
+						<div class="col-xs-8">
 							<input class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
 						</div>
 					</div>
@@ -238,7 +244,7 @@
 						</shiro:hasPermission>
 					</label>
 					<div class="col-xs-8">
-						<textarea class="form-control" name="note" maxlength="50">${cadreEdu.note}</textarea>
+						<input class="form-control" name="note" maxlength="50" value="${cadreEdu.note}">
 						<span class="help-block" style="font-size: 10px;">例如：硕博连读、美国哈佛大学联合培养一年等</span>
 					</div>
 				</div>
@@ -260,12 +266,7 @@
 					</div>
 
 				</shiro:hasPermission>
-				<div class="form-group">
-						<label class="col-xs-4 control-label">备注</label>
-						<div class="col-xs-8">
-							<textarea class="form-control" name="remark" maxlength="100">${cadreEdu.remark}</textarea>
-						</div>
-					</div>
+
 				</div></div>
 	</form>
 </div>
