@@ -14,10 +14,10 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -35,6 +35,7 @@ import service.unit.UnitPostAllocationInfoBean;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -43,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static domain.unit.UnitPostViewExample.Criteria;
 import static sys.constants.DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT;
@@ -929,5 +931,88 @@ public class UnitPostController extends BaseController {
         modelMap.put("isMainPost", isMainPost);
 
         return "unit/unitPost/unitPost_unitType_cadres";
+    }
+
+    @RequiresPermissions("unitPost:import")
+    @RequestMapping("/unitPost_collectUnitName")
+    public String unitPost_collectUnitName(ModelMap modelMap) {
+
+        return "unit/unitPost/unitPost_collectUnitName";
+    }
+
+    @RequiresPermissions("unitPost:import")
+    @RequestMapping(value = "/unitPost_collectUnitName", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unitPost_collectUnitName(int col,
+                                           Integer addCol, //工号插入列数
+                                           HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        int firstNotEmptyRowNum = 0;
+        XSSFRow firstRow = sheet.getRow(firstNotEmptyRowNum++);
+        while (firstRow==null){
+            if(firstNotEmptyRowNum>=100) break;
+            firstRow = sheet.getRow(firstNotEmptyRowNum++);
+        }
+        if(firstRow==null){
+            return failed("该文件前100行数据为空，无法导出");
+        }
+
+        int cellNum = firstRow.getLastCellNum() - firstRow.getFirstCellNum() + 1; // 只能得到第一行的列数
+
+        for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
+
+            XSSFRow row = sheet.getRow(i);
+            // 行数据如果为空，不处理
+            if (row == null) continue;
+
+            XSSFCell cell = row.getCell(col - 1);
+            String key = ExcelUtils.getCellValue(cell);
+            if(StringUtils.isBlank(key)) continue;
+
+            // 去掉所有空格
+            key = key.replaceAll("\\s*", "");
+
+            //提取学工号
+
+            UnitPostViewExample example = new UnitPostViewExample();
+            example.createCriteria().andNameEqualTo(key).andStatusEqualTo((byte)1);
+            List<UnitPostView> unitPostList = unitPostViewMapper.selectByExample(example);
+
+            if (unitPostList==null||unitPostList.size()==0) continue;
+            Set<String> unitNameList = unitPostList.stream().map(UnitPostView::getUnitName).collect(Collectors.toSet());
+
+            // 每一行插入的位置
+            int rowAddCol = -1;
+            if (addCol != null && addCol <= cellNum) {
+                rowAddCol = addCol-1;
+                cell = row.getCell(rowAddCol);
+                if(cell==null){
+                    cell = row.createCell(rowAddCol);
+                }
+            } else {
+                rowAddCol = cellNum;
+                cell = row.createCell(rowAddCol);
+            }
+            cell.setCellValue(StringUtils.join(unitNameList,"，"));
+        }
+
+        String savePath = FILE_SEPARATOR + "_filterExport"
+                + FILE_SEPARATOR + "提取单位名称" + DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + ".xlsx";
+        FileUtils.mkdirs(springProps.uploadPath + savePath, true);
+
+        ExportHelper.save(workbook, springProps.uploadPath + savePath);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("file", UserResUtils.sign(savePath));
+        resultMap.put("filename", xlsx.getOriginalFilename());
+
+        return resultMap;
     }
 }

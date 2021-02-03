@@ -79,6 +79,13 @@
                         </li>
                     </ul>
                 </div>
+                <shiro:hasRole name="${ROLE_SUPER}">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}/unitPost_collectUnitName"
+                            data-rel="tooltip" data-placement="top" title="根据岗位名称提取单位名称"><i class="fa fa-upload"></i>
+                        提取单位名称
+                    </button>
+                </shiro:hasRole>
                  <button data-url="${ctx}/unitPost_batchDel"
                          data-title="删除"
                          data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
