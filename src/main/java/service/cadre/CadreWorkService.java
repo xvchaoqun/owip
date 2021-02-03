@@ -208,7 +208,7 @@ public class CadreWorkService extends BaseMapper {
                                     StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
                                     cadreEdu.getIsGraduated() ? "毕业" : "",
                                     (CmTag.getBoolProperty("ad_show_degree") && cadreEdu.getHasDegree()) ?
-                                            String.format("，获%s学位", cadreEdu.getDegree()) : "",
+                                            StringUtils.appendIfMissing(String.format("，获%s", cadreEdu.getDegree()), "学位") : "",
                                     note);
                         } else {
                             detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
