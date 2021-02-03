@@ -3,11 +3,14 @@ package freemarker;
 import bean.MetaClassOption;
 import domain.base.MetaClass;
 import domain.base.MetaType;
+import domain.cadre.CadreEdu;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+import org.apache.commons.lang3.StringUtils;
+import persistence.cadre.CadreEduMapper;
 import sys.freemarker.DirectiveUtils;
 import sys.tags.CmTag;
 
@@ -22,8 +25,8 @@ import java.util.Map;
  */
 public class EduSuffix implements TemplateDirectiveModel {
 
-    // 干部简历上全日制学历对应的描述
-    public static String getEduSuffix(Integer eduId){
+    // 干部简历上全日制/在职学习经历结尾对应的表述
+    public static String getEduSuffix(Integer eduId, boolean isOnjob){
 
         if(eduId==null) return null;
 
@@ -36,27 +39,7 @@ public class EduSuffix implements TemplateDirectiveModel {
 
         MetaClassOption option = options.get(metaType.getExtraAttr());
         if(option!=null){
-            suffix = option.getName();
-        }
-
-        return suffix;
-    }
-
-    // 干部简历上在职教育学历对应的描述
-    public static String getEduSuffix2(Integer eduId){
-
-        if(eduId==null) return null;
-
-        String suffix = "";
-        MetaType metaType = CmTag.getMetaType(eduId);
-        if(metaType==null) return null;
-
-        MetaClass eduCls = CmTag.getMetaClassByCode("mc_edu");
-        Map<String, MetaClassOption> options = eduCls.getOptions();
-
-        MetaClassOption option = options.get(metaType.getExtraAttr());
-        if(option!=null){
-            suffix = option.getDetail();
+            suffix = isOnjob?option.getDetail():option.getName();
         }
 
         return suffix;
@@ -67,11 +50,17 @@ public class EduSuffix implements TemplateDirectiveModel {
             TemplateDirectiveBody body) throws TemplateException, IOException {
 
         Writer out = env.getOut();
-        Integer eduId = DirectiveUtils.getInt("eduId", params);
+        Integer cadreEduId = DirectiveUtils.getInt("cadreEduId", params);
 
-        String eduSuffix = getEduSuffix(eduId);
+        CadreEduMapper cadreEduMapper = CmTag.getBean(CadreEduMapper.class);
+        CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(cadreEduId);
+        Integer eduId = cadreEdu.getEduId();
+        MetaType eduType = CmTag.getMetaType(eduId);
+        boolean isOnjob = (eduType!=null && StringUtils.equals(eduType.getCode(), "mt_onjob"));
+
+        String eduSuffix = getEduSuffix(eduId, isOnjob);
         if(eduSuffix!=null) {
-            out.write(getEduSuffix(eduId));
+            out.write(getEduSuffix(eduId, isOnjob));
             if (body != null) {
                 body.render(out);
             }

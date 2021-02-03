@@ -25,9 +25,9 @@
 .p18{margin-right:0.175in;margin-top:0.108333334in;text-align:end;hyphenate:auto;font-family:Times New Roman;font-size:12pt;}
 .p19{text-indent:0.072916664in;margin-top:0.108333334in;text-align:justify;hyphenate:auto;font-family:Times New Roman;font-size:10pt;}
 .td0{padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td1{font-size:smaller;width:0.89513886in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td2{font-size:smaller;width:0.875in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
-.td3{font-size:smaller;width:1.125in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td1{width:0.89513886in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td2{width:0.875in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
+.td3{width:1.125in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td4{width:1.8498611in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td5{width:1.25in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .td6{width:1.75in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
@@ -94,11 +94,11 @@ td.bolder{font-weight: bolder}
       <td class="td3 center">
         ${GENDER_MAP.get(bean.gender)}
       </td>
-      <td class="td3 center bolder" colspan="2">
+      <td class="td3 center bolder" colspan="2" style="font-size: smaller">
         <span>出生年月</span>
         <div><span>（  岁）</span></div>
       </td>
-      <td class="td3 center">
+      <td class="td3 center" style="font-size: smaller">
         ${cm:formatDate(bean.birth, "yyyy.MM")}
         <div><span>（${bean.age}岁）</span></div>
       </td>
@@ -127,7 +127,7 @@ td.bolder{font-weight: bolder}
       </td>
     </tr>
     <tr>
-      <td class="td1 center bolder">
+      <td class="td1 center bolder" style="font-size: smaller">
         <span>入  党</span>
         <div>
           <span>时  间</span>
@@ -143,7 +143,7 @@ td.bolder{font-weight: bolder}
           </c:if>
         </c:if>
       </td>
-      <td class="td2 center bolder">
+      <td class="td2 center bolder" style="font-size: smaller">
         <span class="s2">参加工作</span>
         <div>时间</div>
       </td>
@@ -158,7 +158,7 @@ td.bolder{font-weight: bolder}
       </td>
     </tr>
     <tr>
-      <td class="td1 center bolder">
+      <td class="td1 center bolder" style="font-size: smaller">
         <span>专业技</span>
         <div>
           <span>术职务</span>
@@ -167,7 +167,7 @@ td.bolder{font-weight: bolder}
       <td class="td5 center" colspan="3">
         ${bean.proPost}
       </td>
-      <td class="td2 center bolder">
+      <td class="td2 center bolder" style="font-size: smaller">
         <span>熟悉专业</span>
         <div>
           <span>有何专长</span>

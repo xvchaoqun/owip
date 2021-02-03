@@ -1301,7 +1301,8 @@ public class CadreAdformService extends BaseMapper {
             cadreEdu.setNote(PatternUtils.withdraw(".*([大|中]+专生|专科生|自考[本科]|函授大专生|函授本科|[博士生]*联合培养[博士研究生]*" +
                     "|[研究生]*[课程]*进修[班]*|[证书班]*学习|直博).*", eduStr));
         }
-        cadreEdu.setRemark(eduStr); // 学习经历放入备注，用来核对信息
+        cadreEdu.setResume(eduStr);
+        //cadreEdu.setRemark(eduStr); // 学习经历放入备注，用来核对信息
 
         String otherStr = PatternUtils.withdraw("(^[同等学力]*攻读).*", eduStr);
         String school = "";

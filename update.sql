@@ -1,13 +1,47 @@
 
 
+20210203
+-- 北师大
+
+CREATE TABLE `base_api_key` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+	`name` VARCHAR(50) NULL DEFAULT '0' COMMENT 'app名称' COLLATE 'utf8_general_ci',
+	`api_key` VARCHAR(50) NULL DEFAULT '0' COMMENT '对应键值' COLLATE 'utf8_general_ci',
+	`remark` VARCHAR(50) NOT NULL COMMENT '备注' COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COMMENT='API接口管理'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=13;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (4001, 0, '接口管理', '', 'url', '', '/apiKey', 67, '0/1/67/', 1, 'apiKey:*', NULL, NULL, NULL, 1, NULL);
+
+/*北师大更新
+  INSERT INTO `base_api_key` (`name`, `api_key`, `remark`) VALUES ('LXXT', '7507a3c61bf38d9f06d00c3f2fa2de58', '查询组织关系转接状态');
+    INSERT INTO `base_api_key` (`name`, `api_key`, `remark`) VALUES ('oa', 'b887e286bf5d82b7b9712ed03d3e6e0e', '查询因私审批数量');
+    INSERT INTO `base_api_key` (`name`, `api_key`, `remark`) VALUES ('zcdy', '5931e054d3b59be97b3481f6e604afe6', '组织关系转出介绍信自助打印回调接口');
+*/
+
+20210203
+-- 哈工大  吉大
+
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `resume` VARCHAR(200) NULL COMMENT '简历上的表述，如果填写了，则完全按此进行表述' AFTER `note_brackets_exclude`,
+	CHANGE COLUMN `remark` `remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci' AFTER `adform_resume_exclude`;
+
+20210202
+-- 吉大
+
 20210201
 -- 哈工大
 
--- （哈工大已调）元数据  同等学历  - > 同等学力 ，  yjs| -> ss| (并修改一下硕士研究生所属大类）
+-- 元数据  同等学历  - > 同等学力 ，  yjs| -> ss| (并修改一下硕士研究生所属大类）
 update base_meta_class set bool_attr='任免表学历学位栏隐藏该学历' where code='mc_edu';
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('defaultEvaResult', '任免表默认考核结果表述', '{0}年均为合格', 1, 98, '');
--- （哈工大已调）
+--
 
 ALTER TABLE `cadre_edu`
 	CHANGE COLUMN `note` `note` VARCHAR(100) NULL COMMENT '补充说明' COLLATE 'utf8_general_ci' AFTER `remark`,

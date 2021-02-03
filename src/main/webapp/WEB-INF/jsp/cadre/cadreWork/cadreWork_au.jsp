@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>工作单位及担任职务<br/>（或专技职务）</label>
 				<div class="col-xs-6">
-                    <textarea required class="form-control" type="text" name="detail" >${cadreWork.detail}</textarea>
+                    <textarea required class="form-control" type="text" name="detail" rows="3" >${cadreWork.detail}</textarea>
 				</div>
 			</div>
 			<div class="form-group">

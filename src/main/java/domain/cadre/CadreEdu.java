@@ -92,15 +92,17 @@ public class CadreEdu implements Serializable {
 
     private String certificate;
 
-    private String remark;
-
     private String note;
 
     private Boolean noteBracketsExclude;
 
+    private String resume;
+
     private Boolean adformEduExclude;
 
     private Boolean adformResumeExclude;
+
+    private String remark;
 
     private Integer sortOrder;
 
@@ -316,14 +318,6 @@ public class CadreEdu implements Serializable {
         this.certificate = certificate == null ? null : certificate.trim();
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
     public String getNote() {
         return note;
     }
@@ -340,6 +334,14 @@ public class CadreEdu implements Serializable {
         this.noteBracketsExclude = noteBracketsExclude;
     }
 
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume == null ? null : resume.trim();
+    }
+
     public Boolean getAdformEduExclude() {
         return adformEduExclude;
     }
@@ -354,6 +356,14 @@ public class CadreEdu implements Serializable {
 
     public void setAdformResumeExclude(Boolean adformResumeExclude) {
         this.adformResumeExclude = adformResumeExclude;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Integer getSortOrder() {

@@ -853,7 +853,7 @@ public class SysUserService extends BaseMapper {
             List<CadreView> cvs = cadreViewMapper.selectByExample(example);
             if (cvs.size() >= 1) {
                 for (CadreView cv : cvs) {
-                    SysUserView uv = CmTag.getUserById(cv.getId());
+                    SysUserView uv = CmTag.getUserById(cv.getUserId());
                     unit = StringUtils.isBlank(uv.getUnit()) ? "" : "|" + uv.getUnit();
                     if (null != birthKey) {
                         if (birthKey.equals(DateUtils.formatDate(cv.getBirth(), "yyyyMM"))) {

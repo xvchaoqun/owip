@@ -60,7 +60,7 @@
                                 <td>
                                     <c:if test="${fn:length(metaClass.options)>0}">
                                         <c:set var="op" value="${metaClass.options.get(metaType.extraAttr)}"/>
-                                        ${op.name}<c:if test="${not empty op.detail && !(op.detail eq op.name)}">|${op.detail}</c:if>
+                                        ${op.key}-${op.name}<c:if test="${not empty op.detail && !(op.detail eq op.name)}">|${op.detail}</c:if>
                                     </c:if>
                                     <c:if test="${fn:length(metaClass.options)==0}">
                                         ${metaType.extraAttr}

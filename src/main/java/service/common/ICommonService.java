@@ -2,9 +2,12 @@ package service.common;
 
 import controller.global.OpException;
 import domain.base.MetaType;
+import domain.cadre.CadreEdu;
 import domain.member.MemberApply;
 import domain.sys.*;
 import ext.service.ExtService;
+import freemarker.EduSuffix;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,5 +236,53 @@ public abstract class ICommonService {
         }
 
         return null;
+    }
+
+    // 任免审批表学习经历表述
+    public String getResumeOfCadreEdu(CadreEdu cadreEdu, boolean isOnjob) {
+
+        String detail = cadreEdu.getResume();
+        String major = StringUtils.trimToNull(cadreEdu.getMajor());
+        if (major != null) {
+            major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+        } else {
+            major = "";
+        }
+
+        String note = StringUtils.isNotBlank(cadreEdu.getNote()) ?
+                String.format(BooleanUtils.isTrue(cadreEdu.getNoteBracketsExclude()) ? "%s" : "（%s）",
+                        cadreEdu.getNote()) : "";
+
+        if (StringUtils.isBlank(detail)) {
+            if (!isOnjob) {
+                // 全日制
+                detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                        StringUtils.trimToEmpty(cadreEdu.getDep()),
+                        major,
+                        StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), false)),
+                        note);
+            } else {
+                // 在职
+                if (CmTag.getBoolProperty("ad_show_onjob")) {
+                    detail = String.format("在%s%s%s%s%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                            StringUtils.trimToEmpty(cadreEdu.getDep()),
+                            major,
+                            "在职",
+                            StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
+                            cadreEdu.getIsGraduated() ? "毕业" : "",
+                            (CmTag.getBoolProperty("ad_show_degree") && cadreEdu.getHasDegree()) ?
+                                    StringUtils.appendIfMissing(String.format("，获%s", cadreEdu.getDegree()), "学位") : "",
+                            note);
+                } else {
+                    detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                            StringUtils.trimToEmpty(cadreEdu.getDep()),
+                            major,
+                            StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
+                            note);
+                }
+            }
+        }
+
+        return detail;
     }
 }
