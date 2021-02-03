@@ -1,5 +1,13 @@
 
 
+
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `resume` VARCHAR(200) NULL COMMENT '简历上的表述，如果填写了，则完全按此进行表述' AFTER `note_brackets_exclude`,
+	CHANGE COLUMN `remark` `remark` VARCHAR(200) NULL COMMENT '备注' COLLATE 'utf8_general_ci' AFTER `adform_resume_exclude`;
+
+20210202
+-- 吉大
+
 20210201
 -- 哈工大
 

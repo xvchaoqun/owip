@@ -125,6 +125,10 @@ public class CadreWorkService extends BaseMapper {
 
                 if(BooleanUtils.isTrue(cadreEdu.getAdformResumeExclude())) continue; // 不计入简历
 
+                String note = StringUtils.isNotBlank(cadreEdu.getNote()) ?
+                                    String.format(BooleanUtils.isTrue(cadreEdu.getNoteBracketsExclude())?"%s":"（%s）",
+                                            cadreEdu.getNote()) : "";
+
                 //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
                 if (learnStyle.intValue() == fulltimeType.getId()) {
 
@@ -134,14 +138,14 @@ public class CadreWorkService extends BaseMapper {
                     } else {
                         major = "";
                     }
-                    String detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
-                            StringUtils.trimToEmpty(cadreEdu.getDep()),
-                            major,
-                            StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId())),
-                            StringUtils.isNotBlank(cadreEdu.getNote()) ?
-                                    String.format(BooleanUtils.isTrue(cadreEdu.getNoteBracketsExclude())?"%s":"（%s）",
-                                            cadreEdu.getNote()) : ""
-                    );
+                    String detail = cadreEdu.getResume();
+                    if(StringUtils.isBlank(detail)) {
+                        detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                                StringUtils.trimToEmpty(cadreEdu.getDep()),
+                                major,
+                                StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), false)),
+                                note);
+                    }
                     eduResume.setDetail(detail);
 
                     // 全日制学习经历： 根据入学时间当成主要工作经历插入
@@ -193,26 +197,26 @@ public class CadreWorkService extends BaseMapper {
                         major = "";
                     }
 
-                    String detail = "";
+                    String detail = cadreEdu.getResume();
+                    if(StringUtils.isBlank(detail)) {
+                        if (CmTag.getBoolProperty("ad_show_onjob")) {
 
-                    if(CmTag.getBoolProperty("ad_show_onjob")){
-
-                        detail = String.format("在%s%s%s%s%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
-                            StringUtils.trimToEmpty(cadreEdu.getDep()),
-                            major,
-                            "在职",
-                            StringUtils.trimToEmpty(EduSuffix.getEduSuffix2(cadreEdu.getEduId())),
-                            cadreEdu.getIsGraduated() ? "毕业" : "",
-                            (CmTag.getBoolProperty("ad_show_degree")&&cadreEdu.getHasDegree()) ?
-                                    String.format("，获%s学位", cadreEdu.getDegree()) : "",
-                            StringUtils.isNotBlank(cadreEdu.getNote()) ? String.format("（%s）", cadreEdu.getNote()) : "");
-                    }else{
-                        detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
-                                StringUtils.trimToEmpty(cadreEdu.getDep()),
-                                major,
-                                StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId())),
-                                StringUtils.isNotBlank(cadreEdu.getNote()) ? String.format("（%s）", cadreEdu.getNote()) : ""
-                        );
+                            detail = String.format("在%s%s%s%s%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                                    StringUtils.trimToEmpty(cadreEdu.getDep()),
+                                    major,
+                                    "在职",
+                                    StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
+                                    cadreEdu.getIsGraduated() ? "毕业" : "",
+                                    (CmTag.getBoolProperty("ad_show_degree") && cadreEdu.getHasDegree()) ?
+                                            String.format("，获%s学位", cadreEdu.getDegree()) : "",
+                                    note);
+                        } else {
+                            detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                                    StringUtils.trimToEmpty(cadreEdu.getDep()),
+                                    major,
+                                    StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
+                                    note);
+                        }
                     }
 
                     eduResume.setDetail(detail);

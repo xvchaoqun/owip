@@ -242,21 +242,30 @@
 						<span class="help-block" style="font-size: 10px;">例如：硕博连读、美国哈佛大学联合培养一年等</span>
 					</div>
 				</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">备注</label>
-						<div class="col-xs-8">
-							<textarea class="form-control" name="remark" maxlength="100">${cadreEdu.remark}</textarea>
-						</div>
-					</div>
+
 				<shiro:hasPermission name="cadre:updateWithoutRequired">
 					<div class="form-group">
-						<label class="col-xs-4 control-label">任免审批表</label>
+						<label class="col-xs-4 control-label">任免审批表表述</label>
+						<div class="col-xs-8">
+							<textarea class="form-control" name="resume" maxlength="50">${cadreEdu.resume}</textarea>
+							<span class="help-block" style="font-size: 10px;">如果填写了，则此学习经历在任免审批表中的简历部分完全按此进行表述</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">任免审批表设置</label>
 						<div class="col-xs-8 label-text">
 							<input type="checkbox" name="adformEduExclude" ${cadreEdu.adformEduExclude?'checked':''}/> 不计入学历学位栏
 							<input type="checkbox" name="adformResumeExclude" ${cadreEdu.adformResumeExclude?'checked':''}/> 不计入简历栏
 						</div>
 					</div>
+
 				</shiro:hasPermission>
+				<div class="form-group">
+						<label class="col-xs-4 control-label">备注</label>
+						<div class="col-xs-8">
+							<textarea class="form-control" name="remark" maxlength="100">${cadreEdu.remark}</textarea>
+						</div>
+					</div>
 				</div></div>
 	</form>
 </div>

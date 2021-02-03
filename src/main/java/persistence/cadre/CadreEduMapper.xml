@@ -28,11 +28,12 @@
     <result column="tutor_name" jdbcType="VARCHAR" property="tutorName" />
     <result column="tutor_title" jdbcType="VARCHAR" property="tutorTitle" />
     <result column="certificate" jdbcType="VARCHAR" property="certificate" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="note_brackets_exclude" jdbcType="BIT" property="noteBracketsExclude" />
+    <result column="resume" jdbcType="VARCHAR" property="resume" />
     <result column="adform_edu_exclude" jdbcType="BIT" property="adformEduExclude" />
     <result column="adform_resume_exclude" jdbcType="BIT" property="adformResumeExclude" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
@@ -98,8 +99,8 @@
     id, sub_work_count, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, subject, 
     first_subject, major, school_type, enrol_time, finish_time, learn_style, has_degree, 
     degree_type, degree, is_high_degree, is_second_degree, degree_country, degree_unit, 
-    degree_time, tutor_name, tutor_title, certificate, remark, note, note_brackets_exclude, 
-    adform_edu_exclude, adform_resume_exclude, sort_order, status
+    degree_time, tutor_name, tutor_title, certificate, note, note_brackets_exclude, resume, 
+    adform_edu_exclude, adform_resume_exclude, remark, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreEduExample" resultMap="BaseResultMap">
     select
@@ -143,9 +144,10 @@
       degree_type, degree, is_high_degree, 
       is_second_degree, degree_country, degree_unit, 
       degree_time, tutor_name, tutor_title, 
-      certificate, remark, note, 
-      note_brackets_exclude, adform_edu_exclude, adform_resume_exclude, 
-      sort_order, status)
+      certificate, note, note_brackets_exclude, 
+      resume, adform_edu_exclude, adform_resume_exclude, 
+      remark, sort_order, status
+      )
     values (#{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, 
       #{dep,jdbcType=VARCHAR}, #{subject,jdbcType=INTEGER}, #{firstSubject,jdbcType=INTEGER}, 
@@ -154,9 +156,10 @@
       #{degreeType,jdbcType=TINYINT}, #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, 
       #{isSecondDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, 
       #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, 
-      #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{noteBracketsExclude,jdbcType=BIT}, #{adformEduExclude,jdbcType=BIT}, #{adformResumeExclude,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+      #{certificate,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{noteBracketsExclude,jdbcType=BIT}, 
+      #{resume,jdbcType=VARCHAR}, #{adformEduExclude,jdbcType=BIT}, #{adformResumeExclude,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreEdu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -239,20 +242,23 @@
       <if test="certificate != null">
         certificate,
       </if>
-      <if test="remark != null">
-        remark,
-      </if>
       <if test="note != null">
         note,
       </if>
       <if test="noteBracketsExclude != null">
         note_brackets_exclude,
       </if>
+      <if test="resume != null">
+        resume,
+      </if>
       <if test="adformEduExclude != null">
         adform_edu_exclude,
       </if>
       <if test="adformResumeExclude != null">
         adform_resume_exclude,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -337,20 +343,23 @@
       <if test="certificate != null">
         #{certificate,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
       </if>
       <if test="noteBracketsExclude != null">
         #{noteBracketsExclude,jdbcType=BIT},
       </if>
+      <if test="resume != null">
+        #{resume,jdbcType=VARCHAR},
+      </if>
       <if test="adformEduExclude != null">
         #{adformEduExclude,jdbcType=BIT},
       </if>
       <if test="adformResumeExclude != null">
         #{adformResumeExclude,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -447,20 +456,23 @@
       <if test="record.certificate != null">
         certificate = #{record.certificate,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
       <if test="record.noteBracketsExclude != null">
         note_brackets_exclude = #{record.noteBracketsExclude,jdbcType=BIT},
       </if>
+      <if test="record.resume != null">
+        resume = #{record.resume,jdbcType=VARCHAR},
+      </if>
       <if test="record.adformEduExclude != null">
         adform_edu_exclude = #{record.adformEduExclude,jdbcType=BIT},
       </if>
       <if test="record.adformResumeExclude != null">
         adform_resume_exclude = #{record.adformResumeExclude,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -501,11 +513,12 @@
       tutor_name = #{record.tutorName,jdbcType=VARCHAR},
       tutor_title = #{record.tutorTitle,jdbcType=VARCHAR},
       certificate = #{record.certificate,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
       note_brackets_exclude = #{record.noteBracketsExclude,jdbcType=BIT},
+      resume = #{record.resume,jdbcType=VARCHAR},
       adform_edu_exclude = #{record.adformEduExclude,jdbcType=BIT},
       adform_resume_exclude = #{record.adformResumeExclude,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
@@ -590,20 +603,23 @@
       <if test="certificate != null">
         certificate = #{certificate,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
       <if test="noteBracketsExclude != null">
         note_brackets_exclude = #{noteBracketsExclude,jdbcType=BIT},
       </if>
+      <if test="resume != null">
+        resume = #{resume,jdbcType=VARCHAR},
+      </if>
       <if test="adformEduExclude != null">
         adform_edu_exclude = #{adformEduExclude,jdbcType=BIT},
       </if>
       <if test="adformResumeExclude != null">
         adform_resume_exclude = #{adformResumeExclude,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -641,11 +657,12 @@
       tutor_name = #{tutorName,jdbcType=VARCHAR},
       tutor_title = #{tutorTitle,jdbcType=VARCHAR},
       certificate = #{certificate,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       note_brackets_exclude = #{noteBracketsExclude,jdbcType=BIT},
+      resume = #{resume,jdbcType=VARCHAR},
       adform_edu_exclude = #{adformEduExclude,jdbcType=BIT},
       adform_resume_exclude = #{adformResumeExclude,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
