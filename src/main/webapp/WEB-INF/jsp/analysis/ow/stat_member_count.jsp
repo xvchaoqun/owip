@@ -220,9 +220,9 @@
                 countData.push({name: '硕士生预备党员(${statGrowMap.get(STUDENT_TYPE_SS)})', value: '${statGrowMap.get(STUDENT_TYPE_SS)}'});
                 legendTitle.push('硕士生预备党员(${statGrowMap.get(STUDENT_TYPE_SS)})');
             }
-            if (${statPositiveMap.get(STUDENT_TYPE_BS)!=0}){
-                countData.push({name: '博士生预备党员(${statPositiveMap.get(STUDENT_TYPE_BS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BS)}'});
-                legendTitle.push('博士生预备党员(${statPositiveMap.get(STUDENT_TYPE_BS)})');
+            if (${statGrowMap.get(STUDENT_TYPE_BS)!=0}){
+                countData.push({name: '博士生预备党员(${statGrowMap.get(STUDENT_TYPE_BS)})', value: '${statGrowMap.get(STUDENT_TYPE_BS)}'});
+                legendTitle.push('博士生预备党员(${statGrowMap.get(STUDENT_TYPE_BS)})');
             }
         }
         addData1();
