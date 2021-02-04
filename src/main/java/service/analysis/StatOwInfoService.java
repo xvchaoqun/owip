@@ -4,9 +4,11 @@ import bean.StatByteBean;
 import domain.party.Party;
 import domain.sys.StudentInfoExample;
 import domain.sys.SysUserExample;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
@@ -16,16 +18,15 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StatOwInfoService extends BaseMapper {
@@ -369,7 +370,11 @@ public class StatOwInfoService extends BaseMapper {
         return result;
     }
 
-    public ModelMap getYjsInfo(ModelMap modelMap, DecimalFormat df) {
+    @Cacheable(value="statOwInfo", key = "#cls")
+    public Map getYjsSchool(Byte cls, DecimalFormat df) {
+
+        Map dataMap = new HashedMap();
+
         Map<String, String> masters = new HashMap<>();
         Map<String, String> doctors = new HashMap<>();
 
@@ -413,21 +418,23 @@ public class StatOwInfoService extends BaseMapper {
         //博士生党员占比
         BigDecimal doctorPercent = calculateDivide(Integer.valueOf(doctors.get("partyMembersCount")), countDoctors);
 
-        modelMap.put("total", countYjs);
+        dataMap.put("total", countYjs);
         //研究生占比
         Integer mpmc = masters.get("partyMembersCount") == null ? 0 : Integer.valueOf(masters.get("partyMembersCount"));
         Integer dpmc = doctors.get("partyMembersCount") == null ? 0 : Integer.valueOf(doctors.get("partyMembersCount"));
-        Integer total = modelMap.get("total") == null ? 0 : (Integer) modelMap.get("total");
+        Integer total = dataMap.get("total") == null ? 0 : (Integer) dataMap.get("total");
 
         BigDecimal percent = calculateDivide(mpmc + dpmc, total);
 
         masters.put("masterPercent", df.format(masterPercent.doubleValue() * 100) + "%");
         doctors.put("doctorPercent", df.format(doctorPercent.doubleValue() * 100) + "%");
 
-        modelMap.put("percent", df.format(percent.doubleValue() * 100) + "%");
-        modelMap.put("masters", masters);
-        modelMap.put("doctors", doctors);
-        return modelMap;
+        dataMap.put("percent", df.format(percent.doubleValue() * 100) + "%");
+        dataMap.put("masters", masters);
+        dataMap.put("doctors", doctors);
+        dataMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+
+        return dataMap;
     }
 
     public List<Map<String, String>> getYjsPartyInfo(DecimalFormat df) {
