@@ -3,7 +3,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="${ctx}/img/favicon.ico">
     <title>${param.type=='unsupport'?'您的浏览器不支持访问':'推荐浏览器下载'}</title>
     <link rel="stylesheet" href="${ctx}/extend/css/browsers.css">
     <c:if test="${param.type=='unsupport'}">

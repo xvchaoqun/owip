@@ -89,20 +89,20 @@ td.padding10{
         <tbody>
         <tr>
             <td colspan="13">
-                <p class="p1">
+                <p class="p1" style="margin-bottom: 10px">
                     <span class="s1">${_school}干部信息采集表</span>
                 </p>
             </td>
         </tr>
         <tr>
             <td colspan="8">
-                <p class="p2">
+                <p class="p2" style="margin-bottom: 10px">
                     <span class="bolder">工作证号：</span><span class="s2">${bean.code}</span>
                 </p>
             </td>
-            <td colspan="5" >
+            <%--<td colspan="5" >
                 <span class="bolder">填写日期：</span><span class="s2"></span>
-            </td>
+            </td>--%>
         </tr>
         <tr class="r1">
             <td class="td1 center bolder">
@@ -374,7 +374,7 @@ td.padding10{
         </tbody>
         </table>
         </div>
-    <div style="padding-top: 91px">
+    <div style="padding-top: 97px">
     <table  class="t1">
         <tbody>
         <tr class="r3">
