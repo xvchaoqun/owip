@@ -1,7 +1,7 @@
 
 
 20210203
--- 北师大
+-- 北师大  南航
 
 CREATE TABLE `base_api_key` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
