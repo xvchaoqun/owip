@@ -55,10 +55,6 @@ public class StatOwInfoController extends BaseController {
         if (cls == 0) {
             modelMap = statOwInfoService.getYjsInfo(modelMap, df);
             if (export == 2) {
-                Map<String, String> masters = (Map<String, String>) modelMap.get("masters");
-                Map<String, String> doctors = (Map<String, String>) modelMap.get("doctors");
-                String masterPercent = masters.get("masterPercent");
-                String doctorPercent = doctors.get("doctorPercent");
                 XSSFWorkbook wb = statOwInfoService.statOnInfoExport(modelMap);
                 String filename = String.format("%s研究生队伍党员信息分析.xlsx", schoolName);
                 ExportHelper.output(wb, filename, response);
