@@ -1,10 +1,17 @@
 
+20210204
+-- 西工大
 
 ALTER TABLE `base_api_key`
 	CHANGE COLUMN `name` `app` VARCHAR(50) NOT NULL COMMENT '应用名称' COLLATE 'utf8_general_ci' AFTER `id`,
-	CHANGE COLUMN `api_key` `secret` VARCHAR(50) NOT NULL COMMENT '秘钥' COLLATE 'utf8_general_ci' AFTER `name`,
-	ADD COLUMN `request_uri` VARCHAR(100) NOT NULL COMMENT '请求地址' AFTER `api_key`,
+	CHANGE COLUMN `api_key` `secret` VARCHAR(50) NOT NULL COMMENT '秘钥' COLLATE 'utf8_general_ci' AFTER `app`,
+	ADD COLUMN `request_uri` VARCHAR(100) NOT NULL COMMENT '请求地址' AFTER `secret`,
 	CHANGE COLUMN `remark` `remark` VARCHAR(50) NULL COMMENT '备注' COLLATE 'utf8_general_ci' AFTER `request_uri`;
+
+update base_api_key set request_uri='/api/abroad/approve_count' where app='oa';
+update base_api_key set request_uri='/api/member/status' where app='LXXT';
+update base_api_key set request_uri='/api/member/print' where app='zcdy';
+
 20210203
 -- 北师大  南航
 

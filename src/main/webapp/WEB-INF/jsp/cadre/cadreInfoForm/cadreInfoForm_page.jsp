@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<style type="text/css">.b1{white-space-collapsing:preserve;}
+<style type="text/css">
+    table {
+    font-size: 14px;
+}
+    .b1{white-space-collapsing:preserve;}
 .b2{margin: 0.4722222in 0.59097224in 0.4722222in 0.59097224in;}
 .s1{font-weight:bold;}
 .s2{text-decoration:underline;}
