@@ -158,7 +158,7 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-url="${ctx}/unitPostList?cls=${cls}"
+                       data-url="${ctx}/unitPostList?cls=${cls}&unitId=${param.unitId}"
                        data-target="#unit-content"
                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
