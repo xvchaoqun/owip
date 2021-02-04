@@ -24,6 +24,9 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <table tableName="base_api_key" domainObjectName="base.ApiKey">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <!--<table tableName="base_sitemap" domainObjectName="base.Sitemap">
         </table>-->
         <!-- <table tableName="base_sitemap_role" domainObjectName="base.SitemapRole">
@@ -107,9 +110,9 @@
              <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
           </table>-->
-        <table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
+        <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
-       </table>
+       </table>-->
         <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
         </table>-->

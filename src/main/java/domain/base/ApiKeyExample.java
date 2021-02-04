@@ -164,143 +164,213 @@ public class ApiKeyExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andAppIsNull() {
+            addCriterion("app is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andAppIsNotNull() {
+            addCriterion("app is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andAppEqualTo(String value) {
+            addCriterion("app =", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andAppNotEqualTo(String value) {
+            addCriterion("app <>", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andAppGreaterThan(String value) {
+            addCriterion("app >", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andAppGreaterThanOrEqualTo(String value) {
+            addCriterion("app >=", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andAppLessThan(String value) {
+            addCriterion("app <", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andAppLessThanOrEqualTo(String value) {
+            addCriterion("app <=", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andAppLike(String value) {
+            addCriterion("app like", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andAppNotLike(String value) {
+            addCriterion("app not like", value, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andAppIn(List<String> values) {
+            addCriterion("app in", values, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andAppNotIn(List<String> values) {
+            addCriterion("app not in", values, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andAppBetween(String value1, String value2) {
+            addCriterion("app between", value1, value2, "app");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
+        public Criteria andAppNotBetween(String value1, String value2) {
+            addCriterion("app not between", value1, value2, "app");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyIsNull() {
-            addCriterion("api_key is null");
+        public Criteria andSecretIsNull() {
+            addCriterion("secret is null");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyIsNotNull() {
-            addCriterion("api_key is not null");
+        public Criteria andSecretIsNotNull() {
+            addCriterion("secret is not null");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyEqualTo(String value) {
-            addCriterion("api_key =", value, "apiKey");
+        public Criteria andSecretEqualTo(String value) {
+            addCriterion("secret =", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyNotEqualTo(String value) {
-            addCriterion("api_key <>", value, "apiKey");
+        public Criteria andSecretNotEqualTo(String value) {
+            addCriterion("secret <>", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyGreaterThan(String value) {
-            addCriterion("api_key >", value, "apiKey");
+        public Criteria andSecretGreaterThan(String value) {
+            addCriterion("secret >", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyGreaterThanOrEqualTo(String value) {
-            addCriterion("api_key >=", value, "apiKey");
+        public Criteria andSecretGreaterThanOrEqualTo(String value) {
+            addCriterion("secret >=", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyLessThan(String value) {
-            addCriterion("api_key <", value, "apiKey");
+        public Criteria andSecretLessThan(String value) {
+            addCriterion("secret <", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyLessThanOrEqualTo(String value) {
-            addCriterion("api_key <=", value, "apiKey");
+        public Criteria andSecretLessThanOrEqualTo(String value) {
+            addCriterion("secret <=", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyLike(String value) {
-            addCriterion("api_key like", value, "apiKey");
+        public Criteria andSecretLike(String value) {
+            addCriterion("secret like", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyNotLike(String value) {
-            addCriterion("api_key not like", value, "apiKey");
+        public Criteria andSecretNotLike(String value) {
+            addCriterion("secret not like", value, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyIn(List<String> values) {
-            addCriterion("api_key in", values, "apiKey");
+        public Criteria andSecretIn(List<String> values) {
+            addCriterion("secret in", values, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyNotIn(List<String> values) {
-            addCriterion("api_key not in", values, "apiKey");
+        public Criteria andSecretNotIn(List<String> values) {
+            addCriterion("secret not in", values, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyBetween(String value1, String value2) {
-            addCriterion("api_key between", value1, value2, "apiKey");
+        public Criteria andSecretBetween(String value1, String value2) {
+            addCriterion("secret between", value1, value2, "secret");
             return (Criteria) this;
         }
 
-        public Criteria andApiKeyNotBetween(String value1, String value2) {
-            addCriterion("api_key not between", value1, value2, "apiKey");
+        public Criteria andSecretNotBetween(String value1, String value2) {
+            addCriterion("secret not between", value1, value2, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriIsNull() {
+            addCriterion("request_uri is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriIsNotNull() {
+            addCriterion("request_uri is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriEqualTo(String value) {
+            addCriterion("request_uri =", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriNotEqualTo(String value) {
+            addCriterion("request_uri <>", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriGreaterThan(String value) {
+            addCriterion("request_uri >", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriGreaterThanOrEqualTo(String value) {
+            addCriterion("request_uri >=", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriLessThan(String value) {
+            addCriterion("request_uri <", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriLessThanOrEqualTo(String value) {
+            addCriterion("request_uri <=", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriLike(String value) {
+            addCriterion("request_uri like", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriNotLike(String value) {
+            addCriterion("request_uri not like", value, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriIn(List<String> values) {
+            addCriterion("request_uri in", values, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriNotIn(List<String> values) {
+            addCriterion("request_uri not in", values, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriBetween(String value1, String value2) {
+            addCriterion("request_uri between", value1, value2, "requestUri");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequestUriNotBetween(String value1, String value2) {
+            addCriterion("request_uri not between", value1, value2, "requestUri");
             return (Criteria) this;
         }
 

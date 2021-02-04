@@ -9,18 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/apiKey_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${apiKey.id}">
             <div class ="form-group">
-                <label class="col-xs-3 control-label"> 应用名称（app）</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>应用名称（app）</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="name" value="${apiKey.name}">
+                    <input required class="form-control" type="text" name="app" value="${apiKey.app}">
                 </div>
             </div>
             <div class ="form-group">
-                <label class="col-xs-3 control-label">秘钥（key）</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>秘钥（key）</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="apikey" value="${apiKey.apiKey}">
+                    <input required class="form-control" type="text" name="secret" value="${apiKey.secret}">
                 </div>
                 <a id="createApiKey" class="btn btn-xs btn-primary" style="text-decoration:none;"><i class="fa fa-random"></i>
                     随机生成</a>
+            </div>
+            <div class ="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span>请求地址</label>
+                <div class="col-xs-6">
+                    <textarea required class="form-control" type="text" name="requestUri">${apiKey.requestUri}</textarea>
+                    <span class="help-block">注：多个地址以|分隔</span>
+                </div>
             </div>
             <div class ="form-group">
                 <label class="col-xs-3 control-label">备注</label>
@@ -41,8 +48,8 @@ pageEncoding="UTF-8"%>
 
     $("#createApiKey").click(function (){
 
-        var newApiKey = $.md5($.getRandomString(6));
-        $("[name='apikey']").val(newApiKey);
+        var secret = $.md5($.getRandomString(6));
+        $("[name='secret']", "#modalForm").val(secret);
     });
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

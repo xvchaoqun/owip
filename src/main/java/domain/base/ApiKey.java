@@ -5,9 +5,11 @@ import java.io.Serializable;
 public class ApiKey implements Serializable {
     private Integer id;
 
-    private String name;
+    private String app;
 
-    private String apiKey;
+    private String secret;
+
+    private String requestUri;
 
     private String remark;
 
@@ -21,20 +23,28 @@ public class ApiKey implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getApp() {
+        return app;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setApp(String app) {
+        this.app = app == null ? null : app.trim();
     }
 
-    public String getApiKey() {
-        return apiKey;
+    public String getSecret() {
+        return secret;
     }
 
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey == null ? null : apiKey.trim();
+    public void setSecret(String secret) {
+        this.secret = secret == null ? null : secret.trim();
+    }
+
+    public String getRequestUri() {
+        return requestUri;
+    }
+
+    public void setRequestUri(String requestUri) {
+        this.requestUri = requestUri == null ? null : requestUri.trim();
     }
 
     public String getRemark() {

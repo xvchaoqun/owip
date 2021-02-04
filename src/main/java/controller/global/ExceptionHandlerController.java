@@ -212,7 +212,7 @@ public class ExceptionHandlerController {
     public void resolveSignParamsException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String msg = StringUtils.defaultIfBlank(ex.getMessage(), "签名错误");
+        String msg = StringUtils.defaultIfBlank(ex.getMessage(), "请求错误");
         String app = request.getParameter("app");
         String sign = request.getParameter("sign");
         if (StringUtils.isBlank(app)) {
@@ -237,7 +237,7 @@ public class ExceptionHandlerController {
                 resultMap.put("Success", false);
                 break;
             default:
-                resultMap.put("ret", -10);
+                resultMap.put("ret", ((SignParamsException)ex).getRet());
                 resultMap.put("msg", msg);
                 break;
         }

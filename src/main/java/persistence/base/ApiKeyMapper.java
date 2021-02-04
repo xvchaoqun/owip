@@ -30,5 +30,4 @@ public interface ApiKeyMapper {
     int updateByPrimaryKeySelective(ApiKey record);
 
     int updateByPrimaryKey(ApiKey record);
-
 }

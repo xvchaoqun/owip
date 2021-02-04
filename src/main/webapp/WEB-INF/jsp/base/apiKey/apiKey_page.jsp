@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.app || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="apiKey:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -55,8 +55,8 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>名称</label>
-                            <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                                   placeholder="请输入API名称">
+                            <input class="form-control search-query" name="app" type="text" value="${param.app}"
+                                   placeholder="请输入应用名称">
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -90,9 +90,10 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/apiKey_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: 'api名称',name: 'name',width:250},
-                { label: '对应键值',name: 'apiKey',width: 400},
-                { label: '备注',name: 'remark',width: 400}
+                { label: '应用名称',name: 'app',width:150},
+                { label: '秘钥',name: 'secret',width: 400},
+                { label: '请求地址',name: 'requestUri',width: 400, align:'left'},
+                { label: '备注',name: 'remark',width: 200, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -32,7 +32,7 @@ public class ApiCadreInfoFormController extends BaseController {
 
             return "cadre/cadreInfoForm/cadreInfoForm_page";
         }else{
-            throw new SignParamsException("信息采集表不存在");
+            throw new SignParamsException(1, "信息采集表不存在");
         }
     }
 }

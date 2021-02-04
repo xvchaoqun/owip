@@ -5,7 +5,15 @@ package interceptor;
  */
 public class SignParamsException extends RuntimeException {
 
-    public SignParamsException(String message) {
+    private int ret;
+
+    public int getRet() {
+        return ret;
+    }
+
+    public SignParamsException(int ret, String message) {
+
         super(message);
+        this.ret = ret;
     }
 }

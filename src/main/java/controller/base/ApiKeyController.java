@@ -18,21 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 
@@ -51,7 +41,7 @@ public class ApiKeyController extends BaseController {
     @RequestMapping("/apiKey_data")
     @ResponseBody
     public void apiKey_data(HttpServletResponse response,
-                                 String name, @RequestParam(required = false, defaultValue = "0") int export,
+                                 String app, @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -67,8 +57,8 @@ public class ApiKeyController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
-        if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike(SqlUtils.like(name));
+        if (StringUtils.isNotBlank(app)) {
+            criteria.andAppLike(SqlUtils.like(app));
         }
 
         if (export == 1) {
@@ -100,15 +90,15 @@ public class ApiKeyController extends BaseController {
     @RequiresPermissions("apiKey:edit")
     @RequestMapping(value = "/apiKey_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apiKey_au(ApiKey record,String apikey) {
-        Integer id = record.getId();
+    public Map do_apiKey_au(ApiKey record) {
 
-        record.setApiKey(apikey);
+        Integer id = record.getId();
+        if(apiKeyService.idDuplicate(id, record.getApp())){
+            return failed("应用名称重复");
+        }
+
         if (id==null) {
-            ApiKey checkRecord = apiKeyService.getApiInfoByName(record.getName());
-            if (checkRecord!=null){
-                return failed("Api名字重复");
-            }
+
             apiKeyService.insertSelective(record);
             logger.info(log( LogConstants.LOG_ADMIN, "添加API接口管理：{0}", record.getId()));
         } else {
@@ -163,13 +153,14 @@ public class ApiKeyController extends BaseController {
 
         List<ApiKey> records = apiKeyMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"app名称|100","对应键值|100"};
+        String[] titles = {"应用名称|100","秘钥|100","请求地址|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ApiKey record = records.get(i);
             String[] values = {
-                    record.getName(),
-                    record.getApiKey()
+                    record.getApp(),
+                    record.getSecret(),
+                    record.getRequestUri(),
             };
             valuesList.add(values);
         }
