@@ -1,27 +1,15 @@
 package service.analysis;
 
 import bean.StatByteBean;
-import domain.cet.CetRecord;
 import domain.party.Party;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
-import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.ExcelUtils;
-import sys.utils.NumberUtils;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
