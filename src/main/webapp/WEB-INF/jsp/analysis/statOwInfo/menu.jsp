@@ -14,7 +14,7 @@
                 data-url="${ctx}/statOwInfo?export=2&cls=${cls}"><i class="fa fa-download"></i>
             导出
         </button>
-        <button class="runBtn btn btn-warning btn-sm" data-url="${ctx}/flushStatOwInfoCache" data-title="刷新获取最新统计数据"
+        <button class="runBtn btn btn-warning btn-sm" data-url="${ctx}/flushStatOwInfoCache?cls=${cls}" data-title="刷新获取最新统计数据"
                 data-callback="flushReload"
                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 刷新中，请稍后">
             <i class="fa fa-refresh"></i> 刷新数据

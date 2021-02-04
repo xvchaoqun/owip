@@ -76,8 +76,8 @@ public class StatOwInfoController extends BaseController {
             columns.add("党员占比");
             modelMap.put("columns", columns);
 
-            List<Map<String, String>> data = statOwInfoService.getYjsPartyInfo(df);
-            modelMap.put("data", data);
+            Map cacheMap = statOwInfoService.getYjsPartyInfo(cls, df);
+            modelMap.putAll(cacheMap);
             if (export == 2) {
                 XSSFWorkbook wb = statOwInfoService.statOnPartyInfoExport(modelMap);
                 String filename = String.format("各二级党组织研究生队伍党员信息统计.xlsx");
@@ -92,10 +92,12 @@ public class StatOwInfoController extends BaseController {
     @RequiresPermissions("statOwInfo:list")
     @RequestMapping("/flushStatOwInfoCache")
     @ResponseBody
-    public Map flushStatOwInfoCache(){
-
-        CmTag.clearCache("statOwInfo", null);
-
+    public Map flushStatOwInfoCache(Byte cls){
+        if (cls == 1) {
+            CmTag.clearCache("statOwInfo", null);
+        } else if (cls == 2) {
+            CmTag.clearCache("statOwPartyInfo", null);
+        }
         return success();
     }
 }
