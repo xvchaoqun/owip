@@ -3,7 +3,7 @@
 <mapper namespace="persistence.analysis.StatOwInfoMapper">
     <sql id="Where_ow">
         <if test="partyId!=null">
-            and party_id =#{partyId}
+            and party_id = #{partyId}
         </if>
         <if test="branchId!=null">
             and branch_id =#{branchId}
@@ -30,9 +30,9 @@
         <if test="politicalStatus!=null">
             and political_status =#{politicalStatus}
         </if>
-        <if test="partyId!=null">
-            and partyId = #{partyId}
-        </if>
+<!--        <if test="partyId!=null">-->
+<!--            and partyId = #{partyId}-->
+<!--        </if>-->
         <if test="branchId!=null">
             and branchId =#{branchId}
         </if>

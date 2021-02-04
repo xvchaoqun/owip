@@ -37,12 +37,6 @@ public interface StatOwInfoMapper {
     //统计各类学生人数
     List<StatByteBean> selectUser_groupByLevel(@Param("enrolYear") String enrolYear);
 
-    // 硕士研究生和博士研究生总数
-    @Select("SELECT COUNT(user_id) AS countDoctors, " +
-            "(SELECT COUNT(user_id) AS countMasters FROM sys_student_info WHERE student_level = 3) AS countMasters " +
-            " FROM sys_student_info WHERE student_level = 4")
-    Map<String, Long> masterAndDoctorCount();
-
     // 获取二级党组织名称
     @Select("SELECT DISTINCT id,(case short_name when '' then NAME ELSE short_name end) AS shortName FROM ow_party where is_deleted = 0")
     List<Party> getSecondPartyName();
