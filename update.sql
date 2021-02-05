@@ -1,4 +1,14 @@
 
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2635, 0, '信息统计', '党建管理员 分党委管理员', 'url', '', '/statOwInfo', 2634, '0/1/105/2634/', 1, 'statOwInfo:list', NULL, NULL, NULL, 1, 50);
+
+update sys_student_info set student_level=2;
+update sys_student_info set student_level=3 where edu_level like '%硕士%';
+update sys_student_info set student_level=4 where edu_level like '%博士%';
+
+
 20210204
 -- 西工大
 

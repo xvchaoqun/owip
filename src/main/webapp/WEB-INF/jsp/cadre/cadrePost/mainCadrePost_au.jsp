@@ -121,7 +121,7 @@
                     <div class="col-xs-8">
                         <textarea required class="form-control noEnter" name="post">${cadrePost.post}</textarea>
 
-                        <span class="help-block blue">注：此处为任职职务的全称</span>
+                        <span class="help-block blue">注：一般与岗位名称相同，可自行修改</span>
                     </div>
                 </div>
                 <div class="form-group">

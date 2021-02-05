@@ -107,13 +107,14 @@
         <div class="form-group">
             <label class="col-xs-4 control-label"><c:if
                     test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
-            <div class="col-xs-6">
-                <textarea class="form-control" name="title">${cadre.title}</textarea>
+            <div class="col-xs-5">
+                <textarea class="form-control" name="title" rows="3">${cadre.title}</textarea>
             </div>
-            <div class="col-xs-2" style="padding-left: 0px">
+            <div class="col-xs-3" style="padding-left: 0px">
 				<input type="checkbox" name="isOutside"
 				${cadre.isOutside?'checked':''}
-					   style="width: 15px;height: 15px;margin-top: 8px; vertical-align: -2px"> 校外任职
+					   style="width: 15px;height: 15px;margin-top: 8px; vertical-align: -2px"> 校外任职 <span class="prompt" data-title="说明"
+							  data-prompt="如果是校外任职，则任免表上的“现任职务”栏不添加学校名称"><i class="fa fa-question-circle-o"></i></span>
 			</div>
         </div>
 
@@ -185,7 +186,7 @@
         <div class="form-group">
             <label class="col-xs-4 control-label">备注</label>
             <div class="col-xs-6">
-                <textarea class="form-control limited" name="remark" rows="3">${cadre.remark}</textarea>
+                <textarea class="form-control limited" name="remark">${cadre.remark}</textarea>
             </div>
         </div>
     </form>
