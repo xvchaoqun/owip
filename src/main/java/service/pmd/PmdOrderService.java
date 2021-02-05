@@ -157,6 +157,9 @@ public class PmdOrderService extends PmdBaseMapper {
 
             Map<String, String> paramMap = Pay.getInstance().orderParamMap(oldOrderNo, amt, payer, isMobile);
             oldOrder.setFormMap(paramMap);
+            if(StringUtils.isBlank(oldOrder.getSign())){
+                oldOrder.setSign(Pay.getInstance().sign(paramMap));
+            }
 
             Gson gson = new Gson();
             Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
@@ -178,6 +181,8 @@ public class PmdOrderService extends PmdBaseMapper {
             newOrder.setSn(orderNo);
 
             Map<String, String> paramMap = Pay.getInstance().orderParamMap(orderNo, amt, payer, isMobile);
+            // 签名
+            newOrder.setSign(Pay.getInstance().sign(paramMap));
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             newOrder.setPayMonth(DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM"));
             newOrder.setMemberId(pmdMemberId);
@@ -210,8 +215,6 @@ public class PmdOrderService extends PmdBaseMapper {
                     "支付已确认，即将跳转支付页面", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "订单号：" + orderNo);
 
-            // 签名
-            newOrder.setSign(orderFormBean.getSign());
             newOrder.setFormMap(orderFormBean.getFormMap());
             return newOrder;
         }
@@ -230,8 +233,6 @@ public class PmdOrderService extends PmdBaseMapper {
         }
 
         Pay.getInstance().payConfirmCheck(new int[]{pmdMemberId}, isSelfPay, false);
-
-        int currentUserId = ShiroHelper.getCurrentUserId();
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null) {
@@ -489,6 +490,7 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setAmt(amt);
 
         Map<String, String> paramMap = Pay.getInstance().orderParamMap(orderNo, amt, payer, false);
+        newOrder.setSign(Pay.getInstance().sign(paramMap));
         newOrder.setParams(JSONUtils.toString(paramMap, false));
         newOrder.setSn(orderNo);
 
@@ -504,8 +506,6 @@ public class PmdOrderService extends PmdBaseMapper {
 
         // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
         OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
-
-        newOrder.setSign(orderFormBean.getSign());
         newOrder.setFormMap(orderFormBean.getFormMap());
         return newOrder;
     }

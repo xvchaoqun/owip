@@ -201,7 +201,7 @@ public class Pay implements IPay {
         Map<String, String> paramMap = orderParamMap(orderNo, amount, code, isMobile);
 
         bean.setParamMap(paramMap);
-        bean.setSign(sign(paramMap));
+        //bean.setSign(sign(paramMap));
 
         String siteHome = CmTag.getStringProperty("siteHome");
         String thirdurl = isMobile?(siteHome + "/m/pmd/callback"):(siteHome + "/user/pmd/callback");
