@@ -6,24 +6,34 @@
 <script>
 
     var inoutChart = echarts.init($('#inout_container').get(0));
+    inoutChart.showLoading({text: '正在加载数据'});
 
-    var label= [
-        <c:forEach items="${months}" var="month">
-            '${month}',
-        </c:forEach>
-    ];
-    //console.log(label)
+    var url = "${ctx}/${empty partyId?'stat_ow_member_inout_data':'stat_party_member_inout_data'}";
 
-    var inData = [
-        <c:forEach items="${countMemberIn}" var="in">
-            {name: "${in.key}", value: '${in.value}'},
-        </c:forEach>
-    ];
-    var outData = [
-        <c:forEach items="${countMemberOut}" var="out">
-        {name: "${out.key}", value: '${out.value}'},
-        </c:forEach>
-    ];
+    $.get(url, {partyId:"${partyId}"}, function (ret) {
+
+    var label= [];
+    var inData = [];
+    var outData = [];
+
+    $.each(ret.months, function (i, value) {
+        label.push(value);
+    });
+
+    $.each(ret.countMemberIn, function (key, value) {
+        inData.push({
+            name: key,
+            value: value
+        });
+    });
+
+    $.each(ret.countMemberOut, function (key, value) {
+        outData.push({
+            name: key,
+            value: value
+        });
+    });
+
     var inoutOption = {
         tooltip: {
             trigger: 'axis'
@@ -114,4 +124,6 @@
         ]
     };
     inoutChart.setOption(inoutOption);
+    inoutChart.hideLoading();
+    })
 </script>

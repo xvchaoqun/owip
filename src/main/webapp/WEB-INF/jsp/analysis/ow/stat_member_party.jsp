@@ -5,33 +5,25 @@
 <div id="container" style="height:500px; margin: 0 auto;"></div>
 <script>
 
-    var myChart = echarts.init($('#container').get(0));
+    var memberPartyChart = echarts.init($('#container').get(0));
+    memberPartyChart.showLoading({text: '正在加载数据'});
 
+    var url = "${ctx}/${empty partyId?'stat_member_party_data':'stat_party_member_party_data'}";
+
+    $.get(url, {partyId:"${partyId}"}, function (ret) {
     var label = ['学生', '教工'];
 
-    var categories = [
-        <c:forEach items="${categories}" var="category">
-            '${category}',
-        </c:forEach>
-    ];
-
-    var data = [
-        <c:forEach items="${statAgeMap}" var="age">
-            <c:if test="${not empty age.value}">
-                {name: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", value: '${age.value}'},
-            </c:if>
-        </c:forEach>
-    ];
-
+    var categories = [];
     var sumData = [];
-    var teachers = ${cm:toJSONArray(teachers)};
-    var students = ${cm:toJSONArray(students)};
+    $.each(ret.categories, function(i, categorty){
+        categories.push(categorty);
+    });
 
-    for (var i = 0; i<teachers.length; i++){
+    $.each(ret.teachers, function(i, teacherCount){
         var sumCount = 0;
-        sumCount = teachers[i]+students[i];
+        sumCount = teacherCount + ret.students[i];
         sumData.push(sumCount);
-    }
+    });
 
     var option = {
         tooltip: {
@@ -88,7 +80,7 @@
                     show: true,
                     position: 'insideRight'
                 },
-                data: ${cm:toJSONArray(students)}
+                data: ret.students
             },
             {
                 name: '教工',
@@ -100,9 +92,11 @@
                     show: true,
                     position: 'insideRight'
                 },
-                data: ${cm:toJSONArray(teachers)}
+                data: ret.teachers
             }
         ]
     };
-    myChart.setOption(option);
+        memberPartyChart.setOption(option);
+        memberPartyChart.hideLoading();
+    })
 </script>

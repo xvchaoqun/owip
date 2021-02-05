@@ -58,77 +58,81 @@
         });
     });
 
-    var myChart = echarts.init($('#memberAge-placeholder').get(0));
+    var memberAgeChart = echarts.init($('#memberAge-placeholder').get(0));
+    memberAgeChart.showLoading({text: '正在加载数据'});
 
-    var label= [
-        <c:forEach items="${statAgeMap}" var="age">
-            <c:if test="${not empty age.value}">
-                '${MEMBER_AGE_MAP.get(age.key)}(${age.value})',
-            </c:if>
-        </c:forEach>
-    ];
-    var data = [
-            <c:forEach items="${statAgeMap}" var="age">
-                 <c:if test="${not empty age.value}">
-                    {name: "${MEMBER_AGE_MAP.get(age.key)}(${age.value})", value: '${age.value}'},
-                 </c:if>
-            </c:forEach>
-    ];
+    var dataUrl = "${ctx}/${isPartyAdmin?'stat_party_member_age_data':'stat_member_age_data'}";
 
-    var option = {
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        legend: {
-            orient: 'vertical',
-            left: -5,
-            top: 5,
-            bottom: 5,
-            data: label
-        },
-        series: [
-            {
-                name: '党员年龄结构',
-                type: 'pie',
-                radius: '60%',
-                center: ['60%', '60%'],
-                data:data,
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur:10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
+    $.get(dataUrl, {type:"${type}",partyId:"${partyId}",branchId:"${branchId}"}, function (statAgeMap) {
+
+        var legendData = [];
+        var seriesData = [];
+        $.each(statAgeMap, function (key, value) {
+            /*console.log(key);*/
+            var item = _cMap.MEMBER_AGE_MAP[key] + '(' + value + ')';
+            legendData.push(item);
+            seriesData.push({
+                name: item,
+                value: value
+            });
+        });
+
+        var option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
             },
-            {
-                name: '党员年龄结构',
-                type: 'pie',
-                radius: '60%',
-                center: ['60%', '60%'],
-                data: data,
-                itemStyle:{            //饼图图形上的文本标签
-                    normal: {
-                        label: {
-                            show: true,
-                            position: 'inner',
-                            fontSize: 12,
-                            align: "left",
-                            textStyle: {
-                                fontWeight: 300,
-                                fontSize: 12,   //文字的字体大小
-                                color:'white'
+            legend: {
+                orient: 'vertical',
+                left: -5,
+                top: 5,
+                bottom: 5,
+                data: legendData
+            },
+            series: [
+                {
+                    name: '党员年龄结构',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['60%', '60%'],
+                    data:seriesData,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur:10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                },
+                {
+                    name: '党员年龄结构',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['60%', '60%'],
+                    data: seriesData,
+                    itemStyle:{            //饼图图形上的文本标签
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'inner',
+                                fontSize: 12,
+                                align: "left",
+                                textStyle: {
+                                    fontWeight: 300,
+                                    fontSize: 12,   //文字的字体大小
+                                    color:'white'
+                                },
+                                formatter: '{d}%'
                             },
-                            formatter: '{d}%'
-                        },
-                        labelLine:{
-                            show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                            labelLine:{
+                                show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                            }
                         }
                     }
                 }
-            }
-        ]
-    };
-    myChart.setOption(option);
+            ]
+        };
+        memberAgeChart.setOption(option, true);
+        memberAgeChart.hideLoading();
+    })
 </script>

@@ -1,7 +1,6 @@
 package controller.analysis;
 
 import controller.BaseController;
-import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.Branch;
 import domain.party.BranchExample;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.member.common.MemberStatByBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
@@ -95,12 +95,27 @@ public class StatPartyController extends BaseController {
     // 党员数量统计
     @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_count")
-    public String stat_party_member_count(Integer type, int partyId, Integer branchId, ModelMap modelMap) {
+    public String stat_party_member_count(Integer type,int partyId, Integer branchId, ModelMap modelMap) {
+
+        modelMap.put("isPartyAdmin", true);
+        modelMap.put("type", type);
+        modelMap.put("partyId", partyId);
+        modelMap.put("branchId", branchId);
+        return "analysis/ow/stat_member_count";
+    }
+
+    // 党员数量统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_member_count_data")
+    @ResponseBody
+    public Map stat_party_member_count_data(Integer type, int partyId, Integer branchId) {
 
         PartyHelper.checkAuth(partyId);
+
+        Map<String, Object> resultMap = new HashMap<>();
         if (type != null && type !=3) {
 
-            modelMap.put("otherMap", statService.otherMap(type, partyId, branchId));
+            resultMap.put("otherMap", statService.otherMap(type, partyId, branchId));
         }
         Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
         Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
@@ -116,16 +131,14 @@ public class StatPartyController extends BaseController {
             statPositiveMap = statService.typeMap(null, partyId, branchId, null);
         }
 
-        modelMap.put("type", type);
-        modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-        modelMap.put("isRetireGrowMap", isRetireGrowMap);
-        modelMap.put("isRetirePositiveMap", isRetirePositiveMap);
-        modelMap.put("statGrowMap", statGrowMap);
-        modelMap.put("statPositiveMap", statPositiveMap);
-        modelMap.put("isPartyAdmin", true);
-        modelMap.put("partyId", partyId);
 
-        return "analysis/ow/stat_member_count";
+        resultMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
+        resultMap.put("isRetireGrowMap", isRetireGrowMap);
+        resultMap.put("isRetirePositiveMap", isRetirePositiveMap);
+        resultMap.put("statGrowMap", statGrowMap);
+        resultMap.put("statPositiveMap", statPositiveMap);
+
+        return resultMap;
     }
 
     // 党员年龄结构统计
@@ -134,33 +147,64 @@ public class StatPartyController extends BaseController {
     public String stat_party_member_age(Byte type, int partyId, Integer branchId, ModelMap modelMap) {
 
         PartyHelper.checkAuth(partyId);
-        modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
         modelMap.put("isPartyAdmin", true);
         modelMap.put("type", type);
         modelMap.put("partyId", partyId);
+        modelMap.put("branchId", branchId);
 
         return "analysis/ow/stat_member_age";
     }
 
-    // 发展党员统计
+    // 党员年龄结构统计
     @RequiresPermissions("stat:party")
-    @RequestMapping("/stat_party_member_apply")
-    public String stat_party_member_apply(Byte type, int partyId, Integer branchId, ModelMap modelMap) {
+    @RequestMapping("/stat_party_member_age_data")
+    @ResponseBody
+    public Map stat_party_member_age_data(Byte type, int partyId, Integer branchId, ModelMap modelMap) {
 
         PartyHelper.checkAuth(partyId);
-        modelMap.put("statApplyMap", statService.applyMap(type, partyId, branchId));
-        modelMap.put("type", type);
+        Map<Byte, Integer> statAgeMap = new HashMap<>();
+        statAgeMap = statService.ageMap(type, partyId, branchId);
 
+        return statAgeMap;
+    }
+
+    // 支部党员数量分布情况
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_member_apply")
+    public String stat_party_member_apply(Byte type, int partyId, Integer branchId ,ModelMap modelMap) {
+        modelMap.put("type", type);
         return "analysis/ow/stat_member_apply";
+    }
+
+    // 发展党员统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_member_apply_data")
+    @ResponseBody
+    public Map stat_party_member_apply_data(Byte type, int partyId, Integer branchId) {
+
+        PartyHelper.checkAuth(partyId);
+        Map<Byte, Integer> statApplyMap = new HashMap<>();
+        statApplyMap = statService.applyMap(type, partyId, branchId);
+
+        return statApplyMap;
     }
 
     // 支部党员数量分布情况
     @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_party")
-    public String stat_party_member_party(int partyId, ModelMap modelMap) {
+    public String stat_party_member_party() {
+
+        return "analysis/ow/stat_member_party";
+    }
+    // 支部党员数量分布情况
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_member_party_data")
+    @ResponseBody
+    public Map stat_party_member_party_data(int partyId) {
 
         PartyHelper.checkAuth(partyId);
 
+        Map<String, Object> resultMap = new HashMap<>();
         List<String> categories = new ArrayList<>();
         List<Integer> teachers = new ArrayList<>();
         List<Integer> students = new ArrayList<>();
@@ -183,32 +227,52 @@ public class StatPartyController extends BaseController {
             students.add(bean.getStudent());
         }
 
-        modelMap.put("categories", categories);
-        modelMap.put("teachers", teachers);
-        modelMap.put("students", students);
+        resultMap.put("categories", categories);
+        resultMap.put("teachers", teachers);
+        resultMap.put("students", students);
 
-        return "analysis/ow/stat_member_party";
+        return resultMap;
+    }
+
+    //党员每月转入转出统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_branch_type")
+    public String stat_party_branch_type(ModelMap modelMap){
+        modelMap.put("metaTypes", CmTag.getMetaTypes("mc_branch_type"));
+        return "analysis/ow/stat_branch_type";
     }
 
     //支部类型统计
     @RequiresPermissions("stat:party")
-    @RequestMapping("/stat_party_branch_type")
-    public String stat_party_branch_type(int partyId, ModelMap modelMap) {
+    @RequestMapping("/stat_party_branch_type_data")
+    @ResponseBody
+    public Map stat_party_branch_type(int partyId) {
 
         PartyHelper.checkAuth(partyId);
 
-        modelMap.put("metaTypes", CmTag.getMetaTypes("mc_branch_type"));
-        modelMap.put("branchTypeMap", statService.branchTypeMap(partyId));
+        Map<Integer, Integer> branchTypeMap = new HashMap();
+        branchTypeMap=statService.branchTypeMap(partyId);
 
-        return "analysis/ow/stat_branch_type";
+        return branchTypeMap;
     }
 
     //党员每月转入转出统计
     @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_inout")
-    public String stat_party_member_inout(int partyId, ModelMap modelMap) throws ParseException {
+    public String stat_party_member_inout(){
+
+        return "analysis/ow/stat_member_inout";
+    }
+
+    //党员每月转入转出统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_party_member_inout_data")
+    @ResponseBody
+    public Map stat_party_member_inout_data(int partyId) throws ParseException {
 
         PartyHelper.checkAuth(partyId);
+
+        Map<String, Object> resultMap = new HashMap<>();
         Date now = new Date();
 
         Set<String> months = new TreeSet<>();
@@ -221,11 +285,11 @@ public class StatPartyController extends BaseController {
             countMemberOut.put(month, iMemberMapper.countMemberOut(month, partyId));
         }
 
-        modelMap.put("months", months);
-        modelMap.put("countMemberIn", countMemberIn);
-        modelMap.put("countMemberOut", countMemberOut);
+        resultMap.put("months", months);
+        resultMap.put("countMemberIn", countMemberIn);
+        resultMap.put("countMemberOut", countMemberOut);
 
-        return "analysis/ow/stat_member_inout";
+        return resultMap;
     }
 
     // 二级党委年统数据

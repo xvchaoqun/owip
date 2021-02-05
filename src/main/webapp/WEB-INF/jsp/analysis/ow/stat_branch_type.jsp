@@ -24,79 +24,86 @@
             });
         });
 
-        var myChart = echarts.init($('#branchType-placeholder').get(0));
+        var branchTypeChart = echarts.init($('#branchType-placeholder').get(0));
+        branchTypeChart.showLoading({text: '正在加载数据'});
+        var url = "${ctx}/${empty partyId?'stat_branch_type_data':'stat_party_branch_type_data'}";
 
-        var label= [
-            <c:forEach items="${branchTypeMap}" var="type">
-                '${metaTypes.get(type.key).name}(${type.value})',
-            </c:forEach>
-        ];
-        <c:set var="totalCount" value="0"/>
-        var data = [
-            <c:forEach items="${branchTypeMap}" var="type">
-                {name: "${metaTypes.get(type.key).name}(${type.value})", value: '${type.value}'},
-                <c:set var="totalCount" value="${totalCount+type.value}"/>
-            </c:forEach>
-        ];
+        $.get(url, {partyId:"${partyId}"}, function (branchTypeMap) {
 
-        var option = {
-            title: {
-                text: '（支部总数：${totalCount}）',
-                left: 'right'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {c} ({d}%)'
-            },
-            legend: {
-                orient: 'vertical',
-                left:-5,
-                top: -5,
-                bottom: 5,
-                data: label
-            },
-            series: [
-                {
-                    name: '支部类型',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '60%'],
-                    data:data,
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur:10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
+            var legendData = [];
+            var seriesData = [];
+            var totalCount = 0;
+            $.each(branchTypeMap, function (key, value) {
+                /*console.log(key);*/
+                totalCount += value;
+                var item = _cMap.metaTypeMap[key].name + '(' + value + ')';
+                legendData.push(item);
+                seriesData.push({
+                    name: item,
+                    value: value
+                });
+            });
+
+            var option = {
+                title: {
+                    text: '（支部总数：'+ totalCount +'）',
+                    left: 'right'
                 },
-                {
-                    name: '支部类型',
-                    type: 'pie',
-                    radius: '60%',
-                    center: ['60%', '60%'],
-                    data: data,
-                    itemStyle:{            //饼图图形上的文本标签
-                        normal: {
-                            label: {
-                                show: true,
-                                position: 'inner',
-                                fontSize: 12,
-                                align: "left",
-                                textStyle: {
-                                    fontWeight: 300,
-                                    fontSize: 12,   //文字的字体大小
-                                    color:'white'
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left:-5,
+                    top: -5,
+                    bottom: 5,
+                    data: legendData
+                },
+                series: [
+                    {
+                        name: '支部类型',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '60%'],
+                        data:seriesData,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur:10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    },
+                    {
+                        name: '支部类型',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['60%', '60%'],
+                        data: seriesData,
+                        itemStyle:{            //饼图图形上的文本标签
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'inner',
+                                    fontSize: 12,
+                                    align: "left",
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 12,   //文字的字体大小
+                                        color:'white'
+                                    },
+                                    formatter: '{d}%'
                                 },
-                                formatter: '{d}%'
-                            },
-                            labelLine:{
-                                show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                                labelLine:{
+                                    show : false //显示饼状图上的文本时，指示线不显示，在第一个data时显示指示线
+                                }
                             }
                         }
                     }
-                }
-            ]
-        };
-        myChart.setOption(option);
+                ]
+            };
+            branchTypeChart.setOption(option,true);
+            branchTypeChart.hideLoading();
+        })
 </script>
