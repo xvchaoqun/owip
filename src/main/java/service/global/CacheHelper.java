@@ -5,10 +5,13 @@ import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * Created by fafa on 2017/4/11.
@@ -17,12 +20,12 @@ import org.springframework.stereotype.Service;
 public class CacheHelper {
 
     // 清除指定缓存
-    public void clearCache(String name, String key) {
+    public void clearCache(String name, Serializable key) {
 
         if (StringUtils.isNotBlank(name)) {
             CacheManager manager = CacheManager.getInstance();
             Cache cache = manager.getCache(name);
-            if (StringUtils.isNotBlank(key)) {
+            if (key!=null) {
                 cache.remove(key);
             } else {
                 cache.removeAll();

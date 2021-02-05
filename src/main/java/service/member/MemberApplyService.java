@@ -913,7 +913,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     remark);
 
-            CmTag.clearCache("MemberApply", userId+"");
+            CmTag.clearCache("MemberApply", userId);
         }
     }
 }

@@ -2,11 +2,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row" id="cartogram">
     <div class="col-xs-12">
-        <div id="contentDiv" style="width: 1148px">
+        <div id="contentDiv" style="width: 1300px">
 
-            <div class="tab-content" style="padding: 5px 4px 0px">
-                <table border=0 cellpadding=0 cellspacing=0 width=1283 style='border-collapse:
- collapse;table-layout:fixed;width:966pt'>
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative;">
                     <c:if test="${param.cls!=1}">
                         <button class="downloadBtn pull-left btn btn-success btn-sm"
                                 data-url="${ctx}/stat/owSum?export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
@@ -14,8 +13,12 @@
                         </button>
                     </c:if>
                     <c:if test="${param.cls==1}">
+                        <button style="margin-right: 10px;vertical-align: top!important;" class="downloadBtn btn btn-success btn-sm"
+                                data-url="${ctx}/stat/partySum?partyId=${checkParty.id}&export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
+                            导出
+                        </button>
                         <c:if test="${not empty parties && fn:length(parties)>1}">
-                            <select data-rel="select2" name="party">
+                            <select data-rel="select2" name="party" data-width="350px">
                                 <c:forEach items="${parties}" var="party">
                                     <option value="${party.id}">${party.name}</option>
                                 </c:forEach>
@@ -26,11 +29,13 @@
                                 </script>
                             </c:if>
                         </c:if>
-                        <button style="margin-left: 10px" class="downloadBtn btn btn-success btn-sm"
-                                data-url="${ctx}/stat/partySum?partyId=${checkParty.id}&export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
-                            导出
-                        </button>
                     </c:if>
+                </div>
+            </ul>
+
+            <div class="tab-content" style="padding: 5px 4px 0px">
+                <table border=0 cellpadding=0 cellspacing=0 width=1283 style='border-collapse:
+ collapse;table-layout:fixed;width:966pt'>
                     <col width=86 span=2 style='mso-width-source:userset;mso-width-alt:2752;
  width:65pt'>
                     <col width=101 span=11 style='mso-width-source:userset;mso-width-alt:3232;
@@ -652,5 +657,7 @@
             $("#cartogram").replaceWith(html);
         });
     });
-    $('[data-rel="select2"]').select2();
+    $('[data-rel="select2"]').select2({
+        allowClear: false,
+    });
 </script>

@@ -53,6 +53,7 @@ import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.*;
 
 public class CmTag {
@@ -394,7 +395,7 @@ public class CmTag {
         cacheHelper.clearCadreCache(getCadreId(userId));
     }
 
-    public static void clearCache(String name, String key){
+    public static void clearCache(String name, Serializable key){
 
         cacheHelper.clearCache(name, key);
     }

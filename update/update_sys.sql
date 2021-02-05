@@ -5,7 +5,6 @@ ALTER TABLE `base_api_key`
 
 INSERT INTO `base_api_key` (`name`, `api_key`, `remark`) VALUES ('cadreApi', '5e257013876cc0e69a53bae6037d1491', '');
 
-
 -- 2021.1.27 hwd
 CREATE TABLE `base_api_key` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
