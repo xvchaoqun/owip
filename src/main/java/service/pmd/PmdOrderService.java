@@ -234,8 +234,6 @@ public class PmdOrderService extends PmdBaseMapper {
 
         Pay.getInstance().payConfirmCheck(new int[]{pmdMemberId}, isSelfPay, false);
 
-        int currentUserId = ShiroHelper.getCurrentUserId();
-
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null) {
             throw new OpException("缴费记录不存在。");
@@ -508,8 +506,6 @@ public class PmdOrderService extends PmdBaseMapper {
 
         // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
         OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
-
-        //newOrder.setSign(orderFormBean.getSign());
         newOrder.setFormMap(orderFormBean.getFormMap());
         return newOrder;
     }
