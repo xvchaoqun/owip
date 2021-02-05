@@ -24,7 +24,7 @@ public class StatOwInfoController extends BaseController {
     @Autowired
     private StatOwInfoService statOwInfoService;
 
-    @RequiresPermissions("statOwInfo:list")
+    @RequiresPermissions("statSummary:menu")
     @RequestMapping("/statOwInfo")
     public String statOwInfo(@RequestParam(required = false, defaultValue = "1") Byte cls,
                              @RequestParam(required = false, defaultValue = "0") int export,
