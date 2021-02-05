@@ -289,6 +289,12 @@ public class StatOwInfoService extends BaseMapper {
                 }
             }
         }
+        if (masters.get("preparedMembers") == null) {
+            masters.put("preparedMembers", "0");
+        }
+        if (doctors.get("preparedMembers") == null) {
+            doctors.put("preparedMembers", "0");
+        }
         //正式党员
         for (StatByteBean obj: formalMembers) {
             if (obj.getGroupBy() != null) {
@@ -299,6 +305,12 @@ public class StatOwInfoService extends BaseMapper {
                     doctors.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                 }
             }
+        }
+        if (masters.get("formalMembers") == null) {
+            masters.put("formalMembers", "0");
+        }
+        if (doctors.get("formalMembers") == null) {
+            doctors.put("formalMembers", "0");
         }
         //硕士研究生党员数
         masterCount = masters.get("preparedMembers") == null ? 0 : Integer.valueOf(masters.get("preparedMembers"));
@@ -346,6 +358,12 @@ public class StatOwInfoService extends BaseMapper {
                 }
             }
         }
+        if (masters.get("activityTotal") == null) {
+            masters.put("activityTotal", "0");
+        }
+        if (doctors.get("activityTotal") == null) {
+            doctors.put("activityTotal", "0");
+        }
         //发展对象
         for (StatByteBean obj: countDevelopment) {
             if (obj.getGroupBy() != null) {
@@ -356,6 +374,12 @@ public class StatOwInfoService extends BaseMapper {
                     doctors.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                 }
             }
+        }
+        if (masters.get("developTotal") == null) {
+            masters.put("developTotal", "0");
+        }
+        if (doctors.get("developTotal") == null) {
+            doctors.put("developTotal", "0");
         }
         list.add(masters);
         list.add(doctors);
