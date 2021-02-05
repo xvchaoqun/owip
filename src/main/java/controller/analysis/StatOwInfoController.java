@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.analysis.StatOwInfoMapper;
 import service.analysis.StatOwInfoService;
 import sys.constants.MemberConstants;
@@ -35,12 +36,12 @@ public class StatOwInfoController extends BaseController {
 
     @Autowired
     private StatOwInfoService statOwInfoService;
-    @Autowired
-    private StatOwInfoMapper statOwInfoMapper;
 
     @RequiresPermissions("statOwInfo:list")
     @RequestMapping("/statOwInfo")
-    public String owYjsInfo(@RequestParam(required = false, defaultValue = "0") Byte cls, @RequestParam(required = false, defaultValue = "1") Byte export,ModelMap modelMap, HttpServletResponse response) {
+    public String statOwInfo(@RequestParam(required = false, defaultValue = "1") Byte cls,
+                             @RequestParam(required = false, defaultValue = "1") Byte export,
+                             ModelMap modelMap, HttpServletResponse response) {
         modelMap.put("cls", cls);
         Date now = new Date();
         int year = DateUtils.getYear(now);
@@ -52,15 +53,17 @@ public class StatOwInfoController extends BaseController {
         String schoolName = CmTag.getSysConfig().getSchoolName();
         modelMap.put("schoolName", schoolName);
 
-        if (cls == 0) {
-            modelMap = statOwInfoService.getYjsInfo(modelMap, df);
+        if (cls == 1) {
+            //Map<缓存时间字符串, 数据>
+            Map cacheMap= statOwInfoService.getYjsSchool(cls, df);
+            modelMap.putAll(cacheMap);
             if (export == 2) {
                 XSSFWorkbook wb = statOwInfoService.statOnInfoExport(modelMap);
-                String filename = String.format("%s研究生队伍党员信息分析.xlsx", schoolName);
+                String filename = "全校研究生队伍党员信息统计.xlsx";
                 ExportHelper.output(wb, filename, response);
                 return null;
             }
-        } else if (cls == 1) {
+        } else if (cls == 2) {
             List<String> columns = new ArrayList<>();
             columns.add("入党申请人");
             columns.add("入党积极分子");
@@ -73,16 +76,28 @@ public class StatOwInfoController extends BaseController {
             columns.add("党员占比");
             modelMap.put("columns", columns);
 
-            List<Map<String, String>> data = statOwInfoService.getYjsPartyInfo(df);
-            modelMap.put("data", data);
+            Map cacheMap = statOwInfoService.getYjsPartyInfo(cls, df);
+            modelMap.putAll(cacheMap);
             if (export == 2) {
                 XSSFWorkbook wb = statOwInfoService.statOnPartyInfoExport(modelMap);
-                String filename = String.format("各二级党组织研究生队伍党员信息分析.xlsx");
+                String filename = String.format("各二级党组织研究生队伍党员信息统计.xlsx");
                 ExportHelper.output(wb, filename, response);
                 return null;
             }
-            return "analysis/statOwInfo/ow_yjs_secord_party_info";
+            return "analysis/statOwInfo/ow_yjs_party_page";
         }
-        return "analysis/statOwInfo/ow_yjs_info_page";
+        return "analysis/statOwInfo/ow_yjs_school_page";
+    }
+
+    @RequiresPermissions("statOwInfo:list")
+    @RequestMapping("/flushStatOwInfoCache")
+    @ResponseBody
+    public Map flushStatOwInfoCache(Byte cls){
+        if (cls == 1) {
+            CmTag.clearCache("statOwInfo", null);
+        } else if (cls == 2) {
+            CmTag.clearCache("statOwPartyInfo", null);
+        }
+        return success();
     }
 }

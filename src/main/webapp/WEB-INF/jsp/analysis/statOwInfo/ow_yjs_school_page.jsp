@@ -3,9 +3,6 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
-            <c:set var="_query" value="${not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.adminLevels
-            ||not empty param.isKeepSalary
-            ||not empty param.isPrincipal ||not empty param.isDouble || not empty param.labels}"/>
                 <jsp:include page="menu.jsp"/>
 
             <div class="tab-content" style="padding: 5px 4px 0px">
@@ -74,16 +71,6 @@
                         <td colspan=2 height=46 class=xl70 width=170>${masters.applyTotal}</td>
                         <td colspan=2 height=46 class=xl70 width=170>${masters.activityTotal}</td>
                         <td colspan=2 height=46 class=xl70 width=170>${masters.developTotal}</td>
-                    </tr>
-
-                    <tr>
-                        <td colspan=18 height=120 class=xl70 style="text-align:left;text-indent:50px;">
-                            <p></p>
-                            <p>说明：</p>
-                            <p>1.以上基准数据来自研究生院；</p>
-                            <p> 2.研究生数据中包含2020届毕业生；</p>
-                            <p>3.上表研究生数据中不包含组织关系保留在我校的往届毕业生。</p>
-                        </td>
                     </tr>
                 </table>
             </div>
@@ -735,5 +722,3 @@
     }
 
 </style>
-<script>
-</script>

@@ -3,9 +3,6 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
-            <c:set var="_query" value="${not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.adminLevels
-            ||not empty param.isKeepSalary
-            ||not empty param.isPrincipal ||not empty param.isDouble || not empty param.labels}"/>
 
             <jsp:include page="menu.jsp"/>
             <div class="tab-content" style="padding: 5px 4px 0px">
@@ -61,32 +58,6 @@
                             </c:if>
 
                     </c:forEach>
-
-                    <%--                                        <c:forEach items="${eduRowMap}" var="entity" varStatus="vs">--%>
-                    <%--                                            <tr>--%>
-                    <%--                                                <c:if test="${vs.first}">--%>
-                    <%--                                                    <td rowspan=${eduCount} height=92 class=xl94>学历分布</td>--%>
-                    <%--                                                </c:if>--%>
-                    <%--                                                <td height=23 class=xl70 style="white-space: nowrap">${cm:getMetaType(entity.key).name}</td>--%>
-                    <%--                                                <jsp:include page="row.jsp">--%>
-                    <%--                                                    <jsp:param name="row" value="${23+vs.index+5}"/>--%>
-                    <%--                                                    <jsp:param name="firstTypeCode" value="education"/>--%>
-                    <%--                                                    <jsp:param name="firstTypeNum" value="${entity.key}"/>--%>
-                    <%--                                                </jsp:include>--%>
-                    <%--                                            </tr>--%>
-                    <%--                                        </c:forEach>--%>
-
-
-                    <tr>
-                        <td colspan=19 height=120 class=xl70 style="text-align:left;text-indent:50px;">
-                            <p></p>
-                            <p>说明：</p>
-                            <p>1.以上基准数据来自研究生院；</p>
-                            <p> 2.研究生数据中包含2020届毕业生；</p>
-                            <p>3.上表研究生数据中不包含组织关系保留在我校的往届毕业生。</p>
-                        </td>
-                    </tr>
-
                 </table>
             </div>
         </div>
@@ -737,5 +708,3 @@
     }
 
 </style>
-<script>
-</script>

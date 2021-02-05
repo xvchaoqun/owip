@@ -4,9 +4,11 @@ import bean.StatByteBean;
 import domain.party.Party;
 import domain.sys.StudentInfoExample;
 import domain.sys.SysUserExample;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
@@ -16,16 +18,15 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StatOwInfoService extends BaseMapper {
@@ -152,99 +153,6 @@ public class StatOwInfoService extends BaseMapper {
         return null;
     }
 
-    public List<Map<String, String>> encapsulationData(List<StatByteBean> preparedMembers, List<StatByteBean> formalMembers,
-                                                        List<StatByteBean> applyJoin, List<StatByteBean> passJoin,
-                                                        List<StatByteBean> countActivists, List<StatByteBean> countDevelopment) {
-        List<Map<String, String>> list = new ArrayList<>();
-        Map<String, String> masters = new HashMap<>();
-        Map<String, String> doctors = new HashMap<>();
-        Integer masterCount = 0, doctorCount = 0;
-        Integer mastersApplyTotal = 0, doctorsApplyTotal = 0;
-        //预备党员
-        for (StatByteBean obj: preparedMembers) {
-            if (obj.getGroupBy() != null) {
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
-                    masters.put("preparedMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
-                    doctors.put("preparedMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-            }
-        }
-        //正式党员
-        for (StatByteBean obj: formalMembers) {
-            if (obj.getGroupBy() != null) {
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
-                    masters.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
-                    doctors.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-            }
-        }
-        //硕士研究生党员数
-        masterCount = masters.get("preparedMembers") == null ? 0 : Integer.valueOf(masters.get("preparedMembers"));
-        doctorCount = masters.get("formalMembers") == null ? 0 : Integer.valueOf(masters.get("formalMembers"));
-        masters.put("partyMembersCount", String.valueOf(masterCount + doctorCount));
-        //博士研究生党员数
-        masterCount = doctors.get("preparedMembers") == null ? 0 : Integer.valueOf(doctors.get("preparedMembers"));
-        doctorCount = doctors.get("formalMembers") == null ? 0 : Integer.valueOf(doctors.get("formalMembers"));
-        doctors.put("partyMembersCount", String.valueOf(masterCount + doctorCount));
-        //申请入党人数
-        for (StatByteBean obj: applyJoin) {
-            if (obj.getGroupBy() != null) {
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
-                    if (obj.getNum() > 0) {
-                        mastersApplyTotal += obj.getNum();
-                    }
-                }
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
-                    if (obj.getNum() > 0) {
-                        doctorsApplyTotal += obj.getNum();
-                    }
-                }
-            }
-        }
-        for (StatByteBean obj: passJoin) {
-            if (obj.getGroupBy() != null) {
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
-                    mastersApplyTotal += obj.getNum();
-                }
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
-                    doctorsApplyTotal += obj.getNum();
-                }
-            }
-        }
-        masters.put("applyTotal", mastersApplyTotal.toString());
-        doctors.put("applyTotal", doctorsApplyTotal.toString());
-        //入党积极分子
-        for (StatByteBean obj: countActivists) {
-            if (obj.getGroupBy() != null) {
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
-                    masters.put("activityTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
-                    doctors.put("activityTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-            }
-        }
-        //发展对象
-        for (StatByteBean obj: countDevelopment) {
-            if (obj.getGroupBy() != null) {
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
-                    masters.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
-                    doctors.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
-                }
-            }
-        }
-        list.add(masters);
-        list.add(doctors);
-        return list;
-    }
-
-
     public XSSFWorkbook statOnPartyInfoExport(ModelMap modelMap) {
         InputStream is = null;
         try {
@@ -362,6 +270,98 @@ public class StatOwInfoService extends BaseMapper {
         return null;
     }
 
+    public List<Map<String, String>> encapsulationData(List<StatByteBean> preparedMembers, List<StatByteBean> formalMembers,
+                                                        List<StatByteBean> applyJoin, List<StatByteBean> passJoin,
+                                                        List<StatByteBean> countActivists, List<StatByteBean> countDevelopment) {
+        List<Map<String, String>> list = new ArrayList<>();
+        Map<String, String> masters = new HashMap<>();
+        Map<String, String> doctors = new HashMap<>();
+        Integer masterCount = 0, doctorCount = 0;
+        Integer mastersApplyTotal = 0, doctorsApplyTotal = 0;
+        //预备党员
+        for (StatByteBean obj: preparedMembers) {
+            if (obj.getGroupBy() != null) {
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    masters.put("preparedMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    doctors.put("preparedMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+            }
+        }
+        //正式党员
+        for (StatByteBean obj: formalMembers) {
+            if (obj.getGroupBy() != null) {
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    masters.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    doctors.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+            }
+        }
+        //硕士研究生党员数
+        masterCount = masters.get("preparedMembers") == null ? 0 : Integer.valueOf(masters.get("preparedMembers"));
+        doctorCount = masters.get("formalMembers") == null ? 0 : Integer.valueOf(masters.get("formalMembers"));
+        masters.put("partyMembersCount", String.valueOf(masterCount + doctorCount));
+        //博士研究生党员数
+        masterCount = doctors.get("preparedMembers") == null ? 0 : Integer.valueOf(doctors.get("preparedMembers"));
+        doctorCount = doctors.get("formalMembers") == null ? 0 : Integer.valueOf(doctors.get("formalMembers"));
+        doctors.put("partyMembersCount", String.valueOf(masterCount + doctorCount));
+        //申请入党人数
+        for (StatByteBean obj: applyJoin) {
+            if (obj.getGroupBy() != null) {
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getNum() > 0) {
+                        mastersApplyTotal += obj.getNum();
+                    }
+                }
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getNum() > 0) {
+                        doctorsApplyTotal += obj.getNum();
+                    }
+                }
+            }
+        }
+        for (StatByteBean obj: passJoin) {
+            if (obj.getGroupBy() != null) {
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    mastersApplyTotal += obj.getNum();
+                }
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    doctorsApplyTotal += obj.getNum();
+                }
+            }
+        }
+        masters.put("applyTotal", mastersApplyTotal.toString());
+        doctors.put("applyTotal", doctorsApplyTotal.toString());
+        //入党积极分子
+        for (StatByteBean obj: countActivists) {
+            if (obj.getGroupBy() != null) {
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    masters.put("activityTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    doctors.put("activityTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+            }
+        }
+        //发展对象
+        for (StatByteBean obj: countDevelopment) {
+            if (obj.getGroupBy() != null) {
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    masters.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+                if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    doctors.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
+                }
+            }
+        }
+        list.add(masters);
+        list.add(doctors);
+        return list;
+    }
+
     public static BigDecimal calculateDivide(Integer number1, Integer number2) {
         BigDecimal num1 = new BigDecimal(number1);
         BigDecimal num2 = new BigDecimal(number2);
@@ -369,7 +369,11 @@ public class StatOwInfoService extends BaseMapper {
         return result;
     }
 
-    public ModelMap getYjsInfo(ModelMap modelMap, DecimalFormat df) {
+    @Cacheable(value="statOwInfo", key = "#cls")
+    public Map getYjsSchool(Byte cls, DecimalFormat df) {
+
+        Map dataMap = new HashedMap();
+
         Map<String, String> masters = new HashMap<>();
         Map<String, String> doctors = new HashMap<>();
 
@@ -413,26 +417,30 @@ public class StatOwInfoService extends BaseMapper {
         //博士生党员占比
         BigDecimal doctorPercent = calculateDivide(Integer.valueOf(doctors.get("partyMembersCount")), countDoctors);
 
-        modelMap.put("total", countYjs);
+        dataMap.put("total", countYjs);
         //研究生占比
         Integer mpmc = masters.get("partyMembersCount") == null ? 0 : Integer.valueOf(masters.get("partyMembersCount"));
         Integer dpmc = doctors.get("partyMembersCount") == null ? 0 : Integer.valueOf(doctors.get("partyMembersCount"));
-        Integer total = modelMap.get("total") == null ? 0 : (Integer) modelMap.get("total");
+        Integer total = dataMap.get("total") == null ? 0 : (Integer) dataMap.get("total");
 
         BigDecimal percent = calculateDivide(mpmc + dpmc, total);
 
         masters.put("masterPercent", df.format(masterPercent.doubleValue() * 100) + "%");
         doctors.put("doctorPercent", df.format(doctorPercent.doubleValue() * 100) + "%");
 
-        modelMap.put("percent", df.format(percent.doubleValue() * 100) + "%");
-        modelMap.put("masters", masters);
-        modelMap.put("doctors", doctors);
-        return modelMap;
+        dataMap.put("percent", df.format(percent.doubleValue() * 100) + "%");
+        dataMap.put("masters", masters);
+        dataMap.put("doctors", doctors);
+        dataMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+
+        return dataMap;
     }
 
-    public List<Map<String, String>> getYjsPartyInfo(DecimalFormat df) {
+    @Cacheable(value="statOwPartyInfo", key = "#cls")
+    public Map getYjsPartyInfo(Byte cls, DecimalFormat df) {
         Map<String, String> masters = new HashMap<>();
         Map<String, String> doctors = new HashMap<>();
+        Map dataMap = new HashMap();
         List<Map<String, String>> data = new ArrayList<>();
         // 二级党组织名称
         List<Party> partyNames = statOwInfoMapper.getSecondPartyName();
@@ -494,9 +502,11 @@ public class StatOwInfoService extends BaseMapper {
             masters.put("masterPercent", df.format(masterPercent.doubleValue() * 100) + "%");
             doctors.put("doctorPercent", df.format(doctorPercent.doubleValue() * 100) + "%");
             masters.put("partyName", p.getShortName());
-            data.add(masters);
-            data.add(doctors);
+            data.add( masters);
+            data.add( doctors);
+            dataMap.put("data", data);
+            dataMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
         }
-        return data;
+        return dataMap;
     }
 }
