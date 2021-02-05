@@ -27,7 +27,7 @@ public class StatOwInfoController extends BaseController {
     @RequiresPermissions("statOwInfo:list")
     @RequestMapping("/statOwInfo")
     public String statOwInfo(@RequestParam(required = false, defaultValue = "1") Byte cls,
-                             @RequestParam(required = false, defaultValue = "1") Byte export,
+                             @RequestParam(required = false, defaultValue = "0") int export,
                              ModelMap modelMap, HttpServletResponse response) {
         modelMap.put("cls", cls);
         DecimalFormat df = new DecimalFormat("0.00");
@@ -38,7 +38,7 @@ public class StatOwInfoController extends BaseController {
         if (cls == 1) {
             Map cacheMap= statOwInfoService.getOwYjsInfo(cls, df);
             modelMap.putAll(cacheMap);
-            if (export == 2) {
+            if (export == 1) {
                 XSSFWorkbook wb = statOwInfoService.statOwYjsInfoExport(modelMap);
                 String filename = "全校研究生队伍党员信息统计.xlsx";
                 ExportHelper.output(wb, filename, response);
@@ -59,7 +59,7 @@ public class StatOwInfoController extends BaseController {
 
             Map cacheMap = statOwInfoService.getPartyYjsInfo(cls, df);
             modelMap.putAll(cacheMap);
-            if (export == 2) {
+            if (export == 1) {
                 XSSFWorkbook wb = statOwInfoService.statPartyYjsInfoExport(modelMap);
                 String filename = String.format("各二级党组织研究生队伍党员信息统计.xlsx");
                 ExportHelper.output(wb, filename, response);

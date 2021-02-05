@@ -11,7 +11,7 @@
     </li>
     <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
         <button  class="downloadBtn btn btn-success btn-sm"
-                data-url="${ctx}/statOwInfo?export=2&cls=${cls}"><i class="fa fa-download"></i>
+                data-url="${ctx}/statOwInfo?export=1&cls=${cls}"><i class="fa fa-download"></i>
             导出
         </button>
         <button class="runBtn btn btn-warning btn-sm" data-url="${ctx}/flushStatOwInfoCache" data-title="刷新获取最新统计数据"
