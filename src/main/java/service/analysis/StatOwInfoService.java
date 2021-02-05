@@ -33,7 +33,7 @@ public class StatOwInfoService extends BaseMapper {
     @Autowired
     private StatOwInfoMapper statOwInfoMapper;
 
-    public XSSFWorkbook statOnInfoExport(ModelMap modelMap) {
+    public XSSFWorkbook statOwYjsInfoExport(ModelMap modelMap) {
         InputStream is = null;
         try {
             int startRow = 5;
@@ -153,12 +153,12 @@ public class StatOwInfoService extends BaseMapper {
         return null;
     }
 
-    public XSSFWorkbook statOnPartyInfoExport(ModelMap modelMap) {
+    public XSSFWorkbook statPartyYjsInfoExport(ModelMap modelMap) {
         InputStream is = null;
         try {
             int startRow = 4;
             int startCol = 0;
-            is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/analysis/stat_ow_party_info.xlsx"));
+            is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/analysis/stat_party_yjs_info.xlsx"));
             XSSFWorkbook wb = new XSSFWorkbook(is);
             XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -394,12 +394,18 @@ public class StatOwInfoService extends BaseMapper {
     }
 
     @Cacheable(value="statOwInfo", key = "#cls")
-    public Map getYjsSchool(Byte cls, DecimalFormat df) {
+    public Map getOwYjsInfo(Byte cls, DecimalFormat df) {
 
         Map dataMap = new HashedMap();
 
         Map<String, String> masters = new HashMap<>();
         Map<String, String> doctors = new HashMap<>();
+
+        Date now = new Date();
+        int year = DateUtils.getYear(now);
+        int month = DateUtils.getMonth(now);
+        dataMap.put("year", year);
+        dataMap.put("month", month);
 
         // 全校研究生总数
         SysUserExample example = new SysUserExample();
@@ -460,11 +466,19 @@ public class StatOwInfoService extends BaseMapper {
         return dataMap;
     }
 
-    @Cacheable(value="statOwPartyInfo", key = "#cls")
-    public Map getYjsPartyInfo(Byte cls, DecimalFormat df) {
+    @Cacheable(value="statOwInfo", key = "#cls")
+    public Map getPartyYjsInfo(Byte cls, DecimalFormat df) {
+
         Map<String, String> masters = new HashMap<>();
         Map<String, String> doctors = new HashMap<>();
         Map dataMap = new HashMap();
+
+        Date now = new Date();
+        int year = DateUtils.getYear(now);
+        int month = DateUtils.getMonth(now);
+        dataMap.put("year", year);
+        dataMap.put("month", month);
+
         List<Map<String, String>> data = new ArrayList<>();
         // 二级党组织名称
         List<Party> partyNames = statOwInfoMapper.getSecondPartyName();
