@@ -9,7 +9,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.analysis.StatOwInfoMapper;
 import service.analysis.StatOwInfoService;
+import service.global.CacheHelper;
+import sys.constants.MemberConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -23,6 +26,8 @@ public class StatOwInfoController extends BaseController {
 
     @Autowired
     private StatOwInfoService statOwInfoService;
+    @Autowired
+    private CacheHelper cacheHelper;
 
     @RequiresPermissions("statSummary:menu")
     @RequestMapping("/statOwInfo")
@@ -70,12 +75,12 @@ public class StatOwInfoController extends BaseController {
         return "analysis/statOwInfo/stat_ow_yjs_page";
     }
 
-    @RequiresPermissions("statOwInfo:list")
+    @RequiresPermissions("statSummary:menu")
     @RequestMapping("/flushStatOwInfoCache")
     @ResponseBody
-    public Map flushStatOwInfoCache(){
+    public Map flushStatOwInfoCache(Byte cls){
 
-        CmTag.clearCache("statOwInfo", null);
+        cacheHelper.clearCache("statOwInfo", cls);
         return success();
     }
 }

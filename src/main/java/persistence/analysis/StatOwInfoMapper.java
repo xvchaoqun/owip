@@ -41,4 +41,16 @@ public interface StatOwInfoMapper {
     @Select("SELECT DISTINCT id,(case short_name when '' then NAME ELSE short_name end) AS shortName FROM ow_party where is_deleted = 0")
     List<Party> getSecondPartyName();
 
+    //获取教师 党员统计
+    List<StatByteBean> member_teacherSort(@Param("politicalStatus")Byte politicalStatus,
+                                          @Param("proPostLevel") String proPostLevel,
+                                          @Param("partyId") Integer partyId,
+                                          @Param("branchId") Integer branchId);
+
+    //获取教师 发展党员统计
+    List<StatByteBean> memberApply_teacherSort(@Param("stage")Byte stage,
+                                               @Param("proPostLevel") String proPostLevel,
+                                               @Param("partyId") Integer partyId,
+                                               @Param("branchId") Integer branchId);
+
 }

@@ -68,4 +68,43 @@
         u.locked=0 group by groupBy
     </select>
 
+    <!-- 教师 正式、预备党员统计 -->
+    <select id="member_teacherSort" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, t.is_full_time_teacher as groupBy from ow_member_view ow
+        left join sys_teacher_info t on t.user_id=ow.user_id where ow.status=1 and ow.type=1
+        <if test="politicalStatus!=null">
+            and ow.political_status =#{politicalStatus}
+        </if>
+        <if test="proPostLevel!=null">
+            and t.pro_post_level REGEXP #{proPostLevel}
+        </if>
+        <if test="partyId!=null">
+            and ow.party_id = #{partyId}
+        </if>
+        <if test="branchId!=null">
+            and ow.branch_id =#{branchId}
+        </if>
+         group by groupBy
+    </select>
+
+    <!-- 教师 某阶段某级别发展党员统计 -->
+    <select id="memberApply_teacherSort" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, t.is_full_time_teacher as groupBy from ow_member_apply_view ow
+        left join sys_teacher_info t on t.user_id=ow.user_id
+        where ow.member_status=1 and ow.is_remove=0
+        <if test="stage!=null">
+            and ow.stage =#{stage}
+        </if>
+        <if test="proPostLevel!=null">
+            and t.pro_post_level REGEXP #{proPostLevel}
+        </if>
+        <if test="partyId!=null">
+            and ow.party_id = #{partyId}
+        </if>
+        <if test="branchId!=null">
+            and ow.branch_id =#{branchId}
+        </if>
+        group by groupBy
+    </select>
+
 </mapper>

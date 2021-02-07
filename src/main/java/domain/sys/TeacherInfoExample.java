@@ -2342,6 +2342,66 @@ public class TeacherInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsFullTimeTeacherIsNull() {
+            addCriterion("is_full_time_teacher is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherIsNotNull() {
+            addCriterion("is_full_time_teacher is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherEqualTo(Boolean value) {
+            addCriterion("is_full_time_teacher =", value, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherNotEqualTo(Boolean value) {
+            addCriterion("is_full_time_teacher <>", value, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherGreaterThan(Boolean value) {
+            addCriterion("is_full_time_teacher >", value, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_full_time_teacher >=", value, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherLessThan(Boolean value) {
+            addCriterion("is_full_time_teacher <", value, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_full_time_teacher <=", value, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherIn(List<Boolean> values) {
+            addCriterion("is_full_time_teacher in", values, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherNotIn(List<Boolean> values) {
+            addCriterion("is_full_time_teacher not in", values, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_full_time_teacher between", value1, value2, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFullTimeTeacherNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_full_time_teacher not between", value1, value2, "isFullTimeTeacher");
+            return (Criteria) this;
+        }
+
         public Criteria andPostLevelIsNull() {
             addCriterion("post_level is null");
             return (Criteria) this;

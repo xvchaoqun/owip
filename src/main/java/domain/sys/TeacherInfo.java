@@ -70,6 +70,8 @@ public class TeacherInfo implements Serializable {
 
     private String post;
 
+    private Boolean isFullTimeTeacher;
+
     private String postLevel;
 
     private String talentType;
@@ -354,6 +356,14 @@ public class TeacherInfo implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
+    }
+
+    public Boolean getIsFullTimeTeacher() {
+        return isFullTimeTeacher;
+    }
+
+    public void setIsFullTimeTeacher(Boolean isFullTimeTeacher) {
+        this.isFullTimeTeacher = isFullTimeTeacher;
     }
 
     public String getPostLevel() {
