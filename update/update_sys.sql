@@ -1,4 +1,9 @@
 
+
+-- 2021.2.5 ly
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `is_full_time_teacher` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
+
 -- 2021.01.28 hwd
 ALTER TABLE `base_api_key`
 	CHANGE COLUMN `remark` `remark` VARCHAR(50) NOT NULL COMMENT '备注' AFTER `api_key`;
