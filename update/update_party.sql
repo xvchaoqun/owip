@@ -1,4 +1,7 @@
 
+--2021.2.8 hwd
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4003, 0, '各二级党组织本科生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=4', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls4', NULL, NULL, NULL, 1, 50);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4002, 0, '全校本科生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=3', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls3', NULL, NULL, NULL, 1, 50);
 
 -- 2021.2.4 ly
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2635, 0, '信息统计', '党建管理员 分党委管理员', 'url', '', '/statOwInfo', 2634, '0/1/105/2634/', 1, 'statOwInfo:list', NULL, NULL, NULL, 1, 50);
