@@ -14,10 +14,10 @@ import service.analysis.StatOwInfoService;
 import service.global.CacheHelper;
 import sys.constants.MemberConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -33,7 +33,7 @@ public class StatOwInfoController extends BaseController {
     @RequestMapping("/statOwInfo")
     public String statOwInfo(@RequestParam(required = false, defaultValue = "1") Byte cls,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                             ModelMap modelMap, HttpServletResponse response) {
+                             ModelMap modelMap, HttpServletResponse response) throws IOException {
         modelMap.put("cls", cls);
         DecimalFormat df = new DecimalFormat("0.00");
 
@@ -71,6 +71,30 @@ public class StatOwInfoController extends BaseController {
                 return null;
             }
             return "analysis/statOwInfo/stat_party_yjs_page";
+        }else if (cls==3){
+            Map cacheMap = statOwInfoService.getOwBksInfo(cls,modelMap);
+            modelMap.putAll(cacheMap);
+            if(export == 1){
+                XSSFWorkbook wb = statOwInfoService.statOwBksInfoExport(modelMap);
+                String fileName = sysConfigService.getSchoolName()
+                        + "本科生党员信息统计表";
+                ExportHelper.output(wb, fileName + ".xlsx",response);
+                return null;
+            }
+            modelMap.put("cls",cls);
+            return "analysis/statOwInfo/stat_Bks_info";
+        }else if(cls==4){
+            Map cacheMap = statOwInfoService.getPartyBksInfo(cls,modelMap);
+            modelMap.putAll(cacheMap);
+            if(export == 1){
+                XSSFWorkbook wb = statOwInfoService.statPartyBksInfoExport(modelMap);
+                String fileName = sysConfigService.getSchoolName()
+                        + "二级党委本科生队伍党员信息分析";
+                ExportHelper.output(wb, fileName + ".xlsx",response);
+                return null;
+            }
+
+            return "analysis/statOwInfo/stat_Bks_SecondLevelInfo";
         }
         return "analysis/statOwInfo/stat_ow_yjs_page";
     }

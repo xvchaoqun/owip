@@ -6,6 +6,7 @@ import domain.sys.StudentInfoExample;
 import domain.sys.SysUserExample;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,6 +19,7 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 
 import java.io.FileInputStream;
@@ -547,4 +549,957 @@ public class StatOwInfoService extends BaseMapper {
         }
         return dataMap;
     }
+
+    @Cacheable(value="statOwInfo",key = "#cls")
+    public ModelMap getOwBksInfo(Byte cls,ModelMap modelMap) {
+
+        //2019级本科生
+        List<StatByteBean> statByteBeans_19 = statOwInfoMapper.selectUser_groupByLevel("2019");
+        int studentNum_19 = getCount(statByteBeans_19);
+        modelMap.put("studentNum_19",studentNum_19);
+
+        //2019正式党员
+        List<StatByteBean> positivePartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2019");
+        int positivePartyNum_19 = getCount(positivePartyList_19);
+        modelMap.put("positivePartyNum_19",positivePartyNum_19);
+        //2019预备党员
+        List<StatByteBean> growPartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2019");
+        int growPartyNum_19 = getCount(growPartyList_19);
+        modelMap.put("growPartyNum_19",growPartyNum_19);
+
+        //2019党员总数
+        int countNum_19 = positivePartyNum_19+growPartyNum_19;
+        modelMap.put("count_19",countNum_19);
+
+        //占比
+        double partyProportion_19 = new BigDecimal((float)countNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String partyStr_19 = partyProportion_19+"%";
+        modelMap.put("partyStr_19",partyStr_19);
+
+        //2019申请人数
+        List<StatByteBean> applyBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2019",null,null);
+        int applyNum_19 = getCount(applyBeans_19);
+
+        List<StatByteBean> applyPassBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS,"2019",null,null);
+        int applyPassNum_19 = getCount(applyPassBeans_19);
+
+        int totalNum_19 = applyNum_19+applyPassNum_19;
+        modelMap.put("totalNum_19",totalNum_19);
+        //占比
+        double applyProportion_19 = new BigDecimal((float)totalNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String applyStr_19 = applyProportion_19+"%";
+        modelMap.put("applyStr_19",applyStr_19);
+
+        //2019积极分子
+        List<StatByteBean> activeBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2019",null,null);
+        int activeNum_19 = getCount(activeBeans_19);
+        modelMap.put("activeNum_19",activeNum_19);
+        //占比
+        double activeProportion_19 = new BigDecimal((float)activeNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String activeStr_19 = activeProportion_19+"%";
+        modelMap.put("activeStr_19",activeStr_19);
+
+        //2019发展对象
+        List<StatByteBean> devBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2019",null,null);
+        int devNum_19 = getCount(devBeans_19);
+        modelMap.put("devNum_19",devNum_19);
+        //占比
+        double devProportion_19 = new BigDecimal((float)devNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String devStr_19 = devProportion_19+"%";
+        modelMap.put("devStr_19",devStr_19);
+        //2018级本科生
+        List<StatByteBean> statByteBeans_18 = statOwInfoMapper.selectUser_groupByLevel("2018");
+        int studentNum_18 = getCount(statByteBeans_18);
+        modelMap.put("studentNum_18",studentNum_18);
+        //2018正式党员
+        List<StatByteBean> positivePartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2018");
+        int positivePartyNum_18 = getCount(positivePartyList_18);
+        modelMap.put("positivePartyNum_18",positivePartyNum_18);
+        //2018预备党员
+        List<StatByteBean> growPartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2018");
+        int growPartyNum_18 = getCount(growPartyList_18);
+        modelMap.put("growPartyNum_18",growPartyNum_18);
+        //2018党员总数
+        int countNum_18 = positivePartyNum_18+growPartyNum_18;
+        modelMap.put("count_18",countNum_18);
+        //占比
+        double partyProportion_18 = new BigDecimal((float)countNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String partyStr_18 = partyProportion_18+"%";
+        modelMap.put("partyStr_18",partyStr_18);
+        //2018申请人数
+        List<StatByteBean> applyBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2018",null,null);
+        int applyNum_18 = getCount(applyBeans_18);
+
+        List<StatByteBean> applyPassBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS,"2018",null,null);
+        int applyPassNum_18 = getCount(applyPassBeans_18);
+
+        int totalNum_18 = applyNum_18+applyPassNum_18;
+        modelMap.put("totalNum_18",totalNum_18);
+        //占比
+        double applyProportion_18 = new BigDecimal((float)totalNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String applyStr_18 = applyProportion_18+"%";
+        modelMap.put("applyStr_18",applyStr_18);
+
+        //2018积极分子
+        List<StatByteBean> activeBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2018",null,null);
+        int activeNum_18 = getCount(activeBeans_18);
+        modelMap.put("activeNum_18",activeNum_18);
+        //占比
+        double activeProportion_18 = new BigDecimal((float)activeNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String activeStr_18 = activeProportion_18+"%";
+        modelMap.put("activeStr_18",activeStr_18);
+
+        //2018发展对象
+        List<StatByteBean> devBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2018",null,null);
+        int devNum_18 = getCount(devBeans_18);
+        modelMap.put("devNum_18",devNum_18);
+        //占比
+        double devProportion_18 = new BigDecimal((float)devNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String devStr_18 = devProportion_18+"%";
+        modelMap.put("devStr_18",devStr_18);
+
+
+        //2017级本科生
+        List<StatByteBean> statByteBeans_17 = statOwInfoMapper.selectUser_groupByLevel("2017");
+        int studentNum_17 = getCount(statByteBeans_17);
+        modelMap.put("studentNum_17",studentNum_17);
+
+        //2017正式党员
+        List<StatByteBean> positivePartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2017");
+        int positivePartyNum_17 = getCount(positivePartyList_17);
+        modelMap.put("positivePartyNum_17",positivePartyNum_17);
+        //2017预备党员
+        List<StatByteBean> growPartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2017");
+        int growPartyNum_17 = getCount(growPartyList_17);
+        modelMap.put("growPartyNum_17",growPartyNum_17);
+        //2017党员总数
+        int countNum_17 = positivePartyNum_17+growPartyNum_17;
+        modelMap.put("count_17",countNum_17);
+
+        //占比
+        double partyProportion_17 = new BigDecimal((float)countNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String partyStr_17 = partyProportion_17+"%";
+        modelMap.put("partyStr_17",partyStr_17);
+
+        //2017申请人数
+        List<StatByteBean> applyBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2017",null,null);
+        int applyNum_17 = getCount(applyBeans_17);
+
+        List<StatByteBean> applyPassBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS,"2017",null,null);
+        int applyPassNum_17 = getCount(applyPassBeans_17);
+
+        int totalNum_17 = applyNum_17+applyPassNum_17;
+        modelMap.put("totalNum_17",totalNum_17);
+        //占比
+        double applyProportion_17 = new BigDecimal((float)totalNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String applyStr_17 = applyProportion_17+"%";
+        modelMap.put("applyStr_17",applyStr_17);
+
+        //2017积极分子
+        List<StatByteBean> activeBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2017",null,null);
+        int activeNum_17 = getCount(activeBeans_17);
+        modelMap.put("activeNum_17",activeNum_17);
+        //占比
+        double activeProportion_17 = new BigDecimal((float)activeNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String activeStr_17 = activeProportion_17+"%";
+        modelMap.put("activeStr_17",activeStr_17);
+
+        //2017发展对象
+        List<StatByteBean> devBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2017",null,null);
+        int devNum_17 = getCount(devBeans_17);
+        modelMap.put("devNum_17",devNum_17);
+        //占比
+        double devProportion_17 = new BigDecimal((float)devNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String devStr_17 = devProportion_17+"%";
+        modelMap.put("devStr_17",devStr_17);
+
+
+        //2016级本科生
+        List<StatByteBean> statByteBeans_16 = statOwInfoMapper.selectUser_groupByLevel("2016");
+        int studentNum_16 = getCount(statByteBeans_16);
+        modelMap.put("studentNum_16",studentNum_16);
+
+        //2016正式党员
+        List<StatByteBean> positivePartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2016");
+        int positivePartyNum_16 = getCount(positivePartyList_16);
+        modelMap.put("positivePartyNum_16",positivePartyNum_16);
+        //2016预备党员
+        List<StatByteBean> growPartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2016");
+        int growPartyNum_16 = getCount(growPartyList_16);
+        modelMap.put("growPartyNum_16",growPartyNum_16);
+        //2016党员总数
+        int countNum_16 = positivePartyNum_16+growPartyNum_16;
+        modelMap.put("count_16",countNum_16);
+        //占比
+        double partyProportion_16 = new BigDecimal((float)countNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String partyStr_16 = partyProportion_16+"%";
+        modelMap.put("partyStr_16",partyStr_16);
+
+        //2016申请人数
+        List<StatByteBean> applyBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2016",null,null);
+        int applyNum_16 = getCount(applyBeans_16);
+
+        List<StatByteBean> applyPassBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS,"2016",null,null);
+        int applyPassNum_16 = getCount(applyPassBeans_16);
+
+        int totalNum_16 = applyNum_16+applyPassNum_16;
+        modelMap.put("totalNum_16",totalNum_16);
+        //占比
+        double applyProportion_16 = new BigDecimal((float)totalNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String applyStr_16 = applyProportion_16+"%";
+        modelMap.put("applyStr_16",applyStr_16);
+
+        //2016积极分子
+        List<StatByteBean> activeBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2016",null,null);
+        int activeNum_16 = getCount(activeBeans_16);
+        modelMap.put("activeNum_16",activeNum_16);
+        //占比
+        double activeProportion_16 = new BigDecimal((float)activeNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String activeStr_16 = activeProportion_16+"%";
+        modelMap.put("activeStr_16",activeStr_16);
+
+        //2016发展对象
+        List<StatByteBean> devBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2016",null,null);
+        int devNum_16 = getCount(devBeans_16);
+        modelMap.put("devNum_16",devNum_16);
+        //占比
+        double devProportion_16 = new BigDecimal((float)devNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String devStr_16 = devProportion_16+"%";
+        modelMap.put("devStr_16",devStr_16);
+
+        //所有本科学生
+        int studentNumBks = studentNum_19+studentNum_18+studentNum_17+studentNum_16;
+        modelMap.put("studentNum",studentNumBks);
+        //正式党员
+        int positivePartyNum = positivePartyNum_19+positivePartyNum_18+positivePartyNum_17+positivePartyNum_16;
+        modelMap.put("positivePartyNum",positivePartyNum);
+        //预备党员
+        int growPartyNum = growPartyNum_19+growPartyNum_18+growPartyNum_17+growPartyNum_16;
+        modelMap.put("growPartyNum",growPartyNum);
+        //党员总数
+        int countNum = positivePartyNum+growPartyNum;
+        modelMap.put("count",countNum);
+        //占比
+        double partyProportion = new BigDecimal((float)countNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String partyStr = partyProportion+"%";
+        modelMap.put("Proportion",partyStr);
+        //入党申请人数
+        int totalNum = totalNum_19+totalNum_18+totalNum_17+totalNum_16;
+        modelMap.put("totalNum",totalNum);
+        //占比
+        double applyProportion = new BigDecimal((float)totalNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String applyStr = applyProportion+"%";
+        modelMap.put("applyStr",applyStr);
+        //入党积极分子
+        int activeNum = activeNum_19+activeNum_18+activeNum_17+activeNum_16;
+        modelMap.put("activeNum",activeNum);
+        //占比
+        double activeProportion = new BigDecimal((float)activeNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String activeStr = activeProportion+"%";
+        modelMap.put("activeStr",activeStr);
+        //发展对象
+        int devNum = devNum_19+devNum_18+devNum_17+devNum_16;
+        modelMap.put("devNum",devNum);
+        //占比
+        double devProportion = new BigDecimal((float)devNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String devStr = devProportion+"%";
+        modelMap.put("devStr",devStr);
+
+        modelMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+        return modelMap;
+    }
+
+    @Cacheable(value="statOwInfo",key = "#cls")
+    public ModelMap getPartyBksInfo(Byte cls,ModelMap modelMap) {
+
+        List<Party> partyNameList = statOwInfoMapper.getSecondPartyName();
+        List<Map<String, String>> data = new ArrayList<>();
+        for (Party party : partyNameList) {
+
+            Map dataMap = new HashedMap();
+
+            //2019入党申请人
+            List<StatByteBean> applyBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, "2019", party.getId(), null);
+            int applyCount_19 = getCount(applyBeans_19);
+            List<StatByteBean> applyPassBeans = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, "2019", party.getId(), null);
+            int applyPassCount_19 = getCount(applyPassBeans);
+            int count_19 = applyPassCount_19 + applyCount_19;
+            dataMap.put("count_19", count_19);
+            //2018入党申请人
+            List<StatByteBean> applyBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, "2018", party.getId(), null);
+            int applyCount_18 = getCount(applyBeans_18);
+            List<StatByteBean> applyPassBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, "2018", party.getId(), null);
+            int applyPassCount_18 = getCount(applyPassBeans_18);
+            int count_18 =  applyPassCount_18 + applyCount_18;
+            dataMap.put("count_18",count_18);
+            //2017入党申请人
+            List<StatByteBean> applyBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, "2017", party.getId(), null);
+            int applyCount_17 = getCount(applyBeans_17);
+            List<StatByteBean> applyPassBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, "2017", party.getId(), null);
+            int applyPassCount_17 = getCount(applyPassBeans_17);
+            int count_17 =  applyPassCount_17 + applyCount_17;
+            dataMap.put("count_17",count_17);
+            //2016入党申请人
+            List<StatByteBean> applyBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, "2016", party.getId(), null);
+            int applyCount_16 = getCount(applyBeans_16);
+            List<StatByteBean> applyPassBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, "2016", party.getId(), null);
+            int applyPassCount_16 = getCount(applyPassBeans_16);
+            int count_16 =  applyPassCount_16 + applyCount_16;
+            dataMap.put("count_16",count_16);
+
+            //年级入党申请总数
+            int totalCount = count_16 + count_17 + count_18 + count_19;
+            dataMap.put("totalCount",totalCount);
+
+            //入党积极分子
+            List<StatByteBean> activeBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE, "2019", party.getId(), null);
+            int activeNum_19 = getCount(activeBeans_19);
+            dataMap.put("activeNum_19",activeNum_19);
+
+            List<StatByteBean> activeBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE, "2018", party.getId(), null);
+            int activeNum_18 = getCount(activeBeans_18);
+            dataMap.put("activeNum_18",activeNum_18);
+
+            List<StatByteBean> activeBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE, "2017", party.getId(), null);
+            int activeNum_17 = getCount(activeBeans_17);
+            dataMap.put("activeNum_17",activeNum_17);
+
+            List<StatByteBean> activeBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE, "2016", party.getId(), null);
+            int activeNum_16 = getCount(activeBeans_16);
+            dataMap.put("activeNum_16",activeNum_16);
+            //积极分子总数
+            int activeTotalCount = activeNum_19+activeNum_18+activeNum_17+activeNum_16;
+            dataMap.put("activeTotalCount",activeTotalCount);
+
+            //发展对象
+            List<StatByteBean> devBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, "2019", party.getId(), null);
+            int devNum_19 = getCount(devBeans_19);
+            dataMap.put("devNum_19",devNum_19);
+            List<StatByteBean> devBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, "2018", party.getId(), null);
+            int devNum_18 = getCount(devBeans_18);
+            dataMap.put("devNum_18",devNum_18);
+            List<StatByteBean> devBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, "2017", party.getId(), null);
+            int devNum_17 = getCount(devBeans_17);
+            dataMap.put("devNum_17",devNum_17);
+            List<StatByteBean> devBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, "2016", party.getId(), null);
+            int devNum_16 = getCount(devBeans_16);
+            dataMap.put("devNum_16",devNum_16);
+            int devTotalCount = devNum_19+devNum_18+devNum_17+devNum_16;
+            //发展对象总数
+            dataMap.put("devTotalCount",devTotalCount);
+
+            //2019级正式党员
+            List<StatByteBean> positivePartyBeans_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2019");
+            int positivePartyCount_19 = getCount(positivePartyBeans_19);
+            dataMap.put("positivePartyCount_19", positivePartyCount_19);
+            //2018级正式党员
+            List<StatByteBean> positivePartyBeans_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2018");
+            int positivePartyCount_18 = getCount(positivePartyBeans_18);
+            dataMap.put("positivePartyCount_18", positivePartyCount_18);
+            //2017级正式党员
+            List<StatByteBean> positivePartyBeans_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2017");
+            int positivePartyCount_17 = getCount(positivePartyBeans_17);
+            dataMap.put("positivePartyCount_17", positivePartyCount_17);
+            //2016级正式党员
+            List<StatByteBean> positivePartyBeans_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2016");
+            int positivePartyCount_16 = getCount(positivePartyBeans_16);
+            dataMap.put("positivePartyCount_16", positivePartyCount_16);
+            //正式党员总和
+            int positivePartyTotalCount = positivePartyCount_16 + positivePartyCount_17 + positivePartyCount_18 + positivePartyCount_19;
+            dataMap.put("positivePartyTotalCount", positivePartyTotalCount);
+
+
+            //2019级预备党员
+            List<StatByteBean> growPartyBeans_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2019");
+            int growPartyCount_19 = getCount(growPartyBeans_19);
+            dataMap.put("growPartyCount_19", growPartyCount_19);
+            //2018级预备党员
+            List<StatByteBean> growPartyBeans_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2018");
+            int growPartyCount_18 = getCount(growPartyBeans_18);
+            dataMap.put("growPartyCount_18", growPartyCount_18);
+            //2017级预备党员
+            List<StatByteBean> growPartyBeans_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2017");
+            int growPartyCount_17 = getCount(growPartyBeans_17);
+            dataMap.put("growPartyCount_17", growPartyCount_17);
+            //2016级预备党员
+            List<StatByteBean> growPartyBeans_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2016");
+            int growPartyCount_16 = getCount(growPartyBeans_16);
+            dataMap.put("growPartyCount_16", growPartyCount_16);
+            //预备党员总和
+            int growPartyTotalCount = growPartyCount_16 + growPartyCount_17 + growPartyCount_18 + growPartyCount_19;
+            dataMap.put("growPartyTotalCount", growPartyTotalCount);
+
+
+            //2016级党员数
+            int totalCount_16 = count_16 + activeNum_16 + devNum_16 + positivePartyCount_16 + growPartyCount_16;
+            dataMap.put("totalCount_16",totalCount_16);
+            //2017级党员数
+            int totalCount_17 = count_17 + applyCount_17 + activeNum_17 + devNum_17 + positivePartyCount_17 + growPartyCount_17;
+            dataMap.put("totalCount_17",totalCount_17);
+            //2018级党员数
+            int totalCount_18 = count_18 + applyCount_18 + activeNum_18 + devNum_18 + positivePartyCount_18 + growPartyCount_18;
+            dataMap.put("totalCount_18",totalCount_18);
+            //2019级党员数
+            int totalCount_19 = count_19 + applyCount_19 + activeNum_19 + devNum_19 + positivePartyCount_19 + growPartyCount_19;
+            dataMap.put("totalCount_19",totalCount_19);
+            //全党委党员数
+            int allParty = totalCount_16+totalCount_17+totalCount_18+totalCount_19;
+            dataMap.put("allParty",allParty);
+
+            //2016培养情况占比
+            int trainNum_16 = count_16 + activeNum_16 + devNum_16;
+            String train_16;
+            if(totalCount_16 == 0){
+                train_16 = "0.0%";
+            }else{
+                double trainProportion_16 = new BigDecimal((float)trainNum_16/totalCount_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                train_16 = trainProportion_16+"%";
+            }
+            dataMap.put("train_16",train_16);
+            //2017培养情况占比
+            int trainNum_17 = count_17 + activeNum_17 + devNum_17;
+            String train_17;
+            if(totalCount_17 == 0){
+                train_17 = "0.0%";
+            }else{
+                double trainProportion_17 = new BigDecimal((float)trainNum_17/totalCount_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                train_17 = trainProportion_17+"%";
+            }
+            dataMap.put("train_17",train_17);
+            //2018培养情况占比
+            int trainNum_18 = count_18 + activeNum_18 + devNum_18;
+            String train_18;
+            if(totalCount_18 == 0){
+                train_18 = "0.0%";
+            }else{
+                double trainProportion_18 = new BigDecimal((float)trainNum_18/totalCount_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                train_18 = trainProportion_18+"%";
+            }
+            dataMap.put("train_18",train_18);
+            //2019培养情况占比
+            int trainNum_19 = count_19 + activeNum_19 + devNum_19;
+            String train_19;
+            if(totalCount_19 == 0){
+                train_19 = "0.0%";
+            }else{
+                double trainProportion_19 = new BigDecimal((float)trainNum_19/totalCount_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                train_19 = trainProportion_19+"%";
+            }
+            dataMap.put("train_19",train_19);
+            //总占比
+            int trainNum = trainNum_19+trainNum_18+trainNum_17+trainNum_16;
+            String train;
+            if(totalCount == 0){
+                train = "0.0%";
+            }else{
+                double trainProportion = new BigDecimal((float)trainNum/allParty*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                train = trainProportion+"%";
+            }
+            dataMap.put("train",train);
+
+            //2016党员占比
+            int partyNum_16 = positivePartyCount_16+growPartyCount_16;
+            String partyProportion_16;
+            if(totalCount_16 == 0){
+                partyProportion_16 = "0.0%";
+            }else{
+                double Proportion = new BigDecimal((float)partyNum_16/totalCount_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                partyProportion_16 = Proportion+"%";
+            }
+            dataMap.put("partyProportion_16",partyProportion_16);
+
+            //2017党员占比
+            int partyNum_17 = positivePartyCount_17+growPartyCount_17;
+            String partyProportion_17;
+            if(totalCount_17 == 0){
+                partyProportion_17 = "0.0%";
+            }else{
+                double Proportion = new BigDecimal((float)partyNum_17/totalCount_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                partyProportion_17 = Proportion+"%";
+            }
+            dataMap.put("partyProportion_17",partyProportion_17);
+
+            //2018党员占比
+            int partyNum_18 = positivePartyCount_18+growPartyCount_18;
+            String partyProportion_18;
+            if(totalCount_18 == 0){
+                partyProportion_18 = "0.0%";
+            }else{
+                double Proportion = new BigDecimal((float)partyNum_18/totalCount_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                partyProportion_18 = Proportion+"%";
+            }
+            dataMap.put("partyProportion_18",partyProportion_18);
+
+            //2016党员占比
+            int partyNum_19 = positivePartyCount_19+growPartyCount_19;
+            String partyProportion_19;
+            if(totalCount_19 == 0){
+                partyProportion_19 = "0.0%";
+            }else{
+                double Proportion = new BigDecimal((float)partyNum_19/totalCount_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                partyProportion_19 = Proportion+"%";
+            }
+            dataMap.put("partyProportion_19",partyProportion_19);
+
+            //总占比
+            int partyNum = partyNum_16+partyNum_17+partyNum_18+partyNum_19;
+            String partyProportion;
+            if(allParty == 0){
+                partyProportion = "0.0%";
+            }else{
+                double Proportion = new BigDecimal((float)partyNum/allParty*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                partyProportion = Proportion+"%";
+            }
+            dataMap.put("partyProportion",partyProportion);
+
+
+
+            dataMap.put("partyName",party.getShortName());
+            data.add(dataMap);
+            modelMap.put("data",data);
+        }
+        modelMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+        return modelMap;
+
+    }
+
+    public XSSFWorkbook statOwBksInfoExport(ModelMap modelMap)throws IOException {
+        InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_ow_bks_info.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        renderSheetData(wb,modelMap); // 汇总
+        wb.removeSheetAt(0);
+        return wb;
+    }
+    public XSSFWorkbook statPartyBksInfoExport(ModelMap modelMap)throws IOException {
+        InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_party_bks_info.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        renderPartySheetData(wb,modelMap); // 汇总
+        wb.removeSheetAt(0);
+        return wb;
+
+    }
+
+
+    private void renderSheetData(XSSFWorkbook wb, ModelMap modelMap) {
+        XSSFSheet sheet = wb.cloneSheet(0, null);
+        XSSFPrintSetup ps = sheet.getPrintSetup();
+        ps.setLandscape(true); // 打印方向，true：横向，false：纵向
+        ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE); //纸张
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName())
+                .replace("date",DateUtils.formatDate(new Date(),DateUtils.YYYY_MM));
+        cell.setCellValue(str);
+
+        cell.setCellValue(str);
+        //总数
+        row = sheet.getRow(2);
+        cell = row.getCell(1);
+        cell.setCellValue((int)modelMap.get("studentNum"));
+        cell = row.getCell(2);
+        cell.setCellValue((int)modelMap.get("positivePartyNum"));
+        cell = row.getCell(3);
+        cell.setCellValue((int)modelMap.get("growPartyNum"));
+        cell = row.getCell(4);
+        cell.setCellValue((int)modelMap.get("count"));
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("Proportion").toString());
+        cell = row.getCell(6);
+        cell.setCellValue((int)modelMap.get("totalNum"));
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("applyStr").toString());
+        cell = row.getCell(8);
+        cell.setCellValue((int)modelMap.get("activeNum"));
+        cell = row.getCell(9);
+        cell.setCellValue(modelMap.get("activeStr").toString());
+        cell = row.getCell(10);
+        cell.setCellValue((int)modelMap.get("devNum"));
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("devStr").toString());
+
+        //2020级
+        int fake = 0;
+        row = sheet.getRow(4);
+        cell = row.getCell(1);
+        cell.setCellValue(fake);
+        cell = row.getCell(2);
+        cell.setCellValue(fake);
+        cell = row.getCell(3);
+        cell.setCellValue(fake);
+        cell = row.getCell(4);
+        cell.setCellValue(fake);
+        cell = row.getCell(5);
+        cell.setCellValue(fake);
+        cell = row.getCell(6);
+        cell.setCellValue(fake);
+        cell = row.getCell(7);
+        cell.setCellValue(fake);
+        cell = row.getCell(8);
+        cell.setCellValue(fake);
+        cell = row.getCell(9);
+        cell.setCellValue(fake);
+        cell = row.getCell(10);
+        cell.setCellValue(fake);
+        cell = row.getCell(11);
+        cell.setCellValue(fake);
+
+        //2019级
+        row = sheet.getRow(5);
+        cell = row.getCell(1);
+        cell.setCellValue((int)modelMap.get("studentNum_19"));
+        cell = row.getCell(2);
+        cell.setCellValue((int)modelMap.get("positivePartyNum_19"));
+        cell = row.getCell(3);
+        cell.setCellValue((int)modelMap.get("growPartyNum_19"));
+        cell = row.getCell(4);
+        cell.setCellValue((int)modelMap.get("count_19"));
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("partyStr_19").toString());
+        cell = row.getCell(6);
+        cell.setCellValue((int)modelMap.get("totalNum_19"));
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("applyStr_19").toString());
+        cell = row.getCell(8);
+        cell.setCellValue((int)modelMap.get("activeNum_19"));
+        cell = row.getCell(9);
+        cell.setCellValue(modelMap.get("activeStr_19").toString());
+        cell = row.getCell(10);
+        cell.setCellValue((int)modelMap.get("devNum_19"));
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("devStr_19").toString());
+
+        //2018级
+        row = sheet.getRow(6);
+        cell = row.getCell(1);
+        cell.setCellValue((int)modelMap.get("studentNum_18"));
+        cell = row.getCell(2);
+        cell.setCellValue((int)modelMap.get("positivePartyNum_18"));
+        cell = row.getCell(3);
+        cell.setCellValue((int)modelMap.get("growPartyNum_18"));
+        cell = row.getCell(4);
+        cell.setCellValue((int)modelMap.get("count_18"));
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("partyStr_18").toString());
+        cell = row.getCell(6);
+        cell.setCellValue((int)modelMap.get("totalNum_18"));
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("applyStr_18").toString());
+        cell = row.getCell(8);
+        cell.setCellValue((int)modelMap.get("activeNum_18"));
+        cell = row.getCell(9);
+        cell.setCellValue(modelMap.get("activeStr_18").toString());
+        cell = row.getCell(10);
+        cell.setCellValue((int)modelMap.get("devNum_18"));
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("devStr_18").toString());
+
+        //2017级
+        row = sheet.getRow(7);
+        cell = row.getCell(1);
+        cell.setCellValue((int)modelMap.get("studentNum_17"));
+        cell = row.getCell(2);
+        cell.setCellValue((int)modelMap.get("positivePartyNum_17"));
+        cell = row.getCell(3);
+        cell.setCellValue((int)modelMap.get("growPartyNum_17"));
+        cell = row.getCell(4);
+        cell.setCellValue((int)modelMap.get("count_17"));
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("partyStr_17").toString());
+        cell = row.getCell(6);
+        cell.setCellValue((int)modelMap.get("totalNum_17"));
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("applyStr_17").toString());
+        cell = row.getCell(8);
+        cell.setCellValue((int)modelMap.get("activeNum_17"));
+        cell = row.getCell(9);
+        cell.setCellValue(modelMap.get("activeStr_17").toString());
+        cell = row.getCell(10);
+        cell.setCellValue((int)modelMap.get("devNum_17"));
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("devStr_17").toString());
+
+        //2016级
+        row = sheet.getRow(8);
+        cell = row.getCell(1);
+        cell.setCellValue((int)modelMap.get("studentNum_16"));
+        cell = row.getCell(2);
+        cell.setCellValue((int)modelMap.get("positivePartyNum_16"));
+        cell = row.getCell(3);
+        cell.setCellValue((int)modelMap.get("growPartyNum_16"));
+        cell = row.getCell(4);
+        cell.setCellValue((int)modelMap.get("count_16"));
+        cell = row.getCell(5);
+        cell.setCellValue(modelMap.get("partyStr_16").toString());
+        cell = row.getCell(6);
+        cell.setCellValue((int)modelMap.get("totalNum_16"));
+        cell = row.getCell(7);
+        cell.setCellValue(modelMap.get("applyStr_16").toString());
+        cell = row.getCell(8);
+        cell.setCellValue((int)modelMap.get("activeNum_16"));
+        cell = row.getCell(9);
+        cell.setCellValue(modelMap.get("activeStr_16").toString());
+        cell = row.getCell(10);
+        cell.setCellValue((int)modelMap.get("devNum_16"));
+        cell = row.getCell(11);
+        cell.setCellValue(modelMap.get("devStr_16").toString());
+
+    }
+
+    private void renderPartySheetData(XSSFWorkbook wb, ModelMap modelMap) {
+        XSSFSheet sheet = wb.cloneSheet(0, null);
+
+        XSSFCellStyle style = wb.createCellStyle();
+
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName())
+                .replace("date",DateUtils.formatDate(new Date(),DateUtils.YYYY_MM));
+        cell.setCellValue(str);
+
+        List<Map<String, Object>> data = (List<Map<String, Object>>) modelMap.get("data");
+
+
+        cell.setCellValue(str);
+        int startRow = 1;
+        int mergeRow = 2;
+        for (int i = 0; i <data.size(); i++) {
+            Map<String, Object> map = data.get(i);
+            //二级党组织名称
+
+            row = sheet.createRow(startRow+=1);
+            cell = row.createCell(0);
+
+            cell.setCellValue(map.get("partyName").toString());
+            //cell.setCellStyle(style);
+            /*for (int j=0;j<5;j++) {
+                startRow++;
+                row = sheet.createRow(startRow);
+                cell = row.createCell(j);
+            }*/
+
+
+            int fake = 0;
+            row = sheet.createRow(startRow);
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue("往届");
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue(fake);
+
+            row = sheet.createRow(startRow+=1);
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue("2016");
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("count_16"));
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("activeNum_16"));
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("devNum_16"));
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("positivePartyCount_16"));
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("growPartyCount_16"));
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue("-");
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("totalCount_16"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("train_16").toString());
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("partyProportion_16").toString());
+
+            row = sheet.createRow(startRow+=1);
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue("2017");
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("count_17"));
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("activeNum_17"));
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("devNum_17"));
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("positivePartyCount_17"));
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("growPartyCount_17"));
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue("-");
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("totalCount_17"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("train_17").toString());
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("partyProportion_17").toString());
+
+            row = sheet.createRow(startRow+=1);
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue("2018");
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("count_18"));
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("activeNum_18"));
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("devNum_18"));
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("positivePartyCount_18"));
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("growPartyCount_18"));
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue("-");
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("totalCount_18"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("train_18").toString());
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("partyProportion_18").toString());
+
+
+            row = sheet.createRow(startRow+=1);
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue("2019");
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("count_19"));
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("activeNum_19"));
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("devNum_19"));
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("positivePartyCount_19"));
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("growPartyCount_19"));
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue("-");
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("totalCount_19"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("train_19").toString());
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("partyProportion_19").toString());
+
+            row = sheet.createRow(startRow+=1);
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue("合计");
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("allParty"));
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("activeTotalCount"));
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("devTotalCount"));
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("positivePartyTotalCount"));
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("growPartyTotalCount"));
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue("-");
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("totalCount"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("train").toString());
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue(map.get("partyProportion").toString());
+
+            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow-5, 0, startRow, 0));
+
+        }
+
+    }
+
+    public static int getCount(List<StatByteBean> beans){
+        int count = 0;
+        for (StatByteBean statByteBean : beans) {
+            //为空或为2的是本科生
+            if (statByteBean.getGroupBy() == null || statByteBean.getGroupBy() == SystemConstants.STUDENT_TYPE_BKS) {
+                count = statByteBean.getNum() + count;
+                continue;
+            }
+        }
+        return count;
+    }
+
+
 }

@@ -13,7 +13,7 @@
     <select id="member_groupByPoliticalStatus" resultType="bean.StatByteBean" parameterType="map">
         select count(*) as num, political_status as groupBy from ow_member_view where status=1
         <if test="partyId!=null">
-            and partyId = #{partyId}
+            and party_id = #{partyId}
         </if>
         <if test="branchId!=null">
             and branchId = #{branchId}
