@@ -9,10 +9,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.analysis.StatOwInfoMapper;
 import service.analysis.StatOwInfoService;
 import service.global.CacheHelper;
-import sys.constants.MemberConstants;
 import sys.tags.CmTag;
 import sys.utils.ExportHelper;
 
@@ -82,7 +80,7 @@ public class StatOwInfoController extends BaseController {
                 return null;
             }
             modelMap.put("cls",cls);
-            return "analysis/statOwInfo/stat_Bks_info";
+            return "analysis/statOwInfo/stat_ow_Bks_page";
         }else if(cls==4){
             Map cacheMap = statOwInfoService.getPartyBksInfo(cls,modelMap);
             modelMap.putAll(cacheMap);
@@ -94,7 +92,7 @@ public class StatOwInfoController extends BaseController {
                 return null;
             }
 
-            return "analysis/statOwInfo/stat_Bks_SecondLevelInfo";
+            return "analysis/statOwInfo/stat_party_Bks_page";
         }
         return "analysis/statOwInfo/stat_ow_yjs_page";
     }

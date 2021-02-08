@@ -1,31 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row" id="cartogram">
+<div class="row">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
-            <div class="tab-content" style="padding: 5px 4px 0px">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <%--<li class="<c:if test="${cls==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/statOwInfo?cls=1">
-                            <i class="fa fa-th"></i> 全校研究生队伍党员信息分析</a>
-                    </li>
-                    <li class="<c:if test="${cls==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/statOwInfo?cls=2">
-                            <i class="fa fa-th"></i> 各二级党组织研究生队伍党员信息分析</a>
-                    </li>
-                    <li class="<c:if test="${cls==3}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/statOwInfo?cls=3">
-                            <i class="fa fa-th"></i> 全校本科生队伍党员信息分析</a>
-                    </li>
-                    <li class="<c:if test="${cls==4}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/statOwInfo?cls=4">
-                            <i class="fa fa-th"></i> 各二级党组织本科生队伍党员信息分析</a>
-                    </li>--%>
-                    <jsp:include page="menu.jsp"/>
 
-                </ul>
-                <col width=86 span=2 style='mso-width-source:userset;mso-width-alt:2752;width:65pt'>
-                <col width=101 span=11 style='mso-width-source:userset;mso-width-alt:3232;width:76pt'>
+            <jsp:include page="menu.jsp"/>
+            <div class="tab-content" style="padding: 5px 4px 0px">
                 <table border=0 cellpadding=0 cellspacing=0 width=1283 style='border-collapse:collapse;table-layout:fixed;width:966pt'>
                     <tr height=52 style='mso-height-source:userset;height:39.0pt'>
                         <td colspan=13 height=52 class=xl99 width=1283 style='height:39.0pt;width:966pt'>
@@ -36,17 +16,17 @@
                         <td colspan=13 height=28 class=xl100 style='height:21.0pt'>（数据源自${cm:formatDate(now,'yyyy年MM月dd日')}年统数据）</td>
                     </tr>
                     <tr height=33 style='mso-height-source:userset;height:24.95pt'>
-                            <td colspan="1" height=33 class=xl73 style=' border-right:.5pt solid black;height:24.95pt;'>二级党组织</td>
-                            <td colspan="" class=xl73 style='border-left:none;width: 80px'>年级</td>
-                            <td class=xl73 style='border-left:none'>入党申请人</td>
-                            <td colspan="2" class=xl73 style='border-left:none;width: 50px'>入党积极分子</td>
-                            <td class=xl73 style='border-left:none'>发展对象</td>
-                            <td class=xl73 style='border-left:none'>正式党员</td>
-                            <td class=xl73 style='border-left:none'>预备党员</td>
-                            <td class=xl73 style='border-left:none'>普通学生</td>
-                            <td class=xl73 style='border-left:none'>合计</td>
-                            <td colspan="2" class=xl73 style='border-left:none;width: 90px'>培养情况占比</td>
-                            <td class=xl73 style='border-left:none'>党员占比</td>
+                        <td colspan="1" height=33 class=xl73 style=' border-right:.5pt solid black;height:24.95pt;'>二级党组织</td>
+                        <td colspan="" class=xl73 style='border-left:none;width: 80px'>年级</td>
+                        <td class=xl73 style='border-left:none'>入党申请人</td>
+                        <td colspan="2" class=xl73 style='border-left:none;width: 50px'>入党积极分子</td>
+                        <td class=xl73 style='border-left:none'>发展对象</td>
+                        <td class=xl73 style='border-left:none'>正式党员</td>
+                        <td class=xl73 style='border-left:none'>预备党员</td>
+                        <td class=xl73 style='border-left:none'>普通学生</td>
+                        <td class=xl73 style='border-left:none'>合计</td>
+                        <td colspan="2" class=xl73 style='border-left:none;width: 90px'>培养情况占比</td>
+                        <td class=xl73 style='border-left:none'>党员占比</td>
                     </tr>
                     <c:forEach items="${data}" var="data">
                         <tr height=33 style='mso-height-source:userset;height:24.95pt'>
@@ -132,9 +112,6 @@
     </div>
 </div>
 <style>
-    /*tr
-    {mso-height-source:auto;
-        mso-ruby-visibility:none;}*/
     col
     {mso-width-source:auto;
         mso-ruby-visibility:none;}
@@ -143,9 +120,6 @@
     ruby
     {ruby-align:left;}
 
-    button{
-        margin-left: 10px;
-    }
 
     td
     {mso-style-parent:style0;

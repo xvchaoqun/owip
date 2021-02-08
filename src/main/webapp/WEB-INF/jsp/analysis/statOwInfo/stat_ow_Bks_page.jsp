@@ -1,27 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row" id="cartogram">
+<div class="row">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
 
+            <jsp:include page="menu.jsp"/>
             <div class="tab-content" style="padding: 5px 4px 0px">
                 <table border=0 cellpadding=0 cellspacing=0 width=1283 style='border-collapse:collapse;table-layout:fixed;width:966pt'>
-                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                            <%--<div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
-                                <button  class="downloadBtn btn btn-success btn-sm"
-                                         data-url="${ctx}/statOwInfo?cls=${cls}&export=1"><i class="fa fa-download"></i>
-                                    导出
-                                </button>
-                                <button class="runBtn btn btn-warning btn-sm" data-url="${ctx}/flushStatOwInfoCache?cls=${cls}" data-title="刷新获取最新统计数据"
-                                        data-callback="flushReload"
-                                        data-loading-text="<i class='fa fa-spinner fa-spin '></i> 刷新中，请稍后">
-                                    <i class="fa fa-refresh"></i> 刷新数据
-                                </button>
-                                （数据统计时间：${cacheTime}）
-                            </div>--%>
-                            <jsp:include page="menu.jsp"/>
-
-                    </ul>
                     <col width=86 span=2 style='mso-width-source:userset;mso-width-alt:2752;width:65pt'>
                     <col width=101 span=11 style='mso-width-source:userset;mso-width-alt:3232;width:76pt'>
                     <tr height=52 style='mso-height-source:userset;height:39.0pt'>
@@ -152,8 +137,6 @@
                     </c:if>
 
                 </table>
-                <br/>
-
             </div>
         </div>
     </div>
