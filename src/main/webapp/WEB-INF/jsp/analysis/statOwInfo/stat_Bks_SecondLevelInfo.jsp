@@ -113,13 +113,13 @@
                         </tr>
                         <tr height=33 style='mso-height-source:userset;height:24.95pt'>
                             <td class=xl73 >合计</td>
-                            <td class=xl73 style='border-left:none'>${data.allParty}</td>
+                            <td class=xl73 style='border-left:none'>${data.totalCount}</td>
                             <td colspan="2" class=xl73 style='border-left:none'>${data.activeTotalCount}</td>
                             <td class=xl73 style='border-left:none'>${data.devTotalCount}</td>
                             <td class=xl73 style='border-left:none'>${data.positivePartyTotalCount}</td>
                             <td class=xl73 style='border-left:none'>${data.growPartyTotalCount}</td>
                             <td class=xl73 style='border-left:none'>-</td>
-                            <td class=xl73 style='border-left:none'>${data.totalCount}</td>
+                            <td class=xl73 style='border-left:none'>${data.allParty}</td>
                             <td colspan="2" class=xl73 style='border-left:none'>${data.train}</td>
                             <td class=xl73 style='border-left:none'>${data.partyProportion}</td>
                         </tr>

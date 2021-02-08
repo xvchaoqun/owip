@@ -846,7 +846,6 @@ public class StatOwInfoService extends BaseMapper {
             int applyPassCount_16 = getCount(applyPassBeans_16);
             int count_16 =  applyPassCount_16 + applyCount_16;
             dataMap.put("count_16",count_16);
-
             //年级入党申请总数
             int totalCount = count_16 + count_17 + count_18 + count_19;
             dataMap.put("totalCount",totalCount);
@@ -989,7 +988,7 @@ public class StatOwInfoService extends BaseMapper {
             //总占比
             int trainNum = trainNum_19+trainNum_18+trainNum_17+trainNum_16;
             String train;
-            if(totalCount == 0){
+            if(allParty == 0){
                 train = "0.0%";
             }else{
                 double trainProportion = new BigDecimal((float)trainNum/allParty*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -1457,7 +1456,7 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellValue("合计");
             cell = row.createCell(2);
             cell.setCellStyle(style);
-            cell.setCellValue((int)map.get("allParty"));
+            cell.setCellValue((int)map.get("totalCount"));
             cell = row.createCell(3);
             cell.setCellStyle(style);
             cell.setCellValue((int)map.get("activeTotalCount"));
@@ -1475,7 +1474,7 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellValue("-");
             cell = row.createCell(8);
             cell.setCellStyle(style);
-            cell.setCellValue((int)map.get("totalCount"));
+            cell.setCellValue((int)map.get("allParty"));
             cell = row.createCell(9);
             cell.setCellStyle(style);
             cell.setCellValue(map.get("train").toString());
