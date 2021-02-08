@@ -10,7 +10,7 @@
                        style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=18 height=41 class=xl97>
-                            <div style="color:#337ab7;text-align:center;font-weight:600">${schoolName}研究生队伍党员信息分析</div>
+                            <div style="color:#337ab7;text-align:center;font-weight:600">${_school}研究生队伍党员信息分析</div>
                             <div style="font-size:15px;font-weight:300">（数据源自${year}年${month}月年统数据）</div>
                         </td>
                     </tr>

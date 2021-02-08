@@ -1271,24 +1271,11 @@ public class StatOwInfoService extends BaseMapper {
 
         cell.setCellValue(str);
         int startRow = 1;
-        int mergeRow = 2;
         for (int i = 0; i <data.size(); i++) {
             Map<String, Object> map = data.get(i);
-            //二级党组织名称
-
-            row = sheet.createRow(startRow+=1);
-            cell = row.createCell(0);
-
-            cell.setCellValue(map.get("partyName").toString());
-            //cell.setCellStyle(style);
-            /*for (int j=0;j<5;j++) {
-                startRow++;
-                row = sheet.createRow(startRow);
-                cell = row.createCell(j);
-            }*/
-
 
             int fake = 0;
+            startRow++;
             row = sheet.createRow(startRow);
             cell = row.createCell(1);
             cell.setCellStyle(style);
@@ -1321,7 +1308,8 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellStyle(style);
             cell.setCellValue(fake);
 
-            row = sheet.createRow(startRow+=1);
+            startRow++;
+            row = sheet.createRow(startRow);
             cell = row.createCell(1);
             cell.setCellStyle(style);
             cell.setCellValue("2016");
@@ -1353,7 +1341,8 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellStyle(style);
             cell.setCellValue(map.get("partyProportion_16").toString());
 
-            row = sheet.createRow(startRow+=1);
+            startRow++;
+            row = sheet.createRow(startRow);
             cell = row.createCell(1);
             cell.setCellStyle(style);
             cell.setCellValue("2017");
@@ -1385,7 +1374,8 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellStyle(style);
             cell.setCellValue(map.get("partyProportion_17").toString());
 
-            row = sheet.createRow(startRow+=1);
+            startRow++;
+            row = sheet.createRow(startRow);
             cell = row.createCell(1);
             cell.setCellStyle(style);
             cell.setCellValue("2018");
@@ -1417,8 +1407,8 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellStyle(style);
             cell.setCellValue(map.get("partyProportion_18").toString());
 
-
-            row = sheet.createRow(startRow+=1);
+            startRow++;
+            row = sheet.createRow(startRow);
             cell = row.createCell(1);
             cell.setCellStyle(style);
             cell.setCellValue("2019");
@@ -1450,7 +1440,9 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellStyle(style);
             cell.setCellValue(map.get("partyProportion_19").toString());
 
-            row = sheet.createRow(startRow+=1);
+            startRow++;
+            row = sheet.createRow(startRow);
+            cell = row.createCell(0);
             cell = row.createCell(1);
             cell.setCellStyle(style);
             cell.setCellValue("合计");
@@ -1482,7 +1474,15 @@ public class StatOwInfoService extends BaseMapper {
             cell.setCellStyle(style);
             cell.setCellValue(map.get("partyProportion").toString());
 
+            for (int j=startRow-4;j<startRow;j++){
+                sheet.getRow(j).createCell(0);
+            }
+
+            row = sheet.getRow(startRow-5);
+            cell = row.createCell(0);
+            cell.setCellValue(map.get("partyName").toString());
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow-5, 0, startRow, 0));
+
 
         }
 
