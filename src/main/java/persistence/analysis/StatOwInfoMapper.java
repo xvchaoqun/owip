@@ -51,6 +51,11 @@ public interface StatOwInfoMapper {
     List<StatByteBean> memberApply_teacherSort(@Param("stage")Byte stage,
                                                @Param("proPostLevel") String proPostLevel,
                                                @Param("partyId") Integer partyId,
-                                               @Param("branchId") Integer branchId);
+                                               @Param("branchId") Integer branchId,
+                                               @Param("gender") Byte gender);
+
+    //获取教师（校编教工、专任教师）数量(按is_full_time_teacher分类)
+    List<StatByteBean> member_teacherCount(@Param("proPostLevel") String proPostLevel,
+                                           @Param("gender")Byte gender);
 
 }

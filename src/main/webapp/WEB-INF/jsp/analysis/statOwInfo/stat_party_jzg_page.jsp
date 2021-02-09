@@ -3,61 +3,48 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
-
             <jsp:include page="menu.jsp"/>
+
             <div class="tab-content" style="padding: 5px 4px 0px">
                 <table border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=18 height=41 class=xl97>
-                            <div style="color:#337ab7;text-align:center;font-weight:600">各二级党组织研究生队伍党员信息分析</div>
+                            <div style="color:#337ab7;text-align:center;font-weight:600">各二级党组织专任教师队伍党员信息分析</div>
                             <div style="font-size:15px;font-weight:300">（数据源自${year}年${month}月年统数据）</div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=1 rowspan="2" height=46 class=xl70 width=170 style='height:34.5pt;width:128pt'>二级党组织</td>
-                        <td colspan=9 class=xl70 width=162>硕士研究生群体党员情况分析</td>
-                        <td colspan=9 class=xl70 width=162>博士研究生群体党员情况分析</td>
+                        <td colspan="12" align="right">注：百分比按四舍五入取值</td>
                     </tr>
                     <tr>
-                        <c:forEach items="${columns}" var="entity" varStatus="vs">
-                            <td colspan=1 class=xl70 width=162>${entity}</td>
-                        </c:forEach>
-
-                        <c:forEach items="${columns}" var="entity" varStatus="vs">
-                            <td colspan=1 class=xl70 width=162>${entity}</td>
-                        </c:forEach>
+                        <td colspan=1 height=46 class=xl70 width=170>序号</td>
+                        <td colspan=1 class=xl70 width=162 style="width: 20%">二级党组织</td>
+                        <td colspan=1 class=xl70 width=162>入党申请人</td>
+                        <td colspan=1 height=46 class=xl70 width=170>入党积极分子</td>
+                        <td colspan=1 class=xl70 width=162>发展对象</td>
+                        <td colspan=1 class=xl70 width=162>正式党员</td>
+                        <td colspan=1 height=46 class=xl70 width=170>预备党员</td>
+                        <td colspan=1 class=xl70 width=162>普通教师</td>
+                        <td colspan=1 class=xl70 width=162>总计</td>
+                        <td colspan=1 height=46 class=xl70 width=170>培养情况占比</td>
+                        <td colspan=1 class=xl70 width=162>党员占比</td>
                     </tr>
 
-                    <c:forEach items="${data}" var="dat" varStatus="dts">
-                            <%--硕士研究生--%>
-                            <c:if test="${dat.identity == 'masters'}">
-                                <tr>
-                                <td colspan=1 class=xl70 width=162>${empty dat.partyName ? 0 : dat.partyName}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.applyTotal ? 0 : dat.applyTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.activityTotal ? 0 : dat.activityTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.developTotal ? 0 : dat.developTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.formalMembers ? 0 : dat.formalMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.preparedMembers ? 0 : dat.preparedMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.generalCount ? 0 : dat.generalCount}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.total ? 0 : dat.total}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.masterScale ? 0 : dat.masterScale}</td>
-                                <td colspan=1 class=xl70 width=162>${dat.masterPercent}</td>
-                            </c:if>
-                            <%--博士研究生--%>
-                            <c:if test="${dat.identity == 'doctors'}">
-                                <td colspan=1 class=xl70 width=162>${empty dat.applyTotal ? 0 : dat.applyTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.activityTotal ? 0 : dat.activityTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.developTotal ? 0 : dat.developTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.formalMembers ? 0 : dat.formalMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.preparedMembers ? 0 : dat.preparedMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.generalCount ? 0 : dat.generalCount}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.total ? 0 : dat.total}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.doctorScale ? 0 : dat.doctorScale}</td>
-                                <td colspan=1 class=xl70 width=162>${dat.doctorPercent}</td>
-                                </tr>
-                            </c:if>
-
+                    <c:forEach items="${data}" var="dat" varStatus="d">
+                        <tr>
+                            <td colspan=1 height=46 class=xl70 width=170>${d.index + 1}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.partyName}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgApplyTotal}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgActivity}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgDevelop}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgFormation}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgPrepared}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgGeneral}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.jzgTotal}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.trainPercent}</td>
+                            <td colspan=1 height=46 class=xl70 width=170>${dat.partyPercent}</td>
+                        </tr>
                     </c:forEach>
                 </table>
             </div>

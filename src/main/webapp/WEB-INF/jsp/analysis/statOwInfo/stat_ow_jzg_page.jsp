@@ -3,62 +3,112 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="contentDiv" style="width: 1148px">
-
             <jsp:include page="menu.jsp"/>
+
             <div class="tab-content" style="padding: 5px 4px 0px">
                 <table border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=18 height=41 class=xl97>
-                            <div style="color:#337ab7;text-align:center;font-weight:600">各二级党组织研究生队伍党员信息分析</div>
+                            <div style="color:#337ab7;text-align:center;font-weight:600">教工队伍党员信息分析</div>
                             <div style="font-size:15px;font-weight:300">（数据源自${year}年${month}月年统数据）</div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=1 rowspan="2" height=46 class=xl70 width=170 style='height:34.5pt;width:128pt'>二级党组织</td>
-                        <td colspan=9 class=xl70 width=162>硕士研究生群体党员情况分析</td>
-                        <td colspan=9 class=xl70 width=162>博士研究生群体党员情况分析</td>
+                        <td colspan="12" align="right">注：百分比按四舍五入取值</td>
                     </tr>
                     <tr>
-                        <c:forEach items="${columns}" var="entity" varStatus="vs">
-                            <td colspan=1 class=xl70 width=162>${entity}</td>
-                        </c:forEach>
-
-                        <c:forEach items="${columns}" var="entity" varStatus="vs">
-                            <td colspan=1 class=xl70 width=162>${entity}</td>
-                        </c:forEach>
+                        <td colspan=2 rowspan="2" height=46 class=xl70 width=170>信息分类</td>
+                        <td colspan=3 class=xl70 width=162>总数</td>
+                        <td colspan=7 class=xl70 width=162>党员和发展党员信息</td>
                     </tr>
 
-                    <c:forEach items="${data}" var="dat" varStatus="dts">
-                            <%--硕士研究生--%>
-                            <c:if test="${dat.identity == 'masters'}">
-                                <tr>
-                                <td colspan=1 class=xl70 width=162>${empty dat.partyName ? 0 : dat.partyName}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.applyTotal ? 0 : dat.applyTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.activityTotal ? 0 : dat.activityTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.developTotal ? 0 : dat.developTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.formalMembers ? 0 : dat.formalMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.preparedMembers ? 0 : dat.preparedMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.generalCount ? 0 : dat.generalCount}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.total ? 0 : dat.total}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.masterScale ? 0 : dat.masterScale}</td>
-                                <td colspan=1 class=xl70 width=162>${dat.masterPercent}</td>
-                            </c:if>
-                            <%--博士研究生--%>
-                            <c:if test="${dat.identity == 'doctors'}">
-                                <td colspan=1 class=xl70 width=162>${empty dat.applyTotal ? 0 : dat.applyTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.activityTotal ? 0 : dat.activityTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.developTotal ? 0 : dat.developTotal}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.formalMembers ? 0 : dat.formalMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.preparedMembers ? 0 : dat.preparedMembers}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.generalCount ? 0 : dat.generalCount}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.total ? 0 : dat.total}</td>
-                                <td colspan=1 class=xl70 width=162>${empty dat.doctorScale ? 0 : dat.doctorScale}</td>
-                                <td colspan=1 class=xl70 width=162>${dat.doctorPercent}</td>
-                                </tr>
-                            </c:if>
+                    <tr>
+                        <td colspan=1 height=46 class=xl70 width=170>合计</td>
+                        <td colspan=1 height=46 class=xl70 width=170>男</td>
+                        <td colspan=1 height=46 class=xl70 width=170>女</td>
+                        <td colspan=1 height=46 class=xl70 width=170>正式党员</td>
+                        <td colspan=1 height=46 class=xl70 width=170>预备党员</td>
+                        <td colspan=1 height=46 class=xl70 width=170>合计</td>
+                        <td colspan=1 height=46 class=xl70 width=170>占比</td>
+                        <td colspan=1 height=46 class=xl70 width=170>入党申请人</td>
+                        <td colspan=1 height=46 class=xl70 width=170>入党积极分子</td>
+                        <td colspan=1 height=46 class=xl70 width=170>发展对象</td>
+                    </tr>
 
-                    </c:forEach>
+                    <tr>
+                        <td colspan=2 height=46 class=xl70 width=170 style="width: 10%">校编教工</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${formationManAndWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${formationMan}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${formationWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${schoolFormation}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${schoolPrepared}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${schoolPartyTotal}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${schoolPercent}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${applySchool}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${activitySchool}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${developSchool}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan=2 height=46 class=xl70 width=170 style="width: 10%">专任教师</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyManAndWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyMan}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyFormation}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyPrepared}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyPartyTotal}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyPercent}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${applySpecially}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${activitySpecially}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${developSpecially}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan=12 height=46 class=xl70 width=170>专任教师中区分职称级别</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan=2 height=46 class=xl70 width=170 style="width: 10%">正高级</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${isLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${isLevelMan}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${isLevelWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyIsLevelFormation}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${preparedSpeciallyIsLevelFormation}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${isLevelPartyTotal}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${isLevelPercent}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${applySpeciallyIsLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${activitySpeciallyIsLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${developSpeciallyIsLevel}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan=2 height=46 class=xl70 width=170 style="width: 10%">副高级</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${deputyLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${deputyLevelMan}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${deputyLevelWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${speciallyDeputyLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${preparedSpeciallyDeputyLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${deputyLevelPartyTotal}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${deputyLevelPercent}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${applySpeciallyDeputyLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${activitySpeciallyDeputyLevel}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${developSpeciallyDeputyLevel}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan=2 height=46 class=xl70 width=170 style="width: 10%">中级及以下</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${isLevelTotal}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${followingMan}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${followingWoman}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${intermediateFormation}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${intermediatePrepared}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${intermediateTotal}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${intermediatePercent}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${mediumApply}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${mediumActivity}</td>
+                        <td colspan=1 height=46 class=xl70 width=170>${mediumDevelop}</td>
+                    </tr>
                 </table>
             </div>
         </div>

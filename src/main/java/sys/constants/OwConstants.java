@@ -262,4 +262,15 @@ public class OwConstants {
         OW_APPLY_APPROVAL_LOG_STATUS_MAP.put(OW_APPLY_APPROVAL_LOG_STATUS_BACK, "退回");
         OW_APPLY_APPROVAL_LOG_STATUS_MAP.put(OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "-");
     }
+
+    // 校编教工
+    public final static byte OW_STAT_JZG_FORMATION = 0;
+    // 专任教师
+    public final static byte OW_STAT_JZG_SPECIALLY = 1;
+    public final static Map<Byte, String> OW_STAT_JZG_IDENTYTI_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_STAT_JZG_IDENTYTI_MAP.put(OW_STAT_JZG_FORMATION, "校编教工");
+        OW_STAT_JZG_IDENTYTI_MAP.put(OW_STAT_JZG_SPECIALLY, "专任教师");
+    }
 }

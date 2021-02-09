@@ -91,7 +91,8 @@
     <select id="memberApply_teacherSort" resultType="bean.StatByteBean" parameterType="map">
         select count(*) as num, t.is_full_time_teacher as groupBy from ow_member_apply_view ow
         left join sys_teacher_info t on t.user_id=ow.user_id
-        where ow.member_status=1 and ow.is_remove=0
+        LEFT JOIN sys_user_info u ON u.user_id = t.user_id
+        where ow.member_status=1 and ow.is_remove=0 and ow.type = 1
         <if test="stage!=null">
             and ow.stage =#{stage}
         </if>
@@ -103,6 +104,22 @@
         </if>
         <if test="branchId!=null">
             and ow.branch_id =#{branchId}
+        </if>
+        <if test="gender!=null">
+            and u.gender =#{gender}
+        </if>
+        group by groupBy
+    </select>
+
+    <!--    教工人数统计（按is_full_time_teacher是否专任教师分类）-->
+    <select id="member_teacherCount" resultType="bean.StatByteBean" parameterType="map">
+        SELECT COUNT(*) AS num,IFNULL(t.is_full_time_teacher, 0) as groupBy FROM sys_user_view u
+        LEFT join sys_teacher_info t ON u.id = t.user_id WHERE u.locked = 0 and u.type = 1
+        <if test="proPostLevel!=null">
+            and t.pro_post_level = #{proPostLevel}
+        </if>
+        <if test="gender!=null">
+            and u.gender = #{gender}
         </if>
         group by groupBy
     </select>
