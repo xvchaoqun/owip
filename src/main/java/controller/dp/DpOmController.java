@@ -5,6 +5,7 @@ import domain.base.MetaType;
 import domain.dp.*;
 import domain.dp.DpOmExample.Criteria;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -174,7 +175,6 @@ public class DpOmController extends DpBaseController {
     @ResponseBody
     public Map do_dpOm_au(DpOm record,
                           @CurrentUser SysUserView loginUser,
-                          String workTime,
                           String transferTime,
                           HttpServletRequest request) {
 
@@ -186,9 +186,6 @@ public class DpOmController extends DpBaseController {
             return failed("添加重复");
         }
 
-        if (StringUtils.isNotBlank(workTime)){
-            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYYMMDD_DOT));
-        }
         if (StringUtils.isNotBlank(transferTime)){
             record.setTransferTime(DateUtils.parseDate(transferTime,DateUtils.YYYYMMDD_DOT));
         }
@@ -248,17 +245,9 @@ public class DpOmController extends DpBaseController {
                               String transferTime){
 
         if (null != ids && ids.length>0){
-            DpOmExample example = new DpOmExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            List<DpOm> dpOms = dpOmMapper.selectByExample(example);
-            for (DpOm dpOm : dpOms){
-                dpOm.setIsDeleted(true);
-                if (StringUtils.isNotBlank(transferTime)){
-                    dpOm.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD_DOT));
-                }
-                dpOmService.updateByPrimaryKeySelective(dpOm);
-                logger.info(log( LogConstants.LOG_DPPARTY, "撤销其他统战人员：{0}", dpOm.getUserId()));
-            }
+
+            dpOmService.cancel(ids, transferTime);
+            logger.info(log( LogConstants.LOG_DPPARTY, "撤销其他统战人员：{0}", StringUtils.join(ids, ",")));
 
         }
 
@@ -330,17 +319,12 @@ public class DpOmController extends DpBaseController {
             }
             record.setUserId(uv.getUserId());
             int col = 2;
-            record.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setUnitPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setSchool(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
             String _type = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType type = CmTag.getMetaTypeByName("mc_dp_other_type",_type);
             if (type == null) {
                 record.setType(null);
-                //throw new OpException("第{0}列党总支类别[{1}]不存在", col, _type);
+                //throw new OpException("第{0}列党组织类别[{1}]不存在", col, _type);
             }else {
                 record.setType(type.getId());
             }

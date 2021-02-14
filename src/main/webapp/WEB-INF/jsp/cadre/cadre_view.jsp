@@ -32,14 +32,16 @@
         <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">
             <ul class="nav nav-tabs" data-target="#tab-content">
-                <shiro:hasPermission name="cadreAdform:*">
-                    <li class="${to=='cadreAdform_page'?'active':''}">
-                        <a href="javascript:;"
-                           data-url="${ctx}/cadreAdform_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部任免审批表</a>
-                    </li>
-                </shiro:hasPermission>
+                <c:if test="${empty param.isDp}">
+                    <shiro:hasPermission name="cadreAdform:*">
+                        <li class="${to=='cadreAdform_page'?'active':''}">
+                            <a href="javascript:;"
+                               data-url="${ctx}/cadreAdform_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部任免审批表</a>
+                        </li>
+                    </shiro:hasPermission>
+                </c:if>
                 <li class="${to=='cadre_base'?'active':''}">
-                    <a href="javascript:;" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
+                    <a href="javascript:;" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&isDp=${param.isDp}">基本信息</a>
                 </li>
                 <shiro:hasPermission name="cadreEdu:*">
                     <li class="${to=='cadreEdu_page'?'active':''}">
@@ -133,33 +135,41 @@
                            data-url="${ctx}/cadreEvaResult?cadreId=${param.cadreId}&_auth=${param._auth}">年终考核测评结果</a>
                     </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreInfo:check">
-                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                    <li class="${to=='cadreInfoCheck_table'?'active':''}">
+                <c:if test="${param.isDp==1}">
+                    <li class="${to=='dp/dpInfoForm_page'?'active':''}">
                         <a href="javascript:;"
-                           data-url="${ctx}/cadreInfoCheck_table?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息完整性校验表</a>
+                           data-url="${ctx}/dp/dpInfoForm_page?userId=${param.userId}">基本情况登记表</a>
                     </li>
-                    </shiro:lacksPermission>
-                </shiro:hasPermission>
+                </c:if>
+                <c:if test="${empty param.isDp}">
+                    <shiro:hasPermission name="cadreInfo:check">
+                        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                        <li class="${to=='cadreInfoCheck_table'?'active':''}">
+                            <a href="javascript:;"
+                               data-url="${ctx}/cadreInfoCheck_table?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息完整性校验表</a>
+                        </li>
+                        </shiro:lacksPermission>
+                    </shiro:hasPermission>
 
-                <shiro:hasPermission name="cadreInfoForm:*">
-                    <li>
-                        <a href="javascript:;"
-                           data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
-                    </li>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="cadreInfoForm2:*">
-                    <li>
-                        <a href="javascript:;"
-                           data-url="${ctx}/cadreInfoForm2_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息表</a>
-                    </li>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="cadreInfoFormSimple:*">
-                    <li>
-                        <a href="javascript:;"
-                           data-url="${ctx}/cadreInfoFormSimple_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息表(简版)</a>
-                    </li>
-                </shiro:hasPermission>
+                    <shiro:hasPermission name="cadreInfoForm:*">
+                        <li>
+                            <a href="javascript:;"
+                               data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
+                        </li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="cadreInfoForm2:*">
+                        <li>
+                            <a href="javascript:;"
+                               data-url="${ctx}/cadreInfoForm2_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息表</a>
+                        </li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="cadreInfoFormSimple:*">
+                        <li>
+                            <a href="javascript:;"
+                               data-url="${ctx}/cadreInfoFormSimple_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息表(简版)</a>
+                        </li>
+                    </shiro:hasPermission>
+                </c:if>
                 <%--<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                     <li>
 

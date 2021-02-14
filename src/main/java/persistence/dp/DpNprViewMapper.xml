@@ -4,25 +4,25 @@
   <resultMap id="BaseResultMap" type="domain.dp.DpNprView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="work_time" jdbcType="DATE" property="workTime" />
     <result column="unit_post" jdbcType="VARCHAR" property="unitPost" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="transfer_time" jdbcType="DATE" property="transferTime" />
-    <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="degree" jdbcType="VARCHAR" property="degree" />
-    <result column="school" jdbcType="VARCHAR" property="school" />
-    <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
-    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
@@ -85,9 +85,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, work_time, unit_post, type, level, is_deleted, transfer_time, education, 
-    degree, school, major, sort_order, remark, party_id, dp_grow_time, unit, gender, 
-    birth, nation, native_place, mobile, phone
+    id, user_id, unit_post, type, level, is_deleted, transfer_time, sort_order, remark, 
+    party_id, dp_grow_time, work_time, education, degree, school, major, gender, birth, 
+    nation, native_place, unit, mobile, phone
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpNprViewExample" resultMap="BaseResultMap">
     select
@@ -110,21 +110,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dp.DpNprView">
-    insert into dp_npr_view (id, user_id, work_time, 
-      unit_post, type, level, 
-      is_deleted, transfer_time, education, 
-      degree, school, major, 
-      sort_order, remark, party_id, 
-      dp_grow_time, unit, gender, 
-      birth, nation, native_place, 
+    insert into dp_npr_view (id, user_id, unit_post, 
+      type, level, is_deleted, 
+      transfer_time, sort_order, remark, 
+      party_id, dp_grow_time, work_time, 
+      education, degree, school, 
+      major, gender, birth, 
+      nation, native_place, unit, 
       mobile, phone)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{workTime,jdbcType=DATE}, 
-      #{unitPost,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=BIT}, #{transferTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
-      #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
-      #{dpGrowTime,jdbcType=DATE}, #{unit,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{unitPost,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, 
+      #{transferTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{partyId,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, 
+      #{education,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
+      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpNprView">
@@ -135,9 +135,6 @@
       </if>
       <if test="userId != null">
         user_id,
-      </if>
-      <if test="workTime != null">
-        work_time,
       </if>
       <if test="unitPost != null">
         unit_post,
@@ -154,18 +151,6 @@
       <if test="transferTime != null">
         transfer_time,
       </if>
-      <if test="education != null">
-        education,
-      </if>
-      <if test="degree != null">
-        degree,
-      </if>
-      <if test="school != null">
-        school,
-      </if>
-      <if test="major != null">
-        major,
-      </if>
       <if test="sortOrder != null">
         sort_order,
       </if>
@@ -178,8 +163,20 @@
       <if test="dpGrowTime != null">
         dp_grow_time,
       </if>
-      <if test="unit != null">
-        unit,
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="major != null">
+        major,
       </if>
       <if test="gender != null">
         gender,
@@ -192,6 +189,9 @@
       </if>
       <if test="nativePlace != null">
         native_place,
+      </if>
+      <if test="unit != null">
+        unit,
       </if>
       <if test="mobile != null">
         mobile,
@@ -206,9 +206,6 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="workTime != null">
-        #{workTime,jdbcType=DATE},
       </if>
       <if test="unitPost != null">
         #{unitPost,jdbcType=VARCHAR},
@@ -225,18 +222,6 @@
       <if test="transferTime != null">
         #{transferTime,jdbcType=DATE},
       </if>
-      <if test="education != null">
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="degree != null">
-        #{degree,jdbcType=VARCHAR},
-      </if>
-      <if test="school != null">
-        #{school,jdbcType=VARCHAR},
-      </if>
-      <if test="major != null">
-        #{major,jdbcType=VARCHAR},
-      </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -249,8 +234,20 @@
       <if test="dpGrowTime != null">
         #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="unit != null">
-        #{unit,jdbcType=VARCHAR},
+      <if test="workTime != null">
+        #{workTime,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -263,6 +260,9 @@
       </if>
       <if test="nativePlace != null">
         #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
@@ -287,9 +287,6 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.workTime != null">
-        work_time = #{record.workTime,jdbcType=DATE},
-      </if>
       <if test="record.unitPost != null">
         unit_post = #{record.unitPost,jdbcType=VARCHAR},
       </if>
@@ -305,18 +302,6 @@
       <if test="record.transferTime != null">
         transfer_time = #{record.transferTime,jdbcType=DATE},
       </if>
-      <if test="record.education != null">
-        education = #{record.education,jdbcType=VARCHAR},
-      </if>
-      <if test="record.degree != null">
-        degree = #{record.degree,jdbcType=VARCHAR},
-      </if>
-      <if test="record.school != null">
-        school = #{record.school,jdbcType=VARCHAR},
-      </if>
-      <if test="record.major != null">
-        major = #{record.major,jdbcType=VARCHAR},
-      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -329,8 +314,20 @@
       <if test="record.dpGrowTime != null">
         dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.unit != null">
-        unit = #{record.unit,jdbcType=VARCHAR},
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=DATE},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
       </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
@@ -343,6 +340,9 @@
       </if>
       <if test="record.nativePlace != null">
         native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -359,25 +359,25 @@
     update dp_npr_view
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      work_time = #{record.workTime,jdbcType=DATE},
       unit_post = #{record.unitPost,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       level = #{record.level,jdbcType=INTEGER},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       transfer_time = #{record.transferTime,jdbcType=DATE},
-      education = #{record.education,jdbcType=VARCHAR},
-      degree = #{record.degree,jdbcType=VARCHAR},
-      school = #{record.school,jdbcType=VARCHAR},
-      major = #{record.major,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=INTEGER},
       dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
-      unit = #{record.unit,jdbcType=VARCHAR},
+      work_time = #{record.workTime,jdbcType=DATE},
+      education = #{record.education,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       nation = #{record.nation,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR}
     <if test="_parameter != null">

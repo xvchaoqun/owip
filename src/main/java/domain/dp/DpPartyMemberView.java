@@ -47,8 +47,6 @@ public class DpPartyMemberView implements Serializable {
 
     private Boolean isDpPartyDeleted;
 
-    private String unit;
-
     private String mobile;
 
     private String email;
@@ -181,14 +179,6 @@ public class DpPartyMemberView implements Serializable {
 
     public void setIsDpPartyDeleted(Boolean isDpPartyDeleted) {
         this.isDpPartyDeleted = isDpPartyDeleted;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
     }
 
     public String getMobile() {

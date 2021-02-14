@@ -24,14 +24,11 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                     <c:if test="${cls==1}">
-                            <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                               data-url="${ctx}/dp/dpParty_cancel" data-title="移除民主党派"
-                               data-msg="确定移除这{0}个民主党派吗？"><i class="fa fa-minus-square"></i> 移除</a>
-                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                            data-url="${ctx}/dp/dpParty_import"
-                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                        批量导入
-                    </button>
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                data-url="${ctx}/dp/dpParty_import"
+                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                            批量导入
+                        </button>
                     </c:if>
                     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                             data-url="${ctx}/dp/dpParty_data"
@@ -56,21 +53,28 @@ pageEncoding="UTF-8" %>
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/dp/dpParty_batchDel"
                            data-querystr="isDeleted=0"
-                           data-title="恢复已移除民主党派"
+                           data-title="恢复已撤销民主党派"
                            data-msg="确定恢复这{0}个民主党派吗？"><i class="fa fa-reply"></i> 恢复</a>
                     </shiro:hasPermission>
                 </c:if>
-                <shiro:hasPermission name="dpParty:del">
+                <c:if test="${cls==1}">
+                    <shiro:hasPermission name="dpParty:edit">
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpParty_cancel" data-title="撤销民主党派"
+                           data-msg="确定撤销这{0}个民主党派吗？"><i class="fa fa-history"></i> 撤销</a>
+                    </shiro:hasPermission>
+                </c:if>
+                <%--<shiro:hasPermission name="dpParty:del">
                     <button data-url="${ctx}/dp/dpParty_del"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="仅删除民主党派，确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
                 <c:if test="${cls==1}">
-                    【注：移除操作将删除其下所有的委员会和相关管理员权限，请谨慎操作！】
+                    【注：撤销操作将删除其下所有的委员会和相关管理员权限，请谨慎操作！】
                 </c:if>
                 <c:if test="${cls==2}">
                     【注：恢复操作之后需要重新设置委员会及相关管理员权限！】
@@ -184,7 +188,7 @@ pageEncoding="UTF-8" %>
             </c:if>
             </shiro:hasPermission>
             <c:if test="${cls==2}">
-            {label: '移除时间', name: 'deleteTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '撤销时间', name: 'deleteTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             {label: '成员总数', name: 'memberCount', width: 80, formatter: function (cellvalue, option, rowObject) {
                     <shiro:hasPermission name="dpMember:list">
@@ -223,10 +227,10 @@ pageEncoding="UTF-8" %>
             {label: '党派简称', name: 'shortName', width: 180},
             {label: '民族党派类别', name: 'classId', width:300, formatter: $.jgrid.formatter.MetaType},
             {label: '联系电话', name: 'phone'},
-            {label: '邮箱', name: 'email'},
+            {label: '邮箱', name: 'email', width: 160},
             {label: '信箱', name: 'mailbox'},
             {label: '成立时间', name: 'foundTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '备注', name: 'remark', width: 180}
+            {label: '备注', name: 'remark', width: 200}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

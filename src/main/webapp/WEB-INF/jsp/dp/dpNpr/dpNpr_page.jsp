@@ -26,11 +26,11 @@ pageEncoding="UTF-8" %>
                 <c:if test="${cls==1}">
                     <shiro:hasPermission name="dpNpr:del">
                     <button data-url="${ctx}/dp/dpNpr_cancel"
-                            data-title="移除"
-                            data-msg="确定移除这{0}条数据？"
+                            data-title="撤销"
+                            data-msg="确定撤销这{0}条数据？"
                             data-grid-id="#jqGrid"
                             class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-minus-square"></i> 移除
+                        <i class="fa fa-history"></i> 撤销
                     </button>
                     </shiro:hasPermission>
                 </c:if>
@@ -147,12 +147,12 @@ pageEncoding="UTF-8" %>
                             </div>
                             <c:if test="${cls==2}">
                             <div class="form-group">
-                                <label>移除时间</label>
-                                <div class="input-group tooltip-success" data-rel="tooltip" title="移除时间范围">
+                                <label>撤销时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="撤销时间范围">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                     </span>
-                                    <input placeholder="请选择移除时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="transferTime" value="${param.transferTime}"/>
+                                    <input placeholder="请选择撤销时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="transferTime" value="${param.transferTime}"/>
                                 </div>
                             </div>
                             </c:if>
@@ -240,7 +240,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dp/dpNpr_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '工作证号',name: 'user.code',width: 120,sortable:true,frozen:true},
+            { label: '工作证号',name: 'user.code',width: 120,frozen:true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.userId > 0 && $.trim(cellvalue) != '')
@@ -250,13 +250,13 @@ pageEncoding="UTF-8" %>
                 }, frozen: true
             },
                 <c:if test="${cls==2}">
-                { label: '移除时间',name: 'transferTime',width:120,sortable:true,
+                { label: '撤销时间',name: 'transferTime',width:120,
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}},
                 </c:if>
                 { label: '性别', name: 'gender', formatter:$.jgrid.formatter.GENDER},
                 { label: '民族', name: 'nation'},
-                { label: '出生时间', name :'birth', width: 120,sortable: true,
+                { label: '出生时间', name :'birth', width: 120,
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}},
             {
@@ -269,17 +269,17 @@ pageEncoding="UTF-8" %>
                         return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";
-                }, sortable: true
+                }
             },
-                { label: '加入党派时间',name: 'dpGrowTime',width:120,sortable:true,
+                { label: '加入党派时间',name: 'dpGrowTime',width:120,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
-                { label: '参加工作时间',name: 'workTime',width:120,sortable:true,
+                { label: '参加工作时间',name: 'workTime',width:120,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
                 { label: '部门',name: 'unit', width: 200},
-                { label: '所属单位职务',name: 'unitPost',width:120,sortable:true},
-                { label: '所属类别',name: 'type',width:280,sortable:true,formatter: $.jgrid.formatter.MetaType},
+                { label: '所在单位及职务',name: 'unitPost',width:120,},
+                { label: '所属类别',name: 'type',width:280,formatter: $.jgrid.formatter.MetaType},
                 { label: '所属级别',name: 'level',formatter: $.jgrid.formatter.MetaType},
             {
                 label: '人大代表、政协委员', name: 'types', width: 270, formatter: function (cellvalue, options, rowObject) {

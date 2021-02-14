@@ -15,7 +15,7 @@ import java.io.IOException;
 @RequestMapping("/dp")
 public class DpInfoFormController extends DpBaseController {
 
-    @RequiresPermissions("cadreInfoForm:list")
+    @RequiresPermissions("dpInfoForm:list")
     @RequestMapping("/dpInfoForm_page")
     public String dpInfoForm_page(Integer userId, ModelMap modelMap) {
 

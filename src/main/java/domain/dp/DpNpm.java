@@ -21,16 +21,6 @@ public class DpNpm implements Serializable {
 
     private String post;
 
-    private String education;
-
-    private String degree;
-
-    private String authorizedType;
-
-    private String proPost;
-
-    private String unit;
-
     private Byte status;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
@@ -75,46 +65,6 @@ public class DpNpm implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getAuthorizedType() {
-        return authorizedType;
-    }
-
-    public void setAuthorizedType(String authorizedType) {
-        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
-    }
-
-    public String getProPost() {
-        return proPost;
-    }
-
-    public void setProPost(String proPost) {
-        this.proPost = proPost == null ? null : proPost.trim();
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
     }
 
     public Byte getStatus() {

@@ -177,21 +177,18 @@ public class DpPartyMemberService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPartyMember:ALL", allEntries = true)
     public int insertSelective(DpPartyMember record, boolean autoAdmin){
 
         record.setIsAdmin(autoAdmin);
-        record.setSortOrder(getNextSortOrder("dp_party_member", "group_id=" + record.getGroupId()));
+        record.setSortOrder(getNextSortOrder("dp_party_member", "group_id=" + record.getGroupId() + " and present_member=1"));
         dpPartyMemberMapper.insertSelective(record);
         if(!autoAdmin){
-            // 删除账号的"民主党派管理员"角色
             // 如果他只是该民主党派的管理员，则删除账号所属的"民主党派管理员"角色； 否则不处理
             List<Integer> partyIdList = iDpPartyMapper.adminDpPartyIdList(record.getUserId());
             if(partyIdList.size()==0) {
                 sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_DP_PARTY);
             }
         }else{
-            // 添加账号的"民主党派管理员"角色
             // 如果账号是现任委员会的管理员， 且没有"民主党派管理员"角色，则添加
             SysUserView sysUser = sysUserService.findById(record.getUserId());
             if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_DP_PARTY)) {
@@ -199,14 +196,13 @@ public class DpPartyMemberService extends DpBaseMapper {
             }
         }
 
-        if (autoAdmin) {
+        /*if (autoAdmin) {
             dpPartyMemberAdminService.toggleAdmin(record);
-        }
+        }*/
         return 1;
     }
 
     @Transactional
-    @CacheEvict(value="DpPartyMember:ALL", allEntries = true)
     public void del(Integer[] ids){
 
         if (ids == null || ids.length == 0)return;
@@ -258,7 +254,6 @@ public class DpPartyMemberService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPartyMember:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpPartyMember record, boolean autoAdmin){
         DpPartyMember old = dpPartyMemberMapper.selectByPrimaryKey(record.getId());
         record.setIsAdmin(old.getIsAdmin());
@@ -267,10 +262,8 @@ public class DpPartyMemberService extends DpBaseMapper {
         dpPartyMemberMapper.updateByPrimaryKeySelective(record);
 
         //如果以前不是管理员，但是选择的类别是自动设定为管理员
-        if (!record.getIsAdmin() && autoAdmin){
-            record.setUserId(old.getUserId());
-            record.setGroupId(old.getGroupId());
-            dpPartyMemberAdminService.toggleAdmin(record);
+        if (autoAdmin){
+            dpPartyMemberAdminService.setPartyAdmin(old.getId(), true);
         }
 
         if (record.getTypeIds() == null){
@@ -278,7 +271,6 @@ public class DpPartyMemberService extends DpBaseMapper {
         }
     }
 
-    @Cacheable(value="DpPartyMember:ALL")
     public Map<Integer, DpPartyMember> findAll() {
 
         DpPartyMemberExample example = new DpPartyMemberExample();
@@ -308,7 +300,6 @@ public class DpPartyMemberService extends DpBaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DpPartyMember:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;

@@ -11,7 +11,7 @@
                 </h4>
                 <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">${dpParty.name}</span>
                 <div class="widget-toolbar no-border">
-                    <ul class="nav nav-tabs" data-target="#dp-party-content">
+                    <ul class="nav nav-tabs" data-target="#dp-party-content" id="flush-dpParty-base">
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/dp/dpParty_base?id=${param.id}">基本信息</a>
                         </li>

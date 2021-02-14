@@ -1,6 +1,7 @@
 package service.dp;
 
 import controller.global.OpException;
+import domain.dp.DpMember;
 import domain.dp.DpNpm;
 import domain.dp.DpNpmExample;
 import domain.sys.SysUserView;
@@ -12,18 +13,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.sys.SysUserService;
+import sys.constants.DpConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DpNpmService extends DpBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private DpMemberService dpMemberService;
 
     public boolean idDuplicate(Integer id, Integer userId){
 
@@ -86,23 +89,22 @@ public class DpNpmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpNpm:ALL", allEntries = true)
     public void insertSelective(DpNpm record){
 
-        Assert.isTrue(!idDuplicate(null, record.getUserId()), "duplicate");
+        int userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+
         record.setSortOrder(getNextSortOrder("dp_npm", null));
         dpNpmMapper.insertSelective(record);
     }
 
     @Transactional
-    @CacheEvict(value="DpNpm:ALL", allEntries = true)
     public void del(Integer id){
 
         dpNpmMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="DpNpm:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -113,14 +115,47 @@ public class DpNpmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpNpm:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpNpm record){
-        if(record.getTransferTime() != null)
-            Assert.isTrue(!idDuplicate(record.getId(), record.getUserId()), "duplicate");
+
+        int userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+        
         dpNpmMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpNpm:ALL")
+    @Transactional
+    public void transferNpm(Integer[] ids, Integer partyId, String transferTime){
+
+        Date _transferTime = DateUtils.parseDate(transferTime);
+        for (Integer id : ids) {
+
+            dpNpmMapper.deleteByPrimaryKey(id);
+
+            //转为某民主党派成员
+            DpMember dpMemberAdd = dpMemberMapper.selectByPrimaryKey(id);
+            if (dpMemberAdd != null ){
+                dpMemberAdd.setPartyId(partyId);
+                dpMemberAdd.setSource(DpConstants.DP_MEMBER_SOURCE_NPM_TRAN);
+                dpMemberAdd.setDpGrowTime(_transferTime);
+                sysUserService.addRole(id, RoleConstants.ROLE_DP_MEMBER);
+
+                dpMemberService.updateByPrimaryKeySelective(dpMemberAdd);
+            }else {
+                DpMember dpMember = new DpMember();
+                dpMember.setUserId(id);
+                dpMember.setPartyId(partyId);
+                dpMember.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
+                dpMember.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
+                dpMember.setSource(DpConstants.DP_MEMBER_SOURCE_NPM_TRAN);
+                dpMember.setDpGrowTime(_transferTime);
+
+                dpMemberService.add(dpMember);
+            }
+
+        }
+
+    }
+
     public Map<Integer, DpNpm> findAll() {
 
         DpNpmExample example = new DpNpmExample();
@@ -140,7 +175,6 @@ public class DpNpmService extends DpBaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DpNpm:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("dp_npm", null, ORDER_BY_DESC, id, addNum);

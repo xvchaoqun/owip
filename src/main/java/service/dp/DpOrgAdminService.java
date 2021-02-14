@@ -24,7 +24,6 @@ public class DpOrgAdminService extends DpBaseMapper {
     private SysUserService sysUserService;
 
     @Transactional
-    @CacheEvict(value="AdminDpPartyIdList", key = "#userId")
     public int addDpPartyAdmin(int userId, int partyId){
 
         Assert.isTrue(!idDuplicate(null, userId, partyId), "duplicate");
@@ -62,10 +61,6 @@ public class DpOrgAdminService extends DpBaseMapper {
     }
 
     @Transactional
-    @Caching(evict= {
-            @CacheEvict(value = "AdminDpPartyIdList", key = "#userId"),
-            @CacheEvict(value = "AdminDpPartyIdList", key = "#userId")
-    })
     public void del(Integer id, int userId){
 
         DpOrgAdmin dpOrgAdmin = dpOrgAdminMapper.selectByPrimaryKey(id);

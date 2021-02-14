@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
 <c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
 <c:set var="DP_MEMBER_TYPE_TEACHER" value="<%=DpConstants.DP_MEMBER_TYPE_TEACHER%>"/>
 <c:set var="DP_MEMBER_STATUS_NORMAL" value="<%=DpConstants.DP_MEMBER_STATUS_NORMAL%>"/>
-<c:set var="DP_MEMBER_STATUS_TRANSFER" value="<%=DpConstants.DP_MEMBER_STATUS_TRANSFER%>"/>
+<c:set var="DP_MEMBER_STATUS_OUT" value="<%=DpConstants.DP_MEMBER_STATUS_OUT%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv " data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -34,8 +34,8 @@ pageEncoding="UTF-8" %>
                 <c:if test="${cls!=7}">
                     <shiro:hasPermission name="dpMember:del">
                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpMember_out" data-title="移除民主党派"
-                           data-msg="确定移除这{0}个党派成员吗？"><i class="fa fa-minus-square"></i> 移除</a>
+                           data-url="${ctx}/dp/dpMember_out" data-title="退出民主党派"
+                           data-msg="确定退出这{0}个党派成员吗？"><i class="fa fa-history"></i> 退出</a>
                     </shiro:hasPermission>
                 <shiro:hasPermission name="dpMember:edit">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
@@ -56,9 +56,11 @@ pageEncoding="UTF-8" %>
                 </c:if>--%>
                 <c:if test="${cls==7}">
                     <shiro:hasPermission name="dpMember:del">
-                        <a class="jqBatchBtn btn btn-success btn-sm"
+                        <button class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/dp/dpMember_recover" data-title="恢复党派成员身份"
-                           data-msg="确定恢复这{0}个党派成员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
+                           data-grid-id="#jqGrid"
+                           data-callback="_dp_reload"
+                           data-msg="确定恢复这{0}个党派成员身份吗？"><i class="fa fa-reply"></i> 恢复</button>
                     </shiro:hasPermission>
                 </c:if>
                 <shiro:hasPermission name="dpMember:del">
@@ -66,6 +68,7 @@ pageEncoding="UTF-8" %>
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
+                            data-callback="_dp_reload"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
@@ -95,7 +98,7 @@ pageEncoding="UTF-8" %>
                                     <c:set var="_status" value="${DP_MEMBER_STATUS_NORMAL}"/>
                                 </c:if>
                                 <c:if test="${cls==6 || cls==7}">
-                                    <c:set var="_status" value="${DP_MEMBER_STATUS_TRANSFER}"/>
+                                    <c:set var="_status" value="${DP_MEMBER_STATUS_OUT}"/>
                                 </c:if>
                                 <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/dp/dpMember_selects?type=${_type}&status=${_status}"
@@ -259,6 +262,9 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    function _dp_reload(){
+        $("#page-content").loadPage("${ctx}/dp/dpMember?cls=${cls}");
+    }
 
     //同步干部档案表信息至统战模块
     var interval = null;
@@ -329,8 +335,8 @@ pageEncoding="UTF-8" %>
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.userId > 0 && $.trim(cellvalue) != '')
-                            return '<a href="javascript:;" class="openView" data-url="{2}/dp/dpMember_view?userId={0}">{1}</a>'
-                                .format(rowObject.userId, cellvalue, ctx);
+                            return '<a href="javascript:;" class="openView" data-url="{0}/cadre_view?cadreId={1}&isDp=1&userId={2}">{3}</a>'
+                                .format(ctx, rowObject.cadre.id, rowObject.userId, cellvalue);
                         return $.trim(cellvalue);
                 }, frozen: true
             },
@@ -345,7 +351,7 @@ pageEncoding="UTF-8" %>
             {label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 140},
-            {label: '出生时间', name :'birth', width: 120,sortable: true,
+            {label: '出生时间', name :'birth', width: 120,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'birth', width: 55, formatter: function (cellvalue, options, rowObject) {
@@ -353,7 +359,7 @@ pageEncoding="UTF-8" %>
                     return $.yearOffNow(cellvalue);
                 },},
             {
-                label: '所属党派', name: 'dpParty.name', width: 200, formatter: function (cellvalue, options, rowObject) {
+                label: '所属党派', name: 'dpParty.name', width: 350, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
@@ -362,20 +368,18 @@ pageEncoding="UTF-8" %>
                         return '<span class="{0}">{1}</span>'.format(rowObject.dpParty.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";
-                }, sortable: true
+                }
             },
             {label: '部门', name: 'unit', width: 200},
             {label: '党派内职务', name: 'dpPost', width: 180},
-            {label: '兼职（其他校外职务）', name: 'partTimeJob', width: 180},
+            /*{label: '兼职（其他校外职务）', name: 'partTimeJob', width: 180},
             {label: '行政职务', name: 'post', width: 180},
-            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
-            {label: '职称', name: 'proPost'},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},*/
             {label: '是否是共产党员', name: 'isPartyMember', width: 120, formatter:$.jgrid.formatter.TRUEFALSE},
             {
                 label: '加入党派时间',
                 name: 'dpGrowTime',
                 width: 120,
-                sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
@@ -393,20 +397,28 @@ pageEncoding="UTF-8" %>
                     return typeIdStrs.join(",");
                 }
             },
-            {label: '培训情况', name: 'trainState', width: 200},
+            {label: '编制类别', name: 'authorizedType'},
+            {label: '专业技术职务', name: 'proPost'},
+            {
+                label: '参加工作时间',
+                name: 'workTime',
+                width: 120,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m.d'}
+            },
+            /*{label: '培训情况', name: 'trainState', width: 200},
             {label: '政治表现', name: 'politicalAct', width: 200},
             {label: '党内奖励', name: 'partyReward', width: 200},
             {label: '其他奖励', name: 'otherReward', width: 200},
-            {label: '通讯地址', name: 'address', width: 200},
-            <c:if test="${cls==2 || cls==7}">
             {label: '学历', name: 'edu', width: 120},
-            {label: '学位', name: 'degree', width: 120},
+            {label: '学位', name: 'degree', width: 120},*/
+            {label: '最高学历', name: 'highEdu', width: 120},
+            {label: '最高学位', name: 'highDegree', width: 120},
+            {label: '通讯地址', name: 'address', width: 200},
             {label: '联系手机', name: 'mobile', width: 120},
-            </c:if>
             {label: '邮箱', name: 'email'},
             <c:if test="${cls==3||cls==7}">
-            {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            /*{label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},*/
+                {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             {label: '备注', name: 'remark', width: 200},
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}

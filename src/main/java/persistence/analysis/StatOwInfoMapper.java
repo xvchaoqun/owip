@@ -58,4 +58,12 @@ public interface StatOwInfoMapper {
     List<StatByteBean> member_teacherCount(@Param("proPostLevel") String proPostLevel,
                                            @Param("gender")Byte gender);
 
+    //统计全校党支部的数量
+    @Select("SELECT count(distinct bm.branch_id) from ow_branch_member_view bm " +
+            "LEFT JOIN ow_branch b on bm.branch_id=b.id " +
+            "WHERE bm.pro_post_level REGEXP #{proPostLevel}  and bm.party_id=#{partyId} and b.types=#{types}")
+    int branchCount_getByLevel(@Param("types")Byte types,
+                               @Param("proPostLevel") String proPostLevel,
+                               @Param("partyId") Integer partyId);
+
 }

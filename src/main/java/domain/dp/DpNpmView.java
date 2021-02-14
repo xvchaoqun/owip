@@ -1,5 +1,6 @@
 package domain.dp;
 
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
 import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
@@ -8,6 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DpNpmView implements Serializable {
+
+    public Cadre getCadre(){
+        return CmTag.getCadre(userId);
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -20,16 +26,6 @@ public class DpNpmView implements Serializable {
 
     private String post;
 
-    private String education;
-
-    private String degree;
-
-    private String authorizedType;
-
-    private String proPost;
-
-    private String unit;
-
     private Byte status;
 
     private Date outTime;
@@ -39,6 +35,8 @@ public class DpNpmView implements Serializable {
     private Integer sortOrder;
 
     private String remark;
+
+    private String unit;
 
     private Byte gender;
 
@@ -51,6 +49,16 @@ public class DpNpmView implements Serializable {
     private String mobile;
 
     private String phone;
+
+    private Date workTime;
+
+    private String authorizedType;
+
+    private String highEdu;
+
+    private String highDegree;
+
+    private String proPost;
 
     private static final long serialVersionUID = 1L;
 
@@ -84,46 +92,6 @@ public class DpNpmView implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getAuthorizedType() {
-        return authorizedType;
-    }
-
-    public void setAuthorizedType(String authorizedType) {
-        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
-    }
-
-    public String getProPost() {
-        return proPost;
-    }
-
-    public void setProPost(String proPost) {
-        this.proPost = proPost == null ? null : proPost.trim();
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
     }
 
     public Byte getStatus() {
@@ -164,6 +132,14 @@ public class DpNpmView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public Byte getGender() {
@@ -212,5 +188,45 @@ public class DpNpmView implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
+    public String getAuthorizedType() {
+        return authorizedType;
+    }
+
+    public void setAuthorizedType(String authorizedType) {
+        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
+    }
+
+    public String getHighEdu() {
+        return highEdu;
+    }
+
+    public void setHighEdu(String highEdu) {
+        this.highEdu = highEdu == null ? null : highEdu.trim();
+    }
+
+    public String getHighDegree() {
+        return highDegree;
+    }
+
+    public void setHighDegree(String highDegree) {
+        this.highDegree = highDegree == null ? null : highDegree.trim();
+    }
+
+    public String getProPost() {
+        return proPost;
+    }
+
+    public void setProPost(String proPost) {
+        this.proPost = proPost == null ? null : proPost.trim();
     }
 }

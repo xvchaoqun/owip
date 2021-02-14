@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -88,23 +89,19 @@ public class DpOmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpOm:ALL", allEntries = true)
     public void insertSelective(DpOm record){
 
-        Assert.isTrue(!idDuplicate(null, record.getUserId()), "duplicate");
         record.setSortOrder(getNextSortOrder("dp_om", null));
         dpOmMapper.insertSelective(record);
     }
 
     @Transactional
-    @CacheEvict(value="DpOm:ALL", allEntries = true)
     public void del(Integer id){
 
         dpOmMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="DpOm:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -115,14 +112,11 @@ public class DpOmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpOm:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpOm record){
-        if(StringUtils.isNotBlank(""))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getUserId()), "duplicate");
+
         dpOmMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpOm:ALL")
     public Map<Integer, DpOm> findAll() {
 
         DpOmExample example = new DpOmExample();
@@ -142,9 +136,20 @@ public class DpOmService extends DpBaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DpOm:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("dp_om", null, ORDER_BY_DESC, id, addNum);
+    }
+
+    @Transactional
+    public void cancel(Integer[] ids, String transferTime) {
+
+        DpOm dpOm = new DpOm();
+        dpOm.setIsDeleted(true);
+        dpOm.setTransferTime(DateUtils.parseStringToDate(transferTime));
+
+        DpOmExample example = new DpOmExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        dpOmMapper.updateByExampleSelective(dpOm, example);
     }
 }

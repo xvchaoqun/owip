@@ -14,22 +14,22 @@
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="dpPartyMember:del">
-                    <c:if test="${cls==1}">
-                    <button data-url="${ctx}/dp/dpPartyMember_cancel"
-                            data-title="移除"
-                            data-msg="确定移除这{0}条数据？"
-                            data-grid-id="#jqGrid2"
-                            class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-minus-square"></i> 移除
-                    </button>
-                    </c:if>
                     <c:if test="${cls==0}">
                         <button data-url="${ctx}/dp/dpPartyMember_recover"
                                 data-title="恢复"
                                 data-msg="确定恢复这{0}条数据？"
                                 data-grid-id="#jqGrid2"
                                 class="jqBatchBtn btn btn-success btn-sm">
-                            <i class="fa fa-history"></i> 恢复
+                            <i class="fa fa-reply"></i> 恢复
+                        </button>
+                    </c:if>
+                    <c:if test="${cls==1}">
+                        <button data-url="${ctx}/dp/dpPartyMember_cancel"
+                                data-title="撤销"
+                                data-msg="确定撤销这{0}条数据？"
+                                data-grid-id="#jqGrid2"
+                                class="jqOpenViewBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-history"></i> 撤销
                         </button>
                     </c:if>
                     <button data-url="${ctx}/dp/dpPartyMember_del"
@@ -66,7 +66,7 @@
             },
              <shiro:hasPermission name="dpPartyMember:edit">
             <c:if test="${cls!=1}">
-            { label: '移除时间',name: 'deleteTime',width:120,sortable:true,
+            { label: '撤销时间',name: 'deleteTime',width:120,sortable:true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             </c:if>

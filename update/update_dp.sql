@@ -1,4 +1,12 @@
 
+
+-- 2021.1.25 ly
+DELETE FROM `base_meta_type` WHERE `id`=673;
+ALTER TABLE `dp_party_member`
+	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `office_phone`,
+	CHANGE COLUMN `present_member` `present_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否现任委员' AFTER `sort_order`;
+-- 更新dp_member_view
+
 -- 2020.10.19 ly 角色
 INSERT INTO `sys_role` (`id`, `code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES (75, 'dp_member', '民主党派成员', 1, '-1', '-1', NULL, 0, 0, 65, '');
 UPDATE `db_owip_bupt`.`sys_role` SET `name`='民主党派干部成员' WHERE  `id`=70;

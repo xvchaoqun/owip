@@ -22,11 +22,6 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 <c:if test="${status>=0}">
-                    <shiro:hasPermission name="dpPartyMemberGroup:del">
-                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="移除委员会"
-                           data-msg="确定移除这{0}个委员会吗？"><i class="fa fa-minus-square"></i> 移除</a>
-                    </shiro:hasPermission>
                     <shiro:hasPermission name="dpPartyMemberGroup:realDel">
                         <div class="btn-group">
                             <button data-toggle="dropdown"
@@ -57,7 +52,12 @@ pageEncoding="UTF-8" %>
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
                 <c:if test="${status>=0}">
-                    【注：移除操作将同时删除相关管理员，请谨慎操作！】
+                    <shiro:hasPermission name="dpPartyMemberGroup:del">
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="撤销委员会"
+                           data-msg="确定撤销这{0}个委员会吗？"><i class="fa fa-history"></i> 撤销</a>
+                    </shiro:hasPermission>
+                    【注：撤销操作将同时删除相关管理员，请谨慎操作！】
                 </c:if>
                 <c:if test="${status==-1}">
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
@@ -130,12 +130,12 @@ pageEncoding="UTF-8" %>
                             </div>
                             <c:if test="${status==-1}">
                             <div class="form-group">
-                                <label>移除时间</label>
-                                <div class="input-group tooltip-success" data-rel="tooltip" title="移除时间范围">
+                                <label>撤销时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="撤销时间范围">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar bigger-110"></i>
                                                                 </span>
-                                    <input placeholder="请选择移除时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                    <input placeholder="请选择撤销时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
                                            type="text" name="_actualTranTime" value="${param._actualTranTime}"/>
                                 </div>
                             </div>
@@ -242,7 +242,7 @@ pageEncoding="UTF-8" %>
             },
             <c:if test="${status==-1}">
             {
-                label: '移除时间',
+                label: '撤销时间',
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,

@@ -1,5 +1,60 @@
 
 
+-- 2021.1.26
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '宗教信仰', 'mt_dp_other_type_5', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '港澳台', 'mt_dp_other_type_4', NULL, '', '', 4, 1);
+
+DROP VIEW IF EXISTS `dp_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_member_view` AS
+select dm.*,sui.gender,sui.birth,sui.nation,sui.native_place,sui.unit,
+t.work_time,t.authorized_type,t.education as high_edu,t.degree as high_degree,
+if(isnull(t.is_retire), 0, t.is_retire) as is_retire,t.retire_time,t.is_honor_retire,
+cv.admin_level,cv.post,t.pro_post
+
+from dp_member dm left join dp_party dp on dp.id = dm.party_id
+left join sys_user_info sui on dm.user_id=sui.user_id
+left join sys_teacher_info t on t.user_id = dm.user_id
+LEFT JOIN cadre_view cv ON (cv.STATUS IN (1,6) AND cv.user_id=dm.user_id);
+
+DROP VIEW IF EXISTS `dp_party_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
+select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.is_deleted as is_dp_party_deleted,
+dm.mobile,dm.email
+from dp_party_member dpm
+join dp_party_member_group dpmg on dpmg.id=dpm.group_id
+left join dp_party dp on dp.id=dpmg.party_id
+LEFT join dp_member dm on dpm.user_id=dm.user_id;
+
+DROP VIEW IF EXISTS `dp_npm_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_npm_view` AS
+SELECT npm.*,sui.unit,
+sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone,
+t.work_time,t.authorized_type,t.education as high_edu,t.degree as high_degree,t.pro_post
+from dp_npm npm
+left join sys_user_info sui on sui.user_id=npm.user_id
+left join sys_teacher_info t on t.user_id = npm.user_id;
+
+DROP VIEW IF EXISTS `dp_om_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_om_view` AS
+SELECT om.*,m.party_id,m.dp_grow_time,
+t.work_time,t.education,t.degree,t.school,t.major,
+s.gender,s.birth,s.nation,s.native_place,s.unit,s.mobile,s.phone
+from dp_om om
+left join dp_member m on m.user_id=om.user_id
+left join sys_teacher_info t on t.user_id=om.user_id
+left join sys_user_info s on s.user_id=om.user_id;
+
+DROP VIEW IF EXISTS `dp_npr_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_npr_view` AS
+SELECT npr.*,m.party_id,m.dp_grow_time,
+t.work_time,t.education,t.degree,t.school,t.major,
+s.gender,s.birth,s.nation,s.native_place,s.unit,s.mobile,s.phone
+from dp_npr npr
+left join dp_member m on m.user_id=npr.user_id
+left join sys_teacher_info t on t.user_id=npr.user_id
+left join sys_user_info s on s.user_id=npr.user_id;
+
+
 
 -- 20191209 李阳
 DROP VIEW IF EXISTS `dp_pr_cm_view`;
@@ -44,7 +99,7 @@ LEFT JOIN cadre_view cv ON (cv.STATUS IN (1,6) AND cv.user_id=dm.user_id);
 
 DROP VIEW IF EXISTS `dp_party_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
-select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.is_deleted as is_dp_party_deleted,dm.unit,
+select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.is_deleted as is_dp_party_deleted,
 dm.mobile,dm.email
 from dp_party_member dpm
 join dp_party_member_group dpmg on dpmg.id=dpm.group_id

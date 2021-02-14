@@ -19,8 +19,6 @@ public class DpNprView implements Serializable {
 
     private Integer userId;
 
-    private Date workTime;
-
     private String unitPost;
 
     private Integer type;
@@ -31,14 +29,6 @@ public class DpNprView implements Serializable {
 
     private Date transferTime;
 
-    private String education;
-
-    private String degree;
-
-    private String school;
-
-    private String major;
-
     private Integer sortOrder;
 
     private String remark;
@@ -47,7 +37,15 @@ public class DpNprView implements Serializable {
 
     private Date dpGrowTime;
 
-    private String unit;
+    private Date workTime;
+
+    private String education;
+
+    private String degree;
+
+    private String school;
+
+    private String major;
 
     private Byte gender;
 
@@ -56,6 +54,8 @@ public class DpNprView implements Serializable {
     private String nation;
 
     private String nativePlace;
+
+    private String unit;
 
     private String mobile;
 
@@ -77,14 +77,6 @@ public class DpNprView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Date getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(Date workTime) {
-        this.workTime = workTime;
     }
 
     public String getUnitPost() {
@@ -127,38 +119,6 @@ public class DpNprView implements Serializable {
         this.transferTime = transferTime;
     }
 
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
-    }
-
     public Integer getSortOrder() {
         return sortOrder;
     }
@@ -191,12 +151,44 @@ public class DpNprView implements Serializable {
         this.dpGrowTime = dpGrowTime;
     }
 
-    public String getUnit() {
-        return unit;
+    public Date getWorkTime() {
+        return workTime;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education == null ? null : education.trim();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school == null ? null : school.trim();
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major == null ? null : major.trim();
     }
 
     public Byte getGender() {
@@ -229,6 +221,14 @@ public class DpNprView implements Serializable {
 
     public void setNativePlace(String nativePlace) {
         this.nativePlace = nativePlace == null ? null : nativePlace.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public String getMobile() {

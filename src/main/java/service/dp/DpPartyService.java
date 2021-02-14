@@ -26,7 +26,6 @@ public class DpPartyService extends DpBaseMapper {
     private DpPartyMemberGroupService dpPartyMemberGroupService;
 
     @Transactional
-    @CacheEvict(value = "DpParty:ALL", allEntries = true)
     public int bacthImport(List<DpParty> records){
         int addCount = 0;
         for (DpParty record : records){
@@ -82,7 +81,6 @@ public class DpPartyService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpParty:ALL", allEntries = true)
     public void insertSelective(DpParty record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
@@ -91,7 +89,6 @@ public class DpPartyService extends DpBaseMapper {
    }
 
     @Transactional
-    @CacheEvict(value="DpParty:ALL", allEntries = true)
     public void del(List<Integer> partyIds){
 
         if (partyIds != null) {
@@ -102,7 +99,6 @@ public class DpPartyService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpParty:ALL", allEntries = true)
     public void batchDel(Integer[] ids, boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
@@ -110,6 +106,7 @@ public class DpPartyService extends DpBaseMapper {
             DpParty record = new DpParty();
             record.setId(id);
             record.setIsDeleted(isDeleted);
+
             if (isDeleted){
                 //删除所有的委员会
                 {
@@ -135,14 +132,12 @@ public class DpPartyService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpParty:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpParty record){
         if(StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
         dpPartyMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpParty:ALL")
     public Map<Integer, DpParty> findAll() {
 
         /*DpPartyExample example = new DpPartyExample();
@@ -157,7 +152,6 @@ public class DpPartyService extends DpBaseMapper {
         return map;
     }
 
-    @Cacheable(value = "DpParty:ID_", key = "#id")
     public DpParty findById(Integer id){
         DpPartyExample example = new DpPartyExample();
         example.createCriteria().andIdEqualTo(id);
@@ -172,42 +166,9 @@ public class DpPartyService extends DpBaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DpParty:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("dp_party", "is_deleted=0", ORDER_BY_DESC, id, addNum);
 
-        /*if(addNum == 0) return ;
-
-
-        DpParty entity = dpPartyMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        DpPartyExample example = new DpPartyExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<DpParty> overEntities = dpPartyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            DpParty targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("dp_party", "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("dp_party", "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
-
-            DpParty record = new DpParty();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            dpPartyMapper.updateByPrimaryKeySelective(record);
-        }*/
     }
 }

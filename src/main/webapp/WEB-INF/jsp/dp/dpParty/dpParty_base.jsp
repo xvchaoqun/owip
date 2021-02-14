@@ -98,9 +98,9 @@ pageEncoding="UTF-8"%>
 					<th width="150">工作证号</th>
 					<th width="150">职务</th>
 					<th width="150">分工</th>
-					<th width="100">任职时间</th>
+					<th width="120">任职时间</th>
 					<th width="100">办公电话</th>
-					<th width="100">手机号</th>
+					<th width="120">手机号</th>
 					<th></th>
 				</tr>
 				</thead>
@@ -182,6 +182,6 @@ pageEncoding="UTF-8"%>
 </div>
 <script>
 	function _delAdminCallback(target){
-		$("ul[data-target=\"#dp-content\"] li.active a").click();
+		$("ul[id=flush-dpParty-base] li.active a").click();
 	}
 </script>

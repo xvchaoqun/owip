@@ -372,7 +372,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = String.format("民主党派委员会(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        String fileName = String.format("民主党派委员会委员信息(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

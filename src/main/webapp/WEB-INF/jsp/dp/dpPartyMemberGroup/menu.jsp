@@ -6,7 +6,7 @@
     <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=1"><i class="fa fa-list"></i> 委员会</a>
   </li>
   <li  class="<c:if test="${status==-1}">active</c:if>">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=-1"><i class="fa fa-history"></i> 已移除</a>
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=-1"><i class="fa fa-history"></i> 已撤销</a>
   </li>
   <shiro:hasPermission name="dpParty:list">
   <li  class="<c:if test="${status==2}">active</c:if>">

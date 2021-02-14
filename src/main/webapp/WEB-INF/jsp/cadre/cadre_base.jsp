@@ -83,13 +83,19 @@
                     <tr>
                         <td>政治面貌</td>
                         <td>
+                            <c:if test="${param.isDp==1}">民主党派</c:if>
+                            <c:if test="${empty param.isDp}">
                                 ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
+                            </c:if>
                         </td>
                         <td>
                             党派加入时间
                         </td>
                         <td>
+                            <c:if test="${param.isDp==1}">${cm:formatDate(dpMember.dpGrowTime, 'yyyy.MM.dd')}</c:if>
+                            <c:if test="${empty param.isDp}">
                                 ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
+                            </c:if>
                         </td>
 
                         <td>国家/地区</td>
@@ -103,7 +109,10 @@
                                 所在党组织
                             </td>
                             <td>
-                                    ${cm:displayParty(member.partyId, member.branchId)}
+                                <c:if test="${param.isDp==1}">${dpMember.dpParty.name}</c:if>
+                                <c:if test="${empty param.isDp}">
+                                        ${cm:displayParty(member.partyId, member.branchId)}
+                                </c:if>
                             </td>
                         </c:if>
                         <td>证件类型</td>
@@ -567,20 +576,23 @@
                             <tr>
                                 <td>政治面貌</td>
                                 <td>
-                                    <c:set var="cadreParty"
-                                           value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false)}"/>
-                                    <c:set var="original" value="${cadreParty.get('partyName')}"/>
-                                    <c:set var="hasMultiParty" value="${fn:contains(original, ',')}"/>
-                                    <c:if test="${hasMultiParty}">${original}</c:if><!--有多个党派不允许在此修改-->
-                                    <c:if test="${!hasMultiParty}">
-                                        <c:if test="${member!=null}">${original}</c:if>
-                                        <c:if test="${member==null}">
-                                            <select data-rel="select2" name="dpTypeId" data-width="150"
-                                                    data-placeholder="请选择">
-                                                <option></option>
-                                                <option value="0">中共党员</option>
-                                                <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
-                                            </select>
+                                    <c:if test="${param.isDp==1}">民主党派</c:if>
+                                    <c:if test="${empty param.isDp}">
+                                        <c:set var="cadreParty"
+                                               value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false)}"/>
+                                        <c:set var="original" value="${cadreParty.get('partyName')}"/>
+                                        <c:set var="hasMultiParty" value="${fn:contains(original, ',')}"/>
+                                        <c:if test="${hasMultiParty}">${original}</c:if><!--有多个党派不允许在此修改-->
+                                        <c:if test="${!hasMultiParty}">
+                                            <c:if test="${member!=null}">${original}</c:if>
+                                            <c:if test="${member==null}">
+                                                <select data-rel="select2" name="dpTypeId" data-width="150"
+                                                        data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="0">中共党员</option>
+                                                    <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+                                                </select>
+                                            </c:if>
                                         </c:if>
                                     </c:if>
                                 </td>
@@ -588,51 +600,54 @@
                                     党派加入时间
                                 </td>
                                 <td>
-                                    <c:set var="original" value="${cadreParty.get('growTime')}"/>
-                                    <c:if test="${member!=null || hasMultiParty}">${original}</c:if>
-                                    <c:if test="${member==null && !hasMultiParty}">
+                                    <c:if test="${param.isDp==1}">${cm:formatDate(dpMember.dpGrowTime, 'yyyy.MM.dd')}</c:if>
+                                    <c:if test="${empty param.isDp}">
+                                        <c:set var="original" value="${cadreParty.get('growTime')}"/>
+                                        <c:if test="${member!=null || hasMultiParty}">${original}</c:if>
+                                        <c:if test="${member==null && !hasMultiParty}">
 
-                                         <c:if test="${_p_hasPartyModule}">
-                                             <c:set var="growTimeFormat" value="yyyy.MM.dd"/>
-                                             <div class="input-group date" data-date-format="yyyy.mm.dd"
-                                             style="width: 130px; float: left;">
-                                                <input class="form-control" type="text" name="_dpAddTime"
-                                                       placeholder="yyyy.mm.dd"/>
-                                                <span class="input-group-addon"> <i
-                                                        class="fa fa-calendar bigger-110"></i></span>
-                                            </div>
+                                             <c:if test="${_p_hasPartyModule}">
+                                                 <c:set var="growTimeFormat" value="yyyy.MM.dd"/>
+                                                 <div class="input-group date" data-date-format="yyyy.mm.dd"
+                                                 style="width: 130px; float: left;">
+                                                    <input class="form-control" type="text" name="_dpAddTime"
+                                                           placeholder="yyyy.mm.dd"/>
+                                                    <span class="input-group-addon"> <i
+                                                            class="fa fa-calendar bigger-110"></i></span>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${!_p_hasPartyModule}">
+                                                <c:set var="growTimeFormat" value="yyyy.MM"/>
+                                                 <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm"
+                                                 style="width: 110px; float: left;">
+                                                    <input class="form-control" type="text" name="_dpAddTime"
+                                                           placeholder="yyyy.mm"/>
+                                                    <span class="input-group-addon"> <i
+                                                            class="fa fa-calendar bigger-110"></i></span>
+                                                </div>
+                                            </c:if>
                                         </c:if>
-                                        <c:if test="${!_p_hasPartyModule}">
-                                            <c:set var="growTimeFormat" value="yyyy.MM"/>
-                                             <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm"
-                                             style="width: 110px; float: left;">
-                                                <input class="form-control" type="text" name="_dpAddTime"
-                                                       placeholder="yyyy.mm"/>
-                                                <span class="input-group-addon"> <i
-                                                        class="fa fa-calendar bigger-110"></i></span>
-                                            </div>
-                                        </c:if>
+                                        <script type="text/javascript">
+                                            <c:choose>
+                                            <c:when test="${cadre.dpTypeId>0}">
+                                            $("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
+                                            $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, growTimeFormat)}');
+                                            </c:when>
+                                            <c:when test="${cadre.isOw}">
+                                            $("#modalForm select[name=dpTypeId]").val(0);
+                                            $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, growTimeFormat)}');
+                                            </c:when>
+                                            </c:choose>
+                                            $("#modalForm select[name=dpTypeId]").on("change",function(){
+                                                var val = $.trim($(this).val());
+                                                if(val>0 && _cMap.metaTypeMap[val].boolAttr){
+                                                    $("#modalForm input[name=_dpAddTime]").val('').prop("disabled", true);
+                                                }else{
+                                                    $("#modalForm input[name=_dpAddTime]").prop("disabled", false);
+                                                }
+                                            }).change();
+                                        </script>
                                     </c:if>
-                                    <script type="text/javascript">
-                                        <c:choose>
-                                        <c:when test="${cadre.dpTypeId>0}">
-                                        $("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
-                                        $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, growTimeFormat)}');
-                                        </c:when>
-                                        <c:when test="${cadre.isOw}">
-                                        $("#modalForm select[name=dpTypeId]").val(0);
-                                        $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, growTimeFormat)}');
-                                        </c:when>
-                                        </c:choose>
-                                        $("#modalForm select[name=dpTypeId]").on("change",function(){
-                                            var val = $.trim($(this).val());
-                                            if(val>0 && _cMap.metaTypeMap[val].boolAttr){
-                                                $("#modalForm input[name=_dpAddTime]").val('').prop("disabled", true);
-                                            }else{
-                                                $("#modalForm input[name=_dpAddTime]").prop("disabled", false);
-                                            }
-                                        }).change();
-                                    </script>
                                 </td>
 
                                 <td>国家/地区</td>
@@ -646,7 +661,10 @@
                                         所在党组织
                                     </td>
                                     <td>
+                                        <c:if test="${param.isDp==1}">${dpMember.dpParty.name}</c:if>
+                                        <c:if test="${empty param.isDp}">
                                             ${cm:displayParty(member.partyId, member.branchId)}
+                                        </c:if>
                                     </td>
                                 </c:if>
                                 <td>证件类型</td>
@@ -884,9 +902,9 @@
 
         function _innerPage(type) {
             if (type == undefined) {
-                $("#tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}")
+                $("#tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&isDp=${param.isDp}")
             } else {
-                $("#tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&type=" + type)
+                $("#tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&isDp=${param.isDp}&type=" + type)
             }
         }
 

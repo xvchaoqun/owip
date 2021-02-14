@@ -223,12 +223,10 @@ public class DpInfoFormService extends DpBaseMapper{
         if (dpMember != null){
             bean.setDpPartyId(dpMember.getPartyId());
             bean.setTitle(dpMember.getDpPost());
-            bean.setPartTimeJob(dpMember.getPartTimeJob());
             bean.setDpGrowTime(dpMember.getDpGrowTime());
             bean.setAddress(dpMember.getAddress());
             bean.setEmail(dpMember.getEmail());
             bean.setMobile(dpMember.getMobile());
-            bean.setTrainDesc(dpMember.getTrainState());
         }
         bean.setPhone(uv.getPhone());
 

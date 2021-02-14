@@ -84,6 +84,7 @@ public class DpPartyMemberController extends DpBaseController {
     public String dpPartyMember_show_menu(ModelMap modelMap,Integer groupId){
 
         modelMap.put("groupId", groupId);
+
         return "dp/dpPartyMember/menu";
     }
 
@@ -96,7 +97,6 @@ public class DpPartyMemberController extends DpBaseController {
                                    Integer groupId,
                                    Integer postId,
                                    Integer groupPartyId,
-                                   String unit,
                                    Boolean isAdmin,
                                    Boolean isDeleted,
                                    Boolean isPresent,
@@ -138,9 +138,6 @@ public class DpPartyMemberController extends DpBaseController {
         }
         if (groupPartyId != null){
             criteria.andGroupPartyIdEqualTo(groupPartyId);
-        }
-        if (StringUtils.isNotBlank(unit)){
-            criteria.andUnitLike(SqlUtils.like(unit));
         }
         if (typeIds != null){
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
@@ -199,10 +196,10 @@ public class DpPartyMemberController extends DpBaseController {
             Integer groupId = record.getGroupId();
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
             Integer partyId = dpPartyMemberGroup.getPartyId();
-            /*//要求是党派管理员
+            //判断是否有该党派管理员权限
             if (!dpPartyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(),partyId)){
                 throw new UnauthorizedException();
-            }*/
+            }
         }
 
 
@@ -216,8 +213,8 @@ public class DpPartyMemberController extends DpBaseController {
             }
         }
         if (_typeIds != null){
+            Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_dp_party_member_type");
             for (Integer typeId : _typeIds){
-                Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_dp_party_member_type");
                 MetaType type = typeMap.get(typeId);
 
                 if (BooleanUtils.isTrue(type.getBoolAttr())){
@@ -227,9 +224,9 @@ public class DpPartyMemberController extends DpBaseController {
             }
             record.setTypeIds(StringUtils.join(_typeIds,","));
         }
-        record.setPresentMember(true);
 
         if (id == null) {
+            record.setPresentMember(true);
             dpPartyMemberService.insertSelective(record, autoAdmin);
             logger.info(log( LogConstants.LOG_DPPARTY, "添加党派委员：{0}", record.getId()));
         } else {
@@ -289,7 +286,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequestMapping(value = "/dpPartyMember_cancel", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpPartyMember_cancel(Integer[] ids,
-                              String deleteTime){
+                                       String deleteTime){
 
         if (null != ids && ids.length>0){
             for (Integer id : ids){
@@ -380,9 +377,7 @@ public class DpPartyMemberController extends DpBaseController {
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberView record = records.get(i);
             SysUserView sysUserView = record.getUser();
-            DpMember dpMember = dpMemberMapper.selectByPrimaryKey(record.getUserId());
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(record.getGroupId());
-            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(record.getUserId());
 
             List<String> typeNames = new ArrayList();
             String[] _typeIds = StringUtils.split(record.getTypeIds(), ",");
@@ -396,7 +391,7 @@ public class DpPartyMemberController extends DpBaseController {
             String[] values = {
                     sysUserView.getCode(),
                     sysUserView.getRealname(),
-                    record.getUnit(),
+                    sysUserView.getUnit(),
                     dpPartyMap.get(dpPartyMemberGroup.getPartyId()) == null ? null : dpPartyMap.get(dpPartyMemberGroup.getPartyId()).getName(),
                     metaTypeService.getName(record.getPostId()),
 

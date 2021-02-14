@@ -55,37 +55,19 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">学历</label>
-                <div class="col-xs-6" style="width: 296px">
-                    <input class="form-control" type="text" name="edu" value="${dpMember.edu}"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label">学位</label>
-                <div class="col-xs-6" style="width: 296px">
-                    <input class="form-control" type="text" name="degree" value="${dpMember.degree}"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label">部门</label>
-                <div class="col-xs-6" style="width: 296px">
-                    <input class="form-control" type="text" name="unit" value="${dpMember.unit}"/>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-4 control-label">党派内职务</label>
                 <div class="col-xs-6" style="width: 296px">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="dpPost" rows="2">${dpMember.dpPost}</textarea>
                 </div>
             </div>
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label class="col-xs-4 control-label">兼职(其他校外职务）</label>
                 <div class="col-xs-6" style="width: 296px">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="partTimeJob" rows="2">${dpMember.partTimeJob}</textarea>
                 </div>
-            </div>
+            </div>--%>
             <div class="form-group">
                 <label class="col-xs-4 control-label">通讯地址</label>
                 <div class="col-xs-6" style="width: 296px">
@@ -104,9 +86,16 @@
                     <input class="form-control" type="text" name="email" value="${dpMember.email}"/>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">备注</label>
+                <div class="col-xs-6">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="remark" rows="3">${dpMember.remark}</textarea>
+                </div>
+            </div>
         </div>
         <div class="col-xs-5">
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label class="col-xs-3 control-label">培训情况</label>
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text"  maxlength="50"
@@ -133,18 +122,11 @@
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="otherReward" rows="3">${dpMember.otherReward}</textarea>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">备注</label>
-                <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-                                  name="remark" rows="3">${dpMember.remark}</textarea>
-                </div>
-            </div>
+            </div>--%>
         </div>
     </div>
 </form>
-<div class="clearfix form-actions center">
+<div class="clearfix form-actions center" style="width: 70%">
         <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>
             提交

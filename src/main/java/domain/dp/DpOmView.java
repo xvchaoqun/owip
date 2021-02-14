@@ -1,6 +1,7 @@
 package domain.dp;
 
 import domain.sys.SysUserView;
+import persistence.dp.DpMemberMapper;
 import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
 
@@ -11,9 +12,6 @@ public class DpOmView implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public DpParty getDpParty(){
-        return DpPartyHelper.getDpPartyByPartyId(partyId);
-    }
     public String getTypes(){return DpPartyHelper.getTypes(userId);}
     private Integer id;
 
@@ -21,17 +19,7 @@ public class DpOmView implements Serializable {
 
     private Integer type;
 
-    private Date workTime;
-
     private String unitPost;
-
-    private String education;
-
-    private String degree;
-
-    private String school;
-
-    private String major;
 
     private Boolean isDeleted;
 
@@ -45,7 +33,15 @@ public class DpOmView implements Serializable {
 
     private Date dpGrowTime;
 
-    private String unit;
+    private Date workTime;
+
+    private String education;
+
+    private String degree;
+
+    private String school;
+
+    private String major;
 
     private Byte gender;
 
@@ -54,6 +50,8 @@ public class DpOmView implements Serializable {
     private String nation;
 
     private String nativePlace;
+
+    private String unit;
 
     private String mobile;
 
@@ -85,52 +83,12 @@ public class DpOmView implements Serializable {
         this.type = type;
     }
 
-    public Date getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(Date workTime) {
-        this.workTime = workTime;
-    }
-
     public String getUnitPost() {
         return unitPost;
     }
 
     public void setUnitPost(String unitPost) {
         this.unitPost = unitPost == null ? null : unitPost.trim();
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
     }
 
     public Boolean getIsDeleted() {
@@ -181,12 +139,44 @@ public class DpOmView implements Serializable {
         this.dpGrowTime = dpGrowTime;
     }
 
-    public String getUnit() {
-        return unit;
+    public Date getWorkTime() {
+        return workTime;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education == null ? null : education.trim();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school == null ? null : school.trim();
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major == null ? null : major.trim();
     }
 
     public Byte getGender() {
@@ -219,6 +209,14 @@ public class DpOmView implements Serializable {
 
     public void setNativePlace(String nativePlace) {
         this.nativePlace = nativePlace == null ? null : nativePlace.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public String getMobile() {

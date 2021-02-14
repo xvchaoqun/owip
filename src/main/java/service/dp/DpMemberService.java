@@ -17,6 +17,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.cadre.CadreService;
+import service.dp.dpCommon.DpCommonService;
 import service.party.MemberService;
 import service.sys.LogService;
 import service.sys.SysUserService;
@@ -39,13 +41,13 @@ public class DpMemberService extends DpBaseMapper {
     @Autowired
     private SyncService syncService;
     @Autowired
-    private LogService logService;
-    @Autowired
     private TeacherInfoService teacherInfoService;
     @Autowired
     protected PasswordHelper passwordHelper;
     @Autowired
     protected MemberService memberService;
+    @Autowired
+    protected CadreService cadreService;
 
     public SysUserView getByIdCard(String idCard){
 
@@ -144,6 +146,9 @@ public class DpMemberService extends DpBaseMapper {
     public boolean add(DpMember record){
 
         Integer userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+
+        record.setCreateTime(new Date());
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
 
@@ -155,8 +160,7 @@ public class DpMemberService extends DpBaseMapper {
         }
 
         //是否是共产党员
-        Member member = memberService.get(userId);
-        record.setIsPartyMember(member != null && (member.getStatus()==1 || member.getStatus() == 4));
+        record.setIsPartyMember(isPartyMember(userId));
 
         boolean isAdd = false;
         DpMember dpMember = get(userId);
@@ -168,20 +172,21 @@ public class DpMemberService extends DpBaseMapper {
         }
         sysUserService.addRole(userId, RoleConstants.ROLE_DP_MEMBER);
 
+        //查看cadre表中是否存在该成员，没有的话，创建一个，状态为0
+        if (CmTag.getCadre(userId) == null){
+            cadreService.addTempCadre(userId);
+        }
+
         return isAdd;
     }
 
     @Transactional
-    @CacheEvict(value="DpMember:ALL", allEntries = true)
     public void insertSelective(DpMember record){
 
-        Assert.isTrue(!idDuplicate(null, String.valueOf(record.getUserId())), "duplicate");
-        //record.setSortOrder(getNextSortOrder("dp_member", null));
         dpMemberMapper.insertSelective(record);
     }
 
     @Transactional
-    @CacheEvict(value="DpMember:ALL", allEntries = true)
     public void del(Integer userId){
 
         dpMemberMapper.deleteByPrimaryKey(userId);
@@ -189,7 +194,6 @@ public class DpMemberService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpMember:ALL", allEntries = true)
     public void batchDel(Integer[] userIds){
 
         if(userIds==null || userIds.length==0) return;
@@ -208,11 +212,12 @@ public class DpMemberService extends DpBaseMapper {
 
     //修改党籍信息时使用，保留修改记录
     @Transactional
-    @CacheEvict(value="DpMember:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(DpMember record, String reason){
-        Integer userId = record.getUserId();
 
-       return updateByPrimaryKeySelective(record);
+        int userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+        record.setIsPartyMember(isPartyMember(userId));
+        return updateByPrimaryKeySelective(record);
     }
 
     //系统内部使用，更新党员状态，当机状态等
@@ -222,7 +227,6 @@ public class DpMemberService extends DpBaseMapper {
         return dpMemberMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpMember:ALL")
     public Map<Integer, DpMember> findAll() {
 
         DpMemberExample example = new DpMemberExample();
@@ -246,4 +250,11 @@ public class DpMemberService extends DpBaseMapper {
         return dpMemberViews.size() == 1 ? dpMemberViews.get(0) : null;
     }
 
+    //是否是共产党员
+    public boolean isPartyMember(Integer userId){
+
+        //是否是共产党员
+        Member member = memberService.get(userId);
+         return (member != null && (member.getType()==1 || member.getType() == 4));
+    }
 }

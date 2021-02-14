@@ -18,18 +18,7 @@ public class DpOm implements Serializable {
 
     private Integer type;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
-    private Date workTime;
-
     private String unitPost;
-
-    private String education;
-
-    private String degree;
-
-    private String school;
-
-    private String major;
 
     private Boolean isDeleted;
 
@@ -66,52 +55,12 @@ public class DpOm implements Serializable {
         this.type = type;
     }
 
-    public Date getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(Date workTime) {
-        this.workTime = workTime;
-    }
-
     public String getUnitPost() {
         return unitPost;
     }
 
     public void setUnitPost(String unitPost) {
         this.unitPost = unitPost == null ? null : unitPost.trim();
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
     }
 
     public Boolean getIsDeleted() {

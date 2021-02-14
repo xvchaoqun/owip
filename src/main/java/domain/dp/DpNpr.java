@@ -1,23 +1,12 @@
 package domain.dp;
 
-import domain.sys.SysUserView;
-import org.springframework.format.annotation.DateTimeFormat;
-import sys.tags.CmTag;
-import sys.utils.DateUtils;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class DpNpr implements Serializable {
-    public SysUserView getUser(){
-        return CmTag.getUserById(userId);
-    }
     private Integer id;
 
     private Integer userId;
-
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
-    private Date workTime;
 
     private String unitPost;
 
@@ -27,16 +16,7 @@ public class DpNpr implements Serializable {
 
     private Boolean isDeleted;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date transferTime;
-
-    private String education;
-
-    private String degree;
-
-    private String school;
-
-    private String major;
 
     private Integer sortOrder;
 
@@ -58,14 +38,6 @@ public class DpNpr implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Date getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(Date workTime) {
-        this.workTime = workTime;
     }
 
     public String getUnitPost() {
@@ -106,38 +78,6 @@ public class DpNpr implements Serializable {
 
     public void setTransferTime(Date transferTime) {
         this.transferTime = transferTime;
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
     }
 
     public Integer getSortOrder() {

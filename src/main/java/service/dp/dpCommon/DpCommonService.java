@@ -1,5 +1,8 @@
 package service.dp.dpCommon;
 
+import controller.global.OpException;
+import domain.base.MetaClass;
+import domain.base.MetaType;
 import domain.cadre.*;
 import domain.dp.*;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -14,6 +17,7 @@ import service.dp.DpBaseMapper;
 import sys.HttpResponseMethod;
 import sys.constants.DpConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -29,7 +33,6 @@ public class DpCommonService extends DpBaseMapper  implements HttpResponseMethod
     @Autowired
     protected MetaTypeService metaTypeService;
 
-    @Cacheable(value = "DpParty:ALL", key = "#partyId")
     public DpParty getDpPartyByPartyId(Integer partyId) {
 
         DpPartyExample example = new DpPartyExample();
@@ -39,7 +42,6 @@ public class DpCommonService extends DpBaseMapper  implements HttpResponseMethod
         return (dpParties.size() > 0) ? dpParties.get(0) : null;
     }
 
-    @Cacheable(value = "DpPartyMember:ALL",key = "#groupId")
     public DpParty getDpPartyByGroupId(Integer groupId) {
 
         DpPartyMemberGroupExample dpPartyMemberGroupExample = new DpPartyMemberGroupExample();
@@ -174,8 +176,10 @@ public class DpCommonService extends DpBaseMapper  implements HttpResponseMethod
     //同步干部的奖励情况
     public void syncReward(Integer userId, Integer cadreId) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
+
+        MetaType metaType = metaTypeService.findOrCreate("mc_dp_reward_type", "其他奖励");
         DpRewardExample dpRewardExample = new DpRewardExample();
-        dpRewardExample.createCriteria().andUserIdEqualTo(userId).andRewardTypeEqualTo(metaTypeService.findByName("mc_dp_reward_type", "其他奖励").getId());
+        dpRewardExample.createCriteria().andUserIdEqualTo(userId).andRewardTypeEqualTo(metaType.getId());
         if (dpRewardExample != null) {
             dpRewardMapper.deleteByExample(dpRewardExample);
         }
@@ -265,5 +269,13 @@ public class DpCommonService extends DpBaseMapper  implements HttpResponseMethod
         CadreWorkExample cadreWorkExample = new CadreWorkExample();
         cadreWorkExample.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         return cadreWorkMapper.selectByExample(cadreWorkExample);
+    }
+
+    public void findOrCreateCadre(int userId){
+
+        Cadre cadre = CmTag.getCadre(userId);
+        if (cadre == null){
+            cadreService.addTempCadre(userId);
+        }
     }
 }

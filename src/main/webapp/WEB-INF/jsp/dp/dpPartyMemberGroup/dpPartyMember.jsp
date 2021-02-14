@@ -17,22 +17,22 @@
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="dpPartyMember:edit">
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/dp/dpPartyMember_au?gridId=jqGrid2"
-                       ><i class="fa fa-edit"></i>
-                        修改</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="dpPartyMember:del">
-                    <button data-url="${ctx}/dp/dpPartyMember_batchDel"
-                            data-title="移除"
-                            data-msg="确定移除这{0}条数据？"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-minus-square"></i> 移除
-                    </button>
-                </shiro:hasPermission>
+                        <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                           data-url="${ctx}/dp/dpPartyMember_au?gridId=jqGrid2"
+                           ><i class="fa fa-edit"></i>
+                            修改</a>
+                    </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                         <i class="fa fa-download"></i> 导出</a>
+                    <shiro:hasPermission name="dpPartyMember:del">
+                        <button data-url="${ctx}/dp/dpPartyMember_batchDel"
+                                data-title="撤销"
+                                data-msg="确定撤销这{0}条数据？"
+                                class="jqBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-history"></i> 撤销
+                        </button>
+                    </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

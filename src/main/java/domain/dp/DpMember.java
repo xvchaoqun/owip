@@ -15,13 +15,7 @@ public class DpMember implements Serializable {
 
     private Byte status;
 
-    private String unit;
-
     private String dpPost;
-
-    private String partTimeJob;
-
-    private String trainState;
 
     private Byte source;
 
@@ -30,10 +24,6 @@ public class DpMember implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date dpGrowTime;
 
-    private String edu;
-
-    private String degree;
-
     private Boolean isPartyMember;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
@@ -41,18 +31,8 @@ public class DpMember implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date createTime;
-
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
-    private Date updateTime;
-
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date outTime;
-
-    private String politicalAct;
-
-    private String partyReward;
-
-    private String otherReward;
 
     private String address;
 
@@ -61,6 +41,9 @@ public class DpMember implements Serializable {
     private String email;
 
     private String remark;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -96,36 +79,12 @@ public class DpMember implements Serializable {
         this.status = status;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
-
     public String getDpPost() {
         return dpPost;
     }
 
     public void setDpPost(String dpPost) {
         this.dpPost = dpPost == null ? null : dpPost.trim();
-    }
-
-    public String getPartTimeJob() {
-        return partTimeJob;
-    }
-
-    public void setPartTimeJob(String partTimeJob) {
-        this.partTimeJob = partTimeJob == null ? null : partTimeJob.trim();
-    }
-
-    public String getTrainState() {
-        return trainState;
-    }
-
-    public void setTrainState(String trainState) {
-        this.trainState = trainState == null ? null : trainState.trim();
     }
 
     public Byte getSource() {
@@ -152,22 +111,6 @@ public class DpMember implements Serializable {
         this.dpGrowTime = dpGrowTime;
     }
 
-    public String getEdu() {
-        return edu;
-    }
-
-    public void setEdu(String edu) {
-        this.edu = edu == null ? null : edu.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
     public Boolean getIsPartyMember() {
         return isPartyMember;
     }
@@ -192,44 +135,12 @@ public class DpMember implements Serializable {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public Date getOutTime() {
         return outTime;
     }
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
-    }
-
-    public String getPoliticalAct() {
-        return politicalAct;
-    }
-
-    public void setPoliticalAct(String politicalAct) {
-        this.politicalAct = politicalAct == null ? null : politicalAct.trim();
-    }
-
-    public String getPartyReward() {
-        return partyReward;
-    }
-
-    public void setPartyReward(String partyReward) {
-        this.partyReward = partyReward == null ? null : partyReward.trim();
-    }
-
-    public String getOtherReward() {
-        return otherReward;
-    }
-
-    public void setOtherReward(String otherReward) {
-        this.otherReward = otherReward == null ? null : otherReward.trim();
     }
 
     public String getAddress() {
@@ -262,5 +173,13 @@ public class DpMember implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

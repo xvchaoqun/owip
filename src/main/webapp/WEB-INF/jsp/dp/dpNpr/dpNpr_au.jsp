@@ -50,44 +50,11 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 参加工作时间</label>
-			<div class="col-xs-6">
-				<div class="input-group" style="width: 270px">
-					<input class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpNpr.workTime,'yyyy.MM.dd')}"/>
-					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 所属单位职位</label>
+			<label class="col-xs-3 control-label"> 所在单位及职务</label>
 			<div class="col-xs-6">
 				<textarea class="form-control" rows="3" name="unitPost">${dpNpr.unitPost}</textarea>
 			</div>
 		</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 最高学历</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="education" value="${dpNpr.education}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 最高学位</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="degree" value="${dpNpr.degree}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 毕业学校</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="school" value="${dpNpr.school}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 所学专业</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="major" value="${dpNpr.major}">
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"> 备注</label>
 				<div class="col-xs-6">

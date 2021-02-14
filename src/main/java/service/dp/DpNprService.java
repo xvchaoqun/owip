@@ -70,7 +70,7 @@ public class DpNprService extends DpBaseMapper {
         return isAdd;
     }
 
-        //根据userId得到人员
+    //根据userId得到人员
     public DpNpr get(Integer userId){
 
         if (dpNprMapper == null) return null;
@@ -87,23 +87,24 @@ public class DpNprService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpNpr:ALL", allEntries = true)
     public void insertSelective(DpNpr record){
 
         Assert.isTrue(!idDuplicate(null, record.getUserId()), "duplicate");
         record.setSortOrder(getNextSortOrder("dp_npr", null));
+
+        int userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+
         dpNprMapper.insertSelective(record);
     }
 
     @Transactional
-    @CacheEvict(value="DpNpr:ALL", allEntries = true)
     public void del(Integer id){
 
         dpNprMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="DpNpr:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -114,14 +115,16 @@ public class DpNprService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpNpr:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpNpr record){
         if(record.getUserId() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getUserId()), "duplicate");
+
+        int userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+
         dpNprMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpNpr:ALL")
     public Map<Integer, DpNpr> findAll() {
 
         DpNprExample example = new DpNprExample();

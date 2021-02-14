@@ -42,7 +42,7 @@ public class DpConstants {
         DP_MEMBER_AGE_MAP.put(DP_MEMBER_AGE_0, "无数据");
     }
 
-    //党派成员类别，用于成员信息、流动成员、校内组织关系互转
+    //党派成员类别，用于成员信息、流动成员、校内组织关系互转 民主党派中暂时没有学生，学生类别暂时没有用
     public final static byte DP_MEMBER_TYPE_TEACHER = 1;//教职工
     public final static byte DP_MEMBER_TYPE_STUDENT = 2;//学生
     public final static Map<Byte, String> DP_MEMBER_TYPE_MAP = new LinkedHashMap<>();
@@ -55,29 +55,27 @@ public class DpConstants {
     //成员状态，1正常，2已退休（弃用），3已出党，4已转出，5暂时转出（外出挂职、休学等）
     public final static byte DP_MEMBER_STATUS_NORMAL = 1; // 正常
     //public final static byte DP_MEMBER_STATUS_RETIRE= 2; // 已退休
-    public final static byte DP_MEMBER_STATUS_QUIT = 3; // 已出党
-    public final static byte DP_MEMBER_STATUS_TRANSFER = 4; // 已转出
+    //public final static byte DP_MEMBER_STATUS_QUIT = 3; // 已出党
+    public final static byte DP_MEMBER_STATUS_OUT = 4; // 已转出/已退出
     //public final static byte DP_MEMBER_STATUS_TRANSFER_TEMP = 5; // 外出挂职、休学等
     public final static Map<Byte, String> DP_MEMBER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_NORMAL, "正常");
         //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_RETIRE, "已退休");
-        DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_QUIT, "已出党");
-        DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER, "已转出");
+        //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_QUIT, "已出党");
+        DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_OUT, "已退出");
         //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
     }
 
     //无党派人士状态，1无党派人士，2退出人士，3转出人士
     public final static byte DP_NPM_NORMAL = 1;
     public final static byte DP_NPM_OUT = 2;
-    public final static byte DP_NPM_TRANSFER = 3;
     public final  static Map<Byte, String> DP_NPM_STATUS_MAP = new LinkedHashMap<>();
 
     static{
         DP_NPM_STATUS_MAP.put(DP_NPM_NORMAL, "无党派人士");
         DP_NPM_STATUS_MAP.put(DP_NPM_OUT, "退出人士");
-        DP_NPM_STATUS_MAP.put(DP_NPM_TRANSFER, "转出人士");
     }
 
     public static byte getDpMemberAgeRange(Date birth){
@@ -106,6 +104,7 @@ public class DpConstants {
     public final static byte DP_MEMBER_SOURCE_TRANSFER = 3; // 外校转入
     public final static byte DP_MEMBER_SOURCE_RETURNED = 4; // 归国人员恢复入党
     public final static byte DP_MEMBER_SOURCE_ADMIN = 5; // 后台添加
+    public final static byte DP_MEMBER_SOURCE_NPM_TRAN = 6; //无党派人士转出
     public final static Map<Byte, String> DP_MEMBER_SOURCE_MAP = new LinkedHashMap<>();
 
     static {
@@ -114,6 +113,7 @@ public class DpConstants {
         DP_MEMBER_SOURCE_MAP.put(DP_MEMBER_SOURCE_TRANSFER, "外校转入");
         DP_MEMBER_SOURCE_MAP.put(DP_MEMBER_SOURCE_RETURNED, "归国人员恢复党派成员身份");
         DP_MEMBER_SOURCE_MAP.put(DP_MEMBER_SOURCE_ADMIN, "后台添加");
+        DP_MEMBER_SOURCE_MAP.put(DP_MEMBER_SOURCE_NPM_TRAN, "无党派人士转出");
     }
 
 }

@@ -175,8 +175,6 @@ public class DpNprController extends DpBaseController {
     @RequestMapping(value = "/dpNpr_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpNpr_au(DpNpr record,
-                           @CurrentUser SysUserView loginUser,
-                           String workTime,
                            String _transferTime,
                            HttpServletRequest request) {
 
@@ -186,9 +184,6 @@ public class DpNprController extends DpBaseController {
             return failed("非教职工账号");
         }else if (dpNprService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
-        }
-        if (StringUtils.isNotBlank(workTime)){
-            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_transferTime)){
             record.setTransferTime(DateUtils.parseDate(_transferTime,DateUtils.YYYYMMDD_DOT));
@@ -365,16 +360,10 @@ public class DpNprController extends DpBaseController {
             }
             record.setUserId(uv.getUserId());
             int col = 2;
-            record.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setUnitPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setSchool(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
             String _type = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType type = CmTag.getMetaTypeByName("mc_dp_npr_type", _type);
             if (type == null) {
-                //throw new OpException("第{0}列党总支类别[{1}]不存在", col, _type);
                 record.setType(null);
             } else {
                 record.setType(type.getId());
@@ -382,7 +371,6 @@ public class DpNprController extends DpBaseController {
             String _level = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType level =CmTag.getMetaTypeByName("mc_dp_npr_level",_level);
             if (level == null) {
-               // throw new OpException("第{0}列党总支类别[{1}]不存在", col, _level);
                 record.setLevel(null);
             }else {
                 record.setLevel(level.getId());

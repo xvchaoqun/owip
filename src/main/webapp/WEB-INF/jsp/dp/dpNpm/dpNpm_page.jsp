@@ -4,7 +4,6 @@ pageEncoding="UTF-8" %>
 <c:set var="DP_MEMBER_TYPE_NPM" value="<%=DpConstants.DP_MEMBER_TYPE_NPM%>"/>
 <c:set var="DP_NPM_NORMAL" value="<%=DpConstants.DP_NPM_NORMAL%>"/>
 <c:set var="DP_NPM_OUT" value="<%=DpConstants.DP_NPM_OUT%>"/>
-<c:set var="DP_NPM_TRANSFER" value="<%=DpConstants.DP_NPM_TRANSFER%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -27,37 +26,17 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="dpNpm:del">
-                    <c:if test="${cls==1}">
-                        <button data-url="${ctx}/dp/dpNpm_out"
-                                data-title="移除"
-                                data-msg="确定移除这{0}条数据无党派人士？"
-                                data-grid-id="#jqGrid"
-                                class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                            <i class="fa fa-minus-square"></i> 移除
-                        </button>
-                    </c:if>
-                </shiro:hasPermission>
                 <c:if test="${cls==1}">
-                <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                        data-url="${ctx}/dp/dpNpm_import"
-                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                    批量导入
-                </button>
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}/dp/dpNpm_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                        批量导入
+                    </button>
                 </c:if>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/dp/dpNpm_data?cls=${cls}"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-                <%--<c:if test="${cls==1}">
-                    <button data-url="${ctx}/dp/dpNpm_transfer"
-                            data-title="转出"
-                            data-msg="确定转出这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqOpenViewBatchBtn btn btn-primary btn-sm">
-                        <i class="fa fa-random"></i> 转出
-                    </button>
-                </c:if>--%>
                 <c:if test="${cls!=1}">
                     <shiro:hasPermission name="dpNpm:edit">
                         <a class="jqBatchBtn btn btn-success btn-sm"
@@ -70,6 +49,24 @@ pageEncoding="UTF-8" %>
                        data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
                        autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
                 </c:if>
+                <shiro:hasPermission name="dpNpm:edit">
+                    <c:if test="${cls==1}">
+                        <button data-url="${ctx}/dp/dpNpm_transfer"
+                                data-title="转出"
+                                data-msg="确定转出这{0}条数据无党派人士？"
+                                data-grid-id="#jqGrid"
+                                class="jqOpenViewBatchBtn btn btn-warning btn-sm">
+                            <i class="fa fa-check-circle-o"></i> 转出
+                        </button>
+                        <button data-url="${ctx}/dp/dpNpm_out"
+                                data-title="退出"
+                                data-msg="确定退出这{0}条数据无党派人士？"
+                                data-grid-id="#jqGrid"
+                                class="jqOpenViewBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-history"></i> 退出
+                        </button>
+                    </c:if>
+                </shiro:hasPermission>
                     <shiro:hasPermission name="dpNpm:del">
                         <button data-url="${ctx}/dp/dpNpm_batchDel"
                             data-title="删除"
@@ -102,9 +99,6 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                     <c:if test="${cls==2}">
                                         <c:set var="_status" value="${DP_NPM_OUT}"/>
-                                    </c:if>
-                                    <c:if test="${cls==3}">
-                                        <c:set var="_status" value="${DP_NPM_TRANSFER}"/>
                                     </c:if>
                                     <select data-rel="select2-ajax"
                                             data-ajax-url="${ctx}/dp/dpNpm_selects?status=${_status}"
@@ -249,23 +243,23 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dp/dpNpm_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'user.code', width: 120,frozen: true,sortable:true},
+            {label: '工作证号', name: 'user.code', width: 120,frozen: true},
         {
             label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userId > 0 && $.trim(cellvalue) != '')
-                    return '<a href="javascript:;" class="openView" data-url="{2}/dp/dpMember_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue, ctx);
+                    return '<a href="javascript:;" class="openView" data-url="{0}/cadre_view?cadreId={1}&isDp=1&userId={2}">{3}</a>'
+                        .format(ctx, rowObject.cadre.id, rowObject.userId, cellvalue);
                 return $.trim(cellvalue);
             }, frozen: true
         },
             <c:if test="${cls==2}">
-            { label: '移除时间',name: 'outTime', width: 120, formatter: $.jgrid.formatter.date,
+            { label: '退出时间',name: 'outTime', width: 120, formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             {label: '性别', name: 'gender', formatter:$.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 120},
-            {label: '出生时间', name :'birth', width: 120,sortable: true,
+            {label: '出生时间', name :'birth', width: 120,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'birth', width: 55, formatter: function (cellvalue, options, rowObject) {
@@ -289,8 +283,10 @@ pageEncoding="UTF-8" %>
                     return typeIdStrs.join(",");
                 }
             },
-                { label: '最高学历',name: 'education', width: 120},
-                { label: '最高学位',name: 'degree', width: 120},
+                { label: '最高学历',name: 'highEdu', width: 120},
+                { label: '最高学位',name: 'highDegree', width: 120},
+                {label: '编制类别', name: 'authorizedType'},
+                {label: '专业技术职务', name: 'proPost'},
                 { label: '办公电话',name: 'phone',width:120},
                 { label: '手机号',name: 'mobile',width:120},
                 { label: '备注',name: 'remark',width:200},

@@ -6,22 +6,23 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="add_time" jdbcType="DATE" property="addTime" />
     <result column="post" jdbcType="VARCHAR" property="post" />
-    <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="degree" jdbcType="VARCHAR" property="degree" />
-    <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
-    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
-    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="out_time" jdbcType="DATE" property="outTime" />
     <result column="transfer_time" jdbcType="DATE" property="transferTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
+    <result column="high_edu" jdbcType="VARCHAR" property="highEdu" />
+    <result column="high_degree" jdbcType="VARCHAR" property="highDegree" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,9 +83,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, add_time, post, education, degree, authorized_type, pro_post, unit, 
-    status, out_time, transfer_time, sort_order, remark, gender, birth, nation, native_place, 
-    mobile, phone
+    id, user_id, add_time, post, status, out_time, transfer_time, sort_order, remark, 
+    unit, gender, birth, nation, native_place, mobile, phone, work_time, authorized_type, 
+    high_edu, high_degree, pro_post
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpNpmViewExample" resultMap="BaseResultMap">
     select
@@ -108,19 +109,19 @@
   </delete>
   <insert id="insert" parameterType="domain.dp.DpNpmView">
     insert into dp_npm_view (id, user_id, add_time, 
-      post, education, degree, 
-      authorized_type, pro_post, unit, 
-      status, out_time, transfer_time, 
-      sort_order, remark, gender, 
-      birth, nation, native_place, 
-      mobile, phone)
+      post, status, out_time, 
+      transfer_time, sort_order, remark, 
+      unit, gender, birth, nation, 
+      native_place, mobile, phone, 
+      work_time, authorized_type, high_edu, 
+      high_degree, pro_post)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addTime,jdbcType=DATE}, 
-      #{post,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
-      #{authorizedType,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{outTime,jdbcType=DATE}, #{transferTime,jdbcType=DATE}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+      #{post,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{outTime,jdbcType=DATE}, 
+      #{transferTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{workTime,jdbcType=DATE}, #{authorizedType,jdbcType=VARCHAR}, #{highEdu,jdbcType=VARCHAR}, 
+      #{highDegree,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpNpmView">
     insert into dp_npm_view
@@ -137,21 +138,6 @@
       <if test="post != null">
         post,
       </if>
-      <if test="education != null">
-        education,
-      </if>
-      <if test="degree != null">
-        degree,
-      </if>
-      <if test="authorizedType != null">
-        authorized_type,
-      </if>
-      <if test="proPost != null">
-        pro_post,
-      </if>
-      <if test="unit != null">
-        unit,
-      </if>
       <if test="status != null">
         status,
       </if>
@@ -166,6 +152,9 @@
       </if>
       <if test="remark != null">
         remark,
+      </if>
+      <if test="unit != null">
+        unit,
       </if>
       <if test="gender != null">
         gender,
@@ -185,6 +174,21 @@
       <if test="phone != null">
         phone,
       </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="authorizedType != null">
+        authorized_type,
+      </if>
+      <if test="highEdu != null">
+        high_edu,
+      </if>
+      <if test="highDegree != null">
+        high_degree,
+      </if>
+      <if test="proPost != null">
+        pro_post,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -198,21 +202,6 @@
       </if>
       <if test="post != null">
         #{post,jdbcType=VARCHAR},
-      </if>
-      <if test="education != null">
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="degree != null">
-        #{degree,jdbcType=VARCHAR},
-      </if>
-      <if test="authorizedType != null">
-        #{authorizedType,jdbcType=VARCHAR},
-      </if>
-      <if test="proPost != null">
-        #{proPost,jdbcType=VARCHAR},
-      </if>
-      <if test="unit != null">
-        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -228,6 +217,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -246,6 +238,21 @@
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=DATE},
+      </if>
+      <if test="authorizedType != null">
+        #{authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="highEdu != null">
+        #{highEdu,jdbcType=VARCHAR},
+      </if>
+      <if test="highDegree != null">
+        #{highDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null">
+        #{proPost,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -270,21 +277,6 @@
       <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
-      <if test="record.education != null">
-        education = #{record.education,jdbcType=VARCHAR},
-      </if>
-      <if test="record.degree != null">
-        degree = #{record.degree,jdbcType=VARCHAR},
-      </if>
-      <if test="record.authorizedType != null">
-        authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.proPost != null">
-        pro_post = #{record.proPost,jdbcType=VARCHAR},
-      </if>
-      <if test="record.unit != null">
-        unit = #{record.unit,jdbcType=VARCHAR},
-      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -299,6 +291,9 @@
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
@@ -318,6 +313,21 @@
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=DATE},
+      </if>
+      <if test="record.authorizedType != null">
+        authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.highEdu != null">
+        high_edu = #{record.highEdu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.highDegree != null">
+        high_degree = #{record.highDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPost != null">
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -329,22 +339,23 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=DATE},
       post = #{record.post,jdbcType=VARCHAR},
-      education = #{record.education,jdbcType=VARCHAR},
-      degree = #{record.degree,jdbcType=VARCHAR},
-      authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
-      pro_post = #{record.proPost,jdbcType=VARCHAR},
-      unit = #{record.unit,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       out_time = #{record.outTime,jdbcType=DATE},
       transfer_time = #{record.transferTime,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       nation = #{record.nation,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR}
+      phone = #{record.phone,jdbcType=VARCHAR},
+      work_time = #{record.workTime,jdbcType=DATE},
+      authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
+      high_edu = #{record.highEdu,jdbcType=VARCHAR},
+      high_degree = #{record.highDegree,jdbcType=VARCHAR},
+      pro_post = #{record.proPost,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

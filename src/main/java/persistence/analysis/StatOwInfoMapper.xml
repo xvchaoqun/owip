@@ -124,4 +124,13 @@
         group by groupBy
     </select>
 
+    <!--  全校普通党支部统计 -->
+    <select id="branchCount_groupByType" resultType="bean.StatByteBean" parameterType="map">
+        SELECT COUNT(*) AS num,b.types as groupBy FROM ow_branch b
+        <if test="partyId!=null">
+            and b.party_id = #{partyId}
+        </if>
+        group by groupBy
+    </select>
+
 </mapper>

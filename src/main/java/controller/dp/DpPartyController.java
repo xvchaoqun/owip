@@ -86,7 +86,7 @@ public class DpPartyController extends DpBaseController {
         DpPartyViewExample example = new DpPartyViewExample();
         DpPartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
-        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
+        criteria.addPermits(iDpPartyMapper.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
         criteria.andIsDeletedEqualTo(cls == 2);
 
@@ -225,22 +225,20 @@ public class DpPartyController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("dpParty:del")
+    /*@RequiresPermissions("dpParty:del")
     @RequestMapping(value = "/dpParty_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpParty_del(HttpServletRequest request, @RequestParam(value = "ids")Integer[] ids) {
+    public Map do_dpParty_del(HttpServletRequest request,
+                              Integer[] ids) {
 
         if (ids != null && ids.length > 0) {
-            List<Integer> partyIds = new ArrayList<>();
-            for (Integer partyId : ids){
-                partyIds.add(partyId);
-            }
+            List<Integer> partyIds = new ArrayList<>(Arrays.asList(ids));
 
             dpPartyService.del(partyIds);
-            logger.info(log( LogConstants.LOG_GROW, "删除基层党组织：{0}", partyIds));
+            logger.info(log( LogConstants.LOG_DPPARTY, "仅删除删除民主党派：{0}", partyIds));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("dpParty:del")
     @RequestMapping(value = "/dpParty_batchDel", method = RequestMethod.POST)
@@ -255,8 +253,6 @@ public class DpPartyController extends DpBaseController {
             dpPartyService.batchDel(ids,isDeleted);
             logger.info(log( LogConstants.LOG_DPPARTY, "批量撤销/恢复民主党派：{0}", StringUtils.join(ids, ",")));
         }
-        cacheHelper.clearSysBaseCache();
-        cacheService.flushMetadata();
         return success(FormUtils.SUCCESS);
     }
 
@@ -462,7 +458,7 @@ public class DpPartyController extends DpBaseController {
 
             String _partyClass = StringUtils.trimToNull(xlsRow.get(4));
             MetaType partyClass = CmTag.getMetaTypeByName("mc_dp_party_class",_partyClass);
-            if (partyClass == null)throw new OpException("第{0}行党总支类别[{1}]不存在", row, _partyClass);
+            if (partyClass == null)throw new OpException("第{0}行党组织类别[{1}]不存在", row, _partyClass);
             record.setClassId(partyClass.getId());
 
             record.setPhone(StringUtils.trimToNull(xlsRow.get(5)));

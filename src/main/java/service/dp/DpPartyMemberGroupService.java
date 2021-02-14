@@ -158,7 +158,6 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPartyMemberGroup:ALL", allEntries = true)
     public int insertSelective(DpPartyMemberGroup record){
 
         if (record.getIsPresent()){
@@ -171,7 +170,6 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPartyMemberGroup:ALL", allEntries = true)
     public void del(Integer id){
 
         dpPartyMemberGroupMapper.deleteByPrimaryKey(id);
@@ -224,7 +222,6 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPartyMemberGroup:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(DpPartyMemberGroup record){
         DpPartyMemberGroup presentGroup = getPresentGroup(record.getPartyId());
         if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && !record.getIsPresent())){
@@ -243,7 +240,6 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
         return dpPartyMemberGroupMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpPartyMemberGroup:ALL")
     public Map<Integer, DpPartyMemberGroup> findAll() {
 
         DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
@@ -264,7 +260,6 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DpPartyMemberGroup:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("dp_party_member_group", null, ORDER_BY_DESC, id, addNum);

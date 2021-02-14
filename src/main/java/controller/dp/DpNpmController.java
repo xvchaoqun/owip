@@ -82,8 +82,6 @@ public class DpNpmController extends DpBaseController {
                            String post,
                            Byte gender,
                            String unit,
-                           String education,
-                           String degree,
                            Byte status,
                            @RequestDateRange DateRange _addAime,
                            String[] nation,
@@ -112,21 +110,13 @@ public class DpNpmController extends DpBaseController {
         }else if (cls == 2){
             status = DpConstants.DP_NPM_OUT;
             criteria.andStatusEqualTo(status);
-        }else {
-            status = DpConstants.DP_NPM_TRANSFER;
-            criteria.andStatusEqualTo(status);
         }
+
         if (id != null){
             criteria.andIdEqualTo(id);
         }
         if (StringUtils.isNotBlank(post)) {
             criteria.andPostLike(SqlUtils.like(post));
-        }
-        if (StringUtils.isNotBlank(education)) {
-            criteria.andEducationLike(SqlUtils.like(education));
-        }
-        if (StringUtils.isNotBlank(degree)) {
-            criteria.andDegreeLike(SqlUtils.like(degree));
         }
         if (StringUtils.isNotBlank(unit)) {
             criteria.andUnitLike(SqlUtils.like(unit));
@@ -184,13 +174,6 @@ public class DpNpmController extends DpBaseController {
     @ResponseBody
     public Map do_dpNpm_au(DpNpm record,
                            String addTime,
-                           String post,
-                           String education,
-                           String degree,
-                           String authorizedType,
-                           String proPost,
-                           String unit,
-                           String remark,
                            Byte status,
                            HttpServletRequest request) {
 
@@ -208,40 +191,12 @@ public class DpNpmController extends DpBaseController {
         if (StringUtils.isNotBlank(addTime)){
             record.setAddTime(DateUtils.parseDate(addTime,DateUtils.YYYYMMDD_DOT));
         }
-        if (StringUtils.isNotBlank(post)){
-            record.setPost(post);
-        }
-        if (StringUtils.isNotBlank(education)){
-            record.setEducation(education);
-        }
-        if (StringUtils.isNotBlank(degree)){
-            record.setDegree(degree);
-        }
-        if (StringUtils.isNotBlank(authorizedType)){
-            record.setAuthorizedType(authorizedType);
-        }
-        if (StringUtils.isNotBlank(proPost)){
-            record.setProPost(proPost);
-        }
-
-        if (StringUtils.isNotBlank(unit)){
-            record.setUnit(unit);
-        }
-        if (StringUtils.isNotBlank(remark)){
-            record.setEducation(remark);
-        }
 
         record.setStatus(status);
         SysUserView sysUserView = sysUserService.findById(record.getUserId());
         DpNpm dpNpm = dpNpmService.get(userId);
         if (dpNpm == null) {
 
-            DpNpm dpNpmAdd = dpNpmService.get(userId);
-            if (dpNpmAdd != null){
-                return failed(sysUserService.findById(userId).getRealname() + "账号已是无党派人士");
-            }
-            status = 1;
-            record.setStatus(status);
             dpNpmService.insertSelective(record);
             logger.info(log( LogConstants.LOG_DPPARTY, "添加无党派人士信息：%s %s", sysUserView.getId(),sysUserView.getRealname()));
         } else {
@@ -345,7 +300,7 @@ public class DpNpmController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("dpNpm:edit")
+    @RequiresPermissions("dpNpm:edit")
     @RequestMapping("/dpNpm_transfer")
     public String dpNpm_transfer(){
 
@@ -356,58 +311,15 @@ public class DpNpmController extends DpBaseController {
     @RequestMapping(value = "/dpNpm_transfer", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpNpm_transfer(Integer[] ids,
+                                 Integer partyId,
                                  String transferTime){
         if (null != ids && ids.length>0){
-            DpNpmExample example = new DpNpmExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            List<DpNpm> dpNpms = dpNpmMapper.selectByExample(example);
-            for (DpNpm dpNpm : dpNpms){
-                dpNpm.setStatus(DpConstants.DP_NPM_TRANSFER);
-                if (StringUtils.isNotBlank(transferTime)){
-                    dpNpm.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD_DOT));
-                }
-                dpNpmService.updateByPrimaryKeySelective(dpNpm);
-                logger.info(log( LogConstants.LOG_DPPARTY, "转出无党派人士信息：%s", dpNpm.getUserId()));
-            }
+            dpNpmService.transferNpm(ids, partyId, transferTime);
+            logger.info(log( LogConstants.LOG_DPPARTY, "无党派人士转出信息：%s", StringUtils.join(ids, "，")));
 
         }
         return success(FormUtils.SUCCESS);
-    }*/
-
-    //单独撤销单个人员
-    /*@RequiresPermissions("dpNpm:edit")
-    @RequestMapping("/dpNpm_transfer")
-    public String dpNpm_transfer(Integer id, ModelMap modelMap){
-
-        if (id != null) {
-            DpNpm dpNpm = dpNpmMapper.selectByPrimaryKey(id);
-            Integer userId = dpNpm.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
-            modelMap.put("dpNpm", dpNpm);
-        }
-
-        return "dp/dpNpm/dpNpm_transfer";
     }
-
-    @RequiresPermissions("dpNpm:edit")
-    @RequestMapping(value = "/dpNpm_transfer", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpNpm_transfer(DpNpm record,
-                                    Byte status,
-                                    String transferTime,
-                                    ModelMap modelMap){
-        Integer userId = record.getUserId();
-        if (record != null) {
-            SysUserView sysUserView = sysUserService.findById(userId);
-            record.setStatus(DpConstants.DP_NPM_TRANSFER);
-            if(StringUtils.isNotBlank(transferTime)) {
-                record.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD));
-            }
-            dpNpmService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_MEMBER, "转出无党派人士信息：%s %s", sysUserView.getId(),sysUserView.getRealname()));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
     @RequestMapping("/dpNpm_import")
@@ -451,9 +363,6 @@ public class DpNpmController extends DpBaseController {
             int col = 2;
             record.setAddTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setStatus(status);
             record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
 
@@ -491,34 +400,8 @@ public class DpNpmController extends DpBaseController {
         String[] outTitles = {"姓名|100","工作证号|100","移除时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
                 "认定时间|100","部门|250","现任职务|100","最高学历|100",
                 "最高学位|100","备注|200"};
-        /*String[] transferTitles = {"姓名|100","工作证号|100","转出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
-                "认定时间|100","部门|250","现任职务|100","最高学历|100",
-                "最高学位|100","备注|200"};*/
         List<String[]> valuesList = new ArrayList<>();
-        if (cls == 3){
-            for (int i = 0; i < rownum; i++) {
-                DpNpmView record = records.get(i);
-                Integer userId = record.getUserId();
-                SysUserView uv = sysUserService.findById(userId);
-                String[] values = {
-                        uv.getRealname(),//姓名
-                        uv.getCode(),//工作证号
-                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT),
-                        uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),//性别
-                        uv.getNation(),//民族
-                        uv.getNativePlace(),
-                        DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
-                        uv.getBirth() != null ? DateUtils.intervalYearsUntilNow(uv.getBirth()) + "" : "",//年龄
-                        DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
-                        record.getUnit(),
-                        record.getPost(),
-                        record.getEducation(),
-                        record.getDegree(),
-                        record.getRemark()
-                };
-                valuesList.add(values);
-            }
-        }else if (cls == 1){
+        if (cls == 1){
             for (int i = 0; i < rownum; i++) {
                 DpNpmView record = records.get(i);
                 Integer userId = record.getUserId();
@@ -534,8 +417,8 @@ public class DpNpmController extends DpBaseController {
                         DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
                         record.getUnit(),
                         record.getPost(),
-                        record.getEducation(),
-                        record.getDegree(),
+                        record.getHighEdu(),
+                        record.getHighDegree(),
                         record.getRemark()
                 };
                 valuesList.add(values);
@@ -557,8 +440,8 @@ public class DpNpmController extends DpBaseController {
                         DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
                         record.getUnit(),
                         record.getPost(),
-                        record.getEducation(),
-                        record.getDegree(),
+                        record.getHighEdu(),
+                        record.getHighDegree(),
                         record.getRemark()
                 };
                 valuesList.add(values);
@@ -569,12 +452,9 @@ public class DpNpmController extends DpBaseController {
             String fileName = String.format("无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(noPartyTitles, valuesList, fileName, response);
         }else if (cls == 2){
-            String fileName = String.format("已移除的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("退出人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(outTitles, valuesList, fileName, response);
-        }/*else {
-            String fileName = String.format("已转出的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-            ExportHelper.export(transferTitles, valuesList, fileName, response);
-        }*/
+        }
 
     }
 

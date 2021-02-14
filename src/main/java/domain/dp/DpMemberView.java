@@ -1,5 +1,6 @@
 package domain.dp;
 
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
 import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
@@ -8,6 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DpMemberView implements Serializable {
+
+    public Cadre getCadre(){
+        return CmTag.getCadre(userId);
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -23,13 +29,7 @@ public class DpMemberView implements Serializable {
 
     private Byte status;
 
-    private String unit;
-
     private String dpPost;
-
-    private String partTimeJob;
-
-    private String trainState;
 
     private Byte source;
 
@@ -37,25 +37,13 @@ public class DpMemberView implements Serializable {
 
     private Date dpGrowTime;
 
-    private String edu;
-
-    private String degree;
-
     private Boolean isPartyMember;
 
     private Date growTime;
 
     private Date createTime;
 
-    private Date updateTime;
-
     private Date outTime;
-
-    private String politicalAct;
-
-    private String partyReward;
-
-    private String otherReward;
 
     private String address;
 
@@ -65,6 +53,8 @@ public class DpMemberView implements Serializable {
 
     private String remark;
 
+    private Date updateTime;
+
     private Byte gender;
 
     private Date birth;
@@ -73,7 +63,15 @@ public class DpMemberView implements Serializable {
 
     private String nativePlace;
 
-    private String teduca;
+    private String unit;
+
+    private Date workTime;
+
+    private String authorizedType;
+
+    private String highEdu;
+
+    private String highDegree;
 
     private Boolean isRetire;
 
@@ -121,36 +119,12 @@ public class DpMemberView implements Serializable {
         this.status = status;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
-
     public String getDpPost() {
         return dpPost;
     }
 
     public void setDpPost(String dpPost) {
         this.dpPost = dpPost == null ? null : dpPost.trim();
-    }
-
-    public String getPartTimeJob() {
-        return partTimeJob;
-    }
-
-    public void setPartTimeJob(String partTimeJob) {
-        this.partTimeJob = partTimeJob == null ? null : partTimeJob.trim();
-    }
-
-    public String getTrainState() {
-        return trainState;
-    }
-
-    public void setTrainState(String trainState) {
-        this.trainState = trainState == null ? null : trainState.trim();
     }
 
     public Byte getSource() {
@@ -177,22 +151,6 @@ public class DpMemberView implements Serializable {
         this.dpGrowTime = dpGrowTime;
     }
 
-    public String getEdu() {
-        return edu;
-    }
-
-    public void setEdu(String edu) {
-        this.edu = edu == null ? null : edu.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
     public Boolean getIsPartyMember() {
         return isPartyMember;
     }
@@ -217,44 +175,12 @@ public class DpMemberView implements Serializable {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public Date getOutTime() {
         return outTime;
     }
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
-    }
-
-    public String getPoliticalAct() {
-        return politicalAct;
-    }
-
-    public void setPoliticalAct(String politicalAct) {
-        this.politicalAct = politicalAct == null ? null : politicalAct.trim();
-    }
-
-    public String getPartyReward() {
-        return partyReward;
-    }
-
-    public void setPartyReward(String partyReward) {
-        this.partyReward = partyReward == null ? null : partyReward.trim();
-    }
-
-    public String getOtherReward() {
-        return otherReward;
-    }
-
-    public void setOtherReward(String otherReward) {
-        this.otherReward = otherReward == null ? null : otherReward.trim();
     }
 
     public String getAddress() {
@@ -289,6 +215,14 @@ public class DpMemberView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public Byte getGender() {
         return gender;
     }
@@ -321,12 +255,44 @@ public class DpMemberView implements Serializable {
         this.nativePlace = nativePlace == null ? null : nativePlace.trim();
     }
 
-    public String getTeduca() {
-        return teduca;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setTeduca(String teduca) {
-        this.teduca = teduca == null ? null : teduca.trim();
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
+    public String getAuthorizedType() {
+        return authorizedType;
+    }
+
+    public void setAuthorizedType(String authorizedType) {
+        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
+    }
+
+    public String getHighEdu() {
+        return highEdu;
+    }
+
+    public void setHighEdu(String highEdu) {
+        this.highEdu = highEdu == null ? null : highEdu.trim();
+    }
+
+    public String getHighDegree() {
+        return highDegree;
+    }
+
+    public void setHighDegree(String highDegree) {
+        this.highDegree = highDegree == null ? null : highDegree.trim();
     }
 
     public Boolean getIsRetire() {

@@ -79,7 +79,7 @@ public class StatOwInfoController extends BaseController {
                 return null;
             }
             modelMap.put("cls",cls);
-            return "analysis/statOwInfo/stat_Bks_info";
+            return "analysis/statOwInfo/stat_ow_bks_page";
         } else if(cls == 4){
             Map cacheMap = statOwInfoService.getPartyBksInfo(cls,modelMap);
             modelMap.putAll(cacheMap);
@@ -90,7 +90,7 @@ public class StatOwInfoController extends BaseController {
                 ExportHelper.output(wb, fileName + ".xlsx",response);
                 return null;
             }
-            return "analysis/statOwInfo/stat_party_Bks_page";
+            return "analysis/statOwInfo/stat_party_bks_page";
         } else if (cls == 5) {
             Map cacheMap= statOwInfoService.getOwJzgInfo(cls, df);
             modelMap.putAll(cacheMap);

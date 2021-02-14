@@ -34,29 +34,11 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 部门</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="unit" value="${dpNpm.unit}">
-			</div>
-		</div>
-		<div class="form-group">
 			<label class="col-xs-3 control-label">现任职务</label>
 			<div class="col-xs-6">
 				<textarea class="form-control" rows="2" name="post">${dpNpm.post}</textarea>
 			</div>
 		</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 最高学历</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="education" value="${dpNpm.education}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 最高学位</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="degree" value="${dpNpm.degree}">
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"> 备注</label>
 				<div class="col-xs-6">

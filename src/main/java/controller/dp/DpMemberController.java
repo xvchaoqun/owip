@@ -1,6 +1,7 @@
 package controller.dp;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.dp.*;
 import domain.member.Member;
 import domain.sys.SysUserView;
@@ -31,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.dp.DpPartyService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.DpConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -52,8 +54,6 @@ import java.util.*;
 public class DpMemberController extends DpBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private DpPartyService dpPartyService;
 
     @RequiresPermissions("dpMember:list")
     @RequestMapping("/dpMember")
@@ -189,19 +189,18 @@ public class DpMemberController extends DpBaseController {
         }
         criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
-
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
         if (StringUtils.isNotBlank(unit)) {
             criteria.andUnitLike(SqlUtils.like(unit));
         }
-        if (StringUtils.isNotBlank(edu)){
+       /* if (StringUtils.isNotBlank(edu)){
             criteria.andEduLike(SqlUtils.like(edu));
         }
         if (StringUtils.isNotBlank(degree)){
             criteria.andDegreeLike(SqlUtils.like(degree));
-        }
+        }*/
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
@@ -290,11 +289,11 @@ public class DpMemberController extends DpBaseController {
                 break;
             case 6:
                 criteria.andTypeEqualTo(DpConstants.DP_MEMBER_TYPE_STUDENT)
-                        .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_TRANSFER);
+                        .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_OUT);
                 break;
             case 7:
                 criteria.andTypeEqualTo(DpConstants.DP_MEMBER_TYPE_TEACHER)
-                        .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_TRANSFER);
+                        .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_OUT);
                 break;
             case 10:
                 criteria.andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_NORMAL);
@@ -373,19 +372,13 @@ public class DpMemberController extends DpBaseController {
             }
 
             record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);//正常
-            record.setCreateTime(new Date());
             record.setSource(DpConstants.DP_MEMBER_SOURCE_ADMIN);//后台添加
             dpMemberService.add(record);
-            //dpMemberService.addModify(record.getUserId(), "后台添加");//向民主党派成员信息表添加信息
 
             logger.info(addLog(LogConstants.LOG_DPMEMBER, "添加党派成员信息表： %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
                     dpPartyService.findAll().get(partyId).getName(), reason));
         } else {
             ShiroHelper.checkPermission("dpMember:edit");
-
-            //是否是共产党员
-            Member member = memberService.get(userId);
-            record.setIsPartyMember(member != null && (member.getType()==1 || member.getType() == 4));
 
             dpMemberService.updateByPrimaryKeySelective(record,reason);
 
@@ -448,21 +441,21 @@ public class DpMemberController extends DpBaseController {
     @RequiresPermissions("dpMember:del")
     @RequestMapping(value = "/dpMember_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpMember_out(Integer[] userIds,
+    public Map do_dpMember_out(Integer[] ids,
                               String outTime){
 
-        if (null != userIds && userIds.length>0){
+        if (null != ids && ids.length>0){
             DpMemberExample example = new DpMemberExample();
-            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            example.createCriteria().andUserIdIn(Arrays.asList(ids));
             List<DpMember> dpMembers = dpMemberMapper.selectByExample(example);
-            Byte status = DpConstants.DP_MEMBER_STATUS_TRANSFER;
+            Byte status = DpConstants.DP_MEMBER_STATUS_OUT;
             for (DpMember dpMember : dpMembers){
                 dpMember.setStatus(status);
                 if (StringUtils.isNotBlank(outTime)){
                     dpMember.setOutTime(DateUtils.parseDate(outTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpMemberService.updateByPrimaryKeySelective(dpMember);
-                logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派：{0}", dpMember.getUserId()));
+                logger.info(log( LogConstants.LOG_DPMEMBER, "党派成员退出：{0}", dpMember.getUserId()));
             }
 
         }
@@ -486,17 +479,13 @@ public class DpMemberController extends DpBaseController {
     @RequiresPermissions("dpMember:del")
     @RequestMapping(value = "/dpMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpMember_batchDel(HttpServletRequest request, Integer[] userIds, ModelMap modelMap) {
+    public Map dpMember_batchDel(HttpServletRequest request, Integer[] ids) {
 
 
-        if (null != userIds && userIds.length>0){
-            List<DpMember> dpMembers = new ArrayList<>();
-            for (Integer userId : userIds){
-                dpMembers.add(dpMemberService.get(userId));
-            }
+        if (null != ids && ids.length>0){
 
-            dpMemberService.batchDel(userIds);
-            logger.info(log( LogConstants.LOG_DPMEMBER, "批量删除党派成员信息表：{0}", StringUtils.join(dpMembers, ",")));
+            dpMemberService.batchDel(ids);
+            logger.info(log( LogConstants.LOG_DPMEMBER, "批量删除党派成员信息表：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -633,68 +622,6 @@ public class DpMemberController extends DpBaseController {
         return "dp/dpMember/dpTeacher_view";
     }
 
-    /*@RequiresPermissions("dpMember:list")
-    @RequestMapping("/dpMember/search")
-    public String dpMember_search(){
-
-        return "dp/dpMember/dpMember_search";
-    }
-
-    //todo js
-    @RequiresPermissions("dpMember:list")
-    @RequestMapping(value = "/dpMember/search", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpMember_search(int userId){
-
-        String realname = "";
-        String unit = "";
-        String msg = "";
-        String code = "";
-        Byte userType = null;
-        String status = "";
-        SysUserView sysUser = sysUserService.findById(userId);
-        if (sysUser == null){
-            msg = "该账号不存在！";
-        } else {
-            code = sysUser.getCode();
-            userType = sysUser.getType();
-            realname = sysUser.getRealname();
-            DpMember dpMember = dpMemberService.get(userId);
-            unit = dpMember.getUnit();
-            if (dpMember == null){
-                msg = "该账号不是党派成员！";
-            } else {
-                Integer partyId = dpMember.getPartyId();
-                DpParty dpParty = dpPartyService.findAll().get(partyId);
-                msg = dpParty.getName();
-
-                //查询状态
-                if (dpMember.getStatus() == DpConstants.DP_MEMBER_STATUS_NORMAL){
-                    status = "正常";
-                } else if (dpMember.getStatus() == DpConstants.DP_MEMBER_STATUS_TRANSFER){
-                    status = "已转出";
-                } else if (dpMember.getStatus() == DpConstants.DP_MEMBER_STATUS_QUIT){
-                    status = "已出党";
-                }
-
-                if (dpMember.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
-                    DpMemberView dpMemberView = iDpMemberMapper.getDpMemberView(userId);
-                    if (dpMemberView.getIsRetire())
-                        status = "已退休";
-                }
-            }
-        }
-
-        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("msg", msg);
-        resultMap.put("userType", userType);
-        resultMap.put("code", code);
-        resultMap.put("realname", realname);
-        resultMap.put("unit", unit);
-        resultMap.put("status", status);
-        return resultMap;
-    }
-*/
     //党派成员基本信息
     @RequestMapping("/dpMember_base")
     public String dpMember_base(Integer userId, ModelMap modelMap){
@@ -751,11 +678,6 @@ public class DpMemberController extends DpBaseController {
         Map<String, Object> resultMap = null;
 
         resultMap = importInSchoolDpMember(xlsRows,runPartyMap);
-        /*if (inSchool){
-
-        } else {
-            resultMap = importOutSchoolDpMember(xlsRows,runPartyMap,politicalStatusMap);
-        }*/
 
         int successCount = (int)resultMap.get("successCount");
         int total = (int)resultMap.get("total");
@@ -804,18 +726,9 @@ public class DpMemberController extends DpBaseController {
 
             record.setUserId(uv.getUserId());
             int col = 5;
-            String unit = StringUtils.trimToNull(xlsRow.get(col++));
-            record.setUnit(unit);
             String dpPost = StringUtils.trimToNull(xlsRow.get(col++));
             record.setDpPost(dpPost);
             record.setDpGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
-            record.setEdu(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setPartTimeJob(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setTrainState(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setPoliticalAct(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -840,10 +753,8 @@ public class DpMemberController extends DpBaseController {
     private List<String> getTeacherExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"民主党派编号|100","党派名称|200","工号|100", "姓名|120","性别|50",
-                "出生日期|80","民族|50",
-                "部门|200", "是否退休|50", "党派内职务|100", "加入党派时间|80","职称|80","学历|120","学位|100","行政职务|100",
-                "兼职（其他校外职务）|100","是否是中共党员|80","培训情况|200","政治表现|200","党内奖励|200","其他奖励|200","通讯地址|200",
-                "手机|100","邮箱|100","备注|200"}));
+                "出生日期|80","民族|50", "部门|200", "是否退休|50", "党派内职务|100", "是否是中共党员|80","加入党派时间|80","编制类别",
+                "专业技术职务","参加工作时间","最高学历|120","最高学位|100", "通讯地址|200", "手机|100","邮箱|100","备注|200"}));
     }
 
     public void teacher_export(int cls, DpMemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -894,17 +805,13 @@ public class DpMemberController extends DpBaseController {
                     record.getUnit(),//部门
                     record.getIsRetire() == true ? "是" : "否",
                     record.getDpPost(),//党派内职务
-                    DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
-                    record.getProPost(),//职称
-                    record.getEdu(),//学历
-                    record.getDegree(),//学位
-                    record.getPost(),//行政职务
-                    record.getPartTimeJob(),//兼职（其他校外职务）
                     record.getIsPartyMember() == false ? "否" : "是",
-                    record.getTrainState(),
-                    record.getPoliticalAct(),//政治表现
-                    record.getPartyReward(),//党内奖励
-                    record.getOtherReward(),//其他奖励
+                    DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
+                    record.getAuthorizedType(),//编制类别
+                    record.getProPost(),//专业技术职务
+                    DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMMDD_DOT),//参见工作时间
+                    record.getHighEdu(),//学历
+                    record.getHighDegree(),//学位
                     record.getAddress(),//通讯地址
                     record.getMobile(),//手机
                     record.getEmail(),//email
@@ -930,7 +837,7 @@ public class DpMemberController extends DpBaseController {
 
             valuesList.add(values);
         }
-        String fileName = (cls == 7 ? "已移除" : (cls == 3 ? "离退休" : (cls == 10 ? "全部" : "在职"))) + "教职工党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = (cls == 7 ? "已退出" : (cls == 3 ? "离退休" : (cls == 10 ? "全部" : "在职"))) + "教职工党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
         ExportHelper.export(exportTitles, valuesList, fileName, response);
     }

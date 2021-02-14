@@ -40,6 +40,7 @@ public class CadreConstants {
     public final static Set<Byte> CADRE_STATUS_LEAVE_SET = new HashSet<>(); // 离任干部角色对应的所有状态
 
     static {
+        CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "临时干部档案"); // 无角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_CJ, "现任处级干部");
@@ -49,7 +50,6 @@ public class CadreConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "年轻干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "临时干部档案"); // 无角色
 
         CADRE_STATUS_SET.add(CADRE_STATUS_CJ);
         CADRE_STATUS_SET.add(CADRE_STATUS_CJ_LEAVE);

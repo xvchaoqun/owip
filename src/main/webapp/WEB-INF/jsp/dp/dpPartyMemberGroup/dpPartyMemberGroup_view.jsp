@@ -1,29 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%--<div class="jqgrid-vertical-offset buttons">
-    <shiro:hasPermission name="dpPartyMemberGroup:edit">
-        <button class="popupBtn btn btn-primary btn-xs"
-                data-url="${ctx}/dp/dpPartyMemberGroup_au?partyId=${param.partyId}">
-            <i class="fa fa-users"></i> 添加党派委员会
-        </button>
-        <a href="javascript:;"
-           data-url="${ctx}/dp/dpPartyMemberGroup_au"
-           data-grid-id="#jqGrid2"
-           data-querystr="&partyId=${param.partyId}"
-           class="jqOpenViewBtn btn btn-primary btn-xs">
-            <i class="fa fa-edit"></i> 修改信息</a>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="dpPartyMemberGroup:del">
-        <button data-url="${ctx}/dp/dpPartyMemberGroup_cancel"
-                data-title="移除"
-                data-msg="确定移除这{0}条数据？"
-                data-grid-id="#jqGrid2"
-                class="jqBatchBtn btn btn-danger btn-xs">
-            <i class="fa fa-history"></i> 移除
-        </button>
-    </shiro:hasPermission>
-</div>--%>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
 <div id="jqGridPager2"></div>
@@ -57,7 +34,7 @@
             {label: '委员会届数', name: 'groupSession', width: 100},
             {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
-                label: '移除时间',
+                label: '撤销时间',
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
