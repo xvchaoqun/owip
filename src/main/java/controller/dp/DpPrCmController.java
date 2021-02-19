@@ -200,7 +200,6 @@ public class DpPrCmController extends DpBaseController {
         }
         if (id == null) {
             record.setStatus(true);
-            //record.setType(type);
             dpPrCmService.insertSelective(record);
             logger.info(log( LogConstants.LOG_DPPARTY, "添加人大代表、政协委员信息：{0},{1}", record.getId(), record.getUserId()));
         } else {

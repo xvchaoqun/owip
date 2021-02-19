@@ -270,7 +270,7 @@ pageEncoding="UTF-8" %>
                     formatoptions: {newformat: 'Y.m.d'}},
             { label: '部门',name: 'unit',width:200},
                 { label: '现任职务',name: 'post',width:180},
-            {
+            /*{
                 label: '人大代表、政协委员', name: 'types', width: 270, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var typeIdStrs = [];
@@ -282,7 +282,7 @@ pageEncoding="UTF-8" %>
                     //console.log(typeIdStrs)
                     return typeIdStrs.join(",");
                 }
-            },
+            },*/
                 { label: '最高学历',name: 'highEdu', width: 120},
                 { label: '最高学位',name: 'highDegree', width: 120},
                 {label: '编制类别', name: 'authorizedType'},

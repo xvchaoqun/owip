@@ -115,7 +115,6 @@ public class DpPrCmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPrCm:ALL", allEntries = true)
     public void insertSelective(DpPrCm record){
 
         /*if (idDuplicate(null, record.getUserId(), record.getType(), record.getElectSession())){
@@ -126,14 +125,12 @@ public class DpPrCmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPrCm:ALL", allEntries = true)
     public void del(Integer id){
 
         dpPrCmMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="DpPrCm:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -144,14 +141,12 @@ public class DpPrCmService extends DpBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DpPrCm:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpPrCm record){
         if(record.getUserId() != null)
             //Assert.isTrue(!idDuplicate(record.getId(), record.getUserId(), record.getType(), record.getElectSession()), "duplicate");
         dpPrCmMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DpPrCm:ALL")
     public Map<Integer, DpPrCm> findAll() {
 
         DpPrCmExample example = new DpPrCmExample();
@@ -171,7 +166,6 @@ public class DpPrCmService extends DpBaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DpPrCm:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("dp_pr_cm", null, ORDER_BY_DESC, id, addNum);

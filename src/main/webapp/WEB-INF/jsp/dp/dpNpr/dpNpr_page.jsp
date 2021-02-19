@@ -281,7 +281,7 @@ pageEncoding="UTF-8" %>
                 { label: '所在单位及职务',name: 'unitPost',width:120,},
                 { label: '所属类别',name: 'type',width:280,formatter: $.jgrid.formatter.MetaType},
                 { label: '所属级别',name: 'level',formatter: $.jgrid.formatter.MetaType},
-            {
+            /*{
                 label: '人大代表、政协委员', name: 'types', width: 270, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var typeIdStrs = [];
@@ -293,7 +293,7 @@ pageEncoding="UTF-8" %>
                     //console.log(typeIdStrs)
                     return typeIdStrs.join(",");
                 }
-            },
+            },*/
                 { label: '最高学历',name: 'education'},
                 { label: '最高学位',name: 'degree'},
                 { label: '毕业学校',name: 'school'},
