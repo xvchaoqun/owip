@@ -381,6 +381,7 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserInfo_au(int userId,
+                                 Boolean isFullTimeTeacher,
                                  SysUserInfo record,
                                  String proPost,
                                  String proPostLevel,
@@ -402,6 +403,13 @@ public class SysUserController extends BaseController {
             teacherInfo = new TeacherInfo();
             teacherInfo.setUserId(userId);
             teacherInfo.setProPost(proPost);
+        }
+        if (teacherInfoMapper.selectByPrimaryKey(userId) != null){
+            if(teacherInfo==null) {
+                teacherInfo = new TeacherInfo();
+                teacherInfo.setUserId(userId);
+            }
+            teacherInfo.setIsFullTimeTeacher(isFullTimeTeacher==null?false:isFullTimeTeacher);
         }
         if(proPostLevel!=null){
             if(teacherInfo==null) {

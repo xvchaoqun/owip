@@ -67,6 +67,8 @@ public class DpNprService extends DpBaseMapper {
             Assert.isTrue(dpNprMapper.updateByPrimaryKeySelective(record) == 1, "dp insert failed");
         }
 
+        dpCommonService.updateMemberRole(userId);
+
         return isAdd;
     }
 
@@ -96,6 +98,8 @@ public class DpNprService extends DpBaseMapper {
         dpCommonService.findOrCreateCadre(userId);
 
         dpNprMapper.insertSelective(record);
+
+        dpCommonService.updateMemberRole(userId);
     }
 
     @Transactional
@@ -111,7 +115,12 @@ public class DpNprService extends DpBaseMapper {
 
         DpNprExample example = new DpNprExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<DpNpr> dpNprList = dpNprMapper.selectByExample(example);
         dpNprMapper.deleteByExample(example);
+
+        for (DpNpr dpNpr : dpNprList) {
+            dpCommonService.updateMemberRole(dpNpr.getUserId());
+        }
     }
 
     @Transactional
@@ -123,6 +132,8 @@ public class DpNprService extends DpBaseMapper {
         dpCommonService.findOrCreateCadre(userId);
 
         dpNprMapper.updateByPrimaryKeySelective(record);
+
+        dpCommonService.updateMemberRole(userId);
     }
 
     public Map<Integer, DpNpr> findAll() {

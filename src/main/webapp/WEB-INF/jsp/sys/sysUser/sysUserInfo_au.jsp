@@ -35,6 +35,14 @@
                     </div>
                 </c:if>
             </div>
+            <c:if test="${not empty teacherInfo}">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">是否专任教师</label>
+                    <div class="col-xs-6">
+                        <input name="isFullTimeTeacher" ${teacherInfo.isFullTimeTeacher?"checked":""} type="checkbox"/>
+                    </div>
+                </div>
+            </c:if>
             <div class="form-group">
                 <label class="col-xs-4 control-label"><c:if test="${!sync.gender}"><span class="star">*</span></c:if> 性别</label>
 
@@ -382,6 +390,7 @@
         }
     });
     $.register.date($('.date-picker'));
+    $("#infoForm input[name=isFullTimeTeacher]").bootstrapSwitch();
     //$("#infoForm :checkbox").bootstrapSwitch();
     $('#infoForm [data-rel="select2"]').select2();
 </script>

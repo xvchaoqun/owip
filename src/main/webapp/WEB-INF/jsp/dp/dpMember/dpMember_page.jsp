@@ -49,11 +49,6 @@ pageEncoding="UTF-8" %>
                         data-url="${ctx}/dp/dpMember_data?cls=${cls}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-                <%--<c:if test="${cls!=7}">
-                    <a data-type="${DP_MEMBER_TYPE_MEMBER}" class="syncBtn btn btn-success btn-sm"
-                       data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
-                       autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
-                </c:if>--%>
                 <c:if test="${cls==7}">
                     <shiro:hasPermission name="dpMember:del">
                         <button class="jqBatchBtn btn btn-success btn-sm"
@@ -241,30 +236,6 @@ pageEncoding="UTF-8" %>
     function _dp_reload(){
         $("#page-content").loadPage("${ctx}/dp/dpMember?cls=${cls}");
     }
-
-    //同步干部档案表信息至统战模块
-    var interval = null;
-    clearInterval(interval);
-    $(".syncBtn").click(function(){
-        var $this = $(this);
-        bootbox.confirm("确认" + $.trim($this.text()) + "（会用干部档案表的信息覆盖属于干部身份的统战人员的档案表信息，确认继续同步）？", function (result) {
-            if (result) {
-                var $btn = $this.button('loading')
-                $.post("${ctx}/dp/dpSyncCadreInfo",{cls:$this.data("type")},function(ret){
-                    if(ret.success){
-                        SysMsg.success('干部档案表信息同步完成！');
-                        $.reloadMetaData(function () {
-                            $btn.button('reset');
-                        });
-                        //clearTimeout(t);
-                        $("#jqGrid").trigger("reloadGrid");
-                    }
-                    $btn.button('reset');
-                });
-                clearInterval(interval);
-            }
-        });
-    });
 
     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
         //console.log($(e.target).hasClass("jqExportBtn"))
