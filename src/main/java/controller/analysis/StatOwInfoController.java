@@ -13,6 +13,7 @@ import service.analysis.StatOwInfoService;
 import service.global.CacheHelper;
 import sys.tags.CmTag;
 import sys.utils.ExportHelper;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -30,14 +31,14 @@ public class StatOwInfoController extends BaseController {
     @RequestMapping("/statOwInfo")
     public String statOwInfo(@RequestParam(required = false, defaultValue = "1") Byte cls,
                              @RequestParam(required = false, defaultValue = "0") int export,
-                             ModelMap modelMap, HttpServletResponse response) throws IOException, IOException {
+                             ModelMap modelMap, HttpServletResponse response) throws IOException {
         modelMap.put("cls", cls);
         DecimalFormat df = new DecimalFormat("0.00");
 
         String schoolName = CmTag.getSysConfig().getSchoolName();
         modelMap.put("schoolName", schoolName);
 
-        if (cls == 1) {//全校研究生党员统计
+        if (cls == 1) {
             Map cacheMap= statOwInfoService.getOwYjsInfo(cls, df);
             modelMap.putAll(cacheMap);
             if (export == 1) {
@@ -68,10 +69,10 @@ public class StatOwInfoController extends BaseController {
                 return null;
             }
             return "analysis/statOwInfo/stat_party_yjs_page";
-        } else if (cls == 3) {
-            Map cacheMap = statOwInfoService.getOwBksInfo(cls,modelMap);
+        }else if (cls==3){
+            Map cacheMap = statOwInfoService.getOwBksInfo(cls);
             modelMap.putAll(cacheMap);
-            if (export == 1) {
+            if(export == 1){
                 XSSFWorkbook wb = statOwInfoService.statOwBksInfoExport(modelMap);
                 String fileName = sysConfigService.getSchoolName()
                         + "本科生党员信息统计表";
@@ -80,8 +81,8 @@ public class StatOwInfoController extends BaseController {
             }
             modelMap.put("cls",cls);
             return "analysis/statOwInfo/stat_ow_bks_page";
-        } else if(cls == 4){
-            Map cacheMap = statOwInfoService.getPartyBksInfo(cls,modelMap);
+        }else if(cls==4){
+            Map cacheMap = statOwInfoService.getPartyBksInfo(cls);
             modelMap.putAll(cacheMap);
             if(export == 1){
                 XSSFWorkbook wb = statOwInfoService.statPartyBksInfoExport(modelMap);
@@ -90,27 +91,19 @@ public class StatOwInfoController extends BaseController {
                 ExportHelper.output(wb, fileName + ".xlsx",response);
                 return null;
             }
+
             return "analysis/statOwInfo/stat_party_bks_page";
-        } else if (cls == 5) {
-            Map cacheMap= statOwInfoService.getOwJzgInfo(cls, df);
+        }else if(cls==8){
+            Map cacheMap = statOwInfoService.getPartyBranchInfo(cls);
             modelMap.putAll(cacheMap);
-            if (export == 1) {
-                XSSFWorkbook wb = statOwInfoService.statOwJzgInfoExport(modelMap);
-                String filename = String.format("教工队伍党员信息分析.xlsx");
-                ExportHelper.output(wb, filename, response);
+            if(export == 1){
+                XSSFWorkbook wb = statOwInfoService.statPartyBranchInfoExport(modelMap);
+                String fileName = sysConfigService.getSchoolName()
+                        + "全校党支部书记队伍整体情况分析";
+                ExportHelper.output(wb, fileName + ".xlsx",response);
                 return null;
             }
-            return "analysis/statOwInfo/stat_ow_jzg_page";
-        } else if (cls == 6) {
-            Map cacheMap= statOwInfoService.getPartyJzgInfo(cls, df);
-            modelMap.putAll(cacheMap);
-            if (export == 1) {
-                XSSFWorkbook wb = statOwInfoService.statPartyJzgInfoExport(modelMap);
-                String filename = String.format("各二级党组织专任教师队伍党员信息分析.xlsx");
-                ExportHelper.output(wb, filename, response);
-                return null;
-            }
-            return "analysis/statOwInfo/stat_party_jzg_page";
+            return "analysis/statOwInfo/stat_party_branch_page";
         }
         return "analysis/statOwInfo/stat_ow_yjs_page";
     }

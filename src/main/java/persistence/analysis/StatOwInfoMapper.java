@@ -59,7 +59,7 @@ public interface StatOwInfoMapper {
                                            @Param("gender")Byte gender);
 
     //统计全校党支部的数量
-    List<StatByteBean> branchCount_groupByType(@Param("types")Byte types,
+    List<StatIntBean> branchCount_groupByType(@Param("types")Byte types,
                                @Param("proPostLevel") String proPostLevel,
                                @Param("partyId") Integer partyId);
 

@@ -125,11 +125,12 @@
     </select>
 
     <!--  全校党支部数量统计 -->
-    <select id="branchCount_groupByType" resultType="bean.StatByteBean" parameterType="map">
+    <select id="branchCount_groupByType" resultType="bean.StatIntBean" parameterType="map">
         SELECT COUNT(*) AS num,b.types as groupBy FROM ow_branch b
         left join ow_branch_member_view bm on bm.branch_id=b.id
+        where
         <if test="partyId!=null">
-            and b.party_id = #{partyId}
+            b.party_id = #{partyId}
         </if>
         <if test="proPostLevel!=null">
             and bm.pro_post_level = #{proPostLevel}
