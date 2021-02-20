@@ -229,22 +229,9 @@ public class DpNpmController extends DpBaseController {
     }
 
     @RequiresPermissions("dpNpm:del")
-    @RequestMapping(value = "/dpNpm_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpNpm_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            dpNpmService.del(id);
-            logger.info(log( LogConstants.LOG_GROW, "删除无党派和退出人士：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("dpNpm:del")
     @RequestMapping(value = "/dpNpm_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpNpm_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
+    public Map dpNpm_batchDel(HttpServletRequest request, Integer[] ids) {
 
 
         if (null != ids && ids.length>0){
@@ -294,7 +281,7 @@ public class DpNpmController extends DpBaseController {
             for (Integer id :ids){
                 DpNpm dpNpm = dpNpmMapper.selectByPrimaryKey(id);
                 dpNpm.setStatus(DpConstants.DP_NPM_NORMAL);
-                dpNpmMapper.updateByPrimaryKeySelective(dpNpm);
+                dpNpmService.updateByPrimaryKeySelective(dpNpm);
             }
         }
         return success(FormUtils.SUCCESS);
@@ -390,6 +377,7 @@ public class DpNpmController extends DpBaseController {
         logger.info(log( LogConstants.LOG_GROW, "无党派和退出人士调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
+
     public void dpNpm_export(int cls, DpNpmViewExample example, HttpServletResponse response) {
 
         List<DpNpmView> records = dpNpmViewMapper.selectByExample(example);

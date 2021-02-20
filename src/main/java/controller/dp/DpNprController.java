@@ -267,47 +267,6 @@ public class DpNprController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //单独撤销单个人员
-    /*@RequiresPermissions("dpNpr:del")
-    @RequestMapping("/dpNpr_cancel")
-    public String dpNpr_cancel(Integer id, ModelMap modelMap){
-        if (id != null){
-            DpNpr dpNpr = dpNprMapper.selectByPrimaryKey(id);
-            Integer userId = dpNpr.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
-            modelMap.put("dpNpr", dpNpr);
-        }
-        return "dp/dpNpr/dpNpr_cancel";
-    }*/
-
-    /*@RequiresPermissions("dpNpr:del")
-    @RequestMapping(value = "/dpNpr_cancel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpNpr_cancel(HttpServletRequest request, DpNpr record , String transferTime){
-
-        record.setIsDeleted(true);
-        if (StringUtils.isNotBlank(transferTime)){
-            record.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYY_MM_DD));
-        }
-        dpNprService.updateByPrimaryKeySelective(record);
-        logger.info(log( LogConstants.LOG_DPPARTY, "撤销党外代表人士：{0}", record.getUserId()));
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
-    @RequiresPermissions("dpNpr:del")
-    @RequestMapping(value = "/dpNpr_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpNpr_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            dpNprService.del(id);
-            logger.info(log( LogConstants.LOG_DPPARTY, "删除党外代表人士：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("dpNpr:del")
     @RequestMapping(value = "/dpNpr_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -402,6 +361,7 @@ public class DpNprController extends DpBaseController {
         logger.info(log( LogConstants.LOG_GROW, "党外代表人士调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
+
     public void dpNpr_export(int cls, DpNprViewExample example, HttpServletResponse response) {
 
         List<DpNprView> records = dpNprViewMapper.selectByExample(example);

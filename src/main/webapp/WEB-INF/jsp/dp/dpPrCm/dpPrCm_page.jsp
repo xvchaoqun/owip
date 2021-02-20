@@ -41,11 +41,6 @@ pageEncoding="UTF-8" %>
                            data-msg="确定恢复这{0}个人大代表或政协委员吗？"><i class="fa fa-reply"></i> 恢复</a>
                     </shiro:hasPermission>
                 </c:if>
-                <c:if test="${cls==1}">
-                    <a data-type="${DP_MEMBER_TYPE_PRCM}" class="syncBtn btn btn-success btn-sm"
-                       data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
-                       autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
-                </c:if>
                 <shiro:hasPermission name="dpPrCm:del">
                     <%--<c:if test="${cls==1}">
                     <button class="jqOpenViewBatchBtn btn btn-danger  btn-sm"

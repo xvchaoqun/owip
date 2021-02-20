@@ -177,6 +177,7 @@ public class DpMemberService extends DpBaseMapper {
             cadreService.addTempCadre(userId);
         }
 
+        dpCommonService.updateMemberRole(userId);
         return isAdd;
     }
 
@@ -206,6 +207,7 @@ public class DpMemberService extends DpBaseMapper {
         //更新系统角色
         for(Integer userId: userIds){
             sysUserService.delRole(userId, RoleConstants.ROLE_DP_MEMBER);
+            dpCommonService.updateMemberRole(userId);
         }
 
     }
@@ -224,6 +226,7 @@ public class DpMemberService extends DpBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(DpMember record){
 
+        dpCommonService.updateMemberRole(record.getUserId());
         return dpMemberMapper.updateByPrimaryKeySelective(record);
     }
 

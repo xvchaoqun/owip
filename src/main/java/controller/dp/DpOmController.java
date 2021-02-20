@@ -255,19 +255,6 @@ public class DpOmController extends DpBaseController {
     }
 
     @RequiresPermissions("dpOm:del")
-    @RequestMapping(value = "/dpOm_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpOm_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            dpOmService.del(id);
-            logger.info(log( LogConstants.LOG_GROW, "删除其他统战人员。华侨、归侨及侨眷、欧美同学会会员、知联会员：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("dpOm:del")
     @RequestMapping(value = "/dpOm_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map dpOm_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -355,6 +342,7 @@ public class DpOmController extends DpBaseController {
         logger.info(log( LogConstants.LOG_GROW, "其他统战人员。华侨、归侨及侨眷、欧美同学会会员、知联会员调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
+    
     public void dpOm_export(int cls, DpOmViewExample example, HttpServletResponse response) {
 
         List<DpOmView> records = dpOmViewMapper.selectByExample(example);

@@ -64,7 +64,7 @@ public class DpNpmService extends DpBaseMapper {
         return addCount;
     }
 
-    //添加无党派人士
+    //添加无党派和退出人士
     public boolean add(DpNpm record){
 
         Integer userId = record.getUserId();
@@ -84,6 +84,7 @@ public class DpNpmService extends DpBaseMapper {
             record.setId(dpNpm.getId());
             Assert.isTrue(dpNpmMapper.updateByPrimaryKeySelective(record) == 1, "dp insert failed");
         }
+        dpCommonService.updateMemberRole(userId);
 
         return isAdd;
     }
@@ -96,6 +97,8 @@ public class DpNpmService extends DpBaseMapper {
 
         record.setSortOrder(getNextSortOrder("dp_npm", null));
         dpNpmMapper.insertSelective(record);
+
+        dpCommonService.updateMemberRole(userId);
     }
 
     @Transactional
@@ -111,7 +114,12 @@ public class DpNpmService extends DpBaseMapper {
 
         DpNpmExample example = new DpNpmExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<DpNpm> dpNpmList = dpNpmMapper.selectByExample(example);
         dpNpmMapper.deleteByExample(example);
+
+        for (DpNpm dpNpm : dpNpmList) {
+            dpCommonService.updateMemberRole(dpNpm.getUserId());
+        }
     }
 
     @Transactional
@@ -121,18 +129,21 @@ public class DpNpmService extends DpBaseMapper {
         dpCommonService.findOrCreateCadre(userId);
         
         dpNpmMapper.updateByPrimaryKeySelective(record);
+
+        dpCommonService.updateMemberRole(userId);
     }
 
     @Transactional
     public void transferNpm(Integer[] ids, Integer partyId, String transferTime){
 
-        Date _transferTime = DateUtils.parseDate(transferTime);
+        Date _transferTime = DateUtils.parseStringToDate(transferTime);
         for (Integer id : ids) {
 
-            dpNpmMapper.deleteByPrimaryKey(id);
+            Integer userId =  dpNpmMapper.selectByPrimaryKey(id).getUserId();
 
+            dpNpmMapper.deleteByPrimaryKey(id);
             //转为某民主党派成员
-            DpMember dpMemberAdd = dpMemberMapper.selectByPrimaryKey(id);
+            DpMember dpMemberAdd = dpMemberMapper.selectByPrimaryKey(userId);
             if (dpMemberAdd != null ){
                 dpMemberAdd.setPartyId(partyId);
                 dpMemberAdd.setSource(DpConstants.DP_MEMBER_SOURCE_NPM_TRAN);
@@ -142,7 +153,7 @@ public class DpNpmService extends DpBaseMapper {
                 dpMemberService.updateByPrimaryKeySelective(dpMemberAdd);
             }else {
                 DpMember dpMember = new DpMember();
-                dpMember.setUserId(id);
+                dpMember.setUserId(userId);
                 dpMember.setPartyId(partyId);
                 dpMember.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
                 dpMember.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
@@ -151,9 +162,7 @@ public class DpNpmService extends DpBaseMapper {
 
                 dpMemberService.add(dpMember);
             }
-
         }
-
     }
 
     public Map<Integer, DpNpm> findAll() {
