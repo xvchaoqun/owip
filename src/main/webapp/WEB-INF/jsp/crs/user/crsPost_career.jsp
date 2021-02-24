@@ -33,7 +33,7 @@
           <input type="hidden" name="postId" value="${crsPost.id}">
           <input type="hidden" name="id" value="${crsApplicant.id}">
           <input type="hidden" name="cls" value="1"/>
-                 <textarea data-my="center" data-at="center center" required placeholder="请在此输入您的管理工作经历（报名截止前可修改）"
+                 <textarea data-my="center" class="canEnter" data-at="center center" required placeholder="请在此输入您的管理工作经历（报名截止前可修改）"
                            name="content" rows="18" style="width:1026px">${crsApplicant.career}</textarea>
         </form>
         <div class="modal-footer center" >

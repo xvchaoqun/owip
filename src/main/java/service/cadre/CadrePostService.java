@@ -129,7 +129,10 @@ public class CadrePostService extends BaseMapper {
             record.setPostType(unitPost.getPostType());
             record.setPostClassId(unitPost.getPostClass());
             record.setUnitId(unitPost.getUnitId());
-            record.setIsCpc(unitPost.getIsCpc());
+
+            if(record.getIsCpc()==null) {
+                record.setIsCpc(unitPost.getIsCpc());
+            }
 
         }else{
             // 清除关联岗位

@@ -1,6 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -245,7 +246,7 @@ public class SystemController extends BaseController {
 
     @RequiresPermissions("system:db")
     @RequestMapping(value = "/db_backup")
-    public void db_backup(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
+    public void db_backup(HttpServletRequest request, String db, HttpServletResponse response) throws InterruptedException, IOException {
 
         /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
@@ -254,8 +255,10 @@ public class SystemController extends BaseController {
             return;
         }*/
 
-        String dbName = PropertiesUtils.getString("db.schema");
-        String fileName = dbName + "(" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ").sql";
+        if(StringUtils.isBlank(db)) {
+            db = PropertiesUtils.getString("db.schema");
+        }
+        String fileName = db + "(" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ").sql";
 
         String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                 DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "dbbackup";
@@ -263,7 +266,7 @@ public class SystemController extends BaseController {
         String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
 
         boolean backup = MySqlUtils.backup(host, PropertiesUtils.getString("jdbc_user"),
-                PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, dbName);
+                PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, db);
 
         // 打成压缩包下载
         Map<String, File> fileMap = new LinkedHashMap<>();
@@ -275,6 +278,6 @@ public class SystemController extends BaseController {
         // 下载后从服务器删除
         FileUtils.deleteDir(new File(tmpdir));
 
-        logger.debug(addLog(LogConstants.LOG_ADMIN, "下载备份数据库"));
+        logger.debug(addLog(LogConstants.LOG_ADMIN, "下载备份数据库：" + db));
     }
 }

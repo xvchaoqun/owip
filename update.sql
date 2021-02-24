@@ -1,9 +1,28 @@
 
+-- 重建 dp0219.sql 表  并 更新view_dp
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '宗教信仰', 'mt_dp_other_type_5', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '港澳台', 'mt_dp_other_type_4', NULL, '', '', 4, 1);
+DELETE FROM `base_meta_type` WHERE `id`=673;
+ALTER TABLE `dp_party_member`
+	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `office_phone`,
+	CHANGE COLUMN `present_member` `present_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否现任委员' AFTER `sort_order`;
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `is_full_time_teacher` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+    VALUES (5001, 0, '教工队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=5', 2634, '0/1/105/2634/', 1, 'statOwJzgInfo:list', NULL, NULL, NULL, 1, 50);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+    VALUES (5002, 0, '各二级党组织专任教师队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=6', 2634, '0/1/105/2634/', 1, 'statPartyJzgInfo:list', NULL, NULL, NULL, 1, 50);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4004, 0, '全校党支部书记队伍整体情况分析', '', 'url', '', '/statOwInfo?cls=8', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls8', NULL, NULL, NULL, 1, 50);
+
+
 20210205
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
     VALUES (5000, 0, '各二级党组织研究生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=2', 2634, '0/1/105/2634/', 1, 'statPartyYjsInfo:list', NULL, NULL, NULL, 1, 50);
 
-UPDATE `db_owip`.`sys_resource` SET `url`='/statOwInfo?cls=1' WHERE  `id`=2635;
+UPDATE `sys_resource` SET `url`='/statOwInfo?cls=1' WHERE  `id`=2635;
 
 
 
