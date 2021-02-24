@@ -12,7 +12,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -195,50 +194,11 @@ public class DpPartyController extends DpBaseController {
     }
 
     @RequiresPermissions("dpParty:del")
-    @RequestMapping("/dpParty_cancel")
-    public String dpParty_cancel(){
+    @RequestMapping("/dpParty_batchDel")
+    public String dpParty_batchDel(){
 
-        return "dp/dpParty/dpParty_cancel";
+        return "dp/dpParty/dpParty_batchDel";
     }
-
-    @RequiresPermissions("dpParty:del")
-    @RequestMapping(value = "/dpParty_cancel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpParty_cancel(Integer[] ids,
-                              String deleteTime){
-
-        if (null != ids && ids.length>0){
-            DpPartyExample example = new DpPartyExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            List<DpParty> dpParties = dpPartyMapper.selectByExample(example);
-            for (DpParty dpParty : dpParties){
-                dpParty.setIsDeleted(true);
-                if (StringUtils.isNotBlank(deleteTime)){
-                    dpParty.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYYMMDD_DOT));
-                }
-                dpPartyService.updateByPrimaryKeySelective(dpParty);
-                logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派：{0}", dpParty.getName()));
-            }
-
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    /*@RequiresPermissions("dpParty:del")
-    @RequestMapping(value = "/dpParty_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpParty_del(HttpServletRequest request,
-                              Integer[] ids) {
-
-        if (ids != null && ids.length > 0) {
-            List<Integer> partyIds = new ArrayList<>(Arrays.asList(ids));
-
-            dpPartyService.del(partyIds);
-            logger.info(log( LogConstants.LOG_DPPARTY, "仅删除删除民主党派：{0}", partyIds));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions("dpParty:del")
     @RequestMapping(value = "/dpParty_batchDel", method = RequestMethod.POST)
@@ -251,7 +211,7 @@ public class DpPartyController extends DpBaseController {
 
         if (null != ids && ids.length>0){
             dpPartyService.batchDel(ids,isDeleted);
-            logger.info(log( LogConstants.LOG_DPPARTY, "批量撤销/恢复民主党派：{0}", StringUtils.join(ids, ",")));
+            logger.info(log( LogConstants.LOG_DPPARTY, "批量" + (isDeleted?"撤销":"恢复") + "民主党派：{0}", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

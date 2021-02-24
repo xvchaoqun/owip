@@ -289,7 +289,7 @@ pageEncoding="UTF-8" %>
             },
             <c:if test="${cls==7}">
             {
-                label: '转出时间',
+                label: '退出时间',
                 name: 'outTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}

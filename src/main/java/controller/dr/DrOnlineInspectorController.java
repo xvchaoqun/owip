@@ -51,6 +51,7 @@ public class DrOnlineInspectorController extends DrBaseController {
     @ResponseBody
     public void drOnlineInspector_data(HttpServletResponse response,
                                     Integer typeId,
+                                    Integer onlineId,
                                     Integer logId,
                                     Byte status,
                                     String _username,
@@ -70,6 +71,9 @@ public class DrOnlineInspectorController extends DrBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("unit_id desc,type_id desc");
 
+        if (onlineId != null){
+            criteria.andOnlineIdEqualTo(onlineId);
+        }
         if (logId != null){
             criteria.andLogIdEqualTo(logId);
         }
@@ -189,7 +193,7 @@ public class DrOnlineInspectorController extends DrBaseController {
                                           HttpServletRequest request) throws IOException, TemplateException {
 
         DrOnlineInspectorExample example = new DrOnlineInspectorExample();
-        DrOnlineInspectorExample.Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH);
+        Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH);
 
         if (logId != null){
             criteria.andLogIdEqualTo(logId);

@@ -353,6 +353,7 @@ public class CadreReserveController extends BaseController {
                                   String staffStatus,
                                   String isTemp,
                                   String sortBy, // 自定义排序
+                                  String remark,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                                   Integer[] ids, // 导出的记录
@@ -606,6 +607,10 @@ public class CadreReserveController extends BaseController {
         }
         if(StringUtils.isNotBlank(isTemp)){
             criteria.andIsTempEqualTo(isTemp);
+        }
+
+        if(StringUtils.isNotBlank(remark)){
+            criteria.andRemarkLike(SqlUtils.trimLike(remark));
         }
 
         if (export == 1) {

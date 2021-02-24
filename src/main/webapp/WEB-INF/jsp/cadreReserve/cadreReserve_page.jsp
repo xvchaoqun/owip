@@ -24,7 +24,7 @@
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
                  ||not empty param.state  ||not empty param.title ||not empty param.labels ||not empty param.workTypes
-                 ||not empty param.hasAbroadEdu || not empty param.staffStatus|| not empty param.isTemp || not empty param.authorizedTypes}"/>
+                 ||not empty param.hasAbroadEdu || not empty param.staffStatus|| not empty param.isTemp || not empty param.authorizedTypes || not empty param.remark}"/>
                 <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
 
