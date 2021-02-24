@@ -2,14 +2,12 @@ package persistence.analysis;
 
 import bean.StatByteBean;
 import bean.StatIntBean;
+import bean.StatOwInfoBean;
 import domain.party.Party;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import persistence.member.common.MemberStatByBranchBean;
-import persistence.member.common.MemberStatByPartyBean;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by fafa on 2016/8/1.
@@ -63,4 +61,9 @@ public interface StatOwInfoMapper {
                                @Param("proPostLevel") String proPostLevel,
                                @Param("partyId") Integer partyId);
 
+    //获取基层党组织信息
+    List<StatOwInfoBean> getParty_Branch(@Param("partyId")int id);
+
+
+    List<StatOwInfoBean> getDirectlyBranch(@Param("directBranchId") Integer directBranchId, @Param("partySecretaryId") int partySecretaryId);
 }

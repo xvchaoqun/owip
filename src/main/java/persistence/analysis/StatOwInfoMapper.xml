@@ -138,6 +138,31 @@
         <if test="types!=null">
             and bm.types = #{types}
         </if>
+        and bm.is_deleted = 0
         group by groupBy
     </select>
+
+    <!--通过二级党委id查询其下党支部信息-->
+    <select id="getParty_Branch" resultType="bean.StatOwInfoBean">
+        SELECT b.id as branchId,b.name as name,b.types as types,bm.realName as realName,
+			bm.gender as gender,bm.nation as nation,bm.ow_grow_time as growTime,
+			bm.birth as birth,bm.pro_post as proPost,c.title as title
+		FROM ow_branch b join ow_branch_member_view bm on bm.group_branch_id=b.id left join cadre c on bm.user_id=c.user_id
+		where b.party_id = #{partyId}
+		and bm.types = 80
+		and bm.is_deleted=0
+    </select>
+
+    <!--直属党支部-->
+    <select id="getDirectlyBranch" resultType="bean.StatOwInfoBean">
+        SELECT opm.id as partyId,(case op.short_name when '' then op.NAME ELSE op.short_name end) AS name,op.branch_type as types,
+		opm.realname as realName,opm.gender as gender,opm.nation as nation,opm.ow_grow_time as growTime,opm.birth as birth,
+		opm.pro_post as proPost,c.title as title
+        FROM ow_party op left join ow_party_member_view opm on op.id=opm.id left join cadre c on opm.user_id=c.user_id
+        where op.class_id = #{directBranchId}
+        and opm.post_id = #{partySecretaryId}
+        and opm.is_deleted=0
+
+    </select>
+
 </mapper>

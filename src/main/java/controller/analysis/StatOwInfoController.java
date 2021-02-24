@@ -1,6 +1,7 @@
 package controller.analysis;
 
 import controller.BaseController;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,18 @@ public class StatOwInfoController extends BaseController {
             }
 
             return "analysis/statOwInfo/stat_party_bks_page";
-        }else if(cls==8){
+        }else if(cls == 7){
+            Map cacheMap = statOwInfoService.getGrassrootsPartyInfo(cls);
+            modelMap.putAll(cacheMap);
+            if(export == 1){
+                HSSFWorkbook wb = statOwInfoService.statBranchInfoExport(modelMap);
+                String fileName = sysConfigService.getSchoolName()
+                        + "全校基层党组织基本情况一览表";
+                ExportHelper.output(wb, fileName + ".xls",response);
+                return null;
+            }
+            return "analysis/statOwInfo/stat_branch_info_page";
+        } else if(cls==8){
             Map cacheMap = statOwInfoService.getPartyBranchInfo(cls);
             modelMap.putAll(cacheMap);
             if(export == 1){
