@@ -4,9 +4,13 @@ import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreParty;
+import domain.cadre.CadrePartyExample;
 import domain.cadre.CadrePartyView;
 import domain.cadre.CadrePartyViewExample;
+import domain.sp.SpNpc;
+import domain.sp.SpNpcExample;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -69,6 +74,8 @@ public class CadrePartyController extends BaseController {
                                 Integer postType,
                                 Integer dpTypeId,
                                 String title,
+                                Integer[] ids,
+                                @RequestParam(required = false, defaultValue = "0") int export,
                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -80,11 +87,9 @@ public class CadrePartyController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadrePartyViewExample example = new CadrePartyViewExample();
-        CadrePartyViewExample.Criteria criteria =
-                example.createCriteria().andTypeEqualTo(type);
+        CadrePartyViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
 
         if(type==1) {
-
             List<Integer> dpTypeIds = new ArrayList<>();
             List<Integer> crowdIds = new ArrayList<>();
             Map<Integer, MetaType> dpTypes = CmTag.getMetaTypes("mc_democratic_party");
@@ -105,6 +110,7 @@ public class CadrePartyController extends BaseController {
             }
         }
 
+
         example.setOrderByClause("cadre_sort_order desc, is_first desc");
         if (status!=null) {
             criteria.andCadreStatusEqualTo(status);
@@ -124,6 +130,15 @@ public class CadrePartyController extends BaseController {
         if (StringUtils.isNotBlank(title)) {
             criteria.andCadreTitleLike(SqlUtils.like(title));
         }
+
+        if (export == 1) {
+            if(ids != null & ids.length > 0){
+                criteria.andIdIn(Arrays.asList(ids));
+            }
+            cadreParty_export(example,response,type,cls);
+            return;
+        }
+
 
         long count = cadrePartyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -314,5 +329,118 @@ public class CadrePartyController extends BaseController {
                 CadreConstants.CADRE_PARTY_TYPE_MAP.get(type)), successCount);
 
         return resultMap;
+    }
+
+    private void cadreParty_export(CadrePartyViewExample example,HttpServletResponse response,byte type,byte cls) {
+        List<CadrePartyView> Cadres = cadrePartyViewMapper.selectByExample(example);
+        MetaType mt_dp_qz = CmTag.getMetaTypeByCode("mt_dp_qz");//元数据   群众
+
+        String[] titles;
+        if(type ==1 &cls == 1){
+            titles = new String[]{"工作证号|100", "姓名|100","民主党派|100","党派加入时间|100", "担任党派职务|200", "部门属性|100", "所在单位|100",
+                    "现任职务|200", "所在单位及职务|250", "行政级别|100", "职务属性|100", "在任情况|100", "备注|200"};
+        }else if (type==1 & cls == 2){
+            titles = new String[]{"工作证号|100", "姓名|100","类别|100", "部门属性|100", "所在单位|200",
+                    "现任职务|200", "所在单位及职务|250", "行政级别|200", "职务属性|200", "在任情况|100", "备注|200"};
+        }
+        else{
+            titles = new String[]{"工作证号|100", "姓名|100", "党派加入时间|100", "是否存在党员信息库|200", "部门属性|100", "所在单位|100",
+                    "现任职务|200", "所在单位及职务|250", "行政级别|100", "职务属性|100", "在任情况|100", "备注|200"};
+        }
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < Cadres.size(); i++) {
+            CadrePartyView cadreParty = Cadres.get(i);
+            String code = cadreParty.getCode() == null ? "" : cadreParty.getCode();//工作证号
+            String realName = cadreParty.getRealname() == null ? "" : cadreParty.getRealname();//姓名
+            Integer classId = cadreParty.getClassId()==null ? 0 : cadreParty.getClassId();//民主党派，群众  关联元数据
+            String post = cadreParty.getPost() == null ? "" : cadreParty.getPost();//担任党派职务
+            Integer unitTypeId = 0 ;//部门属性
+            String unitName = "";//所在单位
+            Map<Integer, Unit> unitMap = unitService.findAll();
+            Integer adminLevel = cadreParty.getAdminLevel()==null ? 0 : cadreParty.getAdminLevel();//行政级别  关联元数据
+            Integer postType = cadreParty.getPostType() == null ? 0 : cadreParty.getPostType();//职务属性   关联元数据
+            Byte cadreStatus = cadreParty.getCadreStatus() == null ? 0 : cadreParty.getCadreStatus();//在任情况
+
+            if (cadreParty.getUnitId() != null){
+                Unit unit = unitMap.get(cadreParty.getUnitId() == null ? 0 :cadreParty.getUnitId());
+                unitTypeId = unit.getTypeId() == null ? 0 : unit.getTypeId();
+                unitName = unit.getName() == null ? "" : unit.getName();
+            }
+            if(type==1 & cadreParty.getType()==1){
+                if (cls ==1 && !classId.equals(mt_dp_qz.getId())){
+                    String[] values = new String[]{
+                            code,
+                            realName,
+                            CmTag.getMetaTypeName(classId),
+                            DateUtils.formatDate(cadreParty.getGrowTime(), DateUtils.YYYYMMDD_DOT),
+                            post,
+                            CmTag.getMetaTypeName(unitTypeId),
+                            unitName,
+                            cadreParty.getCadrePost(),
+                            cadreParty.getCadreTitle(),
+                            CmTag.getMetaTypeName(adminLevel),
+                            CmTag.getMetaTypeName(postType),
+                            getStatsStr(cadreStatus),//在任情况
+                            cadreParty.getRemark()
+                    };
+                    valuesList.add(values);
+
+                }else if (cls==2 && classId.equals(mt_dp_qz.getId())){
+                    String[] values = new String[]{
+                            code,
+                            realName,
+                            CmTag.getMetaTypeName(classId),
+                            CmTag.getMetaTypeName(unitTypeId),
+                            unitName,cadreParty.getCadrePost(),cadreParty.getCadreTitle(),
+                            CmTag.getMetaTypeName(adminLevel),
+                            CmTag.getMetaTypeName(postType),
+                            getStatsStr(cadreStatus),//在任情况
+                            cadreParty.getRemark()
+                    };
+                    valuesList.add(values);
+                }
+            }else if (type==2 & cadreParty.getType()==2){
+                Byte memberStatus = cadreParty.getMemberStatus() == null ? 0 : cadreParty.getMemberStatus();
+                String[] values = new String[]{
+                        cadreParty.getCode(),
+                        cadreParty.getRealname(),
+                        DateUtils.formatDate(cadreParty.getGrowTime(), DateUtils.YYYYMMDD_DOT),
+                        memberStatus == 1 ? "是" : "否",
+                        CmTag.getMetaTypeName(unitTypeId),
+                        unitName,
+                        cadreParty.getCadrePost(),
+                        cadreParty.getCadreTitle(),
+                        CmTag.getMetaTypeName(adminLevel),//行政级别  关联元数据
+                        CmTag.getMetaTypeName(postType),//职务属性   关联元数据
+                        getStatsStr(cadreStatus),//在任情况
+                        cadreParty.getRemark()
+                };
+                valuesList.add(values);
+            }
+        }
+        String fileName = String.format(type==1?"民主党派干部库(%s)":"特殊党员干部库(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    public String getStatsStr(int arg){
+        String statusStr = "";
+        if(arg == 1){
+            statusStr = "现任处级干部";
+        }else if (arg== 2){
+            statusStr = "考察对象";
+        }else if (arg == 3){
+            statusStr = "离任处级干部";
+        }else if (arg == 4){
+            statusStr = "离任校领导";
+        }else if (arg == 5){
+            statusStr = "后备干部";
+        }else if (arg == 6){
+            statusStr = "现任校领导";
+        }else if (arg == 7){
+            statusStr = "应聘干部";
+        }else if (arg == 10){
+            statusStr = "民主党派成员";
+        }
+        return statusStr;
     }
 }
