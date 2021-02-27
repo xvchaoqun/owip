@@ -34,6 +34,7 @@ import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveService;
 import service.cm.CmMemberService;
+import service.dp.dpCommon.DpCommonService;
 import service.global.CacheHelper;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
@@ -85,6 +86,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     protected ModifyCadreAuthService modifyCadreAuthService;
     @Autowired(required = false)
     protected CmMemberService cmMemberService;
+    @Autowired
+    protected DpCommonService dpCommonService;
 
     // 添加临时干部（无角色）
     @Transactional
@@ -463,7 +466,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             }
             cadrePartyMapper.deleteByPrimaryKey(id);
 
-            cadrePartyService.updateRole(userId);
+            dpCommonService.updateMemberRole(userId);
+            //cadrePartyService.updateRole(userId);
 
             cacheHelper.clearCadreCache(cadreView.getId());
         }

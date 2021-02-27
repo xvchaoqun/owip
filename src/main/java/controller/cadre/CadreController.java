@@ -251,6 +251,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,
                            //是否聘任制干部，指无行政级别的干部
                            @RequestParam(required = false, defaultValue = "0") Boolean isEngage,
+                           String remark,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            Integer[] ids, // 导出的记录
@@ -503,6 +504,10 @@ public class CadreController extends BaseController {
 
         if (StringUtils.isNotBlank(title)) {
             criteria.andTitleLike(SqlUtils.trimLike(title));
+        }
+
+        if(StringUtils.isNotBlank(remark)){
+            criteria.andRemarkLike(SqlUtils.trimLike(remark));
         }
 
         if (export == 1) {

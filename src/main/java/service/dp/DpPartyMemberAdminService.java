@@ -62,7 +62,7 @@ public class DpPartyMemberAdminService extends DpBaseMapper {
     public void toggleAdmin(DpPartyMember dpPartyMember){
 
         DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(dpPartyMember.getGroupId());
-        if(!dpPartyMemberGroup.getIsPresent())  return;// 只有当前委员会是现任委员会才操作
+        //if(!dpPartyMemberGroup.getIsPresent())  return;// 只有当前委员会是现任委员会才操作
 
         DpPartyMember record = new DpPartyMember();
         record.setId(dpPartyMember.getId());

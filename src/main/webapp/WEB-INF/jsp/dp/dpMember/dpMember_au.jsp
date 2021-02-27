@@ -88,7 +88,7 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label">备注</label>
-                <div class="col-xs-6">
+                <div class="col-xs-6" style="width: 296px">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="remark" rows="3">${dpMember.remark}</textarea>
                 </div>

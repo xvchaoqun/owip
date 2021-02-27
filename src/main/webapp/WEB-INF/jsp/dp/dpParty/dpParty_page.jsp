@@ -36,12 +36,14 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-download"></i> 导出</button>
                 </shiro:hasPermission>
 
-                <shiro:hasPermission name="dpOrgAdmin:list">
-                <button data-url="${ctx}/dp/dp_org_admin"
-                        data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
-                    <i class="fa fa-user"></i> 编辑管理员
-                </button>
-                </shiro:hasPermission>
+                <c:if test="${cls==1}">
+                    <shiro:hasPermission name="dpOrgAdmin:list">
+                    <button data-url="${ctx}/dp/dp_org_admin"
+                            data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
+                        <i class="fa fa-user"></i> 编辑管理员
+                    </button>
+                    </shiro:hasPermission>
+                </c:if>
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-url="${ctx}/sysApprovalLog"
                         data-querystr="&type=<%=SystemConstants.SYS_DP_LOG_TYPE_PARTY%>"
@@ -60,7 +62,7 @@ pageEncoding="UTF-8" %>
                 <c:if test="${cls==1}">
                     <shiro:hasPermission name="dpParty:edit">
                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpParty_cancel" data-title="撤销民主党派"
+                           data-url="${ctx}/dp/dpParty_batchDel" data-title="撤销民主党派"
                            data-msg="确定撤销这{0}个民主党派吗？"><i class="fa fa-history"></i> 撤销</a>
                     </shiro:hasPermission>
                 </c:if>

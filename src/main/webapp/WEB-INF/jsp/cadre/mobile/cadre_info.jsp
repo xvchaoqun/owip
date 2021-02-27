@@ -77,13 +77,13 @@
         <div class="profile-info-row">
           <div class="profile-info-name td" id="post1"> 现任职务</div>
           <div class="profile-info-value td">
-            <span class="editable">${mainCadrePost.post}</span>
+            <span class="editable">${cadre.post}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevel).name}</span>
+            <span class="editable">${cm:getMetaType(cadre.adminLevel).name}</span>
           </div>
         </div>
 

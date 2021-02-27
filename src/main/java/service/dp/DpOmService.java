@@ -48,7 +48,7 @@ public class DpOmService extends DpBaseMapper {
         return addCount;
     }
 
-    //添加党外代表人士
+    //添加其他统战人员
     public boolean add(DpOm record){
 
         Integer userId = record.getUserId();
@@ -68,6 +68,8 @@ public class DpOmService extends DpBaseMapper {
             record.setId(dpOm.getId());
             Assert.isTrue(dpOmMapper.updateByPrimaryKeySelective(record) == 1, "dp insert failed");
         }
+
+        dpCommonService.updateMemberRole(userId);
 
         return isAdd;
     }
@@ -91,8 +93,11 @@ public class DpOmService extends DpBaseMapper {
     @Transactional
     public void insertSelective(DpOm record){
 
+        Integer userId = record.getUserId();
         record.setSortOrder(getNextSortOrder("dp_om", null));
         dpOmMapper.insertSelective(record);
+
+        dpCommonService.updateMemberRole(userId);
     }
 
     @Transactional
@@ -108,13 +113,21 @@ public class DpOmService extends DpBaseMapper {
 
         DpOmExample example = new DpOmExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<DpOm> dpOmList = dpOmMapper.selectByExample(example);
         dpOmMapper.deleteByExample(example);
+
+        for (DpOm dpOm : dpOmList) {
+            dpCommonService.updateMemberRole(dpOm.getUserId());
+        }
     }
 
     @Transactional
     public void updateByPrimaryKeySelective(DpOm record){
 
+        Integer userId = record.getUserId();
         dpOmMapper.updateByPrimaryKeySelective(record);
+
+        dpCommonService.updateMemberRole(userId);
     }
 
     public Map<Integer, DpOm> findAll() {
@@ -150,6 +163,11 @@ public class DpOmService extends DpBaseMapper {
 
         DpOmExample example = new DpOmExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<DpOm> dpOmList = dpOmMapper.selectByExample(example);
         dpOmMapper.updateByExampleSelective(dpOm, example);
+
+        for (DpOm om : dpOmList) {
+            dpCommonService.updateMemberRole(om.getUserId());
+        }
     }
 }

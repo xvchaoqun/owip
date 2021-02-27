@@ -127,15 +127,4 @@ public class DpCommonController extends DpBaseController {
         return resultMap;
     }
 
-    //同步统战中对应干部的档案表信息
-    @RequestMapping("/dpSyncCadreInfo")
-    @ResponseBody
-    public Map do_dpSyncCadreInfo(Integer cls){
-
-        if (cls != null){
-            dpCommonService.syncCadreInfo(cls);
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
 }

@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.dp.dpCommon.DpCommonService;
 import service.global.CacheHelper;
 import service.member.MemberQuitService;
 import service.sys.SysUserService;
@@ -41,6 +42,8 @@ public class CadrePartyService extends BaseMapper {
     private MemberQuitService memberQuitService;
     @Autowired
     private CacheHelper cacheHelper;
+    @Autowired
+    protected DpCommonService dpCommonService;
 
     // 添加或删除角色（干部其他信息-民主党派成员）
     public void updateRole(int userId){
@@ -178,7 +181,8 @@ public class CadrePartyService extends BaseMapper {
             cadrePartyMapper.updateByPrimaryKeySelective(record);
         }
 
-        updateRole(userId);
+        dpCommonService.updateMemberRole(userId);
+        //updateRole(userId);
 
         cacheHelper.clearCadreCache(cv.getId());
     }
@@ -203,7 +207,8 @@ public class CadrePartyService extends BaseMapper {
             }
             addOrUpdateCadreParty(record);
 
-            updateRole(userId);
+            dpCommonService.updateMemberRole(userId);
+            //updateRole(userId);
         }
     }
 

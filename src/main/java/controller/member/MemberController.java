@@ -570,7 +570,9 @@ public class MemberController extends MemberBaseController {
             ShiroHelper.checkPermission("member:add");
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
+            if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT
+                && memberApply.getStage() < OwConstants.OW_APPLY_STAGE_GROW
+            ) {
 
                 Party party = partyMapper.selectByPrimaryKey(memberApply.getPartyId());
                 if (party != null && BooleanUtils.isNotTrue(party.getIsDeleted())) {

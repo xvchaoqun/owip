@@ -268,9 +268,11 @@
 </div>
 <shiro:hasRole name="${ROLE_ADMIN}">
     <div class="column">
-        <label class="rows">第一主职是否已关联岗位</label>
+        <label>是否在岗 <span class="prompt" data-title="查询说明"
+							  data-prompt="“是”：存在第一主职，并且第一主职关联了某个岗位；<br/>“否”：存在第一主职，但没有关联岗位；
+<br/>“缺第一主职”：还未录入第一主职；"><i class="fa fa-question-circle-o"></i></span></label>
         <div class="input">
-            <select name="firstUnitPost" data-width="100"
+            <select name="firstUnitPost" data-width="130"
                     data-rel="select2" data-placeholder="请选择">
                 <option></option>
                 <option value="1">是</option>
@@ -393,6 +395,13 @@
         <script>
             $("#searchForm select[name=hasAbroadEdu]").val('${param.hasAbroadEdu}');
         </script>
+    </div>
+</div>
+<div class="column">
+    <label>备注</label>
+    <div class="input">
+        <input type="text" name="remark"
+               value="${param.remark}">
     </div>
 </div>
 <script>

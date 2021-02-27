@@ -49,11 +49,6 @@ pageEncoding="UTF-8" %>
                         data-url="${ctx}/dp/dpMember_data?cls=${cls}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-                <%--<c:if test="${cls!=7}">
-                    <a data-type="${DP_MEMBER_TYPE_MEMBER}" class="syncBtn btn btn-success btn-sm"
-                       data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
-                       autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
-                </c:if>--%>
                 <c:if test="${cls==7}">
                     <shiro:hasPermission name="dpMember:del">
                         <button class="jqBatchBtn btn btn-success btn-sm"
@@ -174,30 +169,6 @@ pageEncoding="UTF-8" %>
                                        placeholder="请输入部门名称">
                             </div>
                             <div class="form-group">
-                                <label>行政级别</label>
-                                <div class="input-group">
-                                    <select class="multiselect" name="adminLevel" multiple="">
-                                        <c:forEach items="${metaAdminLevel}" var="metaType">
-                                        <c:forEach items="${adminLevels}" var="adminLevel">
-                                            <c:if test="${metaType.id==adminLevel}">
-                                            <option value="${adminLevel}">${metaType.name}</option>
-                                            </c:if>
-                                        </c:forEach>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>行政职务</label>
-                                <div class="input-group">
-                                    <select class="multiselect" name="post" multiple="">
-                                        <c:forEach items="${posts}" var="post">
-                                            <option value="${post}">${post}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label>加入党派时间</label>
                                 <div class="input-group tooltip-success" data-rel="tooltip" title="加入党派时间范围">
                                                             <span class="input-group-addon">
@@ -266,30 +237,6 @@ pageEncoding="UTF-8" %>
         $("#page-content").loadPage("${ctx}/dp/dpMember?cls=${cls}");
     }
 
-    //同步干部档案表信息至统战模块
-    var interval = null;
-    clearInterval(interval);
-    $(".syncBtn").click(function(){
-        var $this = $(this);
-        bootbox.confirm("确认" + $.trim($this.text()) + "（会用干部档案表的信息覆盖属于干部身份的统战人员的档案表信息，确认继续同步）？", function (result) {
-            if (result) {
-                var $btn = $this.button('loading')
-                $.post("${ctx}/dp/dpSyncCadreInfo",{cls:$this.data("type")},function(ret){
-                    if(ret.success){
-                        SysMsg.success('干部档案表信息同步完成！');
-                        $.reloadMetaData(function () {
-                            $btn.button('reset');
-                        });
-                        //clearTimeout(t);
-                        $("#jqGrid").trigger("reloadGrid");
-                    }
-                    $btn.button('reset');
-                });
-                clearInterval(interval);
-            }
-        });
-    });
-
     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
         //console.log($(e.target).hasClass("jqExportBtn"))
         if (!$(e.target).hasClass("jqExportBtn")) {
@@ -342,7 +289,7 @@ pageEncoding="UTF-8" %>
             },
             <c:if test="${cls==7}">
             {
-                label: '转出时间',
+                label: '退出时间',
                 name: 'outTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
@@ -372,9 +319,6 @@ pageEncoding="UTF-8" %>
             },
             {label: '部门', name: 'unit', width: 200},
             {label: '党派内职务', name: 'dpPost', width: 180},
-            /*{label: '兼职（其他校外职务）', name: 'partTimeJob', width: 180},
-            {label: '行政职务', name: 'post', width: 180},
-            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},*/
             {label: '是否是共产党员', name: 'isPartyMember', width: 120, formatter:$.jgrid.formatter.TRUEFALSE},
             {
                 label: '加入党派时间',
@@ -383,7 +327,7 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            {
+            /*{
                 label: '人大代表、政协委员', name: 'types', width: 270, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var typeIdStrs = [];
@@ -396,7 +340,7 @@ pageEncoding="UTF-8" %>
                     //console.log(typeIdStrs)
                     return typeIdStrs.join(",");
                 }
-            },
+            },*/
             {label: '编制类别', name: 'authorizedType'},
             {label: '专业技术职务', name: 'proPost'},
             {
@@ -406,12 +350,6 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            /*{label: '培训情况', name: 'trainState', width: 200},
-            {label: '政治表现', name: 'politicalAct', width: 200},
-            {label: '党内奖励', name: 'partyReward', width: 200},
-            {label: '其他奖励', name: 'otherReward', width: 200},
-            {label: '学历', name: 'edu', width: 120},
-            {label: '学位', name: 'degree', width: 120},*/
             {label: '最高学历', name: 'highEdu', width: 120},
             {label: '最高学位', name: 'highDegree', width: 120},
             {label: '通讯地址', name: 'address', width: 200},

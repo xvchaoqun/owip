@@ -10,6 +10,7 @@ import service.dp.dpCommon.DpCommonService;
 
 public class DpBaseMapper extends CoreBaseMapper {
 
+
     @Autowired
     protected DpCommonService dpCommonService;
 

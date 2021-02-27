@@ -32,7 +32,7 @@
                 <input type="hidden" name="postId" value="${crsPost.id}">
                 <input type="hidden" name="id" value="${crsApplicant.id}">
                 <input type="hidden" name="cls" value="2"/>
-                 <textarea data-my="center" data-at="center center" required placeholder="请在此输入您的工作设想和预期目标（报名截止前可修改）"
+                 <textarea data-my="center" class="canEnter" data-at="center center" required placeholder="请在此输入您的工作设想和预期目标（报名截止前可修改）"
                            name="content" rows="18" style="width:1026px">${crsApplicant.report}</textarea>
             </form>
             <div class="modal-footer center" >

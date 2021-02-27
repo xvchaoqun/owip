@@ -441,8 +441,7 @@ public class DpMemberController extends DpBaseController {
     @RequiresPermissions("dpMember:del")
     @RequestMapping(value = "/dpMember_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpMember_out(Integer[] ids,
-                              String outTime){
+    public Map do_dpMember_out(Integer[] ids, String outTime){
 
         if (null != ids && ids.length>0){
             DpMemberExample example = new DpMemberExample();
@@ -460,19 +459,6 @@ public class DpMemberController extends DpBaseController {
 
         }
 
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("dpMember:del")
-    @RequestMapping(value = "/dpMember_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpMember_del(HttpServletRequest request, Integer userId) {
-
-        if (userId != null) {
-
-            dpMemberService.del(userId);
-            logger.info(log( LogConstants.LOG_GROW, "删除党员信息表：{0}", userId));
-        }
         return success(FormUtils.SUCCESS);
     }
 
@@ -497,26 +483,6 @@ public class DpMemberController extends DpBaseController {
     public Map do_dpMember_changeOrder(Integer userId, Integer addNum, HttpServletRequest request) {
 
         logger.info(log( LogConstants.LOG_GROW, "党员信息表调序：{0}, {1}", userId, addNum));
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("dpMember:modifyStatus")
-    @RequestMapping("/dp_member_modify_status")
-    public String dpMember_modify_status(int userId, ModelMap modelMap){
-
-        DpMember dpMember = dpMemberMapper.selectByPrimaryKey(userId);
-        modelMap.put("dpMember", dpMember);
-
-        return "dp/dpMember/dp_member_modify_status";
-    }
-
-    @RequiresPermissions("dpMember:modifyStatus")
-    @RequestMapping(value = "/dp_member_modify_status",method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_member_modify_status(int userId, byte politicalStatus, String remark){
-
-        DpMember dpMember = dpMemberMapper.selectByPrimaryKey(userId);
-
         return success(FormUtils.SUCCESS);
     }
 
@@ -686,7 +652,7 @@ public class DpMemberController extends DpBaseController {
         return resultMap;
     }
 
-        //导入校内账号的党派成员
+    //导入校内账号的党派成员
     public Map<String, Object> importInSchoolDpMember(List<Map<Integer, String>> xlsRows,
                                                       Map<String, DpParty> runPartyMap){
 

@@ -41,6 +41,12 @@
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                     批量导入</a>
                                     </c:if>
+                                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                        data-url="${ctx}/cadreParty_data?type=${type}&cls=${cls}"
+                                        data-rel="tooltip" data-placement="top"
+                                        title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i>
+                                    导出
+                                </button>
                                 <shiro:hasPermission name="cadreParty:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/cadreParty_batchDel?type=${type}" data-title="删除"

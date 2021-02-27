@@ -1,12 +1,17 @@
 package service.analysis;
 
 import bean.StatByteBean;
+import bean.StatIntBean;
+import bean.StatOwInfoBean;
+import domain.base.MetaType;
 import domain.party.Party;
 import domain.sys.StudentInfoExample;
 import domain.sys.SysUserExample;
+import net.sf.jasperreports.olap.mapping.DataMapping;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,6 +34,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static sys.utils.DateUtils.*;
 
 @Service
 public class StatOwInfoService extends BaseMapper {
@@ -1361,8 +1368,8 @@ public class StatOwInfoService extends BaseMapper {
             masters.put("masterPercent", df.format(masterPercent.doubleValue() * 100) + "%");
             doctors.put("doctorPercent", df.format(doctorPercent.doubleValue() * 100) + "%");
             masters.put("partyName", p.getShortName());
-            data.add( masters);
-            data.add( doctors);
+            data.add(masters);
+            data.add(doctors);
             dataMap.put("data", data);
             dataMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
         }
@@ -1480,30 +1487,31 @@ public class StatOwInfoService extends BaseMapper {
     }
 
     @Cacheable(value="statOwInfo",key = "#cls")
-    public ModelMap getOwBksInfo(Byte cls,ModelMap modelMap) {
+    public Map getOwBksInfo(Byte cls) {
+        Map map = new HashMap();
 
         //2019级本科生
         List<StatByteBean> statByteBeans_19 = statOwInfoMapper.selectUser_groupByLevel("2019");
         int studentNum_19 = getCount(statByteBeans_19);
-        modelMap.put("studentNum_19",studentNum_19);
+        map.put("studentNum_19",studentNum_19);
 
         //2019正式党员
         List<StatByteBean> positivePartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2019");
         int positivePartyNum_19 = getCount(positivePartyList_19);
-        modelMap.put("positivePartyNum_19",positivePartyNum_19);
+        map.put("positivePartyNum_19",positivePartyNum_19);
         //2019预备党员
         List<StatByteBean> growPartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2019");
         int growPartyNum_19 = getCount(growPartyList_19);
-        modelMap.put("growPartyNum_19",growPartyNum_19);
+        map.put("growPartyNum_19",growPartyNum_19);
 
         //2019党员总数
         int countNum_19 = positivePartyNum_19+growPartyNum_19;
-        modelMap.put("count_19",countNum_19);
+        map.put("count_19",countNum_19);
 
         //占比
         double partyProportion_19 = new BigDecimal((float)countNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String partyStr_19 = partyProportion_19+"%";
-        modelMap.put("partyStr_19",partyStr_19);
+        map.put("partyStr_19",partyStr_19);
 
         //2019申请人数
         List<StatByteBean> applyBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2019",null,null);
@@ -1513,48 +1521,48 @@ public class StatOwInfoService extends BaseMapper {
         int applyPassNum_19 = getCount(applyPassBeans_19);
 
         int totalNum_19 = applyNum_19+applyPassNum_19;
-        modelMap.put("totalNum_19",totalNum_19);
+        map.put("totalNum_19",totalNum_19);
         //占比
         double applyProportion_19 = new BigDecimal((float)totalNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String applyStr_19 = applyProportion_19+"%";
-        modelMap.put("applyStr_19",applyStr_19);
+        map.put("applyStr_19",applyStr_19);
 
         //2019积极分子
         List<StatByteBean> activeBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2019",null,null);
         int activeNum_19 = getCount(activeBeans_19);
-        modelMap.put("activeNum_19",activeNum_19);
+        map.put("activeNum_19",activeNum_19);
         //占比
         double activeProportion_19 = new BigDecimal((float)activeNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String activeStr_19 = activeProportion_19+"%";
-        modelMap.put("activeStr_19",activeStr_19);
+        map.put("activeStr_19",activeStr_19);
 
         //2019发展对象
         List<StatByteBean> devBeans_19 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2019",null,null);
         int devNum_19 = getCount(devBeans_19);
-        modelMap.put("devNum_19",devNum_19);
+        map.put("devNum_19",devNum_19);
         //占比
         double devProportion_19 = new BigDecimal((float)devNum_19/studentNum_19*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String devStr_19 = devProportion_19+"%";
-        modelMap.put("devStr_19",devStr_19);
+        map.put("devStr_19",devStr_19);
         //2018级本科生
         List<StatByteBean> statByteBeans_18 = statOwInfoMapper.selectUser_groupByLevel("2018");
         int studentNum_18 = getCount(statByteBeans_18);
-        modelMap.put("studentNum_18",studentNum_18);
+        map.put("studentNum_18",studentNum_18);
         //2018正式党员
         List<StatByteBean> positivePartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2018");
         int positivePartyNum_18 = getCount(positivePartyList_18);
-        modelMap.put("positivePartyNum_18",positivePartyNum_18);
+        map.put("positivePartyNum_18",positivePartyNum_18);
         //2018预备党员
         List<StatByteBean> growPartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2018");
         int growPartyNum_18 = getCount(growPartyList_18);
-        modelMap.put("growPartyNum_18",growPartyNum_18);
+        map.put("growPartyNum_18",growPartyNum_18);
         //2018党员总数
         int countNum_18 = positivePartyNum_18+growPartyNum_18;
-        modelMap.put("count_18",countNum_18);
+        map.put("count_18",countNum_18);
         //占比
         double partyProportion_18 = new BigDecimal((float)countNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String partyStr_18 = partyProportion_18+"%";
-        modelMap.put("partyStr_18",partyStr_18);
+        map.put("partyStr_18",partyStr_18);
         //2018申请人数
         List<StatByteBean> applyBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2018",null,null);
         int applyNum_18 = getCount(applyBeans_18);
@@ -1563,52 +1571,52 @@ public class StatOwInfoService extends BaseMapper {
         int applyPassNum_18 = getCount(applyPassBeans_18);
 
         int totalNum_18 = applyNum_18+applyPassNum_18;
-        modelMap.put("totalNum_18",totalNum_18);
+        map.put("totalNum_18",totalNum_18);
         //占比
         double applyProportion_18 = new BigDecimal((float)totalNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String applyStr_18 = applyProportion_18+"%";
-        modelMap.put("applyStr_18",applyStr_18);
+        map.put("applyStr_18",applyStr_18);
 
         //2018积极分子
         List<StatByteBean> activeBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2018",null,null);
         int activeNum_18 = getCount(activeBeans_18);
-        modelMap.put("activeNum_18",activeNum_18);
+        map.put("activeNum_18",activeNum_18);
         //占比
         double activeProportion_18 = new BigDecimal((float)activeNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String activeStr_18 = activeProportion_18+"%";
-        modelMap.put("activeStr_18",activeStr_18);
+        map.put("activeStr_18",activeStr_18);
 
         //2018发展对象
         List<StatByteBean> devBeans_18 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2018",null,null);
         int devNum_18 = getCount(devBeans_18);
-        modelMap.put("devNum_18",devNum_18);
+        map.put("devNum_18",devNum_18);
         //占比
         double devProportion_18 = new BigDecimal((float)devNum_18/studentNum_18*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String devStr_18 = devProportion_18+"%";
-        modelMap.put("devStr_18",devStr_18);
+        map.put("devStr_18",devStr_18);
 
 
         //2017级本科生
         List<StatByteBean> statByteBeans_17 = statOwInfoMapper.selectUser_groupByLevel("2017");
         int studentNum_17 = getCount(statByteBeans_17);
-        modelMap.put("studentNum_17",studentNum_17);
+        map.put("studentNum_17",studentNum_17);
 
         //2017正式党员
         List<StatByteBean> positivePartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2017");
         int positivePartyNum_17 = getCount(positivePartyList_17);
-        modelMap.put("positivePartyNum_17",positivePartyNum_17);
+        map.put("positivePartyNum_17",positivePartyNum_17);
         //2017预备党员
         List<StatByteBean> growPartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2017");
         int growPartyNum_17 = getCount(growPartyList_17);
-        modelMap.put("growPartyNum_17",growPartyNum_17);
+        map.put("growPartyNum_17",growPartyNum_17);
         //2017党员总数
         int countNum_17 = positivePartyNum_17+growPartyNum_17;
-        modelMap.put("count_17",countNum_17);
+        map.put("count_17",countNum_17);
 
         //占比
         double partyProportion_17 = new BigDecimal((float)countNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String partyStr_17 = partyProportion_17+"%";
-        modelMap.put("partyStr_17",partyStr_17);
+        map.put("partyStr_17",partyStr_17);
 
         //2017申请人数
         List<StatByteBean> applyBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2017",null,null);
@@ -1618,51 +1626,51 @@ public class StatOwInfoService extends BaseMapper {
         int applyPassNum_17 = getCount(applyPassBeans_17);
 
         int totalNum_17 = applyNum_17+applyPassNum_17;
-        modelMap.put("totalNum_17",totalNum_17);
+        map.put("totalNum_17",totalNum_17);
         //占比
         double applyProportion_17 = new BigDecimal((float)totalNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String applyStr_17 = applyProportion_17+"%";
-        modelMap.put("applyStr_17",applyStr_17);
+        map.put("applyStr_17",applyStr_17);
 
         //2017积极分子
         List<StatByteBean> activeBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2017",null,null);
         int activeNum_17 = getCount(activeBeans_17);
-        modelMap.put("activeNum_17",activeNum_17);
+        map.put("activeNum_17",activeNum_17);
         //占比
         double activeProportion_17 = new BigDecimal((float)activeNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String activeStr_17 = activeProportion_17+"%";
-        modelMap.put("activeStr_17",activeStr_17);
+        map.put("activeStr_17",activeStr_17);
 
         //2017发展对象
         List<StatByteBean> devBeans_17 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2017",null,null);
         int devNum_17 = getCount(devBeans_17);
-        modelMap.put("devNum_17",devNum_17);
+        map.put("devNum_17",devNum_17);
         //占比
         double devProportion_17 = new BigDecimal((float)devNum_17/studentNum_17*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String devStr_17 = devProportion_17+"%";
-        modelMap.put("devStr_17",devStr_17);
+        map.put("devStr_17",devStr_17);
 
 
         //2016级本科生
         List<StatByteBean> statByteBeans_16 = statOwInfoMapper.selectUser_groupByLevel("2016");
         int studentNum_16 = getCount(statByteBeans_16);
-        modelMap.put("studentNum_16",studentNum_16);
+        map.put("studentNum_16",studentNum_16);
 
         //2016正式党员
         List<StatByteBean> positivePartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2016");
         int positivePartyNum_16 = getCount(positivePartyList_16);
-        modelMap.put("positivePartyNum_16",positivePartyNum_16);
+        map.put("positivePartyNum_16",positivePartyNum_16);
         //2016预备党员
         List<StatByteBean> growPartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2016");
         int growPartyNum_16 = getCount(growPartyList_16);
-        modelMap.put("growPartyNum_16",growPartyNum_16);
+        map.put("growPartyNum_16",growPartyNum_16);
         //2016党员总数
         int countNum_16 = positivePartyNum_16+growPartyNum_16;
-        modelMap.put("count_16",countNum_16);
+        map.put("count_16",countNum_16);
         //占比
         double partyProportion_16 = new BigDecimal((float)countNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String partyStr_16 = partyProportion_16+"%";
-        modelMap.put("partyStr_16",partyStr_16);
+        map.put("partyStr_16",partyStr_16);
 
         //2016申请人数
         List<StatByteBean> applyBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT,"2016",null,null);
@@ -1672,77 +1680,78 @@ public class StatOwInfoService extends BaseMapper {
         int applyPassNum_16 = getCount(applyPassBeans_16);
 
         int totalNum_16 = applyNum_16+applyPassNum_16;
-        modelMap.put("totalNum_16",totalNum_16);
+        map.put("totalNum_16",totalNum_16);
         //占比
         double applyProportion_16 = new BigDecimal((float)totalNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String applyStr_16 = applyProportion_16+"%";
-        modelMap.put("applyStr_16",applyStr_16);
+        map.put("applyStr_16",applyStr_16);
 
         //2016积极分子
         List<StatByteBean> activeBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE,"2016",null,null);
         int activeNum_16 = getCount(activeBeans_16);
-        modelMap.put("activeNum_16",activeNum_16);
+        map.put("activeNum_16",activeNum_16);
         //占比
         double activeProportion_16 = new BigDecimal((float)activeNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String activeStr_16 = activeProportion_16+"%";
-        modelMap.put("activeStr_16",activeStr_16);
+        map.put("activeStr_16",activeStr_16);
 
         //2016发展对象
         List<StatByteBean> devBeans_16 = statMemberMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE,"2016",null,null);
         int devNum_16 = getCount(devBeans_16);
-        modelMap.put("devNum_16",devNum_16);
+        map.put("devNum_16",devNum_16);
         //占比
         double devProportion_16 = new BigDecimal((float)devNum_16/studentNum_16*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String devStr_16 = devProportion_16+"%";
-        modelMap.put("devStr_16",devStr_16);
+        map.put("devStr_16",devStr_16);
 
         //所有本科学生
         int studentNumBks = studentNum_19+studentNum_18+studentNum_17+studentNum_16;
-        modelMap.put("studentNum",studentNumBks);
+        map.put("studentNum",studentNumBks);
         //正式党员
         int positivePartyNum = positivePartyNum_19+positivePartyNum_18+positivePartyNum_17+positivePartyNum_16;
-        modelMap.put("positivePartyNum",positivePartyNum);
+        map.put("positivePartyNum",positivePartyNum);
         //预备党员
         int growPartyNum = growPartyNum_19+growPartyNum_18+growPartyNum_17+growPartyNum_16;
-        modelMap.put("growPartyNum",growPartyNum);
+        map.put("growPartyNum",growPartyNum);
         //党员总数
         int countNum = positivePartyNum+growPartyNum;
-        modelMap.put("count",countNum);
+        map.put("count",countNum);
         //占比
         double partyProportion = new BigDecimal((float)countNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String partyStr = partyProportion+"%";
-        modelMap.put("Proportion",partyStr);
+        map.put("Proportion",partyStr);
         //入党申请人数
         int totalNum = totalNum_19+totalNum_18+totalNum_17+totalNum_16;
-        modelMap.put("totalNum",totalNum);
+        map.put("totalNum",totalNum);
         //占比
         double applyProportion = new BigDecimal((float)totalNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String applyStr = applyProportion+"%";
-        modelMap.put("applyStr",applyStr);
+        map.put("applyStr",applyStr);
         //入党积极分子
         int activeNum = activeNum_19+activeNum_18+activeNum_17+activeNum_16;
-        modelMap.put("activeNum",activeNum);
+        map.put("activeNum",activeNum);
         //占比
         double activeProportion = new BigDecimal((float)activeNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String activeStr = activeProportion+"%";
-        modelMap.put("activeStr",activeStr);
+        map.put("activeStr",activeStr);
         //发展对象
         int devNum = devNum_19+devNum_18+devNum_17+devNum_16;
-        modelMap.put("devNum",devNum);
+        map.put("devNum",devNum);
         //占比
         double devProportion = new BigDecimal((float)devNum/studentNumBks*100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String devStr = devProportion+"%";
-        modelMap.put("devStr",devStr);
+        map.put("devStr",devStr);
 
-        modelMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
-        return modelMap;
+        map.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+        return map;
     }
 
     @Cacheable(value="statOwInfo",key = "#cls")
-    public ModelMap getPartyBksInfo(Byte cls,ModelMap modelMap) {
+    public Map getPartyBksInfo(Byte cls) {
 
         List<Party> partyNameList = statOwInfoMapper.getSecondPartyName();
         List<Map<String, String>> data = new ArrayList<>();
+        Map map = new HashMap();
         for (Party party : partyNameList) {
 
             Map dataMap = new HashedMap();
@@ -1984,46 +1993,513 @@ public class StatOwInfoService extends BaseMapper {
 
             dataMap.put("partyName",party.getShortName());
             data.add(dataMap);
-            modelMap.put("data",data);
+            map.put("data",data);
         }
-        modelMap.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
-        return modelMap;
+        map.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+        return map;
 
+    }
+
+    @Cacheable(value="statOwInfo",key = "#cls")
+    public Map getPartyBranchInfo(Byte cls) {
+
+        List<Party> partyNameList = statOwInfoMapper.getSecondPartyName();
+        Map map = new HashedMap();
+        List<Map<String,Object>> dataList = new ArrayList<>();
+
+        MetaType mtUndergraduate = CmTag.getMetaTypeByCode("mt_undergraduate_assistant");//本科生辅导员纵向党支部
+        MetaType mtSsGraduate = CmTag.getMetaTypeByCode("mt_ss_graduate");//硕士研究生党支部
+        MetaType mtBsGraduate = CmTag.getMetaTypeByCode("mt_bs_graduate");//博士研究生党支部
+        MetaType mtSbGraduate = CmTag.getMetaTypeByCode("mt_sb_graduate");//硕博研究生党支部
+        MetaType mtGraduateTeacher = CmTag.getMetaTypeByCode("mt_graduate_teacher");//研究生导师纵向党支部
+        MetaType mtProfessional = CmTag.getMetaTypeByCode("mt_professional_teacher");//专任教师党支部
+        MetaType mtRetire = CmTag.getMetaTypeByCode("mt_retire");//离退休党支部
+        MetaType mtSupportTeacher = CmTag.getMetaTypeByCode("mt_support_teacher");//机关行政产业后勤党支部
+        MetaType mtBranchSecretary = CmTag.getMetaTypeByCode("mt_branch_secretary");//支部书记
+
+
+        int totalUndergraduateNum = 0 ;//本科生辅导员总数
+        int totalSsGraduateNum = 0 ; //硕士研究生总数
+        int totalBsGraduateNum = 0 ; //博士研究生总数
+        int totalSbGraduateNum = 0 ; //硕博研究生总数
+        int totalYjsNum = 0;//研究生总数之和
+
+        //研究生导师纵向党支部正高，副高，中级及以下总数
+        int totalDirectorYjsNum = 0;
+        int totalDeputyNum = 0;
+        int totalIntermediate = 0;
+        int totalYjsTecher = 0;
+        //专任教师正高，副高,中级及以下总数
+        int totalDirectorTeacher = 0;
+        int totalDeputyTeacher = 0;
+        int totalIntermediateTeacher = 0;
+        int totalFulltimeTecher = 0;
+        //离退休总数
+        int totalRetireNum = 0;
+        //机关行政产业后勤总数
+        int totalSupportNum = 0;
+        //所有支部书记总数
+        int allNum = 0;
+        for (Party party : partyNameList) {
+            Map dataMap = new HashedMap();
+
+            List<StatIntBean> statByteBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretary.getId().byteValue(), null, party.getId());
+            List<StatIntBean> directorBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretary.getId().byteValue(), "正高", party.getId());
+            List<StatIntBean> deputyBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretary.getId().byteValue(),"副高", party.getId());
+
+            Integer undergraduateNum = 0;
+            int yjsTecherNum = 0;
+            int professionalTeacherNum = 0;
+            Integer ssGraduateNum = 0;
+            Integer bsGraduateNum = 0;
+            Integer sbGraduateNum = 0;
+            Integer retireNum = 0;
+            Integer supportTeacherNum = 0;
+            for (StatIntBean statIntBean : statByteBeans) {
+                if (statIntBean.getGroupBy().equals(mtUndergraduate.getId())){
+                    undergraduateNum = statIntBean.getNum();//本科生辅导员纵向党支部
+                    totalUndergraduateNum+=undergraduateNum;
+                }else if(statIntBean.getGroupBy().equals(mtSsGraduate.getId())){
+                    ssGraduateNum = statIntBean.getNum();//硕士研究生党支部
+                    totalSsGraduateNum+=ssGraduateNum;
+                }else if(statIntBean.getGroupBy().equals(mtBsGraduate.getId())){
+                    bsGraduateNum = statIntBean.getNum();//博士研究生党支部
+                    totalBsGraduateNum+=bsGraduateNum;
+                }else if(statIntBean.getGroupBy().equals(mtSbGraduate.getId())){
+                    sbGraduateNum = statIntBean.getNum();//硕博研究生党支部
+                    totalSbGraduateNum+=sbGraduateNum;
+                }else if(statIntBean.getGroupBy().equals(mtRetire.getId())){
+                    retireNum = statIntBean.getNum();//离退休党支部
+                    totalRetireNum+=retireNum;
+                }else if(statIntBean.getGroupBy().equals(mtSupportTeacher.getId())){
+                    supportTeacherNum = statIntBean.getNum();//机关行政产业后勤党支部
+                    totalSupportNum+=supportTeacherNum;
+                }else if(statIntBean.getGroupBy().equals(mtGraduateTeacher.getId())){
+                    yjsTecherNum = statIntBean.getNum();//研究生导师纵向党支部
+                }else if(statIntBean.getGroupBy().equals(mtProfessional.getId())){
+                    professionalTeacherNum = statIntBean.getNum();
+                }
+            }
+            dataMap.put("undergraduateNum",undergraduateNum == null ? "" :undergraduateNum);
+            dataMap.put("ssGraduateNum",ssGraduateNum == null ? "" :ssGraduateNum);
+            dataMap.put("bsGraduateNum",bsGraduateNum == null ? "":bsGraduateNum);
+            dataMap.put("sbGraduateNum",sbGraduateNum == null ? "" :sbGraduateNum);
+            dataMap.put("retireNum",retireNum == null ? "" :retireNum);
+            dataMap.put("supportTeacherNum",supportTeacherNum == null ? "" :supportTeacherNum);
+
+            //研究生党支部合计
+            int yjsTotal = ssGraduateNum+bsGraduateNum+sbGraduateNum;
+            totalYjsNum+=yjsTotal;
+            dataMap.put("yjsTotal",yjsTotal);
+            //党支部书记总数
+            int rowTotalCount = undergraduateNum+yjsTotal+yjsTecherNum+professionalTeacherNum+retireNum+supportTeacherNum;
+            allNum+=rowTotalCount;
+            dataMap.put("rowTotalCount",rowTotalCount);
+            //研究生导师纵向党支部正高，副高级
+            Integer directorYjsNum = 0;
+            Integer deputyNum = 0;
+            //专任教师正高，副高
+            Integer directorTeacherNum = 0;
+            Integer deputyTeacherNum = 0;
+
+            for (StatIntBean directorBean : directorBeans) {
+                if(mtGraduateTeacher.getId().equals(directorBean.getGroupBy())){
+                    directorYjsNum = directorBean.getNum();//研究生导师党支部正高级
+                    totalDirectorYjsNum+=directorYjsNum;
+                }else if(mtProfessional.getId().equals(directorBean.getGroupBy())){
+                    directorTeacherNum = directorBean.getNum();//专任教师党支部正高级
+                    totalDirectorTeacher+=directorTeacherNum;
+                }
+            }
+
+            for (StatIntBean deputyBean : deputyBeans) {
+                if(mtGraduateTeacher.getId().equals(deputyBean.getGroupBy())){
+                    deputyNum = deputyBean.getNum();//研究生导师党支部副高级
+                    totalDeputyNum+=deputyNum;
+                }else if(mtProfessional.getId().equals(deputyBean.getGroupBy())){
+                    deputyTeacherNum = deputyBean.getNum();//专任教师党支部副高级
+                    totalDeputyTeacher+=deputyTeacherNum;
+                }
+            }
+
+            //研究生导师纵向党支部中级及以下
+            Integer intermediateNum = yjsTecherNum-directorYjsNum-deputyNum;
+            totalIntermediate+=intermediateNum;
+            //专任教师中级及以下
+            Integer intermediateTeacher = professionalTeacherNum-directorTeacherNum-deputyTeacherNum;
+            totalIntermediateTeacher+=intermediateTeacher;
+            //研究生导师总数之和
+            totalYjsTecher+=yjsTecherNum;
+            //专任教师总数之和
+            totalFulltimeTecher+=professionalTeacherNum;
+
+            dataMap.put("directorYjsNum",directorYjsNum == null ? "" :directorYjsNum);
+            dataMap.put("deputyNum",deputyNum == null ? "" :deputyNum);
+            dataMap.put("intermediateNum",intermediateNum == null ? "" :intermediateNum);
+            dataMap.put("yjsTecherNum",yjsTecherNum);
+            dataMap.put("directorTeacherNum",directorTeacherNum == null ? "" :directorTeacherNum);
+            dataMap.put("deputyTeacherNum",deputyTeacherNum == null ? "" :deputyTeacherNum);
+            dataMap.put("intermediateTeacher",intermediateTeacher == null ? "" :intermediateTeacher);
+            dataMap.put("professionalTeacherNum",professionalTeacherNum);
+
+            dataMap.put("partyName",party.getShortName());
+            dataList.add(dataMap);
+        }
+        map.put("dataList",dataList);
+        map.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+        map.put("totalUndergraduateNum",totalUndergraduateNum);
+        map.put("totalSsGraduateNum",totalSsGraduateNum);
+        map.put("totalBsGraduateNum",totalBsGraduateNum);
+        map.put("totalSbGraduateNum",totalSbGraduateNum);
+        map.put("totalYjsNum",totalYjsNum);
+        map.put("totalDirectorYjsNum",totalDirectorYjsNum);
+        map.put("totalDeputyNum",totalDeputyNum);
+        map.put("totalIntermediate",totalIntermediate);
+        map.put("totalYjsTecher",totalYjsTecher);
+        map.put("totalDirectorTeacher",totalDirectorTeacher);
+        map.put("totalDeputyTeacher",totalDeputyTeacher);
+        map.put("totalIntermediateTeacher",totalIntermediateTeacher);
+        map.put("totalFulltimeTecher",totalFulltimeTecher);
+        map.put("totalRetireNum",totalRetireNum);
+        map.put("totalSupportNum",totalSupportNum);
+        map.put("allNum",allNum);
+        return map;
+    }
+
+    @Cacheable(value="statOwInfo",key = "#cls")
+    public Map getGrassrootsPartyInfo(Byte cls) {
+        List<Party> partyNameList = statOwInfoMapper.getSecondPartyName();
+        Map map = new HashedMap();
+        List<Map<String,Object>> dataList = new ArrayList<>();
+
+        MetaType mtUndergraduate = CmTag.getMetaTypeByCode("mt_undergraduate_assistant");//本科生辅导员纵向党支部
+        MetaType mtSsGraduate = CmTag.getMetaTypeByCode("mt_ss_graduate");//硕士研究生党支部
+        MetaType mtBsGraduate = CmTag.getMetaTypeByCode("mt_bs_graduate");//博士研究生党支部
+        MetaType mtSbGraduate = CmTag.getMetaTypeByCode("mt_sb_graduate");//硕博研究生党支部
+        MetaType mtGraduateTeacher = CmTag.getMetaTypeByCode("mt_graduate_teacher");//研究生导师纵向党支部
+        MetaType mtProfessional = CmTag.getMetaTypeByCode("mt_professional_teacher");//专任教师党支部
+        MetaType mtRetire = CmTag.getMetaTypeByCode("mt_retire");//离退休党支部
+        MetaType mtSupportTeacher = CmTag.getMetaTypeByCode("mt_support_teacher");//机关行政产业后勤党支部
+
+        // 预备党员总数
+        int totalPreparedNum = 0;
+        //正式党员总数
+        int totalFormal = 0;
+        //申请入党总数
+        int totalApply = 0;
+        //积极分子总数
+        int totalActivists = 0;
+        //发展对象总数
+        int totalDevelopment = 0;
+        int allNum = 0;
+        Date nowDate = new Date();
+        int rowNum=0;
+        String branchTypeStr = "";
+        for (Party party : partyNameList) {
+            List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getParty_Branch(party.getId());
+            for (StatOwInfoBean statOwInfoBean : statOwInfoBeans) {
+                Map dataMap = new HashedMap();
+                //序号
+                rowNum++;
+                dataMap.put("rowNum",rowNum);
+                //二级党组织名称
+                dataMap.put("partyName",party.getShortName() == null ? "" :party.getShortName());
+                //党支部名称
+                String branchName = statOwInfoBean.getName() == null ? "" :statOwInfoBean.getName();
+                dataMap.put("branchName",branchName);
+                //支部类型
+                Integer branchType = statOwInfoBean.getTypes() == null ? 0 : statOwInfoBean.getTypes();
+
+                if(branchType.equals(mtUndergraduate.getId() == null ? 0 : mtUndergraduate.getId())){
+                    branchTypeStr = mtUndergraduate.getName();
+                }else if(branchType.equals(mtSsGraduate.getId() == null ? 0 : mtSsGraduate.getId())){
+                    branchTypeStr = mtSsGraduate.getName();
+                }else if(branchType.equals(mtBsGraduate.getId() == null ? 0 : mtBsGraduate.getId())){
+                    branchTypeStr = mtBsGraduate.getName();
+                }else if(branchType.equals(mtSbGraduate.getId() == null ? 0 : mtSbGraduate.getId())){
+                    branchTypeStr = mtSbGraduate.getName();
+                }else if(branchType.equals(mtGraduateTeacher.getId() == null ? 0 : mtGraduateTeacher.getId())){
+                    branchTypeStr = mtGraduateTeacher.getName();
+                }else if(branchType.equals(mtProfessional.getId() == null ? 0 : mtProfessional.getId())){
+                    branchTypeStr = mtProfessional.getName();
+                }else if(branchType.equals(mtRetire.getId() == null ? 0 : mtRetire.getId())){
+                    branchTypeStr = mtRetire.getName();
+                }else if(branchType.equals(mtSupportTeacher.getId() == null ? 0 : mtSupportTeacher.getId())){
+                    branchTypeStr = mtSupportTeacher.getName();
+                }
+                dataMap.put("branchTypeStr",branchTypeStr);
+
+                //支部书记
+                String cadreName = statOwInfoBean.getRealName();
+                dataMap.put("cadreName",cadreName == null ? "" :cadreName);
+                //性别
+                String gender = "";
+                byte cadreGender = statOwInfoBean.getGender();
+                if(cadreGender == 1){
+                    gender="男";
+                }else if(cadreGender == 2){
+                    gender ="女";
+                }else{
+                    gender = "";
+                }
+                dataMap.put("gender",gender);
+                //民族
+                String cadreNation = statOwInfoBean.getNation();
+                dataMap.put("cadreNation",cadreNation == null ? "" :cadreNation);
+
+                //党龄
+                int partyAge = 0;
+                //入党时间
+                Date growTime = statOwInfoBean.getGrowTime();
+                if (growTime!=null){
+                    dataMap.put("growTime",DateUtils.formatDate(growTime,YYYYMMDD_DOT));
+                    partyAge = DateUtils.getYear(nowDate) - DateUtils.getYear(growTime);
+                }else{
+                    dataMap.put("growTime","");
+                }
+                dataMap.put("partyAge",partyAge);
+
+                //年龄
+                int age = 0;
+                //出生日期
+                Date cadreBirth = statOwInfoBean.getBirth();
+
+                if (cadreBirth!=null){
+                    dataMap.put("cadreBirth",DateUtils.formatDate(cadreBirth,YYYYMMDD_DOT));
+                    age = DateUtils.getYear(nowDate) - DateUtils.getYear(cadreBirth);
+                }else{
+                    dataMap.put("cadreBirth","");
+                }
+                dataMap.put("age",age);
+
+                //职称 身份
+                String cadreStatus = statOwInfoBean.getProPost();
+                dataMap.put("cadreStatus",cadreStatus == null ? "" :cadreStatus);
+                //职务
+                String cadreDuty = statOwInfoBean.getTitle();
+                dataMap.put("cadreDuty",cadreDuty == null ? "" :cadreDuty);
+
+                // 预备党员
+                List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, statOwInfoBean.getBranchId(), null, null);
+                int preparedNum=getBranchCounting(preparedMembers);
+                dataMap.put("preparedNum",preparedNum);
+                totalPreparedNum+=preparedNum;
+                // 正式党员
+                List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, statOwInfoBean.getBranchId(), null, null);
+                int formalNum = getBranchCounting(formalMembers);
+                dataMap.put("formalNum",formalNum);
+                totalFormal+=formalNum;
+                //申请入党人员
+                List<StatByteBean> applyJoin = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, null, null, statOwInfoBean.getBranchId());
+                List<StatByteBean> passJoin = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, null, null, statOwInfoBean.getBranchId());
+                int applyNum=getBranchCounting(applyJoin)+getBranchCounting(passJoin);
+                dataMap.put("applyNum",applyNum);
+                totalApply+=applyNum;
+                // 入党积极分子
+                List<StatByteBean> countActivists = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE, null, null, statOwInfoBean.getBranchId());
+                int activistsNum = getBranchCounting(countActivists);
+                dataMap.put("activistsNum",activistsNum);
+                totalActivists+=activistsNum;
+                // 发展对象
+                List<StatByteBean> countDevelopment = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, null, null, statOwInfoBean.getBranchId());
+                int developmentNum = getBranchCounting(countDevelopment);
+                dataMap.put("developmentNum",developmentNum);
+                totalDevelopment+=developmentNum;
+                //总数
+                int rowSum = preparedNum+formalNum+applyNum+activistsNum+developmentNum;
+                dataMap.put("rowSum",rowSum);
+                allNum+=rowSum;
+
+                dataList.add(dataMap);
+            }
+        }
+        //直属党支部
+        MetaType mtPartySecretary = CmTag.getMetaTypeByCode("mt_party_secretary");
+        MetaType mt_direct_branch = CmTag.getMetaTypeByCode("mt_direct_branch");
+        List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getDirectlyBranch(mt_direct_branch.getId(),mtPartySecretary.getId());
+        for (StatOwInfoBean statOwInfoBean : statOwInfoBeans) {
+            Map dataMap = new HashedMap();
+            //序号
+            rowNum++;
+            dataMap.put("rowNum",rowNum);
+
+            String name = statOwInfoBean.getName();
+            dataMap.put("partyName",name);
+
+            //支部类型
+            Integer branchType = statOwInfoBean.getTypes() == null ? 0 : statOwInfoBean.getTypes();
+
+            if(branchType == 0){
+                branchTypeStr = "";
+            }
+            if(branchType.equals(mtUndergraduate.getId())){
+                branchTypeStr = mtUndergraduate.getName();
+            }else if(branchType.equals(mtSsGraduate.getId())){
+                branchTypeStr = mtSsGraduate.getName();
+            }else if(branchType.equals(mtBsGraduate.getId())){
+                branchTypeStr = mtBsGraduate.getName();
+            }else if(branchType.equals(mtSbGraduate.getId())){
+                branchTypeStr = mtSbGraduate.getName();
+            }else if(branchType.equals(mtGraduateTeacher.getId())){
+                branchTypeStr = mtGraduateTeacher.getName();
+            }else if(branchType.equals(mtProfessional.getId())){
+                branchTypeStr = mtProfessional.getName();
+            }else if(branchType.equals(mtRetire.getId())){
+                branchTypeStr = mtRetire.getName();
+            }else if(branchType.equals(mtSupportTeacher.getId())){
+                branchTypeStr = mtSupportTeacher.getName();
+            }
+            dataMap.put("branchTypeStr",branchTypeStr);
+
+            String cadreName = statOwInfoBean.getRealName();
+            dataMap.put("cadreName",cadreName == null ? "" :cadreName);
+
+            String gender = "";
+            byte cadreGender = statOwInfoBean.getGender();
+            if(cadreGender == 1){
+                gender="男";
+            }else if(cadreGender == 2){
+                gender ="女";
+            }else{
+                gender = "";
+            }
+            dataMap.put("gender",gender);
+
+            String cadreNation = statOwInfoBean.getNation();
+            dataMap.put("cadreNation",cadreNation == null ? "" :cadreNation);
+
+            //党龄
+            int partyAge = 0;
+            //入党时间
+            Date growTime = statOwInfoBean.getGrowTime();
+            if (growTime!=null){
+                dataMap.put("growTime",DateUtils.formatDate(growTime,YYYYMMDD_DOT));
+                partyAge = DateUtils.getYear(nowDate) - DateUtils.getYear(growTime);
+            }else{
+                dataMap.put("growTime","");
+            }
+            dataMap.put("partyAge",partyAge);
+
+            //年龄
+            int age = 0;
+            //出生日期
+            Date cadreBirth = statOwInfoBean.getBirth();
+            if (cadreBirth!=null){
+                dataMap.put("cadreBirth",DateUtils.formatDate(cadreBirth,YYYYMMDD_DOT));
+                age = DateUtils.getYear(nowDate) - DateUtils.getYear(cadreBirth);
+            }else{
+                dataMap.put("cadreBirth","");
+            }
+            dataMap.put("age",age);
+
+            //职称 身份
+            String cadreStatus = statOwInfoBean.getProPost();
+            dataMap.put("cadreStatus",cadreStatus == null ? "" :cadreStatus);
+            //职务
+            String cadreDuty = statOwInfoBean.getTitle();
+            dataMap.put("cadreDuty",cadreDuty == null ? "" :cadreDuty);
+
+            // 预备党员
+            List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, statOwInfoBean.getPartyId(), null, null, null);
+            int preparedNum=getBranchCounting(preparedMembers);
+            dataMap.put("preparedNum",preparedNum);
+            totalPreparedNum+=preparedNum;
+            // 正式党员
+            List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, statOwInfoBean.getPartyId(), null, null, null);
+            int formalNum = getBranchCounting(formalMembers);
+            dataMap.put("formalNum",formalNum);
+            totalFormal+=formalNum;
+            //申请入党人员
+            List<StatByteBean> applyJoin = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, null, statOwInfoBean.getPartyId(), null);
+            List<StatByteBean> passJoin = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, null, statOwInfoBean.getPartyId(), null);
+            int applyNum=getBranchCounting(applyJoin)+getBranchCounting(passJoin);
+            dataMap.put("applyNum",applyNum);
+            totalApply+=applyNum;
+            // 入党积极分子
+            List<StatByteBean> countActivists = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_ACTIVE, null, statOwInfoBean.getPartyId(), null);
+            int activistsNum = getBranchCounting(countActivists);
+            dataMap.put("activistsNum",activistsNum);
+            totalActivists+=activistsNum;
+            // 发展对象
+            List<StatByteBean> countDevelopment = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, null, statOwInfoBean.getPartyId(), null);
+            int developmentNum = getBranchCounting(countDevelopment);
+            dataMap.put("developmentNum",developmentNum);
+            totalDevelopment+=developmentNum;
+
+            //总数
+            int rowSum = preparedNum+formalNum+applyNum+activistsNum+developmentNum;
+            dataMap.put("rowSum",rowSum);
+            allNum+=rowSum;
+
+            dataList.add(dataMap);
+        }
+
+        map.put("totalFormal",totalFormal);
+        map.put("totalPreparedNum",totalPreparedNum);
+        map.put("totalApply",totalApply);
+        map.put("totalActivists",totalActivists);
+        map.put("totalDevelopment",totalDevelopment);
+        map.put("allNum",allNum);
+
+        map.put("dataList",dataList);
+        map.put("cacheTime", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_CHINA));
+
+        return map;
     }
 
     public XSSFWorkbook statOwBksInfoExport(ModelMap modelMap)throws IOException {
         InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_ow_bks_info.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook(is);
-        renderSheetData(wb,modelMap); // 汇总
+        renderOwBksSheetData(wb,modelMap); // 汇总
         wb.removeSheetAt(0);
         return wb;
     }
     public XSSFWorkbook statPartyBksInfoExport(ModelMap modelMap)throws IOException {
         InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_party_bks_info.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook(is);
-        renderPartySheetData(wb,modelMap); // 汇总
+        renderPartyBksSheetData(wb,modelMap); // 汇总
         wb.removeSheetAt(0);
         return wb;
 
     }
+    public XSSFWorkbook statPartyBranchInfoExport(ModelMap modelMap)throws IOException {
+        InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_party_branch_info.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        renderPartyBranchSheetData(wb,modelMap); // 汇总
+        wb.removeSheetAt(0);
+        return wb;
+    }
+    public HSSFWorkbook statBranchInfoExport(ModelMap modelMap)throws IOException {
+        InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_party_branch_page.xls");
+        HSSFWorkbook hb = new HSSFWorkbook(is);
+        renderBranchSheetData(hb,modelMap); // 汇总
+        hb.removeSheetAt(0);
+        return hb;
+    }
 
-
-    private void renderSheetData(XSSFWorkbook wb, ModelMap modelMap) {
+    private void renderOwBksSheetData(XSSFWorkbook wb, ModelMap modelMap) {
         XSSFSheet sheet = wb.cloneSheet(0, null);
         XSSFPrintSetup ps = sheet.getPrintSetup();
         ps.setLandscape(true); // 打印方向，true：横向，false：纵向
-        ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE); //纸张
+
+        Date now = new Date();
+        String year = String.valueOf(DateUtils.getYear(now));
+        String month = String.valueOf(DateUtils.getMonth(now));
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("school", CmTag.getSysConfig().getSchoolName())
-                .replace("date",DateUtils.formatDate(new Date(),DateUtils.YYYY_MM));
+                .replace("school", CmTag.getSysConfig().getSchoolName());
         cell.setCellValue(str);
+        XSSFRow dateRow = sheet.getRow(1);
+        XSSFCell dateCell = dateRow.getCell(0);
+        String date = dateCell.getStringCellValue()
+                .replace("year",year)
+                .replace("month",month);
+        dateCell.setCellValue(date);
 
-        cell.setCellValue(str);
         //总数
-        row = sheet.getRow(2);
+        row = sheet.getRow(3);
         cell = row.getCell(1);
         cell.setCellValue((int)modelMap.get("studentNum"));
         cell = row.getCell(2);
@@ -2049,7 +2525,7 @@ public class StatOwInfoService extends BaseMapper {
 
         //2020级
         int fake = 0;
-        row = sheet.getRow(4);
+        row = sheet.getRow(5);
         cell = row.getCell(1);
         cell.setCellValue(fake);
         cell = row.getCell(2);
@@ -2074,7 +2550,7 @@ public class StatOwInfoService extends BaseMapper {
         cell.setCellValue(fake);
 
         //2019级
-        row = sheet.getRow(5);
+        row = sheet.getRow(6);
         cell = row.getCell(1);
         cell.setCellValue((int)modelMap.get("studentNum_19"));
         cell = row.getCell(2);
@@ -2099,7 +2575,7 @@ public class StatOwInfoService extends BaseMapper {
         cell.setCellValue(modelMap.get("devStr_19").toString());
 
         //2018级
-        row = sheet.getRow(6);
+        row = sheet.getRow(7);
         cell = row.getCell(1);
         cell.setCellValue((int)modelMap.get("studentNum_18"));
         cell = row.getCell(2);
@@ -2124,7 +2600,7 @@ public class StatOwInfoService extends BaseMapper {
         cell.setCellValue(modelMap.get("devStr_18").toString());
 
         //2017级
-        row = sheet.getRow(7);
+        row = sheet.getRow(8);
         cell = row.getCell(1);
         cell.setCellValue((int)modelMap.get("studentNum_17"));
         cell = row.getCell(2);
@@ -2149,7 +2625,7 @@ public class StatOwInfoService extends BaseMapper {
         cell.setCellValue(modelMap.get("devStr_17").toString());
 
         //2016级
-        row = sheet.getRow(8);
+        row = sheet.getRow(9);
         cell = row.getCell(1);
         cell.setCellValue((int)modelMap.get("studentNum_16"));
         cell = row.getCell(2);
@@ -2175,11 +2651,10 @@ public class StatOwInfoService extends BaseMapper {
 
     }
 
-    private void renderPartySheetData(XSSFWorkbook wb, ModelMap modelMap) {
+    private void renderPartyBksSheetData(XSSFWorkbook wb, ModelMap modelMap) {
         XSSFSheet sheet = wb.cloneSheet(0, null);
 
         XSSFCellStyle style = wb.createCellStyle();
-
         style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
         style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         style.setBorderRight(HSSFCellStyle.BORDER_THIN);
@@ -2187,23 +2662,30 @@ public class StatOwInfoService extends BaseMapper {
         style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
         style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
 
+        Date now = new Date();
+        String year = String.valueOf(DateUtils.getYear(now));
+        String month = String.valueOf(DateUtils.getMonth(now));
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("school", CmTag.getSysConfig().getSchoolName())
-                .replace("date",DateUtils.formatDate(new Date(),DateUtils.YYYY_MM));
+                .replace("school", CmTag.getSysConfig().getSchoolName());
         cell.setCellValue(str);
+        XSSFRow dateRow = sheet.getRow(1);
+        XSSFCell dateCell = dateRow.getCell(0);
+        String date = dateCell.getStringCellValue()
+                .replace("year",year)
+                .replace("month",month);
+        dateCell.setCellValue(date);
 
         List<Map<String, Object>> data = (List<Map<String, Object>>) modelMap.get("data");
 
-
         cell.setCellValue(str);
-        int startRow = 1;
+        int startRow = 2;
         for (int i = 0; i <data.size(); i++) {
             Map<String, Object> map = data.get(i);
 
-            int fake = 0;
+            String fake = "-";
             startRow++;
             row = sheet.createRow(startRow);
             cell = row.createCell(1);
@@ -2410,13 +2892,346 @@ public class StatOwInfoService extends BaseMapper {
             row = sheet.getRow(startRow-5);
             cell = row.createCell(0);
             cell.setCellValue(map.get("partyName").toString());
+            cell.setCellStyle(style);//边框
+            cell.getCellStyle().setWrapText(true);//自动换行
+            cell.getCellStyle().setAlignment(HorizontalAlignment.CENTER);
+            cell.getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);//居中
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow-5, 0, startRow, 0));
-
 
         }
 
     }
 
+    private void renderPartyBranchSheetData(XSSFWorkbook wb, ModelMap modelMap) {
+
+        XSSFSheet sheet = wb.cloneSheet(0, null);
+
+        XSSFCellStyle style = wb.createCellStyle();
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        style.setWrapText(true);//自动换行
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);//居中
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+
+        XSSFFont font = wb.createFont();
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//粗体显示
+
+        List<Map<String, Object>> data = (List<Map<String, Object>>) modelMap.get("dataList");
+        int startRow = 1;
+        for (int i = 0; i <data.size(); i++) {
+            Map<String, Object> map = data.get(i);
+            startRow++;
+            row = sheet.createRow(startRow);
+            row.setHeightInPoints(80);//设置行高
+            cell = row.createCell(0);
+            cell.setCellStyle(style);
+            cell.setCellValue((String) map.get("partyName"));
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("undergraduateNum"));
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("ssGraduateNum"));
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("bsGraduateNum"));
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("sbGraduateNum"));
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            cell.setCellFormula("C"+(startRow+1)+"+D"+(startRow+1)+"+E"+(startRow+1));
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("directorYjsNum"));
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("deputyNum"));
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("intermediateNum"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            cell.setCellFormula("G"+(startRow+1)+"+H"+(startRow+1)+"+I"+(startRow+1));
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("directorTeacherNum"));
+            cell = row.createCell(11);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("deputyTeacherNum"));
+            cell = row.createCell(12);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("intermediateTeacher"));
+            cell = row.createCell(13);
+            cell.setCellStyle(style);
+            cell.setCellFormula("K"+(startRow+1)+"+L"+(startRow+1)+"+M"+(startRow+1));
+            cell = row.createCell(14);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("retireNum"));
+            cell = row.createCell(15);
+            cell.setCellStyle(style);
+            cell.setCellValue((Integer)map.get("supportTeacherNum"));
+            cell = row.createCell(16);
+            cell.setCellStyle(style);
+            cell.setCellFormula("B"+(startRow+1)+"+F"+(startRow+1)+"+J"+(startRow+1)+"+N"+(startRow+1)+"+O"+(startRow+1)+"+P"+(startRow+1));
+
+            if((i+1)==data.size()){
+                startRow++;
+                row = sheet.createRow(startRow);
+                row.setHeightInPoints(40);//设置行高
+                cell = row.createCell(0);
+                cell.setCellStyle(style);
+                cell.setCellValue("合计");
+                cell = row.createCell(1);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(B3:B"+(i+3)+")");
+                cell = row.createCell(2);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(C3:C"+(i+3)+")");
+                cell = row.createCell(3);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(D3:D"+(i+3)+")");
+                cell = row.createCell(4);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(E3:E"+(i+3)+")");
+                cell = row.createCell(5);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(F3:F"+(i+3)+")");
+                cell = row.createCell(6);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(G3:G"+(i+3)+")");
+                cell = row.createCell(7);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(H3:H"+(i+3)+")");
+                cell = row.createCell(8);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(I3:I"+(i+3)+")");
+                cell = row.createCell(9);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(J3:J"+(i+3)+")");
+                cell = row.createCell(10);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(K3:K"+(i+3)+")");
+                cell = row.createCell(11);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(L3:L"+(i+3)+")");
+                cell = row.createCell(12);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(M3:M"+(i+3)+")");
+                cell = row.createCell(13);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(N3:N"+(i+3)+")");
+                cell = row.createCell(14);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(O3:O"+(i+3)+")");
+                cell = row.createCell(15);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(P3:P"+(i+3)+")");
+                cell = row.createCell(16);
+                cell.setCellStyle(style);
+                cell.setCellFormula("SUM(Q3:Q"+(i+3)+")");
+
+                startRow++;
+                XSSFFont fontDZHT = wb.createFont();
+                fontDZHT.setFontHeightInPoints((short) 14); // 字体高度
+                fontDZHT.setFontName("黑体"); // 字体
+                row = sheet.getRow(startRow);
+                cell = row.createCell(0);
+
+                String directorProportion = new BigDecimal((float) (int) (modelMap.get("totalDirectorTeacher")) / (int) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
+                String deputyProportion = new BigDecimal((float) (int) (modelMap.get("totalDeputyTeacher")) / (int) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
+                String proportion = new BigDecimal((float) ((int) (modelMap.get("totalDeputyTeacher"))+(int) (modelMap.get("totalDirectorTeacher"))) / (int) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
+
+                String rowStr1 = String.format("汇总：\n截至%s，全校共有基层党支部%s个。\n" , DateUtils.formatDate(new Date(),YYYY_MM),modelMap.get("allNum"));
+                String rowStr2 = String.format("1.所有%s个本科生辅导员纵向党支部，均有辅导员担任党支部书记；\n" , modelMap.get("totalUndergraduateNum"));
+                String rowStr3 = String.format("2.共有研究生党支部%s个，由研究生党员担任党支部书记；\n" , modelMap.get("totalYjsNum"));
+                String rowStr4 = String.format("3.全校共有研究生导师纵向党支部%s个，其中%s位党支部书记为正高级专任教师，%s位副高职专任教师；%s位中级专任教师；\n"
+                        ,modelMap.get("totalYjsTecher"),modelMap.get("totalDirectorYjsNum"),modelMap.get("totalDeputyNum"),modelMap.get("totalIntermediate"));
+                String rowStr5 = String.format("4.全校共有专任教师党支部%s个，其中%s位党支部书记为正高级专任教师，占比%s；%s位副高职专任教师；占比%s；合计%s；另有%s位专任教师党支部书记具有中级专业技术职称,相关情况党委组织部正在专项督导；\n"
+                        ,modelMap.get("totalFulltimeTecher"),modelMap.get("totalDirectorTeacher"),directorProportion,modelMap.get("totalDeputyTeacher"),deputyProportion,proportion,modelMap.get("totalIntermediateTeacher"));
+                String rowStr6 = String.format("5.离退休党支部共%s个，机关行政后勤产业教工党支部共计%s个。",modelMap.get("totalRetireNum"),modelMap.get("totalSupportNum"));
+
+                cell.setCellValue(rowStr1+rowStr2+rowStr3+rowStr4+rowStr5+rowStr6);
+                cell.setCellStyle(style);//边框
+                cell.getCellStyle().setWrapText(true);//自动换行
+                cell.getCellStyle().setFont(fontDZHT);//设置字体
+                //设置水平对齐的样式;
+                cell.getCellStyle().setAlignment(HorizontalAlignment.LEFT);
+                //设置垂直对齐的样式;
+                cell.getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+
+
+                sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow+16, 16));
+            }
+        }
+
+    }
+
+    private void renderBranchSheetData(HSSFWorkbook wb, ModelMap modelMap) {
+
+        HSSFSheet sheet = wb.cloneSheet(0);
+
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        style.setWrapText(true);//自动换行
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);//居中
+
+        HSSFRow row = sheet.getRow(0);
+        HSSFCell cell = row.getCell(0);
+
+        List<Map<String, Object>> data = (List<Map<String, Object>>) modelMap.get("dataList");
+        int startRow = 1;
+        for (int i = 0; i <data.size(); i++) {
+            Map<String, Object> map = data.get(i);
+            startRow++;
+            row = sheet.createRow(startRow);
+            row.setHeightInPoints(60);//设置行高
+            cell = row.createCell(0);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("rowNum"));
+            cell = row.createCell(1);
+            cell.setCellStyle(style);
+            String partyName = map.get("partyName") == null ? "" : map.get("partyName").toString();
+            cell.setCellValue(partyName);
+            cell = row.createCell(2);
+            cell.setCellStyle(style);
+            String branchName = map.get("branchName") == null ? "" : map.get("branchName").toString();
+            cell.setCellValue(branchName);
+            cell = row.createCell(3);
+            cell.setCellStyle(style);
+            String branchTypeStr = map.get("branchTypeStr") == null ? "" : map.get("branchTypeStr").toString();
+            cell.setCellValue(branchTypeStr);
+            cell = row.createCell(4);
+            cell.setCellStyle(style);
+            String cadreName = map.get("cadreName") == null ? "" : map.get("cadreName").toString();
+            cell.setCellValue(cadreName);
+            cell = row.createCell(5);
+            cell.setCellStyle(style);
+            String gender = map.get("gender") == null ? "" : map.get("gender").toString();
+            cell.setCellValue(gender);
+            cell = row.createCell(6);
+            cell.setCellStyle(style);
+            String cadreNation = map.get("cadreNation") == null ? "" : map.get("cadreNation").toString();
+            cell.setCellValue(cadreNation);
+            cell = row.createCell(7);
+            cell.setCellStyle(style);
+            String growTime = map.get("growTime") == null ? "" : map.get("growTime").toString();
+            cell.setCellValue(growTime);
+            cell = row.createCell(8);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("partyAge"));
+            cell = row.createCell(9);
+            cell.setCellStyle(style);
+            String cadreBirth = map.get("cadreBirth") == null ? "" :map.get("cadreBirth").toString();
+            cell.setCellValue(cadreBirth);
+            cell = row.createCell(10);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("age"));
+            cell = row.createCell(11);
+            cell.setCellStyle(style);
+            String cadreStatus = map.get("cadreStatus") == null ? "" :map.get("cadreStatus").toString();
+            cell.setCellValue(cadreStatus);
+            cell = row.createCell(12);
+            cell.setCellStyle(style);
+            String cadreDuty = map.get("cadreDuty") == null ? "" :map.get("cadreDuty").toString();
+            cell.setCellValue(cadreDuty);
+            cell = row.createCell(13);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("formalNum"));
+            cell = row.createCell(14);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("preparedNum"));
+            cell = row.createCell(15);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("applyNum"));
+            cell = row.createCell(16);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("activistsNum"));
+            cell = row.createCell(17);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("developmentNum"));
+            cell = row.createCell(18);
+            cell.setCellStyle(style);
+            cell.setCellValue((int)map.get("rowSum"));
+        }
+        startRow++;
+        row = sheet.createRow(startRow);
+        row.setHeightInPoints(40);//设置行高
+        cell = row.createCell(0);
+        cell.setCellStyle(style);
+        cell.setCellValue("合计");
+        cell = row.createCell(1);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(2);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(3);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(4);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(5);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(6);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(7);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(8);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(9);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(10);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(11);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(12);
+        cell.setCellStyle(style);
+        cell.setCellValue("--");
+        cell = row.createCell(13);
+        cell.setCellStyle(style);
+        cell.setCellValue((int)modelMap.get("totalFormal"));
+        cell = row.createCell(14);
+        cell.setCellStyle(style);
+        cell.setCellValue((int)modelMap.get("totalPreparedNum"));
+        cell = row.createCell(15);
+        cell.setCellStyle(style);
+        cell.setCellValue((int)modelMap.get("totalApply"));
+        cell = row.createCell(16);
+        cell.setCellStyle(style);
+        cell.setCellValue((int)modelMap.get("totalActivists"));
+        cell = row.createCell(17);
+        cell.setCellStyle(style);
+        cell.setCellValue((int)modelMap.get("totalDevelopment"));
+        cell = row.createCell(18);
+        cell.setCellStyle(style);
+        cell.setCellValue((int)modelMap.get("allNum"));
+    }
+
+    //获取本科生数量
     public static int getCount(List<StatByteBean> beans){
         int count = 0;
         for (StatByteBean statByteBean : beans) {
@@ -2425,6 +3240,15 @@ public class StatOwInfoService extends BaseMapper {
                 count = statByteBean.getNum() + count;
                 continue;
             }
+        }
+        return count;
+    }
+
+    //遍历集合获取党支部不同阶段人数
+    public static int getBranchCounting(List<StatByteBean> beans){
+        int count = 0;
+        for (StatByteBean statByteBean : beans) {
+            count+=statByteBean.getNum();
         }
         return count;
     }
