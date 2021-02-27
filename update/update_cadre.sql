@@ -1,3 +1,9 @@
+
+-- 2021.2.27 sxx
+ALTER TABLE `cadre_punish`
+    ADD COLUMN	`proof` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件'  AFTER `unit`,
+    ADD COLUMN	`proof_filename` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件名' AFTER `proof`;
+
 -- 2021.1.7 sxx
 ALTER TABLE `cadre_inspect`
 	ADD COLUMN `valid_time` DATETIME NULL DEFAULT NULL COMMENT '有效期' AFTER `record_user_id`;

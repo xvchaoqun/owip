@@ -19,6 +19,14 @@
         return ('<span class="{0}">{1}</span>').format(
             rowObject.status != <%=SystemConstants.UNIT_POST_STATUS_NORMAL%> ? 'delete' : '', cellvalue);
     }},
+    <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
+      { label: '岗位标签',name: 'label', formatter:function(cellvalue, options, rowObject){
+              if(cellvalue==undefined) return '--';
+              return ('<button class="openView btn btn-success btn-xs"' +
+                  'data-url="${ctx}/unitPost_label?unitPostId={0}"><i class="fa fa-search"></i> {1}</button>')
+                  .format(rowObject.id, '查看');
+          }},
+    </c:if>
     <c:if test="${cls==2}">
     {label: '撤销日期', name: 'abolishDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
     </c:if>

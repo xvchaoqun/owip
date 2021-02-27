@@ -111,7 +111,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
+                        <form class="form-inline search-form" id="searchForm_post">
                             <input type="hidden" name="displayType" value="${param.displayType}">
                             <div class="form-group">
                                 <label>岗位编号</label>
@@ -130,7 +130,7 @@
                                     <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                 </select>
                                 <script>
-                                    $.register.del_select($("#searchForm select[name=unitId]"), 250)
+                                    $.register.del_select($("#searchForm_post select[name=unitId]"), 250)
                                 </script>
                             </div>
                             <div class="form-group">
@@ -148,7 +148,7 @@
                                     <option value="0">否</option>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=isPrincipal]").val('${param.isPrincipal}');
+                                    $("#searchForm_post select[name=isPrincipal]").val('${param.isPrincipal}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -160,7 +160,7 @@
                                     </c:forEach>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=leaderType]").val('${param.leaderType}');
+                                    $("#searchForm_post select[name=leaderType]").val('${param.leaderType}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -170,7 +170,7 @@
                                     <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                                 </select>
                                 <script type="text/javascript">
-                                    $("#searchForm select[name=adminLevel]").val('${param.adminLevel}');
+                                    $("#searchForm_post select[name=adminLevel]").val('${param.adminLevel}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -180,7 +180,7 @@
                                     <c:import url="/metaTypes?__code=mc_post"/>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=postType]").val('${param.postType}');
+                                    $("#searchForm_post select[name=postType]").val('${param.postType}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -191,7 +191,7 @@
                                     <c:import url="/metaTypes?__code=mc_post_class"/>
                                 </select>
                                 <script type="text/javascript">
-                                    $("#searchForm select[name=postClass]").val(${param.postClass});
+                                    $("#searchForm_post select[name=postClass]").val(${param.postClass});
                                 </script>
                             </div>
                             <div class="form-group">
@@ -203,7 +203,7 @@
                                     <option value="0">否</option>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=isCpc]").val('${param.isCpc}');
+                                    $("#searchForm_post select[name=isCpc]").val('${param.isCpc}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -215,7 +215,7 @@
                                     <option value="0">兼职</option>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=isMainPost]").val('${param.isMainPost}');
+                                    $("#searchForm_post select[name=isMainPost]").val('${param.isMainPost}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -254,7 +254,7 @@
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/unitPost?cls=${cls}"
                                    data-target="#page-content"
-                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                   data-form="#searchForm_post"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/unitPost?cls=${cls}"
@@ -287,13 +287,13 @@
         $("#jqGrid").trigger("reloadGrid");
     }
     $(":checkbox", ".typeCheckbox").click(function () {
-        $("#searchForm input[name=displayType]").val($(this).prop("checked") ? 1 : 0);
-        $("#searchForm .jqSearchBtn").click();
+        $("#searchForm_post input[name=displayType]").val($(this).prop("checked") ? 1 : 0);
+        $("#searchForm_post .jqSearchBtn").click();
     })
 
-    $.register.multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
-    $.register.multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
-    $.register.user_select($('#searchForm select[name=cadreId]'));
+    $.register.multiselect($('#searchForm_post select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
+    $.register.multiselect($('#searchForm_post select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
+    $.register.user_select($('#searchForm_post select[name=cadreId]'));
     $("#jqGrid").jqGrid({
         rownumbers: true,
         url: '${ctx}/unitPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -302,7 +302,7 @@
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    $('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm_post [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

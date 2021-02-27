@@ -117,6 +117,16 @@ public class CadrePunishController extends BaseController {
                 record.setPunishTime(DateUtils.parseDate(_punishTime, "yyyy.MM"));
             }
         }
+        
+        if (_proof != null) {
+
+            String originalFilename = _proof.getOriginalFilename();
+
+            String savePath = upload(_proof, "cadre_punish");
+
+            record.setProofFilename(originalFilename);
+            record.setProof(savePath);
+        }
 
         record.setListInAd(BooleanUtils.isTrue(record.getListInAd()));
         if (id == null) {

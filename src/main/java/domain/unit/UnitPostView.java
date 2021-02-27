@@ -54,6 +54,8 @@ public class UnitPostView implements Serializable {
 
     private Boolean isCpc;
 
+    private String label;
+
     private Byte status;
 
     private Date abolishDate;
@@ -198,6 +200,14 @@ public class UnitPostView implements Serializable {
 
     public void setIsCpc(Boolean isCpc) {
         this.isCpc = isCpc;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label == null ? null : label.trim();
     }
 
     public Byte getStatus() {

@@ -7,6 +7,8 @@
     <result column="punish_time" jdbcType="DATE" property="punishTime" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="proof" jdbcType="VARCHAR" property="proof" />
+    <result column="proof_filename" jdbcType="VARCHAR" property="proofFilename" />
     <result column="list_in_ad" jdbcType="BIT" property="listInAd" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, punish_time, name, unit, list_in_ad, sort_order, status, remark
+    id, cadre_id, punish_time, name, unit, proof, proof_filename, list_in_ad, sort_order, 
+    status, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePunishExample" resultMap="BaseResultMap">
     select
@@ -108,11 +111,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cadre_punish (cadre_id, punish_time, name, 
-      unit, list_in_ad, sort_order, 
-      status, remark)
+      unit, proof, proof_filename, 
+      list_in_ad, sort_order, status, 
+      remark)
     values (#{cadreId,jdbcType=INTEGER}, #{punishTime,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{listInAd,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
+      #{unit,jdbcType=VARCHAR}, #{proof,jdbcType=VARCHAR}, #{proofFilename,jdbcType=VARCHAR}, 
+      #{listInAd,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePunish">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -131,6 +136,12 @@
       </if>
       <if test="unit != null">
         unit,
+      </if>
+      <if test="proof != null">
+        proof,
+      </if>
+      <if test="proofFilename != null">
+        proof_filename,
       </if>
       <if test="listInAd != null">
         list_in_ad,
@@ -157,6 +168,12 @@
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="proof != null">
+        #{proof,jdbcType=VARCHAR},
+      </if>
+      <if test="proofFilename != null">
+        #{proofFilename,jdbcType=VARCHAR},
       </if>
       <if test="listInAd != null">
         #{listInAd,jdbcType=BIT},
@@ -196,6 +213,12 @@
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
+      <if test="record.proof != null">
+        proof = #{record.proof,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proofFilename != null">
+        proof_filename = #{record.proofFilename,jdbcType=VARCHAR},
+      </if>
       <if test="record.listInAd != null">
         list_in_ad = #{record.listInAd,jdbcType=BIT},
       </if>
@@ -220,6 +243,8 @@
       punish_time = #{record.punishTime,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
+      proof = #{record.proof,jdbcType=VARCHAR},
+      proof_filename = #{record.proofFilename,jdbcType=VARCHAR},
       list_in_ad = #{record.listInAd,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
@@ -243,6 +268,12 @@
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
+      <if test="proof != null">
+        proof = #{proof,jdbcType=VARCHAR},
+      </if>
+      <if test="proofFilename != null">
+        proof_filename = #{proofFilename,jdbcType=VARCHAR},
+      </if>
       <if test="listInAd != null">
         list_in_ad = #{listInAd,jdbcType=BIT},
       </if>
@@ -264,6 +295,8 @@
       punish_time = #{punishTime,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
+      proof = #{proof,jdbcType=VARCHAR},
+      proof_filename = #{proofFilename,jdbcType=VARCHAR},
       list_in_ad = #{listInAd,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},

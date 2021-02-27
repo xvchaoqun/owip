@@ -528,6 +528,13 @@
             if($.trim(val)=='')
                 return "class='danger'";
         }},
+        {
+            label: '处分文件', name: 'proof', width: 250,
+            formatter: function (cellvalue, options, rowObject) {
+
+                return $.imgPreview(rowObject.proof, rowObject.proofFilename);
+            }
+        },
         {label: '是否列入干部任免审批表', name: 'listInAd', width: 190, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];

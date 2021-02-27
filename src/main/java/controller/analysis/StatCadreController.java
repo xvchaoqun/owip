@@ -507,11 +507,18 @@ public class StatCadreController extends BaseController {
 
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
+
+        int cadreCount  = statCadreMapper.countCadre(searchBean);
+        int adminLevelCount=0;
         // 行政级别
         Map<String,Integer> statCadreCountMap = new HashMap<>();
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_adminLevel(searchBean);
         for(StatCadreBean scb:adminLevelList){
             statCadreCountMap.put(CmTag.getMetaTypeByCode(scb.adminLevelCode).getName(),scb.num);
+            adminLevelCount += scb.num;
+        }
+        if(cadreCount != adminLevelCount){
+            statCadreCountMap.put("其他",cadreCount-adminLevelCount);
         }
 
         return statCadreCountMap;
@@ -532,40 +539,43 @@ public class StatCadreController extends BaseController {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
         Map otherMap = new LinkedHashMap();
+        int cadreCount  = statCadreMapper.countCadre(searchBean);
         if (type == 1) {
             List<StatCadreBean> genderList = statCadreMapper.cadre_stat_gender(searchBean);
 
-            int gender1 = 0, gender2 = 0, gender3 = 0;
+            int gender1 = 0, gender2 = 0, genderCount = 0;
             for (StatCadreBean bean : genderList) {
                 if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     gender1=bean.getNum();
                     otherMap.put("男", bean.getNum());
                 } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     gender2=bean.getNum();
-
-                }else {
-                    gender3=bean.getNum();
-
                 }
+                genderCount +=bean.getNum();
             }
             otherMap.put("男", gender1);
             otherMap.put("女", gender2);
-            if(gender3>0) {
-                otherMap.put("无数据", gender3);
+            if(cadreCount != genderCount){
+                otherMap.put("无数据", cadreCount-genderCount);
             }
+
         } else if(type == 2) {
             List<StatCadreBean> nationList = statCadreMapper.cadre_stat_nation(searchBean);
 
-            int nation1 = 0, nation2 = 0;
+            int nation1 = 0, nation2 = 0, nationCount = 0;
             for (StatCadreBean bean : nationList) {
                 if (StringUtils.contains(bean.getNation(), "汉")) {
                     nation1 += bean.getNum();
                 } else {
                     nation2 += bean.getNum();
                 }
+                nationCount +=bean.getNum();
             }
             otherMap.put("汉族", nation1);
             otherMap.put("少数民族", nation2);
+            if(cadreCount != nationCount){
+                otherMap.put("无数据", cadreCount-nationCount);
+            }
 
         }
 
@@ -611,7 +621,8 @@ public class StatCadreController extends BaseController {
     public Map stat_cadreAge_count(Byte cadreType) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
-
+        int cadreCount  = statCadreMapper.countCadre(searchBean);
+        int ageCount = 0;
         Map cadreAgeMap = new LinkedHashMap();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_age(searchBean);
@@ -622,6 +633,11 @@ public class StatCadreController extends BaseController {
         cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
         cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
         cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
+        ageCount=totalBean.getNum1()+totalBean.getNum2()+totalBean.getNum3()+totalBean.getNum4()
+                +totalBean.getNum5()+totalBean.getNum6()+totalBean.getNum7();
+        if(totalBean != null && cadreCount != ageCount){
+            cadreAgeMap.put("无数据",cadreCount-ageCount);
+        }
 
         return cadreAgeMap;
     }
@@ -694,18 +710,23 @@ public class StatCadreController extends BaseController {
         return "analysis/cadre/stat_cadre_edu";
     }
 
-    // 干部数量统计
+    // 干部学历统计
     @RequestMapping("/stat_cadreEdu_count_data")
     @ResponseBody
     public Map stat_cadreEdu_count_data(Byte cadreType, ModelMap modelMap) {
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreType);
-
+        int cadreCount  = statCadreMapper.countCadre(searchBean);
+        int eduCount = 0;
         Map cadreEduMap = new LinkedHashMap();
         List<StatCadreBean> statCadreBeans = statCadreMapper.cadre_stat_edu(searchBean);
 
         for (StatCadreBean statCadreBean : statCadreBeans) {
             cadreEduMap.put(CmTag.getMetaType(statCadreBean.eduId).getName(), statCadreBean.num);
+            eduCount += statCadreBean.num;
+        }
+        if(cadreCount != eduCount){
+            cadreEduMap.put("无数据",cadreCount-eduCount);
         }
 
         return cadreEduMap;

@@ -14,6 +14,7 @@
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="post_class" jdbcType="INTEGER" property="postClass" />
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
     <result column="open_date" jdbcType="DATE" property="openDate" />
@@ -70,10 +71,10 @@
   </sql>
   <sql id="Base_Column_List">
     id, unit_id, group_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
-    post_class, is_cpc, status, abolish_date, open_date, sort_order, remark, unit_name, 
-    unit_code, unit_type_id, unit_status, unit_sort_order, group_name, cadre_id, cadre_post_id,
-    cp_admin_level, is_main_post, gender, cadre_admin_level, cadre_post_type, lp_work_time, np_work_time,
-    s_work_time, cadre_is_principal, cadre_post_year, admin_level_year
+    post_class, is_cpc, label, status, abolish_date, open_date, sort_order, remark, unit_name, 
+    unit_code, unit_type_id, unit_status, unit_sort_order, group_name, cadre_id, cadre_post_id, 
+    cp_admin_level, is_main_post, gender, cadre_admin_level, cadre_post_type, lp_work_time, 
+    np_work_time, s_work_time, cadre_is_principal, cadre_post_year, admin_level_year
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
     select

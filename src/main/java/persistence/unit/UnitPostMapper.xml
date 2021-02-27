@@ -14,6 +14,7 @@
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="post_class" jdbcType="INTEGER" property="postClass" />
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
     <result column="open_date" jdbcType="DATE" property="openDate" />
@@ -80,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, unit_id, group_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
-    post_class, is_cpc, status, abolish_date, open_date, sort_order, remark
+    post_class, is_cpc, label, status, abolish_date, open_date, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
     select
@@ -119,15 +120,15 @@
     insert into unit_post (unit_id, group_id, code, 
       name, job, is_principal, 
       leader_type, admin_level, post_type, 
-      post_class, is_cpc, status, 
-      abolish_date, open_date, sort_order, 
-      remark)
+      post_class, is_cpc, label, 
+      status, abolish_date, open_date, 
+      sort_order, remark)
     values (#{unitId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{isPrincipal,jdbcType=BIT}, 
       #{leaderType,jdbcType=TINYINT}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
-      #{postClass,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
-      #{abolishDate,jdbcType=DATE}, #{openDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+      #{postClass,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, #{label,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{abolishDate,jdbcType=DATE}, #{openDate,jdbcType=DATE}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitPost">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -167,6 +168,9 @@
       </if>
       <if test="isCpc != null">
         is_cpc,
+      </if>
+      <if test="label != null">
+        label,
       </if>
       <if test="status != null">
         status,
@@ -217,6 +221,9 @@
       </if>
       <if test="isCpc != null">
         #{isCpc,jdbcType=BIT},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -280,6 +287,9 @@
       <if test="record.isCpc != null">
         is_cpc = #{record.isCpc,jdbcType=BIT},
       </if>
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -314,6 +324,7 @@
       post_type = #{record.postType,jdbcType=INTEGER},
       post_class = #{record.postClass,jdbcType=INTEGER},
       is_cpc = #{record.isCpc,jdbcType=BIT},
+      label = #{record.label,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       abolish_date = #{record.abolishDate,jdbcType=DATE},
       open_date = #{record.openDate,jdbcType=DATE},
@@ -359,6 +370,9 @@
       <if test="isCpc != null">
         is_cpc = #{isCpc,jdbcType=BIT},
       </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -390,6 +404,7 @@
       post_type = #{postType,jdbcType=INTEGER},
       post_class = #{postClass,jdbcType=INTEGER},
       is_cpc = #{isCpc,jdbcType=BIT},
+      label = #{label,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       abolish_date = #{abolishDate,jdbcType=DATE},
       open_date = #{openDate,jdbcType=DATE},

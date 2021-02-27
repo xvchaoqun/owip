@@ -61,7 +61,7 @@
                value="${param.title}">
     </div>
 </div>
-<c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
+<c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0 && empty cls}">
     <div class="column">
         <label>干部标签</label>
         <div class="input">

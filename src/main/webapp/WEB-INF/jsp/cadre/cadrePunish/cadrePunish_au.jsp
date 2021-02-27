@@ -54,7 +54,12 @@ pageEncoding="UTF-8"%>
                     <textarea class="form-control" name="unit">${cadrePunish.unit}</textarea>
 				</div>
 			</div>
-
+            <div class="form-group">
+                <label class="col-xs-3 control-label"><%--${_cadreReward_needProof?'<span class="star">*</span>':''}--%>处分文件</label>
+                <div class="col-xs-6">
+                    <input <%--${(_cadreReward_needProof && empty cadrePunish.proof)?'required':''}--%> class="form-control" type="file" name="_proof" />
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">是否列入<br/>干部任免审批表</label>
                 <div class="col-xs-6">
@@ -103,4 +108,5 @@ pageEncoding="UTF-8"%>
     });
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
+    $.fileInput($('#modalForm input[type=file]'));
 </script>

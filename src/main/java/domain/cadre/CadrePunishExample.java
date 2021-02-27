@@ -452,6 +452,146 @@ public class CadrePunishExample {
             return (Criteria) this;
         }
 
+        public Criteria andProofIsNull() {
+            addCriterion("proof is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofIsNotNull() {
+            addCriterion("proof is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofEqualTo(String value) {
+            addCriterion("proof =", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofNotEqualTo(String value) {
+            addCriterion("proof <>", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofGreaterThan(String value) {
+            addCriterion("proof >", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofGreaterThanOrEqualTo(String value) {
+            addCriterion("proof >=", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofLessThan(String value) {
+            addCriterion("proof <", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofLessThanOrEqualTo(String value) {
+            addCriterion("proof <=", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofLike(String value) {
+            addCriterion("proof like", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofNotLike(String value) {
+            addCriterion("proof not like", value, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofIn(List<String> values) {
+            addCriterion("proof in", values, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofNotIn(List<String> values) {
+            addCriterion("proof not in", values, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofBetween(String value1, String value2) {
+            addCriterion("proof between", value1, value2, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofNotBetween(String value1, String value2) {
+            addCriterion("proof not between", value1, value2, "proof");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameIsNull() {
+            addCriterion("proof_filename is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameIsNotNull() {
+            addCriterion("proof_filename is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameEqualTo(String value) {
+            addCriterion("proof_filename =", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameNotEqualTo(String value) {
+            addCriterion("proof_filename <>", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameGreaterThan(String value) {
+            addCriterion("proof_filename >", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameGreaterThanOrEqualTo(String value) {
+            addCriterion("proof_filename >=", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameLessThan(String value) {
+            addCriterion("proof_filename <", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameLessThanOrEqualTo(String value) {
+            addCriterion("proof_filename <=", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameLike(String value) {
+            addCriterion("proof_filename like", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameNotLike(String value) {
+            addCriterion("proof_filename not like", value, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameIn(List<String> values) {
+            addCriterion("proof_filename in", values, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameNotIn(List<String> values) {
+            addCriterion("proof_filename not in", values, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameBetween(String value1, String value2) {
+            addCriterion("proof_filename between", value1, value2, "proofFilename");
+            return (Criteria) this;
+        }
+
+        public Criteria andProofFilenameNotBetween(String value1, String value2) {
+            addCriterion("proof_filename not between", value1, value2, "proofFilename");
+            return (Criteria) this;
+        }
+
         public Criteria andListInAdIsNull() {
             addCriterion("list_in_ad is null");
             return (Criteria) this;

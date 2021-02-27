@@ -151,6 +151,21 @@ pageEncoding="UTF-8"%>
 					</c:if>
 				</div>
 			</div>
+			<c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
+					<div class="form-group">
+						<label class="col-xs-4 control-label">岗位标签</label>
+						<div class="col-xs-6">
+							<div class="input-group">
+								<select class="multiselect" multiple="" name="label" <%--data-width="273"--%> data-placeholder="请选择">
+									<c:import url="/metaTypes?__code=mc_cadre_label"/>
+								</select>
+								<script type="text/javascript">
+									$.register.multiselect($('#modalForm select[name=label]'), '${unitPost.label}'.split(","));
+								</script>
+							</div>
+						</div>
+					</div>
+			</c:if>
 		    <c:if test="${cadrePost!=null}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>是否同步<br/>任职情况</label>
@@ -214,7 +229,7 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
+   /* $("#modalForm :checkbox").bootstrapSwitch();*/
     $.register.ajax_select($("#modalForm select[name=unitId]"))
     $.register.user_select($("#modalForm select[name=cadreId]"));
     $('#modalForm [data-rel="select2"]').select2();

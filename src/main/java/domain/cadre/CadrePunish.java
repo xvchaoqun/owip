@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,6 +15,11 @@ public class CadrePunish implements Serializable {
     private String name;
 
     private String unit;
+
+    @SignRes
+    private String proof;
+
+    private String proofFilename;
 
     private Boolean listInAd;
 
@@ -62,6 +69,22 @@ public class CadrePunish implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getProof() {
+        return proof;
+    }
+
+    public void setProof(String proof) {
+        this.proof = proof == null ? null : proof.trim();
+    }
+
+    public String getProofFilename() {
+        return proofFilename;
+    }
+
+    public void setProofFilename(String proofFilename) {
+        this.proofFilename = proofFilename == null ? null : proofFilename.trim();
     }
 
     public Boolean getListInAd() {

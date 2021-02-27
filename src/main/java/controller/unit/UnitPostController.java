@@ -14,10 +14,12 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -47,6 +49,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static domain.unit.UnitPostViewExample.Criteria;
+import static sys.constants.CadreConstants.CADRE_STATUS_CJ;
+import static sys.constants.CadreConstants.CADRE_STATUS_KJ;
 import static sys.constants.DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT;
 import static sys.constants.SystemConstants.*;
 
@@ -1014,5 +1018,34 @@ public class UnitPostController extends BaseController {
         resultMap.put("filename", xlsx.getOriginalFilename());
 
         return resultMap;
+    }
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping("/unitPost_label")
+    public String unitPost_label(Integer unitPostId,
+                                 Integer cadreId,
+                                 @RequestParam(required = false, defaultValue = "1")Byte cls,
+                                 ModelMap modelMap) {
+
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
+        String[] labels=unitPost.getLabel().split(",");
+        Integer adminLevel = unitPost.getAdminLevel();
+        if(StringUtils.equals(CmTag.getMetaType(adminLevel).getCode(), "mt_admin_level_main")||
+                StringUtils.equals(CmTag.getMetaType(adminLevel).getCode(), "mt_admin_level_vice")||
+                StringUtils.equals(CmTag.getMetaType(adminLevel).getCode(), "mt_admin_level_none")){
+            modelMap.put("status", CADRE_STATUS_CJ);
+        }else{
+            modelMap.put("status", CADRE_STATUS_KJ);
+        }
+        
+        if(cadreId !=null){
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            modelMap.put("cadre", cadre);
+        }
+
+        modelMap.put("cls", cls);
+        modelMap.put("unitPost", unitPost);
+        modelMap.put("unitPostLabels", Arrays.asList(labels));
+
+        return "unit/unitPost/unitPost_label";
     }
 }
