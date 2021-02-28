@@ -262,6 +262,10 @@
 						<div class="col-xs-8 label-text">
 							<input type="checkbox" name="adformEduExclude" ${cadreEdu.adformEduExclude?'checked':''}/> 不计入学历学位栏
 							<input type="checkbox" name="adformResumeExclude" ${cadreEdu.adformResumeExclude?'checked':''}/> 不计入简历栏
+							<br/>
+							<input type="checkbox" name="adformDisplayAsFulltime" ${cadreEdu.adformDisplayAsFulltime?'checked':''}/> 显示为主要经历
+							<span class="prompt" data-title="说明"
+							  data-prompt="注：此选项仅对在职教育有效"><i class="fa fa-question-circle-o"></i></span>
 						</div>
 					</div>
 

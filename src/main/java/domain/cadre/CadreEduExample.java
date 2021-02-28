@@ -2102,6 +2102,66 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
+        public Criteria andAdformDisplayAsFulltimeIsNull() {
+            addCriterion("adform_display_as_fulltime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeIsNotNull() {
+            addCriterion("adform_display_as_fulltime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeEqualTo(Boolean value) {
+            addCriterion("adform_display_as_fulltime =", value, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeNotEqualTo(Boolean value) {
+            addCriterion("adform_display_as_fulltime <>", value, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeGreaterThan(Boolean value) {
+            addCriterion("adform_display_as_fulltime >", value, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("adform_display_as_fulltime >=", value, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeLessThan(Boolean value) {
+            addCriterion("adform_display_as_fulltime <", value, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeLessThanOrEqualTo(Boolean value) {
+            addCriterion("adform_display_as_fulltime <=", value, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeIn(List<Boolean> values) {
+            addCriterion("adform_display_as_fulltime in", values, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeNotIn(List<Boolean> values) {
+            addCriterion("adform_display_as_fulltime not in", values, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_display_as_fulltime between", value1, value2, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsFulltimeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_display_as_fulltime not between", value1, value2, "adformDisplayAsFulltime");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

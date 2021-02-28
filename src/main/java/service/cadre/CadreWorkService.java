@@ -8,7 +8,7 @@ import domain.crp.CrpRecord;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import domain.unit.Unit;
-import ext.service.ExtCommonService;
+import freemarker.EduSuffix;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -40,8 +40,6 @@ public class CadreWorkService extends BaseMapper {
     private CrpRecordService crpRecordService;
     @Autowired
     private MetaTypeService metaTypeService;
-    @Autowired
-    private ExtCommonService extCommonService;
 
     // 根据起始时间读取工作经历（用于任免审批表导入时）
     public CadreWork getByWorkTime(int cadreId, Date startTime, Date endTime) {
@@ -127,9 +125,29 @@ public class CadreWorkService extends BaseMapper {
 
                 if(BooleanUtils.isTrue(cadreEdu.getAdformResumeExclude())) continue; // 不计入简历
 
-                if (learnStyle.intValue() == fulltimeType.getId()) {
+                String note = StringUtils.isNotBlank(cadreEdu.getNote()) ?
+                                    String.format(BooleanUtils.isTrue(cadreEdu.getNoteBracketsExclude())?"%s":"（%s）",
+                                            cadreEdu.getNote()) : "";
 
-                    eduResume.setDetail(extCommonService.getResumeOfCadreEdu(cadreEdu, false));
+                //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
+                if (learnStyle.intValue() == fulltimeType.getId()
+                        || BooleanUtils.isTrue(cadreEdu.getAdformDisplayAsFulltime())) {
+
+                    String major = StringUtils.trimToNull(cadreEdu.getMajor());
+                    if (major != null) {
+                        major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+                    } else {
+                        major = "";
+                    }
+                    String detail = cadreEdu.getResume();
+                    if(StringUtils.isBlank(detail)) {
+                        detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                                StringUtils.trimToEmpty(cadreEdu.getDep()),
+                                major,
+                                StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), false)),
+                                note);
+                    }
+                    eduResume.setDetail(detail);
 
                     // 全日制学习经历： 根据入学时间当成主要工作经历插入
                     int insertPos = 0;
@@ -173,7 +191,36 @@ public class CadreWorkService extends BaseMapper {
                 } else if (learnStyle.intValue() == onjobType.getId()) {
 
                     // 非全日制学习经历：当成其间工作经历插入
-                    eduResume.setDetail(extCommonService.getResumeOfCadreEdu(cadreEdu, true));
+                    String major = StringUtils.trimToNull(cadreEdu.getMajor());
+                    if (major != null) {
+                        major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+                    } else {
+                        major = "";
+                    }
+
+                    String detail = cadreEdu.getResume();
+                    if(StringUtils.isBlank(detail)) {
+                        if (CmTag.getBoolProperty("ad_show_onjob")) {
+
+                            detail = String.format("在%s%s%s%s%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                                    StringUtils.trimToEmpty(cadreEdu.getDep()),
+                                    major,
+                                    "在职",
+                                    StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
+                                    cadreEdu.getIsGraduated() ? "毕业" : "",
+                                    (CmTag.getBoolProperty("ad_show_degree") && cadreEdu.getHasDegree()) ?
+                                            String.format("，获%s学位", cadreEdu.getDegree()) : "",
+                                    note);
+                        } else {
+                            detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                                    StringUtils.trimToEmpty(cadreEdu.getDep()),
+                                    major,
+                                    StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
+                                    note);
+                        }
+                    }
+
+                    eduResume.setDetail(detail);
 
                     // 非全日制学习经历： 根据开始时间和结束时间将学习经历插入到某条工作经历的其间之内。
                     // 第一步： 看结束时间，某条学习经历的结束时间在哪条工作经历之内， 那么这条学习经历就要在这条工作经历的其间。
