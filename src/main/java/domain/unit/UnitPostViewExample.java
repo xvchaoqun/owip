@@ -1909,6 +1909,66 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCpIsCpcIsNull() {
+            addCriterion("cp_is_cpc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcIsNotNull() {
+            addCriterion("cp_is_cpc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcEqualTo(Boolean value) {
+            addCriterion("cp_is_cpc =", value, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcNotEqualTo(Boolean value) {
+            addCriterion("cp_is_cpc <>", value, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcGreaterThan(Boolean value) {
+            addCriterion("cp_is_cpc >", value, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("cp_is_cpc >=", value, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcLessThan(Boolean value) {
+            addCriterion("cp_is_cpc <", value, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcLessThanOrEqualTo(Boolean value) {
+            addCriterion("cp_is_cpc <=", value, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcIn(List<Boolean> values) {
+            addCriterion("cp_is_cpc in", values, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcNotIn(List<Boolean> values) {
+            addCriterion("cp_is_cpc not in", values, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcBetween(Boolean value1, Boolean value2) {
+            addCriterion("cp_is_cpc between", value1, value2, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpIsCpcNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("cp_is_cpc not between", value1, value2, "cpIsCpc");
+            return (Criteria) this;
+        }
+
         public Criteria andGenderIsNull() {
             addCriterion("gender is null");
             return (Criteria) this;

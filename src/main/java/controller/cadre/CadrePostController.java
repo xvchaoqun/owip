@@ -153,7 +153,7 @@ public class CadrePostController extends BaseController {
             if (transfer != null){
                 record.setIsMainPost(!record.getIsMainPost());
             }
-            cadrePostService.updateByPrimaryKeySelective(record);
+            cadrePostService.updateByPrimaryKeySelective(record, true);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         }
 

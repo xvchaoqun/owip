@@ -1,10 +1,24 @@
 
 
-
+20210228
+-- 吉大
 
 -- 已经更新了哈工大
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `adform_display_as_fulltime` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '显示为主要经历，仅对在职教育有效' AFTER `adform_resume_exclude`;
+
+
+ALTER TABLE `unit_post`
+	ADD COLUMN `label` VARCHAR(255) NULL DEFAULT NULL COMMENT '标签，关联元数据，多选' AFTER `is_cpc`;
+-- 更新 unit_post_view
+
+ALTER TABLE `cadre_punish`
+    ADD COLUMN	`proof` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件'  AFTER `unit`,
+    ADD COLUMN	`proof_filename` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件名' AFTER `proof`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (4005, 0, '全校基层党组织基本情况', '', 'url', '', '/statOwInfo?cls=7', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls7', NULL, NULL, NULL, 1, 50);
+
 
 
 20210225

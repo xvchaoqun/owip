@@ -39,9 +39,9 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
-        <table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
+        <!--<table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="unit_post_view" domainObjectName="unit.UnitPostView" mapperName="unit.UnitPostViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

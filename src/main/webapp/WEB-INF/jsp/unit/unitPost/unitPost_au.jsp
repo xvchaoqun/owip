@@ -153,7 +153,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
 					<div class="form-group">
-						<label class="col-xs-4 control-label">岗位标签</label>
+						<label class="col-xs-4 control-label">干部标签</label>
 						<div class="col-xs-6">
 							<div class="input-group">
 								<select class="multiselect" multiple="" name="label" <%--data-width="273"--%> data-placeholder="请选择">

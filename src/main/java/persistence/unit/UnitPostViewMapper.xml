@@ -30,6 +30,7 @@
     <result column="cadre_post_id" jdbcType="INTEGER" property="cadrePostId" />
     <result column="cp_admin_level" jdbcType="INTEGER" property="cpAdminLevel" />
     <result column="is_main_post" jdbcType="BIT" property="isMainPost" />
+    <result column="cp_is_cpc" jdbcType="BIT" property="cpIsCpc" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="cadre_admin_level" jdbcType="INTEGER" property="cadreAdminLevel" />
     <result column="cadre_post_type" jdbcType="INTEGER" property="cadrePostType" />
@@ -73,8 +74,8 @@
     id, unit_id, group_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
     post_class, is_cpc, label, status, abolish_date, open_date, sort_order, remark, unit_name, 
     unit_code, unit_type_id, unit_status, unit_sort_order, group_name, cadre_id, cadre_post_id, 
-    cp_admin_level, is_main_post, gender, cadre_admin_level, cadre_post_type, lp_work_time, 
-    np_work_time, s_work_time, cadre_is_principal, cadre_post_year, admin_level_year
+    cp_admin_level, is_main_post, cp_is_cpc, gender, cadre_admin_level, cadre_post_type, 
+    lp_work_time, np_work_time, s_work_time, cadre_is_principal, cadre_post_year, admin_level_year
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
     select

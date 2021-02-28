@@ -86,6 +86,8 @@ public class UnitPostView implements Serializable {
 
     private Boolean isMainPost;
 
+    private Boolean cpIsCpc;
+
     private Byte gender;
 
     private Integer cadreAdminLevel;
@@ -328,6 +330,14 @@ public class UnitPostView implements Serializable {
 
     public void setIsMainPost(Boolean isMainPost) {
         this.isMainPost = isMainPost;
+    }
+
+    public Boolean getCpIsCpc() {
+        return cpIsCpc;
+    }
+
+    public void setCpIsCpc(Boolean cpIsCpc) {
+        this.cpIsCpc = cpIsCpc;
     }
 
     public Byte getGender() {

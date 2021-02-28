@@ -11,8 +11,9 @@
             ||not empty param.isPrincipal||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
             ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass
             ||not empty param.unitTypes||not empty param.adminLevels
-            ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
-            || not empty param.code || not empty param.sort}"/>
+            ||not empty param.startNowPostAge||not empty param.endNowPostAge
+            ||not empty param.startNowLevelAge||not empty param.endNowLevelAge
+            || not empty param.code || not empty param.cpIsCpc}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="unitPost:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -225,6 +226,18 @@
                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label>任职干部是否占职数</label>
+                                <select name="cpIsCpc" data-width="100"
+                                        data-rel="select2" data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                                <script>
+                                    $("#searchForm_post select[name=cpIsCpc]").val('${param.cpIsCpc}');
+                                </script>
                             </div>
                             <div class="form-group">
                                 <label>干部级别</label>
