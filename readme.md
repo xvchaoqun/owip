@@ -155,6 +155,10 @@ GRANT SELECT ON `db_owip`.`ext_member_out_view` TO 'jwprint'@'219.224.19.177' id
 GRANT SELECT ON `db_owip`.`ext_member_out_view` TO 'jwprint'@'219.224.19.222' identified by '&2019!*j(w';
 GRANT SELECT ON `db_owip`.`ext_member_out_view` TO 'data'@'219.224.19.40' identified by '!@#dataQAZ';
 
+
+# 学生党员系统
+GRANT SELECT ON `db_owip`.* TO  'xsfz'@'172.16.213.217' identified by 'Jx#^1416';
+
 flush privileges;
 
 ############

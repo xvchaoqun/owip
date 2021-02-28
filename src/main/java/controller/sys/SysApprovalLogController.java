@@ -3,6 +3,7 @@ package controller.sys;
 import controller.BaseController;
 import domain.abroad.ApplySelf;
 import domain.cet.CetProjectObj;
+import domain.cr.CrApplicant;
 import domain.crs.CrsApplicant;
 import domain.dp.DpParty;
 import domain.pmd.PmdMember;
@@ -18,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.abroad.ApplySelfMapper;
 import persistence.cet.CetProjectObjMapper;
+import persistence.cr.CrApplicantMapper;
 import persistence.crs.CrsApplicantMapper;
 import persistence.dp.DpPartyMapper;
 import persistence.pmd.PmdMemberMapper;
@@ -51,7 +53,9 @@ public class SysApprovalLogController extends BaseController {
     private CrsApplicantMapper crsApplicantMapper;
     @Autowired(required = false)
     private PmdMemberMapper pmdMemberMapper;
-    
+    @Autowired(required = false)
+    private CrApplicantMapper crApplicantMapper;
+
     @RequestMapping("/sysApprovalLog")
     public String sysApprovalLog(Integer id, Integer userId, Byte type, Byte displayType, ModelMap modelMap) {
 
@@ -66,6 +70,11 @@ public class SysApprovalLogController extends BaseController {
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT: {
                     CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
                     userId = crsApplicant.getUserId();
+                    break;
+                }
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_CR_APPLICANT: {
+                    CrApplicant crApplicant = crApplicantMapper.selectByPrimaryKey(id);
+                    userId = crApplicant.getUserId();
                     break;
                 }
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER: {

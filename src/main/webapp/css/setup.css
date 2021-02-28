@@ -363,6 +363,14 @@ body {
 }
 
 /*jqgrid start*/
+
+.table>tbody>tr>td.jqgrid-rownum,
+.table>tbody>tr>td.jq-column{
+    vertical-align: middle;
+}
+.jq-column .btn-xs{
+    padding: 0 5px;
+}
 .table > thead > tr > th:last-child {
     border-right-color: inherit !important; /*覆盖ace， jqgrid*/
 }
