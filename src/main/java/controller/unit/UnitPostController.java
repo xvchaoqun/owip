@@ -524,6 +524,7 @@ public class UnitPostController extends BaseController {
         record.setIsPrincipal(BooleanUtils.isTrue(record.getIsPrincipal()));
         record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
         record.setName(record.getName());
+        record.setLabel(StringUtils.trimToEmpty(record.getLabel()));
 
         CadrePost cadrePost=new CadrePost();
         cadrePost.setCadreId(cadreId);

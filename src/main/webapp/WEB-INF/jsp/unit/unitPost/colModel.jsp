@@ -131,7 +131,7 @@
       </c:if>
       <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
       { label: '干部标签',name: 'label', width: 85, formatter:function(cellvalue, options, rowObject){
-              if(cellvalue==undefined) return '--';
+              if($.trim(cellvalue)=='') return '--';
               return ('<button class="openView btn btn-success btn-xs"' +
                   'data-url="${ctx}/unitPost_label?unitPostId={0}"><i class="fa fa-search"></i> {1}</button>')
                   .format(rowObject.id, '查看');
