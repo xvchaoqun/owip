@@ -1,4 +1,5 @@
 
+UPDATE `sys_resource` SET `name`='全校研究生党员信息统计',`url`='/statOwInfo?cls=1' WHERE  `id`=2635;
 
 20210228
 -- 吉大  哈工大

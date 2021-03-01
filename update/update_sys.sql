@@ -32,7 +32,7 @@ AUTO_INCREMENT=13
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4001, 0, '接口管理', '', 'url', '', '/apiKey', 67, '0/1/67/', 1, 'apiKey:*', NULL, NULL, NULL, 1, NULL);
 
 -- 2021.2.7 ly
-UPDATE `db_owip`.`sys_resource` SET `name`='全校研究生党员信息统计',`url`='/statOwInfo?cls=1' WHERE  `id`=2635;
+UPDATE `sys_resource` SET `name`='全校研究生党员信息统计',`url`='/statOwInfo?cls=1' WHERE  `id`=2635;
 
 -- 2021.1.22
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2634, 0, '党建信息统计', '', 'menu', '组织部，分党委', NULL, 105, '0/1/105/', 0, 'statSummary:menu', NULL, NULL, NULL, 1, 29700);

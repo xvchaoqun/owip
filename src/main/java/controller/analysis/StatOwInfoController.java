@@ -94,6 +94,26 @@ public class StatOwInfoController extends BaseController {
             }
 
             return "analysis/statOwInfo/stat_party_bks_page";
+        }else if (cls == 5) {
+            Map cacheMap= statOwInfoService.getOwJzgInfo(cls, df);
+            modelMap.putAll(cacheMap);
+            if (export == 1) {
+                XSSFWorkbook wb = statOwInfoService.statOwJzgInfoExport(modelMap);
+                String filename = String.format("全校教工队伍党员信息分析.xlsx");
+                ExportHelper.output(wb, filename, response);
+                return null;
+            }
+            return "analysis/statOwInfo/stat_ow_jzg_page";
+        } else if (cls == 6) {
+            Map cacheMap= statOwInfoService.getPartyJzgInfo(cls, df);
+            modelMap.putAll(cacheMap);
+            if (export == 1) {
+                XSSFWorkbook wb = statOwInfoService.statPartyJzgInfoExport(modelMap);
+                String filename = String.format("各二级党组织专任教师队伍党员信息分析.xlsx");
+                ExportHelper.output(wb, filename, response);
+                return null;
+            }
+            return "analysis/statOwInfo/stat_party_jzg_page";
         }else if(cls == 7){
             Map cacheMap = statOwInfoService.getGrassrootsPartyInfo(cls);
             modelMap.putAll(cacheMap);
