@@ -50,11 +50,11 @@
         </table>-->
         <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
         </table>-->
-        <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
-        </table>-->
-        <table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
-            <columnOverride column="salary" jdbcType="VARCHAR"></columnOverride>
+        <table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
         </table>
+        <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
+            <columnOverride column="salary" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
         <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">
         </table>-->
        <!-- <table tableName="pmd_norm_value" domainObjectName="pmd.PmdNormValue" mapperName="pmd.PmdNormValueMapper">

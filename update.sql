@@ -1,8 +1,13 @@
+20210301
+-- 北师大
 
 UPDATE `sys_resource` SET `name`='全校研究生党员信息统计',`url`='/statOwInfo?cls=1' WHERE  `id`=2635;
 
+ALTER TABLE `pmd_config_reset`
+	ADD COLUMN `user_type` TINYINT(3) NULL COMMENT '限定人员类型， 1 学生 2 教职工 3 离退休' AFTER `reset`;
+
 20210228
--- 吉大  哈工大  西工大
+-- 吉大  哈工大  西工大  北航
 
 -- 已经更新了哈工大
 ALTER TABLE `cadre_edu`
@@ -25,6 +30,21 @@ VALUES (4005, 0, '全校基层党组织基本情况', '', 'url', '', '/statOwInf
 20210225
 -- 吉大
 
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+    VALUES (5000, 0, '各二级党组织研究生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=2', 2634, '0/1/105/2634/', 1, 'statPartyYjsInfo:list', NULL, NULL, NULL, 1, 50);
+
+UPDATE `sys_resource` SET `url`='/statOwInfo?cls=1' WHERE  `id`=2635;
+
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (2635, 0, '信息统计', '党建管理员 分党委管理员', 'url', '', '/statOwInfo', 2634, '0/1/105/2634/', 1, 'statOwInfo:list', NULL, NULL, NULL, 1, 50);
+
+update sys_student_info set student_level=2;
+update sys_student_info set student_level=3 where edu_level like '%硕士%';
+update sys_student_info set student_level=4 where edu_level like '%博士%';
+
 -- 重建 update/dp0219.sql 表  并 更新view_dp
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '宗教信仰', 'mt_dp_other_type_5', NULL, '', '', 5, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '港澳台', 'mt_dp_other_type_4', NULL, '', '', 4, 1);
@@ -46,20 +66,6 @@ VALUES (4003, 0, '各二级党组织本科生队伍党员信息分析', '', 'url
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (4002, 0, '全校本科生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=3', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls3', NULL, NULL, NULL, 1, 50);
 
-20210205
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-    VALUES (5000, 0, '各二级党组织研究生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=2', 2634, '0/1/105/2634/', 1, 'statPartyYjsInfo:list', NULL, NULL, NULL, 1, 50);
-
-UPDATE `sys_resource` SET `url`='/statOwInfo?cls=1' WHERE  `id`=2635;
-
-
-
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (2635, 0, '信息统计', '党建管理员 分党委管理员', 'url', '', '/statOwInfo', 2634, '0/1/105/2634/', 1, 'statOwInfo:list', NULL, NULL, NULL, 1, 50);
-
-update sys_student_info set student_level=2;
-update sys_student_info set student_level=3 where edu_level like '%硕士%';
-update sys_student_info set student_level=4 where edu_level like '%博士%';
 
 20210204
 -- 西工大
