@@ -301,6 +301,15 @@ public class SysUserController extends BaseController {
             return formValidError(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_SUPER)) {
+            String password = record.getPasswd();
+            if (password != null) {
+                if (!CmTag.validPasswd(password)) {
+                    return failed(CmTag.getStringProperty("passwdMsg"));
+                }
+            }
+        }
+
         record.setUsername(StringUtils.lowerCase(StringUtils.trimToNull(record.getUsername())));
         record.setCode(StringUtils.lowerCase(StringUtils.trimToNull(record.getCode())));
         Integer id = record.getId();
