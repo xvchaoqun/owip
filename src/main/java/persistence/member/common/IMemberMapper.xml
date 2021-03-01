@@ -148,7 +148,8 @@
 
     <select id="selectNotMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
         select * from (<include refid="userSearchSql" />) u
-        where not exists(select 1 from ow_member where user_id=u.id and status=1)
+        where not exists(select 1 from ow_member m left join ow_party p on p.id = m.party_id
+        left join ow_branch b on b.id = m.branch_id  where m.user_id=u.id and m.status=1 and p.is_deleted=0 and b.is_deleted=0)
         and role_ids not like "%${regRoleStr}%"
         order by create_time desc
     </select>
