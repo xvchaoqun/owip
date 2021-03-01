@@ -1365,7 +1365,7 @@ var _modal_width;
             }
             if (filepath != '' && filename != '') {
                 hrefLabel = hrefLabel || filename;
-                return '<a href="javascript:void(0)" class="{4}" data-url="{3}/pdf_preview?path={0}&filename={1}&type={5}">{2}</a>'
+                return '<a href="javascript:void(0)" class="{4}" data-width="900" data-url="{3}/pdf_preview?path={0}&filename={1}&type={5}">{2}</a>'
                     .format(filepath, encodeURI(filename), hrefLabel, ctx, cls, type || '');
             }
             return $.trim(plainText);
@@ -1611,7 +1611,7 @@ if ($.jgrid) {
         pager: "#jqGridPager",
         //pagerpos:"right",
         cmTemplate: {
-            sortable: false, align: 'center', width: 100,
+            sortable: false, align: 'center', width: 100, classes:'jq-column',
             formatter: function (cellvalue, options, rowObject) {
                 //console.log(options.colModel.hidden)
                 //console.log(cellvalue.length)

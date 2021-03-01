@@ -114,7 +114,7 @@
       unit, sort_order, status
       )
     values (#{cadreId,jdbcType=INTEGER}, #{title,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=DATE}, #{withGod,jdbcType=BIT}, #{politicalStatus,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=DATE}, #{withGod,jdbcType=BIT}, #{politicalStatus,jdbcType=INTEGER},
       #{unit,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
       )
   </insert>

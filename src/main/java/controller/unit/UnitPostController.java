@@ -334,7 +334,7 @@ public class UnitPostController extends BaseController {
                               String sortBy,//自定义排序
                               Integer[] unitTypes, // 部门属性
                               Integer[] adminLevels, // 行政级别
-
+                                Boolean cpIsCpc,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, defaultValue = "0") int exportType,
                                  Integer[] ids, // 导出的记录
@@ -464,6 +464,10 @@ public class UnitPostController extends BaseController {
         if (adminLevels != null) {
             criteria.andCpAdminLevelIn(Arrays.asList(adminLevels));
         }
+        if(cpIsCpc!=null){
+            criteria.andCpIsCpcEqualTo(cpIsCpc);
+        }
+
         if (export == 1) {
             if (ids != null && ids.length > 0) {
                 criteria.andIdIn(Arrays.asList(ids));
@@ -520,6 +524,7 @@ public class UnitPostController extends BaseController {
         record.setIsPrincipal(BooleanUtils.isTrue(record.getIsPrincipal()));
         record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
         record.setName(record.getName());
+        record.setLabel(StringUtils.trimToEmpty(record.getLabel()));
 
         CadrePost cadrePost=new CadrePost();
         cadrePost.setCadreId(cadreId);
@@ -705,7 +710,7 @@ public class UnitPostController extends BaseController {
                 "分管工作|200|left","是否正职|100",
                 "岗位级别|100","职务属性|150","职务类别|100",
                 "是否占干部职数|100",
-                "现任职干部|100","干部级别|100","任职类型|100",
+                "现任职干部|100","任职干部是否占职数|100","干部级别|100","任职类型|100",
                 "任职日期|100","现任职务年限|100", "现任职务始任日期|120","现任职务始任年限|120", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -725,6 +730,7 @@ public class UnitPostController extends BaseController {
                             metaTypeService.getName(record.getPostClass()),
                             BooleanUtils.isTrue(record.getIsCpc())?"是":"否",
                             cadre==null?"":cadre.getRealname(),
+                            cadre==null?"":(BooleanUtils.isTrue(record.getCpIsCpc())?"是":"否"),
                             cadre==null?"":metaTypeService.getName(record.getCpAdminLevel()),
                             cadrePost==null?"":(cadrePost.getIsMainPost()?"主职":"兼职"),
                             cadrePost==null?"": DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),

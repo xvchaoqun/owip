@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${unitPost!=null}">编辑</c:if><c:if test="${unitPost==null}">添加</c:if>${status==UNIT_POST_STATUS_NORMAL?'现有':'已撤销'}岗位</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body overflow-visible">
     <form class="form-horizontal" action="${ctx}/unitPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitPost.id}">
         <input type="hidden" name="status" value="${status}">
@@ -153,7 +153,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
 					<div class="form-group">
-						<label class="col-xs-4 control-label">岗位标签</label>
+						<label class="col-xs-4 control-label">干部标签</label>
 						<div class="col-xs-6">
 							<div class="input-group">
 								<select class="multiselect" multiple="" name="label" <%--data-width="273"--%> data-placeholder="请选择">
@@ -211,20 +211,24 @@ pageEncoding="UTF-8"%>
 		</div>
     </form>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" style="clear:both">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${unitPost!=null}">确定</c:if><c:if test="${unitPost==null}">添加</c:if></button>
+    <button id="submitBtn" class="btn btn-primary"
+	data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"
+	><i class="fa fa-check"></i> <c:if test="${unitPost!=null}">确定</c:if><c:if test="${unitPost==null}">添加</c:if></button>
 </div>
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+        	var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#${param.jqGrid}").trigger("reloadGrid");
                     }
+                    $btn.button('reset');
                 }
             });
         }

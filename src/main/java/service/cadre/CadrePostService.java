@@ -51,7 +51,7 @@ public class CadrePostService extends BaseMapper {
         CadrePost mainCadrePost = getFirstMainCadrePost(cadreId);
         if(mainCadrePost!=null){
             record.setId(mainCadrePost.getId());
-            updateByPrimaryKeySelective(record);
+            updateByPrimaryKeySelective(record, true);
         }else{
             insertSelective(record);
         }
@@ -107,7 +107,7 @@ public class CadrePostService extends BaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(CadrePost record) {
+    public void updateByPrimaryKeySelective(CadrePost record, boolean syncUnitPost) {
 
         int cadreId = record.getCadreId();
         // 如果是第一主职提交，则判断是否重复
@@ -123,15 +123,17 @@ public class CadrePostService extends BaseMapper {
         // 同步岗位信息
         if(record.getUnitPostId()!=null){
 
-            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(record.getUnitPostId());
-            record.setPostName(unitPost.getName());
-            record.setIsPrincipal(unitPost.getIsPrincipal());
-            record.setPostType(unitPost.getPostType());
-            record.setPostClassId(unitPost.getPostClass());
-            record.setUnitId(unitPost.getUnitId());
+            if(syncUnitPost) {
+                UnitPost unitPost = unitPostMapper.selectByPrimaryKey(record.getUnitPostId());
+                record.setPostName(unitPost.getName());
+                record.setIsPrincipal(unitPost.getIsPrincipal());
+                record.setPostType(unitPost.getPostType());
+                record.setPostClassId(unitPost.getPostClass());
+                record.setUnitId(unitPost.getUnitId());
 
-            if(record.getIsCpc()==null) {
-                record.setIsCpc(unitPost.getIsCpc());
+                if (record.getIsCpc() == null) {
+                    record.setIsCpc(unitPost.getIsCpc());
+                }
             }
 
         }else{

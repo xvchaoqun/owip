@@ -1,11 +1,33 @@
 
--- 重建 dp0219.sql 表  并 更新view_dp
+
+20210228
+-- 吉大  哈工大
+
+-- 已经更新了哈工大
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `adform_display_as_fulltime` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '显示为主要经历，仅对在职教育有效' AFTER `adform_resume_exclude`;
+
+
+ALTER TABLE `unit_post`
+	ADD COLUMN `label` VARCHAR(255) NULL DEFAULT NULL COMMENT '标签，关联元数据，多选' AFTER `is_cpc`;
+-- 更新 unit_post_view
+
+ALTER TABLE `cadre_punish`
+    ADD COLUMN	`proof` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件'  AFTER `unit`,
+    ADD COLUMN	`proof_filename` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件名' AFTER `proof`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (4005, 0, '全校基层党组织基本情况', '', 'url', '', '/statOwInfo?cls=7', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls7', NULL, NULL, NULL, 1, 50);
+
+
+
+20210225
+-- 吉大
+
+-- 重建 update/dp0219.sql 表  并 更新view_dp
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '宗教信仰', 'mt_dp_other_type_5', NULL, '', '', 5, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '港澳台', 'mt_dp_other_type_4', NULL, '', '', 4, 1);
 DELETE FROM `base_meta_type` WHERE `id`=673;
-ALTER TABLE `dp_party_member`
-	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `office_phone`,
-	CHANGE COLUMN `present_member` `present_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否现任委员' AFTER `sort_order`;
 
 ALTER TABLE `sys_teacher_info`
 	ADD COLUMN `is_full_time_teacher` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
@@ -15,8 +37,13 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
     VALUES (5002, 0, '各二级党组织专任教师队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=6', 2634, '0/1/105/2634/', 1, 'statPartyJzgInfo:list', NULL, NULL, NULL, 1, 50);
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4004, 0, '全校党支部书记队伍整体情况分析', '', 'url', '', '/statOwInfo?cls=8', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls8', NULL, NULL, NULL, 1, 50);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (4004, 0, '全校党支部书记队伍整体情况分析', '', 'url', '', '/statOwInfo?cls=8', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls8', NULL, NULL, NULL, 1, 50);
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (4003, 0, '各二级党组织本科生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=4', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls4', NULL, NULL, NULL, 1, 50);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (4002, 0, '全校本科生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=3', 2634, '0/1/105/2634/', 1, 'statOwInfo:cls3', NULL, NULL, NULL, 1, 50);
 
 20210205
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)

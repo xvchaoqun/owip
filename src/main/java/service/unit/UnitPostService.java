@@ -289,7 +289,7 @@ public class UnitPostService extends BaseMapper {
             }
         }else if(newCadreId.equals(oldCadreId)){
             record.setId(cadrePost.getId());
-            cadrePostService.updateByPrimaryKeySelective(record);
+            cadrePostService.updateByPrimaryKeySelective(record, isSync);
         }else if(!newCadreId.equals(oldCadreId)){
             if(oldCadreId!=null){ //更换了关联干部,清空原干部关联
                 commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + cadrePost.getId());
@@ -298,7 +298,7 @@ public class UnitPostService extends BaseMapper {
             CadrePost mainCadrePost=cadrePostService.getFirstMainCadrePost(newCadreId);
             if((BooleanUtils.isTrue(isFirstMainPost)||isFirstMainPost==null)&&mainCadrePost!=null){  //关联岗位更换干部，更新第一主职
                 record.setId(mainCadrePost.getId());
-                cadrePostService.updateByPrimaryKeySelective(record);
+                cadrePostService.updateByPrimaryKeySelective(record, isSync);
 
                 /*if(record.getNpWorkTime()==null&&record.getLpWorkTime()==null){
                     commonMapper.excuteSql("update cadre_post set np_dispatch_id=null, " +

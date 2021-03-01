@@ -177,6 +177,7 @@ public class CadreEduController extends BaseController {
         record.setNoteBracketsExclude(BooleanUtils.isTrue(record.getNoteBracketsExclude()));
         record.setAdformEduExclude(BooleanUtils.isTrue(record.getAdformEduExclude()));
         record.setAdformResumeExclude(BooleanUtils.isTrue(record.getAdformResumeExclude()));
+        record.setAdformDisplayAsFulltime(BooleanUtils.isTrue(record.getAdformDisplayAsFulltime()));
 
         if (id == null) {
 

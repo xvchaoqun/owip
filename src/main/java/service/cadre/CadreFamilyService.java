@@ -178,6 +178,9 @@ public class CadreFamilyService extends BaseMapper {
         if (BooleanUtils.isTrue(record.getWithGod())) {
             commonMapper.excuteSql("update cadre_family set birthday=null where id=" + record.getId());
         }
+        if (record.getPoliticalStatus() == null){
+            commonMapper.excuteSql("update cadre_family set political_status=null where id=" + record.getId());
+        }
     }
 
     // 更新修改申请的内容（仅允许管理员和本人更新自己的申请）

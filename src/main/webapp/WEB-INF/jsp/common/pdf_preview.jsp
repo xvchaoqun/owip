@@ -44,9 +44,4 @@
     </c:if>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
 </div>
-<style>
-    .modal-content {
-        min-width: 900px;
-    }
-</style>
 </c:if>
