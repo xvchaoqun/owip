@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
@@ -142,6 +143,14 @@ public class ProfileController extends BaseController {
         String passwordHash = passwordHelper.encryptBySalt(oldPassword, sysUser.getSalt());
         if (!StringUtils.equalsIgnoreCase(sysUser.getPasswd(), passwordHash)) {
             return failed("原密码错误");
+        }
+
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_SUPER)) {
+            if (password != null) {
+                if (!CmTag.validPasswd(password)) {
+                    return failed(CmTag.getStringProperty("passwdMsg"));
+                }
+            }
         }
 
         SysUser _sysUser = new SysUser();
