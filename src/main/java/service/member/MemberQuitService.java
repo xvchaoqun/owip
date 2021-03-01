@@ -38,8 +38,6 @@ public class MemberQuitService extends MemberBaseMapper {
     private SysUserService sysUserService;
 
     @Autowired
-    private EnterApplyService enterApplyService;
-    @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
 
     @Autowired

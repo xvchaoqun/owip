@@ -6,10 +6,10 @@ import domain.dp.DpNprExample;
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.dp.dpCommon.DpCommonService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -21,6 +21,8 @@ import java.util.Map;
 @Service
 public class DpNprService extends DpBaseMapper {
 
+    @Autowired
+    protected DpCommonService dpCommonService;
     @Autowired
     private SysUserService sysUserService;
 

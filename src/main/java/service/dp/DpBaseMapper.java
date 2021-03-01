@@ -6,13 +6,8 @@ import persistence.dp.common.IDpMemberMapper;
 import persistence.dp.common.IDpPartyMapper;
 import persistence.dp.common.IDpPropertyMapper;
 import service.CoreBaseMapper;
-import service.dp.dpCommon.DpCommonService;
 
 public class DpBaseMapper extends CoreBaseMapper {
-
-
-    @Autowired
-    protected DpCommonService dpCommonService;
 
     /*
      * 民主党派

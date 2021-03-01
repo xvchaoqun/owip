@@ -38,8 +38,6 @@ import service.dp.dpCommon.DpCommonService;
 import service.global.CacheHelper;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
-import service.unit.UnitPostService;
-import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
 import sys.constants.*;
@@ -59,13 +57,9 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     public static final String TABLE_NAME = "cadre";
 
     @Autowired(required = false)
-    private UnitPostService unitPostService;
-    @Autowired(required = false)
     private CadreAdminLevelService cadreAdminLevelService;
     @Autowired(required = false)
     private CadrePostService cadrePostService;
-    @Autowired(required = false)
-    private UnitService unitService;
     @Autowired(required = false)
     private PassportMapper passportMapper;
     @Autowired
@@ -76,8 +70,6 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     private CadreReserveService cadreReserveService;
     @Autowired
     private CadreInspectService cadreInspectService;
-    @Autowired
-    private CadrePartyService cadrePartyService;
     @Autowired
     private CadreAdLogService cadreAdLogService;
     @Autowired

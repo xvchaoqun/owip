@@ -12,15 +12,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.cadre.CadreService;
 import service.dp.dpCommon.DpCommonService;
 import service.party.MemberService;
-import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.PasswordHelper;
@@ -36,6 +33,8 @@ import java.util.*;
 public class DpMemberService extends DpBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    protected DpCommonService dpCommonService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
