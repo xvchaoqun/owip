@@ -50,7 +50,7 @@
                         data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
-                </c:if>
+
                 <shiro:hasRole name="${ROLE_SUPER}">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}org/orgAdmin_import?type=${OW_ORG_ADMIN_BRANCH}"
@@ -98,6 +98,7 @@
                         </shiro:hasPermission>
                     </ul>
                 </div>
+                </c:if>
 
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>

@@ -24,9 +24,12 @@ pageEncoding="UTF-8" %>
                     <div class="tab-pane in active multi-row-head-table">
 
             <div class="jqgrid-vertical-offset buttons">
+
+                <c:if test="${cls==1}">
                 <shiro:hasPermission name="party:add">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
+                </c:if>
                 <shiro:hasPermission name="party:edit">
                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
@@ -41,7 +44,7 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>--%>
                     </shiro:hasPermission>
 
-                <c:if test="${type==0}">
+                <c:if test="${cls==1}">
                     <button data-url="${ctx}/org_admin?isPartyAdmin=1"
                             data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-user"></i> 编辑管理员
@@ -64,15 +67,13 @@ pageEncoding="UTF-8" %>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
-                    <c:if test="${cls==1}">
-                        <shiro:hasPermission name="party:del">
-                            <a class="jqBatchBtn btn btn-danger btn-sm"
-                               data-callback="updateCache"
-                               data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
-                               data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
-                            【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
-                        </shiro:hasPermission>
-                    </c:if>
+                    <shiro:hasPermission name="party:del">
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-callback="updateCache"
+                           data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
+                           data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
+                        【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
+                    </shiro:hasPermission>
                 </c:if>
                 <c:if test="${type==1}">
                     <shiro:hasPermission name="party:del">

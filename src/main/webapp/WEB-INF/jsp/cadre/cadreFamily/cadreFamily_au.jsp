@@ -61,9 +61,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label"><span class="star">*</span>政治面貌</label>
+                        <label class="col-xs-4 control-label">政治面貌</label>
                         <div class="col-xs-6">
-                            <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"
+                            <select data-rel="select2" name="politicalStatus" data-placeholder="请选择"
                                     data-width="125">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_political_status"/>
