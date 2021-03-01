@@ -78,7 +78,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     protected ModifyCadreAuthService modifyCadreAuthService;
     @Autowired(required = false)
     protected CmMemberService cmMemberService;
-    @Autowired
+    @Autowired(required = false)
     protected DpCommonService dpCommonService;
 
     // 添加临时干部（无角色）

@@ -59,8 +59,6 @@ public class CadreCommonService extends BaseMapper {
     protected PartyService partyService;
     @Autowired
     protected BranchService branchService;
-    @Autowired
-    protected DpMemberService dpMemberService;
 
     // 查找某个单位的正职（现任）
     public List<CadreView> findMainPost(Integer unitId) {
@@ -357,10 +355,12 @@ public class CadreCommonService extends BaseMapper {
         // 如果是后备干部
         modelMap.put("cadreReserve", cadreReserveService.getNormalRecord(cadreId));
 
-        DpMemberView dpMember = dpMemberService.findByUserId(uv.getUserId());
-        if (dpMember != null){
-            modelMap.put("dpMember", dpMember);
+        DpMemberService dpMemberService = CmTag.getBean(DpMemberService.class);
+        if(dpMemberService!=null) {
+            DpMemberView dpMember = dpMemberService.findByUserId(uv.getUserId());
+            if (dpMember != null) {
+                modelMap.put("dpMember", dpMember);
+            }
         }
-
     }
 }

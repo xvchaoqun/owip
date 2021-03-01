@@ -42,7 +42,7 @@ public class CadrePartyService extends BaseMapper {
     private MemberQuitService memberQuitService;
     @Autowired
     private CacheHelper cacheHelper;
-    @Autowired
+    @Autowired(required = false)
     protected DpCommonService dpCommonService;
 
     // 添加或删除角色（干部其他信息-民主党派成员）
