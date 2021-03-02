@@ -128,6 +128,7 @@ public class CadreConstants {
     public final static byte CADRE_RESERVE_STATUS_TO_INSPECT = 2;
     public final static byte CADRE_RESERVE_STATUS_ASSIGN = 3;
     public final static byte CADRE_RESERVE_STATUS_ABOLISH = 4;
+    public final static byte CADRE_RESERVE_STATUS_ALL = 5;
     public final static Map<Byte, String> CADRE_RESERVE_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -136,6 +137,8 @@ public class CadreConstants {
         //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "年轻干部已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ALL, "全部年轻干部");
+
     }
 
     // 干部任免操作类别

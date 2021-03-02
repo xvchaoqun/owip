@@ -147,6 +147,7 @@ public class CadreReserveController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
     public String cadreReserve(Byte reserveStatus, Integer reserveType,
@@ -164,7 +165,6 @@ public class CadreReserveController extends BaseController {
                                String[] proPostLevels,
                                Integer[] workTypes,
                                Byte[] leaderTypes,
-
                                Integer cadreId, ModelMap modelMap) {
 
         Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
@@ -291,8 +291,11 @@ public class CadreReserveController extends BaseController {
             normalCountMap.put(entry.getKey(), 0);
         }
         List<CadreReserveCount> cadreReserveCounts = iCadreMapper.selectCadreReserveCount();
+
+        int allNum = 0;
         for (CadreReserveCount crc : cadreReserveCounts) {
             Byte st = crc.getStatus();
+            allNum+=crc.getNum();
             if (st == CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
                 Integer type = crc.getType();
                 Integer count = normalCountMap.get(type);
@@ -302,7 +305,9 @@ public class CadreReserveController extends BaseController {
             Integer stCount = statusCountMap.get(st);
             if (stCount == null) stCount = 0;
             statusCountMap.put(st, stCount + crc.getNum());
+
         }
+        statusCountMap.put(CadreConstants.CADRE_RESERVE_STATUS_ALL, allNum);
         modelMap.put("statusCountMap", statusCountMap);
         modelMap.put("normalCountMap", normalCountMap);
 
@@ -386,10 +391,12 @@ public class CadreReserveController extends BaseController {
         CadreReserveViewExample example = new CadreReserveViewExample();
         CadreReserveViewExample.Criteria criteria = example.createCriteria();
 
-        if (reserveStatus != null)
-            criteria.andReserveStatusEqualTo(reserveStatus);
-        if (reserveStatus == null || reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
-            criteria.andReserveTypeEqualTo(reserveType);
+        if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
+            if (reserveStatus != null)
+                criteria.andReserveStatusEqualTo(reserveStatus);
+            if (reserveStatus == null || reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
+                criteria.andReserveTypeEqualTo(reserveType);
+        }
 
         String sortStr = "reserve_sort_order asc";
         if(StringUtils.isNotBlank(sortBy)) {
@@ -644,6 +651,7 @@ public class CadreReserveController extends BaseController {
         }
 
         long count = cadreReserveViewMapper.countByExample(example);
+
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

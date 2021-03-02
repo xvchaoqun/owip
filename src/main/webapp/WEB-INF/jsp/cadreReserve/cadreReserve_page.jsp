@@ -5,6 +5,7 @@
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT%>" var="CADRE_RESERVE_STATUS_TO_INSPECT"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ASSIGN%>" var="CADRE_RESERVE_STATUS_ASSIGN"/>
+<c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ALL%>" var="CADRE_RESERVE_STATUS_ALL"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -51,10 +52,14 @@
                                         <c:if test="${_status.key==CADRE_RESERVE_STATUS_TO_INSPECT}">
                                             <i class="fa fa-circle-o-notch fa-spin"></i>
                                         </c:if>
-                                            ${_status.value}(${statusCountMap.get(_status.key)})</a>
+                                        <c:if test="${_status.key==CADRE_RESERVE_STATUS_ALL}">
+                                            <i class="fa fa-flag"></i>
+                                        </c:if>
+                                        ${_status.value}(${statusCountMap.get(_status.key)})</a>
                                 </li>
                             </c:if>
                         </c:forEach>
+
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
                             <button type="button" class="popupBtn btn btn-danger btn-sm"
                                     data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属类别

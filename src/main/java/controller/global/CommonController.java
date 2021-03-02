@@ -326,7 +326,7 @@ public class CommonController extends BaseController {
             CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike( searchStr.trim() + "%");
             CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike(searchStr.trim() + "%");
             CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike( searchStr.trim() + "%");
-            if (reserveStatus != null) {
+            if (reserveStatus != null && reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL) {
                 criteria1.andReserveStatusEqualTo(reserveStatus);
                 criteria2.andReserveStatusEqualTo(reserveStatus);
                 criteria3.andReserveStatusEqualTo(reserveStatus);
@@ -336,7 +336,7 @@ public class CommonController extends BaseController {
                 criteria2.andReserveTypeEqualTo(reserveType);
                 criteria3.andReserveTypeEqualTo(reserveType);
             }
-        } else {
+        } else if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
             CadreReserveViewExample.Criteria criteria = example.createCriteria();
             if (reserveStatus != null) criteria.andReserveStatusEqualTo(reserveStatus);
             if (reserveType != null) criteria.andReserveTypeEqualTo(reserveType);

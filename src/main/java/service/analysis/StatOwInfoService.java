@@ -2056,36 +2056,36 @@ public class StatOwInfoService extends BaseMapper {
             Integer retireNum = 0;
             Integer supportTeacherNum = 0;
             for (StatIntBean statIntBean : statByteBeans) {
-                if (statIntBean.getGroupBy().equals(mtUndergraduate.getId())){
+                if (statIntBean.getGroupBy().equals(mtUndergraduate == null ? 0 : mtUndergraduate.getId())){
                     undergraduateNum = statIntBean.getNum();//本科生辅导员纵向党支部
                     totalUndergraduateNum+=undergraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtSsGraduate.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtSsGraduate == null ? 0 : mtSsGraduate.getId())){
                     ssGraduateNum = statIntBean.getNum();//硕士研究生党支部
                     totalSsGraduateNum+=ssGraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtBsGraduate.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtBsGraduate == null ? 0 : mtBsGraduate.getId())){
                     bsGraduateNum = statIntBean.getNum();//博士研究生党支部
                     totalBsGraduateNum+=bsGraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtSbGraduate.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtSbGraduate == null ? 0 : mtSbGraduate.getId())){
                     sbGraduateNum = statIntBean.getNum();//硕博研究生党支部
                     totalSbGraduateNum+=sbGraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtRetire.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtRetire == null ? 0 : mtRetire.getId())){
                     retireNum = statIntBean.getNum();//离退休党支部
                     totalRetireNum+=retireNum;
-                }else if(statIntBean.getGroupBy().equals(mtSupportTeacher.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtSupportTeacher == null ? 0 : mtSupportTeacher.getId())){
                     supportTeacherNum = statIntBean.getNum();//机关行政产业后勤党支部
                     totalSupportNum+=supportTeacherNum;
-                }else if(statIntBean.getGroupBy().equals(mtGraduateTeacher.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId())){
                     yjsTecherNum = statIntBean.getNum();//研究生导师纵向党支部
-                }else if(statIntBean.getGroupBy().equals(mtProfessional.getId())){
+                }else if(statIntBean.getGroupBy().equals(mtProfessional == null ? 0 : mtProfessional.getId())){
                     professionalTeacherNum = statIntBean.getNum();
                 }
             }
-            dataMap.put("undergraduateNum",undergraduateNum == null ? "" :undergraduateNum);
-            dataMap.put("ssGraduateNum",ssGraduateNum == null ? "" :ssGraduateNum);
-            dataMap.put("bsGraduateNum",bsGraduateNum == null ? "":bsGraduateNum);
-            dataMap.put("sbGraduateNum",sbGraduateNum == null ? "" :sbGraduateNum);
-            dataMap.put("retireNum",retireNum == null ? "" :retireNum);
-            dataMap.put("supportTeacherNum",supportTeacherNum == null ? "" :supportTeacherNum);
+            dataMap.put("undergraduateNum",undergraduateNum);
+            dataMap.put("ssGraduateNum",ssGraduateNum);
+            dataMap.put("bsGraduateNum",bsGraduateNum);
+            dataMap.put("sbGraduateNum",sbGraduateNum);
+            dataMap.put("retireNum",retireNum);
+            dataMap.put("supportTeacherNum",supportTeacherNum);
 
             //研究生党支部合计
             int yjsTotal = ssGraduateNum+bsGraduateNum+sbGraduateNum;
@@ -2210,21 +2210,21 @@ public class StatOwInfoService extends BaseMapper {
                 //支部类型
                 Integer branchType = statOwInfoBean.getTypes() == null ? 0 : statOwInfoBean.getTypes();
 
-                if(branchType.equals(mtUndergraduate.getId() == null ? 0 : mtUndergraduate.getId())){
+                if(branchType.equals(mtUndergraduate == null ? 0 : mtUndergraduate.getId())){
                     branchTypeStr = mtUndergraduate.getName();
-                }else if(branchType.equals(mtSsGraduate.getId() == null ? 0 : mtSsGraduate.getId())){
+                }else if(branchType.equals(mtSsGraduate == null ? 0 : mtSsGraduate.getId())){
                     branchTypeStr = mtSsGraduate.getName();
-                }else if(branchType.equals(mtBsGraduate.getId() == null ? 0 : mtBsGraduate.getId())){
+                }else if(branchType.equals(mtBsGraduate == null ? 0 : mtBsGraduate.getId())){
                     branchTypeStr = mtBsGraduate.getName();
-                }else if(branchType.equals(mtSbGraduate.getId() == null ? 0 : mtSbGraduate.getId())){
+                }else if(branchType.equals(mtSbGraduate == null ? 0 : mtSbGraduate.getId())){
                     branchTypeStr = mtSbGraduate.getName();
-                }else if(branchType.equals(mtGraduateTeacher.getId() == null ? 0 : mtGraduateTeacher.getId())){
+                }else if(branchType.equals(mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId())){
                     branchTypeStr = mtGraduateTeacher.getName();
-                }else if(branchType.equals(mtProfessional.getId() == null ? 0 : mtProfessional.getId())){
+                }else if(branchType.equals(mtProfessional == null ? 0 : mtProfessional.getId())){
                     branchTypeStr = mtProfessional.getName();
-                }else if(branchType.equals(mtRetire.getId() == null ? 0 : mtRetire.getId())){
+                }else if(branchType.equals(mtRetire == null ? 0 : mtRetire.getId())){
                     branchTypeStr = mtRetire.getName();
-                }else if(branchType.equals(mtSupportTeacher.getId() == null ? 0 : mtSupportTeacher.getId())){
+                }else if(branchType.equals(mtSupportTeacher == null ? 0 : mtSupportTeacher.getId())){
                     branchTypeStr = mtSupportTeacher.getName();
                 }
                 dataMap.put("branchTypeStr",branchTypeStr);
@@ -2316,7 +2316,7 @@ public class StatOwInfoService extends BaseMapper {
         //直属党支部
         MetaType mtPartySecretary = CmTag.getMetaTypeByCode("mt_party_secretary");
         MetaType mt_direct_branch = CmTag.getMetaTypeByCode("mt_direct_branch");
-        List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getDirectlyBranch(mt_direct_branch.getId(),mtPartySecretary.getId());
+        List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getDirectlyBranch(mt_direct_branch == null ? 0 : mt_direct_branch.getId(),mtPartySecretary == null ? 0 : mtPartySecretary.getId());
         for (StatOwInfoBean statOwInfoBean : statOwInfoBeans) {
             Map dataMap = new HashedMap();
             //序号
@@ -2332,21 +2332,21 @@ public class StatOwInfoService extends BaseMapper {
             if(branchType == 0){
                 branchTypeStr = "";
             }
-            if(branchType.equals(mtUndergraduate.getId())){
+            if(branchType.equals(mtUndergraduate == null ? 0 : mtUndergraduate.getId())){
                 branchTypeStr = mtUndergraduate.getName();
-            }else if(branchType.equals(mtSsGraduate.getId())){
+            }else if(branchType.equals(mtSsGraduate == null ? 0 : mtSsGraduate.getId())){
                 branchTypeStr = mtSsGraduate.getName();
-            }else if(branchType.equals(mtBsGraduate.getId())){
+            }else if(branchType.equals(mtBsGraduate == null ? 0 : mtBsGraduate.getId())){
                 branchTypeStr = mtBsGraduate.getName();
-            }else if(branchType.equals(mtSbGraduate.getId())){
+            }else if(branchType.equals(mtSbGraduate == null ? 0 : mtSbGraduate.getId())){
                 branchTypeStr = mtSbGraduate.getName();
-            }else if(branchType.equals(mtGraduateTeacher.getId())){
+            }else if(branchType.equals(mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId())){
                 branchTypeStr = mtGraduateTeacher.getName();
-            }else if(branchType.equals(mtProfessional.getId())){
+            }else if(branchType.equals(mtProfessional == null ? 0 : mtProfessional.getId())){
                 branchTypeStr = mtProfessional.getName();
-            }else if(branchType.equals(mtRetire.getId())){
+            }else if(branchType.equals(mtRetire == null ? 0 : mtRetire.getId())){
                 branchTypeStr = mtRetire.getName();
-            }else if(branchType.equals(mtSupportTeacher.getId())){
+            }else if(branchType.equals(mtSupportTeacher == null ? 0 : mtSupportTeacher.getId())){
                 branchTypeStr = mtSupportTeacher.getName();
             }
             dataMap.put("branchTypeStr",branchTypeStr);
