@@ -398,7 +398,12 @@ public class CadreReserveController extends BaseController {
                 criteria.andReserveTypeEqualTo(reserveType);
         }
 
-        String sortStr = "reserve_sort_order asc";
+        String sortStr = "";
+        if (reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_ALL){
+            sortStr = "reserve_status asc, reserve_type asc,reserve_sort_order asc";
+        }else {
+            sortStr = "reserve_sort_order asc";
+        }
         if(StringUtils.isNotBlank(sortBy)) {
             switch (sortBy.trim()){
                 case "birth_asc":
