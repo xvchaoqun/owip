@@ -204,8 +204,8 @@ pageEncoding="UTF-8" %>
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.userId > 0 && $.trim(cellvalue) != '')
-                        return '<a href="javascript:;" class="openView" data-url="{2}/dp/dpMember_view?userId={0}">{1}</a>'
-                            .format(rowObject.userId, cellvalue, ctx);
+                        return '<a href="javascript:;" class="openView" data-url="{0}/cadre_view?cadreId={1}&isDp=1&userId={2}">{3}</a>'
+                            .format(ctx, rowObject.cadre.id, rowObject.userId, cellvalue);
                     return $.trim(cellvalue);
                 }, frozen: true
             },

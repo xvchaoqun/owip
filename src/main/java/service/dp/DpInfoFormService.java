@@ -130,7 +130,9 @@ public class DpInfoFormService extends DpBaseMapper{
         dataMap.put("nation", bean.getNation());
         dataMap.put("np", bean.getNativePlace());
         dataMap.put("hp", bean.getHomePlace());
-        dataMap.put("dpPartyName",bean.getDpParty().getName());
+        if (bean.getDpParty() != null) {
+            dataMap.put("dpPartyName", bean.getDpParty().getName());
+        }
         dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
 
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));

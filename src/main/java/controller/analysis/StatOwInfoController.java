@@ -124,7 +124,7 @@ public class StatOwInfoController extends BaseController {
                 ExportHelper.output(wb, fileName + ".xls",response);
                 return null;
             }
-            return "analysis/statOwInfo/stat_branch_info_page";
+            return "analysis/statOwInfo/stat_party_branch_detail";
         } else if(cls==8){
             Map cacheMap = statOwInfoService.getPartyBranchInfo(cls);
             modelMap.putAll(cacheMap);
@@ -135,7 +135,7 @@ public class StatOwInfoController extends BaseController {
                 ExportHelper.output(wb, fileName + ".xlsx",response);
                 return null;
             }
-            return "analysis/statOwInfo/stat_party_branch_page";
+            return "analysis/statOwInfo/stat_party_branch_info";
         }
         return "analysis/statOwInfo/stat_ow_yjs_page";
     }

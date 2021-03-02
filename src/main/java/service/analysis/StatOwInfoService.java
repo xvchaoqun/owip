@@ -3,12 +3,10 @@ package service.analysis;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import bean.StatOwInfoBean;
-import com.lowagie.text.Meta;
 import domain.base.MetaType;
 import domain.party.Party;
 import domain.sys.StudentInfoExample;
 import domain.sys.SysUserExample;
-import net.sf.jasperreports.olap.mapping.DataMapping;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -21,7 +19,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
 import persistence.analysis.StatOwInfoMapper;
 import service.BaseMapper;
-import service.base.MetaTypeService;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
@@ -2493,7 +2490,7 @@ public class StatOwInfoService extends BaseMapper {
         return wb;
     }
     public HSSFWorkbook statBranchInfoExport(ModelMap modelMap)throws IOException {
-        InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_party_branch_page.xls");
+        InputStream is = getClass().getResourceAsStream("/xlsx/analysis/stat_party_branch_detail.xls");
         HSSFWorkbook hb = new HSSFWorkbook(is);
         renderBranchSheetData(hb,modelMap); // 汇总
         hb.removeSheetAt(0);
