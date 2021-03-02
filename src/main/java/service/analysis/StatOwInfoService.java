@@ -3,6 +3,7 @@ package service.analysis;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import bean.StatOwInfoBean;
+import com.lowagie.text.Meta;
 import domain.base.MetaType;
 import domain.party.Party;
 import domain.sys.StudentInfoExample;
@@ -20,6 +21,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
 import persistence.analysis.StatOwInfoMapper;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
@@ -2017,6 +2019,15 @@ public class StatOwInfoService extends BaseMapper {
         MetaType mtSupportTeacher = CmTag.getMetaTypeByCode("mt_support_teacher");//机关行政产业后勤党支部
         MetaType mtBranchSecretary = CmTag.getMetaTypeByCode("mt_branch_secretary");//支部书记
 
+        Integer mtUnderGraduateId = mtUndergraduate == null ? 0 : mtUndergraduate.getId();
+        Integer mtSsGraduateId = mtSsGraduate == null ? 0 : mtSsGraduate.getId();
+        Integer mtBsGraduateId = mtBsGraduate == null ? 0 : mtBsGraduate.getId();
+        Integer mtSbGraduateId = mtSbGraduate == null ? 0 : mtSbGraduate.getId();
+        Integer mtGraduateTeacherId = mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId();
+        Integer mtProfessionalId = mtProfessional == null ? 0 : mtProfessional.getId();
+        Integer mtRetireId = mtRetire == null ? 0 : mtRetire.getId();
+        Integer mtSupportTeacherId = mtSupportTeacher == null ? 0 : mtSupportTeacher.getId();
+        Integer mtBranchSecretaryId = mtBranchSecretary == null ? 0 : mtBranchSecretary.getId();
 
         int totalUndergraduateNum = 0 ;//本科生辅导员总数
         int totalSsGraduateNum = 0 ; //硕士研究生总数
@@ -2043,9 +2054,9 @@ public class StatOwInfoService extends BaseMapper {
         for (Party party : partyNameList) {
             Map dataMap = new HashedMap();
 
-            List<StatIntBean> statByteBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretary.getId().byteValue(), null, party.getId());
-            List<StatIntBean> directorBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretary.getId().byteValue(), "正高", party.getId());
-            List<StatIntBean> deputyBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretary.getId().byteValue(),"副高", party.getId());
+            List<StatIntBean> statByteBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretaryId.byteValue(), null, party.getId());
+            List<StatIntBean> directorBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretaryId.byteValue(), "正高", party.getId());
+            List<StatIntBean> deputyBeans = statOwInfoMapper.branchCount_groupByType(mtBranchSecretaryId.byteValue(),"副高", party.getId());
 
             Integer undergraduateNum = 0;
             int yjsTecherNum = 0;
@@ -2056,28 +2067,31 @@ public class StatOwInfoService extends BaseMapper {
             Integer retireNum = 0;
             Integer supportTeacherNum = 0;
             for (StatIntBean statIntBean : statByteBeans) {
-                if (statIntBean.getGroupBy().equals(mtUndergraduate == null ? 0 : mtUndergraduate.getId())){
-                    undergraduateNum = statIntBean.getNum();//本科生辅导员纵向党支部
-                    totalUndergraduateNum+=undergraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtSsGraduate == null ? 0 : mtSsGraduate.getId())){
-                    ssGraduateNum = statIntBean.getNum();//硕士研究生党支部
-                    totalSsGraduateNum+=ssGraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtBsGraduate == null ? 0 : mtBsGraduate.getId())){
-                    bsGraduateNum = statIntBean.getNum();//博士研究生党支部
-                    totalBsGraduateNum+=bsGraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtSbGraduate == null ? 0 : mtSbGraduate.getId())){
-                    sbGraduateNum = statIntBean.getNum();//硕博研究生党支部
-                    totalSbGraduateNum+=sbGraduateNum;
-                }else if(statIntBean.getGroupBy().equals(mtRetire == null ? 0 : mtRetire.getId())){
-                    retireNum = statIntBean.getNum();//离退休党支部
-                    totalRetireNum+=retireNum;
-                }else if(statIntBean.getGroupBy().equals(mtSupportTeacher == null ? 0 : mtSupportTeacher.getId())){
-                    supportTeacherNum = statIntBean.getNum();//机关行政产业后勤党支部
-                    totalSupportNum+=supportTeacherNum;
-                }else if(statIntBean.getGroupBy().equals(mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId())){
-                    yjsTecherNum = statIntBean.getNum();//研究生导师纵向党支部
-                }else if(statIntBean.getGroupBy().equals(mtProfessional == null ? 0 : mtProfessional.getId())){
-                    professionalTeacherNum = statIntBean.getNum();
+                Integer groupBy = statIntBean.getGroupBy();
+                if (groupBy != null) {
+                    if (groupBy.equals(mtUnderGraduateId)) {
+                        undergraduateNum = statIntBean.getNum();//本科生辅导员纵向党支部
+                        totalUndergraduateNum += undergraduateNum;
+                    } else if (groupBy.equals(mtSsGraduateId)) {
+                        ssGraduateNum = statIntBean.getNum();//硕士研究生党支部
+                        totalSsGraduateNum += ssGraduateNum;
+                    } else if (groupBy.equals(mtBsGraduateId)) {
+                        bsGraduateNum = statIntBean.getNum();//博士研究生党支部
+                        totalBsGraduateNum += bsGraduateNum;
+                    } else if (groupBy.equals(mtSbGraduateId)) {
+                        sbGraduateNum = statIntBean.getNum();//硕博研究生党支部
+                        totalSbGraduateNum += sbGraduateNum;
+                    } else if (groupBy.equals(mtRetireId)) {
+                        retireNum = statIntBean.getNum();//离退休党支部
+                        totalRetireNum += retireNum;
+                    } else if (groupBy.equals(mtSupportTeacherId)) {
+                        supportTeacherNum = statIntBean.getNum();//机关行政产业后勤党支部
+                        totalSupportNum += supportTeacherNum;
+                    } else if (groupBy.equals(mtGraduateTeacherId)) {
+                        yjsTecherNum = statIntBean.getNum();//研究生导师纵向党支部
+                    } else if (groupBy.equals(mtProfessionalId)) {
+                        professionalTeacherNum = statIntBean.getNum();
+                    }
                 }
             }
             dataMap.put("undergraduateNum",undergraduateNum);
@@ -2103,20 +2117,20 @@ public class StatOwInfoService extends BaseMapper {
             Integer deputyTeacherNum = 0;
 
             for (StatIntBean directorBean : directorBeans) {
-                if(mtGraduateTeacher.getId().equals(directorBean.getGroupBy())){
+                if(mtGraduateTeacherId.equals(directorBean.getGroupBy())){
                     directorYjsNum = directorBean.getNum();//研究生导师党支部正高级
                     totalDirectorYjsNum+=directorYjsNum;
-                }else if(mtProfessional.getId().equals(directorBean.getGroupBy())){
+                }else if(mtProfessionalId.equals(directorBean.getGroupBy())){
                     directorTeacherNum = directorBean.getNum();//专任教师党支部正高级
                     totalDirectorTeacher+=directorTeacherNum;
                 }
             }
 
             for (StatIntBean deputyBean : deputyBeans) {
-                if(mtGraduateTeacher.getId().equals(deputyBean.getGroupBy())){
+                if(mtGraduateTeacherId.equals(deputyBean.getGroupBy())){
                     deputyNum = deputyBean.getNum();//研究生导师党支部副高级
                     totalDeputyNum+=deputyNum;
-                }else if(mtProfessional.getId().equals(deputyBean.getGroupBy())){
+                }else if(mtProfessionalId.equals(deputyBean.getGroupBy())){
                     deputyTeacherNum = deputyBean.getNum();//专任教师党支部副高级
                     totalDeputyTeacher+=deputyTeacherNum;
                 }
@@ -2181,6 +2195,15 @@ public class StatOwInfoService extends BaseMapper {
         MetaType mtRetire = CmTag.getMetaTypeByCode("mt_retire");//离退休党支部
         MetaType mtSupportTeacher = CmTag.getMetaTypeByCode("mt_support_teacher");//机关行政产业后勤党支部
 
+        Integer mtUndergraduateId = mtUndergraduate == null ? 0 : mtUndergraduate.getId();
+        Integer mtSsGraduateId = mtSsGraduate == null ? 0 : mtSsGraduate.getId();
+        Integer mtBsGraduateId = mtBsGraduate == null ? 0 : mtBsGraduate.getId();
+        Integer mtSbGraduateId = mtSbGraduate == null ? 0 : mtSbGraduate.getId();
+        Integer mtGraduateTeacherId = mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId();
+        Integer mtProfessionalId = mtProfessional == null ? 0 : mtProfessional.getId();
+        Integer mtRetireId = mtRetire == null ? 0 : mtRetire.getId();
+        Integer mtSupportTeacherId = mtSupportTeacher == null ? 0 : mtSupportTeacher.getId();
+
         // 预备党员总数
         int totalPreparedNum = 0;
         //正式党员总数
@@ -2194,7 +2217,6 @@ public class StatOwInfoService extends BaseMapper {
         int allNum = 0;
         Date nowDate = new Date();
         int rowNum=0;
-        String branchTypeStr = "";
         for (Party party : partyNameList) {
             List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getParty_Branch(party.getId());
             for (StatOwInfoBean statOwInfoBean : statOwInfoBeans) {
@@ -2208,26 +2230,28 @@ public class StatOwInfoService extends BaseMapper {
                 String branchName = statOwInfoBean.getName() == null ? "" :statOwInfoBean.getName();
                 dataMap.put("branchName",branchName);
                 //支部类型
-                Integer branchType = statOwInfoBean.getTypes() == null ? 0 : statOwInfoBean.getTypes();
-
-                if(branchType.equals(mtUndergraduate == null ? 0 : mtUndergraduate.getId())){
-                    branchTypeStr = mtUndergraduate.getName();
-                }else if(branchType.equals(mtSsGraduate == null ? 0 : mtSsGraduate.getId())){
-                    branchTypeStr = mtSsGraduate.getName();
-                }else if(branchType.equals(mtBsGraduate == null ? 0 : mtBsGraduate.getId())){
-                    branchTypeStr = mtBsGraduate.getName();
-                }else if(branchType.equals(mtSbGraduate == null ? 0 : mtSbGraduate.getId())){
-                    branchTypeStr = mtSbGraduate.getName();
-                }else if(branchType.equals(mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId())){
-                    branchTypeStr = mtGraduateTeacher.getName();
-                }else if(branchType.equals(mtProfessional == null ? 0 : mtProfessional.getId())){
-                    branchTypeStr = mtProfessional.getName();
-                }else if(branchType.equals(mtRetire == null ? 0 : mtRetire.getId())){
-                    branchTypeStr = mtRetire.getName();
-                }else if(branchType.equals(mtSupportTeacher == null ? 0 : mtSupportTeacher.getId())){
-                    branchTypeStr = mtSupportTeacher.getName();
+                Integer branchType = statOwInfoBean.getTypes();
+                String branchTypeStr = "";
+                if (branchType != null) {
+                    if (branchType.equals(mtUndergraduateId)) {
+                        branchTypeStr = mtUndergraduate.getName();
+                    } else if (branchType.equals(mtSsGraduateId)) {
+                        branchTypeStr = mtSsGraduate.getName();
+                    } else if (branchType.equals(mtBsGraduateId)) {
+                        branchTypeStr = mtBsGraduate.getName();
+                    } else if (branchType.equals(mtSbGraduateId)) {
+                        branchTypeStr = mtSbGraduate.getName();
+                    } else if (branchType.equals(mtGraduateTeacherId)) {
+                        branchTypeStr = mtGraduateTeacher.getName();
+                    } else if (branchType.equals(mtProfessionalId)) {
+                        branchTypeStr = mtProfessional.getName();
+                    } else if (branchType.equals(mtRetireId)) {
+                        branchTypeStr = mtRetire.getName();
+                    } else if (branchType.equals(mtSupportTeacherId)) {
+                        branchTypeStr = mtSupportTeacher.getName();
+                    }
                 }
-                dataMap.put("branchTypeStr",branchTypeStr);
+                dataMap.put("branchTypeStr", branchTypeStr);
 
                 //支部书记
                 String cadreName = statOwInfoBean.getRealName();
@@ -2315,8 +2339,8 @@ public class StatOwInfoService extends BaseMapper {
         }
         //直属党支部
         MetaType mtPartySecretary = CmTag.getMetaTypeByCode("mt_party_secretary");
-        MetaType mt_direct_branch = CmTag.getMetaTypeByCode("mt_direct_branch");
-        List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getDirectlyBranch(mt_direct_branch == null ? 0 : mt_direct_branch.getId(),mtPartySecretary == null ? 0 : mtPartySecretary.getId());
+        MetaType mtDirectBranch = CmTag.getMetaTypeByCode("mt_direct_branch");
+        List<StatOwInfoBean> statOwInfoBeans = statOwInfoMapper.getDirectlyBranch(mtDirectBranch == null ? 0 : mtDirectBranch.getId(),mtPartySecretary == null ? 0 : mtPartySecretary.getId());
         for (StatOwInfoBean statOwInfoBean : statOwInfoBeans) {
             Map dataMap = new HashedMap();
             //序号
@@ -2327,27 +2351,26 @@ public class StatOwInfoService extends BaseMapper {
             dataMap.put("partyName",name);
 
             //支部类型
-            Integer branchType = statOwInfoBean.getTypes() == null ? 0 : statOwInfoBean.getTypes();
-
-            if(branchType == 0){
-                branchTypeStr = "";
-            }
-            if(branchType.equals(mtUndergraduate == null ? 0 : mtUndergraduate.getId())){
-                branchTypeStr = mtUndergraduate.getName();
-            }else if(branchType.equals(mtSsGraduate == null ? 0 : mtSsGraduate.getId())){
-                branchTypeStr = mtSsGraduate.getName();
-            }else if(branchType.equals(mtBsGraduate == null ? 0 : mtBsGraduate.getId())){
-                branchTypeStr = mtBsGraduate.getName();
-            }else if(branchType.equals(mtSbGraduate == null ? 0 : mtSbGraduate.getId())){
-                branchTypeStr = mtSbGraduate.getName();
-            }else if(branchType.equals(mtGraduateTeacher == null ? 0 : mtGraduateTeacher.getId())){
-                branchTypeStr = mtGraduateTeacher.getName();
-            }else if(branchType.equals(mtProfessional == null ? 0 : mtProfessional.getId())){
-                branchTypeStr = mtProfessional.getName();
-            }else if(branchType.equals(mtRetire == null ? 0 : mtRetire.getId())){
-                branchTypeStr = mtRetire.getName();
-            }else if(branchType.equals(mtSupportTeacher == null ? 0 : mtSupportTeacher.getId())){
-                branchTypeStr = mtSupportTeacher.getName();
+            Integer branchType = statOwInfoBean.getTypes();
+            String branchTypeStr = "";
+            if (branchType != null) {
+                if (branchType.equals(mtUndergraduateId)) {
+                    branchTypeStr = mtUndergraduate.getName();
+                } else if (branchType.equals(mtSsGraduateId)) {
+                    branchTypeStr = mtSsGraduate.getName();
+                } else if (branchType.equals(mtBsGraduateId)) {
+                    branchTypeStr = mtBsGraduate.getName();
+                } else if (branchType.equals(mtSbGraduateId)) {
+                    branchTypeStr = mtSbGraduate.getName();
+                } else if (branchType.equals(mtGraduateTeacherId)) {
+                    branchTypeStr = mtGraduateTeacher.getName();
+                } else if (branchType.equals(mtProfessionalId)) {
+                    branchTypeStr = mtProfessional.getName();
+                } else if (branchType.equals(mtRetireId)) {
+                    branchTypeStr = mtRetire.getName();
+                } else if (branchType.equals(mtSupportTeacherId)) {
+                    branchTypeStr = mtSupportTeacher.getName();
+                }
             }
             dataMap.put("branchTypeStr",branchTypeStr);
 
