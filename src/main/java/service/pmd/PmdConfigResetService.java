@@ -1,14 +1,14 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.member.MemberView;
+import domain.member.MemberViewExample;
+import domain.pmd.*;
+import domain.sys.SysUserView;
 import ext.domain.ExtJzgSalary;
 import ext.domain.ExtJzgSalaryExample;
 import ext.domain.ExtRetireSalary;
 import ext.domain.ExtRetireSalaryExample;
-import domain.member.Member;
-import domain.member.MemberExample;
-import domain.pmd.*;
-import domain.sys.SysUserView;
 import ext.service.PmdExtService;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -156,14 +156,30 @@ public class PmdConfigResetService extends PmdBaseMapper {
     // 重置党员缴费基本信息，只针对线上缴费，缴费方式已设置为现金缴费的不处理。
     @Transactional
     @CacheEvict(value = "PmdConfigMember", allEntries = true)
-    public void reset(String salaryMonth, boolean reset, Integer partyId, Integer branchId, Integer userId) {
+    public void reset(String salaryMonth, boolean reset, Byte userType, Integer partyId, Integer branchId, Integer userId) {
 
         // 影响党员范围
         Set<Integer> limitedUserIdSet = new HashSet<>();
-        if(partyId!=null || branchId!=null || userId!=null) {
-            MemberExample example = new MemberExample();
-            MemberExample.Criteria criteria = example.createCriteria()
+        if(userType!=null || partyId!=null || branchId!=null || userId!=null) {
+            MemberViewExample example = new MemberViewExample();
+            MemberViewExample.Criteria criteria = example.createCriteria()
                     .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
+
+            if(userType!=null){
+                if(userType == PmdConstants.PMD_USER_TYPE_STU){
+
+                    criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT);
+                }else if(userType == PmdConstants.PMD_USER_TYPE_TEACHER){
+
+                    criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER).andIsRetireNotEqualTo(true);
+                }else if(userType == PmdConstants.PMD_USER_TYPE_RETIRE){
+
+                    criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER).andIsRetireEqualTo(true);
+                }else{
+                    criteria.andUserIdIsNull();
+                }
+            }
+
             if (partyId != null) {
                 criteria.andPartyIdEqualTo(partyId);
             }
@@ -173,9 +189,9 @@ public class PmdConfigResetService extends PmdBaseMapper {
             if (userId != null) {
                 criteria.andUserIdEqualTo(userId);
             }
-            List<Member> members = memberMapper.selectByExample(example);
+            List<MemberView> members = memberViewMapper.selectByExample(example);
             if (members.size() > 0) {
-                for (Member member : members) {
+                for (MemberView member : members) {
                     limitedUserIdSet.add(member.getUserId());
                 }
             }
@@ -183,7 +199,7 @@ public class PmdConfigResetService extends PmdBaseMapper {
         // 如果没有设定任何党员范围，则在全校范围进行更新操作，如果设定了则在指定的缴费党员中进行。
         boolean limited = (limitedUserIdSet.size()>0);
 
-        if(!limited && (partyId!=null || branchId!=null || userId!=null)) {
+        if(!limited && (userType!=null || partyId!=null || branchId!=null || userId!=null)) {
             throw new OpException("所选范围不存在需要调整的缴费党员。");
         }
 
@@ -242,6 +258,7 @@ public class PmdConfigResetService extends PmdBaseMapper {
         record.setUserId(ShiroHelper.getCurrentUserId());
         record.setReset(reset);
         record.setSalaryMonth(DateUtils.parseDate(salaryMonth, "yyyyMM"));
+        record.setUserType(userType);
         record.setPartyId(partyId);
         record.setBranchId(branchId);
         record.setLimitedUserId(userId);

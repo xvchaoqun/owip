@@ -8,6 +8,17 @@ import java.util.Map;
  */
 public class PmdConstants {
 
+    // 缴费人员类型，1 学生 2 教职工 3 教职工
+    public final static byte PMD_USER_TYPE_STU = 1;
+    public final static byte PMD_USER_TYPE_TEACHER = 2;
+    public final static byte PMD_USER_TYPE_RETIRE = 3;
+    public final static Map<Byte, String> PMD_USER_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_USER_TYPE_MAP.put(PMD_USER_TYPE_STU, "学生");
+        PMD_USER_TYPE_MAP.put(PMD_USER_TYPE_TEACHER, "教职工");
+        PMD_USER_TYPE_MAP.put(PMD_USER_TYPE_RETIRE, "离退休");
+    }
+
     // 党费收缴，月份缴费状态，0 创建 1 启动缴费 2 已结算
     public final static byte PMD_MONTH_STATUS_INIT = 0;
     public final static byte PMD_MONTH_STATUS_START = 1;

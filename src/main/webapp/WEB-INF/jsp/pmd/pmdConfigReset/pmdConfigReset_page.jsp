@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>缴费基数调整</h3>
@@ -27,6 +28,18 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-4 control-label">限定人员类型</label>
+            <div class="col-xs-6">
+                <select data-rel="select2" name="userType"
+                        data-placeholder="请选择">
+                    <option></option>
+                    <c:forEach items="${PMD_USER_TYPE_MAP}" var="_type">
+                        <option value="${_type.key}">${_type.value}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label">涉及缴费党员范围</label>
             <div class="col-xs-6">
                 <select class="form-control" data-width="350" data-rel="select2-ajax"
@@ -47,6 +60,7 @@
                 </script>
             </div>
         </div>
+
         <div class="form-group">
             <label class="col-xs-4 control-label">涉及缴费党员</label>
             <div class="col-xs-6">
@@ -105,6 +119,7 @@
                 <th width="100">工资月份</th>
                 <th width="120">是否重置额度</th>
                 <th >操作人</th>
+                <th >人员类型</th>
                 <th >涉及缴费党员</th>
                 <th >操作时间</th>
             </tr>
@@ -119,6 +134,9 @@
                     </td>
                     <td nowrap>
                             ${sysUser.realname}
+                    </td>
+                    <td>
+                        ${PMD_USER_TYPE_MAP.get(record.userType)}
                     </td>
                     <td>
                         <c:if test="${empty record.limitedUserId}">

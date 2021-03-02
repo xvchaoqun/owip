@@ -36,3 +36,5 @@
 <c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_ONJOB%>" var="PMD_FORMULA_TYPE_ONJOB"/>
 <c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_EXTERNAL%>" var="PMD_FORMULA_TYPE_EXTERNAL"/>
 <c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_RETIRE%>" var="PMD_FORMULA_TYPE_RETIRE"/>
+
+<c:set value="<%=PmdConstants.PMD_USER_TYPE_MAP%>" var="PMD_USER_TYPE_MAP"/>

@@ -13,6 +13,8 @@ public class PmdConfigReset implements Serializable {
 
     private Boolean reset;
 
+    private Byte userType;
+
     private Integer partyId;
 
     private Integer branchId;
@@ -50,6 +52,14 @@ public class PmdConfigReset implements Serializable {
 
     public void setReset(Boolean reset) {
         this.reset = reset;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 
     public Integer getPartyId() {

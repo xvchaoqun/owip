@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="reset" jdbcType="BIT" property="reset" />
+    <result column="user_type" jdbcType="TINYINT" property="userType" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="limited_user_id" jdbcType="INTEGER" property="limitedUserId" />
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, reset, party_id, branch_id, limited_user_id, salary_month, create_time, 
-    ip
+    id, user_id, reset, user_type, party_id, branch_id, limited_user_id, salary_month, 
+    create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdConfigResetExample" resultMap="BaseResultMap">
     select
@@ -106,13 +107,13 @@
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdConfigReset">
     insert into pmd_config_reset (id, user_id, reset, 
-      party_id, branch_id, limited_user_id, 
-      salary_month, create_time, ip
-      )
+      user_type, party_id, branch_id, 
+      limited_user_id, salary_month, create_time, 
+      ip)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{reset,jdbcType=BIT}, 
-      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{limitedUserId,jdbcType=INTEGER}, 
-      #{salaryMonth,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
-      )
+      #{userType,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{limitedUserId,jdbcType=INTEGER}, #{salaryMonth,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdConfigReset">
     insert into pmd_config_reset
@@ -125,6 +126,9 @@
       </if>
       <if test="reset != null">
         reset,
+      </if>
+      <if test="userType != null">
+        user_type,
       </if>
       <if test="partyId != null">
         party_id,
@@ -154,6 +158,9 @@
       </if>
       <if test="reset != null">
         #{reset,jdbcType=BIT},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=TINYINT},
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
@@ -193,6 +200,9 @@
       <if test="record.reset != null">
         reset = #{record.reset,jdbcType=BIT},
       </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=TINYINT},
+      </if>
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
@@ -221,6 +231,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       reset = #{record.reset,jdbcType=BIT},
+      user_type = #{record.userType,jdbcType=TINYINT},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       limited_user_id = #{record.limitedUserId,jdbcType=INTEGER},
@@ -239,6 +250,9 @@
       </if>
       <if test="reset != null">
         reset = #{reset,jdbcType=BIT},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=TINYINT},
       </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
@@ -265,6 +279,7 @@
     update pmd_config_reset
     set user_id = #{userId,jdbcType=INTEGER},
       reset = #{reset,jdbcType=BIT},
+      user_type = #{userType,jdbcType=TINYINT},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       limited_user_id = #{limitedUserId,jdbcType=INTEGER},
