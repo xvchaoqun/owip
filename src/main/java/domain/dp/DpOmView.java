@@ -1,5 +1,6 @@
 package domain.dp;
 
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
 import persistence.dp.DpMemberMapper;
 import sys.helper.DpPartyHelper;
@@ -9,6 +10,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DpOmView implements Serializable {
+
+    public Cadre getCadre(){
+        return CmTag.getCadre(userId);
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }

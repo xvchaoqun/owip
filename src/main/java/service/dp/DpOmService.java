@@ -94,6 +94,8 @@ public class DpOmService extends DpBaseMapper {
     public void insertSelective(DpOm record){
 
         Integer userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+
         record.setSortOrder(getNextSortOrder("dp_om", null));
         dpOmMapper.insertSelective(record);
 
@@ -125,6 +127,8 @@ public class DpOmService extends DpBaseMapper {
     public void updateByPrimaryKeySelective(DpOm record){
 
         Integer userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
+
         dpOmMapper.updateByPrimaryKeySelective(record);
 
         dpCommonService.updateMemberRole(userId);
