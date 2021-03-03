@@ -450,6 +450,21 @@
             {label: '所在单位', name: 'unit.name', width: 200, align: 'left'},
             {label: '现任职务', name: 'post', align: 'left', width: 250},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
+            <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_ALL}">
+            {
+                label: '类别',name: 'reserveStatus',width: 150,
+                formatter: function (cellvalue, options, rowObject) {
+                    var str = "";
+                    if (cellvalue == undefined) return '--';
+                    if (cellvalue == 1) {
+                        str = _cMap.metaTypeMap[rowObject.reserveType].name;
+                    }else {
+                        str = _cMap.CADRE_RESERVE_STATUS_MAP[cellvalue];
+                    }
+                    return str;
+                }
+            },
+            </c:if>
             {label: '任职时间', name: 'reservePostTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
