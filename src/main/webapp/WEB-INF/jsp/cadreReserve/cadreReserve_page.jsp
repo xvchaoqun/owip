@@ -433,7 +433,7 @@
         colModel: [
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
-                label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '姓名', name: 'user.realname', width: 100, formatter: function (cellvalue, options, rowObject) {
                     return $.cadre(rowObject.id, cellvalue);
                 }, frozen: true
             },
@@ -452,11 +452,11 @@
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_ALL}">
             {
-                label: '类别',name: 'reserveStatus',width: 150,
+                label: '类别',name: 'reserveStatus',width: 130,
                 formatter: function (cellvalue, options, rowObject) {
                     var str = "";
                     if (cellvalue == undefined) return '--';
-                    if (cellvalue == 1) {
+                    if (cellvalue == ${CADRE_RESERVE_STATUS_NORMAL}) {
                         str = _cMap.metaTypeMap[rowObject.reserveType].name;
                     }else {
                         str = _cMap.CADRE_RESERVE_STATUS_MAP[cellvalue];
@@ -559,8 +559,8 @@
                     })).join("，")
                 }
             },
-            {label: '联系方式', name: 'mobile'},
-            {label: '电子邮箱', name: 'email', width: 150},
+            {label: '联系方式', name: 'mobile',width:110},
+            {label: '电子邮箱', name: 'email', width: 180},
             <c:if test="${_p_hasPartyModule}">
             {
                 label: '所在党组织',
