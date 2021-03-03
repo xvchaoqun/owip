@@ -281,14 +281,14 @@ public class DpNprController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpNpr:edit")
     @RequestMapping("/dpNpr_import")
     public String dpNpr_import(){
 
         return "dp/dpNpr/dpNpr_import";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpNpr:edit")
     @RequestMapping(value = "/dpNpr_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpNpr_import(HttpServletRequest request) throws InvalidFormatException, IOException{
