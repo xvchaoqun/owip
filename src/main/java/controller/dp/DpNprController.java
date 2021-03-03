@@ -95,8 +95,7 @@ public class DpNprController extends DpBaseController {
         DpNprViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
-
+        /*criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));*/
 
         if (StringUtils.isNotBlank(unitPost)){
             criteria.andUnitPostLike(SqlUtils.like(unitPost));
