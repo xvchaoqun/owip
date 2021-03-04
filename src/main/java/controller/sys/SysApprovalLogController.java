@@ -62,6 +62,10 @@ public class SysApprovalLogController extends BaseController {
         Integer partyId = null;
         if (id != null) {
             switch (type) {
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_USER: {
+                    userId = id;
+                    break;
+                }
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF: {
                     ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
                     userId = applySelf.getUser().getId();

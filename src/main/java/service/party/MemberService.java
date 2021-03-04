@@ -7,7 +7,6 @@ import domain.party.*;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import ext.service.ExtCommonService;
 import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +26,6 @@ import service.member.MemberBaseMapper;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
-import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.helper.PartyHelper;
@@ -54,15 +52,9 @@ public class MemberService extends MemberBaseMapper {
     @Autowired
     private TeacherInfoService teacherInfoService;
     @Autowired
-    private BranchMemberService branchMemberService;
-    @Autowired
-    private UnitService unitService;
-    @Autowired
     private PartyMemberGroupService partyMemberGroupService;
     @Autowired
     private BranchMemberGroupService branchMemberGroupService;
-    @Autowired
-    private ExtCommonService extCommonService;
     @Autowired
     private MemberApplyService memberApplyService;
 
@@ -435,23 +427,24 @@ public class MemberService extends MemberBaseMapper {
         }
     }
 
-    // 更换党员的学工号
+    // 更换党员的学工号（不影响账号，仅调换党员库中的userId，需要变更角色）
     @Transactional
-    public void changeCode(int userId, int newUserId, String remark) {
+    public void exchangeMemberCode(int oldUserId, int newUserId, String remark) {
 
-        if(userId==newUserId) return;
+        if(oldUserId ==newUserId) return;
 
-        SysUserView user = sysUserService.findById(userId);
-        String oldCode = user.getCode();
-        Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
         SysUserView newUser = sysUserService.findById(newUserId);
         String newCode = newUser.getCode();
+        Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
         if (checkMember != null) {
 
             throw new OpException("{0}({1})已经在党员库中({2})，无法更换",
                     newUser.getRealname(), newCode,
                     MemberConstants.MEMBER_STATUS_MAP.get(checkMember.getStatus()));
         }
+
+        SysUserView oldUser = sysUserService.findById(oldUserId);
+        String oldCode = oldUser.getCode();
 
         /*if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
             throw new OpException("身份证号码不相同，无法更换");
@@ -472,17 +465,17 @@ public class MemberService extends MemberBaseMapper {
             memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
             //syncService.snycStudent(userId, newUser);
         } else {
-            throw new OpException("账号不是教工或学生。" + newUser.getCode() + "," + newUser.getRealname());
+            throw new OpException("账号不是教职工或学生。" + newUser.getCode() + "," + newUser.getRealname());
         }
 
         commonMapper.excuteSql("update ow_member set user_id=" + newUserId
-                + ", type="+ memberType +" where user_id=" + userId);
+                + ", type="+ memberType +" where user_id=" + oldUserId);
 
         // 更新新的学工号的系统角色  访客->党员
         sysUserService.changeRole(newUserId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
-        sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
+        sysUserService.changeRole(oldUserId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
 
-        addModify(userId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
+        addModify(oldUserId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
     }
 
     //更新党员信息完整度
@@ -573,7 +566,6 @@ public class MemberService extends MemberBaseMapper {
     @Caching(evict = {
             @CacheEvict(value = "Branch:ALL", allEntries = true),
             @CacheEvict(value = "Party:ALL", allEntries = true),
-            @CacheEvict(value = "MemberApply", allEntries = true)
     })
     public Map<String, Object> importMemberAllInfo(XSSFWorkbook workbook,
                                                    XSSFSheet sheet,

@@ -100,9 +100,9 @@ public class DpNpmController extends DpBaseController {
         pageNo = Math.max(1, pageNo);
 
 
-            DpNpmViewExample example = new DpNpmViewExample();
-            DpNpmViewExample.Criteria criteria = example.createCriteria();
-            example.setOrderByClause("sort_order desc");
+        DpNpmViewExample example = new DpNpmViewExample();
+        DpNpmViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
 
         if (cls == 1) {
             status = DpConstants.DP_NPM_NORMAL;
@@ -308,14 +308,14 @@ public class DpNpmController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpNpm:edit")
     @RequestMapping("/dpNpm_import")
     public String dpNpm_import(){
 
         return "dp/dpNpm/dpNpm_import";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpNpm:edit")
     @RequestMapping(value = "/dpNpm_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpNpm_import(HttpServletRequest request) throws InvalidFormatException, IOException {

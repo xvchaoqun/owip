@@ -315,8 +315,10 @@ public class SysUserController extends BaseController {
         Integer id = record.getId();
 
         if (record.getUsername() != null) {
-            if (!CmTag.validUsername(record.getUsername())) {
-                return formValidError("username", CmTag.getStringProperty("usernameMsg"));
+            if (!ShiroHelper.hasRole(RoleConstants.ROLE_SUPER)) {
+                if (!CmTag.validUsername(record.getUsername())) {
+                    return formValidError("username", CmTag.getStringProperty("usernameMsg"));
+                }
             }
             if (sysUserService.idDuplicate(id, record.getUsername(), record.getCode())) {
 
@@ -432,6 +434,26 @@ public class SysUserController extends BaseController {
             }
         }
         sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 调换工号
+    @RequiresPermissions("sysUser:exchangeCode")
+    @RequestMapping("/sysUser_exchangeCode")
+    public String sysUser_exchangeCode(int id, ModelMap modelMap) {
+
+        modelMap.put("oldUser", CmTag.getUserById(id));
+
+        return "sys/sysUser/sysUser_exchangeCode";
+    }
+
+    @RequiresPermissions("sysUser:exchangeCode")
+    @RequestMapping(value = "/sysUser_exchangeCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_exchangeCode(int oldUserId, int newUserId, String remark) {
+
+        sysUserService.exchangeUserCode(oldUserId, newUserId, remark);
+
         return success(FormUtils.SUCCESS);
     }
 

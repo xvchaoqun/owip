@@ -45,7 +45,7 @@
 </div>
 <div class="modal-footer">
 	<div class="note">
-		注：要求更换前后的学工号对应的身份证号码相同
+		注：会变更前后账号的角色（非党员<->党员）
 	</div>
 	<input type="submit" class="btn btn-primary" value="确定"/>
 </div>

@@ -345,14 +345,14 @@ public class DpPrCmController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpPrCm:edit")
     @RequestMapping("/dpPrCm_import")
     public String dpPrCm_import(){
 
         return "dp/dpPrCm/dpPrCm_import";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpPrCm:edit")
     @RequestMapping(value = "/dpPrCm_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpPrCm_import(HttpServletRequest request) throws InvalidFormatException, IOException{

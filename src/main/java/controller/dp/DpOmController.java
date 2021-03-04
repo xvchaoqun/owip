@@ -96,8 +96,7 @@ public class DpOmController extends DpBaseController {
         DpOmViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
-
+        /*criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));*/
 
         if (cls == 1){
             isDeleted = false;
@@ -268,14 +267,14 @@ public class DpOmController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpOm:edit")
     @RequestMapping("/dpOm_import")
     public String dpOm_import(){
 
         return "dp/dpOm/dpOm_import";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpOm:edit")
     @RequestMapping(value = "/dpOm_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpOm_import(HttpServletRequest request) throws InvalidFormatException, IOException{

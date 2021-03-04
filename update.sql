@@ -1,3 +1,11 @@
+
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (24, 0, '更换学工号', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'sysUser:exchangeCode', NULL, NULL, NULL, 1, NULL);
+
+
 20210301
 -- 北师大
 

@@ -47,6 +47,8 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private CacheHelper cacheHelper;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     public String uploadSign(int userId, MultipartFile sign) throws IOException {
 
@@ -79,11 +81,22 @@ public class SysUserService extends BaseMapper {
     public boolean idDuplicate(Integer userId, String username, String code) {
 
         SysUserExample example = new SysUserExample();
-        SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
-        if (userId != null) criteria.andIdNotEqualTo(userId);
-        if (StringUtils.isNotBlank(code)) criteria.andCodeEqualTo(code);
+        
+        if (StringUtils.isNotBlank(code)) {
+            SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
+            if (userId != null) criteria.andIdNotEqualTo(userId);
 
-        return sysUserMapper.countByExample(example) > 0;
+            if(sysUserMapper.countByExample(example) > 0) return true;
+        }
+
+        if (StringUtils.isNotBlank(code)) {
+            SysUserExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+            if (userId != null) criteria.andIdNotEqualTo(userId);
+
+            if(sysUserMapper.countByExample(example) > 0) return true;
+        }
+
+        return false;
     }
 
     // 自动生成学工号, prefix开头+6位数字
@@ -963,5 +976,54 @@ public class SysUserService extends BaseMapper {
         }
 
         return codeMap;
+    }
+
+    // 调换工号和账号，不影响角色，使用情形：1、原来的工号是后台创建的，后来学校分配了新工号 2、干部调换工号
+    public void exchangeUserCode(int oldUserId, int newUserId, String remark){
+
+        if (oldUserId == newUserId) return;
+
+        SysUserView user = findById(oldUserId);
+        String oldCode = user.getCode();
+        String oldUsername = user.getUsername();
+        SysUserView newUser = findById(newUserId);
+        String newCode = newUser.getCode();
+        String newUsername = newUser.getUsername();
+
+        // 仅更换两个账号的code和username
+        SysUser record = new SysUser();
+        record.setId(oldUserId);
+        record.setUsername(oldUsername + "_");
+        record.setCode(oldCode + "_");
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+        record = new SysUser();
+        record.setId(newUserId);
+        record.setUsername(oldUsername);
+        record.setCode(oldCode);
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+        record = new SysUser();
+        record.setId(oldUserId);
+        record.setUsername(newUsername);
+        record.setCode(newCode);
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+        // 重新同步教职工信息
+        CmTag.snycTeacherInfo(newUserId, oldCode);
+        CmTag.snycTeacherInfo(oldUserId, newCode);
+
+        cacheHelper.clearUserCache(user);
+        cacheHelper.clearUserCache(newUser);
+
+         sysApprovalLogService.add(oldUserId, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_USER,
+                    "更换学工号", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, oldCode + "<->" + newCode + "," + remark);
+
+         sysApprovalLogService.add(newUserId, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_USER,
+                    "更换学工号", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, oldCode + "<->" + newCode + "," + remark);
     }
 }

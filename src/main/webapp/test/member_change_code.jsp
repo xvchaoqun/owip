@@ -39,7 +39,7 @@
                 SysUserView newUser = CmTag.getUserByUsername(zgh);
 
                 try {
-                    memberService.changeCode(oldUser.getUserId(), newUser.getUserId(), "更换账号，原账号：" + username + ", " + code);
+                    memberService.exchangeMemberCode(oldUser.getUserId(), newUser.getUserId(), "更换账号，原账号：" + username + ", " + code);
 
                     success++;
                 }catch (Exception ex){

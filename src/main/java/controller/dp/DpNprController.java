@@ -95,8 +95,7 @@ public class DpNprController extends DpBaseController {
         DpNprViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
-
+        /*criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));*/
 
         if (StringUtils.isNotBlank(unitPost)){
             criteria.andUnitPostLike(SqlUtils.like(unitPost));
@@ -281,14 +280,14 @@ public class DpNprController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpNpr:edit")
     @RequestMapping("/dpNpr_import")
     public String dpNpr_import(){
 
         return "dp/dpNpr/dpNpr_import";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpNpr:edit")
     @RequestMapping(value = "/dpNpr_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpNpr_import(HttpServletRequest request) throws InvalidFormatException, IOException{

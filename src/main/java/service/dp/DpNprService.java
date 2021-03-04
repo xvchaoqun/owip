@@ -52,6 +52,7 @@ public class DpNprService extends DpBaseMapper {
     public boolean add(DpNpr record){
 
         Integer userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
 

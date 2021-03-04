@@ -81,6 +81,11 @@
                             </button>
                         </c:if>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="sysUser:exchangeCode">
+                            <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/sysUser_exchangeCode">
+                                <i class="fa fa-refresh"></i> 调换学工号</a>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="menu:preview">
                             <c:if test="${cls==1}">
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -91,6 +96,13 @@
                             </c:if>
                         </shiro:hasPermission>
                     <shiro:hasPermission name="sysUser:edit">
+                        <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        data-url="${ctx}/sysApprovalLog"
+                                data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_USER%>"
+                                data-open-by="page">
+                            <i class="fa fa-search"></i> 操作记录
+                        </button>
+
                     <div class="btn-group">
                         <button data-toggle="dropdown"
                                 data-rel="tooltip" data-placement="top" data-html="true"

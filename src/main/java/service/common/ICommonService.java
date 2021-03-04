@@ -3,23 +3,25 @@ package service.common;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreEdu;
+import domain.cadre.CadreEva;
+import domain.cadre.CadreEvaExample;
 import domain.member.MemberApply;
 import domain.sys.*;
 import ext.service.ExtService;
 import freemarker.EduSuffix;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import persistence.cadre.CadreEvaMapper;
 import persistence.sys.SysUserInfoMapper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class ICommonService {
@@ -30,6 +32,8 @@ public abstract class ICommonService {
     private SysUserInfoMapper sysUserInfoMapper;
     @Autowired
     private ExtService extService;
+    @Autowired
+    private CadreEvaMapper cadreEvaMapper;
 
     // 同步用户头像
     public String syncAvatar(Integer userId){
@@ -284,5 +288,43 @@ public abstract class ICommonService {
         }
 
         return detail;
+    }
+
+    //年度考核结果 表述
+    public String getEvaResult(int cadreId){
+
+        int evaYears = CmTag.getIntProperty("evaYears", 3);
+        Integer currentYear = DateUtils.getCurrentYear();
+
+        String evaResult = CmTag.getStringProperty("defaultEvaResult"); // {0}年均为合格
+
+        if(StringUtils.isNotBlank(evaResult)) {
+            List<Integer> years = new ArrayList<>();
+            for (Integer i = 0; i < evaYears; i++) {
+                years.add(currentYear - evaYears + i);
+            }
+            evaResult = StringUtils.replace(evaResult, "{0}", StringUtils.join(years, "、"));
+        }
+
+        {
+            Map<Integer, String> evaMap = new LinkedHashMap<>();
+            CadreEvaExample example = new CadreEvaExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andYearBetween(currentYear - evaYears, currentYear);
+            example.setOrderByClause("year desc");
+            List<CadreEva> cadreEvas = cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, evaYears));
+            if (cadreEvas.size() > 0) {
+                for (CadreEva cadreEva : cadreEvas) {
+                    int year = cadreEva.getYear();
+                    int type = cadreEva.getType();
+                    evaMap.put(year, year + "年：" + CmTag.getMetaTypeName(type));
+                }
+                ArrayList<String> evaList = new ArrayList<>(evaMap.values());
+                Collections.reverse(evaList);
+                evaResult = StringUtils.join(evaList, "；");
+            }
+        }
+
+        return evaResult;
     }
 }

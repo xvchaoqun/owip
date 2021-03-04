@@ -115,7 +115,6 @@ public class EnterApplyService extends MemberBaseMapper {
 
     // 申请入党
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#record.userId")
     public synchronized void memberApply(MemberApply record) {
 
         int userId = record.getUserId();

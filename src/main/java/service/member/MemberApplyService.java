@@ -9,8 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -48,7 +46,6 @@ public class MemberApplyService extends MemberBaseMapper {
     @Autowired
     protected ApplySnService applySnService;
 
-    @CacheEvict(value = "MemberApply", allEntries = true)
     @Transactional
     public int batchImport(List<MemberApply> records) {
 
@@ -241,7 +238,6 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     /*@Transactional
-    @CacheEvict(value = "MemberApply", key = "#record.userId")
     public int insertSelective(MemberApply record) {
         return memberApplyMapper.insertSelective(record);
     }*/
@@ -259,7 +255,6 @@ public class MemberApplyService extends MemberBaseMapper {
      *
      * @param userId
      */
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void updateByMember(int userId) {
 
         Member member = memberService.get(userId);
@@ -507,14 +502,12 @@ public class MemberApplyService extends MemberBaseMapper {
         return (memberApplies.size() == 0) ? null : get(memberApplies.get(0).getUserId());
     }
 
-    @Cacheable(value = "MemberApply", key = "#userId")
     public MemberApply get(int userId) {
 
         return memberApplyMapper.selectByPrimaryKey(userId);
     }
 
     // 直接删除
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void del(int userId) {
 
         MemberApplyExample example = new MemberApplyExample();
@@ -523,7 +516,6 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
 
         Member member = memberService.get(userId);
@@ -608,7 +600,6 @@ public class MemberApplyService extends MemberBaseMapper {
 
     // 分党委审核预备党员信息，跳过下一步的组织部审核
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void applyPositiveCheckByParty(int userId, MemberApply record, MemberApplyExample example) {
 
         if (memberApplyMapper.updateByExampleSelective(record, example) > 0) {
@@ -617,7 +608,6 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void denyWhenDeleteMember(int userId) {
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
         if (_memberApply != null && _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY) {
@@ -786,14 +776,12 @@ public class MemberApplyService extends MemberBaseMapper {
 
     // 只用于更新部分字段
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#record.userId")
     public void updateByPrimaryKeySelective(MemberApply record) {
 
         memberApplyMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void memberApply_back(int userId, byte stage) {
 
         Member member = memberService.get(userId);
@@ -844,7 +832,6 @@ public class MemberApplyService extends MemberBaseMapper {
 
     // 更换学工号
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void changeCode(int userId, int newUserId, String remark) {
 
         if(userId == newUserId){
@@ -913,7 +900,6 @@ public class MemberApplyService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     remark);
 
-            CmTag.clearCache("MemberApply", userId);
         }
     }
 }

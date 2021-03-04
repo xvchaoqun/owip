@@ -608,7 +608,7 @@ public class DpMemberController extends DpBaseController {
 
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpMember:edit")
     @RequestMapping("/dpMember_import")
     public String dpMember_import(boolean inSchool,
                                   ModelMap modelMap){
@@ -619,7 +619,7 @@ public class DpMemberController extends DpBaseController {
     }
 
     //导入校内账号的党派成员信息
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
+    @RequiresPermissions("dpMember:edit")
     @RequestMapping(value = "/dpMember_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpMember_import(HttpServletRequest request) throws InvalidFormatException, IOException {

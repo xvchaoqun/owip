@@ -40,7 +40,6 @@ public class BranchService extends BaseMapper {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "Branch:ALL", allEntries = true),
-            @CacheEvict(value = "MemberApply", allEntries = true)
     })
     public void batchTransfer(Integer[] ids, int partyId, String remark){
 

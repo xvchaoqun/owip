@@ -717,7 +717,7 @@ public class MemberController extends MemberBaseController {
     @ResponseBody
     public Map do_member_changeCode(int userId, int newUserId, String remark) {
 
-        memberService.changeCode(userId, newUserId, remark);
+        memberService.exchangeMemberCode(userId, newUserId, remark);
 
         return success(FormUtils.SUCCESS);
     }
