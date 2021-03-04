@@ -47,6 +47,8 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private CacheHelper cacheHelper;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     public String uploadSign(int userId, MultipartFile sign) throws IOException {
 
@@ -976,8 +978,8 @@ public class SysUserService extends BaseMapper {
         return codeMap;
     }
 
-    // 调换工号，使用情形：1、原来的工号是后台创建的，后来学校分配了新工号 2、干部调换工号
-    public void exchangeUserCode(int oldUserId, int newUserId){
+    // 调换工号和账号，不影响角色，使用情形：1、原来的工号是后台创建的，后来学校分配了新工号 2、干部调换工号
+    public void exchangeUserCode(int oldUserId, int newUserId, String remark){
 
         if (oldUserId == newUserId) return;
 
@@ -1013,5 +1015,15 @@ public class SysUserService extends BaseMapper {
 
         cacheHelper.clearUserCache(user);
         cacheHelper.clearUserCache(newUser);
+
+         sysApprovalLogService.add(oldUserId, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_USER,
+                    "更换学工号", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, oldCode + "<->" + newCode + "," + remark);
+
+         sysApprovalLogService.add(newUserId, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_USER,
+                    "更换学工号", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, oldCode + "<->" + newCode + "," + remark);
     }
 }

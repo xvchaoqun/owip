@@ -30,6 +30,12 @@
                  </select>
             </div>
         </div>
+        <div class="form-group">
+			<label class="col-xs-3 control-label">修改原因</label>
+			<div class="col-xs-6">
+				<textarea class="form-control limited" name="remark">${remark}</textarea>
+			</div>
+		</div>
     </form>
 </div>
 <div class="modal-footer">

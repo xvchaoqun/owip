@@ -574,7 +574,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
     }
 
-    // 更换干部的工号（仅更换两个账号的code和username，不改变干部的cadreId和userId）
+    // 更换干部的工号（仅更换两个账号的code和username，不改变干部的cadreId和userId，所以无需改变角色）
     @Transactional
     public void exchangeCadreCode(int oldUserId, int newUserId, String remark) {
 
@@ -601,12 +601,12 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             throw new OpException("账号不是教职工。" + newUser.getCode() + "," + newUser.getRealname());
         }
 
-        sysUserService.exchangeUserCode(oldUserId, newUserId);
+        sysUserService.exchangeUserCode(oldUserId, newUserId, remark);
 
         CadreView cv = dbFindByUserId(oldUserId);
         if(cv!=null) {
             int cadreId = cv.getId();
-            cacheHelper.clearCadreCache(cadreId);
+            cacheHelper.clearCadreCache(cadreId); // ?不需要？
 
             // 记录任免日志
             cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,

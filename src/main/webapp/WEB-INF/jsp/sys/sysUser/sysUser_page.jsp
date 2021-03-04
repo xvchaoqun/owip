@@ -96,6 +96,13 @@
                             </c:if>
                         </shiro:hasPermission>
                     <shiro:hasPermission name="sysUser:edit">
+                        <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        data-url="${ctx}/sysApprovalLog"
+                                data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_USER%>"
+                                data-open-by="page">
+                            <i class="fa fa-search"></i> 操作记录
+                        </button>
+
                     <div class="btn-group">
                         <button data-toggle="dropdown"
                                 data-rel="tooltip" data-placement="top" data-html="true"

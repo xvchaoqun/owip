@@ -45,8 +45,7 @@
 </div>
 <div class="modal-footer">
 	<div class="note">
-		注：1、要求更换前后的工号对应的身份证号码相同
-		<br/>2、此功能仅对换工号和账号，干部对应的cadreId和userId不变
+		注：此功能仅调换工号和账号
 	</div>
 	<input type="submit" class="btn btn-primary" value="确定"/>
 </div>

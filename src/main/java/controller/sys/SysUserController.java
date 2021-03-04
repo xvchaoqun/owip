@@ -450,9 +450,9 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:exchangeCode")
     @RequestMapping(value = "/sysUser_exchangeCode", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_exchangeCode(int oldUserId, int newUserId) {
+    public Map do_sysUser_exchangeCode(int oldUserId, int newUserId, String remark) {
 
-        sysUserService.exchangeUserCode(oldUserId, newUserId);
+        sysUserService.exchangeUserCode(oldUserId, newUserId, remark);
 
         return success(FormUtils.SUCCESS);
     }

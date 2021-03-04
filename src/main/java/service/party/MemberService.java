@@ -7,7 +7,6 @@ import domain.party.*;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import ext.service.ExtCommonService;
 import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +26,6 @@ import service.member.MemberBaseMapper;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
-import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.helper.PartyHelper;
@@ -54,15 +52,9 @@ public class MemberService extends MemberBaseMapper {
     @Autowired
     private TeacherInfoService teacherInfoService;
     @Autowired
-    private BranchMemberService branchMemberService;
-    @Autowired
-    private UnitService unitService;
-    @Autowired
     private PartyMemberGroupService partyMemberGroupService;
     @Autowired
     private BranchMemberGroupService branchMemberGroupService;
-    @Autowired
-    private ExtCommonService extCommonService;
     @Autowired
     private MemberApplyService memberApplyService;
 
@@ -435,7 +427,7 @@ public class MemberService extends MemberBaseMapper {
         }
     }
 
-    // 更换党员的学工号（仅调换userId）
+    // 更换党员的学工号（不影响账号，仅调换党员库中的userId，需要变更角色）
     @Transactional
     public void exchangeMemberCode(int oldUserId, int newUserId, String remark) {
 
