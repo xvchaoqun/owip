@@ -1,3 +1,11 @@
+import bean.CadreInfoForm;
+import domain.base.MetaType;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreParty;
+import domain.cadre.CadreView;
+import domain.sys.SysUserView;
+import freemarker.template.TemplateException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -8,18 +16,33 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ResourceUtils;
+import persistence.cadre.common.ICadreMapper;
 import persistence.dr.common.IDrMapper;
+import service.cadre.CadreAdformService;
 import service.cadre.CadreEduService;
+import service.common.FreemarkerService;
 import service.pmd.PmdOrderLogService;
+import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.*;
+import java.util.zip.ZipFile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml"})
@@ -36,6 +59,13 @@ public class DpTest {
 
     @Autowired
     private CadreEduService cadreEduService;
+    @Autowired(required = false)
+    private CadreAdformService cadreAdformService;
+    @Autowired(required = false)
+    private ICadreMapper iCadreMapper;
+    @Autowired(required = false)
+    private FreemarkerService freemarkerService;
+
     /*
         批量计算文件夹中.txt中的党费收缴情况
         遇到相同订单号的，先删除，后添加

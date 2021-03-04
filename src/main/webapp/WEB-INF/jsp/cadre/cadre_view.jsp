@@ -136,10 +136,13 @@
                     </li>
                 </shiro:hasPermission>
                 <c:if test="${param.isDp==1}">
-                    <li class="${to=='dp/dpInfoForm_page'?'active':''}">
-                        <a href="javascript:;"
-                           data-url="${ctx}/dp/dpInfoForm_page?userId=${param.userId}">基本情况登记表</a>
-                    </li>
+                    <shiro:hasPermission name="dpInfoForm:list">
+                        <li class="${to=='dp/dpInfoForm_page'?'active':''}">
+                            <a href="javascript:;"
+                               data-url="${ctx}/dp/dpInfoForm_page?userId=${param.userId}">基本情况登记表</a>
+                        </li>
+
+                    </shiro:hasPermission>
                 </c:if>
                 <c:if test="${empty param.isDp}">
                     <shiro:hasPermission name="cadreInfo:check">

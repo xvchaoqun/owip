@@ -52,6 +52,7 @@ public class DpOmService extends DpBaseMapper {
     public boolean add(DpOm record){
 
         Integer userId = record.getUserId();
+        dpCommonService.findOrCreateCadre(userId);
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
 

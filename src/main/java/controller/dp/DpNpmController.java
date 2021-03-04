@@ -100,9 +100,9 @@ public class DpNpmController extends DpBaseController {
         pageNo = Math.max(1, pageNo);
 
 
-            DpNpmViewExample example = new DpNpmViewExample();
-            DpNpmViewExample.Criteria criteria = example.createCriteria();
-            example.setOrderByClause("sort_order desc");
+        DpNpmViewExample example = new DpNpmViewExample();
+        DpNpmViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
 
         if (cls == 1) {
             status = DpConstants.DP_NPM_NORMAL;

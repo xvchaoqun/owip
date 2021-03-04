@@ -96,8 +96,7 @@ public class DpOmController extends DpBaseController {
         DpOmViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
-
+        /*criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));*/
 
         if (cls == 1){
             isDeleted = false;

@@ -23,9 +23,9 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 所属类别</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 所属类别</label>
 			<div class="col-xs-6">
-				<select data-width="270" class="form-control" name="type" data-rel="select2"
+				<select required data-width="270" class="form-control" name="type" data-rel="select2"
 						data-placeholder="请选择类别">
 					<option></option>
 					<c:import url="/metaTypes?__code=mc_dp_other_type"/>
