@@ -10,8 +10,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
@@ -50,7 +48,6 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     // 组织部审批通过领取志愿书，自动分配志愿书编码
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void assign(int userId, ApplySn applySn) {
 
 
@@ -85,7 +82,6 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     // 组织部退回领取志愿书，或从领取志愿书中进行移除操作，则清除已分配的志愿书编码
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#userId")
     public void clearAssign(int userId, boolean applySnReuse) {
 
         MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
@@ -156,7 +152,6 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     // 换领志愿书
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#applySn.userId")
     public void change(ApplySn applySn, ApplySn newApplySn, byte opType) {
 
         if (BooleanUtils.isNotTrue(applySn.getIsUsed())) {
@@ -205,10 +200,6 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     // 调换志愿书编码
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "MemberApply", key = "#applySn.userId"),
-            @CacheEvict(value = "MemberApply", key = "#applySn2.userId")
-    })
     public void exchange(ApplySn applySn, ApplySn applySn2) {
 
         if (applySn.getId().intValue() == applySn2.getId()) {

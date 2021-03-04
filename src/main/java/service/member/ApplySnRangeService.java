@@ -5,8 +5,6 @@ import domain.member.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +21,6 @@ public class ApplySnRangeService extends MemberBaseMapper {
         return StringUtils.trimToEmpty(prefix) + String.format("%0"+ len + "d", sn);
     }
 
-    @CacheEvict(value = "ApplySnRange", key = "#record.id")
     @Transactional
     public void insertSelective(ApplySnRange record){
 
@@ -45,13 +42,11 @@ public class ApplySnRangeService extends MemberBaseMapper {
         }
     }
 
-    @Cacheable(value = "ApplySnRange", key = "#id")
     public ApplySnRange get(int id) {
 
         return applySnRangeMapper.selectByPrimaryKey(id);
     }
 
-    @CacheEvict(value = "ApplySnRange", allEntries = true)
     @Transactional
     public void batchDel(Integer[] ids){
 
@@ -79,7 +74,6 @@ public class ApplySnRangeService extends MemberBaseMapper {
     }
 
     // 用于更新编码端本身的信息
-    @CacheEvict(value = "ApplySnRange", key = "#record.id")
     @Transactional
     public void updateByPrimaryKeySelective(ApplySnRange record){
 
@@ -145,13 +139,11 @@ public class ApplySnRangeService extends MemberBaseMapper {
 
     // 用于更新编码端使用情况
     @Transactional
-    @CacheEvict(value = "ApplySnRange", key = "#rangeId")
     public void updateCount(int rangeId){
 
         iMemberMapper.updateApplySnRangeCount(rangeId);
     }
 
-    @CacheEvict(value = "ApplySnRange", allEntries = true)
     @Transactional
     public void changeOrder(int id, int addNum) {
 

@@ -56,15 +56,6 @@
            timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LRU"/>
 
-       <cache name="ApplySnRange"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="600"
-           memoryStoreEvictionPolicy="LRU"/>
-
        <cache name="PartyPublics"
            eternal="false"
            maxElementsInMemory="2000"
@@ -444,14 +435,6 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="MemberApply"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
     <cache name="AdminBranchIdList"
            eternal="false"
            maxElementsInMemory="100"

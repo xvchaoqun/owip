@@ -574,7 +574,6 @@ public class MemberService extends MemberBaseMapper {
     @Caching(evict = {
             @CacheEvict(value = "Branch:ALL", allEntries = true),
             @CacheEvict(value = "Party:ALL", allEntries = true),
-            @CacheEvict(value = "MemberApply", allEntries = true)
     })
     public Map<String, Object> importMemberAllInfo(XSSFWorkbook workbook,
                                                    XSSFSheet sheet,
