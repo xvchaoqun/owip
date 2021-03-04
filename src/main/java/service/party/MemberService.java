@@ -435,23 +435,24 @@ public class MemberService extends MemberBaseMapper {
         }
     }
 
-    // 更换党员的学工号
+    // 更换党员的学工号（仅调换userId）
     @Transactional
-    public void changeCode(int userId, int newUserId, String remark) {
+    public void exchangeMemberCode(int oldUserId, int newUserId, String remark) {
 
-        if(userId==newUserId) return;
+        if(oldUserId ==newUserId) return;
 
-        SysUserView user = sysUserService.findById(userId);
-        String oldCode = user.getCode();
-        Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
         SysUserView newUser = sysUserService.findById(newUserId);
         String newCode = newUser.getCode();
+        Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
         if (checkMember != null) {
 
             throw new OpException("{0}({1})已经在党员库中({2})，无法更换",
                     newUser.getRealname(), newCode,
                     MemberConstants.MEMBER_STATUS_MAP.get(checkMember.getStatus()));
         }
+
+        SysUserView oldUser = sysUserService.findById(oldUserId);
+        String oldCode = oldUser.getCode();
 
         /*if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
             throw new OpException("身份证号码不相同，无法更换");
@@ -472,17 +473,17 @@ public class MemberService extends MemberBaseMapper {
             memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
             //syncService.snycStudent(userId, newUser);
         } else {
-            throw new OpException("账号不是教工或学生。" + newUser.getCode() + "," + newUser.getRealname());
+            throw new OpException("账号不是教职工或学生。" + newUser.getCode() + "," + newUser.getRealname());
         }
 
         commonMapper.excuteSql("update ow_member set user_id=" + newUserId
-                + ", type="+ memberType +" where user_id=" + userId);
+                + ", type="+ memberType +" where user_id=" + oldUserId);
 
         // 更新新的学工号的系统角色  访客->党员
         sysUserService.changeRole(newUserId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
-        sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
+        sysUserService.changeRole(oldUserId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
 
-        addModify(userId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
+        addModify(oldUserId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
     }
 
     //更新党员信息完整度

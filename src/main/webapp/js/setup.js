@@ -844,6 +844,13 @@ $(document).on("click", ".jqExportBtn", function (e) {
     var type = $this.data("type") || 'export';
     var method = $this.data("method");
 
+    var needIds = $(this).data("need-ids");
+    if (needIds == undefined) needIds = false; // 默认不需要选择
+    if (needIds && ids.length == 0) {
+        SysMsg.warning("请选择行", "提示");
+        return;
+    }
+
     var url = $this.data("url") || $this.closest(".myTableDiv").data("url-export");
     var queryString = $this.data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;

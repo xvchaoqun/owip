@@ -7,10 +7,10 @@ import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
 import domain.sys.*;
+import ext.service.ExtCommonService;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xwpf.usermodel.*;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -33,7 +33,6 @@ import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.global.CacheHelper;
-import service.global.CacheService;
 import service.party.MemberService;
 import service.sys.AvatarService;
 import service.sys.SysConfigService;
@@ -65,7 +64,7 @@ public class CadreAdformService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private CacheService cacheService;
+    private ExtCommonService extCommonService;
     @Autowired
     private FreemarkerService freemarkerService;
     @Autowired
@@ -132,6 +131,13 @@ public class CadreAdformService extends BaseMapper {
         File docxFile = ResourceUtils.getFile(fileClasspath);
         ZipFile zipFile = new ZipFile(docxFile);
 
+        // 填表人
+        String admin = null;
+        SysUserView currentUser = ShiroHelper.getCurrentUser();
+        if (currentUser != null) {
+            admin = currentUser.getRealname();
+        }
+
         if (cadreIds.length == 1) {
 
             int cadreId = cadreIds[0];
@@ -156,7 +162,7 @@ public class CadreAdformService extends BaseMapper {
                             CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
                 }
 
-                String document = process(adform,adFormType);
+                String document = process(adform, adFormType, admin);
                 exportDocxUtils(zipFile,document,adform.getAvatar(),response.getOutputStream());
 
             } else {
@@ -198,7 +204,7 @@ public class CadreAdformService extends BaseMapper {
                     /*OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
                     process(adform, adFormType,osw);*/
 
-                    String document = process(adform, adFormType);
+                    String document = process(adform, adFormType, admin);
                     exportDocxUtils(zipFile, document, adform.getAvatar(), fop);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
@@ -518,7 +524,6 @@ public class CadreAdformService extends BaseMapper {
             _reward = freemarkerService.freemarker(dataMap, "/cadre/cadreReward.ftl");
         }
 
-
         bean.setReward(StringUtils.defaultIfBlank(_reward, "无"));
 
         // 工作经历
@@ -532,40 +537,7 @@ public class CadreAdformService extends BaseMapper {
         }
         bean.setResumeDesc(StringUtils.trimToNull(_resume));
 
-        //年度考核结果
-        int evaYears = CmTag.getIntProperty("evaYears", 3);
-        Integer currentYear = DateUtils.getCurrentYear();
-
-        String evaResult = CmTag.getStringProperty("defaultEvaResult"); // {0}年均为合格
-
-        if(StringUtils.isNotBlank(evaResult)) {
-            List<Integer> years = new ArrayList<>();
-            for (Integer i = 0; i < evaYears; i++) {
-                years.add(currentYear - evaYears + i);
-            }
-            evaResult = StringUtils.replace(evaResult, "{0}", StringUtils.join(years, "、"));
-        }
-
-        {
-            Map<Integer, String> evaMap = new LinkedHashMap<>();
-            CadreEvaExample example = new CadreEvaExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andYearBetween(currentYear - evaYears, currentYear);
-            example.setOrderByClause("year desc");
-            List<CadreEva> cadreEvas = cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, evaYears));
-            if (cadreEvas.size() > 0) {
-                for (CadreEva cadreEva : cadreEvas) {
-                    int year = cadreEva.getYear();
-                    int type = cadreEva.getType();
-                    evaMap.put(year, year + "年：" + metaTypeService.getName(type));
-                }
-                ArrayList<String> evaList = new ArrayList<>(evaMap.values());
-                Collections.reverse(evaList);
-                evaResult = StringUtils.join(evaList, "；");
-            }
-        }
-
-        bean.setCes(evaResult);
+        bean.setCes(extCommonService.getEvaResult(cadreId));
 
         // 培训情况
         String trainDesc = cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
@@ -588,8 +560,8 @@ public class CadreAdformService extends BaseMapper {
         return bean;
     }
 
-    // 任免审批表模板输出为字符串
-    public String process(CadreInfoForm bean, Byte adFormType/*, Writer out*/) throws IOException, TemplateException {
+    // 任免审批表模板输出为字符串 admin：填表人
+    public String process(CadreInfoForm bean, Byte adFormType, String admin) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", bean.getRealname());
@@ -642,7 +614,7 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());
         dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());
 
-        
+
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
@@ -704,9 +676,7 @@ public class CadreAdformService extends BaseMapper {
                 family += getFamilySeg(cadreFamilys.get(i), familyFtl);
         }
         dataMap.put("family", family);
-        SysUserView currentUser = ShiroHelper.getCurrentUser();
-        if (currentUser != null)
-            dataMap.put("admin", currentUser.getRealname());
+        dataMap.put("admin", admin);
 
         Date reportDate = bean.getReportDate();
         if(reportDate!=null) {
@@ -727,7 +697,13 @@ public class CadreAdformService extends BaseMapper {
         File docxFile = ResourceUtils.getFile(fileClasspath);
         ZipFile zipFile = new ZipFile(docxFile);
 
-        String content = process(bean, adFormType);
+        String admin = null;
+        SysUserView currentUser = ShiroHelper.getCurrentUser();
+        if (currentUser != null) {
+            admin = currentUser.getRealname();
+        }
+
+        String content = process(bean, adFormType, admin);
         exportDocxUtils(zipFile,content,bean.getAvatar(),out);
     }
 

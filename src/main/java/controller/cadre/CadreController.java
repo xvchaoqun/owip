@@ -989,7 +989,7 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_changeCode(int userId, int newUserId, String remark) {
 
-        cadreService.changeCode(userId, newUserId, remark);
+        cadreService.exchangeCadreCode(userId, newUserId, remark);
 
         return success(FormUtils.SUCCESS);
     }

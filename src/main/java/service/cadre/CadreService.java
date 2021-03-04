@@ -10,7 +10,6 @@ import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
 import domain.cm.CmMemberView;
 import domain.modify.ModifyCadreAuth;
-import domain.sys.SysUser;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -577,19 +576,17 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
     // 更换干部的工号（仅更换两个账号的code和username，不改变干部的cadreId和userId）
     @Transactional
-    public void changeCode(int userId, int newUserId, String remark) {
+    public void exchangeCadreCode(int oldUserId, int newUserId, String remark) {
 
-        if (userId == newUserId) return;
+        if (oldUserId == newUserId) return;
 
-        SysUserView user = sysUserService.findById(userId);
+        SysUserView user = sysUserService.findById(oldUserId);
         String oldCode = user.getCode();
-        String oldUsername = user.getUsername();
-        CadreView checkCadre = dbFindByUserId(newUserId);
         SysUserView newUser = sysUserService.findById(newUserId);
         String newCode = newUser.getCode();
-        String newUsername = newUser.getUsername();
-        if (checkCadre != null) {
 
+        CadreView checkCadre = dbFindByUserId(newUserId);
+        if (checkCadre != null) {
             throw new OpException("{0}({1})已经在干部库中({2})，无法更换",
                     newUser.getRealname(), newCode,
                     CadreConstants.CADRE_STATUS_MAP.get(checkCadre.getStatus()));
@@ -604,43 +601,17 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             throw new OpException("账号不是教职工。" + newUser.getCode() + "," + newUser.getRealname());
         }
 
-        // 仅更换两个账号的code和username
-        SysUser record = new SysUser();
-        record.setId(userId);
-        record.setUsername(oldUsername + "_");
-        record.setCode(oldCode + "_");
-        sysUserMapper.updateByPrimaryKeySelective(record);
+        sysUserService.exchangeUserCode(oldUserId, newUserId);
 
-        record = new SysUser();
-        record.setId(newUserId);
-        record.setUsername(oldUsername);
-        record.setCode(oldCode);
-        sysUserMapper.updateByPrimaryKeySelective(record);
+        CadreView cv = dbFindByUserId(oldUserId);
+        if(cv!=null) {
+            int cadreId = cv.getId();
+            cacheHelper.clearCadreCache(cadreId);
 
-        record = new SysUser();
-        record.setId(userId);
-        record.setUsername(newUsername);
-        record.setCode(newCode);
-        sysUserMapper.updateByPrimaryKeySelective(record);
-
-
-        user = sysUserService.findById(userId);
-        newUser = sysUserService.findById(newUserId);
-        // 重新同步教职工信息
-        CmTag.snycTeacherInfo(newUserId, user.getCode());
-        CmTag.snycTeacherInfo(userId, newUser.getCode());
-
-        cacheHelper.clearUserCache(user);
-        cacheHelper.clearUserCache(newUser);
-
-
-        CadreView cv = dbFindByUserId(userId);
-        int cadreId = cv.getId();
-        cacheHelper.clearCadreCache(cadreId);
-
-        // 记录任免日志
-        cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,
+            // 记录任免日志
+            cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
+        }
     }
 
     @Transactional

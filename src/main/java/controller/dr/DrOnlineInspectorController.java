@@ -50,8 +50,8 @@ public class DrOnlineInspectorController extends DrBaseController {
     @RequestMapping("/drOnlineInspector_data")
     @ResponseBody
     public void drOnlineInspector_data(HttpServletResponse response,
-                                    Integer typeId,
                                     Integer onlineId,
+                                    Integer typeId,
                                     Integer logId,
                                     Byte status,
                                     String _username,
@@ -71,7 +71,7 @@ public class DrOnlineInspectorController extends DrBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("unit_id desc,type_id desc");
 
-        if (onlineId != null){
+        if(onlineId!=null){
             criteria.andOnlineIdEqualTo(onlineId);
         }
         if (logId != null){

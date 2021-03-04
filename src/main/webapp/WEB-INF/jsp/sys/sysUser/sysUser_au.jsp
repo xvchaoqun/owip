@@ -12,10 +12,10 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>用户名</label>
             <div class="col-xs-6">
-                <c:if test="${not empty sysUser}">
+                <c:if test="${not empty sysUser && !cm:isSuperAccount(_user.username)}">
                     <div class="label-text">${sysUser.username}</div>
                 </c:if>
-                <c:if test="${empty sysUser}">
+                <c:if test="${empty sysUser || cm:isSuperAccount(_user.username)}">
                     <input required class="form-control" type="text" name="username" value="${sysUser.username}">
                     <span class="help-block">由5~15数字和小写字母组成</span>
                 </c:if>

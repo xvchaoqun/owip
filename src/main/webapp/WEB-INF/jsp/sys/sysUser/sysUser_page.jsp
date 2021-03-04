@@ -81,6 +81,11 @@
                             </button>
                         </c:if>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="sysUser:exchangeCode">
+                            <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/sysUser_exchangeCode">
+                                <i class="fa fa-refresh"></i> 调换学工号</a>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="menu:preview">
                             <c:if test="${cls==1}">
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
