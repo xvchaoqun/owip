@@ -13,7 +13,7 @@ LEFT JOIN cadre_view cv ON (cv.STATUS IN (1,6) AND cv.user_id=dm.user_id);
 
 DROP VIEW IF EXISTS `dp_party_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
-select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.is_deleted as is_dp_party_deleted,
+select dpm.*,dpmg.party_id as group_party_id,dpmg.is_deleted,dp.is_deleted as is_dp_party_deleted,
 dm.mobile,dm.email
 from dp_party_member dpm
 join dp_party_member_group dpmg on dpmg.id=dpm.group_id
@@ -58,7 +58,7 @@ from dp_party dp
 left join (SELECT  count(*) as num,  party_id from dp_member where  status=1 group by party_id) mtmp on mtmp.party_id=dp.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,sum(if(is_honor_retire=1, 1, 0)) as t3_num, count(*) as num, party_id from dp_member_view where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=dp.id
 left join (select count(*) as num, party_id from dp_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=dp.id
-left join (select count(*) as num, party_id from dp_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=dp.id;
+left join (select count(*) as num, party_id from dp_party_member_group where is_deleted=0 group by party_id) pmgtmp2 on pmgtmp2.party_id=dp.id;
 
 DROP VIEW IF EXISTS `dp_pr_cm_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_pr_cm_view` AS

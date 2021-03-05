@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 撤销时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 实际换届时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
 					<input required class="form-control date-picker" name="actualTranTime" type="text"

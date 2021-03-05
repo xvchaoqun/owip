@@ -64,8 +64,8 @@
       "table": "dp_party_member_group",
       "key": "id",
       "searchColumns": "id,party_id,user_id",
-      "showColumns": "name,party_id,is_present,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
-      "excludeEditColumns": "id,is_present,tran_time,actual_tran_time,appoint_time,sort_order",
+      "showColumns": "name,party_id,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
+      "excludeEditColumns": "id,tran_time,actual_tran_time,appoint_time,sort_order",
       "logType":"LogConstants.LOG_DPPARTY",
       "ignore": true
     },

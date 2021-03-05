@@ -15,7 +15,6 @@
     <result column="delete_time" jdbcType="DATE" property="deleteTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="group_party_id" jdbcType="INTEGER" property="groupPartyId" />
-    <result column="is_present" jdbcType="BIT" property="isPresent" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_dp_party_deleted" jdbcType="BIT" property="isDpPartyDeleted" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -81,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, group_id, user_id, type_ids, post_id, assign_date, office_phone, is_admin, sort_order, 
-    present_member, delete_time, remark, group_party_id, is_present, is_deleted, is_dp_party_deleted, 
+    present_member, delete_time, remark, group_party_id, is_deleted, is_dp_party_deleted, 
     mobile, email
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPartyMemberViewExample" resultMap="BaseResultMap">
@@ -109,16 +108,14 @@
       type_ids, post_id, assign_date, 
       office_phone, is_admin, sort_order, 
       present_member, delete_time, remark, 
-      group_party_id, is_present, is_deleted, 
-      is_dp_party_deleted, mobile, email
-      )
+      group_party_id, is_deleted, is_dp_party_deleted, 
+      mobile, email)
     values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{typeIds,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, 
       #{officePhone,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
       #{presentMember,jdbcType=BIT}, #{deleteTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
-      #{groupPartyId,jdbcType=INTEGER}, #{isPresent,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, 
-      #{isDpPartyDeleted,jdbcType=BIT}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
-      )
+      #{groupPartyId,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{isDpPartyDeleted,jdbcType=BIT}, 
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpPartyMemberView">
     insert into dp_party_member_view
@@ -161,9 +158,6 @@
       </if>
       <if test="groupPartyId != null">
         group_party_id,
-      </if>
-      <if test="isPresent != null">
-        is_present,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -217,9 +211,6 @@
       </if>
       <if test="groupPartyId != null">
         #{groupPartyId,jdbcType=INTEGER},
-      </if>
-      <if test="isPresent != null">
-        #{isPresent,jdbcType=BIT},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -283,9 +274,6 @@
       <if test="record.groupPartyId != null">
         group_party_id = #{record.groupPartyId,jdbcType=INTEGER},
       </if>
-      <if test="record.isPresent != null">
-        is_present = #{record.isPresent,jdbcType=BIT},
-      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -318,7 +306,6 @@
       delete_time = #{record.deleteTime,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR},
       group_party_id = #{record.groupPartyId,jdbcType=INTEGER},
-      is_present = #{record.isPresent,jdbcType=BIT},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       is_dp_party_deleted = #{record.isDpPartyDeleted,jdbcType=BIT},
       mobile = #{record.mobile,jdbcType=VARCHAR},

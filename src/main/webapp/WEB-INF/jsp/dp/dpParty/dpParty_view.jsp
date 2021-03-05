@@ -15,9 +15,9 @@
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/dp/dpParty_base?id=${param.id}">基本信息</a>
                         </li>
-                        <li>
+                        <%--<li>
                             <a href="javascript:;" data-url="${ctx}/dp/dpPartyMemberGroup_view?partyId=${param.id}">党派委员会</a>
-                        </li>
+                        </li>--%>
                     </ul>
                 </div>
             </div>

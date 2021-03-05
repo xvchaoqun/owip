@@ -16,8 +16,8 @@
                 align: 'left',
                 width: 400,
                 formatter: function (cellvalue, options, rowObject) {
-                    var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任委员会</span>&nbsp;';
-                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                    var str = '<i class="fa fa-flag red" title="现任委员会"></i>&nbsp;';
+                    return (!rowObject.isDeleted) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
@@ -34,7 +34,7 @@
             {label: '委员会届数', name: 'groupSession', width: 100},
             {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
-                label: '撤销时间',
+                label: '实际换届时间',
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
@@ -42,15 +42,15 @@
             },
             {label: '成立时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
+                hidden: true, name: 'isDeleted', formatter: function (cellvalue, options, rowObject) {
+                    return (!rowObject.isDeleted) ? 1 : 0;
                 }
             },
             {label: '备注', name: 'remark', width: 180}
 
         ],
         rowattr: function (rowData, currentObj, rowId) {
-            if (rowData.isPresent) {
+            if (!rowData.isDeleted) {
                 //console.log(rowData)
                 return {'class': 'success'}
             }

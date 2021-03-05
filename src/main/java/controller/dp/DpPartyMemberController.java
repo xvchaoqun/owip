@@ -99,7 +99,6 @@ public class DpPartyMemberController extends DpBaseController {
                                    Integer groupPartyId,
                                    Boolean isAdmin,
                                    Boolean isDeleted,
-                                   Boolean isPresent,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo)  throws IOException{
@@ -123,9 +122,6 @@ public class DpPartyMemberController extends DpBaseController {
 
         if (isDeleted != null){
             criteria.andIsDeletedEqualTo(isDeleted);
-        }
-        if (isPresent != null){
-            criteria.andIsPresentEqualTo(isPresent);
         }
         if (groupId!=null) {
             criteria.andGroupIdEqualTo(groupId);
@@ -442,9 +438,6 @@ public class DpPartyMemberController extends DpBaseController {
         if (typeIds != null){
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
             criteria.andTypeIdsIn(selectedTypeIds);
-        }
-        if (isPresent != null){
-            criteria.andIsPresentEqualTo(true);
         }
         if (isDeleted != null){
             criteria.andIsDeletedEqualTo(false);
