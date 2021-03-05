@@ -364,7 +364,6 @@ CREATE TABLE IF NOT EXISTS `dp_party_member_group` (
   `fid` int(10) unsigned DEFAULT NULL COMMENT '上一届委员会',
   `party_id` int(10) unsigned NOT NULL COMMENT '所属民主党派',
   `name` varchar(100) NOT NULL COMMENT '名称',
-  `is_present` tinyint(1) unsigned NOT NULL COMMENT '是否现任委员会',
   `tran_time` date DEFAULT NULL COMMENT '应换届时间',
   `actual_tran_time` date DEFAULT NULL COMMENT '实际换届时间',
   `appoint_time` date DEFAULT NULL COMMENT '成立时间，本届委员会成立时间',
@@ -721,6 +720,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2618, 0, '删除', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:del', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2619, 0, '调序', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:changeOrder', NULL, NULL, NULL, 1, NULL);
 
-INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_party', '民主党派管理员', '2574,2575,2578,2576,2580,2581,2582,2583,2584,2588,2592,2577,2585,2586,2602,2587,90,305,307,309,310,317,319,852,357,110,3038,230,231,232,235,236,237,238,239,240,241,334,1005,314,315', '-1', '-1', '-1', 0, 0, 1, 59, '');
-INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_admin', '统战部管理员', '2574,2575,2578,2579,2591,2576,2580,2581,2582,2583,2584,2588,2592,2577,2585,2586,2602,2593,2596,2597,2598,2594,2603,2604,2605,2610,2612,2613,2614,2615,2616,2617,2618,2619,2595,2599,2600,2601,2587,2590,90,305,307,309,310,317,319,852,357,110,3038,230,231,232,235,236,237,238,239,240,241,334,1005,314,315', '-1', '-1', '-1', 0, 0, 0, 58, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_party', '民主党派管理员', '2574,2575,2578,2576,2580,2581,2582,2583,2584,2588,2592,2577,2585,2586,2602,2587,90,307,309,310,319,852,357,230,231,232,235,236,237,238,239,240,241,334,1005,314,315', '-1', '-1', '-1', 0, 0, 1, 59, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_admin', '统战部管理员', '2574,2575,2578,2579,2591,2576,2580,2581,2582,2583,2584,2588,2592,2577,2585,2586,2602,2593,2596,2597,2598,2594,2603,2604,2605,2610,2612,2613,2614,2615,2616,2617,2618,2619,2595,2599,2600,2601,2587,2590,90,307,309,310,319,852,357,230,231,232,235,236,237,238,239,240,241,334,1005,314,315', '-1', '-1', '-1', 0, 0, 0, 58, '');
 SET FOREIGN_KEY_CHECKS=1;
