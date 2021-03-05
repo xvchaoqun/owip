@@ -111,7 +111,7 @@
         url: '${ctx}/stat/statCod_data?cls=1&callback=?',
         colModel: [
             {label: '姓名', name: 'user.realname', width: 110, frozen: true},
-            {label: '公民身份证号码', name: 'user.idcard', width: 150},
+            {label: '公民身份证号码', name: 'user.idcard', width: 160},
             {label: '性别', name: 'user.gender', width: 100, formatter:$.jgrid.formatter.GENDER},
             {label: '民族', name: 'user.nation', width: 100},
             {label: '籍贯', name: 'user.nativePlace',  width: 150},

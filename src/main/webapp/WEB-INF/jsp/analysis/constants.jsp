@@ -4,6 +4,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
+<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+<c:set var="USER_TYPE_BKS" value="<%=SystemConstants.USER_TYPE_BKS%>"/>
+<c:set var="USER_TYPE_YJS" value="<%=SystemConstants.USER_TYPE_YJS%>"/>
+
 <c:set var="MEMBER_AGE_MAP" value="<%=MemberConstants.MEMBER_AGE_MAP%>"/>
 
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>

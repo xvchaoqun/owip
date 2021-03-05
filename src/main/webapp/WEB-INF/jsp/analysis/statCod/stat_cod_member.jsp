@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -118,7 +119,16 @@
             {label: '民族', name: 'nation', width: 100},
             {label: '籍贯', name: 'nativePlace',  width: 150},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-            {label: '学历', name: 'education',  width: 100},
+            {label: '学历', name: 'userType',  width: 100,formatter: function (cellvalue, options, rowObject) {
+                    var str = "--";
+                    var edu = rowObject.education;
+                    if (cellvalue == ${USER_TYPE_JZG} && edu != undefined && $.trim(edu)) {
+                        str = edu;
+                    }else if (cellvalue != ${USER_TYPE_JZG}){
+                        str = _cMap.USER_TYPE_MAP[cellvalue];
+                    }
+                    return str;
+                }},
             {label: '学位', name: 'degree',  width: 100},
             {label: '毕业院校', name: 'school', width: 150},
             {label: '专业', name: 'major',  width: 150},

@@ -5,7 +5,9 @@ import domain.member.MemberApplyView;
 import domain.member.MemberApplyViewExample;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import mixin.SysUserListMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.member.MemberApplyViewMapper;
 import service.analysis.StatCodService;
+import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -70,7 +74,7 @@ public class statCodController extends BaseController {
             //中组部申请人
             Map resultMap = new HashMap();
             MemberApplyViewExample example = new MemberApplyViewExample();
-            MemberApplyViewExample.Criteria criteria = example.createCriteria();
+            MemberApplyViewExample.Criteria criteria = example.createCriteria().andStageGreaterThanOrEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
             example.setOrderByClause("branch_sort_order desc");
             if (export == 1){
                 if (ids!=null && ids.length>0){
@@ -97,13 +101,14 @@ public class statCodController extends BaseController {
             resultMap.put("total", commonList.pageNum);
 
             Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+            baseMixins.remove(SysUserView.class);
             JSONUtils.jsonp(resultMap, baseMixins);
         }
         if (cls == 2){
             //中组部党员
             Map resultMap = new HashMap();
             MemberViewExample example = new MemberViewExample();
-            MemberViewExample.Criteria criteria = example.createCriteria();
+            MemberViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
             example.setOrderByClause("sort_order desc");
 
             if (export == 1){
@@ -132,6 +137,7 @@ public class statCodController extends BaseController {
             resultMap.put("total", commonList.pageNum);
 
             Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+            baseMixins.remove(MemberView.class);
             JSONUtils.jsonp(resultMap, baseMixins);
         }
         return;
