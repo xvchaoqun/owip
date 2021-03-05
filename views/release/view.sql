@@ -629,12 +629,13 @@ left join cadre_view cv on cv.id=cp.cadre_id;
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_apply_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS
-select ma.*, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status
+select ma.*, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status,
+if(m.user_type=1,m.education,if(m.user_type=3,'研究生','本科生')) as edu
      , p.sort_order as party_sort_order, b.sort_order as branch_sort_order
 from  ow_member_apply ma
         left join ow_branch b on ma.branch_id=b.id
         left join ow_party p on b.party_id=p.id
-        left join ow_member m  on ma.user_id = m.user_id;
+        left join ow_member_view m  on ma.user_id = m.user_id;
 
 -- ----------------------------
 --  View definition for `ow_member_outflow_view`

@@ -1,4 +1,7 @@
 
+-- 2021.3.5 ly
+-- 更新ow_member_apply_view
+
 -- 2021.1.22 ly
 ALTER TABLE `ow_apply_approval_log`
 	DROP INDEX `FK_ow_apply_approval_log_sys_user`,

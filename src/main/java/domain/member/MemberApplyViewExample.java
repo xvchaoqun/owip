@@ -2918,6 +2918,76 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andEduIsNull() {
+            addCriterion("edu is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduIsNotNull() {
+            addCriterion("edu is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduEqualTo(String value) {
+            addCriterion("edu =", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduNotEqualTo(String value) {
+            addCriterion("edu <>", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduGreaterThan(String value) {
+            addCriterion("edu >", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduGreaterThanOrEqualTo(String value) {
+            addCriterion("edu >=", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduLessThan(String value) {
+            addCriterion("edu <", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduLessThanOrEqualTo(String value) {
+            addCriterion("edu <=", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduLike(String value) {
+            addCriterion("edu like", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduNotLike(String value) {
+            addCriterion("edu not like", value, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduIn(List<String> values) {
+            addCriterion("edu in", values, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduNotIn(List<String> values) {
+            addCriterion("edu not in", values, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduBetween(String value1, String value2) {
+            addCriterion("edu between", value1, value2, "edu");
+            return (Criteria) this;
+        }
+
+        public Criteria andEduNotBetween(String value1, String value2) {
+            addCriterion("edu not between", value1, value2, "edu");
+            return (Criteria) this;
+        }
+
         public Criteria andPartySortOrderIsNull() {
             addCriterion("party_sort_order is null");
             return (Criteria) this;

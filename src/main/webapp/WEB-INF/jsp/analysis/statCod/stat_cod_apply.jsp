@@ -7,6 +7,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+                <c:set var="_query" value="${not empty param.userId }"/>
                 <div class="tabbable">
 
                     <div class="tab-content multi-row-head-table">
@@ -49,7 +50,7 @@
                                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                            data-url="${ctx}/stat/statCod_data?cls=1"
+                                                            data-url="${ctx}/stat/statCod?cls=1"
                                                             data-target="#page-content">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
@@ -116,7 +117,7 @@
             {label: '籍贯', name: 'user.nativePlace',  width: 150},
             {label: '出生日期', name: 'user.birth', width: 100,formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
-            {label: '学历', name: 'education',  width: 100},
+            {label: '学历', name: 'edu',  width: 100},
             {label: '人员类别', name: 'stage',  width: 100,formatter: function (cellvalue, options, rowObject) {
                     var str = "";
                     if (cellvalue == undefined) return '--';

@@ -122,6 +122,8 @@ public class MemberApplyView implements Serializable {
 
     private Integer memberStatus;
 
+    private String edu;
+
     private Integer partySortOrder;
 
     private Integer branchSortOrder;
@@ -478,6 +480,14 @@ public class MemberApplyView implements Serializable {
 
     public void setMemberStatus(Integer memberStatus) {
         this.memberStatus = memberStatus;
+    }
+
+    public String getEdu() {
+        return edu;
+    }
+
+    public void setEdu(String edu) {
+        this.edu = edu == null ? null : edu.trim();
     }
 
     public Integer getPartySortOrder() {
