@@ -1,3 +1,7 @@
+--2021.03.05 hwd
+UPDATE `sys_resource` SET `url`='/stat/statCod?cls=1' WHERE  `id`=4008;
+UPDATE `sys_resource` SET `url`='/stat/statCod?cls=2' WHERE  `id`=4007;
+
 --2021.03.04 hwd
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4008, 0, '申请人-中组部', '', 'url', '', '/stat/statCodAppply', 4006, '0/1/105/4006/', 1, 'statCodAppply:list', NULL, NULL, NULL, 1, 1000);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4007, 0, '党员-中组部', '', 'url', '', '/stat/statCodMember', 4006, '0/1/105/4006/', 1, 'statCodMember:list', NULL, NULL, NULL, 1, 900);

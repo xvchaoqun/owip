@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                                   data-url="${ctx}/stat/statCodMember"
+                                                   data-url="${ctx}/stat/statCod?cls=2"
                                                    data-target="#page-content"
                                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query}">&nbsp;

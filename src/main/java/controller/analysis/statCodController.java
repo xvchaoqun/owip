@@ -35,26 +35,20 @@ public class statCodController extends BaseController {
 
 
     @RequiresPermissions("statCodAppply:list")
-    @RequestMapping("/statCodAppply")
-    public String statCodAppply(ModelMap modelMap ,Integer userId) {
+    @RequestMapping("/statCod")
+    public String statCodAppply(ModelMap modelMap ,Integer userId,@RequestParam(required = false, defaultValue = "1") int cls) {
 
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-
+        if (cls==1){
+            return "analysis/statCod/stat_cod_apply";
+        }else if (cls == 2){
+            return "analysis/statCod/stat_cod_member";
+        }
         return "analysis/statCod/stat_cod_apply";
     }
 
-
-    @RequiresPermissions("statCodMember:list")
-    @RequestMapping("/statCodMember")
-    public String statCodMember(ModelMap modelMap ,Integer userId){
-
-        if (userId != null){
-            modelMap.put("sysUser", sysUserService.findById(userId));
-        }
-        return "analysis/statCod/stat_cod_member";
-    }
 
     @RequestMapping("/statCod_data")
     public void statCod_data(HttpServletResponse response,
