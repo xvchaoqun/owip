@@ -221,13 +221,13 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(DpPartyMemberGroup record){
         DpPartyMemberGroup presentGroup = getPresentGroup(record.getPartyId());
-        if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && record.getIsDeleted())){
+        if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && presentGroup.getIsDeleted())){
             clearPresentGroup(record.getPartyId());
         }
-        if(presentGroup==null && !record.getIsDeleted()){
+        if(presentGroup==null && !presentGroup.getIsDeleted()){
             rebuildPresentGroupAdmin(record.getId());
         }
-        if (presentGroup!=null && presentGroup.getId().intValue()!= record.getId() && !record.getIsDeleted()) {
+        if (presentGroup!=null && presentGroup.getId().intValue()!= record.getId() && !presentGroup.getIsDeleted()) {
             clearPresentGroup(record.getPartyId());
             rebuildPresentGroupAdmin(record.getId());
         }
