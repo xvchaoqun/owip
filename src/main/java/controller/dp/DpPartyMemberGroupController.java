@@ -7,6 +7,7 @@ import domain.dp.DpParty;
 import domain.dp.DpPartyMemberGroup;
 import domain.dp.DpPartyMemberGroupExample;
 import domain.dp.DpPartyMemberGroupExample.Criteria;
+import domain.party.PartyMemberGroup;
 import mixin.DpPartyMemberGroupOptionMiXin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -98,7 +99,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                                         Integer id,
                                         String name,
                                         Integer partyId,
-                                        Boolean isPresent,
+                                        Boolean isDeleted,
                                         String groupSession,
                                         @RequestDateRange DateRange _appointTime,
                                         @RequestDateRange DateRange _tranTime,
@@ -117,16 +118,13 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("is_present desc, sort_order desc, appoint_time desc");
+        example.setOrderByClause("sort_order desc, appoint_time desc");
         //=======权限
         criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
         criteria.andIsDeletedEqualTo(status == -1);
 
         if (id != null){
             criteria.andIdEqualTo(id);
-        }
-        if (null != isPresent){
-            criteria.andIsPresentEqualTo(isPresent);
         }
         if (StringUtils.isNotBlank(name)){
             criteria.andNameLike(SqlUtils.like(name));
@@ -154,6 +152,9 @@ public class DpPartyMemberGroupController extends DpBaseController {
         }
         if (StringUtils.isNotBlank(groupSession)){
             criteria.andGroupSessionEqualTo(groupSession);
+        }
+        if (isDeleted != null){
+            criteria.andIsDeletedEqualTo(isDeleted);
         }
         if (export == 1) {
             if(ids!=null && ids.length>0)
@@ -207,13 +208,23 @@ public class DpPartyMemberGroupController extends DpBaseController {
             record.setGroupSession(groupSession);
         }
 
-        record.setIsPresent((record.getIsPresent() == null) ? false : record.getIsPresent());
-
+        DpPartyMemberGroup presentGroup = dpPartyMemberGroupService.getPresentGroup(record.getPartyId());
         if (id == null) {
+
+            if (presentGroup != null) {
+                return failed("添加重复，已存在该领导班子");
+            }
             
             dpPartyMemberGroupService.insertSelective(record);
             logger.info(log( LogConstants.LOG_DPPARTY, "添加民主党派委员会：{0}", record.getId()));
         } else {
+
+            DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(id);
+            if (BooleanUtils.isNotTrue(dpPartyMemberGroup.getIsDeleted())
+                    && presentGroup != null && presentGroup.getId().intValue() != id) {
+                return failed("添加重复，已存在该领导班子");
+            }
+
             if (record.getFid() != null && record.getFid().intValue() == record.getId()){
                 return failed("不能选择自身为上一届委员会");
             }
@@ -270,18 +281,8 @@ public class DpPartyMemberGroupController extends DpBaseController {
                                  String actualTranTime){
 
         if (null != ids && ids.length>0){
-            DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            List<DpPartyMemberGroup> dpPartyMemberGroups = dpPartyMemberGroupMapper.selectByExample(example);
-            for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups){
-                dpPartyMemberGroup.setIsDeleted(true);
-                dpPartyMemberGroup.setIsPresent(false);
-                if (StringUtils.isNotBlank(actualTranTime)){
-                    dpPartyMemberGroup.setActualTranTime(DateUtils.parseDate(actualTranTime, DateUtils.YYYYMMDD_DOT));
-                }
-                dpPartyMemberGroupService.updateByPrimaryKeySelective(dpPartyMemberGroup);
-                logger.info(log( LogConstants.LOG_DPPARTY, "撤销委员会：{0}", dpPartyMemberGroup.getName()));
-            }
+            dpPartyMemberGroupService.cancel(ids, actualTranTime);
+            logger.info(log( LogConstants.LOG_DPPARTY, "撤销委员会：{0}", StringUtils.join(ids, ",")));
 
         }
 
@@ -363,7 +364,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
             String[] values = {
                             record.getName(),
                             partyId == null ? "" : (dpPartyService.findAll().get(partyId) == null ? "" : dpPartyService.findAll().get(partyId).getName()),
-                            BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
+                            BooleanUtils.isTrue(record.getIsDeleted()) ? "否" : "是",
                             record.getGroupSession(),
                             DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                             DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
@@ -380,7 +381,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
     @ResponseBody
     public Map dpPartyMemberGroup_selects(Integer partyId,Boolean auth,
                                           Boolean del,
-                                          Boolean isPresent,
+                                          Boolean isDeleted,
                                           Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -398,8 +399,8 @@ public class DpPartyMemberGroupController extends DpBaseController {
         if (del != null){
             criteria.andIsDeletedEqualTo(del);
         }
-        if (isPresent != null){
-            criteria.andIsPresentEqualTo(isPresent);
+        if (isDeleted != null){
+            criteria.andIsDeletedEqualTo(isDeleted);
         }
         if (null !=partyId){
             criteria.andPartyIdEqualTo(partyId);
@@ -436,7 +437,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                 option.put("id", record.getId() + "");
                 option.put("partyId", record.getPartyId());
                 option.put("del", record.getIsDeleted());
-                option.put("isPresent", record.getIsPresent());
+                option.put("isDeleted", record.getIsDeleted());
 
                 options.add(option);
             }
@@ -488,12 +489,12 @@ public class DpPartyMemberGroupController extends DpBaseController {
                 throw new OpException("第{0}行所属民主党派编码[{1}]不存在。", row, dpPartyCode);
             }
             record.setPartyId(dpParty.getId());
-            record.setIsPresent(StringUtils.contains(xlsRow.get(3),"是"));
+            record.setIsDeleted(!StringUtils.contains(xlsRow.get(3),"是"));
             String appointTime = StringUtils.trimToNull(xlsRow.get(4));
             record.setAppointTime(DateUtils.parseStringToDate(appointTime));
             String tranTime = StringUtils.trimToNull(xlsRow.get(5));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
-            if (record.getIsPresent()){
+            if (!record.getIsDeleted()){
                 String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
                 record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
             }

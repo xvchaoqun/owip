@@ -40,7 +40,7 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <c:if test="${!dpPartyMemberGroup.isPresent}">
+                <c:if test="${dpPartyMemberGroup.isDeleted}">
                     <span style="color: red;font-size: 12px">【注：当前委员会不是当届委员会，只有成为当届委员会后，设置的管理员才生效】</span>
                 </c:if>
                 <div class="space-4"></div>

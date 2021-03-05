@@ -2,6 +2,7 @@ package domain.dp;
 
 import domain.cadre.Cadre;
 import domain.sys.SysUserView;
+import service.dp.dpCommon.DpCommonService;
 import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
 
@@ -11,7 +12,8 @@ import java.util.Date;
 public class DpNpmView implements Serializable {
 
     public Cadre getCadre(){
-        return CmTag.getCadre(userId);
+        DpCommonService dpCommonService = CmTag.getBean(DpCommonService.class);
+        return dpCommonService.findOrCreateCadre(userId);
     }
 
     public SysUserView getUser(){

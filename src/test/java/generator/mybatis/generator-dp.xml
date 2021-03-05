@@ -37,15 +37,15 @@
         <!--<table tableName="dp_party_view" domainObjectName="dp.DpPartyView" mapperName="dp.DpPartyViewMapper">
 
         </table>-->
-        <!--<table tableName="dp_party_member_group" domainObjectName="dp.DpPartyMemberGroup" mapperName="dp.DpPartyMemberGroupMapper">
+       <!-- <table tableName="dp_party_member_group" domainObjectName="dp.DpPartyMemberGroup" mapperName="dp.DpPartyMemberGroupMapper">
 
         </table>-->
         <!--<table tableName="dp_party_member" domainObjectName="dp.DpPartyMember" mapperName="dp.DpPartyMemberMapper">
 
         </table>-->
-        <!--<table tableName="dp_party_member_view" domainObjectName="dp.DpPartyMemberView" mapperName="dp.DpPartyMemberViewMapper">
+        <table tableName="dp_party_member_view" domainObjectName="dp.DpPartyMemberView" mapperName="dp.DpPartyMemberViewMapper">
 
-        </table>-->
+        </table>
         <!--<table tableName="dp_member" domainObjectName="dp.DpMember" mapperName="dp.DpMemberMapper">
 
         </table>
@@ -59,12 +59,12 @@
         <table tableName="dp_npm_view" domainObjectName="dp.DpNpmView" mapperName="dp.DpNpmViewMapper">
 
         </table>-->
-        <table tableName="dp_npr" domainObjectName="dp.DpNpr" mapperName="dp.DpNprMapper">
+        <!--<table tableName="dp_npr" domainObjectName="dp.DpNpr" mapperName="dp.DpNprMapper">
 
         </table>
         <table tableName="dp_npr_view" domainObjectName="dp.DpNprView" mapperName="dp.DpNprViewMapper">
 
-        </table>
+        </table>-->
         <!--<table tableName="dp_om" domainObjectName="dp.DpOm" mapperName="dp.DpOmMapper">
 
         </table>

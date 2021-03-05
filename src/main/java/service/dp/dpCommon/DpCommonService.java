@@ -54,13 +54,15 @@ public class DpCommonService extends DpBaseMapper implements HttpResponseMethod 
         return (dpParties.size() > 0) ? dpParties.get(0) : null;
     }
 
-    public void findOrCreateCadre(int userId) {
+    public Cadre findOrCreateCadre(int userId) {
 
         Cadre cadre = CmTag.getCadre(userId);
         if (cadre == null) {
             CadreService cadreService = CmTag.getBean(CadreService.class);
-            cadreService.addTempCadre(userId);
+            cadre = cadreService.addTempCadre(userId);
         }
+
+        return cadre;
     }
 
     //更新统战成员角色

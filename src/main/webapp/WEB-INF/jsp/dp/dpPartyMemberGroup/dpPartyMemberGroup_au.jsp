@@ -95,16 +95,6 @@ pageEncoding="UTF-8"%>
 								  name="remark" rows="3">${dpPartyMemberGroup.remark}</textarea>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">是否现任班子</label>
-			<div class="col-xs-8">
-				<label>
-					<input name="isPresent" ${dpPartyMemberGroup.isPresent?"checked":""} type="checkbox"/>
-					<span class="lbl"></span>
-				</label>
-				<span class="help-block">注：每个民主党派必须设定一个“委员会”</span>
-			</div>
-		</div>
 	</form>
 </div>
 <div class="modal-footer">
@@ -130,7 +120,6 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

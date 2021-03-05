@@ -20,8 +20,6 @@ public class DpPartyMemberGroup implements Serializable {
 
     private String name;
 
-    private Boolean isPresent;
-
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date tranTime;
 
@@ -73,14 +71,6 @@ public class DpPartyMemberGroup implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Boolean getIsPresent() {
-        return isPresent;
-    }
-
-    public void setIsPresent(Boolean isPresent) {
-        this.isPresent = isPresent;
     }
 
     public Date getTranTime() {

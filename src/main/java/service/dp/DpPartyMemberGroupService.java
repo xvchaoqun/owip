@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import service.sys.SysRoleService;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
+import sys.utils.DateUtils;
 
 import java.util.*;
 
@@ -34,7 +35,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
 
         DpPartyMemberGroupExample _example = new DpPartyMemberGroupExample();
         _example.createCriteria().andPartyIdEqualTo(partyId)
-                .andIsPresentEqualTo(false)
+                .andIsDeletedEqualTo(true)
                 .andAppointTimeEqualTo(appointTime);
         List<DpPartyMemberGroup> dpPartyMemberGroups =
                 dpPartyMemberGroupMapper.selectByExampleWithRowbounds(_example, new RowBounds(0,1));
@@ -50,7 +51,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
         for (DpPartyMemberGroup record : records) {
 
             DpPartyMemberGroup _record = null;
-            if(record.getIsPresent()) {
+            if(!record.getIsDeleted()) {
                 _record = getPresentGroup(record.getPartyId());
             }else if(record.getAppointTime() != null){
 
@@ -65,7 +66,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
                 record.setId(_record.getId());
                 updateByPrimaryKeySelective(record);
 
-                if(record.getIsPresent()==false){
+                if(record.getIsDeleted()){
                     commonMapper.excuteSql("update dp_party_member_group " +
                             "set actual_tran_time=null where id="+_record.getId());
                 }
@@ -79,7 +80,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     public DpPartyMemberGroup getPresentGroup(int partyId){
 
         DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
-        example.createCriteria().andPartyIdEqualTo(partyId).andIsPresentEqualTo(true);
+        example.createCriteria().andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
         List<DpPartyMemberGroup> dpPartyMemberGroups = dpPartyMemberGroupMapper.selectByExample(example);
         int size = dpPartyMemberGroups.size();
         if(size>1){
@@ -111,7 +112,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
         Integer groupId = presentGroup.getId();
         DpPartyMemberGroup _record = new DpPartyMemberGroup();
         _record.setId(groupId);
-        _record.setIsPresent(false);
+        _record.setIsDeleted(true);
         dpPartyMemberGroupMapper.updateByPrimaryKeySelective(_record);
 
         for (DpPartyMember dpPartyMember : getGroupAdmins(groupId)) {
@@ -160,11 +161,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     @Transactional
     public int insertSelective(DpPartyMemberGroup record){
 
-        if (record.getIsPresent()){
-            clearPresentGroup(record.getPartyId());
-        }
         record.setIsDeleted(false);
-        //Assert.isTrue(!idDuplicate(null,String.valueOf(record.getId())), "duplicate");
         record.setSortOrder(getNextSortOrder("dp_party_member_group", null));
         return dpPartyMemberGroupMapper.insertSelective(record);
     }
@@ -181,7 +178,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
         if(ids==null || ids.length==0) return;
         for (Integer id : ids){
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(id);
-            if (dpPartyMemberGroup.getIsPresent()){
+            if (!dpPartyMemberGroup.getIsDeleted()){
                 clearPresentGroup(dpPartyMemberGroup.getPartyId());
             }
 
@@ -224,13 +221,13 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(DpPartyMemberGroup record){
         DpPartyMemberGroup presentGroup = getPresentGroup(record.getPartyId());
-        if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && !record.getIsPresent())){
+        if(presentGroup==null || (presentGroup.getId().intValue()== record.getId() && record.getIsDeleted())){
             clearPresentGroup(record.getPartyId());
         }
-        if(presentGroup==null && record.getIsPresent()){
+        if(presentGroup==null && !record.getIsDeleted()){
             rebuildPresentGroupAdmin(record.getId());
         }
-        if (presentGroup!=null && presentGroup.getId().intValue()!= record.getId() && record.getIsPresent()) {
+        if (presentGroup!=null && presentGroup.getId().intValue()!= record.getId() && !record.getIsDeleted()) {
             clearPresentGroup(record.getPartyId());
             rebuildPresentGroupAdmin(record.getId());
         }
@@ -264,5 +261,21 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
 
         changeOrder("dp_party_member_group", null, ORDER_BY_DESC, id, addNum);
 
+    }
+
+    @Transactional
+    public void cancel(Integer[] ids, String actualTranTime) {
+
+        DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<DpPartyMemberGroup> dpPartyMemberGroups = dpPartyMemberGroupMapper.selectByExample(example);
+        for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups){
+            dpPartyMemberGroup.setIsDeleted(true);
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(actualTranTime)){
+                dpPartyMemberGroup.setActualTranTime(DateUtils.parseDate(actualTranTime, DateUtils.YYYYMMDD_DOT));
+            }
+            updateByPrimaryKeySelective(dpPartyMemberGroup);
+
+        }
     }
 }

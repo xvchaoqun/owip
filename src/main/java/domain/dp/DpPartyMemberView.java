@@ -41,8 +41,6 @@ public class DpPartyMemberView implements Serializable {
 
     private Integer groupPartyId;
 
-    private Boolean isPresent;
-
     private Boolean isDeleted;
 
     private Boolean isDpPartyDeleted;
@@ -155,14 +153,6 @@ public class DpPartyMemberView implements Serializable {
 
     public void setGroupPartyId(Integer groupPartyId) {
         this.groupPartyId = groupPartyId;
-    }
-
-    public Boolean getIsPresent() {
-        return isPresent;
-    }
-
-    public void setIsPresent(Boolean isPresent) {
-        this.isPresent = isPresent;
     }
 
     public Boolean getIsDeleted() {

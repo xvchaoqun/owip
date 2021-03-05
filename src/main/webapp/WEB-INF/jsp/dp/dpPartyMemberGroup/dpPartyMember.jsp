@@ -6,7 +6,7 @@
 
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/dp/dpPartyMemberGroup?status=${status}"
-             data-url-export="${ctx}/dp/dpPartyMember_data?isDeleted=0&isPresent=1"
+             data-url-export="${ctx}/dp/dpPartyMember_data?isDeleted=0"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unit ||not empty param.groupPartyId
                 ||not empty param.postId || not empty param.typeIds ||not empty param.deleteTime}"/>
@@ -108,7 +108,7 @@
         $("#jqGrid").trigger("reloadGrid");
     }
     $("#jqGrid").jqGrid({
-        url: '${ctx}dp/dpPartyMember_data?callback=?&isDeleted=0&isPresent=1&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}dp/dpPartyMember_data?callback=?&isDeleted=0&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:[
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {

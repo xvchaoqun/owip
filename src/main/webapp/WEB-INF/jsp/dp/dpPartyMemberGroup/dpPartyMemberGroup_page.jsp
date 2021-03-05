@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.id ||not empty param.partyId || not empty param.code || not empty param.sort
-            ||not empty param._appointTime ||not empty param._tranTime ||not empty param._actualTranTime ||not empty param.isPresent}"/>
+            ||not empty param._appointTime ||not empty param._tranTime ||not empty param._actualTranTime ||not empty param.isDeleted}"/>
            <div class="tabbable">
                <jsp:include page="menu.jsp"/>
                <div class="tab-content">
@@ -140,18 +140,6 @@ pageEncoding="UTF-8" %>
                                 </div>
                             </div>
                             </c:if>
-                            <div class="form-group">
-                                <label>是否现任委员会</label>
-                                <select name="isPresent" data-width="80"
-                                        data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <option value="1">是</option>
-                                    <option value="0">否</option>
-                                </select>
-                                <script>
-                                    $("#searchForm select[name=isPresent]").val('${param.isPresent}');
-                                </script>
-                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/dp/dpPartyMemberGroup?status=${status}"
@@ -187,8 +175,8 @@ pageEncoding="UTF-8" %>
                 align: 'left',
                 width: 300,
                 formatter: function (cellvalue, options, rowObject) {
-                    var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 当届委员会</span>&nbsp;';
-                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                    var str = '<i class="fa fa-flag red" title="现任委员会"></i>';
+                    return (!rowObject.isDeleted) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
                 },
@@ -202,7 +190,7 @@ pageEncoding="UTF-8" %>
                 },
                 {
                 label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.isPresent)
+                    if (!rowObject.isDeleted)
                         return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
                             'data-url="${ctx}/dp/dpPartyMember_data?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
                             .format(rowObject.id);
@@ -228,21 +216,21 @@ pageEncoding="UTF-8" %>
             {label: '委员会届数', name: 'groupSession', width: 100},
             {label: '成立时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
+                hidden: true, name: 'isDeleted', formatter: function (cellvalue, options, rowObject) {
+                    return (!rowObject.isDeleted) ? 1 : 0;
                 }
             },
             {label: '应换届时间', name: 'tranTime', width: 130,
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    if (rowObject.isPresent &&
+                    if (!rowObject.isDeleted &&
                         rowObject.tranTime <= $.date(new Date(), 'yyyy.MM.dd'))
                         return "class='danger'";
                 }
             },
             <c:if test="${status==-1}">
             {
-                label: '撤销时间',
+                label: '实际换届时间',
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,

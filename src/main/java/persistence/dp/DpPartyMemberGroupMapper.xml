@@ -6,7 +6,6 @@
     <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="is_present" jdbcType="BIT" property="isPresent" />
     <result column="tran_time" jdbcType="DATE" property="tranTime" />
     <result column="actual_tran_time" jdbcType="DATE" property="actualTranTime" />
     <result column="appoint_time" jdbcType="DATE" property="appointTime" />
@@ -75,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, party_id, name, is_present, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
+    id, fid, party_id, name, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
     sort_order, is_deleted, group_session, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPartyMemberGroupExample" resultMap="BaseResultMap">
@@ -110,15 +109,15 @@
   </delete>
   <insert id="insert" parameterType="domain.dp.DpPartyMemberGroup">
     insert into dp_party_member_group (id, fid, party_id, 
-      name, is_present, tran_time, 
-      actual_tran_time, appoint_time, dispatch_unit_id, 
-      sort_order, is_deleted, group_session, 
-      remark)
+      name, tran_time, actual_tran_time, 
+      appoint_time, dispatch_unit_id, sort_order, 
+      is_deleted, group_session, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{isPresent,jdbcType=BIT}, #{tranTime,jdbcType=DATE}, 
-      #{actualTranTime,jdbcType=DATE}, #{appointTime,jdbcType=DATE}, #{dispatchUnitId,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{groupSession,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{tranTime,jdbcType=DATE}, #{actualTranTime,jdbcType=DATE}, 
+      #{appointTime,jdbcType=DATE}, #{dispatchUnitId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=BIT}, #{groupSession,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpPartyMemberGroup">
     insert into dp_party_member_group
@@ -134,9 +133,6 @@
       </if>
       <if test="name != null">
         name,
-      </if>
-      <if test="isPresent != null">
-        is_present,
       </if>
       <if test="tranTime != null">
         tran_time,
@@ -175,9 +171,6 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="isPresent != null">
-        #{isPresent,jdbcType=BIT},
       </if>
       <if test="tranTime != null">
         #{tranTime,jdbcType=DATE},
@@ -226,9 +219,6 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.isPresent != null">
-        is_present = #{record.isPresent,jdbcType=BIT},
-      </if>
       <if test="record.tranTime != null">
         tran_time = #{record.tranTime,jdbcType=DATE},
       </if>
@@ -264,7 +254,6 @@
       fid = #{record.fid,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      is_present = #{record.isPresent,jdbcType=BIT},
       tran_time = #{record.tranTime,jdbcType=DATE},
       actual_tran_time = #{record.actualTranTime,jdbcType=DATE},
       appoint_time = #{record.appointTime,jdbcType=DATE},
@@ -288,9 +277,6 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="isPresent != null">
-        is_present = #{isPresent,jdbcType=BIT},
       </if>
       <if test="tranTime != null">
         tran_time = #{tranTime,jdbcType=DATE},
@@ -324,7 +310,6 @@
     set fid = #{fid,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      is_present = #{isPresent,jdbcType=BIT},
       tran_time = #{tranTime,jdbcType=DATE},
       actual_tran_time = #{actualTranTime,jdbcType=DATE},
       appoint_time = #{appointTime,jdbcType=DATE},

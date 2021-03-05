@@ -131,7 +131,6 @@ CREATE TABLE IF NOT EXISTS `dp_party_member_group` (
   `fid` int(10) unsigned DEFAULT NULL COMMENT '上一届委员会',
   `party_id` int(10) unsigned NOT NULL COMMENT '所属民主党派',
   `name` varchar(100) NOT NULL COMMENT '名称',
-  `is_present` tinyint(1) unsigned NOT NULL COMMENT '是否现任委员会',
   `tran_time` date DEFAULT NULL COMMENT '应换届时间',
   `actual_tran_time` date DEFAULT NULL COMMENT '实际换届时间',
   `appoint_time` date DEFAULT NULL COMMENT '成立时间，本届委员会成立时间',
