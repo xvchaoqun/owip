@@ -81,17 +81,20 @@ public class UserPmdMemberController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:setSalary")
     @RequestMapping("/pmdMember_setSalary")
     public String pmdMember_setSalary(Integer pmdMemberId,
+                                      Integer userId,
                                       @RequestParam(required = false, defaultValue = "1")Boolean isSelf,
                                       ModelMap modelMap) {
 
-        int userId;
-        if(isSelf) {
-            ShiroHelper.checkPermission("userPmdMember:setSalary");
-            userId = ShiroHelper.getCurrentUserId();
-        }else {
-            userId = checkPayAuth(pmdMemberId, isSelf);
+        if(userId ==null) {
+            if(isSelf) {
+                ShiroHelper.checkPermission("userPmdMember:setSalary");
+                userId = ShiroHelper.getCurrentUserId();
+            }else {
+                userId = checkPayAuth(pmdMemberId, isSelf);
+            }
         }
 
+        modelMap.put("pmdMemberId", pmdMemberId);
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
         modelMap.put("pmdConfigMember", pmdConfigMember);
 
@@ -139,11 +142,12 @@ public class UserPmdMemberController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:setSalary")
     @RequestMapping(value = "/pmdMember_setSalary", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setSalary(Integer pmdMemberId, PmdConfigMember record,
+    public Map do_pmdMember_setSalary(Integer pmdMemberId,Integer userId, PmdConfigMember record,
                                       @RequestParam(required = false, defaultValue = "1")Boolean isSelf,
                                       HttpServletRequest request) {
-
-        int userId = checkPayAuth(pmdMemberId, isSelf);
+        if(userId==null){
+            userId = checkPayAuth(pmdMemberId, isSelf);
+        }
         record.setUserId(userId);
         pmdConfigMemberService.setSalary(record, isSelf, request);
         return success(FormUtils.SUCCESS);
@@ -152,9 +156,12 @@ public class UserPmdMemberController extends PmdBaseController {
     // 同步最新月份的离退休人员党费计算基数
     @RequestMapping("/pmdMember_syncRetireSalary")
     @ResponseBody
-    public Map pmdMember_syncRetireSalary(int pmdMemberId) {
+    public Map pmdMember_syncRetireSalary(Integer pmdMemberId,Integer userId) {
 
-        int userId = checkPayAuth(pmdMemberId, false);
+        if(pmdMemberId !=null ){
+            userId = checkPayAuth(pmdMemberId, false);
+        }
+        
         SysUserView uv = sysUserService.findById(userId);
 
         extRetireSalaryImport.byCode(uv.getCode());
@@ -180,9 +187,11 @@ public class UserPmdMemberController extends PmdBaseController {
 
     @RequestMapping(value = "/pmdMember_setRetireBase", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setRetireBase(int pmdMemberId, BigDecimal retireSalary, HttpServletRequest request) {
+    public Map do_pmdMember_setRetireBase(Integer pmdMemberId,Integer userId, BigDecimal retireSalary, HttpServletRequest request) {
 
-        int userId = checkPayAuth(pmdMemberId, false);
+        if(pmdMemberId !=null ){
+            userId = checkPayAuth(pmdMemberId, false);
+        }
 
         pmdConfigMemberService.setRetireBase(userId, retireSalary);
         return success(FormUtils.SUCCESS);

@@ -44,9 +44,15 @@
 <div class="modal-footer">
 
     <div id="submitTip">支付完成前，请不要关闭此支付验证窗口。支付完成后，请点击“查看支付结果”更新支付状态。</div>
-    <button id="submitBtn" type="button"
-            data-loading-text="支付中，已跳转至支付页面"
-            class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
+    <c:if test="${empty pmdMember.payTip}">
+        <button id="submitBtn" type="button"
+                data-loading-text="支付中，已跳转至支付页面"
+                class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
+    </c:if>
+    <c:if test="${not empty pmdMember.payTip}">
+        ${pmdMember.payTip}
+    </c:if>
+
     <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="查看支付结果">
         <c:if test="${_p_payTest}">
     <a id="testCallback" target="_blank">test成功</a>

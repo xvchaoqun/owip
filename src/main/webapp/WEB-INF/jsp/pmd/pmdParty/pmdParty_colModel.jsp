@@ -3,7 +3,13 @@
 <script>
   var colModel = [
     {label: '月份', name: 'payMonth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y年m月'}, frozen: true},
-    { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
+      <c:if test="${pmdMonth.payStatus}">
+      {label: '缴费状态', name: 'payStatus', width:80, formatter: function (cellvalue, options, rowObject) {
+              return cellvalue?'<span class="text-success">已开启</span>':'<span class="text-danger">未开启</span>';
+          }, frozen: true
+      },
+      </c:if>
+      { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
 
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
       <shiro:lacksPermission name="pmdParty:report">

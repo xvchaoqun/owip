@@ -76,6 +76,10 @@ public class PmdMonth implements Serializable {
 
     private Byte status;
 
+    private Boolean payStatus;
+
+    private String payTip;
+
     private Integer createUserId;
 
     private Date createTime;
@@ -272,6 +276,22 @@ public class PmdMonth implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(Boolean payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public String getPayTip() {
+        return payTip;
+    }
+
+    public void setPayTip(String payTip) {
+        this.payTip = payTip == null ? null : payTip.trim();
     }
 
     public Integer getCreateUserId() {

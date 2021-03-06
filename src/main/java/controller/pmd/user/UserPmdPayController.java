@@ -147,8 +147,10 @@ public class UserPmdPayController extends PmdBaseController {
             }
             duePay = duePay.add(_duePay);
         }
+
         modelMap.put("ids", ids);
         modelMap.put("duePay", duePay);
+        modelMap.put("pmdMember", checkPayAuth(ids[0], false));
 
         return "pmd/user/payConfirm_batch";
     }

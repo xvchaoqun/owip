@@ -305,7 +305,27 @@ public class PmdMonthController extends PmdBaseController {
 
         return "pmd/pmdMonth/pmdMonth_end";
     }
+    // 缴费状态
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping(value = "/pmdMonth_payStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMonth_payStatus(PmdMonth pmdMonth,Boolean payStatus,HttpServletRequest request) {
+        pmdMonth.setPayStatus(BooleanUtils.isTrue(payStatus));
+        pmdMonthService.updateByPrimaryKeySelective(pmdMonth);
+        return success(FormUtils.SUCCESS);
+    }
 
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping("/pmdMonth_payStatus")
+    public String pmdMonth_payStatus(Integer monthId, ModelMap modelMap) {
+
+        if (monthId != null) {
+            PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
+            modelMap.put("pmdMonth", pmdMonth);
+        }
+
+        return "pmd/pmdMonth/pmdMonth_payStatus";
+    }
     /*@RequiresPermissions("pmdMonth:del")
     @RequestMapping(value = "/pmdMonth_del", method = RequestMethod.POST)
     @ResponseBody

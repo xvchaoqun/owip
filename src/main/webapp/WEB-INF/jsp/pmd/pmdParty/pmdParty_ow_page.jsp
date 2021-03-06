@@ -29,6 +29,12 @@
                             <i class="fa fa-hourglass-1"></i> 批量延迟缴费
                         </button>
                     </shiro:hasPermission>--%>
+                        <c:if test="${pmdMonth.payStatus}">
+                            <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                    data-url="${ctx}/pmd/pmdParty_payStatus"
+                                    data-callback="_reload2"
+                                    data-grid-id="#jqGrid2"><i class="fa fa-toggle-off"></i> 缴费开关</button>
+                        </c:if>
                     <shiro:hasPermission name="pmdParty:report">
                         <button id="unreportBtn" data-url="${ctx}/pmd/pmdParty_unreport"
                                 data-grid-id="#jqGrid2"

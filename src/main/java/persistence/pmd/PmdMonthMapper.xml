@@ -26,6 +26,8 @@
     <result column="online_real_delay_pay" jdbcType="DECIMAL" property="onlineRealDelayPay" />
     <result column="cash_real_delay_pay" jdbcType="DECIMAL" property="cashRealDelayPay" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="pay_status" jdbcType="BIT" property="payStatus" />
+    <result column="pay_tip" jdbcType="VARCHAR" property="payTip" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -92,7 +94,7 @@
     history_delay_pay, has_report_count, member_count, due_pay, finish_member_count, 
     online_finish_member_count, real_pay, online_real_pay, cash_real_pay, delay_pay, 
     delay_member_count, real_delay_member_count, real_delay_pay, online_real_delay_pay, 
-    cash_real_delay_pay, status, create_user_id, create_time
+    cash_real_delay_pay, status, pay_status, pay_tip, create_user_id, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMonthExample" resultMap="BaseResultMap">
     select
@@ -133,8 +135,8 @@
       real_pay, online_real_pay, cash_real_pay, 
       delay_pay, delay_member_count, real_delay_member_count, 
       real_delay_pay, online_real_delay_pay, cash_real_delay_pay, 
-      status, create_user_id, create_time
-      )
+      status, pay_status, pay_tip, 
+      create_user_id, create_time)
     values (#{id,jdbcType=INTEGER}, #{payMonth,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, 
       #{startUserId,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, #{endUserId,jdbcType=INTEGER}, 
       #{partyCount,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, #{historyDelayPay,jdbcType=DECIMAL}, 
@@ -143,8 +145,8 @@
       #{realPay,jdbcType=DECIMAL}, #{onlineRealPay,jdbcType=DECIMAL}, #{cashRealPay,jdbcType=DECIMAL}, 
       #{delayPay,jdbcType=DECIMAL}, #{delayMemberCount,jdbcType=INTEGER}, #{realDelayMemberCount,jdbcType=INTEGER}, 
       #{realDelayPay,jdbcType=DECIMAL}, #{onlineRealDelayPay,jdbcType=DECIMAL}, #{cashRealDelayPay,jdbcType=DECIMAL}, 
-      #{status,jdbcType=TINYINT}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{status,jdbcType=TINYINT}, #{payStatus,jdbcType=BIT}, #{payTip,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdMonth">
     insert into pmd_month
@@ -220,6 +222,12 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="payTip != null">
+        pay_tip,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -300,6 +308,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=BIT},
+      </if>
+      <if test="payTip != null">
+        #{payTip,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -390,6 +404,12 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.payStatus != null">
+        pay_status = #{record.payStatus,jdbcType=BIT},
+      </if>
+      <if test="record.payTip != null">
+        pay_tip = #{record.payTip,jdbcType=VARCHAR},
+      </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -427,6 +447,8 @@
       online_real_delay_pay = #{record.onlineRealDelayPay,jdbcType=DECIMAL},
       cash_real_delay_pay = #{record.cashRealDelayPay,jdbcType=DECIMAL},
       status = #{record.status,jdbcType=TINYINT},
+      pay_status = #{record.payStatus,jdbcType=BIT},
+      pay_tip = #{record.payTip,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -505,6 +527,12 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=BIT},
+      </if>
+      <if test="payTip != null">
+        pay_tip = #{payTip,jdbcType=VARCHAR},
+      </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
@@ -539,6 +567,8 @@
       online_real_delay_pay = #{onlineRealDelayPay,jdbcType=DECIMAL},
       cash_real_delay_pay = #{cashRealDelayPay,jdbcType=DECIMAL},
       status = #{status,jdbcType=TINYINT},
+      pay_status = #{payStatus,jdbcType=BIT},
+      pay_tip = #{payTip,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

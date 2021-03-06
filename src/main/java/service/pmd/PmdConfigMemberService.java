@@ -141,7 +141,11 @@ public class PmdConfigMemberService extends PmdBaseMapper {
         record.setSalary(pmdExtService.formSalaryToJSON(request));
 
         pmdConfigMemberMapper.updateByPrimaryKeySelective(record);
-
+        sysApprovalLogService.add(userId, userId,
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_USER,
+                "更新缴费额度", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                "更新后缴费额度："+duePay);
         // 更新当前缴费月份数据（未缴费前）
         updatePmdMemberDuePay(userId, duePay, "修改党费计算工资");
 

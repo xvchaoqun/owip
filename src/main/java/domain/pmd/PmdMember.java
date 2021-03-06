@@ -1,8 +1,11 @@
 package domain.pmd;
 
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import persistence.pmd.PmdConfigMemberMapper;
 import service.pmd.PmdMemberPayService;
+import service.pmd.PmdMonthService;
+import service.pmd.PmdPartyService;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,6 +13,31 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PmdMember implements Serializable {
+
+    public String getPayTip() {
+        return PmdMember.getCommonPayTip(monthId, partyId);
+    }
+
+    public static String getCommonPayTip(int monthId, Integer partyId) {
+
+        String defaultTip = "缴费未开启";
+        PmdMonthService pmdMonthService = CmTag.getBean(PmdMonthService.class);
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth!=null){
+
+            if(currentPmdMonth.getPayStatus()){
+                PmdPartyService pmdPartyService = CmTag.getBean(PmdPartyService.class);
+                PmdParty pmdParty =  pmdPartyService.get(monthId,partyId);
+                if(!pmdParty.getPayStatus()){
+                    return StringUtils.defaultIfBlank(pmdParty.getPayTip(), defaultTip);
+                }
+            }else{
+                return StringUtils.defaultIfBlank(currentPmdMonth.getPayTip(), defaultTip);
+            }
+        }
+
+        return null;
+    }
 
     public SysUserView getUser() {
 

@@ -542,19 +542,30 @@ public class PmdMemberController extends PmdBaseController {
     @RequiresPermissions("pmdMember:selectMemberType")
     @RequestMapping("/pmdMember_selectMemberType")
     public String pmdMember_selectMemberType(Integer[] ids,
+                                             Boolean isUser,// isUser=0  ids代表pmdMember的id ，isUser=1 ids代表pmdConfigMemberView的userId
                                              byte configMemberType,
                                              ModelMap modelMap) {
 
         if (ids.length == 1) {
-            PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
-            modelMap.put("pmdMember", pmdMember);
-            Integer configMemberTypeId = pmdMember.getConfigMemberTypeId();
+            Integer configMemberTypeId =null;
+            if(BooleanUtils.isTrue(isUser)){
+                PmdConfigMemberViewExample example = new PmdConfigMemberViewExample();
+                example.createCriteria().andUserIdEqualTo(ids[0]);
+                List<PmdConfigMemberView> pmdConfigMemberView = pmdConfigMemberViewMapper.selectByExample(example);
+                configMemberTypeId = pmdConfigMemberView.get(0).getConfigMemberTypeId();
+                modelMap.put("record", pmdConfigMemberView.get(0));
+            }else{
+                PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
+                configMemberTypeId = pmdMember.getConfigMemberTypeId();
+                modelMap.put("record", pmdMember);
+                PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(pmdMember.getUserId());
+                modelMap.put("pmdConfigMember", pmdConfigMember);
+            }
+
             if (configMemberTypeId != null) {
                 PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
                 modelMap.put("pmdConfigMemberType", pmdConfigMemberType);
             }
-            PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(pmdMember.getUserId());
-            modelMap.put("pmdConfigMember", pmdConfigMember);
         }
 
         modelMap.put("configMemberType", configMemberType);
@@ -567,13 +578,14 @@ public class PmdMemberController extends PmdBaseController {
     @RequestMapping(value = "/pmdMember_selectMemberType", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_selectMemberType(Integer[] ids,
+                                             Boolean isUser,
                                              Boolean hasSalary, // 学生党员必须设置
                                              byte configMemberType,
                                              int configMemberTypeId,
                                              BigDecimal amount, String remark) {
 
 
-        pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
+        pmdMemberService.selectMemberType(ids, isUser, hasSalary, configMemberType, configMemberTypeId, amount, remark);
 
         logger.info(addLog(LogConstants.LOG_PMD, "修改党员分类别-%s-%s",
                 StringUtils.join(ids, ","), configMemberTypeId));

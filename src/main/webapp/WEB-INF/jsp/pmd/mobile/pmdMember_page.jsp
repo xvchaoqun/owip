@@ -35,7 +35,7 @@
                                                     <c:if test="${!record.hasPay}">--</c:if>
                                                 </c:if>
                                                 <c:if test="${record.payStatus!=0}">
-                                                <button class="payBtn btn btn-success btn-xs" data-id="${record.id}">
+                                                    <button class="payBtn btn btn-success btn-xs" data-id="${record.id}" data-tip="${record.payTip}">
                                                     <i class="fa fa-rmb"></i> ${record.payStatus==1?'缴费':'补缴'}</button>
                                                 </c:if>
                                             </td>
@@ -95,21 +95,27 @@
 <script>
     $(".payBtn").click(function () {
         var $this = $(this);
-        $.ajax({
-            type : "post",
-            url : "${ctx}/m/pmd/payConfirm",
-            data:{id:$this.data("id"), isSelfPay:1, isMobile:1},
-            async : false, // 同步方法
-            dataType:"json",
-            success : function(data){
-                if(data.success){
+        /*console.log($this.data("tip"));*/
+        if(!$.isBlank($this.data("tip"))){ //判断是否存在缴费未开启提示
+            alert($this.data("tip"))
+            return;
+        }else{
+            $.ajax({
+                type : "post",
+                url : "${ctx}/m/pmd/payConfirm",
+                data:{id:$this.data("id"), isSelfPay:1, isMobile:1},
+                async : false, // 同步方法
+                dataType:"json",
+                success : function(data){
+                    if(data.success){
 
-                    //console.log(data.order)
+                        //console.log(data.order)
 
-                    $("#payFormDiv").html(_.template($("#payFormTpl").html())({order: data.order, formMap:data.formMap}));
-                    $("#payFormDiv form").submit();
+                        $("#payFormDiv").html(_.template($("#payFormTpl").html())({order: data.order, formMap:data.formMap}));
+                        $("#payFormDiv form").submit();
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 </script>

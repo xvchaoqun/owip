@@ -503,6 +503,136 @@ public class PmdPartyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayStatusIsNull() {
+            addCriterion("pay_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIsNotNull() {
+            addCriterion("pay_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusEqualTo(Boolean value) {
+            addCriterion("pay_status =", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotEqualTo(Boolean value) {
+            addCriterion("pay_status <>", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThan(Boolean value) {
+            addCriterion("pay_status >", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("pay_status >=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThan(Boolean value) {
+            addCriterion("pay_status <", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThanOrEqualTo(Boolean value) {
+            addCriterion("pay_status <=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIn(List<Boolean> values) {
+            addCriterion("pay_status in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotIn(List<Boolean> values) {
+            addCriterion("pay_status not in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusBetween(Boolean value1, Boolean value2) {
+            addCriterion("pay_status between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("pay_status not between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipIsNull() {
+            addCriterion("pay_tip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipIsNotNull() {
+            addCriterion("pay_tip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipEqualTo(String value) {
+            addCriterion("pay_tip =", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotEqualTo(String value) {
+            addCriterion("pay_tip <>", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipGreaterThan(String value) {
+            addCriterion("pay_tip >", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_tip >=", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipLessThan(String value) {
+            addCriterion("pay_tip <", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipLessThanOrEqualTo(String value) {
+            addCriterion("pay_tip <=", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipLike(String value) {
+            addCriterion("pay_tip like", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotLike(String value) {
+            addCriterion("pay_tip not like", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipIn(List<String> values) {
+            addCriterion("pay_tip in", values, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotIn(List<String> values) {
+            addCriterion("pay_tip not in", values, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipBetween(String value1, String value2) {
+            addCriterion("pay_tip between", value1, value2, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotBetween(String value1, String value2) {
+            addCriterion("pay_tip not between", value1, value2, "payTip");
+            return (Criteria) this;
+        }
+
         public Criteria andHasReportIsNull() {
             addCriterion("has_report is null");
             return (Criteria) this;
@@ -1890,6 +2020,136 @@ public class PmdPartyViewExample {
 
         public Criteria andMonthStatusNotBetween(Byte value1, Byte value2) {
             addCriterion("month_status not between", value1, value2, "monthStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusIsNull() {
+            addCriterion("month_pay_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusIsNotNull() {
+            addCriterion("month_pay_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusEqualTo(Boolean value) {
+            addCriterion("month_pay_status =", value, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusNotEqualTo(Boolean value) {
+            addCriterion("month_pay_status <>", value, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusGreaterThan(Boolean value) {
+            addCriterion("month_pay_status >", value, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("month_pay_status >=", value, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusLessThan(Boolean value) {
+            addCriterion("month_pay_status <", value, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusLessThanOrEqualTo(Boolean value) {
+            addCriterion("month_pay_status <=", value, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusIn(List<Boolean> values) {
+            addCriterion("month_pay_status in", values, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusNotIn(List<Boolean> values) {
+            addCriterion("month_pay_status not in", values, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusBetween(Boolean value1, Boolean value2) {
+            addCriterion("month_pay_status between", value1, value2, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayStatusNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("month_pay_status not between", value1, value2, "monthPayStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipIsNull() {
+            addCriterion("month_pay_tip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipIsNotNull() {
+            addCriterion("month_pay_tip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipEqualTo(String value) {
+            addCriterion("month_pay_tip =", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipNotEqualTo(String value) {
+            addCriterion("month_pay_tip <>", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipGreaterThan(String value) {
+            addCriterion("month_pay_tip >", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipGreaterThanOrEqualTo(String value) {
+            addCriterion("month_pay_tip >=", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipLessThan(String value) {
+            addCriterion("month_pay_tip <", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipLessThanOrEqualTo(String value) {
+            addCriterion("month_pay_tip <=", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipLike(String value) {
+            addCriterion("month_pay_tip like", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipNotLike(String value) {
+            addCriterion("month_pay_tip not like", value, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipIn(List<String> values) {
+            addCriterion("month_pay_tip in", values, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipNotIn(List<String> values) {
+            addCriterion("month_pay_tip not in", values, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipBetween(String value1, String value2) {
+            addCriterion("month_pay_tip between", value1, value2, "monthPayTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthPayTipNotBetween(String value1, String value2) {
+            addCriterion("month_pay_tip not between", value1, value2, "monthPayTip");
             return (Criteria) this;
         }
     }

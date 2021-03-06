@@ -17,6 +17,10 @@ public class PmdParty implements Serializable {
 
     private Integer sortOrder;
 
+    private Boolean payStatus;
+
+    private String payTip;
+
     private Boolean hasReport;
 
     private Integer branchCount;
@@ -107,6 +111,22 @@ public class PmdParty implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Boolean getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(Boolean payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public String getPayTip() {
+        return payTip;
+    }
+
+    public void setPayTip(String payTip) {
+        this.payTip = payTip == null ? null : payTip.trim();
     }
 
     public Boolean getHasReport() {

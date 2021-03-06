@@ -41,12 +41,15 @@ public class PmdPartyController extends PmdBaseController {
 
     @RequiresPermissions("pmdParty:list")
     @RequestMapping("/pmdParty")
-    public String pmdParty(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
+    public String pmdParty(@RequestParam(required = false, defaultValue = "1") Byte cls, Integer monthId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
         if(cls==2) {
             // 组织部管理员访问分党委列表
+            if(monthId!=null){
+                modelMap.put("pmdMonth",pmdMonthMapper.selectByPrimaryKey(monthId));
+            }
             return "pmd/pmdParty/pmdParty_ow_page";
         }
 
@@ -264,7 +267,28 @@ public class PmdPartyController extends PmdBaseController {
         
         return success(FormUtils.SUCCESS);
     }
+    // 缴费状态
+    /*    @RequiresPermissions("pmdParty:edit")*/
+    @RequestMapping(value = "/pmdParty_payStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdParty_payStatus(Integer[] ids,Boolean payStatus,String payTip,HttpServletRequest request) {
 
+        pmdPartyService.updatePayStatus(ids,payStatus,payTip);
+        /* example.createCriteria().andIdIn(Arrays.asList(ids));*/
+        return success(FormUtils.SUCCESS);
+    }
+
+    /*    @RequiresPermissions("pmdParty:edit")*/
+    @RequestMapping("/pmdParty_payStatus")
+    public String pmdMonth_payStatus(Integer[] ids, ModelMap modelMap) {
+
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(ids[0]);
+        modelMap.put("pmdParty", pmdParty);
+
+
+        return "pmd/pmdParty/pmdParty_payStatus";
+    }
     /*@RequiresPermissions("pmdParty:edit")
     @RequestMapping(value = "/pmdParty_au", method = RequestMethod.POST)
     @ResponseBody

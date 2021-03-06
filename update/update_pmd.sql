@@ -1,4 +1,22 @@
--- 20210.01.11 sxx
+
+-- 2021.03.06 sxx
+
+--更新 pmd_config_member_view
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2796, 0, '党费核算管理', '组织部党费收缴管理员、分党委党费收缴管理员、支部党费收缴管理员', 'url', '', '/pmd/pmdConfigDuePay', 564, '0/1/564/', 1, 'pmdConfigDuePay:*', NULL, NULL, NULL, 1, 1300);
+
+ALTER TABLE `pmd_month`
+	ADD COLUMN `pay_status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '缴费开关状态 0 未开启  1 已开启' AFTER `status`,
+	ADD COLUMN `pay_info` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+ALTER TABLE `pmd_party`
+	ADD COLUMN `pay_status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费开关状态 0 未开启  1 已开启' AFTER `sort_order`,
+	ADD COLUMN `pay_info` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+ALTER TABLE `pmd_month`
+	CHANGE COLUMN `pay_info` `pay_tip` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+ALTER TABLE `pmd_party`
+	CHANGE COLUMN `pay_info` `pay_tip` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+--更新 pmd_party_view
+
+-- 2021.01.11 sxx
 drop table if exists pmd_fee;
 CREATE TABLE `pmd_fee` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',

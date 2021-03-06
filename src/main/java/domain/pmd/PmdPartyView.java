@@ -43,6 +43,10 @@ public class PmdPartyView implements Serializable {
 
     private Integer sortOrder;
 
+    private Boolean payStatus;
+
+    private String payTip;
+
     private Boolean hasReport;
 
     private Integer branchCount;
@@ -88,6 +92,10 @@ public class PmdPartyView implements Serializable {
     private Date payMonth;
 
     private Byte monthStatus;
+
+    private Boolean monthPayStatus;
+
+    private String monthPayTip;
 
     private static final long serialVersionUID = 1L;
 
@@ -137,6 +145,22 @@ public class PmdPartyView implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Boolean getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(Boolean payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public String getPayTip() {
+        return payTip;
+    }
+
+    public void setPayTip(String payTip) {
+        this.payTip = payTip == null ? null : payTip.trim();
     }
 
     public Boolean getHasReport() {
@@ -321,5 +345,21 @@ public class PmdPartyView implements Serializable {
 
     public void setMonthStatus(Byte monthStatus) {
         this.monthStatus = monthStatus;
+    }
+
+    public Boolean getMonthPayStatus() {
+        return monthPayStatus;
+    }
+
+    public void setMonthPayStatus(Boolean monthPayStatus) {
+        this.monthPayStatus = monthPayStatus;
+    }
+
+    public String getMonthPayTip() {
+        return monthPayTip;
+    }
+
+    public void setMonthPayTip(String monthPayTip) {
+        this.monthPayTip = monthPayTip == null ? null : monthPayTip.trim();
     }
 }

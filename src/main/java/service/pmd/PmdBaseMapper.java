@@ -59,6 +59,8 @@ public class PmdBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected PmdConfigMemberMapper pmdConfigMemberMapper;
     @Autowired(required = false)
+    protected PmdConfigMemberViewMapper pmdConfigMemberViewMapper;
+    @Autowired(required = false)
     protected PmdConfigResetMapper pmdConfigResetMapper;
 
     @Autowired(required = false)

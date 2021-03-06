@@ -368,8 +368,15 @@ group by ppb.party_id, ppb.branch_id;
 
 DROP VIEW IF EXISTS `pmd_party_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pmd_party_view` AS
-select pp.*,pm.pay_month, pm.status as month_status from pmd_party pp
+select pp.*,pm.pay_month, pm.status as month_status,pm.pay_status as month_pay_status,pm.pay_tip as month_pay_tip from pmd_party pp
 left join pmd_month pm on pp.month_id=pm.id ;
+
+DROP VIEW IF EXISTS `pmd_config_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_config_member_view` AS
+SELECT  if(isnull(pcm.config_member_type),if(om.type=1,if(sti.is_retire=1,2,1),3), pcm.config_member_type) config_member_type ,pcm.config_member_type_id,pcm.due_pay,pcm.salary,om.user_id,om.party_id,om.branch_id
+from pmd_config_member pcm
+left join sys_teacher_info sti on sti.user_id= pcm.user_id
+left join ow_member om on pcm.user_id= om.user_id;
 
 DROP VIEW IF EXISTS `pmd_branch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pmd_branch_view` AS

@@ -8,6 +8,8 @@
     <result column="is_direct_branch" jdbcType="BIT" property="isDirectBranch" />
     <result column="party_name" jdbcType="VARCHAR" property="partyName" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="pay_status" jdbcType="BIT" property="payStatus" />
+    <result column="pay_tip" jdbcType="VARCHAR" property="payTip" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
     <result column="branch_count" jdbcType="INTEGER" property="branchCount" />
     <result column="history_delay_member_count" jdbcType="INTEGER" property="historyDelayMemberCount" />
@@ -31,6 +33,8 @@
     <result column="report_ip" jdbcType="VARCHAR" property="reportIp" />
     <result column="pay_month" jdbcType="DATE" property="payMonth" />
     <result column="month_status" jdbcType="TINYINT" property="monthStatus" />
+    <result column="month_pay_status" jdbcType="BIT" property="monthPayStatus" />
+    <result column="month_pay_tip" jdbcType="VARCHAR" property="monthPayTip" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -62,11 +66,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, month_id, party_id, is_direct_branch, party_name, sort_order, has_report, branch_count, 
-    history_delay_member_count, history_delay_pay, has_report_count, member_count, due_pay, 
-    finish_member_count, online_finish_member_count, real_pay, online_real_pay, cash_real_pay, 
-    delay_pay, delay_member_count, real_delay_member_count, real_delay_pay, online_real_delay_pay, 
-    cash_real_delay_pay, report_user_id, report_time, report_ip, pay_month, month_status
+    id, month_id, party_id, is_direct_branch, party_name, sort_order, pay_status, pay_tip, 
+    has_report, branch_count, history_delay_member_count, history_delay_pay, has_report_count, 
+    member_count, due_pay, finish_member_count, online_finish_member_count, real_pay, 
+    online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
+    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, report_user_id, report_time, 
+    report_ip, pay_month, month_status, month_pay_status, month_pay_tip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdPartyViewExample" resultMap="BaseResultMap">
     select

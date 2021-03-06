@@ -1573,6 +1573,136 @@ public class PmdMonthExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayStatusIsNull() {
+            addCriterion("pay_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIsNotNull() {
+            addCriterion("pay_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusEqualTo(Boolean value) {
+            addCriterion("pay_status =", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotEqualTo(Boolean value) {
+            addCriterion("pay_status <>", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThan(Boolean value) {
+            addCriterion("pay_status >", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("pay_status >=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThan(Boolean value) {
+            addCriterion("pay_status <", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusLessThanOrEqualTo(Boolean value) {
+            addCriterion("pay_status <=", value, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusIn(List<Boolean> values) {
+            addCriterion("pay_status in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotIn(List<Boolean> values) {
+            addCriterion("pay_status not in", values, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusBetween(Boolean value1, Boolean value2) {
+            addCriterion("pay_status between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayStatusNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("pay_status not between", value1, value2, "payStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipIsNull() {
+            addCriterion("pay_tip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipIsNotNull() {
+            addCriterion("pay_tip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipEqualTo(String value) {
+            addCriterion("pay_tip =", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotEqualTo(String value) {
+            addCriterion("pay_tip <>", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipGreaterThan(String value) {
+            addCriterion("pay_tip >", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_tip >=", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipLessThan(String value) {
+            addCriterion("pay_tip <", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipLessThanOrEqualTo(String value) {
+            addCriterion("pay_tip <=", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipLike(String value) {
+            addCriterion("pay_tip like", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotLike(String value) {
+            addCriterion("pay_tip not like", value, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipIn(List<String> values) {
+            addCriterion("pay_tip in", values, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotIn(List<String> values) {
+            addCriterion("pay_tip not in", values, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipBetween(String value1, String value2) {
+            addCriterion("pay_tip between", value1, value2, "payTip");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTipNotBetween(String value1, String value2) {
+            addCriterion("pay_tip not between", value1, value2, "payTip");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;

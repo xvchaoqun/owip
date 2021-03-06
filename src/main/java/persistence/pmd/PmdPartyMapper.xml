@@ -8,6 +8,8 @@
     <result column="is_direct_branch" jdbcType="BIT" property="isDirectBranch" />
     <result column="party_name" jdbcType="VARCHAR" property="partyName" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="pay_status" jdbcType="BIT" property="payStatus" />
+    <result column="pay_tip" jdbcType="VARCHAR" property="payTip" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
     <result column="branch_count" jdbcType="INTEGER" property="branchCount" />
     <result column="history_delay_member_count" jdbcType="INTEGER" property="historyDelayMemberCount" />
@@ -89,11 +91,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, month_id, party_id, is_direct_branch, party_name, sort_order, has_report, branch_count, 
-    history_delay_member_count, history_delay_pay, has_report_count, member_count, due_pay, 
-    finish_member_count, online_finish_member_count, real_pay, online_real_pay, cash_real_pay, 
-    delay_pay, delay_member_count, real_delay_member_count, real_delay_pay, online_real_delay_pay, 
-    cash_real_delay_pay, report_user_id, report_time, report_ip
+    id, month_id, party_id, is_direct_branch, party_name, sort_order, pay_status, pay_tip, 
+    has_report, branch_count, history_delay_member_count, history_delay_pay, has_report_count, 
+    member_count, due_pay, finish_member_count, online_finish_member_count, real_pay, 
+    online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
+    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, report_user_id, report_time, 
+    report_ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdPartyExample" resultMap="BaseResultMap">
     select
@@ -128,9 +131,10 @@
   <insert id="insert" parameterType="domain.pmd.PmdParty">
     insert into pmd_party (id, month_id, party_id, 
       is_direct_branch, party_name, sort_order, 
-      has_report, branch_count, history_delay_member_count, 
-      history_delay_pay, has_report_count, member_count, 
-      due_pay, finish_member_count, online_finish_member_count, 
+      pay_status, pay_tip, has_report, 
+      branch_count, history_delay_member_count, history_delay_pay, 
+      has_report_count, member_count, due_pay, 
+      finish_member_count, online_finish_member_count, 
       real_pay, online_real_pay, cash_real_pay, 
       delay_pay, delay_member_count, real_delay_member_count, 
       real_delay_pay, online_real_delay_pay, cash_real_delay_pay, 
@@ -138,9 +142,10 @@
       )
     values (#{id,jdbcType=INTEGER}, #{monthId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{isDirectBranch,jdbcType=BIT}, #{partyName,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{hasReport,jdbcType=BIT}, #{branchCount,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, 
-      #{historyDelayPay,jdbcType=DECIMAL}, #{hasReportCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, 
-      #{duePay,jdbcType=DECIMAL}, #{finishMemberCount,jdbcType=INTEGER}, #{onlineFinishMemberCount,jdbcType=INTEGER}, 
+      #{payStatus,jdbcType=BIT}, #{payTip,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, 
+      #{branchCount,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, #{historyDelayPay,jdbcType=DECIMAL}, 
+      #{hasReportCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, 
+      #{finishMemberCount,jdbcType=INTEGER}, #{onlineFinishMemberCount,jdbcType=INTEGER}, 
       #{realPay,jdbcType=DECIMAL}, #{onlineRealPay,jdbcType=DECIMAL}, #{cashRealPay,jdbcType=DECIMAL}, 
       #{delayPay,jdbcType=DECIMAL}, #{delayMemberCount,jdbcType=INTEGER}, #{realDelayMemberCount,jdbcType=INTEGER}, 
       #{realDelayPay,jdbcType=DECIMAL}, #{onlineRealDelayPay,jdbcType=DECIMAL}, #{cashRealDelayPay,jdbcType=DECIMAL}, 
@@ -167,6 +172,12 @@
       </if>
       <if test="sortOrder != null">
         sort_order,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="payTip != null">
+        pay_tip,
       </if>
       <if test="hasReport != null">
         has_report,
@@ -250,6 +261,12 @@
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=BIT},
+      </if>
+      <if test="payTip != null">
+        #{payTip,jdbcType=VARCHAR},
       </if>
       <if test="hasReport != null">
         #{hasReport,jdbcType=BIT},
@@ -343,6 +360,12 @@
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.payStatus != null">
+        pay_status = #{record.payStatus,jdbcType=BIT},
+      </if>
+      <if test="record.payTip != null">
+        pay_tip = #{record.payTip,jdbcType=VARCHAR},
+      </if>
       <if test="record.hasReport != null">
         has_report = #{record.hasReport,jdbcType=BIT},
       </if>
@@ -419,6 +442,8 @@
       is_direct_branch = #{record.isDirectBranch,jdbcType=BIT},
       party_name = #{record.partyName,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      pay_status = #{record.payStatus,jdbcType=BIT},
+      pay_tip = #{record.payTip,jdbcType=VARCHAR},
       has_report = #{record.hasReport,jdbcType=BIT},
       branch_count = #{record.branchCount,jdbcType=INTEGER},
       history_delay_member_count = #{record.historyDelayMemberCount,jdbcType=INTEGER},
@@ -461,6 +486,12 @@
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=BIT},
+      </if>
+      <if test="payTip != null">
+        pay_tip = #{payTip,jdbcType=VARCHAR},
       </if>
       <if test="hasReport != null">
         has_report = #{hasReport,jdbcType=BIT},
@@ -535,6 +566,8 @@
       is_direct_branch = #{isDirectBranch,jdbcType=BIT},
       party_name = #{partyName,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
+      pay_status = #{payStatus,jdbcType=BIT},
+      pay_tip = #{payTip,jdbcType=VARCHAR},
       has_report = #{hasReport,jdbcType=BIT},
       branch_count = #{branchCount,jdbcType=INTEGER},
       history_delay_member_count = #{historyDelayMemberCount,jdbcType=INTEGER},

@@ -8,6 +8,7 @@
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/user/pmd/pmdMember_setRetireBase" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input name="pmdMemberId" type="hidden" value="${param.pmdMemberId}">
+    <input name="userId" type="hidden" value="${pmdConfigMember.user.id}">
     <div class="form-group">
       <label class="col-xs-4 control-label">党员</label>
       <div class="col-xs-6 label-text">
@@ -45,7 +46,7 @@
   function _syncRetireSalary(){
 
     $("#msg").html('<span class="text-primary">数据同步中...</span>');
-    $.getJSON("${ctx}/user/pmd/pmdMember_syncRetireSalary",{pmdMemberId:${param.pmdMemberId}},function(ret){
+    $.getJSON("${ctx}/user/pmd/pmdMember_syncRetireSalary",{pmdMemberId:'${param.pmdMemberId}',userId:'${pmdConfigMember.user.id}'},function(ret){
         if(ret.exist){
           $("#modalForm input[name=retireSalary]").val(ret.base);
           $("#msg").html('<span class="text-success">已读取'+ret.rq+'月份的党费计算基数</span>')

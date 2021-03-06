@@ -285,11 +285,21 @@ public class PmdMemberService extends PmdBaseMapper {
 
     // 选择党员分类别
     @Transactional
-    public void selectMemberType(Integer[] ids, Boolean hasSalary, byte configMemberType,
+    public void selectMemberType(Integer[] ids, Boolean isUser, Boolean hasSalary, byte configMemberType,
                                  int configMemberTypeId, BigDecimal amount, String remark) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         int currentMonthId = currentPmdMonth.getId();
+
+        List<Integer> pmMemberList = new ArrayList<>();
+        if(BooleanUtils.isTrue(isUser) && currentPmdMonth != null){
+            for(Integer userId : ids){
+                PmdMember pmdMember = get(currentMonthId, userId);
+                pmMemberList.add(pmdMember.getId());   // userId -> pmdMemberId
+            }
+        }else {
+            pmMemberList.addAll(Arrays.asList(ids));
+        }
 
         PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
         if(pmdConfigMemberType==null || pmdConfigMemberType.getType()!=configMemberType){
@@ -311,7 +321,7 @@ public class PmdMemberService extends PmdBaseMapper {
             amount = null;
         }
 
-        for (int id : ids) {
+        for (Integer id : pmMemberList) {
 
             PmdMember pmdMember = checkAdmin(id);
             SysUserView uv = pmdMember.getUser();
@@ -341,6 +351,10 @@ public class PmdMemberService extends PmdBaseMapper {
             Boolean isRetire = false; // 是否由离退休计算党费
             Boolean needSetSalary = false;
             if(setType==PmdConstants.PMD_NORM_SET_TYPE_FORMULA) {
+                if(pmdConfigMember.getConfigMemberTypeId().equals(configMemberTypeId)){
+                    //如果党员分类型的缴费类型为公式，且党员分类型未改变
+                    return;
+                }
                 if (pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_RETIRE) {
                     isRetire = true;
                     retireBase = pmdExtService.getRetireBase(uv.getCode());
@@ -424,6 +438,10 @@ public class PmdMemberService extends PmdBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                     "选择党员分类别：" + pmdConfigMemberType.getName() ,
                     SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
+            sysApprovalLogService.add(userId, uv.getId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_USER,
+                    "选择党员分类别：" + pmdConfigMemberType.getName() ,
+                    SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "更新后缴费额度："+(amount==null?"":amount));
         }
     }
 

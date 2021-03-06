@@ -3,6 +3,7 @@ package service.pmd;
 import controller.global.OpException;
 import domain.pmd.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -253,6 +255,15 @@ public class PmdPartyService extends PmdBaseMapper {
         return pmdPartyMapper.updateByPrimaryKeySelective(record);
     }
 
+    @Transactional
+    public void updatePayStatus(Integer[] ids,Boolean payStatus,String payTip) {
+        PmdParty pmdParty =new PmdParty();
+        pmdParty.setPayStatus(BooleanUtils.isTrue(payStatus));
+        pmdParty.setPayTip(payTip);
+        PmdPartyExample example = new PmdPartyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        pmdPartyMapper.updateByExampleSelective(pmdParty,example);
+    }
     // 分党委报表
     /*public XSSFWorkbook export(int id) throws IOException {
 

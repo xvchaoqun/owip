@@ -7,7 +7,7 @@
     <h3>${param.confirm==1?'确认缴费额度':'选择党员类别'}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_selectMemberType" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_selectMemberType?isUser=${param.isUser}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids" value="${param.ids}">
         <input type="hidden" name="configMemberType" value="${param.configMemberType}">
         <input type="hidden" name="confirm" value="${param.confirm}">
@@ -17,7 +17,7 @@
                 <label class="col-xs-4 control-label">姓名</label>
 
                 <div class="col-xs-6 label-text">
-                        ${pmdMember.user.realname}
+                        ${record.user.realname}
                 </div>
             </div>
         </c:if>
@@ -85,7 +85,7 @@
 
             <div class="col-xs-6">
                 <input class="form-control float"
-                       type="text" name="amount" value="${param.confirm==1?(cm:stripTrailingZeros(pmdConfigMember.duePay)):''}"
+                       type="text" name="amount" value="${param.confirm==1?(cm:stripTrailingZeros(param.isUser?record.duePay:pmdConfigMember.duePay)):''}"
                        data-rule-min="0.01" maxlength="10"/>
             </div>
         </div>
@@ -122,7 +122,7 @@
                     .prop("disabled", true).removeAttr("required");
         }
     })
-    $("#modalForm select[name=configMemberTypeId]").val('${pmdMember.configMemberTypeId}').trigger("change");
+    $("#modalForm select[name=configMemberTypeId]").val('${record.configMemberTypeId}').trigger("change");
 
     $("#modalForm").validate({
         submitHandler: function (form) {

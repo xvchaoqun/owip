@@ -129,6 +129,15 @@
             }, frozen: true
             },
             {
+                label: '缴费状态', name: 'payStatus', width:80, formatter: function (cellvalue, options, rowObject) {
+
+                    if (_isEnd(rowObject)) return '--'
+                    return ('<a href="javascript:;" class="popupBtn" ' +
+                        'data-url="${ctx}/pmd/pmdMonth_payStatus?monthId={0}"><i class="fa fa-hand-o-right"></i> {1}</a>')
+                        .format(rowObject.id,cellvalue?"已开启":"未开启");
+                }, frozen: true
+            },
+            {
                 label: '结算', name: '_end', width:80, formatter: function (cellvalue, options, rowObject) {
 
                 if (_isEnd(rowObject))  return '<span class="text-success">已结算</span>';

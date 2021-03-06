@@ -11,6 +11,11 @@ import java.util.Date;
 
 public class PmdMemberPayView implements Serializable {
 
+    public String getPayTip() {
+
+        return PmdMember.getCommonPayTip(monthId, partyId);
+    }
+
     public SysUserView getUser() {
 
         return CmTag.getUserById(userId);
