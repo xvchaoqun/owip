@@ -231,6 +231,9 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
             clearPresentGroup(record.getPartyId());
             rebuildPresentGroupAdmin(record.getId());
         }
+        if (record.getFid() == null){
+            commonMapper.excuteSql("update dp_party_member_group set fid=null where id="+ record.getId());
+        }
         if(record.getActualTranTime()==null){
             commonMapper.excuteSql("update dp_party_member_group set actual_tran_time=null where id="+ record.getId());
         }
