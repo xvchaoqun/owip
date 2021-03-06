@@ -18,7 +18,7 @@
                         data-grid-id="#jqGrid">
                     <i class="fa fa-check-square-o"></i> 选择党员类别
                 </button>
-                <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
+                <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                         data-width="600"
                         data-url="${ctx}/user/pmd/pmdMember_setSalary"
                         data-grid-id="#jqGrid"
