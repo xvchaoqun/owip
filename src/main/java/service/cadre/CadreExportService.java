@@ -88,14 +88,14 @@ public class CadreExportService extends BaseMapper {
 
     // 导出一览表
     public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, Integer[] cols, int isReserve) {
-        String cadretype = "";
+        String cadreCategory = "";
         if (isReserve == 0) {
-            cadretype = CadreConstants.CADRE_STATUS_MAP.get(status);
+            cadreCategory = CadreConstants.CADRE_STATUS_MAP.get(status);
         }else {
             Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
             for (Integer id : metaTypeMap.keySet()){
                 if (status == (byte)id.intValue())
-                    cadretype = metaTypeService.getName(id);
+                    cadreCategory = metaTypeService.getName(id);
             }
         }
 
@@ -126,10 +126,10 @@ public class CadreExportService extends BaseMapper {
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
             if (isReserve == 0) {
-                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + cadretype + "一览表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + cadreCategory + "一览表");
             }else {
-                if(StringUtils.trimToNull(cadretype) != null)
-                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部（" + cadretype +"）一览表");
+                if(StringUtils.trimToNull(cadreCategory) != null)
+                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部（" + cadreCategory +"）一览表");
                 else
                     headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部一览表");
             }

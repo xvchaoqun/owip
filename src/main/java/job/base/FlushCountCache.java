@@ -29,9 +29,9 @@ public class FlushCountCache implements Job {
             cacheService.refreshCacheCounts();
 
             // 更新干部数据统计缓存
-            statCadreService.refreshStatCache(CadreConstants.CADRE_TYPE_CJ);
+            statCadreService.refreshStatCache(CadreConstants.CADRE_CATEGORY_CJ);
             if(CmTag.getBoolProperty("hasKjCadre")) {
-                statCadreService.refreshStatCache(CadreConstants.CADRE_TYPE_KJ);
+                statCadreService.refreshStatCache(CadreConstants.CADRE_CATEGORY_KJ);
             }
 
         }catch (Exception ex){

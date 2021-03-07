@@ -336,7 +336,7 @@ public class CommonController extends BaseController {
                 criteria2.andReserveTypeEqualTo(reserveType);
                 criteria3.andReserveTypeEqualTo(reserveType);
             }
-        } else if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
+        } else if (reserveStatus != null && reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
             CadreReserveViewExample.Criteria criteria = example.createCriteria();
             if (reserveStatus != null) criteria.andReserveStatusEqualTo(reserveStatus);
             if (reserveType != null) criteria.andReserveTypeEqualTo(reserveType);

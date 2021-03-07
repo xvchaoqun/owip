@@ -11,11 +11,11 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <c:if test="${param.cadreType == 1}">
+                <c:if test="${param.cadreCategory == 1}">
                     <div id="container_CJ" style="height:250px; margin: 0 auto;"></div>
                 </c:if>
 
-                <c:if test="${param.cadreType == 2}">
+                <c:if test="${param.cadreCategory == 2}">
                     <div id="container_KJ" style="height:250px; margin: 0 auto;"></div>
                 </c:if>
             </div>
@@ -28,7 +28,7 @@
     var cadreAvgAgeChart = echarts.init($div[0]);
     cadreAvgAgeChart.showLoading({text: '正在加载数据'});
 
-    $.get("${ctx}/stat_cadre_avgAge_data", {cadreType:${param.cadreType}}, function (cadreAvgAge) {
+    $.get("${ctx}/stat_cadre_avgAge_data", {cadreCategory:${param.cadreCategory}}, function (cadreAvgAge) {
 
         var indicatorData = [];
         var avgAgeData = [];

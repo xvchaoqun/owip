@@ -26,7 +26,7 @@ public class CpcStatExportServiceTest {
     @Test
     public void stat() throws IOException {
 
-        XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_CJ);
+        XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_CATEGORY_CJ);
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test333.xlsx"));
 
         wb.write(output);

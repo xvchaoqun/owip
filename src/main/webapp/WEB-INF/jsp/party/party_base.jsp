@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 							邮箱
 						</td>
 						<td>
-							<t:mask src="${party.email}" type="email"/>
+							<span class="email"><t:mask src="${party.email}" type="email"/></span>
 						</td>
 						<td >
 							成立时间

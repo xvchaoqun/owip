@@ -5,16 +5,16 @@
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="fa fa-pie-chart"></i>
-                 ${param.cadreType == 1?"处级":"科级"}干部年龄分布
+                 ${param.cadreCategory == 1?"处级":"科级"}干部年龄分布
             </h5>
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <c:if test="${param.cadreType == 1}">
+                <c:if test="${param.cadreCategory == 1}">
                     <div id="cadreAge-placeholder_CJ" style="height: 250px"></div>
                 </c:if>
 
-                <c:if test="${param.cadreType == 2}">
+                <c:if test="${param.cadreCategory == 2}">
                     <div id="cadreAge-placeholder_KJ" style="height: 250px"></div>
                 </c:if>
             </div>
@@ -22,13 +22,13 @@
     </div>
 </div>
 <script>
-    var $div = $("${param.cadreType == 1?'#cadreAge-placeholder_CJ':'#cadreAge-placeholder_KJ'}");
+    var $div = $("${param.cadreCategory == 1?'#cadreAge-placeholder_CJ':'#cadreAge-placeholder_KJ'}");
 
-    (function($displayDiv, cadreType){
+    (function($displayDiv, cadreCategory){
         var cadreAgeChart = echarts.init($displayDiv);
         cadreAgeChart.showLoading({text: '正在加载数据'});
 
-        $.get("${ctx}/stat_cadre_age_data", {cadreType:cadreType}, function (cadreAgeMap) {
+        $.get("${ctx}/stat_cadre_age_data", {cadreCategory:cadreCategory}, function (cadreAgeMap) {
 
             var legendData = [];
             var seriesData1= [];
@@ -96,5 +96,5 @@
             cadreAgeChart.hideLoading();
 
         })
-    })($div[0], ${param.cadreType});
+    })($div[0], ${param.cadreCategory});
 </script>

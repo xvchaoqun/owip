@@ -28,7 +28,7 @@ public class CadreStatServiceTest {
         String unitTypeGroup = "xy";
         //String unitTypeGroup = null;
 
-        CadreSearchBean searchBean = CadreSearchBean.getInstance(unitTypeGroup, CadreConstants.CADRE_TYPE_CJ);
+        CadreSearchBean searchBean = CadreSearchBean.getInstance(unitTypeGroup, CadreConstants.CADRE_CATEGORY_CJ);
 
         Map<String, List> result = cadreStatService.stat(searchBean);
 

@@ -20,7 +20,7 @@
                 ||not empty param.maxEdus||not empty param.major ||not empty param.staffTypes ||not empty param.degreeType
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
-                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
+                ||not empty param.leaderTypes  ||not empty param.type
                  ||not empty param.state  ||not empty param.title ||not empty param.labels ||not empty param.workTypes
                  ||not empty param.hasAbroadEdu || not empty param.authorizedTypes || not empty param.remark}"/>
 

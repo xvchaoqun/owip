@@ -80,15 +80,15 @@ public class StatCadreService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("school", CmTag.getSysConfig().getSchoolName()
-                        + CadreConstants.CADRE_TYPE_MAP.get(searchBean.cadreType))
+                        + CadreConstants.CADRE_CATEGORY_MAP.get(searchBean.cadreCategory))
                 .replace("type", StringUtils.isBlank(typeName) ? "" : "（" + typeName + "）");
         cell.setCellValue(str);
 
         row = sheet.getRow(3);
         cell = row.getCell(4);
-        cell.setCellValue(searchBean.cadreType == CadreConstants.CADRE_TYPE_CJ ? "正处" : "正科");
+        cell.setCellValue(searchBean.cadreCategory == CadreConstants.CADRE_CATEGORY_CJ ? "正处" : "正科");
         cell = row.getCell(6);
-        cell.setCellValue(searchBean.cadreType == CadreConstants.CADRE_TYPE_CJ ? "副处" : "副科");
+        cell.setCellValue(searchBean.cadreCategory == CadreConstants.CADRE_CATEGORY_CJ ? "副处" : "副科");
 
         int rowNum = 4;
         Map<String, List> dataMap = stat(searchBean);
@@ -162,19 +162,19 @@ public class StatCadreService extends BaseMapper {
         }
     }
 
-    @Cacheable(value = "DataCaches", key = "'cadreStat_' + #cadreType")
-    public  Map<String, List> statCache(byte cadreType){
+    @Cacheable(value = "DataCaches", key = "'cadreStat_' + #cadreCategory")
+    public  Map<String, List> statCache(byte cadreCategory){
 
         CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreType);
+        searchBean.setCadreType(cadreCategory);
 
         return stat(searchBean);
     }
 
-    @CachePut(value = "DataCaches", key = "'cadreStat_' + #cadreType")
-    public  Map<String, List> refreshStatCache(byte cadreType){
+    @CachePut(value = "DataCaches", key = "'cadreStat_' + #cadreCategory")
+    public  Map<String, List> refreshStatCache(byte cadreCategory){
 
-        return statCache(cadreType);
+        return statCache(cadreCategory);
     }
 
     // 干部统计
@@ -1234,9 +1234,9 @@ public class StatCadreService extends BaseMapper {
     public List<CadreView> adminLevelList(CadreSearchBean searchBean, Integer firstTypeNum, Integer secondNum) {
         String adminLevelCode = null;
         if (firstTypeNum == 1) //正处
-            adminLevelCode = searchBean.cadreType == 1 ? "mt_admin_level_main" : "mt_admin_level_main_kj";
+            adminLevelCode = searchBean.cadreCategory == 1 ? "mt_admin_level_main" : "mt_admin_level_main_kj";
         if (firstTypeNum == 2)//副处
-            adminLevelCode = searchBean.cadreType == 1 ? "mt_admin_level_vice" : "mt_admin_level_vice_kj";
+            adminLevelCode = searchBean.cadreCategory == 1 ? "mt_admin_level_vice" : "mt_admin_level_vice_kj";
         if (firstTypeNum == 3)//无行政级别
             adminLevelCode = "mt_admin_level_none";
 

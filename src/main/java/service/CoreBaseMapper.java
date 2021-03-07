@@ -417,10 +417,10 @@ public class CoreBaseMapper {
         }
     }
 
-    public String getMainAdminLevelCode(byte cadreType){
-        return (cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_main":"mt_admin_level_main_kj";
+    public String getMainAdminLevelCode(byte cadreCategory){
+        return (cadreCategory== CadreConstants.CADRE_CATEGORY_CJ)?"mt_admin_level_main":"mt_admin_level_main_kj";
     }
-    public String getViceAdminLevelCode(byte cadreType){
-        return (cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_vice":"mt_admin_level_vice_kj";
+    public String getViceAdminLevelCode(byte cadreCategory){
+        return (cadreCategory== CadreConstants.CADRE_CATEGORY_CJ)?"mt_admin_level_vice":"mt_admin_level_vice_kj";
     }
 }

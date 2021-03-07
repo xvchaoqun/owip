@@ -137,13 +137,13 @@ public class MobileCadreSearchController extends BaseController {
 		if(unitId!=null){
 
 			List<UnitPostAllocationInfoBean> cjCpcInfoBeans
-					= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_TYPE_CJ, false);
+					= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_CATEGORY_CJ, false);
 			if(cjCpcInfoBeans.size()==2){
 				modelMap.put("cjBean", cjCpcInfoBeans.get(0));
 			}
 			if(CmTag.getBoolProperty("hasKjCadre")) {
 				List<UnitPostAllocationInfoBean> kjCpcInfoBeans
-						= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_TYPE_KJ, false);
+						= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_CATEGORY_KJ, false);
 				if (kjCpcInfoBeans.size() == 2) {
 					modelMap.put("kjBean", kjCpcInfoBeans.get(0));
 				}
@@ -327,7 +327,7 @@ public class MobileCadreSearchController extends BaseController {
 											   Boolean isDouble, // 是否双肩挑
 											   Boolean hasCrp, // 是否有干部挂职经历
 											   Boolean hasAbroadEdu, // 是否有国外学习经历
-											   Boolean isDep,
+											   Integer type,
 											   Byte degreeType,
 											   Integer state,
 											   String title,
@@ -549,10 +549,11 @@ public class MobileCadreSearchController extends BaseController {
 			criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
 			searchStr += "&leaderTypes="+StringUtils.join(leaderTypes,",");
 		}
-		if(isDep!=null){
-			criteria.andIsDepEqualTo(isDep);
-			searchStr += "&isDep="+(BooleanUtils.isTrue(isDep)?"1":"0");
-		}
+		if(type!=null){
+            criteria.andTypeEqualTo(type);
+            searchStr += "&type=" + type;
+        }
+
 		if (hasCrp != null) {
 			criteria.andHasCrpEqualTo(hasCrp);
 			searchStr += "&hasCrp="+(BooleanUtils.isTrue(hasCrp)?"1":"0");

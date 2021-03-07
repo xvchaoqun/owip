@@ -12,6 +12,3 @@ classes
 /doc/excel/excel.zip
 doc/excel.zip
 /jrebel-classpath*.jar
-/src/main/*.zip
-/src/main/*/*.zip
-/src/main/*/*/*.zip

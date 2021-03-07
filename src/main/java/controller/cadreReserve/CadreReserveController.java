@@ -351,7 +351,7 @@ public class CadreReserveController extends BaseController {
                                   Integer[] workTypes,
                                   String workDetail,
                                   Byte[] leaderTypes, // 是否班子负责人
-                                  Boolean isDep,
+                                  Integer type,
                                   Boolean hasCrp, // 是否有干部挂职经历
                                   Boolean hasAbroadEdu, // 是否有国外学习经历
                                   Integer cadreId,
@@ -590,8 +590,8 @@ public class CadreReserveController extends BaseController {
         if (leaderTypes != null) {
             criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
         }
-        if(isDep!=null){
-            criteria.andIsDepEqualTo(isDep);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
         }
         if (hasCrp != null) {
             criteria.andHasCrpEqualTo(hasCrp);

@@ -88,9 +88,9 @@
 <c:set value="<%=CadreConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_RESERVE%>" var="CADRE_STATUS_RESERVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
-<c:set value="<%=CadreConstants.CADRE_TYPE_CJ%>" var="CADRE_TYPE_CJ"/>
-<c:set value="<%=CadreConstants.CADRE_TYPE_KJ%>" var="CADRE_TYPE_KJ"/>
-<c:set value="<%=CadreConstants.CADRE_TYPE_MAP%>" var="CADRE_TYPE_MAP"/>
+<c:set value="<%=CadreConstants.CADRE_CATEGORY_CJ%>" var="CADRE_CATEGORY_CJ"/>
+<c:set value="<%=CadreConstants.CADRE_CATEGORY_KJ%>" var="CADRE_CATEGORY_KJ"/>
+<c:set value="<%=CadreConstants.CADRE_CATEGORY_MAP%>" var="CADRE_CATEGORY_MAP"/>
 
 <c:set var="MEMBER_SOURCE_MAP" value="<%=MemberConstants.MEMBER_SOURCE_MAP%>"/>
 

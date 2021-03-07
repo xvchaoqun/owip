@@ -56,29 +56,29 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ:
 
-                wb = statCadreService.toXlsx(CadreSearchBean.getInstance(null, CadreConstants.CADRE_TYPE_CJ));
+                wb = statCadreService.toXlsx(CadreSearchBean.getInstance(null, CadreConstants.CADRE_CATEGORY_CJ));
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ:
                 if(hasKjCadre) {
-                    wb = statCadreService.toXlsx(CadreSearchBean.getInstance(null, CadreConstants.CADRE_TYPE_CJ));
+                    wb = statCadreService.toXlsx(CadreSearchBean.getInstance(null, CadreConstants.CADRE_CATEGORY_CJ));
                 }
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
 
-                wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_TYPE_CJ);
+                wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_CATEGORY_CJ);
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ:
                 if(hasKjCadre) {
-                    wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_TYPE_KJ);
+                    wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_CATEGORY_KJ);
                 }
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT:
 
-                wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_CJ);
+                wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_CATEGORY_CJ);
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ:
                 if(hasKjCadre) {
-                    wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_KJ);
+                    wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_CATEGORY_KJ);
                 }
                 break;
         }

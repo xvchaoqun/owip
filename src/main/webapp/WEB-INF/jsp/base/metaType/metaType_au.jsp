@@ -30,8 +30,9 @@
                         <input class="form-control" type="text" name="code" value="${metaType.code}">
 				</div>
 			</div>
+				<c:if test="${not empty metaClass.boolAttr}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</label>
+				<label class="col-xs-3 control-label">${metaClass.boolAttr}</label>
 				<div class="col-xs-6">
 					<label>
 						<input name="boolAttr"  type="checkbox" ${metaType.boolAttr?"checked":""}/>
@@ -39,8 +40,10 @@
 					</label>
 				</div>
 			</div>
+				</c:if>
+				<c:if test="${not empty metaClass.extraAttr}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</label>
+				<label class="col-xs-3 control-label">${metaClass.extraAttr}</label>
 				<div class="col-xs-6">
 						<c:if test="${fn:length(metaClass.options)>0}">
 							<select data-rel="select2" name="extraAttr"
@@ -61,6 +64,7 @@
 						</c:if>
 				</div>
 			</div>
+				</c:if>
 			<c:if test="${not empty metaType && cm:isSuperAccount(_user.username)}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">校验码</label>

@@ -241,7 +241,7 @@ public class CadreController extends BaseController {
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
                            Boolean hasAbroadEdu, // 是否有国外学习经历
-                           Boolean isDep,
+                           Integer type, // 干部类别
                            Byte degreeType,
                            Integer state,
                            String title,
@@ -487,8 +487,8 @@ public class CadreController extends BaseController {
         if (hasCrp != null) {
             criteria.andHasCrpEqualTo(hasCrp);
         }
-        if(isDep!=null){
-            criteria.andIsDepEqualTo(isDep);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
         }
 
         if(degreeType!=null){
@@ -584,8 +584,8 @@ public class CadreController extends BaseController {
         if (format == 1) {
             // 一览表
             wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols, 0);
-            String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
-            String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+            String cadreCategory = CadreConstants.CADRE_STATUS_MAP.get(status);
+            String fileName = CmTag.getSysConfig().getSchoolName() + cadreCategory + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
             ExportHelper.output(wb, fileName + ".xlsx", response);
 
         } else {
@@ -901,7 +901,6 @@ public class CadreController extends BaseController {
                            Integer[] unitIds,
                            HttpServletRequest request) {
 
-        record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
         record.setIsOutside(BooleanUtils.isTrue(record.getIsOutside()));
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){
@@ -1103,8 +1102,11 @@ public class CadreController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
-            // 留空默认是机关干部
-            record.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
+            // 干部类别
+            MetaType cadreCategory = CmTag.getMetaTypeByName("mc_cadre_type", StringUtils.trimToNull(xlsRow.get(2)));
+            if(cadreCategory!=null) {
+                record.setType(cadreCategory.getId());
+            }
 
             boolean useCadreState = BooleanUtils.isTrue(CmTag.getBoolProperty("useCadreState"));
 

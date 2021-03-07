@@ -20,14 +20,14 @@
                 <div class="widget-body">
                     <div class="widget-main padding-4" >
 
-                        <c:import url="/stat_cadre_count?cadreType=1"/>
-                        <c:import url="/stat_cadreOther_count?type=1&cadreType=1"/>
-                        <c:import url="/stat_cadreAge_count?cadreType=1"/>
-                        <c:import url="/stat_cadreOther_count?type=2&cadreType=1"/>
-                        <c:import url="/stat_cadreDp_count?cadreType=1"/>
-                        <c:import url="/stat_cadrePost_count?cadreType=1"/>
-                        <c:import url="/stat_cadreDegree_count?cadreType=1"/>
-                        <c:import url="/stat_cadreEdu_count?cadreType=1"/>
+                        <c:import url="/stat_cadre_count?cadreCategory=1"/>
+                        <c:import url="/stat_cadreOther_count?type=1&cadreCategory=1"/>
+                        <c:import url="/stat_cadreAge_count?cadreCategory=1"/>
+                        <c:import url="/stat_cadreOther_count?type=2&cadreCategory=1"/>
+                        <c:import url="/stat_cadreDp_count?cadreCategory=1"/>
+                        <c:import url="/stat_cadrePost_count?cadreCategory=1"/>
+                        <c:import url="/stat_cadreDegree_count?cadreCategory=1"/>
+                        <c:import url="/stat_cadreEdu_count?cadreCategory=1"/>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
             </div><!-- /.widget-box -->
@@ -50,14 +50,14 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main padding-4">
-                        <c:import url="/stat_cadre_count?cadreType=2"/>
-                        <c:import url="/stat_cadreOther_count?type=1&cadreType=2"/>
-                        <c:import url="/stat_cadreAge_count?cadreType=2"/>
-                        <c:import url="/stat_cadreOther_count?type=2&cadreType=2"/>
-                        <c:import url="/stat_cadreDp_count?cadreType=2"/>
-                        <c:import url="/stat_cadrePost_count?cadreType=2"/>
-                        <c:import url="/stat_cadreDegree_count?cadreType=2"/>
-                        <c:import url="/stat_cadreEdu_count?cadreType=2"/>
+                        <c:import url="/stat_cadre_count?cadreCategory=2"/>
+                        <c:import url="/stat_cadreOther_count?type=1&cadreCategory=2"/>
+                        <c:import url="/stat_cadreAge_count?cadreCategory=2"/>
+                        <c:import url="/stat_cadreOther_count?type=2&cadreCategory=2"/>
+                        <c:import url="/stat_cadreDp_count?cadreCategory=2"/>
+                        <c:import url="/stat_cadrePost_count?cadreCategory=2"/>
+                        <c:import url="/stat_cadreDegree_count?cadreCategory=2"/>
+                        <c:import url="/stat_cadreEdu_count?cadreCategory=2"/>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->
             </div><!-- /.widget-box -->
@@ -82,9 +82,9 @@
 
                 <div class="widget-body">
                     <div class="widget-main padding-4">
-                        <c:import url="/stat_cadre_avgAge?cadreType=1"/>
+                        <c:import url="/stat_cadre_avgAge?cadreCategory=1"/>
                        <%-- <c:if test="${_p_hasKjCadre}">
-                        <c:import url="/stat_cadre_avgAge?cadreType=2"/>
+                        <c:import url="/stat_cadre_avgAge?cadreCategory=2"/>
                         </c:if>--%>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->

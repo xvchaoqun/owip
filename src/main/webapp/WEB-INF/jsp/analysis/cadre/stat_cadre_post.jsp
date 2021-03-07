@@ -5,16 +5,16 @@
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="fa fa-pie-chart"></i>
-                ${param.cadreType == 1?"处级":"科级"}干部职称分布
+                ${param.cadreCategory == 1?"处级":"科级"}干部职称分布
             </h5>
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <c:if test="${param.cadreType == 1}">
+                <c:if test="${param.cadreCategory == 1}">
                     <div id="cadrePost-placeholder_CJ" style="height: 250px"></div>
                 </c:if>
 
-                <c:if test="${param.cadreType == 2}">
+                <c:if test="${param.cadreCategory == 2}">
                     <div id="cadrePost-placeholder_KJ" style="height: 250px"></div>
                 </c:if>
             </div>
@@ -23,13 +23,13 @@
 </div>
 <script>
 
-    var $div = $("${param.cadreType == 1?'#cadrePost-placeholder_CJ':'#cadrePost-placeholder_KJ'}");
+    var $div = $("${param.cadreCategory == 1?'#cadrePost-placeholder_CJ':'#cadrePost-placeholder_KJ'}");
 
-    (function($displayDiv, cadreType){
+    (function($displayDiv, cadreCategory){
         var cadrePostChart = echarts.init($displayDiv);
         cadrePostChart.showLoading({text: '正在加载数据'});
 
-        $.get("${ctx}/stat_cadrePost_count_data", {cadreType:cadreType}, function (cadrePostMap) {
+        $.get("${ctx}/stat_cadrePost_count_data", {cadreCategory:cadreCategory}, function (cadrePostMap) {
 
             var legendData = [];
             var seriesData1 = [];
@@ -99,5 +99,5 @@
             cadrePostChart.hideLoading();
 
         })
-    })($div[0], ${param.cadreType});
+    })($div[0], ${param.cadreCategory});
 </script>

@@ -198,7 +198,7 @@ public class UnitPostAllocationService extends BaseMapper {
     }
 
     // 导出
-    public XSSFWorkbook cpcInfo_Xlsx(byte cadreType) throws IOException {
+    public XSSFWorkbook cpcInfo_Xlsx(byte cadreCategory) throws IOException {
 
         byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
         boolean isDispalyKeep=false;
@@ -207,11 +207,11 @@ public class UnitPostAllocationService extends BaseMapper {
         }
         String xlsxFile = "classpath:xlsx/cpc/cpc_template.xlsx";
 
-        if (isDispalyKeep && cadreType == CadreConstants.CADRE_TYPE_CJ) {
+        if (isDispalyKeep && cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template1.xlsx";
-        } else if (isDispalyKeep && cadreType == CadreConstants.CADRE_TYPE_KJ) {
+        } else if (isDispalyKeep && cadreCategory == CadreConstants.CADRE_CATEGORY_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template1_kj.xlsx";
-        } else if (!isDispalyKeep && cadreType == CadreConstants.CADRE_TYPE_KJ) {
+        } else if (!isDispalyKeep && cadreCategory == CadreConstants.CADRE_CATEGORY_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template_kj.xlsx";
         }
 
@@ -230,7 +230,7 @@ public class UnitPostAllocationService extends BaseMapper {
             ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
         }
 
-        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreType, true);
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreCategory, true);
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -313,7 +313,7 @@ public class UnitPostAllocationService extends BaseMapper {
                 cell.setCellValue(getCadres(wb, bean.getViceKeep()));
             }
 
-            if (cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            if (cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
                 // 无行政级别 职数
                 cell = row.getCell(column++);
                 cell.setCellValue(bean.getNoneNum());
@@ -376,7 +376,7 @@ public class UnitPostAllocationService extends BaseMapper {
                 column++;
             }
 
-            if (cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            if (cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
                 // 无行政级别 职数
                 cell = row.getCell(column++);
                 cell.setCellValue(totalBean.getNoneNum());
@@ -396,7 +396,7 @@ public class UnitPostAllocationService extends BaseMapper {
         return wb;
     }
     // 导出2
-    public XSSFWorkbook cpcInfo_Xlsx2(byte cadreType) throws IOException {
+    public XSSFWorkbook cpcInfo_Xlsx2(byte cadreCategory) throws IOException {
 
         String xlsxFile = "classpath:xlsx/cpc/cpc_template2.xlsx";
 
@@ -415,7 +415,7 @@ public class UnitPostAllocationService extends BaseMapper {
         ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
 
 
-        List<UnitPostAllocationInfoBean> beans = cpcInfo_data2(null, cadreType, true);
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data2(null, cadreCategory, true);
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -604,7 +604,7 @@ public class UnitPostAllocationService extends BaseMapper {
      * <p>
      * hasSetCpc = true 只读取设置了职数的单位
      */
-    public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, byte cadreType, boolean hasSetCpc) {
+    public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, byte cadreCategory, boolean hasSetCpc) {
 
         byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
         boolean isDispalyKeep=false;
@@ -612,8 +612,8 @@ public class UnitPostAllocationService extends BaseMapper {
             isDispalyKeep=true;
         }
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
-        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreCategory));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreCategory));
         // 处级干部才有无行政级别
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
@@ -728,7 +728,7 @@ public class UnitPostAllocationService extends BaseMapper {
                             }
                         }
                     }
-                    if (cadreType == CadreConstants.CADRE_TYPE_CJ) {
+                    if (cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
                         if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
                             nones.add(cadrePost);
                             if (BooleanUtils.isTrue(cadrePost.getIsMainPost()) || BooleanUtils.isTrue(cadrePost.getIsCpc())) {
@@ -796,12 +796,12 @@ public class UnitPostAllocationService extends BaseMapper {
      * <p>
      * hasSetCpc = true 只读取设置了职数的单位
      */
-    public List<UnitPostAllocationInfoBean> cpcInfo_data2(Integer _unitId, byte cadreType, boolean hasSetCpc) {
+    public List<UnitPostAllocationInfoBean> cpcInfo_data2(Integer _unitId, byte cadreCategory, boolean hasSetCpc) {
 
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
-        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreCategory));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreCategory));
 
         Map<Integer, Unit> _unitMap = unitService.findAll();
         Map<Integer, Unit> unitMap = new LinkedHashMap<>();
@@ -923,10 +923,10 @@ public class UnitPostAllocationService extends BaseMapper {
         return beans;
     }
 
-    public XSSFWorkbook cpcStat_Xlsx(byte cadreType) throws IOException {
+    public XSSFWorkbook cpcStat_Xlsx(byte cadreCategory) throws IOException {
 
         String xlsxFile = "classpath:xlsx/cpc/cpc_stat_template.xlsx";
-        if (cadreType == CadreConstants.CADRE_TYPE_KJ) {
+        if (cadreCategory == CadreConstants.CADRE_CATEGORY_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_stat_template_kj.xlsx";
         }
 
@@ -948,7 +948,7 @@ public class UnitPostAllocationService extends BaseMapper {
         Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
         List<MetaClassOption> optionList = new ArrayList<>(unitTypeGroupMap.values());
 
-        Map<String, List<Integer>> cpcStatDataMap = cpcStat_data(cadreType);
+        Map<String, List<Integer>> cpcStatDataMap = cpcStat_data(cadreCategory);
         // 按表格行的顺序重新装入
         List<List<Integer>> dataList = new ArrayList<>();
         for (String group : unitTypeGroupMap.keySet()) {
@@ -993,11 +993,11 @@ public class UnitPostAllocationService extends BaseMapper {
      * @return <unitType, 表格的每行结果数据>
      * 汇总结果在最后一行(unitType='total')
      */
-    public Map<String, List<Integer>> cpcStat_data(byte cadreType) {
+    public Map<String, List<Integer>> cpcStat_data(byte cadreCategory) {
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
-        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreCategory));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreCategory));
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
         // 汇总结果
@@ -1084,7 +1084,7 @@ public class UnitPostAllocationService extends BaseMapper {
             }
 
             // 处级干部才有无行政级别
-            if ((cadreType == CadreConstants.CADRE_TYPE_KJ)) {
+            if ((cadreCategory == CadreConstants.CADRE_CATEGORY_KJ)) {
                 noneNum = 0;
                 mainCount3 = 0;
                 subCount3 = 0;
@@ -1131,7 +1131,7 @@ public class UnitPostAllocationService extends BaseMapper {
             viceTotalSubCount += subCount2;
             viceTotalLack += _viceLack;
 
-            if (cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            if (cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
                 // 无行政级别岗位
                 int _noneLack = noneNum - (mainCount3 + subCount3);
                 dataList.add(noneNum);
@@ -1162,7 +1162,7 @@ public class UnitPostAllocationService extends BaseMapper {
         totalList.add(viceTotalSubCount);
         totalList.add(viceTotalLack);
 
-        if (cadreType == CadreConstants.CADRE_TYPE_CJ) {
+        if (cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
             totalList.add(noneTotalNum);
             totalList.add(noneTotalMainCount);
             totalList.add(noneTotalSubCount);
@@ -1175,10 +1175,10 @@ public class UnitPostAllocationService extends BaseMapper {
     }
 
    /* // 导出1（包含空岗情况）
-    public XSSFWorkbook cpcInfo_Xlsx_1(byte cadreType) throws IOException {
+    public XSSFWorkbook cpcInfo_Xlsx_1(byte cadreCategory) throws IOException {
 
         String xlsxFile = "classpath:xlsx/cpc/cpc_template1.xlsx";
-        if(cadreType == CadreConstants.CADRE_TYPE_KJ) {
+        if(cadreCategory == CadreConstants.CADRE_CATEGORY_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template1_kj.xlsx";
         }
         InputStream is = new FileInputStream(ResourceUtils.getFile(xlsxFile));
@@ -1194,7 +1194,7 @@ public class UnitPostAllocationService extends BaseMapper {
         ps.setLandscape(true);
       *//*  ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);*//*
 
-        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreType, true);
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreCategory, true);
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -1274,7 +1274,7 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(getCadres(wb,bean.getViceKeep()));
 
-            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            if(cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
                 // 无行政级别 职数
                 cell = row.getCell(column++);
                 cell.setCellValue(bean.getNoneNum());
@@ -1333,7 +1333,7 @@ public class UnitPostAllocationService extends BaseMapper {
             column++;
             column++;
 
-            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            if(cadreCategory == CadreConstants.CADRE_CATEGORY_CJ) {
 
                 // 无行政级别 职数
                 cell = row.getCell(column++);

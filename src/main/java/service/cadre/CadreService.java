@@ -420,6 +420,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
             // 删除干部身份
             sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_CJ);
+            //去除离任干部角色
+            sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_LEAVE);
 
             cacheHelper.clearCadreCache(id);
 
@@ -677,7 +679,13 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 }
                 userId = uv.getId();
                 cadre.setUserId(userId);
-                cadre.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
+
+                // 干部类别
+                MetaType cadreCategory = CmTag.getMetaTypeByName("mc_cadre_type", StringUtils.trimToNull(xlsRow.get(2)));
+                if(cadreCategory!=null) {
+                    cadre.setType(cadreCategory.getId());
+                }
+
                 cadre.setTitle(unitPostName);
                 String _isDouble = StringUtils.trimToNull(xlsRow.get(5));
                 cadre.setIsDouble(StringUtils.equals(_isDouble, "是"));

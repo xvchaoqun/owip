@@ -67,13 +67,13 @@ public class CadreConstants {
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
-    // 干部类别
-    public final static byte CADRE_TYPE_CJ = 1; // 处级干部
-    public final static byte CADRE_TYPE_KJ = 2; // 科级干部
-    public final static Map<Byte, String> CADRE_TYPE_MAP = new LinkedHashMap<>();
+    // 干部种类
+    public final static byte CADRE_CATEGORY_CJ = 1; // 处级干部
+    public final static byte CADRE_CATEGORY_KJ = 2; // 科级干部
+    public final static Map<Byte, String> CADRE_CATEGORY_MAP = new LinkedHashMap<>();
     static {
-        CADRE_TYPE_MAP.put(CADRE_TYPE_CJ, "处级干部");
-        CADRE_TYPE_MAP.put(CADRE_TYPE_KJ, "科级干部");
+        CADRE_CATEGORY_MAP.put(CADRE_CATEGORY_CJ, "处级干部");
+        CADRE_CATEGORY_MAP.put(CADRE_CATEGORY_KJ, "科级干部");
     }
 
     // 干部党派类别
@@ -137,7 +137,7 @@ public class CadreConstants {
         //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "年轻干部已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
-        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ALL, "全部年轻干部");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ALL, "全部");
 
     }
 

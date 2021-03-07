@@ -12,21 +12,18 @@
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
-            <div class="col-xs-6">
+            <label class="col-xs-4 control-label"><span class="star">*</span>干部类别</label>
+            <div class="col-xs-8">
                 <div class="input-group">
-                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="isDep" id="isDep1" ${cadre.isDep?"checked":""} value="1">
-                        <label for="isDep1">
-                            院系干部
-                        </label>
-                    </div>
-                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="isDep" id="isDep0" ${cadre.isDep?"":"checked"} value="0">
-                        <label for="isDep0">
-                            机关干部
-                        </label>
-                    </div>
+                    <c:forEach items="${cm:getMetaTypes('mc_cadre_type')}" var="_type" varStatus="vs">
+                        <c:set var="cadreType" value="${_type.value}"/>
+                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                            <input required type="radio" name="type" id="type${vs.index}" ${cadre.type==cadreType.id?"checked":""} value="${cadreType.id}">
+                            <label for="type${vs.index}">
+                                ${cadreType.name}
+                            </label>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>

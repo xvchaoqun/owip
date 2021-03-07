@@ -25,7 +25,7 @@ public class CadreStatMapperTest {
     public void t(){
         String unitTypeGroup = "xy";
 
-        List<StatCadreBean> cadreStatBeans = cadreStatMapper.cadre_stat_adminLevel(CadreSearchBean.getInstance(unitTypeGroup, CadreConstants.CADRE_TYPE_CJ));
+        List<StatCadreBean> cadreStatBeans = cadreStatMapper.cadre_stat_adminLevel(CadreSearchBean.getInstance(unitTypeGroup, CadreConstants.CADRE_CATEGORY_CJ));
         for (StatCadreBean cadreStatBean : cadreStatBeans) {
             System.out.println(cadreStatBean);
         }

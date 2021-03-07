@@ -3,8 +3,8 @@
 <mapper namespace="persistence.cadre.common.ICadreMapper">
 
     <sql id="statCadreSearchSql">
-        <if test="searchBean.isDep!=null">
-            c.is_dep=#{searchBean.isDep}
+        <if test="searchBean.type!=null">
+            c.type=#{searchBean.type}
         </if>
         <if test="searchBean.cadreId!=null">
             and c.id=#{searchBean.cadreId}

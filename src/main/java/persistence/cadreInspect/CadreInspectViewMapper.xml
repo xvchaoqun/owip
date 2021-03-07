@@ -13,7 +13,7 @@
     <result column="inspect_sort_order" jdbcType="INTEGER" property="inspectSortOrder" />
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="is_dep" jdbcType="BIT" property="isDep" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="has_crp" jdbcType="BIT" property="hasCrp" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
@@ -143,7 +143,7 @@
   </sql>
   <sql id="Base_Column_List">
     inspect_id, record_id, assign_unit_post_id, inspect_type, inspect_status, inspect_remark, 
-    record_user_id, valid_time, inspect_sort_order, id, user_id, is_dep, has_crp, is_double, 
+    record_user_id, valid_time, inspect_sort_order, id, user_id, type, has_crp, is_double, 
     double_unit_ids, state, title, is_outside, dispatch_cadre_id, label, profile, remark, 
     original_post, appoint_date, depose_date, sort_order, status, unit_id, admin_level, 
     post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, email, 
