@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import persistence.member.MemberApplyViewMapper;
 import persistence.member.MemberViewMapper;
 import service.base.MetaTypeService;
+import sys.constants.OwConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -123,25 +124,8 @@ public class StatCodService {
                 post = memberApplyView.getUser().getPost() == null ?"" : memberApplyView.getUser().getPost();
                 phone = memberApplyView.getUser().getPhone() == null ? "" : memberApplyView.getUser().getPhone();
             }
-            if (memberApplyView.getStage() == -1) {
-                stage = "不通过";
-            }else if (memberApplyView.getStage() == 0){
-                stage = "申请";
-            }else if (memberApplyView.getStage() == 1){
-                stage = "通过";
-            }else if (memberApplyView.getStage() == 2){
-                stage = "入党积极分子";
-            }else if (memberApplyView.getStage() == 3){
-                stage = "发展对象";
-            }else if (memberApplyView.getStage() == 4){
-                stage = "列入发展计划";
-            }else if (memberApplyView.getStage() == 5){
-                stage = "领取志愿书";
-            }else if (memberApplyView.getStage() == 6){
-                stage = "预备党员";
-            }else if (memberApplyView.getStage() == 7){
-                stage = "正式党员";
-            }
+            stage = OwConstants.OW_APPLY_STAGE_MAP.get(memberApplyView.getStage());
+
             String[] values = {
                     name,idCard,gender,nation,nativePlace,birthday,"",//学历
                     stage,

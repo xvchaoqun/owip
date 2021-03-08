@@ -5,9 +5,10 @@ import domain.member.MemberApplyView;
 import domain.member.MemberApplyViewExample;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
-import mixin.SysUserListMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,6 +22,7 @@ import persistence.member.MemberApplyViewMapper;
 import service.analysis.StatCodService;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -40,11 +42,28 @@ public class statCodController extends BaseController {
 
     @RequiresPermissions("statCodAppply:list")
     @RequestMapping("/statCod")
-    public String statCodAppply(ModelMap modelMap ,Integer userId,@RequestParam(required = false, defaultValue = "1") int cls) {
+    public String statCodAppply(ModelMap modelMap ,
+                                Integer userId,
+                                Integer status,
+                                Integer partyId,
+                                Integer branchId,
+                                @RequestParam(required = false, defaultValue = "1") int cls) {
 
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
+        if (status != null){
+            modelMap.put(status.toString(),OwConstants.OW_APPLY_STAGE_MAP.get(status));
+        }
+        if (partyId != null){
+            Party party = CmTag.getParty(partyId);
+            modelMap.put("party",party);
+        }
+        if (branchId != null){
+            Branch branch = CmTag.getBranch(branchId);
+            modelMap.put("branch",branch);
+        }
+
         if (cls==1){
             return "analysis/statCod/stat_cod_apply";
         }else if (cls == 2){
@@ -60,6 +79,11 @@ public class statCodController extends BaseController {
                              @RequestParam(required = false, defaultValue = "0") int export,
                              Integer[] ids, // 导出的记录
                              Integer userId,
+                             Integer gender,
+                             Integer stage,
+                             Integer type,
+                             Integer partyId,
+                             Integer branchId,
                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -74,8 +98,9 @@ public class statCodController extends BaseController {
             //中组部申请人
             Map resultMap = new HashMap();
             MemberApplyViewExample example = new MemberApplyViewExample();
-            MemberApplyViewExample.Criteria criteria = example.createCriteria().andStageGreaterThanOrEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+            MemberApplyViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
             example.setOrderByClause("branch_sort_order desc");
+
             if (export == 1){
                 if (ids!=null && ids.length>0){
                    criteria.andUserIdIn(Arrays.asList(ids));
@@ -85,6 +110,18 @@ public class statCodController extends BaseController {
             }
             if (userId != null){
                 criteria.andUserIdEqualTo(userId);
+            }
+            if (stage != null){
+                criteria.andStageEqualTo(stage.byteValue());
+            }
+            if (type != null){
+                criteria.andTypeEqualTo(type.byteValue());
+            }
+            if (partyId != null){
+                criteria.andPartyIdEqualTo(partyId);
+            }
+            if (branchId != null){
+                criteria.andBranchIdEqualTo(branchId);
             }
 
             long count = memberApplyViewMapper.countByExample(example);
@@ -121,6 +158,18 @@ public class statCodController extends BaseController {
 
             if (userId != null){
                 criteria.andUserIdEqualTo(userId);
+            }
+            if (gender != null){
+                criteria.andGenderEqualTo(gender.byteValue());
+            }
+            if (type != null){
+                criteria.andTypeEqualTo(type.byteValue());
+            }
+            if (partyId != null){
+                criteria.andPartyIdEqualTo(partyId);
+            }
+            if (branchId != null){
+                criteria.andBranchIdEqualTo(branchId);
             }
 
             long count = memberViewMapper.countByExample(example);
