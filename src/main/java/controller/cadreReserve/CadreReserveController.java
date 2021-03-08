@@ -295,7 +295,10 @@ public class CadreReserveController extends BaseController {
         int allNum = 0;
         for (CadreReserveCount crc : cadreReserveCounts) {
             Byte st = crc.getStatus();
-            allNum+=crc.getNum();
+            if (st == 1){
+                allNum+=crc.getNum();
+            }
+
             if (st == CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
                 Integer type = crc.getType();
                 Integer count = normalCountMap.get(type);
@@ -307,9 +310,9 @@ public class CadreReserveController extends BaseController {
             statusCountMap.put(st, stCount + crc.getNum());
 
         }
-        statusCountMap.put(CadreConstants.CADRE_RESERVE_STATUS_ALL, allNum);
         modelMap.put("statusCountMap", statusCountMap);
         modelMap.put("normalCountMap", normalCountMap);
+        modelMap.put("allNum", allNum);
 
         return "cadreReserve/cadreReserve_page";
     }
@@ -391,15 +394,17 @@ public class CadreReserveController extends BaseController {
         CadreReserveViewExample example = new CadreReserveViewExample();
         CadreReserveViewExample.Criteria criteria = example.createCriteria();
 
-        if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
+        if (reserveStatus != 5){
             if (reserveStatus != null)
                 criteria.andReserveStatusEqualTo(reserveStatus);
             if (reserveStatus == null || reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
                 criteria.andReserveTypeEqualTo(reserveType);
+        }else if (reserveStatus == 5){
+            criteria.andReserveStatusEqualTo(new Integer(1).byteValue());
         }
 
         String sortStr = "";
-        if (reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_ALL){
+        if (reserveStatus == 5){
             sortStr = "reserve_status asc, reserve_type asc,reserve_sort_order asc";
         }else {
             sortStr = "reserve_sort_order asc";

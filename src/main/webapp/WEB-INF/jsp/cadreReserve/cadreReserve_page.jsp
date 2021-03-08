@@ -5,7 +5,6 @@
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT%>" var="CADRE_RESERVE_STATUS_TO_INSPECT"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ASSIGN%>" var="CADRE_RESERVE_STATUS_ASSIGN"/>
-<c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ALL%>" var="CADRE_RESERVE_STATUS_ALL"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -37,6 +36,12 @@
                                     ${_type.value.name}(${normalCountMap.get(_type.key)})</a>
                         </li>
                     </c:forEach>
+                    <li class="${reserveStatus==5?'active':''}">
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/cadreReserve?reserveStatus=5">
+                            <i class="fa fa-flag"></i>
+                            全部年轻干部(${allNum})</a>
+                    </li>
                     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                         <c:forEach var="_status" items="<%=CadreConstants.CADRE_RESERVE_STATUS_MAP%>">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
@@ -450,18 +455,13 @@
             {label: '所在单位', name: 'unit.name', width: 200, align: 'left'},
             {label: '现任职务', name: 'post', align: 'left', width: 250},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-            <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_ALL}">
+            <c:if test="${reserveStatus==5}">
             {
-                label: '类别',name: 'reserveStatus',width: 130,
+                label: '类别',name: 'reserveType',width: 130,
                 formatter: function (cellvalue, options, rowObject) {
-                    var str = "";
                     if (cellvalue == undefined) return '--';
-                    if (cellvalue == ${CADRE_RESERVE_STATUS_NORMAL}) {
-                        str = _cMap.metaTypeMap[rowObject.reserveType].name;
-                    }else {
-                        str = _cMap.CADRE_RESERVE_STATUS_MAP[cellvalue];
-                    }
-                    return str;
+                    return _cMap.metaTypeMap[cellvalue].name;
+
                 }
             },
             </c:if>
