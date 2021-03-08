@@ -40,7 +40,7 @@
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/cadreReserve?reserveStatus=5">
                             <i class="fa fa-flag"></i>
-                            全部年轻干部(${allNum})</a>
+                            全部(${allNum})</a>
                     </li>
                     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                         <c:forEach var="_status" items="<%=CadreConstants.CADRE_RESERVE_STATUS_MAP%>">
@@ -106,9 +106,7 @@
                                        data-rel="tooltip" data-placement="top" title="批量导入"><i
                                             class="fa fa-upload"></i> 批量导入</a>
 
-                                    <button type="button" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cadreReserve_transfer?reserveType=${reserveType}"><i class="fa fa-recycle"></i> 批量转移
-                                    </button>
+
                                     </shiro:hasPermission>
                                 </c:if>
 
@@ -116,7 +114,7 @@
                                         data-url="${ctx}/cadreAdLog"
                                         data-id-name="reserveId"
                                         data-open-by="page">
-                                    <i class="fa fa-search"></i> 任免操作记录
+                                    <i class="fa fa-search"></i> 操作记录
                                 </button>
 
                                 <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_TO_INSPECT}">
@@ -146,7 +144,10 @@
                                 </c:if>
                             </shiro:lacksPermission>
 
-                            <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL}">
+                            <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL || reserveStatus==5}">
+                                <button type="button" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/cadreReserve_transfer"><i class="fa fa-recycle"></i> 批量转移
+                                    </button>
                                 <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"

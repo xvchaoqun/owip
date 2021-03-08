@@ -136,7 +136,7 @@ public class CadreReserveController extends BaseController {
                 CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
                 if (cadreReserve != null) {
                     if (cadreReserve.getType() == type) {
-                        return failed("不允许转移至相同的库。");
+                        continue;
                     }
 
                     cadreReserveService.updateType(cadreReserve.getId(), type);
@@ -866,7 +866,7 @@ public class CadreReserveController extends BaseController {
 
         if (format == 1) {
             //SXSSFWorkbook wb= cadreReserveExportService.export(reserveType, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols);//一览表
-            Byte _reserveType = (byte)reserveType.intValue();
+
             List<CadreReserveView> cadreReserves = cadreReserveViewMapper.selectByExample(example);
             List<Integer> cadreIds = new ArrayList<>();
             for (CadreReserveView cadreReserve : cadreReserves) {
@@ -874,6 +874,11 @@ public class CadreReserveController extends BaseController {
             }
             CadreViewExample cadreExample = new CadreViewExample();
             cadreExample.createCriteria().andIdIn(cadreIds);
+
+            Byte _reserveType = null;
+            if(reserveType!=null){
+                _reserveType = (byte)reserveType.intValue();
+            }
             SXSSFWorkbook wb = cadreExportService.export(_reserveType, cadreExample, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols, 1);
             String suffix = null;
             if (reserveType != null) {
@@ -881,10 +886,10 @@ public class CadreReserveController extends BaseController {
             }else {
                 suffix = CadreConstants.CADRE_RESERVE_STATUS_MAP.get(reserveStatus);
             }
-            String fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部";
+            String fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部";
 
             if (StringUtils.isNotBlank(suffix))
-                fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部（" + suffix + "）";
+                fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部（" + suffix + "）";
 
             ExportHelper.output(wb, fileName + ".xlsx", response);
         }else {
