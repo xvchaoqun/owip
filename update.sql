@@ -1,17 +1,20 @@
 
+20210308
+-- 哈工大
 
 
-UPDATE `sys_resource` SET `url`='/stat/statCod?cls=1' WHERE  `id`=4008;
-UPDATE `sys_resource` SET `url`='/stat/statCod?cls=2' WHERE  `id`=4007;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (4006, 0, '中组部年度统计', '', 'menu', '', NULL, 105, '0/1/105/', 0, 'statCod:list', NULL, NULL, NULL, 1, 29600);
+
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
                             `available`, `sort_order`) VALUES (4008, 0, '申请人-中组部', '', 'url', '', '/stat/statCodAppply', 4006, '0/1/105/4006/', 1, 'statCodAppply:list', NULL, NULL, NULL, 1, 1000);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
                             `available`, `sort_order`) VALUES (4007, 0, '党员-中组部', '', 'url', '', '/stat/statCodMember', 4006, '0/1/105/4006/', 1, 'statCodMember:list', NULL, NULL, NULL, 1, 900);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
-                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
-                            `available`, `sort_order`) VALUES (4006, 0, '中组部年度统计', '', 'menu', '', NULL, 105, '0/1/105/', 0, 'statCod:list', NULL, NULL, NULL, 1, 29600);
+UPDATE `sys_resource` SET `url`='/stat/statCod?cls=1' WHERE  `id`=4008;
+UPDATE `sys_resource` SET `url`='/stat/statCod?cls=2' WHERE  `id`=4007;
 
 ALTER TABLE `sys_user_info`
 	CHANGE COLUMN `email` `email` VARCHAR(500) NULL COMMENT '邮箱' COLLATE 'utf8_general_ci' AFTER `home_phone`;
@@ -46,8 +49,7 @@ update cadre set type =(select id from base_meta_type where code='mt_cadre_type_
 update cadre set type =(select id from base_meta_type where code='mt_cadre_type_jg') where is_dep=0;
 ALTER TABLE `cadre` DROP COLUMN `is_dep`;
 
--- 更新cadre_view
--- 删除 CrsCandidateViewMapper
+-- 更新 cadre_view
 -- CADRE_TYPE_MAP -> CADRE_CATEGORY_MAP
 -- CADRE_TYPE_CJ -> CADRE_CATEGORY_CJ
 -- CADRE_TYPE_KJ -> CADRE_CATEGORY_KJ
