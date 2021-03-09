@@ -677,6 +677,10 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                     logger.error("第{0}行工作证号[{1}]不存在", row, userCode);
                     continue;
                 }
+                if (uv.getType() != SystemConstants.USER_TYPE_JZG){
+                    throw new OpException("第{0}行工作证号[{1}]对应的不是教职工用户", row, userCode);
+                }
+
                 userId = uv.getId();
                 cadre.setUserId(userId);
 

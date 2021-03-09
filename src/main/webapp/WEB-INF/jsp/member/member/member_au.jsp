@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <c:set var="member_needGrowTime" value="${_pMap['member_needGrowTime']=='true'}"/>
 <div style="width: 900px">
 <h3>${empty member?'添加党员':'修改党籍信息'}</h3>
@@ -27,9 +28,18 @@
                                                                                    data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
+                    <span id="userTypeSpan" class="help-block"></span>
                     <span class="help-block">
                          <a href="javascript:;" class="popupBtn" data-url="${ctx}/member/search">找不到？可能已在党员库中，点此查询</a>
                     </span>
+                    <script>
+                        var userId = $.trim($('#memberForm select[name=userId]').val());
+                        if (userId == null || userId == undefined || userId == "") {
+                            $('#userTypeSpan').text("账号类别：无");
+                        }else {
+                            $('#userTypeSpan').text('账号类别：${USER_TYPE_MAP.get(sysUser.type)}');
+                        }
+                    </script>
                 </div>
             </div>
             <div class="form-group">
@@ -312,5 +322,9 @@
     $('#memberForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    $.register.user_select($('#memberForm select[name=userId]'));
+    var $select = $.register.user_select($('#memberForm select[name=userId]'));
+    $select.on("change",function(){
+        //console.log($(this).select2("data")[0].type)
+        $('#userTypeSpan').text("账号类别：" + $(this).select2("data")[0].type);
+    });
 </script>

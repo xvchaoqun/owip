@@ -574,6 +574,7 @@ public class CommonController extends BaseController {
                 Map<String, String> option = new HashMap<>();
                 option.put("id", uv.getId() + "");
                 option.put("text", uv.getRealname());
+                option.put("type", SystemConstants.USER_TYPE_MAP.get(uv.getType()));
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());

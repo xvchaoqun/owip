@@ -17,6 +17,7 @@
                         <div class="col-sm-9 label-text">
                                 ${sysUser.realname}-${sysUser.code}
                             <input type="hidden" name="userId" value="${sysUser.id}">
+                            <span class="help-block">账号类别：${USER_TYPE_MAP.get(sysUser.type)}</span>
                         </div>
                     </c:if>
                     <c:if test="${empty memberApply}">
@@ -26,8 +27,18 @@
                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>
+                            <span id="userTypeSpan" class="help-block"></span>
                         </div>
                     </c:if>
+
+                    <script>
+                        var userId = $.trim($('#applyAuForm select[name=userId]').val());
+                        if (userId == null || userId == undefined || userId == "") {
+                            $('#userTypeSpan').text("账号类别：无");
+                        }else {
+                            $('#userTypeSpan').text('账号类别：${USER_TYPE_MAP.get(sysUser.type)}');
+                        }
+                    </script>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label no-padding-right"><span class="star">*</span>联系基层党组织</label>
@@ -294,7 +305,11 @@
     </div>
 </div>
 <script>
-    $.register.user_select($('#applyAuForm select[name=userId]'));
+    var $select = $.register.user_select($('#applyAuForm select[name=userId]'));
+    $select.on("change",function(){
+        //console.log($(this).select2("data")[0].type)
+        $('#userTypeSpan').text("账号类别：" + $(this).select2("data")[0].type);
+    });
     $.register.date($('.date-picker'));
     $("#applyAuBtn").click(function () {
         $("#applyAuForm").submit();
