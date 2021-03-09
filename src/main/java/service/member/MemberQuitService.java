@@ -218,11 +218,6 @@ public class MemberQuitService extends MemberBaseMapper {
 
         memberQuitMapper.insertSelective(record);
     }
-    @Transactional
-    public void del(Integer userId){
-
-        memberQuitMapper.deleteByPrimaryKey(userId);
-    }
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberQuit record){

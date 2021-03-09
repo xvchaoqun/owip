@@ -5,7 +5,6 @@ import domain.member.*;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -101,7 +100,7 @@ public class EnterApplyService extends MemberBaseMapper {
         Member member = memberService.get(userId);
         if (member != null) {
             if (member.getStatus() == MemberConstants.MEMBER_STATUS_QUIT) {
-                throw new OpException("已出党，不能进行转入操作。");
+                //throw new OpException("已出党，不能进行转入操作。");
             } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
                 throw new OpException("已经是党员，不需要进行转入操作。");
             }/*else if(member.getStatus()==MemberConstants.MEMBER_STATUS_TRANSFER){
