@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${pmdFee!=null?'编辑':'添加'}党员缴纳党费</h3>
+    <h3>${pmdFee!=null?'修改':'添加'}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdFee_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -11,18 +11,24 @@ pageEncoding="UTF-8"%>
 		<c:if test="${hasShowUser}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6 ${pmdFee!=null?'label-text':''}">
+					<c:if test="${pmdFee==null}">
 					<select required name="userId"  class="form-control"
 							data-rel="select2-ajax" data-width="264"
 							data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
 							data-placeholder="请输入账号或姓名或学工号">
 						<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
 					</select>
+					</c:if>
+					<c:if test="${pmdFee!=null}">
+						<input type="hidden" name="userId" value="${pmdFee.userId}">
+						${sysUser.realname}
+					</c:if>
 				</div>
 			</div>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>缴费类型</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 缴费类型</label>
 			<div class="col-xs-6">
 				<select required data-rel="select2" name="type" data-width="264"
 						data-placeholder="请选择">
@@ -36,7 +42,7 @@ pageEncoding="UTF-8"%>
 		</div>
 
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>缴费月份</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 缴费月份</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 264px">
 					<input required class="form-control date-picker" name="payMonth" type="text"
@@ -47,37 +53,19 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 
-			<%--<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属${_p_partyName}</label>
-				<div class="col-xs-6">
-					<select disabled data-rel="select2" name="partyId" data-width="264"
-							data-placeholder="请选择">
-						<option value="${party.id}">${party.name}</option>
-					</select>
-				</div>
-			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"> 所在党支部</label>
-				<div class="col-xs-6">
-					<select disabled data-rel="select2" name="branchId" data-width="264"
-							data-placeholder="请选择">
-						<option value="${branch.id}">${branch.name}</option>
-					</select>
-				</div>
-			</div>--%>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 缴费金额</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> 缴费金额</label>
 				<div class="col-xs-6">
                         <input required class="form-control number" type="text" name="amt" value="${cm:stripTrailingZeros(pmdFee.amt)}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"> 缴费原因</label>
+				<label class="col-xs-3 control-label"> 缴费说明</label>
 				<div class="col-xs-6">
 					<textarea class="form-control" name="reason">${pmdFee.reason}</textarea>
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 缴费方式</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="isOnlinePay" data-width="264"
@@ -90,7 +78,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		<script>
 			$("#modalForm select[name=isOnlinePay]").val('${pmdFee.isOnlinePay?"1":"0"}');
-		</script>
+		</script>--%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"> 备注</label>
 				<div class="col-xs-6">

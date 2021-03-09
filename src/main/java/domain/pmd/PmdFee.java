@@ -14,6 +14,9 @@ public class PmdFee implements Serializable {
     public SysUserView getUser() {
         return CmTag.getUserById(userId);
     }
+    public SysUserView getChargeUser() {
+        return CmTag.getUserById(payUserId);
+    }
 
     private Integer id;
 

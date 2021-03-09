@@ -6,6 +6,7 @@ import domain.cet.CetProjectObj;
 import domain.cr.CrApplicant;
 import domain.crs.CrsApplicant;
 import domain.dp.DpParty;
+import domain.pmd.PmdFee;
 import domain.pmd.PmdMember;
 import domain.sys.SysApprovalLog;
 import domain.sys.SysApprovalLogExample;
@@ -22,6 +23,7 @@ import persistence.cet.CetProjectObjMapper;
 import persistence.cr.CrApplicantMapper;
 import persistence.crs.CrsApplicantMapper;
 import persistence.dp.DpPartyMapper;
+import persistence.pmd.PmdFeeMapper;
 import persistence.pmd.PmdMemberMapper;
 import service.dp.DpPartyService;
 import sys.constants.SystemConstants;
@@ -54,6 +56,8 @@ public class SysApprovalLogController extends BaseController {
     @Autowired(required = false)
     private PmdMemberMapper pmdMemberMapper;
     @Autowired(required = false)
+    private PmdFeeMapper pmdFeeMapper;
+    @Autowired(required = false)
     private CrApplicantMapper crApplicantMapper;
 
     @RequestMapping("/sysApprovalLog")
@@ -84,6 +88,11 @@ public class SysApprovalLogController extends BaseController {
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER: {
                     PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
                     userId = pmdMember.getUserId();
+                    break;
+                }
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_FEE: {
+                    PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(id);
+                    userId = pmdFee.getUserId();
                     break;
                 }
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ: {

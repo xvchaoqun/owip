@@ -8,7 +8,7 @@ public class PmdOrderItem implements Serializable {
 
     private String sn;
 
-    private Integer memberId;
+    private Integer recordId;
 
     private BigDecimal duePay;
 
@@ -30,12 +30,12 @@ public class PmdOrderItem implements Serializable {
         this.sn = sn == null ? null : sn.trim();
     }
 
-    public Integer getMemberId() {
-        return memberId;
+    public Integer getRecordId() {
+        return recordId;
     }
 
-    public void setMemberId(Integer memberId) {
-        this.memberId = memberId;
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
     public BigDecimal getDuePay() {

@@ -188,9 +188,9 @@ public class PmdMemberController extends PmdBaseController {
                 PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
                 if (pmdOrder != null) {
                     if (!pmdOrder.getIsBatch()) {
-                        criteria.andIdEqualTo(pmdOrder.getMemberId());
+                        criteria.andIdEqualTo(pmdOrder.getRecordId());
                     } else {
-                        List<Integer> memberIds = iPmdMapper.listOrderMemberIds(orderNo);
+                        List<Integer> memberIds = iPmdMapper.listOrderRecordIds(orderNo);
                         if (memberIds.size() > 0)
                             criteria.andIdIn(memberIds);
                         else

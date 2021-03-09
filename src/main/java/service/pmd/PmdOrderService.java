@@ -50,15 +50,16 @@ public class PmdOrderService extends PmdBaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 新建订单号，缴费时的月份(yyyyMM) + 是否延迟缴费(0,1) + 缴费方式(1,2)
-    // + 缴费数量（1：单一缴费） + (党员快照ID%999999，7位，预留一位0备用) + [重复生成的订单数量，2位，要求<=99]
-    private String createOrderNo(int pmdMemberId, PmdMonth currentPmdMonth,
-                                 boolean isDelay, byte payWay) {
+    // + 缴费类别（1：每月党费单一缴费 2：每月党费批量缴费 3：其他缴费单一缴费 4：其他缴费批量缴费）
+    // + (党员快照ID%999999，7位，预留一位0备用) + [重复生成的订单数量，2位，要求<=99]
+    private String createOrderNo(int recordId, byte orderType, Date payMonth, boolean isDelay, byte payWay) {
         
         // 根据订单生成次数，给订单号末尾加上后缀
         String suffix = "";
         {
             PmdOrderExample example = new PmdOrderExample();
-            example.createCriteria().andMemberIdEqualTo(pmdMemberId);
+            example.createCriteria().andTypeEqualTo(orderType)
+                    .andRecordIdEqualTo(recordId);
             long count = pmdOrderMapper.countByExample(example);
             if (count > 0) {
                 // 同一条缴费记录，系统只能处理99及以下的订单生成次数
@@ -68,12 +69,12 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         
         // 7位订单号, 预留一位0备用（要求每个月的缴费人数不超过999999人）
-        String _orderNo = String.format("%07d", pmdMemberId % 999999);
+        String _orderNo = String.format("%07d", recordId % 999999);
         
-        return DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM")
+        return DateUtils.formatDate(payMonth, "yyyyMM")
                 + (isDelay ? "1" : "0")
                 + payWay
-                + "1" // 1：单一缴费
+                + (orderType==PmdConstants.PMD_ORDER_TYPE_MONTH?"1":"3")
                 + _orderNo + suffix /*+ "_test"*/;
     }
     
@@ -108,7 +109,8 @@ public class PmdOrderService extends PmdBaseMapper {
         // 重复验证是否有成功的缴费记录
         {
             PmdOrderExample example = new PmdOrderExample();
-            example.createCriteria().andMemberIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
+            example.createCriteria().andTypeEqualTo(PmdConstants.PMD_ORDER_TYPE_MONTH)
+                    .andRecordIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
             if (pmdOrderMapper.countByExample(example) > 0) {
                 throw new OpException("重复缴费，请联系管理员处理。");
             }
@@ -176,8 +178,8 @@ public class PmdOrderService extends PmdBaseMapper {
         
         if (mustMakeNewOrder) {
             // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
-            String orderNo = createOrderNo(pmdMemberId, currentPmdMonth,
-                    pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
+            String orderNo = createOrderNo(pmdMemberId, PmdConstants.PMD_ORDER_TYPE_MONTH,
+                    currentPmdMonth.getPayMonth(), pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
             Map<String, String> paramMap = Pay.getInstance().orderParamMap(orderNo, amt, payer, isMobile);
@@ -185,14 +187,15 @@ public class PmdOrderService extends PmdBaseMapper {
             newOrder.setSign(Pay.getInstance().sign(paramMap));
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             newOrder.setPayMonth(DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM"));
-            newOrder.setMemberId(pmdMemberId);
+            newOrder.setRecordId(pmdMemberId);
             int currentUserId = ShiroHelper.getCurrentUserId();
             newOrder.setUserId(currentUserId);
             newOrder.setIsSuccess(false);
             newOrder.setIsClosed(false);
             newOrder.setCreateTime(new Date());
             newOrder.setIp(ContextHelper.getRealIp());
-            
+
+            newOrder.setType(PmdConstants.PMD_ORDER_TYPE_MONTH);
             pmdOrderMapper.insertSelective(newOrder);
 
             PmdMemberPay record = new PmdMemberPay();
@@ -208,7 +211,6 @@ public class PmdOrderService extends PmdBaseMapper {
 
             // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
             OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, isMobile);
-
             sysApprovalLogService.add(pmdMemberId, currentUserId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
@@ -216,6 +218,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     "订单号：" + orderNo);
 
             newOrder.setFormMap(orderFormBean.getFormMap());
+
             return newOrder;
         }
         
@@ -260,23 +263,168 @@ public class PmdOrderService extends PmdBaseMapper {
         
         return pmdOrder;
     }
+
+    // （补缴党费）跳转页面前的支付确认，生成支付订单号
+    @Transactional
+    public PmdOrder feeConfirm(int pmdFeeId, boolean isSelfPay, boolean isMobile) {
+
+        PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(pmdFeeId);
+        String oldOrderNo = pmdFee.getOrderNo();
+
+        // 确认订单信息
+        PmdOrder pmdOrder = confirmFeeOrder(oldOrderNo, pmdFeeId, isSelfPay, isMobile);
+
+        // 如果新生成的订单号和原订单号不一致，则关闭原订单号
+        if (StringUtils.isNotBlank(oldOrderNo) && !StringUtils.equals(oldOrderNo, pmdOrder.getSn())) {
+            try {
+                closeTrade(oldOrderNo);
+            } catch (IOException e) {
+                throw new OpException("关闭原订单{0}错误，请稍后再试。{1}", oldOrderNo, e.getMessage());
+            }
+        }
+
+        if(!CmTag.getBoolProperty("payTest")) { // 测试状态不检查订单支付状态
+            checkPayStatus(pmdFeeId, pmdOrder.getSn());
+        }
+
+        return pmdOrder;
+    }
+
+    // 构建支付表单参数
+    private PmdOrder confirmFeeOrder(String oldOrderNo, int pmdFeeId, boolean isSelfPay, boolean isMobile) {
+
+        // 验证是否有成功的缴费记录
+        {
+            PmdOrderExample example = new PmdOrderExample();
+            example.createCriteria().andTypeEqualTo(PmdConstants.PMD_ORDER_TYPE_FEE)
+                    .andRecordIdEqualTo(pmdFeeId).andIsSuccessEqualTo(true);
+            if (pmdOrderMapper.countByExample(example) > 0) {
+                throw new OpException("重复缴费，请联系管理员处理。");
+            }
+        }
+
+        PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(pmdFeeId);
+
+        String payer = null;
+        String payername = null;
+        if (isSelfPay) {
+            // 本人缴费
+            SysUserView uv = pmdFee.getUser();
+            payer = uv.getCode();
+            payername = uv.getRealname();
+        } else {
+            // 代缴
+            Integer currentUserId = ShiroHelper.getCurrentUserId();
+            if (currentUserId == null) {
+                logger.error("代缴错误，currentUserId = null. 缴费账号{}", pmdFee.getUser().getRealname());
+                throw new OpException("操作失败，请您重新登录系统后再试。");
+            }
+            SysUserView uv = sysUserService.findById(currentUserId);
+            if (uv == null) {
+                logger.error("代缴错误，currentUserId={} but uv = null. 缴费账号{}",
+                        currentUserId, pmdFee.getUser().getRealname());
+                throw new OpException("操作失败，请您重新登录系统后再试。");
+            }
+            payer = uv.getCode();
+            payername = uv.getRealname();
+        }
+
+        String amt = pmdFee.getAmt().toString();
+
+        PmdOrder newOrder = new PmdOrder();
+        newOrder.setPayer(payer);
+        newOrder.setPayername(payername);
+        newOrder.setAmt(amt);
+
+        boolean mustMakeNewOrder = false;
+        // 如果订单已存在（最近一次的）且与本次支付信息不相同，则生成新的订单
+        PmdOrder oldOrder = null;
+        if (StringUtils.isNotBlank(oldOrderNo)) {
+            oldOrder = pmdOrderMapper.selectByPrimaryKey(oldOrderNo);
+        }
+        if (oldOrder != null) {
+
+            Map<String, String> paramMap = Pay.getInstance().orderParamMap(oldOrderNo, amt, payer, isMobile);
+            oldOrder.setFormMap(paramMap);
+
+            Gson gson = new Gson();
+            Map<String, String> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
+            if (oldOrder.getIsClosed() // 订单关闭
+                    || !FormUtils.paramMapEquals(paramMap, oldParams)) {
+
+                logger.info("原订单({})已关闭或信息变更，生成新订单号", oldOrderNo);
+                mustMakeNewOrder = true;
+            }
+        } else {
+            logger.info("原订单{}信息不存在，生成订单号", StringUtils.isBlank(oldOrderNo) ? "" : "(" + oldOrderNo + ")");
+            mustMakeNewOrder = true;
+        }
+
+        if (mustMakeNewOrder) {
+            // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
+            String orderNo = createOrderNo(pmdFeeId, PmdConstants.PMD_ORDER_TYPE_FEE, pmdFee.getPayMonth(),
+                    false, PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
+            newOrder.setSn(orderNo);
+
+            Map<String, String> paramMap = Pay.getInstance().orderParamMap(orderNo, amt, payer, isMobile);
+            // 签名
+            newOrder.setSign(Pay.getInstance().sign(paramMap));
+            newOrder.setParams(JSONUtils.toString(paramMap, false));
+            newOrder.setPayMonth(DateUtils.formatDate(pmdFee.getPayMonth(), "yyyyMM"));
+            newOrder.setRecordId(pmdFeeId);
+            int currentUserId = ShiroHelper.getCurrentUserId();
+            newOrder.setUserId(currentUserId);
+            newOrder.setIsSuccess(false);
+            newOrder.setIsClosed(false);
+            newOrder.setCreateTime(new Date());
+            newOrder.setIp(ContextHelper.getRealIp());
+
+            newOrder.setType(PmdConstants.PMD_ORDER_TYPE_FEE);
+            pmdOrderMapper.insertSelective(newOrder);
+
+            PmdFee record = new PmdFee();
+            record.setId(pmdFeeId);
+            record.setOrderNo(orderNo);
+            record.setOrderUserId(currentUserId);
+
+            if (pmdFeeMapper.updateByPrimaryKeySelective(record) == 0) {
+
+                logger.error("确认缴费时，对应的缴费记录不存在...%s, %s", pmdFeeId, currentUserId);
+                throw new OpException("缴费请求有误，请稍后再试。");
+            }
+
+            // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
+            OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, isMobile);
+            sysApprovalLogService.add(pmdFeeId, currentUserId,
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_FEE,
+                    "支付已确认，即将跳转支付页面", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    "订单号：" + orderNo);
+
+            newOrder.setFormMap(orderFormBean.getFormMap());
+
+            return newOrder;
+        }
+
+        return oldOrder;
+    }
     
     // 确认支付状态，如果是单个缴费，则在生成订单之后检查； 如果是批量缴费，则在生成订单之前检查，且currentSn=null
-    private void checkPayStatus(int pmdMemberId, String currentSn) {
+    private void checkPayStatus(int recordId, String currentSn) {
         
         // 检查一下是否有批量代缴的记录，如果存在且成功支付，则不允许支付, 如果没有成功支付，则关闭订单
         {
-            Set<String> toClosedSnSet = new HashSet<>();
-            List<PmdOrder> pmdOrders = iPmdMapper.notClosedBatchOrder(pmdMemberId);
+            List<String> toClosedSnList = new ArrayList<>();
+            List<PmdOrder> pmdOrders = iPmdMapper.notClosedBatchOrder(recordId);
             for (PmdOrder pmdOrder : pmdOrders) {
                 String sn = pmdOrder.getSn();
                 if (pmdOrder.getIsSuccess()) {
                     throw new OpException("当前缴费记录已批量缴费成功，缴费订单号：{0}, 请勿重复支付。", sn);
                 } else {
-                    toClosedSnSet.add(sn);
+                    toClosedSnList.add(sn);
                 }
             }
-            for (String sn : toClosedSnSet) {
+            for (String sn : toClosedSnList) {
                 try {
                     closeTrade(sn);
                 } catch (IOException e) {
@@ -288,7 +436,9 @@ public class PmdOrderService extends PmdBaseMapper {
         // 检查一下生成的所有订单，是否已经有支付成功的记录，如有则不允许跳转
         {
             PmdOrderExample example = new PmdOrderExample();
-            PmdOrderExample.Criteria criteria = example.createCriteria().andMemberIdEqualTo(pmdMemberId);
+            PmdOrderExample.Criteria criteria = example.createCriteria()
+                    .andTypeEqualTo(PmdConstants.PMD_ORDER_TYPE_MONTH)
+                    .andRecordIdEqualTo(recordId);
             if (currentSn != null) {
                 // 针对单个缴费，不包括当前生成的订单
                 criteria.andSnNotEqualTo(currentSn);
@@ -331,15 +481,15 @@ public class PmdOrderService extends PmdBaseMapper {
     
     // 新建批量代缴订单号，缴费时的月份(yyyyMM) + 是否延迟缴费(0,1) + 缴费方式(1,2)
     // + 缴费数量（2：批量代缴） + (userId，7位，预留一位0备用，要求<999999) + (每月生成的订单数量，3位，要求<=999)
-    private String createBatchOrderNo(int userId, PmdMonth currentPmdMonth,
-                                      boolean isDelay, byte payWay) {
+    private String createBatchOrderNo(int userId, byte orderType, Date payMonth, boolean isDelay, byte payWay) {
         
         // 根据订单生成次数，给订单号末尾加上后缀
         String suffix = "";
         {
-            String payMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");
+            String _payMonth = DateUtils.formatDate(payMonth, "yyyyMM");
             PmdOrderExample example = new PmdOrderExample();
-            example.createCriteria().andPayMonthEqualTo(payMonth)
+            example.createCriteria().andPayMonthEqualTo(_payMonth)
+                    .andTypeEqualTo(orderType)
                     .andUserIdEqualTo(userId).andIsBatchEqualTo(true);
             long count = pmdOrderMapper.countByExample(example) + 1;
             
@@ -355,10 +505,10 @@ public class PmdOrderService extends PmdBaseMapper {
         // 7位订单号, 预留一位0备用（要求每个月的缴费人数不超过999999人）
         String _orderNo = String.format("%07d", userId);
         
-        return DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM")
+        return DateUtils.formatDate(payMonth, "yyyyMM")
                 + (isDelay ? "1" : "0")
                 + payWay
-                + "2" // 2：批量代缴
+                + (orderType==PmdConstants.PMD_ORDER_TYPE_MONTH?"2":"4")
                 + _orderNo + suffix/* + "_test"*/;
     }
     
@@ -381,13 +531,16 @@ public class PmdOrderService extends PmdBaseMapper {
         {
             // 关闭之前的订单
             PmdOrderExample example = new PmdOrderExample();
-            example.createCriteria().andPayMonthEqualTo(currentPayMonth)
+            example.createCriteria()
+                    .andTypeEqualTo(PmdConstants.PMD_ORDER_TYPE_MONTH)
+                    .andPayMonthEqualTo(currentPayMonth)
                     .andUserIdEqualTo(currentUserId).andIsBatchEqualTo(true)
                     .andIsSuccessEqualTo(false).andIsClosedEqualTo(false);
             List<PmdOrder> pmdOrders = pmdOrderMapper.selectByExample(example);
 
             Set<String> snSet = new HashSet<>();
             for (PmdOrder pmdOrder : pmdOrders) {
+                
                 String sn = pmdOrder.getSn();
                 snSet.add(sn);
             }
@@ -405,7 +558,8 @@ public class PmdOrderService extends PmdBaseMapper {
             throw new OpException("没有选择缴费记录。");
         }
         
-        String orderNo = createBatchOrderNo(currentUserId, currentPmdMonth, isDelay, PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
+        String orderNo = createBatchOrderNo(currentUserId, PmdConstants.PMD_ORDER_TYPE_MONTH,
+                currentPmdMonth.getPayMonth(), isDelay, PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
         
         BigDecimal duePay = BigDecimal.ZERO;
         for (Integer pmdMemberId : pmdMemberIds) {
@@ -441,7 +595,8 @@ public class PmdOrderService extends PmdBaseMapper {
             // 重复验证是否有成功的缴费记录
             {
                 PmdOrderExample example = new PmdOrderExample();
-                example.createCriteria().andMemberIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
+                example.createCriteria().andTypeEqualTo(PmdConstants.PMD_ORDER_TYPE_MONTH)
+                        .andRecordIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
                 if (pmdOrderMapper.countByExample(example) > 0) {
                     throw new OpException("{0}重复缴费，请联系管理员处理。", pmdMember.getUser().getRealname());
                 }
@@ -465,7 +620,7 @@ public class PmdOrderService extends PmdBaseMapper {
             
             PmdOrderItem _pmdOrderItem = new PmdOrderItem();
             _pmdOrderItem.setSn(orderNo);
-            _pmdOrderItem.setMemberId(pmdMemberId);
+            _pmdOrderItem.setRecordId(pmdMemberId);
             _pmdOrderItem.setDuePay(pmdMember.getDuePay());
             pmdOrderItemMapper.insertSelective(_pmdOrderItem);
             
@@ -502,10 +657,12 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setCreateTime(new Date());
         newOrder.setIp(ContextHelper.getRealIp());
 
+        newOrder.setType(PmdConstants.PMD_ORDER_TYPE_MONTH);
         pmdOrderMapper.insertSelective(newOrder);
 
         // 创建订单时可能会抛出异常，所以要最后调用，保证能保存上面的原始请求订单
         OrderFormBean orderFormBean = Pay.getInstance().createOrder(orderNo, amt, payer, false);
+
         newOrder.setFormMap(orderFormBean.getFormMap());
         return newOrder;
     }
@@ -629,21 +786,28 @@ public class PmdOrderService extends PmdBaseMapper {
             record.setIsSuccess(true);
             pmdOrderMapper.updateByPrimaryKeySelective(record);
 
-            boolean isBatch = StringUtils.equals(orderNo.substring(8, 9), "2");
+            boolean isBatch = StringUtils.equalsAny(orderNo.substring(8, 9), "2", "4");
             if (isBatch) {
                 processBatchOrder(orderNo, payerCode, realPay);
             } else {
-                processSingleOrder(pmdOrder.getMemberId(), orderNo,
+
+                processSingleOrder(pmdOrder.getRecordId(), orderNo,
                         payerCode, realPay);
             }
         }
     }
     
     // 单个缴费通知处理
-    private void processSingleOrder(int memberId, String orderNo, String payerCode, BigDecimal realPay) {
-        
+    private void processSingleOrder(int recordId, String orderNo, String payerCode, BigDecimal realPay) {
+
+        if(!StringUtils.equals(orderNo.substring(8, 9), "1")){
+
+            processFeeSingleOrder(recordId, orderNo, payerCode, realPay);
+            return;
+        }
+
         // 更新党员账单
-        PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(memberId);
+        PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(recordId);
         if (pmdMemberPayView == null) {
             
             logger.error("[党费收缴]处理支付通知失败，缴费记录不存在，订单号：{}", orderNo);
@@ -714,7 +878,7 @@ public class PmdOrderService extends PmdBaseMapper {
                 if (!isDelay && payStatus != 0 && needPayMonthId == currentPmdMonth.getId()) {
                     // 当月正常缴费时（非补缴），才需更新快照
                     PmdMember record = new PmdMember();
-                    record.setId(memberId);
+                    record.setId(recordId);
                     record.setHasPay(true);
                     record.setRealPay(realPay);
                     record.setIsSelfPay(isSelfPay);
@@ -722,7 +886,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     record.setChargeUserId(chargeUserId);
                     
                     PmdMemberExample example = new PmdMemberExample();
-                    example.createCriteria().andIdEqualTo(memberId)
+                    example.createCriteria().andIdEqualTo(recordId)
                             .andHasPayEqualTo(false)
                             .andIsDelayEqualTo(isDelay); // 确保延迟状态一致，防止管理员改变了状态
                     /* 支付通知时，以下情况不允许更新快照：
@@ -738,7 +902,7 @@ public class PmdOrderService extends PmdBaseMapper {
                 }
                 
                 PmdMemberPay record = new PmdMemberPay();
-                record.setMemberId(memberId);
+                record.setMemberId(recordId);
                 record.setHasPay(true);
                 record.setRealPay(realPay);
                 record.setIsSelfPay(isSelfPay);
@@ -754,7 +918,7 @@ public class PmdOrderService extends PmdBaseMapper {
                 record.setPayTime(new Date());
                 
                 PmdMemberPayExample example = new PmdMemberPayExample();
-                example.createCriteria().andMemberIdEqualTo(memberId)
+                example.createCriteria().andMemberIdEqualTo(recordId)
                         .andHasPayEqualTo(false);
                 if (pmdMemberPayMapper.updateByExampleSelective(record, example) == 0) {
                     
@@ -769,6 +933,58 @@ public class PmdOrderService extends PmdBaseMapper {
             }
         }
     }
+
+    private void processFeeSingleOrder(int pmdFeeId, String orderNo, String payerCode, BigDecimal realPay) {
+
+        // 更新党员账单
+        PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(pmdFeeId);
+        if (pmdFee == null) {
+
+            logger.error("[党费收缴]处理支付通知失败，缴费记录不存在，订单号：{}", orderNo);
+            throw new RuntimeException("支付接口通知异常。");
+        }
+
+        if (BooleanUtils.isTrue(pmdFee.getHasPay())) {
+
+            // 如果重复通知，则不再更新相关缴费记录。（此时可能原因：重复缴费）
+            logger.warn("[党费收缴]处理支付通知重复，订单号：{}, 原订单号：{}",
+                    orderNo, pmdFee.getOrderNo());
+            return;
+        }
+
+        boolean isSelfPay = true;
+        Integer chargeUserId = pmdFee.getUserId(); // 缴费人
+        // 读取实际缴费人
+        String code = StringUtils.trimToNull(payerCode);
+        if (code != null) {
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv != null && uv.getId().intValue() != pmdFee.getUserId()) {
+                chargeUserId = uv.getId();
+                isSelfPay = false;
+            }
+        }
+
+        PmdFee record = new PmdFee();
+        record.setId(pmdFeeId);
+        record.setHasPay(true);
+        record.setIsSelfPay(isSelfPay);
+        record.setPayUserId(chargeUserId);
+        record.setPayTime(new Date());
+
+        PmdFeeExample example = new PmdFeeExample();
+        example.createCriteria().andIdEqualTo(pmdFeeId)
+                .andHasPayEqualTo(false);
+        if (pmdFeeMapper.updateByExampleSelective(record, example) == 0) {
+
+            logger.error("[党费收缴]处理支付结果异常，更新账单失败，订单号：{}", orderNo);
+            throw new OpException("更新账单失败");
+        }
+
+        sysApprovalLogService.add(pmdFeeId, chargeUserId,
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_FEE,
+                "线上缴费成功通知", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, orderNo);
+    }
     
     // 处理批量缴费结果通知
     private void processBatchOrder(String orderNo, String payerCode, BigDecimal realPay) {
@@ -781,7 +997,7 @@ public class PmdOrderService extends PmdBaseMapper {
         for (PmdOrderItem pmdOrderItem : pmdOrderItems) {
             
             duePay = duePay.add(pmdOrderItem.getDuePay());
-            processSingleOrder(pmdOrderItem.getMemberId(), orderNo, payerCode, pmdOrderItem.getDuePay());
+            processSingleOrder(pmdOrderItem.getRecordId(), orderNo, payerCode, pmdOrderItem.getDuePay());
         }
         if (duePay.compareTo(realPay) != 0) {
             logger.error("批量缴费通知异常，总额校验失败。订单号：{}, 通知总额：{}，应交总额：{}",
