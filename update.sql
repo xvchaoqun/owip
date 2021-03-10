@@ -182,7 +182,7 @@ ALTER TABLE `sys_teacher_info`
 	ADD COLUMN `is_full_time_teacher` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-    VALUES (5001, 0, '教工队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=5', 2634, '0/1/105/2634/', 1, 'statOwJzgInfo:list', NULL, NULL, NULL, 1, 50);
+    VALUES (5001, 0, '全校教工队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=5', 2634, '0/1/105/2634/', 1, 'statOwJzgInfo:list', NULL, NULL, NULL, 1, 50);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
     VALUES (5002, 0, '各二级党组织专任教师队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=6', 2634, '0/1/105/2634/', 1, 'statPartyJzgInfo:list', NULL, NULL, NULL, 1, 50);
 
