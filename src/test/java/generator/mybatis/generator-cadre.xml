@@ -135,10 +135,10 @@
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!--<table tableName="cadre_punish" domainObjectName="cadre.CadrePunish" mapperName="cadre.CadrePunishMapper">
+        <table tableName="cadre_punish" domainObjectName="cadre.CadrePunish" mapperName="cadre.CadrePunishMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_book" domainObjectName="cadre.CadreBook">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
