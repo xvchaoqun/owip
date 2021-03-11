@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${apiShow}">
+<%@ include file="/ext/api_check.jsp" %>
+</c:if>
 <style type="text/css">
     table {
     font-size: 14px;
@@ -77,7 +80,7 @@ td.padding10{
  margin: 0 0 0 9em;
 }
 </style>
-<c:if test="${empty hideDownloadBtn}">
+<c:if test="${empty apiShow}">
     <div style="position: absolute; top:25px; left:10px;">
         <a href="javascript:;" class="downloadBtn btn btn-primary"
            data-url="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">

@@ -171,7 +171,7 @@ public class MemberOutReportController extends MemberBaseController {
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", userBean.getRealname());
-        map.put("from", memberOut.getFromUnit());
+        map.put("from", memberOut.getFromAddress());
         map.put("to", memberOut.getToUnit());
         map.put("toTitle", memberOut.getToTitle());
         map.put("check1", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员

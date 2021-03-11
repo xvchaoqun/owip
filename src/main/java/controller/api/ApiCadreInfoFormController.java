@@ -28,7 +28,7 @@ public class ApiCadreInfoFormController extends BaseController {
         CadreView cadreView =  iCadreMapper.getCadreByCode(code);
         if(cadreView!=null){
             modelMap.put("bean", cadreInfoFormService.getCadreInfoForm(cadreView.getId()));
-            modelMap.put("hideDownloadBtn",true);
+            modelMap.put("apiShow",true);
 
             return "cadre/cadreInfoForm/cadreInfoForm_page";
         }else{
