@@ -3066,9 +3066,14 @@ public class StatOwInfoService extends BaseMapper {
                 row = sheet.getRow(startRow);
                 cell = row.createCell(0);
 
-                String directorProportion = new BigDecimal((float) (int) (modelMap.get("totalDirectorTeacher")) / (int) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
-                String deputyProportion = new BigDecimal((float) (int) (modelMap.get("totalDeputyTeacher")) / (int) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
-                String proportion = new BigDecimal((float) ((int) (modelMap.get("totalDeputyTeacher"))+(int) (modelMap.get("totalDirectorTeacher"))) / (int) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
+                String directorProportion = "0.00%";
+                String deputyProportion = "0.00%";
+                String proportion = "0.00%";
+                if (modelMap.get("totalFulltimeTecher").equals("0")) {
+                    directorProportion = new BigDecimal((float) (modelMap.get("totalDirectorTeacher")) / (float) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "%";
+                    deputyProportion = new BigDecimal((float) (modelMap.get("totalDeputyTeacher")) / (float) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "%";
+                    proportion = new BigDecimal(((float) (modelMap.get("totalDeputyTeacher")) + (float) (modelMap.get("totalDirectorTeacher"))) / (float) (modelMap.get("totalFulltimeTecher")) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "%";
+                }
 
                 String rowStr1 = String.format("汇总：\n截至%s，全校共有基层党支部%s个。\n" , DateUtils.formatDate(new Date(),YYYY_MM),modelMap.get("allNum"));
                 String rowStr2 = String.format("1.所有%s个本科生辅导员纵向党支部，均有辅导员担任党支部书记；\n" , modelMap.get("totalUndergraduateNum"));

@@ -19,7 +19,7 @@
   <col class=xl7124425 width=57>
   <col class=xl6324425 width=116>
   <tr height=52>
-    <td colspan=14 height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
+    <td colspan=14 height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_CATEGORY_MAP.get(cadreCategory)}配备情况
     </td>
   </tr>
   <tr height=30>

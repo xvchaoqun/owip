@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
+<c:set var="OW_APPLY_TYPE_MAP" value="<%=OwConstants.OW_APPLY_TYPE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
 
         <div id="body-content">
             <div class="myTableDiv"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId }"/>
+                <c:set var="_query" value="${not empty param.userId || not empty param.gender || not empty param.stage || not empty param.type || not empty param.partyId}"/>
                 <div class="tabbable">
 
                     <div class="tab-content multi-row-head-table">
@@ -34,7 +36,7 @@
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cols">
                                             <div class="form-group">
-                                                <label>成员姓名</label>
+                                                <label>成员姓名:</label>
                                                 <div class="input-group">
                                                     <select data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/sysUser_selects"
@@ -43,6 +45,59 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>人员状态:</label>
+                                                <div class="input-group">
+                                                    <select name="stage" data-width="200" data-rel="select2"
+                                                            data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach items="${OW_APPLY_STAGE_MAP}" var="entity">
+                                                            <option value="${entity.key}">${entity.value}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=stage]").val('${param.stage}');
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>类别:</label>
+                                                <div class="input-group">
+                                                    <select name="type" data-width="100" data-rel="select2"
+                                                            data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach items="${OW_APPLY_TYPE_MAP}" var="entity">
+                                                            <option value="${entity.key}">${entity.value}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=type]").val('${param.type}');
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>所在党组织: <span class="prompt" data-title="查询说明"
+                                                                               data-prompt="选择${_p_partyName}后，会出现党支部的选择（二级联动）"><i class="fa fa-question-circle-o"></i></span></label>
+                                                <select class="form-control" data-width="250" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/party_selects?auth=1"
+                                                        name="partyId" data-placeholder="请选择">
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" style="${(empty branch)?'display: none':''}"
+                                                 id="branchDiv">
+                                                <label>所在党支部:</label>
+                                                <select class="form-control" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/branch_selects?auth=1"
+                                                        name="branchId" data-placeholder="请选择党支部">
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                                                </select>
+                                            </div>
+                                            <script>
+                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                            </script>
+
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                                    data-url="${ctx}/stat/statCod?cls=1"
@@ -118,39 +173,22 @@
             {label: '出生日期', name: 'user.birth', width: 100,formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             {label: '学历', name: 'edu',  width: 100},
-            {label: '人员类别', name: 'stage',  width: 100,formatter: function (cellvalue, options, rowObject) {
-                    var str = "";
+            {label: '人员状态', name: 'stage',  width: 100,formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
-                    if (cellvalue == -1) {
-                        str = "不通过";
-                    }else if (cellvalue == 0){
-                        str = "申请";
-                    }else if (cellvalue == 1){
-                        str = "通过";
-                    }else if (cellvalue == 2){
-                        str = "入党积极分子";
-                    }else if (cellvalue == 3){
-                        str = "发展对象";
-                    }else if (cellvalue == 4){
-                        str = "列入发展计划";
-                    }else if (cellvalue == 5){
-                        str = "领取志愿书";
-                    }else if (cellvalue == 6){
-                        str = "预备党员";
-                    }else if (cellvalue == 7){
-                        str = "正式党员";
-                    }
-                    return str;
+                    if (_cMap.OW_APPLY_STAGE_MAP[cellvalue] == undefined) return '--';
+                    return _cMap.OW_APPLY_STAGE_MAP[cellvalue];
+
                 }
 
             },
             {label: '入党申请时间', name: 'applyTime',  width: 100,formatter: $.jgrid.formatter.date},
             {label: '确定为积极分子时间', name: 'activeTime', width: 150,formatter: $.jgrid.formatter.date},
             {label: '确定为发展对象时间', name: 'candidateTime',  width: 150,formatter: $.jgrid.formatter.date},
-            {label: '所在党组织', name: 'partyId',  width: 250,
+            {label: '所在党组织', name: 'partyId',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
-                    return  _cMap.partyMap[cellvalue].name
+
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },
             {label: '入党时间', name: 'passTime',  width: 150,formatter: $.jgrid.formatter.date},
@@ -170,6 +208,6 @@
     });
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[name=userId]'));
     $('[data-rel="select2"]').select2();
 </script>

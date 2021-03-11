@@ -869,12 +869,12 @@ public class UnitPostController extends BaseController {
     @RequestMapping("/unitPostAllocation")
     public String unitPostAllocation(
             @RequestParam(required = false, defaultValue = "1") Byte module,
-            @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,
+            @RequestParam(required = false, defaultValue = CadreConstants.CADRE_CATEGORY_CJ+"") byte cadreCategory,
             @RequestParam(required = false, defaultValue = "0") int export,
             ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         modelMap.put("module", module);
-        modelMap.put("cadreType", cadreType);
+        modelMap.put("cadreCategory", cadreCategory);
 
         if (module == 1) {
             byte _upa_displayPosts = CmTag.getByteProperty("upa_displayPosts");
@@ -882,13 +882,13 @@ public class UnitPostController extends BaseController {
             if (export == 1) {
                 XSSFWorkbook wb=new XSSFWorkbook();
                 if(_upa_displayPosts==UNIT_POST_DISPLAY_NORMAL||_upa_displayPosts==UNIT_POST_DISPLAY_KEEP) {
-                     wb = unitPostAllocationService.cpcInfo_Xlsx(cadreType);
+                     wb = unitPostAllocationService.cpcInfo_Xlsx(cadreCategory);
                 }else if(_upa_displayPosts==UNIT_POST_DISPLAY_NOT_CPC) {
-                     wb = unitPostAllocationService.cpcInfo_Xlsx2(cadreType);
+                     wb = unitPostAllocationService.cpcInfo_Xlsx2(cadreCategory);
                 }
 
                 String fileName = sysConfigService.getSchoolName() + "内设机构"
-                        + CadreConstants.CADRE_TYPE_MAP.get(cadreType) +"配备情况（"
+                        + CadreConstants.CADRE_CATEGORY_MAP.get(cadreCategory) +"配备情况（"
                         + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
                 ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
@@ -897,19 +897,19 @@ public class UnitPostController extends BaseController {
             List<UnitPostAllocationInfoBean> beans = new ArrayList<>();
 
             if(_upa_displayPosts==UNIT_POST_DISPLAY_NORMAL||_upa_displayPosts==UNIT_POST_DISPLAY_KEEP) {
-                beans = unitPostAllocationService.cpcInfo_data(null, cadreType, true);
+                beans = unitPostAllocationService.cpcInfo_data(null, cadreCategory, true);
             }else if(_upa_displayPosts==UNIT_POST_DISPLAY_NOT_CPC) {
-                beans = unitPostAllocationService.cpcInfo_data2(null, cadreType, true);
+                beans = unitPostAllocationService.cpcInfo_data2(null, cadreCategory, true);
             }
 
             modelMap.put("beans", beans);
         }else if (module == 2) {
 
             if (export == 1) {
-                XSSFWorkbook wb = unitPostAllocationService.cpcStat_Xlsx(cadreType);
+                XSSFWorkbook wb = unitPostAllocationService.cpcStat_Xlsx(cadreCategory);
 
                 String fileName = sysConfigService.getSchoolName() + "内设机构"+
-                        CadreConstants.CADRE_TYPE_MAP.get(cadreType)
+                        CadreConstants.CADRE_CATEGORY_MAP.get(cadreCategory)
                         +"配备统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
                 ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
@@ -919,7 +919,7 @@ public class UnitPostController extends BaseController {
             Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
             modelMap.put("unitTypeGroupMap", unitTypeGroupMap);
 
-            Map<String, List<Integer>> cpcStatDataMap = unitPostAllocationService.cpcStat_data(cadreType);
+            Map<String, List<Integer>> cpcStatDataMap = unitPostAllocationService.cpcStat_data(cadreCategory);
             modelMap.put("cpcStatDataMap", cpcStatDataMap);
         }
 

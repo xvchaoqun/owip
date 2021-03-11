@@ -37,12 +37,12 @@
   <col class=xl632001 width=71 style='width:53pt'>
   <col class=xl632001 width=71 span=3 style='width:53pt'>
   <tr height=75 style='mso-height-source:userset;height:56.25pt'>
-    <td colspan=${cadreType==CADRE_TYPE_CJ?18:14} height=75 class=xl822001 width=1107 style='height:56.25pt;
-  width:839pt'>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备统计表</td>
+    <td colspan=${cadreCategory==CADRE_CATEGORY_CJ?18:14} height=75 class=xl822001 width=1107 style='height:56.25pt;
+  width:839pt'>${_school}内设机构${CADRE_CATEGORY_MAP.get(cadreCategory)}配备统计表</td>
 
   </tr>
   <tr height=45 style='mso-height-source:userset;height:33.75pt'>
-    <td colspan=${cadreType==CADRE_TYPE_CJ?18:14} height=45 class=xl832001 width=1107 style='height:33.75pt;
+    <td colspan=${cadreCategory==CADRE_CATEGORY_CJ?18:14} height=45 class=xl832001 width=1107 style='height:33.75pt;
   width:839pt'>统计日期：${cm:formatDate(now,'yyyy年MM月dd日')}</td>
 
   </tr>
@@ -54,10 +54,10 @@
     <td colspan=4 class=xl792001 width=216 style='border-right:2.0pt double black;
   border-left:none;width:164pt'>所有岗位</td>
     <td colspan=4 class=xl802001 width=216 style='border-right:2.0pt double black;
-  width:164pt'>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}级岗位</td>
+  width:164pt'>${cadreCategory==CADRE_CATEGORY_CJ?"正处":"正科"}级岗位</td>
     <td colspan=4 class=xl892001 width=216 style='border-right:2.0pt double black;
-  border-left:none;width:164pt'>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级岗位</td>
-    <c:if test="${cadreType==CADRE_TYPE_CJ}">
+  border-left:none;width:164pt'>${cadreCategory==CADRE_CATEGORY_CJ?"副处":"副科"}级岗位</td>
+    <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
     <td colspan=4 class=xl882001 width=216 style='border-right:1pt solid black;
   border-left:none;width:164pt'>${_p_label_adminLevelNone}岗位</td>
     </c:if>
@@ -87,7 +87,7 @@
     <td rowspan=2 class=xl742001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
-    <c:if test="${cadreType==CADRE_TYPE_CJ}">
+    <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
     <td rowspan=2 class=xl762001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>干部<br>
       职数</td>
@@ -111,7 +111,7 @@
   width:41pt'>全职</td>
     <td class=xl712001 width=54 style='border-top:none;border-left:none;
   width:41pt'>兼职</td>
-    <c:if test="${cadreType==CADRE_TYPE_CJ}">
+    <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
     <td class=xl712001 width=54 style='border-top:none;border-left:none;
   width:41pt'>全职</td>
     <td class=xl712001 width=54 style='border-top:none;border-left:none;

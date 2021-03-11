@@ -18,7 +18,7 @@
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
-                            <input type="hidden" name="cadreType" value="${cadreType}">
+                            <input type="hidden" name="cadreCategory" value="${cadreCategory}">
                             <input type="hidden" name="unitTypeGroup" value="${unitTypeGroup}">
                             <div class="columns">
                                 <div class="column">
@@ -118,10 +118,10 @@
                 <c:if test="${_p_hasKjCadre}">
                     <shiro:lacksPermission name="hide:kj">
                     <div class="input-group pull-left" style="left: 60px;padding-top: 6px">
-                        <c:forEach items="${CADRE_TYPE_MAP}" var="entity">
+                        <c:forEach items="${CADRE_CATEGORY_MAP}" var="entity">
                             <div class="checkbox checkbox-inline checkbox-sm checkbox-success checkbox-circle">
-                                <input required type="radio" name="cadreType" id="cadreType${entity.key}"
-                                    ${cadreType==entity.key?"checked":""} value="${entity.key}">
+                                <input required type="radio" name="cadreCategory" id="cadreType${entity.key}"
+                                    ${cadreCategory==entity.key?"checked":""} value="${entity.key}">
                                 <label for="cadreType${entity.key}">
                                         ${entity.value}
                                 </label>
@@ -136,7 +136,7 @@
                 <table border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
-                        <td colspan=14 height=41 class=xl97>${_school}${CADRE_TYPE_MAP.get(cadreType)}情况统计表
+                        <td colspan=14 height=41 class=xl97>${_school}${CADRE_CATEGORY_MAP.get(cadreCategory)}情况统计表
                             <c:if test="${not empty param.unitTypeGroup}">（${unitTypeGroupMap.get(param.unitTypeGroup).name}）</c:if>
                         </td>
                     </tr>
@@ -159,9 +159,9 @@
                     <tr class=xl66>
                         <td height=23 class=xl78>人数</td>
                         <td class=xl82>比率</td>
-                        <td class=xl72>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}</td>
+                        <td class=xl72>${cadreCategory==CADRE_CATEGORY_CJ?"正处":"正科"}</td>
                         <td class=xl69>比率</td>
-                        <td class=xl70>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}</td>
+                        <td class=xl70>${cadreCategory==CADRE_CATEGORY_CJ?"副处":"副科"}</td>
                         <td class=xl69>比率</td>
                         <td class=xl70>无级别</td>
                         <td class=xl82>比率</td>
@@ -178,7 +178,7 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td colspan=2 height=23 class=xl70>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}</td>
+                        <td colspan=2 height=23 class=xl70>${cadreCategory==CADRE_CATEGORY_CJ?"正处":"正科"}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="2"/>
                             <jsp:param name="firstTypeCode" value="adminLevel"/>
@@ -186,7 +186,7 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td colspan=2 height=23 class=xl70>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}</td>
+                        <td colspan=2 height=23 class=xl70>${cadreCategory==CADRE_CATEGORY_CJ?"副处":"副科"}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="3"/>
                             <jsp:param name="firstTypeCode" value="adminLevel"/>
@@ -1107,10 +1107,10 @@
     $.register.multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     $.register.multiselect($('#searchForm select[name=labels]'), ${cm:toJSONArray(selectLabels)});
     $('[data-rel="select2"]').select2();
-    $("input[name=cadreType]").click(function () {
-        var cadreType = $(this).val();
-        //console.log("cadreType="+cadreType)
-        $("#searchForm input[name=cadreType]").val(cadreType);
+    $("input[name=cadreCategory]").click(function () {
+        var cadreCategory = $(this).val();
+        //console.log("cadreCategory="+cadreCategory)
+        $("#searchForm input[name=cadreCategory]").val(cadreCategory);
         $(".jqSearchBtn").click();
     })
     $(".unit-group").click(function () {

@@ -305,24 +305,24 @@ public class CadreCompanyService extends BaseMapper {
     public void export(Integer[] ids, Byte cadreStatus, CadreCompanyViewExample example, int exportType, Integer reserveType, HttpServletResponse response) throws IOException {
 
         String schoolName = CmTag.getSysConfig().getSchoolName();
-        String cadreType = "";
+        String cadreCategory = "";
         if (cadreStatus != null) {
             if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER) {
-                cadreType = "现任校领导";
+                cadreCategory = "现任校领导";
             } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
-                cadreType = "离任校领导";
+                cadreCategory = "离任校领导";
             } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ) {
-                cadreType = "现任处级干部";
+                cadreCategory = "现任处级干部";
             } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ_LEAVE) {
-                cadreType = "离任处级干部";
+                cadreCategory = "离任处级干部";
             } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ) {
-                cadreType = "现任科级干部";
+                cadreCategory = "现任科级干部";
             } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ_LEAVE) {
-                cadreType = "离任科级干部";
+                cadreCategory = "离任科级干部";
             }
         }else {
             MetaTypeService metaTypeService = CmTag.getBean(MetaTypeService.class);
-            cadreType = metaTypeService.getName(reserveType);
+            cadreCategory = metaTypeService.getName(reserveType);
         }
         List<CadreCompanyView> records = new ArrayList<>();
         if (exportType == 0){
@@ -337,7 +337,7 @@ public class CadreCompanyService extends BaseMapper {
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("school", schoolName + cadreType);
+                .replace("school", schoolName + cadreCategory);
         cell.setCellValue(str);
 
         row = sheet.getRow(1);
@@ -407,7 +407,7 @@ public class CadreCompanyService extends BaseMapper {
             cell.setCellValue(BooleanUtils.isTrue(record.getHasHand()) ? "是" : "否");
         }
 
-        String fileName = String.format("%s兼职情况汇总表", schoolName + cadreType);
+        String fileName = String.format("%s兼职情况汇总表", schoolName + cadreCategory);
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
@@ -501,13 +501,13 @@ public class CadreCompanyService extends BaseMapper {
         Map<Integer, CadreCompanyStatBean> records = listCadreCompanyStatBeans(String.valueOf(cadreStatus));
 
         String schoolName = CmTag.getSysConfig().getSchoolName();
-        String cadreType = "";
+        String cadreCategory = "";
         if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER) {
-            cadreType = "现任校领导";
+            cadreCategory = "现任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
-            cadreType = "离任校领导";
+            cadreCategory = "离任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ) {
-            cadreType = "现任干部";
+            cadreCategory = "现任干部";
         }
 
         InputStream is = new FileInputStream(ResourceUtils
@@ -532,7 +532,7 @@ public class CadreCompanyService extends BaseMapper {
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("school", schoolName + cadreType);
+                .replace("school", schoolName + cadreCategory);
         cell.setCellValue(str);
 
         row = sheet.getRow(1);
@@ -620,7 +620,7 @@ public class CadreCompanyService extends BaseMapper {
             }
         }
 
-        String fileName = String.format("%s企业、社团兼职", cadreType);
+        String fileName = String.format("%s企业、社团兼职", cadreCategory);
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 

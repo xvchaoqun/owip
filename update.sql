@@ -1,5 +1,121 @@
 
+-- == 以下党费部分已更新南航
+CREATE TABLE `pmd_fee` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`type` INT(10) UNSIGNED NOT NULL COMMENT '缴费类型，元数据，包含补缴党费、捐赠党费',
+	`pay_month` DATE NOT NULL COMMENT '缴费月份，默认当月，可以修改',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户ID',
+	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委，本人添加时，只允许选择本支部，支部、分党委同理',
+	`branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所在党支部',
+	`amt` DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '缴费金额',
+	`reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '缴费原因',
+	`is_online_pay` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费方式，1 线上缴费 0 现金缴费',
+	`is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '线上缴费途径， 1 线上缴费、0 代缴党费',
+	`has_pay` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态，0：未交费，1：已缴费',
+	`pay_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '缴费人',
+	`pay_time` DATETIME NULL DEFAULT NULL COMMENT '缴费时间',
+	`order_no` VARCHAR(30) NULL DEFAULT NULL COMMENT '缴费订单号，批量缴费时允许重复',
+	`order_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '生成订单号时的账号',
+	`remark` TEXT NULL COMMENT '备注',
+	`status` TINYINT(3) UNSIGNED NULL DEFAULT '0' COMMENT '审核状态，0 待审核 1 支部审核 2 分党委审核 3 组织部审核',
+	PRIMARY KEY (`id`)
+)
+COMMENT='党员缴纳党费'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=10
+;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2793, 0, '党费补缴列表', '', 'url', '', '/pmd/pmdFee', 564, '0/1/564/', 0, 'pmdFee:list', NULL, NULL, NULL, 1, 1500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2794, 0, '党费补缴编辑', '', 'function', '', NULL, 2793, '0/1/564/2793/', 1, 'pmdFee:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2795, 0, '党费补缴删除', '', 'function', '', NULL, 2793, '0/1/564/2793/', 1, 'pmdFee:del', NULL, NULL, NULL, 1, NULL);
 
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`,
+                               `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
+                               VALUES (3101, '党费补缴类型', '党费收缴管理', '党费补缴列表', 'mc_pmd_fee_type', '', '', '', 2618, 0);
+
+ALTER TABLE `pmd_order`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '缴费类别，1 缴纳每月党费 2 补缴党费' AFTER `sn`,
+	CHANGE COLUMN `member_id` `record_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '缴费记录，如果是每月党费，则是pmd_member_id，如果是补缴党费，则是pmd_fee_id' AFTER `type`,
+	CHANGE COLUMN `is_batch` `is_batch` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否批量缴费，批量缴费时，record_id为空' AFTER `record_id`,
+	DROP INDEX `member_id`,
+	ADD INDEX `member_id` (`record_id`) USING BTREE;
+
+ALTER TABLE `pmd_order`
+	DROP INDEX `member_id`,
+	ADD INDEX `record_id` (`record_id`) USING BTREE;
+
+ALTER TABLE `pmd_order_item`
+	CHANGE COLUMN `member_id` `record_id` INT(10) UNSIGNED NOT NULL COMMENT '缴费记录' AFTER `sn`,
+	DROP INDEX `member_id`,
+	ADD INDEX `record_id` (`record_id`) USING BTREE;
+
+ALTER TABLE `pmd_fee`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT '0' COMMENT '状态，0 正常 1 已删除' AFTER `remark`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (991, 0, '支付', '', 'function', '', NULL, 2793, '0/1/564/2793/', 1, 'pmdFee:pay', NULL, NULL, NULL, 1, NULL);
+-- == 以上党费部分
+
+20210308
+-- 哈工大
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (4006, 0, '中组部年度统计', '', 'menu', '', NULL, 105, '0/1/105/', 0, 'statCod:list', NULL, NULL, NULL, 1, 29600);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (4008, 0, '申请人-中组部', '', 'url', '', '/stat/statCodAppply', 4006, '0/1/105/4006/', 1, 'statCodAppply:list', NULL, NULL, NULL, 1, 1000);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (4007, 0, '党员-中组部', '', 'url', '', '/stat/statCodMember', 4006, '0/1/105/4006/', 1, 'statCodMember:list', NULL, NULL, NULL, 1, 900);
+UPDATE `sys_resource` SET `url`='/stat/statCod?cls=1' WHERE  `id`=4008;
+UPDATE `sys_resource` SET `url`='/stat/statCod?cls=2' WHERE  `id`=4007;
+
+ALTER TABLE `sys_user_info`
+	CHANGE COLUMN `email` `email` VARCHAR(500) NULL COMMENT '邮箱' COLLATE 'utf8_general_ci' AFTER `home_phone`;
+
+
+-- 更新 pmd_config_member_view
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2796, 0, '党费核算管理', '组织部党费收缴管理员、分党委党费收缴管理员、支部党费收缴管理员', 'url', '', '/pmd/pmdConfigDuePay', 564, '0/1/564/', 1, 'pmdConfigDuePay:*', NULL, NULL, NULL, 1, 1300);
+
+ALTER TABLE `pmd_month`
+	ADD COLUMN `pay_status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '缴费开关状态 0 未开启  1 已开启' AFTER `status`,
+	ADD COLUMN `pay_info` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+ALTER TABLE `pmd_party`
+	ADD COLUMN `pay_status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费开关状态 0 未开启  1 已开启' AFTER `sort_order`,
+	ADD COLUMN `pay_info` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+ALTER TABLE `pmd_month`
+	CHANGE COLUMN `pay_info` `pay_tip` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+ALTER TABLE `pmd_party`
+	CHANGE COLUMN `pay_info` `pay_tip` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费未开启时的文字提示' AFTER `pay_status`;
+-- 更新 pmd_party_view
+
+
+ALTER TABLE `cadre`
+	ADD COLUMN `type` INT(10) UNSIGNED NULL COMMENT '类别，元数据，院系干部、机关干部、直属干部等' AFTER `user_id`;
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`,
+                               `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
+                               VALUES (10, '干部类别', '', '', 'mc_cadre_type', '', '', '', 2618, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`,
+                              `sort_order`, `available`) VALUES (10, '机关干部', 'mt_cadre_type_jg', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`,
+                              `available`) VALUES (10, '院系干部', 'mt_cadre_type_yx', NULL, NULL, '', 2, 1);
+update cadre set type =(select id from base_meta_type where code='mt_cadre_type_yx') where is_dep=1;
+update cadre set type =(select id from base_meta_type where code='mt_cadre_type_jg') where is_dep=0;
+ALTER TABLE `cadre` DROP COLUMN `is_dep`;
+
+-- 更新 cadre_view
+-- CADRE_TYPE_MAP -> CADRE_CATEGORY_MAP
+-- CADRE_TYPE_CJ -> CADRE_CATEGORY_CJ
+-- CADRE_TYPE_KJ -> CADRE_CATEGORY_KJ
+
+-- 更新 ow_member_apply_view
+
+20210304
+-- 南航
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
                             `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
@@ -54,6 +170,10 @@ update sys_student_info set student_level=3 where edu_level like '%硕士%';
 update sys_student_info set student_level=4 where edu_level like '%博士%';
 
 -- 重建 update/dp0219.sql 表  并 更新view_dp
+INSERT INTO `base_meta_class` (`id`,  `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`) VALUES (2595, '其他统战人员类别', '统战信息管理', '统战人员信息', 'mc_dp_other_type', '', '', '', 2595);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '华侨、归侨及侨眷', 'mt_dp_other_type_1', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '欧美同学会会员', 'mt_dp_other_type_2', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '知联会员', 'mt_dp_other_type_3', NULL, '', '', 3, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '宗教信仰', 'mt_dp_other_type_5', NULL, '', '', 5, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '港澳台', 'mt_dp_other_type_4', NULL, '', '', 4, 1);
 DELETE FROM `base_meta_type` WHERE `id`=673;
@@ -62,7 +182,7 @@ ALTER TABLE `sys_teacher_info`
 	ADD COLUMN `is_full_time_teacher` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-    VALUES (5001, 0, '教工队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=5', 2634, '0/1/105/2634/', 1, 'statOwJzgInfo:list', NULL, NULL, NULL, 1, 50);
+    VALUES (5001, 0, '全校教工队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=5', 2634, '0/1/105/2634/', 1, 'statOwJzgInfo:list', NULL, NULL, NULL, 1, 50);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
     VALUES (5002, 0, '各二级党组织专任教师队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=6', 2634, '0/1/105/2634/', 1, 'statPartyJzgInfo:list', NULL, NULL, NULL, 1, 50);
 

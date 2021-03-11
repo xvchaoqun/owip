@@ -3,15 +3,15 @@
 <%--<c:set value="${_pMap['upa_displayPosts']}" var="_upa_displayPosts"/>--%>
 <c:set value="<%=SystemConstants.UNIT_POST_DISPLAY_KEEP%>" var="UNIT_POST_DISPLAY_KEEP"/>
 <c:set value="${_pMap['upa_displayPosts']==UNIT_POST_DISPLAY_KEEP}" var="isDispiayKeep"/>
-<c:set var="mt_admin_level_main" value="${cadreType==CADRE_TYPE_CJ?'mt_admin_level_main':'mt_admin_level_main_kj'}"/>
-<c:set var="mt_admin_level_vice" value="${cadreType==CADRE_TYPE_CJ?'mt_admin_level_vice':'mt_admin_level_vice_kj'}"/>
+<c:set var="mt_admin_level_main" value="${cadreCategory==CADRE_CATEGORY_CJ?'mt_admin_level_main':'mt_admin_level_main_kj'}"/>
+<c:set var="mt_admin_level_vice" value="${cadreCategory==CADRE_CATEGORY_CJ?'mt_admin_level_vice':'mt_admin_level_vice_kj'}"/>
 <table border=0 cellpadding=0 cellspacing=0 width=1125 class=xl6324425
        style='border-collapse:collapse;table-layout:fixed;width:847pt'>
   <col class=xl6324425 width=32>
   <col class=xl7124425 width=151>
   <col class=xl6324425 width=42>
   <col class=xl6324425 width=57>
-  <col class=xl7124425 width=${cadreType==CADRE_TYPE_CJ?116:380}>
+  <col class=xl7124425 width=${cadreCategory==CADRE_CATEGORY_CJ?116:380}>
   <col class=xl6324425 width=57>
 <c:if test="${isDispiayKeep}">
   <col class=xl7024425 width=116>
@@ -31,12 +31,12 @@
   <col class=xl6324425 width=57>
   <tr height=52>
     <c:if test="${isDispiayKeep}">
-      <td colspan=${cadreType==CADRE_TYPE_CJ?18:14} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
+      <td colspan=${cadreCategory==CADRE_CATEGORY_CJ?18:14} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_CATEGORY_MAP.get(cadreCategory)}配备情况
       </td>
     </c:if>
 
     <c:if test="${!isDispiayKeep}">
-        <td colspan=${cadreType==CADRE_TYPE_CJ?14:10} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
+        <td colspan=${cadreCategory==CADRE_CATEGORY_CJ?14:10} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_CATEGORY_MAP.get(cadreCategory)}配备情况
         </td>
     </c:if>
   </tr>
@@ -45,7 +45,7 @@
       统计日期：${cm:formatDate(now,'yyyy年MM月dd日')}
     </td>
     <c:if test="${!isDispiayKeep}">
-        <td colspan=${cadreType==CADRE_TYPE_CJ?7:3} height=30 class=xl8324425 width=1068>
+        <td colspan=${cadreCategory==CADRE_CATEGORY_CJ?7:3} height=30 class=xl8324425 width=1068>
           注：<span class="isCpc">(兼职占职数)</span>/<span class="notCpc">(兼职不占职数)</span>
         </td>
     </c:if>
@@ -56,11 +56,11 @@
     <td rowspan=3 class=xl6624425 width=200>单<span
             style='mso-spacerun:yes'>&nbsp; </span>位
     </td>
-    <td colspan=${isDispiayKeep?6:4} class=xl6624425 width=${isDispiayKeep?488:272}>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}级干部
+    <td colspan=${isDispiayKeep?6:4} class=xl6624425 width=${isDispiayKeep?488:272}>${cadreCategory==CADRE_CATEGORY_CJ?"正处":"正科"}级干部
     </td>
-    <td colspan=${isDispiayKeep?6:4} class=xl8524425 width=${isDispiayKeep?614:398}>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级干部
+    <td colspan=${isDispiayKeep?6:4} class=xl8524425 width=${isDispiayKeep?614:398}>${cadreCategory==CADRE_CATEGORY_CJ?"副处":"副科"}级干部
     </td>
-    <c:if test="${cadreType==CADRE_TYPE_CJ}">
+    <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
     <td colspan=4 class=xl8024425 width=272 style='border-right: 2.0pt double black;'>
       ${_p_label_adminLevelNone}干部
     </td>
@@ -91,7 +91,7 @@
       <td rowspan=2 class=xl7924425 width=57>空缺数</td>
     </c:if>
 
-    <c:if test="${cadreType==CADRE_TYPE_CJ}">
+    <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
     <td rowspan=2 class=xl7824425 width=42>职数</td>
     <td colspan=2 class=xl6624425 width=173 style="border-right: none;">现任干部情况</td>
     <td rowspan=2 class=xl7924425 width=57>空缺数</td>
@@ -118,7 +118,7 @@
       <td class=xl7024425 width=116>空缺岗位</td>
     </c:if>
 
-    <c:if test="${cadreType==CADRE_TYPE_CJ}">
+    <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
     <td class=xl7624425 width=57>现任数</td>
     <td class=xl7724425 width=116>现任干部
     </td>
@@ -218,7 +218,7 @@
           </td>
         </c:if>
 
-        <c:if test="${cadreType==CADRE_TYPE_CJ}">
+        <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
         <td class=xl7524425 width=42>
           <c:if test="${bean.noneNum==0}">0</c:if>
           <c:if test="${bean.noneNum>0}">
@@ -270,7 +270,7 @@
           <td class=xl6924425 width=116>　</td>
           <td class=xl6924425 width=100>　</td>
         </c:if>
-        <c:if test="${cadreType==CADRE_TYPE_CJ}">
+        <c:if test="${cadreCategory==CADRE_CATEGORY_CJ}">
         <td class=xl6424425 width=42>${bean.noneNum}</td>
         <td class=xl6424425 width=57>${bean.noneCount}</td>
         <td class=xl6924425 width=116>　

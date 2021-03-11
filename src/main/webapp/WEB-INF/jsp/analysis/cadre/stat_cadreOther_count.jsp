@@ -6,23 +6,23 @@
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="fa fa-pie-chart"></i>
-                ${param.cadreType == 1?"处级":"科级"}干部${param.type == 1?"性别":"民族"}统计
+                ${param.cadreCategory == 1?"处级":"科级"}干部${param.type == 1?"性别":"民族"}统计
             </h5>
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <c:if test="${param.type == 1 && param.cadreType == 1}">
+                <c:if test="${param.type == 1 && param.cadreCategory == 1}">
                      <div id="cadreGender-placeholder_CJ" style="height: 250px"></div>
                 </c:if>
 
-                <c:if test="${param.type == 1 && param.cadreType == 2}">
+                <c:if test="${param.type == 1 && param.cadreCategory == 2}">
                      <div id="cadreGender-placeholder_KJ" style="height: 250px"></div>
                 </c:if>
-                <c:if test="${param.type == 2 && param.cadreType == 1}">
+                <c:if test="${param.type == 2 && param.cadreCategory == 1}">
                     <div id="cadreNation-placeholder_CJ" style="height: 250px"></div>
                 </c:if>
 
-                <c:if test="${param.type == 2 && param.cadreType == 2}">
+                <c:if test="${param.type == 2 && param.cadreCategory == 2}">
                     <div id="cadreNation-placeholder_KJ" style="height: 250px"></div>
                 </c:if>
             </div>
@@ -32,24 +32,24 @@
 <script>
 
         var $div;
-        <c:if test="${param.type == 1 && param.cadreType == 1}">
+        <c:if test="${param.type == 1 && param.cadreCategory == 1}">
              $div=$('#cadreGender-placeholder_CJ');
         </c:if>
-        <c:if test="${param.type == 1 && param.cadreType == 2}">
+        <c:if test="${param.type == 1 && param.cadreCategory == 2}">
              $div=$('#cadreGender-placeholder_KJ');
         </c:if>
-        <c:if test="${param.type == 2 && param.cadreType == 1}">
+        <c:if test="${param.type == 2 && param.cadreCategory == 1}">
              $div= $('#cadreNation-placeholder_CJ');
         </c:if>
-        <c:if test="${param.type == 2 && param.cadreType == 2}">
+        <c:if test="${param.type == 2 && param.cadreCategory == 2}">
              $div= $('#cadreNation-placeholder_KJ');
         </c:if>
 
-        (function($displayDiv, cadreType){
+        (function($displayDiv, cadreCategory){
             var cadreOtherChart = echarts.init($displayDiv);
             cadreOtherChart.showLoading({text: '正在加载数据'});
 
-            $.get("${ctx}/stat_cadreOther_count_data", {type:${param.type},cadreType:cadreType}, function (otherMap) {
+            $.get("${ctx}/stat_cadreOther_count_data", {type:${param.type},cadreCategory:cadreCategory}, function (otherMap) {
 
                 var legendData = [];
                 var seriesData1 = [];
@@ -119,5 +119,5 @@
                 cadreOtherChart.hideLoading();
 
             })
-        })($div[0], ${param.cadreType});
+        })($div[0], ${param.cadreCategory});
 </script>

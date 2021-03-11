@@ -113,25 +113,28 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdFee">
-    insert into pmd_fee (id, type, pay_month, 
-      user_id, party_id, branch_id, 
-      amt, reason, is_online_pay, 
-      is_self_pay, has_pay, pay_user_id, 
-      pay_time, order_no, order_user_id, 
-      remark, status)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{payMonth,jdbcType=DATE}, 
-      #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{amt,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, #{isOnlinePay,jdbcType=BIT}, 
-      #{isSelfPay,jdbcType=BIT}, #{hasPay,jdbcType=BIT}, #{payUserId,jdbcType=INTEGER}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR}, #{orderUserId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pmd_fee (type, pay_month, user_id, 
+      party_id, branch_id, amt, 
+      reason, is_online_pay, is_self_pay, 
+      has_pay, pay_user_id, pay_time, 
+      order_no, order_user_id, remark, 
+      status)
+    values (#{type,jdbcType=INTEGER}, #{payMonth,jdbcType=DATE}, #{userId,jdbcType=INTEGER}, 
+      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{amt,jdbcType=DECIMAL}, 
+      #{reason,jdbcType=VARCHAR}, #{isOnlinePay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, 
+      #{hasPay,jdbcType=BIT}, #{payUserId,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{orderNo,jdbcType=VARCHAR}, #{orderUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdFee">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into pmd_fee
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="type != null">
         type,
       </if>
@@ -182,9 +185,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>

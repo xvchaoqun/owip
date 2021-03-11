@@ -188,7 +188,7 @@
                             电子邮箱
                         </td>
                         <td style="min-width: 80px">
-                                <t:mask src="${uv.email}" type="email"/>
+                            <span class="email"><t:mask src="${uv.email}" type="email"/></span>
                         </td>
                     </tr>
 

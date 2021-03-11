@@ -77,7 +77,7 @@
                             年龄
                         </td>
                         <td>
-                                ${uv.birth==null?'':(cm:intervalYearsUntilNow(_pMap['birthToDay']==false?cm:getFirstDayOfMonth(uv.birth):uv.birth))}
+                                ${cadre.birth==null?'':(cm:intervalYearsUntilNow(_pMap['birthToDay']==false?cm:getFirstDayOfMonth(cadre.birth):cadre.birth))}
                         </td>
                     </tr>
                     <tr>
@@ -564,13 +564,13 @@
                                 </td>
                                 <td class="bg-right">出生日期</td>
                                 <td class="bg-left">
-                                        ${cm:formatDate(uv.birth, _p_birthFormat)}
+                                    ${cm:formatDate(cadre.birth, _p_birthFormat)}
                                 </td>
                                 <td class="bg-right">
                                     年龄
                                 </td>
                                 <td class="bg-left">
-                                        ${empty uv.birth?'':cm:intervalYearsUntilNow(uv.birth)}
+                                    ${cadre.birth==null?'':(cm:intervalYearsUntilNow(_pMap['birthToDay']==false?cm:getFirstDayOfMonth(cadre.birth):cadre.birth))}
                                 </td>
                             </tr>
                             <tr>

@@ -9,18 +9,18 @@
     <!-- 查询支付记录 -->
     <select id="selectPayList" parameterType="map" resultMap="IPmdOrderBaseResultMap">
         select po.*, pm.user_id as member_user_id from pmd_order po
-        left join pmd_member pm on po.member_id = pm.id
-        where po.user_id=#{userId} or pm.user_id=#{userId}
+        left join pmd_member pm on po.record_id = pm.id
+        where po.type=1 and (po.user_id=#{userId} or pm.user_id=#{userId}
         or exists(select 1 from pmd_order_item poi, pmd_member pm
-        where poi.sn=po.sn and poi.member_id=pm.id and pm.user_id=#{userId})
+        where poi.sn=po.sn and poi.record_id=pm.id and pm.user_id=#{userId}))
         order by po.create_time desc
     </select>
     <select id="countPayList" parameterType="map" resultType="java.lang.Integer">
         select count(po.sn) from pmd_order po
-        left join pmd_member pm on po.member_id = pm.id
-        where po.user_id=#{userId} or pm.user_id=#{userId}
+        left join pmd_member pm on po.record_id = pm.id
+        where po.type=1 and (po.user_id=#{userId} or pm.user_id=#{userId}
         or exists(select 1 from pmd_order_item poi, pmd_member pm
-        where poi.sn=po.sn and poi.member_id=pm.id and pm.user_id=#{userId})
+        where poi.sn=po.sn and poi.record_id=pm.id and pm.user_id=#{userId}))
     </select>
 
 

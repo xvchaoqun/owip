@@ -14,13 +14,13 @@
 <w:p>
     <#if needHanging?? && needHanging>
     <w:pPr>
-        <w:ind w:left="2200" w:hanging="${row[1]?starts_with("（")?string("136","2000")}"/>
+        <w:ind w:left="2000" w:hanging="${row[1]?starts_with("（")?string("136","2000")}"/>
     </w:pPr>
     </#if>
     <#list row as col>
     <#if col_index!=0>
     <w:r>
-        <w:t xml:space="preserve"><#if needWhiteSpace?? && needWhiteSpace>    </#if>${col}<#if col_has_next>  </#if></w:t>
+        <w:t xml:space="preserve"><#if needWhiteSpace?? && needWhiteSpace>    </#if>${col}<#if col_has_next && !col?ends_with(" ")>  </#if></w:t>
     </w:r>
     </#if>
     </#list>

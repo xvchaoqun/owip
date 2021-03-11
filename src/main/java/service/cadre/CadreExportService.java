@@ -88,14 +88,14 @@ public class CadreExportService extends BaseMapper {
 
     // 导出一览表
     public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, Integer[] cols, int isReserve) {
-        String cadretype = "";
+        String cadreCategory = "";
         if (isReserve == 0) {
-            cadretype = CadreConstants.CADRE_STATUS_MAP.get(status);
-        }else {
+            cadreCategory = CadreConstants.CADRE_STATUS_MAP.get(status);
+        }else if(status!=null){
             Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
             for (Integer id : metaTypeMap.keySet()){
                 if (status == (byte)id.intValue())
-                    cadretype = metaTypeService.getName(id);
+                    cadreCategory = metaTypeService.getName(id);
             }
         }
 
@@ -126,12 +126,12 @@ public class CadreExportService extends BaseMapper {
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
             if (isReserve == 0) {
-                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + cadretype + "一览表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + cadreCategory + "一览表");
             }else {
-                if(StringUtils.trimToNull(cadretype) != null)
-                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部（" + cadretype +"）一览表");
+                if(StringUtils.trimToNull(cadreCategory) != null)
+                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"年轻干部（" + cadreCategory +"）一览表");
                 else
-                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部一览表");
+                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"年轻干部一览表");
             }
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
@@ -513,10 +513,9 @@ public class CadreExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String schoolName = CmTag.getSysConfig().getSchoolName();
         String str = cell.getStringCellValue()
-                .replace("school", schoolName).replace("（type）", "");
+                .replace("title", schoolName+"中层干部名单");
         cell.setCellValue(str);
 
-        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         List<CadreView> records = cadreViewMapper.selectByExample(example);
 
         int startRow = 2;

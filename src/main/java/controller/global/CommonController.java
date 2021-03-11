@@ -326,7 +326,7 @@ public class CommonController extends BaseController {
             CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike( searchStr.trim() + "%");
             CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike(searchStr.trim() + "%");
             CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike( searchStr.trim() + "%");
-            if (reserveStatus != null && reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL) {
+            if (reserveStatus != null && reserveStatus != 5) {
                 criteria1.andReserveStatusEqualTo(reserveStatus);
                 criteria2.andReserveStatusEqualTo(reserveStatus);
                 criteria3.andReserveStatusEqualTo(reserveStatus);
@@ -336,7 +336,7 @@ public class CommonController extends BaseController {
                 criteria2.andReserveTypeEqualTo(reserveType);
                 criteria3.andReserveTypeEqualTo(reserveType);
             }
-        } else if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
+        } else if (reserveStatus != 5){
             CadreReserveViewExample.Criteria criteria = example.createCriteria();
             if (reserveStatus != null) criteria.andReserveStatusEqualTo(reserveStatus);
             if (reserveType != null) criteria.andReserveTypeEqualTo(reserveType);
@@ -574,6 +574,7 @@ public class CommonController extends BaseController {
                 Map<String, String> option = new HashMap<>();
                 option.put("id", uv.getId() + "");
                 option.put("text", uv.getRealname());
+                option.put("type", SystemConstants.USER_TYPE_MAP.get(uv.getType()));
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());

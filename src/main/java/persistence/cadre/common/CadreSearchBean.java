@@ -9,17 +9,17 @@ import java.util.List;
  */
 public class CadreSearchBean {
 
-    public static CadreSearchBean getInstance(String unitTypeGroup, byte cadreType){
+    public static CadreSearchBean getInstance(String unitTypeGroup, byte cadreCategory){
 
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setUnitTypeGroup(unitTypeGroup);
-        searchBean.setCadreType(cadreType);
+        searchBean.setCadreType(cadreCategory);
 
         return searchBean;
     }
 
     public String unitTypeGroup; // 单位大类
-    public byte cadreType; // 干部类型， 1：处级  2：科级
+    public byte cadreCategory; // 干部类型， 1：处级  2：科级
     public Boolean isPrincipal; // 是否正职
     public List<Integer> labels; // 干部标签
     public List<Integer> adminLevels; // 行政级别
@@ -40,11 +40,11 @@ public class CadreSearchBean {
     }
 
     public byte getCadreType() {
-        return cadreType;
+        return cadreCategory;
     }
 
-    public CadreSearchBean setCadreType(byte cadreType) {
-        this.cadreType = cadreType;
+    public CadreSearchBean setCadreType(byte cadreCategory) {
+        this.cadreCategory = cadreCategory;
         return this;
     }
 

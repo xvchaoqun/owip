@@ -10,6 +10,7 @@
 </#if>
 <#list dataList as row>
 <w:p>
+    <w:pPr><w:snapToGrid w:val="0"/></w:pPr>
     <#list row as col>
     <#if col_index!=0>
     <w:r>

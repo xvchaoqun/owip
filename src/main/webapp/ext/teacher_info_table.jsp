@@ -114,7 +114,7 @@
             邮箱
         </td>
         <td class="bg-left">
-            <t:mask src="${uv.email}" type="email"/>
+            <span class="email"><t:mask src="${uv.email}" type="email"/></span>
         </td>
         <td class="bg-right">
             联系地址

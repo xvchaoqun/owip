@@ -53,3 +53,5 @@
 <c:set var="STUDENT_TYPE_BKS" value="<%=SystemConstants.STUDENT_TYPE_BKS%>"/>
 <c:set var="STUDENT_TYPE_SS" value="<%=SystemConstants.STUDENT_TYPE_SS%>"/>
 <c:set var="STUDENT_TYPE_BS" value="<%=SystemConstants.STUDENT_TYPE_BS%>"/>
+
+<c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>

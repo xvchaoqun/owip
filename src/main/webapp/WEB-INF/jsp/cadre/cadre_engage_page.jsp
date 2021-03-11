@@ -19,7 +19,7 @@
                 ||not empty param.maxEdus ||not empty param.degreeType
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
-                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
+                ||not empty param.leaderTypes  ||not empty param.type
                  ||not empty param.state  ||not empty param.title ||not empty param.labels }"/>
 
                 <div class="tabbable">
@@ -310,33 +310,16 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
-                                                    <c:if test="${_p_hasKjCadre}">
-                                                        <td class="name">干部类型</td>
-                                                        <td class="input">
-                                                            <select name="type" data-width="150" data-rel="select2"
-                                                                    data-placeholder="请选择">
-                                                                <option></option>
-                                                                <c:forEach items="<%=CadreConstants.CADRE_TYPE_MAP%>"
-                                                                           var="_type">
-                                                                    <option value="${_type.key}">${_type.value}</option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <script>
-                                                                $("#searchForm select[name=type]").val('${param.type}');
-                                                            </script>
-                                                        </td>
-                                                    </c:if>
                                                     <td class="name">干部类别</td>
                                                     <td class="input">
-                                                        <select name="isDep" data-width="150" data-rel="select2"
-                                                                data-placeholder="请选择">
-                                                            <option></option>
-                                                            <option value="1">院系干部</option>
-                                                            <option value="0">机关干部</option>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=isDep]").val('${param.isDep}');
-                                                        </script>
+                                                        <div class="select">
+                                                             <select data-width="150" class="select2" name="type" data-placeholder="请选择">
+                                                                <c:import url="/metaTypes?__code=mc_cadre_type"/>
+                                                            </select>
+                                                            <script type="text/javascript">
+                                                                $("#searchForm select[name=type]").val('${param.type}');
+                                                            </script>
+                                                        </div>
                                                     </td>
 
                                                     <td class="name">是否有挂职经历</td>

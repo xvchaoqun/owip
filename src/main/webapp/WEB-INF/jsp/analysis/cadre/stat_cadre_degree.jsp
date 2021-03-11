@@ -5,16 +5,16 @@
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="fa fa-pie-chart"></i>
-                ${param.cadreType == 1?"处级":"科级"}干部学位分布
+                ${param.cadreCategory == 1?"处级":"科级"}干部学位分布
             </h5>
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <c:if test="${param.cadreType == 1}">
+                <c:if test="${param.cadreCategory == 1}">
                     <div id="cadreDegree-placeholder_CJ" style="height: 250px"></div>
                 </c:if>
 
-                <c:if test="${param.cadreType == 2}">
+                <c:if test="${param.cadreCategory == 2}">
                     <div id="cadreDegree-placeholder_KJ" style="height: 250px"></div>
                 </c:if>
             </div>
@@ -23,14 +23,14 @@
 </div>
 <script>
 
-    var $div = $("${param.cadreType == 1?'#cadreDegree-placeholder_CJ':'#cadreDegree-placeholder_KJ'}");
+    var $div = $("${param.cadreCategory == 1?'#cadreDegree-placeholder_CJ':'#cadreDegree-placeholder_KJ'}");
 
-    (function($displayDiv, cadreType){
+    (function($displayDiv, cadreCategory){
 
         var cadreDegreeChart = echarts.init($displayDiv);
         cadreDegreeChart.showLoading({text: '正在加载数据'});
 
-        $.get("${ctx}/stat_cadreDegree_count_data", {cadreType:cadreType}, function (cadreDegreeMap) {
+        $.get("${ctx}/stat_cadreDegree_count_data", {cadreCategory:cadreCategory}, function (cadreDegreeMap) {
 
             var legendData = [];
             var seriesData1 = [];
@@ -100,5 +100,5 @@
             cadreDegreeChart.hideLoading();
 
         })
-    })($div[0], ${param.cadreType});
+    })($div[0], ${param.cadreCategory});
 </script>

@@ -358,14 +358,11 @@
 <div class="column">
     <label>干部类别</label>
     <div class="input">
-        <select name="isDep" data-width="150" data-rel="select2"
-                data-placeholder="请选择">
-            <option></option>
-            <option value="1">院系干部</option>
-            <option value="0">机关干部</option>
+        <select data-width="150" data-rel="select2" name="type" data-placeholder="请选择">
+            <c:import url="/metaTypes?__code=mc_cadre_type"/>
         </select>
-        <script>
-            $("#searchForm select[name=isDep]").val('${param.isDep}');
+        <script type="text/javascript">
+            $("#searchForm select[name=type]").val('${param.type}');
         </script>
     </div>
 </div>

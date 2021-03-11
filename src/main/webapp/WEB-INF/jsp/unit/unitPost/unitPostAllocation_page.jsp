@@ -19,7 +19,7 @@
                         <div class="buttons" style="position: absolute; top:35px;">
                             <shiro:hasPermission name="cadre:export">
                             <a href="javascript:;" class="downloadBtn btn btn-success btn-sm"
-                               data-url="${ctx}/unitPostAllocation?module=1&export=1&cadreType=${cadreType}"><i class="fa fa-download"></i> 导出</a>
+                               data-url="${ctx}/unitPostAllocation?module=1&export=1&cadreCategory=${cadreCategory}"><i class="fa fa-download"></i> 导出</a>
                             </shiro:hasPermission>
                         </div>
                         <jsp:include page="unitPostAllocation_table.jsp"/>
@@ -31,7 +31,7 @@
                             <div class="buttons" style="position: absolute; top:35px;">
                                 <shiro:hasPermission name="cadre:export">
                                 <a href="javascript:;" class="downloadBtn btn btn-success btn-sm"
-                                   data-url="${ctx}/unitPostAllocation?module=2&export=1&cadreType=${cadreType}"><i class="fa fa-download"></i> 导出</a>
+                                   data-url="${ctx}/unitPostAllocation?module=2&export=1&cadreCategory=${cadreCategory}"><i class="fa fa-download"></i> 导出</a>
                                 </shiro:hasPermission>
                             </div>
                             <jsp:include page="unitPostAllocation_stat_table.jsp"/>

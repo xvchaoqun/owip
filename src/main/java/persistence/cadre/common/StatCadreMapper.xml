@@ -22,11 +22,11 @@
             and unit_type_group =#{s.unitTypeGroup}
         </if>
         <!--处级干部-->
-        <if test="s.cadreType==1">
+        <if test="s.cadreCategory==1">
             and status=1
         </if>
         <!--科级干部-->
-        <if test="s.cadreType==2">
+        <if test="s.cadreCategory==2">
             and status=8
         </if>
         <if test="s.isPrincipal!=null">

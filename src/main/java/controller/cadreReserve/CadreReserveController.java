@@ -136,7 +136,7 @@ public class CadreReserveController extends BaseController {
                 CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
                 if (cadreReserve != null) {
                     if (cadreReserve.getType() == type) {
-                        return failed("不允许转移至相同的库。");
+                        continue;
                     }
 
                     cadreReserveService.updateType(cadreReserve.getId(), type);
@@ -295,7 +295,10 @@ public class CadreReserveController extends BaseController {
         int allNum = 0;
         for (CadreReserveCount crc : cadreReserveCounts) {
             Byte st = crc.getStatus();
-            allNum+=crc.getNum();
+            if (st == 1){
+                allNum+=crc.getNum();
+            }
+
             if (st == CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
                 Integer type = crc.getType();
                 Integer count = normalCountMap.get(type);
@@ -307,9 +310,9 @@ public class CadreReserveController extends BaseController {
             statusCountMap.put(st, stCount + crc.getNum());
 
         }
-        statusCountMap.put(CadreConstants.CADRE_RESERVE_STATUS_ALL, allNum);
         modelMap.put("statusCountMap", statusCountMap);
         modelMap.put("normalCountMap", normalCountMap);
+        modelMap.put("allNum", allNum);
 
         return "cadreReserve/cadreReserve_page";
     }
@@ -351,7 +354,7 @@ public class CadreReserveController extends BaseController {
                                   Integer[] workTypes,
                                   String workDetail,
                                   Byte[] leaderTypes, // 是否班子负责人
-                                  Boolean isDep,
+                                  Integer type,
                                   Boolean hasCrp, // 是否有干部挂职经历
                                   Boolean hasAbroadEdu, // 是否有国外学习经历
                                   Integer cadreId,
@@ -391,15 +394,17 @@ public class CadreReserveController extends BaseController {
         CadreReserveViewExample example = new CadreReserveViewExample();
         CadreReserveViewExample.Criteria criteria = example.createCriteria();
 
-        if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_ALL){
+        if (reserveStatus != 5){
             if (reserveStatus != null)
                 criteria.andReserveStatusEqualTo(reserveStatus);
             if (reserveStatus == null || reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
                 criteria.andReserveTypeEqualTo(reserveType);
+        }else if (reserveStatus == 5){
+            criteria.andReserveStatusEqualTo(new Integer(1).byteValue());
         }
 
         String sortStr = "";
-        if (reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_ALL){
+        if (reserveStatus == 5){
             sortStr = "reserve_status asc, reserve_type asc,reserve_sort_order asc";
         }else {
             sortStr = "reserve_sort_order asc";
@@ -590,8 +595,8 @@ public class CadreReserveController extends BaseController {
         if (leaderTypes != null) {
             criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
         }
-        if(isDep!=null){
-            criteria.andIsDepEqualTo(isDep);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
         }
         if (hasCrp != null) {
             criteria.andHasCrpEqualTo(hasCrp);
@@ -861,7 +866,7 @@ public class CadreReserveController extends BaseController {
 
         if (format == 1) {
             //SXSSFWorkbook wb= cadreReserveExportService.export(reserveType, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols);//一览表
-            Byte _reserveType = (byte)reserveType.intValue();
+
             List<CadreReserveView> cadreReserves = cadreReserveViewMapper.selectByExample(example);
             List<Integer> cadreIds = new ArrayList<>();
             for (CadreReserveView cadreReserve : cadreReserves) {
@@ -869,6 +874,11 @@ public class CadreReserveController extends BaseController {
             }
             CadreViewExample cadreExample = new CadreViewExample();
             cadreExample.createCriteria().andIdIn(cadreIds);
+
+            Byte _reserveType = null;
+            if(reserveType!=null){
+                _reserveType = (byte)reserveType.intValue();
+            }
             SXSSFWorkbook wb = cadreExportService.export(_reserveType, cadreExample, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols, 1);
             String suffix = null;
             if (reserveType != null) {
@@ -876,10 +886,10 @@ public class CadreReserveController extends BaseController {
             }else {
                 suffix = CadreConstants.CADRE_RESERVE_STATUS_MAP.get(reserveStatus);
             }
-            String fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部";
+            String fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部";
 
             if (StringUtils.isNotBlank(suffix))
-                fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部（" + suffix + "）";
+                fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部（" + suffix + "）";
 
             ExportHelper.output(wb, fileName + ".xlsx", response);
         }else {

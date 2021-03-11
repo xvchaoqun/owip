@@ -158,7 +158,7 @@
                                             <input name="email" type="email" id="form-field-email" value="${_user.email}"/>
                                             <i class="ace-icon fa fa-envelope"></i>
                                         </span>--%>
-                                        <div class="label-text"><t:mask src="${_user.email}" type="email"/></div>
+                                        <div class="label-text"><span class="email"><t:mask src="${_user.email}" type="email"/></span></div>
                                     </div>
                                 </div>
 

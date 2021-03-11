@@ -3,7 +3,7 @@ package controller.analysis;
 public class CadreCategorySearchBean {
 
     private Integer cadreId;
-    private Boolean isDep;
+    private Integer type;
     private Byte cadreStatus;
     private Boolean hasTalentTitle;
 
@@ -15,12 +15,12 @@ public class CadreCategorySearchBean {
         this.cadreId = cadreId;
     }
 
-    public Boolean getDep() {
-        return isDep;
+    public Integer getType() {
+        return type;
     }
 
-    public void setDep(Boolean dep) {
-        isDep = dep;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Byte getCadreStatus() {

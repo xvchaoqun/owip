@@ -256,63 +256,63 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDepIsNull() {
-            addCriterion("is_dep is null");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepIsNotNull() {
-            addCriterion("is_dep is not null");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepEqualTo(Boolean value) {
-            addCriterion("is_dep =", value, "isDep");
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepNotEqualTo(Boolean value) {
-            addCriterion("is_dep <>", value, "isDep");
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepGreaterThan(Boolean value) {
-            addCriterion("is_dep >", value, "isDep");
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_dep >=", value, "isDep");
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepLessThan(Boolean value) {
-            addCriterion("is_dep <", value, "isDep");
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_dep <=", value, "isDep");
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepIn(List<Boolean> values) {
-            addCriterion("is_dep in", values, "isDep");
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepNotIn(List<Boolean> values) {
-            addCriterion("is_dep not in", values, "isDep");
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_dep between", value1, value2, "isDep");
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsDepNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_dep not between", value1, value2, "isDep");
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
 

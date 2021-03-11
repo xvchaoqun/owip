@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pmd.common.IPmdOrder;
 import service.pmd.PmdOrderService;
 import sys.constants.LogConstants;
+import sys.constants.PmdConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -37,7 +38,7 @@ public class PmdOrderController extends PmdBaseController {
     @RequestMapping("/pmdOrder_orders")
     public String pmdOrder_orders(int memberId, ModelMap modelMap) {
 
-        List<PmdOrder> pmdOrders = iPmdMapper.findRelateOrders(memberId);
+        List<PmdOrder> pmdOrders = iPmdMapper.findRelateOrders(PmdConstants.PMD_ORDER_TYPE_MONTH, memberId);
         modelMap.put("pmdOrders", pmdOrders);
 
         return "/pmd/pmdOrder/pmdOrder_orders";

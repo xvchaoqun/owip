@@ -1,14 +1,15 @@
 package controller.pmd;
 
+import com.google.gson.Gson;
 import domain.member.Member;
 import domain.pmd.PmdFee;
 import domain.pmd.PmdFeeExample;
 import domain.pmd.PmdFeeExample.Criteria;
+import domain.pmd.PmdOrder;
+import ext.utils.Pay;
 import mixin.MixinUtils;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.LoginUserService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -63,16 +65,16 @@ public class PmdFeeController extends PmdBaseController {
     @RequestMapping("/pmdFee_data")
     @ResponseBody
     public void pmdFee_data(HttpServletResponse response,
-                            Integer userId,
-                            Integer partyId,
-                            Integer branchId,
-                            Boolean isOnlinePay,
-                            Boolean hasPay,
-                            Date payTime,
-                            Byte status,
-                            @RequestParam(required = false, defaultValue = "0") int export,
-                            Integer[] ids, // 导出的记录
-                            Integer pageSize, Integer pageNo)  throws IOException{
+                                    Integer userId,
+                                    Integer partyId,
+                                    Integer branchId,
+                                    Boolean isOnlinePay,
+                                    Boolean hasPay,
+                                    Date payTime,
+                                Byte status,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer[] ids, // 导出的记录
+                                 Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -83,7 +85,7 @@ public class PmdFeeController extends PmdBaseController {
         pageNo = Math.max(1, pageNo);
 
         PmdFeeExample example = new PmdFeeExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(PmdConstants.PMD_FEE_STATUS_NORMAL);
         example.setOrderByClause("id desc");
 
         List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
@@ -107,7 +109,7 @@ public class PmdFeeController extends PmdBaseController {
             criteria.andHasPayEqualTo(hasPay);
         }
         if (payTime!=null) {
-            criteria.andPayTimeGreaterThan(payTime);
+        criteria.andPayTimeGreaterThan(payTime);
         }
 
         if (export == 1) {
@@ -152,15 +154,17 @@ public class PmdFeeController extends PmdBaseController {
             return failed("添加重复");
         }
 
-        if(BooleanUtils.isNotTrue(record.getIsOnlinePay())){
-            record.setHasPay(true);
-        }
         if (id == null) {
 
+            record.setIsOnlinePay(true);
+            record.setHasPay(false);
+            record.setStatus(PmdConstants.PMD_FEE_STATUS_NORMAL);
             pmdFeeService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PMD, "添加党员缴纳党费：{0}", record.getId()));
         } else {
 
+            record.setIsOnlinePay(null);
+            record.setStatus(null);
             pmdFeeService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_PMD, "更新党员缴纳党费：{0}", record.getId()));
         }
@@ -184,25 +188,46 @@ public class PmdFeeController extends PmdBaseController {
         return "pmd/pmdFee/pmdFee_au";
     }
 
-    @RequiresPermissions("pmdFee:del")
-    @RequestMapping(value = "/pmdFee_del", method = RequestMethod.POST)
+    @RequiresPermissions("pmdFee:pay")
+    @RequestMapping("/pmdFee_confirm")
+    public String pmdFee_confirm(int id, @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay,
+                                        ModelMap modelMap) {
+
+        PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(id);
+        modelMap.put("pmdFee", pmdFee);
+
+        return "pmd/pmdFee/pmdFee_confirm";
+    }
+
+    @RequiresPermissions("pmdFee:pay")
+    @RequestMapping(value = "/pmdFee_confirm", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdFee_del(HttpServletRequest request, Integer id) {
+    public Map do_pmdFee_confirm(int id,
+                             @RequestParam(required = false, defaultValue = "0")Boolean isMobile,
+                             HttpServletRequest request){
 
-        if (id != null) {
-            PmdFee pmdFee=pmdFeeMapper.selectByPrimaryKey(id);
-            Integer loginUserId = ShiroHelper.getCurrentUserId();
+        PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(id);
+        boolean isSelfPay = (pmdFee.getUserId().intValue()==ShiroHelper.getCurrentUserId());
 
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
-                    !pmdPartyAdminService.isPartyAdmin(loginUserId,pmdFee.getPartyId())&&
-                    !pmdBranchAdminService.isBranchAdmin(loginUserId,pmdFee.getBranchId())){
-                throw new UnauthorizedException();
-            }
+        PmdOrder order = pmdOrderService.feeConfirm(id, isSelfPay, isMobile);
+        logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
+                JSONUtils.toString(order, false)));
 
-            pmdFeeService.del(id);
-            logger.info(log( LogConstants.LOG_PMD, "删除党员缴纳党费：{0}", id));
+        Gson gson = new Gson();
+        Map<String, String> params =  gson.fromJson(order.getParams(), Map.class);
+        params.put("sign", order.getSign());
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("order", params); // 订单所有的请求参数 + 签名值
+
+        resultMap.put("formMap", order.getFormMap()); // 收银台参数
+
+        if(CmTag.getBoolProperty("payTest")) {
+            // for test
+            resultMap.put("ret", Pay.getInstance().testCallbackParams(order.getSn(), order.getParams()));
         }
-        return success(FormUtils.SUCCESS);
+
+        return resultMap;
     }
 
     @RequiresPermissions("pmdFee:del")
@@ -218,6 +243,7 @@ public class PmdFeeController extends PmdBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     public void pmdFee_export(PmdFeeExample example, HttpServletResponse response) {
 
         List<PmdFee> records = pmdFeeMapper.selectByExample(example);
@@ -227,65 +253,19 @@ public class PmdFeeController extends PmdBaseController {
         for (int i = 0; i < rownum; i++) {
             PmdFee record = records.get(i);
             String[] values = {
-                    DateUtils.formatDate(record.getPayMonth(), DateUtils.YYYYMM),
-                    record.getUser().getRealname(),
-                    record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
-                    record.getBranchId() == null ? "" : branchService.findAll().get(record.getBranchId()).getName(),
-                    record.getIsOnlinePay()?"线上缴费":"现金缴费",
-                    record.getAmt()+"",
-                    record.getType()==null?"":CmTag.getMetaType(record.getType()).getName(),
-                    record.getReason(),
-                    record.getHasPay()?"已缴费":"未缴费"
+                            DateUtils.formatDate(record.getPayMonth(), DateUtils.YYYYMM),
+                            record.getUser().getRealname(),
+                            record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
+                            record.getBranchId() == null ? "" : branchService.findAll().get(record.getBranchId()).getName(),
+                            record.getIsOnlinePay()?"线上缴费":"现金缴费",
+                            record.getAmt()+"",
+                            record.getType()==null?"":CmTag.getMetaType(record.getType()).getName(),
+                            record.getReason(),
+                            record.getHasPay()?"已缴费":"未缴费"
             };
             valuesList.add(values);
         }
         String fileName = String.format("党员补缴党费(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequestMapping("/pmdFee_selects")
-    @ResponseBody
-    public Map pmdFee_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        PmdFeeExample example = new PmdFeeExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
-
-        /*if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
-        }*/
-
-        long count = pmdFeeMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<PmdFee> records = pmdFeeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(PmdFee record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                //option.put("text", record.getName());
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
     }
 }

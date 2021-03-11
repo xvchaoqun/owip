@@ -62,7 +62,7 @@
                     <div class="profile-info-name">邮箱</div>
 
                     <div class="profile-info-value">
-                        <span class="editable"><t:mask src="${sysUser.email}" type="email"/></span>
+                        <span class="editable email"><t:mask src="${sysUser.email}" type="email"/></span>
                     </div>
                 </div>
                 <div class="profile-info-row">

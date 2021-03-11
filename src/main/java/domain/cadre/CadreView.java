@@ -49,7 +49,7 @@ public class CadreView implements Serializable {
 
     private Integer userId;
 
-    private Boolean isDep;
+    private Integer type;
 
     private Boolean hasCrp;
 
@@ -263,12 +263,12 @@ public class CadreView implements Serializable {
         this.userId = userId;
     }
 
-    public Boolean getIsDep() {
-        return isDep;
+    public Integer getType() {
+        return type;
     }
 
-    public void setIsDep(Boolean isDep) {
-        this.isDep = isDep;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Boolean getHasCrp() {

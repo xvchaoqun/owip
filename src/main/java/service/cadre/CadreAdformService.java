@@ -761,7 +761,7 @@ public class CadreAdformService extends BaseMapper {
             _blankEndDate = "       "; // 简历中结束时间为空，留7个空格
         }
 
-        text = text.replaceFirst("[ |\\s]+", _blankEndDate + "  ").replaceAll("—", "--");
+        text = text.replaceFirst("[ |\\s]+", _blankEndDate /*+ "  "*/).replaceAll("—", "--");
 
         return text;
     }

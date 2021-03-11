@@ -91,6 +91,24 @@ public class PmdConstants {
         PMD_MEMBER_TYPE_MAP.put(PMD_MEMBER_TYPE_OTHER, "附属学校");
     }
 
+    // 缴费订单类别
+    public final static byte PMD_ORDER_TYPE_MONTH = 1;
+    public final static byte PMD_ORDER_TYPE_FEE = 2;
+    public final static Map<Byte, String> PMD_ORDER_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_ORDER_TYPE_MAP.put(PMD_ORDER_TYPE_MONTH, "每月党费");
+        PMD_ORDER_TYPE_MAP.put(PMD_ORDER_TYPE_FEE, "其他党费");
+    }
+
+    // 其他党费记录状态
+    public final static byte PMD_FEE_STATUS_NORMAL = 0;
+    public final static byte PMD_FEE_STATUS_DELETED = 1;
+    public final static Map<Byte, String> PMD_FEE_STATUS_MAP = new LinkedHashMap<>();
+    static {
+        PMD_FEE_STATUS_MAP.put(PMD_FEE_STATUS_NORMAL, "正常");
+        PMD_FEE_STATUS_MAP.put(PMD_FEE_STATUS_DELETED, "已删除");
+    }
+
     // 党费支付渠道，1 校园统一支付平台  2 校园卡
     public final static byte PMD_PAY_WAY_WSZF = 1;
     public final static byte PMD_PAY_WAY_CAMPUSCARD = 2;

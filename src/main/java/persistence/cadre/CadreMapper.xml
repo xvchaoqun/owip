@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadre.Cadre">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="is_dep" jdbcType="BIT" property="isDep" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="has_crp" jdbcType="BIT" property="hasCrp" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
@@ -80,7 +80,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, is_dep, has_crp, is_double, double_unit_ids, state, title, is_outside, 
+    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, is_outside, 
     dispatch_cadre_id, label, profile, remark, original_post, appoint_date, depose_date, 
     sort_order, status
   </sql>
@@ -118,13 +118,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre (user_id, is_dep, has_crp, 
+    insert into cadre (user_id, type, has_crp, 
       is_double, double_unit_ids, state, 
       title, is_outside, dispatch_cadre_id, 
       label, profile, remark, 
       original_post, appoint_date, depose_date, 
       sort_order, status)
-    values (#{userId,jdbcType=INTEGER}, #{isDep,jdbcType=BIT}, #{hasCrp,jdbcType=BIT}, 
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{hasCrp,jdbcType=BIT}, 
       #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{isOutside,jdbcType=BIT}, #{dispatchCadreId,jdbcType=INTEGER}, 
       #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
@@ -140,8 +140,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="isDep != null">
-        is_dep,
+      <if test="type != null">
+        type,
       </if>
       <if test="hasCrp != null">
         has_crp,
@@ -193,8 +193,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="isDep != null">
-        #{isDep,jdbcType=BIT},
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="hasCrp != null">
         #{hasCrp,jdbcType=BIT},
@@ -258,8 +258,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.isDep != null">
-        is_dep = #{record.isDep,jdbcType=BIT},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.hasCrp != null">
         has_crp = #{record.hasCrp,jdbcType=BIT},
@@ -315,7 +315,7 @@
     update cadre
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      is_dep = #{record.isDep,jdbcType=BIT},
+      type = #{record.type,jdbcType=INTEGER},
       has_crp = #{record.hasCrp,jdbcType=BIT},
       is_double = #{record.isDouble,jdbcType=BIT},
       double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
@@ -341,8 +341,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="isDep != null">
-        is_dep = #{isDep,jdbcType=BIT},
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="hasCrp != null">
         has_crp = #{hasCrp,jdbcType=BIT},
@@ -395,7 +395,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.Cadre">
     update cadre
     set user_id = #{userId,jdbcType=INTEGER},
-      is_dep = #{isDep,jdbcType=BIT},
+      type = #{type,jdbcType=INTEGER},
       has_crp = #{hasCrp,jdbcType=BIT},
       is_double = #{isDouble,jdbcType=BIT},
       double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},

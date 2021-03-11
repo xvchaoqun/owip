@@ -25,7 +25,7 @@
         </javaClientGenerator>
 
         <!--干部库-->
-         <!--<table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
+         <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
          </table>
@@ -68,7 +68,7 @@
             <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-      </table>-->
+      </table>
 
 
         <!--<table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
@@ -135,10 +135,10 @@
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!--<table tableName="cadre_punish" domainObjectName="cadre.CadrePunish" mapperName="cadre.CadrePunishMapper">
+        <table tableName="cadre_punish" domainObjectName="cadre.CadrePunish" mapperName="cadre.CadrePunishMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_book" domainObjectName="cadre.CadreBook">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -164,8 +164,7 @@
         <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
-        </table>
+        <!--
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
@@ -173,10 +172,10 @@
                mapperName="cadre.CadreFamilyAbroadMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
+        <!--<table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
                mapperName="cadre.CadreFamilyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
                mapperName="cadre.CadrePostProMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

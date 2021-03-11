@@ -3,7 +3,8 @@
 <mapper namespace="persistence.pmd.PmdOrderMapper">
   <resultMap id="BaseResultMap" type="domain.pmd.PmdOrder">
     <id column="sn" jdbcType="VARCHAR" property="sn" />
-    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="is_batch" jdbcType="BIT" property="isBatch" />
     <result column="pay_month" jdbcType="VARCHAR" property="payMonth" />
     <result column="payer" jdbcType="VARCHAR" property="payer" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sn, member_id, is_batch, pay_month, payer, payername, amt, pay_way, params, sign, 
-    user_id, is_success, is_closed, create_time, ip
+    sn, type, record_id, is_batch, pay_month, payer, payername, amt, pay_way, params, 
+    sign, user_id, is_success, is_closed, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdOrderExample" resultMap="BaseResultMap">
     select
@@ -111,18 +112,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdOrder">
-    insert into pmd_order (sn, member_id, is_batch, 
-      pay_month, payer, payername, 
-      amt, pay_way, params, 
-      sign, user_id, is_success, 
-      is_closed, create_time, ip
-      )
-    values (#{sn,jdbcType=VARCHAR}, #{memberId,jdbcType=INTEGER}, #{isBatch,jdbcType=BIT}, 
-      #{payMonth,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, #{payername,jdbcType=VARCHAR}, 
-      #{amt,jdbcType=VARCHAR}, #{payWay,jdbcType=TINYINT}, #{params,jdbcType=VARCHAR}, 
-      #{sign,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{isSuccess,jdbcType=BIT}, 
-      #{isClosed,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
-      )
+    insert into pmd_order (sn, type, record_id, 
+      is_batch, pay_month, payer, 
+      payername, amt, pay_way, 
+      params, sign, user_id, 
+      is_success, is_closed, create_time, 
+      ip)
+    values (#{sn,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{recordId,jdbcType=INTEGER}, 
+      #{isBatch,jdbcType=BIT}, #{payMonth,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, 
+      #{payername,jdbcType=VARCHAR}, #{amt,jdbcType=VARCHAR}, #{payWay,jdbcType=TINYINT}, 
+      #{params,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{isSuccess,jdbcType=BIT}, #{isClosed,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdOrder">
     insert into pmd_order
@@ -130,8 +131,11 @@
       <if test="sn != null">
         sn,
       </if>
-      <if test="memberId != null">
-        member_id,
+      <if test="type != null">
+        type,
+      </if>
+      <if test="recordId != null">
+        record_id,
       </if>
       <if test="isBatch != null">
         is_batch,
@@ -177,8 +181,11 @@
       <if test="sn != null">
         #{sn,jdbcType=VARCHAR},
       </if>
-      <if test="memberId != null">
-        #{memberId,jdbcType=INTEGER},
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="isBatch != null">
         #{isBatch,jdbcType=BIT},
@@ -233,8 +240,11 @@
       <if test="record.sn != null">
         sn = #{record.sn,jdbcType=VARCHAR},
       </if>
-      <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=INTEGER},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
       </if>
       <if test="record.isBatch != null">
         is_batch = #{record.isBatch,jdbcType=BIT},
@@ -283,7 +293,8 @@
   <update id="updateByExample" parameterType="map">
     update pmd_order
     set sn = #{record.sn,jdbcType=VARCHAR},
-      member_id = #{record.memberId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      record_id = #{record.recordId,jdbcType=INTEGER},
       is_batch = #{record.isBatch,jdbcType=BIT},
       pay_month = #{record.payMonth,jdbcType=VARCHAR},
       payer = #{record.payer,jdbcType=VARCHAR},
@@ -304,8 +315,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdOrder">
     update pmd_order
     <set>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=INTEGER},
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
       </if>
       <if test="isBatch != null">
         is_batch = #{isBatch,jdbcType=BIT},
@@ -351,7 +365,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdOrder">
     update pmd_order
-    set member_id = #{memberId,jdbcType=INTEGER},
+    set type = #{type,jdbcType=TINYINT},
+      record_id = #{recordId,jdbcType=INTEGER},
       is_batch = #{isBatch,jdbcType=BIT},
       pay_month = #{payMonth,jdbcType=VARCHAR},
       payer = #{payer,jdbcType=VARCHAR},

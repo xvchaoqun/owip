@@ -1601,3 +1601,6 @@ span.delete, span.delete a, li.delete label {
 .input-group.date .input-group-addon .fa-calendar{
     padding: 0;
 }
+span.email{
+    word-break: break-all;
+}

@@ -19,7 +19,9 @@ public class PmdOrder implements Serializable {
 
     private String sn;
 
-    private Integer memberId;
+    private Byte type;
+
+    private Integer recordId;
 
     private Boolean isBatch;
 
@@ -57,12 +59,20 @@ public class PmdOrder implements Serializable {
         this.sn = sn == null ? null : sn.trim();
     }
 
-    public Integer getMemberId() {
-        return memberId;
+    public Byte getType() {
+        return type;
     }
 
-    public void setMemberId(Integer memberId) {
-        this.memberId = memberId;
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
     public Boolean getIsBatch() {

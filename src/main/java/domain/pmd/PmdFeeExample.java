@@ -1188,13 +1188,6 @@ public class PmdFeeExample {
         }
     }
 
-   /* public static class Criteria extends PmdFeeExample.GeneratedCriteria {
-
-        protected Criteria() {
-            super();
-        }
-    }*/
-
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
@@ -1208,12 +1201,13 @@ public class PmdFeeExample {
             if(partyIdList==null) partyIdList = new ArrayList<>();
             if(branchIdList==null) branchIdList = new ArrayList<>();
 
+            int userId = ShiroHelper.getCurrentUserId();
             if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
-                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+                addCriterion("(user_id = " + userId + " OR party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
             if(partyIdList.isEmpty() && !branchIdList.isEmpty())
-                andBranchIdIn(branchIdList);
+                addCriterion("(user_id = " + userId + " OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
-                andPartyIdIn(partyIdList);
+                addCriterion("(user_id = " + userId + " OR party_id in(" + StringUtils.join(partyIdList, ",") + "))");
             if(branchIdList.isEmpty() && partyIdList.isEmpty())
                 andUserIdEqualTo(ShiroHelper.getCurrentUserId());
             return this;

@@ -20,7 +20,7 @@
     <w:pPr>
         <#--<w:spacing w:line="${line}" w:line-rule="exact"/>-->
         <#if needHanging?? && needHanging>
-            <w:ind w:left="2200" w:hanging="${row[1]?starts_with("（")?string("136","2200")}"/>
+            <w:ind w:left="2000" w:hanging="${row[1]?starts_with("（")?string("136","2000")}"/>
         </#if>
     </w:pPr>
     <#list row as col>
@@ -30,7 +30,7 @@
             <w:sz w:val="24"/>
             <w:sz-cs w:val="24"/>
         </w:rPr>
-        <w:t xml:space="preserve">${col}<#if col_has_next>  </#if></w:t>
+        <w:t xml:space="preserve">${col}<#if col_has_next && !col?ends_with(" ")>  </#if></w:t>
     </w:r>
     </#if>
     </#list>

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.pmd.PmdOrderItem">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="sn" jdbcType="VARCHAR" property="sn" />
-    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sn, member_id, due_pay
+    id, sn, record_id, due_pay
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdOrderItemExample" resultMap="BaseResultMap">
     select
@@ -99,9 +99,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdOrderItem">
-    insert into pmd_order_item (id, sn, member_id, 
+    insert into pmd_order_item (id, sn, record_id, 
       due_pay)
-    values (#{id,jdbcType=INTEGER}, #{sn,jdbcType=VARCHAR}, #{memberId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{sn,jdbcType=VARCHAR}, #{recordId,jdbcType=INTEGER}, 
       #{duePay,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdOrderItem">
@@ -113,8 +113,8 @@
       <if test="sn != null">
         sn,
       </if>
-      <if test="memberId != null">
-        member_id,
+      <if test="recordId != null">
+        record_id,
       </if>
       <if test="duePay != null">
         due_pay,
@@ -127,8 +127,8 @@
       <if test="sn != null">
         #{sn,jdbcType=VARCHAR},
       </if>
-      <if test="memberId != null">
-        #{memberId,jdbcType=INTEGER},
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="duePay != null">
         #{duePay,jdbcType=DECIMAL},
@@ -150,8 +150,8 @@
       <if test="record.sn != null">
         sn = #{record.sn,jdbcType=VARCHAR},
       </if>
-      <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=INTEGER},
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
       </if>
       <if test="record.duePay != null">
         due_pay = #{record.duePay,jdbcType=DECIMAL},
@@ -165,7 +165,7 @@
     update pmd_order_item
     set id = #{record.id,jdbcType=INTEGER},
       sn = #{record.sn,jdbcType=VARCHAR},
-      member_id = #{record.memberId,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
       due_pay = #{record.duePay,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,8 +177,8 @@
       <if test="sn != null">
         sn = #{sn,jdbcType=VARCHAR},
       </if>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=INTEGER},
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
       </if>
       <if test="duePay != null">
         due_pay = #{duePay,jdbcType=DECIMAL},
@@ -189,7 +189,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdOrderItem">
     update pmd_order_item
     set sn = #{sn,jdbcType=VARCHAR},
-      member_id = #{memberId,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
       due_pay = #{duePay,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>

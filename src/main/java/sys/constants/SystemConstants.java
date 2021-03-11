@@ -356,6 +356,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_APPLYSELF = 1; // 因私出国
     public final static byte SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT = 2; // 干部招聘-报名审核
     public final static byte SYS_APPROVAL_LOG_TYPE_PMD_MEMBER = 3; // 党费收缴
+    public final static byte SYS_APPROVAL_LOG_TYPE_PMD_FEE = 15; // 党费收缴其他党费
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_OBJ = 4; // 干部教育培训-参训人员
     public final static byte SYS_APPROVAL_LOG_TYPE_USER = 5; // 系统账号
     public final static byte SYS_APPROVAL_LOG_TYPE_CLA_APPLY = 6; // 干部请假审批人员
@@ -378,6 +379,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CR_APPLICANT, "干部招聘2");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_FEE, "其他党费");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_OBJ, "参训人员");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_USER, "系统账号");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CLA_APPLY, "干部请假");
