@@ -12,11 +12,11 @@
         <div class="widget-body">
             <div class="widget-main">
                 <c:if test="${param.cadreCategory == 1}">
-                    <div id="container_CJ" style="height:250px; margin: 0 auto;"></div>
+                    <div id="container_CJ" style="height:280px; margin: 0 auto;"></div>
                 </c:if>
 
                 <c:if test="${param.cadreCategory == 2}">
-                    <div id="container_KJ" style="height:250px; margin: 0 auto;"></div>
+                    <div id="container_KJ" style="height:280px; margin: 0 auto;"></div>
                 </c:if>
             </div>
         </div>
@@ -30,48 +30,35 @@
 
     $.get("${ctx}/stat_cadre_avgAge_data", {cadreCategory:${param.cadreCategory}}, function (cadreAvgAge) {
 
-        var indicatorData = [];
+        var levelData = [];
         var avgAgeData = [];
-        var seriesData = [];
 
         $.each(cadreAvgAge, function (key, value) {
-            indicatorData.push({
-                text: key+"("+value+")",
-                max: 100
-            });
+            levelData.push(key);
             avgAgeData.push(value);
         });
-        seriesData.push({
-            name: "平均年龄",
-            value: avgAgeData
-        });
 
-        var  option = {
-            tooltip: {},
-            legend: {
-                left: 10,
-                top: 20,
-                bottom: 20,
-                data: ['平均年龄']
+        option = {
+            xAxis: {
+                type: 'category',
+                data: levelData
             },
-            radar: {
-                // shape: 'circle',
-                name: {
-                    textStyle: {
-                        color: '#fff',
-                        backgroundColor: '#999',
-                        borderRadius: 3,
-                        padding: [3, 5]
-                    }
-                },
-                center: ['60%', '60%'],
-                indicator: indicatorData
+            yAxis: {
+                type: 'value'
             },
             series: [{
-                name: '平均年龄',
-                type: 'radar',
-                data: seriesData
-            }]
+                data: avgAgeData,
+                type: 'bar',
+                barMaxWidth:40,//最大宽度
+                label: {
+                    show: true,
+                    formatter: '{c}'
+                },
+            }],
+            grid: {
+                top:'7%',
+                bottom: '7%',
+            }
         };
 
         cadreAvgAgeChart.setOption(option, true);
