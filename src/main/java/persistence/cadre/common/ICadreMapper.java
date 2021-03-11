@@ -107,10 +107,11 @@ public interface ICadreMapper {
 
     // 获取主职、兼职在某单位的现任干部（不考虑干部类型）
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
-    @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
+    @Select("select cp.* from cadre_post cp left join unit_post up on up.id=cp.unit_post_id, cadre c  " +
+            "where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
             "c.status in(" + CadreConstants.CADRE_STATUS_CJ + ","
             + CadreConstants.CADRE_STATUS_KJ + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
-            "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
+            "order by up.sort_order asc, c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
     public List<CadrePost> findCadrePosts(@Param("unitId") int unitId);
 
     // 根据单位类型（jg/xy/fs)获取主职、兼职(占职数)的现任干部

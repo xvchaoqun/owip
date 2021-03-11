@@ -245,7 +245,7 @@
         font-size: 20pt;
     }
 </style>
-<script src="${ctx}/extend/js/webcam.min.js"></script>
+<script src="${ctx}/extend/js/webcam.js"></script>
 <script src="${ctx}/extend/js/jQueryRotate.js"></script>
 
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>

@@ -343,7 +343,7 @@ public class OrgAdminController extends BaseController {
         if (null != ids && ids.length>0){
             boolean isPartyAdmin = type==OwConstants.OW_ORG_ADMIN_PARTY?true:false;
             orgAdminService.batchDel(ids, isPartyAdmin, loginUser);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除管理员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除管理员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -414,7 +414,7 @@ public class OrgAdminController extends BaseController {
         resultMap.put("addCount", addCount);
         resultMap.put("total", totalCount);
 
-        logger.info(log(LogConstants.LOG_ADMIN,
+        logger.info(log(LogConstants.LOG_PARTY,
                 "导入成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 

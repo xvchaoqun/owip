@@ -70,7 +70,7 @@ public class ScMatterItemController extends ScBaseController {
         pageNo = Math.max(1, pageNo);
 
         ScMatterItemViewExample example = new ScMatterItemViewExample();
-        ScMatterItemViewExample.Criteria criteria = example.createCriteria();
+        ScMatterItemViewExample.Criteria criteria = example.createCriteria().andMatterIsDeletedEqualTo(false);
         example.setOrderByClause("draw_time desc, real_hand_time desc, id desc");
         if(matterId != null){
             criteria.andMatterIdEqualTo(matterId);

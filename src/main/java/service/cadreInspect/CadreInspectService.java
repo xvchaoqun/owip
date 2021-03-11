@@ -406,6 +406,8 @@ public class CadreInspectService extends BaseMapper {
             cadreInspect.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
             cadreInspectMapper.updateByPrimaryKeySelective(cadreInspect);
 
+            commonMapper.excuteSql("update cadre_inspect set valid_time = null where id=" + inspectId);
+
             //更新干部状态
             Byte oldStatus = cadre.getStatus();
             cadre.setStatus(CadreConstants.CADRE_STATUS_INSPECT);

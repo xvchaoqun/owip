@@ -272,7 +272,7 @@ sl.file_path as letter_file_path, sl.file_name as letter_file_name,
 sl.query_date as letter_query_date, sl.type as letter_type
 , count(distinct slri.id) as reply_item_count from sc_letter_reply slr
 left join sc_letter sl on sl.id=slr.letter_id
-left join sc_letter_reply_item slri on slri.reply_id=slr.id group by slr.id;
+left join sc_letter_reply_item slri on slri.reply_id=slr.id where sl.is_deleted=0 group by slr.id;
 
 DROP VIEW IF EXISTS `sc_letter_reply_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_item_view` AS
@@ -283,9 +283,9 @@ sl.year as letter_year, sl.num as letter_num,
 sl.file_path as letter_file_path, sl.file_name as letter_file_name,
 sl.query_date as letter_query_date, sl.type as letter_type, u.realname, u.code from sc_letter_reply_item slri
 left join sys_user_view u on slri.user_id=u.id
-left join sc_letter_reply slr on slr.id=slri.reply_id and slr.is_deleted=0
-left join sc_letter sl on sl.id=slr.letter_id and sl.is_deleted=0
-LEFT JOIN sc_letter_item sli ON sli.letter_id=sl.id AND sli.user_id=u.id;
+left join sc_letter_reply slr on slr.id=slri.reply_id
+left join sc_letter sl on sl.id=slr.letter_id
+LEFT JOIN sc_letter_item sli ON sli.letter_id=sl.id AND sli.user_id=u.id where slr.is_deleted=0 and sl.is_deleted=0;
 
 -- 出入境备案视图
 DROP VIEW IF EXISTS `sc_border_view`;
@@ -307,7 +307,7 @@ from sc_matter m left join sc_matter_item mi on mi.matter_id=m.id group by m.id 
 
 DROP VIEW IF EXISTS `sc_matter_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_item_view` AS
-select smi.*, sm.year, sm.type, sm.draw_time, sm.hand_time, u.code, u.realname, c.title,
+select smi.*, sm.year, sm.type, sm.draw_time, sm.hand_time, sm.is_deleted as matter_is_deleted, u.code, u.realname, c.title,
 smt.transfer_date, smt.location as transfer_location, smt.reason as transfer_reason  from sc_matter_item smi
 left join sc_matter sm on sm.id=smi.matter_id
 left join sys_user_view u on smi.user_id = u.id
@@ -316,13 +316,13 @@ left join sc_matter_transfer smt on smt.id=smi.transfer_id;
 
 DROP VIEW IF EXISTS `sc_matter_access_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_access_item_view` AS
-select smai.*, smi.code, smi.realname, smi.type, smi.year,smi.fill_time, c.title from sc_matter_access_item smai
+select smai.*, smi.code, smi.realname, smi.type, smi.year,smi.fill_time, smi.matter_is_deleted, c.title from sc_matter_access_item smai
 left join sc_matter_item_view smi on smi.id=smai.matter_item_id
 left join cadre_view c on c.user_id=smi.user_id;
 
 DROP VIEW IF EXISTS `sc_matter_check_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_item_view` AS
-select smci.*, smc.year, smc.is_random, smc.check_date, smc.num, u.code, u.realname
+select smci.*, smc.year, smc.is_random, smc.check_date, smc.num,smc.is_deleted as check_is_deleted, u.code, u.realname
 from sc_matter_check_item smci
 left join sc_matter_check smc on smc.id=smci.check_id
 left join sys_user_view u on u.id=smci.user_id;

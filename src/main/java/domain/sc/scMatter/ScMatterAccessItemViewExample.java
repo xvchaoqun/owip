@@ -632,6 +632,66 @@ public class ScMatterAccessItemViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andMatterIsDeletedIsNull() {
+            addCriterion("matter_is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedIsNotNull() {
+            addCriterion("matter_is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedEqualTo(Boolean value) {
+            addCriterion("matter_is_deleted =", value, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("matter_is_deleted <>", value, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedGreaterThan(Boolean value) {
+            addCriterion("matter_is_deleted >", value, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("matter_is_deleted >=", value, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedLessThan(Boolean value) {
+            addCriterion("matter_is_deleted <", value, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("matter_is_deleted <=", value, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedIn(List<Boolean> values) {
+            addCriterion("matter_is_deleted in", values, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("matter_is_deleted not in", values, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("matter_is_deleted between", value1, value2, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andMatterIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("matter_is_deleted not between", value1, value2, "matterIsDeleted");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;

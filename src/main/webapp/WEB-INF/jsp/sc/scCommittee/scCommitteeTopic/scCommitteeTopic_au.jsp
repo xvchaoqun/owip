@@ -56,9 +56,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">议题名称</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>议题名称</label>
                                             <div class="col-xs-8">
-                                                 <textarea class="form-control noEnter" rows="3"
+                                                 <textarea required class="form-control noEnter" rows="3"
                                                            name="name">${scCommitteeTopic.name}</textarea>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">表决票</label>
+                                            <label class="col-xs-3 control-label">表决票(pdf文件)</label>
                                             <div class="col-xs-8">
                                                 <input class="form-control" type="file" name="_voteFilePath"/>
                                             </div>

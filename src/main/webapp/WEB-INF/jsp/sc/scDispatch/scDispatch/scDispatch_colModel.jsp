@@ -60,7 +60,7 @@
 
           var signFilePath = rowObject.signFilePath;
           if ($.trim(signFilePath) != '') {
-              ret += '&nbsp;<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+              ret += '&nbsp;<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}" data-width="900" title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                       .format(signFilePath, encodeURI(rowObject.dispatchCode +"-签批文件"))
           }
           return ret;

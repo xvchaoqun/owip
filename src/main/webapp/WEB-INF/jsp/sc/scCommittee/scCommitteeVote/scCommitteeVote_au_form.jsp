@@ -27,7 +27,7 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <td class="bg-right">类别</td>
+                        <td class="bg-right"><span class="star">*</span>类别</td>
                         <td class="bg-left">
                             <c:forEach var="entity" items="${DISPATCH_CADRE_TYPE_MAP}">
                                 <label class="label-text">
@@ -38,7 +38,7 @@
                                 </label>
                             </c:forEach>
                         </td>
-                        <td class="bg-right">选择干部</td>
+                        <td class="bg-right"><span class="star">*</span>选择干部</td>
                         <td class="bg-left" colspan="4">
                             <select required data-ajax-url="${ctx}/cadre_selects?type=0&lpWorkTime=1" data-width="360"
                                     name="cadreId" data-placeholder="请输入姓名或工作证号">
@@ -87,12 +87,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg-right" id="typeNameTd">任免职务</td>
+                        <td class="bg-right" id="typeNameTd" nowrap><span class="star">*</span>任免职务</td>
                         <td class="bg-left">
                             <textarea required class="form-control noEnter" rows="2" style="width: 150px"
                                        name="post">${scCommitteeVote.post}</textarea>
                         </td>
-                        <td class="bg-right">职务属性</td>
+                        <td class="bg-right" nowrap><span class="star">*</span>职务属性</td>
                         <td class="bg-left">
                             <select required name="postType" data-rel="select2" data-width="130"
                                     data-placeholder="请选择">
@@ -103,7 +103,7 @@
                                 $("#voteForm select[name=postType]").val('${scCommitteeVote.postType}');
                             </script>
                         </td>
-                        <td class="bg-right">行政级别</td>
+                        <td class="bg-right" nowrap><span class="star">*</span>行政级别</td>
                         <td class="bg-left">
                             <select required class="form-control" data-rel="select2" data-width="140"
                                     name="adminLevel"
@@ -117,7 +117,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg-right">单位类别</td>
+                        <td class="bg-right" nowrap><span class="star">*</span>单位类别</td>
                         <td class="bg-left">
                             <select required class="form-control" name="_unitStatus" data-width="150"
                                     data-rel="select2"
@@ -127,7 +127,7 @@
                                 <option value="2" ${scCommitteeVote.unit.status==2?"selected":""}>历史单位</option>
                             </select>
                         </td>
-                        <td class="bg-right">所属单位</td>
+                        <td class="bg-right" nowrap><span class="star">*</span>所属单位</td>
                         <td class="bg-left">
                             <select required data-rel="select2-ajax" data-width="130"
                                     data-ajax-url="${ctx}/unit_selects"
@@ -143,7 +143,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg-right">干部类型</td>
+                        <td class="bg-right" nowrap><span class="star">*</span>干部类型</td>
                         <td class="bg-left">
                             <select required data-rel="select2" name="cadreTypeId" data-width="150"
                                     data-placeholder="请选择">

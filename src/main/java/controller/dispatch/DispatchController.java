@@ -259,9 +259,14 @@ public class DispatchController extends DispatchBaseController {
         if (record.getCode() == null){
 
             return failed("发文号不能为空");
-        }else if (record.getCode() != null
-                && dispatchService.idDuplicate(id, record.getDispatchTypeId(), record.getYear(), record.getCode())) {
-            return failed("发文号重复");
+        }else if (record.getCode() != null) {
+
+            Dispatch dispatch = dispatchService.get(record.getDispatchTypeId(), record.getYear(), record.getCode());
+            if(dispatch!=null) {
+                id = dispatch.getId();
+                record.setId(id);
+            }
+            //return failed("发文号重复");
         }
 
         record.setFileName(StringUtils.trimToNull(fileName));

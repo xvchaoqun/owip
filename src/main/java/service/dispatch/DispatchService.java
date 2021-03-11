@@ -36,6 +36,17 @@ public class DispatchService extends BaseMapper {
         return dispatchMapper.countByExample(example) > 0;
     }
 
+    public Dispatch get(int dispatchTypeId, int year, String code){
+
+        DispatchExample example = new DispatchExample();
+        DispatchExample.Criteria criteria = example.createCriteria()
+                .andCodeEqualTo(code)
+                .andDispatchTypeIdEqualTo(dispatchTypeId).andYearEqualTo(year);
+        List<Dispatch> dispatches = dispatchMapper.selectByExample(example);
+
+        return dispatches.size()>0?dispatches.get(0):null;
+    }
+
     // 师党干[2015]01号
     /*public int genCode(int dispatchTypeId, int year){
 

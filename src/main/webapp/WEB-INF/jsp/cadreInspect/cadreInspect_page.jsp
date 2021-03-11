@@ -37,7 +37,7 @@ pageEncoding="UTF-8" %>
               <shiro:hasPermission name="cadreInspect:validTime">
                 <li class="<c:if test="${!isValid}">active</c:if>">
                     <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreInspect?isValid=0">
-                      <i class="fa fa-times"></i> 已过期</a>
+                      <i class="fa fa-history"></i> 已过期</a>
                 </li>
               </shiro:hasPermission>
             </ul>
@@ -45,15 +45,7 @@ pageEncoding="UTF-8" %>
             <div class="tab-content">
                 <div class="tab-pane in active rownumbers">
                     <div class="jqgrid-vertical-offset buttons">
-                       <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
-                        <shiro:hasPermission name="cadreInspect:validTime">
-                            <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
-                                    data-url="${ctx}/cadreInspect_validTime"
-                                    data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                                设置有效期
-                            </button>
-                        </shiro:hasPermission>
-                       </c:if>
+
                         <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL && isValid}">
                         <shiro:hasPermission name="cadreInspect:edit">
                             <a class="popupBtn btn btn-info btn-sm btn-success"
@@ -86,7 +78,7 @@ pageEncoding="UTF-8" %>
                             <shiro:hasPermission name="cadreInspect:edit">
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/cadreInspect_rollback">
-                                    <i class="fa fa-backward"></i> 返回考察对象
+                                    <i class="fa fa-reply"></i> 返回考察对象
                                 </button>
                             </shiro:hasPermission>
                         </c:if>
@@ -99,11 +91,20 @@ pageEncoding="UTF-8" %>
                                 删除</button>
                         </shiro:hasPermission>
                             </c:if>
+                        <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
+                        <shiro:hasPermission name="cadreInspect:validTime">
+                            <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/cadreInspect_validTime"
+                                    data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                                设置有效期
+                            </button>
+                        </shiro:hasPermission>
+                       </c:if>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/cadreAdLog"
                                 data-id-name="inspectId"
                                 data-open-by="page">
-                            <i class="fa fa-search"></i> 任免操作记录
+                            <i class="fa fa-search"></i> 操作记录
                         </button>
                         <a class="jqExportBtn btn btn-success btn-sm"
                            data-rel="tooltip" data-placement="bottom"

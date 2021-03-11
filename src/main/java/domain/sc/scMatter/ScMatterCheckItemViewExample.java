@@ -1602,6 +1602,66 @@ public class ScMatterCheckItemViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCheckIsDeletedIsNull() {
+            addCriterion("check_is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedIsNotNull() {
+            addCriterion("check_is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedEqualTo(Boolean value) {
+            addCriterion("check_is_deleted =", value, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("check_is_deleted <>", value, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedGreaterThan(Boolean value) {
+            addCriterion("check_is_deleted >", value, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("check_is_deleted >=", value, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedLessThan(Boolean value) {
+            addCriterion("check_is_deleted <", value, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("check_is_deleted <=", value, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedIn(List<Boolean> values) {
+            addCriterion("check_is_deleted in", values, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("check_is_deleted not in", values, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("check_is_deleted between", value1, value2, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("check_is_deleted not between", value1, value2, "checkIsDeleted");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;

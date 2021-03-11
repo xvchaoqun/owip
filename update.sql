@@ -1,4 +1,34 @@
 
+
+20210311
+-- 南航
+
+INSERT INTO `sys_resource` (id,`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (3050, 0, '年终考核测评', '', 'function', '', NULL, 90, '0/1/88/90/', 1, 'cadreEvaResult:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (id,`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (3051,0, '设置考察对象有效期', '', 'function', '', NULL, 341, '0/1/339/341/', 1, 'cadreInspect:validTime', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (id,`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (3052,0, '任务报送', '', 'function', '', NULL, 562, '0/1/560/562/', 1, 'userOaTask:report', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `sc_matter_item`
+	ADD CONSTRAINT `FK_sc_matter_item_sc_matter` FOREIGN KEY (`matter_id`) REFERENCES `sc_matter` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `sc_matter_access_item`
+	ADD CONSTRAINT `FK_sc_matter_access_item_sc_matter_access` FOREIGN KEY (`access_id`) REFERENCES `sc_matter_access` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `FK_sc_matter_access_item_sc_matter_item` FOREIGN KEY (`matter_item_id`) REFERENCES `sc_matter_item` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `sc_matter_check_item`
+	ADD CONSTRAINT `FK_sc_matter_check_item_sc_matter_check` FOREIGN KEY (`check_id`) REFERENCES `sc_matter_check` (`id`) ON DELETE CASCADE;
+
+-- 更新 sc_matter_item_view   sc_matter_access_item_view    sc_matter_check_item_view
+--  sc_letter_reply_view   sc_letter_reply_item_view
+
+ALTER TABLE `sc_committee`
+	CHANGE COLUMN `file_path` `file_path` VARCHAR(200) NULL COMMENT '文件，ppt' COLLATE 'utf8_general_ci' AFTER `id`;
+
+20210309
+-- 南航、大工
+
 -- == 以下党费部分已更新南航
 CREATE TABLE `pmd_fee` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -55,6 +85,9 @@ ALTER TABLE `pmd_fee`
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
                             `count_cache_roles`, `available`, `sort_order`) VALUES (991, 0, '支付', '', 'function', '', NULL, 2793, '0/1/564/2793/', 1, 'pmdFee:pay', NULL, NULL, NULL, 1, NULL);
+
+-- 更新 pmd_pay_view, pmd_pay_item_view
+
 -- == 以上党费部分
 
 20210308
@@ -140,7 +173,7 @@ ALTER TABLE `cadre_edu`
 
 ALTER TABLE `unit_post`
 	ADD COLUMN `label` VARCHAR(255) NULL DEFAULT NULL COMMENT '标签，关联元数据，多选' AFTER `is_cpc`;
--- 更新 unit_post_view
+-- 更新 unit_post_view (需要在cadre_view后面更新）
 
 ALTER TABLE `cadre_punish`
     ADD COLUMN	`proof` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件'  AFTER `unit`,
@@ -158,12 +191,12 @@ VALUES (4005, 0, '全校基层党组织基本情况', '', 'url', '', '/statOwInf
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
     VALUES (5000, 0, '各二级党组织研究生队伍党员信息分析', '', 'url', '', '/statOwInfo?cls=2', 2634, '0/1/105/2634/', 1, 'statPartyYjsInfo:list', NULL, NULL, NULL, 1, 50);
 
-UPDATE `sys_resource` SET `url`='/statOwInfo?cls=1' WHERE  `id`=2635;
-
-
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (2635, 0, '信息统计', '党建管理员 分党委管理员', 'url', '', '/statOwInfo', 2634, '0/1/105/2634/', 1, 'statOwInfo:list', NULL, NULL, NULL, 1, 50);
+
+UPDATE `sys_resource` SET `url`='/statOwInfo?cls=1' WHERE  `id`=2635;
+
 
 update sys_student_info set student_level=2;
 update sys_student_info set student_level=3 where edu_level like '%硕士%';
@@ -1330,7 +1363,7 @@ ALTER TABLE `ow_member_apply`
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('upload_file_whitelist', '系统允许上传的文件格式',
-        'jpg,jpeg,tif,png,gif,pdf,doc,docx,ppt,pptx,xls,xlsx,mp3,mpg,mpeg,flv,zip,rar,7z', 1, 73, '');
+        'jpg,jpeg,tif,png,gif,pdf,doc,docx,ppt,pptx,xls,xlsx,mp3,mpg,mpeg,flv,zip,rar,7z,ico', 1, 73, '');
 
 -- 更新utils
 

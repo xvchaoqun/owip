@@ -76,7 +76,7 @@ public class ScMatterReportController extends ScBaseController {
 
         List<Map<String, ?>> itemData = new ArrayList<Map<String, ?>>();
         ScMatterAccessItemViewExample example = new ScMatterAccessItemViewExample();
-        example.createCriteria().andAccessIdEqualTo(idInt);
+        example.createCriteria().andAccessIdEqualTo(idInt).andMatterIsDeletedEqualTo(false);
         example.setOrderByClause("id asc");
         List<ScMatterAccessItemView> scMatterAccessItemViews = scMatterAccessItemViewMapper.selectByExample(example);
         for (int i = 0; i < scMatterAccessItemViews.size(); i++) {

@@ -87,6 +87,8 @@ public class ScMatterCheckItemView implements Serializable {
 
     private Integer num;
 
+    private Boolean checkIsDeleted;
+
     private String code;
 
     private String realname;
@@ -275,6 +277,14 @@ public class ScMatterCheckItemView implements Serializable {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public Boolean getCheckIsDeleted() {
+        return checkIsDeleted;
+    }
+
+    public void setCheckIsDeleted(Boolean checkIsDeleted) {
+        this.checkIsDeleted = checkIsDeleted;
     }
 
     public String getCode() {

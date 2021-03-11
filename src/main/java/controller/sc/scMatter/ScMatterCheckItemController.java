@@ -78,7 +78,7 @@ public class ScMatterCheckItemController extends ScBaseController {
         pageNo = Math.max(1, pageNo);
 
         ScMatterCheckItemViewExample example = new ScMatterCheckItemViewExample();
-        ScMatterCheckItemViewExample.Criteria criteria = example.createCriteria();
+        ScMatterCheckItemViewExample.Criteria criteria = example.createCriteria().andCheckIsDeletedEqualTo(false);
         example.setOrderByClause("check_date desc, id asc");
 
         if (year!=null) {

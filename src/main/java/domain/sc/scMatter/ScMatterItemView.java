@@ -26,6 +26,8 @@ public class ScMatterItemView implements Serializable {
 
     private Date handTime;
 
+    private Boolean matterIsDeleted;
+
     private String code;
 
     private String realname;
@@ -126,6 +128,14 @@ public class ScMatterItemView implements Serializable {
 
     public void setHandTime(Date handTime) {
         this.handTime = handTime;
+    }
+
+    public Boolean getMatterIsDeleted() {
+        return matterIsDeleted;
+    }
+
+    public void setMatterIsDeleted(Boolean matterIsDeleted) {
+        this.matterIsDeleted = matterIsDeleted;
     }
 
     public String getCode() {

@@ -5,7 +5,7 @@
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="widget-title">
-                    纪委回复文件预览
+                    <span class="star">*</span>纪委回复文件预览
                     <div style="position: absolute; left:180px;top:0px;">
                         <form action="${ctx}/sc/scLetter_upload"
                               enctype="multipart/form-data" method="post"
@@ -14,7 +14,7 @@
                                     data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中..."
                                     class="hideView btn btn-xs btn-primary">
                                 <i class="ace-icon fa fa-upload"></i>
-                                上传纪委回复文件
+                                上传纪委回复文件(pdf格式)
                             </button>
                             <input type="file" name="file" id="upload-file"/>
                         </form>

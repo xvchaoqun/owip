@@ -71,7 +71,7 @@
         font-size: 28pt;
     }
 </style>
-<script src="${ctx}/extend/js/webcam.min.js"></script>
+<script src="${ctx}/extend/js/webcam.js"></script>
 <script src="${ctx}/extend/js/jQueryRotate.js"></script>
 <script>
 
