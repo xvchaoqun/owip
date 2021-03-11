@@ -1,7 +1,7 @@
 package controller.global;
 
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
-import interceptor.SignParamsException;
+import interceptor.ApiException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -208,41 +208,14 @@ public class ExceptionHandlerController {
         return mav;
     }
 
-    @ExceptionHandler(SignParamsException.class)
-    public void resolveSignParamsException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+    @ExceptionHandler(ApiException.class)
+    public void resolveApiException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String msg = StringUtils.defaultIfBlank(ex.getMessage(), "请求错误");
-        String app = request.getParameter("app");
-        String sign = request.getParameter("sign");
-        if (StringUtils.isBlank(app)) {
-            try {
-                JSONUtils.write(response, "参数app为空", false);
-                return;
-            } catch (IOException e) {
-            }
-        }
+        ApiException signParamsException = (ApiException) ex;
+        resultMap.put("ret", signParamsException.getRet());
+        resultMap.put("msg", signParamsException.getMessage());
 
-        if (StringUtils.isBlank(sign)) {
-            try {
-                JSONUtils.write(response, "参数sign为空", false);
-                return;
-            } catch (IOException e) {
-            }
-        }
-
-        switch (app) {
-            case "oa":
-                resultMap.put("Message", msg);
-                resultMap.put("Success", false);
-                break;
-            default:
-                resultMap.put("ret", ((SignParamsException)ex).getRet());
-                resultMap.put("msg", msg);
-                break;
-        }
-
-        //logger.warn(getMsg(request, ex), ex);
         logger.warn(getMsg(request, ex));
 
         try {

@@ -3,14 +3,15 @@ package interceptor;
 import domain.base.ApiKey;
 import org.apache.commons.lang.StringUtils;
 import service.base.ApiKeyService;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.ContextHelper;
 import sys.utils.PatternUtils;
 import sys.utils.SignatureUtil;
 
 import java.util.TreeMap;
 
 public class Signature {
-
 
     private TreeMap<String,Object> params;
 
@@ -30,13 +31,20 @@ public class Signature {
         ApiKeyService apiKeyService = CmTag.getBean(ApiKeyService.class);
         ApiKey apiKey = apiKeyService.findAll().get(app);
         if (apiKey == null){
-            throw new SignParamsException(-4, "app不存在");
+            throw new ApiException(SystemConstants.API_RETURN_ILLEGAL_APP);
         }
 
         if(StringUtils.isBlank(apiKey.getRequestUri())
                 || !PatternUtils.match(apiKey.getRequestUri(), requestUri)){
             
-            throw new SignParamsException(-5, "非法请求");
+            throw new ApiException(SystemConstants.API_RETURN_ILLEGAL_URI);
+        }
+
+        String requestIp = ContextHelper.getRealIp();
+        if(StringUtils.isNotBlank(apiKey.getValidIp())
+                && !PatternUtils.match(apiKey.getValidIp(), requestIp)){
+
+            throw new ApiException(SystemConstants.API_RETURN_ILLEGAL_IP);
         }
 
         String key = apiKey.getSecret();

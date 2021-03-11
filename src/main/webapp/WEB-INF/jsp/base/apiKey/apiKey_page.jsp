@@ -92,8 +92,9 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '应用名称',name: 'app',width:150},
                 { label: '秘钥',name: 'secret',width: 400},
-                { label: '请求地址',name: 'requestUri',width: 400, align:'left'},
-                { label: '备注',name: 'remark',width: 200, align:'left'}
+                { label: '允许访问的资源',name: 'requestUri',width: 200, align:'left', classes:'can-wrap'},
+                { label: '允许访问的IP地址',name: 'validIp',width: 200, align:'left', classes:'can-wrap'},
+                { label: '备注',name: 'remark',width: 200, align:'left', classes:'can-wrap'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

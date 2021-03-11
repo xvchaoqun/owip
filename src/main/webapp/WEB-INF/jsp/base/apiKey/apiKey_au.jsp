@@ -23,10 +23,17 @@ pageEncoding="UTF-8"%>
                     随机生成</a>
             </div>
             <div class ="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>请求地址</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>允许访问的资源(uri地址)</label>
                 <div class="col-xs-6">
                     <textarea required class="form-control" type="text" name="requestUri">${apiKey.requestUri}</textarea>
-                    <span class="help-block">注：多个地址以|分隔</span>
+                    <span class="help-block">注：多个地址以|分隔（正则匹配）</span>
+                </div>
+            </div>
+            <div class ="form-group">
+                <label class="col-xs-3 control-label">允许访问IP</label>
+                <div class="col-xs-6">
+                    <textarea class="form-control" type="text" name="validIp">${apiKey.validIp}</textarea>
+                    <span class="help-block">注：多个IP以|分隔（正则匹配）；如留空则不校验。</span>
                 </div>
             </div>
             <div class ="form-group">

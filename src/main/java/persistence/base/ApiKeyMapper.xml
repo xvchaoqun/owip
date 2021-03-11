@@ -6,6 +6,7 @@
     <result column="app" jdbcType="VARCHAR" property="app" />
     <result column="secret" jdbcType="VARCHAR" property="secret" />
     <result column="request_uri" jdbcType="VARCHAR" property="requestUri" />
+    <result column="valid_ip" jdbcType="VARCHAR" property="validIp" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, app, secret, request_uri, remark
+    id, app, secret, request_uri, valid_ip, remark
   </sql>
   <select id="selectByExample" parameterType="domain.base.ApiKeyExample" resultMap="BaseResultMap">
     select
@@ -104,9 +105,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into base_api_key (app, secret, request_uri, 
-      remark)
+      valid_ip, remark)
     values (#{app,jdbcType=VARCHAR}, #{secret,jdbcType=VARCHAR}, #{requestUri,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{validIp,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ApiKey">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -123,6 +124,9 @@
       <if test="requestUri != null">
         request_uri,
       </if>
+      <if test="validIp != null">
+        valid_ip,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -136,6 +140,9 @@
       </if>
       <if test="requestUri != null">
         #{requestUri,jdbcType=VARCHAR},
+      </if>
+      <if test="validIp != null">
+        #{validIp,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -163,6 +170,9 @@
       <if test="record.requestUri != null">
         request_uri = #{record.requestUri,jdbcType=VARCHAR},
       </if>
+      <if test="record.validIp != null">
+        valid_ip = #{record.validIp,jdbcType=VARCHAR},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -177,6 +187,7 @@
       app = #{record.app,jdbcType=VARCHAR},
       secret = #{record.secret,jdbcType=VARCHAR},
       request_uri = #{record.requestUri,jdbcType=VARCHAR},
+      valid_ip = #{record.validIp,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,6 +205,9 @@
       <if test="requestUri != null">
         request_uri = #{requestUri,jdbcType=VARCHAR},
       </if>
+      <if test="validIp != null">
+        valid_ip = #{validIp,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -205,6 +219,7 @@
     set app = #{app,jdbcType=VARCHAR},
       secret = #{secret,jdbcType=VARCHAR},
       request_uri = #{requestUri,jdbcType=VARCHAR},
+      valid_ip = #{validIp,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

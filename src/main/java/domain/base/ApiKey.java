@@ -11,6 +11,8 @@ public class ApiKey implements Serializable {
 
     private String requestUri;
 
+    private String validIp;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +47,14 @@ public class ApiKey implements Serializable {
 
     public void setRequestUri(String requestUri) {
         this.requestUri = requestUri == null ? null : requestUri.trim();
+    }
+
+    public String getValidIp() {
+        return validIp;
+    }
+
+    public void setValidIp(String validIp) {
+        this.validIp = validIp == null ? null : validIp.trim();
     }
 
     public String getRemark() {

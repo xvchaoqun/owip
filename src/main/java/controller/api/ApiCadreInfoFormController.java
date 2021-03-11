@@ -2,9 +2,9 @@ package controller.api;
 
 import controller.BaseController;
 import domain.cadre.CadreView;
+import interceptor.ApiException;
 import interceptor.NeedSign;
 import interceptor.SignParam;
-import interceptor.SignParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,7 +32,7 @@ public class ApiCadreInfoFormController extends BaseController {
 
             return "cadre/cadreInfoForm/cadreInfoForm_page";
         }else{
-            throw new SignParamsException(1, "信息采集表不存在");
+            throw new ApiException(1, "信息采集表不存在");
         }
     }
 }

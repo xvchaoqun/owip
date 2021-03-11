@@ -13,6 +13,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import service.global.CacheService;
+import sys.constants.SystemConstants;
 import sys.helper.CetHelper;
 import sys.tags.CmTag;
 import sys.utils.HttpRequestDeviceUtils;
@@ -89,7 +90,7 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                 if (StringUtils.isBlank(app) || StringUtils.isBlank(sign)) {
 
                     logger.info(String.format("app或sign参数为空, app=%s, sign=%s", app, sign));
-                    throw new SignParamsException(-1, "app或sign参数不能为空");
+                    throw new ApiException(SystemConstants.API_RETURN_ILLEGAL_NULL_APP_SIGN);
                 }
                 Signature signature = new Signature();
                 for (MethodParameter methodParameter : methodParameters) {
@@ -101,7 +102,7 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                         if(signParam.required() && StringUtils.isBlank(parameterValue)){
 
                             logger.info(String.format("参数%s为空, app=%s, sign=%s", parameterName, app, sign));
-                            throw new SignParamsException(-2, String.format("参数%s不能为空", parameterName));
+                            throw new ApiException(SystemConstants.API_RETURN_ILLEGAL_PARAM);
                         }
                         signature.put(parameterName, parameterValue);
                     }
@@ -110,7 +111,7 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                 if (!signature.verify(servletPath, app, sign)) {
 
                     logger.info(String.format("签名错误, app=%s, sign=%s", app, sign));
-                    throw new SignParamsException(-3, "签名错误");
+                    throw new ApiException(SystemConstants.API_RETURN_ILLEGAL_SIGN);
                 }
             }
         }

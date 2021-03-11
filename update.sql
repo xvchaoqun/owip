@@ -1,5 +1,12 @@
 
 
+update sys_resource set parent_id=(select id from (select id from sys_resource where permission='sys:menu') tmp) where permission='apiKey:*';
+
+ALTER TABLE `base_api_key`
+	CHANGE COLUMN `request_uri` `request_uri` VARCHAR(200) NOT NULL COMMENT '请求地址，正则匹配' COLLATE 'utf8_general_ci' AFTER `secret`,
+	ADD COLUMN `valid_ip` VARCHAR(200) NULL COMMENT '允许访问的IP地址，正则匹配' AFTER `request_uri`;
+
+
 20210311
 -- 南航
 
@@ -25,6 +32,10 @@ ALTER TABLE `sc_matter_check_item`
 
 ALTER TABLE `sc_committee`
 	CHANGE COLUMN `file_path` `file_path` VARCHAR(200) NULL COMMENT '文件，ppt' COLLATE 'utf8_general_ci' AFTER `id`;
+
+delete from sc_border_item where border_id not in (select id from sc_border);
+ALTER TABLE `sc_border_item`
+	ADD CONSTRAINT `FK_sc_border_item_sc_border` FOREIGN KEY (`border_id`) REFERENCES `sc_border` (`id`) ON DELETE CASCADE;
 
 20210309
 -- 南航、大工
