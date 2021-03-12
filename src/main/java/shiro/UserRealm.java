@@ -96,7 +96,7 @@ public class UserRealm extends AuthorizingRealm {
                 } else if (casType==1) { // 仅提供了CAS接口
 
                     throw new NeedCASLoginException();
-                }else{  // 其他情况不允许登录
+                }else if(casType !=0 ){  // 除了0，其他情况不允许登录
 
                     throw new IncorrectCredentialsException();
                 }

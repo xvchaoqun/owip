@@ -8,9 +8,11 @@
         </h4>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" data-target="#index-content">
+                <shiro:hasPermission name="index:self">
                 <li class="${to=='user_base'?'active':''}">
                     <a href="javascript:;" data-url="${ctx}/user_base">个人信息</a>
                 </li>
+                    </shiro:hasPermission>
                 <shiro:hasPermission name="suspend:page">
                     <li class="${to=='suspend_page'?'active':''}">
                         <a href="javascript:;" data-url="${ctx}/suspend_page">待办事项</a>

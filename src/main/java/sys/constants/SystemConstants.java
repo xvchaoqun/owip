@@ -16,7 +16,7 @@ public class SystemConstants {
 
             resultMap.put("msg", "参评人员测评未开启");
         } else if ("NeedCASLoginException".equals(message)) {
-            resultMap.put("msg", "请点击【单点登录】按钮进行登录");
+            resultMap.put("msg", "请点击统一身份认证按钮进行登录");
         } else if ("IncorrectCredentialsException".equals(message)) {
             resultMap.put("msg", "账号或密码错误");
         } else if ("UnknownAccountException".equals(message)) {
@@ -30,7 +30,7 @@ public class SystemConstants {
         } else if ("InspectorFinishException".equals(message)) {
             resultMap.put("msg", "该账号已经测评完成");
         } else if ("SSOException".equals(message)) {
-            resultMap.put("msg", "单点登录服务器异常，请稍后重试");
+            resultMap.put("msg", "统一身份认证服务器异常，请稍后重试");
         } else {
             resultMap.put("msg", "系统错误");
         }
@@ -118,7 +118,7 @@ public class SystemConstants {
     static {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_NET, "网站");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_NET_REMEBERME, "下次自动登录");
-        LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "单点登录");
+        LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "统一身份认证");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_TRAIN_INSPECTOR, "评课账号登录");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_APP, "APP");

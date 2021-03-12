@@ -60,12 +60,14 @@
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
+                            <shiro:hasPermission name="member:edit">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/memberModify"
                                     data-id-name="userId"
                                     data-open-by="page">
                                 <i class="fa fa-history"></i> 修改记录
                             </button>
+                            </shiro:hasPermission>
                             <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"

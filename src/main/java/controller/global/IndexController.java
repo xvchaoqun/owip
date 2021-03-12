@@ -145,7 +145,7 @@ public class IndexController extends BaseController {
 		return "index_page";
 	}
 
-	@RequiresPermissions("index:home")
+	@RequiresPermissions("index:self")
 	@RequestMapping("/user_base")
 	public String user_base() {
 

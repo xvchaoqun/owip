@@ -45,10 +45,12 @@ pageEncoding="UTF-8" %>
                     </shiro:hasPermission>
 
                 <c:if test="${cls==1}">
+                    <shiro:hasPermission name="party:edit">
                     <button data-url="${ctx}/org_admin?isPartyAdmin=1"
                             data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-user"></i> 编辑管理员
                     </button>
+                    </shiro:hasPermission>
                     <shiro:hasRole name="${ROLE_SUPER}">
                         <button class="popupBtn btn btn-info btn-sm tooltip-info"
                                 data-url="${ctx}org/orgAdmin_import?type=${OW_ORG_ADMIN_PARTY}"

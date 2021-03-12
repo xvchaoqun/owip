@@ -1,4 +1,23 @@
 
+20210312
+-- 哈工大
+
+ -- 已更新北航
+ REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+ VALUES ('cas_type', '校园账号登录类别', '1', 2, 56, '0：使用系统密码登陆  1：必须统一身份认证登陆  2或3：可通过代理接口认证');
+-- 已更新北航
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (120, 0, '个人信息', '', 'function', '', NULL, 108, '0/1/108/', 1, 'index:self', NULL, NULL, NULL, 1, NULL);
+update  sys_role set resource_ids= concat(resource_ids, ',120')  where concat(',',resource_ids, ',') like '%,108,%';
+
+
+
+20210312
+-- 南航
+
 20210311
 -- 西工大
 update sys_resource set parent_id=(select id from (select id from sys_resource where permission='sys:menu') tmp) where permission='apiKey:*';

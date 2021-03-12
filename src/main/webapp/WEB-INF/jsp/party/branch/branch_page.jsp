@@ -46,10 +46,12 @@
                     </button>
                 </shiro:hasPermission>--%>
 
+                <shiro:hasPermission name="branch:edit">
                 <button data-url="${ctx}/org_admin?isPartyAdmin=0"
                         data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
+                </shiro:hasPermission>
 
                 <shiro:hasRole name="${ROLE_SUPER}">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"

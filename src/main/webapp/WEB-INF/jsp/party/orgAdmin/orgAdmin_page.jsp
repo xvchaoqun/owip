@@ -21,12 +21,14 @@
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
-                                <button data-url="${ctx}org/orgAdmin_batchDel?type=${param.type}"
+                                <c:if test="${cm:isPermitted('party:edit') || cm:isPermitted('branch:edit')}">
+                                <button data-url="${ctx}/org/orgAdmin_batchDel?type=${param.type}"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
+                                </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
