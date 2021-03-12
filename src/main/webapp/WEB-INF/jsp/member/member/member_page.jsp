@@ -130,6 +130,43 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cols">
                                         <input type="hidden" name="cls" value="${cls}">
+                                        <c:if test="${cls!=6&&cls!=7}">
+                                            <div class="form-group">
+                                                <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"
+							  data-prompt="选择${_p_partyName}后，会出现党支部的选择（二级联动）"><i class="fa fa-question-circle-o"></i></span></label>
+                                                <select class="form-control" data-width="250" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/party_selects?auth=1"
+                                                        name="partyId" data-placeholder="请选择">
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" style="${(empty branch)?'display: none':''}"
+                                                 id="branchDiv">
+                                                <label>所在党支部</label>
+                                                <select class="form-control" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/branch_selects?auth=1"
+                                                        name="branchId" data-placeholder="请选择党支部">
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                                                </select>
+                                            </div>
+                                            <script>
+                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                            </script>
+                                        </c:if>
+                                        <div class="form-group">
+                                            <label>党籍状态</label>
+                                            <select required data-rel="select2" name="politicalStatus"
+                                                    data-placeholder="请选择" data-width="120">
+                                                <option></option>
+                                                <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+                                                    <option value="${_status.key}">${_status.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
+                                            </script>
+                                        </div>
                                         <div class="form-group">
                                             <label>党员姓名</label>
                                             <div class="input-group">
@@ -159,7 +196,7 @@
                                                    value="${param.idcard}"
                                                    placeholder="请输入身份证号码">
                                         </div>
-                                        <div class="form-group">
+                                        <%--<div class="form-group">
                                             <label>${_p_partyName}所在单位</label>
                                             <select name="unitId" data-rel="select2" data-placeholder="请选择">
                                                 <option></option>
@@ -170,7 +207,7 @@
                                             <script>
                                                 $("#searchForm select[name=unitId]").val('${param.unitId}');
                                             </script>
-                                        </div>
+                                        </div>--%>
                                         <div class="form-group">
                                             <label>性别</label>
                                             <div class="input-group">
@@ -348,43 +385,7 @@
                                                        type="text" name="_positiveTime" value="${param._positiveTime}"/>
                                             </div>
                                         </div>
-                                        <c:if test="${cls!=6&&cls!=7}">
-                                            <div class="form-group">
-                                                <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"
-							  data-prompt="选择${_p_partyName}后，会出现党支部的选择（二级联动）"><i class="fa fa-question-circle-o"></i></span></label>
-                                                <select class="form-control" data-width="250" data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/party_selects?auth=1"
-                                                        name="partyId" data-placeholder="请选择">
-                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group" style="${(empty branch)?'display: none':''}"
-                                                 id="branchDiv">
-                                                <label>所在党支部</label>
-                                                <select class="form-control" data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/branch_selects?auth=1"
-                                                        name="branchId" data-placeholder="请选择党支部">
-                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
-                                                </select>
-                                            </div>
-                                            <script>
-                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
-                                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
-                                            </script>
-                                        </c:if>
-                                        <div class="form-group">
-                                            <label>党籍状态</label>
-                                            <select required data-rel="select2" name="politicalStatus"
-                                                    data-placeholder="请选择" data-width="120">
-                                                <option></option>
-                                                <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-                                                    <option value="${_status.key}">${_status.value}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
-                                            </script>
-                                        </div>
+
 
                                         <c:if test="${cls==6||cls==7}">
                                             <div class="form-group">

@@ -160,9 +160,8 @@ public class CadreInspectExportService extends BaseMapper {
 
             String isPositive = BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否"; // 是否正职
 
-            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(),
-                    record.getOwPositiveTime(), "中共党员",
-                    record.getDpTypeId(), record.getDpGrowTime(), true);
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getUserId(), record.getIsOw(), record.getOwGrowTime(),
+                    record.getOwPositiveTime(), record.getDpTypeId(), record.getDpGrowTime(), true);
             String partyName = cadreParty.get("partyName");
             String partyAddTime = cadreParty.get("growTime");
 

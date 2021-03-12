@@ -1,5 +1,6 @@
 
-
+20210311
+-- 西工大
 update sys_resource set parent_id=(select id from (select id from sys_resource where permission='sys:menu') tmp) where permission='apiKey:*';
 
 ALTER TABLE `base_api_key`
@@ -40,7 +41,6 @@ ALTER TABLE `sc_border_item`
 20210309
 -- 南航、大工
 
--- == 以下党费部分已更新南航
 CREATE TABLE `pmd_fee` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
 	`type` INT(10) UNSIGNED NOT NULL COMMENT '缴费类型，元数据，包含补缴党费、捐赠党费',
@@ -98,8 +98,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
                             `count_cache_roles`, `available`, `sort_order`) VALUES (991, 0, '支付', '', 'function', '', NULL, 2793, '0/1/564/2793/', 1, 'pmdFee:pay', NULL, NULL, NULL, 1, NULL);
 
 -- 更新 pmd_pay_view, pmd_pay_item_view
-
--- == 以上党费部分
 
 20210308
 -- 哈工大

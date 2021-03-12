@@ -82,10 +82,10 @@
                             </td>
                             <td>${cadre.nation}</td>
                             <td>
-                                    ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
+                                    ${cm:cadreParty(cadre.userId, cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
                             </td>
                             <td>
-                                    ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
+                                    ${cm:cadreParty(cadre.userId, cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
                             </td>
                             <td>${cm:getMetaType(cadre.eduId).name}</td>
                             <td>${cadre.school}</td>

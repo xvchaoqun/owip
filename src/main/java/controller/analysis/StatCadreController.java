@@ -257,7 +257,8 @@ public class StatCadreController extends BaseController {
             CadreView cv = record.getCadre();
             Byte gender = cv.getGender();
             Date birth = cv.getBirth();
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(),"中共党员",
+
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getUserId(), cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(),
                     cv.getDpTypeId(), cv.getDpGrowTime(), true);
 
             String[] values = {
@@ -295,7 +296,7 @@ public class StatCadreController extends BaseController {
             CadreView cv = record.getCadre();
             Byte gender = cv.getGender();
             Date birth = cv.getBirth();
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(),"中共党员",
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getUserId(), cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(),
                     cv.getDpTypeId(), cv.getDpGrowTime(), true);
             String toUnit = "";
             int toUnitType = record.getToUnitType().intValue();
@@ -370,9 +371,8 @@ public class StatCadreController extends BaseController {
             CadreView cv = record.getCadre();
             Byte gender = cv.getGender();
             Date birth = cv.getBirth();
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(),
-                    cv.getOwPositiveTime(),"中共党员",
-                    cv.getDpTypeId(), cv.getDpGrowTime(), true);
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getUserId(), cv.getIsOw(), cv.getOwGrowTime(),
+                    cv.getOwPositiveTime(), cv.getDpTypeId(), cv.getDpGrowTime(), true);
 
             String[] values = {
                     cv.getCode(),
@@ -411,7 +411,7 @@ public class StatCadreController extends BaseController {
             CadreView cv = record.getCadre();
             Byte gender = cv.getGender();
             Date birth = cv.getBirth();
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(),"中共党员",
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getUserId(), cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(),
                     cv.getDpTypeId(), cv.getDpGrowTime(), true);
 
             String[] values = {

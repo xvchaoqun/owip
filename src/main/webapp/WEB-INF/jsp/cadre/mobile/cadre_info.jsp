@@ -92,7 +92,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
+              ${cm:cadreParty(cadre.userId, cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
             </span>
           </div>
         </div>
@@ -102,7 +102,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
+              ${cm:cadreParty(cadre.userId, cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
             </span>
           </div>
         </div>
