@@ -7,6 +7,7 @@ import domain.base.MetaType;
 import domain.cadre.*;
 import domain.dispatch.*;
 import domain.leader.Leader;
+import domain.member.Member;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
@@ -39,12 +40,14 @@ import service.leader.LeaderService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
 import service.party.BranchService;
+import service.party.MemberService;
 import service.party.PartyService;
 import service.ps.PsInfoService;
 import service.sys.*;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
@@ -83,6 +86,7 @@ public class CmTag {
     static PartyService partyService = context.getBean(PartyService.class);
     static BranchService branchService = context.getBean(BranchService.class);
     static PsInfoService psInfoService = context.getBean(PsInfoService.class);
+    static MemberService memberService = context.getBean(MemberService.class);
 
     static CadreService cadreService = context.getBean(CadreService.class);
     static LeaderService leaderService = context.getBean(LeaderService.class);
@@ -736,7 +740,22 @@ public class CmTag {
         return eduType.getName();
     }
 
-    // 获取干部的党派（中共党员+第一民主党派）
+    // 获取干部的党派（中共党员+第一民主党派）  owType： 0 非中共党员 1 中共党员 2 中共预备党员
+    public static Map<String, String> getCadreParty(int userId, Boolean isOw, Date owGrowTime, Date owPositiveTime,
+                                                    Integer dpTypeId,
+                                                    Date dpGrowTime,
+                                                    Boolean useDpShortName){
+
+        String defaultOwName = "中共党员";
+        Byte politicalStatus = null;
+        Member member = memberService.get(userId);
+        if(member!=null && member.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW){
+            defaultOwName = "中共预备党员";
+        }
+
+        return getCadreParty(isOw, owGrowTime, owPositiveTime, defaultOwName, dpTypeId, dpGrowTime, useDpShortName);
+    }
+
     public static Map<String, String> getCadreParty(Boolean isOw, Date owGrowTime, Date owPositiveTime,
                                                     String defaultOwName,
                                                     Integer dpTypeId,

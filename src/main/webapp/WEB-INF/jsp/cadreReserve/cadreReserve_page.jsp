@@ -16,7 +16,9 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender ||not empty param.nation
                 ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
-                ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
+                ||not empty param.startNowPostAge||not empty param.endNowPostAge
+                ||not empty param.startPostMonth||not empty param.endPostMonth
+                ||not empty param.startNowLevelAge||not empty param.endNowLevelAge
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels
                 ||not empty param.maxEdus||not empty param.major ||not empty param.staffTypes ||not empty param.degreeType

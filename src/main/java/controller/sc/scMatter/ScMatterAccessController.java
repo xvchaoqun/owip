@@ -169,7 +169,7 @@ public class ScMatterAccessController extends ScBaseController {
             }
 
             ScMatterAccessItemViewExample example = new ScMatterAccessItemViewExample();
-            example.createCriteria().andAccessIdEqualTo(id);
+            example.createCriteria().andAccessIdEqualTo(id).andMatterIsDeletedEqualTo(false);
             example.setOrderByClause("id asc");
             List<ScMatterAccessItemView> scMatterAccessItemViews = scMatterAccessItemViewMapper.selectByExample(example);
             modelMap.put("itemList", scMatterAccessItemViews);
@@ -276,7 +276,7 @@ public class ScMatterAccessController extends ScBaseController {
     public String scMatterAccess_items(Integer accessId, ModelMap modelMap) {
 
         ScMatterAccessItemViewExample example = new ScMatterAccessItemViewExample();
-        example.createCriteria().andAccessIdEqualTo(accessId);
+        example.createCriteria().andAccessIdEqualTo(accessId).andMatterIsDeletedEqualTo(false);
         example.setOrderByClause("id asc");
         List<ScMatterAccessItemView> scMatterAccessItemViews = scMatterAccessItemViewMapper.selectByExample(example);
         modelMap.put("itemList", scMatterAccessItemViews);

@@ -152,7 +152,7 @@
                 <div class="widget-box">
                     <div class="widget-header">
                         <h4 class="widget-title">
-                            公示对象
+                            <span class="star">*</span>公示对象
                             <div class="buttons pull-right" style="right:45px;">
                                 <button id="selectUsersBtn"
                                         class="btn btn-success btn-xs" type="button"

@@ -10,6 +10,7 @@
     <result column="type" jdbcType="BIT" property="type" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="fill_time" jdbcType="DATE" property="fillTime" />
+    <result column="matter_is_deleted" jdbcType="BIT" property="matterIsDeleted" />
     <result column="title" jdbcType="VARCHAR" property="title" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -42,7 +43,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, access_id, matter_item_id, code, realname, type, year, fill_time, title
+    id, access_id, matter_item_id, code, realname, type, year, fill_time, matter_is_deleted, 
+    title
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterAccessItemViewExample" resultMap="BaseResultMap">
     select

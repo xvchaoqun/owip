@@ -2,8 +2,8 @@ package controller.sc.scMatter;
 
 import controller.sc.ScBaseController;
 import domain.sc.scMatter.ScMatterAccessItem;
-import domain.sc.scMatter.ScMatterAccessItemExample;
-import domain.sc.scMatter.ScMatterAccessItemExample.Criteria;
+import domain.sc.scMatter.ScMatterAccessItemView;
+import domain.sc.scMatter.ScMatterAccessItemViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -59,20 +59,20 @@ public class ScMatterAccessItemController extends ScBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ScMatterAccessItemExample example = new ScMatterAccessItemExample();
-        Criteria criteria = example.createCriteria();
+        ScMatterAccessItemViewExample example = new ScMatterAccessItemViewExample();
+        ScMatterAccessItemViewExample.Criteria criteria = example.createCriteria().andMatterIsDeletedEqualTo(false);
         example.setOrderByClause("matter_item_id desc");
 
         if (accessId!=null) {
             criteria.andAccessIdEqualTo(accessId);
         }
 
-        long count = scMatterAccessItemMapper.countByExample(example);
+        long count = scMatterAccessItemViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScMatterAccessItem> records= scMatterAccessItemMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScMatterAccessItemView> records= scMatterAccessItemViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -156,25 +156,25 @@ public class ScMatterAccessItemController extends ScBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ScMatterAccessItemExample example = new ScMatterAccessItemExample();
-        Criteria criteria = example.createCriteria();
+        ScMatterAccessItemViewExample example = new ScMatterAccessItemViewExample();
+        ScMatterAccessItemViewExample.Criteria criteria = example.createCriteria().andMatterIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
 
         /*if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr.trim()+"%");
         }*/
 
-        long count = scMatterAccessItemMapper.countByExample(example);
+        long count = scMatterAccessItemViewMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<ScMatterAccessItem> scMatterAccessItems = scMatterAccessItemMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<ScMatterAccessItemView> scMatterAccessItems = scMatterAccessItemViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
         if(null != scMatterAccessItems && scMatterAccessItems.size()>0){
 
-            for(ScMatterAccessItem scMatterAccessItem:scMatterAccessItems){
+            for(ScMatterAccessItemView scMatterAccessItem:scMatterAccessItems){
 
                 Select2Option option = new Select2Option();
                 option.setText(scMatterAccessItem.getMatterItemId()+"");

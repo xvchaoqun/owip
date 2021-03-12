@@ -22,39 +22,43 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">发人事处通知文号</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>发人事处通知文号</label>
 
-                    <div class="col-xs-6" style="padding-top: 10px;">
+                    <div class="col-xs-9" style="padding-top: 10px;">
                         <select data-rel="select2-ajax"
                                 data-ajax-url="${ctx}/annualType_selects?module=<%=SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY%>"
                                 name="hrType" data-placeholder="请选择文号" data-width="225">
                             <option value="${hrAnnualType.id}">${hrAnnualType.name}</option>
                         </select>
+                        <span class="help-block">注：请先在【干部津贴调整-文号管理】中维护文号</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">发人事处通知编号</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>发人事处通知编号</label>
 
                     <div class="col-xs-8" style="padding-top: 10px;">
                         <input class="form-control num" type="text" name="hrNum" value="${scSubsidy.hrNum}">
+                        <span class="help-block">注：请填数字</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">发财经处通知文号</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>发财经处通知文号</label>
 
-                    <div class="col-xs-6" style="padding-top: 10px;">
+                    <div class="col-xs-9" style="padding-top: 10px;">
                         <select data-rel="select2-ajax"
                                 data-ajax-url="${ctx}/annualType_selects?module=<%=SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY%>"
                                 name="feType" data-placeholder="请选择文号" data-width="225">
                             <option value="${feAnnualType.id}">${feAnnualType.name}</option>
                         </select>
+                        <span class="help-block">注：请先在【干部津贴调整-文号管理】中维护文号</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">发财经处通知编号</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>发财经处通知编号</label>
 
                     <div class="col-xs-8" style="padding-top: 10px;">
                         <input class="form-control num" type="text" name="feNum" value="${scSubsidy.feNum}">
+                        <span class="help-block">注：请填数字</span>
                     </div>
                 </div>
                 <div class="form-group">

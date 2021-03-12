@@ -72,7 +72,7 @@ public class BranchService extends BaseMapper {
         String branchIds = StringUtils.join(ids, ",");
 
         String[] tableNameList = {"ow_apply_approval_log",
-                "ow_apply_open_time", "ow_member_stay",
+                /*"ow_apply_open_time",*/ "ow_member_stay",
                 "ow_member", "ow_member_abroad", "ow_member_apply",
                 "ow_member_in", "ow_member_inflow",
                 /*"ow_member_in_modify", "ow_member_modify",*/

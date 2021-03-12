@@ -5,7 +5,7 @@
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="widget-title">
-                    调阅函预览
+                    <span class="star">*</span>调阅函预览
                     <div style="position: absolute; left:135px;top:0px;">
                         <form action="${ctx}/sc/scMatterAccess_upload"
                               enctype="multipart/form-data" method="post"
@@ -14,7 +14,7 @@
                                     data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中..."
                                     class="hideView btn btn-xs btn-primary">
                                 <i class="ace-icon fa fa-upload"></i>
-                                上传调阅函
+                                上传调阅函(pdf格式)
                             </button>
                             <input type="file" name="file" id="upload-file"/>
                         </form>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
+                        <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_au" autocomplete="off" disableautocomplete id="auForm" method="post"
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scMatterAccess.id}">
@@ -103,7 +103,7 @@
                                         </select>
                                         <script>
                                             <c:if test="${not empty scMatterAccess.isCopy}">
-                                            $("#modalForm select[name=isCopy]").val('${scMatterAccess.isCopy?1:0}')
+                                            $("#auForm select[name=isCopy]").val('${scMatterAccess.isCopy?1:0}')
                                             </c:if>
                                         </script>
                                     </div>
@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                             <div class="clearfix form-actions center">
-                                <button class="btn btn-info btn-sm" type="submit">
+                                <button id="auBtn" class="btn btn-info btn-sm" type="button">
                                     <i class="ace-icon fa fa-check "></i>
                                     ${scMatterAccess!=null?"修改":"添加"}
                                 </button>
@@ -211,7 +211,7 @@
 
     function _matterItems() {
 
-        var $select = $("#modalForm select[name=userId]");
+        var $select = $("#auForm select[name=userId]");
         var userId = $.trim($select.val());
         if (userId == '') {
             $.tip({
@@ -255,9 +255,9 @@
                     $tr.next().after($tr);
                 }
             });*/
-    $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
+    $.register.user_select($('#auForm [data-rel="select2-ajax"]'));
     $.register.date($('.date-picker'));
-    $('#modalForm [data-rel="select2"]').select2();
+    $('#auForm [data-rel="select2"]').select2();
     $("#upload-file").change(function () {
         if ($("#upload-file").val() != "") {
             var $this = $(this);
@@ -270,7 +270,7 @@
                     if (ret.success) {
                         //console.log(ret)
                         $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
-                        $("#modalForm input[name=accessFile]").val(ret.file);
+                        $("#auForm input[name=accessFile]").val(ret.file);
                     } else {
                         $("#dispatch-file-view").html(viewHtml)
                     }
@@ -282,16 +282,16 @@
         }
     });
 
-    $("#submitBtn").click(function () {
-        $("#modalForm").submit();
+    $("#auBtn").click(function () {
+        $("#auForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#auForm").validate({
         submitHandler: function (form) {
             var matterItemIds = $.map($("#itemList tbody tr"), function (tr) {
                 return $(tr).data("id");
             });
-            if ($.trim($("#modalForm input[name=accessFile]").val()) == "") {
+            if ($.trim($("#auForm input[name=accessFile]").val()) == "") {
                 SysMsg.warning("请上传调阅函");
                 return;
             }

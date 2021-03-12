@@ -28,6 +28,7 @@ import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -344,6 +345,8 @@ public class CadreReserveController extends BaseController {
                                   Integer[] postTypes, // 职务属性
                                   Integer startNowPostAge,
                                   Integer endNowPostAge,
+                                  @DateTimeFormat(pattern = "yyyy.MM") Date startPostMonth,
+                                    @DateTimeFormat(pattern = "yyyy.MM") Date endPostMonth,
                                   String[] proPostLevels, // 职称级别
                                   Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
                                   Boolean isPrincipal, // 是否正职
@@ -538,6 +541,12 @@ public class CadreReserveController extends BaseController {
         }
         if (startNowPostAge != null) {
             criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+        }
+        if (startPostMonth != null) {
+            criteria.andNpWorkTimeGreaterThanOrEqualTo(DateUtils.getFirstDayOfMonth(startPostMonth));
+        }
+        if (endPostMonth != null) {
+            criteria.andNpWorkTimeLessThanOrEqualTo(DateUtils.getLastDayOfMonth(endPostMonth));
         }
         if (proPostLevels != null) {
             criteria.andProPostLevelIn(Arrays.asList(proPostLevels));

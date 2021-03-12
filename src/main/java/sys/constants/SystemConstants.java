@@ -37,6 +37,24 @@ public class SystemConstants {
         return resultMap;
     }
 
+    // API系统自定义结果（必须大于100，100以下留给各接口自己定义）
+    public final static int API_RETURN_ILLEGAL_NULL_APP_SIGN = 101;
+    public final static int API_RETURN_ILLEGAL_PARAM = 102;
+    public final static int API_RETURN_ILLEGAL_SIGN = 103;
+    public final static int API_RETURN_ILLEGAL_APP = 104;
+    public final static int API_RETURN_ILLEGAL_URI = 105;
+    public final static int API_RETURN_ILLEGAL_IP = 106;
+    public final static Map<Integer, String> API_RETURN_MAP = new LinkedHashMap<>();
+
+    static {
+        API_RETURN_MAP.put(API_RETURN_ILLEGAL_NULL_APP_SIGN, "app或sign参数不能为空");
+        API_RETURN_MAP.put(API_RETURN_ILLEGAL_PARAM, "参数不能为空");
+        API_RETURN_MAP.put(API_RETURN_ILLEGAL_SIGN, "签名错误");
+        API_RETURN_MAP.put(API_RETURN_ILLEGAL_APP, "app不存在");
+        API_RETURN_MAP.put(API_RETURN_ILLEGAL_URI, "非法请求");
+        API_RETURN_MAP.put(API_RETURN_ILLEGAL_IP, "非法请求");
+    }
+
     public final static Map<String, String> FOREIN_KEY_DEL_MSG_MAP = new LinkedHashMap<>();
 
     static {

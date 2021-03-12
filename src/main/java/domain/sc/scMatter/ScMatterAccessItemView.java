@@ -20,6 +20,8 @@ public class ScMatterAccessItemView implements Serializable {
 
     private Date fillTime;
 
+    private Boolean matterIsDeleted;
+
     private String title;
 
     private static final long serialVersionUID = 1L;
@@ -86,6 +88,14 @@ public class ScMatterAccessItemView implements Serializable {
 
     public void setFillTime(Date fillTime) {
         this.fillTime = fillTime;
+    }
+
+    public Boolean getMatterIsDeleted() {
+        return matterIsDeleted;
+    }
+
+    public void setMatterIsDeleted(Boolean matterIsDeleted) {
+        this.matterIsDeleted = matterIsDeleted;
     }
 
     public String getTitle() {

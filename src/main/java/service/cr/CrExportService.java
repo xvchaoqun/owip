@@ -143,9 +143,8 @@ public class CrExportService extends CrBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(),
-                    cv.getOwPositiveTime(),"中共党员",
-                    cv.getDpTypeId(), cv.getDpGrowTime(), true);
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getUserId(), cv.getIsOw(), cv.getOwGrowTime(),
+                    cv.getOwPositiveTime(), cv.getDpTypeId(), cv.getDpGrowTime(), true);
             String partyName = cadreParty.get("partyName");
             String partyAddTime = cadreParty.get("growTime");
 

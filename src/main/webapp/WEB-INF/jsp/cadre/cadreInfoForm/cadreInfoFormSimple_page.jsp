@@ -562,7 +562,7 @@ td.padding10 {
                     <span>政治<br/>面貌</span>
                 </td>
                 <td class="td2 center" colspan="2">
-                    ${cm:cadreParty(bean.isOw, bean.owGrowTime, bean.owPositiveTime, '中共党员', bean.dpTypeId, bean.dpGrowTime, false).get('partyName')}
+                    ${cm:cadreParty(bean.userId, bean.isOw, bean.owGrowTime, bean.owPositiveTime, bean.dpTypeId, bean.dpGrowTime, false).get('partyName')}
                 </td>
                 <td class="td3 center bolder" colspan="2">
                     <span>参加工<br/>作时间</span>

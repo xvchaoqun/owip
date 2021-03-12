@@ -31,6 +31,7 @@ import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -216,6 +217,8 @@ public class CadreController extends BaseController {
                            Integer endDpAge, // 党龄
                            Integer startNowPostAge,
                            Integer endNowPostAge,
+                           @DateTimeFormat(pattern = "yyyy.MM") Date startPostMonth,
+                           @DateTimeFormat(pattern = "yyyy.MM") Date endPostMonth,
                            Integer startNowLevelAge,
                            Integer endNowLevelAge,
                            Integer[] workTypes,
@@ -401,6 +404,12 @@ public class CadreController extends BaseController {
         }
         if (startNowPostAge != null) {
             criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+        }
+        if (startPostMonth != null) {
+            criteria.andNpWorkTimeGreaterThanOrEqualTo(DateUtils.getFirstDayOfMonth(startPostMonth));
+        }
+        if (endPostMonth != null) {
+            criteria.andNpWorkTimeLessThanOrEqualTo(DateUtils.getLastDayOfMonth(endPostMonth));
         }
         if (endNowLevelAge != null) {
             criteria.andAdminLevelYearLessThanOrEqualTo(endNowLevelAge);

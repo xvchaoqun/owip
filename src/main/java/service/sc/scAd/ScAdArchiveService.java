@@ -162,7 +162,9 @@ public class ScAdArchiveService extends ScBaseMapper {
         ScCommitteeTopicCadre topicCadre = scCommitteeTopicService.getTopicCadre(topicId, cadreId);
         //CadreView cadre = iCadreMapper.getCadre(cadreId);
         CadreInfoForm bean = cadreAdformService.getCadreAdform(cadreId);
-        bean.setPost(topicCadre.getOriginalPost());
+        if(topicCadre!=null) {
+            bean.setPost(topicCadre.getOriginalPost());
+        }
         bean.setInPost(null);
         bean.setPrePost(null);
         if(appointVote!=null){

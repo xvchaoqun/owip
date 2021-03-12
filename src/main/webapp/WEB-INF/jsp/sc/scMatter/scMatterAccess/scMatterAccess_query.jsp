@@ -14,9 +14,9 @@
                 style="margin-left: 50px" ><i class="fa fa-print"></i>  打印接收单</button>
 
         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
-         <span style="padding-left: 20px;">接收人</span>
+         <span style="padding-left: 20px;"><span class="star">*</span>接收人</span>
           <input type="text" name="receiver" value="${scMatterAccess.receiver}">
-          <button id="submit" class="btn btn-warning btn-sm"
+          <button id="queryBtn" class="btn btn-warning btn-sm"
                   data-rel="tooltip" data-placement="bottom"
                   title="点击即提交签字拍照文件"><i class="fa fa-upload"></i>  确认办理</button>
         </shiro:hasAnyRoles>
@@ -34,7 +34,7 @@
          onload="lzld(this)"/>
   </div>
   <div class="info" style="margin-top: 20px; margin-bottom: 50px; padding-left: 5px;width: 850px">
-    <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_query" autocomplete="off" disableautocomplete id="modalForm" method="post"  enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_query" autocomplete="off" disableautocomplete id="queryForm" method="post"  enctype="multipart/form-data">
       <input type="hidden" name="id" value="${param.id}">
       <div class="form-group">
         <div class="col-xs-12 file" style="height: 842px">
@@ -73,7 +73,7 @@
     font-size: 28pt;
   }
 </style>
-<script src="${ctx}/extend/js/webcam.min.js"></script>
+<script src="${ctx}/extend/js/webcam.js"></script>
 <script src="${ctx}/extend/js/jQueryRotate.js"></script>
 <script>
 
@@ -120,6 +120,7 @@
     Webcam.set({
       width: 640,
       height: 480,
+      enable_flash:false,
       //force_flash: true,
       //flip_horiz:true,
       image_format: 'jpeg',
@@ -138,7 +139,7 @@
 
   $.fileInput($('input[type=file]'),{
     style:'well',
-    btn_choose:'请选择签字拍照',
+    btn_choose:'请选择签字拍照（必填）',
     btn_change:null,
     no_icon:'ace-icon fa fa-picture-o',
     thumbnail:'fit',
@@ -161,7 +162,7 @@
   })/*.end().find('button[type=reset]').on(ace.click_event, function(){
    $('input[type=file]').ace_file_input('reset_input');
    });*/
-  $("#submit").click(function(){
+  $("#queryBtn").click(function(){
     if($('input[type=file]').val()=='' && $("input[name=_base64]").val()==''){
       SysMsg.info("请选择签字图片或进行拍照。");
       return;
@@ -171,7 +172,7 @@
       SysMsg.info("请输入接收人。");
       return;
     }
-    $("#modalForm").ajaxSubmit({
+    $("#queryForm").ajaxSubmit({
       data:{receiver:receiver},
       success:function(ret){
         if(ret.success){

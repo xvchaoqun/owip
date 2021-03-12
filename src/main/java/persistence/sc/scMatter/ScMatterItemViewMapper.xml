@@ -13,6 +13,7 @@
     <result column="type" jdbcType="BIT" property="type" />
     <result column="draw_time" jdbcType="TIMESTAMP" property="drawTime" />
     <result column="hand_time" jdbcType="TIMESTAMP" property="handTime" />
+    <result column="matter_is_deleted" jdbcType="BIT" property="matterIsDeleted" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -51,7 +52,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, matter_id, user_id, real_hand_time, fill_time, remark, transfer_id, year, type, 
-    draw_time, hand_time, code, realname, title, transfer_date, transfer_location, transfer_reason
+    draw_time, hand_time, matter_is_deleted, code, realname, title, transfer_date, transfer_location, 
+    transfer_reason
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterItemViewExample" resultMap="BaseResultMap">
     select

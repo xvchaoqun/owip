@@ -374,6 +374,76 @@ public class ApiKeyExample {
             return (Criteria) this;
         }
 
+        public Criteria andValidIpIsNull() {
+            addCriterion("valid_ip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpIsNotNull() {
+            addCriterion("valid_ip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpEqualTo(String value) {
+            addCriterion("valid_ip =", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpNotEqualTo(String value) {
+            addCriterion("valid_ip <>", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpGreaterThan(String value) {
+            addCriterion("valid_ip >", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpGreaterThanOrEqualTo(String value) {
+            addCriterion("valid_ip >=", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpLessThan(String value) {
+            addCriterion("valid_ip <", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpLessThanOrEqualTo(String value) {
+            addCriterion("valid_ip <=", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpLike(String value) {
+            addCriterion("valid_ip like", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpNotLike(String value) {
+            addCriterion("valid_ip not like", value, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpIn(List<String> values) {
+            addCriterion("valid_ip in", values, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpNotIn(List<String> values) {
+            addCriterion("valid_ip not in", values, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpBetween(String value1, String value2) {
+            addCriterion("valid_ip between", value1, value2, "validIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andValidIpNotBetween(String value1, String value2) {
+            addCriterion("valid_ip not between", value1, value2, "validIp");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

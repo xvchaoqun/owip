@@ -68,10 +68,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">类型</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span> 类型</label>
 
                                     <div class="col-xs-6">
-                                        <select data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
+                                        <select required data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
                                             <option></option>
                                             <c:import url="/metaTypes?__code=mc_sc_letter_type"/>
                                         </select>

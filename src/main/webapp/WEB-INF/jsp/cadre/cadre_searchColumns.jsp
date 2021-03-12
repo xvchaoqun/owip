@@ -108,24 +108,6 @@
     </div>
 </div>
 <div class="column">
-    <label>出生日期</label>
-    <div class="input">
-        <input placeholder="请选择出生日期范围" data-rel="date-range-picker"
-               class="form-control date-range-picker"
-               type="text" name="_birth" value="${param._birth}"/>
-    </div>
-</div>
-<div class="column">
-    <label>党派加入时间</label>
-    <div class="input">
-        <input placeholder="请选择党派加入时间范围"
-               data-rel="date-range-picker"
-               class="form-control date-range-picker"
-               type="text" name="_cadreGrowTime"
-               value="${param._cadreGrowTime}"/>
-    </div>
-</div>
-<div class="column">
     <label>所在单位</label>
     <div class="input">
         <select class="multiselect" multiple="" name="unitIds">
@@ -144,6 +126,25 @@
         </select>
     </div>
 </div>
+<div class="column">
+    <label>出生日期</label>
+    <div class="input">
+        <input placeholder="请选择出生日期范围" data-rel="date-range-picker"
+               class="form-control date-range-picker"
+               type="text" name="_birth" value="${param._birth}"/>
+    </div>
+</div>
+<div class="column">
+    <label>党派加入时间</label>
+    <div class="input">
+        <input placeholder="请选择党派加入时间范围"
+               data-rel="date-range-picker"
+               class="form-control date-range-picker"
+               type="text" name="_cadreGrowTime"
+               value="${param._cadreGrowTime}"/>
+    </div>
+</div>
+
 <c:if test="${status==CADRE_STATUS_CJ_LEAVE || status==CADRE_STATUS_KJ_LEAVE}">
     <div class="column">
         <label>历史单位</label>
@@ -233,6 +234,16 @@
         <select class="multiselect" multiple="" name="postTypes">
             <c:import url="/metaTypes?__code=mc_post"/>
         </select>
+    </div>
+</div>
+<div class="column">
+    <label>现职务始任时间</label>
+    <div class="input">
+        <input class="form-control date-picker" name="startPostMonth" type="text" style="width: 80px"
+                                   data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${param.startPostMonth}"/>
+        至
+        <input class="form-control date-picker" name="endPostMonth" type="text" style="width: 80px"
+                                   data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${param.endPostMonth}"/>
     </div>
 </div>
 <div class="column">
@@ -432,4 +443,5 @@
             $(this).prop("checked", true);
         }
     });
+    $.register.date($('.date-picker'));
 </script>

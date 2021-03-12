@@ -66,7 +66,7 @@
                 <tbody>
                 <c:forEach items="${scGroupFiles}" var="scGroupFile" varStatus="st">
                     <tr>
-                        <td nowrap>
+                        <td>
                                 ${scGroupFile.fileName}
                         </td>
 

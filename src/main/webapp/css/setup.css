@@ -365,9 +365,14 @@ body {
 /*jqgrid start*/
 
 .table>tbody>tr>td.jqgrid-rownum,
-.table>tbody>tr>td.jq-column{
+.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td{
     vertical-align: middle;
 }
+.ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td.can-wrap{
+    white-space: inherit!important;
+    word-break: break-all!important;
+}
+
 .jq-column .btn-xs{
     padding: 0 5px;
 }
@@ -1073,7 +1078,7 @@ form .form-actions {
     margin-top: 0px;
 }
 
-form .star {
+span.star {
     margin: 0 1px;
     color: red;
     font-size: larger;

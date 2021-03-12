@@ -829,7 +829,7 @@ public class CadreInfoFormService extends BaseMapper {
     public Map<String, Object> getDataMapSimple(int cadreId) throws IOException, TemplateException {
 
         CadreInfoForm bean = getCadreInfoForm(cadreId);
-
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("code", bean.getCode());
         dataMap.put("name", bean.getRealname());//姓名
@@ -842,8 +842,8 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("np", bean.getNativePlace());//籍贯
         dataMap.put("proPost", bean.getProPost());//专业技术职务
 
-        String partyName = CmTag.getCadreParty(bean.getIsOw(), bean.getOwGrowTime(),
-                bean.getOwPositiveTime(), "中共党员", bean.getDpTypeId(),
+        String partyName = CmTag.getCadreParty(cadre.getUserId(), bean.getIsOw(), bean.getOwGrowTime(),
+                bean.getOwPositiveTime(), bean.getDpTypeId(),
                 bean.getDpGrowTime(), false).get("partyName");
         dataMap.put("partyName",partyName);//政治面貌
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));//参加工作时间
