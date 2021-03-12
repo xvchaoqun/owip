@@ -36,7 +36,7 @@ public interface StatOwInfoMapper {
     List<StatByteBean> selectUser_groupByLevel(@Param("enrolYear") String enrolYear);
 
     // 获取二级党组织名称
-    @Select("SELECT DISTINCT id,(case short_name when '' then NAME ELSE short_name end) AS shortName FROM ow_party where is_deleted = 0")
+    @Select("SELECT DISTINCT id,(case short_name when '' then NAME ELSE short_name end) AS shortName FROM ow_party where is_deleted = 0 and fid is null")
     List<Party> getSecondPartyName();
 
     //获取教师 党员统计
