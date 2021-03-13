@@ -29,7 +29,7 @@ import persistence.pcs.common.PcsFinalResult;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -191,7 +191,7 @@ public class PcsPollReportController extends PcsBaseController {
         List<Integer> partyIdList = new ArrayList<>();
         List<Integer> branchIdList = new ArrayList<>();
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
             partyIdList = loginUserService.adminPartyIdList();
             branchIdList = loginUserService.adminBranchIdList();
         }

@@ -33,11 +33,11 @@
                     <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup?unitId=${param.id}">干部任免信息</a>
                 </li>
                 </shiro:hasPermission>
-                 <shiro:hasPermission name="unit:unitTransfer">
+                 <%--<shiro:hasPermission name="unit:unitTransfer">
                 <li>
                     <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位发展历程文件</a>
                 </li>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
             </ul>
         </div>
     </div>

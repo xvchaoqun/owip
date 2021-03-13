@@ -1,10 +1,8 @@
 package domain.member;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -2156,7 +2154,7 @@ public class MemberAbroadViewExample {
         }
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

@@ -94,7 +94,7 @@ public class CadreController extends BaseController {
                              Integer[] workTypes,
                              Integer cadreId, ModelMap modelMap) {
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
         }
 
@@ -261,7 +261,7 @@ public class CadreController extends BaseController {
                            Integer[] cols, // 选择导出的列
                            Integer pageSize, Integer pageNo) throws IOException, TemplateException, DocumentException {
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
         }
 
@@ -754,8 +754,8 @@ public class CadreController extends BaseController {
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()
                 && !ShiroHelper.isPermittedAny(new String[]{
-                    SystemConstants.PERMISSION_CADREARCHIVE,
-                    SystemConstants.PERMISSION_PARTYMEMBERARCHIVE})){
+                    RoleConstants.PERMISSION_CADREARCHIVE,
+                    RoleConstants.PERMISSION_PARTYMEMBERARCHIVE})){
 
             throw new UnauthorizedException();
         }
@@ -794,8 +794,8 @@ public class CadreController extends BaseController {
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()
                 && !ShiroHelper.isPermittedAny(new String[]{
-                    SystemConstants.PERMISSION_CADREARCHIVE,
-                    SystemConstants.PERMISSION_PARTYMEMBERARCHIVE})){
+                    RoleConstants.PERMISSION_CADREARCHIVE,
+                    RoleConstants.PERMISSION_PARTYMEMBERARCHIVE})){
 
             throw new UnauthorizedException();
         }

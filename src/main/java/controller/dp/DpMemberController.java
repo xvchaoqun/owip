@@ -1,9 +1,7 @@
 package controller.dp;
 
 import controller.global.OpException;
-import domain.cadre.Cadre;
 import domain.dp.*;
-import domain.member.Member;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import interceptor.OrderParam;
@@ -16,12 +14,10 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import service.dp.DpPartyService;
 import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
 import sys.constants.DpConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DpPartyHelper;
 import sys.shiro.CurrentUser;
@@ -73,7 +68,7 @@ public class DpMemberController extends DpBaseController {
             modelMap.put("unit", unitMapper.selectByPrimaryKey(unitId));
         }
         //查询登录账号管理的民主党派
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL);
         List<Integer> adminDpPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
 
         //统计学生、教职工各个状态人数
@@ -351,7 +346,7 @@ public class DpMemberController extends DpBaseController {
 
         //权限
         Integer loginUserId = loginUser.getUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
             boolean isAdmin = dpPartyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin) throw new UnauthorizedException();
         }
@@ -513,7 +508,7 @@ public class DpMemberController extends DpBaseController {
         boolean addPermits = false;
         List<Integer> adminDpPartyIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
-            addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
+            addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL);
             adminDpPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
         }
 
@@ -578,7 +573,7 @@ public class DpMemberController extends DpBaseController {
         modelMap.put("uv", uv);
 
         //党派管理员才可以操作
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
             Integer loginUserId = loginUser.getId();
             boolean isDpPartyAdmin = DpPartyHelper.isPresentDpPartyAdmin(loginUserId,null);
             if (!isDpPartyAdmin){

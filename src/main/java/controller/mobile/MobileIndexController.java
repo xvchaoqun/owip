@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -41,7 +41,7 @@ public class MobileIndexController extends BaseController {
 		if(applySelfService!=null) {
 			int notApprovalCount = 0;
 			int hasApprovalCount = 0;
-			if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) { // 干部管理员登录
+			if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) { // 干部管理员登录
 				{
 					Map map = applySelfService.findApplySelfList(response, null, null,
 							null, null, 0, null, null, null, null, 0, null);

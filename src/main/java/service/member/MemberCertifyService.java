@@ -14,10 +14,11 @@ import service.party.PartyMemberService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class MemberCertifyService extends MemberBaseMapper {
@@ -69,7 +70,7 @@ public class MemberCertifyService extends MemberBaseMapper {
         if (ids == null || ids.length == 0) return;
         for (Integer id : ids){
             MemberCertify record = memberCertifyMapper.selectByPrimaryKey(id);
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
                 if (record.getStatus() >= MemberConstants.MEMBER_CERTIFY_STATUS_PARTY_VERIFY)
                     throw new OpException("不能删除已通过审核的介绍信");
             }
@@ -100,7 +101,7 @@ public class MemberCertifyService extends MemberBaseMapper {
             for (Integer id : ids) {
                 MemberCertify record = memberCertifyMapper.selectByPrimaryKey(id);
                 if (pass) {
-                    if(type == 2 && ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                    if(type == 2 && ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                         // 组织部审批
                         record.setStatus(MemberConstants.MEMBER_CERTIFY_STATUS_OW_VERIFY);
                     } else {
@@ -147,7 +148,7 @@ public class MemberCertifyService extends MemberBaseMapper {
     @Transactional
     public void batchBack(Integer[] ids, byte status, String reason, SysUserView loginUser) {
 
-        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         byte type = 1;
         for (Integer id : ids) {
 

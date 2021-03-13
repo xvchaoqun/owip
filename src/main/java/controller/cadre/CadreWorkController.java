@@ -333,7 +333,7 @@ public class CadreWorkController extends BaseController {
         return "cadre/cadreWork/cadreWork_updateUnitId";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMIN)
     @RequestMapping(value = "/cadreWork_transfer", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreWork_transfer(HttpServletRequest request, int cadreId,
@@ -347,7 +347,7 @@ public class CadreWorkController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMIN)
     @RequestMapping("/cadreWork_transferToSubWork")
     public String cadreWork_transferToSubWork(int id, ModelMap modelMap) {
 
@@ -369,7 +369,7 @@ public class CadreWorkController extends BaseController {
         return "cadre/cadreWork/cadreWork_transferToSubWork";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMIN)
     @RequestMapping(value = "/cadreWork_transferToSubWork", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreWork_transferToSubWork(int id, int fid) {

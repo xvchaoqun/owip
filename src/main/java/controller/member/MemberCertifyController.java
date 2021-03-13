@@ -9,7 +9,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -198,7 +197,7 @@ public class MemberCertifyController extends MemberBaseController {
                 member = memberMapper.selectByPrimaryKey(record.getUserId());
                 //===========权限
                 Integer loginUserId = ShiroHelper.getCurrentUserId();
-                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                     if (!PartyHelper.hasBranchAuth(loginUserId, member.getPartyId(), member.getBranchId()))
                         throw new UnauthorizedException();

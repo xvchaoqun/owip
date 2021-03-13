@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FileUtils;
 
@@ -44,7 +44,7 @@ public class UserModifyBaseItemController extends ModifyBaseController{
         if(record.getStatus()!= ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY) return failed("该申请已审核，不允许再次变更");
         Integer applyId = record.getApplyId();
         ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)
         && mba.getUserId().intValue()!=loginUser.getId()) return failed("您没有权限修改该字段");
 
         if(_avatar!=null && !_avatar.isEmpty()) {
@@ -70,7 +70,7 @@ public class UserModifyBaseItemController extends ModifyBaseController{
         if(record.getStatus()!= ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY) return failed("该申请已审核，不允许再次变更");
         Integer applyId = record.getApplyId();
         ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)
         && mba.getUserId().intValue()!=loginUser.getId()) return failed("您没有权限修改该字段");
 
         try {

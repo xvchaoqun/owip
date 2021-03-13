@@ -267,7 +267,7 @@ public class CrsApplicantService extends CrsBaseMapper {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)
             && crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
 
             if(crsPost.getSwitchStatus() == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {

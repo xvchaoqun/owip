@@ -66,23 +66,6 @@ public class SystemConstants {
     // 账号的角色字符串分隔符
     public static final String USER_ROLEIDS_SEPARTOR = ",";
 
-    // 系统特殊的权限（与数据库对应）
-    public static final String PERMISSION_CADREARCHIVE = "cadre:archive"; // 干部档案查看权限
-    public static final String PERMISSION_CADREADMIN = "cadre:admin";
-    public static final String PERMISSION_CADREADMINSELF = "cadre:adminSelf";
-    public static final String PERMISSION_CADREONLYVIEW = "cadre:onlyView"; // 仅允许查看干部信息的权限
-
-    public static final String PERMISSION_PARTYMEMBERARCHIVE = "partyMember:archive"; // 基础党组织成员档案查看权限
-
-    public static final String PERMISSION_PARTYVIEWALL = "party:viewAll"; // 查看所有党委、支部的权限
-    public static final String PERMISSION_DPPARTYVIEWALL = "dp:viewAll"; //查看民主党派的权限
-
-    public static final String PERMISSION_PMDVIEWALL = "pmd:viewAll"; // 党费收缴查看所有党委、支部的权限
-
-    public static final String PERMISSION_ABROADADMIN = "abroad:admin"; // 因私管理员权限
-
-    public static final String PERMISSION_CLAADMIN = "cla:admin"; // 请假管理员权限
-
     // 系统配置字段：
     // 因私出国（境）申请说明
     public static final String HTML_FRAGMENT_APPLY_SELF_NOTE = "hf_apply_self_note";

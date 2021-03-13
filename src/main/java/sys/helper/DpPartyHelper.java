@@ -6,7 +6,7 @@ import service.dp.DpPartyMemberService;
 import service.dp.DpPrCmService;
 import service.dp.dpCommon.DpCommonService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 public class DpPartyHelper {
@@ -19,7 +19,7 @@ public class DpPartyHelper {
 
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)) {
 
             boolean isAdmin = isPresentDpPartyAdmin(loginUserId, partyId);
 
@@ -29,7 +29,7 @@ public class DpPartyHelper {
 
     public static Boolean isPresentDpPartyAdmin(Integer userId, Integer partyId) {
 
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) return true;
+        if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)) return true;
 
         return dpPartyMemberService.isPresentAdmin(userId, partyId);
     }

@@ -1,6 +1,9 @@
 package service.sys;
 
-import domain.party.*;
+import domain.party.BranchMemberGroup;
+import domain.party.BranchMemberGroupExample;
+import domain.party.PartyMemberGroup;
+import domain.party.PartyMemberGroupExample;
 import domain.sys.SysMsg;
 import domain.sys.SysMsgExample;
 import org.apache.ibatis.session.RowBounds;
@@ -11,6 +14,7 @@ import persistence.party.common.OwAdmin;
 import persistence.sys.SysMsgMapper;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
@@ -43,7 +47,7 @@ public class SysMsgService extends BaseMapper {
 
         SysMsgExample example = new SysMsgExample();
         SysMsgExample.Criteria criteria=example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(SystemConstants.SYS_MSG_STATUS_UNCONFIRM);
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
             criteria.andSendUserIdEqualTo(ShiroHelper.getCurrentUserId());
         }
 

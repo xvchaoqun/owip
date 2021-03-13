@@ -38,11 +38,11 @@
 	</form>
 </div>
 <div class="modal-footer">
-	<shiro:lacksRole name="${ROLE_CADREADMIN}">
+	<shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
 	<div style="font-size: 14pt;font-weight: bolder;color: red;text-align: left;padding: 10px;">
 		注意：提交后内容不可以修改
 	</div>
-	</shiro:lacksRole>
+	</shiro:lacksPermission>
 	<a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
 	<input id="submitBtn" type="submit" class="btn btn-primary" value="提交"/>
 </div>

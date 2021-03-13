@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
@@ -70,7 +70,7 @@ public class PmdBranchAdminController extends PmdBaseController {
     public Map do_pmdBranchAdmin_sync() {
 
         List<Integer> adminPartyIds = new ArrayList<>();
-         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
              adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
          }else{
              adminPartyIds = pmdPartyAdminService.getAllPartyIds();

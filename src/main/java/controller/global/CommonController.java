@@ -60,10 +60,9 @@ public class CommonController extends BaseController {
 
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
                 RoleConstants.ROLE_OA_ADMIN,
-                RoleConstants.ROLE_CADREADMIN,
                 RoleConstants.ROLE_ODADMIN,
                 RoleConstants.ROLE_CET_ADMIN,
-                RoleConstants.ROLE_PARTYADMIN);
+                RoleConstants.ROLE_PARTYADMIN) || RoleConstants.isCadreAdmin();
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {
@@ -509,7 +508,7 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = searchStr.trim() + "%";
 
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

@@ -16,7 +16,7 @@ import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
@@ -396,7 +396,7 @@ public class MemberOutService extends MemberBaseMapper {
                 check1(memberOut.getId());
             }
             if (type == 2) {
-                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTYVIEWALL);
 
                 memberOut = memberOutMapper.selectByPrimaryKey(id);
                 check2(memberOut.getId());
@@ -415,7 +415,7 @@ public class MemberOutService extends MemberBaseMapper {
     @Transactional
     public void memberOut_back(Integer[] userIds, byte status, String reason, int loginUserId) {
 
-        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         for (int userId : userIds) {
 
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(userId);

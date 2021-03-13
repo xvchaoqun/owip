@@ -29,7 +29,7 @@ import service.party.PartyExportService;
 import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -495,7 +495,7 @@ public class PartyController extends BaseController {
 
         //===========权限
         if(BooleanUtils.isTrue(auth)) {
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 if(BooleanUtils.isNotTrue(notBranchAdmin)) { // 读取管理党支部所属的分党委，供查询；

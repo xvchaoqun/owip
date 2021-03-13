@@ -167,7 +167,7 @@ public class ClaApprovalLogService extends ClaBaseMapper {
         }
         if (approvalTypeId == -1) { // 管理员初审
             org.springframework.util.Assert.isTrue(result == null, "null");
-            ShiroHelper.checkRole(RoleConstants.ROLE_CADREADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_CADREADMIN);
         }
         Map<Integer, ClaApproverType> approverTypeMap = claApproverTypeService.findAll();
         if (approvalTypeId > 0) {

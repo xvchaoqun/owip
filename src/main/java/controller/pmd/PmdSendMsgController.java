@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
@@ -80,7 +80,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdSendMsg_notifyPartyAdmins(HttpServletRequest request) {
 
-        ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
+        ShiroHelper.checkPermission(RoleConstants.PERMISSION_PMDVIEWALL);
 
         pmdSendMsgService.notifyPartyAdmins();
 
@@ -114,7 +114,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdSendMsg_notifyBranchAdmins(int partyId, HttpServletRequest request) {
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 throw new UnauthorizedException();
             }
@@ -174,7 +174,7 @@ public class PmdSendMsgController extends PmdBaseController {
     public Map do_pmdSendMsg_urgeMembers(Integer[] ids,
                                          int partyId, Integer branchId, HttpServletRequest request) {
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                 throw new UnauthorizedException();
             }

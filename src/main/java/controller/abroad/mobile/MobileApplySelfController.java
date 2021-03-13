@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.abroad.common.ApprovalResult;
 import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -117,7 +117,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		Integer cadreId = applySelf.getCadreId();
 
 		// 判断一下查看权限++++++++++++++++++++???
-		if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
+		if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) {
 			CadreView cadre = iCadreMapper.getCadre(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				//ShiroUser shiroUser = ShiroHelper.getShiroUser();

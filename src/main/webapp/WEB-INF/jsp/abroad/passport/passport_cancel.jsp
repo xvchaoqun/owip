@@ -13,11 +13,11 @@
                 <button id="print" class="btn btn-info btn-sm"
                         style="margin-left: 50px" ><i class="fa fa-print"></i>  打印确认单</button>
 
-                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                     <button id="submit" class="btn btn-warning btn-sm"
                             data-rel="tooltip" data-placement="bottom"
                             title="点击即提交签字拍照文件"><i class="fa fa-upload"></i>  确认取消集中管理</button>
-                </shiro:hasAnyRoles>
+                </shiro:hasPermission>
                 <div class="pull-right" style="margin-right: 450px;">
                 <a href="javascript:;" onclick="opencam()" class="btn btn-primary btn-sm">
                     <i class="fa fa-camera"></i>

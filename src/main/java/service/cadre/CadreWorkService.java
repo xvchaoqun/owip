@@ -504,7 +504,7 @@ public class CadreWorkService extends BaseMapper {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
-        if ((!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) && mta.getUserId().intValue() != currentUserId) ||
+        if ((!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN) && mta.getUserId().intValue() != currentUserId) ||
                 mta.getStatus() != ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
             throw new OpException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
@@ -514,7 +514,7 @@ public class CadreWorkService extends BaseMapper {
         CadreWorkExample.Criteria criteria = example.createCriteria().andIdEqualTo(id)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)) {
             CadreView cadre = cadreService.dbFindByUserId(currentUserId);
             criteria.andCadreIdEqualTo(cadre.getId()); // 保证本人只更新自己的记录
         }

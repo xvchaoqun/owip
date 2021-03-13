@@ -176,7 +176,7 @@ public class PmdFeeController extends PmdBaseController {
     @RequestMapping("/pmdFee_au")
     public String pmdFee_au(Integer id, ModelMap modelMap) {
 
-        Boolean hasShowUser = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) ||
+        Boolean hasShowUser = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL) ||
                 ShiroHelper.hasAnyRoles(RoleConstants.ROLE_PARTYADMIN,RoleConstants.ROLE_BRANCHADMIN);
 
         modelMap.put("hasShowUser",hasShowUser);

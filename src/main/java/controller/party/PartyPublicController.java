@@ -186,7 +186,7 @@ public class PartyPublicController extends BaseController {
         example.setOrderByClause("pub_date desc, id desc");
 
         //===========权限
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 if (partyIdList.size() > 0)
                     criteria.andPartyIdIn(partyIdList);

@@ -40,7 +40,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
      */
     public boolean adminBranch(int userId, Integer partyId, Integer branchId) {
 
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL))
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL))
             return true;
 
         List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);

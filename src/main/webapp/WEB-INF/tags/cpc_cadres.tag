@@ -1,10 +1,11 @@
 <%@ tag import="sys.constants.SystemConstants" %>
+<%@ tag import="sys.constants.RoleConstants" %>
 <%@ tag description="干部职数配置" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ attribute name="cadrePosts" type="java.util.List" required="true" %>
-<c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
+<c:set var="PERMISSION_CADREADMIN" value="<%=RoleConstants.PERMISSION_CADREADMIN%>"/>
 <%--<c:set value="${_pMap['upa_displayPosts']}" var="_upa_displayPosts"/>--%>
 <c:set value="<%=SystemConstants.UNIT_POST_DISPLAY_KEEP%>" var="UNIT_POST_DISPLAY_KEEP"/>
 <c:set value="${_pMap['upa_displayPosts']==UNIT_POST_DISPLAY_KEEP}" var="isDispiayKeep"/>

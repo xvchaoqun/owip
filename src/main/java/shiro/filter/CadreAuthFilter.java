@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.utils.PatternUtils;
 
@@ -52,16 +52,16 @@ public class CadreAuthFilter extends AuthorizationFilter{
         }
         // 拥有查看干部/党组织成员档案或管理干部本人信息的权限，才允许访问
         if(!ShiroHelper.isPermittedAny(new String[]{
-                SystemConstants.PERMISSION_CADREARCHIVE,
-                SystemConstants.PERMISSION_PARTYMEMBERARCHIVE,
-                SystemConstants.PERMISSION_CADREADMINSELF})){
+                RoleConstants.PERMISSION_CADREARCHIVE,
+                RoleConstants.PERMISSION_PARTYMEMBERARCHIVE,
+                RoleConstants.PERMISSION_CADREADMINSELF})){
             return false;
         }
 
         // 只有修改干部本人信息的权限，需要判断一下是否是本人和读取更新的权限
-        if(!ShiroHelper.isPermittedAny(new String[]{SystemConstants.PERMISSION_CADREADMIN,
-                SystemConstants.PERMISSION_CADREONLYVIEW}) &&
-                ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
+        if(!ShiroHelper.isPermittedAny(new String[]{RoleConstants.PERMISSION_CADREADMIN,
+                RoleConstants.PERMISSION_CADREONLYVIEW}) &&
+                ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMINSELF)){
 
             Integer userId = ShiroHelper.getCurrentUserId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
@@ -72,8 +72,8 @@ public class CadreAuthFilter extends AuthorizationFilter{
                 cadreId = Integer.valueOf(_cadreId);
             }
             if(!ShiroHelper.isPermittedAny(new String[]{
-                    SystemConstants.PERMISSION_CADREARCHIVE,
-                    SystemConstants.PERMISSION_PARTYMEMBERARCHIVE})) {
+                    RoleConstants.PERMISSION_CADREARCHIVE,
+                    RoleConstants.PERMISSION_PARTYMEMBERARCHIVE})) {
 
                 if (cadreId==null || cadre == null || cadre.getId().intValue() != cadreId) {
                     return false;
@@ -84,7 +84,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
                 cadre = cadreService.get(cadreId);
             }
             boolean hasDirectModifyCadreAuth = false;
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYMEMBERARCHIVE)){
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYMEMBERARCHIVE)){
                 // 二级党委管理员，只允许修改非干部的信息
                 hasDirectModifyCadreAuth = !CadreConstants.CADRE_STATUS_SET.contains(cadre.getStatus());
             }else{
@@ -94,8 +94,8 @@ public class CadreAuthFilter extends AuthorizationFilter{
             request.setAttribute("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
 
             if(!ShiroHelper.isPermittedAny(new String[]{
-                    SystemConstants.PERMISSION_CADREARCHIVE,
-                    SystemConstants.PERMISSION_PARTYMEMBERARCHIVE})
+                    RoleConstants.PERMISSION_CADREARCHIVE,
+                    RoleConstants.PERMISSION_PARTYMEMBERARCHIVE})
                     && !hasDirectModifyCadreAuth){
                 HttpServletRequest req = (HttpServletRequest) request;
                 // 如果没有直接修改权限，则POST直接修改数据是不合法的，必须携带修改申请参数toApply=1

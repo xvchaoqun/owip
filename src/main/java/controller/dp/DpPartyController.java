@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -303,7 +304,7 @@ public class DpPartyController extends DpBaseController {
 
         //======权限
         if (BooleanUtils.isTrue(auth)){
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
                 List<Integer> dpPartyList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
                 if (dpPartyList.size() > 0)
                     criteria.andIdIn(dpPartyList);

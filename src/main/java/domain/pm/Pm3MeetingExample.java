@@ -2,7 +2,7 @@ package domain.pm;
 
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1697,7 +1697,7 @@ public class Pm3MeetingExample {
         }
         public Pm3MeetingExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
                 return this;
             if(partyIdList==null) partyIdList = new ArrayList<>();
             if(branchIdList==null) branchIdList = new ArrayList<>();

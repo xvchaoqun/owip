@@ -6,7 +6,6 @@ import domain.abroad.ApprovalLog;
 import domain.abroad.ApprovalLogExample;
 import domain.abroad.ApproverType;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -168,7 +167,7 @@ public class ApprovalLogService extends AbroadBaseMapper {
         }
         if (approvalTypeId == -1) { // 管理员初审
             org.springframework.util.Assert.isTrue(result == null, "null");
-            ShiroHelper.checkRole(RoleConstants.ROLE_CADREADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_CADREADMIN);
         }
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         if (approvalTypeId > 0) {

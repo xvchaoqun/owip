@@ -685,7 +685,7 @@ public class MemberController extends MemberBaseController {
                 return failed("该成员是正式党员！");
             }
         } else {
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTYVIEWALL);
 
             MemberExample example = new MemberExample();
             MemberExample.Criteria criteria = example.createCriteria();
@@ -805,7 +805,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
@@ -815,7 +815,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // 批量校内组织关系转移
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
@@ -872,7 +872,7 @@ public class MemberController extends MemberBaseController {
         modelMap.put("studentLevel", studentLevel);
         modelMap.put("cls", cls);
 
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

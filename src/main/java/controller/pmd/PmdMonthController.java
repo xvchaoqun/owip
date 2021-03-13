@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PmdHelper;
 import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
@@ -282,7 +282,7 @@ public class PmdMonthController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PMDVIEWALL);
             pmdMonthService.updateEnd(monthId, true);
             logger.info(addLog(LogConstants.LOG_PMD, "更新结算缴费， %s", monthId));
             

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -95,7 +96,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         ApplySelfExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -131,7 +132,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         modelMap.put("applySelf", applySelf);
         request.setAttribute("isView", false);
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -149,7 +150,7 @@ public class UserPassportDrawController extends AbroadBaseController {
     public String passportDraw_self_sign(Integer cadreId, String type,
                                          Integer passportId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -194,7 +195,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         modelMap.put("applySelf", applySelf);
         request.setAttribute("isView", false);
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -300,7 +301,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                   HttpServletRequest request) {
 
         boolean isSelf = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -343,7 +344,7 @@ public class UserPassportDrawController extends AbroadBaseController {
     @RequestMapping("/passportDraw_tw")
     public String passportDraw_tw(Integer cadreId, ModelMap modelMap) {
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -370,7 +371,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                        @RequestParam(required = false, defaultValue = "0")boolean needSign,
                                        HttpServletRequest request) throws IOException, InterruptedException {
         boolean isSelf = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -464,7 +465,7 @@ public class UserPassportDrawController extends AbroadBaseController {
     @RequestMapping("/passportDraw_other")
     public String passportDraw_other(Integer cadreId, ModelMap modelMap) {
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -489,7 +490,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      HttpServletRequest request) throws IOException, InterruptedException {
 
         boolean isSelf = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

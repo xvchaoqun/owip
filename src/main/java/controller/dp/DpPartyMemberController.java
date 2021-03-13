@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.dp.*;
 import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +28,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.dp.DpPartyMemberAdminService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -188,7 +188,7 @@ public class DpPartyMemberController extends DpBaseController {
         }
 
         //权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
             Integer groupId = record.getGroupId();
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
             Integer partyId = dpPartyMemberGroup.getPartyId();
@@ -479,7 +479,7 @@ public class DpPartyMemberController extends DpBaseController {
     public Map dpPartyAdmin_del(int userId, int partyId){
 
         //权限控制
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
             //要求是现任党派管理员
             if (!dpPartyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(),partyId)){
                 throw new UnauthorizedException();
@@ -588,7 +588,7 @@ public class DpPartyMemberController extends DpBaseController {
             DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
 
             // 权限控制
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)) {
                 if (dpPartyMember.getUserId().intValue() == ShiroHelper.getCurrentUserId()){
                     return failed("不能删除自己");
                 }

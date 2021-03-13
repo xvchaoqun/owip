@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.AbroadConstants;
-import sys.constants.ContentTplConstants;
-import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -66,7 +63,7 @@ public class PassportDrawController extends AbroadBaseController {
         return "abroad/passportDraw/passportDraw_check";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     //@RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
@@ -835,7 +832,7 @@ public class PassportDrawController extends AbroadBaseController {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
             if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
                 // 本人、干部管理员或管理员才可以下载
-                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
+                if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) {
                     throw new UnauthorizedException();
                 }
             }

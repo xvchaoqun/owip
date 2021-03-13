@@ -56,7 +56,7 @@ public class Pm3MeetingController extends PmBaseController {
                              Integer branchId,
                              ModelMap modelMap) {
 
-        boolean addPermits = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         boolean isPa = ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
@@ -224,7 +224,7 @@ public class Pm3MeetingController extends PmBaseController {
             pm3Meeting =pm3MeetingMapper.selectByPrimaryKey(id);
 
         } else {
-            boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
             if (!odAdmin) {
 
                 List<Integer> adminPartyIds = loginUserService.adminPartyIdList();
@@ -389,7 +389,7 @@ public class Pm3MeetingController extends PmBaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

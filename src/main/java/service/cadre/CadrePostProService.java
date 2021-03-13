@@ -5,18 +5,19 @@ import domain.cadre.Cadre;
 import domain.cadre.CadrePostPro;
 import domain.cadre.CadrePostProExample;
 import domain.cadre.CadreView;
-import ext.domain.ExtJzg;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import ext.domain.ExtJzg;
+import ext.service.ExtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import ext.service.ExtService;
 import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.*;
@@ -144,7 +145,7 @@ public class CadrePostProService extends BaseMapper {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
-        if ((!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) && mta.getUserId().intValue() != currentUserId) ||
+        if ((!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN) && mta.getUserId().intValue() != currentUserId) ||
                 mta.getStatus() != ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
             throw new OpException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
@@ -154,7 +155,7 @@ public class CadrePostProService extends BaseMapper {
         CadrePostProExample.Criteria criteria = example.createCriteria().andIdEqualTo(id)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)){
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)){
             CadreView cadre = CmTag.getCadreByUserId(currentUserId);
             criteria.andCadreIdEqualTo(cadre.getId()); // 保证本人只更新自己的记录
         }

@@ -86,7 +86,7 @@
             <i class="ace-icon fa fa-history"></i>
             历史单位
         </h4>
-        <shiro:hasPermission name="unit:history">
+        <shiro:hasPermission name="unit:edit">
         <button class="popupBtn btn btn-primary btn-xs"
                 data-url="${ctx}/unit_history?id=${unit.id}">
             <i class="fa fa-edit"></i> 编辑

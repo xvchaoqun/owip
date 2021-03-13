@@ -30,7 +30,7 @@ import persistence.pm.common.PmMeeting2Stat;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -54,7 +54,7 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequestMapping("/pmMeeting2")
     public String pmMeeting2(@RequestParam(defaultValue = "1") Integer cls, Integer partyId,
                              Integer branchId,ModelMap modelMap) {
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
@@ -248,7 +248,7 @@ public class PmMeeting2Controller extends PmBaseController {
                 modelMap.put("pmMeeting2Files",Arrays.asList(filePaths));
             }
         } else {
-            boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
             if (!odAdmin) {
 
                 List<Integer> adminPartyIds = loginUserService.adminPartyIdList();
@@ -478,7 +478,7 @@ public class PmMeeting2Controller extends PmBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

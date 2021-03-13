@@ -65,7 +65,7 @@ public class PcsRecommendService extends PcsBaseMapper {
 
         // 只有干部管理员可以直接修改
         // for test
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)) {
             if (!pcsPartyService.allowModify(partyId, configId, stage)) {
                 throw new OpException("已报送数据或已下发名单，不可修改。");
             }

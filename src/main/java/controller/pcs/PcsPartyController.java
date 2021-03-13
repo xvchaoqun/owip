@@ -22,7 +22,7 @@ import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -82,7 +82,7 @@ public class PcsPartyController extends PcsBaseController {
         PcsPartyExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId);
         example.setOrderByClause("sort_order desc");
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             // 有查看基层党组织的权限的话，则可以查看所有的
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             if (partyIdList.size() > 0)

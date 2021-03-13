@@ -39,7 +39,7 @@ public class MemberHistoryService extends MemberBaseMapper {
         for (Integer id : ids) {
             MemberHistory record = memberHistoryMapper.selectByPrimaryKey(id);
             if ((ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&record.getUserId().equals(ShiroHelper.getCurrentUserId()))
-                    ||ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+                    ||ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
                 memberHistoryMapper.deleteByPrimaryKey(id);
             }else {
                 throw new OpException("没有权限删除"+record.getRealname()+"("+record.getCode()+")");
@@ -49,7 +49,7 @@ public class MemberHistoryService extends MemberBaseMapper {
 
     @Transactional
     public void updateByPrimaryKeySelective(MemberHistory record){
-        if (!record.getUserId().equals(ShiroHelper.getCurrentUserId())&&!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+        if (!record.getUserId().equals(ShiroHelper.getCurrentUserId())&&!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
             throw new OpException("没有权限修改其他分党委下的历史党员"+record.getRealname()+"("+record.getCode()+")");
         memberHistoryMapper.updateByPrimaryKeySelective(record);
     }
@@ -94,7 +94,7 @@ public class MemberHistoryService extends MemberBaseMapper {
     }
 
     public void checkAuth(MemberHistory record){
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)){
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)&&!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)){
            throw new UnauthorizedException();
         }
     }

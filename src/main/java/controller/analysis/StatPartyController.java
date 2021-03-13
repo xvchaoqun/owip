@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.member.common.MemberStatByBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
@@ -48,7 +49,7 @@ public class StatPartyController extends BaseController {
     public String stat_party_page(Integer partyId, ModelMap modelMap) {
 
         int userId = ShiroHelper.getCurrentUserId();
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && partyId == null) {
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL) && partyId == null) {
             PartyExample example = new PartyExample();
             example.createCriteria().andFidIsNull();
             example.setOrderByClause("sort_order desc");
@@ -71,7 +72,7 @@ public class StatPartyController extends BaseController {
         List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
         List<Party> parties = new ArrayList<>();
 
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             for (Integer _partyId : partyMap.keySet()) {
                 //跳过内设党总支
                 if (partyMap.get(_partyId).getFid() == null) {
@@ -305,7 +306,7 @@ public class StatPartyController extends BaseController {
         List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
         List<Party> parties = new ArrayList<>();
 
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             for (Integer _partyId : partyMap.keySet()) {
                 if (partyMap.get(_partyId).getFid() == null) {
                     parties.add(partyMap.get(_partyId));

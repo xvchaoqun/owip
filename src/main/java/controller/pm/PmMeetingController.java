@@ -36,7 +36,7 @@ import persistence.pm.common.PmMeetingStat;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -65,7 +65,7 @@ public class PmMeetingController extends PmBaseController {
                                Integer partyId,
                                Integer branchId,ModelMap modelMap) {
 
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
@@ -209,7 +209,7 @@ public class PmMeetingController extends PmBaseController {
             modelMap.put("pmMeetingFiles",pmMeetingFiles);
 
         } else {
-            boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
             if (!odAdmin) {
 
                 List<Integer> adminPartyIds = loginUserService.adminPartyIdList();
@@ -755,7 +755,7 @@ public class PmMeetingController extends PmBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

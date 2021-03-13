@@ -97,7 +97,6 @@ public class ClaShortMsgService extends ClaBaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
         String cadreTitle = cadre.getTitle();
 
-        //List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CLA_APPLY_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 

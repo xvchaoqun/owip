@@ -733,7 +733,7 @@
                     </div>
                 </div>
             </div>
-            <shiro:hasAnyRoles name="${ROLE_CADRERECRUIT},${ROLE_CADRERESERVE},${ROLE_CADREADMIN}">
+            <c:if test="${cm:hasRole(ROLE_CADRERECRUIT) || cm:hasRole(ROLE_CADRERESERVE) || cm:isPermitted(PERMISSION_CADREADMIN)}">
                 <div class="widget-box transparent">
                     <div class="widget-header widget-header-flat">
                         <h4 class="widget-title lighter">
@@ -779,7 +779,7 @@
                         </div>
                     </div>
                 </div>
-            </shiro:hasAnyRoles>
+                </c:if>
             <div class="widget-box transparent">
                 <div class="widget-header widget-header-flat">
                     <h4 class="widget-title lighter">

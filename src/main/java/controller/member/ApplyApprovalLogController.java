@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 import sys.utils.SqlUtils;
@@ -115,7 +115,7 @@ public class ApplyApprovalLogController extends MemberBaseController {
             criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         } else {
 
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                 MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
                 List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
@@ -197,7 +197,7 @@ public class ApplyApprovalLogController extends MemberBaseController {
             criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         } else {
 
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                 MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
                 List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();

@@ -34,10 +34,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.member.common.MemberApplyCount;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -297,7 +294,7 @@ public class MemberApplyController extends MemberBaseController {
                 break;
             case OwConstants.OW_APPLY_STAGE_DRAW:
                 if (status == -1)
-                    modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
+                    modelMap.put("isAdmin", ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL));
                 else if (status == 2) // 组织部审核之后，党支部才提交
                     modelMap.put("isAdmin", PartyHelper.hasBranchAuth(loginUser.getId(), partyId, branchId));
                 else if (status == 0) // 党支部提交后，分党委审核
@@ -309,11 +306,11 @@ public class MemberApplyController extends MemberBaseController {
                 else if (status == 0)
                     modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
                 else
-                    modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
+                    modelMap.put("isAdmin", ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL));
                 break;
         }
         // 组织部可以审批所有
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             modelMap.put("isAdmin", true);
         }
 
@@ -388,7 +385,7 @@ public class MemberApplyController extends MemberBaseController {
         Map<Byte, Integer> stageCountMap = new HashMap<>();
         Map<String, Integer> stageTypeCountMap = new HashMap<>();
 
-        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
         List<MemberApplyCount> memberApplyCounts = iMemberMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);
@@ -586,7 +583,7 @@ public class MemberApplyController extends MemberBaseController {
         }
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, oldPartyId);
             if (isAdmin) {
@@ -1082,7 +1079,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 预备党员 , 在领取志愿书模块， 显示将分配的志愿书编号段
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/apply_grow_od_check")
     public String apply_grow_od_check(Integer[] ids, ModelMap modelMap) {
 
@@ -1120,7 +1117,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 预备党员 , 在领取志愿书模块
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/apply_grow_od_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_grow_od_check(Integer[] ids,
@@ -1241,7 +1238,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 正式党员， 在预备党员模块
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_positive_check2(Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {

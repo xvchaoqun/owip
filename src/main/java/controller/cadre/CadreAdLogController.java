@@ -7,7 +7,7 @@ import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class CadreAdLogController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMIN)
     @RequestMapping("/cadreAdLog")
     public String cadreAdLog(Integer inspectId, Integer reserveId, Integer cadreId, ModelMap modelMap) {
 
@@ -46,7 +46,7 @@ public class CadreAdLogController extends BaseController {
         return "cadre/cadreAdLog/cadreAdLog_page";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMIN)
     @RequestMapping("/cadreAdLog_data")
     @ResponseBody
     public void cadreAdLog_data(int cadreId,

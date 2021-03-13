@@ -76,8 +76,6 @@ public class ClaApplyService extends ClaBaseMapper {
 
         // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
         if (approvalTypeId <= 0) { // 查找干部管理员
-            /*List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
-            return cadreAdmin;*/
             if (approvalTypeId == -1) { // 组织部初审
                 try {
                     ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CLA_APPLY_SUBMIT_INFO);
@@ -752,48 +750,6 @@ public class ClaApplyService extends ClaBaseMapper {
 
         return false;
     }
-
-
-    /*public boolean canApproval(int userId, int applyId, int approvalTypeId) {
-
-        CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (approvalTypeId <= 0) {
-            return ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN);
-        } else if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
-                && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER)) {
-            return false; // 必须是现任干部才有审批权限
-        }
-
-        ClaApply apply = claApplyMapper.selectByPrimaryKey(applyId);
-        int targetCadreId = apply.getCadreId(); // 待审批的干部
-        CadreView targetCadre = iCadreMapper.getCadre(targetCadreId);
-
-        ApproverType approverType = approverTypeMapper.selectByPrimaryKey(approvalTypeId);
-        Byte type = approverType.getType();
-
-        if (type == ClaConstants.CLA_APPROVER_TYPE_UNIT) { // 本单位正职审批
-           // 待审批的干部所在单位
-            Set<Integer> unitIds = new HashSet<>();
-            unitIds.addAll(getMainPostUnitIds(userId));
-            return unitIds.contains(targetCadre.getUnitId());
-        }else if (type == ClaConstants.CLA_APPROVER_TYPE_LEADER) {  // 校领导审批
-
-            //分管校领导
-            MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-            List<Integer> unitIdList = iClaMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
-            Set<Integer> unitIds = new HashSet<>();
-            unitIds.addAll(unitIdList);
-
-            return unitIds.contains(targetCadre.getUnitId());
-        }else{
-            Set<Integer> cadreIdSet = new HashSet<>();
-            // 其他审批人身份 的所在单位 给定一个干部id，查找他需要审批的干部
-            List<Integer> approvalCadreIds = iClaMapper.getApprovalCadreIds_approverTypeId(cadre.getId(), approvalTypeId);
-            cadreIdSet.addAll(approvalCadreIds);
-
-            return cadreIdSet.contains(targetCadreId);
-        }
-    }*/
 
     public List<ClaApplyFile> getFiles(int applyId) {
 

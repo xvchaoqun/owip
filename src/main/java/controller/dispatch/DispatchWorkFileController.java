@@ -84,21 +84,21 @@ public class DispatchWorkFileController extends DispatchBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN);
+        boolean isCadreAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN);
         List<Integer> postTypes = new ArrayList<>();
-        if(!isAdmin){
+        if(!isCadreAdmin){
             CadreView cadreView = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             if(cadreView!=null) postTypes.add(cadreView.getPostType());
         }
 
-        long count = iDispatchMapper.countDispatchWorkFileList(isAdmin, fileName, postTypes, type, status,
+        long count = iDispatchMapper.countDispatchWorkFileList(isCadreAdmin, fileName, postTypes, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, fileName, postTypes, type, status,
+        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isCadreAdmin, fileName, postTypes, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         if (export == 1) {

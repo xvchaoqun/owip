@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
@@ -50,7 +50,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         String ip = ContextHelper.getRealIp();
         PassportApply record = new PassportApply();
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -115,7 +115,7 @@ public class UserPassportApplyController extends AbroadBaseController {
     public String passportApply_confirm(Integer cadreId, ModelMap modelMap) {
 
         CadreView cadre = null;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
         }else{

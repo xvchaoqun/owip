@@ -28,10 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -99,7 +96,7 @@ public class MemberOutController extends MemberBaseController {
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                 if (!adminPartyIdSet.contains(member.getPartyId())
                         && (member.getBranchId() == null || !adminBranchIdSet.contains(member.getBranchId()))) {
 
@@ -412,7 +409,7 @@ public class MemberOutController extends MemberBaseController {
             modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), currentMemberOut.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL));
         }
 
         // 读取总数
@@ -500,7 +497,7 @@ public class MemberOutController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
             if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
                 throw new UnauthorizedException();
@@ -676,7 +673,7 @@ public class MemberOutController extends MemberBaseController {
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)) {
-            addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+            addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
         }

@@ -7,7 +7,6 @@ import domain.dp.DpParty;
 import domain.dp.DpPartyMemberGroup;
 import domain.dp.DpPartyMemberGroupExample;
 import domain.dp.DpPartyMemberGroupExample.Criteria;
-import domain.party.PartyMemberGroup;
 import mixin.DpPartyMemberGroupOptionMiXin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -30,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -411,7 +410,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         //======权限
         if (BooleanUtils.isTrue(auth)){
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
                 List<Integer> dpPartyList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
                 if (dpPartyList.size() > 0)
                     criteria.andPartyIdIn(dpPartyList);

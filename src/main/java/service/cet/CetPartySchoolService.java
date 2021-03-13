@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sys.SysUserService;
-import sys.constants.RoleConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +47,7 @@ public class CetPartySchoolService extends CetBaseMapper {
 
             commonMapper.excuteSql("update cet_party_school set user_id=null where id=" + id);
             // 删除原管理员权限
-            sysUserService.delRole(oldUserId, RoleConstants.ROLE_CET_ADMIN_PS);
+            //sysUserService.delRole(oldUserId, RoleConstants.ROLE_CET_ADMIN_PS);
         }
 
         if(userId!=null){
@@ -59,7 +58,7 @@ public class CetPartySchoolService extends CetBaseMapper {
             cetPartySchoolMapper.updateByPrimaryKeySelective(record);
 
             // 添加管理员权限
-            sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_PS);
+            //sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_PS);
         }
     }
 
@@ -82,7 +81,7 @@ public class CetPartySchoolService extends CetBaseMapper {
             for (CetPartySchool cetPartySchool : cetPartySchools) {
 
                 // 删除管理员权限
-                sysUserService.delRole(cetPartySchool.getUserId(), RoleConstants.ROLE_CET_ADMIN_PS);
+                //sysUserService.delRole(cetPartySchool.getUserId(), RoleConstants.ROLE_CET_ADMIN_PS);
             }
         }
 

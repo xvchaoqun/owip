@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -87,7 +87,7 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         if(cls==1) {
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)){
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)){
 
                 int userId = ShiroHelper.getCurrentUserId();
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
@@ -99,7 +99,7 @@ public class PmdPartyController extends PmdBaseController {
             }
         }else if(cls==2){
 
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PMDVIEWALL);
             criteria.andMonthIdEqualTo(monthId);
         }else {
             criteria.andIdIsNull();
@@ -149,7 +149,7 @@ public class PmdPartyController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PMDVIEWALL);
         
             pmdPartyService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党委报送：%s", id));

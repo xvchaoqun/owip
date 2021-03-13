@@ -78,8 +78,6 @@ public class ApplySelfService extends AbroadBaseMapper {
 
         // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
         if (approverTypeId <= 0) { // 查找干部管理员
-            /*List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
-            return cadreAdmin;*/
 
             if(approverTypeId==-1) { // 组织部初审
                 try {

@@ -82,7 +82,7 @@
                                         <i class="fa fa-refresh"></i> 更换工号</a>
                                 </shiro:hasPermission>
 
-                                <c:if test="${cm:roleIsPermitted(ROLE_CADREADMIN, 'cadreInspect:list')}">
+                                <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) && cm:isPermitted('cadreInspect:list')}">
                                     <c:if test="${status==CADRE_STATUS_CJ_LEAVE}">
                                         <shiro:hasPermission name="cadre:edit">
                                             <button class="jqBatchBtn btn btn-warning btn-sm"

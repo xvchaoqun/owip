@@ -14,8 +14,6 @@ public class ShortMsgTpl implements Serializable {
     }
     private Integer id;
 
-    private Integer roleId;
-
     private Byte type;
 
     private Byte wxMsgType;
@@ -52,14 +50,6 @@ public class ShortMsgTpl implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public Byte getType() {

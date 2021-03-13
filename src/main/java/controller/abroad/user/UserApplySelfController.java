@@ -24,6 +24,7 @@ import persistence.abroad.common.ApprovalResult;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.AbroadHelper;
 import sys.shiro.CurrentUser;
@@ -192,7 +193,7 @@ public class UserApplySelfController extends AbroadBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -313,7 +314,7 @@ public class UserApplySelfController extends AbroadBaseController {
     @RequestMapping("/applySelf_au")
     public String applySelf_au(Integer cadreId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

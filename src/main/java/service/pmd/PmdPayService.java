@@ -1,11 +1,7 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMemberPay;
-import domain.pmd.PmdMemberPayExample;
-import domain.pmd.PmdMonth;
+import domain.pmd.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -15,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -168,7 +165,7 @@ public class PmdPayService extends PmdBaseMapper {
             criteria.andBranchIdEqualTo(branchId);
 
             // 组织部管理员、分党委管理员、党支部管理员允许延迟
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
                 if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                     if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                         throw new UnauthorizedException();
@@ -177,7 +174,7 @@ public class PmdPayService extends PmdBaseMapper {
             }
         }else{
             // 组织部管理员、分党委管理员允许延迟
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
                 if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                     throw new UnauthorizedException();
                 }

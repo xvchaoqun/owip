@@ -770,7 +770,7 @@ public class SysUserService extends BaseMapper {
                     !approverTypeBean.isApprover()) {
 
                 userPermissions.remove("applySelf:approvalList"); // 因私出国境审批
-                if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN)) {
+                if (!userPermissions.contains(RoleConstants.PERMISSION_CADREADMIN)) {
                     // 干部管理员 需要目录，普通干部不需要
                     userPermissions.remove("abroad:menu"); // 因私出国境审批（目录）
                 }
@@ -778,9 +778,6 @@ public class SysUserService extends BaseMapper {
 
             // 非干部管理员账号如果有直接修改本人干部信息的权限，则不能看到“干部信息修改申请”菜单
             boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
-            /*if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth) {
-                userPermissions.remove("modifyCadreInfo:menu");
-            }*/
             if (hasDirectModifyCadreAuth) {
                 userPermissions.remove("userModifyCadre:menu");
             }
@@ -800,7 +797,7 @@ public class SysUserService extends BaseMapper {
             if (userRoles.contains(RoleConstants.ROLE_CADRE_CJ)) {
 
                 // 是干部管理员 或 没有因私审批权限
-                if (userRoles.contains(RoleConstants.ROLE_CADREADMIN) ||
+                if (userPermissions.contains(RoleConstants.PERMISSION_CADREADMIN) ||
                         !approverService.hasApproveAuth(userId)) {
 
                     userPermissions.remove("m:applySelfList:*");

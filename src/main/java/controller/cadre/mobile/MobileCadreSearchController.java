@@ -23,6 +23,7 @@ import persistence.cadre.common.ICadreWorkMapper;
 import service.unit.UnitPostAllocationInfoBean;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -355,7 +356,7 @@ public class MobileCadreSearchController extends BaseController {
 											   @RequestParam(required = false, defaultValue = "0") Boolean isEngage,
 											   Integer pageSize, Integer pageNo,ModelMap modelMap) {
 
-		if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
+		if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREARCHIVE)) {
 			throw new UnauthorizedException("没有权限访问");
 		}
 

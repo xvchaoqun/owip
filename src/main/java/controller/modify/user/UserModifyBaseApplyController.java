@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.security.Base64Utils;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserModifyBaseApplyController extends ModifyBaseController {
 
-    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping("/modifyBaseApply_au")
     public String modifyBaseApply_au(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -51,7 +51,7 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
     }
 
     // 提交申请
-    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseApply_au(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
@@ -100,7 +100,7 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
     }
 
     // 撤销申请
-    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map back(Integer[] ids, HttpServletRequest request){

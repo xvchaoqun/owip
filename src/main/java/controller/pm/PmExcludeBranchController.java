@@ -1,10 +1,10 @@
 package controller.pm;
 
 
-import domain.pm.*;
-
-import org.apache.commons.lang3.StringUtils;
-
+import domain.pm.PmExcludeBranch;
+import domain.pm.PmExcludeBranchExample;
+import domain.pm.PmQuarterBranch;
+import domain.pm.PmQuarterBranchExample;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,18 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
-
-
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -43,7 +37,7 @@ public class PmExcludeBranchController extends PmBaseController {
     public Map pmExcludeBranch_au(Integer partyId,Integer[] ids,ModelMap modelMap) {
 
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             throw new UnauthorizedException();
         }
         if (null != ids && ids.length>0) {
@@ -75,7 +69,7 @@ public class PmExcludeBranchController extends PmBaseController {
     public Map do_partyBranchMeeting_del(Integer partyId,Integer[] ids,ModelMap modelMap) {
         Integer loginUserId = ShiroHelper.getCurrentUserId();
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             throw new UnauthorizedException();
         }
         if (null != ids && ids.length>0) {

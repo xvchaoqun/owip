@@ -231,7 +231,7 @@ public class DpPartyMemberService extends DpBaseMapper {
             DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
 
             //权限控制
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)){
                 Integer groupId = dpPartyMember.getGroupId();
                 DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
                 Integer partyId = dpPartyMemberGroup.getPartyId();

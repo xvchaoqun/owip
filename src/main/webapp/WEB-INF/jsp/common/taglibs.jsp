@@ -53,7 +53,6 @@
 <c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
 <c:set var="ROLE_PARTYADMIN" value="<%=RoleConstants.ROLE_PARTYADMIN%>"/>
 <c:set var="ROLE_BRANCHADMIN" value="<%=RoleConstants.ROLE_BRANCHADMIN%>"/>
-<c:set var="ROLE_CADREADMIN" value="<%=RoleConstants.ROLE_CADREADMIN%>"/>
 <c:set var="ROLE_LEADER" value="<%=RoleConstants.ROLE_LEADER%>"/>
 <c:set var="ROLE_CADRE_CJ" value="<%=RoleConstants.ROLE_CADRE_CJ%>"/>
 <c:set var="ROLE_CADRE_KJ" value="<%=RoleConstants.ROLE_CADRE_KJ%>"/>
@@ -62,10 +61,10 @@
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 
-<c:set var="PERMISSION_PARTYVIEWALL" value="<%=SystemConstants.PERMISSION_PARTYVIEWALL%>"/>
-<c:set var="PERMISSION_CADREONLYVIEW" value="<%=SystemConstants.PERMISSION_CADREONLYVIEW%>"/>
-<c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
-<c:set var="PERMISSION_CADREADMINSELF" value="<%=SystemConstants.PERMISSION_CADREADMINSELF%>"/>
+<c:set var="PERMISSION_CADREADMIN" value="<%=RoleConstants.PERMISSION_CADREADMIN%>"/>
+<c:set var="PERMISSION_PARTYVIEWALL" value="<%=RoleConstants.PERMISSION_PARTYVIEWALL%>"/>
+<c:set var="PERMISSION_CADREONLYVIEW" value="<%=RoleConstants.PERMISSION_CADREONLYVIEW%>"/>
+<c:set var="PERMISSION_CADREADMINSELF" value="<%=RoleConstants.PERMISSION_CADREADMINSELF%>"/>
 
 <c:set var="USER_SOURCE_JZG" value="<%=SystemConstants.USER_SOURCE_JZG%>"/>
 <c:set var="USER_SOURCE_BKS" value="<%=SystemConstants.USER_SOURCE_BKS%>"/>

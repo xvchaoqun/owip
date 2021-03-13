@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -101,7 +101,7 @@ public class PmdBranchController extends PmdBaseController {
             // 此时必须传入monthId和partyId
             criteria.andMonthIdEqualTo(monthId);
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 Set<Integer> adminPartyIdSet = new HashSet<>();
                 adminPartyIdSet.addAll(adminPartyIds);
@@ -163,7 +163,7 @@ public class PmdBranchController extends PmdBaseController {
 
         if(BooleanUtils.isTrue(update)){
             
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_PMDVIEWALL);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PMDVIEWALL);
         
             pmdBranchService.updateReport(id);
             logger.info(addLog(LogConstants.LOG_PMD, "更新党支部报送：%s", id));

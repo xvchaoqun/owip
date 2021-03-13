@@ -14,6 +14,7 @@ import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -77,7 +78,7 @@ public class PmdMemberService extends PmdBaseMapper {
         // 检测党支部或直属党支部是否已经报送了
         if (partyService.isDirectBranch(partyId)) {
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)
                     && !adminPartyIdSet.contains(partyId)) {
                 throw new UnauthorizedException();
             }
@@ -88,7 +89,7 @@ public class PmdMemberService extends PmdBaseMapper {
             }
         } else {
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)
                     && !adminPartyIdSet.contains(partyId)
                     && !adminBranchIdSet.contains(branchId)) {
                 throw new UnauthorizedException();
@@ -384,7 +385,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
             {
                 // 除了组织部管理员，其他人员不允许修改党员一级类别
-                if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)
+                if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)
                         && configMemberType!=pmdConfigMember.getConfigMemberType()){
                     throw new OpException("{0}不允许修改党员类别。", uv.getRealname());
                 }

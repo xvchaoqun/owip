@@ -1,6 +1,22 @@
 
+
+update sys_role set name=replace(name, '干部工作管理员', '干部管理员');
+update sys_role set name=replace(name, '干部管理员（目录1）', '干部管理员');
+update sys_role set name=replace(name, '干部管理员（目录2）', '干部管理员（部分权限）');
+update sys_role set name=replace(name, '党建工作管理员', '干部管理员');
+update sys_role set name=replace(name, '管理员(干部教育培训)', '培训管理员');
+update sys_resource set name='干部管理员', remark='管理所有干部相关的模块' where permission='cadre:admin';
+-- 删除 ROLE_CADREADMIN  及角色
+
+update sys_role r, sys_resource re set r.resource_ids=concat(r.resource_ids, ',', re.id)
+where r.code='cadreAdmin-menu1' and re.permission='cadre:admin';
+delete from sys_role where code='cadreAdmin';
+
+ALTER TABLE `base_short_msg_tpl`
+	DROP COLUMN `role_id`;
+
 20210312
--- 哈工大
+-- 哈工大，南航
 
  -- 已更新北航
  REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)

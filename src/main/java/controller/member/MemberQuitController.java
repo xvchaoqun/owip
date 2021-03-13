@@ -224,7 +224,7 @@ public class MemberQuitController extends MemberBaseController {
             modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
         }
         if (type == 3) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL));
         }
 
         // 读取总数

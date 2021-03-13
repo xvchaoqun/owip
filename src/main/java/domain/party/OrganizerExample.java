@@ -2,7 +2,7 @@ package domain.party;
 
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1814,7 +1814,7 @@ public class OrganizerExample {
         }
         public OrganizerExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

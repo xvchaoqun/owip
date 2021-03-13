@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
-import sys.utils.FormUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -89,8 +88,7 @@ public class DpCommonController extends DpBaseController {
         }
         List<SysUserView> uvs = iDpMemberMapper.selectUserList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-        boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
-                RoleConstants.ROLE_CADREADMIN, RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_PARTYADMIN);
+        boolean isDpAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_DP_ADMIN);
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {
@@ -107,7 +105,7 @@ public class DpCommonController extends DpBaseController {
                 option.put("birth", uv.getBirth());
                 option.put("nation", uv.getNation());
 
-                if(isAdmin) {
+                if(isDpAdmin) {
                     option.put("mobile", uv.getMobile());
                     option.put("msgMobile", uv.getMsgMobile());
                 }

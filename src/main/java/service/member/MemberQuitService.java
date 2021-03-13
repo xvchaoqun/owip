@@ -146,7 +146,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 status = MemberConstants.MEMBER_QUIT_STATUS_APPLY;
             }
             if (type == 3) { // 组织部退回
-                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
                 status = MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
             }
@@ -253,7 +253,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 check2(memberQuit.getUserId());
             }
             if(type==3) {
-                ShiroHelper.checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+                ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(id);
                 check3(memberQuit.getUserId());
             }
@@ -272,7 +272,7 @@ public class MemberQuitService extends MemberBaseMapper {
     @Transactional
     public void memberQuit_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         for (int userId : userIds) {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.DownloadUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class AbroadExportController extends AbroadBaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();

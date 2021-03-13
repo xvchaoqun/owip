@@ -138,7 +138,7 @@ public class BranchMemberGroupController extends BaseController {
 
         //===========权限
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-        /*if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        /*if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             if (partyIdList.size() > 0)

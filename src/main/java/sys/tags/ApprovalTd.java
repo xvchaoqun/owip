@@ -121,7 +121,7 @@ public class ApprovalTd extends BodyTagSupport {
             td += "<td class='not_approval'></td>";
         }
 
-        if(!view && ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN)) {
+        if(!view && RoleConstants.isCadreAdmin()) {
             ApplySelfMapper applySelfMapper = CmTag.getBean(ApplySelfMapper.class);
             SysUserService sysUserService = CmTag.getBean(SysUserService.class);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);

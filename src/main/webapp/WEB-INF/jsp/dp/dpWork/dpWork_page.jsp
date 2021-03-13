@@ -37,21 +37,6 @@
             data-url="${ctx}/dp/dpWork_au?id={{=id}}&userId=${param.userId}&&fid={{=parentRowKey}}"><i
             class="fa fa-edit"></i> 编辑
     </button>
-    <%--<shiro:hasRole name="${ROLE_CADREADMIN}">
-    {{if(parentRowKey>0){}}
-    <button class="confirm btn btn-xs btn-info"
-            data-msg="确定转移至主要工作经历？"
-            data-callback="_callback"
-            data-url="${ctx}/dp/dpWork_transfer?id={{=id}}&userId={{=userId}}"><i
-            class="fa fa-reply"></i> 转移
-    </button>
-    {{}else if(subWorkCount==0){}}
-        <button class="popupBtn btn btn-xs btn-info"
-                data-url="${ctx}/dp/dpWork_transferToSubWork?id={{=id}}&cadreId={{=cadreId}}"><i
-                class="fa fa-reply"></i> 转移
-        </button>
-    {{}}}
-    </shiro:hasRole>--%>
 </shiro:hasPermission>
 <shiro:hasPermission name="dpWork:del">
     <button class="confirm btn btn-xs btn-danger"
@@ -126,7 +111,7 @@
                             //alert(rowObject.id)
                             return _.template($("#op_tpl").html().NoMultiSpace())
                             ({id: rowObject.id, parentRowKey: null, subWorkCount: rowObject.subWorkCount, cadreId: rowObject.cadreId})
-                        }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
+                        }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                         }
             ],
             rowattr: function (rowData, currentObj, rowId) {
@@ -226,7 +211,7 @@
                         //alert(rowObject.id)
                         return _.template($("#op_tpl").html().NoMultiSpace())
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
-                    }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
+                    }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                     }
                     </shiro:lacksPermission>
                     </c:if>

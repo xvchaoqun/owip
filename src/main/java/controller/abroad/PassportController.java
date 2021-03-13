@@ -35,7 +35,7 @@ import persistence.abroad.common.PassportStatByPostBean;
 import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -452,7 +452,7 @@ public class PassportController extends AbroadBaseController {
     }
 
     // 批量上传证件首页
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passport_uploadPic_batch")
     @ResponseBody
     public Map passport_uploadPic_batch(String folder, String type) { // folder是具体的系统文件夹路径，下面都是图片。
@@ -505,14 +505,14 @@ public class PassportController extends AbroadBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passport_uploadPic")
     public String passport_uploadPic() {
 
         return "abroad/passport/passport_uploadPic";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/passport_uploadPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passport_uploadPic(int id, String _base64,
@@ -562,7 +562,7 @@ public class PassportController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/updateLostProof")
     public String updateLostProof(int id, ModelMap modelMap) {
 
@@ -572,7 +572,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/updateLostProof";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
@@ -614,7 +614,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/passport_cancel_view";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/updateCancelPic")
     public String updateCancelProof(int id, ModelMap modelMap) {
 
@@ -624,7 +624,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/updateCancelPic";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/updateCancelPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateCancelProof(

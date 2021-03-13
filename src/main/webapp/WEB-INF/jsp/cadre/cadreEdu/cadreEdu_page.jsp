@@ -293,7 +293,7 @@
                         //alert(rowObject.id)
                         return _.template($("#op_tpl").html().NoMultiSpace())
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
-                    }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
+                    }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                     }
                     </shiro:lacksPermission>
                     </c:if>

@@ -28,7 +28,7 @@ import service.member.MemberStayExportService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -377,7 +377,7 @@ public class MemberStayController extends MemberBaseController {
             modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
         }
         if (checkType == 3) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL));
         }
 
 
@@ -552,7 +552,7 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresPermissions({"memberStay:del", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequiresPermissions({"memberStay:del", RoleConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/memberStay_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {

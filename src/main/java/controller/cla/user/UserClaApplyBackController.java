@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -49,7 +50,7 @@ public class UserClaApplyBackController extends ClaBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

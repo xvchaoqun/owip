@@ -126,11 +126,11 @@
                   ${approvalType.name}
                 </c:if>意见
                 <c:if test="${result.key>0 && result.key==applySelf.flowNode}">
-                <shiro:hasRole name="${ROLE_CADREADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                   <button type="button" class="popupBtn btn btn-success btn-xs"
                           data-url="${ctx}/abroad/applySelf_approval_direct?applySelfId=${applySelf.id}&approvalTypeId=${result.key}">
                 <i class="fa fa-check"></i> 审批通过</button>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 </c:if>
               </td>
             </tr>
@@ -144,11 +144,11 @@
                   <c:if test="${not empty approvalLog.filePath}">批件： <t:preview filePath="${approvalLog.filePath}" fileName="${approvalLog.fileName}" label="查看"/><br/></c:if>
                   <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>
                   审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}
-                  <shiro:hasRole name="${ROLE_CADREADMIN}">
+                  <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                   &nbsp;<button type="button" class="popupBtn btn btn-primary btn-xs"
                           data-url="${ctx}/abroad/applySelf_approval_direct_au?applySelfId=${applySelf.id}&approvalLogId=${approvalLog.id}&approvalTypeId=${result.key}&type=${param.type}">
                     <i class="fa fa-edit"></i> 修改</button>
-                  </shiro:hasRole>
+                  </shiro:hasPermission>
                 </c:if>
               </td>
             </tr>

@@ -371,7 +371,7 @@ public class PcsAdminController extends PcsBaseController {
         if (id != null) {
             PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
             if (pcsAdmin != null) {
-                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                     if (pcsAdmin.getUserId().intValue() == loginUser.getId()) {
                         return failed("不能删除自己");
                     }

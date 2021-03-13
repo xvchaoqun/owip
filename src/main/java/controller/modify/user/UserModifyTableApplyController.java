@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 撤销申请
-    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyTableApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map modifyTableApply_back(Integer id,
@@ -41,7 +41,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     }
 
     // 提交[删除申请]
-    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping("/modifyTableApply_del")
     public String modifyTableApply_del(byte module, Integer id, ModelMap modelMap) {
 
@@ -49,7 +49,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
         return "modify/user/modifyTableApply/modifyTableApply_del";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyTableApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyTableApply_del(HttpServletRequest request,

@@ -28,6 +28,7 @@ import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -83,7 +84,7 @@ public class ApplySelfController extends AbroadBaseController {
         String filePath = null;
         String fileName = null;
         if(BooleanUtils.isTrue(isAdmin)){
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_ABROADADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
             if(_filePath!=null) {
@@ -123,7 +124,7 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 干部管理员直接修改审批
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/applySelf_approval_direct_au")
     public String applySelf_approval_direct_au(int approvalLogId, ModelMap modelMap) {
 
@@ -133,7 +134,7 @@ public class ApplySelfController extends AbroadBaseController {
         return "abroad/applySelf/applySelf_approval_direct_au";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/applySelf_approval_direct_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_approval_direct_au(HttpServletRequest request,
@@ -191,7 +192,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) { // 干部管理员有下载权限
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
             int cadreId = cadre.getId();
@@ -217,7 +218,7 @@ public class ApplySelfController extends AbroadBaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -279,7 +280,7 @@ public class ApplySelfController extends AbroadBaseController {
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_ABROADADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -376,7 +377,7 @@ public class ApplySelfController extends AbroadBaseController {
         return;
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/applySelf_data")
     public void applySelf_data(HttpServletResponse response,
                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -424,7 +425,7 @@ public class ApplySelfController extends AbroadBaseController {
         if(userId==null){
             ShiroHelper.checkPermission("applySelf:approvalList");
         }else{
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_ABROADADMIN);
         }
 
         if (cadreId != null) {
@@ -452,7 +453,7 @@ public class ApplySelfController extends AbroadBaseController {
             userId = ShiroHelper.getCurrentUserId();
             ShiroHelper.checkPermission("applySelf:approvalList");
         }else{
-            ShiroHelper.checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_ABROADADMIN);
         }
 
         Map map = applySelfService.findApplySelfList(userId, cadreId, _applyDate,

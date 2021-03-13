@@ -14,9 +14,9 @@
                 <button id="print_proof" class="btn btn-info btn-sm" style="margin-left: 50px"><i class="fa fa-print"></i>  打印证明</button>
                 <a href="${ctx}/${param.type=='user'?'user/':''}abroad/passport_lostProof_download?id=${passport.id}" target="_blank"
                    class="btn btn-primary btn-sm"><i class="fa fa-download"></i> 下载</a>
-                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                     <button id="updateProof" class="btn btn-warning btn-sm"><i class="fa fa-upload"></i>  重新上传</button>
-                </shiro:hasAnyRoles>
+                </shiro:hasPermission>
             </div>
         </div>
     </ul>

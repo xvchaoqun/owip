@@ -17,7 +17,7 @@ import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.PmConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.DateUtils;
 
 import java.util.*;
@@ -88,7 +88,7 @@ public class Pm3GuideService extends PmBaseMapper {
         Pm3Guide record = pm3GuideMapper.selectByPrimaryKey(id);
 
         // 权限校验
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             throw new OpException("权限不足");
         }
 

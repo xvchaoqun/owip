@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<shiro:hasPermission name="unit:edit">
 <jsp:include page="menu.jsp"/>
 <div style="width: 900px">
 <div class="modal-header">
@@ -118,3 +119,4 @@ pageEncoding="UTF-8"%>
     //$('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
 </script>
+</shiro:hasPermission>

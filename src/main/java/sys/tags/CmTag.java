@@ -48,7 +48,7 @@ import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
@@ -671,9 +671,9 @@ public class CmTag {
 
     public static Boolean canDirectUpdateCadreInfo(Integer cadreId){
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        return ((ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) &&
-                !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREONLYVIEW))
-                || (ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)
+        return ((ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN) &&
+                !ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREONLYVIEW))
+                || (ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMINSELF)
                 && CmTag.hasDirectModifyCadreAuth(cadreId)));
     }
     // 判断干部是否拥有直接修改本人干部信息的权限

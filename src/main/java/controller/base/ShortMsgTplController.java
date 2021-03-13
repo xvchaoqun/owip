@@ -9,7 +9,6 @@ import domain.base.ShortMsgTplExample;
 import domain.base.ShortMsgTplExample.Criteria;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
-import domain.sys.SysRole;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.*;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -213,26 +211,6 @@ public class ShortMsgTplController extends BaseController {
     @RequestMapping("/shortMsgTpl_au")
     public String shortMsgTpl_au(Integer id, ModelMap modelMap) {
 
-        List<String> roleList = Arrays.asList(
-                RoleConstants.ROLE_ADMIN,
-                RoleConstants.ROLE_PARTYADMIN,
-                RoleConstants.ROLE_BRANCHADMIN,
-                RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_CADREADMIN
-        );
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN)) {
-            ShiroUser shiroUser = ShiroHelper.getShiroUser();
-            Set<String> roles = shiroUser.getRoles();
-            roles.retainAll(roleList);
-
-            roleList = new ArrayList<>(roles);
-        }
-        List<SysRole> sysRoles = new ArrayList<>();
-        for (String role : roleList) {
-            sysRoles.add(sysRoleService.getByRole(role));
-        }
-        modelMap.put("sysRoles", sysRoles);
-
         if (id != null) {
             ShortMsgTpl shortMsgTpl = shortMsgTplMapper.selectByPrimaryKey(id);
             modelMap.put("shortMsgTpl", shortMsgTpl);
@@ -266,11 +244,6 @@ public class ShortMsgTplController extends BaseController {
             return failed("发送内容不能为空");
         }
 
-        Integer roleId = tpl.getRoleId();
-        SysRole sysRole = null;
-        if (roleId != null) {
-            sysRole = sysRoleService.findAll().get(roleId);
-        }
         ShortMsgBean bean = new ShortMsgBean();
         shortMsgService.initShortMsgBeanParams(bean, tpl);
         bean.setWxTitle(wxTitle);
@@ -281,7 +254,7 @@ public class ShortMsgTplController extends BaseController {
         bean.setSender(ShiroHelper.getCurrentUserId());
         bean.setContent(content);
         bean.setMobile(mobile);
-        bean.setTypeStr((sysRole != null ? (sysRole.getName() + "-") : "") + tpl.getName());
+        bean.setTypeStr(tpl.getName());
 
         if(!StringUtils.equals(type, "batch")) {
             shortMsgService.send(bean, ContextHelper.getRealIp());

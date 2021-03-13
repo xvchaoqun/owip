@@ -20,6 +20,7 @@ import service.common.FreemarkerService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
@@ -132,7 +133,7 @@ public class Pm3MeetingService extends PmBaseMapper {
         Pm3Meeting record = new Pm3Meeting();
         record.setCheckOpinion(checkOpinion);
 
-        boolean addPermits = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
 
         Pm3MeetingExample example = new Pm3MeetingExample();

@@ -15,7 +15,7 @@ import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
@@ -320,7 +320,7 @@ public class MemberTransferService extends MemberBaseMapper {
     @Transactional
     public void memberTransfer_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean notAdmin = (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
+        boolean notAdmin = (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL));
 
         for (int userId : userIds) {
 

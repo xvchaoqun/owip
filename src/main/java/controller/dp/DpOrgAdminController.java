@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.DpPartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -202,7 +202,7 @@ public class DpOrgAdminController extends DpBaseController {
         if (id != null) {
             DpOrgAdmin dpOrgAdmin = dpOrgAdminMapper.selectByPrimaryKey(id);
             if(dpOrgAdmin!=null) {
-                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+                if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL)) {
                     if (dpOrgAdmin.getUserId().intValue() == loginUser.getId()) {
                         return failed("不能删除自己");
                     }

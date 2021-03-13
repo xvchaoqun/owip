@@ -185,7 +185,7 @@ public class OrgAdminService extends BaseMapper {
             int userId = Integer.parseInt(str[1]);
             int type = Integer.parseInt(str[2]);//type=1表示委员会成员 type=2表示普通管理员
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                 if (userId == loginUser.getId()) {
                     throw new OpException("不能删除自己");
                 }

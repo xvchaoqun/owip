@@ -3,7 +3,6 @@
 <mapper namespace="persistence.base.ShortMsgTplMapper">
   <resultMap id="BaseResultMap" type="domain.base.ShortMsgTpl">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="wx_msg_type" jdbcType="TINYINT" property="wxMsgType" />
     <result column="wx_title" jdbcType="VARCHAR" property="wxTitle" />
@@ -78,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role_id, type, wx_msg_type, wx_title, wx_url, wx_pic, name, content, remark, 
-    sort_order, send_count, send_user_count, create_time, ip, add_user_id
+    id, type, wx_msg_type, wx_title, wx_url, wx_pic, name, content, remark, sort_order, 
+    send_count, send_user_count, create_time, ip, add_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.base.ShortMsgTplExample" resultMap="BaseResultMap">
     select
@@ -112,27 +111,24 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.base.ShortMsgTpl">
-    insert into base_short_msg_tpl (id, role_id, type, 
-      wx_msg_type, wx_title, wx_url, 
-      wx_pic, name, content, 
-      remark, sort_order, send_count, 
-      send_user_count, create_time, ip, 
-      add_user_id)
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{wxMsgType,jdbcType=TINYINT}, #{wxTitle,jdbcType=VARCHAR}, #{wxUrl,jdbcType=VARCHAR}, 
-      #{wxPic,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{sendCount,jdbcType=INTEGER}, 
-      #{sendUserCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
-      #{addUserId,jdbcType=INTEGER})
+    insert into base_short_msg_tpl (id, type, wx_msg_type, 
+      wx_title, wx_url, wx_pic, 
+      name, content, remark, 
+      sort_order, send_count, send_user_count, 
+      create_time, ip, add_user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{wxMsgType,jdbcType=TINYINT}, 
+      #{wxTitle,jdbcType=VARCHAR}, #{wxUrl,jdbcType=VARCHAR}, #{wxPic,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{sendCount,jdbcType=INTEGER}, #{sendUserCount,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ShortMsgTpl">
     insert into base_short_msg_tpl
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="roleId != null">
-        role_id,
       </if>
       <if test="type != null">
         type,
@@ -180,9 +176,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
@@ -240,9 +233,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
-      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
@@ -293,7 +283,6 @@
   <update id="updateByExample" parameterType="map">
     update base_short_msg_tpl
     set id = #{record.id,jdbcType=INTEGER},
-      role_id = #{record.roleId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
       wx_title = #{record.wxTitle,jdbcType=VARCHAR},
@@ -315,9 +304,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.base.ShortMsgTpl">
     update base_short_msg_tpl
     <set>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
@@ -365,8 +351,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.base.ShortMsgTpl">
     update base_short_msg_tpl
-    set role_id = #{roleId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
+    set type = #{type,jdbcType=TINYINT},
       wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
       wx_title = #{wxTitle,jdbcType=VARCHAR},
       wx_url = #{wxUrl,jdbcType=VARCHAR},

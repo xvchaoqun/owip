@@ -1,7 +1,7 @@
 package domain.party;
 
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -2565,7 +2565,7 @@ public class PartyViewExample {
 
         public PartyViewExample.Criteria addPermits(List<Integer> partyIdList) {
 
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

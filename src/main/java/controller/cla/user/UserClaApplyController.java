@@ -21,6 +21,7 @@ import persistence.cla.common.ClaApprovalResult;
 import shiro.ShiroHelper;
 import sys.constants.ClaConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.ClaHelper;
 import sys.shiro.CurrentUser;
@@ -176,7 +177,7 @@ public class UserClaApplyController extends ClaBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -293,7 +294,7 @@ public class UserClaApplyController extends ClaBaseController {
     @RequestMapping("/claApply_au")
     public String claApply_au(Integer cadreId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

@@ -15,20 +15,6 @@
               id="modalForm" method="post">
             <input type="hidden" name="id" value="${shortMsgTpl.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>所属角色</label>
-                <div class="col-xs-8">
-                    <select required name="roleId" data-rel="select2" data-placeholder="请选择" data-width="200">
-                        <option></option>
-                        <c:forEach items="${sysRoles}" var="sysRole">
-                            <option value="${sysRole.id}">${sysRole.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=roleId]").val('${shortMsgTpl.roleId}');
-                    </script>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>模板名称</label>
                 <div class="col-xs-8">
                     <input required class="form-control" type="text" name="name" value="${shortMsgTpl.name}">

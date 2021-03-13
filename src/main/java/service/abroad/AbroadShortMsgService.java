@@ -194,7 +194,6 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
         String cadreTitle = cadre.getTitle();
 
-        //List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
@@ -290,7 +289,6 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
         String cadreTitle = cadre.getTitle();
 
-        //List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 

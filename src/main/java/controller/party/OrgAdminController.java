@@ -27,7 +27,7 @@ import persistence.party.common.OwAdmin;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -73,7 +73,7 @@ public class OrgAdminController extends BaseController {
             search.setPartyId(partyId);
             search.setBranchId(branchId);
             search.setNormal(true); // 其他管理员
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                 search.setAddPermits(true);
                 search.setAdminPartyIdList(adminPartyIdList);
                 search.setAdminBranchIdList(adminBranchIdList);
@@ -164,7 +164,7 @@ public class OrgAdminController extends BaseController {
         search.setPartyId(partyId);
         search.setBranchId(branchId);
         search.setUserId(userId);
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             search.setAddPermits(true);
             search.setAdminPartyIdList(adminPartyIdList);
             search.setAdminBranchIdList(adminBranchIdList);
@@ -246,7 +246,7 @@ public class OrgAdminController extends BaseController {
         if (id != null) {
             OrgAdmin orgAdmin = (OrgAdmin) orgAdminService.getAdmin(id, isPartyAdmin);
             if (orgAdmin != null) {
-                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                     if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
                         return failed("不能删除自己");
                     }
@@ -282,7 +282,7 @@ public class OrgAdminController extends BaseController {
                                 @RequestParam(required = false, defaultValue = OwConstants.OW_ORG_ADMIN_PARTY+"") byte type,
                                 String searchStr) throws IOException {
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
             return null;
 
         if (null == pageSize) {

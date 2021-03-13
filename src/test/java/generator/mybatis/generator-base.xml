@@ -24,9 +24,9 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <table tableName="base_api_key" domainObjectName="base.ApiKey">
+        <!--<table tableName="base_api_key" domainObjectName="base.ApiKey">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="base_sitemap" domainObjectName="base.Sitemap">
         </table>-->
         <!-- <table tableName="base_sitemap_role" domainObjectName="base.SitemapRole">
@@ -60,10 +60,10 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="repeat_times" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="ret" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <table tableName="base_short_msg_tpl" domainObjectName="base.ShortMsgTpl">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 

@@ -22,15 +22,19 @@ import persistence.sys.SysMsgMapper;
 import service.sys.SysMsgService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/sys")
@@ -65,7 +69,7 @@ public class SysMsgController extends BaseController {
         modelMap.put("acceptMsg", sysMsgMapper.countByExample(acceptMsgs));
 
         SysMsgExample sendMsgs = new SysMsgExample();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             sendMsgs.createCriteria().andSendUserIdEqualTo(ShiroHelper.getCurrentUserId());
         }
         modelMap.put("sendMsg", sysMsgMapper.countByExample(sendMsgs));
@@ -101,7 +105,7 @@ public class SysMsgController extends BaseController {
         example.setOrderByClause("send_time desc");
 
         if (cls == 2) {
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                 if (page == 1) {
                     criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
                 } else if (page == 2) {

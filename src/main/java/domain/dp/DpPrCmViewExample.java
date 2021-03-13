@@ -1,7 +1,7 @@
 package domain.dp;
 
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1013,7 +1013,7 @@ public class DpPrCmViewExample {
         }
         public DpPrCmViewExample.Criteria addPermits(List<Integer> partyIdList) {
 
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL))
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

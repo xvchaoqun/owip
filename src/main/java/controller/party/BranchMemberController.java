@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.party.BranchExportService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -320,7 +320,7 @@ public class BranchMemberController extends BaseController {
             int userId = ShiroHelper.getCurrentUserId();
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                 BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
                 Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());

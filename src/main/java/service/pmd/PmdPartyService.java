@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pmd.common.PmdReportBean;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -118,7 +118,7 @@ public class PmdPartyService extends PmdBaseMapper {
 
         PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
         int partyId = pmdParty.getPartyId();
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 throw new UnauthorizedException();
             }
@@ -147,7 +147,7 @@ public class PmdPartyService extends PmdBaseMapper {
         if(pmdParty==null) return false;
 
         // 组织部管理员、分党委管理员允许报送
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 return false;
             }
@@ -466,7 +466,7 @@ public class PmdPartyService extends PmdBaseMapper {
         }
 
         // 组织部管理员、分党委管理员允许报送
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PMDVIEWALL)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
             if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), pmdParty.getPartyId())) {
                 throw new UnauthorizedException();
             }

@@ -172,11 +172,11 @@
                                                        data-url="{{=ret.url}}"><i
                                             class="fa fa-hand-o-right"></i> 前往查看</a>
                                     {{}else{}}
-                                        <shiro:hasRole name="${ROLE_CADREADMIN}">
+                                        <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                                         &nbsp;&nbsp;<a href="javascript:;" onclick="_loadArchive(this)" class="btn btn-warning btn-xs"
                                                        data-url="{{=ret.url}}"><i
                                             class="fa fa-hand-o-right"></i> 建立临时干部档案</a>
-                                        </shiro:hasRole>
+                                        </shiro:hasPermission>
                                     {{}}}
                                     </div>
                                 </small>

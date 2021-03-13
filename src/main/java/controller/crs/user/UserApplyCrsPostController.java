@@ -10,7 +10,6 @@ import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -192,7 +191,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
 
         CrsApplicantWithBLOBs crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
         modelMap.put("crsApplicant", crsApplicant);
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)){
             ShiroHelper.checkPermission("userApplyCrsPost:list");
             if (crsApplicant == null || crsApplicant.getUserId().intValue() != ShiroHelper.getCurrentUserId()) {
                 throw new UnauthorizedException();

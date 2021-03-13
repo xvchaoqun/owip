@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -158,7 +158,7 @@ public class BranchController extends BaseController {
         //===========权限（只有分党委管理员，才可以管理党支部）
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        /*if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        /*if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             if (partyIdList.size() > 0)
@@ -403,7 +403,7 @@ public class BranchController extends BaseController {
     public Map do_branch_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         // 权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(id);
             int partyId = branch.getPartyId();
@@ -558,7 +558,7 @@ public class BranchController extends BaseController {
         //===========权限
         if (BooleanUtils.isTrue(auth)) {
 
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 Set<Integer> partyIdSet = new HashSet<>();

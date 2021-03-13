@@ -15,7 +15,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -198,7 +198,7 @@ public class PartyMemberService extends BaseMapper {
 
     public boolean hasAdminAuth(Integer userId, Integer partyId) {
 
-        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
             return true;
 
         return isPresentAdmin(userId, partyId);
@@ -314,7 +314,7 @@ public class PartyMemberService extends BaseMapper {
         for (Integer id : ids) {
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
             // 权限控制
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
 
                 Integer groupId = partyMember.getGroupId();
                 PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
