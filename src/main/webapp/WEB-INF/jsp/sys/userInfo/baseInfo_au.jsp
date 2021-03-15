@@ -5,8 +5,8 @@
 <h3>修改基础信息</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/baseInfo_au" autocomplete="off"
-      disableautocomplete id="baseInfoForm" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="userId" value="${sysUser.id}">
+      disableautocomplete id="updateForm" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="userId" value="${uv.id}">
 
     <div class="row">
         <div class="col-xs-5">
@@ -15,7 +15,16 @@
                 <label class="col-xs-4 control-label">头像</label>
 
                 <div class="col-xs-6" style="width:170px">
-                    <input type="file" name="_avatar" id="_avatar"/>
+                    <div id="avatarDiv" style="width:145px">
+                       <img width="135"  src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"/>
+                    </div>
+                    <div style="margin-top: 5px;text-align: center">
+                        <input type="hidden" name="base64Avatar">
+                        <button type="button" class="popupBtn btn btn-xs btn-info" data-width="1050"
+                                data-url="${ctx}/avatar_select?path=${cm:sign(uv.avatar)}&op=保存">
+                            <i class="fa fa-edit"></i> 重传
+                        </button>
+                    </div>
                 </div>
             </div>
             </c:if>
@@ -87,7 +96,7 @@
                             </c:forEach>
                         </select>
                         <script>
-                            $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
+                            $("#updateForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
                         </script>
                     </div>
                 </c:if>
@@ -109,7 +118,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${sysUser.type==USER_TYPE_JZG}">
+            <c:if test="${uv.type==USER_TYPE_JZG}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">办公电话</label>
 
@@ -125,7 +134,7 @@
                     <input class="form-control" type="text" name="email" value="${ui.email}">
                 </div>
             </div>
-            <c:if test="${sysUser.type==USER_TYPE_JZG}">
+            <c:if test="${uv.type==USER_TYPE_JZG}">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">最高学历</label>
                     <div class="col-xs-6">
@@ -193,65 +202,37 @@
     </div>
 </form>
 
-<div class="clearfix form-actions">
+<div class="clearfix form-actions center">
     <c:if test="${not empty cadre}">
         <div class="note">
             注：如果是领导干部，则籍贯、出生地、户籍地、手机号信息由干部专员维护。
         </div>
     </c:if>
-    <div class="col-md-offset-3 col-md-9">
-        <button class="btn btn-info" type="submit">
-            <i class="ace-icon fa fa-check bigger-110"></i>
-            提交
-        </button>
-
-        &nbsp; &nbsp; &nbsp;
+        <button id="updateBtn" type="button" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中">
+            <i class="ace-icon fa fa-save bigger-110"></i> 保存
+    </button>
+        &nbsp;
         <button class="hideView btn btn-default" type="button">
             <i class="ace-icon fa fa-reply bigger-110"></i>
             返回
         </button>
-    </div>
 </div>
 </div>
 <%--<style>
-    #baseInfoForm .ace-file-container{
+    #updateForm .ace-file-container{
         height: 198px!important;
     }
 </style>--%>
 <script>
-
-    $.fileInput($("#_avatar"), {
-        style: 'well',
-        btn_choose: '更换头像',
-        btn_change: null,
-        no_icon: 'ace-icon fa fa-picture-o',
-        thumbnail: 'large',
-        droppable: true,
-        previewWidth: 143,
-        previewHeight: 198,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    });
-    $("#_avatar").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/avatar?path=${cm:sign(ui.avatar)}'
-        }]);
-    });
-    $("#_avatar").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/avatar?path=${cm:sign(ui.avatar)}'
-    }]);
-
-    $("#body-content-view button[type=submit]").click(function () {
+    $("#updateBtn").click(function () {
 
         <c:if test="${empty cadre}">
         var idcard = '${ui.idcard}';
         if(idcard.length==15||idcard.length==18){
 
-            var birth = $("#baseInfoForm input[name=birth]").val();
-            var gender = $("#baseInfoForm input[name=gender]:checked").val();
+            var birth = $("#updateForm input[name=birth]").val();
+            var gender = $("#updateForm input[name=gender]:checked").val();
 
             //console.log("$.getBirthdayByIdcard(idcard)="+$.getBirthdayByIdcard(idcard) +" birth="+birth)
             if($.getGenderByIdcard(idcard)!=gender
@@ -259,29 +240,31 @@
 
                 SysMsg.confirm("性别或出生年月与身份证不符，请再次确认是否提交？", "信息确认", function(){
 
-                    $("#baseInfoForm").submit();
+                    $("#updateForm").submit();
                     return false;
                 })
                 return false;
             }
         }
         </c:if>
-         $("#baseInfoForm").submit();
+         $("#updateForm").submit();
          return false;
     });
-    $("#baseInfoForm").validate({
+    $("#updateForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#updateBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }
     });
     $.register.date($('.date-picker'));
-    $("#baseInfoForm :checkbox").bootstrapSwitch();
-    $('#baseInfoForm [data-rel="select2"]').select2();
+    $("#updateForm :checkbox").bootstrapSwitch();
+    $('#updateForm [data-rel="select2"]').select2();
 </script>

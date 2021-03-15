@@ -14,28 +14,22 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label">头像</label>
                 <div class="col-xs-6" style="width:170px">
-                    <input type="file" name="_avatar" id="_avatar"/>
-                </div>
-            </div>
-            <%--<div class="form-group">
-                <label class="col-xs-4 control-label">姓名</label>
-                <div class="col-xs-6 label-text">
-                    ${sysUser.realname}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
-                <div class="col-xs-6 label-text">
-                    ${party.name}
-                </div>
-            </div>
-            <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                <label class="col-xs-4 control-label"><span class="star">*</span>所属党支部</label>
-                <div class="col-xs-6 label-text">
-                    ${branch.name}
-                </div>
-            </div>--%>
+                    <%--<input type="file" name="_avatar" id="_avatar"/>--%>
 
+                    <div id="avatarDiv" style="width:145px">
+                       <img width="135"  src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"/>
+                    </div>
+                    <div style="margin-top: 5px">
+                        <input type="hidden" name="base64Avatar">
+                        <c:if test="${empty mba}">
+                        <button type="button" class="popupBtn btn btn-xs btn-info" data-width="1050"
+                                data-url="${ctx}/avatar_select?path=${cm:sign(uv.avatar)}">
+                            <i class="fa fa-edit"></i> 重传
+                        </button>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>党籍状态</label>
                 <div class="col-xs-6">
@@ -196,39 +190,16 @@
 <div class="clearfix form-actions center">
      <button id="submitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
-         <i class="ace-icon fa fa-check bigger-110"></i> 提交</button>
+         <i class="ace-icon fa fa-check-circle-o bigger-110"></i> 提交申请</button>
 
     &nbsp; &nbsp; &nbsp;
     <button class="hideView btn btn-default" type="button">
-        <i class="ace-icon fa fa-reply bigger-110"></i>
-        返回
+        <i class="ace-icon fa fa-undo bigger-110"></i>
+            返回
     </button>
 </div>
 </div>
 <script>
-    $.fileInput($("#_avatar"), {
-        style: 'well',
-        btn_choose: '更换头像',
-        btn_change: null,
-        no_icon: 'ace-icon fa fa-picture-o',
-        thumbnail: 'large',
-        droppable: true,
-        previewWidth: 143,
-        previewHeight: 198,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    });
-    $("#_avatar").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/avatar?path=${cm:sign(memberCheck.avatar)}'
-        }]);
-    });
-    $("#_avatar").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/avatar?path=${cm:sign(memberCheck.avatar)}'
-    }]);
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'), {endDate: '${_today}'});
 

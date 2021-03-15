@@ -11,7 +11,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label">系统账号</label>
                 <div class="col-xs-6 label-text">
-                    ${sysUser.code}
+                    ${uv.code}
                 </div>
             </div>
             <div class="form-group">
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="realname" value="${sysUser.realname}">
+                    <input required class="form-control" type="text" name="realname" value="${uv.realname}">
                 </div>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@
                         <c:forEach var="gender" items="${GENDER_MAP}">
                             <label>
                                 <input required name="gender" type="radio" class="ace" value="${gender.key}"
-                                       <c:if test="${sysUser.gender==gender.key}">checked</c:if>/>
+                                       <c:if test="${uv.gender==gender.key}">checked</c:if>/>
                                 <span class="lbl" style="padding-right: 5px;"> ${gender.value}</span>
                             </label>
                         </c:forEach>
@@ -50,7 +50,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
+                    <input required class="form-control" type="text" name="idcard" value="${uv.idcard}">
                 </div>
             </div>
             <div class="form-group">
@@ -58,7 +58,7 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="birth" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(uv.birth,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 籍贯</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="nativePlace" value="${sysUser.nativePlace}">
+                    <input required class="form-control" type="text" name="nativePlace" value="${uv.nativePlace}">
                     <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                         </c:forEach>
                     </select>
                     <script>
-                        $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(sysUser.nation, '族')}');
+                        $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(uv.nation, '族')}');
                     </script>
                 </div>
             </div>

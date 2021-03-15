@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.SpringProps;
 import service.sys.AvatarService;
@@ -54,7 +53,7 @@ public class ModifyBaseApplyService extends BaseMapper {
 
     // 提交申请
     @Transactional
-    public void apply(MultipartFile _avatar, // 头像是特殊的字段
+    public void apply(String base64Avatar, // 头像是特殊的字段
                         String[] codes,  // 数据库字段代码
                         String[] tables,  // 数据库表名
                         String[] tableIdNames,  // 数据库表主键名
@@ -91,13 +90,12 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         int modifyCount = 0;
 
-        String avatar = avatarService.uploadAvatar(_avatar);
         String backupAvatar = null;
 
-        if(StringUtils.isNotBlank(avatar)){ // 头像单独处理
+        if(StringUtils.isNotBlank(base64Avatar)){ // 头像单独处理
 
             backupAvatar = avatarService.backupAvatar(userId);
-
+            String avatar = avatarService.saveBase64Avatar(base64Avatar);
             ModifyBaseItem mbi = new ModifyBaseItem();
             mbi.setApplyId(mba.getId());
             mbi.setCode("avatar");

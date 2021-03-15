@@ -16,7 +16,7 @@
       <table class="table table-unhover table-bordered table-striped" >
         <tbody>
         <tr>
-          <td id="_avatarTitle" class="bg-right" style="text-align: left!important;">头像：</td>
+            <td id="_avatarTitle" class="bg-right" style="text-align: left!important;">头像：</td>
 
           <td class="bg-right">
             姓名
@@ -38,14 +38,19 @@
 
         </tr>
         <tr>
-          <td rowspan="5" style="text-align: center;
-				                         width: 50px;background-color: #fff;">
-            <div  style="width:170px">
-              <input type="file" name="_avatar" id="_avatar"/>
+<td rowspan="5" style="text-align: center;
+				                    width: 50px;background-color: #fff;">
+            <div id="avatarDiv" style="width:145px">
+               <img width="135"  src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"/>
             </div>
-            <div>
-              <a href="javascrip:;" class="btn btn-xs btn-primary" onclick='$("#_avatar").click()'>
-                <i class="fa fa-upload"></i> 重传</a>
+            <div style="margin-top: 5px">
+                <input type="hidden" name="base64Avatar">
+                <c:if test="${empty mba}">
+                <button type="button" class="popupBtn btn btn-xs btn-info" data-width="1050"
+                        data-url="${ctx}/avatar_select?path=${cm:sign(uv.avatar)}">
+                    <i class="fa fa-edit"></i> 重传
+                </button>
+                </c:if>
             </div>
           </td>
           <td class="bg-right">

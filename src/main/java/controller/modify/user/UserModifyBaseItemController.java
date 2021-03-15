@@ -9,12 +9,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
-import sys.utils.FileUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -37,7 +35,7 @@ public class UserModifyBaseItemController extends ModifyBaseController{
     @RequestMapping(value = "/modifyBaseItem_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseItem_au(@CurrentUser SysUserView loginUser,
-                                    int id, String modifyValue, MultipartFile _avatar) throws IOException {
+                                    int id, String modifyValue) throws IOException {
 
         ModifyBaseItem record = modifyBaseItemMapper.selectByPrimaryKey(id);
         if(record==null) return failed("字段不存在");
@@ -47,9 +45,8 @@ public class UserModifyBaseItemController extends ModifyBaseController{
         if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)
         && mba.getUserId().intValue()!=loginUser.getId()) return failed("您没有权限修改该字段");
 
-        if(_avatar!=null && !_avatar.isEmpty()) {
-            FileUtils.delFile(springProps.avatarFolder + record.getModifyValue()); // 把之前上传的头像删除
-            modifyValue = avatarService.uploadAvatar(_avatar);
+        if(record.getType()== ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE){
+            modifyValue = avatarService.saveBase64Avatar(modifyValue);
         }
 
         try {

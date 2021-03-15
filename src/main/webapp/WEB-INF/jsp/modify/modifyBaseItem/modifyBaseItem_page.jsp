@@ -124,9 +124,15 @@
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
                     return '--';
                 }
-                return '<button data-url="${ctx}/user/modifyBaseItem_au?id={0}" class="popupBtn btn btn-primary btn-xs">'
-                                .format(rowObject.id)
-                        + '<i class="fa fa-edit"></i> 编辑</button>'
+                 if(rowObject.type=='${MODIFY_BASE_ITEM_TYPE_IMAGE}'){
+                     return '<button data-url="${ctx}/avatar_select?path={0}&modifyItemId={1}" data-width="1050" class="popupBtn btn btn-primary btn-xs">'
+                                    .format(rowObject.signModifyValue, rowObject.id)
+                            + '<i class="fa fa-edit"></i> 编辑</button>';
+                }else{
+                    return '<button data-url="${ctx}/user/modifyBaseItem_au?id={0}" class="popupBtn btn btn-primary btn-xs">'
+                                    .format(rowObject.id)
+                            + '<i class="fa fa-edit"></i> 编辑</button>';
+                 }
             }},
              <c:if test="${param.opType!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
             { label:'删除', name: '_del',formatter: function (cellvalue, options, rowObject) {

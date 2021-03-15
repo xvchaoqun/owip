@@ -12,17 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.SpringProps;
+import sys.security.Base64Utils;
 import sys.tags.CmTag;
 import sys.tool.graphicsmagick.GmTool;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.PatternUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by fafa on 2016/12/2.
@@ -77,6 +72,29 @@ public class AvatarService extends BaseMapper{
             }catch (Exception ex){
                 throw new OpException("上传失败：" + ex.getMessage());
             }
+        }
+
+        return avatar;
+    }
+
+    public String saveBase64Avatar(String base64Avatar) throws IOException {
+
+        if(StringUtils.isBlank(base64Avatar)) return null;
+
+        byte[] bytes = Base64Utils.decode(base64Avatar);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+        String avatar = FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
+                + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + System.currentTimeMillis()
+                + "." + StringUtils.defaultIfBlank(ImageUtils.getBase64ImageFormat(base64Avatar), "jpg");
+
+        String filePath = springProps.avatarFolder + avatar;
+        FileUtils.saveFile(inputStream, filePath);
+        try {
+            GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+            gmTool.scaleResize(filePath, filePath, CmTag.getIntProperty("avatarWidth", 400),
+                    CmTag.getIntProperty("avatarHeight", 500));
+        }catch (Exception ex){
+            throw new OpException("上传失败：" + ex.getMessage());
         }
 
         return avatar;

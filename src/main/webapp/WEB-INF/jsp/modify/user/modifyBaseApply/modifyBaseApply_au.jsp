@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-body"  style="min-width: 1200px">
-<form class="form-horizontal" action="${ctx}/user/modifyBaseApply_au" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="${ctx}/user/modifyBaseApply_au" autocomplete="off" disableautocomplete id="updateForm" method="post" enctype="multipart/form-data">
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -23,17 +23,29 @@
     <div class="clearfix form-actions center">
         <c:if test="${not empty mba}">
             您的申请已提交，请等待审核。
+            <%--<button class="btn btn-primary" type="button" id="updateBtn">
+                <i class="ace-icon fa fa-edit bigger-110"></i>
+                修改
+            </button>
+            &nbsp;--%>
+            <a href="javascript:;" class="confirm<%-- btn btn-warning--%>"
+                    data-url="${ctx}/user/modifyBaseApply_back?ids=${mba.id}" data-title="撤销申请"
+                    data-msg="确定撤销申请吗？" data-callback="_applyBack"><i class="fa fa-reply"></i> 撤销申请
+            </a>
+            <script>
+                $("input, textarea, select", "#updateForm").prop("disabled", true);
+            </script>
         </c:if>
         <c:if test="${empty mba}">
-        <button class="btn btn-info" type="button" id="submitBtn">
-            <i class="ace-icon fa fa-check bigger-110"></i>
-            保存
-        </button>
+            <button id="updateBtn" type="button" class="btn btn-primary"
+                    data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中">
+                <i class="ace-icon fa fa-check-circle-o bigger-110"></i> 提交申请
+            </button>
 
         &nbsp; &nbsp; &nbsp;
         <button class="hideView btn btn-default" type="button">
             <i class="ace-icon fa fa-undo bigger-110"></i>
-            取消
+            返回
         </button>
         </c:if>
     </div>
@@ -41,33 +53,16 @@
 </div>
 
 <script>
-    $.fileInput($("#_avatar"),{
-        style:'well',
-        btn_choose:'更换头像',
-        btn_change:null,
-        no_icon:'ace-icon fa fa-picture-o',
-        thumbnail:'large',
-        maxSize:${_uploadMaxSize},
-        droppable:true,
-        previewWidth: 143,
-        previewHeight: 198,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    })
-    $("#_avatar").find('button[type=reset]').on(ace.click_event, function(){
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}'}]);
-    });
-    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&_=<%=new Date().getTime()%>'}]);
-
+    function _applyBack(){
+        $.openView("${ctx}/user/modifyBaseApply_au")
+    }
     <c:if test="${not empty mbis}">
     var mbis = ${cm:toJSONArray(mbis)};
 
     $.each(mbis, function (i, mbi) {
         if(mbi.code=='avatar'){
             $("#_avatarTitle").addClass("text-danger bolder");
-            $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
-                name: '${ctx}/avatar?path={0}'.format(mbi.signModifyValue)}]);
+            $("#avatarDiv img").attr('src', '${ctx}/avatar?path={0}'.format(mbi.signModifyValue));
         }else {
             var $item = $("[data-code='{0}'][data-table='{1}']".format(mbi.code, mbi.tableName));
             $item.val(mbi.modifyValue);
@@ -75,11 +70,11 @@
         }
     })
     </c:if>
-    $("#submitBtn").click(function () {
-        $("#modalForm").submit();
+    $("#updateBtn").click(function () {
+        $("#updateForm").submit();
         return false;
     })
-    $("#modalForm").validate({
+    $("#updateForm").validate({
         submitHandler: function (form) {
 
             var codes=[], tables=[], tableIdNames=[], names=[], originals=[], modifys=[], types=[];
@@ -99,6 +94,7 @@
             //console.log(codes)
             //console.log(originals)
             //console.log(modifys)
+            var $btn = $("#updateBtn").button('loading');
             $(form).ajaxSubmit({
                 data:{codes:codes, tables:tables, tableIdNames:tableIdNames,
                     names:names, originals:originals, modifys:modifys, types:types},
@@ -107,6 +103,7 @@
                         $("#jqGrid").trigger("reloadGrid");
                         $.hashchange();
                     }
+                    $btn.button('reset');
                 }
             });
         }

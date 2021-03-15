@@ -17,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import service.sys.AvatarService;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
@@ -47,10 +46,10 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequestMapping("/memberBaseInfo_au")
     public String memberBaseInfo_au(int userId, ModelMap modelMap) {
 
-        SysUserView sysUser = sysUserService.findById(userId);
-        modelMap.put("sysUser", sysUser);
+        SysUserView uv = sysUserService.findById(userId);
+        modelMap.put("uv", uv);
 
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
             // 如果是现任干部，不允许修改籍贯、户籍地、出生地、手机号
             CadreView cv = CmTag.getCadreByUserId(userId);
             if(cv!=null && NumberUtils.contains(cv.getStatus(),
@@ -60,7 +59,7 @@ public class MemberBaseInfoController extends MemberBaseController {
             }
         }
 
-        if (sysUser.isCasUser()) {
+        if (uv.isCasUser()) {
 
             // 门户账号基础信息维护
             SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
@@ -70,7 +69,7 @@ public class MemberBaseInfoController extends MemberBaseController {
             modelMap.put("teacherInfo", teacherInfo);
 
             return "sys/userInfo/baseInfo_au";
-        }else if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+        }else if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
 
             // 系统教职工账号（注册或后台添加）基础信息维护
             TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
@@ -89,13 +88,12 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/baseInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo, String _arriveTime, MultipartFile _avatar) throws IOException {
+    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo,
+                              String _arriveTime, String base64Avatar) throws IOException {
 
         record.setUserId(userId);
-
-        String avatar = avatarService.uploadAvatar(_avatar);
+        String avatar = avatarService.saveBase64Avatar(base64Avatar);
         record.setAvatar(avatar);
-
         filterCadreReserveInfo(userId, record);
 
         if(teacherInfo!=null) {

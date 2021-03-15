@@ -71,7 +71,7 @@ pageEncoding="UTF-8"%>
                             </script>
                         </c:when>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
-                            <div   style="width:170px">
+                            <%--<div  style="width:170px">
                             <input type="file" name="_avatar" id="_avatar"/>
                             </div>
                             <script>
@@ -90,7 +90,7 @@ pageEncoding="UTF-8"%>
                                 })
                                 $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
                                     name: '${ctx}/avatar?path=${cm:sign(record.modifyValue)}'}]);
-                            </script>
+                            </script>--%>
                         </c:when>
                     </c:choose>
 				</div>

@@ -10,7 +10,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import sys.constants.RoleConstants;
 import sys.security.Base64Utils;
 import sys.shiro.CurrentUser;
@@ -54,7 +53,7 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
     @RequiresPermissions(RoleConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyBaseApply_au(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
+    public Map do_modifyBaseApply_au(@CurrentUser SysUserView loginUser, String base64Avatar,
                       String[] codes,  // 数据库字段代码
                       String[] tables, // 数据库表名
                       String[] tableIdNames, // 数据库表主键名
@@ -91,7 +90,7 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
             modifys[i] = new String(Base64Utils.decode(modifys[i]), "utf-8");
         }
         try {
-            modifyBaseApplyService.apply(_avatar, codes, tables, tableIdNames, names, originals, modifys, types);
+            modifyBaseApplyService.apply(base64Avatar, codes, tables, tableIdNames, names, originals, modifys, types);
         }catch (Exception ex){
             return failed(ex.getMessage());
         }

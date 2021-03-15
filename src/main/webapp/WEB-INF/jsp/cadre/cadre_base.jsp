@@ -498,7 +498,7 @@
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <c:if test="${param.type==1}">
         <form class="form-horizontal" action="${ctx}/cadreBaseInfo?cadreId=${cadre.id}" autocomplete="off"
-              disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
+              disableautocomplete id="updateForm" method="post" enctype="multipart/form-data">
             <div class="widget-box transparent">
                 <div class="widget-header widget-header-flat">
                     <h4 class="widget-title lighter">
@@ -513,8 +513,32 @@
                         <table class="table table-unhover table-bordered table-striped">
                             <tbody>
                             <tr>
-                                <td id="_avatarTitle" class="bg-right" style="text-align: left!important;">头像：</td>
-
+                                <td rowspan="5" style="text-align: center;
+				                         width: 50px;background-color: #fff;">
+                                    <div id="avatarDiv" style="width:145px">
+                                       <img width="135"  src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"/>
+                                    </div>
+                                    <div style="margin-top: 5px">
+                                        <input type="hidden" name="base64Avatar">
+                                        <button type="button" class="popupBtn btn btn-xs btn-info" data-width="1050"
+                                                data-url="${ctx}/avatar_select?path=${cm:sign(uv.avatar)}&op=保存">
+                                            <i class="fa fa-edit"></i> 重传
+                                        </button>
+                                        <shiro:hasPermission name="avatar:sync">
+                                        <button type="button" class="runBtn btn btn-xs btn-warning"
+                                                data-url="${ctx}/avatar/sync?userId=${uv.id}"
+                                                data-callback="_avatarSync">
+                                            <i class="fa fa-refresh"></i> 同步
+                                        </button>
+                                        </shiro:hasPermission>
+                                        <%--<label class="btn btn-warning btn-upload btn-xs" for="selectAvatar" title="选择一张照片">
+                                            <input type="file" class="sr-only" id="selectAvatar" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="选择一张照片">
+                                              <span class="fa fa-upload"></span> 替换
+                                            </span>
+                                        </label>--%>
+                                    </div>
+                                </td>
                                 <td class="bg-right">
                                     姓名
                                 </td>
@@ -535,27 +559,7 @@
 
                             </tr>
                             <tr>
-                                <td rowspan="5" style="text-align: center;
-				                         width: 50px;background-color: #fff;">
-                                    <div id="avatarDiv" style="width:145px">
-                                        <input type="file" name="_avatar" id="_avatar"/>
-                                    </div>
-                                    <div>
-                                        <input type="hidden" name="base64Avatar">
-                                        <img width="135" height="180" src="about:blank" style="position: absolute; left:-300px"/>
-                                        <button type="button" class="btn btn-xs btn-primary"
-                                                onclick='$("#_avatar").click()'>
-                                            <i class="fa fa-upload"></i> 重传
-                                        </button>
-                                        <shiro:hasPermission name="avatar:sync">
-                                        <button type="button" class="runBtn btn btn-xs btn-warning"
-                                                data-url="${ctx}/avatar/sync?userId=${uv.id}"
-                                                data-callback="_avatarSync">
-                                            <i class="fa fa-refresh"></i> 同步
-                                        </button>
-                                        </shiro:hasPermission>
-                                    </div>
-                                </td>
+
                                 <td class="bg-right">
                                     民族
                                 </td>
@@ -630,20 +634,20 @@
                                         <script type="text/javascript">
                                             <c:choose>
                                             <c:when test="${cadre.dpTypeId>0}">
-                                            $("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
-                                            $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, growTimeFormat)}');
+                                            $("#updateForm select[name=dpTypeId]").val(${cadre.dpTypeId});
+                                            $("#updateForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, growTimeFormat)}');
                                             </c:when>
                                             <c:when test="${cadre.isOw}">
-                                            $("#modalForm select[name=dpTypeId]").val(0);
-                                            $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, growTimeFormat)}');
+                                            $("#updateForm select[name=dpTypeId]").val(0);
+                                            $("#updateForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, growTimeFormat)}');
                                             </c:when>
                                             </c:choose>
-                                            $("#modalForm select[name=dpTypeId]").on("change",function(){
+                                            $("#updateForm select[name=dpTypeId]").on("change",function(){
                                                 var val = $.trim($(this).val());
                                                 if(val>0 && _cMap.metaTypeMap[val].boolAttr){
-                                                    $("#modalForm input[name=_dpAddTime]").val('').prop("disabled", true);
+                                                    $("#updateForm input[name=_dpAddTime]").val('').prop("disabled", true);
                                                 }else{
-                                                    $("#modalForm input[name=_dpAddTime]").prop("disabled", false);
+                                                    $("#updateForm input[name=_dpAddTime]").prop("disabled", false);
                                                 }
                                             }).change();
                                         </script>
@@ -706,7 +710,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="star">*</span>健康状况</td>
+                                <td colspan="2"><span class="star">*</span>健康状况</td>
                                 <td>
                                     <select required data-rel="select2" name="health"
                                             data-placeholder="请选择" data-width="162">
@@ -859,39 +863,49 @@
                    data-url="${ctx}/hf_content?code=hf_cadre_base_info">
                     <i class="fa fa-info-circle"></i> 填写说明</a>
                 &nbsp; &nbsp; &nbsp;
-                <button id="submitBtn" class="btn btn-info"
+                <button id="updateBtn" class="btn btn-info"
                         data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
                         type="button">
                     <i class="ace-icon fa fa-save bigger-110"></i>
                     保存
                 </button>
-                    <%--
-                                &nbsp; &nbsp; &nbsp;
-                                <button class="hideView btn btn-default" type="button">
-                                    <i class="ace-icon fa fa-undo bigger-110"></i>
-                                    取消
-                                </button>--%>
             </div>
         </form>
-        <style>
-            .ace-file-multiple .ace-file-container .ace-file-name .ace-icon {
-                line-height: 120px !important;
-            }
-        </style>
     </c:if>
     <script>
+        $('#selectAvatar').change(function () {
+            var $selectAvatar = $(this)
+            var files = this.files;
+            if (files && files.length) {
+                var file = files[0];
+                if (/^image\/\w+$/.test(file.type)) {
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onloadend = function () {
+                        var base64Img = reader.result;
+                        $("#avatarDiv img").attr('src', base64Img);
+                        $selectAvatar.val('');
+                        //console.log(base64Img)
+                        $("#updateForm input[name=base64Avatar]").val(base64Img.replace(/^data:image\/(.*);base64,/g, ""));
+                    }
+                } else {
+                    SysMsg.warning("请选择一张照片")
+                }
+            }
+        });
+
         function _avatarSync(btn, ret){
             if(!ret.success || $.trim(ret.photoBase64)==''){
                 SysMsg.info("头像接口读取失败，无此人头像");
                 return;
             }
             //console.log(ret.photoBase64)
-            var $img = $("img", $(btn).closest("div"));
+            var $img = $("#avatarDiv img");
             $img.attr("src", "data:image/png;base64,"+ ret.photoBase64)
 
             setTimeout(function(){
                 $("input[name=base64Avatar]").val(ret.photoBase64)
-                $("#avatarDiv img").css("background-image", "url("+ $.getBase64Image($img.get(0))+")")
             }, 200)
         }
 
@@ -909,46 +923,18 @@
         }
 
         <c:if test="${param.type==1}">
-        $.fileInput($("#_avatar"), {
-            style: 'well',
-            btn_choose: '更换头像',
-            btn_change: null,
-            no_icon: 'ace-icon fa fa-picture-o',
-            thumbnail: 'large',
-            maxSize:${_uploadMaxSize},
-            droppable: true,
-            previewWidth: 135,
-            previewHeight: 180,
-            allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-            allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-        })
-        $('#modalForm button[type=reset]').on(ace.click_event, function () {
-            //$('#user-profile input[type=file]').ace_file_input('reset_input');
-            $("#_avatar").ace_file_input('show_file_list', [{
-                type: 'image',
-                name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>'
-            }]);
-        });
-        $("#_avatar").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>'
-        }]);
-
-        $("#submitBtn").click(function () {
-            $("#modalForm").submit();
+        $("#updateBtn").click(function () {
+            $("#updateForm").submit();
             return false;
         });
-        $("#modalForm").validate({
+        $("#updateForm").validate({
             submitHandler: function (form) {
-                /*if($("select[name=dpTypeId]", "#modalForm").val()>0 && $("input[name=_dpAddTime]").val()==""){
-                    SysMsg.info("请填写党派加入时间");
-                    return ;
-                }*/
-                if ($("select[name=dpTypeId]", "#modalForm").val() == '' && $("input[name=_dpAddTime]").val() != "") {
+
+                if ($("select[name=dpTypeId]", "#updateForm").val() == '' && $("input[name=_dpAddTime]").val() != "") {
                     SysMsg.info("请选择政治面貌");
                     return;
                 }
-                var $btn = $("#submitBtn").button('loading');
+                var $btn = $("#updateBtn").button('loading');
                 $(form).ajaxSubmit({
                     success: function (ret) {
                         if (ret.success) {

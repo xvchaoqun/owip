@@ -40,6 +40,24 @@ public class AvatarController extends BaseController {
     @Autowired
     protected ExtCommonService extCommonService;
 
+    // 选择裁剪头像
+    @RequestMapping("/avatar_select")
+    public String avatar_select(String path, ModelMap modelMap) {
+
+        /*CadreView cv = CmTag.getCadreById(cadreId);
+        int userId = cv.getUserId();
+
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN) &&
+            ShiroHelper.getCurrentUserId() != userId){
+            throw new UnauthorizedException();
+        }
+
+        SysUserView uv = CmTag.getUserById(userId);
+        modelMap.put("uv", uv);*/
+
+        return "sys/sysUser/avatar_select";
+    }
+
     // 头像
     @GetMapping(value="/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
