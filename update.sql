@@ -1,5 +1,6 @@
 
-
+20210315
+-- 北师大
 update sys_role set name=replace(name, '干部工作管理员', '干部管理员');
 update sys_role set name=replace(name, '干部管理员（目录1）', '干部管理员');
 update sys_role set name=replace(name, '干部管理员（目录2）', '干部管理员（部分权限）');
@@ -14,6 +15,9 @@ delete from sys_role where code='cadreAdmin';
 
 ALTER TABLE `base_short_msg_tpl`
 	DROP COLUMN `role_id`;
+
+INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `title`, `content`, `attr`, `remark`,
+                                 `is_deleted`, `sort_order`) VALUES (NULL, 'hf_avatar_info', NULL, NULL, NULL, '上传照片说明', '&#60;span style=&#34;font-size:16px;font-family:SimHei;&#34;&#62;“照片”栏中应插入近三年彩色免冠证件照片，纸质版应粘贴彩色冲洗照片。照片标准如下：&#60;/span&#62;&#60;br /&#62;\r\n&#60;span style=&#34;font-size:16px;font-family:SimHei;&#34;&#62; （1）照片高宽比例为5：4，分辨率最低为600×480（高600像素，宽480像素），最高为1200×960（高1200像素，宽960像素）。&#60;/span&#62;&#60;br /&#62;\r\n&#60;span style=&#34;font-size:16px;font-family:SimHei;&#34;&#62; （2）照片背景颜色统一为淡蓝色，色值为#3492C4(即R52，G146，B196），以肩膀为界，由上至下，设置为蓝白渐变。&#60;/span&#62;&#60;br /&#62;\r\n&#60;span style=&#34;font-size:16px;font-family:SimHei;&#34;&#62; （3）照片清晰度不低于300DPI。&#60;/span&#62;&#60;br /&#62;\r\n&#60;span style=&#34;font-size:16px;font-family:SimHei;&#34;&#62; （4）照片格式为JPG，大小200K以上，不超过2M&#60;/span&#62;&#60;br /&#62;\r\n&#60;p&#62;\r\n	&#60;span style=&#34;font-size:16px;font-family:SimHei;&#34;&#62; （5）照片头像高度约占照片整体高度的三分之二，宽度约占照片整体宽度的二分之一（见下图）。&#60;/span&#62; \r\n&#60;/p&#62;\r\n&#60;p style=&#34;text-align:center;&#34;&#62;\r\n	&#60;span style=&#34;font-size:16px;&#34;&#62;&#60;img src=&#34;/attached/image/20210313/20210313203923_768.png&#34; alt=&#34;&#34; width=&#34;200&#34; height=&#34;221&#34; title=&#34;&#34; align=&#34;&#34; /&#62;&#60;br /&#62;\r\n&#60;/span&#62; \r\n&#60;/p&#62;', NULL, '', 0, 59);
 
 20210312
 -- 哈工大，南航

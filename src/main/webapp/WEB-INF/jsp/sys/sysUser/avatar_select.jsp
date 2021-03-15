@@ -14,7 +14,7 @@
         <div style="float: left;font-size: larger;font-weight: bolder;padding-left: 50px">效果预览：</div>
         <div class="img-preview"></div>
         <div style="float: left;padding-left: 20px;padding-top: 10px">
-            ${cm:getHtmlFragment('hf_cadre_avatar').content}
+            ${cm:getHtmlFragment('hf_avatar_info').content}
         </div>
 
     </div>
