@@ -8,6 +8,14 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="sn" jdbcType="INTEGER" property="sn" />
+    <result column="member_type" jdbcType="TINYINT" property="memberType" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="user_code" jdbcType="VARCHAR" property="userCode" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="to_title" jdbcType="VARCHAR" property="toTitle" />
@@ -29,6 +37,7 @@
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="print_count" jdbcType="INTEGER" property="printCount" />
     <result column="last_print_time" jdbcType="TIMESTAMP" property="lastPrintTime" />
     <result column="last_print_user_id" jdbcType="INTEGER" property="lastPrintUserId" />
@@ -92,10 +101,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, party_id, branch_id, year, sn, phone, type, to_title, to_unit, from_unit, 
+    id, user_id, party_id, branch_id, year, sn, member_type, idcard, gender, user_code, 
+    realname, age, nation, political_status, phone, type, to_title, to_unit, from_unit, 
     from_address, from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, 
     has_receipt, accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, 
-    is_back, reason, apply_time, print_count, last_print_time, last_print_user_id
+    is_back, reason, apply_time, check_time, print_count, last_print_time, last_print_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutExample" resultMap="BaseResultMap">
     select
@@ -132,25 +142,31 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_member_out (user_id, party_id, branch_id, 
-      year, sn, phone, type, 
+      year, sn, member_type, 
+      idcard, gender, user_code, 
+      realname, age, nation, 
+      political_status, phone, type, 
       to_title, to_unit, from_unit, 
       from_address, from_phone, from_fax, 
       from_post_code, pay_time, valid_days, 
       handle_time, has_receipt, accept_receipt_time, 
       status, is_self_print, is_self_print_count, 
       is_modify, is_back, reason, apply_time, 
-      print_count, last_print_time, last_print_user_id
-      )
+      check_time, print_count, last_print_time, 
+      last_print_user_id)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{year,jdbcType=INTEGER}, #{sn,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{year,jdbcType=INTEGER}, #{sn,jdbcType=INTEGER}, #{memberType,jdbcType=TINYINT}, 
+      #{idcard,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{userCode,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{nation,jdbcType=VARCHAR}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, 
       #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
       #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
       #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{acceptReceiptTime,jdbcType=DATE}, 
       #{status,jdbcType=TINYINT}, #{isSelfPrint,jdbcType=BIT}, #{isSelfPrintCount,jdbcType=INTEGER}, 
       #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
-      #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER}
-      )
+      #{checkTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, 
+      #{lastPrintUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberOut">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -172,6 +188,30 @@
       </if>
       <if test="sn != null">
         sn,
+      </if>
+      <if test="memberType != null">
+        member_type,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="userCode != null">
+        user_code,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="politicalStatus != null">
+        political_status,
       </if>
       <if test="phone != null">
         phone,
@@ -236,6 +276,9 @@
       <if test="applyTime != null">
         apply_time,
       </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
       <if test="printCount != null">
         print_count,
       </if>
@@ -261,6 +304,30 @@
       </if>
       <if test="sn != null">
         #{sn,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null">
+        #{memberType,jdbcType=TINYINT},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null">
+        #{politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -325,6 +392,9 @@
       <if test="applyTime != null">
         #{applyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="printCount != null">
         #{printCount,jdbcType=INTEGER},
       </if>
@@ -362,6 +432,30 @@
       </if>
       <if test="record.sn != null">
         sn = #{record.sn,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberType != null">
+        member_type = #{record.memberType,jdbcType=TINYINT},
+      </if>
+      <if test="record.idcard != null">
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.userCode != null">
+        user_code = #{record.userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.politicalStatus != null">
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
@@ -426,6 +520,9 @@
       <if test="record.applyTime != null">
         apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.checkTime != null">
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.printCount != null">
         print_count = #{record.printCount,jdbcType=INTEGER},
       </if>
@@ -448,6 +545,14 @@
       branch_id = #{record.branchId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       sn = #{record.sn,jdbcType=INTEGER},
+      member_type = #{record.memberType,jdbcType=TINYINT},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      user_code = #{record.userCode,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
       phone = #{record.phone,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       to_title = #{record.toTitle,jdbcType=VARCHAR},
@@ -469,6 +574,7 @@
       is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       print_count = #{record.printCount,jdbcType=INTEGER},
       last_print_time = #{record.lastPrintTime,jdbcType=TIMESTAMP},
       last_print_user_id = #{record.lastPrintUserId,jdbcType=INTEGER}
@@ -493,6 +599,30 @@
       </if>
       <if test="sn != null">
         sn = #{sn,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null">
+        member_type = #{memberType,jdbcType=TINYINT},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="userCode != null">
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null">
+        political_status = #{politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -557,6 +687,9 @@
       <if test="applyTime != null">
         apply_time = #{applyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="printCount != null">
         print_count = #{printCount,jdbcType=INTEGER},
       </if>
@@ -576,6 +709,14 @@
       branch_id = #{branchId,jdbcType=INTEGER},
       year = #{year,jdbcType=INTEGER},
       sn = #{sn,jdbcType=INTEGER},
+      member_type = #{memberType,jdbcType=TINYINT},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      user_code = #{userCode,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      nation = #{nation,jdbcType=VARCHAR},
+      political_status = #{politicalStatus,jdbcType=TINYINT},
       phone = #{phone,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       to_title = #{toTitle,jdbcType=VARCHAR},
@@ -597,6 +738,7 @@
       is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
       apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
       print_count = #{printCount,jdbcType=INTEGER},
       last_print_time = #{lastPrintTime,jdbcType=TIMESTAMP},
       last_print_user_id = #{lastPrintUserId,jdbcType=INTEGER}

@@ -1,5 +1,40 @@
 
 20210315
+-- 哈工大
+
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `age` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年龄' AFTER `sn`,
+	ADD COLUMN `nation` VARCHAR(100) NULL DEFAULT NULL COMMENT '民族' AFTER `age`,
+	ADD COLUMN `political_status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '党籍状态' AFTER `nation`;
+
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `check_time` DATETIME NULL DEFAULT NULL COMMENT '审批完成时间' AFTER `apply_time`;
+
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `member_type` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`;
+
+update  ow_member_out mo, ow_member m
+left join sys_teacher_info t on t.user_id = m.user_id
+set mo.member_type=if(t.is_retire, 3, m.type), mo.check_time=mo.apply_time
+where mo.user_id=m.user_id;
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `member_type` `member_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`,
+	ADD COLUMN `idcard` VARCHAR(20) NULL DEFAULT NULL COMMENT '身份证号码' AFTER `member_type`,
+	ADD COLUMN `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1 男 2 女' AFTER `idcard`;
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `user_code` VARCHAR(20) NULL DEFAULT NULL COMMENT '学工号' AFTER `gender`,
+	ADD COLUMN `realname` VARCHAR(50) NULL DEFAULT NULL COMMENT '姓名' AFTER `code`;
+
+update ow_member_out mo
+left join ow_member m on mo.user_id=m.user_id
+left join sys_user_view u on mo.user_id=u.id
+set mo.user_code=u.code, mo.realname=u.realname, mo.gender=u.gender, mo.idcard=u.idcard, mo.nation=u.nation, mo.age=TIMESTAMPDIFF(YEAR, u.birth, mo.apply_time),
+    mo.political_status=m.political_status;
+
+-- 删除 ow_member_out_view   及对应的类
+
+20210315
 -- 北师大
 update sys_role set name=replace(name, '干部工作管理员', '干部管理员');
 update sys_role set name=replace(name, '干部管理员（目录1）', '干部管理员');

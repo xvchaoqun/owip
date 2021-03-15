@@ -1,8 +1,12 @@
 package service.member;
 
 import controller.global.OpException;
+import domain.member.Member;
 import domain.member.MemberOut;
 import domain.member.MemberOutExample;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -19,8 +23,10 @@ import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -255,6 +261,7 @@ public class MemberOutService extends MemberBaseMapper {
         record.setUserId(userId);
         record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
         //record.setBranchId(memberOut.getBranchId());
+        record.setCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
         memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
@@ -328,6 +335,23 @@ public class MemberOutService extends MemberBaseMapper {
         if (record.getId() == null) {
             archive(userId);
             record.setSn(genSn(record.getYear()));
+
+            Member member = memberService.get(userId);
+            if(member!=null) {
+                if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                    record.setMemberType((byte) 1);
+                } else {
+                    TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+                    if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
+                        record.setMemberType((byte) 3);
+                    } else {
+                        record.setMemberType((byte) 2);
+                    }
+                }
+            }
+            SysUserView uv = CmTag.getUserById(userId);
+            record.setUserCode(uv.getCode());
+            record.setRealname(uv.getRealname());
             memberOutMapper.insertSelective(record);
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
@@ -483,6 +507,29 @@ public class MemberOutService extends MemberBaseMapper {
             if (record.getId() == null) {
 
                 archive(userId);
+
+                Member member = memberService.get(userId);
+                if(member!=null) {
+                    if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                        record.setMemberType((byte) 1);
+                    } else {
+                        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+                        if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
+                            record.setMemberType((byte) 3);
+                        } else {
+                            record.setMemberType((byte) 2);
+                        }
+                    }
+                    record.setPoliticalStatus(member.getPoliticalStatus());
+                }
+
+                SysUserView uv = CmTag.getUserById(userId);
+                record.setUserCode(uv.getCode());
+                record.setRealname(uv.getRealname());
+                record.setIdcard(uv.getIdcard());
+                record.setGender(uv.getGender());
+                record.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
+                record.setNation(uv.getNation());
 
                 memberOutMapper.insertSelective(record);
                 addCount++;

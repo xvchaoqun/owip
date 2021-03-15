@@ -407,8 +407,8 @@
             <c:if test="${!_use_code_as_identify}">
                 {label: '介绍信编号', name: 'code', width: 120, frozen:true},
             </c:if>
-            {label: '学工号', name: 'user.code', width: 120, frozen:true},
-            { label: '姓名', name: 'user.realname',width: 75, formatter:function(cellvalue, options, rowObject){
+            {label: '学工号', name: 'userCode', width: 120, frozen:true},
+            { label: '姓名', name: 'realname',width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             {label: '人员类别', name: 'memberType', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -475,6 +475,9 @@
                 return cellvalue?"是":"否"
             }},
             {label: '申请时间', name: 'applyTime', width: 150},
+            <c:if test="${cls==3}">
+            {label: '审批完成时间', name: 'checkTime', width: 150},
+                </c:if>
             {hidden: true, name: 'status'}, {hidden: true, name: 'type'}
         ],
         onSelectRow: function (id, status) {

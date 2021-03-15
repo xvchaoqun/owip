@@ -18,9 +18,6 @@ public class MemberOut implements Serializable {
         return code;
     }
 
-    public SysUserView getUser(){
-        return CmTag.getUserById(userId);
-    }
     public SysUserView getLastPrintUser(){
 
         return CmTag.getUserById(lastPrintUserId);
@@ -36,6 +33,22 @@ public class MemberOut implements Serializable {
     private Integer year;
 
     private Integer sn;
+
+    private Byte memberType;
+
+    private String idcard;
+
+    private Byte gender;
+
+    private String userCode;
+
+    private String realname;
+
+    private Integer age;
+
+    private String nation;
+
+    private Byte politicalStatus;
 
     private String phone;
 
@@ -78,6 +91,8 @@ public class MemberOut implements Serializable {
     private String reason;
 
     private Date applyTime;
+
+    private Date checkTime;
 
     private Integer printCount;
 
@@ -133,6 +148,70 @@ public class MemberOut implements Serializable {
 
     public void setSn(Integer sn) {
         this.sn = sn;
+    }
+
+    public Byte getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(Byte memberType) {
+        this.memberType = memberType;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard == null ? null : idcard.trim();
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode == null ? null : userCode.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
+    }
+
+    public Byte getPoliticalStatus() {
+        return politicalStatus;
+    }
+
+    public void setPoliticalStatus(Byte politicalStatus) {
+        this.politicalStatus = politicalStatus;
     }
 
     public String getPhone() {
@@ -301,6 +380,14 @@ public class MemberOut implements Serializable {
 
     public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(Date checkTime) {
+        this.checkTime = checkTime;
     }
 
     public Integer getPrintCount() {
