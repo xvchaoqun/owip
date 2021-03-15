@@ -24,7 +24,7 @@ ALTER TABLE `ow_member_out`
 	ADD COLUMN `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1 男 2 女' AFTER `idcard`;
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `user_code` VARCHAR(20) NULL DEFAULT NULL COMMENT '学工号' AFTER `gender`,
-	ADD COLUMN `realname` VARCHAR(50) NULL DEFAULT NULL COMMENT '姓名' AFTER `code`;
+	ADD COLUMN `realname` VARCHAR(50) NULL DEFAULT NULL COMMENT '姓名' AFTER `user_code`;
 
 update ow_member_out mo
 left join ow_member m on mo.user_id=m.user_id

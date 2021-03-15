@@ -12,7 +12,7 @@
                     <div class="widget-header widget-header-flat">
                         <h4 class="widget-title lighter">
                             <i class="ace-icon fa fa-star green"></i>
-                            党员基本信息统计
+                            党建基本信息统计
                         </h4>
                         <div class="widget-toolbar">
                             <a href="javascript:;" data-action="collapse">
