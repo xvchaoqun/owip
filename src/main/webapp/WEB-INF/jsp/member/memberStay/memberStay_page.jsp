@@ -25,18 +25,15 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
-                            <li class="dropdown <c:if test="${cls==1||cls==11||cls==12}">active</c:if>">
+                            <li class="dropdown <c:if test="${cls==1||cls==12}">active</c:if>">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                     <i class="fa fa-circle-o"></i>
-                                    支部审核${cls==1?"(新申请)":(cls==11)?"(返回修改)":(cls==12)?"(已审核)":""}
+                                    支部审核${cls==1?"(申请记录)":(cls==12)?"(已审核)":""}
                                     <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=11"><i class="fa fa-hand-o-right"></i> 返回修改</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=1"><i class="fa fa-hand-o-right"></i> 申请记录</a>
                                     </li>
                                     <li>
                                         <a href="javascript:;" class="hashchange" data-querystr="cls=12"><i class="fa fa-hand-o-right"></i> 已审核</a>
@@ -45,18 +42,15 @@
                             </li>
                         </shiro:hasAnyRoles>
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-                            <li class="dropdown <c:if test="${cls==2||cls==21||cls==22}">active</c:if>">
+                            <li class="dropdown <c:if test="${cls==2||cls==22}">active</c:if>">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                     <i class="fa fa-circle-o"></i>
-                                    ${_p_partyName}审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
+                                    ${_p_partyName}审核${cls==2?"(申请记录)":(cls==22)?"(已审核)":""}
                                     <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=2"><i class="fa fa-hand-o-right"></i> 新申请</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=21"><i class="fa fa-hand-o-right"></i> 返回修改</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=2"><i class="fa fa-hand-o-right"></i> 申请记录</a>
                                     </li>
                                     <li>
                                         <a href="javascript:;" class="hashchange" data-querystr="cls=22"><i class="fa fa-hand-o-right"></i> 已审核</a>
@@ -65,32 +59,14 @@
                             </li>
                         </shiro:hasAnyRoles>
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                            <li class="dropdown <c:if test="${cls==3||cls==31}">active</c:if>">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                    <i class="fa fa-circle-o"></i> 组织部审核${cls==3?"(新申请)":(cls==31)?"(返回修改)":""}
-                                    <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=3"><i class="fa fa-hand-o-right"></i> 新申请</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=31"><i class="fa fa-hand-o-right"></i> 返回修改</a>
-                                    </li>
-                                </ul>
+                            <li class="${cls==3?'active':''}">
+                                <a href="javascript:;" class="hashchange" data-querystr="cls=3"><i
+                                        class="fa fa-circle-o"></i> 组织部审核</a>
                             </li>
                         </shiro:hasAnyRoles>
-                        <%--<li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核（${branchApprovalCount}）</a>
-                        </li>
-                        <li class="${cls==11?'active':''}">
-                            <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> ${_p_partyName}审核（${partyApprovalCount}）</a>
-                        </li>
-                            <li class="${cls==12?'active':''}">
-                                <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
-                            </li>--%>
+
                         <li class="${cls==4?'active':''}">
-                            <a href="javascript:;" class="hashchange" data-querystr="cls=4" }><i
+                            <a href="javascript:;" class="hashchange" data-querystr="cls=4"><i
                                     class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
 
@@ -121,7 +97,7 @@
                                 </shiro:hasAnyRoles>
                         </div>
 
-                        <c:if test="${(cls==1||cls==11||cls==2||cls==21||cls==3||cls==31) && (approvalCountNew+approvalCountBack)>0}">
+                        <c:if test="${(cls==1||cls==2||cls==3) && (approvalCountNew+approvalCountBack)>0}">
                             <div class="pull-right"
                                  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
                                 有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
@@ -153,7 +129,7 @@
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
 
-                                <c:if test="${cls==1||cls==11}">
+                                <c:if test="${cls==1}">
                                     <button id="branchApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberStay_approval"
@@ -165,7 +141,7 @@
                                     </button>
                                 </c:if>
 
-                                <c:if test="${cls==2||cls==21}">
+                                <c:if test="${cls==2}">
                                     <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberStay_approval"
@@ -177,7 +153,7 @@
                                     </button>
                                 </c:if>
 
-                                <c:if test="${cls==3||cls==31}">
+                                <c:if test="${cls==3}">
                                     <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberStay_approval"
@@ -428,7 +404,7 @@
             {label: '最近打印时间', width: 150, name: 'lastPrintTime'},
             {label: '最近打印人', name: 'lastPrintUser.realname'},
             </c:if>
-            <c:if test="${cls==22||cls==3||cls==31||cls==5||cls==6}">
+            <c:if test="${cls==22||cls==3||cls==5||cls==6}">
             {
                 label: '暂留后所在党支部', name: 'toBranchId', width: 250, formatter: function (cellvalue, options, rowObject) {
                 return ($.trim(rowObject.toBranchId) == '') ? '-' : _cMap.branchMap[cellvalue].name;
@@ -574,7 +550,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
     $.initNavGrid("jqGrid", "jqGridPager");
-    <c:if test="${cls==1||cls==11}">
+    <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "支部批量审核",
         btnbase: "jqBatchBtn btn btn-success btn-xs",
@@ -582,7 +558,7 @@
         props: 'data-url="${ctx}/memberStay_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
-    <c:if test="${cls==2||cls==21}">
+    <c:if test="${cls==2}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "${_p_partyName}批量审核",
         btnbase: "jqBatchBtn btn btn-primary btn-xs",
@@ -598,7 +574,7 @@
         }
     });
     </c:if>
-    <c:if test="${cls==3||cls==31}">
+    <c:if test="${cls==3}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "组织部批量审核",
         btnbase: "jqBatchBtn btn btn-warning btn-xs",
@@ -606,7 +582,7 @@
         props: 'data-url="${ctx}/memberStay_check" data-querystr="&type=3" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
-    <c:if test="${cls==1||cls==11||cls==2||cls==21||cls==3||cls==31}">
+    <c:if test="${cls==1||cls==2||cls==3}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "批量退回申请",
         btnbase: "btn btn-danger btn-xs",

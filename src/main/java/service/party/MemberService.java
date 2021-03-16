@@ -72,6 +72,11 @@ public class MemberService extends MemberBaseMapper {
     @Transactional
     public void reback(int userId, int partyId, Integer branchId) {
 
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if(member!=null && member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
+            return; // 已经在党员库中无须处理
+        }
+
         if(partyService.isDirectBranch(partyId)){
             branchId = null; // 可能已被修改为了直属党支部
         }

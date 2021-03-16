@@ -185,18 +185,18 @@ public class MemberOutController extends MemberBaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if (cls == 1 || cls == 4) {
-            // 分党委待审核总数（新申请 cls=1）
+        if (cls == 1) {
+            // 分党委待审核总数（新申请）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 1, (byte) 1));
-            // 分党委待审核总数（返回修改 cls=4）
+            // 分党委待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 1, (byte) 4));
             // 分党委待审核总数
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 1, cls));
         }
-        if (cls == 6 || cls == 7) {
-            // 组织部待审核总数（新申请 cls=1）
+        if (cls == 6) {
+            // 组织部待审核总数（新申请）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 2, (byte) 6));
-            // 组织部待审核总数（返回修改 cls=4）
+            // 组织部待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 2, (byte) 7));
 
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 2, cls));
@@ -319,20 +319,12 @@ public class MemberOutController extends MemberBaseController {
             criteria.andHandleTimeLessThanOrEqualTo(_handleTime.getEnd());
         }
 
-        if (cls == 1) { // 分党委审核（新申请）
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_APPLY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 4) { // 分党委审核(返回修改)
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_APPLY)
-                    .andIsBackEqualTo(true);
+        if (cls == 1) { // 分党委审核（申请记录）
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_APPLY);
         } else if (cls == 5) { // 分党委已审核
             criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-        } else if (cls == 6) { // 组织部审核(新申请)
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 7) { // 组织部审核(返回修改)
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
-                    .andIsBackEqualTo(true);
+        } else if (cls == 6) { // 组织部审核
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else if (cls == 2) {
             List<Byte> statusList = new ArrayList<>();
             statusList.add(MemberConstants.MEMBER_OUT_STATUS_ABOLISH);

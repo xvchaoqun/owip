@@ -272,15 +272,19 @@ public class MemberOutService extends MemberBaseMapper {
     public void abolish(int id, String remark, byte type) {
 
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
-        if (memberOut.getStatus() == MemberConstants.MEMBER_OUT_STATUS_ARCHIVE) {
-            throw new OpException("已归档记录无须撤销。",
-                    MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()));
-        } else if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
-            throw new OpException("存在未转出审批记录【状态：{0}】，无法撤销",
-                    MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()));
+        if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_ARCHIVE
+            && memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+            return ;
         }
 
-        Integer userId = memberOut.getUserId();
+        int userId = memberOut.getUserId();
+        {
+            // 删除其他转出记录，防止memberView视图出错
+            MemberOutExample exmaple = new MemberOutExample();
+            exmaple.createCriteria().andUserIdEqualTo(userId).andIdNotEqualTo(id);
+            memberOutMapper.deleteByExample(exmaple);
+        }
+
         MemberOut record = new MemberOut();
         record.setId(id);
         record.setUserId(userId);
