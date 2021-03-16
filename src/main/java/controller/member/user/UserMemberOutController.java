@@ -5,6 +5,7 @@ import controller.member.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -93,6 +94,29 @@ public class UserMemberOutController extends MemberBaseController {
         record.setApplyTime(new Date());
         record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
         record.setIsBack(false);
+
+        // 更新同步相关信息
+        if(member!=null) {
+            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                record.setMemberType((byte) 1);
+            } else {
+                TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+                if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
+                    record.setMemberType((byte) 3);
+                } else {
+                    record.setMemberType((byte) 2);
+                }
+            }
+            record.setPoliticalStatus(member.getPoliticalStatus());
+        }
+        SysUserView uv = CmTag.getUserById(userId);
+        record.setUserCode(uv.getCode());
+        record.setRealname(uv.getRealname());
+        record.setIdcard(uv.getIdcard());
+        record.setGender(uv.getGender());
+        record.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
+        record.setNation(uv.getNation());
+
         if (memberOut == null) {
             memberOutService.insertOrUpdateSelective(record);
             logger.info(addLog(LogConstants.LOG_USER, "提交组织关系转出申请"));

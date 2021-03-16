@@ -35,14 +35,9 @@
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
         </table>-->
 
-        <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
+        <table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
        </table>
-        <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-         </table>-->
         <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
         </table>-->
 
@@ -115,7 +110,7 @@
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>
          </table>-->
-        <table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
+        <!--<table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
                mapperName="member.MemberApplyViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -123,7 +118,7 @@
            <ignoreColumn column="update_time"/>
             <columnOverride column="remark" jdbcType="VARCHAR"/>
             <columnOverride column="edu" jdbcType="VARCHAR"></columnOverride>
-       </table>
+       </table>-->
 
         <!--<table tableName="ow_member_certify" domainObjectName="member.MemberCertify" mapperName="member.MemberCertifyMapper">
         </table>-->

@@ -135,26 +135,26 @@ public class MemberStayController extends MemberBaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if (cls == 1 || cls == 11) {
-            // 支部待审核总数（新申请 cls=1）
+        if (cls == 1) {
+            // 支部待审核总数（新申请）
             modelMap.put("approvalCountNew", memberStayService.count(null, null, (byte) 1, type, (byte) 1));
-            // 支部待审核总数（返回修改 cls=4）
+            // 支部待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberStayService.count(null, null, (byte) 1, type, (byte) 11));
             // 支部待审核总数
             modelMap.put("approvalCount", memberStayService.count(null, null, (byte) 1, type, cls));
         }
-        if (cls == 2 || cls == 21) {
-            // 分党委待审核总数（新申请 cls=1）
+        if (cls == 2) {
+            // 分党委待审核总数（新申请）
             modelMap.put("approvalCountNew", memberStayService.count(null, null, (byte) 2, type, (byte) 2));
-            // 分党委待审核总数（返回修改 cls=4）
+            // 分党委待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberStayService.count(null, null, (byte) 2, type, (byte) 21));
             // 分党委待审核总数
             modelMap.put("approvalCount", memberStayService.count(null, null, (byte) 2, type, cls));
         }
-        if (cls == 3 || cls == 31) {
-            // 组织部待审核总数（新申请 cls=1）
+        if (cls == 3) {
+            // 组织部待审核总数（新申请）
             modelMap.put("approvalCountNew", memberStayService.count(null, null, (byte) 3, type, (byte) 3));
-            // 组织部待审核总数（返回修改 cls=4）
+            // 组织部待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberStayService.count(null, null, (byte) 3, type, (byte) 31));
 
             modelMap.put("approvalCount", memberStayService.count(null, null, (byte) 3, type, cls));
@@ -250,27 +250,15 @@ public class MemberStayController extends MemberBaseController {
             criteria.andMobileLike(SqlUtils.like(mobile));
         }
         if (cls == 1) {// 支部审核
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 11) {// 支部审核
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY)
-                    .andIsBackEqualTo(true);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY);
         } else if (cls == 12) {// 支部审核（已审核）
             criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         } else if (cls == 2) { // 分党委审核
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 21) { // 分党委审核
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
-                    .andIsBackEqualTo(true);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         } else if (cls == 22) {// 分党委审核（已审核）
             criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else if (cls == 3) {// 组织部审核
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 31) {// 组织部审核
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
-                    .andIsBackEqualTo(true);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else if (cls == 4) {
             List<Byte> statusList = new ArrayList<>();
             statusList.add(MemberConstants.MEMBER_STAY_STATUS_SELF_BACK);

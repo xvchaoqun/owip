@@ -185,18 +185,18 @@ public class MemberOutController extends MemberBaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if (cls == 1 || cls == 4) {
-            // 分党委待审核总数（新申请 cls=1）
+        if (cls == 1) {
+            // 分党委待审核总数（新申请）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 1, (byte) 1));
-            // 分党委待审核总数（返回修改 cls=4）
+            // 分党委待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 1, (byte) 4));
             // 分党委待审核总数
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 1, cls));
         }
-        if (cls == 6 || cls == 7) {
-            // 组织部待审核总数（新申请 cls=1）
+        if (cls == 6) {
+            // 组织部待审核总数（新申请）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 2, (byte) 6));
-            // 组织部待审核总数（返回修改 cls=4）
+            // 组织部待审核总数（返回修改）
             modelMap.put("approvalCountBack", memberOutService.count(null, null, (byte) 2, (byte) 7));
 
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 2, cls));
@@ -252,12 +252,13 @@ public class MemberOutController extends MemberBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberOutViewExample example = new MemberOutViewExample();
-        MemberOutViewExample.Criteria criteria = example.createCriteria();
+        MemberOutExample example = new MemberOutExample();
+        MemberOutExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         if (cls == 3) {
-            example.setOrderByClause("print_count asc, id desc");
+            //example.setOrderByClause("print_count asc, id desc");
+            example.setOrderByClause("check_time desc, apply_time desc");
         } else {
             example.setOrderByClause("apply_time desc");
         }
@@ -272,16 +273,7 @@ public class MemberOutController extends MemberBaseController {
             criteria.andTypeEqualTo(type);
         }
         if (userType != null) {
-            if (userType == 1) {
-                criteria.andMemberTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT);
-            } else {
-                criteria.andMemberTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER);
-                if (userType == 3) {
-                    criteria.andIsRetireEqualTo(true);
-                } else {
-                    criteria.andIsBackNotEqualTo(true);
-                }
-            }
+            criteria.andMemberTypeEqualTo(userType);
         }
         if (hasReceipt != null) {
             criteria.andHasReceiptEqualTo(hasReceipt);
@@ -327,20 +319,12 @@ public class MemberOutController extends MemberBaseController {
             criteria.andHandleTimeLessThanOrEqualTo(_handleTime.getEnd());
         }
 
-        if (cls == 1) { // 分党委审核（新申请）
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_APPLY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 4) { // 分党委审核(返回修改)
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_APPLY)
-                    .andIsBackEqualTo(true);
+        if (cls == 1) { // 分党委审核（申请记录）
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_APPLY);
         } else if (cls == 5) { // 分党委已审核
             criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-        } else if (cls == 6) { // 组织部审核(新申请)
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
-                    .andIsBackNotEqualTo(true);
-        } else if (cls == 7) { // 组织部审核(返回修改)
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY)
-                    .andIsBackEqualTo(true);
+        } else if (cls == 6) { // 组织部审核
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else if (cls == 2) {
             List<Byte> statusList = new ArrayList<>();
             statusList.add(MemberConstants.MEMBER_OUT_STATUS_ABOLISH);
@@ -359,12 +343,12 @@ public class MemberOutController extends MemberBaseController {
             return;
         }
 
-        long count = memberOutViewMapper.countByExample(example);
+        long count = memberOutMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberOutView> memberOuts = memberOutViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberOut> memberOuts = memberOutMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -620,8 +604,12 @@ public class MemberOutController extends MemberBaseController {
 
     private boolean hasModified(MemberOut before, MemberOut record) {
 
-        return (
-                (record.getPhone() != null && !StringUtils.equals(before.getPhone() + "", record.getPhone() + ""))
+        return ( (record.getAge() != null && !StringUtils.equals(before.getAge() + "", record.getAge() + ""))
+                        || (record.getNation() != null && !StringUtils.equals(before.getNation() + "", record.getNation() + ""))
+                        || (record.getPoliticalStatus() != null && !StringUtils.equals(before.getPoliticalStatus() + "", record.getPoliticalStatus() + ""))
+                        || (record.getIdcard() != null && !StringUtils.equals(before.getIdcard() + "", record.getIdcard() + ""))
+                        || (record.getGender() != null && !StringUtils.equals(before.getGender() + "", record.getGender() + ""))
+                        || (record.getPhone() != null && !StringUtils.equals(before.getPhone() + "", record.getPhone() + ""))
                         || (record.getPartyId() != null && !StringUtils.equals(before.getPartyId() + "", record.getPartyId() + ""))
                         || (record.getBranchId() != null && !StringUtils.equals(before.getBranchId() + "", record.getBranchId() + ""))
                         || (record.getType() != null && !StringUtils.equals(before.getType() + "", record.getType() + ""))
@@ -649,7 +637,7 @@ public class MemberOutController extends MemberBaseController {
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
             modelMap.put("memberOut", memberOut);
 
-            modelMap.put("userBean", userBeanService.get(memberOut.getUserId()));
+            //modelMap.put("userBean", userBeanService.get(memberOut.getUserId()));
         }
         return "member/memberOut/memberOut_au";
     }
@@ -659,7 +647,7 @@ public class MemberOutController extends MemberBaseController {
     @ResponseBody
     public Map memberOut_selects(Integer pageSize, Integer pageNo,
                                  Boolean noAuth, // 默认需要读取权限
-                                 Byte type, String searchStr) throws IOException {
+                                 String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -669,36 +657,45 @@ public class MemberOutController extends MemberBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        MemberOutExample example = new MemberOutExample();
+        // 查询状态为“组织部审批通过”的记录（不包含已归档记录）
+        MemberOutExample.Criteria criteria = example.createCriteria()
+                .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+
         boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)) {
             addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
-            adminPartyIdList = loginUserService.adminPartyIdList();
-            adminBranchIdList = loginUserService.adminBranchIdList();
+
+            if(addPermits) {
+                adminPartyIdList = loginUserService.adminPartyIdList();
+                adminBranchIdList = loginUserService.adminBranchIdList();
+                criteria.addPermits(adminPartyIdList, adminBranchIdList);
+            }
         }
 
-        long count = iMemberMapper.countMemberOutList(searchStr, type,
-                addPermits, adminPartyIdList, adminBranchIdList);
+
+        if(StringUtils.isNotBlank(searchStr)) {
+            criteria.andUserLike(searchStr);
+        }
+
+        long count = memberOutMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberOutView> records = iMemberMapper.selectMemberOutList(searchStr, type,
-                addPermits, adminPartyIdList, adminBranchIdList,
-                new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberOut> records = memberOutMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List options = new ArrayList<>();
         if (null != records && records.size() > 0) {
 
-            for (MemberOutView record : records) {
-                SysUserView uv = record.getUser();
-                int userId = uv.getId();
+            for (MemberOut record : records) {
+                int userId = record.getUserId();
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", userId + "");
-                option.put("text", uv.getRealname());
-                option.put("username", uv.getUsername());
-                option.put("code", uv.getCode());
+                option.put("text", record.getRealname());
+                option.put("code", record.getCode());
                 option.put("unit", extService.getUnit(userId));
 
                 MemberView mv = iMemberMapper.getMemberView(userId);
@@ -792,16 +789,16 @@ public class MemberOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 */
-    public void memberOut_export(MemberOutViewExample example, HttpServletResponse response) {
+    public void memberOut_export(MemberOutExample example, HttpServletResponse response) {
 
-        List<MemberOutView> records = memberOutViewMapper.selectByExample(example);
+        List<MemberOut> records = memberOutMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"学工号|100", "姓名|50", "性别|50", "人员类别|80", "联系电话|100",
                 "类别|50", "党籍状态|100", "所在分党委|300|left", "所在党支部|300|left", "转入单位抬头|280|left",
                 "转入单位|200|left", "转出单位|200|left", "介绍信有效期天数|120", "办理时间|80","是否有回执|80","回执接收时间|100", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            MemberOutView record = records.get(i);
+            MemberOut record = records.get(i);
             int userId = record.getUserId();
             SysUserView sysUser = sysUserService.findById(userId);
             Integer partyId = record.getPartyId();
@@ -809,14 +806,14 @@ public class MemberOutController extends MemberBaseController {
             Member member = memberService.get(userId);
             String memberTypeName = "";
             Byte memberType = record.getMemberType();
-            if (memberType == MemberConstants.MEMBER_TYPE_TEACHER) {
-                if (BooleanUtils.isTrue(record.getIsRetire())) {
-                    memberTypeName = "离退休";
-                } else {
-                    memberTypeName = "在职教工";
-                }
-            } else
+            if(memberType==1){
                 memberTypeName = "学生";
+            }else if(memberType==2){
+                memberTypeName = "在职教工";
+            }else if(memberType==3){
+                memberTypeName = "离退休";
+            }
+
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),

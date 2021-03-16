@@ -61,14 +61,14 @@ public class MemberOutReportController extends MemberBaseController {
             MetaType fillPrintType = metaTypeMapper.selectByPrimaryKey(memberOut.getType());
             if(BooleanUtils.isNotTrue(fillPrintType.getBoolAttr())){
                 JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信请直接打印，无需套打。",
-                        memberOut.getUser().getRealname()), false);
+                        memberOut.getRealname()), false);
                 return null;
             }
 
             fillPrintTypeSet.add(fillPrintType.getId());
             if(fillPrintTypeSet.size()>1){
                  JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信套打格式不相同，请确认批量套打时所选记录的套打模板是否一致。",
-                        memberOut.getUser().getRealname()), false);
+                        memberOut.getRealname()), false);
                 return null;
             }
 
@@ -125,14 +125,14 @@ public class MemberOutReportController extends MemberBaseController {
             MetaType fillPrintType = metaTypeMapper.selectByPrimaryKey(memberOut.getType());
             if(BooleanUtils.isTrue(fillPrintType.getBoolAttr())){
                 JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信不可直接打印，需套打。",
-                        memberOut.getUser().getRealname()), false);
+                        memberOut.getRealname()), false);
                 return null;
             }
 
             fillPrintTypeSet.add(fillPrintType.getId());
             if(fillPrintTypeSet.size()>1){
                  JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信打印格式不相同，请确认批量打印时所选记录的打印模板是否一致。",
-                        memberOut.getUser().getRealname()), false);
+                        memberOut.getRealname()), false);
                 return null;
             }
 
@@ -171,7 +171,8 @@ public class MemberOutReportController extends MemberBaseController {
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", userBean.getRealname());
-        map.put("from", memberOut.getFromAddress());
+        map.put("fromUnit", memberOut.getFromUnit());
+        map.put("fromAddress", memberOut.getFromAddress());
         map.put("to", memberOut.getToUnit());
         map.put("toTitle", memberOut.getToTitle());
         map.put("check1", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员

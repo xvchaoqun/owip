@@ -485,11 +485,11 @@ left join crs_post cp on cp.id = ca.post_id
 left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=ca.post_id
 left join (select post_id, count(*) as applicant_count from crs_applicant_view where status=1 and is_require_check_pass=1  group by post_id) as cavc on cavc.post_id=ca.post_id;
 
-DROP VIEW IF EXISTS `ow_member_out_view`;
+/*DROP VIEW IF EXISTS `ow_member_out_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
 select mo.*, m.type as member_type, t.is_retire
 from ow_member_out mo, ow_member m
-left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;
+left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;*/
 
 
 -- ----------------------------

@@ -17,20 +17,15 @@
                 ||not empty param.partyId ||not empty param.branchId || not empty param._acceptReceiptTime|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="dropdown <c:if test="${cls==1||cls==4||cls==5}">active</c:if>" >
+                        <li class="dropdown <c:if test="${cls==1||cls==5}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                <i class="fa fa-circle-o"></i> ${_p_partyName}审核${cls==1?"(新申请)":(cls==4)?"(返回修改)":(cls==5)?"(已审核)":""}
+                                <i class="fa fa-circle-o"></i> ${_p_partyName}审核${cls==1?"(申请记录)":(cls==5)?"(已审核)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=1"><i class="fa fa-hand-o-right"></i> 申请记录</a>
                                 </li>
-                                <c:if test="${_p_memberOutNeedOwCheck}">
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=4"><i class="fa fa-hand-o-right"></i> 返回修改</a>
-                                </li>
-                                </c:if>
                                 <li>
                                     <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=5"><i class="fa fa-hand-o-right"></i> 已审核</a>
                                 </li>
@@ -38,7 +33,7 @@
                         </li>
                         <c:if test="${_p_memberOutNeedOwCheck}">
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                            <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
+                            <%--<li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                     <i class="fa fa-circle-o"></i> 组织部审核${cls==6?"(新申请)":(cls==7)?"(返回修改)":""}
                                     <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
@@ -51,6 +46,9 @@
                                         <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=7"><i class="fa fa-hand-o-right"></i> 返回修改</a>
                                     </li>
                                 </ul>
+                            </li>--%>
+                            <li class="${cls==6?'active':''}">
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=6"}><i class="fa fa-times"></i> 组织部审核</a>
                             </li>
                         </shiro:hasAnyRoles>
                             </c:if>
@@ -60,7 +58,7 @@
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
-                        <c:if test="${(cls==1 || cls==4||cls==6||cls==7) && (approvalCountNew+approvalCountBack)>0}">
+                        <c:if test="${(cls==1||cls==6) && (approvalCountNew+approvalCountBack)>0}">
                         <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
                             有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
                         </div>
@@ -99,7 +97,7 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
-                                <c:if test="${cls==1||cls==4}">
+                                <c:if test="${cls==1}">
                                     <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
                                     <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -112,7 +110,7 @@
                                     </button>
                                     </c:if>
                                 </c:if>
-                                <c:if test="${cls==6||cls==7}">
+                                <c:if test="${cls==6}">
                                     <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_approval"
@@ -407,8 +405,8 @@
             <c:if test="${!_use_code_as_identify}">
                 {label: '介绍信编号', name: 'code', width: 120, frozen:true},
             </c:if>
-            {label: '学工号', name: 'user.code', width: 120, frozen:true},
-            { label: '姓名', name: 'user.realname',width: 75, formatter:function(cellvalue, options, rowObject){
+            {label: '学工号', name: 'userCode', width: 120, frozen:true},
+            { label: '姓名', name: 'realname',width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             {label: '人员类别', name: 'memberType', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -429,8 +427,8 @@
                 return $.jgrid.formatter.MetaType(rowObject.type)
             }},
             {label: '状态', name: 'statusName', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
-            }}<c:if test="${cls==4||cls==7}">
+                return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status] + ((rowObject.isBack)?"(返回修改)":"");
+            }}<c:if test="${cls==1||cls==6}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
             <shiro:hasPermission name="memberOut:print">
@@ -475,6 +473,9 @@
                 return cellvalue?"是":"否"
             }},
             {label: '申请时间', name: 'applyTime', width: 150},
+            <c:if test="${cls==3}">
+            {label: '审批完成时间', name: 'checkTime', width: 150},
+                </c:if>
             {hidden: true, name: 'status'}, {hidden: true, name: 'type'}
         ],
         onSelectRow: function (id, status) {
@@ -531,7 +532,7 @@
 
     $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
-    <c:if test="${cls==1||cls==4}">
+    <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
@@ -539,7 +540,7 @@
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
-    <c:if test="${cls==6||cls==7}">
+    <c:if test="${cls==6}">
     <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
@@ -549,7 +550,7 @@
     });
     </shiro:hasRole>
     </c:if>
-    <c:if test="${cls==1||cls==4||cls==6||cls==7}">
+    <c:if test="${cls==1||cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量退回申请",
         btnbase:"btn btn-danger btn-xs",
