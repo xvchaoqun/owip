@@ -5,20 +5,21 @@
 
         <div class="row">
             <div class="col-xs-12">
-               <%-- <div class="alert alert-block alert-success" style="margin-bottom: 10px">
+                <div class="alert alert-block alert-warning" style="padding:5px;margin-bottom: 5px">
                     <i class="ace-icon fa fa-smile-o green"></i>
-                    欢迎使用${_plantform_name}
-                </div>--%>
+                    欢迎使用${_plantform_name}，请点击屏幕<span class="text text-danger bolder">左上角按钮 <span style="background-color: #61a8d1;
+    text-align: center;color: white;padding: 0 5px;"><i class="fa fa-bars"></i></span></span> 弹出系统菜单。
+                </div>
                     <shiro:hasPermission name="stat:cadre">
-                        <div class="alert alert-block alert-success" style="margin-bottom: 10px">
+                        <div class="alert alert-block alert-success" style="margin-bottom: 10px;padding:5px">
                             <c:import url="/m/stat_cadre_count"/>
                         </div>
-                        <div class="alert alert-block alert-success" style="margin-bottom: 10px">
+                        <div class="alert alert-block alert-success" style="margin-bottom: 10px;padding:5px">
                             <c:import url="/m/stat_cadreAge_count"/>
                         </div>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="stat:ow">
-                        <div class="alert alert-block alert-success" style="margin-bottom: 10px">
+                        <div class="alert alert-block alert-success" style="margin-bottom: 10px;padding:5px">
                         <c:import url="/m/stat_member_count"/>
                         </div>
                     </shiro:hasPermission>

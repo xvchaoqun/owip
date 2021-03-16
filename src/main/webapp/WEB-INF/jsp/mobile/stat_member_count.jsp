@@ -81,8 +81,8 @@
             addData1();
             var option = {
                 title: {
-                    text: '党员总数：'+count,
-                    left: 'center',
+                    text: '党员分布('+count+')',
+                    left: 'left',
                     textStyle: {
                         fontSize: 15
                     }
@@ -91,15 +91,13 @@
                     show: true,
                     type: 'scroll',
                     orient: 'vertical',
-                    left: 25,
-                    top: 15,
+                    left: 5,
+                    top: 30,
                     bottom: 20,
                     itemWidth: 11,
                     itemHeight: 7,
                     textStyle: {
-                        fontSize: 8
-                        /*fontWeight: 'bolder'*/
-
+                        fontSize: 12
                     },
                     data: legendTitle,
                 },
@@ -112,8 +110,8 @@
                         name: '党员数量',
                         type: 'pie',
                         selectedMode: 'single',
-                        radius: [0, '45%'],
-                        center: ['70%', '60%'],
+                        radius: [0, '55%'],
+                        center: ['75%', '50%'],
                         startAngle:240,
                         label: {
                             color: 'white',
@@ -128,8 +126,8 @@
                     {
                         name: '党员数量',
                         type: 'pie',
-                        radius: ['55%', '78%'],
-                        center: ['70%', '60%'],
+                        radius: ['65%', '90%'],
+                        center: ['75%', '50%'],
                         data: countData,
                         itemStyle:{            //饼图图形上的文本标签
                             normal: {

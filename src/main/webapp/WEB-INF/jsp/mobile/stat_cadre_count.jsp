@@ -23,8 +23,8 @@
         });
         var option = {
             title: {
-                text: totalCount > 0 ? '干部总数：' + totalCount : '',
-                left: 'center',
+                text: totalCount > 0 ? '处级干部(' + totalCount+')' : '',
+                left: 'left',
                 textStyle: {
                     fontSize: 15
                 }
@@ -34,14 +34,12 @@
                 type: 'scroll',
                 orient: 'vertical',
                 left: 25,
-                top: 10,
+                top: 50,
                 bottom: 20,
                 itemWidth: 11,
                 itemHeight: 7,
                 textStyle: {
-                    fontSize: 8
-                    /*fontWeight: 'bolder'*/
-
+                    fontSize: 12
                 },
                 data: legendData,
             },
@@ -60,8 +58,8 @@
                 {
                     name: '行政级别',
                     type: 'pie',
-                    radius: '75%',
-                    center: ['65%', '60%'],
+                    radius: '90%',
+                    center: ['70%', '50%'],
                     data: seriesData1,
                     itemStyle: {            //饼图图形上的文本标签
                         normal: {

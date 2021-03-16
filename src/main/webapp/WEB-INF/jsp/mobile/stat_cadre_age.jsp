@@ -22,8 +22,8 @@
         });
         var option = {
             title: {
-                text: '干部年龄统计',
-                left: 'center',
+                text: '处级干部年龄分布',
+                left: 'left',
                 textStyle: {
                     fontSize: 15
                 }
@@ -33,14 +33,12 @@
                 type: 'scroll',
                 orient: 'vertical',
                 left: 25,
-                top: 10,
+                top: 30,
                 bottom: 20,
                 itemWidth: 11,
                 itemHeight: 7,
                 textStyle: {
-                    fontSize: 8
-                    /*fontWeight: 'bolder'*/
-
+                    fontSize: 12
                 },
                 data: legendData,
             },
@@ -52,8 +50,8 @@
                 {
                     name: '年龄',
                     type: 'pie',
-                    radius: '75%',
-                    center: ['65%', '60%'],
+                    radius: '90%',
+                    center: ['70%', '50%'],
                     data: seriesData1,
                     itemStyle:{            //饼图图形上的文本标签
                         normal: {
