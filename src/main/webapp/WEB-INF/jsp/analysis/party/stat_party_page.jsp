@@ -41,6 +41,7 @@
                             <c:import url="/stat_party_member_age?partyId=${partyId}"/>
                             <c:import url="/stat_party_branch_type?partyId=${partyId}"/>
                             <c:import url="/stat_party_member_apply?partyId=${partyId}"/>
+                            <c:import url="/stat_pb_tran_time?partyId=${partyId}"/>
                         </div>
                     </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->

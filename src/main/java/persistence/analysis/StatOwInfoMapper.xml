@@ -165,4 +165,15 @@
 
     </select>
 
+    <select id="countBranchByTranTime" parameterType="map" resultType="map">
+        select if(isnull(YEAR(bmg.tran_time)), '无数据', YEAR(bmg.tran_time)) as year,count(*) as num from ow_branch b
+        left join (select branch_id ,tran_time from ow_branch_member_group where is_deleted=0) bmg on b.id=bmg.branch_id
+        <where>
+            b.is_deleted=0
+            <if test="partyId!=null">
+               and b.party_id = #{partyId}
+            </if>
+        </where>
+        group by YEAR(bmg.tran_time)
+    </select>
 </mapper>

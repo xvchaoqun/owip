@@ -8,11 +8,21 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fafa on 2016/8/1.
  */
 public interface StatOwInfoMapper {
+
+    @Select("select if(isnull(YEAR(pmg.tran_time)), '无数据', YEAR(pmg.tran_time)) as year,count(*) as num from ow_party p" +
+            " left join (select party_id ,tran_time from ow_party_member_group where is_deleted=0) pmg on p.id=pmg.party_id" +
+            " where p.is_deleted=0" +
+            " group by YEAR(pmg.tran_time)")
+    List<Map> countPartyByTranTime();    //分党委换届时间统计（按年份）
+
+    //党支部换届时间统计（按年份）
+    List<Map> countBranchByTranTime(@Param("partyId")Integer partyId);
 
     // 统计党员分布情况（按预备、正式分类）
     List<StatByteBean> member_groupByPoliticalStatus(@Param("partyId")Integer partyId,

@@ -12,7 +12,7 @@
                     <div class="widget-header widget-header-flat">
                         <h4 class="widget-title lighter">
                             <i class="ace-icon fa fa-star green"></i>
-                            党员基本信息统计
+                            党建信息统计
                         </h4>
                         <div class="widget-toolbar">
                             <a href="javascript:;" data-action="collapse">
@@ -27,6 +27,8 @@
                                 <c:import url="/stat_member_age"/>
                                 <c:import url="/stat_branch_type"/>
                                 <c:import url="/stat_member_apply"/>
+                                <c:import url="/stat_party_tran_time"/>
+                                <c:import url="/stat_branch_tran_time"/>
                             </div>
                         </div><!-- /.widget-main -->
                     </div><!-- /.widget-body -->

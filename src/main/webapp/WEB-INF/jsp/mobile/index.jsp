@@ -9,6 +9,7 @@
 </c:if>
 <c:set value="${cm:getParentIdSet(_requestPath)}" var="parentIdSet"/>
 <c:set value="${cm:getCurrentSysResource(_requestPath)}" var="currentSysResource"/>
+<script type="text/javascript" src="${ctx}/js/echarts.min.js"></script>
 <!DOCTYPE html>
 <html>
 	<head>

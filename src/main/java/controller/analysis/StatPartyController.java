@@ -169,7 +169,7 @@ public class StatPartyController extends BaseController {
         return statAgeMap;
     }
 
-    // 支部党员数量分布情况
+    // 发展党员统计
     @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_apply")
     public String stat_party_member_apply(Byte type, int partyId, Integer branchId ,ModelMap modelMap) {
@@ -235,7 +235,7 @@ public class StatPartyController extends BaseController {
         return resultMap;
     }
 
-    //党员每月转入转出统计
+    //支部类型统计
     @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_branch_type")
     public String stat_party_branch_type(ModelMap modelMap){
@@ -256,7 +256,31 @@ public class StatPartyController extends BaseController {
 
         return branchTypeMap;
     }
+    // 换届时间统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_pb_tran_time")
+    public String stat_pb_tran_time(int partyId,ModelMap modelMap) {
 
+        return "analysis/ow/stat_branch_tran_time";
+    }
+
+    // 换届时间统计
+    @RequiresPermissions("stat:party")
+    @RequestMapping("/stat_pb_tran_data")
+    @ResponseBody
+    public Map stat_pb_tran_data(int partyId) {
+
+        PartyHelper.checkAuth(partyId);
+        Map<String, Integer> statBranchTranMap = new HashMap<>();
+
+        List<Map> statBranchTranList = statOwInfoMapper.countBranchByTranTime(partyId);
+        for (Map entity : statBranchTranList) {
+            String year = entity.get("year").toString();
+            int num = ((Long) entity.get("num")).intValue();
+            statBranchTranMap.put(year,num);
+        }
+        return statBranchTranMap;
+    }
     //党员每月转入转出统计
     @RequiresPermissions("stat:party")
     @RequestMapping("/stat_party_member_inout")

@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 public class StatOwController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * 党建信息统计
      *
@@ -190,7 +189,52 @@ public class StatOwController extends BaseController {
 
         return branchTypeMap;
     }
+    // 分党委换届数量统计
+    @RequiresPermissions("stat:ow")
+    @RequestMapping("/stat_party_tran_time")
+    public String stat_party_tran_time() {
 
+        return "analysis/ow/stat_party_tran_time";
+    }
+    // 分党委换届数量统计
+    @RequiresPermissions("stat:ow")
+    @RequestMapping("/stat_party_tran_data")
+    @ResponseBody
+    public Map stat_party_tran_data(ModelMap modelMap) {
+
+        Map<String, Integer> statPartyTranMap = new HashMap<>();
+
+        List<Map> statPartyTranList = statOwInfoMapper.countPartyByTranTime();
+        for (Map entity : statPartyTranList) {
+            String year = entity.get("year").toString();
+            int num = ((Long) entity.get("num")).intValue();
+            statPartyTranMap.put(year,num);
+        }
+        return statPartyTranMap;
+    }
+    // 党支部换届数量统计
+    @RequiresPermissions("stat:ow")
+    @RequestMapping("/stat_branch_tran_time")
+    public String stat_branch_tran_time() {
+
+        return "analysis/ow/stat_branch_tran_time";
+    }
+    // 党支部换届数量统计
+    @RequiresPermissions("stat:ow")
+    @RequestMapping("/stat_branch_tran_data")
+    @ResponseBody
+    public Map stat_branch_tran_data(ModelMap modelMap) {
+
+        Map<String, Integer> statBranchTranMap = new HashMap<>();
+
+        List<Map> statBranchTranList = statOwInfoMapper.countBranchByTranTime(null);
+        for (Map entity : statBranchTranList) {
+            String year = entity.get("year").toString();
+            int num = ((Long) entity.get("num")).intValue();
+            statBranchTranMap.put(year,num);
+        }
+        return statBranchTranMap;
+    }
     //党员每月转入转出统计
     @RequiresPermissions("stat:ow")
     @RequestMapping("/stat_ow_member_inout")

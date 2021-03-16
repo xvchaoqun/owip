@@ -2,18 +2,26 @@ package controller.mobile;
 
 import controller.BaseController;
 import domain.sys.SysUserView;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import persistence.cadre.common.CadreSearchBean;
+import persistence.cadre.common.StatCadreBean;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -72,5 +80,82 @@ public class MobileIndexController extends BaseController {
 		}
 
 		return "mobile/index_page";
+	}
+	// 干部数量统计
+	@RequiresPermissions("stat:cadre")
+	@RequestMapping("/stat_cadre_count")
+	public String stat_cadre_count(ModelMap modelMap) {
+
+		CadreSearchBean searchBean = new CadreSearchBean();
+		searchBean.setCadreType(CadreConstants.CADRE_CATEGORY_CJ);
+
+		int cadreCount  = statCadreMapper.countCadre(searchBean);
+		int adminLevelCount=0;
+		// 行政级别
+		Map<String,Integer> statCadreCountMap = new HashMap<>();
+		List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_adminLevel(searchBean);
+		for(StatCadreBean scb:adminLevelList){
+			statCadreCountMap.put(CmTag.getMetaTypeByCode(scb.adminLevelCode).getName(),scb.num);
+			adminLevelCount += scb.num;
+		}
+		if(cadreCount != adminLevelCount){
+			statCadreCountMap.put("其他",cadreCount-adminLevelCount);
+		}
+		modelMap.put("statCadreCountMap", statCadreCountMap);
+
+		return "mobile/stat_cadre_count";
+	}
+
+	// 干部年龄统计
+	@RequiresPermissions("stat:cadre")
+	@RequestMapping("/stat_cadreAge_count")
+	public String stat_cadreAge_count(ModelMap modelMap) {
+
+		CadreSearchBean searchBean = new CadreSearchBean();
+		searchBean.setCadreType(CadreConstants.CADRE_CATEGORY_CJ);
+		int cadreCount  = statCadreMapper.countCadre(searchBean);
+		int ageCount = 0;
+
+		Map cadreAgeMap = new LinkedHashMap();
+
+		StatCadreBean totalBean = statCadreMapper.cadre_stat_age(searchBean);
+		cadreAgeMap.put("30岁及以下",totalBean == null ?0:totalBean.getNum1());
+		cadreAgeMap.put("31-35岁",totalBean == null ?0:totalBean.getNum2());
+		cadreAgeMap.put("36-40岁",totalBean == null ?0:totalBean.getNum3());
+		cadreAgeMap.put("41-45岁",totalBean == null ?0:totalBean.getNum4());
+		cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
+		cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
+		cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
+		ageCount=totalBean.getNum1()+totalBean.getNum2()+totalBean.getNum3()+totalBean.getNum4()
+				+totalBean.getNum5()+totalBean.getNum6()+totalBean.getNum7();
+		if(totalBean != null && cadreCount != ageCount){
+			cadreAgeMap.put("无数据",cadreCount-ageCount);
+		}
+
+		modelMap.put("cadreAgeMap", cadreAgeMap);
+
+		return "mobile/stat_cadre_age";
+	}
+
+	// 党员数量统计
+	@RequiresPermissions("stat:ow")
+	@RequestMapping("/stat_member_count")
+	public String stat_member_count(ModelMap modelMap) {
+		Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
+		Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
+		Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
+		Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
+
+		isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, (byte) 1);
+		isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, (byte) 1);
+		statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null);
+		statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null);
+
+		modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, null));
+		modelMap.put("isRetireGrowMap",isRetireGrowMap);
+		modelMap.put("isRetirePositiveMap",isRetirePositiveMap);
+		modelMap.put("statGrowMap", statGrowMap);
+		modelMap.put("statPositiveMap", statPositiveMap);
+		return "mobile/stat_member_count";
 	}
 }
