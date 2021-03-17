@@ -127,6 +127,7 @@ public class MemberApplyController extends MemberBaseController {
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
+        boolean needCandidateTrain = CmTag.getBoolProperty("memberApply_needCandidateTrain");
         List<MemberApply> records = new ArrayList<>();
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
@@ -184,13 +185,19 @@ public class MemberApplyController extends MemberBaseController {
 
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setActiveTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-            record.setActiveTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-            record.setActiveGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+
+            if(needCandidateTrain) {
+                record.setActiveTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+                record.setActiveGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            }
 
             record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setCandidateTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-            record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-            record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+
+            if(needCandidateTrain) {
+                record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+                record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            }
 
             if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
                 record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));

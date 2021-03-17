@@ -128,6 +128,14 @@ public class MemberApplyService extends MemberBaseMapper {
                     applySnService.use(applySnId, userId);
                 }
             }
+
+            applyApprovalLogService.add(userId,
+                    record.getPartyId(), record.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    OwConstants.OW_APPLY_STAGE_MAP.get(stage),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    memberApply==null?"导入添加":"导入更新");
         }
 
         return addCount;

@@ -263,7 +263,7 @@
             data-url="${ctx}/applyApprovalLog"
             data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"
             data-open-by="page">
-        <i class="fa fa-sign-in"></i> 查看操作记录
+        <i class="fa fa-search"></i> 操作记录
     </button>
     <shiro:hasAnyRoles name="${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
         <c:if test="${stage>=OW_APPLY_STAGE_INIT}">

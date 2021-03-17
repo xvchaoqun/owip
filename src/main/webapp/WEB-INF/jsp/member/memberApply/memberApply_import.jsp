@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>批量导入</h3>
@@ -16,7 +17,12 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
+            <c:if test="${_memberApply_needCandidateTrain}">
             <a href="${ctx}/attach?code=sample_memberApply">党员发展录入样表.xlsx</a>（点击下载）的数据格式</span>
+            </c:if>
+            <c:if test="${!_memberApply_needCandidateTrain}">
+            <a href="${ctx}/attach?code=sample_memberApply2">党员发展录入样表.xlsx</a>（点击下载）的数据格式</span>
+            </c:if>
         </div>
   </div>
   <div class="modal-footer">
