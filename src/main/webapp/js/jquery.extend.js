@@ -2062,7 +2062,8 @@ $.extend($.register, {
         var t = $select.select2({
             language: {
                 noResults: function (term) {
-                    return "请先选择年份";
+                    var year = $year.val();
+                    return ($.trim(year)=='')?"请先选择年份":("请先添加"+year+"年的发文类型");
                 }
             },
             templateResult: $.register.formatState,
