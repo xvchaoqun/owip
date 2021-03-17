@@ -730,7 +730,9 @@ public class PmdOrderService extends PmdBaseMapper {
     public void processQuery(String orderNo){
 
         PmdOrder order = pmdOrderMapper.selectByPrimaryKey(orderNo);
-        if(order==null || order.getIsSuccess()) return;
+        //if(order==null || order.getIsSuccess()) return;
+        // 同步支付接口通知时，订单成功，但是缴费记录并不一定标记为成功了
+        if(order==null) return;
 
         OrderQueryResult queryResult = query(orderNo);
         boolean hasPay = queryResult.isHasPay();
@@ -800,7 +802,9 @@ public class PmdOrderService extends PmdBaseMapper {
     // 单个缴费通知处理
     private void processSingleOrder(int recordId, String orderNo, String payerCode, BigDecimal realPay) {
 
-        if(!StringUtils.equals(orderNo.substring(8, 9), "1")){
+        // 订单号第8位： 2/4是批量代缴  1/3单个缴费   1/2是每个月党费  3/4是单独补缴党费
+        if(StringUtils.equals(orderNo.substring(8, 9), "3")
+                || StringUtils.equals(orderNo.substring(8, 9), "4")){
 
             processFeeSingleOrder(recordId, orderNo, payerCode, realPay);
             return;
@@ -820,8 +824,8 @@ public class PmdOrderService extends PmdBaseMapper {
         if (BooleanUtils.isTrue(hasPay)) {
             
             // 如果重复通知，则不再更新相关缴费记录。（此时可能原因：重复缴费）
-            logger.warn("[党费收缴]处理支付通知重复，订单号：{}, 原订单号：{}",
-                    orderNo, pmdMemberPayView.getOrderNo());
+            logger.warn("[党费收缴]处理支付通知重复，订单号：{}, 原订单号：{}, 缴费记录：{}",
+                    orderNo, pmdMemberPayView.getOrderNo(), recordId);
             return;
         }
         
@@ -947,8 +951,8 @@ public class PmdOrderService extends PmdBaseMapper {
         if (BooleanUtils.isTrue(pmdFee.getHasPay())) {
 
             // 如果重复通知，则不再更新相关缴费记录。（此时可能原因：重复缴费）
-            logger.warn("[党费收缴]处理支付通知重复，订单号：{}, 原订单号：{}",
-                    orderNo, pmdFee.getOrderNo());
+            logger.warn("[党费收缴]处理支付通知重复，订单号：{}, 原订单号：{}, 缴费记录：{}",
+                    orderNo, pmdFee.getOrderNo(), pmdFeeId);
             return;
         }
 

@@ -4,6 +4,7 @@
 <%@ page import="org.apache.http.impl.client.CloseableHttpClient" %>
 <%@ page import="org.apache.http.impl.client.HttpClients" %>
 <%@ page import="org.apache.http.util.EntityUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%--
   Created by IntelliJ IDEA.
   User: fafa
@@ -18,17 +19,23 @@
 </head>
 <body>
 <%
-    out.println( "user-agent = " + request.getHeader("user-agent"));
-    out.println( "<br/>User-Agent = " + request.getHeader("User-Agent"));
-    String url="https://weixin.bnu.edu.cn/sms/massms.php?id=2";
-  String formStatusData="{\"mobile\":\"17611167552\", \"content\":\"同志，您好！谢谢！\"}";
-  StringEntity params =new StringEntity(formStatusData,"UTF-8");
-  CloseableHttpClient httpclient = HttpClients.createDefault();
-  HttpPost httppost = new HttpPost(url);
-  httppost.setEntity(params);
-  httppost.addHeader("content-type", "application/json");
-  CloseableHttpResponse res = httpclient.execute(httppost);
-  out.println(EntityUtils.toString(res.getEntity()));
+    String mobile = StringUtils.defaultIfBlank(request.getParameter("m"), "17611167552");
+    String msg = StringUtils.defaultIfBlank(request.getParameter("msg"), "您好！这是测试短信，勿回！谢谢！");
+
+    //out.println("user-agent = " + request.getHeader("user-agent"));
+    //out.println("<br/>User-Agent = " + request.getHeader("User-Agent"));
+
+    String url = "https://weixin.bnu.edu.cn/sms/massms.php?id=2";
+    out.println("<br/>发送短信接口："+ url);
+    String formStatusData = "{\"mobile\":\"" + mobile + "\", \"content\":\"" + msg + "\"}";
+    out.println("<br/>发送短信参数："+ formStatusData);
+    StringEntity params = new StringEntity(formStatusData, "UTF-8");
+    CloseableHttpClient httpclient = HttpClients.createDefault();
+    HttpPost httppost = new HttpPost(url);
+    httppost.setEntity(params);
+    httppost.addHeader("content-type", "application/json");
+    CloseableHttpResponse res = httpclient.execute(httppost);
+    out.println("<br/>返回：" + EntityUtils.toString(res.getEntity()));
  /* ApplicationContext context = ApplicationContextSupport.getContext();
   PassportDrawMapper passportDrawMapper = (PassportDrawMapper) context.getBean("passportDrawMapper");
 
