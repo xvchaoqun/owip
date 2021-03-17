@@ -1,5 +1,6 @@
 
-
+20210317
+-- 哈工大 / 测试服务器
 
 update ow_branch_member_group set actual_tran_time=null where is_deleted=0 and actual_tran_time is not null;
 update ow_party_member_group set actual_tran_time=null where is_deleted=0 and actual_tran_time is not null;
