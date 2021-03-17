@@ -1,4 +1,9 @@
 
+
+
+update ow_branch_member_group set actual_tran_time=null where is_deleted=0 and actual_tran_time is not null;
+update ow_party_member_group set actual_tran_time=null where is_deleted=0 and actual_tran_time is not null;
+
 20210317
 -- 吉大，北师大
 

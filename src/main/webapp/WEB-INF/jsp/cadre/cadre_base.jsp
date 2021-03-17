@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
+<c:set value="${_pMap['postTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_postTimeFormat"/>
 <c:set value="${_pMap['birthToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_birthFormat"/>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
 <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)&&!cm:isPermitted(PERMISSION_CADREONLYVIEW))
@@ -290,12 +290,12 @@
                         <td>
                             任现职时间
                         </td>
-                        <td>${cm:formatDate(cadre.lpWorkTime,_p_proPostTimeFormat)}
+                        <td>${cm:formatDate(cadre.lpWorkTime,_p_postTimeFormat)}
                         </td>
                         <td>
                             现职务始任时间
                         </td>
-                        <td>${cm:formatDate(cadre.npWorkTime,_p_proPostTimeFormat)}
+                        <td>${cm:formatDate(cadre.npWorkTime,_p_postTimeFormat)}
                         </td>
                     </tr>
                     <tr>
@@ -307,7 +307,7 @@
                         </td>
                         <td>任现职级时间</td>
                         <td>
-                                ${cm:formatDate(cadre.sWorkTime,_p_proPostTimeFormat)}
+                                ${cm:formatDate(cadre.sWorkTime,_p_postTimeFormat)}
                         </td>
                         <td>
                             任现职级年限
@@ -333,7 +333,7 @@
                         <td>
                             任兼职时间1
                         </td>
-                        <td>${cm:formatDate(subCadrePost1.lpWorkTime,_p_proPostTimeFormat)}
+                        <td>${cm:formatDate(subCadrePost1.lpWorkTime,_p_postTimeFormat)}
                         </td>
                     </tr>
                     <tr>
@@ -351,7 +351,7 @@
                         <td>
                             任兼职时间2
                         </td>
-                        <td>${cm:formatDate(subCadrePost2.lpWorkTime,_p_proPostTimeFormat)}
+                        <td>${cm:formatDate(subCadrePost2.lpWorkTime,_p_postTimeFormat)}
                         </td>
                     </tr>
                     </tbody>

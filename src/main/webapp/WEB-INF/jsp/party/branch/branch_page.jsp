@@ -84,12 +84,14 @@
                                data-querystr="exportType=secretary"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党支部书记</a>
                         </li>
+                        <shiro:hasPermission name="branchGroup:*">
                         <li role="separator" class="divider"></li>
                         <li>
                             <a class="jqExportBtn"
                                data-querystr="exportType=groupMember"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党小组成员</a>
                         </li>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="branch:codeExport">
                         <li role="separator" class="divider"></li>
                         <li>
