@@ -1,8 +1,21 @@
 package domain.cadre;
 
+import persistence.cadre.common.ICadreMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class CadreEva implements Serializable {
+    private CadreView cadre;
+    public CadreView getCadre(){
+
+        if(cadre==null){
+            ICadreMapper iCadreMapper = CmTag.getBean(ICadreMapper.class);
+            cadre = iCadreMapper.getCadre(cadreId);
+        }
+        return cadre;
+    }
+
     private Integer id;
 
     private Integer cadreId;

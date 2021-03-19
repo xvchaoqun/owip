@@ -15,11 +15,14 @@ import java.util.Map;
 @Service
 public class CadreEvaResultService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, int cadreId, int year,String groupName){
+    public boolean idDuplicate(Integer id, Integer cadreId, int year,String groupName){
 
         CadreEvaResultExample example = new CadreEvaResultExample();
         CadreEvaResultExample.Criteria criteria = example.createCriteria()
-                .andCadreIdEqualTo(cadreId).andYearEqualTo(year).andGroupNameEqualTo(groupName);
+                .andYearEqualTo(year).andGroupNameEqualTo(groupName);
+        if (cadreId != null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return cadreEvaResultMapper.countByExample(example) > 0;

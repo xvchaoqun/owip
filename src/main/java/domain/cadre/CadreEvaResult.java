@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class CadreEvaResult implements Serializable {
     private Integer id;
 
+    private Byte type;
+
+    private Integer unitId;
+
     private Integer cadreId;
 
     private Integer year;
@@ -17,6 +21,8 @@ public class CadreEvaResult implements Serializable {
 
     private String remark;
 
+    private String title;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -25,6 +31,22 @@ public class CadreEvaResult implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
     public Integer getCadreId() {
@@ -73,5 +95,13 @@ public class CadreEvaResult implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 }

@@ -3,17 +3,18 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cadreEvaResult!=null?'编辑':'添加'}干部年度测评结果</h3>
+	<h3>${cadreEvaResult!=null?'编辑':'添加'}${type==0?'干部':'班子'}年度测评结果</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreEvaResult_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreEvaResult.id}">
 		<input type="hidden" name="cadreId" value="${param.cadreId}">
-
+		<input type="hidden" name="type" value="${type}">
+		<input type="hidden" name="unitId" value="${cadreEvaResult.unitId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 年份</label>
-				<div class="col-xs-6" >
-					<div class="input-group" style="width: 270px">
+				<div class="col-xs-6">
+					<div class="input-group" style="width: 120px">
 					<input required class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
 						   data-date-format="yyyy" data-date-min-view-mode="2" value="${cadreEvaResult.year}" />
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -33,7 +34,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 总人数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> ${type==0?'总人数':'班子总人数'}</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="number" style="width: 80px;" min="1" name="num" value="${cadreEvaResult.num}">
 				</div>

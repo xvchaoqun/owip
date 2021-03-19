@@ -33,6 +33,12 @@
                     <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup?unitId=${param.id}">干部任免信息</a>
                 </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="unit:unitEvaResult">
+                    <li>
+                        <a href="javascript:;"
+                           data-url="${ctx}/cadreEvaResult?cadreId=${param.id}&_auth=${param._auth}&type=1">年终考核测评结果</a>
+                    </li>
+                </shiro:hasPermission>
                  <%--<shiro:hasPermission name="unit:unitTransfer">
                 <li>
                     <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位发展历程文件</a>

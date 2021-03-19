@@ -7,10 +7,10 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cadreEvaResult:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cadreEvaResult_au?cadreId=${param.cadreId}">
+                            data-url="${ctx}/cadreEvaResult_au?cadreId=${param.cadreId}&type=${param.type}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cadreEvaResult_au"
+                       data-url="${ctx}/cadreEvaResult_au?type=${param.type}"
                        data-grid-id="#jqGrid_evaResult"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
@@ -70,6 +70,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    var type = ${cm:toJSONObject(param.type)};
     $("#jqGrid_evaResult").jqGrid({
         pager: "#jqGridPager_evaResult",
         rownumbers:true,
@@ -78,7 +79,8 @@ pageEncoding="UTF-8" %>
                 { label: '年份',name: 'year'},
                 { label: '测评类别',name: 'groupName',width: 300,align:"left"},
                 { label:'排名', name:'sortOrder',width: 80,},
-                { label: '总人数',name: 'num'},
+                { label: (type == 0 ? '总人数' : '班子总人数'),name: 'num'},
+                { label: (type == 0 ? '时任单位及职务' : '班子名称'),name: 'title',width:300},
                 { label: '备注',name: 'remark',width: 350}
         ]
     }).jqGrid("setFrozenColumns");
