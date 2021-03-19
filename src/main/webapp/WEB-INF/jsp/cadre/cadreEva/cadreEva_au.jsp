@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreEva_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreEva.id}">
-        <input type="hidden" name="cadreId" value="${param.cadreId}">
+        <input type="hidden" name="cadreId" value="${cadreEva.cadreId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">

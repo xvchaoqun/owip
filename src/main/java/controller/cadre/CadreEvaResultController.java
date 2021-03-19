@@ -56,9 +56,9 @@ public class CadreEvaResultController extends BaseController {
     public String cadreEvaResults(byte type, ModelMap modelMap) {
         modelMap.put("type", type);
         if (type == 0 || type == 1) {
-            return "cadre/cadreEvaResult/cadreEvaResult_list";
+          return "cadre/cadreEvaResult/cadreEvaResult_list";
         }
-        return "cadre/cadreEvaResult/cadreEvaResult_year_list";
+        return "cadre/cadreEva/cadreEva_page";
     }
 
     @RequiresPermissions("cadreEvaResult:list")
@@ -191,7 +191,9 @@ public class CadreEvaResultController extends BaseController {
                 record.setCadreId(null);
             }
             Unit unit = unitMapper.selectByPrimaryKey(record.getUnitId());
-            record.setTitle(unit.getName());
+            if (unit != null) {
+                record.setTitle(unit.getName());
+            }
         }
         if (record.getCadreId() != null) {
             Cadre cadre = cadreMapper.selectByPrimaryKey(record.getCadreId());
@@ -222,6 +224,9 @@ public class CadreEvaResultController extends BaseController {
         if (id != null) {
             CadreEvaResult cadreEvaResult = cadreEvaResultMapper.selectByPrimaryKey(id);
             modelMap.put("cadreEvaResult", cadreEvaResult);
+        }
+        if (type == 2) {
+            return "cadre/cadreEva/cadreEva_au";
         }
         return "cadre/cadreEvaResult/cadreEvaResult_au";
     }
@@ -391,55 +396,5 @@ public class CadreEvaResultController extends BaseController {
         String fileName = "年终考核测评数据";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
-
-    @RequiresPermissions("cadreEvaResult:list")
-    @RequestMapping("/cadreEvaYearResults_data")
-    @ResponseBody
-    public void cadreEvaYearResult_data(HttpServletResponse response,
-                                    Integer year,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                    Integer[] ids, // 导出的记录
-                                    Integer pageSize, Integer pageNo)  throws IOException{
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        CadreEvaExample example = new CadreEvaExample();
-        CadreEvaExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("year desc");
-
-        if (year != null) {
-            criteria.andYearEqualTo(year);
-        }
-
-        if (export == 1) {
-            cadreEvaResult_export(ids, response);
-            return;
-        }
-
-        long count = cadreEvaMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CadreEva> records= cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", records);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cadreEvaResult.class, cadreEvaResultMixin.class);
-        JSONUtils.jsonp(resultMap, baseMixins);
-        return;
-    }
-
 
 }

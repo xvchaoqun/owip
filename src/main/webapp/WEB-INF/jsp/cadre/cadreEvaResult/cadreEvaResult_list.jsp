@@ -5,24 +5,24 @@
     <div class="col-xs-12">
         <c:set var="_query" value="${not empty param.year || not empty param.groupName || not empty param.title}"/>
         <div class="jqgrid-vertical-offset buttons">
-<%--            <shiro:hasPermission name="cadreEvaResult:edit">--%>
+            <shiro:hasPermission name="cadreEvaResult:edit">
 <%--                <button class="popupBtn btn btn-info btn-sm"--%>
 <%--                        data-url="${ctx}/cadreEvaResult_au?cadreId=${param.cadreId}&type=${param.type}">--%>
 <%--                    <i class="fa fa-plus"></i> 添加</button>--%>
-<%--                <button class="jqOpenViewBtn btn btn-primary btn-sm"--%>
-<%--                        data-url="${ctx}/cadreEvaResult_au?type=${param.type}"--%>
-<%--                        data-grid-id="#jqGrid_evaResult"><i class="fa fa-edit"></i>--%>
-<%--                    修改</button>--%>
-<%--            </shiro:hasPermission>--%>
-<%--            <shiro:hasPermission name="cadreEvaResult:del">--%>
-<%--                <button data-url="${ctx}/cadreEvaResult_batchDel"--%>
-<%--                        data-title="删除"--%>
-<%--                        data-msg="确定删除这{0}条数据？"--%>
-<%--                        data-grid-id="#jqGrid_evaResult"--%>
-<%--                        class="jqBatchBtn btn btn-danger btn-sm">--%>
-<%--                    <i class="fa fa-trash"></i> 删除--%>
-<%--                </button>--%>
-<%--            </shiro:hasPermission>--%>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        data-url="${ctx}/cadreEvaResult_au?type=${param.type}"
+                        data-grid-id="#jqGrid_evaResult"><i class="fa fa-edit"></i>
+                    修改</button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="cadreEvaResult:del">
+                <button data-url="${ctx}/cadreEvaResult_batchDel"
+                        data-title="删除"
+                        data-msg="确定删除这{0}条数据？"
+                        data-grid-id="#jqGrid_evaResult"
+                        class="jqBatchBtn btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> 删除
+                </button>
+            </shiro:hasPermission>
             <%-- <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                 data-url="${ctx}/cadreEvaResult_data"
                 data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">

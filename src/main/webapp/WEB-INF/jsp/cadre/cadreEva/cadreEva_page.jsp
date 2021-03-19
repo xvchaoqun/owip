@@ -8,10 +8,12 @@
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <div class="jqgrid-vertical-offset buttons">
             <shiro:hasPermission name="cadreEva:edit">
+                <c:if test="${type!=2}">
                 <button class="popupBtn btn btn-success btn-sm"
                         data-url="${ctx}/cadreEva_au?cadreId=${param.cadreId}">
                     <i class="fa fa-plus"></i> 添加
                 </button>
+                </c:if>
                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                         data-url="${ctx}/cadreEva_au" data-querystr="&cadreId=${param.cadreId}"
                         data-grid-id="#jqGrid_eva"><i class="fa fa-edit"></i>
