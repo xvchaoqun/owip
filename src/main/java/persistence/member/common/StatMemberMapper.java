@@ -46,6 +46,9 @@ public interface StatMemberMapper {
     //统计支部类型
     List<String> getBranchTypes(@Param("partyId")Integer partyId);
 
+    //统计支部类型为空
+    int getNullBranchTypes(@Param("partyId")Integer partyId);
+
     // 按性别统计党员人数
     List<StatIntBean> member_countGroupByGender(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 

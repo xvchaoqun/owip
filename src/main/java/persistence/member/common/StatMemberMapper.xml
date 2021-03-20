@@ -94,6 +94,14 @@
             and id =#{partyId}
         </if>
     </select>
+    <!-- 统计支部类型 -->
+    <select id="getNullBranchTypes" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from ow_branch where is_deleted = 0
+        <if test="partyId!=null">
+            and party_id =#{partyId}
+        </if>
+        and types is null
+    </select>
 
     <!-- 统计党员中汉族的人数 -->
     <select id="countHan" resultType="java.lang.Integer" parameterType="map">

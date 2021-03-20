@@ -514,7 +514,7 @@ public class StatCadreController extends BaseController {
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         int adminLevelCount=0;
         // 行政级别
-        Map<String,Integer> statCadreCountMap = new HashMap<>();
+        Map<String,Integer> statCadreCountMap = new LinkedHashMap<>();
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_adminLevel(searchBean);
         for(StatCadreBean scb:adminLevelList){
             statCadreCountMap.put(CmTag.getMetaTypeByCode(scb.adminLevelCode).getName(),scb.num);
@@ -559,7 +559,7 @@ public class StatCadreController extends BaseController {
             otherMap.put("男", gender1);
             otherMap.put("女", gender2);
             if(cadreCount != genderCount){
-                otherMap.put("无数据", cadreCount-genderCount);
+                otherMap.put("其他", cadreCount-genderCount);
             }
 
         } else if(type == 2) {
@@ -577,7 +577,7 @@ public class StatCadreController extends BaseController {
             otherMap.put("汉族", nation1);
             otherMap.put("少数民族", nation2);
             if(cadreCount != nationCount){
-                otherMap.put("无数据", cadreCount-nationCount);
+                otherMap.put("其他", cadreCount-nationCount);
             }
 
         }
@@ -639,7 +639,7 @@ public class StatCadreController extends BaseController {
         ageCount=totalBean.getNum1()+totalBean.getNum2()+totalBean.getNum3()+totalBean.getNum4()
                 +totalBean.getNum5()+totalBean.getNum6()+totalBean.getNum7();
         if(totalBean != null && cadreCount != ageCount){
-            cadreAgeMap.put("无数据",cadreCount-ageCount);
+            cadreAgeMap.put("其他",cadreCount-ageCount);
         }
 
         return cadreAgeMap;
@@ -729,7 +729,7 @@ public class StatCadreController extends BaseController {
             eduCount += statCadreBean.num;
         }
         if(cadreCount != eduCount){
-            cadreEduMap.put("无数据",cadreCount-eduCount);
+            cadreEduMap.put("其他",cadreCount-eduCount);
         }
 
         return cadreEduMap;

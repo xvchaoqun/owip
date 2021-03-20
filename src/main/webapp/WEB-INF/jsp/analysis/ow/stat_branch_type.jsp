@@ -6,7 +6,7 @@
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="ace-icon fa fa-pie-chart"></i>
-                支部类型统计
+                党支部类型统计
             </h5>
         </div>
         <div class="widget-body">
@@ -36,7 +36,7 @@
             $.each(branchTypeMap, function (key, value) {
                 /*console.log(key);*/
                 totalCount += value;
-                var item = _cMap.metaTypeMap[key].name + '(' + value + ')';
+                var item = key + '(' + value + ')';
                 legendData.push(item);
                 seriesData.push({
                     name: item,
@@ -46,7 +46,7 @@
 
             var option = {
                 title: {
-                    text: '（支部总数：'+ totalCount +'）',
+                    text: '（党支部总数：'+ totalCount +'）',
                     left: 'right'
                 },
                 tooltip: {
@@ -62,7 +62,7 @@
                 },
                 series: [
                     {
-                        name: '支部类型',
+                        name: '党支部类型',
                         type: 'pie',
                         radius: '60%',
                         center: ['60%', '60%'],
@@ -76,7 +76,7 @@
                         }
                     },
                     {
-                        name: '支部类型',
+                        name: '党支部类型',
                         type: 'pie',
                         radius: '60%',
                         center: ['60%', '60%'],

@@ -184,10 +184,21 @@ public class StatOwController extends BaseController {
     @ResponseBody
     public Map stat_branch_type_data(Integer partyId) {
 
-       Map<Integer, Integer> branchTypeMap = new HashMap();
-       branchTypeMap=statService.branchTypeMap(partyId);
+       int  nullBranchType = statMemberMapper.getNullBranchTypes(partyId);
 
-        return branchTypeMap;
+       Map<String, Integer> branchTypeMap = new LinkedHashMap<>();
+       Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_branch_type");
+       Map<Integer,Integer> branchTypes=statService.branchTypeMap(partyId);
+
+       for (Integer key : branchTypes.keySet()) {
+           branchTypeMap.put(metaTypeMap.get(key).getName(),branchTypes.get(key));
+       }
+
+       if(nullBranchType != 0){
+           branchTypeMap.put("其他",nullBranchType);
+       }
+
+       return branchTypeMap;
     }
     // 分党委换届数量统计
     @RequiresPermissions("stat:ow")
