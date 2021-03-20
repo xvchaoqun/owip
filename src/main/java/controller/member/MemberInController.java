@@ -544,6 +544,20 @@ public class MemberInController extends MemberBaseController {
             }
             record.setPartyId(party.getId());
 
+            String branchName = StringUtils.trim(xlsRow.get(++col));
+
+            if (StringUtils.isBlank(branchName)) {
+                throw new OpException("第{0}行转入党支部[{1}]不能为空", row, branchName);
+            }
+            Branch branch = branchService.getByName(branchName);
+            if (branch == null) {
+                throw new OpException("第{0}行转入党支部[{1}]不存在", row, branchName);
+            }
+            if (branch.getPartyId() != party.getId()) {
+                throw new OpException("第{0}行转入分党委和转入党支部不对应[{1}]", row, branchName);
+            }
+            record.setBranchId(branch.getId());
+
             String fromTitle = StringUtils.trim(xlsRow.get(++col));
             if (StringUtils.isBlank(fromTitle)) {
                 throw new OpException("第{0}行介绍信抬头[{1}]不能为空", row, partyName);
