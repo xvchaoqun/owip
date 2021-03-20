@@ -34,6 +34,8 @@
                             <shiro:hasPermission name="memberIn:edit">
                                 <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberIn_au">
                                     <i class="fa fa-plus"></i> 添加</a>
+                                <button class="popupBtn btn btn-success btn-sm tooltip-primary" data-url="/memberIn_import" data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                    批量导入</button>
                             </shiro:hasPermission>
                         </div>
                     </ul>

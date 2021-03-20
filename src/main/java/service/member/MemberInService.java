@@ -23,7 +23,6 @@ import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -404,6 +403,60 @@ public class MemberInService extends MemberBaseMapper {
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, MemberConstants.MEMBER_IN_STATUS_MAP.get(status),
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+    }
+
+    public MemberIn getLatest(int userId) {
+
+        MemberInExample example = new MemberInExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("apply_time desc");
+        List<MemberIn> memberIns = memberInMapper.selectByExample(example);
+        if (memberIns.size() > 0) return memberIns.get(0);
+
+        return null;
+    }
+
+    // 批量导入
+    @Transactional
+    public int batchImport(List<MemberIn> records) {
+
+        boolean memberInNeedOwCheck = CmTag.getBoolProperty("memberInNeedOwCheck");
+        int addCount = 0;
+        for (MemberIn record : records) {
+            int userId = record.getUserId();
+            MemberIn memberIn = getLatest(userId);
+            if (memberIn != null
+                    && memberIn.getStatus() < MemberConstants.MEMBER_IN_STATUS_OW_VERIFY) {
+                record.setId(memberIn.getId());
+            }
+
+            if (memberInNeedOwCheck) {
+                record.setStatus(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+            } else {
+                record.setStatus(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
+            }
+
+            if (record.getId() == null) {
+                Member member = memberService.get(userId);
+                if(member!=null) {
+                    record.setPoliticalStatus(member.getPoliticalStatus());
+                }
+                if (member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
+                    throw new OpException("第{0}条记录已经是党员，不需要进行转入操作。", ++addCount);
+                }
+                memberInMapper.insertSelective(record);
+                addCount++;
+            } else {
+                memberInMapper.updateByPrimaryKeySelective(record);
+            }
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "批量导入",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+        }
+
+        return addCount;
     }
 
 }

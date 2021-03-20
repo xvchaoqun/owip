@@ -1,4 +1,9 @@
 
+20210320   xcq
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (5007, 0, '兼职申报', '', 'url', '', '/cadre/partTimeDeclare', 353, '0/1/353/', 1, 'cadre:partTimeDeclare', 4, NULL, NULL, 1, NULL);
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('memberInNeedOwCheck', '组织关系转入需要组织部审批', 'true', 3, 48, '');
 
 20210318   xcq
 ALTER TABLE `cadre_eva_result`
