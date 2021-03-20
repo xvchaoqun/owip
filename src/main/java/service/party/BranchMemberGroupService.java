@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
@@ -272,16 +274,22 @@ public class BranchMemberGroupService extends BaseMapper {
     }
 
     //按照partyId统计应换届的支部委员会的数量
-    public int count(int partyId) {
+    public int count(Integer partyId) {
 
         BranchMemberGroupViewExample example = new BranchMemberGroupViewExample();
         BranchMemberGroupViewExample.Criteria criteria = example.createCriteria()
                 .andIsDeletedEqualTo(false).andTranTimeLessThanOrEqualTo(new Date());
-        List<Integer> partyIdList = loginUserService.adminPartyIdList();
-        if (partyIdList.contains(partyId)) {
-            criteria.andPartyIdEqualTo(partyId);
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            if (partyIdList.contains(partyId)) {
+                criteria.andPartyIdEqualTo(partyId);
+            }else {
+                criteria.andPartyIdIsNull();
+            }
         }else {
-            criteria.andPartyIdIsNull();
+            if (partyId != null) {
+                criteria.andPartyIdEqualTo(partyId);
+            }
         }
 
         return (int) branchMemberGroupViewMapper.countByExample(example);

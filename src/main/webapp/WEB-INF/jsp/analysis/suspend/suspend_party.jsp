@@ -20,19 +20,6 @@
                     <div class="col-sm-12">
 
                             <div class="infobox infobox-blue"
-                                 <c:if test="${partyMemberGroupCount>0}">data-url="${ctx}/partyMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
-                                <div class="infobox-icon">
-                                    <i class="ace-icon fa fa-sign-out"></i>
-                                </div>
-                                <div class="infobox-data">
-                                    <span class="infobox-data-number"><span class="count">${partyMemberGroupCount}</span> <span
-                                            style="font-size: 10pt;">应换届</span></span>
-
-                                    <div class="infobox-content">应换届党委班子</div>
-                                </div>
-                            </div>
-
-                            <div class="infobox infobox-blue"
                                  <c:if test="${branchMemberGroupCount>0}">data-url="${ctx}/branchMemberGroup?partyId=${param.partyId}&isTranTime=1"</c:if>>
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-sign-out"></i>

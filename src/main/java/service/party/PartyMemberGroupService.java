@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.LoginUserService;
+import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
@@ -250,17 +252,22 @@ public class PartyMemberGroupService extends BaseMapper {
     }
 
     //按照partyId统计应换届的党委班子的数量
-    public int count(int partyId) {
+    public int count(Integer partyId) {
 
         PartyMemberGroupExample example = new PartyMemberGroupExample();
         PartyMemberGroupExample.Criteria criteria = example.createCriteria()
                 .andIsDeletedEqualTo(false).andTranTimeLessThanOrEqualTo(new Date());
-        List<Integer> partyIdList = loginUserService.adminPartyIdList();
-        if (partyIdList.contains(partyId)) {
-            criteria.andPartyIdEqualTo(partyId);
-        }
-        else {
-            criteria.andPartyIdIsNull();
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            if (partyIdList.contains(partyId)) {
+                criteria.andPartyIdEqualTo(partyId);
+            } else {
+                criteria.andPartyIdIsNull();
+            }
+        }else {
+            if (partyId != null) {
+                criteria.andPartyIdEqualTo(partyId);
+            }
         }
 
         return (int) partyMemberGroupMapper.countByExample(example);

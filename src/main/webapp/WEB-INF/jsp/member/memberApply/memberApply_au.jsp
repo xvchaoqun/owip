@@ -34,7 +34,7 @@
                     <script>
                         var userId = $.trim($('#applyAuForm select[name=userId]').val());
                         if (userId == null || userId == undefined || userId == "") {
-                            $('#userTypeSpan').text("账号类别：无");
+                            $('#userTypeSpan').text("");
                         }else {
                             $('#userTypeSpan').text('账号类别：${USER_TYPE_MAP.get(sysUser.type)}');
                         }
@@ -308,7 +308,12 @@
     var $select = $.register.user_select($('#applyAuForm select[name=userId]'));
     $select.on("change",function(){
         //console.log($(this).select2("data")[0].type)
-        $('#userTypeSpan').text("账号类别：" + $(this).select2("data")[0].type);
+        var $this = $(this).val();
+        if ($.trim($this)=="") {
+            $('#userTypeSpan').text("");
+        } else {
+            $('#userTypeSpan').text("账号类别：" + $(this).select2("data")[0].type);
+        }
     });
     $.register.date($('.date-picker'));
     $("#applyAuBtn").click(function () {
