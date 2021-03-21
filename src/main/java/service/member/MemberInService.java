@@ -420,7 +420,6 @@ public class MemberInService extends MemberBaseMapper {
     @Transactional
     public int batchImport(List<MemberIn> records) {
 
-        boolean memberInNeedOwCheck = CmTag.getBoolProperty("memberInNeedOwCheck");
         int addCount = 0;
         for (MemberIn record : records) {
             int userId = record.getUserId();
@@ -430,10 +429,10 @@ public class MemberInService extends MemberBaseMapper {
                 record.setId(memberIn.getId());
             }
 
-            if (memberInNeedOwCheck) {
-                record.setStatus(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
-            } else {
+            if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                 record.setStatus(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
+            } else {
+                record.setStatus(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
             }
 
             if (record.getId() == null) {

@@ -15,6 +15,8 @@ import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveOriginMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
+import persistence.ces.CesResultMapper;
+import persistence.ces.common.ICesResultMapper;
 import persistence.common.CommonMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
@@ -132,7 +134,10 @@ public class CoreBaseMapper {
     protected DispatchWorkFileMapper dispatchWorkFileMapper;
     @Autowired(required = false)
     protected DispatchWorkFileAuthMapper dispatchWorkFileAuthMapper;
-    
+
+    @Autowired(required = false)
+    protected CesResultMapper cesResultMapper;
+
     /**
      * 干部库
      */
@@ -182,8 +187,6 @@ public class CoreBaseMapper {
     protected CadreEduMapper cadreEduMapper;
     @Autowired(required = false)
     protected CadreEvaMapper cadreEvaMapper;
-    @Autowired(required = false)
-    protected CadreEvaResultMapper cadreEvaResultMapper;
     @Autowired(required = false)
     protected CadreReportMapper cadreReportMapper;
     @Autowired(required = false)
@@ -257,6 +260,9 @@ public class CoreBaseMapper {
     protected StatMemberMapper statMemberMapper;
     @Autowired
     protected StatOwInfoMapper statOwInfoMapper;
+
+    @Autowired(required = false)
+    protected ICesResultMapper iCesResultMapper;
 
     @Autowired
     protected ApiKeyMapper apiKeyMapper;

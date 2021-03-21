@@ -52,6 +52,17 @@ public class UnitService extends BaseMapper {
         if (units.size() > 0) return units.get(0);
         return null;
     }
+
+    public Unit findRunUnitByName(String name) {
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andIsDeletedEqualTo(false)
+                .andNameEqualTo(name).andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        List<Unit> units = unitMapper.selectByExample(example);
+        if (units.size() > 0) return units.get(0);
+        return null;
+    }
+
     // 查找第一个历史的运行单位，用于导入
     public Unit findHistoryUnitByCode(String code, String name) {
 

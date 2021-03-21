@@ -184,6 +184,15 @@ public class SystemConstants {
         UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_NOT, "否");
     }
 
+    // 年终考核测评结果类别，1 干部 2 班子
+    public static final byte CES_RESULT_TYPE_CADRE = 1;
+    public static final byte CES_RESULT_TYPE_UNIT = 2;
+    public final static Map<Byte, String> CES_RESULT_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        CES_RESULT_TYPE_MAP.put(CES_RESULT_TYPE_CADRE, "干部");
+        CES_RESULT_TYPE_MAP.put(CES_RESULT_TYPE_UNIT, "班子");
+    }
+
     // 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
     public final static byte USER_REG_STATUS_APPLY = 0;
     public final static byte USER_REG_STATUS_DENY = -1;

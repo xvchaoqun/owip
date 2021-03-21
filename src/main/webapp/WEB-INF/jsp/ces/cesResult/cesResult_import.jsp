@@ -3,10 +3,11 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>导入干部年终考核测评数据</h3>
+    <h3>导入年终考核测评数据</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cadreEvaResult_import" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
+          enctype="multipart/form-data" action="${ctx}/cesResult_import?type=${param.type}" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
@@ -15,14 +16,12 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cadreEvaResult">干部年终考核测评数据录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cesResult${param.type}">${CES_RESULT_TYPE_MAP.get(cm:toByte(param.type))}年终考核测评数据录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">
        <span class="note">
-          <ul>
-              <li>若导入数据的年份，工作证号，测评类别形成的年终考核测评数据在系统中存在，将执行覆盖操作（以导入数据为准）</li>
-          </ul>
+          注：相同年份和测评类别将执行覆盖操作
       </span>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <button id="submitBtn" type="button" class="btn btn-primary"

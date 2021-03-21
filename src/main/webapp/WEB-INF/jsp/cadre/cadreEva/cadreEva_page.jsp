@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
-        <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN)}">
+        <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) && param.cls!=1}">
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <div class="jqgrid-vertical-offset buttons">
             <shiro:hasPermission name="cadreEva:edit">
@@ -48,7 +48,11 @@
         rownumbers: true,
         url: '${ctx}/cadreEva_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '年份', name: 'year'},
+            {label: '年份', name: 'year',width: 80},
+            <c:if test="${param.cls==1}">
+            { label: '工作证号',name: 'cadre.code', width:110},
+            { label: '姓名',name: 'cadre.realname'},
+            </c:if>
             {label: '考核情况', name: 'type', formatter:$.jgrid.formatter.MetaType},
             {label: '时任职务', name: 'title', width:400, align:'left'},
             {label: '备注', name: 'remark', width:300}

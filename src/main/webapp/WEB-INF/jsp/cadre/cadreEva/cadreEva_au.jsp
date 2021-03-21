@@ -8,18 +8,14 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreEva_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreEva.id}">
-        <input type="hidden" name="cadreId" value="${cadreEva.cadreId}">
+        <input type="hidden" name="cadreId" value="${cadre.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
-                        <input required autocomplete="off" disableautocomplete
-                               class="form-control date-picker" placeholder="请选择年份" name="year"
+                    <input required autocomplete="off" disableautocomplete style="width: 80px"
+                               class="form-control date-picker" placeholder="请选择" name="year"
                                type="text"
                                data-date-format="yyyy" data-date-min-view-mode="2" value="${cadreEva.year}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-
 				</div>
 			</div>
 			<div class="form-group">

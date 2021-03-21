@@ -1,8 +1,15 @@
 package domain.cadre;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class CadreEva implements Serializable {
+
+    public CadreView getCadre(){
+        return CmTag.getCadreById(cadreId);
+    }
+
     private Integer id;
 
     private Integer cadreId;

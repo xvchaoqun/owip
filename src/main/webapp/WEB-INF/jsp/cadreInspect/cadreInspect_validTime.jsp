@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input class="form-control date-picker" name="_validTime" type="text"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreEvaResult.validTime,'yyyy-MM-dd')}"/>
+							   data-date-format="yyyy-mm-dd"/>
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>

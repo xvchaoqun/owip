@@ -36,7 +36,7 @@
                 <shiro:hasPermission name="unit:unitEvaResult">
                     <li>
                         <a href="javascript:;"
-                           data-url="${ctx}/cadreEvaResult?cadreId=${param.id}&_auth=${param._auth}&type=1">年终考核测评结果</a>
+                           data-url="${ctx}/cesResult?unitId=${param.id}&_auth=${param._auth}&type=${CES_RESULT_TYPE_UNIT}">年终考核测评结果</a>
                     </li>
                 </shiro:hasPermission>
                  <%--<shiro:hasPermission name="unit:unitTransfer">

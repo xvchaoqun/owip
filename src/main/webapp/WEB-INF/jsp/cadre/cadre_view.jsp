@@ -129,10 +129,10 @@
                            data-url="${ctx}/cadreEva_page?cadreId=${param.cadreId}&_auth=${param._auth}">年度考核记录</a>
                     </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreEvaResult:*">
+                <shiro:hasPermission name="cesResult:list">
                     <li>
                         <a href="javascript:;"
-                           data-url="${ctx}/cadreEvaResult?cadreId=${param.cadreId}&_auth=${param._auth}&type=0">年终考核测评结果</a>
+                           data-url="${ctx}/cesResult?cadreId=${param.cadreId}&_auth=${param._auth}&type=${CES_RESULT_TYPE_CADRE}">年终考核测评结果</a>
                     </li>
                 </shiro:hasPermission>
                 <c:if test="${param.isDp==1}">

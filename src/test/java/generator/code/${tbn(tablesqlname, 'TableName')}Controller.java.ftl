@@ -159,7 +159,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         return "${folder}/${tableName}/${tableName}_au";
     }
 
-    @RequiresPermissions("${tableName}:del")
+    <#--@RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_${tableName}_del(HttpServletRequest request, Integer ${tbn(key, "tableName")}) {
@@ -170,7 +170,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
             logger.info(log( ${logType}, "删除${cnTableName}：{0}", ${tbn(key, "tableName")}));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }-->
 
     @RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_batchDel", method = RequestMethod.POST)

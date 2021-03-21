@@ -197,7 +197,7 @@
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadreEvaResult_import">
+                                                       data-url="${ctx}/cesResult_import?type=${CES_RESULT_TYPE_CADRE}">
                                                         <i class="fa fa-file-excel-o"></i> 导入年终考核测评数据</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
@@ -342,7 +342,7 @@
                                                     <li role="separator" class="divider"></li>
                                                     <li>
                                                         <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cadreEvaResult_data">
+                                                           data-need-id="false" data-url="${ctx}/cesResult_data">
                                                             <i class="fa fa-file-excel-o"></i> 导出年终考核测评数据（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>

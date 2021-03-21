@@ -42,12 +42,12 @@ public class ${TableName}Service extends ${tbn(resFolder?trim, "TableName")}Base
         ${tableName}Mapper.insertSelective(record);
     }
 
-    @Transactional
+    <#--@Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
     public void del(Integer ${tbn(key, "tableName")}){
 
         ${tableName}Mapper.deleteByPrimaryKey(${tbn(key, "tableName")});
-    }
+    }-->
 
     @Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)

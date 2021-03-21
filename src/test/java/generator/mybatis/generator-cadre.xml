@@ -194,8 +194,5 @@
         <!--<table tableName="cadre_position_report" domainObjectName="cadre.CadrePositionReport">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             </table>-->
-        <table tableName="cadre_eva_result" domainObjectName="cadre.CadreEvaResult" mapperName="cadre.CadreEvaResultMapper">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
     </context>
 </generatorConfiguration>

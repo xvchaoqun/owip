@@ -18,6 +18,7 @@ import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveOriginService;
 import service.cadreReserve.CadreReserveService;
+import service.ces.CesResultService;
 import service.crp.CrpRecordService;
 import service.global.CacheService;
 import service.leader.LeaderService;
@@ -118,8 +119,6 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected CadreEvaService cadreEvaService;
     @Autowired
-    protected CadreEvaResultService cadreEvaResultService;
-    @Autowired
     protected CadreReportService cadreReportService;
     @Autowired
     protected CadreStatHistoryService cadreStatHistoryService;
@@ -172,6 +171,9 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected UnitTeamService unitTeamService;
     @Autowired
     protected UnitTeamPlanService unitTeamPlanService;
+
+    @Autowired
+    protected CesResultService cesResultService;
 
     @Autowired
     protected PsInfoService partySchoolService;
