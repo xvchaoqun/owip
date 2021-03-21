@@ -194,12 +194,14 @@
                                                        data-url="${ctx}/cadreEva_import">
                                                         <i class="fa fa-file-excel-o"></i> 导入年度考核结果</a>
                                                 </li>
+                                                <shiro:hasPermission name="cesResult:import">
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cesResult_import?type=${CES_RESULT_TYPE_CADRE}">
                                                         <i class="fa fa-file-excel-o"></i> 导入年终考核测评数据</a>
                                                 </li>
+                                                </shiro:hasPermission>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
