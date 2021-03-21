@@ -33,7 +33,7 @@
                     <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup?unitId=${param.id}">干部任免信息</a>
                 </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="unit:unitEvaResult">
+                <shiro:hasPermission name="cesResult:teamList">
                     <li>
                         <a href="javascript:;"
                            data-url="${ctx}/cesResult?unitId=${param.id}&_auth=${param._auth}&type=${CES_RESULT_TYPE_UNIT}">年终考核测评结果</a>
