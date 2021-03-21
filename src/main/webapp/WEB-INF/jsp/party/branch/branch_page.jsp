@@ -308,7 +308,7 @@
                         .format(rowObject.id, cellvalue==undefined?"0":cellvalue);
                 },frozen:true},
             </shiro:hasPermission>
-            <c:if test="${cls==1 && !_query}">
+            <c:if test="${cls==1 && !_query && empty param.sortBy}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             <c:if test="${_p_owCheckIntegrity}">

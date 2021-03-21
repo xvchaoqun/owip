@@ -294,7 +294,7 @@ pageEncoding="UTF-8" %>
                 return $.party(rowObject.id);
             },frozen:true },
             <shiro:hasPermission name="party:changeOrder">
-            <c:if test="${cls==1 && !_query}">
+            <c:if test="${cls==1 && !_query && empty param.sortBy}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,formatoptions: {url: "${ctx}/party_changeOrder?type=${type}"},frozen:true },
             </c:if>
             </shiro:hasPermission>
