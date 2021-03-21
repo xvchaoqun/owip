@@ -517,7 +517,8 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_au(UnitPost record, Boolean isSync, Integer cadreId, HttpServletRequest request) {
+    public Map do_unitPost_au(UnitPost record, @RequestParam(defaultValue = "0") boolean isSync,
+                              Integer cadreId, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -552,7 +553,7 @@ public class UnitPostController extends BaseController {
             CadrePost cp=cadrePostService.getByUnitPostId(id);//原关联干部
             if(cp!=null) oldCadreId=cp.getCadreId();
 
-            unitPostService.updateByPrimaryKeySelective(record,oldCadreId,cadrePost,isSync);
+            unitPostService.updateByPrimaryKeySelective(record,oldCadreId, cadrePost, isSync);
             logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s-干部任职情况：%s", record.getId(), cadreId));
            /* if(BooleanUtils.isTrue(isSync)){
                   unitPostService.syncCadrePost(record,cadreId);

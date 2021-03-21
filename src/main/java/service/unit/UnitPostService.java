@@ -254,7 +254,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(UnitPost record,Integer oldCadreId,CadrePost cadrePost,Boolean isSync) {
+    public void updateByPrimaryKeySelective(UnitPost record,Integer oldCadreId,CadrePost cadrePost, boolean isSync) {
 
         if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
@@ -262,13 +262,13 @@ public class UnitPostService extends BaseMapper {
 
          unitPostMapper.updateByPrimaryKeySelective(record);
 
-         syncCadrePost(record,oldCadreId,cadrePost,isSync);
+         syncCadrePost(record,oldCadreId,cadrePost, isSync);
 
     }
 
     //同步关联干部任职信息
     @Transactional
-    public void syncCadrePost(UnitPost unitPost,Integer oldCadreId,CadrePost record,Boolean isSync) {
+    public void syncCadrePost(UnitPost unitPost,Integer oldCadreId,CadrePost record, Boolean isSync) {
         Integer newCadreId=record.getCadreId();
        // Boolean isMainPost=record.getIsMainPost();
         Boolean isFirstMainPost=record.getIsFirstMainPost();
