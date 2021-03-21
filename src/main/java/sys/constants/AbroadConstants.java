@@ -186,6 +186,7 @@ public class AbroadConstants {
 
     static {
         ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_CJ);
+        ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_KJ);
         ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER);
         ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER_LEAVE);
     }

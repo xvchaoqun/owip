@@ -1,4 +1,6 @@
 
+20210321
+-- 南航
 
 update sys_resource set permission='cadreEvaResult:cadreList' where permission='cadreEvaResult:list';
 update sys_resource set permission='cadreEvaResult:list' where permission='cadreEvaResult:*';
