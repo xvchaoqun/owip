@@ -128,6 +128,7 @@ public class PartyController extends BaseController {
                                     Boolean isSeparate,
                                     Boolean isPycj,
                                     Boolean isBg,
+                                    String sortBy, // 自定义排序
                                     @RequestDateRange DateRange _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
@@ -145,9 +146,38 @@ public class PartyController extends BaseController {
         PartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
+
         if (StringUtils.equalsIgnoreCase(sort,"integrity")){
             example.setOrderByClause(String.format("integrity %s, sort_order desc",order));
         }
+
+
+        if(sortBy != null && StringUtils.isNotBlank(sortBy)) {
+            String sortStr = "";
+            switch (sortBy.trim()){
+                case "foundTime_desc":
+                    sortStr = "found_time desc";
+                    break;
+                case "foundTime_asc":
+                    sortStr = "found_time asc";
+                    break;
+                case "appointTime_desc":
+                    sortStr = "appoint_time desc";
+                    break;
+                case "appointTime_asc":
+                    sortStr = "appoint_time asc";
+                    break;
+                case "tranTime_desc":
+                    sortStr = "tran_time desc";
+                    break;
+                case "tranTime_asc":
+                    sortStr = "tran_time asc";
+                    break;
+
+            }
+            example.setOrderByClause(sortStr);
+        }
+
 
         //分党委管理员管理自己的内设党总支
         List<Integer> partyIdList = loginUserService.adminPartyIdList();

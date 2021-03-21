@@ -102,6 +102,28 @@
                                         </button>
                                     </shiro:hasPermission>
                                 </c:if>
+                                <div class="pull-right hidden-sm hidden-xs">
+                                    <select id="sortBy" data-placeholder="请选择排序方式" data-width="250">
+                                        <option></option>
+                                        <option value="appointTime_asc">按任命时间排序(升序)</option>
+                                        <option value="appointTime_desc">按任命时间排序(降序)</option>
+                                        <option value="tranTime_asc">按应换届时间排序(升序)</option>
+                                        <option value="tranTime_desc">按应换届时间排序(降序)</option>
+                                    </select>
+                                    <script>
+                                        $("#sortBy").val('${param.sortBy}');
+                                        $("#searchForm input[name=sortBy]").val('${param.sortBy}');
+                                        $("#sortBy").select2({
+                                            theme: "default"
+                                        }).change(function () {
+                                            $("#searchForm input[name=sortBy]").val($(this).val());
+                                            $("#searchForm .jqSearchBtn").click();
+                                            if($(this).val()==''){
+                                                throw new Error();
+                                            }
+                                        })
+                                    </script>
+                                </div>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -115,6 +137,7 @@
                                 <div class="widget-body">
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form" id="searchForm">
+                                            <input type="hidden" name="sortBy">
                                             <input type="hidden" name="status" value="${status}">
                                             <div class="form-group">
                                                 <label>名称</label>

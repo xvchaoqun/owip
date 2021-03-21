@@ -28,6 +28,7 @@ ALTER TABLE `ces_result`
 	CHANGE COLUMN `group_name` `name` VARCHAR(100) NULL DEFAULT NULL COMMENT '测评类别' COLLATE 'utf8_general_ci' AFTER `year`;
 
 -- 更新导入表
+-- 删除 OrgAdminView
 
 20210320
 ALTER TABLE `cadre_eva_result`

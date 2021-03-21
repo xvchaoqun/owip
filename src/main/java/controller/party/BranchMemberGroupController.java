@@ -113,7 +113,7 @@ public class BranchMemberGroupController extends BaseController {
                                        Boolean isStaff,
                                        Boolean isPrefessional,
                                        Boolean isBaseTeam,
-
+                                       String sortBy,//自定义排序
                                        @RequestParam(required = false, defaultValue = "0") int export,
                                        Integer[] ids, // 导出的记录
                                        Integer pageSize, Integer pageNo) throws IOException {
@@ -130,6 +130,25 @@ public class BranchMemberGroupController extends BaseController {
         BranchMemberGroupViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, branch_sort_order desc, appoint_time desc");
 
+        if(sortBy != null && StringUtils.isNotBlank(sortBy)) {
+            String sortStr = "";
+            switch (sortBy.trim()){
+                case "appointTime_desc":
+                    sortStr = "appoint_time desc";
+                    break;
+                case "appointTime_asc":
+                    sortStr = "appoint_time asc";
+                    break;
+                case "tranTime_desc":
+                    sortStr = "tran_time desc";
+                    break;
+                case "tranTime_asc":
+                    sortStr = "tran_time asc";
+                    break;
+
+            }
+            example.setOrderByClause(sortStr);
+        }
         criteria.andIsDeletedEqualTo(status == -1);
 
         if (partyId != null) {
