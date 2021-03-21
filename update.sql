@@ -19,6 +19,13 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (5005, 0, '班子考核结果', '', 'url', '', '/cadreEvaResults?type=1', 5003, '0/1/5003/', 1, 'cadreEvaResult:teamList', 3, NULL, NULL, 1, 7202);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (5004, 0, '干部考核结果', '', 'url', '', '/cadreEvaResults?type=0', 5003, '0/1/5003/', 1, 'cadreEvaResult:list', 3, NULL, NULL, 1, 7203);
 
+
+-- 更新 utils
+
+
+20210318
+-- 大工
+
 20210317
 -- 哈工大 / 测试服务器
 

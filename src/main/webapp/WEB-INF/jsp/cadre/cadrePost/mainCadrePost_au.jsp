@@ -178,7 +178,8 @@
 </div>
 
 <script>
-    $('#modalForm [data-rel="select2"]').select2();
+    $('#modalForm [data-rel="select2"]').select2({theme: "default"});
+    $('#modalForm select[name=adminLevel]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
     $("#modal input[name=isFirstMainPost]").bootstrapSwitch();
@@ -200,7 +201,7 @@
         return $state;
     }
 
-    $.register.ajax_select($('#modalForm select[name=unitId]'));
+    $.register.ajax_select($('#modalForm select[name=unitId]'), {theme: "default"});
     $.register.del_select($('#modalForm select[name=unitPostId]'),
         {templateResult: _templateResult})
         .on("change", function () {

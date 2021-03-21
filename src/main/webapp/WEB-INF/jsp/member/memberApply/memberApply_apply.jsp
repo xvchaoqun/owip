@@ -511,7 +511,7 @@
                 }
             },
             {
-                label: '入党志愿书接收人', name: 'drawAcceptor', width: 130
+                label: '入党申请书接收人', name: 'drawAcceptor', width: 130
             },
 
             {

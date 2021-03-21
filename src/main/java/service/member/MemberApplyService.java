@@ -646,7 +646,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
         MemberApply memberApply = get(userId);
         if (memberApply == null || memberApply.getIsRemove())
-            throw new OpException("状态异常，请稍后再试");
+            throw new OpException("操作失败，记录不存在或已被移除");
 
         MemberApply record = new MemberApply();
         record.setStage(OwConstants.OW_APPLY_STAGE_POSITIVE);
@@ -654,12 +654,18 @@ public class MemberApplyService extends MemberBaseMapper {
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW)
-                .andPositiveStatusEqualTo(OwConstants.OW_APPLY_STATUS_CHECKED);
+                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW);
+
+        if(memberApply.getPositiveStatus()==null){
+            throw new OpException("支部还没有提交预备党员转正");
+        }
+        /*if(memberApply.getPositiveStatus()==OwConstants.OW_APPLY_STATUS_CHECKED){
+            String partyName = CmTag.getStringProperty("partyName");
+            throw new OpException(partyName + "还没有审核");
+        }*/
 
         // 1. 更新申请状态
-        if (updateByExampleSelective(userId, record, example) == 0)
-            throw new OpException("状态异常，请稍后再试");
+        updateByExampleSelective(userId, record, example);
 
         //Member member = memberMapper.selectByPrimaryKey(userId);
         Member _record = new Member();
@@ -678,7 +684,7 @@ public class MemberApplyService extends MemberBaseMapper {
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
         if (sysUser == null || memberApply == null || memberApply.getIsRemove())
-            throw new OpException("状态异常，请稍后再试");
+            throw new OpException("记录不存在或已被移除");
 
         MemberApply record = new MemberApply();
         record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
@@ -729,7 +735,7 @@ public class MemberApplyService extends MemberBaseMapper {
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
         if (sysUser == null || memberApply == null || memberApply.getIsRemove())
-            throw new OpException("状态异常，请稍后再试");
+            throw new OpException("记录不存在或已被移除");
 
         MemberApply record = new MemberApply();
         record.setStage(OwConstants.OW_APPLY_STAGE_GROW);

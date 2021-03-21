@@ -38,7 +38,7 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberTransfer:edit">
-                                    <c:if test="${cls==1}">
+                                    <c:if test="${cls==1 || cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息

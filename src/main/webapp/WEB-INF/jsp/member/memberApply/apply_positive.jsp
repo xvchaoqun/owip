@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>预备党员转正</h3>
@@ -30,7 +31,9 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-
+<c:if test="${_p_growContactUsers_count>0}">
+    <div class="note">注：填写转正时间之前，请先确定培养联系人</div>
+</c:if>
     <button id="applySubmitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-check"></i> 确定</button>
 </div>

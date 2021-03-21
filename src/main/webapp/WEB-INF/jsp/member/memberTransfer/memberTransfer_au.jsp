@@ -61,7 +61,7 @@ pageEncoding="UTF-8"%>
 						<div class="form-group">
 							<label class="col-xs-5 control-label">民族</label>
 							<div class="col-xs-6">
-								<select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
+								<select name="nation" data-rel="select2" data-placeholder="请选择">
                              <option></option>
 								<c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
 									<option value="${nation.name}">${nation.name}</option>
@@ -160,20 +160,12 @@ pageEncoding="UTF-8"%>
 				</div></div>
     </form>
 
-<c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer center">
 		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
 
 		 <button id="submitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> ${param.reapply==1?"重新申请":"确定"}</button>
-
 	</div>
-</c:if>
-<c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
-	<div class="modal-footer">
-		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
-	</div>
-</c:if>
 	</div>
 <script>
 
@@ -206,7 +198,8 @@ pageEncoding="UTF-8"%>
 						</c:if>
 						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
-							$.hashchange();
+							//$.hashchange();
+							$.hideView();
 						//});
                     }
                     $btn.button('reset');
@@ -214,7 +207,7 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $('#modalForm [data-rel="select2"]').select2();
+    $('#modalForm select[name=nation]').select2({theme: "default"}).prop("disabled", true);
     $('[data-rel="tooltip"]').tooltip();
 	var $select = $.register.user_select($('#modalForm select[name=userId]'));
 	$select.on("change",function(){
@@ -235,7 +228,7 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=realname]").val(realname);
 			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
-			$("#modalForm input[name=nation]").val(nation);
+			$("#modalForm select[name=nation]").val(nation).trigger("change");
 			$("#modalForm input[name=politicalStatus]").val(_cMap.MEMBER_POLITICAL_STATUS_MAP[politicalStatus]);
 			$("#modalForm input[name=idcard]").val(idcard);
 		}else{
@@ -243,7 +236,7 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=realname]").val('')
 			$("#modalForm input[name=gender]").val('')
 			$("#modalForm input[name=age]").val('')
-			$("#modalForm input[name=nation]").val('')
+			$("#modalForm select[name=nation]").val(null).trigger("change")
 			$("#modalForm input[name=politicalStatus]").val('')
 			$("#modalForm input[name=idcard]").val('')
 		}

@@ -149,9 +149,10 @@
 			});
 		}
 	});
-	$('#modalForm [data-rel="select2"]').select2();
+	$('#modalForm [data-rel="select2"]').select2({theme: "default"});
+    $('#modalForm select[name=adminLevel]').select2();
 	$('[data-rel="tooltip"]').tooltip();
-	$.register.ajax_select($('#modalForm select[name=unitId]'));
+	$.register.ajax_select($('#modalForm select[name=unitId]'), {theme: "default"});
 
 	function _templateResult(state) {
         var $state = state.text;

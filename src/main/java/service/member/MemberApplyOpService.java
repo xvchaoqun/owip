@@ -600,8 +600,8 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             MemberApply memberApply = memberApplyService.get(userId);
             MemberApply record = new MemberApply();
-            record.setContactUsers(_contactUsers);
-            record.setContactUserIds(_contactUserIds);
+            record.setGrowContactUsers(_contactUsers);
+            record.setGrowContactUserIds(_contactUserIds);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)

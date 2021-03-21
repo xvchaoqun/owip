@@ -73,9 +73,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>是否班子<br/>负责人</label>
-				<div class="col-xs-8">
-				<select required name="leaderType" data-width="272" data-placeholder="请选择" data-rel="select2">
+				<label class="col-xs-4 control-label"><span class="star">*</span>是否班子负责人</label>
+				<div class="col-xs-6">
+				<select required name="leaderType" data-placeholder="请选择" data-rel="select2">
 					<option></option>
 					<c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
 						<option value="${leaderType.key}">${leaderType.value}</option>
@@ -86,9 +86,7 @@ pageEncoding="UTF-8"%>
 				</script>
 				</div>
 			</div>
-			</div>
-			<div class="col-xs-6">
-			<div class="form-group">
+				<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>岗位级别</label>
 				<div class="col-xs-6">
 					 <select required data-rel="select2" name="adminLevel" data-placeholder="请选择">
@@ -101,6 +99,9 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
+			</div>
+			<div class="col-xs-6">
+
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
@@ -172,14 +173,14 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-8">
 					<div class="input-group">
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-							<input required type="radio" name="isSync" id="isSync1" value="1">
+							<input required type="radio" name="isSync" id="isSync1" value="1" checked>
 							<label for="isSync1">
 								是
 							</label>
 						</div>
 						&nbsp;&nbsp;
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-							<input required type="radio" name="isSync" id="isSync0" value="0" checked>
+							<input required type="radio" name="isSync" id="isSync0" value="0">
 							<label for="isSync0">
 								否
 							</label>
@@ -189,15 +190,20 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             </c:if>
-			<div class="form-group" id="cadreDiv" style="${cadrePost==null?'':'display: none'}">
-				<label class="col-xs-4 control-label">${cadrePost==null?'':'变更'}任职干部</label>
+			<div class="form-group" id="cadreDiv">
+				<label class="col-xs-4 control-label">任职干部</label>
 				<div class="col-xs-8">
-					<select  <%--${cadrePost==null?'':'disabled'}--%> data-rel="select2-ajax"
+					<select data-rel="select2-ajax"
 								data-ajax-url="${ctx}/cadre_selects"
 								name="cadreId" data-placeholder="请输入账号或姓名或学工号">
 							<option value="${cadrePost.cadre.id}">${cadrePost.cadre.realname}-${cadrePost.cadre.code}</option>
 					</select>
-					<span class="help-block blue">注：变更前后两个干部的任职信息也将更新。</span>
+					<c:if test="${cadrePost!=null}">
+					<span class="help-block blue">注：如发生变更，前后两个干部的任职信息也将更新。</span>
+					</c:if>
+					<c:if test="${cadrePost==null}">
+					<span class="help-block blue">注：如果该干部已存在主职，将被覆盖。</span>
+					</c:if>
 				</div>
 			</div>
 
@@ -233,20 +239,15 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-   /* $("#modalForm :checkbox").bootstrapSwitch();*/
     $.register.ajax_select($("#modalForm select[name=unitId]"))
     $.register.user_select($("#modalForm select[name=cadreId]"));
     $('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
-	$("input[type=radio][name=isSync]").click(function(){
-		if($(this).val()=='1') {
+	$("#modalForm input[name=isSync]").change(function(){
+		var isSnyc = $("#modalForm input[name=isSync]:checked").val();
+		if(isSnyc=='1') {
 			$("#cadreDiv").show();
-			/*$("#modalForm select[name=cadreId]").removeAttr("disabled");*/
 		}else {
 			$("#cadreDiv").hide();
-			/*$("#modalForm select[name=cadreId]").prop("disabled", true);*/
 		}
-	});
+	}).change();
 </script>

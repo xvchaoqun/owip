@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="profile-info-row">
-                        <div class="profile-info-name td"> 入党志愿书接收人</div>
+                        <div class="profile-info-name td"> 入党申请书接收人</div>
 
                         <div class="profile-info-value td">
                             <span class="editable">${memberApply.drawAcceptor}</span>

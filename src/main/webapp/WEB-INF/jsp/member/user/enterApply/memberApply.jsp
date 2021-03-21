@@ -112,7 +112,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label no-padding-right"> 入党志愿书接收人</label>
+            <label class="col-xs-4 control-label no-padding-right"> 入党申请书接收人</label>
 
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
