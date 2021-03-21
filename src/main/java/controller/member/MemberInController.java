@@ -2,7 +2,6 @@ package controller.member;
 
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.member.Member;
 import domain.member.MemberIn;
 import domain.member.MemberInExample;
 import domain.member.MemberInExample.Criteria;
@@ -42,6 +41,7 @@ import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -505,12 +505,12 @@ public class MemberInController extends MemberBaseController {
         List<MemberIn> records = new ArrayList<>();
 
         int row = 1;
-        int col = 0;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
             MemberIn record = new MemberIn();
 
-            String userCode = StringUtils.trim(xlsRow.get(col));
+            int col = 0;
+            String userCode = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(userCode)) {
                 throw new OpException("第{0}行学工号[{1}]不能为空", row, userCode);
             }
@@ -520,51 +520,53 @@ public class MemberInController extends MemberBaseController {
             }
             record.setUserId(uv.getUserId());
 
-            Member member = memberService.get(uv.getId());
-            if (member == null) {
-                throw new OpException("第{0}行学工号[{1}]不在党员库中", row, userCode);
+            col++; // 忽略姓名
+
+            String _type = StringUtils.trimToNull(xlsRow.get(col++));
+            MetaType type = CmTag.getMetaTypeByName("mc_member_in_out_type", _type);
+            if (type == null) throw new OpException("第{0}行组织关系转入类别[{1}]不存在", row, _type);
+            record.setType(type.getId());
+
+            String partyName = StringUtils.trim(xlsRow.get(col++));
+            Party party = partyService.getByName(partyName);
+            if (party == null) {
+                throw new OpException("第{0}行转入党委[{1}]不存在", row, partyName);
             }
+            record.setPartyId(party.getId());
+
+            if(!partyService.isDirectBranch(record.getPartyId())) {
+
+                String branchName = StringUtils.trim(xlsRow.get(col));
+                if (StringUtils.isBlank(branchName)) {
+                    throw new OpException("第{0}行转入党支部[{1}]不能为空", row, branchName);
+                }
+                Branch branch = branchService.getByName(branchName);
+                if (branch == null) {
+                    throw new OpException("第{0}行转入党支部[{1}]不存在", row, branchName);
+                }
+                if (branch.getPartyId().intValue() != party.getId()) {
+                    throw new OpException("第{0}行转入党委和转入党支部不对应[{1}]", row, branchName);
+                }
+                record.setBranchId(branch.getId());
+            }
+            col++; // 支部
+
+            // 判断党委、支部权限
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
-                if (!adminPartyIdSet.contains(member.getPartyId())
-                        && (member.getBranchId() == null || !adminBranchIdSet.contains(member.getBranchId()))) {
+                if (!adminPartyIdSet.contains(record.getPartyId())
+                        && (record.getBranchId() == null || !adminBranchIdSet.contains(record.getBranchId()))) {
 
                     throw new OpException("第{0}行学工号[{1}]没有权限导入", row, userCode);
                 }
             }
 
-            String _type = StringUtils.trimToNull(xlsRow.get(++col));
-            MetaType type = CmTag.getMetaTypeByName("mc_member_in_out_type", _type);
-            if (type == null) throw new OpException("第{0}行组织关系转入类别[{1}]不存在", row, _type);
-            record.setType(type.getId());
-
-            String partyName = StringUtils.trim(xlsRow.get(++col));
-            Party party = partyService.getByName(partyName);
-            if (party == null) {
-                throw new OpException("第{0}行转入分党委[{1}]不存在", row, partyName);
-            }
-            record.setPartyId(party.getId());
-
-            String branchName = StringUtils.trim(xlsRow.get(++col));
-
-            if (StringUtils.isBlank(branchName)) {
-                throw new OpException("第{0}行转入党支部[{1}]不能为空", row, branchName);
-            }
-            Branch branch = branchService.getByName(branchName);
-            if (branch == null) {
-                throw new OpException("第{0}行转入党支部[{1}]不存在", row, branchName);
-            }
-            if (branch.getPartyId() != party.getId()) {
-                throw new OpException("第{0}行转入分党委和转入党支部不对应[{1}]", row, branchName);
-            }
-            record.setBranchId(branch.getId());
-
-            String fromTitle = StringUtils.trim(xlsRow.get(++col));
+            String fromTitle = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(fromTitle)) {
                 throw new OpException("第{0}行介绍信抬头[{1}]不能为空", row, partyName);
             }
             record.setFromTitle(fromTitle);
             try {
-                Integer day = Integer.valueOf(xlsRow.get(++col));
+                Integer day = Integer.valueOf(xlsRow.get(col++));
                 if (day == null) {
                     throw new OpException("第{0}行介绍信有效天数[{1}]不能为空", row, day);
                 }
@@ -573,61 +575,66 @@ public class MemberInController extends MemberBaseController {
                 throw new OpException("第{0}行介绍信有效天数参数错误", row);
             }
 
-            String status = StringUtils.trim(xlsRow.get(++col));
-            if (StringUtils.isBlank(status)) {
-                throw new OpException("第{0}行党籍状态[{1}]不能为空", row, status);
+            String politicalStatus = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.isBlank(politicalStatus)) {
+                throw new OpException("第{0}行党籍状态[{1}]不能为空", row, politicalStatus);
             }
-            String fromUnit = StringUtils.trim(xlsRow.get(++col));
+            if(StringUtils.equalsAny("politicalStatus", "正式党员", "预备党员")) {
+                record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+            }else{
+                record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
+            }
+
+            String fromUnit = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(fromUnit)) {
                 throw new OpException("第{0}行转出单位[{1}]不能为空", row, fromUnit);
             }
             record.setFromUnit(fromUnit);
 
-            String fromAddress = StringUtils.trim(xlsRow.get(++col));
+            String fromAddress = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(fromUnit)) {
                 throw new OpException("第{0}行转出单位地址[{1}]不能为空", row, fromAddress);
             }
             record.setFromAddress(fromAddress);
 
-            String fromPhone = StringUtils.trim(xlsRow.get(++col));
+            String fromPhone = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(fromPhone)) {
                 throw new OpException("第{0}行转出单位联系电话[{1}]不能为空", row, fromPhone);
             }
             record.setFromPhone(fromPhone);
-            record.setFromFax(StringUtils.trimToNull(xlsRow.get(++col)));
+            record.setFromFax(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            String fromPostCode = StringUtils.trim(xlsRow.get(++col));
+            String fromPostCode = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(fromPostCode)) {
                 throw new OpException("第{0}行转出单位邮编[{1}]不能为空", row, fromPostCode);
             }
             record.setFromPostCode(fromPostCode);
 
-            String payTime = StringUtils.trim(xlsRow.get(++col));
+            String payTime = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(payTime)) {
                 throw new OpException("第{0}行党费缴纳至年月[{1}]不能为空", row, payTime);
             }
             record.setPayTime(DateUtils.parseStringToDate(payTime));
 
-            String fromHandleTime = StringUtils.trim(xlsRow.get(++col));
+            String fromHandleTime = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(fromHandleTime)) {
                 throw new OpException("第{0}行转出办理时间[{1}]不能为空", row, fromHandleTime);
             }
             record.setFromHandleTime(DateUtils.parseStringToDate(fromHandleTime));
 
-            String handleTime = StringUtils.trim(xlsRow.get(++col));
+            String handleTime = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(handleTime)) {
                 throw new OpException("第{0}行转入办理时间[{1}]不能为空", row, handleTime);
             }
             record.setHandleTime(DateUtils.parseStringToDate(handleTime));
 
-            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(++col))));
-            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(++col))));
-            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(++col))));
-            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(++col))));
-            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(++col))));
-            record.setHasReceipt(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(++col)), "是"));
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setHasReceipt(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
             records.add(record);
-            col = 0;
         }
 
         int addCount = memberInService.batchImport(records);

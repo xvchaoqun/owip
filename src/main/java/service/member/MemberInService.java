@@ -122,15 +122,6 @@ public class MemberInService extends MemberBaseMapper {
         return (memberApplies.size()==0)?null:memberApplies.get(0);
     }
 
-    /*public boolean idDuplicate(Integer id, Integer userId){
-
-        MemberInExample example = new MemberInExample();
-        MemberInExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
-        if(id!=null) criteria.andIdNotEqualTo(id);
-
-        return memberInMapper.countByExample(example) > 0;
-    }*/
-
     // 获取最新没有完成审批的记录，为了可以再次转入( 允许转出后用原账号转入 )
     public MemberIn get(int userId) {
 
@@ -160,20 +151,20 @@ public class MemberInService extends MemberBaseMapper {
 
     // 分党委、党总支审核， 不需要下一步组织部审核
     @Transactional
-    public void checkByParty(int userId, byte politicalStatus, boolean hasReceipt){
+    public void checkByParty(int id, int userId, byte politicalStatus, boolean hasReceipt){
 
         checkMember(userId, hasReceipt);
-        addMemberByIn(userId, politicalStatus);
+        addMemberByIn(id, politicalStatus);
     }
 
     // 组织部审核通过
     @Transactional
-    public void addMemberByIn(int userId, byte politicalStatus){
+    public void addMemberByIn(int id, byte politicalStatus){
         
-        MemberIn memberIn = get(userId);
-        if(memberIn.getStatus()!= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
-            throw new OpException("分党委还未审核通过");
+        MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+        if(memberIn==null) return;
 
+        int userId = memberIn.getUserId();
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
         record.setStatus(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
@@ -207,11 +198,6 @@ public class MemberInService extends MemberBaseMapper {
     public int insertSelective(MemberIn record){
 
         return  memberInMapper.insertSelective(record);
-    }
-    @Transactional
-    public void del(Integer id){
-
-        memberInMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -332,14 +318,14 @@ public class MemberInService extends MemberBaseMapper {
 
                 hasReceipt = (hasReceipt==null)?false:hasReceipt;
                 if (isParty || isPartyGeneralBranch) { // 分党委、党总支审核，需要跳过下一步的组织部审核
-                    checkByParty(memberIn.getUserId(), memberIn.getPoliticalStatus(), hasReceipt);
+                    checkByParty(memberIn.getId(), memberIn.getUserId(), memberIn.getPoliticalStatus(), hasReceipt);
                 } else {
                     checkMember(memberIn.getUserId(), hasReceipt);
                 }
             }
             if(type==2) {
                 ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTYVIEWALL);
-                addMemberByIn(memberIn.getUserId(), memberIn.getPoliticalStatus());
+                addMemberByIn(memberIn.getId(), memberIn.getPoliticalStatus());
             }
 
             applyApprovalLogService.add(memberIn.getId(),
@@ -422,6 +408,7 @@ public class MemberInService extends MemberBaseMapper {
 
         int addCount = 0;
         for (MemberIn record : records) {
+
             int userId = record.getUserId();
             MemberIn memberIn = getLatest(userId);
             if (memberIn != null
@@ -436,18 +423,18 @@ public class MemberInService extends MemberBaseMapper {
             }
 
             if (record.getId() == null) {
-                Member member = memberService.get(userId);
-                if(member!=null) {
-                    record.setPoliticalStatus(member.getPoliticalStatus());
-                }
-                if (member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
-                    throw new OpException("第{0}条记录已经是党员，不需要进行转入操作。", ++addCount);
-                }
+
                 memberInMapper.insertSelective(record);
                 addCount++;
             } else {
                 memberInMapper.updateByPrimaryKeySelective(record);
             }
+
+            if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+                // 加入党员库
+                addMemberByIn(record.getId(), record.getPoliticalStatus());
+            }
+
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), userId,
                     ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,

@@ -9,6 +9,8 @@ select distinct user_id from ow_member
 union all
 select distinct user_id from ow_member_apply
 union all
+select distinct user_id from ow_member_in
+union all
 select distinct user_id from cadre
 union all
 select distinct user_id from cet_record

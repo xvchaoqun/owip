@@ -308,6 +308,7 @@ pageEncoding="UTF-8"%>
         }
     });
     $('#modalForm [data-rel="select2"]').select2();
+    $('#modalForm select[name=nation]').select2({theme: "default"}).prop("disabled", true);
     $('[data-rel="tooltip"]').tooltip();
 
 	$("#resubmit").click(function(){

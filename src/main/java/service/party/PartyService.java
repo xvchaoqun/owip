@@ -411,17 +411,19 @@ public class PartyService extends BaseMapper {
         partyMapper.deleteByExample(example);
     }
 
+    // 根据分党委名称/简称获得分党委
     public Party getByName(String name){
 
         if (StringUtils.isBlank(name)) return null;
-        PartyExample example = new PartyExample();
-        PartyExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
+        name = StringUtils.trim(name);
 
-        //控制其他模块不会查到内设党总支，后续如果党支部和党员用到内设党总支，再做修改
-        if (CmTag.getBoolProperty("use_inside_pgb")){
-            criteria.andFidIsNull();
-        }
-        List<Party> partyList = partyMapper.selectByExample(example);
+        PartyExample example = new PartyExample();
+
+        // fid:控制其他模块不会查到内设党总支，后续如果党支部和党员用到内设党总支，再做修改  CmTag.getBoolProperty("use_inside_pgb")
+        example.or().andNameEqualTo(name).andFidIsNull();
+        example.or().andShortNameEqualTo(name).andFidIsNull();
+
+        List<Party> partyList = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return partyList.size() > 0 ? partyList.get(0) : null;
     }
