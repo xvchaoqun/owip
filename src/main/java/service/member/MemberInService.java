@@ -391,15 +391,13 @@ public class MemberInService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 
-    public MemberIn getLatest(int userId) {
+    public MemberIn get(int userId, Date payMonth) {
 
         MemberInExample example = new MemberInExample();
-        example.createCriteria().andUserIdEqualTo(userId);
-        example.setOrderByClause("apply_time desc");
-        List<MemberIn> memberIns = memberInMapper.selectByExample(example);
-        if (memberIns.size() > 0) return memberIns.get(0);
+        example.createCriteria().andUserIdEqualTo(userId).andPayTimeEqualTo(payMonth);
+        List<MemberIn> memberIns = memberInMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return null;
+        return (memberIns.size() > 0)?memberIns.get(0):null;
     }
 
     // 批量导入
@@ -410,9 +408,8 @@ public class MemberInService extends MemberBaseMapper {
         for (MemberIn record : records) {
 
             int userId = record.getUserId();
-            MemberIn memberIn = getLatest(userId);
-            if (memberIn != null
-                    && memberIn.getStatus() < MemberConstants.MEMBER_IN_STATUS_OW_VERIFY) {
+            MemberIn memberIn = get(userId, record.getPayTime());
+            if (memberIn != null) {
                 record.setId(memberIn.getId());
             }
 

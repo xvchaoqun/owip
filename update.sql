@@ -2,6 +2,28 @@
 20210321
 -- 南航
 
+ALTER TABLE `cadre_eva_result`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0. 个人年度测评结果 1. 单位年度测评结果' COLLATE 'utf8_general_ci' AFTER `id`,
+	ADD COLUMN `unit_id` INT NULL COMMENT '单位id' COLLATE 'utf8_general_ci' AFTER `type`,
+	ADD COLUMN `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '时任单位及职务名称' COLLATE 'utf8_general_ci' AFTER `remark`;
+
+ALTER TABLE `cadre_eva_result`
+	CHANGE COLUMN `cadre_id` `cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属干部' AFTER `unit_id`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (5003, 0, '考核结果管理', '', 'menu', 'fa fa-street-view', NULL, 1, '0/1/', 0, 'cesResult:menu', 3, NULL, NULL, 1, 7203);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (5006, 0, '干部年度考核记录', '', 'url', '', '/cadreEva_page?cls=1', 5003, '0/1/5003/', 1, 'cadreEva:list', 3, NULL, NULL, 1, 7202);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (5005, 0, '班子年终考核结果', '', 'url', '', '/cesResults?type=2', 5003, '0/1/5003/', 1, 'cesResult:teamList', 3, NULL, NULL, 1, 7202);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (5004, 0, '干部年终考核结果', '', 'url', '', '/cesResults?type=1', 5003, '0/1/5003/', 1, 'cesResult:cadreList', 3, NULL, NULL, 1, 7203);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (5007, 0, '兼职申报', '', 'url', '', '/cadre/partTimeDeclare', 353, '0/1/353/', 1, 'cadre:partTimeDeclare', 4, NULL, NULL, 1, NULL);
+
+-- 更新 utils
+
 update sys_resource set permission='cadreEvaResult:cadreList' where permission='cadreEvaResult:list';
 update sys_resource set permission='cadreEvaResult:list' where permission='cadreEvaResult:*';
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
@@ -29,29 +51,6 @@ ALTER TABLE `ces_result`
 
 -- 更新导入表
 -- 删除 OrgAdminView
-
-20210320
-ALTER TABLE `cadre_eva_result`
-	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0. 个人年度测评结果 1. 单位年度测评结果' COLLATE 'utf8_general_ci' AFTER `id`,
-	ADD COLUMN `unit_id` INT NULL COMMENT '单位id' COLLATE 'utf8_general_ci' AFTER `type`,
-	ADD COLUMN `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '时任单位及职务名称' COLLATE 'utf8_general_ci' AFTER `remark`;
-
-ALTER TABLE `cadre_eva_result`
-	CHANGE COLUMN `cadre_id` `cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属干部' AFTER `unit_id`;
-
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (5003, 0, '考核结果管理', '', 'menu', 'fa fa-street-view', NULL, 1, '0/1/', 0, 'cesResult:menu', 3, NULL, NULL, 1, 7203);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (5006, 0, '干部年度考核记录', '', 'url', '', '/cadreEva_page?cls=1', 5003, '0/1/5003/', 1, 'cadreEva:list', 3, NULL, NULL, 1, 7202);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (5005, 0, '班子年终考核结果', '', 'url', '', '/cesResults?type=2', 5003, '0/1/5003/', 1, 'cesResult:teamList', 3, NULL, NULL, 1, 7202);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (5004, 0, '干部年终考核结果', '', 'url', '', '/cesResults?type=1', 5003, '0/1/5003/', 1, 'cesResult:cadreList', 3, NULL, NULL, 1, 7203);
-
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (5007, 0, '兼职申报', '', 'url', '', '/cadre/partTimeDeclare', 353, '0/1/353/', 1, 'cadre:partTimeDeclare', 4, NULL, NULL, 1, NULL);
-
--- 更新 utils
 
 20210318
 -- 大工
