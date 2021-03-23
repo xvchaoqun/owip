@@ -18,6 +18,10 @@ public class MemberOut implements Serializable {
         return code;
     }
 
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+
     public SysUserView getLastPrintUser(){
 
         return CmTag.getUserById(lastPrintUserId);

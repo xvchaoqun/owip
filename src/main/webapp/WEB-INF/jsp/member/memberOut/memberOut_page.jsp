@@ -11,7 +11,7 @@
                  data-url-page="${ctx}/memberOut"
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.userType||not empty param.type
+                <c:set var="_query" value="${not empty param.userId ||not empty param.memberType||not empty param.type
                 || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isSelfPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param._acceptReceiptTime|| not empty param.code || not empty param.sort}"/>
@@ -199,14 +199,14 @@
                                             <div class="form-group">
                                             <label>人员类别</label>
                                             <div class="input-group">
-                                                <select data-rel="select2" name="userType" data-placeholder="请选择">
+                                                <select data-rel="select2" name="memberType" data-placeholder="请选择">
                                                     <option></option>
-                                                    <option value="1">学生</option>
-                                                    <option value="2">在职教工</option>
-                                                    <option value="3">离退休</option>
+                                                    <c:forEach items="${MEMBER_OUT_MEMBER_TYPE_MAP}" var="entity">
+                                                        <option value="${entity.key}">${entity.value}</option>
+                                                    </c:forEach>
                                                 </select>
                                                 <script>
-                                                    $("#searchForm select[name=userType]").val(${param.userType});
+                                                    $("#searchForm select[name=memberType]").val(${param.memberType});
                                                 </script>
                                             </div>
                                         </div>
@@ -409,13 +409,10 @@
             { label: '姓名', name: 'realname',width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
-            {label: '人员类别', name: 'memberType', width: 80, formatter: function (cellvalue, options, rowObject) {
+            {label: '人员类别', name: 'memberType', formatter: function (cellvalue, options, rowObject) {
 
-                if(cellvalue=='${MEMBER_TYPE_STUDENT}'){
-                    return "学生";
-                }else{
-                    return (rowObject.isRetire)?"离退休":"在职教工"
-                }
+                if(cellvalue==undefined) return '--';
+                return _cMap.MEMBER_OUT_MEMBER_TYPE_MAP[cellvalue];
             }, frozen:true},
             {
                 label: '所在党组织', name: 'party',  width: 450, align:'left',

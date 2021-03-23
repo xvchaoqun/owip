@@ -176,6 +176,17 @@ public class MemberConstants {
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_OW_VERIFY, "审核通过");
     }
 
+    // 党员转出人员类别
+    public final static byte MEMBER_OUT_MEMBER_TYPE_STUDENT = 1; // 学生
+    public final static byte MEMBER_OUT_MEMBER_TYPE_TEACHER = 2; // 教职工
+    public final static byte MEMBER_OUT_MEMBER_TYPE_RETIRE = 3; // 离退休
+    public final static Map<Byte, String> MEMBER_OUT_MEMBER_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_STUDENT, "学生");
+        MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_TEACHER, "在职教职工");
+        MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_RETIRE, "离退休");
+    }
+
     // 党员转出状态
     public final static byte MEMBER_OUT_STATUS_ABOLISH = -3;
     public final static byte MEMBER_OUT_STATUS_SELF_BACK = -2;

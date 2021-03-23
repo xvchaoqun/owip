@@ -231,7 +231,7 @@ public class MemberOutController extends MemberBaseController {
                                Boolean isBack,
                                Boolean isModify,
                                Boolean isSelfPrint,
-                               Byte userType,
+                               Byte memberType,
                                Integer type,
                                Integer partyId,
                                Integer branchId,
@@ -272,8 +272,8 @@ public class MemberOutController extends MemberBaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if (userType != null) {
-            criteria.andMemberTypeEqualTo(userType);
+        if (memberType != null) {
+            criteria.andMemberTypeEqualTo(memberType);
         }
         if (hasReceipt != null) {
             criteria.andHasReceiptEqualTo(hasReceipt);

@@ -42,6 +42,7 @@
 
 <c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
 
+<c:set var="MEMBER_OUT_MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_OUT_MEMBER_TYPE_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
 

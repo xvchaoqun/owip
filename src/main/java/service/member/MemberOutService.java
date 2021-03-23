@@ -343,13 +343,13 @@ public class MemberOutService extends MemberBaseMapper {
             Member member = memberService.get(userId);
             if(member!=null) {
                 if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
-                    record.setMemberType((byte) 1);
+                    record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_STUDENT);
                 } else {
                     TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
                     if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
-                        record.setMemberType((byte) 3);
+                        record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_RETIRE);
                     } else {
-                        record.setMemberType((byte) 2);
+                        record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_TEACHER);
                     }
                 }
             }
@@ -515,13 +515,13 @@ public class MemberOutService extends MemberBaseMapper {
                 Member member = memberService.get(userId);
                 if(member!=null) {
                     if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
-                        record.setMemberType((byte) 1);
+                        record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_STUDENT);
                     } else {
                         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
                         if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
-                            record.setMemberType((byte) 3);
+                            record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_RETIRE);
                         } else {
-                            record.setMemberType((byte) 2);
+                            record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_TEACHER);
                         }
                     }
                     record.setPoliticalStatus(member.getPoliticalStatus());
