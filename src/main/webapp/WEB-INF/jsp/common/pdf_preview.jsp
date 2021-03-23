@@ -122,7 +122,7 @@
             } else {
                 $backward.removeClass("disabled");
             }
-            if (pageNo ==${totalPage}) {
+            if (pageNo == ${totalPage} || ${totalPage==1}) {
                 $forward.addClass("disabled");
             } else {
                 $forward.removeClass("disabled");
@@ -133,7 +133,8 @@
             var pageNo = $(this).val();
             $("#page" + pageNo)[0].scrollIntoView(true);
             updatePdfPagerButtonStatus();
-        })
+        }).change();
+
         $(".pdf-pager .fa-backward").click(function () {
             var pageNo = $(".pdf-pager select").val();
             if (pageNo > 1) {
