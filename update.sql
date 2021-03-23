@@ -1,6 +1,8 @@
 
+
+
 20210321
--- 南航
+-- 南航， 哈工大
 
 ALTER TABLE `cadre_eva_result`
 	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0. 个人年度测评结果 1. 单位年度测评结果' COLLATE 'utf8_general_ci' AFTER `id`,
@@ -104,7 +106,7 @@ set mo.user_code=u.code, mo.realname=u.realname, mo.gender=u.gender, mo.idcard=u
 update sys_role set name=replace(name, '干部工作管理员', '干部管理员');
 update sys_role set name=replace(name, '干部管理员（目录1）', '干部管理员');
 update sys_role set name=replace(name, '干部管理员（目录2）', '干部管理员（部分权限）');
-update sys_role set name=replace(name, '党建工作管理员', '干部管理员');
+update sys_role set name=replace(name, '党建工作管理员', '党建管理员');
 update sys_role set name=replace(name, '管理员(干部教育培训)', '培训管理员');
 update sys_resource set name='干部管理员', remark='管理所有干部相关的模块' where permission='cadre:admin';
 -- 删除 ROLE_CADREADMIN  及角色
