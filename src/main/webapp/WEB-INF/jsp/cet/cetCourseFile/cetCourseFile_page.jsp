@@ -107,7 +107,7 @@
                                 <div class="hidden-sm hidden-xs action-buttons">
 
                                     <c:if test="${not empty cetCourseFile.filePath}">
-                                    <button class='openUrl btn btn-xs btn-primary'
+                                    <button class='openUrl btn btn-xs btn-primary' data-width="900"
                                             data-url='${ctx}/pdf_preview?type=url&path=${cm:sign(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
                                         <i class="fa fa-search"></i>
                                         预览</button>

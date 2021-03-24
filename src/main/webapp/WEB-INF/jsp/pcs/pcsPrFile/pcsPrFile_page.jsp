@@ -57,7 +57,7 @@
                                         </c:if>
                                         <td>
                                             <c:if test="${not empty file}">
-                                                <a href="javascript:void(0)" class="popupBtn"
+                                                <a href="javascript:void(0)" data-width="900" class="popupBtn"
                                                    data-url="${ctx}/pdf_preview?path=${cm:sign(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">预览</a>
                                             </c:if>
                                         </td>

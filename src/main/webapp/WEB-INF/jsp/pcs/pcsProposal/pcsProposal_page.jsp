@@ -33,7 +33,7 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
 
                 <c:if test="${cls==1 && module==1}">
-                    <a class="popupBtn btn btn-warning btn-sm"
+                    <a class="popupBtn btn btn-warning btn-sm" data-width="900"
                        data-url="${ctx}/pdf_preview?code=af_pcs_proposal_info&np=1&nd=1"><i class="fa fa-info-circle"></i> 提案通知</a>
 
                     <a class="popupBtn btn btn-info btn-sm"

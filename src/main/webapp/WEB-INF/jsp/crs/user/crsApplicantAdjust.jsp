@@ -106,7 +106,7 @@
 
             if ($.trim(rowObject.notice) == '') return '--'
 
-            return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/pdf_preview?path={0}&filename={1}">查看</a>'
+            return '<a href="javascript:void(0)" data-width="900" class="popupBtn" data-url="${ctx}/pdf_preview?path={0}&filename={1}">查看</a>'
                     .format(rowObject.notice, encodeURI(rowObject.name + "招聘公告.pdf"))
         }
         },

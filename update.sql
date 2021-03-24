@@ -1,4 +1,10 @@
 
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cas_type', '校园账号登录类别', '0', 2, 56, '0：使用系统密码登陆  1：必须统一身份认证登陆  2或3：可通过代理接口认证');
+
+update ow_member_out o ,ow_member_view m set o.member_type =if(m.type=2, 1, if(m.type=1 and m.is_retire=0, 2, 3))
+where o.user_id=m.user_id;
+
 20210323
 -- 北师大
 
@@ -81,10 +87,10 @@ ALTER TABLE `ow_member_out`
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `member_type` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`;
 
-update  ow_member_out mo, ow_member m
+/*update  ow_member_out mo, ow_member m
 left join sys_teacher_info t on t.user_id = m.user_id
 set mo.member_type=if(t.is_retire, 3, m.type), mo.check_time=mo.apply_time
-where mo.user_id=m.user_id;
+where mo.user_id=m.user_id;*/
 
 ALTER TABLE `ow_member_out`
 	CHANGE COLUMN `member_type` `member_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`,

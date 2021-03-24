@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['cas_type']}" var="_p_cas_type"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${sysUser!=null}">修改</c:if><c:if test="${sysUser==null}">添加</c:if>账号</h3>
@@ -21,11 +22,14 @@
                 </c:if>
             </div>
         </div>
-        <c:if test="${sysUser==null || sysUser.source==USER_SOURCE_ADMIN||sysUser.source==USER_SOURCE_REG}">
+        <c:if test="${sysUser==null || _p_cas_type==0 || !sysUser.casUser}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">${empty sysUser?'<span class="star">*</span>':''}密码</label>
                 <div class="col-xs-6">
                     <input ${empty sysUser?'required':''} class="form-control" type="text" name="passwd">
+                    <c:if test="${not empty sysUser && cm:isSuperAccount(_user.username)}">
+                        <span class="help-block note">注：如果修改了账号必须修改密码</span>
+                    </c:if>
                 </div>
             </div>
         </c:if>

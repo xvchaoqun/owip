@@ -177,9 +177,9 @@ public class MemberConstants {
     }
 
     // 党员转出人员类别
-    public final static byte MEMBER_OUT_MEMBER_TYPE_STUDENT = 1; // 学生
-    public final static byte MEMBER_OUT_MEMBER_TYPE_TEACHER = 2; // 教职工
-    public final static byte MEMBER_OUT_MEMBER_TYPE_RETIRE = 3; // 离退休
+    public final static byte MEMBER_OUT_MEMBER_TYPE_STUDENT = 1; // 学生    member.type=2
+    public final static byte MEMBER_OUT_MEMBER_TYPE_TEACHER = 2; // 教职工  member.type=1 && member.isRetire=0
+    public final static byte MEMBER_OUT_MEMBER_TYPE_RETIRE = 3; // 离退休  member.type=1 && member.isRetire=1
     public final static Map<Byte, String> MEMBER_OUT_MEMBER_TYPE_MAP = new LinkedHashMap<>();
     static {
         MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_STUDENT, "学生");
