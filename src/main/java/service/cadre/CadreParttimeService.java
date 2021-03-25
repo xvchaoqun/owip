@@ -56,7 +56,7 @@ public class CadreParttimeService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadreParttimeExample example = new CadreParttimeExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadreParttimeMapper.countByExample(example);
+            long count = cadreParttimeMapper.countByExample(example);
             if (count != ids.length) {
                 throw new OpException("参数有误");
             }

@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,6 +25,11 @@ public class CadreResearch implements Serializable {
     private Byte status;
 
     private Byte researchType;
+
+    private String fileName;
+
+    @SignRes
+    private String filePath;
 
     private static final long serialVersionUID = 1L;
 
@@ -104,5 +111,21 @@ public class CadreResearch implements Serializable {
 
     public void setResearchType(Byte researchType) {
         this.researchType = researchType;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName == null ? null : fileName.trim();
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath == null ? null : filePath.trim();
     }
 }

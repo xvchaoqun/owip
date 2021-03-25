@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -72,7 +73,7 @@ public class CadreBookController extends BaseController {
             return;
         }
 
-        int count = cadreBookMapper.countByExample(example);
+        long count = cadreBookMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -103,12 +104,23 @@ public class CadreBookController extends BaseController {
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
 
-            CadreBook record, String _pubTime,  HttpServletRequest request) {
+            CadreBook record, String _pubTime, MultipartFile _file, HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_pubTime)){
             record.setPubTime(DateUtils.parseDate(_pubTime, DateUtils.YYYY_MM_DD));
+        }
+
+        if (_file != null) {
+            String ext = FileUtils.getExtention(_file.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                return failed("文件格式错误，请上传pdf文档");
+            }
+            String originalFilename = _file.getOriginalFilename();
+            String savePath = uploadPdf(_file, "cadre_book");
+            record.setFileName(FileUtils.getFileName(originalFilename));
+            record.setFilePath(savePath);
         }
 
         if (id == null) {
@@ -194,7 +206,7 @@ public class CadreBookController extends BaseController {
     public void cadreBook_export(CadreBookExample example, HttpServletResponse response) {
 
         List<CadreBook> cadreBooks = cadreBookMapper.selectByExample(example);
-        int rownum = cadreBookMapper.countByExample(example);
+        long rownum = cadreBookMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

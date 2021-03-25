@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +23,11 @@ public class CadreParttime implements Serializable {
     private Integer sortOrder;
 
     private Byte status;
+
+    private String fileName;
+
+    @SignRes
+    private String filePath;
 
     private static final long serialVersionUID = 1L;
 
@@ -94,5 +101,21 @@ public class CadreParttime implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName == null ? null : fileName.trim();
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath == null ? null : filePath.trim();
     }
 }

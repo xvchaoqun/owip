@@ -432,6 +432,13 @@
             return _cMap.CADRE_BOOK_TYPE_MAP[cellvalue]
         }
         },
+        {label: '文件名', name: 'fileName', width: 200, align:'left'},
+        {
+            label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
+                console.log(rowObject.filePath)
+                return $.pdfShow(rowObject.filePath, rowObject.fileName, "预览");
+            }
+        },
         {label: '备注', name: 'remark', width: 350, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 
@@ -556,9 +563,16 @@
             formatoptions: {newformat: 'Y.m'},
             frozen: true
         },
-        {label: '项目名称', name: 'name', width: 450, align:'left'},
-        {label: '项目类型', name: 'type', width: 400, align:'left'},
-        {label: '委托单位', name: 'unit', width: 300, align:'left'},
+        {label: '项目名称', name: 'name', width: 250, align:'left'},
+        {label: '项目类型', name: 'type', width: 250, align:'left'},
+        {label: '委托单位', name: 'unit', width: 250, align:'left'},
+        {label: '文件名', name: 'fileName', width: 200, align:'left'},
+        {
+            label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
+                console.log(rowObject.filePath)
+                return $.pdfShow(rowObject.filePath, rowObject.fileName, "预览");
+            }
+        },
         {label: '备注', name: 'remark', width: 250}, {hidden: true, key: true, name: 'id'}
     ];
 
@@ -567,6 +581,13 @@
         {label: '结束时间', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen: true},
         {label: '兼职单位', name: 'unit', width: 380, align:'left'},
         {label: '兼任职务', name: 'post', width: 280, align:'left'},
+        {label: '文件名', name: 'fileName', width: 200, align:'left'},
+        {
+            label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
+                console.log(rowObject.filePath)
+                return $.pdfShow(rowObject.filePath, rowObject.fileName, "预览");
+            }
+        },
         {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 
@@ -608,6 +629,13 @@
             formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '培训内容', name: 'content', width: 550, align:'left'},
         {label: '主办单位', name: 'unit', width: 280, align:'left'},
+        {label: '文件名', name: 'fileName', width: 200, align:'left'},
+        {
+            label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
+                console.log(rowObject.filePath)
+                return $.pdfShow(rowObject.filePath, rowObject.fileName, "预览");
+            }
+        },
         {label: '备注', name: 'remark', width: 350, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 

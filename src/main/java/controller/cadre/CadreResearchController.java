@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -195,7 +196,7 @@ public class CadreResearchController extends BaseController {
             return;
         }
 
-        int count = cadreResearchMapper.countByExample(example);
+        long count = cadreResearchMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -226,7 +227,7 @@ public class CadreResearchController extends BaseController {
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
 
-            CadreResearch record, String _startTime, String _endTime, HttpServletRequest request) {
+            CadreResearch record, String _startTime, String _endTime,MultipartFile _file, HttpServletRequest request) {
 
         Assert.isTrue(record.getResearchType() != null, " researchType is null");
         Integer id = record.getId();
@@ -236,6 +237,17 @@ public class CadreResearchController extends BaseController {
         }
         if (StringUtils.isNotBlank(_endTime)) {
             record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYYMM));
+        }
+
+        if (_file != null) {
+            String ext = FileUtils.getExtention(_file.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                return failed("文件格式错误，请上传pdf文档");
+            }
+            String originalFilename = _file.getOriginalFilename();
+            String savePath = uploadPdf(_file, "cadre_research");
+            record.setFileName(FileUtils.getFileName(originalFilename));
+            record.setFilePath(savePath);
         }
 
         if (id == null) {
@@ -324,7 +336,7 @@ public class CadreResearchController extends BaseController {
     public void cadreResearch_export(CadreResearchExample example, HttpServletResponse response) {
 
         List<CadreResearch> cadreResearchs = cadreResearchMapper.selectByExample(example);
-        int rownum = cadreResearchMapper.countByExample(example);
+        long rownum = cadreResearchMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

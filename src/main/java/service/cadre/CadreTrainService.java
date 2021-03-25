@@ -61,7 +61,7 @@ public class CadreTrainService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadreTrainExample example = new CadreTrainExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadreTrainMapper.countByExample(example);
+            long count = cadreTrainMapper.countByExample(example);
             if (count != ids.length) {
                 throw new OpException("参数有误");
             }

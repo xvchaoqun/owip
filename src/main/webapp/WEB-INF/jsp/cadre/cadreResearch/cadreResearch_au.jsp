@@ -66,6 +66,12 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">相关文件</label>
+            <div class="col-xs-6 uploader">
+                <input class="form-control" type="file" name="_file" />
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6">
                 <textarea class="form-control" name="remark">${cadreResearch.remark}</textarea>
@@ -87,6 +93,10 @@ pageEncoding="UTF-8"%>
             "科技部973计划子课题、国家杰出青年科学基金项目等。"})*/
     })
     $.register.date($('.date-picker'));
+    $.fileInput($('#modalForm input[type=file]'),{
+        no_file:'请上传pdf文件',
+        allowExt: ['pdf']
+    })
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
