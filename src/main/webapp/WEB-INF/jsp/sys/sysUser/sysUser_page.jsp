@@ -138,7 +138,7 @@
                             <li>
                                 <a href="javascript:;" class="popupBtn"
                                    data-url="${ctx}/sysUser_batchImport">
-                                    <i class="fa fa-refresh"></i> 批量导入系统账号信息</a>
+                                    <i class="fa fa-refresh"></i> 批量导入系统账号一张表信息</a>
                             </li>
                             <li role="separator" class="divider"></li>
                             <li>

@@ -510,6 +510,8 @@ public class MemberOutService extends MemberBaseMapper {
 
             if (record.getId() == null) {
 
+                record.setYear(DateUtils.getYear(new Date()));
+                record.setSn(genSn(record.getYear()));
                 archive(userId);
 
                 Member member = memberService.get(userId);
