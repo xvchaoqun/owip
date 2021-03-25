@@ -29,12 +29,10 @@ ALTER TABLE `ow_member_in_modify`
 	ADD COLUMN `birth` DATE NULL DEFAULT NULL COMMENT '出生年月' AFTER `gender`,
 	ADD COLUMN `nation` VARCHAR(100) NULL DEFAULT NULL COMMENT '民族' COLLATE 'utf8_general_ci' AFTER `birth`;
 
-
 INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `title`, `content`, `attr`,
                                  `remark`, `is_deleted`, `sort_order`) VALUES (NULL, 'hf_member_transfer_info', NULL, NULL, NULL, '校内组织关系转接说明', '&#60;span style=&#34;font-size:18.6667px;font-weight:700;&#34;&#62;注：本校读取研究生或博士生或留校，&#60;/span&#62;&#60;span style=&#34;font-size:18.6667px;font-weight:700;color:#FF0000;&#34;&#62;需通过现有学工号提交完成“组织关系转出”审批，再用新分配学工号提交完成“组织关系转入”审批。&#60;/span&#62;', NULL, '', 0, 60);
 
 -- 哈工大执行 /test/member_out.jsp
-
 
 ALTER TABLE `cadre_research`
 	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `research_type`,

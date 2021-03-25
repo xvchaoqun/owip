@@ -103,7 +103,7 @@
                                         data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT%>"
                                         data-open-by="page">
-                                    <i class="fa fa-sign-in"></i> 查看审批记录
+                                    <i class="fa fa-search"></i> 审批记录
                                 </button>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

@@ -85,7 +85,7 @@
                                         data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER%>"
                                         data-open-by="page">
-                                    <i class="fa fa-check-circle-o"></i> 查看审批记录
+                                    <i class="fa fa-search"></i> 审批记录
                                 </button>
                                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
