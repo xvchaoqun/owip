@@ -20,6 +20,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.base.MetaTypeService;
 import service.member.EnterApplyService;
 import service.member.MemberApplyService;
 import service.member.MemberBaseMapper;
@@ -57,6 +58,8 @@ public class MemberService extends MemberBaseMapper {
     private BranchMemberGroupService branchMemberGroupService;
     @Autowired
     private MemberApplyService memberApplyService;
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     public Member get(int userId) {
 
@@ -925,11 +928,20 @@ public class MemberService extends MemberBaseMapper {
             record.setGrowBranch(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setPositiveBranch(StringUtils.trimToNull(xlsRow.get(col++)));
-
             record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));//党内职务
             record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setSource(Byte.valueOf(xlsRow.get(col++)));
+            String _source = StringUtils.trimToNull(xlsRow.get(col++));
+            Byte source = MemberConstants.MEMBER_SOURCE_IMPORT;
+            if (StringUtils.isNotBlank(_source)) {
+                for (Map.Entry<Byte, String> entry : MemberConstants.MEMBER_SOURCE_MAP.entrySet()) {
+                    if (StringUtils.equals(entry.getValue(), _source)){
+                        source = entry.getKey();
+                        break;
+                    }
+                }
+            }
+            record.setSource(source);
             record.setRemark1(xlsRow.get(col++));
             record.setRemark2(xlsRow.get(col++));
             record.setRemark3(xlsRow.get(col++));
@@ -938,9 +950,12 @@ public class MemberService extends MemberBaseMapper {
             record.setRemark6(xlsRow.get(col++));
             record.setCreateTime(now);
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
-            // 默认为原有党员导入
-            record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
-            record.setSource(MemberConstants.MEMBER_SOURCE_IMPORT);
+
+            String _addtYpe = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isNotBlank(_addtYpe)){
+                MetaType metaType = metaTypeService.findOrCreate("mc_member_add_type", _addtYpe);
+                record.setAddType(metaType.getId());
+            }
 
             records.add(record);
         }
