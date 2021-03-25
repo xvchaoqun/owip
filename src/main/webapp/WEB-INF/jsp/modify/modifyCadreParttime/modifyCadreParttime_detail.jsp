@@ -57,8 +57,15 @@
                 <tr>
                     <td data-code="post">兼任职务</td>
                     <td class="bg-left">${modify.post}</td>
+                    <td data-code="filePath" width="100">相关证明</td>
+                    <td class="bg-left">
+                        <c:if test="${not empty modify.filePath}">
+                        <a href="javascript:void(0)" class="popupBtn" data-width="900"
+                           data-url="${ctx}/pdf_preview?path=${cm:sign(modify.filePath)}&filename=${cm:encodeURI(modify.fileName)}">预览</a>
+                        </c:if>
+                    </td>
                     <td data-code="remark">备注</td>
-                    <td colspan="3" class="bg-left">${modify.remark}</td>
+                    <td class="bg-left">${modify.remark}</td>
                 </tr>
             </table>
         </div>

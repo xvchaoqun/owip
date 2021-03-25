@@ -372,9 +372,10 @@ public class PartyController extends BaseController {
 
             Party record = new Party();
             row++;
-            record.setCode(StringUtils.trimToNull(xlsRow.get(0)));
+            int col = 0;
+            record.setCode(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            String name = StringUtils.trimToNull(xlsRow.get(1));
+            String name = StringUtils.trimToNull(xlsRow.get(col++));
              if(StringUtils.isBlank(name)){
                 throw new OpException("第{0}行名称为空", row);
             }
@@ -384,13 +385,13 @@ public class PartyController extends BaseController {
              }
             record.setName(name);
 
-            String shortName = StringUtils.trimToNull(xlsRow.get(2));
+            String shortName = StringUtils.trimToNull(xlsRow.get(col++));
             record.setShortName(shortName);
 
-            String foundTime = StringUtils.trimToNull(xlsRow.get(3));
+            String foundTime = StringUtils.trimToNull(xlsRow.get(col++));
             record.setFoundTime(DateUtils.parseStringToDate(foundTime));
 
-            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
+            String unitCode = StringUtils.trimToNull(xlsRow.get(col++));
             if(StringUtils.isNotBlank(unitCode)){
                 Unit unit = unitService.findRunUnitByCode(unitCode);
                 if(unit==null){
@@ -399,28 +400,29 @@ public class PartyController extends BaseController {
                 record.setUnitId(unit.getId());
             }
 
-            String _partyClass = StringUtils.trimToNull(xlsRow.get(5));
+            String _partyClass = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", _partyClass);
             if (partyClass == null) throw new OpException("第{0}行党总支类别[{1}]不存在", row, _partyClass);
             record.setClassId(partyClass.getId());
 
-            String _partyType = StringUtils.trimToNull(xlsRow.get(6));
+            String _partyType = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType partyType = CmTag.getMetaTypeByName("mc_party_type", _partyType);
             if (partyType == null) throw new OpException("第{0}行组织类别[{1}]不存在", row, _partyType);
             record.setTypeId(partyType.getId());
 
-            String _partyUnitType = StringUtils.trimToNull(xlsRow.get(7));
+            String _partyUnitType = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
             if (partyUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _partyUnitType);
             record.setUnitTypeId(partyUnitType.getId());
 
-            record.setIsEnterpriseBig(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
-            record.setIsEnterpriseNationalized(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(9)), "是"));
-            record.setIsSeparate(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(10)), "是"));
+            record.setIsEnterpriseBig(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+            record.setIsEnterpriseNationalized(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+            record.setIsSeparate(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
 
-            record.setPhone(StringUtils.trimToNull(xlsRow.get(11)));
-            record.setFax(StringUtils.trimToNull(xlsRow.get(12)));
-            record.setEmail(StringUtils.trimToNull(xlsRow.get(13)));
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setFax(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
 
             record.setCreateTime(new Date());
             records.add(record);
@@ -445,11 +447,11 @@ public class PartyController extends BaseController {
 
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号|200","名称|350|left","简称|250|left","所属单位|250|left","党总支类别|100",
+        String[] titles = {"编号|200","名称|350|left","简称|250|left","党总支类别|100",
                 "支部数量","党员总数","在职教职工数量|100","离退休党员数量|100","学生数量","是否已设立现任委员会|80",
                 "任命时间|100","应换届时间|100", "实际换届时间|100",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
-                "组织类别|100","所在单位属性|100","联系电话","传真","邮箱", "成立时间"};
+                "组织类别|100","关联单位|250|left","关联单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyView record = records.get(i);
@@ -457,7 +459,6 @@ public class PartyController extends BaseController {
                     record.getCode(),
                     record.getName(),
                     record.getShortName(),
-                    record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
                     metaTypeService.getName(record.getClassId()),
 
                     record.getBranchCount()==null?"0":record.getBranchCount()+"",
@@ -476,8 +477,10 @@ public class PartyController extends BaseController {
                     BooleanUtils.isTrue(record.getIsSeparate()) ? "是" : "否",
 
                     metaTypeService.getName(record.getTypeId()),
+                    record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
                     metaTypeService.getName(record.getUnitTypeId()),
                     record.getPhone(),
+                    record.getAddress(),
                     record.getFax(),
                     record.getEmail(),
                     DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),

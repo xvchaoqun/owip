@@ -9,6 +9,7 @@ import domain.member.Member;
 import domain.member.MemberInflow;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,7 @@ import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
@@ -468,6 +470,14 @@ public class CommonController extends BaseController {
                     option.put("idcard", member.getIdcard());
                     option.put("politicalStatus", member.getPoliticalStatus());
                     option.put("mobile", member.getMobile());
+
+                    Party party = CmTag.getParty(member.getPartyId());
+                    if(party!=null){
+                        option.put("partyName", party.getName());
+                        option.put("partyAddress", party.getAddress());
+                        option.put("partyPhone", party.getPhone());
+                        option.put("partyFax", party.getFax());
+                    }
                 }
                 //option.put("user", userBeanService.get(member.getUserId()));
 

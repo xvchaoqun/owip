@@ -20,6 +20,7 @@ import sys.constants.*;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IdcardValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -335,6 +336,10 @@ public class EnterApplyController extends MemberBaseController {
         record.setUserId(userId);
         record.setHasReceipt(null);
         record.setReason(null);
+
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
+        }
 
         if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));

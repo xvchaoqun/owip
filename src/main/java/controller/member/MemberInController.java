@@ -221,6 +221,10 @@ public class MemberInController extends MemberBaseController {
 
         record.setHasReceipt((record.getHasReceipt() == null) ? false : record.getHasReceipt());
 
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
+        }
+
         if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }

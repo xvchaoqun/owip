@@ -4,6 +4,7 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
 <c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_BACK" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>"/>
 
+<div style="width: 1200px">
     <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入
 		<c:if test="${not empty cm:getHtmlFragment(HTML_FRAGMENT_MEMBER_IN_NOTE_BACK).content}">
 		<a class="popupBtn btn btn-success btn-xs"
@@ -13,7 +14,7 @@ pageEncoding="UTF-8"%>
 			</c:if>
 	</h3>
 <hr/>
-    <form class="form-horizontal" action="${ctx}/memberIn_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberIn_au" autocomplete="off" disableautocomplete id="updateForm" method="post">
         <input type="hidden" name="id" value="${memberIn.id}">
 		<input type="hidden" name="resubmit">
 			<div class="row">
@@ -47,36 +48,48 @@ pageEncoding="UTF-8"%>
 						</c:if>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">性别</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span> 性别</label>
 						<div class="col-xs-6">
-							<input disabled class="form-control" name="gender" type="text" value="${GENDER_MAP.get(userBean.gender)}">
+							<select required name="gender" data-width="100" data-rel="select2"
+                                            data-placeholder="请选择">
+								<option></option>
+								<c:forEach items="${GENDER_MAP}" var="entity">
+									<option value="${entity.key}">${entity.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#updateForm select[name=gender]").val('${memberIn.gender}');
+							</script>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">出生年月</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span> 出生日期</label>
 						<div class="col-xs-6">
-							<input disabled class="form-control" type="text" name="birth"
-								   value="${userBean.birth!=null?cm:intervalYearsUntilNow(userBean.birth):''}">
+							<div class="input-group" style="width: 150px">
+								<input required class="form-control date-picker" name="birth" type="text"
+									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.birth,'yyyy-MM-dd')}" />
+								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">民族</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span> 民族</label>
 						<div class="col-xs-6">
-							 <select name="nation" data-rel="select2" data-placeholder="请选择"  data-width="150">
+							 <select required name="nation" data-rel="select2" data-placeholder="请选择"  data-width="150">
 								 <option></option>
 								<c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
 									<option value="${nation.name}">${nation.name}</option>
 								</c:forEach>
 							</select>
 							<script>
-								$("#modalForm select[name=nation]").val('${cm:ensureEndsWith(userBean.nation, '族')}');
+								$("#updateForm select[name=nation]").val('${cm:ensureEndsWith(userBean.nation, '族')}');
 							</script>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">身份证号</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>身份证号</label>
 						<div class="col-xs-6">
-							<input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
+							<input required class="form-control" type="text" name="idcard" value="${memberIn.idcard}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -87,7 +100,7 @@ pageEncoding="UTF-8"%>
 								<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
 							</select>
 							<script>
-								$("#modalForm select[name=type]").val(${memberIn.type});
+								$("#updateForm select[name=type]").val(${memberIn.type});
 							</script>
 						</div>
 					</div>
@@ -110,12 +123,27 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<script>
-						$.register.party_branch_select($("#modalForm"), "branchDiv",
+						$.register.party_branch_select($("#updateForm"), "branchDiv",
 								'${cm:getMetaTypeByCode("mt_direct_branch").id}',
 								"${party.id}", "${party.classId}", "partyId", "branchId", true );
 					</script>
 				</div>
 				<div class="col-xs-4">
+					<div class="form-group">
+						<label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+								<option></option>
+								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+									<option value="${_status.key}">${_status.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#updateForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+							</script>
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
 						<div class="col-xs-6">
@@ -129,20 +157,6 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 
-					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
-								<option></option>
-								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-									<option value="${_status.key}">${_status.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
-							</script>
-						</div>
-					</div>
 					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
 						<div class="col-xs-6">
@@ -240,10 +254,10 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">入党时间</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>入党时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
-								<input class="form-control date-picker" name="_growTime" type="text"
+								<input required class="form-control date-picker" name="_growTime" type="text"
 									   data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.growTime,'yyyy-MM-dd')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -274,27 +288,35 @@ pageEncoding="UTF-8"%>
 
     </form>
 <div class="modal-footer center">
-    <a href="javascript:;" class="hideView btn btn-default">返回</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${memberIn!=null}">确定</c:if><c:if test="${memberIn==null}">添加</c:if>"/>
+    <a href="javascript:;" class="hideView btn btn-default">
+		<i class="fa fa-reply"></i>
+		返回</a>
+	<button id="updateBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+		<i class="fa fa-check"></i> ${memberIn==null?"添加":"确定"}</button>
+
 	<c:if test="${memberIn!=null && memberIn.status<MEMBER_IN_STATUS_APPLY}">
-		<input type="button" id="resubmit" class="btn btn-warning" value="修改并重新提交"/>
+	<button id="reUpdateBtn" class="btn btn-warning" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+		<i class="fa fa-check"></i> 修改并重新提交</button>
 	</c:if>
 </div>
+</div>
 <script>
-	$("#modalForm :checkbox").bootstrapSwitch();
+	$("#updateForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
-	$("#body-content-view input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
-	$("#modalForm").validate({
+	$("#body-content-view #updateBtn").click(function(){$("#updateForm").submit(); return false;});
+	$("#updateForm").validate({
         submitHandler: function (form) {
-        	//console.log($("#modalForm #branchDiv").is(":hidden"))
-			if(!$("#modalForm #branchDiv").is(":hidden")){
-				//console.log($('#modalForm select[name=branchId]').val())
-				if($('#modalForm select[name=branchId]').val()=='') {
+        	//console.log($("#updateForm #branchDiv").is(":hidden"))
+			if(!$("#updateForm #branchDiv").is(":hidden")){
+				//console.log($('#updateForm select[name=branchId]').val())
+				if($('#updateForm select[name=branchId]').val()=='') {
 					SysMsg.warning("请选择支部。", "提示");
 					return;
 				}
 			}
+			var resubmit = $("input[name=resubmit]", "#updateForm").val();
+			var $btn = $(resubmit==1?"#reUpdateBtn":"#updateBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -303,21 +325,26 @@ pageEncoding="UTF-8"%>
 						$.hideView();
 						//});
                     }
+                    $btn.button('reset');
                 }
             });
         }
     });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('#modalForm select[name=nation]').select2({theme: "default"}).prop("disabled", true);
+    $('#updateForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-	$("#resubmit").click(function(){
-		$("input[name=resubmit]", "#modalForm").val("1");
-		$("#modalForm").submit();
+	$("#reUpdateBtn").click(function(){
+		$("input[name=resubmit]", "#updateForm").val("1");
+		$("#updateForm").submit();
 		return false;
 	});
 
-	var $select = $.register.user_select($('#modalForm select[name=userId]'));
+	 $('#updateForm select[name=politicalStatus]').change(function(){
+          $("#updateForm input[name=_positiveTime]")
+                  .requireField($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}');
+        }).change();
+
+	var $select = $.register.user_select($('#updateForm select[name=userId]'));
 	$select.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {
@@ -328,43 +355,43 @@ pageEncoding="UTF-8"%>
 			var nation = entity.nation || '';
 			var idcard = entity.idcard || '';
 
-			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
-			$("#modalForm input[name=birth]").val(birth);
-			$("#modalForm select[name=nation]").val(nation).trigger('change');
-			$("#modalForm input[name=idcard]").val(idcard);
+			$("#updateForm select[name=gender]").val(gender).trigger("change");
+			$("#updateForm input[name=birth]").datepicker("setDate", birth);
+			$("#updateForm select[name=nation]").val(nation).trigger('change');
+			$("#updateForm input[name=idcard]").val(idcard);
 		}else{
-			$("#modalForm input[name=gender]").val('');
-			$("#modalForm input[name=age]").val('');
-			$("#modalForm select[name=nation]").val('').trigger('change');
-			$("#modalForm input[name=idcard]").val('')
+			$("#updateForm select[name=gender]").val(null).trigger("change");
+			$("#updateForm input[name=birth]").val('');
+			$("#updateForm select[name=nation]").val('').trigger('change');
+			$("#updateForm input[name=idcard]").val('')
 		}
 	});
 
-	var $selectOutUserId = $.register.user_select($('#modalForm select[name=outUserId]'));
+	var $selectOutUserId = $.register.user_select($('#updateForm select[name=outUserId]'));
 	$selectOutUserId.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		//console.log(entity)
 		if(entity && entity.id) {
 			var record = entity.record;
-			$("#modalForm textarea[name=fromTitle]").val(record.toTitle);
-			$("#modalForm textarea[name=fromUnit]").val(record.fromUnit);
-			$("#modalForm textarea[name=fromAddress]").val(record.fromAddress);
-			$("#modalForm input[name=fromPhone]").val(record.fromPhone);
-			$("#modalForm input[name=fromFax]").val(record.fromFax);
-			$("#modalForm input[name=fromPostCode]").val(record.fromPostCode);
-			$("#modalForm input[name=_payTime]").val($.date(record.payTime, "yyyy-MM"));
-			$("#modalForm input[name=validDays]").val(record.validDays);
-			$("#modalForm input[name=_fromHandleTime]").val($.date(record.handleTime, "yyyy-MM-dd"));
+			$("#updateForm textarea[name=fromTitle]").val(record.toTitle);
+			$("#updateForm textarea[name=fromUnit]").val(record.fromUnit);
+			$("#updateForm textarea[name=fromAddress]").val(record.fromAddress);
+			$("#updateForm input[name=fromPhone]").val(record.fromPhone);
+			$("#updateForm input[name=fromFax]").val(record.fromFax);
+			$("#updateForm input[name=fromPostCode]").val(record.fromPostCode);
+			$("#updateForm input[name=_payTime]").datepicker("setDate", $.date(record.payTime, "yyyy-MM"));
+			$("#updateForm input[name=validDays]").val(record.validDays);
+			$("#updateForm input[name=_fromHandleTime]").datepicker("setDate", $.date(record.handleTime, "yyyy-MM-dd"));
 
-			$("#modalForm select[name=politicalStatus]").val(entity.politicalStatus).trigger("change");
-			$("#modalForm input[name=_applyTime]").val($.date(entity.applyTime, "yyyy-MM-dd"));
-			$("#modalForm input[name=_activeTime]").val($.date(entity.activeTime, "yyyy-MM-dd"));
-			$("#modalForm input[name=_candidateTime]").val($.date(entity.candidateTime, "yyyy-MM-dd"));
-			$("#modalForm input[name=_growTime]").val($.date(entity.growTime, "yyyy-MM-dd"));
-			$("#modalForm input[name=_positiveTime]").val($.date(entity.positiveTime, "yyyy-MM-dd"));
+			$("#updateForm select[name=politicalStatus]").val(entity.politicalStatus).trigger("change");
+			$("#updateForm input[name=_applyTime]").datepicker("setDate", $.date(entity.applyTime, "yyyy-MM-dd"));
+			$("#updateForm input[name=_activeTime]").datepicker("setDate", $.date(entity.activeTime, "yyyy-MM-dd"));
+			$("#updateForm input[name=_candidateTime]").datepicker("setDate", $.date(entity.candidateTime, "yyyy-MM-dd"));
+			$("#updateForm input[name=_growTime]").datepicker("setDate", $.date(entity.growTime, "yyyy-MM-dd"));
+			$("#updateForm input[name=_positiveTime]").datepicker("setDate", $.date(entity.positiveTime, "yyyy-MM-dd"));
 		}else{
-			$("input,textarea", "#modalForm").val('');
-			$("select", "#modalForm").not(this).val(null).trigger("change");
+			$("input,textarea", "#updateForm").val('');
+			$("select", "#updateForm").not(this).val(null).trigger("change");
 		}
 	});
 </script>

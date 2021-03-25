@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">相关文件</label>
+            <label class="col-xs-3 control-label">相关证明</label>
             <div class="col-xs-6 uploader">
                 <input class="form-control" type="file" name="_file" />
             </div>

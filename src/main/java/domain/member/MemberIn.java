@@ -1,7 +1,9 @@
 package domain.member;
 
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +17,15 @@ public class MemberIn implements Serializable {
     private Integer id;
 
     private Integer userId;
+
+    private String idcard;
+
+    private Byte gender;
+
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    private Date birth;
+
+    private String nation;
 
     private Byte politicalStatus;
 
@@ -82,6 +93,38 @@ public class MemberIn implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard == null ? null : idcard.trim();
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
     }
 
     public Byte getPoliticalStatus() {

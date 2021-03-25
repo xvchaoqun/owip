@@ -107,6 +107,7 @@
                                             <span class="editable" >${memberOut.hasReceipt?"是":"否"}</span>
                                         </div>
                                     </div>
+                                    <c:if test="${memberOut.hasReceipt}">
                                     <div class="profile-info-row">
                                         <div class="profile-info-name"> 回执接收时间 </div>
 
@@ -114,6 +115,7 @@
                                             <span class="editable" >${cm:formatDate(memberOut.acceptReceiptTime,'yyyy-MM-dd')}</span>
                                         </div>
                                     </div>
+                                        </c:if>
 
                             </div></div>
                             <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">

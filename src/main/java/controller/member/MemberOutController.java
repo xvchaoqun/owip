@@ -130,7 +130,11 @@ public class MemberOutController extends MemberBaseController {
                 }
             }
             record.setValidDays(days);
-            record.setHandleTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            Date handleTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            if(handleTime==null){
+                throw new OpException("第{0}行办理时间[{1}]为空", row, _type);
+            }
+            record.setHandleTime(handleTime);
             record.setHasReceipt(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(rowNum++)), "是"));
 
             //record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
@@ -474,6 +478,10 @@ public class MemberOutController extends MemberBaseController {
             Member member = memberService.get(userId);
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
+        }
+
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
         }
 
         Integer partyId = record.getPartyId();

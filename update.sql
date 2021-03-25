@@ -1,9 +1,69 @@
 
+
+ALTER TABLE `ow_party`
+	ADD COLUMN `address` VARCHAR(100) NULL DEFAULT NULL COMMENT '联系地址' AFTER `phone`;
+-- 更新 ow_party_view
+
+ALTER TABLE `ow_member_in`
+	ADD COLUMN `idcard` VARCHAR(20) NULL DEFAULT NULL COMMENT '身份证号码' COLLATE 'utf8_general_ci' AFTER `user_id`,
+	ADD COLUMN `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1 男 2 女' AFTER `idcard`,
+	ADD COLUMN `birth` DATE NULL DEFAULT NULL COMMENT '出生年月' AFTER `gender`,
+	ADD COLUMN `nation` VARCHAR(100) NULL DEFAULT NULL COMMENT '民族' COLLATE 'utf8_general_ci' AFTER `birth`;
+
+update ow_member_in i, sys_user_view u set i.birth=u.birth, i.nation=u.nation,
+    i.idcard=u.idcard, i.gender=u.gender where i.user_id=u.id;
+
+ALTER TABLE `ow_member_out_modify`
+	ADD COLUMN `member_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `apply_user_id`,
+	ADD COLUMN `idcard` VARCHAR(20) NULL DEFAULT NULL COMMENT '身份证号码' COLLATE 'utf8_general_ci' AFTER `member_type`,
+	ADD COLUMN `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1 男 2 女' AFTER `idcard`,
+	ADD COLUMN `user_code` VARCHAR(20) NULL DEFAULT NULL COMMENT '学工号' COLLATE 'utf8_general_ci' AFTER `gender`,
+	ADD COLUMN `realname` VARCHAR(50) NULL DEFAULT NULL COMMENT '姓名' COLLATE 'utf8_general_ci' AFTER `user_code`,
+	ADD COLUMN `age` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年龄' AFTER `realname`,
+	ADD COLUMN `nation` VARCHAR(100) NULL DEFAULT NULL COMMENT '民族' COLLATE 'utf8_general_ci' AFTER `age`,
+	ADD COLUMN `political_status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '党籍状态' AFTER `nation`;
+
+ALTER TABLE `ow_member_in_modify`
+	ADD COLUMN `idcard` VARCHAR(20) NULL DEFAULT NULL COMMENT '身份证号码' COLLATE 'utf8_general_ci' AFTER `apply_user_id`,
+	ADD COLUMN `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1 男 2 女' AFTER `idcard`,
+	ADD COLUMN `birth` DATE NULL DEFAULT NULL COMMENT '出生年月' AFTER `gender`,
+	ADD COLUMN `nation` VARCHAR(100) NULL DEFAULT NULL COMMENT '民族' COLLATE 'utf8_general_ci' AFTER `birth`;
+
+
+INSERT INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `title`, `content`, `attr`,
+                                 `remark`, `is_deleted`, `sort_order`) VALUES (NULL, 'hf_member_transfer_info', NULL, NULL, NULL, '校内组织关系转接说明', '&#60;span style=&#34;font-size:18.6667px;font-weight:700;&#34;&#62;注：本校读取研究生或博士生或留校，&#60;/span&#62;&#60;span style=&#34;font-size:18.6667px;font-weight:700;color:#FF0000;&#34;&#62;需通过现有学工号提交完成“组织关系转出”审批，再用新分配学工号提交完成“组织关系转入”审批。&#60;/span&#62;', NULL, '', 0, 60);
+
+-- 哈工大执行 /test/member_out.jsp
+
+
+ALTER TABLE `cadre_research`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `research_type`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+ALTER TABLE `cadre_book`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `status`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+ALTER TABLE `cadre_parttime`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `status`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+ALTER TABLE `cadre_train`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `status`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+-- 更新 utils  新增jar包 itext-asian  itextpdf
+
+20210325
+-- 哈工大
+
 REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
-VALUES ('cas_type', '校园账号登录类别', '0', 2, 56, '0：使用系统密码登陆  1：必须统一身份认证登陆  2或3：可通过代理接口认证');
+VALUES ('cas_type', '校园账号登录类别', '1', 2, 56, '0：使用系统密码登陆  1：必须统一身份认证登陆  2或3：可通过代理接口认证');
 
 update ow_member_out o ,ow_member_view m set o.member_type =if(m.type=2, 1, if(m.type=1 and m.is_retire=0, 2, 3))
 where o.user_id=m.user_id;
+
+
 
 20210323
 -- 北师大

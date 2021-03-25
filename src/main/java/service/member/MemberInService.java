@@ -22,7 +22,9 @@ import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 import sys.utils.IpUtils;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -420,6 +422,12 @@ public class MemberInService extends MemberBaseMapper {
             }
 
             if (record.getId() == null) {
+
+                SysUserView uv = CmTag.getUserById(userId);
+                record.setBirth(uv.getBirth());
+                record.setIdcard(uv.getIdcard());
+                record.setGender(uv.getGender());
+                record.setNation(uv.getNation());
 
                 memberInMapper.insertSelective(record);
                 addCount++;

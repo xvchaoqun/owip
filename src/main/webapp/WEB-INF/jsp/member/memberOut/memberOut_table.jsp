@@ -19,14 +19,14 @@
         性别
     </td>
     <td class="bg-left" style="min-width: 80px">
-        ${GENDER_MAP.get(userBean.gender)}
+        ${GENDER_MAP.get(memberOut.gender)}
     </td>
     <td class="bg-right">
         年龄
     </td>
     <td class="bg-left" style="min-width: 120px">
 
-        ${empty userBean.birth?'':cm:intervalYearsUntilNow(userBean.birth)}
+        ${memberOut.age}
     </td>
 </tr>
 <tr>
@@ -34,7 +34,7 @@
         民族
     </td>
     <td class="bg-left" style="min-width: 80px">
-        ${userBean.nation}
+        ${memberOut.nation}
     </td>
     <td class="bg-right">
         党籍状态
@@ -46,7 +46,7 @@
         身份证号
     </td>
     <td class="bg-left" style="min-width: 80px">
-        <t:mask src="${userBean.idcard}" type="idCard"/>
+        <t:mask src="${memberOut.idcard}" type="idCard"/>
     </td>
     <td class="bg-right">
         类别

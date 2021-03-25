@@ -5,6 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="in_id" jdbcType="INTEGER" property="inId" />
     <result column="apply_user_id" jdbcType="INTEGER" property="applyUserId" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
@@ -88,10 +92,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, in_id, apply_user_id, political_status, type, party_id, branch_id, from_unit, 
-    from_title, from_address, from_phone, from_fax, from_post_code, pay_time, valid_days, 
-    from_handle_time, handle_time, apply_time, active_time, candidate_time, grow_time, 
-    positive_time, has_receipt, user_id, create_time, ip
+    id, in_id, apply_user_id, idcard, gender, birth, nation, political_status, type, 
+    party_id, branch_id, from_unit, from_title, from_address, from_phone, from_fax, from_post_code, 
+    pay_time, valid_days, from_handle_time, handle_time, apply_time, active_time, candidate_time, 
+    grow_time, positive_time, has_receipt, user_id, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberInModifyExample" resultMap="BaseResultMap">
     select
@@ -125,23 +129,27 @@
   </delete>
   <insert id="insert" parameterType="domain.member.MemberInModify">
     insert into ow_member_in_modify (id, in_id, apply_user_id, 
-      political_status, type, party_id, 
-      branch_id, from_unit, from_title, 
-      from_address, from_phone, from_fax, 
-      from_post_code, pay_time, valid_days, 
-      from_handle_time, handle_time, apply_time, 
-      active_time, candidate_time, grow_time, 
-      positive_time, has_receipt, user_id, 
-      create_time, ip)
+      idcard, gender, birth, 
+      nation, political_status, type, 
+      party_id, branch_id, from_unit, 
+      from_title, from_address, from_phone, 
+      from_fax, from_post_code, pay_time, 
+      valid_days, from_handle_time, handle_time, 
+      apply_time, active_time, candidate_time, 
+      grow_time, positive_time, has_receipt, 
+      user_id, create_time, ip
+      )
     values (#{id,jdbcType=INTEGER}, #{inId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, 
-      #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{branchId,jdbcType=INTEGER}, #{fromUnit,jdbcType=VARCHAR}, #{fromTitle,jdbcType=VARCHAR}, 
-      #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
-      #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
-      #{fromHandleTime,jdbcType=DATE}, #{handleTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, 
-      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{growTime,jdbcType=DATE}, 
-      #{positiveTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{userId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+      #{idcard,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
+      #{nation,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, 
+      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{fromUnit,jdbcType=VARCHAR}, 
+      #{fromTitle,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, 
+      #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, 
+      #{validDays,jdbcType=INTEGER}, #{fromHandleTime,jdbcType=DATE}, #{handleTime,jdbcType=DATE}, 
+      #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
+      #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, 
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberInModify">
     insert into ow_member_in_modify
@@ -154,6 +162,18 @@
       </if>
       <if test="applyUserId != null">
         apply_user_id,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="nation != null">
+        nation,
       </if>
       <if test="politicalStatus != null">
         political_status,
@@ -234,6 +254,18 @@
       </if>
       <if test="applyUserId != null">
         #{applyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
       </if>
       <if test="politicalStatus != null">
         #{politicalStatus,jdbcType=TINYINT},
@@ -324,6 +356,18 @@
       <if test="record.applyUserId != null">
         apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       </if>
+      <if test="record.idcard != null">
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
       <if test="record.politicalStatus != null">
         political_status = #{record.politicalStatus,jdbcType=TINYINT},
       </if>
@@ -403,6 +447,10 @@
     set id = #{record.id,jdbcType=INTEGER},
       in_id = #{record.inId,jdbcType=INTEGER},
       apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      birth = #{record.birth,jdbcType=DATE},
+      nation = #{record.nation,jdbcType=VARCHAR},
       political_status = #{record.politicalStatus,jdbcType=TINYINT},
       type = #{record.type,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
@@ -438,6 +486,18 @@
       </if>
       <if test="applyUserId != null">
         apply_user_id = #{applyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
       </if>
       <if test="politicalStatus != null">
         political_status = #{politicalStatus,jdbcType=TINYINT},
@@ -515,6 +575,10 @@
     update ow_member_in_modify
     set in_id = #{inId,jdbcType=INTEGER},
       apply_user_id = #{applyUserId,jdbcType=INTEGER},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      birth = #{birth,jdbcType=DATE},
+      nation = #{nation,jdbcType=VARCHAR},
       political_status = #{politicalStatus,jdbcType=TINYINT},
       type = #{type,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},

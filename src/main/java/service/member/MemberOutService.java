@@ -510,8 +510,6 @@ public class MemberOutService extends MemberBaseMapper {
 
             if (record.getId() == null) {
 
-                record.setYear(DateUtils.getYear(new Date()));
-                record.setSn(genSn(record.getYear()));
                 archive(userId);
 
                 Member member = memberService.get(userId);
@@ -537,9 +535,19 @@ public class MemberOutService extends MemberBaseMapper {
                 record.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
                 record.setNation(uv.getNation());
 
+                int year = DateUtils.getYear(record.getHandleTime());
+                record.setYear(year);
+                record.setSn(genSn(year));
+
                 memberOutMapper.insertSelective(record);
                 addCount++;
             } else {
+
+                int year = DateUtils.getYear(record.getHandleTime());
+                if(memberOut.getYear()==null || year!=memberOut.getYear()) {
+                    record.setYear(year);
+                    record.setSn(genSn(year));
+                }
 
                 memberOutMapper.updateByPrimaryKeySelective(record);
             }
