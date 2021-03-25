@@ -132,6 +132,7 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cols">
                                         <input type="hidden" name="cls" value="${cls}">
+                                        <input type="hidden" name="studentLevel" value="${param.studentLevel}">
                                         <c:if test="${cls!=6&&cls!=7}">
                                             <div class="form-group">
                                                 <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"

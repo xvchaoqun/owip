@@ -466,7 +466,7 @@
 						$("#modal").modal('hide');
 						SysMsg.success("保存成功。", function () {
 							$.hideView();
-							pm3_reload();
+							//pm3_reload();
 							$("#jqGrid").trigger("reloadGrid");
 						});
 					}

@@ -1477,7 +1477,7 @@ public class MemberController extends MemberBaseController {
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),
-                    record.getStudentType(),
+                    record.getStudentLevel()==null?"":SystemConstants.STUDENT_TYPE_MAP.get(record.getStudentLevel()),
                     record.getRealname(),
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
