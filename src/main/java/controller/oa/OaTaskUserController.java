@@ -148,6 +148,18 @@ public class OaTaskUserController extends OaBaseController {
         return;
     }
 
+    // 批量报送
+    @RequiresPermissions("oaTaskUser:check")
+    @RequestMapping(value = "/oaTaskUser_isReport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_oaTaskUser_isReport(int taskId, Integer[] ids) {
+
+        oaTaskUserService.isReport(taskId, ids);
+
+        logger.info(addLog(LogConstants.LOG_PCS, "批量设置为已报送%s", StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("oaTaskUser:check")
     @RequestMapping("/oaTaskUser_check")
     public String oaTaskUser_check(int taskId,

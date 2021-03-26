@@ -137,6 +137,20 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
         return (int) oaTaskUserMapper.countByExample(example);
     }
 
+    // 批量设置为已报送（管理员）
+    @Transactional
+    public void isReport(int taskId, Integer[] taskUserIds) {
+        checkAuth(taskId);
+
+        OaTaskUser record = new OaTaskUser();
+        record.setHasReport(true);
+
+        OaTaskUserExample example = new OaTaskUserExample();
+        example.createCriteria().andTaskIdEqualTo(taskId)
+                .andUserIdIn(Arrays.asList(taskUserIds)).andHasReportEqualTo(false);
+        oaTaskUserMapper.updateByExampleSelective(record,example);
+    }
+
     // 审批（管理员）
     @Transactional
     public void check(int taskId, Integer[] taskUserIds, byte status, String remark) {
