@@ -207,9 +207,9 @@ public class MemberOutflowController extends MemberBaseController {
         }else {
             criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
            /* if(cls==3)// 已审核（未转出）
-                criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);*/
+                criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_OUT);*/
             if(cls==31)// 已审核（已转出）
-                criteria.andMemberStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andMemberStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
         }
 
         if (export == 1) {

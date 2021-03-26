@@ -18,7 +18,7 @@
                         </button>
                     </blockquote>
                 </c:if>
-                <c:if test="${empty member || member.status==MEMBER_STATUS_TRANSFER}">
+                <c:if test="${empty member || member.status==MEMBER_STATUS_OUT}">
                     <blockquote>
                         <div class="blue bolder">组织关系转入</div>
                         学生或教职工组织关系转入入口。

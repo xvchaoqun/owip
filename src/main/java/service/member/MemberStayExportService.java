@@ -178,7 +178,7 @@ public class MemberStayExportService extends MemberBaseMapper {
 
             String transferTime = "";
             String transferUnit = "";
-            if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
+            if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_OUT) {
                 MemberOut memberOut = memberOutService.getLatest(userId);
                 if (memberOut != null && memberOut.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
                     transferTime = DateUtils.formatDate(memberOut.getHandleTime(), DateUtils.YYYYMM);
@@ -214,7 +214,7 @@ public class MemberStayExportService extends MemberBaseMapper {
                         record.getSchool(),
 
                         record.getAbroadType() == null ? "" : MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP.get(record.getAbroadType()),
-                        u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
+                        u.getMemberStatus() == MemberConstants.MEMBER_STATUS_OUT ? "是" : "否",
                         transferTime,
                         transferUnit
                 };
@@ -245,7 +245,7 @@ public class MemberStayExportService extends MemberBaseMapper {
                         DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM),
                         DateUtils.formatDate(record.getOverDate(), DateUtils.YYYYMM),
 
-                        u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
+                        u.getMemberStatus() == MemberConstants.MEMBER_STATUS_OUT ? "是" : "否",
                         transferTime,
                         transferUnit
                 };

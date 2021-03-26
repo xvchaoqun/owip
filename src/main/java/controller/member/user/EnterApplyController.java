@@ -282,7 +282,7 @@ public class EnterApplyController extends MemberBaseController {
             modelMap.put("userBean", userBeanService.get(userId));
             // 允许转出后用原账号转入
             Member member = memberService.get(userId);
-            if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
+            if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_OUT) {
                 if (memberIn == null)
                     memberIn = new MemberIn();
                 memberIn.setPoliticalStatus(member.getPoliticalStatus());

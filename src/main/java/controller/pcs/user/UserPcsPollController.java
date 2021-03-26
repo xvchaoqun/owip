@@ -376,7 +376,7 @@ public class UserPcsPollController extends PcsBaseController {
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria()
                 .andPoliticalStatusEqualTo(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE)
-                .andStatusIn(Arrays.asList(MemberConstants.MEMBER_STATUS_NORMAL, MemberConstants.MEMBER_STATUS_TRANSFER));
+                .andStatusIn(Arrays.asList(MemberConstants.MEMBER_STATUS_NORMAL, MemberConstants.MEMBER_STATUS_OUT));
 
         example.setOrderByClause("sort_order desc, convert(realname using gbk) asc");
         List<Integer> adminPartyIdList = null;

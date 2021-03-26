@@ -56,7 +56,7 @@
                                     <c:if test="${_type.key==PCS_PR_TYPE_PRO}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
                                         <c:set var="_isRetire" value="0"/>
-                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"/>
+                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"/>
                                     </c:if>
                                     <c:if test="${_type.key==PCS_PR_TYPE_STU}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_STUDENT}"/>
@@ -66,7 +66,7 @@
                                     <c:if test="${_type.key==PCS_PR_TYPE_RETIRE}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
                                         <c:set var="_isRetire" value="1"/>
-                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"/>
+                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"/>
                                     </c:if>
                                     <div class="panel panel-default" id="panel${_type.key}">
                                         <div class="panel-heading">

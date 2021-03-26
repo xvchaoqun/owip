@@ -95,7 +95,7 @@
 
 <c:set var="MEMBER_STATUS_MAP" value="<%=MemberConstants.MEMBER_STATUS_MAP%>"/>
 <c:set var="MEMBER_STATUS_NORMAL" value="<%=MemberConstants.MEMBER_STATUS_NORMAL%>"/>
-<c:set var="MEMBER_STATUS_TRANSFER" value="<%=MemberConstants.MEMBER_STATUS_TRANSFER%>"/>
+<c:set var="MEMBER_STATUS_OUT" value="<%=MemberConstants.MEMBER_STATUS_OUT%>"/>
 
 <c:set var="MEMBER_TYPE_TEACHER" value="<%=MemberConstants.MEMBER_TYPE_TEACHER%>"/>
 <c:set var="MEMBER_TYPE_STUDENT" value="<%=MemberConstants.MEMBER_TYPE_STUDENT%>"/>

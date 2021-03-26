@@ -243,7 +243,7 @@ public class MemberOutService extends MemberBaseMapper {
         }
         updateByPrimaryKeySelective(record);
         if (!memberOutNeedOwCheck) {
-            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
         }
     }
 
@@ -264,7 +264,7 @@ public class MemberOutService extends MemberBaseMapper {
         record.setCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
-        memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+        memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
     }
 
     //撤销已完成转出审批的记录
@@ -367,7 +367,7 @@ public class MemberOutService extends MemberBaseMapper {
 
         if (record.getStatus() != null && record.getStatus() == MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
             // memberOutNeedOwCheck = false的情况
-            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
         }
     }
 
@@ -555,7 +555,7 @@ public class MemberOutService extends MemberBaseMapper {
 
             if (!memberOutNeedOwCheck) {
                 // 直接转出
-                memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+                memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
             }
 
             applyApprovalLogService.add(record.getId(),

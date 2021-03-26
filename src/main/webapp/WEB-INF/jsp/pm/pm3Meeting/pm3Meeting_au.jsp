@@ -145,7 +145,7 @@
 								${pm3Meeting.presenterUser.realname}
 							</c:if>
 							<c:if test="${edit}">
-								<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+								<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
 										data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
 									<option value="${pm3Meeting.presenter}">${pm3Meeting.presenterUser.realname}-${pm3Meeting.presenterUser.code}</option>
 								</select>
@@ -158,7 +158,7 @@
 								${pm3Meeting.recorderUser.realname}
 							</c:if>
 							<c:if test="${edit}">
-								<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+								<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
 										data-width="270" id="recorder" name="recorder" data-placeholder="请选择">
 									<option value="${pm3Meeting.recorder}">${pm3Meeting.recorderUser.realname}-${pm3Meeting.recorderUser.code}</option>
 								</select>

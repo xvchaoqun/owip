@@ -183,7 +183,7 @@
                                                     <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
                                                 </c:if>
                                                 <c:if test="${cls==6 || cls==7}">
-                                                    <c:set var="_status" value="${MEMBER_STATUS_TRANSFER}"/>
+                                                    <c:set var="_status" value="${MEMBER_STATUS_OUT}"/>
                                                 </c:if>
                                                 <select data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/member_selects?type=${_type}&status=${_status}"

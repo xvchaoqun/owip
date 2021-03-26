@@ -6,7 +6,7 @@
     <h3>选择请假人员</h3>
 </div>
 <div class="modal-body rownumbers">
-    <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${param.partyId}&branchId=${param.branchId}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+    <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${param.partyId}&branchId=${param.branchId}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
             name="userId" data-placeholder="请输入账号或姓名或工号">
         <option></option>
     </select>

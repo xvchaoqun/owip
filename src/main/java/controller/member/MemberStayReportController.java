@@ -232,7 +232,7 @@ public class MemberStayReportController extends MemberBaseController {
                 == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
 
         String transferTime = "";
-        if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
+        if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_OUT) {
             MemberOut memberOut = memberOutService.getLatest(userId);
             if (memberOut != null && memberOut.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY)
                 transferTime = DateUtils.formatDate(memberOut.getHandleTime(), DateUtils.YYYYMM);

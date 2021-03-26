@@ -105,7 +105,7 @@ public class MemberController extends MemberBaseController {
                 // 查询状态
                 if (member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
                     status = "正常";
-                } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
+                } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_OUT) {
                     status = "已转出";
                 } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_QUIT) {
                     status = "已减员";
@@ -1187,11 +1187,11 @@ public class MemberController extends MemberBaseController {
                 break;
             case 6:
                 criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT)
-                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
+                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
                 break;
             case 7:
                 criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER)
-                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
+                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
                 break;
             case 10:
                 criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);

@@ -268,9 +268,9 @@ public class MemberStayController extends MemberBaseController {
             criteria.andStatusIn(Arrays.asList(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY,
                     MemberConstants.MEMBER_STAY_STATUS_ARCHIVE));
             if (cls == 5)
-                criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_OUT);
             if (cls == 6)
-                criteria.andMemberStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andMemberStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
         }
 
         if (export == 1) {

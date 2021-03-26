@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static sys.constants.MemberConstants.MEMBER_STATUS_NORMAL;
-import static sys.constants.MemberConstants.MEMBER_STATUS_TRANSFER;
+import static sys.constants.MemberConstants.MEMBER_STATUS_OUT;
 import static sys.helper.PartyHelper.isDirectBranch;
 
 @Controller
@@ -448,7 +448,7 @@ public class Pm3MeetingController extends PmBaseController {
         }
         List<Byte> statusList = new ArrayList<>();
         statusList.add(MEMBER_STATUS_NORMAL);
-        statusList.add(MEMBER_STATUS_TRANSFER);
+        statusList.add(MEMBER_STATUS_OUT);
         criteria.andStatusIn(statusList);
         List<MemberView> membersViews=memberViewMapper.selectByExample(example);
         modelMap.put("membersViews",membersViews);

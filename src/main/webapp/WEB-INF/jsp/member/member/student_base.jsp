@@ -33,7 +33,7 @@
         <div class="widget-main">
             <table class="table table-bordered table-striped">
                 <tbody>
-                <c:if test="${member.status!=MEMBER_STATUS_TRANSFER}">
+                <c:if test="${member.status!=MEMBER_STATUS_OUT}">
                     <tr>
                         <td class="bg-right">
                             所在党组织

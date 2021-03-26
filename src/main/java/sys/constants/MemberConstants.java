@@ -92,14 +92,14 @@ public class MemberConstants {
     public final static byte MEMBER_STATUS_NORMAL = 1; // 正常
     public final static byte MEMBER_STATUS_HISTORY = 2; // 已转移至历史党员库
     public final static byte MEMBER_STATUS_QUIT = 3; // 已减员
-    public final static byte MEMBER_STATUS_TRANSFER = 4; // 已转出
+    public final static byte MEMBER_STATUS_OUT = 4; // 已转出
     public final static Map<Byte, String> MEMBER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_NORMAL, "正常");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_HISTORY, "已转移至历史党员库");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已减员");
-        MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER, "已转出");
+        MEMBER_STATUS_MAP.put(MEMBER_STATUS_OUT, "已转出");
     }
 
     // 党员来源
