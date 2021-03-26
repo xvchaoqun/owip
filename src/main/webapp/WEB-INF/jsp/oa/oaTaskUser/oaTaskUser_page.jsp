@@ -29,6 +29,13 @@
                     <a class="popupBtn btn btn-warning btn-sm"
                        data-url="${ctx}/oa/oaTaskUser_unreportMsg?taskId=${oaTask.id}"><i class="fa fa-send"></i>
                         催促未报送对象</a>
+                    <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-querystr="taskId=${oaTask.id}"
+                           data-title="批量报送"
+                           data-msg="确定报送这{0}个任务？（即批量设置任务为已报送，相应记录转入已办事项列表）"
+                           data-url="${ctx}/oa/oaTaskUser_isReport"
+                           data-grid-id="#jqGrid2"><i class="fa fa-external-link"></i>
+                            批量报送</a>
                     <a class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                        data-querystr="taskId=${oaTask.id}"
                        data-ids-name="taskUserIds"
