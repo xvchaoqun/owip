@@ -60,7 +60,7 @@
 
                 return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, '查看');
             }},
-            { label:'上会ppt', name: 'pptName', formatter:function(cellvalue, options, rowObject){
+            { label:'上会材料', name: 'pptName', formatter:function(cellvalue, options, rowObject){
 
                 return $.pdfPreview(rowObject.dispatch.ppt, rowObject.dispatch.pptName, '查看');
             }},*/

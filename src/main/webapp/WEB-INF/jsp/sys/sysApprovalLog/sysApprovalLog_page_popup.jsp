@@ -4,7 +4,7 @@
 <c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>操作记录（${SYS_APPROVAL_LOG_TYPE_MAP.get(type)}<c:if test="${not empty sysUser}">-${sysUser.realname}</c:if>）</h3>
+  <h3>操作记录<c:if test="${not empty sysUser}">（${sysUser.realname}）</c:if></h3>
 </div>
 <div class="modal-body">
   <table id="jqGrid_popup" class="table-striped"> </table>

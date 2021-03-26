@@ -26,19 +26,19 @@
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 性别</div>
                 <div class="profile-info-value td">
-                    <span class="editable">${GENDER_MAP.get(userBean.gender)}</span>
+                    <span class="editable">${GENDER_MAP.get(memberOut.gender)}</span>
                 </div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 年龄</div>
                 <div class="profile-info-value td">
-                    <span class="editable"><c:if test="${not empty userBean.birth}">${cm:intervalYearsUntilNow(userBean.birth)}</c:if></span>
+                    <span class="editable">${memberOut.age}</span>
                 </div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 民族</div>
                 <div class="profile-info-value td">
-                    <span class="editable">${userBean.nation}</span>
+                    <span class="editable">${memberOut.nation}</span>
                 </div>
             </div>
             <div class="profile-info-row">
@@ -50,7 +50,7 @@
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 身份证号</div>
                 <div class="profile-info-value td">
-                    <span class="editable"><t:mask src="${userBean.idcard}" type="idCard"/></span>
+                    <span class="editable"><t:mask src="${memberOut.idcard}" type="idCard"/></span>
                 </div>
             </div>
             <div class="profile-info-row">

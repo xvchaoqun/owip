@@ -1,17 +1,16 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreTrain implements Serializable {
-
     // 培训月份数
     public int getMonth(){
         return DateUtils.monthDiff(startTime, endTime);
     }
-
     private Integer id;
 
     private Integer cadreId;
@@ -29,6 +28,11 @@ public class CadreTrain implements Serializable {
     private Integer sortOrder;
 
     private Byte status;
+
+    private String fileName;
+
+    @SignRes
+    private String filePath;
 
     private static final long serialVersionUID = 1L;
 
@@ -102,5 +106,21 @@ public class CadreTrain implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName == null ? null : fileName.trim();
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath == null ? null : filePath.trim();
     }
 }

@@ -119,7 +119,7 @@
                 mapperName="cadre.CadreCompanyFileMapper">
          </table>-->
 
-        <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
+        <table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>
@@ -128,7 +128,7 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>
-        <table tableName="cadre_course" domainObjectName="cadre.CadreCourse">
+        <!--<table tableName="cadre_course" domainObjectName="cadre.CadreCourse">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!-- <table tableName="cadre_reward" domainObjectName="cadre.CadreReward" mapperName="cadre.CadreRewardMapper">
@@ -139,13 +139,14 @@
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>-->
 <!--        </table>-->
-        <!--<table tableName="cadre_book" domainObjectName="cadre.CadreBook">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        --><!--
+<!--        <table tableName="cadre_book" domainObjectName="cadre.CadreBook">-->
+<!--        <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="cadre_research" domainObjectName="cadre.CadreResearch">-->
+<!--        <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+        <!--
         <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper" mapperName="cadre.CadrePaperMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

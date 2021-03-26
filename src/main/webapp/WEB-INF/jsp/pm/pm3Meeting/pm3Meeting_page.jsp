@@ -64,7 +64,6 @@ pageEncoding="UTF-8" %>
                                             data-title="删除"
                                             data-msg="确定删除这{0}条数据？"
                                             data-grid-id="#jqGrid"
-                                            data-callback="pm3_reload"
                                             class="jqBatchBtn btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
@@ -76,7 +75,6 @@ pageEncoding="UTF-8" %>
                                             data-title="退回"
                                             data-msg="确定退回这{0}条数据？"
                                             data-grid-id="#jqGrid"
-                                            data-callback="pm3_reload"
                                             class="jqBatchBtn btn btn-warning btn-sm">
                                         <i class="fa fa-reply"></i> 退回
                                     </button>
@@ -87,7 +85,7 @@ pageEncoding="UTF-8" %>
                                     <button data-url="${ctx}/pm/pm3Meeting_check"
                                             data-title="审核"
                                             data-grid-id="#jqGrid"
-                                            class="jqOpenViewBatchBtn btn btn-primary btn-sm">
+                                            class="jqOpenViewBatchBtn btn btn-warning btn-sm">
                                         <i class="fa fa-circle-o"></i> 审核
                                     </button>
                                 </shiro:hasPermission>
@@ -198,12 +196,12 @@ pageEncoding="UTF-8" %>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
-                                               data-url="${ctx}/pm/pm3Meeting"
+                                               data-url="${ctx}/pm/pm3Meeting?cls=${cls}"
                                                data-target="#page-content"
                                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                        data-url="${ctx}/pm/pm3Meeting"
+                                                        data-url="${ctx}/pm/pm3Meeting?cls=${cls}"
                                                         data-target="#page-content">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
@@ -226,10 +224,6 @@ pageEncoding="UTF-8" %>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
 
-    function pm3_reload(){
-        $("#page-content").loadPage("${ctx}/pm/pm3Meeting?cls=${cls}");
-    }
-
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/pm/pm3Meeting_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -237,7 +231,7 @@ pageEncoding="UTF-8" %>
             <c:if test="${cls==PM_3_STATUS_SAVE}">
                 <shiro:hasPermission name="pm3Meeting:edit">
                 { label: '报送', name: 'submit',width:80,formatter:function (cellvalue,optins,rowObject) {
-                        return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="报送" data-msg="确定报送这条数据？" data-callback="pm3_reload"' +
+                        return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="报送" data-msg="确定报送这条数据？" ' +
                             'data-url="${ctx}/pm/pm3Meeting_submit?id={0}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
                             .format(rowObject.id);
                     },frozen: true},

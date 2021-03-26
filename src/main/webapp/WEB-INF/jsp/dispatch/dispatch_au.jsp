@@ -185,7 +185,7 @@
                         </div>
                     </div>--%>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">上会ppt</label>
+                        <label class="col-xs-4 control-label">上会材料</label>
 
                         <div class="col-xs-6">
                             <input class="form-control" type="file" name="_ppt"/>
@@ -305,7 +305,7 @@
 
     $('textarea.limited').inputlimiter();
     $.fileInput($('#modalForm input[name=_ppt]'),{
-        allowExt: ['ppt', 'pptx'],
+        allowExt: ['pdf', 'doc', 'docx', 'ppt', 'pptx'],
         //allowMime: ['application/pdf']
     });
 

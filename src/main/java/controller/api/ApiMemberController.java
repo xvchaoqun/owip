@@ -51,7 +51,7 @@ public class ApiMemberController extends BaseController {
             resultMap = ret(-2, "该账号不是党员");
             return resultMap;
         }
-        if(member.getStatus()!= MemberConstants.MEMBER_STATUS_TRANSFER){
+        if(member.getStatus()!= MemberConstants.MEMBER_STATUS_OUT){
             resultMap = ret(0, "未转出");
         }else{
             resultMap = ret(1, "已转出");

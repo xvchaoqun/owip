@@ -280,7 +280,7 @@ public class DispatchController extends DispatchBaseController {
         if (_ppt != null) {
 
             String originalFilename = _ppt.getOriginalFilename();
-            String savePath = uploadDoc(_ppt, "dispatch_ppt");
+            String savePath = uploadDocOrPdf(_ppt, "dispatch_ppt");
 
             record.setPptName(FileUtils.getFileName(originalFilename));
             record.setPpt(savePath);

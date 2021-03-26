@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
 
                 <c:if test="${cm:attachFileExisted('af_pmd_help')}">
-                <a class="popupBtn btn btn-warning btn-sm"
+                <a class="popupBtn btn btn-warning btn-sm" data-width="900"
                    data-url="${ctx}/pdf_preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
                 </c:if>
             </div>

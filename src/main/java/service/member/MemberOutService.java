@@ -243,7 +243,7 @@ public class MemberOutService extends MemberBaseMapper {
         }
         updateByPrimaryKeySelective(record);
         if (!memberOutNeedOwCheck) {
-            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
         }
     }
 
@@ -264,7 +264,7 @@ public class MemberOutService extends MemberBaseMapper {
         record.setCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
-        memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+        memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
     }
 
     //撤销已完成转出审批的记录
@@ -367,7 +367,7 @@ public class MemberOutService extends MemberBaseMapper {
 
         if (record.getStatus() != null && record.getStatus() == MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
             // memberOutNeedOwCheck = false的情况
-            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
         }
     }
 
@@ -535,16 +535,27 @@ public class MemberOutService extends MemberBaseMapper {
                 record.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
                 record.setNation(uv.getNation());
 
+                int year = DateUtils.getYear(record.getHandleTime());
+                record.setYear(year);
+                record.setSn(genSn(year));
+
+                record.setApplyTime(new Date());
                 memberOutMapper.insertSelective(record);
                 addCount++;
             } else {
+
+                int year = DateUtils.getYear(record.getHandleTime());
+                if(memberOut.getYear()==null || year!=memberOut.getYear()) {
+                    record.setYear(year);
+                    record.setSn(genSn(year));
+                }
 
                 memberOutMapper.updateByPrimaryKeySelective(record);
             }
 
             if (!memberOutNeedOwCheck) {
                 // 直接转出
-                memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+                memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_OUT);
             }
 
             applyApprovalLogService.add(record.getId(),

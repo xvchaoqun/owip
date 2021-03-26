@@ -45,6 +45,8 @@ public class PartyView implements Serializable {
 
     private String phone;
 
+    private String address;
+
     private String fax;
 
     private String email;
@@ -213,6 +215,14 @@ public class PartyView implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
     public String getFax() {

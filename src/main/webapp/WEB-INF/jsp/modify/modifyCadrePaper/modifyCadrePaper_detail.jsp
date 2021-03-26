@@ -53,7 +53,7 @@
                     <td class="bg-left" width="300">
                         ${modify.name}
                         <c:if test="${not empty modify.filePath}">
-                        （<a href="javascript:void(0)" class="popupBtn"
+                        （<a href="javascript:void(0)" class="popupBtn" data-width="900"
                            data-url="${ctx}/pdf_preview?path=${cm:sign(modify.filePath)}&filename=${cm:encodeURI(modify.fileName)}">${modify.fileName}</a>）
                         </c:if>
                     </td>

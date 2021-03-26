@@ -54,7 +54,7 @@ public class CadreResearchService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadreResearchExample example = new CadreResearchExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadreResearchMapper.countByExample(example);
+            long count = cadreResearchMapper.countByExample(example);
             if (count != ids.length) {
                 throw new OpException("参数有误");
             }

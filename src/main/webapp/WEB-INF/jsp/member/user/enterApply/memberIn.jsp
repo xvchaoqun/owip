@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="MEMBER_IN_STATUS_BACK" value="<%=MemberConstants.MEMBER_IN_STATUS_BACK%>"/>
-
+<c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_BACK" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>"/>
 <c:if test="${memberIn.status==MEMBER_IN_STATUS_BACK}">
   <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">
@@ -15,30 +15,64 @@
     <div class="page-header">
       <h1>
         组织关系转入
+        <c:if test="${not empty cm:getHtmlFragment(HTML_FRAGMENT_MEMBER_IN_NOTE_BACK).content}">
         <a class="popupBtn btn btn-success btn-xs"
            data-width="800"
-           data-url="${ctx}/hf_content?code=<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>">
+           data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_MEMBER_IN_NOTE_BACK}">
           <i class="fa fa-info-circle"></i> 申请说明</a>
+        </c:if>
       </h1>
     </div>
-<form class="form-horizontal" action="${ctx}/user/memberIn" autocomplete="off" disableautocomplete id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/user/memberIn" autocomplete="off" disableautocomplete id="updateForm" method="post">
   <input type="hidden" name="id" value="${memberIn.id}">
   <div class="row">
     <div class="col-xs-6">
       <div class="form-group">
-        <label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
-        <div class="col-xs-6">
-          <input required class="form-control left-input" type="text" name="fromTitle" value="${memberIn.fromTitle}">
-        </div>
+          <label class="col-xs-5 control-label"><span class="star">*</span> 性别</label>
+          <div class="col-xs-6">
+              <select required name="gender" data-width="100" data-rel="select2"
+                              data-placeholder="请选择">
+                  <option></option>
+                  <c:forEach items="${GENDER_MAP}" var="entity">
+                      <option value="${entity.key}">${entity.value}</option>
+                  </c:forEach>
+              </select>
+              <script>
+                  $("#updateForm select[name=gender]").val('${empty memberIn.gender?userBean.gender:memberIn.gender}');
+              </script>
+          </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
-        <div class="col-xs-6">
-          <input required id="spinner" class="form-control digits input-group"
-                 data-rule-min="1" style="width: 100px"
-                 type="text" name="validDays" value="${memberIn.validDays}">
-        </div>
+          <label class="col-xs-5 control-label"><span class="star">*</span> 出生日期</label>
+          <div class="col-xs-6">
+              <div class="input-group">
+                  <input required class="form-control date-picker" name="birth" type="text"
+                         data-date-format="yyyy-mm-dd" value="${cm:formatDate(empty memberIn.birth?userBean.birth:memberIn.birth,'yyyy-MM-dd')}" />
+                  <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+              </div>
+          </div>
       </div>
+      <div class="form-group">
+          <label class="col-xs-5 control-label"><span class="star">*</span> 民族</label>
+          <div class="col-xs-6">
+               <select required name="nation" data-rel="select2" data-placeholder="请选择"  data-width="150">
+                   <option></option>
+                  <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
+                      <option value="${nation.name}">${nation.name}</option>
+                  </c:forEach>
+              </select>
+              <script>
+                  $("#updateForm select[name=nation]").val('${cm:ensureEndsWith(empty memberIn.nation?userBean.nation:memberIn.nation, '族')}');
+              </script>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-xs-5 control-label"><span class="star">*</span>身份证号</label>
+          <div class="col-xs-6">
+              <input required class="form-control" type="text" name="idcard" value="${empty memberIn.idcard?userBean.idcard:memberIn.idcard}">
+          </div>
+      </div>
+
       <div class="form-group">
         <label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
         <div class="col-xs-6">
@@ -47,7 +81,7 @@
             <c:import url="/metaTypes?__code=mc_member_in_out_type"/>
           </select>
           <script>
-            $("#modalForm select[name=type]").val(${memberIn.type});
+            $("#updateForm select[name=type]").val(${memberIn.type});
           </script>
         </div>
       </div>
@@ -61,7 +95,7 @@
             </c:forEach>
           </select>
           <script>
-            $("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+            $("#updateForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
           </script>
         </div>
       </div>
@@ -88,9 +122,24 @@
         </div>
       </div>
       <script>
-        $.register.party_branch_select($("#modalForm"), "branchDiv",
+        $.register.party_branch_select($("#updateForm"), "branchDiv",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", null,null, true );
       </script>
+      <div class="form-group">
+        <label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
+        <div class="col-xs-6">
+          <input required class="form-control left-input" type="text" name="fromTitle" value="${memberIn.fromTitle}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
+        <div class="col-xs-6">
+          <input required id="spinner" class="form-control digits input-group"
+                 data-rule-min="1" style="width: 100px"
+                 type="text" name="validDays" value="${memberIn.validDays}">
+        </div>
+      </div>
+
         <div class="form-group">
           <label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
           <div class="col-xs-6">
@@ -152,7 +201,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label">转入办理时间</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>转入办理时间</label>
         <div class="col-xs-6">
           <div class="input-group">
             <c:set var="handleTime" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}"/>
@@ -198,10 +247,10 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label">入党时间</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span> 入党时间</label>
         <div class="col-xs-6">
           <div class="input-group">
-            <input class="form-control date-picker" name="_growTime" type="text"
+            <input required class="form-control date-picker" name="_growTime" type="text"
                    autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.growTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -238,19 +287,19 @@
   </div>
 </form>
 <style>
-  #modalForm .row{
+  #updateForm .row{
     width: 1100px;
   }
-  #modalForm .input-group{
+  #updateForm .input-group{
     width:150px;
   }
-  #modalForm input.left-input{
+  #updateForm input.left-input{
     width: 260px;
   }
-  #modalForm .right-div .col-xs-6{
+  #updateForm .right-div .col-xs-6{
     width:auto;
   }
-  #modalForm .help-block{
+  #updateForm .help-block{
     white-space: nowrap;
   }
 </style>
@@ -258,7 +307,7 @@
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
       <script>
         $('#spinner').ace_spinner({value:0,min:1,max:999,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
-        $('#modalForm [data-rel="select2"]').select2();
+        $('#updateForm [data-rel="select2"]').select2();
         $.register.date($('.date-picker'));
 
         var jqValid = $("form").validate({
@@ -287,13 +336,8 @@
             });
           }});
 
-        $('#modalForm select[name=politicalStatus]').change(function(){
-          var $input = $("#modalForm  input[name=_positiveTime]");
-          if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
-            $input.attr("required", "required");
-          }else {
-            $input.removeAttr("required");
-          }
-          jqValid.element($input);
+        $('#updateForm select[name=politicalStatus]').change(function(){
+          $("#updateForm input[name=_positiveTime]")
+                  .requireField($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}');
         }).change();
 </script>

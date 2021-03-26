@@ -17,6 +17,7 @@
     <result column="is_enterprise_nationalized" jdbcType="BIT" property="isEnterpriseNationalized" />
     <result column="is_separate" jdbcType="BIT" property="isSeparate" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="fax" jdbcType="VARCHAR" property="fax" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
@@ -73,11 +74,11 @@
   </sql>
   <sql id="Base_Column_List">
     id, fid, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
-    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, 
-    found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, update_time, 
-    is_deleted, integrity, branch_count, member_count, student_member_count, positive_count, 
-    teacher_member_count, retire_member_count, group_count, present_group_id, appoint_time, 
-    tran_time, actual_tran_time
+    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, address, fax, 
+    email, mailbox, found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, 
+    update_time, is_deleted, integrity, branch_count, member_count, student_member_count, 
+    positive_count, teacher_member_count, retire_member_count, group_count, present_group_id, 
+    appoint_time, tran_time, actual_tran_time
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyViewExample" resultMap="BaseResultMap">
     select

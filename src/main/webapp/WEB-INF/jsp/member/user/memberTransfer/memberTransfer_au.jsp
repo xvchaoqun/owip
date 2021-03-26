@@ -2,7 +2,8 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
 <div class="row" style="width: 800px">
-    <div class="well" style="font-size: 14pt;font-weight: bolder">注：本校读取研究生或博士生或留校，<span style="color: #ff0000; ">需通过现有学工号提交完成“组织关系转出”审批，再用新分配学工号提交完成“组织关系转入”审批。</span></div>
+    <c:set var="helpInfo" value="${cm:getHtmlFragment('hf_member_transfer_info').content}"/>
+	<c:if test="${not empty helpInfo}"><div class="well">${helpInfo}</div></c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">

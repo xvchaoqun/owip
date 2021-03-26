@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.*;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -220,6 +217,10 @@ public class MemberInController extends MemberBaseController {
         Integer id = record.getId();
 
         record.setHasReceipt((record.getHasReceipt() == null) ? false : record.getHasReceipt());
+
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
+        }
 
         if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
@@ -450,7 +451,7 @@ public class MemberInController extends MemberBaseController {
 
         List<MemberIn> records = memberInMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100", "姓名|50", "类别|50", "所在分党委|300|left", "所在党支部|300|left",
+        String[] titles = {"学工号|100", "姓名|50", "身份证号码|180", "性别|50", "出生日期|100", "民族|80", "类别|50", "所在分党委|300|left", "所在党支部|300|left",
                 "转出单位|280|left", "转出单位抬头|280|left", "介绍信有效期天数|120", "转出办理时间|100", "转入办理时间|100", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -461,6 +462,10 @@ public class MemberInController extends MemberBaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
+                    record.getIdcard(),
+                    record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getBirth()==null?"":DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
+                    record.getNation(),
                     record.getType() == null ? "" : metaTypeService.getName(record.getType()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),

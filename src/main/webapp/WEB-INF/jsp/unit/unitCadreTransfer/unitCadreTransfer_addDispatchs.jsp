@@ -26,7 +26,7 @@ pageEncoding="UTF-8" %>
                         <th>行政级别</th>
                         <th>所属单位</th>
                         <th>任免文件</th>
-                        <th>上会ppt</th>
+                        <th>上会材料</th>
                     </tr>
                     </thead>
                     <tbody>

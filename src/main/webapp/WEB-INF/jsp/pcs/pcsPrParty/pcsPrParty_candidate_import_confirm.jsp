@@ -28,7 +28,7 @@
                 <c:if test="${not empty can.code}">${can.code}</c:if>
                 <c:if test="${empty can.code}">
                 <select required name="userId${vs.index}" data-rel="select2-ajax"
-                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
                         data-placeholder="请输入账号或姓名或工作证号">
                     <option></option>
                 </select>

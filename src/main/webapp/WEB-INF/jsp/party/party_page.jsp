@@ -426,6 +426,7 @@ pageEncoding="UTF-8" %>
             { label: '是否<br/>标杆院系', name: 'isBg', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
             {label: '评选标杆<br/>院系时间', name: 'bgDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '联系电话', name: 'phone' },
+            { label: '联系地址', name: 'address', width: 180, align:'left'},
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },
             { label: '信箱', name: 'mailbox' }

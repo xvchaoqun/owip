@@ -62,6 +62,15 @@
                     <td data-code="remark">备注</td>
                     <td class="bg-left">${modify.remark}</td>
                 </tr>
+                <tr>
+                   <td data-code="filePath" width="100">相关证明</td>
+                    <td class="bg-left" colspan="5">
+                        <c:if test="${not empty modify.filePath}">
+                        <a href="javascript:void(0)" class="popupBtn" data-width="900"
+                           data-url="${ctx}/pdf_preview?path=${cm:sign(modify.filePath)}&filename=${cm:encodeURI(modify.fileName)}">预览</a>
+                        </c:if>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

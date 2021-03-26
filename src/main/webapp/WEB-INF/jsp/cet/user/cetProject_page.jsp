@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                 var pdfFilePath = rowObject.pdfFilePath;
                 if ($.trim(pdfFilePath) != '') {
                     var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
-                    return ('<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}" '+
+                    return ('<button href="javascript:void(0)" data-width="900" data-url="${ctx}/pdf_preview?path={0}&filename={1}" '+
                             'title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
                             .format(pdfFilePath, encodeURI(fileName));
                 }

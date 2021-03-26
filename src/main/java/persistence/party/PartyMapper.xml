@@ -17,6 +17,7 @@
     <result column="is_enterprise_nationalized" jdbcType="BIT" property="isEnterpriseNationalized" />
     <result column="is_separate" jdbcType="BIT" property="isSeparate" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="fax" jdbcType="VARCHAR" property="fax" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
@@ -90,9 +91,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, fid, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
-    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, 
-    found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted, 
-    integrity
+    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, address, fax, 
+    email, mailbox, found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, 
+    is_deleted, integrity
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyExample" resultMap="BaseResultMap">
     select
@@ -132,20 +133,20 @@
       short_name, url, unit_id, 
       class_id, type_id, unit_type_id, 
       branch_type, is_enterprise_big, is_enterprise_nationalized, 
-      is_separate, phone, fax, 
-      email, mailbox, found_time, 
-      sort_order, create_time, is_pycj, 
-      pycj_date, is_bg, bg_date, is_deleted, 
-      integrity)
+      is_separate, phone, address, 
+      fax, email, mailbox, 
+      found_time, sort_order, create_time, 
+      is_pycj, pycj_date, is_bg, bg_date, 
+      is_deleted, integrity)
     values (#{fid,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{shortName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
       #{classId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, 
       #{branchType,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, 
-      #{isSeparate,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, 
-      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isPycj,jdbcType=BIT}, 
-      #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, #{isDeleted,jdbcType=BIT}, 
-      #{integrity,jdbcType=DECIMAL})
+      #{isSeparate,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
+      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isPycj,jdbcType=BIT}, #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, 
+      #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Party">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -194,6 +195,9 @@
       </if>
       <if test="phone != null">
         phone,
+      </if>
+      <if test="address != null">
+        address,
       </if>
       <if test="fax != null">
         fax,
@@ -274,6 +278,9 @@
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="fax != null">
         #{fax,jdbcType=VARCHAR},
@@ -367,6 +374,9 @@
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
       <if test="record.fax != null">
         fax = #{record.fax,jdbcType=VARCHAR},
       </if>
@@ -425,6 +435,7 @@
       is_enterprise_nationalized = #{record.isEnterpriseNationalized,jdbcType=BIT},
       is_separate = #{record.isSeparate,jdbcType=BIT},
       phone = #{record.phone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
       fax = #{record.fax,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       mailbox = #{record.mailbox,jdbcType=VARCHAR},
@@ -486,6 +497,9 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
       <if test="fax != null">
         fax = #{fax,jdbcType=VARCHAR},
       </if>
@@ -541,6 +555,7 @@
       is_enterprise_nationalized = #{isEnterpriseNationalized,jdbcType=BIT},
       is_separate = #{isSeparate,jdbcType=BIT},
       phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       fax = #{fax,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       mailbox = #{mailbox,jdbcType=VARCHAR},

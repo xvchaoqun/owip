@@ -19,7 +19,7 @@
         </button></blockquote>
       </div>
      </c:if>
-     <c:if test="${empty member || member.status==MEMBER_STATUS_TRANSFER}">
+     <c:if test="${empty member || member.status==MEMBER_STATUS_OUT}">
       <div class="well ">
         <blockquote>
         <h4 class="blue bolder bigger-150">组织关系转入</h4>

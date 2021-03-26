@@ -104,7 +104,7 @@
                                         data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW%>"
                                         data-open-by="page">
-                                    <i class="fa fa-check-circle-o"></i> 查看审批记录
+                                    <i class="fa fa-search"></i> 审批记录
                                 </button>
                                 <c:if test="${cls==3}">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"

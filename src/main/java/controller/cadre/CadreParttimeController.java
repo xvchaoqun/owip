@@ -177,7 +177,7 @@ public class CadreParttimeController extends BaseController {
             return;
         }
 
-        int count = cadreParttimeMapper.countByExample(example);
+        long count = cadreParttimeMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -208,7 +208,7 @@ public class CadreParttimeController extends BaseController {
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
 
-            CadreParttime record, String _startTime, String _endTime, HttpServletRequest request) {
+            CadreParttime record, String _startTime, String _endTime,MultipartFile _file, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -217,6 +217,17 @@ public class CadreParttimeController extends BaseController {
         }
         if (StringUtils.isNotBlank(_endTime)) {
             record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYYMM));
+        }
+
+        if (_file != null) {
+            String ext = FileUtils.getExtention(_file.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                return failed("文件格式错误，请上传pdf文档");
+            }
+            String originalFilename = _file.getOriginalFilename();
+            String savePath = uploadPdf(_file, "cadre_parttime");
+            record.setFileName(FileUtils.getFileName(originalFilename));
+            record.setFilePath(savePath);
         }
 
         if (id == null) {

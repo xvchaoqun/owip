@@ -28,10 +28,10 @@
             </div>
 
             <div class="profile-info-row">
-                <div class="profile-info-name td"> ${(user.type==USER_TYPE_JZG)?"工作证号":"学号"} </div>
+                <div class="profile-info-name td"> ${(_user.type==USER_TYPE_JZG)?"工作证号":"学号"} </div>
 
                 <div class="profile-info-value td">
-                    <span class="editable">${user.code}</span>
+                    <span class="editable">${_user.code}</span>
                 </div>
             </div>
 
@@ -39,7 +39,36 @@
                 <div class="profile-info-name td"> 姓名</div>
 
                 <div class="profile-info-value td">
-                    <span class="editable">${user.realname}</span>
+                    <span class="editable">${_user.realname}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name td"> 性别</div>
+
+                <div class="profile-info-value td">
+                    <span class="editable">${GENDER_MAP.get(memberIn.gender)}</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name td"> 出生日期</div>
+
+                <div class="profile-info-value td">
+                    <span class="editable">${cm:formatDate(memberIn.birth, "yyyy-MM-dd")}</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name td"> 民族</div>
+
+                <div class="profile-info-value td">
+                    <span class="editable">${memberIn.nation}</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name td"> 身份证号</div>
+
+                <div class="profile-info-value td">
+                    <span class="editable">${memberIn.idcard}</span>
                 </div>
             </div>
 

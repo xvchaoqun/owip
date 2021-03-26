@@ -130,7 +130,11 @@ public class MemberOutController extends MemberBaseController {
                 }
             }
             record.setValidDays(days);
-            record.setHandleTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            Date handleTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            if(handleTime==null){
+                throw new OpException("第{0}行办理时间[{1}]为空", row, _type);
+            }
+            record.setHandleTime(handleTime);
             record.setHasReceipt(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(rowNum++)), "是"));
 
             //record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
@@ -476,6 +480,10 @@ public class MemberOutController extends MemberBaseController {
             record.setBranchId(member.getBranchId());
         }
 
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
+        }
+
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
 
@@ -793,31 +801,26 @@ public class MemberOutController extends MemberBaseController {
 
         List<MemberOut> records = memberOutMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100", "姓名|50", "性别|50", "人员类别|80", "联系电话|100",
-                "类别|50", "党籍状态|100", "所在分党委|300|left", "所在党支部|300|left", "转入单位抬头|280|left",
+        String[] titles = {"学工号|100", "姓名|50", "身份证号码|180", "性别|50", "年龄|50", "民族|80", "人员类别|80", "联系电话|100",
+                "类别|50", "党籍状态|100", "所在基层党组织|300|left", "所在党支部|300|left", "转入单位抬头|280|left",
                 "转入单位|200|left", "转出单位|200|left", "介绍信有效期天数|120", "办理时间|80","是否有回执|80","回执接收时间|100", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
+
             MemberOut record = records.get(i);
             int userId = record.getUserId();
-            SysUserView sysUser = sysUserService.findById(userId);
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Member member = memberService.get(userId);
-            String memberTypeName = "";
-            Byte memberType = record.getMemberType();
-            if(memberType==1){
-                memberTypeName = "学生";
-            }else if(memberType==2){
-                memberTypeName = "在职教工";
-            }else if(memberType==3){
-                memberTypeName = "离退休";
-            }
+            String memberTypeName = MemberConstants.MEMBER_OUT_MEMBER_TYPE_MAP.get(record.getMemberType());
 
             String[] values = {
-                    sysUser.getCode(),
-                    sysUser.getRealname(),
-                    sysUser.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(sysUser.getGender()),
+                    record.getUserCode(),
+                    record.getRealname(),
+                    record.getIdcard(),
+                    record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getAge()==null?"":record.getAge()+"",
+                    record.getNation(),
                     memberTypeName,
                     record.getPhone(),
                     record.getType() == null ? "" : metaTypeService.getName(record.getType()),

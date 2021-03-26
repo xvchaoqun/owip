@@ -52,7 +52,7 @@
             <span class="fa fa-step-forward"></span>
         </span>
         <c:if test="${!np}">
-            <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info"
+            <a href="javascript:;" class="printBtn btn btn-info"
                data-url="${ctx}/pdf?path=${cm:sign(pdfPath)}"><i class="fa fa-print"></i> 打印</a>
         </c:if>
         <c:if test="${!nd}">

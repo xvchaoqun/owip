@@ -55,6 +55,12 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">相关证明</label>
+            <div class="col-xs-6 uploader">
+                <input class="form-control" type="file" name="_file" />
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6">
                 <textarea class="form-control" name="remark">${cadreBook.remark}</textarea>
@@ -69,7 +75,10 @@ pageEncoding="UTF-8"%>
 
 <script>
     $.register.date($('.date-picker'));
-    $.fileInput($('#modalForm input[type=file]'))
+    $.fileInput($('#modalForm input[type=file]'),{
+        no_file:'请上传pdf文件',
+        allowExt: ['pdf']
+    })
 
     $("#modal form").validate({
         submitHandler: function (form) {

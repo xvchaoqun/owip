@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
-<div class="well">注：本校读取研究生或博士生或留校，<span style="color: #ff0000; ">需通过现有学工号提交完成“组织关系转出”审批，再用新分配学工号提交完成“组织关系转入”审批。</span>
-</div>
+
+<c:set var="helpInfo" value="${cm:getHtmlFragment('hf_member_transfer_info').content}"/>
+<c:if test="${not empty helpInfo}"><div class="well">${helpInfo}</div></c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
@@ -17,7 +18,7 @@
       method="post">
     <input type="hidden" name="id" value="${memberTransfer.id}">
     <div class="form-group">
-        <label class="control-label">转出组织机构 </label>
+        <label class="control-label">转出组织机构：</label>
             <div>
                 ${fromParty.name}
             <c:if test="${not empty fromBranch}">-${fromBranch.name}</c:if>
@@ -25,7 +26,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label"><span class="star">*</span>转入党组织</label>
+        <label class="control-label"><span class="star">*</span>转入党组织：</label>
         <div>
                 <select required class="form-control" data-rel="select2-ajax"
                         data-ajax-url="${ctx}/m/party_selects?del=0" data-width="100%"

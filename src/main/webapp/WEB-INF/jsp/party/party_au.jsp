@@ -67,10 +67,20 @@
                         <input class="form-control" type="text" name="phone" value="${party.phone}">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">联系地址</label>
+                    <div class="col-xs-9">
+                        <textarea class="form-control" style="width: 273px" type="text" name="address">${party.address}</textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">传真</label>
                     <div class="col-xs-8">
                         <input class="form-control" type="text" name="fax" value="${party.fax}">
+                        <shiro:hasPermission name="memberOut:list">
+                        <span class="help-block">注：联系电话、联系地址、传真用于组织关系转接等功能模块</span>
+                        </shiro:hasPermission>
                     </div>
                 </div>
                 <div class="form-group">
@@ -94,7 +104,6 @@
                     <div class="col-xs-8">
                         <c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-                                data-width="253"
                                 name="unitId" data-placeholder="请选择">
                             <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>

@@ -254,7 +254,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
             CadreViewExample example = new CadreViewExample();
             CadreViewExample.Criteria criteria = example.createCriteria();
             criteria.andOwIdIsNotNull().andMemberStatusIn(Arrays.asList(MemberConstants.MEMBER_STATUS_NORMAL,
-                    MemberConstants.MEMBER_STATUS_TRANSFER));
+                    MemberConstants.MEMBER_STATUS_OUT));
 
             countCache.put(CacheConstants.CACHE_KEY_CADRE_PARTY_TO_REMOVE, (int) cadreViewMapper.countByExample(example));
         }

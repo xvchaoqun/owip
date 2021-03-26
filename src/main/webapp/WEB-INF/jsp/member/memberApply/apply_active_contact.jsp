@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6 required">
                 <c:set var="sysUser" value="${cm:getUserById(userIds[0])}"/>
                 <select name="userId1" data-rel="select2-ajax" data-width="270"
-                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
                         data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>
@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6 ${_p_contactUsers_count==2?'required':''}">
                 <c:set var="sysUser" value="${cm:getUserById(userIds[1])}"/>
                 <select name="userId2" data-rel="select2-ajax" data-width="270"
-                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"
+                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
                         data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>

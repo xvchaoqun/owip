@@ -25,6 +25,7 @@ import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IdcardValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -56,6 +57,16 @@ public class UserMemberOutController extends MemberBaseController {
 
         modelMap.put("memberOut", memberOut);
 
+        if(memberOut==null) {
+
+            MemberOut memberOutTemp = new MemberOut();
+            memberOutTemp.setIdcard(userBean.getIdcard());
+            memberOutTemp.setGender(userBean.getGender());
+            memberOutTemp.setAge(DateUtils.intervalYearsUntilNow(userBean.getBirth()));
+            memberOutTemp.setNation(userBean.getNation());
+            modelMap.put("memberOutTemp", memberOutTemp);
+        }
+
         if(memberOut==null || memberOut.getStatus() <= MemberConstants.MEMBER_OUT_STATUS_BACK)
             return isMobile?"member/mobile/memberOut":"member/user/memberOut/memberOut_au";
 
@@ -75,6 +86,10 @@ public class UserMemberOutController extends MemberBaseController {
         }
         if(StringUtils.isNotBlank(_handleTime)){
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
+        }
+
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
         }
 
         Member member = memberService.get(userId);
@@ -112,10 +127,6 @@ public class UserMemberOutController extends MemberBaseController {
         SysUserView uv = CmTag.getUserById(userId);
         record.setUserCode(uv.getCode());
         record.setRealname(uv.getRealname());
-        record.setIdcard(uv.getIdcard());
-        record.setGender(uv.getGender());
-        record.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
-        record.setNation(uv.getNation());
 
         if (memberOut == null) {
             memberOutService.insertOrUpdateSelective(record);

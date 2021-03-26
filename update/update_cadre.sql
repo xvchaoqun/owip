@@ -1,4 +1,21 @@
 
+2021.3.25 xcq
+ALTER TABLE `cadre_research`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `research_type`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+ALTER TABLE `cadre_book`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `status`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+ALTER TABLE `cadre_parttime`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `status`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
+ALTER TABLE `cadre_train`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件名' COLLATE 'utf8_general_ci' AFTER `status`,
+	ADD COLUMN `file_path` VARCHAR(100) NULL DEFAULT NULL COMMENT '文件路径' COLLATE 'utf8_general_ci' AFTER `file_name`;
+
 -- 2021.2.27 sxx
 ALTER TABLE `cadre_punish`
     ADD COLUMN	`proof` VARCHAR(255) NULL DEFAULT NULL COMMENT '处分文件'  AFTER `unit`,

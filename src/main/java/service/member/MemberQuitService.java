@@ -325,7 +325,7 @@ public class MemberQuitService extends MemberBaseMapper {
      *
      * @param userId
      * @param status MemberConstants.MEMBER_STATUS_QUIT
-     *               MemberConstants.MEMBER_STATUS_TRANSFER
+     *               MemberConstants.MEMBER_STATUS_OUT
      */
     @Transactional
     public void quit(int userId, byte status) {
@@ -335,7 +335,7 @@ public class MemberQuitService extends MemberBaseMapper {
         commonMapper.excuteSql("update ow_member set status=" + status +" where user_id=" + userId);
 
         // 存在未缴纳党费时，不允许转出
-        if(status==MemberConstants.MEMBER_STATUS_TRANSFER){
+        if(status==MemberConstants.MEMBER_STATUS_OUT){
 
             PmdMemberPayViewMapper pmdMemberPayViewMapper = CmTag.getBean(PmdMemberPayViewMapper.class);
             if(pmdMemberPayViewMapper!=null){

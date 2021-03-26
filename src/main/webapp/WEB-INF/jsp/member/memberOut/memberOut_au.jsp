@@ -289,6 +289,11 @@ pageEncoding="UTF-8"%>
 			$("#updateForm select[name=nation]").val(nation).trigger("change");
 			$("#updateForm select[name=politicalStatus]").val(politicalStatus).trigger("change");
 			$("#updateForm input[name=idcard]").val(idcard);
+
+			$("#updateForm textarea[name=fromUnit]").val(entity.partyName || '');
+			$("#updateForm textarea[name=fromAddress]").val(entity.partyAddress || '');
+			$("#updateForm input[name=fromPhone]").val(entity.partyPhone || '');
+			$("#updateForm input[name=fromFax]").val(entity.partyFax || '');
 		}else{
 			$("#updateForm input[name=realname]").val('');
 			$("#updateForm select[name=gender]").val(null).trigger("change");
@@ -296,6 +301,11 @@ pageEncoding="UTF-8"%>
 			$("#updateForm select[name=nation]").val(null).trigger("change");
 			$("#updateForm select[name=politicalStatus]").val(null).trigger("change");
 			$("#updateForm input[name=idcard]").val('');
+
+			$("#updateForm textarea[name=fromUnit]").val('');
+			$("#updateForm textarea[name=fromAddress]").val('');
+			$("#updateForm input[name=fromPhone]").val('');
+			$("#updateForm input[name=fromFax]").val('');
 		}
 	});
 

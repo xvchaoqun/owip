@@ -179,7 +179,7 @@
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {
                 var str = "否";
                 var ms = $.trim(cellvalue);
-                if(ms!='' && (ms=='${MEMBER_STATUS_NORMAL}' || ms=='${MEMBER_STATUS_TRANSFER}')){
+                if(ms!='' && (ms=='${MEMBER_STATUS_NORMAL}' || ms=='${MEMBER_STATUS_OUT}')){
                     str = "是";
                 }
                 return str;

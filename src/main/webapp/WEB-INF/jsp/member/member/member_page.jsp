@@ -132,6 +132,7 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cols">
                                         <input type="hidden" name="cls" value="${cls}">
+                                        <input type="hidden" name="studentLevel" value="${param.studentLevel}">
                                         <c:if test="${cls!=6&&cls!=7}">
                                             <div class="form-group">
                                                 <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"
@@ -182,7 +183,7 @@
                                                     <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
                                                 </c:if>
                                                 <c:if test="${cls==6 || cls==7}">
-                                                    <c:set var="_status" value="${MEMBER_STATUS_TRANSFER}"/>
+                                                    <c:set var="_status" value="${MEMBER_STATUS_OUT}"/>
                                                 </c:if>
                                                 <select data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/member_selects?type=${_type}&status=${_status}"

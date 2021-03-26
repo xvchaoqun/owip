@@ -4,8 +4,10 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
 
 <div style="width: 900px">
-    <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系互转</h3>
+    <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系转接</h3>
 <hr/>
+	<c:set var="helpInfo" value="${cm:getHtmlFragment('hf_member_transfer_info').content}"/>
+	<c:if test="${not empty helpInfo}"><div class="well">${helpInfo}</div></c:if>
     <form class="form-horizontal" action="${ctx}/memberTransfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberTransfer.id}">
 		<input type="hidden" name="reapply" value="${param.reapply}">

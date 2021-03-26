@@ -20,6 +20,7 @@ import sys.constants.*;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
+import sys.utils.IdcardValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -281,7 +282,7 @@ public class EnterApplyController extends MemberBaseController {
             modelMap.put("userBean", userBeanService.get(userId));
             // 允许转出后用原账号转入
             Member member = memberService.get(userId);
-            if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
+            if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_OUT) {
                 if (memberIn == null)
                     memberIn = new MemberIn();
                 memberIn.setPoliticalStatus(member.getPoliticalStatus());
@@ -335,6 +336,10 @@ public class EnterApplyController extends MemberBaseController {
         record.setUserId(userId);
         record.setHasReceipt(null);
         record.setReason(null);
+
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
+        }
 
         if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));

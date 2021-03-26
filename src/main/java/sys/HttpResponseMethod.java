@@ -97,9 +97,9 @@ public interface HttpResponseMethod {
             try {
                 String cmd = null;
                 if(pageNo==null) {
-                     cmd = PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"));
+                     cmd = PdfUtils.pdf2jpg(springProps.uploadPath, path, resolution, PropertiesUtils.getString("gs.command"));
                 }else{
-                    cmd = PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"), pageNo);
+                    cmd = PdfUtils.pdf2jpg(springProps.uploadPath, path, resolution, PropertiesUtils.getString("gs.command"), pageNo);
                 }
                 logger.info(cmd);
             } catch (Exception e) {

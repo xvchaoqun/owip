@@ -18,6 +18,14 @@ public class MemberInModify implements Serializable {
 
     private Integer applyUserId;
 
+    private String idcard;
+
+    private Byte gender;
+
+    private Date birth;
+
+    private String nation;
+
     private Byte politicalStatus;
 
     private Integer type;
@@ -88,6 +96,38 @@ public class MemberInModify implements Serializable {
 
     public void setApplyUserId(Integer applyUserId) {
         this.applyUserId = applyUserId;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard == null ? null : idcard.trim();
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
     }
 
     public Byte getPoliticalStatus() {
