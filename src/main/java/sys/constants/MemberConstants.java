@@ -90,18 +90,20 @@ public class MemberConstants {
 
     // 党员状态, 1正常 3已出党 4已转出
     public final static byte MEMBER_STATUS_NORMAL = 1; // 正常
-    public final static byte MEMBER_STATUS_QUIT = 3; // 已出党
+    public final static byte MEMBER_STATUS_HISTORY = 2; // 已转移至历史党员库
+    public final static byte MEMBER_STATUS_QUIT = 3; // 已减员
     public final static byte MEMBER_STATUS_TRANSFER = 4; // 已转出
     public final static Map<Byte, String> MEMBER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_NORMAL, "正常");
-        MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已出党");
+        MEMBER_STATUS_MAP.put(MEMBER_STATUS_HISTORY, "已转移至历史党员库");
+        MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已减员");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER, "已转出");
     }
 
     // 党员来源
-    public final static byte MEMBER_SOURCE_IMPORT = 1; // 后台导入
+    public final static byte MEMBER_SOURCE_IMPORT = 1; // 导入
     public final static byte MEMBER_SOURCE_GROW = 2; // 本校发展
     public final static byte MEMBER_SOURCE_TRANSFER = 3; // 外校转入
     public final static byte MEMBER_SOURCE_RETURNED = 4; // 归国人员恢复入党
@@ -109,7 +111,7 @@ public class MemberConstants {
     public final static Map<Byte, String> MEMBER_SOURCE_MAP = new LinkedHashMap<>();
 
     static {
-        MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "后台导入");
+        MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "导入");
         MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_GROW, "本校发展");
         MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
         MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_RETURNED, "归国人员恢复入党");
