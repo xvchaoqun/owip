@@ -29,27 +29,27 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
            -->
-         <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+        <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-        </table>
+        </table>-->
 
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
        </table>-->
-        <table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
-        </table>
+       <!-- <table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
+        </table>-->
 
 
-        <!--  <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
+          <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          </table>-->
-        <!--<table tableName="ow_member_outflow" domainObjectName="member.MemberOutflow">
+          </table>
+        <table tableName="ow_member_outflow" domainObjectName="member.MemberOutflow">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_outflow_view" domainObjectName="member.MemberOutflowView">
-        </table>-->
+        </table>
         <!--<table tableName="ow_member_return" domainObjectName="member.MemberReturn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -75,7 +75,7 @@
         <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
         </table>-->
 
-        <!--<table tableName="ow_member" domainObjectName="member.Member">
+        <table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
              <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
          </table>
@@ -87,7 +87,7 @@
             <columnOverride column="is_retire" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="ow_member_check" domainObjectName="member.MemberCheck">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
@@ -105,12 +105,12 @@
                 mapperName="member.ApplySnMapper">
          </table>-->
 
-         <!--<table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+         <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>
-         </table>-->
-        <!--<table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
+         </table>
+        <table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
                mapperName="member.MemberApplyViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -118,7 +118,7 @@
            <ignoreColumn column="update_time"/>
             <columnOverride column="remark" jdbcType="VARCHAR"/>
             <columnOverride column="edu" jdbcType="VARCHAR"></columnOverride>
-       </table>-->
+       </table>
 
         <!--<table tableName="ow_member_certify" domainObjectName="member.MemberCertify" mapperName="member.MemberCertifyMapper">
         </table>-->

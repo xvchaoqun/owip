@@ -16,12 +16,10 @@ AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_i
 DROP VIEW IF EXISTS `ow_party_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ow_party_view` AS
 select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
-mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count,
+mtmp.t_num as teacher_member_count, mtmp.t2_num as retire_member_count, pmgtmp.num as group_count,
 pmgtmp2.id as present_group_id, pmgtmp2.appoint_time, pmgtmp2.tran_time, pmgtmp2.actual_tran_time from ow_party p
 left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
-left join (select sum(if(type=2, 1, 0)) as s_num, sum(if(political_status=2, 1, 0)) as positive_count, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
-left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
-count(*) as num, party_id from ow_member_view where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select sum(if(u.type in(2,3,4), 1, 0)) as s_num, sum(if(u.type=1, 1, 0)) as t_num, sum(if(u.type=5, 1, 0)) as t2_num, sum(if(m.political_status=2, 1, 0)) as positive_count, count(m.user_id) as num,  m.party_id from ow_member m, sys_user u where m.status=1 and m.user_id=u.id group by m.party_id) mtmp on mtmp.party_id=p.id
 left join (select count(*) as num, party_id from ow_party_member_group where is_deleted=0 group by party_id) pmgtmp on pmgtmp.party_id=p.id
 LEFT JOIN ow_party_member_group pmgtmp2 ON pmgtmp2.is_deleted=0 AND pmgtmp2.party_id=p.id;
 
@@ -31,13 +29,12 @@ LEFT JOIN ow_party_member_group pmgtmp2 ON pmgtmp2.is_deleted=0 AND pmgtmp2.part
 DROP VIEW IF EXISTS `ow_branch_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_view` AS
 select b.*, p.sort_order as party_sort_order, mtmp.num as member_count, mtmp.positive_count, mtmp.s_num as student_member_count,
-mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count,
+mtmp.t_num as teacher_member_count, mtmp.t2_num as retire_member_count, gtmp.num as group_count,
 gtmp2.id as present_group_id, gtmp2.appoint_time, gtmp2.tran_time, gtmp2.actual_tran_time,bgmp.num as bg_count
 from ow_branch b
 left join ow_party p on b.party_id=p.id
-left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
-left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
-count(*) as num, branch_id from ow_member_view where type=1 and status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select  sum(if(m.political_status=2, 1, 0)) as positive_count, sum(if(u.type in(2,3,4), 1, 0)) as s_num,sum(if(u.type=1, 1, 0)) as t_num, sum(if(u.type=5, 1, 0)) as t2_num,
+count(m.user_id) as num,  m.branch_id from ow_member m, sys_user u where m.status=1 and m.user_id=u.id group by m.branch_id) mtmp on mtmp.branch_id=b.id
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
 LEFT JOIN ow_branch_member_group gtmp2 on gtmp2.is_deleted=0 and gtmp2.branch_id=b.id
 left join (select count(*) as num,branch_id from ow_branch_group group by branch_id) bgmp on bgmp.branch_id = b.id ;
@@ -64,10 +61,9 @@ t.education,t.degree,t.degree_time,t.major,t.school,t.school_type, t.degree_scho
 t.authorized_type, t.staff_type, t.staff_status, t.on_job, t.main_post_level,
 t.post_class, t.post, t.post_level, t.pro_post, t.pro_post_level, t.manage_level, t.office_level,
 t.title_level,t.marital_status,t.address,
-t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
-if(isnull(t.is_retire), 0, t.is_retire) as is_retire, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
+t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
 
-if(m.type=1,1,s.student_level) as student_level,s.delay_year,s.period,s.actual_graduate_time,
+s.delay_year,s.period,s.actual_graduate_time,
 s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,
 s.enrol_year,s.grade,s.is_graduate,s.is_work,s.is_graduate_grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
 

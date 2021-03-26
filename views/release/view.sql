@@ -373,10 +373,11 @@ left join pmd_month pm on pp.month_id=pm.id ;
 
 DROP VIEW IF EXISTS `pmd_config_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pmd_config_member_view` AS
-SELECT  if(isnull(pcm.config_member_type),if(om.type=1,if(sti.is_retire=1,2,1),3), pcm.config_member_type) config_member_type ,pcm.config_member_type_id,pcm.due_pay,pcm.salary,om.user_id,om.party_id,om.branch_id
+SELECT  if(isnull(pcm.config_member_type),if(u.type in(2,3,4), 3, if(u.type=5, 2, u.type)), pcm.config_member_type) config_member_type ,pcm.config_member_type_id,pcm.due_pay,pcm.salary,om.user_id,om.party_id,om.branch_id
 from pmd_config_member pcm
 left join sys_teacher_info sti on sti.user_id= pcm.user_id
-left join ow_member om on pcm.user_id= om.user_id;
+left join ow_member om on pcm.user_id= om.user_id
+left join sys_user u on pcm.user_id= u.id ;
 
 DROP VIEW IF EXISTS `pmd_branch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pmd_branch_view` AS
@@ -485,12 +486,6 @@ left join crs_post cp on cp.id = ca.post_id
 left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=ca.post_id
 left join (select post_id, count(*) as applicant_count from crs_applicant_view where status=1 and is_require_check_pass=1  group by post_id) as cavc on cavc.post_id=ca.post_id;
 
-/*DROP VIEW IF EXISTS `ow_member_out_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
-select mo.*, m.type as member_type, t.is_retire
-from ow_member_out mo, ow_member m
-left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;*/
-
 
 -- ----------------------------
 -- 2017.6.5 View definition for `ow_party_static_view`
@@ -499,30 +494,25 @@ DROP VIEW IF EXISTS `ow_party_static_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_party_static_view` AS
 select p.id, p.name,
 s.bks, s.ss, s.bs, (s.bks+s.ss+s.bs) as student, s.positive_bks, s.positive_ss, s.positive_bs, (s.positive_bks + s.positive_ss + s.positive_bs) as positive_student,
-t.teacher,t.teacher_retire, (t.teacher+t.teacher_retire) as teacher_total, t.positive_teacher, t.positive_teacher_retire, (t.positive_teacher + t.positive_teacher_retire)as positive_teacher_total,
+s.teacher,s.teacher_retire, (s.teacher+s.teacher_retire) as teacher_total, s.positive_teacher, s.positive_teacher_retire, (s.positive_teacher + s.positive_teacher_retire)as positive_teacher_total,
 b.bks_branch, b.ss_branch, b.bs_branch, b.sb_branch, b.bsb_branch,
 (b.bks_branch + b.ss_branch + b.bs_branch + b.sb_branch + b.bsb_branch) as student_branch_total, b.teacher_branch, b.retire_branch, (b.teacher_branch + b.retire_branch) as teacher_branch_total,
 a.teacher_apply_count, a.student_apply_count
 from ow_party p left join
 (
 select party_id,
-sum(if(edu_level is null, 1, 0)) as bks,
-sum(if(edu_level='硕士', 1, 0)) as ss,
-sum(if(edu_level='博士', 1, 0)) as bs,
+sum(if(user_type =2, 1, 0)) as bks,
+sum(if(user_type=3, 1, 0)) as ss,
+sum(if(user_type=4, 1, 0)) as bs,
 sum(if(edu_level is null and political_status=2, 1, 0)) as positive_bks,
-sum(if(edu_level='硕士' and political_status=2, 1, 0)) as positive_ss,
-sum(if(edu_level='博士' and political_status=2, 1, 0)) as positive_bs
-from ow_member_view where type=2 and status=1 group by party_id
+sum(if(user_type=3 and political_status=2, 1, 0)) as positive_ss,
+sum(if(user_type=4 and political_status=2, 1, 0)) as positive_bs,
+sum(if(user_type=1, 1, 0)) teacher,
+sum(if(user_type=5, 1, 0)) teacher_retire,
+sum(if(user_type=1 and political_status=2, 1, 0)) positive_teacher,
+sum(if(user_type=5 and political_status=2, 1, 0)) positive_teacher_retire
+from ow_member_view where status=1 group by party_id
 ) s on s.party_id = p.id
-left join
-(
-select party_id,
-sum(if(is_retire, 0, 1)) teacher,
-sum(if(is_retire, 1, 0)) teacher_retire,
-sum(if(!is_retire and political_status=2, 1, 0)) positive_teacher,
-sum(if(is_retire and political_status=2, 1, 0)) positive_teacher_retire
-from ow_member_view where type=1 and status=1 group by party_id
-) t on t.party_id = p.id
 left join
 (select b.party_id,
 sum(if(locate('本科生',bmt.name), 1, 0)) as bks_branch,
@@ -535,7 +525,8 @@ sum(if(locate('离退休',bmt.name), 1, 0)) as retire_branch
 from ow_branch b, base_meta_type bmt where b.is_deleted=0 and find_in_set(bmt.id, b.types) group by b.party_id
 )b on b.party_id = p.id
 left join
-(select p.id as party_id, sum(if(type=1, 1, 0)) as teacher_apply_count, sum(if(type=2, 1, 0)) as student_apply_count from ow_member_apply oma
+(select p.id as party_id, sum(if(u.type in(1,5), 1, 0)) as teacher_apply_count, sum(if(u.type in(2,3,4), 1, 0)) as student_apply_count from ow_member_apply oma
+left join sys_user u on u.id=oma.user_id
 left join ow_party p on oma.party_id=p.id
 left join ow_branch b on oma.branch_id=b.id
 where p.is_deleted=0 and (b.is_deleted=0 or b.id is null) group by p.id
@@ -637,7 +628,7 @@ left join cadre_view cv on cv.id=cp.cadre_id;
 DROP VIEW IF EXISTS `ow_member_apply_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS
 select ma.*, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status,
-if(m.user_type=1,m.education,if(m.user_type=3,'研究生','本科生')) as edu
+if(m.user_type=1,m.education,if(m.user_type=3 or m.user_type=4,'研究生','本科生')) as edu
      , p.sort_order as party_sort_order, b.sort_order as branch_sort_order
 from  ow_member_apply ma
         left join ow_branch b on ma.branch_id=b.id

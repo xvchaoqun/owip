@@ -99,20 +99,13 @@ where op.is_deleted=0 and bmt.code='mt_direct_branch' order by sort_order desc;
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_member_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ext_member_view` AS
-select u.code as sid, u.realname, om.type, if(oms.status=3, 4, om.status) as status, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
+select u.code as sid, u.realname, u.type, if(oms.status=3, 4, om.status) as status, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
 from ow_member om
 left join ow_member_stay oms on oms.user_id=om.user_id
 left join sys_user_view u on om.user_id=u.id
 left join ow_party op on om.party_id=op.id
 left join base_meta_type bmt on op.class_id = bmt.id
 left join ow_branch ob on om.branch_id=ob.id;
-
--- 出国暂留当做转出
--- select u.code as sid, ui.realname, om.status, om.`type`, om.political_status  from sys_user u, sys_user_info ui, ow_member om
--- where om.user_id=u.id and ui.user_id=u.id and om.user_id not in(select user_id from ow_member_stay where status=3)
--- union all
--- select su.code as sid, sui.realname, (oga.status+1) as status, om.type, om.political_status
--- from ow_member_stay oga, ow_member om, sys_user su, sys_user_info sui where oga.status=3 and oga.user_id=om.user_id and oga.user_id=su.id and sui.user_id=su.id;
 
 -- 京外已转出视图
 DROP VIEW IF EXISTS `ext_member_out_view`;

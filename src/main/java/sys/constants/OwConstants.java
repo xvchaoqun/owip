@@ -83,16 +83,6 @@ public class OwConstants {
         OW_ENTER_APPLY_TYPE_MAP.put(OW_ENTER_APPLY_TYPE_MEMBERINFLOW, "流入党员申请");
     }
 
-    // 申请入党类型
-    public final static byte OW_APPLY_TYPE_TEACHER = 1; // 教职工
-    public final static byte OW_APPLY_TYPE_STU = 2; // 学生
-    public final static Map<Byte, String> OW_APPLY_TYPE_MAP = new LinkedHashMap<>();
-
-    static {
-        OW_APPLY_TYPE_MAP.put(OW_APPLY_TYPE_STU, "学生");
-        OW_APPLY_TYPE_MAP.put(OW_APPLY_TYPE_TEACHER, "教职工");
-    }
-
     // 申请入党阶段
     //0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
     public final static byte OW_APPLY_STAGE_REMOVE = -3; // 已移除的申请

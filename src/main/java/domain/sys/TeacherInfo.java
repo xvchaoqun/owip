@@ -82,8 +82,6 @@ public class TeacherInfo implements Serializable {
 
     private String maritalStatus;
 
-    private Boolean isRetire;
-
     private Date retireTime;
 
     private Boolean isHonorRetire;
@@ -404,14 +402,6 @@ public class TeacherInfo implements Serializable {
 
     public void setMaritalStatus(String maritalStatus) {
         this.maritalStatus = maritalStatus == null ? null : maritalStatus.trim();
-    }
-
-    public Boolean getIsRetire() {
-        return isRetire;
-    }
-
-    public void setIsRetire(Boolean isRetire) {
-        this.isRetire = isRetire;
     }
 
     public Date getRetireTime() {

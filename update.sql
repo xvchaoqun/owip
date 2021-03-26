@@ -1,3 +1,51 @@
+
+
+
+-- MEMBER_STATUS_TRANSFER ->  MEMBER_STATUS_OUT
+
+ALTER TABLE `sys_user`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1 在职教职工 2本科生 3硕士研究生 4博士研究生 5 离退休教职工' AFTER `code`;
+
+-- 硕士研究生
+update sys_user u, sys_student_info s set u.`type`=3 where u.id=s.user_id and s.student_level=3;
+
+-- 博士研究生
+update sys_user u, sys_student_info s set u.`type`=4 where u.id=s.user_id and s.student_level=4;
+
+-- 离退休教职工
+update sys_user u, sys_teacher_info t set u.`type`=5 where u.id=t.user_id and t.is_retire=1;
+
+ALTER TABLE `sys_student_info` DROP COLUMN `student_level`;
+
+ALTER TABLE `sys_teacher_info` DROP COLUMN `is_retire`;
+
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1正常，2 已转移至历史党员库 3已减员  4已转出' AFTER `political_status`,
+	DROP COLUMN `type`;
+
+ALTER TABLE `ow_member_apply` DROP COLUMN `type`;
+
+ALTER TABLE `ow_member_inflow`
+	DROP COLUMN `type`;
+ALTER TABLE `ow_member_modify`
+	DROP COLUMN `type`;
+ALTER TABLE `ow_member_outflow`
+	DROP COLUMN `type`;
+
+ALTER TABLE `ow_member_out`
+	DROP COLUMN `member_type`;
+
+ALTER TABLE `ow_member_out_modify`
+	DROP COLUMN `member_type`;
+
+ALTER TABLE `ow_member_reg`
+	DROP COLUMN `type`;
+
+-- 更新 ow_member_view  ow_member_apply_view ow_member_outflow_view
+-- (pmd_config_member_view  dp_member_view  ow_party_view  ow_branch_view  ext_member_view ow_party_static_view)
+
+ ow_member_out_view
+
 20210326
 -- 哈工大
 

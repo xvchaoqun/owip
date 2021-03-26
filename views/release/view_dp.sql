@@ -3,10 +3,11 @@ DROP VIEW IF EXISTS `dp_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_member_view` AS
 select dm.*,sui.gender,sui.birth,sui.nation,sui.native_place,sui.unit,
 t.work_time,t.authorized_type,t.education as high_edu,t.degree as high_degree,
-if(isnull(t.is_retire), 0, t.is_retire) as is_retire,t.retire_time,t.is_honor_retire,
+if(u.type=5, 1, 0) as is_retire,t.retire_time,t.is_honor_retire,
 cv.admin_level,cv.post,t.pro_post
 
 from dp_member dm left join dp_party dp on dp.id = dm.party_id
+left join sys_user u on dm.user_id=u.id
 left join sys_user_info sui on dm.user_id=sui.user_id
 left join sys_teacher_info t on t.user_id = dm.user_id
 LEFT JOIN cadre_view cv ON (cv.STATUS IN (1,6) AND cv.user_id=dm.user_id);

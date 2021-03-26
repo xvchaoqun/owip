@@ -41,7 +41,6 @@
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="marital_status" jdbcType="VARCHAR" property="maritalStatus" />
-    <result column="is_retire" jdbcType="BIT" property="isRetire" />
     <result column="retire_time" jdbcType="DATE" property="retireTime" />
     <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
     <result column="is_temp" jdbcType="VARCHAR" property="isTemp" />
@@ -112,7 +111,7 @@
     on_job, personnel_status, pro_post, pro_post_time, pro_post_level, pro_post_level_time, 
     title_level, manage_level, manage_level_time, office_level, office_level_time, post, 
     is_full_time_teacher, post_level, talent_type, talent_title, address, marital_status, 
-    is_retire, retire_time, is_honor_retire, is_temp, is_high_level_talent
+    retire_time, is_honor_retire, is_temp, is_high_level_talent
   </sql>
   <select id="selectByExample" parameterType="domain.sys.TeacherInfoExample" resultMap="BaseResultMap">
     select
@@ -158,8 +157,8 @@
       office_level, office_level_time, post, 
       is_full_time_teacher, post_level, talent_type, 
       talent_title, address, marital_status, 
-      is_retire, retire_time, is_honor_retire, 
-      is_temp, is_high_level_talent)
+      retire_time, is_honor_retire, is_temp, 
+      is_high_level_talent)
     values (#{userId,jdbcType=INTEGER}, #{extPhone,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
       #{degree,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, 
       #{school,jdbcType=VARCHAR}, #{schoolType,jdbcType=VARCHAR}, #{degreeSchool,jdbcType=VARCHAR}, 
@@ -173,8 +172,8 @@
       #{officeLevel,jdbcType=VARCHAR}, #{officeLevelTime,jdbcType=DATE}, #{post,jdbcType=VARCHAR}, 
       #{isFullTimeTeacher,jdbcType=BIT}, #{postLevel,jdbcType=VARCHAR}, #{talentType,jdbcType=VARCHAR}, 
       #{talentTitle,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, 
-      #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, 
-      #{isTemp,jdbcType=VARCHAR}, #{isHighLevelTalent,jdbcType=BIT})
+      #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, #{isTemp,jdbcType=VARCHAR}, 
+      #{isHighLevelTalent,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.TeacherInfo">
     insert into sys_teacher_info
@@ -295,9 +294,6 @@
       </if>
       <if test="maritalStatus != null">
         marital_status,
-      </if>
-      <if test="isRetire != null">
-        is_retire,
       </if>
       <if test="retireTime != null">
         retire_time,
@@ -429,9 +425,6 @@
       </if>
       <if test="maritalStatus != null">
         #{maritalStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="isRetire != null">
-        #{isRetire,jdbcType=BIT},
       </if>
       <if test="retireTime != null">
         #{retireTime,jdbcType=DATE},
@@ -573,9 +566,6 @@
       <if test="record.maritalStatus != null">
         marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
       </if>
-      <if test="record.isRetire != null">
-        is_retire = #{record.isRetire,jdbcType=BIT},
-      </if>
       <if test="record.retireTime != null">
         retire_time = #{record.retireTime,jdbcType=DATE},
       </if>
@@ -634,7 +624,6 @@
       talent_title = #{record.talentTitle,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
-      is_retire = #{record.isRetire,jdbcType=BIT},
       retire_time = #{record.retireTime,jdbcType=DATE},
       is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
       is_temp = #{record.isTemp,jdbcType=VARCHAR},
@@ -760,9 +749,6 @@
       <if test="maritalStatus != null">
         marital_status = #{maritalStatus,jdbcType=VARCHAR},
       </if>
-      <if test="isRetire != null">
-        is_retire = #{isRetire,jdbcType=BIT},
-      </if>
       <if test="retireTime != null">
         retire_time = #{retireTime,jdbcType=DATE},
       </if>
@@ -818,7 +804,6 @@
       talent_title = #{talentTitle,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       marital_status = #{maritalStatus,jdbcType=VARCHAR},
-      is_retire = #{isRetire,jdbcType=BIT},
       retire_time = #{retireTime,jdbcType=DATE},
       is_honor_retire = #{isHonorRetire,jdbcType=BIT},
       is_temp = #{isTemp,jdbcType=VARCHAR},

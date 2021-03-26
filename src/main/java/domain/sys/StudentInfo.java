@@ -8,8 +8,6 @@ public class StudentInfo implements Serializable {
 
     private String type;
 
-    private Byte studentLevel;
-
     private String eduLevel;
 
     private String eduType;
@@ -62,14 +60,6 @@ public class StudentInfo implements Serializable {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
-    }
-
-    public Byte getStudentLevel() {
-        return studentLevel;
-    }
-
-    public void setStudentLevel(Byte studentLevel) {
-        this.studentLevel = studentLevel;
     }
 
     public String getEduLevel() {

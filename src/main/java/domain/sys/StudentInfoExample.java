@@ -262,66 +262,6 @@ public class StudentInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andStudentLevelIsNull() {
-            addCriterion("student_level is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelIsNotNull() {
-            addCriterion("student_level is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelEqualTo(Byte value) {
-            addCriterion("student_level =", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelNotEqualTo(Byte value) {
-            addCriterion("student_level <>", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelGreaterThan(Byte value) {
-            addCriterion("student_level >", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelGreaterThanOrEqualTo(Byte value) {
-            addCriterion("student_level >=", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelLessThan(Byte value) {
-            addCriterion("student_level <", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelLessThanOrEqualTo(Byte value) {
-            addCriterion("student_level <=", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelIn(List<Byte> values) {
-            addCriterion("student_level in", values, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelNotIn(List<Byte> values) {
-            addCriterion("student_level not in", values, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelBetween(Byte value1, Byte value2) {
-            addCriterion("student_level between", value1, value2, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelNotBetween(Byte value1, Byte value2) {
-            addCriterion("student_level not between", value1, value2, "studentLevel");
-            return (Criteria) this;
-        }
-
         public Criteria andEduLevelIsNull() {
             addCriterion("edu_level is null");
             return (Criteria) this;

@@ -78,16 +78,6 @@ public class MemberConstants {
         MEMBER_POLITICAL_STATUS_MAP.put(MEMBER_POLITICAL_STATUS_POSITIVE, "正式党员");
     }
 
-    // 党员大类别
-    public final static byte MEMBER_TYPE_TEACHER = 1; //教工
-    public final static byte MEMBER_TYPE_STUDENT = 2; //学生
-    public final static Map<Byte, String> MEMBER_TYPE_MAP = new LinkedHashMap<>();
-
-    static {
-        MEMBER_TYPE_MAP.put(MEMBER_TYPE_TEACHER, "教工");
-        MEMBER_TYPE_MAP.put(MEMBER_TYPE_STUDENT, "学生");
-    }
-
     // 党员状态, 1正常 3已出党 4已转出
     public final static byte MEMBER_STATUS_NORMAL = 1; // 正常
     public final static byte MEMBER_STATUS_HISTORY = 2; // 已转移至历史党员库
@@ -176,17 +166,6 @@ public class MemberConstants {
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_BRANCH_VERIFY, "支部审核通过");
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_PARTY_VERIFY, "分党委审核通过");
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_OW_VERIFY, "审核通过");
-    }
-
-    // 党员转出人员类别
-    public final static byte MEMBER_OUT_MEMBER_TYPE_STUDENT = 1; // 学生    member.type=2
-    public final static byte MEMBER_OUT_MEMBER_TYPE_TEACHER = 2; // 教职工  member.type=1 && member.isRetire=0
-    public final static byte MEMBER_OUT_MEMBER_TYPE_RETIRE = 3; // 离退休  member.type=1 && member.isRetire=1
-    public final static Map<Byte, String> MEMBER_OUT_MEMBER_TYPE_MAP = new LinkedHashMap<>();
-    static {
-        MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_STUDENT, "学生");
-        MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_TEACHER, "在职教职工");
-        MEMBER_OUT_MEMBER_TYPE_MAP.put(MEMBER_OUT_MEMBER_TYPE_RETIRE, "离退休");
     }
 
     // 党员转出状态
