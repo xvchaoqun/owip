@@ -539,6 +539,7 @@ public class MemberOutService extends MemberBaseMapper {
                 record.setYear(year);
                 record.setSn(genSn(year));
 
+                record.setApplyTime(new Date());
                 memberOutMapper.insertSelective(record);
                 addCount++;
             } else {

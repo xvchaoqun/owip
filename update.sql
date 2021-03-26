@@ -1,4 +1,5 @@
-
+20210326
+-- 哈工大
 
 ALTER TABLE `ow_party`
 	ADD COLUMN `address` VARCHAR(100) NULL DEFAULT NULL COMMENT '联系地址' AFTER `phone`;

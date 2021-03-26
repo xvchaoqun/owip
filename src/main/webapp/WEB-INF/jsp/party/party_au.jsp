@@ -78,7 +78,9 @@
                     <label class="col-xs-3 control-label">传真</label>
                     <div class="col-xs-8">
                         <input class="form-control" type="text" name="fax" value="${party.fax}">
+                        <shiro:hasPermission name="memberOut:list">
                         <span class="help-block">注：联系电话、联系地址、传真用于组织关系转接等功能模块</span>
+                        </shiro:hasPermission>
                     </div>
                 </div>
                 <div class="form-group">
