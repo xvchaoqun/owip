@@ -32,11 +32,10 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
 					<div class="col-xs-6 label-text">
 						<div class="input-group">
-							<c:forEach var="userType" items="${STUDENT_TYPE_MAP}">
+							<c:forEach var="_userType" items="${USER_TYPE_MAP}">
 								<label>
-									<input required name="type" type="radio" class="ace" value="${userType.key}"
-										   <c:if test="${memberReg.type==userType.key}">checked</c:if>/>
-									<span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
+									<input required name="userType" type="radio" class="ace" value="${_userType.key}"/>
+									<span class="lbl" style="padding-right: 5px;"> ${_userType.value}</span>
 								</label>
 							</c:forEach>
 						</div>
@@ -48,7 +47,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">类别</label>
 					<div class="col-xs-6 label-text">
-						${STUDENT_TYPE_MAP.get(memberReg.type)}
+						${USER_TYPE_MAP.get(uv.type)}
 					</div>
 				</div>
 				<div class="form-group">

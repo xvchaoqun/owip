@@ -80,7 +80,6 @@ public class MemberInflowController extends MemberBaseController {
                                   Integer userId,
                                   Byte status,
                                   Boolean isBack,
-                                  Byte type,
                                   Integer partyId,
                                   Integer branchId,
                                   Integer originalJob,
@@ -114,9 +113,6 @@ public class MemberInflowController extends MemberBaseController {
         }
         if(status!=null){
             criteria.andInflowStatusEqualTo(status);
-        }
-        if(type!=null){
-            criteria.andTypeEqualTo(type);
         }
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
@@ -183,7 +179,7 @@ public class MemberInflowController extends MemberBaseController {
             return;
         }
 
-        int count = memberInflowMapper.countByExample(example);
+        int count = (int) memberInflowMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

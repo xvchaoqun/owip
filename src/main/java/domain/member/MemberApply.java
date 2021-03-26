@@ -22,8 +22,6 @@ public class MemberApply implements Serializable {
 
     private Integer branchId;
 
-    private Byte type;
-
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date applyTime;
 
@@ -136,14 +134,6 @@ public class MemberApply implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Date getApplyTime() {

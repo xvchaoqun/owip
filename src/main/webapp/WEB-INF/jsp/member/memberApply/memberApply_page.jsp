@@ -84,16 +84,16 @@
                                             <div class="tabbable" >
                                                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <c:if test="${stage == OW_APPLY_STAGE_INIT  && _memberApply_needContinueDevelop}">
-                                                        <li class="dropdown <c:if test="${type==OW_APPLY_TYPE_STU}">active</c:if>" >
+                                                        <li class="dropdown <c:if test="${type==MEMBER_TYPE_STUDENT}">active</c:if>" >
                                                             <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                                                 <i class="fa fa-graduation-cap"></i> 学生
                                                                 <c:if test="${stage==OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${OW_APPLY_TYPE_STU}" var="_key1"/>
-                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${OW_APPLY_TYPE_STU}" var="_key2"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${MEMBER_TYPE_STUDENT}" var="_key1"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${MEMBER_TYPE_STUDENT}" var="_key2"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key1)+stageTypeCountMap.get(_key2)}"/>
                                                                 </c:if>
                                                                 <c:if test="${stage!=OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${stage}_${OW_APPLY_TYPE_STU}" var="_key"/>
+                                                                    <c:set value="${stage}_${MEMBER_TYPE_STUDENT}" var="_key"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                                 </c:if>
                                                                 <c:if test="${stageTypeCount>0}">
@@ -106,27 +106,27 @@
                                                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                                                 <li>
                                                                     <a href="javascript:;" class="loadPage"
-                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}">
+                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${MEMBER_TYPE_STUDENT}&stage=${stage}">
                                                                         <i class="fa fa-hand-o-right"></i> 申请入党</a>
                                                                 </li>
                                                                 <li>
                                                                     <a href="javascript:;" class="loadPage"
-                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}&isApply=0">
+                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${MEMBER_TYPE_STUDENT}&stage=${stage}&isApply=0">
                                                                         <i class="fa fa-hand-o-right"></i> 申请继续培养</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
-                                                        <li class="dropdown <c:if test="${type==OW_APPLY_TYPE_TEACHER}">active</c:if>" >
+                                                        <li class="dropdown <c:if test="${type==MEMBER_TYPE_TEACHER}">active</c:if>" >
                                                             <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                                                 <i class="fa fa-user-secret"></i> 教职工
-                                                                <c:set value="${stage}_${OW_APPLY_TYPE_TEACHER}" var="_key"/>
+                                                                <c:set value="${stage}_${MEMBER_TYPE_TEACHER}" var="_key"/>
                                                                 <c:if test="${stage==OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${OW_APPLY_TYPE_TEACHER}" var="_key1"/>
-                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${OW_APPLY_TYPE_TEACHER}" var="_key2"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${MEMBER_TYPE_TEACHER}" var="_key1"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${MEMBER_TYPE_TEACHER}" var="_key2"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key1)+stageTypeCountMap.get(_key2)}"/>
                                                                 </c:if>
                                                                 <c:if test="${stage!=OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${stage}_${OW_APPLY_TYPE_TEACHER}" var="_key"/>
+                                                                    <c:set value="${stage}_${MEMBER_TYPE_TEACHER}" var="_key"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                                 </c:if>
 
@@ -140,12 +140,12 @@
                                                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                                                 <li>
                                                                     <a href="javascript:;" class="loadPage"
-                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_TEACHER}&stage=${stage}">
+                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${MEMBER_TYPE_TEACHER}&stage=${stage}">
                                                                         <i class="fa fa-hand-o-right"></i> 申请入党</a>
                                                                 </li>
                                                                 <li>
                                                                     <a href="javascript:;" class="loadPage"
-                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_TEACHER}&stage=${stage}&isApply=0">
+                                                                       data-url="${ctx}/memberApply_layout?cls=${cls}&type=${MEMBER_TYPE_TEACHER}&stage=${stage}&isApply=0">
                                                                         <i class="fa fa-hand-o-right"></i> 申请继续培养</a>
                                                                 </li>
                                                             </ul>
@@ -153,17 +153,17 @@
                                                     </c:if>
 
                                                     <c:if test="${stage != OW_APPLY_STAGE_INIT || !_memberApply_needContinueDevelop}">
-                                                        <li class="<c:if test="${type==OW_APPLY_TYPE_STU}">active</c:if>">
+                                                        <li class="<c:if test="${type==MEMBER_TYPE_STUDENT}">active</c:if>">
                                                             <a href="javascript:;" class="hashchange"
-                                                               data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}'>
+                                                               data-url='${ctx}/memberApply_layout?cls=${cls}&type=${MEMBER_TYPE_STUDENT}&stage=${stage}'>
                                                                 <i class="fa fa-graduation-cap"></i>学生
                                                                 <c:if test="${stage==OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${OW_APPLY_TYPE_STU}" var="_key1"/>
-                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${OW_APPLY_TYPE_STU}" var="_key2"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${MEMBER_TYPE_STUDENT}" var="_key1"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${MEMBER_TYPE_STUDENT}" var="_key2"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key1)+stageTypeCountMap.get(_key2)}"/>
                                                                 </c:if>
                                                                 <c:if test="${stage!=OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${stage}_${OW_APPLY_TYPE_STU}" var="_key"/>
+                                                                    <c:set value="${stage}_${MEMBER_TYPE_STUDENT}" var="_key"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                                 </c:if>
 
@@ -175,17 +175,17 @@
                                                             </a>
                                                         </li>
 
-                                                        <li class="<c:if test="${type==OW_APPLY_TYPE_TEACHER}">active</c:if>">
-                                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_TEACHER}&stage=${stage}'>
+                                                        <li class="<c:if test="${type==MEMBER_TYPE_TEACHER}">active</c:if>">
+                                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${MEMBER_TYPE_TEACHER}&stage=${stage}'>
                                                                 <i class="fa fa-user-secret"></i> 教职工
-                                                                <c:set value="${stage}_${OW_APPLY_TYPE_TEACHER}" var="_key"/>
+                                                                <c:set value="${stage}_${MEMBER_TYPE_TEACHER}" var="_key"/>
                                                                 <c:if test="${stage==OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${OW_APPLY_TYPE_TEACHER}" var="_key1"/>
-                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${OW_APPLY_TYPE_TEACHER}" var="_key2"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_INIT}_${MEMBER_TYPE_TEACHER}" var="_key1"/>
+                                                                    <c:set value="${OW_APPLY_STAGE_PASS}_${MEMBER_TYPE_TEACHER}" var="_key2"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key1)+stageTypeCountMap.get(_key2)}"/>
                                                                 </c:if>
                                                                 <c:if test="${stage!=OW_APPLY_STAGE_INIT}">
-                                                                    <c:set value="${stage}_${OW_APPLY_TYPE_TEACHER}" var="_key"/>
+                                                                    <c:set value="${stage}_${MEMBER_TYPE_TEACHER}" var="_key"/>
                                                                     <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                                 </c:if>
 

@@ -312,66 +312,6 @@ public class MemberOutModifyExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberTypeIsNull() {
-            addCriterion("member_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeIsNotNull() {
-            addCriterion("member_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeEqualTo(Byte value) {
-            addCriterion("member_type =", value, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeNotEqualTo(Byte value) {
-            addCriterion("member_type <>", value, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeGreaterThan(Byte value) {
-            addCriterion("member_type >", value, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("member_type >=", value, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeLessThan(Byte value) {
-            addCriterion("member_type <", value, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("member_type <=", value, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeIn(List<Byte> values) {
-            addCriterion("member_type in", values, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeNotIn(List<Byte> values) {
-            addCriterion("member_type not in", values, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeBetween(Byte value1, Byte value2) {
-            addCriterion("member_type between", value1, value2, "memberType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMemberTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("member_type not between", value1, value2, "memberType");
-            return (Criteria) this;
-        }
-
         public Criteria andIdcardIsNull() {
             addCriterion("idcard is null");
             return (Criteria) this;

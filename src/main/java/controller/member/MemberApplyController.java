@@ -145,12 +145,6 @@ public class MemberApplyController extends MemberBaseController {
             }
             record.setUserId(uv.getId());
 
-            if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                record.setType(OwConstants.OW_APPLY_TYPE_TEACHER);
-            } else {
-                record.setType(OwConstants.OW_APPLY_TYPE_STU);
-            }
-
             String partyCode = StringUtils.trim(xlsRow.get(2));
             if (StringUtils.isBlank(partyCode)) {
                 throw new OpException("第{0}行联系分党委编码为空", row);
@@ -337,7 +331,7 @@ public class MemberApplyController extends MemberBaseController {
                               Integer userId,
                               Integer partyId,
                               Integer branchId,
-                              @RequestParam(defaultValue = OwConstants.OW_APPLY_TYPE_STU + "") Byte type,
+                              @RequestParam(defaultValue = MemberConstants.MEMBER_TYPE_STUDENT + "") Byte type,
                               @RequestParam(defaultValue = "0") Byte stage,
                               @RequestParam(required = false, defaultValue = "1") Boolean isApply,
                               ModelMap modelMap) {
@@ -421,7 +415,7 @@ public class MemberApplyController extends MemberBaseController {
                                  Integer userId,
                                  Integer partyId,
                                  Integer branchId,
-                                 @RequestParam(defaultValue = OwConstants.OW_APPLY_TYPE_STU + "") Byte type,
+                                 @RequestParam(defaultValue = MemberConstants.MEMBER_TYPE_STUDENT + "") Byte type,
                                  @RequestParam(defaultValue = "0") Byte stage,
                                  @RequestParam(required = false, defaultValue = "1") Boolean isApply,
                                  Byte growStatus, // 领取志愿书阶段查询
@@ -445,8 +439,12 @@ public class MemberApplyController extends MemberBaseController {
 
         example.setOrderByClause("party_sort_order desc, branch_sort_order desc, create_time desc");
 
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
+        if(type==MemberConstants.MEMBER_TYPE_TEACHER){
+            criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                    SystemConstants.USER_TYPE_RETIRE));
+        }else{
+            criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                    SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
         }
         if (stage != null && stage != -4) {
             if (stage == OwConstants.OW_APPLY_STAGE_INIT || stage == OwConstants.OW_APPLY_STAGE_PASS) {
@@ -642,16 +640,6 @@ public class MemberApplyController extends MemberBaseController {
                     // 领取志愿书不需要组织部审批
                     record.setGrowStatus(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
                 }
-            }
-
-            SysUserView sysUser = sysUserService.findById(userId);
-            if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
-                record.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
-            } else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                    || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
-                record.setType(OwConstants.OW_APPLY_TYPE_STU); // 学生
-            } else {
-                throw new UnauthorizedException("没有权限");
             }
 
             record.setPartyId(partyId);
@@ -1469,7 +1457,7 @@ public class MemberApplyController extends MemberBaseController {
                     memberApply.getUserId() + "",
                     memberApply.getPartyId() + "",
                     memberApply.getBranchId() + "",
-                    memberApply.getType() + ""
+                    memberApply.getUserType() + ""
             };
 
             Row row = sheet.createRow(i + 1);
@@ -1495,9 +1483,10 @@ public class MemberApplyController extends MemberBaseController {
         for (Byte stage : a) {
             stages.add(stage);
         }
-        MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andStageIn(stages).andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT);
-        List<MemberApply> records = memberApplyMapper.selectByExample(example);
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        example.createCriteria().andStageIn(stages).andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                    SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
+        List<MemberApplyView> records = memberApplyViewMapper.selectByExample(example);
         int rownum = records.size();
 
         String[] titles = {"学号|100", "所属分党委|100", "所属党支部|100", "提交书面申请时间|100", "信息填报时间|100", "备注|100",
@@ -1508,7 +1497,7 @@ public class MemberApplyController extends MemberBaseController {
                 "身份证号|150", "专业|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            MemberApply record = records.get(i);
+            MemberApplyView record = records.get(i);
 
             SysUserView uv = CmTag.getUserById(record.getUserId());
 

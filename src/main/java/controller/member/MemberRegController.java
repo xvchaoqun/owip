@@ -29,7 +29,6 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.AuthToken;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -48,72 +47,6 @@ public class MemberRegController extends MemberBaseController {
     private VerifyAuth<MemberReg> checkVerityAuth2(int id) {
         MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
         return super.checkVerityAuth2(memberReg, memberReg.getPartyId());
-    }
-
-    //@RequestMapping(value = "/member_reg", method = RequestMethod.POST)
-    //@ResponseBody
-    public Map do_member_reg(String passwd, Byte type,
-                             String realname, String idcard, String phone,
-                             Integer party, String captcha, HttpServletRequest request) {
-
-        realname = StringUtils.trimToNull(realname);
-        idcard = StringUtils.trimToNull(idcard);
-        phone = StringUtils.trimToNull(phone);
-        captcha = StringUtils.trimToNull(captcha);
-
-        String _captcha = (String) request.getSession().getAttribute(
-                com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-        if (StringUtils.isBlank(_captcha) || !_captcha.equalsIgnoreCase(captcha)) {
-            return failed("验证码错误。");
-        }
-        if (!CmTag.validPasswd(passwd)) {
-            return failed(CmTag.getStringProperty("passwdMsg"));
-        }
-        if (type == null || SystemConstants.USER_TYPE_MAP.get(type) == null) {
-            return failed("类型有误");
-        }
-        if (StringUtils.isBlank(realname) || StringUtils.length(realname) < 2) {
-            return failed("请填写真实姓名");
-        }
-        if (!IdcardValidator.valid(idcard)) {
-            return failed("身份证号码有误。");
-        }
-        if (!CmTag.validMobile(phone)) {
-            return failed("手机号码有误");
-        }
-        if (party == null || partyService.findAll().get(party) == null) {
-            return failed("请选择分党委。");
-        }
-		/*try {
-			memberRegService.reg(username, passwd, type, realname,
-					idcard, phone, party, IpUtils.getRealIp(request));
-		}catch (RegException re){
-			return failed(re.getMessage());
-		}catch (Exception ex){
-			logger.error("异常", ex);
-			logger.error("注册失败：" + ex.getMessage());
-			return failed("系统错误：" + ex.getMessage());
-		}*/
-        MemberReg reg = memberRegService.reg(passwd, type, realname,
-                idcard, phone, party, IpUtils.getRealIp(request));
-        if(reg==null){
-            return failed("注册失败，请稍后重试");
-        }
-
-        String username = reg.getUsername();
-        logger.info(String.format("%s 注册成功", username));
-
-        AuthToken token = new AuthToken(username,
-                passwd.toCharArray(), false, request.getRemoteHost(), null, null);
-
-        ShiroHelper.login(token);
-
-        logger.info(addLog(LogConstants.LOG_USER, "注册后登录成功"));
-
-        // 注册成功提示信息
-        request.getSession().setAttribute("reg", 1);
-
-        return success();
     }
 
     @RequiresPermissions("memberReg:list")
@@ -147,7 +80,6 @@ public class MemberRegController extends MemberBaseController {
                                String username,
                                Integer partyId,
                                String idcard,
-                               Byte type,
                                String realname,
                                Integer importUserId,
                                Integer importSeq,
@@ -178,9 +110,7 @@ public class MemberRegController extends MemberBaseController {
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
-        }
+
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike(SqlUtils.like(realname));
         }
@@ -387,6 +317,10 @@ public class MemberRegController extends MemberBaseController {
         if (id != null) {
             MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
             modelMap.put("memberReg", memberReg);
+            if(memberReg!=null){
+                SysUserView uv = CmTag.getUserById(memberReg.getUserId());
+                modelMap.put("uv", uv);
+            }
 
             Integer partyId = memberReg.getPartyId();
             modelMap.put("party", partyService.findAll().get(partyId));
@@ -458,7 +392,7 @@ public class MemberRegController extends MemberBaseController {
             for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
                 byte _type = entry.getKey();
                 if (StringUtils.equals(type, entry.getValue())) {
-                    record.setType(_type);
+                    record.setUserType(_type);
                     break;
                 }
             }

@@ -869,10 +869,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(30))));
             TeacherInfo _teacherIfo = teacherInfoMapper.selectByPrimaryKey(userId);
             if (_teacherIfo != null){
-                teacherInfo.setIsRetire(_teacherIfo.getIsRetire());
                 teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
             }else {
-                teacherInfo.setIsRetire(false);
                 teacherInfoMapper.insertSelective(teacherInfo);
             }
 

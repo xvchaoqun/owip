@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.abroad.PassportService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
+import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
@@ -419,11 +420,21 @@ public class CommonController extends BaseController {
         }
 
         if(type!=null){
-            criteria.andTypeEqualTo(type);
+            if(type == MemberConstants.MEMBER_TYPE_TEACHER){
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                        SystemConstants.USER_TYPE_RETIRE));
+            }else{
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                            SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
+            }
         }
 
         if(isRetire!=null){
-            criteria.andIsRetireEqualTo(isRetire);
+            if(isRetire) {
+                criteria.andUserTypeEqualTo(SystemConstants.USER_TYPE_RETIRE);
+            }else{
+                criteria.andUserTypeNotEqualTo(SystemConstants.USER_TYPE_RETIRE);
+            }
         }
 
         if(politicalStatus!=null){
@@ -505,7 +516,7 @@ public class CommonController extends BaseController {
     // 根据类别、状态、账号或姓名或学工号 查询 流入党员
     @RequestMapping("/memberInflow_selects")
     @ResponseBody
-    public Map memberInflow_selects(Integer pageSize, Byte type, Byte status, Boolean hasOutApply, Integer pageNo, String searchStr) throws IOException {
+    public Map memberInflow_selects(Integer pageSize, Byte status, Boolean hasOutApply, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -522,12 +533,12 @@ public class CommonController extends BaseController {
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        int count = iMemberMapper.countMemberInflowList(type, status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
+        int count = iMemberMapper.countMemberInflowList(status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberInflow> memberInflows = iMemberMapper.selectMemberInflowList(type, status, hasOutApply, searchStr,
+        List<MemberInflow> memberInflows = iMemberMapper.selectMemberInflowList(status, hasOutApply, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();

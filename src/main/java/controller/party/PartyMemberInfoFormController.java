@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.cadre.CadreInfoFormService;
 import service.member.MemberInfoFormService;
 import service.party.MemberService;
-import sys.constants.MemberConstants;
+import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
-import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
@@ -43,28 +42,22 @@ public class PartyMemberInfoFormController extends BaseController {
     //党员信息采集表（班子成员即党委委员、支部委员、普通党员）
     @RequiresPermissions("memberInfoForm:list")
     @RequestMapping("/memberInfoForm_page")
-    public String memberInfoForm_page(@CurrentUser SysUserView loginUser, Integer cadreId, Integer userId,
+    public String memberInfoForm_page(Integer cadreId, Integer userId,
                                       ModelMap modelMap) {
 
-        Integer cls = 1;
         if (userId == null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             userId = cadre.getUserId();
         }
-        Member member = memberService.get(userId);
-        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER || member.getType() == null) {
-            //教职工
-            cls = 1;
-        } else {
-            //学生
-            cls = 2;
-        }
 
-        Integer loginUserId = loginUser.getId();
+        SysUserView uv = CmTag.getUserById(userId);
+        int cls = uv.isTeacher()?1:2;
+
+        int loginUserId = ShiroHelper.getCurrentUserId();
+        Member member = memberService.get(userId);
         if (!PartyHelper.hasBranchAuth(loginUserId, member.getPartyId(), member.getBranchId()))
             throw new UnauthorizedException();
 
-        SysUserView uv = CmTag.getUserById(userId);
         modelMap.put("cls", cls);
         modelMap.put("userId", userId);
         modelMap.put("uv", uv);

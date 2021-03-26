@@ -5,6 +5,7 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -187,14 +188,27 @@ public class SysUserService extends BaseMapper {
 
     @Transactional
     public void insertOrUpdateUserInfoSelective(SysUserInfo record) {
-        insertOrUpdateUserInfoSelective(record, null);
+        insertOrUpdateUserInfoSelective(record, null, null);
+    }
+
+    // 更新用户类型
+    public void updateUserType(int userId, byte type){
+
+        SysUser record = new SysUser();
+        record.setId(userId);
+        record.setType(type);
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+         SysUser _sysUser = dbFindById(userId);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     @Transactional
-    public void insertOrUpdateUserInfoSelective(SysUserInfo record, TeacherInfo teacherInfo) {
+    public void insertOrUpdateUserInfoSelective(SysUserInfo record, TeacherInfo teacherInfo, Boolean isRetire) {
 
-        SysUser _sysUser = dbFindById(record.getUserId());
-        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
+        int userId = record.getUserId();
+        SysUser _sysUser = dbFindById(userId);
+        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
         if (sysUserInfo == null) {
             sysUserInfoMapper.insertSelective(record);
         } else {
@@ -206,6 +220,11 @@ public class SysUserService extends BaseMapper {
 
         if (teacherInfo != null) {
             teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
+            if(isRetire!=null){
+                updateUserType(userId, BooleanUtils.isTrue(isRetire)?SystemConstants.USER_TYPE_RETIRE
+                        :SystemConstants.USER_TYPE_JZG);
+            }
+
             cacheHelper.clearUserCache(_sysUser);
         }
 
@@ -830,7 +849,7 @@ public class SysUserService extends BaseMapper {
             int userId = record.getUserId();
             userIdSet.add(userId);
 
-            insertOrUpdateUserInfoSelective(record, null);
+            insertOrUpdateUserInfoSelective(record);
         }
 
         for (Integer userId : userIdSet) {
@@ -889,7 +908,7 @@ public class SysUserService extends BaseMapper {
             }
 
             // 按账号类别 教职工、研究生、本科生的排序
-            example.setOrderByClause("field(type, 1,3,2) asc");
+            example.setOrderByClause("field(type, 1,5,4,3,2) asc");
 
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
 
@@ -902,19 +921,14 @@ public class SysUserService extends BaseMapper {
                 SysUserView firstUv = uvs.get(0);
                 unit = StringUtils.isBlank(firstUv.getUnit()) ? "" : "|" + firstUv.getUnit();
                 byte _type = firstUv.getType();
-                if (_type == SystemConstants.USER_TYPE_YJS) {
+                if (_type == SystemConstants.USER_TYPE_SS || _type == SystemConstants.USER_TYPE_BS) {
                     boolean flag = false;//当账号类型为博士或者生日相同或者是党员时，flag=true，并放在第一个位置
                     for (SysUserView uv : uvs) {
 
                         String code = uv.getCode();
-                        StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(uv.getId());
-                        if (!flag && studentInfo != null) {
-                            String _stuType = studentInfo.getType();
-                            if (_stuType != null) {
-                                if (_stuType.contains("博士")) {
-                                    flag = true;
-                                }
-                            }
+                        //StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(uv.getId());
+                        if (!flag &&  _type == SystemConstants.USER_TYPE_BS) {
+                            flag = true;
                         }
                         if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_MEMBER)){
                             flag = true;

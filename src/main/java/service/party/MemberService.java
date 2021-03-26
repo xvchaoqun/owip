@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.*;
 import domain.party.*;
+import domain.sys.SysUser;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -101,17 +102,11 @@ public class MemberService extends MemberBaseMapper {
 
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
-        if (type == SystemConstants.USER_TYPE_JZG) {
+        if (uv.isTeacher()) {
 
-            // 同步教职工信息
             syncService.snycTeacherInfo(userId, uv.getCode());
-        } else if (type == SystemConstants.USER_TYPE_BKS
-                || type == SystemConstants.USER_TYPE_YJS) {
-
-            // 同步研究生信息
-            syncService.snycStudent(userId, uv.getCode(), type);
         } else {
-            throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
+            syncService.snycStudent(userId, uv.getCode(), type);
         }
 
         // 更新系统角色  访客->党员
@@ -136,6 +131,7 @@ public class MemberService extends MemberBaseMapper {
     @Transactional
     public int batchImportOutSchool(List<Member> records,
                                     List<TeacherInfo> teacherInfos,
+                                    List<SysUser> sysUsers,
                                     List<SysUserInfo> sysUserInfos) {
 
         int addCount = 0;
@@ -147,6 +143,9 @@ public class MemberService extends MemberBaseMapper {
 
         for (TeacherInfo teacherInfo : teacherInfos) {
             teacherInfoService.updateByPrimaryKeySelective(teacherInfo);
+        }
+        for (SysUser sysUser : sysUsers) {
+            sysUserService.updateUserType(sysUser.getId(), sysUser.getType());
         }
 
         for (SysUserInfo sysUserInfo : sysUserInfos) {
@@ -164,20 +163,15 @@ public class MemberService extends MemberBaseMapper {
         Integer userId = record.getUserId();
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
-        if (type == SystemConstants.USER_TYPE_JZG) {
+        if (uv.isTeacher()) {
 
-            // 同步教职工信息
-            record.setType(MemberConstants.MEMBER_TYPE_TEACHER); // 教职工党员
             syncService.snycTeacherInfo(userId, uv.getCode());
         } else if (type == SystemConstants.USER_TYPE_BKS) {
 
-            // 同步本科生信息
-            record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             syncService.snycStudent(userId, uv.getCode(), type);
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
+        } else if (type == SystemConstants.USER_TYPE_SS
+                || type == SystemConstants.USER_TYPE_BS) {
 
-            // 同步研究生信息
-            record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             syncService.snycStudent(userId, uv.getCode(), type);
         } else {
             throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
@@ -454,30 +448,7 @@ public class MemberService extends MemberBaseMapper {
         SysUserView oldUser = sysUserService.findById(oldUserId);
         String oldCode = oldUser.getCode();
 
-        /*if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
-            throw new OpException("身份证号码不相同，无法更换");
-        }*/
-
-        Byte memberType = null;
-        Byte type = newUser.getType();
-        if (type == SystemConstants.USER_TYPE_JZG) {
-
-            memberType = MemberConstants.MEMBER_TYPE_TEACHER; // 教职工党员
-            //syncService.snycTeacherInfo(userId, newUser);
-        } else if (type == SystemConstants.USER_TYPE_BKS) {
-
-            memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
-            //syncService.snycStudent(userId, newUser);
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
-
-            memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
-            //syncService.snycStudent(userId, newUser);
-        } else {
-            throw new OpException("账号不是教职工或学生。" + newUser.getCode() + "," + newUser.getRealname());
-        }
-
-        commonMapper.excuteSql("update ow_member set user_id=" + newUserId
-                + ", type="+ memberType +" where user_id=" + oldUserId);
+        commonMapper.excuteSql("update ow_member set user_id=" + newUserId +" where user_id=" + oldUserId);
 
         // 更新新的学工号的系统角色  访客->党员
         sysUserService.changeRole(newUserId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
@@ -528,7 +499,9 @@ public class MemberService extends MemberBaseMapper {
             b++;
         }
 
-        if (memberView.getType() == MemberConstants.MEMBER_TYPE_STUDENT){//类型为“学生”时，计算是否出国留学
+        if (memberView.getUserType() == SystemConstants.USER_TYPE_BKS
+        || memberView.getUserType() == SystemConstants.USER_TYPE_SS
+        || memberView.getUserType() == SystemConstants.USER_TYPE_BS ){//类型为“学生”时，计算是否出国留学
             a++;b++;//是否出国留学
         }
 
@@ -650,21 +623,9 @@ public class MemberService extends MemberBaseMapper {
                 }
                 memberApply.setUserId(uv.getId());
 
-                Byte type = uv.getType();
-                if (type == SystemConstants.USER_TYPE_JZG) {
-                    memberApply.setType(MemberConstants.MEMBER_TYPE_TEACHER);
-                } else if (type == SystemConstants.USER_TYPE_BKS) {
-                    memberApply.setType(MemberConstants.MEMBER_TYPE_STUDENT);
-                } else if (type == SystemConstants.USER_TYPE_YJS) {
-                    memberApply.setType(MemberConstants.MEMBER_TYPE_STUDENT);
-                } else {
-                    throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
-                }
-                memberApply.setUserId(uv.getId());
-
                 //分党委
                 String partyName = ContentUtils.trimAll(xlsRow.get(3));
-                String partyCode = StringUtils.trimToNull(xlsRow.get(4));
+                //String partyCode = StringUtils.trimToNull(xlsRow.get(4));
                 Party party = new Party();
                 if (StringUtils.isBlank(partyName)){
                     throw new OpException("第{0}行分党委名称为空", row);
@@ -772,17 +733,6 @@ public class MemberService extends MemberBaseMapper {
                 throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
             }
             record.setUserId(uv.getId());
-
-            Byte type = uv.getType();
-            if (type == SystemConstants.USER_TYPE_JZG) {
-                record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
-            } else if (type == SystemConstants.USER_TYPE_BKS) {
-                record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
-            } else if (type == SystemConstants.USER_TYPE_YJS) {
-                record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
-            } else {
-                throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
-            }
 
             //分党委
             String partyName = ContentUtils.trimAll(xlsRow.get(3));
@@ -1005,8 +955,6 @@ public class MemberService extends MemberBaseMapper {
             if (memberApply == null) {
                 memberApply = new MemberApply();
                 memberApply.setUserId(userId);
-                memberApply.setType((record.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
-                        OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
                 memberApply.setPartyId(partyId);
                 memberApply.setBranchId(branchId);
                 memberApply.setApplyTime(record.getApplyTime() == null ? now : record.getApplyTime());

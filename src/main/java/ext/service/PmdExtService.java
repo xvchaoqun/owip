@@ -37,7 +37,6 @@ import service.pmd.PmdConfigResetService;
 import service.pmd.PmdMonthService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
-import sys.constants.MemberConstants;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
@@ -753,7 +752,7 @@ public class PmdExtService {
             duePay = pmdConfigMember.getDuePay();
             configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
             retireBase = pmdConfigMember.getRetireSalary();
-            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+            if (uv.isStudent()) {
                 hasSalary = BooleanUtils.isTrue(pmdConfigMember.getHasSalary());
             }
             needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
@@ -770,11 +769,11 @@ public class PmdExtService {
             }
 
         } else {
-            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+            if (uv.isStudent()) {
                 configMemberType = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
             } else {
                 MemberView memberView = iMemberMapper.getMemberView(userId);
-                configMemberType = memberView.getIsRetire() ? PmdConstants.PMD_MEMBER_TYPE_RETIRE
+                configMemberType = uv.isRetire() ? PmdConstants.PMD_MEMBER_TYPE_RETIRE
                         : PmdConstants.PMD_MEMBER_TYPE_ONJOB;
                 // 附属学校
                 Set<String> partyCodeSet = new HashSet<>();

@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberOutflow;
 import domain.member.MemberOutflowExample;
-import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
@@ -77,7 +75,7 @@ public class MemberOutflowService extends MemberBaseMapper {
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
-        return memberOutflowMapper.countByExample(example);
+        return (int) memberOutflowMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
@@ -249,12 +247,6 @@ public class MemberOutflowService extends MemberBaseMapper {
         if(record.getBranchId()!=null) {
             record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
         }
-
-        SysUserView sysUser = sysUserService.findById(userId);
-        if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
-        else
-            record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
 
         record.setCreateTime(new Date());
 

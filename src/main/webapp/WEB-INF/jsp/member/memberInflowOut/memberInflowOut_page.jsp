@@ -12,7 +12,7 @@
                   data-url-au="${ctx}/memberInflowOut_au?cls=${cls}"
                   data-url-page="${ctx}/memberInflowOut"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.type
+                <c:set var="_query" value="${not empty param.userId
                 || not empty param.status ||not empty param.isBack
                 || not empty param.outUnit ||not empty param.outLocation||not empty param._outTime
                 ||not empty param.originalJob||not empty param.province||not empty param.flowReason||not empty param.hasPapers
@@ -117,18 +117,7 @@
                                                                 </select>
                                                             </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>类别</label>
-                                                            <select data-rel="select2" name="type" data-placeholder="请选择类别">
-                                                                <option></option>
-                                                                <c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-                                                                    <option value="${_type.key}">${_type.value}</option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <script>
-                                                                $("#searchForm select[name=type]").val(${param.type});
-                                                            </script>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label>${_p_partyName}</label>
                                                             <select class="form-control" data-width="350"

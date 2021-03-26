@@ -25,7 +25,6 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.security.Base64Utils;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -331,7 +330,7 @@ public class PartyPublicController extends BaseController {
     @RequiresPermissions("partyPublic:edit")
     @RequestMapping("/partyPublic_users")
     public String partyPublic_users(byte type, int partyId,
-                                    Integer branchId, Integer userId, Byte applyType,
+                                    Integer branchId, Integer userId,
                                     Integer publicId,
                                     Integer[] selectUserIds,
                                     ModelMap modelMap) {
@@ -355,9 +354,6 @@ public class PartyPublicController extends BaseController {
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
-        }
-        if (applyType != null) {
-            criteria.andTypeEqualTo(applyType);
         }
 
         criteria.andPublicIdIsNullOrThis(publicId, type);

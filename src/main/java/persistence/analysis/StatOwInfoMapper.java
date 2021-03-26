@@ -29,11 +29,10 @@ public interface StatOwInfoMapper {
                                                      @Param("branchId")Integer branchId,
                                                      @Param("enrolYear") String enrolYear);
 
-    // 统计正式或预备党员分布情况（按student_level分类）
+    // 统计正式或预备党员分布情况（按user_type分类）
     List<StatByteBean> member_groupByType(@Param("politicalStatus")Byte politicalStatus,
                                           @Param("partyId")Integer partyId,
                                           @Param("branchId")Integer branchId,
-                                          @Param("isRetire") Byte isRetire,
                                           @Param("enrolYear") String enrolYear);
 
     //统计某阶段各类型发展党员的数量 groupBy为空的为本科生

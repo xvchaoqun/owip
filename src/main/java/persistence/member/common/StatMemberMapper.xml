@@ -15,12 +15,10 @@
         <include refid="Where_ow"/> group by groupBy
     </select>
 
-    <!-- // 统计正式或预备党员分布情况（按student_level分类） -->
+    <!-- // 统计正式或预备党员分布情况 -->
     <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, student_level as groupBy from ow_member_view where status=1
-        <if test="isRetire!=null">
-            and type=1 and is_retire=#{isRetire}
-        </if>
+        select count(*) as num, user_type as groupBy from ow_member_view where status=1
+
         <if test="politicalStatus!=null">
             and political_status =#{politicalStatus}
         </if>
@@ -29,9 +27,9 @@
 
     <!-- 统计某阶段各类型发展党员的数量 groupBy为空的为本科生 -->
     <select id="memberApply_groupByLevel" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, s.student_level as groupBy
+        select count(*) as num, u.type as groupBy
         from ow_member_apply ow
-        LEFT join sys_student_info s on s.user_id=ow.user_id
+        LEFT join sys_user u on u.id=ow.user_id
         where ow.stage=#{stage}
         <if test="enrolYear!=null">
             and s.enrol_year = #{enrolYear}
@@ -47,12 +45,12 @@
 
     <!-- 统计教职工党员年龄分布情况 -->
     <select id="member_teatcherGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where type=1 and status=1
+        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where user_type in(1,5) and status=1
         <include refid="Where_ow"/> group by groupBy
     </select>
     <!-- 统计学生党员年龄分布情况 -->
     <select id="member_studentGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where type=2 and status=1
+        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where user_type in(2,3,4) and status=1
         <include refid="Where_ow"/> group by groupBy
     </select>
     <!-- 统计党员发展各阶段情况-->
@@ -65,14 +63,14 @@
     </select>
     <!-- 统计排在前十的分党委党员人数-->
     <select id="memberApply_groupByPartyId" resultType="persistence.member.common.MemberStatByPartyBean" parameterType="map">
-      select count(*) as num, party_id as partyId, sum(if(type=1, 1,0)) as teacher, sum(if(type=2, 1,0)) as student
-      from ow_member where status=1 group by party_id order by num desc limit #{top}
+      select count(*) as num, party_id as partyId, sum(if(user_type in(1,5), 1,0)) as teacher, sum(if(user_type in(2,3,4), 1,0)) as student
+      from ow_member_view where status=1 group by party_id order by num desc limit #{top}
     </select>
 
     <!-- 统计分党委下各党支部党员人数-->
     <select id="memberApply_groupByBranchId" resultType="persistence.member.common.MemberStatByBranchBean" parameterType="map">
-        select count(*) as num, branch_id as branchId, sum(if(type=1, 1,0)) as teacher, sum(if(type=2, 1,0))as student
-        from ow_member where status=1 and party_id=#{partyId} group by branch_id;
+        select count(*) as num, branch_id as branchId, sum(if(user_type in(1,5), 1,0)) as teacher, sum(if(user_type in(2,3,4), 1,0)) as student
+        from ow_member_view where status=1 and party_id=#{partyId} group by branch_id;
     </select>
 
     <!-- 统计党员性别分布情况 -->
@@ -121,7 +119,15 @@
         <include refid="Where_ow"/>
     </select>
 
-    <sql id="where_stat_ow_sum">
+    <select id="getPgbCount" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from ow_party where fid is not null
+        <if test="fid!=null">
+            and fid =#{fid}
+        </if>
+    </select>
+
+    <select id="getMemberCount" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from ow_member_view where status=1
         <if test="branchIdList!=null and branchIdList.size>0">
             and branch_id in
             <foreach collection="branchIdList" item="branchId"
@@ -132,14 +138,12 @@
         <if test="partyId!=null">
             and party_id =#{partyId}
         </if>
-        <if test="isRetire!=null">
-            and is_retire =#{isRetire}
-        </if>
-        <if test="type!=null">
-            and type =#{type}
-        </if>
-        <if test="userType!=null">
-            and user_type =#{userType}
+        <if test="userTypeList!=null and userTypeList.size>0">
+            and user_type in
+            <foreach collection="userTypeList" item="userType"
+                     index="index" open="(" close=")" separator=",">
+                #{userType}
+            </foreach>
         </if>
         <if test="proPostLevel!=null">
             and pro_post_level =#{proPostLevel}
@@ -147,18 +151,6 @@
         <if test="proPostLevel1!=null and proPostLevel2!=null">
             and pro_post_level !=#{proPostLevel1} and pro_post_level!=#{proPostLevel2}
         </if>
-    </sql>
-
-    <select id="getPgbCount" resultType="java.lang.Integer" parameterType="map">
-        select count(*) from ow_party where fid is not null
-        <if test="fid!=null">
-            and fid =#{fid}
-        </if>
-    </select>
-
-    <select id="getMemberCount" resultType="java.lang.Integer" parameterType="map">
-        select count(*) from ow_member_view where status=1
-        <include refid="where_stat_ow_sum"/>
     </select>
 
 </mapper>

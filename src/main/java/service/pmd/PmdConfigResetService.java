@@ -21,6 +21,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.PmdConstants;
+import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 
@@ -168,13 +169,14 @@ public class PmdConfigResetService extends PmdBaseMapper {
             if(userType!=null){
                 if(userType == PmdConstants.PMD_USER_TYPE_STU){
 
-                    criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT);
+                    criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                            SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
                 }else if(userType == PmdConstants.PMD_USER_TYPE_TEACHER){
 
-                    criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER).andIsRetireNotEqualTo(true);
+                    criteria.andUserTypeEqualTo(SystemConstants.USER_TYPE_JZG);
                 }else if(userType == PmdConstants.PMD_USER_TYPE_RETIRE){
 
-                    criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER).andIsRetireEqualTo(true);
+                    criteria.andUserTypeEqualTo(SystemConstants.USER_TYPE_RETIRE);
                 }else{
                     criteria.andUserIdIsNull();
                 }

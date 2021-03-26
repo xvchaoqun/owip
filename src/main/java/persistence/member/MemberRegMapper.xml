@@ -7,7 +7,6 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="passwd" jdbcType="VARCHAR" property="passwd" />
-    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
@@ -80,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, party_id, username, passwd, type, code, realname, gender, birth, idcard, 
-    phone, email, create_time, ip, import_user_id, import_seq, status
+    id, user_id, party_id, username, passwd, code, realname, gender, birth, idcard, phone, 
+    email, create_time, ip, import_user_id, import_seq, status
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberRegExample" resultMap="BaseResultMap">
     select
@@ -118,17 +117,17 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_member_reg (user_id, party_id, username, 
-      passwd, type, code, 
-      realname, gender, birth, 
-      idcard, phone, email, 
-      create_time, ip, import_user_id, 
-      import_seq, status)
+      passwd, code, realname, 
+      gender, birth, idcard, 
+      phone, email, create_time, 
+      ip, import_user_id, import_seq, 
+      status)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
-      #{passwd,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
-      #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{importUserId,jdbcType=INTEGER}, 
-      #{importSeq,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+      #{passwd,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{importUserId,jdbcType=INTEGER}, #{importSeq,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberReg">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -147,9 +146,6 @@
       </if>
       <if test="passwd != null">
         passwd,
-      </if>
-      <if test="type != null">
-        type,
       </if>
       <if test="code != null">
         code,
@@ -200,9 +196,6 @@
       </if>
       <if test="passwd != null">
         #{passwd,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
@@ -266,9 +259,6 @@
       <if test="record.passwd != null">
         passwd = #{record.passwd,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
-      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -317,7 +307,6 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
       passwd = #{record.passwd,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
@@ -348,9 +337,6 @@
       </if>
       <if test="passwd != null">
         passwd = #{passwd,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
@@ -397,7 +383,6 @@
       party_id = #{partyId,jdbcType=INTEGER},
       username = #{username,jdbcType=VARCHAR},
       passwd = #{passwd,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=TINYINT},

@@ -2,8 +2,6 @@ package service.member;
 
 import controller.global.OpException;
 import domain.member.*;
-import domain.sys.SysUserView;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +12,6 @@ import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 
 import java.util.Date;
 
@@ -87,14 +84,6 @@ public class EnterApplyService extends MemberBaseMapper {
 
     // 申请入党、流入、留学归国申请权限判断
     public void checkMemberApplyAuth(int userId) {
-        SysUserView sysUser = sysUserService.findById(userId);
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG
-                || sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
-            // 只允许教职工、学生申请留学归国入党申请
-        } else {
-            throw new UnauthorizedException(sysUser.getRealname() + "不允许进行此项操作。");
-        }
 
         // 判断是否是党员
         Member member = memberService.get(userId);
@@ -193,15 +182,6 @@ public class EnterApplyService extends MemberBaseMapper {
             throw new OpException("已经是流入党员");
         }
 
-        SysUserView sysUser = sysUserService.findById(userId);
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG)
-            record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
-        else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
-                || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
-            record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
-        } else {
-            throw new OpException("您不是教工或学生");
-        }
         record.setCreateTime(new Date());
         record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
 

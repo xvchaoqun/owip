@@ -128,7 +128,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
             record.setProPost(ti.getProPost());
             record.setEducation(ti.getEducation());
             record.setDegree(ti.getDegree());
-            record.setIsRetire(ti.getIsRetire());
+            record.setIsRetire(uv.isRetire());
         }
         StudentInfo si = studentInfoMapper.selectByPrimaryKey(userId);
         if(si!=null){

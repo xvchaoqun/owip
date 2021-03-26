@@ -40,8 +40,6 @@ public class MemberApplyView implements Serializable {
 
     private Integer branchId;
 
-    private Byte type;
-
     private Date applyTime;
 
     private Date joinApplyTime;
@@ -118,6 +116,8 @@ public class MemberApplyView implements Serializable {
 
     private Date createTime;
 
+    private Byte userType;
+
     private Byte status;
 
     private Integer memberStatus;
@@ -152,14 +152,6 @@ public class MemberApplyView implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Date getApplyTime() {
@@ -464,6 +456,14 @@ public class MemberApplyView implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 
     public Byte getStatus() {

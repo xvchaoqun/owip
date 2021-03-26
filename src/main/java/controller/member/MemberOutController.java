@@ -235,7 +235,7 @@ public class MemberOutController extends MemberBaseController {
                                Boolean isBack,
                                Boolean isModify,
                                Boolean isSelfPrint,
-                               Byte memberType,
+                               Byte userType,
                                Integer type,
                                Integer partyId,
                                Integer branchId,
@@ -256,8 +256,8 @@ public class MemberOutController extends MemberBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberOutExample example = new MemberOutExample();
-        MemberOutExample.Criteria criteria = example.createCriteria();
+        MemberOutViewExample example = new MemberOutViewExample();
+        MemberOutViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         if (cls == 3) {
@@ -276,8 +276,8 @@ public class MemberOutController extends MemberBaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if (memberType != null) {
-            criteria.andMemberTypeEqualTo(memberType);
+        if (userType != null) {
+            criteria.andUserTypeEqualTo(userType);
         }
         if (hasReceipt != null) {
             criteria.andHasReceiptEqualTo(hasReceipt);
@@ -347,12 +347,12 @@ public class MemberOutController extends MemberBaseController {
             return;
         }
 
-        long count = memberOutMapper.countByExample(example);
+        long count = memberOutViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberOut> memberOuts = memberOutMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberOutView> memberOuts = memberOutViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -797,9 +797,9 @@ public class MemberOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 */
-    public void memberOut_export(MemberOutExample example, HttpServletResponse response) {
+    public void memberOut_export(MemberOutViewExample example, HttpServletResponse response) {
 
-        List<MemberOut> records = memberOutMapper.selectByExample(example);
+        List<MemberOutView> records = memberOutViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"学工号|100", "姓名|50", "身份证号码|180", "性别|50", "年龄|50", "民族|80", "人员类别|80", "联系电话|100",
                 "类别|50", "党籍状态|100", "所在基层党组织|300|left", "所在党支部|300|left", "转入单位抬头|280|left",
@@ -807,12 +807,12 @@ public class MemberOutController extends MemberBaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
 
-            MemberOut record = records.get(i);
+            MemberOutView record = records.get(i);
             int userId = record.getUserId();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Member member = memberService.get(userId);
-            String memberTypeName = MemberConstants.MEMBER_OUT_MEMBER_TYPE_MAP.get(record.getMemberType());
+            String memberTypeName = SystemConstants.USER_TYPE_MAP.get(record.getUserType());
 
             String[] values = {
                     record.getUserCode(),

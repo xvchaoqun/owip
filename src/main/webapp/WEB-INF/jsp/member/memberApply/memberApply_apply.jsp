@@ -460,7 +460,7 @@
             <c:if test="${stage<7}">
             {label: '状态', name: 'applyStatus', width: 200, frozen: true},
             </c:if>
-            {label: '${type==OW_APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen: true},
+            {label: '${type==MEMBER_TYPE_STUDENT?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen: true},
             {
                 label: '姓名', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
                     <c:if test="${stage<OW_APPLY_STAGE_GROW}">

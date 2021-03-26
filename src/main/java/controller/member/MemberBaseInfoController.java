@@ -5,7 +5,7 @@ import domain.sys.StudentInfo;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -88,7 +88,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/baseInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo,
+    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo, Boolean isRetire,
                               String _arriveTime, String base64Avatar) throws IOException {
 
         record.setUserId(userId);
@@ -98,13 +98,12 @@ public class MemberBaseInfoController extends MemberBaseController {
 
         if(teacherInfo!=null) {
            teacherInfo.setUserId(userId);
-           teacherInfo.setIsRetire(BooleanUtils.isTrue(teacherInfo.getIsRetire()));
            if (StringUtils.isNotBlank(_arriveTime)) {
                 teacherInfo.setArriveTime(DateUtils.parseDate(_arriveTime, DateUtils.YYYY_MM_DD));
            }
         }
 
-        sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
+        sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo, isRetire);
 
         memberService.addModify(userId, "修改账号基本信息");
 
@@ -165,7 +164,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/teacherInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_teacherInfo_au(TeacherInfo record, SysUserInfo userInfo, String _degreeTime,
+    public Map do_teacherInfo_au(TeacherInfo record, Boolean isRetire, SysUserInfo userInfo, String _degreeTime,
                                  String _arriveTime, String _retireTime, HttpServletRequest request) {
 
         int userId = record.getUserId();
@@ -185,11 +184,15 @@ public class MemberBaseInfoController extends MemberBaseController {
         if (StringUtils.isNotBlank(_retireTime)) {
             record.setRetireTime(DateUtils.parseDate(_retireTime, DateUtils.YYYY_MM_DD));
         }
-        record.setIsRetire((record.getIsRetire() == null) ? false : record.getIsRetire());
-        record.setIsHonorRetire((record.getIsHonorRetire() == null) ? false : record.getIsHonorRetire());
 
+        record.setIsHonorRetire((record.getIsHonorRetire() == null) ? false : record.getIsHonorRetire());
         teacherInfoService.updateByPrimaryKeySelective(record);
         logger.info(log(LogConstants.LOG_MEMBER, "更新教职工党员信息：{0}", record.getUserId()));
+
+        if(isRetire!=null){
+            sysUserService.updateUserType(userId, BooleanUtils.isTrue(isRetire)?SystemConstants.USER_TYPE_RETIRE
+                        :SystemConstants.USER_TYPE_JZG);
+        }
 
         // 更新基本信息
         filterCadreReserveInfo(userId, userInfo);

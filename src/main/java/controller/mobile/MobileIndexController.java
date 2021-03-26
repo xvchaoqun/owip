@@ -141,19 +141,11 @@ public class MobileIndexController extends BaseController {
 	@RequiresPermissions("stat:ow")
 	@RequestMapping("/stat_member_count")
 	public String stat_member_count(ModelMap modelMap) {
-		Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
-		Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
-		Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
-		Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
 
-		isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, (byte) 1);
-		isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, (byte) 1);
-		statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null);
-		statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null);
+		Map<Byte, Integer>  statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null);
+		Map<Byte, Integer>  statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null);
 
 		modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, null));
-		modelMap.put("isRetireGrowMap",isRetireGrowMap);
-		modelMap.put("isRetirePositiveMap",isRetirePositiveMap);
 		modelMap.put("statGrowMap", statGrowMap);
 		modelMap.put("statPositiveMap", statPositiveMap);
 		return "mobile/stat_member_count";

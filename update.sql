@@ -39,12 +39,12 @@ ALTER TABLE `ow_member_out_modify`
 	DROP COLUMN `member_type`;
 
 ALTER TABLE `ow_member_reg`
-	DROP COLUMN `type`;
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '账号类别，同sys_user.type' AFTER `passwd`;
 
--- 更新 ow_member_view  ow_member_apply_view ow_member_outflow_view
--- (pmd_config_member_view  dp_member_view  ow_party_view  ow_branch_view  ext_member_view ow_party_static_view)
+-- 更新 ow_member_view  ow_member_apply_view ow_member_outflow_view  ow_member_out_view
+-- pmd_config_member_view  dp_member_view  ow_party_view  ow_branch_view  ext_member_view ow_party_static_view
 
- ow_member_out_view
+-- 删除系统缓存目录
 
 20210326
 -- 哈工大
@@ -213,7 +213,6 @@ left join sys_user_view u on mo.user_id=u.id
 set mo.user_code=u.code, mo.realname=u.realname, mo.gender=u.gender, mo.idcard=u.idcard, mo.nation=u.nation, mo.age=TIMESTAMPDIFF(YEAR, u.birth, mo.apply_time),
     mo.political_status=m.political_status;
 
--- 删除 ow_member_out_view   及对应的类
 
 20210315
 -- 北师大

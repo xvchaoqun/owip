@@ -317,87 +317,6 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeEqualTo(Byte value) {
-            addCriterion("type =", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotEqualTo(Byte value) {
-            addCriterion("type <>", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThan(Byte value) {
-            addCriterion("type >", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("type >=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThan(Byte value) {
-            addCriterion("type <", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("type <=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andPublicIdIsNullOrThis(Integer publicId, byte type) {
-
-            String sql = "";
-             if(type== OwConstants.OW_PARTY_PUBLIC_TYPE_GROW){
-                 sql = "grow_public_id is null";
-                 if(publicId != null){
-                     sql +=" or grow_public_id = " + publicId;
-                 }
-             }else{
-
-                 sql = "positive_public_id is null";
-                 if(publicId != null){
-                     sql +=" or positive_public_id = " + publicId;
-                 }
-             }
-
-             addCriterion("("+sql+")");
-
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIn(List<Byte> values) {
-            addCriterion("type in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotIn(List<Byte> values) {
-            addCriterion("type not in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeBetween(Byte value1, Byte value2) {
-            addCriterion("type between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("type not between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
         public Criteria andApplyTimeIsNull() {
             addCriterion("apply_time is null");
             return (Criteria) this;
@@ -2798,6 +2717,66 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserTypeIsNull() {
+            addCriterion("user_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIsNotNull() {
+            addCriterion("user_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeEqualTo(Byte value) {
+            addCriterion("user_type =", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotEqualTo(Byte value) {
+            addCriterion("user_type <>", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThan(Byte value) {
+            addCriterion("user_type >", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("user_type >=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThan(Byte value) {
+            addCriterion("user_type <", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("user_type <=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIn(List<Byte> values) {
+            addCriterion("user_type in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotIn(List<Byte> values) {
+            addCriterion("user_type not in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeBetween(Byte value1, Byte value2) {
+            addCriterion("user_type between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("user_type not between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("_status is null");
             return (Criteria) this;
@@ -3105,6 +3084,27 @@ public class MemberApplyViewExample {
 
         public Criteria andBranchSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("branch_sort_order not between", value1, value2, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublicIdIsNullOrThis(Integer publicId, byte publicType) {
+
+            String sql = "";
+             if(publicType == OwConstants.OW_PARTY_PUBLIC_TYPE_GROW){
+                 sql = "grow_public_id is null";
+                 if(publicId != null){
+                     sql +=" or grow_public_id = " + publicId;
+                 }
+             }else{
+
+                 sql = "positive_public_id is null";
+                 if(publicId != null){
+                     sql +=" or positive_public_id = " + publicId;
+                 }
+             }
+
+             addCriterion("("+sql+")");
+
             return (Criteria) this;
         }
     }

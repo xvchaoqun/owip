@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="<%=MemberConstants.MEMBER_TYPE_TEACHER%>" var="MEMBER_TYPE_TEACHER"/>
 <c:set value="<%=MemberConstants.MEMBER_TYPE_STUDENT%>" var="MEMBER_TYPE_STUDENT"/>
-<c:set value="<%=MemberConstants.MEMBER_TYPE_MAP%>" var="MEMBER_TYPE_MAP"/>
 <c:set value="<%=MemberConstants.MEMBER_STATUS_NORMAL%>" var="MEMBER_STATUS_NORMAL"/>
 
 <c:set value="${_pMap['owCheckIntegrity']=='true'}" var="_p_owCheckIntegrity"/>
@@ -132,7 +131,7 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cols">
                                         <input type="hidden" name="cls" value="${cls}">
-                                        <input type="hidden" name="studentLevel" value="${param.studentLevel}">
+                                        <input type="hidden" name="userType" value="${param.userType}">
                                         <c:if test="${cls!=6&&cls!=7}">
                                             <div class="form-group">
                                                 <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"
@@ -538,15 +537,8 @@
             {label: '学工号', name: 'code', width: 120, frozen: true},
             <c:if test="${cls==10}">
                 {label: '人员类别', name: 'userType', formatter : function (cellvalue, options, rowObject) {
-                        if (rowObject.type == ${MEMBER_TYPE_STUDENT}) {
-                            return '学生';
-                        }else if (rowObject.type == ${MEMBER_TYPE_TEACHER}) {
-                            if (rowObject.isRetire){
-                                return '离退休';
-                            }
-                            return '教职工';
-                        }
-                    }},
+                    return _cMap.USER_TYPE_MAP[cellvalue];
+                }},
             </c:if>
             <c:if test="${_p_owCheckIntegrity}">
             {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {

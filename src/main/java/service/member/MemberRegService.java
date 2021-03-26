@@ -117,11 +117,7 @@ public class MemberRegService extends MemberBaseMapper {
             record.setStatus(SystemConstants.USER_REG_STATUS_DENY);
             updateByPrimaryKeySelective(record);
         }
-        /*if (memberReg.getType() == SystemConstants.TEACHER_TYPE_JZG){
-            teacherInfoMapper.deleteByPrimaryKey(memberReg.getUserId());
-        }else {
-            studentInfoMapper.deleteByPrimaryKey(memberReg.getUserId());
-        }*/
+
         // 删除账号
         int userId = memberReg.getUserId();
         sysUserInfoMapper.deleteByPrimaryKey(userId);
@@ -144,7 +140,6 @@ public class MemberRegService extends MemberBaseMapper {
             record.setId(_sysUser.getUserId());
             record.setUsername(_sysUser.getUsername());
             record.setCode(_sysUser.getCode());
-            record.setType(_sysUser.getType());
             record.setSource(SystemConstants.USER_SOURCE_REG);
             record.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
 
@@ -205,7 +200,6 @@ public class MemberRegService extends MemberBaseMapper {
         reg.setUsername(code);
         reg.setRealname(realname);
         reg.setPasswd(passwd);
-        reg.setType(type);
         reg.setIdcard(idcard);
         reg.setPhone(phone);
         //reg.setUserId();
@@ -372,11 +366,7 @@ public class MemberRegService extends MemberBaseMapper {
         sysUser.setSalt(encrypt.getSalt());
         sysUser.setPasswd(encrypt.getPassword());
         sysUser.setCreateTime(new Date());
-        if (record.getType() > SystemConstants.STUDENT_TYPE_BKS){
-            sysUser.setType(SystemConstants.USER_TYPE_YJS);
-        }else {
-            sysUser.setType(record.getType());
-        }
+        sysUser.setType(record.getUserType());
         sysUser.setSource(SystemConstants.USER_SOURCE_REG);
         sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
         sysUserService.insertSelective(sysUser);
@@ -400,16 +390,16 @@ public class MemberRegService extends MemberBaseMapper {
         record.setImportSeq(importSeq + 1);
         memberRegMapper.insertSelective(record);
 
-        if (record.getType() == SystemConstants.TEACHER_TYPE_JZG){
+        if (record.getUserType() == SystemConstants.USER_TYPE_JZG
+            || record.getUserType() == SystemConstants.USER_TYPE_RETIRE){
+
             TeacherInfo teacherInfo = new TeacherInfo();
             teacherInfo.setUserId(sysUser.getId());
             teacherInfo.setExtPhone(record.getPhone());
-            teacherInfo.setIsRetire(false);
             teacherInfoMapper.insertSelective(teacherInfo);
         }else {
             StudentInfo studentInfo = new StudentInfo();
             studentInfo.setUserId(sysUser.getId());
-            studentInfo.setStudentLevel(record.getType());
             studentInfo.setSyncSource((byte) 0);
             studentInfo.setCreateTime(new Date());
             studentInfoMapper.insertSelective(studentInfo);

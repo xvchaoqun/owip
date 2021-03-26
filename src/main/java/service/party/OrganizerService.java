@@ -5,7 +5,6 @@ import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.party.Organizer;
 import domain.party.OrganizerExample;
-import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.ibatis.session.RowBounds;
@@ -15,6 +14,7 @@ import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -177,9 +177,9 @@ public class OrganizerService extends BaseMapper {
         Integer userId = record.getUserId();
         if (userId == null) return;
 
-        SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
-        if (ui != null) {
-            record.setUnit(ui.getUnit());
+        SysUserView uv = CmTag.getUserById(userId);
+        if (uv != null) {
+            record.setUnit(uv.getUnit());
         }
 
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
@@ -190,7 +190,7 @@ public class OrganizerService extends BaseMapper {
             record.setPostClass(teacherInfo.getPostClass());
             record.setMainPostLevel(teacherInfo.getMainPostLevel());
             record.setProPost(teacherInfo.getProPost());
-            record.setIsRetire(teacherInfo.getIsRetire());
+            record.setIsRetire(uv.getType()== SystemConstants.USER_TYPE_RETIRE);
         }
 
         Member member = memberMapper.selectByPrimaryKey(userId);

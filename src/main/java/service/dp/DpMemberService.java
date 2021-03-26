@@ -22,6 +22,7 @@ import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.PasswordHelper;
 import sys.constants.DpConstants;
+import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
@@ -73,7 +74,7 @@ public class DpMemberService extends DpBaseMapper {
         sysUser.setSalt(encrypt.getSalt());
         sysUser.setPasswd(encrypt.getPassword());
         sysUser.setCreateTime(new Date());
-        sysUser.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
+        sysUser.setType(SystemConstants.USER_TYPE_JZG);
         sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
         sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
         sysUserService.insertSelective(sysUser);
@@ -257,6 +258,8 @@ public class DpMemberService extends DpBaseMapper {
 
         //是否是共产党员
         Member member = memberService.get(userId);
-         return (member != null && (member.getType()==1 || member.getType() == 4));
+         return (member != null && (member.getStatus()== MemberConstants.MEMBER_STATUS_NORMAL
+                 || member.getStatus() == MemberConstants.MEMBER_STATUS_OUT
+                 || member.getStatus() == MemberConstants.MEMBER_STATUS_HISTORY));
     }
 }

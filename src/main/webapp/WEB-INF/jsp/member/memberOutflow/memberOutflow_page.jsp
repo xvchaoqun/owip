@@ -13,7 +13,7 @@
                   data-url-page="${ctx}/memberOutflow"
                   data-url-export="${ctx}/memberOutflow_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.type
+                <c:set var="_query" value="${not empty param.userId
                 || not empty param.status ||not empty param.isBack||not empty param.originalJob
                 ||not empty param.direction||not empty param._flowTime||not empty param.province
                 ||not empty param.reason||not empty param.hasPapers||not empty param.orStatus||not empty param._createTime
@@ -119,18 +119,7 @@
                                                                 </select>
                                                             </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>类别</label>
-                                                            <select data-rel="select2" name="type" data-placeholder="请选择类别">
-                                                                <option></option>
-                                                                <c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-                                                                    <option value="${_type.key}">${_type.value}</option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <script>
-                                                                $("#searchForm select[name=type]").val(${param.type});
-                                                            </script>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label>${_p_partyName}</label>
                                                             <select class="form-control" data-width="350"

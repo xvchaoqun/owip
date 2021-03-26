@@ -6,7 +6,6 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
-    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="add_type" jdbcType="INTEGER" property="addType" />
@@ -81,11 +80,9 @@
     <result column="from_type" jdbcType="VARCHAR" property="fromType" />
     <result column="talent_type" jdbcType="VARCHAR" property="talentType" />
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
-    <result column="is_retire" jdbcType="BOOLEAN" property="isRetire" />
     <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
     <result column="retire_time" jdbcType="DATE" property="retireTime" />
     <result column="is_high_level_talent" jdbcType="BIT" property="isHighLevelTalent" />
-    <result column="student_level" jdbcType="TINYINT" property="studentLevel" />
     <result column="delay_year" jdbcType="REAL" property="delayYear" />
     <result column="period" jdbcType="VARCHAR" property="period" />
     <result column="actual_graduate_time" jdbcType="DATE" property="actualGraduateTime" />
@@ -135,7 +132,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
+    user_id, party_id, branch_id, political_status, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
     positive_branch, create_time, update_time, party_post, party_reward, other_reward, 
     label, profile, integrity, sort_order, remark1, remark2, remark3, remark4, remark5, 
@@ -145,10 +142,10 @@
     school, school_type, degree_school, authorized_type, staff_type, staff_status, on_job, 
     main_post_level, post_class, post, post_level, pro_post, pro_post_level, manage_level, 
     office_level, title_level, marital_status, address, arrive_time, work_time, from_type, 
-    talent_type, talent_title, is_retire, is_honor_retire, retire_time, is_high_level_talent, 
-    student_level, delay_year, period, actual_graduate_time, expect_graduate_time, actual_enrol_time, 
-    sync_source, student_type, is_full_time, enrol_year, grade, is_graduate, is_work, 
-    is_graduate_grade, edu_type, edu_way, edu_level, edu_category, xj_status
+    talent_type, talent_title, is_honor_retire, retire_time, is_high_level_talent, delay_year, 
+    period, actual_graduate_time, expect_graduate_time, actual_enrol_time, sync_source, 
+    student_type, is_full_time, enrol_year, grade, is_graduate, is_work, is_graduate_grade, 
+    edu_type, edu_way, edu_level, edu_category, xj_status
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberViewExample" resultMap="BaseResultMap">
     select

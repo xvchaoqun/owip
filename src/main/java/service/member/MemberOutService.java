@@ -5,8 +5,6 @@ import domain.member.Member;
 import domain.member.MemberOut;
 import domain.member.MemberOutExample;
 import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -340,19 +338,6 @@ public class MemberOutService extends MemberBaseMapper {
             archive(userId);
             record.setSn(genSn(record.getYear()));
 
-            Member member = memberService.get(userId);
-            if(member!=null) {
-                if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
-                    record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_STUDENT);
-                } else {
-                    TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
-                    if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
-                        record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_RETIRE);
-                    } else {
-                        record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_TEACHER);
-                    }
-                }
-            }
             SysUserView uv = CmTag.getUserById(userId);
             record.setUserCode(uv.getCode());
             record.setRealname(uv.getRealname());
@@ -514,16 +499,6 @@ public class MemberOutService extends MemberBaseMapper {
 
                 Member member = memberService.get(userId);
                 if(member!=null) {
-                    if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
-                        record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_STUDENT);
-                    } else {
-                        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
-                        if (BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
-                            record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_RETIRE);
-                        } else {
-                            record.setMemberType(MemberConstants.MEMBER_OUT_MEMBER_TYPE_TEACHER);
-                        }
-                    }
                     record.setPoliticalStatus(member.getPoliticalStatus());
                 }
 

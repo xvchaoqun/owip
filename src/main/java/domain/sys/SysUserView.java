@@ -18,6 +18,29 @@ public class SysUserView implements Serializable {
                 SystemConstants.USER_SOURCE_BKS);
     }
 
+    public boolean isStudent(){
+        return NumberUtils.contains(type,
+                SystemConstants.USER_TYPE_BKS,
+                SystemConstants.USER_TYPE_SS,
+                SystemConstants.USER_TYPE_BS);
+    }
+
+    public boolean isYJS(){
+        return NumberUtils.contains(type,
+                SystemConstants.USER_TYPE_SS,
+                SystemConstants.USER_TYPE_BS);
+    }
+
+    public boolean isRetire(){
+        return type == SystemConstants.USER_TYPE_RETIRE;
+    }
+
+    public boolean isTeacher(){
+        return NumberUtils.contains(type,
+                SystemConstants.USER_TYPE_JZG,
+                SystemConstants.USER_TYPE_RETIRE);
+    }
+
     private Integer id;
 
     private String username;

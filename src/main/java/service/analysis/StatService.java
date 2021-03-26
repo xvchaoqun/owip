@@ -63,46 +63,22 @@ public class StatService extends BaseMapper {
     }
 
     // 按类型统计党员数量
-    public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId, Byte isRetire) {
+    public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId) {
 
         Map<Byte, Integer> _map = new HashMap<>();
-        List<StatByteBean> statByteBeans = new ArrayList<>();
-        statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId, isRetire);
-        if (isRetire == null) {
-            int bksCount = 0;
-            for (StatByteBean statByteBean : statByteBeans) {
-                Byte studentLevel = statByteBean.getGroupBy();
-                if (statByteBean.getGroupBy() == null || statByteBean.getGroupBy() == SystemConstants.STUDENT_TYPE_BKS) {
-                    studentLevel = SystemConstants.STUDENT_TYPE_BKS;
-                    bksCount = statByteBean.getNum() + bksCount;
-                    _map.put(studentLevel, bksCount);
-                    continue;
-                }
-
-                _map.put(studentLevel, statByteBean.getNum());
-            }
-
-            Map<Byte, Integer> map = new LinkedHashMap<>();
-            for (Byte key : SystemConstants.STUDENT_TYPE_MAP.keySet()) {
-                if (_map.get(key) == null) {
-                    map.put(key, 0);
-                } else {
-                    map.put(key, _map.get(key));
-                }
-            }
-            return map;
-        }else {
-            Map<Byte, Integer> map = new LinkedHashMap<>();
-            for (StatByteBean statByteBean : statByteBeans) {
-                map.put(statByteBean.getGroupBy(), statByteBean.getNum());
-            }
-            if (map.size() == 0){
-                map.put(SystemConstants.TEACHER_TYPE_JZG, 0);
-            }
-
-            return map;
+        List<StatByteBean> statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId);
+        for (StatByteBean statByteBean : statByteBeans) {
+                _map.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
-
+        Map<Byte, Integer> map = new LinkedHashMap<>();
+        for (Byte key : SystemConstants.USER_TYPE_MAP.keySet()) {
+            if (_map.get(key) == null) {
+                map.put(key, 0);
+            } else {
+                map.put(key, _map.get(key));
+            }
+        }
+        return map;
     }
 
     // 按阶段统计发展党员数量

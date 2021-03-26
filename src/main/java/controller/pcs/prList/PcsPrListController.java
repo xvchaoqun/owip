@@ -305,7 +305,7 @@ public class PcsPrListController extends PcsBaseController {
                         candidate.setEducation(teacherInfo.getEducation());
                         candidate.setDegree(teacherInfo.getDegree());
                         candidate.setWorkTime(teacherInfo.getWorkTime());
-                        candidate.setIsRetire(teacherInfo.getIsRetire());
+                        candidate.setIsRetire(uv.isRetire());
                         candidate.setProPost(teacherInfo.getProPost());
                     }
                 }else{

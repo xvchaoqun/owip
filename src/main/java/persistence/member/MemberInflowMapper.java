@@ -2,13 +2,12 @@ package persistence.member;
 
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface MemberInflowMapper {
-    int countByExample(MemberInflowExample example);
+    long countByExample(MemberInflowExample example);
 
     int deleteByExample(MemberInflowExample example);
 

@@ -13,8 +13,6 @@ public class MemberView implements Serializable {
 
     private Byte politicalStatus;
 
-    private Byte type;
-
     private Byte status;
 
     private Byte source;
@@ -163,15 +161,11 @@ public class MemberView implements Serializable {
 
     private String talentTitle;
 
-    private Boolean isRetire;
-
     private Boolean isHonorRetire;
 
     private Date retireTime;
 
     private Boolean isHighLevelTalent;
-
-    private Byte studentLevel;
 
     private Float delayYear;
 
@@ -241,14 +235,6 @@ public class MemberView implements Serializable {
 
     public void setPoliticalStatus(Byte politicalStatus) {
         this.politicalStatus = politicalStatus;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Byte getStatus() {
@@ -843,14 +829,6 @@ public class MemberView implements Serializable {
         this.talentTitle = talentTitle == null ? null : talentTitle.trim();
     }
 
-    public Boolean getIsRetire() {
-        return isRetire;
-    }
-
-    public void setIsRetire(Boolean isRetire) {
-        this.isRetire = isRetire;
-    }
-
     public Boolean getIsHonorRetire() {
         return isHonorRetire;
     }
@@ -873,14 +851,6 @@ public class MemberView implements Serializable {
 
     public void setIsHighLevelTalent(Boolean isHighLevelTalent) {
         this.isHighLevelTalent = isHighLevelTalent;
-    }
-
-    public Byte getStudentLevel() {
-        return studentLevel;
-    }
-
-    public void setStudentLevel(Byte studentLevel) {
-        this.studentLevel = studentLevel;
     }
 
     public Float getDelayYear() {

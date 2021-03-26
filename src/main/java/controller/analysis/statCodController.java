@@ -81,7 +81,7 @@ public class statCodController extends BaseController {
                              Integer userId,
                              Integer gender,
                              Integer stage,
-                             Integer type,
+                             Byte userType,
                              Integer partyId,
                              Integer branchId,
                              Integer pageSize, Integer pageNo) throws IOException {
@@ -114,8 +114,8 @@ public class statCodController extends BaseController {
             if (stage != null){
                 criteria.andStageEqualTo(stage.byteValue());
             }
-            if (type != null){
-                criteria.andTypeEqualTo(type.byteValue());
+            if (userType != null){
+                criteria.andUserTypeEqualTo(userType);
             }
             if (partyId != null){
                 criteria.andPartyIdEqualTo(partyId);
@@ -162,8 +162,8 @@ public class statCodController extends BaseController {
             if (gender != null){
                 criteria.andGenderEqualTo(gender.byteValue());
             }
-            if (type != null){
-                criteria.andTypeEqualTo(type.byteValue());
+            if (userType != null){
+                criteria.andUserTypeEqualTo(userType);
             }
             if (partyId != null){
                 criteria.andPartyIdEqualTo(partyId);

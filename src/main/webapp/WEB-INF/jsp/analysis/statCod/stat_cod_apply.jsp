@@ -2,14 +2,13 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
-<c:set var="OW_APPLY_TYPE_MAP" value="<%=OwConstants.OW_APPLY_TYPE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
 
         <div id="body-content">
             <div class="myTableDiv"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId || not empty param.gender || not empty param.stage || not empty param.type || not empty param.partyId}"/>
+                <c:set var="_query" value="${not empty param.userId || not empty param.gender || not empty param.stage || not empty param.userType || not empty param.partyId}"/>
                 <div class="tabbable">
 
                     <div class="tab-content multi-row-head-table">
@@ -61,17 +60,17 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>类别:</label>
+                                                <label>人员类别:</label>
                                                 <div class="input-group">
-                                                    <select name="type" data-width="100" data-rel="select2"
+                                                    <select name="userType" data-width="100" data-rel="select2"
                                                             data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach items="${OW_APPLY_TYPE_MAP}" var="entity">
+                                                        <c:forEach items="${USER_TYPE_MAP}" var="entity">
                                                             <option value="${entity.key}">${entity.value}</option>
                                                         </c:forEach>
                                                     </select>
                                                     <script>
-                                                        $("#searchForm select[name=type]").val('${param.type}');
+                                                        $("#searchForm select[name=userType]").val('${param.userType}');
                                                     </script>
                                                 </div>
                                             </div>

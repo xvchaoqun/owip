@@ -74,6 +74,10 @@
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+<c:set var="USER_TYPE_RETIRE" value="<%=SystemConstants.USER_TYPE_RETIRE%>"/>
+<c:set var="USER_TYPE_BKS" value="<%=SystemConstants.USER_TYPE_BKS%>"/>
+<c:set var="USER_TYPE_SS" value="<%=SystemConstants.USER_TYPE_SS%>"/>
+<c:set var="USER_TYPE_BS" value="<%=SystemConstants.USER_TYPE_BS%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 
 <c:set var="PRO_POST_LEVEL_MAP" value="<%=SystemConstants.PRO_POST_LEVEL_MAP%>"/>

@@ -120,17 +120,7 @@ public class EnterApplyController extends MemberBaseController {
         enterApplyService.checkMemberApplyAuth(userId);
 
         SysUserView uv = CmTag.getUserById(userId);
-        //MemberApply memberApply = new MemberApply();
         memberApply.setUserId(userId);
-
-        if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-            memberApply.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
-        } else if (uv.getType() == SystemConstants.USER_TYPE_BKS
-                || uv.getType() == SystemConstants.USER_TYPE_YJS) {
-            memberApply.setType(OwConstants.OW_APPLY_TYPE_STU); // 学生
-        } else {
-            return failed("没有权限。");
-        }
 
         Date birth = uv.getBirth();
         if (birth != null && DateUtils.intervalYearsUntilNow(birth) < 18) {

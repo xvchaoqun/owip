@@ -5,7 +5,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="out_id" jdbcType="INTEGER" property="outId" />
     <result column="apply_user_id" jdbcType="INTEGER" property="applyUserId" />
-    <result column="member_type" jdbcType="TINYINT" property="memberType" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="user_code" jdbcType="VARCHAR" property="userCode" />
@@ -90,10 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, out_id, apply_user_id, member_type, idcard, gender, user_code, realname, age, 
-    nation, political_status, phone, type, to_title, to_unit, from_unit, from_address, 
-    from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    apply_time, user_id, create_time, ip
+    id, out_id, apply_user_id, idcard, gender, user_code, realname, age, nation, political_status, 
+    phone, type, to_title, to_unit, from_unit, from_address, from_phone, from_fax, from_post_code, 
+    pay_time, valid_days, handle_time, has_receipt, apply_time, user_id, create_time, 
+    ip
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutModifyExample" resultMap="BaseResultMap">
     select
@@ -127,25 +126,25 @@
   </delete>
   <insert id="insert" parameterType="domain.member.MemberOutModify">
     insert into ow_member_out_modify (id, out_id, apply_user_id, 
-      member_type, idcard, gender, 
-      user_code, realname, age, 
-      nation, political_status, phone, 
-      type, to_title, to_unit, 
-      from_unit, from_address, from_phone, 
-      from_fax, from_post_code, pay_time, 
-      valid_days, handle_time, has_receipt, 
-      apply_time, user_id, create_time, 
-      ip)
+      idcard, gender, user_code, 
+      realname, age, nation, 
+      political_status, phone, type, 
+      to_title, to_unit, from_unit, 
+      from_address, from_phone, from_fax, 
+      from_post_code, pay_time, valid_days, 
+      handle_time, has_receipt, apply_time, 
+      user_id, create_time, ip
+      )
     values (#{id,jdbcType=INTEGER}, #{outId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, 
-      #{memberType,jdbcType=TINYINT}, #{idcard,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{userCode,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{nation,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, 
-      #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, 
-      #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, 
-      #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, 
-      #{applyTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR})
+      #{idcard,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{userCode,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{nation,jdbcType=VARCHAR}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, 
+      #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
+      #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
+      #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberOutModify">
     insert into ow_member_out_modify
@@ -158,9 +157,6 @@
       </if>
       <if test="applyUserId != null">
         apply_user_id,
-      </if>
-      <if test="memberType != null">
-        member_type,
       </if>
       <if test="idcard != null">
         idcard,
@@ -244,9 +240,6 @@
       </if>
       <if test="applyUserId != null">
         #{applyUserId,jdbcType=INTEGER},
-      </if>
-      <if test="memberType != null">
-        #{memberType,jdbcType=TINYINT},
       </if>
       <if test="idcard != null">
         #{idcard,jdbcType=VARCHAR},
@@ -340,9 +333,6 @@
       <if test="record.applyUserId != null">
         apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.memberType != null">
-        member_type = #{record.memberType,jdbcType=TINYINT},
-      </if>
       <if test="record.idcard != null">
         idcard = #{record.idcard,jdbcType=VARCHAR},
       </if>
@@ -425,7 +415,6 @@
     set id = #{record.id,jdbcType=INTEGER},
       out_id = #{record.outId,jdbcType=INTEGER},
       apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
-      member_type = #{record.memberType,jdbcType=TINYINT},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       user_code = #{record.userCode,jdbcType=VARCHAR},
@@ -462,9 +451,6 @@
       </if>
       <if test="applyUserId != null">
         apply_user_id = #{applyUserId,jdbcType=INTEGER},
-      </if>
-      <if test="memberType != null">
-        member_type = #{memberType,jdbcType=TINYINT},
       </if>
       <if test="idcard != null">
         idcard = #{idcard,jdbcType=VARCHAR},
@@ -545,7 +531,6 @@
     update ow_member_out_modify
     set out_id = #{outId,jdbcType=INTEGER},
       apply_user_id = #{applyUserId,jdbcType=INTEGER},
-      member_type = #{memberType,jdbcType=TINYINT},
       idcard = #{idcard,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=TINYINT},
       user_code = #{userCode,jdbcType=VARCHAR},

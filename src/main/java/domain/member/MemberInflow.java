@@ -15,8 +15,6 @@ public class MemberInflow implements Serializable {
 
     private Integer userId;
 
-    private Byte type;
-
     private String partyName;
 
     private String branchName;
@@ -43,8 +41,6 @@ public class MemberInflow implements Serializable {
 
     private Boolean isBack;
 
-    private String reason;
-
     private String outUnit;
 
     private Integer outLocation;
@@ -56,6 +52,8 @@ public class MemberInflow implements Serializable {
     private Boolean outIsBack;
 
     private String outReason;
+
+    private String reason;
 
     private Date createTime;
 
@@ -75,14 +73,6 @@ public class MemberInflow implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public String getPartyName() {
@@ -189,14 +179,6 @@ public class MemberInflow implements Serializable {
         this.isBack = isBack;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
-    }
-
     public String getOutUnit() {
         return outUnit;
     }
@@ -243,6 +225,14 @@ public class MemberInflow implements Serializable {
 
     public void setOutReason(String outReason) {
         this.outReason = outReason == null ? null : outReason.trim();
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
     }
 
     public Date getCreateTime() {

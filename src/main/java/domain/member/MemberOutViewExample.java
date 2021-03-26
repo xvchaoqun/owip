@@ -4,20 +4,19 @@ import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class MemberOutExample {
+public class MemberOutViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public MemberOutExample() {
+    public MemberOutViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -694,12 +693,6 @@ public class MemberOutExample {
 
         public Criteria andUserCodeNotBetween(String value1, String value2) {
             addCriterion("user_code not between", value1, value2, "userCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andUserLike(String search) {
-            addCriterion(MessageFormat.format("(user_code like {0} or realname like {0})",
-                    "'"+search + "%'"));
             return (Criteria) this;
         }
 
@@ -2552,6 +2545,66 @@ public class MemberOutExample {
             addCriterion("last_print_user_id not between", value1, value2, "lastPrintUserId");
             return (Criteria) this;
         }
+
+        public Criteria andUserTypeIsNull() {
+            addCriterion("user_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIsNotNull() {
+            addCriterion("user_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeEqualTo(Byte value) {
+            addCriterion("user_type =", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotEqualTo(Byte value) {
+            addCriterion("user_type <>", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThan(Byte value) {
+            addCriterion("user_type >", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("user_type >=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThan(Byte value) {
+            addCriterion("user_type <", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("user_type <=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIn(List<Byte> values) {
+            addCriterion("user_type in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotIn(List<Byte> values) {
+            addCriterion("user_type not in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeBetween(Byte value1, Byte value2) {
+            addCriterion("user_type between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("user_type not between", value1, value2, "userType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
@@ -2560,7 +2613,7 @@ public class MemberOutExample {
             super();
         }
 
-        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+        public MemberOutViewExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
                 return this;

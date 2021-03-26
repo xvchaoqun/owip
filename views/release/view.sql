@@ -619,21 +619,26 @@ left join unit_post_group upg on up.group_id=upg.id
 left join cadre_post cp on up.id=cp.unit_post_id
 left join cadre_view cv on cv.id=cp.cadre_id;
 
-
-
+DROP VIEW IF EXISTS `ow_member_out_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
+select mo.*, u.type as user_type
+from  ow_member_out mo
+left join sys_user u on u.id = mo.user_id;
 
 -- ----------------------------
 --  View definition for `ow_member_apply_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_apply_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS
-select ma.*, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status,
-if(m.user_type=1,m.education,if(m.user_type=3 or m.user_type=4,'研究生','本科生')) as edu
+select ma.*, u.type as user_type, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status,
+if(u.type=1,t.education,if(u.type=2,'本科生','研究生')) as edu
      , p.sort_order as party_sort_order, b.sort_order as branch_sort_order
 from  ow_member_apply ma
         left join ow_branch b on ma.branch_id=b.id
         left join ow_party p on b.party_id=p.id
-        left join ow_member_view m  on ma.user_id = m.user_id;
+        left join ow_member m  on ma.user_id = m.user_id
+        left join sys_user u on u.id = ma.user_id
+        left join sys_teacher_info t  on ma.user_id = t.user_id;
 
 -- ----------------------------
 --  View definition for `ow_member_outflow_view`

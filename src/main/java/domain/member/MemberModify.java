@@ -25,8 +25,6 @@ public class MemberModify implements Serializable {
 
     private Byte politicalStatus;
 
-    private Byte type;
-
     private Byte status;
 
     private Byte source;
@@ -99,14 +97,6 @@ public class MemberModify implements Serializable {
 
     public void setPoliticalStatus(Byte politicalStatus) {
         this.politicalStatus = politicalStatus;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Byte getStatus() {

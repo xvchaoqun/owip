@@ -5,7 +5,7 @@
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="dropdown <c:if test="${cls==1}">active</c:if>" >
         <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-            <i class="fa fa-circle-o"></i>学生党员(${studentLevel==STUDENT_TYPE_BKS?"本科生":(studentLevel==STUDENT_TYPE_SS)?"硕士研究生":(studentLevel==STUDENT_TYPE_BS)?"博士研究生":""}${cm:trimToZero(student_normalCount)})
+            <i class="fa fa-circle-o"></i>学生党员(${USER_TYPE_MAP.get(cm:toByte(param.userType))}${cm:trimToZero(student_normalCount)})
             <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
         </a>
         <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
@@ -13,13 +13,13 @@
                 <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1"><i class="fa fa-hand-o-right"></i>学生党员</a>
             </li>
             <li>
-                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&studentLevel=${STUDENT_TYPE_BKS}"><i class="fa fa-hand-o-right"></i> 本科生</a>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&userType=${USER_TYPE_BKS}"><i class="fa fa-hand-o-right"></i> 本科生</a>
             </li>
             <li>
-                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&studentLevel=${STUDENT_TYPE_SS}"><i class="fa fa-hand-o-right"></i> 硕士研究生</a>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&userType=${USER_TYPE_SS}"><i class="fa fa-hand-o-right"></i> 硕士研究生</a>
             </li>
             <li>
-                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&studentLevel=${STUDENT_TYPE_BS}"><i class="fa fa-hand-o-right"></i> 博士研究生</a>
+                <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1&userType=${USER_TYPE_BS}"><i class="fa fa-hand-o-right"></i> 博士研究生</a>
             </li>
         </ul>
     </li>

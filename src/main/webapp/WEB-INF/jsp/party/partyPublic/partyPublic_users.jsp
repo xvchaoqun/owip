@@ -8,19 +8,6 @@
 <div class="modal-body rownumbers">
     <form class="form-inline search-form" id="searchForm_popup">
         <div class="form-group">
-            <label>类型</label>
-            <select data-rel="select2"  data-width="90"
-                    name="applyType" data-placeholder="请选择">
-                <option></option>
-                <c:forEach items="<%=MemberConstants.MEMBER_TYPE_MAP%>" var="entity">
-                    <option value="${entity.key}">${entity.value}</option>
-                </c:forEach>
-            </select>
-             <script>
-                $("#searchForm_popup select[name=applyType]").val("${param.applyType}")
-            </script>
-        </div>
-        <div class="form-group">
             <label>姓名</label>
             <select data-rel="select2"
                     name="userId" data-placeholder="请选择">
@@ -45,7 +32,7 @@
                 $("#searchForm_popup select[name=branchId]").val("${param.branchId}")
             </script>
         </div>
-        <c:set var="_query" value="${not empty param.userId ||not empty param.applyType ||not empty param.branchId}"/>
+        <c:set var="_query" value="${not empty param.userId ||not empty param.branchId}"/>
         <div class="form-group">
             <button type="button" data-url="${ctx}/partyPublic_users?type=${param.type}&partyId=${param.partyId}"
                     data-target="#modal .modal-content" data-form="#searchForm_popup"

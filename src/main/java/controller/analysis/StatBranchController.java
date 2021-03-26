@@ -54,24 +54,17 @@ public class StatBranchController extends BaseController {
 
             modelMap.put("otherMap", statService.otherMap(type, null, branchId));
         }
-        Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
-        Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
         Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
         Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
         if (type == null){
-            isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, (byte) 1);
-            isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, (byte) 1);
-            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId, null);
-            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId, null);
+            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, branchId);
+            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, branchId);
         }else if (type != null && type ==3){
-            isRetirePositiveMap = statService.typeMap(null, null, branchId, (byte) 1);
-            statPositiveMap = statService.typeMap(null, null, branchId, null);
+            statPositiveMap = statService.typeMap(null, null, branchId);
         }
 
         modelMap.put("type", type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(null, branchId));
-        modelMap.put("isRetireGrowMap",isRetireGrowMap);
-        modelMap.put("isRetirePositiveMap",isRetirePositiveMap);
         modelMap.put("statGrowMap", statGrowMap);
         modelMap.put("statPositiveMap", statPositiveMap);
 

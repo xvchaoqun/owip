@@ -77,25 +77,25 @@
     var legendTitle = [];
     var countData = [];
     function addData(){
-        if (${statPositiveMap.get(STUDENT_TYPE_BKS)!=0}){
-            countData.push({name: '本科生党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BKS)}'});
-            legendTitle.push('本科生党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})');
+        if (${statPositiveMap.get(USER_TYPE_BKS)!=0}){
+            countData.push({name: '本科生党员(${statPositiveMap.get(USER_TYPE_BKS)})', value: '${statPositiveMap.get(USER_TYPE_BKS)}'});
+            legendTitle.push('本科生党员(${statPositiveMap.get(USER_TYPE_BKS)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_SS)!=0}){
-            countData.push({name: '硕士生党员(${statPositiveMap.get(STUDENT_TYPE_SS)})', value: '${statPositiveMap.get(STUDENT_TYPE_SS)}'});
-            legendTitle.push('硕士生党员(${statPositiveMap.get(STUDENT_TYPE_SS)})');
+        if (${statPositiveMap.get(USER_TYPE_SS)!=0}){
+            countData.push({name: '硕士生党员(${statPositiveMap.get(USER_TYPE_SS)})', value: '${statPositiveMap.get(USER_TYPE_SS)}'});
+            legendTitle.push('硕士生党员(${statPositiveMap.get(USER_TYPE_SS)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_BS)!=0}){
-            countData.push({name: '博士生党员(${statPositiveMap.get(STUDENT_TYPE_BS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BS)}'});
-            legendTitle.push('博士生党员(${statPositiveMap.get(STUDENT_TYPE_BS)})');
+        if (${statPositiveMap.get(USER_TYPE_BS)!=0}){
+            countData.push({name: '博士生党员(${statPositiveMap.get(USER_TYPE_BS)})', value: '${statPositiveMap.get(USER_TYPE_BS)}'});
+            legendTitle.push('博士生党员(${statPositiveMap.get(USER_TYPE_BS)})');
         }
-        if (${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)!=0}){
-            countData.push({name: '教职工党员(${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)})', value: '${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)}'});
-            legendTitle.push('教职工党员(${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)})');
+        if (${statPositiveMap.get(USER_TYPE_JZG)!=0}){
+            countData.push({name: '教职工党员(${statPositiveMap.get(USER_TYPE_JZG)})', value: '${statPositiveMap.get(USER_TYPE_JZG)}'});
+            legendTitle.push('教职工党员(${statPositiveMap.get(USER_TYPE_JZG)})');
         }
-        if (${isRetirePositiveMap.get(TEACHER_TYPE_JZG)!=0}){
-            countData.push({name: '离退休党员(${isRetirePositiveMap.get(TEACHER_TYPE_JZG)})', value: '${isRetirePositiveMap.get(TEACHER_TYPE_JZG)}'});
-            legendTitle.push('离退休党员(${isRetirePositiveMap.get(TEACHER_TYPE_JZG)})');
+        if (${statPositiveMap.get(USER_TYPE_RETIRE)!=0}){
+            countData.push({name: '离退休党员(${statPositiveMap.get(USER_TYPE_RETIRE)})', value: '${statPositiveMap.get(USER_TYPE_RETIRE)}'});
+            legendTitle.push('离退休党员(${statPositiveMap.get(USER_TYPE_RETIRE)})');
         }
     }
     addData();
@@ -184,45 +184,45 @@
         }
 
         //其他
-        if (${isRetirePositiveMap.get(TEACHER_TYPE_JZG)!=0}){
-            countData.push({name: '离退休正式党员(${isRetirePositiveMap.get(TEACHER_TYPE_JZG)})', value: '${isRetirePositiveMap.get(TEACHER_TYPE_JZG)}'});
-            legendTitle.push('离退休正式党员(${isRetirePositiveMap.get(TEACHER_TYPE_JZG)})');
+        if (${statPositiveMap.get(USER_TYPE_RETIRE)!=0}){
+            countData.push({name: '离退休正式党员(${statPositiveMap.get(USER_TYPE_RETIRE)})', value: '${statPositiveMap.get(USER_TYPE_RETIRE)}'});
+            legendTitle.push('离退休正式党员(${statPositiveMap.get(USER_TYPE_RETIRE)})');
         }
-        if (${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG) != 0}){
-            countData.push({name: '教职工正式党员(${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)})', value: '${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)}'});
-            legendTitle.push('教职工正式党员(${statPositiveMap.get(TEACHER_TYPE_JZG)-isRetirePositiveMap.get(TEACHER_TYPE_JZG)})');
+        if (${statPositiveMap.get(USER_TYPE_JZG) != 0}){
+            countData.push({name: '教职工正式党员(${statPositiveMap.get(USER_TYPE_JZG)})', value: '${statPositiveMap.get(USER_TYPE_JZG)}'});
+            legendTitle.push('教职工正式党员(${statPositiveMap.get(USER_TYPE_JZG)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_BKS)!=0}){
-            countData.push({name: '本科生正式党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BKS)}'});
-            legendTitle.push('本科生正式党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})');
+        if (${statPositiveMap.get(USER_TYPE_BKS)!=0}){
+            countData.push({name: '本科生正式党员(${statPositiveMap.get(USER_TYPE_BKS)})', value: '${statPositiveMap.get(USER_TYPE_BKS)}'});
+            legendTitle.push('本科生正式党员(${statPositiveMap.get(USER_TYPE_BKS)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_SS)!=0}){
-            countData.push({name: '硕士生正式党员(${statPositiveMap.get(STUDENT_TYPE_SS)})', value: '${statPositiveMap.get(STUDENT_TYPE_SS)}'});
-            legendTitle.push('硕士生正式党员(${statPositiveMap.get(STUDENT_TYPE_SS)})');
+        if (${statPositiveMap.get(USER_TYPE_SS)!=0}){
+            countData.push({name: '硕士生正式党员(${statPositiveMap.get(USER_TYPE_SS)})', value: '${statPositiveMap.get(USER_TYPE_SS)}'});
+            legendTitle.push('硕士生正式党员(${statPositiveMap.get(USER_TYPE_SS)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_BS)!=0}){
-            countData.push({name: '博士生正式党员(${statPositiveMap.get(STUDENT_TYPE_BS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BS)}'});
-            legendTitle.push('博士生正式党员(${statPositiveMap.get(STUDENT_TYPE_BS)})');
+        if (${statPositiveMap.get(USER_TYPE_BS)!=0}){
+            countData.push({name: '博士生正式党员(${statPositiveMap.get(USER_TYPE_BS)})', value: '${statPositiveMap.get(USER_TYPE_BS)}'});
+            legendTitle.push('博士生正式党员(${statPositiveMap.get(USER_TYPE_BS)})');
         }
-        if (${isRetireGrowMap.get(TEACHER_TYPE_JZG)!=0}){
-            countData.push( {name: '离退休预备党员(${isRetireGrowMap.get(TEACHER_TYPE_JZG)})', value: '${isRetireGrowMap.get(TEACHER_TYPE_JZG)}'});
-            legendTitle.push('离退休预备党员(${isRetireGrowMap.get(TEACHER_TYPE_JZG)})');
+        if (${statGrowMap.get(USER_TYPE_RETIRE)!=0}){
+            countData.push( {name: '离退休预备党员(${statGrowMap.get(USER_TYPE_RETIRE)})', value: '${statGrowMap.get(USER_TYPE_RETIRE)}'});
+            legendTitle.push('离退休预备党员(${statGrowMap.get(USER_TYPE_RETIRE)})');
         }
-        if (${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)!=0}){
-            countData.push({name: '教职工预备党员(${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)})', value: '${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)}'});
-            legendTitle.push('教职工预备党员(${statGrowMap.get(TEACHER_TYPE_JZG)-isRetireGrowMap.get(TEACHER_TYPE_JZG)})');
+        if (${statGrowMap.get(USER_TYPE_JZG)!=0}){
+            countData.push({name: '教职工预备党员(${statGrowMap.get(USER_TYPE_JZG)})', value: '${statGrowMap.get(USER_TYPE_JZG)}'});
+            legendTitle.push('教职工预备党员(${statGrowMap.get(USER_TYPE_JZG)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_BKS)!=0}){
-            countData.push({name: '本科生正式党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BKS)}'});
-            legendTitle.push('本科生正式党员(${statPositiveMap.get(STUDENT_TYPE_BKS)})');
+        if (${statPositiveMap.get(USER_TYPE_BKS)!=0}){
+            countData.push({name: '本科生正式党员(${statPositiveMap.get(USER_TYPE_BKS)})', value: '${statPositiveMap.get(USER_TYPE_BKS)}'});
+            legendTitle.push('本科生正式党员(${statPositiveMap.get(USER_TYPE_BKS)})');
         }
-        if (${statGrowMap.get(STUDENT_TYPE_SS)!=0}){
-            countData.push({name: '硕士生预备党员(${statGrowMap.get(STUDENT_TYPE_SS)})', value: '${statGrowMap.get(STUDENT_TYPE_SS)}'});
-            legendTitle.push('硕士生预备党员(${statGrowMap.get(STUDENT_TYPE_SS)})');
+        if (${statGrowMap.get(USER_TYPE_SS)!=0}){
+            countData.push({name: '硕士生预备党员(${statGrowMap.get(USER_TYPE_SS)})', value: '${statGrowMap.get(USER_TYPE_SS)}'});
+            legendTitle.push('硕士生预备党员(${statGrowMap.get(USER_TYPE_SS)})');
         }
-        if (${statPositiveMap.get(STUDENT_TYPE_BS)!=0}){
-            countData.push({name: '博士生预备党员(${statPositiveMap.get(STUDENT_TYPE_BS)})', value: '${statPositiveMap.get(STUDENT_TYPE_BS)}'});
-            legendTitle.push('博士生预备党员(${statPositiveMap.get(STUDENT_TYPE_BS)})');
+        if (${statPositiveMap.get(USER_TYPE_BS)!=0}){
+            countData.push({name: '博士生预备党员(${statPositiveMap.get(USER_TYPE_BS)})', value: '${statPositiveMap.get(USER_TYPE_BS)}'});
+            legendTitle.push('博士生预备党员(${statPositiveMap.get(USER_TYPE_BS)})');
         }
     }
     addData1();

@@ -181,7 +181,7 @@
                 </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 是否退休
-                    <c:if test="${!teacherInfo.isRetire}">
+                    <c:if test="${uv.type!=USER_TYPE_RETIRE}">
                 <span class="prompt" data-title="退休状态说明" data-width="400"
 							  data-prompt="<ul>
 							  <li>如果该账号在“在职教职工党员库”中，修改为已退休状态后，该账号将自动归入“离退休党员库”</li>
@@ -192,7 +192,7 @@
                 </label>
                 <div class="col-xs-6">
                     <label>
-                        <input name="isRetire" ${teacherInfo.isRetire?"checked":""} type="checkbox"/>
+                        <input name="isRetire" ${uv.type==USER_TYPE_RETIRE?"checked":""} type="checkbox"/>
                         <span class="lbl"></span>
                     </label>
                 </div>

@@ -76,7 +76,7 @@ public class SysUserController extends BaseController {
 
             bean = extJzgMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_jzg");
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
+        } else if (sysUser.isYJS()) {
 
             bean = extYjsMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_yjs");
@@ -433,7 +433,7 @@ public class SysUserController extends BaseController {
                 commonMapper.excuteSql("update sys_teacher_info set pro_post_level=null where user_id=" + userId);
             }
         }
-        sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
+        sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo, null);
         return success(FormUtils.SUCCESS);
     }
 
@@ -1105,7 +1105,6 @@ public class SysUserController extends BaseController {
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPostTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
-                teacherInfo.setIsRetire(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
                 Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setRetireTime(retireTime);
 

@@ -5,7 +5,6 @@ import bean.StatIntBean;
 import bean.StatOwInfoBean;
 import domain.base.MetaType;
 import domain.party.Party;
-import domain.sys.StudentInfoExample;
 import domain.sys.SysUserExample;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.poi.hssf.usermodel.*;
@@ -34,7 +33,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static sys.utils.DateUtils.*;
+import static sys.utils.DateUtils.YYYYMMDD_DOT;
+import static sys.utils.DateUtils.YYYY_MM;
 
 @Service
 public class StatOwInfoService extends BaseMapper {
@@ -1033,10 +1033,10 @@ public class StatOwInfoService extends BaseMapper {
                         masters.put("jzgPrepared", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 } else {
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_SS) {  //硕士研究生
                         masters.put("preparedMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_BS) {   //博士研究生
                         doctors.put("preparedMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 }
@@ -1052,10 +1052,10 @@ public class StatOwInfoService extends BaseMapper {
                         masters.put("jzgFormation", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 } else {
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_SS) {  //硕士研究生
                         masters.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_BS) {   //博士研究生
                         doctors.put("formalMembers", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 }
@@ -1074,12 +1074,12 @@ public class StatOwInfoService extends BaseMapper {
                         }
                     }
                 } else {
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_SS) {  //硕士研究生
                         if (obj.getNum() > 0) {
                             mastersApplyTotal += obj.getNum();
                         }
                     }
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_BS) {   //博士研究生
                         if (obj.getNum() > 0) {
                             doctorsApplyTotal += obj.getNum();
                         }
@@ -1096,10 +1096,10 @@ public class StatOwInfoService extends BaseMapper {
                         }
                     }
                 } else {
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_SS) {  //硕士研究生
                         mastersApplyTotal += obj.getNum();
                     }
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_BS) {   //博士研究生
                         doctorsApplyTotal += obj.getNum();
                     }
                 }
@@ -1114,10 +1114,10 @@ public class StatOwInfoService extends BaseMapper {
                         masters.put("jzgActivity", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 } else {
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_SS) {  //硕士研究生
                         masters.put("activityTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_BS) {   //博士研究生
                         doctors.put("activityTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 }
@@ -1132,10 +1132,10 @@ public class StatOwInfoService extends BaseMapper {
                         masters.put("jzgDevelop", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 } else {
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_SS) {  //硕士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_SS) {  //硕士研究生
                         masters.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
-                    if (obj.getGroupBy() == SystemConstants.STUDENT_TYPE_BS) {   //博士研究生
+                    if (obj.getGroupBy() == SystemConstants.USER_TYPE_BS) {   //博士研究生
                         doctors.put("developTotal", obj.getNum() > 0 ? String.valueOf(obj.getNum()) : "0");
                     }
                 }
@@ -1240,9 +1240,9 @@ public class StatOwInfoService extends BaseMapper {
         int countYjs = (int) sysUserMapper.countByExample(example);
 
         // 预备党员
-        List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, null);
+        List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null);
         // 正式党员
-        List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, null);
+        List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null);
         //申请入党人员
         List<StatByteBean> applyJoin = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_INIT, null, null, null);
         List<StatByteBean> passJoin = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_PASS, null, null, null);
@@ -1256,12 +1256,12 @@ public class StatOwInfoService extends BaseMapper {
         doctors = data.get(1);
 
         //硕士和博士研究生总数
-        StudentInfoExample studentInfoExample = new StudentInfoExample();
-        studentInfoExample.createCriteria().andStudentLevelEqualTo(SystemConstants.STUDENT_TYPE_SS);
-        int countMasters = (int) studentInfoMapper.countByExample(studentInfoExample);
-        StudentInfoExample studentInfoExample2 = new StudentInfoExample();
-        studentInfoExample2.createCriteria().andStudentLevelEqualTo(SystemConstants.STUDENT_TYPE_BS);
-        int countDoctors = (int) studentInfoMapper.countByExample(studentInfoExample2);
+        SysUserExample sysUserExample = new SysUserExample();
+        sysUserExample.createCriteria().andTypeEqualTo(SystemConstants.USER_TYPE_SS);
+        int countMasters = (int) sysUserMapper.countByExample(sysUserExample);
+        sysUserExample = new SysUserExample();
+        sysUserExample.createCriteria().andTypeEqualTo(SystemConstants.USER_TYPE_BS);
+        int countDoctors = (int) sysUserMapper.countByExample(sysUserExample);
 
         //硕士研究生总数
         masters.put("total", String.valueOf(countMasters));
@@ -1318,9 +1318,9 @@ public class StatOwInfoService extends BaseMapper {
             // 发展对象
             List<StatByteBean> countDevelopment = statOwInfoMapper.memberApply_groupByLevel(OwConstants.OW_APPLY_STAGE_CANDIDATE, null, p.getId(), null);
             // 预备党员
-            List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, p.getId(), null, null, null);
+            List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, p.getId(), null, null);
             // 正式党员
-            List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, p.getId(), null, null, null);
+            List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, p.getId(), null, null);
             // 封装数据
             List<Map<String, String>> result = encapsulationData(preparedMembers, formalMembers, applyJoin, passJoin, countActivists, countDevelopment, cls);
             masters = result.get(0);
@@ -1495,11 +1495,11 @@ public class StatOwInfoService extends BaseMapper {
         map.put("studentNum_19",studentNum_19);
 
         //2019正式党员
-        List<StatByteBean> positivePartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2019");
+        List<StatByteBean> positivePartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null,  "2019");
         int positivePartyNum_19 = getCount(positivePartyList_19);
         map.put("positivePartyNum_19",positivePartyNum_19);
         //2019预备党员
-        List<StatByteBean> growPartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2019");
+        List<StatByteBean> growPartyList_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, "2019");
         int growPartyNum_19 = getCount(growPartyList_19);
         map.put("growPartyNum_19",growPartyNum_19);
 
@@ -1548,11 +1548,11 @@ public class StatOwInfoService extends BaseMapper {
         int studentNum_18 = getCount(statByteBeans_18);
         map.put("studentNum_18",studentNum_18);
         //2018正式党员
-        List<StatByteBean> positivePartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2018");
+        List<StatByteBean> positivePartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, "2018");
         int positivePartyNum_18 = getCount(positivePartyList_18);
         map.put("positivePartyNum_18",positivePartyNum_18);
         //2018预备党员
-        List<StatByteBean> growPartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2018");
+        List<StatByteBean> growPartyList_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, "2018");
         int growPartyNum_18 = getCount(growPartyList_18);
         map.put("growPartyNum_18",growPartyNum_18);
         //2018党员总数
@@ -1601,11 +1601,11 @@ public class StatOwInfoService extends BaseMapper {
         map.put("studentNum_17",studentNum_17);
 
         //2017正式党员
-        List<StatByteBean> positivePartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2017");
+        List<StatByteBean> positivePartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, "2017");
         int positivePartyNum_17 = getCount(positivePartyList_17);
         map.put("positivePartyNum_17",positivePartyNum_17);
         //2017预备党员
-        List<StatByteBean> growPartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2017");
+        List<StatByteBean> growPartyList_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, "2017");
         int growPartyNum_17 = getCount(growPartyList_17);
         map.put("growPartyNum_17",growPartyNum_17);
         //2017党员总数
@@ -1656,11 +1656,11 @@ public class StatOwInfoService extends BaseMapper {
         map.put("studentNum_16",studentNum_16);
 
         //2016正式党员
-        List<StatByteBean> positivePartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, null, "2016");
+        List<StatByteBean> positivePartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, null, "2016");
         int positivePartyNum_16 = getCount(positivePartyList_16);
         map.put("positivePartyNum_16",positivePartyNum_16);
         //2016预备党员
-        List<StatByteBean> growPartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, null, "2016");
+        List<StatByteBean> growPartyList_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, null, "2016");
         int growPartyNum_16 = getCount(growPartyList_16);
         map.put("growPartyNum_16",growPartyNum_16);
         //2016党员总数
@@ -1825,19 +1825,19 @@ public class StatOwInfoService extends BaseMapper {
             dataMap.put("devTotalCount",devTotalCount);
 
             //2019级正式党员
-            List<StatByteBean> positivePartyBeans_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2019");
+            List<StatByteBean> positivePartyBeans_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, "2019");
             int positivePartyCount_19 = getCount(positivePartyBeans_19);
             dataMap.put("positivePartyCount_19", positivePartyCount_19);
             //2018级正式党员
-            List<StatByteBean> positivePartyBeans_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2018");
+            List<StatByteBean> positivePartyBeans_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, "2018");
             int positivePartyCount_18 = getCount(positivePartyBeans_18);
             dataMap.put("positivePartyCount_18", positivePartyCount_18);
             //2017级正式党员
-            List<StatByteBean> positivePartyBeans_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2017");
+            List<StatByteBean> positivePartyBeans_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, "2017");
             int positivePartyCount_17 = getCount(positivePartyBeans_17);
             dataMap.put("positivePartyCount_17", positivePartyCount_17);
             //2016级正式党员
-            List<StatByteBean> positivePartyBeans_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, null, "2016");
+            List<StatByteBean> positivePartyBeans_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, party.getId(), null, "2016");
             int positivePartyCount_16 = getCount(positivePartyBeans_16);
             dataMap.put("positivePartyCount_16", positivePartyCount_16);
             //正式党员总和
@@ -1846,19 +1846,19 @@ public class StatOwInfoService extends BaseMapper {
 
 
             //2019级预备党员
-            List<StatByteBean> growPartyBeans_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2019");
+            List<StatByteBean> growPartyBeans_19 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, "2019");
             int growPartyCount_19 = getCount(growPartyBeans_19);
             dataMap.put("growPartyCount_19", growPartyCount_19);
             //2018级预备党员
-            List<StatByteBean> growPartyBeans_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2018");
+            List<StatByteBean> growPartyBeans_18 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, "2018");
             int growPartyCount_18 = getCount(growPartyBeans_18);
             dataMap.put("growPartyCount_18", growPartyCount_18);
             //2017级预备党员
-            List<StatByteBean> growPartyBeans_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2017");
+            List<StatByteBean> growPartyBeans_17 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, "2017");
             int growPartyCount_17 = getCount(growPartyBeans_17);
             dataMap.put("growPartyCount_17", growPartyCount_17);
             //2016级预备党员
-            List<StatByteBean> growPartyBeans_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, null, "2016");
+            List<StatByteBean> growPartyBeans_16 = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, party.getId(), null, "2016");
             int growPartyCount_16 = getCount(growPartyBeans_16);
             dataMap.put("growPartyCount_16", growPartyCount_16);
             //预备党员总和
@@ -2301,12 +2301,12 @@ public class StatOwInfoService extends BaseMapper {
                 dataMap.put("cadreDuty",cadreDuty == null ? "" :cadreDuty);
 
                 // 预备党员
-                List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, statOwInfoBean.getBranchId(), null, null);
+                List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, null, statOwInfoBean.getBranchId(), null);
                 int preparedNum=getBranchCounting(preparedMembers);
                 dataMap.put("preparedNum",preparedNum);
                 totalPreparedNum+=preparedNum;
                 // 正式党员
-                List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, statOwInfoBean.getBranchId(), null, null);
+                List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, null, statOwInfoBean.getBranchId(), null);
                 int formalNum = getBranchCounting(formalMembers);
                 dataMap.put("formalNum",formalNum);
                 totalFormal+=formalNum;
@@ -2420,12 +2420,12 @@ public class StatOwInfoService extends BaseMapper {
             dataMap.put("cadreDuty",cadreDuty == null ? "" :cadreDuty);
 
             // 预备党员
-            List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, statOwInfoBean.getPartyId(), null, null, null);
+            List<StatByteBean> preparedMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, statOwInfoBean.getPartyId(), null, null);
             int preparedNum=getBranchCounting(preparedMembers);
             dataMap.put("preparedNum",preparedNum);
             totalPreparedNum+=preparedNum;
             // 正式党员
-            List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, statOwInfoBean.getPartyId(), null, null, null);
+            List<StatByteBean> formalMembers = statOwInfoMapper.member_groupByType(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, statOwInfoBean.getPartyId(), null, null);
             int formalNum = getBranchCounting(formalMembers);
             dataMap.put("formalNum",formalNum);
             totalFormal+=formalNum;
@@ -3261,7 +3261,7 @@ public class StatOwInfoService extends BaseMapper {
         int count = 0;
         for (StatByteBean statByteBean : beans) {
             //为空或为2的是本科生
-            if (statByteBean.getGroupBy() == null || statByteBean.getGroupBy() == SystemConstants.STUDENT_TYPE_BKS) {
+            if (statByteBean.getGroupBy() == null || statByteBean.getGroupBy() == SystemConstants.USER_TYPE_BKS) {
                 count = statByteBean.getNum() + count;
                 continue;
             }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.member.MemberOutMapper">
-  <resultMap id="BaseResultMap" type="domain.member.MemberOut">
-    <id column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="persistence.member.MemberOutViewMapper">
+  <resultMap id="BaseResultMap" type="domain.member.MemberOutView">
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
@@ -40,6 +40,7 @@
     <result column="print_count" jdbcType="INTEGER" property="printCount" />
     <result column="last_print_time" jdbcType="TIMESTAMP" property="lastPrintTime" />
     <result column="last_print_user_id" jdbcType="INTEGER" property="lastPrintUserId" />
+    <result column="user_type" jdbcType="TINYINT" property="userType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -104,15 +105,16 @@
     age, nation, political_status, phone, type, to_title, to_unit, from_unit, from_address, 
     from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
     accept_receipt_time, status, is_self_print, is_self_print_count, is_modify, is_back, 
-    reason, apply_time, check_time, print_count, last_print_time, last_print_user_id
+    reason, apply_time, check_time, print_count, last_print_time, last_print_user_id, 
+    user_type
   </sql>
-  <select id="selectByExample" parameterType="domain.member.MemberOutExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.member.MemberOutViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_member_out
+    from ow_member_out_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -120,59 +122,46 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from ow_member_out
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from ow_member_out
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="domain.member.MemberOutExample">
-    delete from ow_member_out
+  <delete id="deleteByExample" parameterType="domain.member.MemberOutViewExample">
+    delete from ow_member_out_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.member.MemberOut">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into ow_member_out (user_id, party_id, branch_id, 
-      year, sn, idcard, gender, 
-      user_code, realname, age, 
-      nation, political_status, phone, 
-      type, to_title, to_unit, 
-      from_unit, from_address, from_phone, 
-      from_fax, from_post_code, pay_time, 
-      valid_days, handle_time, has_receipt, 
-      accept_receipt_time, status, is_self_print, 
-      is_self_print_count, is_modify, is_back, 
-      reason, apply_time, check_time, 
-      print_count, last_print_time, last_print_user_id
-      )
-    values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{year,jdbcType=INTEGER}, #{sn,jdbcType=INTEGER}, #{idcard,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{userCode,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{nation,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, 
-      #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, 
-      #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, 
-      #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, 
-      #{acceptReceiptTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}, #{isSelfPrint,jdbcType=BIT}, 
-      #{isSelfPrintCount,jdbcType=INTEGER}, #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, 
-      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP}, 
-      #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="domain.member.MemberOutView">
+    insert into ow_member_out_view (id, user_id, party_id, 
+      branch_id, year, sn, 
+      idcard, gender, user_code, 
+      realname, age, nation, 
+      political_status, phone, type, 
+      to_title, to_unit, from_unit, 
+      from_address, from_phone, from_fax, 
+      from_post_code, pay_time, valid_days, 
+      handle_time, has_receipt, accept_receipt_time, 
+      status, is_self_print, is_self_print_count, 
+      is_modify, is_back, reason, apply_time, 
+      check_time, print_count, last_print_time, 
+      last_print_user_id, user_type)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{sn,jdbcType=INTEGER}, 
+      #{idcard,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{userCode,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{nation,jdbcType=VARCHAR}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, 
+      #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
+      #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
+      #{handleTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{acceptReceiptTime,jdbcType=DATE}, 
+      #{status,jdbcType=TINYINT}, #{isSelfPrint,jdbcType=BIT}, #{isSelfPrintCount,jdbcType=INTEGER}, 
+      #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, 
+      #{lastPrintUserId,jdbcType=INTEGER}, #{userType,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.member.MemberOut">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into ow_member_out
+  <insert id="insertSelective" parameterType="domain.member.MemberOutView">
+    insert into ow_member_out_view
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -284,8 +273,14 @@
       <if test="lastPrintUserId != null">
         last_print_user_id,
       </if>
+      <if test="userType != null">
+        user_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
@@ -397,16 +392,19 @@
       <if test="lastPrintUserId != null">
         #{lastPrintUserId,jdbcType=INTEGER},
       </if>
+      <if test="userType != null">
+        #{userType,jdbcType=TINYINT},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.member.MemberOutExample" resultType="java.lang.Long">
-    select count(*) from ow_member_out
+  <select id="countByExample" parameterType="domain.member.MemberOutViewExample" resultType="java.lang.Long">
+    select count(*) from ow_member_out_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ow_member_out
+    update ow_member_out_view
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -522,13 +520,16 @@
       <if test="record.lastPrintUserId != null">
         last_print_user_id = #{record.lastPrintUserId,jdbcType=INTEGER},
       </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ow_member_out
+    update ow_member_out_view
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
@@ -566,176 +567,19 @@
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       print_count = #{record.printCount,jdbcType=INTEGER},
       last_print_time = #{record.lastPrintTime,jdbcType=TIMESTAMP},
-      last_print_user_id = #{record.lastPrintUserId,jdbcType=INTEGER}
+      last_print_user_id = #{record.lastPrintUserId,jdbcType=INTEGER},
+      user_type = #{record.userType,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.member.MemberOut">
-    update ow_member_out
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="partyId != null">
-        party_id = #{partyId,jdbcType=INTEGER},
-      </if>
-      <if test="branchId != null">
-        branch_id = #{branchId,jdbcType=INTEGER},
-      </if>
-      <if test="year != null">
-        year = #{year,jdbcType=INTEGER},
-      </if>
-      <if test="sn != null">
-        sn = #{sn,jdbcType=INTEGER},
-      </if>
-      <if test="idcard != null">
-        idcard = #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null">
-        gender = #{gender,jdbcType=TINYINT},
-      </if>
-      <if test="userCode != null">
-        user_code = #{userCode,jdbcType=VARCHAR},
-      </if>
-      <if test="realname != null">
-        realname = #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        age = #{age,jdbcType=INTEGER},
-      </if>
-      <if test="nation != null">
-        nation = #{nation,jdbcType=VARCHAR},
-      </if>
-      <if test="politicalStatus != null">
-        political_status = #{politicalStatus,jdbcType=TINYINT},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="toTitle != null">
-        to_title = #{toTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="toUnit != null">
-        to_unit = #{toUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="fromUnit != null">
-        from_unit = #{fromUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="fromAddress != null">
-        from_address = #{fromAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="fromPhone != null">
-        from_phone = #{fromPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="fromFax != null">
-        from_fax = #{fromFax,jdbcType=VARCHAR},
-      </if>
-      <if test="fromPostCode != null">
-        from_post_code = #{fromPostCode,jdbcType=VARCHAR},
-      </if>
-      <if test="payTime != null">
-        pay_time = #{payTime,jdbcType=DATE},
-      </if>
-      <if test="validDays != null">
-        valid_days = #{validDays,jdbcType=INTEGER},
-      </if>
-      <if test="handleTime != null">
-        handle_time = #{handleTime,jdbcType=DATE},
-      </if>
-      <if test="hasReceipt != null">
-        has_receipt = #{hasReceipt,jdbcType=BIT},
-      </if>
-      <if test="acceptReceiptTime != null">
-        accept_receipt_time = #{acceptReceiptTime,jdbcType=DATE},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="isSelfPrint != null">
-        is_self_print = #{isSelfPrint,jdbcType=BIT},
-      </if>
-      <if test="isSelfPrintCount != null">
-        is_self_print_count = #{isSelfPrintCount,jdbcType=INTEGER},
-      </if>
-      <if test="isModify != null">
-        is_modify = #{isModify,jdbcType=BIT},
-      </if>
-      <if test="isBack != null">
-        is_back = #{isBack,jdbcType=BIT},
-      </if>
-      <if test="reason != null">
-        reason = #{reason,jdbcType=VARCHAR},
-      </if>
-      <if test="applyTime != null">
-        apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checkTime != null">
-        check_time = #{checkTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="printCount != null">
-        print_count = #{printCount,jdbcType=INTEGER},
-      </if>
-      <if test="lastPrintTime != null">
-        last_print_time = #{lastPrintTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastPrintUserId != null">
-        last_print_user_id = #{lastPrintUserId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="domain.member.MemberOut">
-    update ow_member_out
-    set user_id = #{userId,jdbcType=INTEGER},
-      party_id = #{partyId,jdbcType=INTEGER},
-      branch_id = #{branchId,jdbcType=INTEGER},
-      year = #{year,jdbcType=INTEGER},
-      sn = #{sn,jdbcType=INTEGER},
-      idcard = #{idcard,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
-      user_code = #{userCode,jdbcType=VARCHAR},
-      realname = #{realname,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER},
-      nation = #{nation,jdbcType=VARCHAR},
-      political_status = #{politicalStatus,jdbcType=TINYINT},
-      phone = #{phone,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      to_title = #{toTitle,jdbcType=VARCHAR},
-      to_unit = #{toUnit,jdbcType=VARCHAR},
-      from_unit = #{fromUnit,jdbcType=VARCHAR},
-      from_address = #{fromAddress,jdbcType=VARCHAR},
-      from_phone = #{fromPhone,jdbcType=VARCHAR},
-      from_fax = #{fromFax,jdbcType=VARCHAR},
-      from_post_code = #{fromPostCode,jdbcType=VARCHAR},
-      pay_time = #{payTime,jdbcType=DATE},
-      valid_days = #{validDays,jdbcType=INTEGER},
-      handle_time = #{handleTime,jdbcType=DATE},
-      has_receipt = #{hasReceipt,jdbcType=BIT},
-      accept_receipt_time = #{acceptReceiptTime,jdbcType=DATE},
-      status = #{status,jdbcType=TINYINT},
-      is_self_print = #{isSelfPrint,jdbcType=BIT},
-      is_self_print_count = #{isSelfPrintCount,jdbcType=INTEGER},
-      is_modify = #{isModify,jdbcType=BIT},
-      is_back = #{isBack,jdbcType=BIT},
-      reason = #{reason,jdbcType=VARCHAR},
-      apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      check_time = #{checkTime,jdbcType=TIMESTAMP},
-      print_count = #{printCount,jdbcType=INTEGER},
-      last_print_time = #{lastPrintTime,jdbcType=TIMESTAMP},
-      last_print_user_id = #{lastPrintUserId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberOutExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberOutViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ow_member_out
+    from ow_member_out_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

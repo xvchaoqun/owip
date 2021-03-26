@@ -82,7 +82,6 @@ public class MemberInflowOutController extends MemberBaseController {
                                   Integer userId,
                                   Byte status,
                                   Boolean isBack,
-                                  Byte type,
                                   Integer partyId,
                                   Integer branchId,
                                   String outUnit,
@@ -118,9 +117,7 @@ public class MemberInflowOutController extends MemberBaseController {
         if(status!=null){
             criteria.andOutStatusEqualTo(status);
         }
-        if(type!=null){
-            criteria.andTypeEqualTo(type);
-        }
+
         if(isBack!=null){
             criteria.andIsBackEqualTo(isBack);
         }
@@ -191,7 +188,7 @@ public class MemberInflowOutController extends MemberBaseController {
             criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY);
         }
 
-        int count = memberInflowMapper.countByExample(example);
+        int count = (int) memberInflowMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

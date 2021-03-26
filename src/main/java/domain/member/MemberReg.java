@@ -8,6 +8,23 @@ import java.util.Date;
 
 public class MemberReg implements Serializable {
 
+    private Byte userType;
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
     public SysUserView getImportUser(){
         return CmTag.getUserById(importUserId);
     }
@@ -21,8 +38,6 @@ public class MemberReg implements Serializable {
     private String username;
 
     private String passwd;
-
-    private Byte type;
 
     private String code;
 
@@ -88,14 +103,6 @@ public class MemberReg implements Serializable {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd == null ? null : passwd.trim();
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public String getCode() {

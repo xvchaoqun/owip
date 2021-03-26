@@ -22,7 +22,6 @@ import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
-import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -195,19 +194,17 @@ public class PcsPrPartyService extends PcsBaseMapper {
 
                 // 类型校验
                 if(type ==PcsConstants.PCS_PR_TYPE_PRO){
-                    TeacherInfo teacherInfo = teacherInfoService.get(userId);
-                    if(member.getType()!= MemberConstants.MEMBER_TYPE_TEACHER
-                            || teacherInfo==null || BooleanUtils.isTrue(teacherInfo.getIsRetire())){
+
+                    if(uv.getType() != SystemConstants.USER_TYPE_JZG){
                         throw new OpException("账号{0}不是在职教职工" + alertMsg, uv.getRealname());
                     }
                 }else if(type ==PcsConstants.PCS_PR_TYPE_RETIRE){
 
-                    TeacherInfo teacherInfo = teacherInfoService.get(userId);
-                    if(teacherInfo==null || BooleanUtils.isNotTrue(teacherInfo.getIsRetire())){
+                    if(uv.getType() != SystemConstants.USER_TYPE_RETIRE){
                         throw new OpException("账号{0}不是离退休教职工" + alertMsg, uv.getRealname());
                     }
                 }else if(type ==PcsConstants.PCS_PR_TYPE_STU){
-                    if(member.getType()!=MemberConstants.MEMBER_TYPE_STUDENT){
+                    if(!uv.isStudent()){
                         throw new OpException("账号{0}不是学生" + alertMsg, uv.getRealname());
                     }
                 }else{
@@ -332,7 +329,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 candidate.setEducation(teacherInfo.getEducation());
                 candidate.setDegree(teacherInfo.getDegree());
                 candidate.setWorkTime(teacherInfo.getWorkTime());
-                candidate.setIsRetire(teacherInfo.getIsRetire());
+                candidate.setIsRetire(uv.getType()==SystemConstants.USER_TYPE_RETIRE);
                 candidate.setProPost(teacherInfo.getProPost());
             }
         }else{

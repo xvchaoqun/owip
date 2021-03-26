@@ -16,8 +16,6 @@
 <c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>
 <c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
-<c:set var="OW_APPLY_TYPE_TEACHER" value="<%=OwConstants.OW_APPLY_TYPE_TEACHER%>"/>
-<c:set var="OW_APPLY_TYPE_STU" value="<%=OwConstants.OW_APPLY_TYPE_STU%>"/>
 <c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
 <c:set var="OW_APPLY_STAGE_PASS" value="<%=OwConstants.OW_APPLY_STAGE_PASS%>"/>
 <c:set var="OW_APPLY_STAGE_ACTIVE" value="<%=OwConstants.OW_APPLY_STAGE_ACTIVE%>"/>
@@ -33,6 +31,9 @@
 <c:set var="OW_ENTER_APPLY_TYPE_MEMBERIN" value="<%=OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN%>"/>
 <c:set var="OW_ENTER_APPLY_TYPE_MEMBERINFLOW" value="<%=OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW%>"/>
 
+<c:set var="MEMBER_TYPE_TEACHER" value="<%=MemberConstants.MEMBER_TYPE_TEACHER%>"/>
+<c:set var="MEMBER_TYPE_STUDENT" value="<%=MemberConstants.MEMBER_TYPE_STUDENT%>"/>
+
 <c:set var="MEMBER_IN_STATUS_MAP" value="<%=MemberConstants.MEMBER_IN_STATUS_MAP%>"/>
 <c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
 <c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
@@ -42,17 +43,10 @@
 
 <c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
 
-<c:set var="MEMBER_OUT_MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_OUT_MEMBER_TYPE_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
 
 <c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
 <c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
-
-<c:set var="STUDENT_TYPE_MAP" value="<%=SystemConstants.STUDENT_TYPE_MAP%>"/>
-<c:set var="TEACHER_TYPE_JZG" value="<%=SystemConstants.TEACHER_TYPE_JZG%>"/>
-<c:set var="STUDENT_TYPE_BKS" value="<%=SystemConstants.STUDENT_TYPE_BKS%>"/>
-<c:set var="STUDENT_TYPE_SS" value="<%=SystemConstants.STUDENT_TYPE_SS%>"/>
-<c:set var="STUDENT_TYPE_BS" value="<%=SystemConstants.STUDENT_TYPE_BS%>"/>
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>

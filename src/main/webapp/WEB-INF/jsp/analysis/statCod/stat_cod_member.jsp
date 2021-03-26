@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
-<c:set var="OW_APPLY_TYPE_MAP" value="<%=OwConstants.OW_APPLY_TYPE_MAP%>"/>
+<c:set var="MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_TYPE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -68,7 +68,7 @@
                                                     <select name="type" data-width="100" data-rel="select2"
                                                             data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach items="${OW_APPLY_TYPE_MAP}" var="entity">
+                                                        <c:forEach items="${MEMBER_TYPE_MAP}" var="entity">
                                                             <option value="${entity.key}">${entity.value}</option>
                                                         </c:forEach>
                                                     </select>

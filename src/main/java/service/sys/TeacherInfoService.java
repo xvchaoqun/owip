@@ -1,13 +1,14 @@
 package service.sys;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.sys.TeacherInfoExample;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 
@@ -24,7 +25,6 @@ public class TeacherInfoService extends BaseMapper {
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
                 teacherInfo = new TeacherInfo();
                 teacherInfo.setUserId(userId);
-                teacherInfo.setIsRetire(false);
                 teacherInfoMapper.insertSelective(teacherInfo);
             }
         }
@@ -58,7 +58,9 @@ public class TeacherInfoService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(TeacherInfo record) {
 
-        if (BooleanUtils.isNotTrue(record.getIsRetire())) {
+        SysUserView uv = CmTag.getUserById(record.getUserId());
+
+        if (uv.getType() != SystemConstants.USER_TYPE_RETIRE) {
             record.setRetireTime(null);
             iMemberMapper.del_retireTime(record.getUserId());
         }

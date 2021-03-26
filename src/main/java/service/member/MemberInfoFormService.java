@@ -28,7 +28,6 @@ import service.global.CacheHelper;
 import service.party.*;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
-import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.*;
@@ -107,11 +106,10 @@ public class MemberInfoFormService extends BaseMapper {
         Branch branch = branchService.findAll().get(member.getBranchId());
         Party party = partyMapper.selectByPrimaryKey(member.getPartyId());
 
-        TeacherInfo teacherInfo = new TeacherInfo();
         String _resume = null;
 
-        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER){
-            teacherInfo = teacherInfoService.get(userId);
+        if (uv.isTeacher()){
+            TeacherInfo teacherInfo = teacherInfoService.get(userId);
             memberInfoForm.setWorkTime(teacherInfo.getWorkTime());
             memberInfoForm.setProPost(teacherInfo.getProPost());
 
@@ -478,13 +476,8 @@ public class MemberInfoFormService extends BaseMapper {
 
     public Map<String, Object> getDataMapOfPartyMember(Integer cadreId, Integer userId) throws IOException, TemplateException {
 
-        Member member = memberService.get(userId);
-        int cls = 1;
-        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER){
-            cls = 1;
-        }else {
-            cls = 2;
-        }
+        SysUserView uv = CmTag.getUserById(userId);
+        int cls = uv.isTeacher()?1:2;
 
         MemberInfoForm bean = getMemberInfoForm(cadreId, userId);
 

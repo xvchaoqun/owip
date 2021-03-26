@@ -14,8 +14,6 @@ public class MemberOutflow implements Serializable {
 
     private Integer userId;
 
-    private Byte type;
-
     private String partyName;
 
     private String branchName;
@@ -62,14 +60,6 @@ public class MemberOutflow implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public String getPartyName() {

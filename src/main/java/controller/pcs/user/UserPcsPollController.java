@@ -358,8 +358,6 @@ public class UserPcsPollController extends PcsBaseController {
     public Map member_selects(Integer pageSize,
                               Integer partyId,
                               Integer branchId,
-                              Byte type, // 党员类别
-                              Boolean isRetire,
                               Boolean noAuth, // 默认需要读取权限
                               @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                               Integer pageNo,
@@ -393,14 +391,6 @@ public class UserPcsPollController extends PcsBaseController {
         }
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
-        }
-
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
-        }
-
-        if (isRetire != null) {
-            criteria.andIsRetireEqualTo(isRetire);
         }
 
         searchStr = StringUtils.trimToNull(searchStr);

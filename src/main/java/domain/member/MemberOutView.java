@@ -6,7 +6,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberOut implements Serializable {
+public class MemberOutView implements Serializable {
 
     public String getCode(){
         String code = null;
@@ -26,6 +26,7 @@ public class MemberOut implements Serializable {
 
         return CmTag.getUserById(lastPrintUserId);
     }
+
     private Integer id;
 
     private Integer userId;
@@ -101,6 +102,8 @@ public class MemberOut implements Serializable {
     private Date lastPrintTime;
 
     private Integer lastPrintUserId;
+
+    private Byte userType;
 
     private static final long serialVersionUID = 1L;
 
@@ -406,5 +409,13 @@ public class MemberOut implements Serializable {
 
     public void setLastPrintUserId(Integer lastPrintUserId) {
         this.lastPrintUserId = lastPrintUserId;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 }

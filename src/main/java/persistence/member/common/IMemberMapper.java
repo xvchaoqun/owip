@@ -22,7 +22,7 @@ public interface IMemberMapper {
     // 根据姓名等查找党员
     List<MemberView> findMembers(@Param("realname") String realname, // 不为空
                                  @Param("partyId") Integer partyId,
-                                 @Param("type") Byte type,
+                                 @Param("userType") Byte userType,
                                  @Param("politicalStatus") Byte politicalStatus,
                                  @Param("statusList") List<Byte> statusList);
 
@@ -66,10 +66,9 @@ public interface IMemberMapper {
                                  @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                                  @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
-    Map selectMemberStudentCount(@Param("addPermits") Boolean addPermits,
+    Map selectMemberStudentCount(@Param("userType") Byte userType, @Param("addPermits") Boolean addPermits,
                                  @Param("adminPartyIdList") List<Integer> adminPartyIdList,
-                                 @Param("adminBranchIdList") List<Integer> adminBranchIdList,
-                                 @Param("studentLevel") Byte studentLevel);
+                                 @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
     @Select("select max(code) from ow_member_stay where left(code, 4)=#{year}")
     String getMemberStayMaxCode(@Param("year") int year);
@@ -86,16 +85,14 @@ public interface IMemberMapper {
                                                   @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
     // 根据类别、状态、账号、姓名、学工号查找流入党员
-    List<MemberInflow> selectMemberInflowList(@Param("type") Byte type,
-                                              @Param("inflowStatus") Byte inflowStatus,
+    List<MemberInflow> selectMemberInflowList(@Param("inflowStatus") Byte inflowStatus,
                                               @Param("hasOutApply") Boolean hasOutApply, // 是否已经提交申请
                                               @Param("search") String search,
                                               @Param("addPermits") Boolean addPermits,
                                               @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                                               @Param("adminBranchIdList") List<Integer> adminBranchIdList, RowBounds rowBounds);
 
-    int countMemberInflowList(@Param("type") Byte type,
-                              @Param("inflowStatus") Byte inflowStatus,
+    int countMemberInflowList(@Param("inflowStatus") Byte inflowStatus,
                               @Param("hasOutApply") Boolean hasOutApply,
                               @Param("search") String search,
                               @Param("addPermits") Boolean addPermits,
@@ -262,7 +259,7 @@ public interface IMemberMapper {
                                 @Param("branchId") Integer branchId);
 
     //更新退休分党委和党支部中，党员的状态为'在职'的改为'退休'。
-    @Update("update sys_teacher_info set staff_status='退休', is_retire=1 where user_id in (${userIds})")
+    @Update("update sys_teacher_info t, sys_user u set t.staff_status='退休', u.type=5 where t.user_id=u.id and t.user_id in (${userIds})")
     void updateRetireMemberStatus(@Param("userIds") String userIds);
 
     //某年最大的sn值

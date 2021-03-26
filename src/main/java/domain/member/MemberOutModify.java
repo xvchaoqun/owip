@@ -19,8 +19,6 @@ public class MemberOutModify implements Serializable {
 
     private Integer applyUserId;
 
-    private Byte memberType;
-
     private String idcard;
 
     private Byte gender;
@@ -93,14 +91,6 @@ public class MemberOutModify implements Serializable {
 
     public void setApplyUserId(Integer applyUserId) {
         this.applyUserId = applyUserId;
-    }
-
-    public Byte getMemberType() {
-        return memberType;
-    }
-
-    public void setMemberType(Byte memberType) {
-        this.memberType = memberType;
     }
 
     public String getIdcard() {

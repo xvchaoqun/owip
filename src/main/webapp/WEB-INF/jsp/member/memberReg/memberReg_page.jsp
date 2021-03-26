@@ -211,7 +211,7 @@
             {label: '真实姓名', name: 'realname', frozen: true},
             {
                 label: '类别', name: 'typeName', formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.STUDENT_TYPE_MAP[rowObject.type];
+                    return _cMap.USER_TYPE_MAP[rowObject.user.type];
                 }, frozen: true
             },
             {label: '学工号', name: 'code', frozen: true},

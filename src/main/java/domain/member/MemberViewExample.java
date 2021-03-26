@@ -380,66 +380,6 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeEqualTo(Byte value) {
-            addCriterion("type =", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotEqualTo(Byte value) {
-            addCriterion("type <>", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThan(Byte value) {
-            addCriterion("type >", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("type >=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThan(Byte value) {
-            addCriterion("type <", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("type <=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIn(List<Byte> values) {
-            addCriterion("type in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotIn(List<Byte> values) {
-            addCriterion("type not in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeBetween(Byte value1, Byte value2) {
-            addCriterion("type between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("type not between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;
@@ -5414,66 +5354,6 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsRetireIsNull() {
-            addCriterion("is_retire is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireIsNotNull() {
-            addCriterion("is_retire is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireEqualTo(Boolean value) {
-            addCriterion("is_retire =", value, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireNotEqualTo(Boolean value) {
-            addCriterion("is_retire <>", value, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireGreaterThan(Boolean value) {
-            addCriterion("is_retire >", value, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_retire >=", value, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireLessThan(Boolean value) {
-            addCriterion("is_retire <", value, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_retire <=", value, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireIn(List<Boolean> values) {
-            addCriterion("is_retire in", values, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireNotIn(List<Boolean> values) {
-            addCriterion("is_retire not in", values, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_retire between", value1, value2, "isRetire");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRetireNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_retire not between", value1, value2, "isRetire");
-            return (Criteria) this;
-        }
-
         public Criteria andIsHonorRetireIsNull() {
             addCriterion("is_honor_retire is null");
             return (Criteria) this;
@@ -5651,70 +5531,6 @@ public class MemberViewExample {
 
         public Criteria andIsHighLevelTalentNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_high_level_talent not between", value1, value2, "isHighLevelTalent");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelIsNull() {
-            addCriterion("student_level is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelIsNotNull() {
-            addCriterion("student_level is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelEqualTo(Byte value) {
-            if (value == SystemConstants.STUDENT_TYPE_BKS){
-                addCriterion(MessageFormat.format("(student_level ={0} or student_level is null)", value));
-            }else{
-                addCriterion("student_level =", value, "studentLevel");
-            }
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelNotEqualTo(Byte value) {
-            addCriterion("student_level <>", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelGreaterThan(Byte value) {
-            addCriterion("student_level >", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelGreaterThanOrEqualTo(Byte value) {
-            addCriterion("student_level >=", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelLessThan(Byte value) {
-            addCriterion("student_level <", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelLessThanOrEqualTo(Byte value) {
-            addCriterion("student_level <=", value, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelIn(List<Byte> values) {
-            addCriterion("student_level in", values, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelNotIn(List<Byte> values) {
-            addCriterion("student_level not in", values, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelBetween(Byte value1, Byte value2) {
-            addCriterion("student_level between", value1, value2, "studentLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentLevelNotBetween(Byte value1, Byte value2) {
-            addCriterion("student_level not between", value1, value2, "studentLevel");
             return (Criteria) this;
         }
 

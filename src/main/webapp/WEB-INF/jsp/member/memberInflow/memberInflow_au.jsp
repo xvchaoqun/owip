@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_TYPE_MAP%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberInflow!=null}">编辑</c:if><c:if test="${memberInflow==null}">添加</c:if>流入党员</h3>
@@ -20,21 +19,6 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
-				<div class="col-xs-6">
-					<select required data-rel="select2" name="type" data-placeholder="请选择类别">
-						<option></option>
-						<c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-							<option value="${_type.key}">${_type.value}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=type]").val(${memberInflow.type});
-					</script>
-				</div>
-			</div>
-
 				<div class="form-group">
 					<label class="col-xs-4 control-label"><span class="star">*</span>${_p_partyName}</label>
 					<div class="col-xs-6">

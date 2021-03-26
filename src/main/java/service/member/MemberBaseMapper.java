@@ -30,6 +30,8 @@ public class MemberBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected MemberOutMapper memberOutMapper;
     @Autowired(required = false)
+    protected MemberOutViewMapper memberOutViewMapper;
+    @Autowired(required = false)
     protected MemberOutModifyMapper memberOutModifyMapper;
     @Autowired(required = false)
     protected MemberInMapper memberInMapper;

@@ -14,8 +14,8 @@
         <if test="politicalStatus!=null">
             and political_status =#{politicalStatus}
         </if>
-        <if test="type!=null">
-            and type =#{type}
+        <if test="userType!=null">
+            and user_type =#{userType}
         </if>
     </select>
 
@@ -59,9 +59,7 @@
     <select id="selectMemberInflowList" resultMap="persistence.member.MemberInflowMapper.BaseResultMap"
             parameterType="map">
         select m.* from ow_member_inflow m, sys_user_view user where m.user_id= user.id
-        <if test="type!=null">
-            and m.type =#{type}
-        </if>
+
         <if test="inflowStatus!=null">
             and m.inflow_status =#{inflowStatus}
         </if>
@@ -81,9 +79,7 @@
     </select>
     <select id="countMemberInflowList" parameterType="map" resultType="java.lang.Integer">
         select count(m.user_id) from ow_member_inflow m, sys_user_view user where m.user_id= user.id
-        <if test="type!=null">
-            and m.type =#{type}
-        </if>
+
         <if test="inflowStatus!=null">
             and m.inflow_status =#{inflowStatus}
         </if>
@@ -102,27 +98,24 @@
     </select>
 
     <select id="selectMemberApplyCount" parameterType="map" resultType="persistence.member.common.MemberApplyCount">
-        select type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0 and m.is_remove=0
+        select if(user_type in(1,5), 1, 2) as type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0 and m.is_remove=0
         <include refid="member_selects_permits"/>
         group by type, stage
     </select>
 
     <select id="selectMemberTeacherCount" parameterType="map" resultType="map">
-        select sum(if(status=1 and is_retire=0, 1, 0)) as teacher_normalCount,
-        sum(if(status=1 and is_retire=1, 1, 0)) as teacher_retireCount,
+        select sum(if(status=1 and m.user_type=1, 1, 0)) as teacher_normalCount,
+        sum(if(status=1 and m.user_type=5, 1, 0)) as teacher_retireCount,
         sum(if(status=4, 1, 0)) as teacher_transferCount, sum(if(status=1 or status=4, 1, 0)) total from ow_member_view m
-        where m.type=1
+        where m.user_type in(1,5)
         <include refid="member_selects_permits"/>
     </select>
 
     <select id="selectMemberStudentCount" parameterType="map" resultType="map">
         select sum(if(status=1, 1, 0)) as student_normalCount, sum(if(status=4, 1, 0)) as student_transferCount from ow_member_view m
-        where m.type=2
-        <if test="studentLevel != null and studentLevel != 2">
-            and m.student_level=#{studentLevel}
-        </if>
-        <if test="studentLevel != null and studentLevel == 2">
-            and (m.student_level=#{studentLevel} or m.student_level is null)
+        where m.user_type in(2,3,4)
+        <if test="userType != null">
+            and m.user_type=#{userType}
         </if>
         <include refid="member_selects_permits"/>
     </select>
@@ -184,11 +177,11 @@
 
     <select id="countMemberNotIntegrity" parameterType="map" resultType="map">
 
-        select count(case when type = 2 then 1
+        select count(case when user_type in(2,3,4) then 1
         else null end) as student,
-        count(case when type = 1 and is_retire = 0 then 1
+        count(case when user_type=1 then 1
         else null end) as teacher,
-        count(case when type = 1 and is_retire = 1 then 1
+        count(case when user_type=5 then 1
         else null end)as retire
         from ow_member_view where status = 1
         <if test="partyId != null">

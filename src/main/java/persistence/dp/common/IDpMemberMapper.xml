@@ -71,10 +71,10 @@
         <if test="isRetire!=null">
             and ti.user_id=u.user_id
             <if test="isRetire">
-                and ti.is_retire = 1
+                and u.type = 5
             </if>
             <if test="!isRetire">
-                and (ti.is_retire <![CDATA[<>]]> 1)
+                and u.type != 5
             </if>
         </if>
         <include refid="dp_member_selects_permits"/>

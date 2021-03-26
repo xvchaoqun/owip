@@ -26,12 +26,9 @@
 
     <!-- 统计党员分布情况（预备、正式） -->
     <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, student_level as groupBy from ow_member_view where status=1
+        select count(*) as num, user_type as groupBy from ow_member_view where status=1
         <if test="politicalStatus!=null">
             and political_status =#{politicalStatus}
-        </if>
-        <if test="isRetire!=null">
-            and type=1 and is_retire=#{isRetire}
         </if>
         <if test="enrolYear!=null">
             and enrol_year = #{enrolYear}
@@ -41,9 +38,9 @@
 
     <!-- 统计某阶段各类型发展党员的数量 groupBy为空的为本科生 -->
     <select id="memberApply_groupByLevel" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, s.student_level as groupBy
+        select count(*) as num, u.type as groupBy
         from ow_member_apply ow
-        LEFT join sys_student_info s on s.user_id=ow.user_id
+        LEFT join sys_user u on u.id=ow.user_id
         where ow.stage=#{stage}
         <if test="enrolYear!=null">
             and s.enrol_year = #{enrolYear}
@@ -58,7 +55,7 @@
     </select>
 
     <select id="selectUser_groupByLevel" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, s.student_level as groupBy
+        select count(*) as num, u.type as groupBy
         from sys_user u
         LEFT join sys_student_info s on s.user_id=u.id
         where

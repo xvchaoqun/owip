@@ -129,7 +129,7 @@ public class SyncController extends BaseController {
             List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
             if(extJzges.size()==1) syncService.syncExtJzg(extJzges.get(0));
         }else {
-            if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
+            if (sysUser.isYJS()) {
                 extYjsImport.byCode(code);
 
                 ExtYjsExample example = new ExtYjsExample();

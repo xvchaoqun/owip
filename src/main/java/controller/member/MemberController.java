@@ -5,6 +5,7 @@ import domain.cadre.CadreView;
 import domain.member.*;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.sys.SysUser;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -71,13 +72,13 @@ public class MemberController extends MemberBaseController {
         Byte userType = null;
         String code = "";
         String status = "";
-        SysUserView sysUser = sysUserService.findById(userId);
-        if (sysUser == null) {
+        SysUserView uv = sysUserService.findById(userId);
+        if (uv == null) {
             msg = "账号不存在";
         } else {
-            code = sysUser.getCode();
-            userType = sysUser.getType();
-            realname = sysUser.getRealname();
+            code = uv.getCode();
+            userType = uv.getType();
+            realname = uv.getRealname();
             unit = extService.getUnit(userId);
             Member member = memberService.get(userId);
             if (member == null) {
@@ -103,19 +104,11 @@ public class MemberController extends MemberBaseController {
                 }
 
                 // 查询状态
-                if (member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
-                    status = "正常";
-                } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_OUT) {
-                    status = "已转出";
-                } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_QUIT) {
-                    status = "已减员";
-                }
+                status = MemberConstants.MEMBER_STATUS_MAP.get(member.getStatus());
 
-                if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER) {
-
-                    MemberView memberView = iMemberMapper.getMemberView(userId);
-                    if (BooleanUtils.isTrue(memberView.getIsRetire()))
-                        status += "，" + memberView.getStaffStatus();
+                if (uv.isTeacher()) {
+                    TeacherInfo teacherInfo = teacherInfoService.get(userId);
+                    status += "，" + teacherInfo.getStaffStatus();
                 }
 
                 MemberStay memberStay = memberStayService.get(userId, MemberConstants.MEMBER_STAY_TYPE_ABROAD);
@@ -359,6 +352,7 @@ public class MemberController extends MemberBaseController {
         List<Member> records = new ArrayList<>();
         List<TeacherInfo> teacherInfos = new ArrayList<>();
         List<SysUserInfo> sysUserInfos = new ArrayList<>();
+        List<SysUser> sysUsers = new ArrayList<>(); // 用于更新离退休字段
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
 
@@ -366,6 +360,7 @@ public class MemberController extends MemberBaseController {
             Member record = new Member();
             TeacherInfo teacherInfo = new TeacherInfo();
             SysUserInfo sysUserInfo = new SysUserInfo();
+            SysUser _sysUser = new SysUser();
 
             int col = 0;
             String userCode = StringUtils.trim(xlsRow.get(col++));
@@ -378,14 +373,13 @@ public class MemberController extends MemberBaseController {
                 throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
             }
             SysUserView sysUser = sysUserService.findById(userId);
-            Byte source = sysUser.getSource();
-            if (source == SystemConstants.USER_SOURCE_BKS || source == SystemConstants.USER_SOURCE_YJS
-                    || source == SystemConstants.USER_SOURCE_JZG) {
+            if (sysUser.isCasUser()) {
                 throw new OpException("第{0}行学工号[{1}]是学校账号", row, userCode);
             }
             record.setUserId(userId);
             teacherInfo.setUserId(userId);
             sysUserInfo.setUserId(userId);
+            _sysUser.setId(userId);
 
             String realname = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(realname)) {
@@ -442,7 +436,8 @@ public class MemberController extends MemberBaseController {
             //teacherInfo.setMaritalStatus(StringUtils.trimToNull(xlsRow.get(col++)));
             sysUserInfo.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
             //sysUserInfo.setHomePhone(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setIsRetire(StringUtils.equals(xlsRow.get(col++), "是"));
+            boolean isRetire = StringUtils.equals(xlsRow.get(col++), "是");
+            _sysUser.setType(isRetire?SystemConstants.USER_TYPE_RETIRE:SystemConstants.USER_TYPE_JZG);
             teacherInfo.setRetireTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
             teacherInfo.setIsHonorRetire(StringUtils.equals(xlsRow.get(col++), "是"));
@@ -514,9 +509,10 @@ public class MemberController extends MemberBaseController {
             records.add(record);
             teacherInfos.add(teacherInfo);
             sysUserInfos.add(sysUserInfo);
+            sysUsers.add(_sysUser);
         }
 
-        int successCount = memberService.batchImportOutSchool(records, teacherInfos, sysUserInfos);
+        int successCount = memberService.batchImportOutSchool(records, teacherInfos, sysUsers, sysUserInfos);
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
@@ -863,20 +859,18 @@ public class MemberController extends MemberBaseController {
                          Integer branchId,
                          String[] nation,
                          String[] nativePlace,
-
-                         Byte studentLevel,
+                         Byte userType,
                          // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
                          Integer cls,
                          ModelMap modelMap) {
 
-        modelMap.put("studentLevel", studentLevel);
         modelMap.put("cls", cls);
 
         boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(addPermits, adminPartyIdList, adminBranchIdList, studentLevel);
+        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(userType, addPermits, adminPartyIdList, adminBranchIdList);
         if (memberStudentCount != null) {
             modelMap.putAll(memberStudentCount);
         }
@@ -971,6 +965,7 @@ public class MemberController extends MemberBaseController {
                             @RequestParam(defaultValue = "1") int cls,
                             Boolean _integrity,
                             Integer userId,
+                            Byte userType,
                             Integer unitId,
                             Integer partyId,
                             Integer branchId,
@@ -1000,7 +995,6 @@ public class MemberController extends MemberBaseController {
                             //@RequestDateRange DateRange _retireTime,
                             //Boolean isHonorRetire,
 
-                            Byte studentLevel,
                             String remark,
                             String remark1,
                             String remark2,
@@ -1025,7 +1019,7 @@ public class MemberController extends MemberBaseController {
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria();
 
-        String orderStr = "type,is_retire,";
+        String orderStr = "user_type,";
         if (StringUtils.equalsIgnoreCase(sort, "birth")) {
             if (StringUtils.equalsIgnoreCase(order, "desc")){
                 order = "asc";
@@ -1052,6 +1046,11 @@ public class MemberController extends MemberBaseController {
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
+
+        if(userType!=null){
+            criteria.andUserTypeEqualTo(userType);
+        }
+
         if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
@@ -1172,25 +1171,26 @@ public class MemberController extends MemberBaseController {
          */
         switch (cls) {
             case 1:
-                criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT)
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                            SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS))
                         .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
                 break;
             case 2:
-                criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER)
-                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireNotEqualTo(true);
+                criteria.andUserTypeEqualTo(SystemConstants.USER_TYPE_JZG)
+                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
                 break;
             case 3:
-                criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER)
-                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireEqualTo(true);
+                criteria.andUserTypeEqualTo(SystemConstants.USER_TYPE_RETIRE)
+                        .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
                 break;
             case 6:
-                criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT)
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                            SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS))
                         .andStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
                 break;
             case 7:
-                criteria.andTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER)
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                          SystemConstants.USER_TYPE_RETIRE))
                         .andStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
                 break;
             case 10:
@@ -1216,9 +1216,7 @@ public class MemberController extends MemberBaseController {
         if (StringUtils.isNotBlank(idcard)){
             criteria.andIdcardEqualTo(idcard.trim());
         }
-        if (studentLevel != null){
-            criteria.andStudentLevelEqualTo(studentLevel);
-        }
+
         if (StringUtils.isNotBlank(remark)){
             criteria.andRemarkLike(remark);
         }
@@ -1284,8 +1282,9 @@ public class MemberController extends MemberBaseController {
 
         MemberView member = iMemberMapper.getMemberView(userId);
         modelMap.put("member", member);
-        modelMap.put("uv", sysUserService.findById(userId));
-        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER) {
+        SysUserView uv = sysUserService.findById(userId);
+        modelMap.put("uv", uv);
+        if (uv.isTeacher()) {
 
             modelMap.put("teacherInfo", teacherInfoService.get(userId));
             return "member/member/teacher_base";
@@ -1477,7 +1476,7 @@ public class MemberController extends MemberBaseController {
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),
-                    record.getStudentLevel()==null?"":SystemConstants.STUDENT_TYPE_MAP.get(record.getStudentLevel()),
+                    SystemConstants.USER_TYPE_MAP.get(record.getUserType()),
                     record.getRealname(),
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),

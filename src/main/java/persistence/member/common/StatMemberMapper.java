@@ -15,11 +15,10 @@ public interface StatMemberMapper {
     // 统计党员分布情况（按预备、正式分类）
     List<StatByteBean> member_groupByPoliticalStatus(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
-    // 统计正式或预备党员分布情况（按student_level分类）
+    // 统计正式或预备党员分布情况
     List<StatByteBean> member_groupByType(@Param("politicalStatus")Byte politicalStatus,
                                           @Param("partyId")Integer partyId,
-                                          @Param("branchId")Integer branchId,
-                                          @Param("isRetire") Byte isRetire);
+                                          @Param("branchId")Integer branchId);
 
     //统计某阶段各类型发展党员的数量 groupBy为空的为本科生
     List<StatByteBean> memberApply_groupByLevel(@Param("stage") byte stage,
@@ -77,9 +76,7 @@ public interface StatMemberMapper {
     Integer getBCByPartyId(@Param("metaId")Integer metaId, @Param("partyId")Integer partyId);
 
     //年统数据表中统计党员数量
-    Integer getMemberCount(@Param("type") Byte type,
-                           @Param("userType") Byte userType,
-                           @Param("isRetire") Boolean isRetire,
+    Integer getMemberCount(@Param("userTypeList") List<Byte> userTypeList,
                            @Param("proPostLevel") String proPostLevel,
                            @Param("branchIdList") List<Integer> branchIdList,
                            @Param("proPostLevel1") String proPostLevel1,
@@ -88,8 +85,4 @@ public interface StatMemberMapper {
 
     @Select("select count(*) from ow_member_view where status=1 and type =2 and user_type = 3 and edu_level like '%博士%'")
     Integer getOwBsMemberCount();
-
-    @Select("select count(*) from ow_member_view where party_id=#{partyId} and status=1 and type =2 and user_type = 3 and edu_level like '%博士%'")
-    Integer getPartyBsMemberCount(@Param("partyId") Integer partyId);
-
 }

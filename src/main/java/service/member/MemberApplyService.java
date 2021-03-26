@@ -20,6 +20,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -274,8 +275,6 @@ public class MemberApplyService extends MemberBaseMapper {
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
-            record.setType((member.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
-                    OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
             record.setApplyTime(member.getApplyTime() == null ? now : member.getApplyTime());
@@ -337,15 +336,19 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     // status=-1代表 isNULL
-    public int count(Integer partyId, Integer branchId, Byte type, Byte stage, Byte status) {
+    public int count(Integer partyId, Integer branchId, Byte applyType, Byte stage, Byte status) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
+        if(applyType==MemberConstants.MEMBER_TYPE_TEACHER){
+            criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                    SystemConstants.USER_TYPE_RETIRE));
+        }else{
+            criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                    SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
         }
         if (stage != null) {
             criteria.andStageEqualTo(stage);
@@ -392,15 +395,19 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public MemberApply next(Byte type, Byte stage, Byte status, MemberApply memberApply) {
+    public MemberApply next(Byte applyType, Byte stage, Byte status, MemberApply memberApply) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
+        if(applyType==MemberConstants.MEMBER_TYPE_TEACHER){
+            criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                    SystemConstants.USER_TYPE_RETIRE));
+        }else{
+            criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                    SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
         }
         if (stage != null) {
             criteria.andStageEqualTo(stage);
@@ -452,15 +459,23 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public MemberApply last(Byte type, Byte stage, Byte status, MemberApply memberApply) {
+    public MemberApply last(Byte applyType, Byte stage, Byte status, MemberApply memberApply) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
+        if (applyType != null) {
+
+            if(applyType==MemberConstants.MEMBER_TYPE_TEACHER){
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                        SystemConstants.USER_TYPE_RETIRE));
+            }else{
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                        SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
+            }
+
             if (stage == OwConstants.OW_APPLY_STAGE_INIT) {
                 criteria.andApplyStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
             }
@@ -710,10 +725,6 @@ public class MemberApplyService extends MemberBaseMapper {
         member.setPartyId(memberApply.getPartyId());
         member.setBranchId(memberApply.getBranchId());
         member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
-
-        Assert.isTrue(memberApply.getType() == OwConstants.OW_APPLY_TYPE_STU
-                || memberApply.getType() == OwConstants.OW_APPLY_TYPE_TEACHER, "wrong apply type");
-
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
         member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_new").getId());
@@ -767,10 +778,6 @@ public class MemberApplyService extends MemberBaseMapper {
         member.setPartyId(memberApply.getPartyId());
         member.setBranchId(memberApply.getBranchId());
         member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
-
-        Assert.isTrue(memberApply.getType() == OwConstants.OW_APPLY_TYPE_STU
-                || memberApply.getType() == OwConstants.OW_APPLY_TYPE_TEACHER, "wrong apply type");
-
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
         member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_new").getId());

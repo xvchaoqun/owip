@@ -72,23 +72,16 @@ public class StatOwController extends BaseController {
             resultMap.put("otherMap", statService.otherMap(type, partyId, branchId));
         }
 
-        Map<Byte, Integer> isRetireGrowMap = new LinkedHashMap<>();
-        Map<Byte, Integer> isRetirePositiveMap = new LinkedHashMap<>();
         Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
         Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
         if (type == null){
-            isRetireGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, (byte) 1);
-            isRetirePositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, (byte) 1);
-            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId, null);
-            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId, null);
+            statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId);
+            statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId);
         }else if (type != null && type ==3){
-            isRetirePositiveMap = statService.typeMap(null, partyId, branchId, (byte) 1);
-            statPositiveMap = statService.typeMap(null, partyId, branchId, null);
+            statPositiveMap = statService.typeMap(null, partyId, branchId);
         }
 
         resultMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-        resultMap.put("isRetireGrowMap",isRetireGrowMap);
-        resultMap.put("isRetirePositiveMap",isRetirePositiveMap);
         resultMap.put("statGrowMap", statGrowMap);
         resultMap.put("statPositiveMap", statPositiveMap);
 
@@ -392,27 +385,27 @@ public class StatOwController extends BaseController {
         List<Branch> branchList = branchMapper.selectByExample(branchExample);
         List<Integer> branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
 
+        List<Byte> teacherTypes = Arrays.asList(SystemConstants.USER_TYPE_JZG, SystemConstants.USER_TYPE_RETIRE);
         //师生党员总数
-        modelMap.put("totalCount", statMemberMapper.getMemberCount(null, null, null, null ,null,null,null,null));
+        modelMap.put("totalCount", statMemberMapper.getMemberCount(null, null, null, null, null, null));
         //教工党员总数
-        modelMap.put("teacherCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, false, null ,null,null,null,null));
+        modelMap.put("teacherCount", statMemberMapper.getMemberCount(teacherTypes, null, null, null, null, null));
         //正高级
-        modelMap.put("chiefCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, false, "正高" ,branchIdList,null,null,null));
+        modelMap.put("chiefCount", statMemberMapper.getMemberCount(teacherTypes, "正高", branchIdList, null, null, null));
         //副高级
-        modelMap.put("deputyCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, "副高" ,branchIdList,null,null,null));
+        modelMap.put("deputyCount", statMemberMapper.getMemberCount(teacherTypes, "副高", branchIdList, null, null, null));
         //中级及以下
-        modelMap.put("middleCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, null, null ,branchIdList,"正高","副高",null));
+        modelMap.put("middleCount", statMemberMapper.getMemberCount(teacherTypes, null, branchIdList, "正高", "副高", null));
         //离退休教工党员总数
-        modelMap.put("retireTeacherCount", statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_TEACHER, null, true, null ,null,null,null,null));
+        modelMap.put("retireTeacherCount", statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_RETIRE), null, null, null, null, null));
         //本科生党员
-        int bksStuCount = statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, SystemConstants.USER_TYPE_BKS, null, null ,null,null,null,null);
+        int bksStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_BKS), null, null, null, null, null);
         modelMap.put("bksStuCount", bksStuCount);
-
-        int stuCount = statMemberMapper.getMemberCount(MemberConstants.MEMBER_TYPE_STUDENT, null, null, null ,null,null,null,null);
-        int bsStuCount = statMemberMapper.getOwBsMemberCount();
         //硕士生党员
-        modelMap.put("ssStuCount", stuCount - bsStuCount - bksStuCount);
+        int ssStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_SS), null, null, null, null, null);
+        modelMap.put("ssStuCount", ssStuCount);
         //博士生党员
+        int bsStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_BS), null, null, null, null, null);
         modelMap.put("bsStuCount", bsStuCount);
 
         if (export == 1) {

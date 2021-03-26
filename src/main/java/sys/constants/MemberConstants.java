@@ -136,6 +136,16 @@ public class MemberConstants {
         MEMBER_CHECK_STATUS_MAP.put(MEMBER_CHECK_STATUS_PASS, "审核通过");
     }
 
+    // 党员大类别
+    public final static byte MEMBER_TYPE_TEACHER = 1; // 教职工
+    public final static byte MEMBER_TYPE_STUDENT = 2; // 学生
+    public final static Map<Byte, String> MEMBER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        MEMBER_TYPE_MAP.put(MEMBER_TYPE_TEACHER, "教职工");
+        MEMBER_TYPE_MAP.put(MEMBER_TYPE_STUDENT, "学生");
+    }
+
     // 留学归国人员申请恢复组织生活状态
     public final static byte MEMBER_RETURN_STATUS_DENY = -1;
     public final static byte MEMBER_RETURN_STATUS_APPLY = 0;

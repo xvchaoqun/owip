@@ -3,7 +3,6 @@ package ext.service;
 import controller.global.OpException;
 import domain.sys.*;
 import ext.domain.*;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -32,8 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class SyncService extends BaseMapper {
@@ -355,11 +352,16 @@ public class SyncService extends BaseMapper {
 
     @Transactional
     public int sysExtYjs(ExtYjs extYjs) {
+
         String code = StringUtils.trim(extYjs.getXh());
         SysUser record = new SysUser();
         record.setUsername(code);
         record.setCode(code);
-        record.setType(SystemConstants.USER_TYPE_YJS);
+        if(StringUtils.contains(extYjs.getPycc(), "博士")){
+            record.setType(SystemConstants.USER_TYPE_BS);
+        }else{
+            record.setType(SystemConstants.USER_TYPE_SS);
+        }
         record.setSource(SystemConstants.USER_SOURCE_YJS);
         record.setLocked(false);
 
@@ -638,7 +640,6 @@ public class SyncService extends BaseMapper {
         // 教工信息
         TeacherInfo record = new TeacherInfo();
         record.setUserId(userId);
-        record.setIsRetire(false);
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if (extJzg != null) {
@@ -696,11 +697,12 @@ public class SyncService extends BaseMapper {
             // teacher.setMaritalStatus(); 婚姻状况
 
             // 状态已经变更为退休状态的，不再同步人事库
-            if(teacherInfo!=null && BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
-                record.setIsRetire(true);
-            }else{
-                record.setIsRetire(StringUtils.containsAny(record.getStaffStatus(),
-                        "离退", "内退", "退休", "离休", "离世"));
+            if(!uv.isRetire()){
+                if(StringUtils.containsAny(record.getStaffStatus(),
+                        "离退", "内退", "退休", "离休", "离世")){
+
+                    sysUserService.updateUserType(uv.getId(), SystemConstants.USER_TYPE_RETIRE);
+                }
             }
 
             //teacher.setRetireTime(); 退休时间
@@ -815,7 +817,7 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        if (userType == SystemConstants.USER_TYPE_YJS) {  // 同步研究生信息
+        if (uv.isYJS()) {  // 同步研究生信息
 
             record.setSyncSource(SystemConstants.USER_SOURCE_YJS);
 
