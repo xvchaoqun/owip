@@ -24,6 +24,9 @@
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         int year = DateUtils.getYear(memberOut.getApplyTime());
+        if(year==-1){
+            year = DateUtils.getYear(memberOut.getHandleTime());
+        }
         record.setYear(year);
         record.setSn(memberOutService.genSn(year));
 
