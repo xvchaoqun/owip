@@ -95,7 +95,7 @@
         </td>
         <td class="bg-right">是否退休</td>
         <td class="bg-left">
-            ${teacherInfo.isRetire?"是":"否"}
+            ${uv.retire?"是":"否"}
         </td>
         <td class="bg-right">
             退休时间

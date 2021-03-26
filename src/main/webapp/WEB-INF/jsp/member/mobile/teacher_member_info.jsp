@@ -232,7 +232,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 是否退休</div>
           <div class="profile-info-value td">
-            <span class="editable">${member.isRetire?"是":"否"}</span>
+            <span class="editable">${uv.retire?"是":"否"}</span>
           </div>
         </div>
         <div class="profile-info-row">
