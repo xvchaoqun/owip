@@ -17,6 +17,8 @@ public class RoleConstants {
     public static final String ROLE_PM_ADMIN = "role_pm_admin"; // 组织生活管理员
     public static final String ROLE_DP_ADMIN = "role_dp_admin"; // 统战管理员
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
+    public static final String ROLE_ADMINISTRATION_PRINCIPAL = "role_administration_principal"; // 行政班子负责人
+    public static final String ROLE_PARTY_PRINCIPAL  = "role_party_principal"; // 党委班子负责人
 
     public static boolean isCadreAdmin(){
         return ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN);
@@ -41,6 +43,7 @@ public class RoleConstants {
     public static final String PERMISSION_PMDVIEWALL = "pmd:viewAll"; // 党费收缴查看所有党委、支部的权限
     public static final String PERMISSION_ABROADADMIN = "abroad:admin"; // 因私管理员权限
     public static final String PERMISSION_CLAADMIN = "cla:admin"; // 请假管理员权限
+    public static final String PERMISSION_COMPANYAPPLY = "cadre:companyApply";//兼职申报权限
 
     //系统自动赋予的角色
     public static final String ROLE_GUEST = "guest";

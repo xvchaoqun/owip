@@ -6,6 +6,8 @@ import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreView;
 import domain.dispatch.DispatchCadreViewExample;
+import domain.sys.SysRole;
+import domain.sys.SysUserView;
 import domain.unit.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,13 +23,15 @@ import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
+import service.sys.SysRoleService;
+import service.sys.SysUserService;
 import sys.constants.DispatchConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,6 +49,10 @@ public class UnitPostService extends BaseMapper {
     private UnitService unitService;
     @Autowired
     private CadrePostService cadrePostService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private SysRoleService sysRoleService;
 
     public boolean idDuplicate(Integer id, String code) {
 
@@ -524,5 +532,36 @@ public class UnitPostService extends BaseMapper {
         }
 
         ExportHelper.output(wb, schoolName + filename + ".xlsx", response);
+    }
+
+    public void updateUnitPostRole(List<UnitPostView> records) {
+        //行政班子负责人
+        List<SysUserView> admins = sysUserService.findByRole(RoleConstants.ROLE_ADMINISTRATION_PRINCIPAL);
+        //党委班子负责人
+        List<SysUserView> partys = sysUserService.findByRole(RoleConstants.ROLE_PARTY_PRINCIPAL);
+
+        for (SysUserView record: admins) {
+            if (!records.contains(record)) {
+                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_ADMINISTRATION_PRINCIPAL);
+            }
+        }
+        for (SysUserView record: partys) {
+            if (!records.contains(record)) {
+                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_PARTY_PRINCIPAL);
+            }
+        }
+        for (UnitPostView record: records) {
+            CadreView cadre = record.getCadre();
+            if (cadre != null) {
+                Integer userId = cadre.getUserId();
+                if (userId != null) {
+                    if (cadre.getLeaderType() == SystemConstants.UNIT_POST_LEADER_TYPE_DW) {
+                        sysUserService.addRole(userId, RoleConstants.ROLE_PARTY_PRINCIPAL);
+                    } else if (cadre.getLeaderType() == SystemConstants.UNIT_POST_LEADER_TYPE_XZ) {
+                        sysUserService.addRole(userId, RoleConstants.ROLE_ADMINISTRATION_PRINCIPAL);
+                    }
+                }
+            }
+        }
     }
 }

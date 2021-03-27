@@ -3,11 +3,13 @@ package controller.cadre;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreEva;
 import domain.cadre.CadreEvaExample;
 import domain.cadre.CadreEvaExample.Criteria;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
@@ -51,16 +54,22 @@ public class CadreEvaController extends BaseController {
 
     @RequiresPermissions("cadreEva:list")
     @RequestMapping("/cadreEva_page")
-    public String cadreEva_page() {
-
+    public String cadreEva_page(Integer cadreId, ModelMap modelMap) {
+        if (cadreId != null) {
+            CadreView cadreView = cadreService.get(cadreId);
+            modelMap.put("cadreEva", cadreView);
+        }
         return "cadre/cadreEva/cadreEva_page";
     }
 
     @RequiresPermissions("cadreEva:list")
     @RequestMapping("/cadreEva_data")
     @ResponseBody
-    public void cadreEva_data(HttpServletResponse response,
+    public void cadreEva_data(HttpServletRequest request, HttpServletResponse response,
                               Integer cadreId,
+                              Integer year,
+                              Integer type,
+                              String title,
                               @RequestParam(required = false, defaultValue = "0") int export, // 导出近五年考核结果
                               Integer[] ids, // 导出的记录（干部id)
                               Integer pageSize, Integer pageNo,
@@ -83,11 +92,18 @@ public class CadreEvaController extends BaseController {
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
+        if (year != null) {
+            criteria.andYearEqualTo(year);
+        }
+        if (type != null) {
+            criteria.andTypeEqualTo(type);
+        }
+        if (StringUtils.isNotBlank(title)) {
+            criteria.andTitleEqualTo(title);
+        }
 
         if (export == 1) {
-            ShiroHelper.checkPermission("cadre:export");
-            int currentYear = DateUtils.getCurrentYear();
-            cadreEvaService.export(currentYear-4, currentYear, ids, CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
+            cadreEvaService.cadreEva_export(ids, cadreId, request, response);
             return;
         }
 
@@ -118,11 +134,26 @@ public class CadreEvaController extends BaseController {
 
         Integer id = record.getId();
 
-        if (cadreEvaService.idDuplicate(id, record.getCadreId(), record.getYear())) {
-            return failed("添加重复");
+        if (StringUtils.isBlank(record.getTitle())) {
+            if (record.getCadreId() != null) {
+                CadreView cadre = cadreService.get(record.getCadreId());
+                if (cadre != null) {
+                    record.setTitle(cadre.getTitle());
+                } else {
+                    if (record.getCadre() != null) {
+                        Integer unitId = record.getCadre().getUnitId();
+                        Unit unit = CmTag.getUnit(unitId);
+                        if (unit != null) {
+                            record.setTitle(unit.getName());
+                        }
+                    }
+                }
+            }
         }
         if (id == null) {
-            
+            if (cadreEvaService.idDuplicate(id, record.getCadreId(), record.getYear())) {
+                return failed("添加重复");
+            }
             cadreEvaService.insertSelective(record);
             logger.info(addLog( LogConstants.LOG_ADMIN, "添加年度考核记录：%s", record.getId()));
         } else {
@@ -143,14 +174,15 @@ public class CadreEvaController extends BaseController {
             modelMap.put("cadreEva", cadreEva);
             cadreId = cadreEva.getCadreId();
         }
-        CadreView cadreView = cadreService.get(cadreId);
-        modelMap.put("cadre", cadreView);
-        
+        if (cadreId != null) {
+            CadreView cadreView = cadreService.get(cadreId);
+            modelMap.put("cadreView", cadreView);
+        }
         return "cadre/cadreEva/cadreEva_au";
     }
 
     @RequiresPermissions("cadreEva:import")
-    @RequestMapping("/cadreEva_import")
+    @RequestMapping("/cadreEva_import_page")
     public String cadreEva_import() {
 
         return "cadre/cadreEva/cadreEva_import";
@@ -159,9 +191,8 @@ public class CadreEvaController extends BaseController {
     @RequiresPermissions("cadreEva:import")
     @RequestMapping(value = "/cadreEva_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEva_import(HttpServletRequest request, Byte status) throws InvalidFormatException, IOException {
+    public Map do_cadreEva_import(HttpServletRequest request, Integer _cadreId) throws InvalidFormatException, IOException {
 
-        //User sessionUser = getAdminSessionUser(request);
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
@@ -169,37 +200,31 @@ public class CadreEvaController extends BaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
-        Map<Integer, String> titleRow = ExcelUtils.getTitleRowData(sheet);
-        int cols = titleRow.size();
-        if(cols < 4){
-            throw new OpException("录入表格式有误。");
-        }
-        Map<Integer, Integer> yearMap = new HashMap<>();
-        for (int i = 3; i < cols; i++) {
-            Integer year = null;
-            String _year = titleRow.get(i);
-            if(StringUtils.isNotBlank(_year) && _year.trim().length()>=4){
-                try {
-                    year = Integer.parseInt(_year.substring(0, 4));
-                }catch (Exception e){}
-            }
-            if(year==null){
-                throw new OpException("第{0}列年份有误。", i+1);
-            }
-            yearMap.put(i, year);
-        }
-
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CadreEva> records = new ArrayList<>();
         int row = 1;
+        int col = 0;
         for (Map<Integer, String> xlsRow : xlsRows) {
-
+            CadreEva record = new CadreEva();
             row++;
+            String year = xlsRow.get(col++);
+            if (StringUtils.isBlank(year)) {
+                throw new OpException("第{0}行年份[{1}]不能为空", row, year);
+            }
+            if(year.trim().length() < 4){
+                throw new OpException("第{0}行年份[{1}]格式不正确", row, year);
+            }
+            try {
+                Integer _year = Integer.parseInt(year.substring(0, 4));
+                record.setYear(_year);
+            }catch (Exception e){
+                throw new OpException("第{0}行年份[{1}]格式不正确", row, year);
+            }
 
-            String userCode = StringUtils.trim(xlsRow.get(0));
+            String userCode = StringUtils.trim(xlsRow.get(col++));
             if(StringUtils.isBlank(userCode)){
-                continue;
+                throw new OpException("第{0}行工作证号不能为空", row, userCode);
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null){
@@ -209,34 +234,42 @@ public class CadreEvaController extends BaseController {
             if (cv == null){
                 throw new OpException("第{0}行不是干部[{1}]", row, userCode);
             }
-            int cadreId = cv.getId();
-            String title = StringUtils.trimToNull(xlsRow.get(2));
-            /*if(title==null){
-                title = cv.getTitle();
-            }*/
-
-            for (Map.Entry<Integer, Integer> yearEntry : yearMap.entrySet()) {
-
-                CadreEva record = new CadreEva();
-                record.setCadreId(cadreId);
-                record.setTitle(title);
-
-                int col = yearEntry.getKey();
-                int year = yearEntry.getValue();
-
-                record.setYear(year);
-
-                String _type = StringUtils.trimToNull(xlsRow.get(col));
-                if(_type!=null) {
-                    MetaType metaType = metaTypeService.findByName("mc_cadre_eva", _type);
-                    if (metaType == null) {
-                        throw new OpException("第{0}行第{1}列考核结果[{2}]不存在", row, col + 1, _type);
-                    }
-                    record.setType(metaType.getId());
-
-                    records.add(record);
+            if (_cadreId != null) {
+                Cadre cadre = CmTag.getCadre(uv.getUserId());
+                if (!_cadreId.equals(cadre.getId())) {
+                    throw new OpException("第{0}行导入的工作证号为[{1}]的记录非干部本人数据", row, userCode);
                 }
             }
+            int cadreId = cv.getId();
+            record.setCadreId(cadreId);
+
+            String userName = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.isBlank(userName)) {
+                throw new OpException("第{0}行姓名[{1}]不能为空", row, userName);
+            } else if (!StringUtils.equals(uv.getRealname(), userName)) {
+                throw new OpException("第{0}行姓名[{1}]与工作证号[{2}]不匹配", row, userName, userCode);
+            }
+
+            String result = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.isBlank(result)) {
+                throw new OpException("第{0}行考核情况[{1}]不能为空", row, result);
+            }
+            MetaType metaType = metaTypeService.findByName("mc_cadre_eva", result);
+            if (metaType == null) {
+                throw new OpException("第{0}行第{1}列考核情况[{2}]不存在", row, col + 1, result);
+            }
+            record.setType(metaType.getId());
+
+            String title = StringUtils.trimToNull(xlsRow.get(col++));
+            if(StringUtils.isBlank(title)){
+                title = cv.getTitle();
+            }
+            record.setTitle(title);
+
+            String remark = StringUtils.trimToNull(xlsRow.get(col++));
+            record.setRemark(remark);
+            records.add(record);
+            col = 0;
         }
 
         int addCount = cadreEvaService.batchImport(records);
@@ -246,7 +279,7 @@ public class CadreEvaController extends BaseController {
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部年度考核结果成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                "导入干部年度考核记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;

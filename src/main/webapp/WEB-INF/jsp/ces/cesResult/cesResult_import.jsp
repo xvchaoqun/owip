@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
-          enctype="multipart/form-data" action="${ctx}/cesResult_import?type=${param.type}" method="post">
+          enctype="multipart/form-data" action="${ctx}/cesResult_import?type=${param.type}&_cadreId=${param._cadreId}&_unitId=${param._unitId}" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
@@ -16,7 +16,7 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cesResult${param.type}">${CES_RESULT_TYPE_MAP.get(cm:toByte(param.type))}年终考核测评数据录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">${param.cadreId}导入的文件请严格按照<a href="${ctx}/attach?code=sample_cesResult${param.type}">${CES_RESULT_TYPE_MAP.get(cm:toByte(param.type))}年终考核测评数据录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">
@@ -42,7 +42,7 @@
 							if(ret && ret.addCount>=0){
 								$("#modal").modal('hide');
 								$.reloadMetaData(function(){
-                                    $("#jqGrid").trigger("reloadGrid");
+                                    $("#jqGrid_ces").trigger("reloadGrid");
                                 });
 								var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条覆盖</font>';
 								SysMsg.success(result.format(ret.total, ret.addCount, ret.total-ret.addCount), '成功');

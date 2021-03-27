@@ -8,7 +8,9 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreEva_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreEva.id}">
-        <input type="hidden" name="cadreId" value="${cadre.id}">
+        <c:if test="${cadreEva==null && param._auth=='1'}">
+            <input type="hidden" name="cadreId" value="${param.cadreId}">
+        </c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
@@ -18,6 +20,29 @@ pageEncoding="UTF-8"%>
                                data-date-format="yyyy" data-date-min-view-mode="2" value="${cadreEva.year}"/>
 				</div>
 			</div>
+            <div class="form-group">
+                <c:set var="cadre" value="${cm:getCadreById(cadreEva.cadreId)}"/>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 选择干部</label>
+                <div class="col-xs-6">
+                    <c:choose>
+                        <c:when test="${param._auth=='1'}">
+                            <select data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}" data-width="273"
+                                    name="cadreId" data-placeholder="请选择" required disabled>
+                                <option value="${param.cadreId}">${cadreView.user.realname}-${cadreView.user.code}-${cadreView.unit.name}</option>
+                            </select>
+                        </c:when>
+                        <c:otherwise>
+                            <select data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}" data-width="273"
+                                    name="cadreId" data-placeholder="请选择" required>
+                                <option value="${cadreEva.cadreId}">${cadre.user.realname}-${cadre.user.code}-${cadre.user.unit}</option>
+                            </select>
+                        </c:otherwise>
+                    </c:choose>
+
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>考核情况</label>
 				<div class="col-xs-6">
@@ -51,6 +76,7 @@ pageEncoding="UTF-8"%>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cadreEva!=null}">确定</c:if><c:if test="${cadreEva==null}">添加</c:if></button>
 </div>
 <script>
+    $.register.user_select($('#modalForm select[name=cadreId]'));
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {

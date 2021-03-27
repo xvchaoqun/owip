@@ -1,3 +1,8 @@
+-- 2021.3.27 xcq
+INSERT INTO `sys_scheduler_job` (`id`, `name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES (32, '更新党委班子负责人、行政班子负责人角色', '更新党委班子负责人、行政班子负责人角色，每5分钟执行一次', 'job.unitpost.UpdateUnitPostRoles', '0 0/5 * * * ?', 1, 1, 33, '2021-03-23 18:17:48', 0);
+
+-- 2021.3.25 xcq
+UPDATE sys_resource SET permission = 'cesResult:*' WHERE id = 5003
 
 -- 2021.3.26 ly
 UPDATE `db_owip`.`sys_resource` SET `sort_order`='29900',`menu_css`='' WHERE  `id`=2572;

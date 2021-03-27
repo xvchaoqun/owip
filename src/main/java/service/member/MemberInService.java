@@ -25,6 +25,8 @@ import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 
+
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -92,8 +94,12 @@ public class MemberInService extends MemberBaseMapper {
             throw new OpException("审核类型错误");
         }
 
-        if(memberIn!=null)
-            criteria.andUserIdNotEqualTo(memberIn.getUserId()).andCreateTimeLessThanOrEqualTo(memberIn.getCreateTime());
+        if(memberIn!=null) {
+            criteria.andUserIdNotEqualTo(memberIn.getUserId());
+            if (memberIn.getCreateTime() != null) {
+                criteria.andCreateTimeLessThanOrEqualTo(memberIn.getCreateTime());
+            }
+        }
         example.setOrderByClause("create_time desc");
 
         List<MemberIn> memberApplies = memberInMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
@@ -116,8 +122,12 @@ public class MemberInService extends MemberBaseMapper {
             throw new OpException("审核类型错误");
         }
 
-        if(memberIn!=null)
-            criteria.andUserIdNotEqualTo(memberIn.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberIn.getCreateTime());
+        if(memberIn!=null) {
+            criteria.andUserIdNotEqualTo(memberIn.getUserId());
+            if (memberIn.getCreateTime() != null) {
+                criteria.andCreateTimeLessThanOrEqualTo(memberIn.getCreateTime());
+            }
+        }
         example.setOrderByClause("create_time asc");
 
         List<MemberIn> memberApplies = memberInMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
@@ -448,6 +458,16 @@ public class MemberInService extends MemberBaseMapper {
         }
 
         return addCount;
+    }
+
+    public static String formatDate(String dateStr) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            String date = simpleDateFormat.format(DateUtils.parseDate(dateStr));
+            return date;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
