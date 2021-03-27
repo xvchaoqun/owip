@@ -184,38 +184,9 @@ public class MemberHistoryController extends MemberBaseController {
     @RequestMapping(value = "/memberHistory_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberHistory_au(MemberHistory record,
-                                   String _birth,
-                                   String _transferTime,
-                                   String _applyTime,
-                                   String _activeTime,
-                                   String _candidateTime,
-                                   String _growTime,
-                                   String _positiveTime,
                                    HttpServletRequest request) {
 
         Integer id = record.getId();
-
-        if (StringUtils.isNotBlank(_birth)) {
-            record.setBirth(DateUtils.parseStringToDate(_birth));
-        }
-        if (StringUtils.isNotBlank(_transferTime)) {
-            record.setTransferTime(DateUtils.parseStringToDate(_transferTime));
-        }
-        if (StringUtils.isNotBlank(_applyTime)) {
-            record.setApplyTime(DateUtils.parseStringToDate(_applyTime));
-        }
-        if (StringUtils.isNotBlank(_activeTime)) {
-            record.setActiveTime(DateUtils.parseStringToDate(_activeTime));
-        }
-        if (StringUtils.isNotBlank(_candidateTime)) {
-            record.setCandidateTime(DateUtils.parseStringToDate(_candidateTime));
-        }
-        if (StringUtils.isNotBlank(_growTime)) {
-            record.setGrowTime(DateUtils.parseStringToDate(_growTime));
-        }
-        if (StringUtils.isNotBlank(_positiveTime)) {
-            record.setPositiveTime(DateUtils.parseStringToDate(_positiveTime));
-        }
 
         if (id == null) {
 

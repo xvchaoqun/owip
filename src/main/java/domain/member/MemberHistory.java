@@ -1,7 +1,9 @@
 package domain.member;
 
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,6 +33,7 @@ public class MemberHistory implements Serializable {
 
     private String nativePlace;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date birth;
 
     private String partyName;
@@ -39,18 +42,24 @@ public class MemberHistory implements Serializable {
 
     private Byte politicalStatus;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date transferTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date applyTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date activeTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date candidateTime;
 
     private String sponsor;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date growTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date positiveTime;
 
     private String proPost;
