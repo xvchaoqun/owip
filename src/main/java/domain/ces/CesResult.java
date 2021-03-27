@@ -1,6 +1,7 @@
 package domain.ces;
 
 import domain.cadre.CadreView;
+import domain.unit.Unit;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,6 +10,10 @@ public class CesResult implements Serializable {
 
     public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
+    }
+
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
     }
 
     private Integer id;

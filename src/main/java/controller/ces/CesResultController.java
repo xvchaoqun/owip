@@ -2,7 +2,7 @@ package controller.ces;
 
 import controller.BaseController;
 import controller.global.OpException;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.ces.CesResult;
 import domain.ces.CesResultExample;
 import domain.sys.SysUserView;
@@ -30,11 +30,7 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.ExcelUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-
+import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -45,159 +41,38 @@ public class CesResultController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cesResult:list")
-    @RequestMapping("/cesResult")
-    public String cesResult() {
-
-        return "ces/cesResult/cesResult_page";
-    }
-
-    @RequiresPermissions("cesResult:list")
-    @RequestMapping("/cesResult_data")
-    @ResponseBody
-    public void cesResult_data(HttpServletResponse response,
-                                    Integer unitId,
-                                    Integer cadreId,
-                                    byte type,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        CesResultExample example = new CesResultExample();
-        CesResultExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("year desc");
-
-        //单位年度测评结果
-        if (type == SystemConstants.CES_RESULT_TYPE_UNIT) {
-            criteria.andUnitIdEqualTo(unitId);
-        } else if(type == SystemConstants.CES_RESULT_TYPE_CADRE){
-            criteria.andCadreIdEqualTo(cadreId);
-        }else{
-            criteria.andIdIsNull();
-        }
-
-        if (export == 1) {
-            cesResult_export(ids, response);
-            return;
-        }
-
-        long count = cesResultMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CesResult> records= cesResultMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", records);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cesResult.class, cesResultMixin.class);
-        JSONUtils.jsonp(resultMap, baseMixins);
-        return;
-    }
-
-    @RequiresPermissions("cesResult:*")
-    @RequestMapping("/cesResults")
-    public String cesResults(byte type, ModelMap modelMap) {
-
-        return "ces/cesResult/cesResult_list";
-    }
-
-    @RequiresPermissions("cesResult:list")
-    @RequestMapping("/cesResults_data")
-    @ResponseBody
-    public void cesResult_data(HttpServletResponse response,
-                                    byte type,
-                                    Integer year,
-                                    String name,
-                                    String title,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                    Integer[] ids, // 导出的记录
-                                    Integer pageSize, Integer pageNo)  throws IOException{
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        CesResultExample example = new CesResultExample();
-        CesResultExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("year desc");
-        criteria.andTypeEqualTo(type);
-        if (year != null) {
-            criteria.andYearEqualTo(year);
-        }
-        if (StringUtils.isNotBlank(name)) {
-            criteria.andNameEqualTo(name);
-        }
-        if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleEqualTo(title);
-        }
-
-        if (export == 1) {
-            cesResult_export(ids, response);
-            return;
-        }
-
-        long count = cesResultMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CesResult> records= cesResultMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", records);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cesResult.class, cesResultMixin.class);
-        JSONUtils.jsonp(resultMap, baseMixins);
-        return;
-    }
-
     @RequiresPermissions("cesResult:edit")
     @RequestMapping(value = "/cesResult_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cesResult_au(CesResult record, HttpServletRequest request) {
         Integer id = record.getId();
 
-        CesResult cesResult = cesResultService.get(record.getType(), record.getUnitId(),
-                record.getCadreId(), record.getYear(), record.getName());
-        if(cesResult!=null){
-            if(id==null || id.intValue() != cesResult.getId()){
-                return failed("添加重复");
-            }
-        }
-
         if(record.getNum()< record.getRank()){
              return failed("排名有误");
         }
 
+        if (StringUtils.isBlank(record.getTitle())) {
+            CadreView cadre = cadreService.get(record.getCadreId());
+            if (cadre != null) {
+                record.setTitle(cadre.getTitle());
+            } else {
+                Unit unit = CmTag.getUnit(record.getUnitId());
+                if (unit != null) {
+                    record.setTitle(unit.getName());
+                }
+            }
+        }
         if (id == null) {
-
+            CesResult cesResult = cesResultService.get(record.getType(), record.getUnitId(),
+                    record.getCadreId(), record.getYear(), record.getName());
+            if(cesResult!=null){
+                if(id==null || id.intValue() != cesResult.getId()){
+                    return failed("添加重复");
+                }
+            }
             cesResultService.insertSelective(record);
             logger.info(log( LogConstants.LOG_ADMIN, "添加年终测评结果：{0}", record.getId()));
         } else {
-
             cesResultService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_ADMIN, "更新年终测评结果：{0}", record.getId()));
         }
@@ -207,20 +82,26 @@ public class CesResultController extends BaseController {
 
     @RequiresPermissions("cesResult:edit")
     @RequestMapping("/cesResult_au")
-    public String cesResult_au(Integer id, Integer unitId, ModelMap modelMap) {
+    public String cesResult_au(Integer id, Integer unitId, Integer cadreId, ModelMap modelMap) {
 
         if (id != null) {
-
             CesResult cesResult = cesResultMapper.selectByPrimaryKey(id);
             modelMap.put("cesResult", cesResult);
             unitId = cesResult.getUnitId();
         }
-
+        if (cadreId != null) {
+            CadreViewExample example = new CadreViewExample();
+            CadreViewExample.Criteria criteria = example.createCriteria();
+            criteria.andIdEqualTo(cadreId);
+            List<CadreView> records = cadreViewMapper.selectByExample(example);
+            if (records.size() > 0) {
+                CadreView record = records.get(0);
+                modelMap.put("user", record.getUser());
+            }
+        }
         if (unitId != null) {
-
             modelMap.put("unit", CmTag.getUnit(unitId));
         }
-
         return "ces/cesResult/cesResult_au";
     }
 
@@ -238,17 +119,15 @@ public class CesResultController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("cesResult:import")
-    @RequestMapping("/cesResult_import")
+    @RequestMapping("/cesResult_import_page")
     public String cesResult_import() {
-
         return "ces/cesResult/cesResult_import";
     }
 
     @RequiresPermissions("cesResult:import")
     @RequestMapping(value = "/cesResult_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cesResult_import(byte type, HttpServletRequest request) throws InvalidFormatException, IOException {
-
+    public Map do_cesResult_import(byte type,Integer _cadreId, Integer _unitId, HttpServletRequest request) throws InvalidFormatException, IOException {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
@@ -260,22 +139,31 @@ public class CesResultController extends BaseController {
 
         List<CesResult> records = new ArrayList<>();
         int row = 1;
+        String _title = null;
         for (Map<Integer, String> xlsRow : xlsRows) {
-
             row++;
             int col = 0;
             CesResult record = new CesResult();
             String year = StringUtils.trim(xlsRow.get(col++));
-            if(StringUtils.isBlank(year) || !NumberUtils.isDigits(year)){
-                continue;
+            if (StringUtils.isBlank(year)) {
+                throw new OpException("第{0}行年份[{1}]不能为空", row, year);
             }
-            record.setYear(Integer.valueOf(year));
+            if(year.trim().length() < 4){
+                throw new OpException("第{0}行年份[{1}]格式不正确", row, year);
+            }
+            try {
+                Integer _year = Integer.parseInt(year.substring(0, 4));
+                record.setYear(_year);
+            }catch (Exception e){
+                throw new OpException("第{0}行年份[{1}]格式不正确", row, year);
+            }
 
             if(type==SystemConstants.CES_RESULT_TYPE_CADRE) {
+                record.setType(SystemConstants.CES_RESULT_TYPE_CADRE);
 
                 String userCode = StringUtils.trim(xlsRow.get(col++));
                 if (StringUtils.isBlank(userCode)) {
-                    continue;
+                    throw new OpException("第{0}行工作证号不能为空", row, userCode);
                 }
                 SysUserView uv = sysUserService.findByCode(userCode);
                 if (uv == null) {
@@ -285,54 +173,71 @@ public class CesResultController extends BaseController {
                 if (cv == null) {
                     throw new OpException("第{0}行不是干部[{1}]", row, userCode);
                 }
+                if (_cadreId != null) {
+                    Cadre cadre = CmTag.getCadre(uv.getUserId());
+                    if (!_cadreId.equals(cadre.getId())) {
+                        throw new OpException("第{0}行导入的非干部本人数据", row);
+                    }
+                }
                 int cadreId = cv.getId();
                 record.setCadreId(cadreId);
+                _title = cv.getTitle();
 
-                String unitName = StringUtils.trimToNull(xlsRow.get(col++));
-                if(StringUtils.isNotBlank(unitName)) {
-                    Unit unit = unitService.findRunUnitByName(unitName);
-                    if(unit!=null){
-                        record.setUnitId(unit.getId());
-                    }
+                String userName = StringUtils.trim(xlsRow.get(col++));
+                if (StringUtils.isBlank(userName)) {
+                    throw new OpException("第{0}行姓名不能为空", row);
                 }
-
-                String title = StringUtils.trimToNull(xlsRow.get(col++));
-                record.setTitle(title);
-            }else{
-
-                String unitName = StringUtils.trimToNull(xlsRow.get(col++));
-                if(StringUtils.isNotBlank(unitName)) {
-                    Unit unit = unitService.findRunUnitByName(unitName);
-                    if(unit!=null){
-                        record.setUnitId(unit.getId());
-                    }
+                if (!StringUtils.equals(uv.getRealname(), userName)) {
+                    throw new OpException("第{0}行姓名[{1}]与工作证号[{2}]不匹配", row, userName, userCode);
                 }
-
-                String title = StringUtils.trimToNull(xlsRow.get(col++));
-                if(StringUtils.isBlank(title)){
-                    title = unitName;
-                }
-                record.setTitle(title);
+            } else {
+                record.setType(SystemConstants.CES_RESULT_TYPE_UNIT);
             }
 
+            String unitName = StringUtils.trimToNull(xlsRow.get(col++));
+            if(StringUtils.isBlank(unitName)) {
+                throw new OpException("第{0}行时任单位不能为空", row, unitName);
+            }
+            Unit unit = unitService.findRunUnitByName(unitName);
+            if(unit==null){
+                throw new OpException("第{0}行时任单位[{1}]不存在", row, unitName);
+            }
+            if (!StringUtils.equals(unitName, unit.getName())) {
+                throw new OpException("第{0}行时任单位与姓名[{1}]不匹配", row, unitName);
+            }
+            if (_unitId != null) {
+                if (!unit.getId().equals(_unitId)) {
+                    throw new OpException("第{0}行导入的非本单位记录", row, unitName);
+                }
+            }
+            record.setUnitId(unit.getId());
+
+            String title = StringUtils.trimToNull(xlsRow.get(col++));
+            if(StringUtils.isBlank(title)){
+                title = _title;
+            }
+            record.setTitle(title);
+
             String name = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(name)) {
+                throw new OpException("第{0}行测评类别不能为空", row, name);
+            }
             record.setName(name);
 
             String num = StringUtils.trimToNull(xlsRow.get(col++));
             if(StringUtils.isBlank(num) || !NumberUtils.isDigits(num)){
-                continue;
+                throw new OpException("第{0}行总人数格式不正确", row, num);
             }
             record.setNum(Integer.valueOf(num));
 
             String rank = StringUtils.trimToNull(xlsRow.get(col++));
             if(StringUtils.isBlank(rank) || !NumberUtils.isDigits(rank)){
-                continue;
+                throw new OpException("第{0}行排名格式不正确", row, rank);
             }
             record.setRank(Integer.valueOf(rank));
 
             String remark = StringUtils.trimToNull(xlsRow.get(col++));
             record.setRemark(remark);
-
             records.add(record);
         }
 
@@ -343,68 +248,97 @@ public class CesResultController extends BaseController {
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部年终考核测评数据成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                type == SystemConstants.CES_RESULT_TYPE_CADRE ? "干部" : "班子" + "导入干部年终考核结果成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }
 
-    public void cesResult_export(Integer[] ids,  HttpServletResponse response) {
-       List<Integer> yearList = iCesResultMapper.getCesResultYear(ids);
-        CesResultExample example =new CesResultExample();
-        CesResultExample.Criteria criteria =example.createCriteria();
-        if(ids != null && ids.length > 0){
-            criteria.andCadreIdIn(Arrays.asList(ids));
-        }
 
-        List<CesResult> records = cesResultMapper.selectByExample(example);
-        Map<Integer, Map<Integer, CesResult>> resultMap = new LinkedHashMap<>();
-
-        for (CesResult cesResult : records) {
-
-            int cadreId = cesResult.getCadreId();
-            Map<Integer, CesResult> cesResultMap = resultMap.get(cadreId);
-            if(cesResultMap==null){
-                cesResultMap = new HashMap<>();
-                resultMap.put(cadreId, cesResultMap);
-            }
-
-            cesResultMap.put(cesResult.getYear(), cesResult);
-        }
-        List<String> titles = new ArrayList(Arrays.asList("工作证号|100", "姓名|80", "所在单位及职务|250|left"));
-        for (Integer year : yearList) {
-            titles.add(year + "年|80");
-        }
-
-        List<List<String>> valuesList = new ArrayList<>();
-
-        for (Map.Entry<Integer, Map<Integer, CesResult>> entry : resultMap.entrySet()) {
-
-            int cadreId = entry.getKey();
-            Map<Integer, CesResult> cesResultMap = entry.getValue();
-
-            CadreView cadre = CmTag.getCadreById(cadreId);
-            List<String> values = new ArrayList(Arrays.asList(cadre.getCode(), cadre.getRealname(), cadre.getTitle()));
-            for (Integer year : yearList) {
-
-                String result = null;
-                CesResult cesResult = cesResultMap.get(year);
-                if(cesResult !=null){
-                String name = cesResult.getName() == null?"":cesResult.getName();
-                String rank = cesResult.getRank() == null?"":cesResult.getRank()+"";
-                String num = cesResult.getNum() == null?"":cesResult.getNum()+"";
-                if(cesResult!=null){
-                    result = name+","+rank+"/"+num;
-                }
-                }
-                values.add(StringUtils.trimToEmpty(result));
-            }
-
-            valuesList.add(values);
-        }
-
-        String fileName = "年终考核测评数据";
-        ExportHelper.export(titles, valuesList, fileName, response);
+    @RequiresPermissions("cesResult:import")
+    @RequestMapping("/cesResult_import")
+    public String cesResultImport() {
+        return "ces/cesResult/cesResult_import";
     }
 
+    @RequiresPermissions("cesResult:*")
+    @RequestMapping("/cesResults")
+    public String cesResults(byte type, Integer cadreId, Integer unitId, ModelMap modelMap) {
+        modelMap.put("type", type);
+        if (cadreId != null) {
+            CadreView cadreView = cadreService.get(cadreId);
+            modelMap.put("cesResult", cadreView);
+            modelMap.put("unit", cadreView.getUnit());
+        }
+        if (unitId != null) {
+            modelMap.put("unit", CmTag.getUnit(unitId));
+        }
+        return "ces/cesResult/cesResult_list";
+    }
+
+    @RequiresPermissions("cesResult:list")
+    @RequestMapping("/cesResults_data")
+    @ResponseBody
+    public void cesResults_data(HttpServletRequest request,HttpServletResponse response,
+                                Integer cadreId,
+                                Integer unitId,
+                                byte type,
+                                Integer year,
+                                String name,
+                                String title,
+                                @RequestParam(required = false, defaultValue = "0") byte export,
+                                Integer[] ids, // 导出的记录
+                                Integer pageSize, Integer pageNo)  throws IOException{
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CesResultExample example = new CesResultExample();
+        CesResultExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("year desc");
+        criteria.andTypeEqualTo(type);
+        if (cadreId != null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+        if (unitId != null) {
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if (year != null) {
+            criteria.andYearEqualTo(year);
+        }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameEqualTo(name);
+        }
+        if (StringUtils.isNotBlank(title)) {
+            criteria.andTitleEqualTo(title);
+        }
+
+        if (export == 1) {
+            cesResultService.cesResult_export(ids, type, cadreId, unitId, request, response);
+            return;
+        }
+
+        long count = cesResultMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CesResult> records= cesResultMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cesResult.class, cesResultMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
 }
