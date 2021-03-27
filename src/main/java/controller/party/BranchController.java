@@ -6,6 +6,7 @@ import domain.base.MetaType;
 import domain.party.*;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
+import sun.rmi.log.LogInputStream;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
@@ -40,6 +42,7 @@ import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
+import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -122,6 +125,8 @@ public class BranchController extends BaseController {
                             Boolean isPrefessional,
                             Boolean isBaseTeam,
                             Boolean _integrity,
+
+                            Boolean isSearch,
                             @RequestParam(required = false, defaultValue = "0") int export,
                             String exportType,
                             Integer[] ids, // 导出的记录
@@ -171,6 +176,9 @@ public class BranchController extends BaseController {
 
         criteria.andIsDeletedEqualTo(cls == 2);
 
+        if (isSearch != null && isSearch) {
+            criteria.andIdIn(branchService.overUserBranchCount(null));
+        }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
         }

@@ -1763,4 +1763,24 @@ public class MemberController extends MemberBaseController {
 
         return resultMap;
     }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping("/transferToHistory")
+    public String transferToHistory(){
+
+        return "member/member/transferToHistory";
+    }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping(value = "/transferToHistory", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_transferToHistory(Integer[] ids, String lable, HttpServletRequest request){
+
+        if (null != ids && ids.length>0){
+            memberService.transferToHistory(ids, lable);
+            logger.info(log( LogConstants.LOG_PARTY, "将党员转移至历史党员库：%s",StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
 }

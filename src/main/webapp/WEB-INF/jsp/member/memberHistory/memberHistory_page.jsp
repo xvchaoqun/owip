@@ -1,39 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="${_pMap['postTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_postTimeToDayFormat"/>
+<%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.realname ||not empty param.partyName ||not empty param.branchName ||not empty param._growTime ||not empty param._positiveTime || not empty param.code
-            ||not empty param.type||not empty param.gender||not empty param.politicalStatus||not empty param.remark1||not empty param.remark2||not empty param.remark3}"/>
+            <c:set var="_query" value="${not empty param.code ||not empty param.realname ||not empty param.idcard ||not empty param.partyName ||not empty param.branchName ||not empty param._growTime ||not empty param._positiveTime || not empty param.code
+            ||not empty param.memberType||not empty param.gender||not empty param.politicalStatus||not empty param.remark1||not empty param.remark2||not empty param.remark3}"/>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="${cls==0?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberHistory?cls=0"}><i class="fa fa-circle-o"></i> 历史党员库（${normalCount}）</a>
+                        </li>
+                        <li class="${cls==1?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberHistory?cls=1"}><i class="fa fa-times"></i> 已移除（${total-normalCount}）</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="memberHistory:edit">
-                    <button class="openView btn btn-info btn-sm"
-                            data-url="${ctx}/member/memberHistory_au">
-                        <i class="fa fa-plus"></i> 添加</button>
+                    <c:if test="${cls==0}">
+                        <button class="openView btn btn-info btn-sm"
+                                data-url="${ctx}/member/memberHistory_au">
+                            <i class="fa fa-plus"></i> 添加</button>
+                    </c:if>
                     <button class="jqEditBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/member/memberHistory_au"
+                       data-url="${ctx}/member/memberHistory_au?cls=${cls}"
                             data-open-by="page"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
-                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                            data-url="${ctx}/member/memberHistory_import"
-                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                        批量导入
-                    </button>
+                    <c:if test="${cls==0}">
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                data-url="${ctx}/member/memberHistory_import"
+                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                            批量导入
+                        </button>
+                        <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                           data-callback="_reload"
+                           data-url="${ctx}/member/memberHistory_out?cls=${cls}" data-title="从历史党员库移除"
+                           data-msg="确定移除这{0}个历史党员吗？"><i class="fa fa-history"></i> 移除</a>
+                    </c:if>
+                    <c:if test="${cls==1}">
+                        <button class="jqBatchBtn btn btn-success btn-sm"
+                                data-url="${ctx}/member/memberHistory_recover?cls=${cls}" data-title="恢复至历史党员库"
+                                data-grid-id="#jqGrid"
+                                data-callback="_reload"
+                                data-msg="确定恢复这{0}个人员至历史党员库吗？"><i class="fa fa-reply"></i> 恢复</button>
+                    </c:if>
                 </shiro:hasPermission>
+                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        data-url="${ctx}/sysApprovalLog"
+                        data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY%>"
+                        data-open-by="page">
+                    <i class="fa fa-search"></i> 操作记录
+                </button>
                 <shiro:hasPermission name="memberHistory:del">
-                    <button data-url="${ctx}/member/memberHistory_batchDel"
+                    <button data-url="${ctx}/member/memberHistory_batchDel?cls=${cls}"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？(数据删除后不可恢复，请谨慎操作)"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/member/memberHistory_data"
+                   data-url="${ctx}/member/memberHistory_data?cls=${cls}"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
             </div>
@@ -50,6 +82,7 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
+                            <input type="hidden" name="cls" value="${cls}"/>
                         <div class="form-group">
                             <label>学工号</label>
                             <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -61,16 +94,21 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入姓名">
                         </div>
                             <div class="form-group">
+                                <label>身份证号</label>
+                                <input class="form-control search-query" name="idcard" type="text" value="${param.idcard}"
+                                       placeholder="请输入身份证号">
+                            </div>
+                            <div class="form-group">
                                 <label>人员类别</label>
-                                <select name="type" data-width="150" data-rel="select2"
+                                <select name="memberType" data-width="150" data-rel="select2"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:forEach items="<%=MemberConstants.MEMBER_TYPE_MAP%>" var="entry">
+                                    <c:forEach items="<%=SystemConstants.USER_TYPE_MAP%>" var="entry">
                                         <option value="${entry.key}">${entry.value}</option>
                                     </c:forEach>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=type]").val('${param.type}');
+                                    $("#searchForm select[name=memberType]").val('${param.memberType}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -131,20 +169,17 @@ pageEncoding="UTF-8" %>
                                            type="text" name="_positiveTime" value="${param._positiveTime}"/>
                                 </div>
                             </div>
+                            <c:if test="${cls==1}">
+                                <div class="form-group">
+                                    <label>移除原因</label>
+                                    <input class="form-control search-query" name="reason" type="text" value="${param.reason}"
+                                           placeholder="请输入移除原因">
+                                </div>
+                            </c:if>
                             <div class="form-group">
-                                <label>备注1</label>
-                                <input class="form-control search-query" name="remark1" type="text" value="${param.remark1}"
-                                       placeholder="请输入">
-                            </div>
-                            <div class="form-group">
-                                <label>备注2</label>
-                                <input class="form-control search-query" name="remark2" type="text" value="${param.remark2}"
-                                       placeholder="请输入">
-                            </div>
-                            <div class="form-group">
-                                <label>备注3</label>
-                                <input class="form-control search-query" name="remark3" type="text" value="${param.remark3}"
-                                       placeholder="请输入">
+                                <label>备注</label>
+                                <input class="form-control search-query" name="remark" type="text" value="${param.remark}"
+                                       placeholder="请输入备注">
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -166,23 +201,31 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
+                        </div>
+                    </div>
+                </div>
         </div>
         <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
+    function _reload(){
+        $.loadPage({url:"${ctx}/member/memberHistory?cls=${cls}"});
+    }
+
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/member/memberHistory_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '学工号',name: 'code',float:true},
                 { label: '姓名',name: 'realname',float:true},
-                { label: '人员类别',name: 'type',formatter: function (cellvalue,options,rowObject){
-                    return _cMap.MEMBER_TYPE_MAP[cellvalue];
+                { label: '人员类别',name: 'memberType',formatter: function (cellvalue,options,rowObject){
+                    return _cMap.USER_TYPE_MAP[cellvalue];
                     },float:true},
                 { label: '性别',name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER,float:true},
-                { label: '身份证号',name: 'idCard',float:true,width:160},
+                { label: '身份证号',name: 'idcard',width:160},
                 { label: '民族',name: 'nation',width: 110},
                 { label: '籍贯',name: 'nativePlace',width: 110},
                 { label: '出生时间',name: 'birth',
@@ -198,6 +241,14 @@ pageEncoding="UTF-8" %>
                             return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                         return "-";
                     }},
+            <c:if test="${cm:getMetaTypes('mc_mh_lable').size()>0}">
+                { label: '标签',name: 'lable',width: 200,formatter:function (cellValue, options, rowObject){
+                        if (cellValue==undefined) return '--';
+                        return ($.map(cellValue.split(","), function(e){
+                            return $.jgrid.formatter.MetaType(e);
+                        })).join("，")
+                    }},
+            </c:if>
                 { label: '组织关系转入时间',name: 'transferTime',
                     width: 130,
                     formatter: $.jgrid.formatter.date,
@@ -232,6 +283,11 @@ pageEncoding="UTF-8" %>
                 { label: '专业技术职务',name: 'proPost'},
                 { label: '手机',name: 'phone',width:110},
                 { label: '邮箱',name: 'email'},
+            <c:if test="${cls==1}">
+                { label: '移除原因',name: 'reason',width:200},
+            </c:if>
+            { label: '添加人',name: 'addUser.realname'},
+            { label: '添加时间',name: 'addDate',formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 { label: '备注1',name: 'remark1',width:150},
                 { label: '备注2',name: 'remark2',width:150},
                 { label: '备注3',name: 'remark3',width:150},

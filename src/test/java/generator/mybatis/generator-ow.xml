@@ -24,31 +24,36 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+
+        <table tableName="ow_member_history" domainObjectName="member.MemberHistory">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="gender" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+            <columnOverride column="political_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+        </table>
+
         <!--党建工作-->
         <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
            -->
-        <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+         <table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-        </table>-->
-
-        <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView">
         </table>
+
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-       </table>
-
+       </table>-->
         <table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
         </table>
 
 
-          <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
+        <!--  <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          </table>
-        <table tableName="ow_member_outflow" domainObjectName="member.MemberOutflow">
+          </table>-->
+        <!--<table tableName="ow_member_outflow" domainObjectName="member.MemberOutflow">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_outflow_view" domainObjectName="member.MemberOutflowView">
@@ -87,6 +92,7 @@
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
+            <columnOverride column="is_retire" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -94,7 +100,8 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <!--<table tableName="ow_member_modify" domainObjectName="member.MemberModify">
+         <!--
+        <table tableName="ow_member_modify" domainObjectName="member.MemberModify">
         </table>-->
         <!--<table tableName="ow_apply_log" domainObjectName="member.ApplyLog">
         </table>-->

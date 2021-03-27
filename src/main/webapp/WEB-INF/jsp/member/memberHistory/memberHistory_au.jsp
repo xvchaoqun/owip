@@ -10,9 +10,9 @@
 		<div class="row">
 			<div class="col-xs-7">
 				<div class="form-group">
-					<label class="col-xs-4 control-label"><span class="star">*</span>学工号</label>
+					<label class="col-xs-4 control-label">学工号</label>
 					<div class="col-xs-6">
-						<input required class="form-control" style="width: 170px" type="text" name="code" value="${memberHistory.code}"/>
+						<input class="form-control" style="width: 170px" type="text" name="code" value="${memberHistory.code}"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -24,21 +24,21 @@
 				<div class="form-group">
 					<label class="col-xs-4 control-label">身份证号</label>
 					<div class="col-xs-6">
-						<input class="form-control" style="width: 170px" type="text" name="idCard" value="${memberHistory.idCard}"/>
+						<input class="form-control" style="width: 170px" type="text" name="idcard" value="${memberHistory.idcard}"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-4 control-label"><span class="star">*</span>人员类型</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2" name="type" data-placeholder="请选择"
+						<select required data-rel="select2" name="memberType" data-placeholder="请选择"
 								data-width="170">
 							<option></option>
-							<c:forEach items="${MEMBER_TYPE_MAP}" var="_type">
-								<option value="${_type.key}">${_type.value}</option>
+							<c:forEach items="${USER_TYPE_MAP}" var="_memberType">
+								<option value="${_memberType.key}">${_memberType.value}</option>
 							</c:forEach>
 						</select>
 						<script>
-							$("#memberHistoryForm select[name=type]").val(${memberHistory.type});
+							$("#memberHistoryForm select[name=memberType]").val(${memberHistory.memberType});
 						</script>
 					</div>
 				</div>
@@ -200,6 +200,19 @@
 						<input class="form-control" style="width: 170px" type="text" name="email" value="${memberHistory.email}"/>
 					</div>
 				</div>
+				<c:if test="${cm:getMetaTypes('mc_mh_lable').size()>0}">
+					<div class="form-group ">
+						<label class="col-xs-5 control-label">标签</label>
+						<div class="col-xs-6 input-group" style="padding-left: 12px">
+							<select class="multiselect" multiple="" name="lable" data-width="230">
+								<c:import url="/metaTypes?__code=mc_mh_lable"/>
+								<script type="text/javascript">
+									$.register.multiselect($('#memberHistoryForm select[name=lable]'), '${memberHistory.lable}'.split(","));
+								</script>
+							</select>
+						</div>
+					</div>
+				</c:if>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">备注1</label>
 					<div class="col-xs-6">
@@ -239,6 +252,12 @@
 	</div>
 </div>
 <script>
+
+	/*$.register.multiselect($('#memberHistoryForm select[name=lables]'), doubleUnitIds.split(","), {
+		enableClickableOptGroups: true,
+		enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
+	});*/
+
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'), {endDate: '${_today}'});
 
@@ -273,7 +292,7 @@
 		}else if ($('#memberHistoryForm select[name=politicalStatus]').val()==${MEMBER_POLITICAL_STATUS_POSITIVE}){
 			$('#positiveTimeDiv').show();
 		}
-		console.log($('#memberHistoryForm select[name=politicalStatus]').val())
+		//console.log($('#memberHistoryForm select[name=politicalStatus]').val())
 	}
 	positiveTimeShow();
 

@@ -1,9 +1,14 @@
 package controller.member;
 
+import com.sun.deploy.xml.XMLable;
 import controller.global.OpException;
+import domain.base.MetaType;
+import domain.dp.DpNpm;
+import domain.dp.DpNpmExample;
 import domain.member.MemberHistory;
 import domain.member.MemberHistoryExample;
 import domain.member.MemberHistoryExample.Criteria;
+import domain.sys.SysApprovalLog;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,9 +19,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.aspectj.weaver.ast.And;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,13 +32,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -44,10 +51,21 @@ import java.util.*;
 public class MemberHistoryController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     @RequiresPermissions("memberHistory:list")
     @RequestMapping("/memberHistory")
-    public String memberHistory() {
+    public String memberHistory(@RequestParam(required = false, defaultValue = "0") Byte cls,
+                                ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+
+        int total = (int) memberHistoryMapper.countByExample(new MemberHistoryExample());
+        MemberHistoryExample example = new MemberHistoryExample();
+        example.createCriteria().andStatusEqualTo((byte) 0);
+        modelMap.put("total", total);
+        modelMap.put("normalCount", memberHistoryMapper.countByExample(example));
 
         return "member/memberHistory/memberHistory_page";
     }
@@ -58,6 +76,7 @@ public class MemberHistoryController extends MemberBaseController {
     public void memberHistory_data(HttpServletResponse response,
                                    String code,
                                    String realname,
+                                   String idcard,
                                    Byte type,
                                    Byte gender,
                                    String partyName,
@@ -65,9 +84,9 @@ public class MemberHistoryController extends MemberBaseController {
                                    Byte politicalStatus,
                                    @RequestDateRange DateRange _growTime,
                                    @RequestDateRange DateRange _positiveTime,
-                                   String remark1,
-                                   String remark2,
-                                   String remark3,
+                                   String reason,
+                                   String remark,
+                                   @RequestParam(required = false, defaultValue = "0") Byte cls,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo)  throws IOException{
@@ -81,11 +100,11 @@ public class MemberHistoryController extends MemberBaseController {
         pageNo = Math.max(1, pageNo);
 
         MemberHistoryExample example = new MemberHistoryExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(cls);
         example.setOrderByClause("id desc");
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
             if (ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)){
-                criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
+                criteria.andAddUserIdEqualTo(ShiroHelper.getCurrentUserId());
             }else {
                 throw new UnauthorizedException();
             }
@@ -97,8 +116,11 @@ public class MemberHistoryController extends MemberBaseController {
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike(SqlUtils.trimLike(realname));
         }
+        if (StringUtils.isNotBlank(idcard)) {
+            criteria.andIdcardLike(SqlUtils.trimLike(idcard));
+        }
         if (type != null) {
-            criteria.andTypeEqualTo(type);
+            criteria.andMemberTypeEqualTo(type);
         }
         if (gender != null) {
             criteria.andGenderEqualTo(gender);
@@ -124,20 +146,17 @@ public class MemberHistoryController extends MemberBaseController {
         if (_positiveTime.getEnd() != null) {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
-        if (StringUtils.isNotBlank(remark1)) {
-            criteria.andRemark1Like(SqlUtils.trimLike(remark1));
+        if (StringUtils.isNotBlank(reason)) {
+            criteria.andReasonLike(SqlUtils.trimLike(reason));
         }
-        if (StringUtils.isNotBlank(remark2)) {
-            criteria.andRemark2Like(SqlUtils.trimLike(remark2));
-        }
-        if (StringUtils.isNotBlank(remark3)){
-            criteria.andRemark3Like(SqlUtils.trimLike(remark3));
+        if (StringUtils.isNotBlank(remark)) {
+            criteria.andRemarkLike(SqlUtils.trimLike(remark));
         }
 
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            memberHistory_export(example, response);
+            memberHistory_export(cls, example, response);
             return;
         }
 
@@ -165,54 +184,31 @@ public class MemberHistoryController extends MemberBaseController {
     @RequestMapping(value = "/memberHistory_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberHistory_au(MemberHistory record,
-                                   String _birth,
-                                   String _transferTime,
-                                   String _applyTime,
-                                   String _activeTime,
-                                   String _candidateTime,
-                                   String _growTime,
-                                   String _positiveTime,
                                    HttpServletRequest request) {
-
-        SysUserView uv = ShiroHelper.getCurrentUser();
-
-        memberHistoryService.checkAuth(record);
 
         Integer id = record.getId();
 
-        if (StringUtils.isNotBlank(_birth)) {
-            record.setBirth(DateUtils.parseStringToDate(_birth));
-        }
-        if (StringUtils.isNotBlank(_transferTime)) {
-            record.setTransferTime(DateUtils.parseStringToDate(_transferTime));
-        }
-        if (StringUtils.isNotBlank(_applyTime)) {
-            record.setApplyTime(DateUtils.parseStringToDate(_applyTime));
-        }
-        if (StringUtils.isNotBlank(_activeTime)) {
-            record.setActiveTime(DateUtils.parseStringToDate(_activeTime));
-        }
-        if (StringUtils.isNotBlank(_candidateTime)) {
-            record.setCandidateTime(DateUtils.parseStringToDate(_candidateTime));
-        }
-        if (StringUtils.isNotBlank(_growTime)) {
-            record.setGrowTime(DateUtils.parseStringToDate(_growTime));
-        }
-        if (StringUtils.isNotBlank(_positiveTime)) {
-            record.setPositiveTime(DateUtils.parseStringToDate(_positiveTime));
-        }
-
         if (id == null) {
 
-            if (memberHistoryService.isDuplicate(record.getRealname(),record.getCode())){
+            if (memberHistoryService.isDuplicate(record.getRealname(),record.getCode(), record.getIdcard())){
                 throw new OpException("添加重复");
             }
             memberHistoryService.insertSelective(record);
             logger.info(log( LogConstants.LOG_MEMBER, "添加历史党员：{0}", record.getId()));
+
+            sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
+                    "添加", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "添加"+record.getRealname()+"至历史党员库");
         } else {
 
             memberHistoryService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_MEMBER, "更新历史党员：{0}", record.getId()));
+
+            sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
+                    "修改", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "修改历史党员"+record.getRealname()+"的信息");
         }
 
         return success(FormUtils.SUCCESS);
@@ -230,6 +226,37 @@ public class MemberHistoryController extends MemberBaseController {
         return "member/memberHistory/memberHistory_au";
     }
 
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping("/memberHistory_out")
+    public String memberHistory_out(){
+
+        return "member/memberHistory/memberHistory_out";
+    }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping(value = "/memberHistory_out", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberHistory_out(Integer[] ids, HttpServletRequest request){
+
+        if (null != ids && ids.length>0){
+            memberHistoryService.out(ids);
+            logger.info(log( LogConstants.LOG_PARTY, "将历史党员移至已移除：%s",StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping(value = "/memberHistory_recover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberHistory_recover(Integer[] ids,
+                             HttpServletRequest request){
+        if (null != ids && ids.length>0){
+            memberHistoryService.recover(ids);
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("memberHistory:del")
     @RequestMapping(value = "/memberHistory_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -243,28 +270,39 @@ public class MemberHistoryController extends MemberBaseController {
 
         return success(FormUtils.SUCCESS);
     }
-    public void memberHistory_export(MemberHistoryExample example, HttpServletResponse response) {
+    public void memberHistory_export(Byte cls, MemberHistoryExample example, HttpServletResponse response) {
 
         List<MemberHistory> records = memberHistoryMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100","姓名|100","身份证号|160","类别|100","性别|60","民族|100","籍贯|100","出生年月|100","二级党组织名称|350","党支部名称|350",
-                "党籍状态|100","组织关系转入时间|100","提交书面申请书时间|100","确定为入党积极分子时间|100","确定为发展对象时间|100","入党介绍人|100",
-                "入党时间|100","转正时间|100","专业技术职务|100","手机|100","邮箱|100","备注1|150","备注2|150","备注3|150"};
-        List<String[]> valuesList = new ArrayList<>();
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"学工号|100","姓名|100","人员类别|100","性别|100","身份证号|160","民族|100","籍贯|100","出生年月|100",
+                "二级党组织名称|350","党支部名称|350", "党籍状态|100","标签|200","组织关系转入时间|100","提交书面申请书时间|100","确定为入党积极分子时间|100","确定为发展对象时间|100",
+                "入党介绍人|100", "入党时间|100","转正时间|100","专业技术职务|100","手机|100","邮箱|100","添加人|100","添加时间|110","备注1|150","备注2|150","备注3|150"}));
+        List<List<String>> valuesList = new ArrayList<>();
+        if (cls==1){
+            titles.add(22, "移除原因|200");
+        }
         for (int i = 0; i < rownum; i++) {
             MemberHistory record = records.get(i);
-            String[] values = {
+            String lable = "";
+            if (record.getLable() != null){
+                String[] lables = StringUtils.split(record.getLable(), ",");
+                for (String str : lables) {
+                    lable+=CmTag.getMetaType(Integer.valueOf(str)).getName();
+                }
+            }
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                 record.getCode(),
                     record.getRealname(),
-                    record.getIdCard(),
-                    MemberConstants.MEMBER_TYPE_MAP.get(record.getType()),
+                    SystemConstants.USER_TYPE_MAP.get(record.getMemberType()),
                     SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getIdcard(),
                     record.getNation(),
                     record.getNativePlace(),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
                     record.getPartyName(),
                     record.getBranchName(),
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
+                    lable,
                     DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getApplyTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getActiveTime(), DateUtils.YYYYMMDD_DOT),
@@ -275,10 +313,15 @@ public class MemberHistoryController extends MemberBaseController {
                     record.getProPost(),
                     record.getPhone(),
                     record.getEmail(),
+                    record.getAddUser().getRealname(),
+                    DateUtils.formatDate(record.getAddDate(), DateUtils.YYYYMMDD_DOT),
                     record.getRemark1(),
                     record.getRemark2(),
                     record.getRemark3()
-            };
+            }));
+            if (cls==1){
+                values.add(22, record.getReason());
+            }
             valuesList.add(values);
         }
         String fileName = String.format("历史党员库(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
@@ -305,40 +348,40 @@ public class MemberHistoryController extends MemberBaseController {
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer,String>> xlsRows = ExcelUtils.getRowData(sheet);
 
+        List<String> lableValueList = new ArrayList<>();
+        Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_mh_lable");
+        if (metaTypeMap!=null&&metaTypeMap.size()>0){
+            for (Map.Entry<Integer, MetaType> entry : metaTypeMap.entrySet()) {
+                lableValueList.add(entry.getValue().getName());
+            }
+        }
         List<MemberHistory> records = new ArrayList<>();
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows){
             int col = 0;
             MemberHistory record = new MemberHistory();
-            row++;
-            String code = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(code)){
-                throw new OpException("第{0}行学工号为空", row);
-            }
-            record.setCode(code);
+            record.setCode(StringUtils.trimToNull(xlsRow.get(col++)));
             String realname = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(realname)) {
                 throw new OpException("第{0}行姓名为空",row);
             }
             record.setRealname(realname);
-            record.setIdCard(StringUtils.trimToNull(xlsRow.get(col++)));
-
-            String type = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(type)){
-                throw new OpException("第{0}行人员类别为空", row);
+            String _memberType = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_memberType)){
+                throw new OpException("第{0}行人员类别为空",row);
             }
-            boolean hasType = false;
-            for (Map.Entry<Byte, String> entry : MemberConstants.MEMBER_TYPE_MAP.entrySet()) {
-                if (StringUtils.equals(entry.getValue(), type)){
-                    record.setType(entry.getKey());
-                    hasType = true;
+            for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
+                if (StringUtils.equals(entry.getValue(), _memberType)){
+                    record.setMemberType(entry.getKey());
                 }
             }
-            if (!hasType){
-                throw new OpException("第{0}行人员类别有误", row);
+            if (record.getMemberType() == null){
+                throw new OpException("第{0}行人员类别不存在", row);
             }
 
             record.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
+            record.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
+
             record.setNation(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setBirth(DateUtils.parseStringToDate(StringUtils.trimToEmpty(xlsRow.get(col++))));
@@ -348,11 +391,30 @@ public class MemberHistoryController extends MemberBaseController {
             }
             record.setPartyName(partyName);
             record.setBranchName(StringUtils.trimToNull(xlsRow.get(col++)));
-            String status = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(status)){
+            String politicalStatus = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(politicalStatus)){
                 throw new OpException("第{0}行党籍状态为空",row);
             }
-            record.setPoliticalStatus((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "正式党员") ? 2:1));
+            for (Map.Entry<Byte, String> entry : MemberConstants.MEMBER_POLITICAL_STATUS_MAP.entrySet()) {
+                if (StringUtils.equals(entry.getValue(), politicalStatus)){
+                    record.setPoliticalStatus(entry.getKey());
+                }
+            }
+            if (record.getPoliticalStatus() == null){
+                throw new OpException("第{0}行人员状态别不存在", row);
+            }
+
+            String _lable = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isNotBlank(_lable)){
+                List<Integer> lableList= new ArrayList<>();
+                List<String> _lableList = new ArrayList<>(Arrays.asList(StringUtils.split(_lable, ",")));
+                for (String str : _lableList) {
+                    if (lableValueList.contains(str)){
+                        lableList.add(metaTypeService.findByName("mc_mh_lable", str).getId());
+                    }
+                }
+                record.setLable(StringUtils.join(lableList, ","));
+            }
             record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
@@ -368,6 +430,7 @@ public class MemberHistoryController extends MemberBaseController {
             record.setRemark3(StringUtils.trimToNull(xlsRow.get(col++)));
 
             records.add(record);
+            row++;
         }
         Collections.reverse(records);//逆序排列，保证导入的顺序正确
 

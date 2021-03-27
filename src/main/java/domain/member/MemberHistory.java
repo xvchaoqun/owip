@@ -1,12 +1,18 @@
 package domain.member;
 
+import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberHistory implements Serializable {
+
+    public SysUserView getAddUser(){
+        return CmTag.getUserById(addUserId);
+    }
     private Integer id;
 
     private Integer userId;
@@ -15,9 +21,11 @@ public class MemberHistory implements Serializable {
 
     private String realname;
 
-    private String idCard;
+    private String idcard;
 
-    private Byte type;
+    private String lable;
+
+    private Byte memberType;
 
     private Byte gender;
 
@@ -25,7 +33,7 @@ public class MemberHistory implements Serializable {
 
     private String nativePlace;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date birth;
 
     private String partyName;
@@ -59,6 +67,14 @@ public class MemberHistory implements Serializable {
     private String phone;
 
     private String email;
+
+    private String reason;
+
+    private Integer addUserId;
+
+    private Date addDate;
+
+    private Byte status;
 
     private String remark1;
 
@@ -100,20 +116,28 @@ public class MemberHistory implements Serializable {
         this.realname = realname == null ? null : realname.trim();
     }
 
-    public String getIdCard() {
-        return idCard;
+    public String getIdcard() {
+        return idcard;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard == null ? null : idCard.trim();
+    public void setIdcard(String idcard) {
+        this.idcard = idcard == null ? null : idcard.trim();
     }
 
-    public Byte getType() {
-        return type;
+    public String getLable() {
+        return lable;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setLable(String lable) {
+        this.lable = lable == null ? null : lable.trim();
+    }
+
+    public Byte getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(Byte memberType) {
+        this.memberType = memberType;
     }
 
     public Byte getGender() {
@@ -250,6 +274,38 @@ public class MemberHistory implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
+    public Integer getAddUserId() {
+        return addUserId;
+    }
+
+    public void setAddUserId(Integer addUserId) {
+        this.addUserId = addUserId;
+    }
+
+    public Date getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public String getRemark1() {
