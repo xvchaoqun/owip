@@ -6,15 +6,16 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
-    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
-    <result column="type" jdbcType="BOOLEAN" property="type" />
-    <result column="gender" jdbcType="BOOLEAN" property="gender" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="lable" jdbcType="VARCHAR" property="lable" />
+    <result column="member_type" jdbcType="TINYINT" property="memberType" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="party_name" jdbcType="VARCHAR" property="partyName" />
     <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
-    <result column="political_status" jdbcType="BOOLEAN" property="politicalStatus" />
+    <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
     <result column="transfer_time" jdbcType="DATE" property="transferTime" />
     <result column="apply_time" jdbcType="DATE" property="applyTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
@@ -25,6 +26,10 @@
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
+    <result column="add_date" jdbcType="DATE" property="addDate" />
+    <result column="status" jdbcType="TINYINT" property="status" />
     <result column="remark1" jdbcType="VARCHAR" property="remark1" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="remark3" jdbcType="VARCHAR" property="remark3" />
@@ -88,10 +93,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, code, realname, id_card, type, gender, nation, native_place, birth, 
-    party_name, branch_name, political_status, transfer_time, apply_time, active_time, 
-    candidate_time, sponsor, grow_time, positive_time, pro_post, phone, email, remark1, 
-    remark2, remark3
+    id, user_id, code, realname, idcard, lable, member_type, gender, nation, native_place, 
+    birth, party_name, branch_name, political_status, transfer_time, apply_time, active_time, 
+    candidate_time, sponsor, grow_time, positive_time, pro_post, phone, email, reason, 
+    add_user_id, add_date, status, remark1, remark2, remark3
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberHistoryExample" resultMap="BaseResultMap">
     select
@@ -128,23 +133,27 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_member_history (user_id, code, realname, 
-      id_card, type, gender, 
-      nation, native_place, birth, 
-      party_name, branch_name, political_status, 
-      transfer_time, apply_time, active_time, 
-      candidate_time, sponsor, grow_time, 
-      positive_time, pro_post, phone, 
-      email, remark1, remark2, 
-      remark3)
+      idcard, lable, member_type, 
+      gender, nation, native_place, 
+      birth, party_name, branch_name, 
+      political_status, transfer_time, apply_time, 
+      active_time, candidate_time, sponsor, 
+      grow_time, positive_time, pro_post, 
+      phone, email, reason, 
+      add_user_id, add_date, status, 
+      remark1, remark2, remark3
+      )
     values (#{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{idCard,jdbcType=VARCHAR}, #{type,jdbcType=BOOLEAN}, #{gender,jdbcType=BOOLEAN}, 
-      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
-      #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=BOOLEAN}, 
-      #{transferTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
-      #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
-      #{positiveTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, 
-      #{remark3,jdbcType=VARCHAR})
+      #{idcard,jdbcType=VARCHAR}, #{lable,jdbcType=VARCHAR}, #{memberType,jdbcType=TINYINT}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=DATE}, #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{transferTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, 
+      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, 
+      #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{addUserId,jdbcType=INTEGER}, #{addDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
+      #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{remark3,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -161,11 +170,14 @@
       <if test="realname != null">
         realname,
       </if>
-      <if test="idCard != null">
-        id_card,
+      <if test="idcard != null">
+        idcard,
       </if>
-      <if test="type != null">
-        type,
+      <if test="lable != null">
+        lable,
+      </if>
+      <if test="memberType != null">
+        member_type,
       </if>
       <if test="gender != null">
         gender,
@@ -218,6 +230,18 @@
       <if test="email != null">
         email,
       </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="addUserId != null">
+        add_user_id,
+      </if>
+      <if test="addDate != null">
+        add_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
       <if test="remark1 != null">
         remark1,
       </if>
@@ -238,14 +262,17 @@
       <if test="realname != null">
         #{realname,jdbcType=VARCHAR},
       </if>
-      <if test="idCard != null">
-        #{idCard,jdbcType=VARCHAR},
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=BOOLEAN},
+      <if test="lable != null">
+        #{lable,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null">
+        #{memberType,jdbcType=TINYINT},
       </if>
       <if test="gender != null">
-        #{gender,jdbcType=BOOLEAN},
+        #{gender,jdbcType=TINYINT},
       </if>
       <if test="nation != null">
         #{nation,jdbcType=VARCHAR},
@@ -263,7 +290,7 @@
         #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="politicalStatus != null">
-        #{politicalStatus,jdbcType=BOOLEAN},
+        #{politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="transferTime != null">
         #{transferTime,jdbcType=DATE},
@@ -294,6 +321,18 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="addUserId != null">
+        #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addDate != null">
+        #{addDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="remark1 != null">
         #{remark1,jdbcType=VARCHAR},
@@ -327,14 +366,17 @@
       <if test="record.realname != null">
         realname = #{record.realname,jdbcType=VARCHAR},
       </if>
-      <if test="record.idCard != null">
-        id_card = #{record.idCard,jdbcType=VARCHAR},
+      <if test="record.idcard != null">
+        idcard = #{record.idcard,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=BOOLEAN},
+      <if test="record.lable != null">
+        lable = #{record.lable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberType != null">
+        member_type = #{record.memberType,jdbcType=TINYINT},
       </if>
       <if test="record.gender != null">
-        gender = #{record.gender,jdbcType=BOOLEAN},
+        gender = #{record.gender,jdbcType=TINYINT},
       </if>
       <if test="record.nation != null">
         nation = #{record.nation,jdbcType=VARCHAR},
@@ -352,7 +394,7 @@
         branch_name = #{record.branchName,jdbcType=VARCHAR},
       </if>
       <if test="record.politicalStatus != null">
-        political_status = #{record.politicalStatus,jdbcType=BOOLEAN},
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="record.transferTime != null">
         transfer_time = #{record.transferTime,jdbcType=DATE},
@@ -384,6 +426,18 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addUserId != null">
+        add_user_id = #{record.addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.addDate != null">
+        add_date = #{record.addDate,jdbcType=DATE},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
       <if test="record.remark1 != null">
         remark1 = #{record.remark1,jdbcType=VARCHAR},
       </if>
@@ -404,15 +458,16 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
-      id_card = #{record.idCard,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=BOOLEAN},
-      gender = #{record.gender,jdbcType=BOOLEAN},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      lable = #{record.lable,jdbcType=VARCHAR},
+      member_type = #{record.memberType,jdbcType=TINYINT},
+      gender = #{record.gender,jdbcType=TINYINT},
       nation = #{record.nation,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
       birth = #{record.birth,jdbcType=DATE},
       party_name = #{record.partyName,jdbcType=VARCHAR},
       branch_name = #{record.branchName,jdbcType=VARCHAR},
-      political_status = #{record.politicalStatus,jdbcType=BOOLEAN},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
       transfer_time = #{record.transferTime,jdbcType=DATE},
       apply_time = #{record.applyTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
@@ -423,6 +478,10 @@
       pro_post = #{record.proPost,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      add_user_id = #{record.addUserId,jdbcType=INTEGER},
+      add_date = #{record.addDate,jdbcType=DATE},
+      status = #{record.status,jdbcType=TINYINT},
       remark1 = #{record.remark1,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
       remark3 = #{record.remark3,jdbcType=VARCHAR}
@@ -442,14 +501,17 @@
       <if test="realname != null">
         realname = #{realname,jdbcType=VARCHAR},
       </if>
-      <if test="idCard != null">
-        id_card = #{idCard,jdbcType=VARCHAR},
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=BOOLEAN},
+      <if test="lable != null">
+        lable = #{lable,jdbcType=VARCHAR},
+      </if>
+      <if test="memberType != null">
+        member_type = #{memberType,jdbcType=TINYINT},
       </if>
       <if test="gender != null">
-        gender = #{gender,jdbcType=BOOLEAN},
+        gender = #{gender,jdbcType=TINYINT},
       </if>
       <if test="nation != null">
         nation = #{nation,jdbcType=VARCHAR},
@@ -467,7 +529,7 @@
         branch_name = #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="politicalStatus != null">
-        political_status = #{politicalStatus,jdbcType=BOOLEAN},
+        political_status = #{politicalStatus,jdbcType=TINYINT},
       </if>
       <if test="transferTime != null">
         transfer_time = #{transferTime,jdbcType=DATE},
@@ -499,6 +561,18 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="addUserId != null">
+        add_user_id = #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addDate != null">
+        add_date = #{addDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
       <if test="remark1 != null">
         remark1 = #{remark1,jdbcType=VARCHAR},
       </if>
@@ -516,15 +590,16 @@
     set user_id = #{userId,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
-      id_card = #{idCard,jdbcType=VARCHAR},
-      type = #{type,jdbcType=BOOLEAN},
-      gender = #{gender,jdbcType=BOOLEAN},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      lable = #{lable,jdbcType=VARCHAR},
+      member_type = #{memberType,jdbcType=TINYINT},
+      gender = #{gender,jdbcType=TINYINT},
       nation = #{nation,jdbcType=VARCHAR},
       native_place = #{nativePlace,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=DATE},
       party_name = #{partyName,jdbcType=VARCHAR},
       branch_name = #{branchName,jdbcType=VARCHAR},
-      political_status = #{politicalStatus,jdbcType=BOOLEAN},
+      political_status = #{politicalStatus,jdbcType=TINYINT},
       transfer_time = #{transferTime,jdbcType=DATE},
       apply_time = #{applyTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
@@ -535,6 +610,10 @@
       pro_post = #{proPost,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      add_user_id = #{addUserId,jdbcType=INTEGER},
+      add_date = #{addDate,jdbcType=DATE},
+      status = #{status,jdbcType=TINYINT},
       remark1 = #{remark1,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
       remark3 = #{remark3,jdbcType=VARCHAR}

@@ -1,6 +1,8 @@
 package controller.analysis;
 
+import com.twelvemonkeys.imageio.metadata.tiff.IFD;
 import controller.member.MemberBaseController;
+import domain.party.Branch;
 import domain.party.Party;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,11 @@ public class SuspendOwController extends MemberBaseController {
     @RequiresPermissions("suspend:ow")
     public String suspend_ow(ModelMap modelMap) {
 
+
+        List<Integer> branchIdList = branchService.overUserBranchCount(null);
+        modelMap.put("overUserBranchCount", branchIdList==null?0:branchIdList.size());
+        modelMap.put("isSearch", branchIdList!=null&&branchIdList.size()>0);
+
         modelMap.put("partyMemberGroupCount", partyMemberGroupService.count(null));
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.count(null));
         modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, null,
@@ -62,6 +69,10 @@ public class SuspendOwController extends MemberBaseController {
     @RequestMapping("/suspend_party")
     @RequiresPermissions("suspend:party")
     public String suspend_party(int partyId, ModelMap modelMap) {
+
+        List<Integer> branchIdList = branchService.overUserBranchCount(partyId);
+        modelMap.put("overUserBranchCount", branchIdList==null?0:branchIdList.size());
+        modelMap.put("isSearch", branchIdList!=null&&branchIdList.size()>0);
 
         /*modelMap.put("partyMemberGroupCount", partyMemberGroupService.count(partyId));*/
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.count(partyId));

@@ -32,6 +32,19 @@
                                 </div>
                             </div>
 
+                        <div class="infobox infobox-red"
+                             <c:if test="${(overUserBranchCount)>0}">data-url="${ctx}/branch?partyId=${param.partyId}&isSearch=${isSearch}"</c:if>>
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-sign-out"></i>
+                            </div>
+                            <div class="infobox-data">
+                                    <span class="infobox-data-number"><span class="count">${overUserBranchCount}</span> <span
+                                            style="font-size: 10pt;">个支部</span></span>
+
+                                <div class="infobox-content">党员数超过50人支部</div>
+                            </div>
+                        </div>
+
                         <c:if test="${!_ignore_plan_and_draw}">
                             <div class="infobox infobox-pink">
                                 <div class="infobox-icon">

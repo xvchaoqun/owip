@@ -25,7 +25,9 @@ import service.base.MetaTypeService;
 import service.member.EnterApplyService;
 import service.member.MemberApplyService;
 import service.member.MemberBaseMapper;
+import service.member.MemberHistoryService;
 import service.sys.LogService;
+import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
@@ -61,6 +63,10 @@ public class MemberService extends MemberBaseMapper {
     private MemberApplyService memberApplyService;
     @Autowired
     private MetaTypeService metaTypeService;
+    @Autowired
+    private MemberHistoryService memberHistoryService;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     public Member get(int userId) {
 
@@ -994,6 +1000,60 @@ public class MemberService extends MemberBaseMapper {
             //记录调整日志
             addModify(member.getUserId(),"组织关系批量调整");
             memberMapper.updateByPrimaryKeySelective(member);
+        }
+    }
+
+    @Transactional
+    public void transferToHistory(Integer[] ids, String lable) {
+
+        for (Integer id : ids) {
+
+            Member member = get(id);
+            member.setStatus(MemberConstants.MEMBER_STATUS_HISTORY);
+            memberMapper.updateByPrimaryKeySelective(member);
+
+            SysUserView uv = sysUserService.findById(id);
+            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(id);
+            Party party = partyMapper.selectByPrimaryKey(member.getPartyId());
+            String partyName = party.getName();
+            String branchName = "";
+            if (member.getBranchId() != null) {
+                Branch branch = branchMapper.selectByPrimaryKey(member.getBranchId());
+                branchName = branch.getName();
+            }
+
+            MemberHistory record = new MemberHistory();
+            record.setUserId(id);
+            record.setCode(uv.getCode());
+            record.setRealname(uv.getRealname());
+            record.setIdcard(uv.getIdcard());
+            record.setLable(lable);
+            record.setMemberType(uv.getType());
+            record.setGender(uv.getGender());
+            record.setNation(uv.getNation());
+            record.setNativePlace(uv.getNativePlace());
+            record.setBirth(uv.getBirth());
+            record.setPartyName(partyName);
+            record.setBranchName(branchName);
+            record.setPoliticalStatus(member.getPoliticalStatus());
+            record.setTransferTime(member.getTransferTime());
+            record.setApplyTime(member.getApplyTime());
+            record.setActiveTime(member.getActiveTime());
+            record.setCandidateTime(member.getCandidateTime());
+            record.setSponsor(member.getSponsor());
+            record.setGrowTime(member.getGrowTime());
+            record.setPositiveTime(member.getPositiveTime());
+            if (teacherInfo != null) {
+                record.setProPost(teacherInfo.getProPost());
+            }
+            record.setPhone(uv.getPhone());
+            record.setEmail(uv.getEmail());
+            memberHistoryService.insertSelective(record);
+
+            sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
+                    "党员库转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "转移党员"+record.getRealname()+"("+record.getCode()+")至历史党员库");
         }
     }
 }

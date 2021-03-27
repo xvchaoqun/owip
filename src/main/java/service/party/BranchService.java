@@ -1,9 +1,12 @@
 package service.party;
 
 import controller.global.OpException;
+import domain.member.MemberExample;
 import domain.party.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.omg.PortableServer.LIFESPAN_POLICY_ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.helper.PartyHelper;
 import sys.utils.ContextHelper;
 
@@ -382,5 +386,28 @@ public class BranchService extends BaseMapper {
         List<Branch> branchList = branchMapper.selectByExample(example);
 
         return branchList.size() > 0 ? branchList.get(0) : null;
+    }
+
+    public List<Integer> overUserBranchCount(Integer partyId) {
+
+        List<Integer> branchIdList = new ArrayList<>();
+        BranchExample branchExample = new BranchExample();
+        BranchExample.Criteria criteria = branchExample.createCriteria().andIsDeletedEqualTo(false);
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        List<Branch> branchList = branchMapper.selectByExample(branchExample);
+        if (branchList.size() > 0) {
+            for (Branch branch : branchList) {
+                Integer branchId= branch.getId();
+                MemberExample memberExample = new MemberExample();
+                memberExample.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL).andBranchIdEqualTo(branchId);
+                if (memberMapper.countByExample(memberExample) > 50) {
+                    branchIdList.add(branchId);
+                }
+            }
+        }
+
+        return branchIdList;
     }
 }
