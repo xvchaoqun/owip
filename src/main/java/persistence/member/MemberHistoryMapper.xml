@@ -8,7 +8,7 @@
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="lable" jdbcType="VARCHAR" property="lable" />
-    <result column="member_type" jdbcType="TINYINT" property="memberType" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
@@ -26,13 +26,12 @@
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="detail_reason" jdbcType="VARCHAR" property="detailReason" />
+    <result column="out_reason" jdbcType="VARCHAR" property="outReason" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="add_date" jdbcType="DATE" property="addDate" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="remark1" jdbcType="VARCHAR" property="remark1" />
-    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
-    <result column="remark3" jdbcType="VARCHAR" property="remark3" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -93,10 +92,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, code, realname, idcard, lable, member_type, gender, nation, native_place, 
-    birth, party_name, branch_name, political_status, transfer_time, apply_time, active_time, 
-    candidate_time, sponsor, grow_time, positive_time, pro_post, phone, email, reason, 
-    add_user_id, add_date, status, remark1, remark2, remark3
+    id, user_id, code, realname, idcard, lable, type, gender, nation, native_place, birth, 
+    party_name, branch_name, political_status, transfer_time, apply_time, active_time, 
+    candidate_time, sponsor, grow_time, positive_time, pro_post, phone, email, detail_reason, 
+    out_reason, add_user_id, add_date, status, remark
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberHistoryExample" resultMap="BaseResultMap">
     select
@@ -133,27 +132,25 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_member_history (user_id, code, realname, 
-      idcard, lable, member_type, 
+      idcard, lable, type, 
       gender, nation, native_place, 
       birth, party_name, branch_name, 
       political_status, transfer_time, apply_time, 
       active_time, candidate_time, sponsor, 
       grow_time, positive_time, pro_post, 
-      phone, email, reason, 
-      add_user_id, add_date, status, 
-      remark1, remark2, remark3
-      )
+      phone, email, detail_reason, 
+      out_reason, add_user_id, add_date, 
+      status, remark)
     values (#{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{idcard,jdbcType=VARCHAR}, #{lable,jdbcType=VARCHAR}, #{memberType,jdbcType=TINYINT}, 
+      #{idcard,jdbcType=VARCHAR}, #{lable,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
       #{birth,jdbcType=DATE}, #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
       #{politicalStatus,jdbcType=TINYINT}, #{transferTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, 
       #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, 
       #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{proPost,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
-      #{addUserId,jdbcType=INTEGER}, #{addDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
-      #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{remark3,jdbcType=VARCHAR}
-      )
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{detailReason,jdbcType=VARCHAR}, 
+      #{outReason,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER}, #{addDate,jdbcType=DATE}, 
+      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -176,8 +173,8 @@
       <if test="lable != null">
         lable,
       </if>
-      <if test="memberType != null">
-        member_type,
+      <if test="type != null">
+        type,
       </if>
       <if test="gender != null">
         gender,
@@ -230,8 +227,11 @@
       <if test="email != null">
         email,
       </if>
-      <if test="reason != null">
-        reason,
+      <if test="detailReason != null">
+        detail_reason,
+      </if>
+      <if test="outReason != null">
+        out_reason,
       </if>
       <if test="addUserId != null">
         add_user_id,
@@ -242,14 +242,8 @@
       <if test="status != null">
         status,
       </if>
-      <if test="remark1 != null">
-        remark1,
-      </if>
-      <if test="remark2 != null">
-        remark2,
-      </if>
-      <if test="remark3 != null">
-        remark3,
+      <if test="remark != null">
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -268,8 +262,8 @@
       <if test="lable != null">
         #{lable,jdbcType=VARCHAR},
       </if>
-      <if test="memberType != null">
-        #{memberType,jdbcType=TINYINT},
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -322,8 +316,11 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="reason != null">
-        #{reason,jdbcType=VARCHAR},
+      <if test="detailReason != null">
+        #{detailReason,jdbcType=VARCHAR},
+      </if>
+      <if test="outReason != null">
+        #{outReason,jdbcType=VARCHAR},
       </if>
       <if test="addUserId != null">
         #{addUserId,jdbcType=INTEGER},
@@ -334,14 +331,8 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="remark1 != null">
-        #{remark1,jdbcType=VARCHAR},
-      </if>
-      <if test="remark2 != null">
-        #{remark2,jdbcType=VARCHAR},
-      </if>
-      <if test="remark3 != null">
-        #{remark3,jdbcType=VARCHAR},
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -372,8 +363,8 @@
       <if test="record.lable != null">
         lable = #{record.lable,jdbcType=VARCHAR},
       </if>
-      <if test="record.memberType != null">
-        member_type = #{record.memberType,jdbcType=TINYINT},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
@@ -426,8 +417,11 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.reason != null">
-        reason = #{record.reason,jdbcType=VARCHAR},
+      <if test="record.detailReason != null">
+        detail_reason = #{record.detailReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outReason != null">
+        out_reason = #{record.outReason,jdbcType=VARCHAR},
       </if>
       <if test="record.addUserId != null">
         add_user_id = #{record.addUserId,jdbcType=INTEGER},
@@ -438,14 +432,8 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.remark1 != null">
-        remark1 = #{record.remark1,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark2 != null">
-        remark2 = #{record.remark2,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark3 != null">
-        remark3 = #{record.remark3,jdbcType=VARCHAR},
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -460,7 +448,7 @@
       realname = #{record.realname,jdbcType=VARCHAR},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       lable = #{record.lable,jdbcType=VARCHAR},
-      member_type = #{record.memberType,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
       gender = #{record.gender,jdbcType=TINYINT},
       nation = #{record.nation,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
@@ -478,13 +466,12 @@
       pro_post = #{record.proPost,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      reason = #{record.reason,jdbcType=VARCHAR},
+      detail_reason = #{record.detailReason,jdbcType=VARCHAR},
+      out_reason = #{record.outReason,jdbcType=VARCHAR},
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
       add_date = #{record.addDate,jdbcType=DATE},
       status = #{record.status,jdbcType=TINYINT},
-      remark1 = #{record.remark1,jdbcType=VARCHAR},
-      remark2 = #{record.remark2,jdbcType=VARCHAR},
-      remark3 = #{record.remark3,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -507,8 +494,8 @@
       <if test="lable != null">
         lable = #{lable,jdbcType=VARCHAR},
       </if>
-      <if test="memberType != null">
-        member_type = #{memberType,jdbcType=TINYINT},
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=TINYINT},
@@ -561,8 +548,11 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="reason != null">
-        reason = #{reason,jdbcType=VARCHAR},
+      <if test="detailReason != null">
+        detail_reason = #{detailReason,jdbcType=VARCHAR},
+      </if>
+      <if test="outReason != null">
+        out_reason = #{outReason,jdbcType=VARCHAR},
       </if>
       <if test="addUserId != null">
         add_user_id = #{addUserId,jdbcType=INTEGER},
@@ -573,14 +563,8 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="remark1 != null">
-        remark1 = #{remark1,jdbcType=VARCHAR},
-      </if>
-      <if test="remark2 != null">
-        remark2 = #{remark2,jdbcType=VARCHAR},
-      </if>
-      <if test="remark3 != null">
-        remark3 = #{remark3,jdbcType=VARCHAR},
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -592,7 +576,7 @@
       realname = #{realname,jdbcType=VARCHAR},
       idcard = #{idcard,jdbcType=VARCHAR},
       lable = #{lable,jdbcType=VARCHAR},
-      member_type = #{memberType,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
       gender = #{gender,jdbcType=TINYINT},
       nation = #{nation,jdbcType=VARCHAR},
       native_place = #{nativePlace,jdbcType=VARCHAR},
@@ -610,13 +594,12 @@
       pro_post = #{proPost,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      reason = #{reason,jdbcType=VARCHAR},
+      detail_reason = #{detailReason,jdbcType=VARCHAR},
+      out_reason = #{outReason,jdbcType=VARCHAR},
       add_user_id = #{addUserId,jdbcType=INTEGER},
       add_date = #{addDate,jdbcType=DATE},
       status = #{status,jdbcType=TINYINT},
-      remark1 = #{remark1,jdbcType=VARCHAR},
-      remark2 = #{remark2,jdbcType=VARCHAR},
-      remark3 = #{remark3,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberHistoryExample" resultMap="BaseResultMap">

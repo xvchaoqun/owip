@@ -30,15 +30,15 @@
 				<div class="form-group">
 					<label class="col-xs-4 control-label"><span class="star">*</span>人员类型</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2" name="memberType" data-placeholder="请选择"
+						<select required data-rel="select2" name="type" data-placeholder="请选择"
 								data-width="170">
 							<option></option>
-							<c:forEach items="${USER_TYPE_MAP}" var="_memberType">
-								<option value="${_memberType.key}">${_memberType.value}</option>
+							<c:forEach items="${USER_TYPE_MAP}" var="_type">
+								<option value="${_type.key}">${_type.value}</option>
 							</c:forEach>
 						</select>
 						<script>
-							$("#memberHistoryForm select[name=memberType]").val(${memberHistory.memberType});
+							$("#memberHistoryForm select[name=type]").val(${memberHistory.type});
 						</script>
 					</div>
 				</div>
@@ -214,24 +214,17 @@
 					</div>
 				</c:if>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">备注1</label>
+					<label class="col-xs-5 control-label">转至历史党员库详细原因</label>
 					<div class="col-xs-6">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-								  name="remark1">${memberHistory.remark1}</textarea>
+								  name="detailReason">${memberHistory.detailReason}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">备注2</label>
+					<label class="col-xs-5 control-label">备注</label>
 					<div class="col-xs-6">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-								  name="remark2">${memberHistory.remark2}</textarea>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-5 control-label">备注3</label>
-					<div class="col-xs-6">
-						<textarea class="form-control limited noEnter" type="text" maxlength="100"
-								  name="remark3">${memberHistory.remark3}</textarea>
+								  name="remark">${memberHistory.remark}</textarea>
 					</div>
 				</div>
 			</div>
@@ -252,11 +245,6 @@
 	</div>
 </div>
 <script>
-
-	/*$.register.multiselect($('#memberHistoryForm select[name=lables]'), doubleUnitIds.split(","), {
-		enableClickableOptGroups: true,
-		enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
-	});*/
 
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'), {endDate: '${_today}'});

@@ -25,7 +25,7 @@ public class MemberHistory implements Serializable {
 
     private String lable;
 
-    private Byte memberType;
+    private Byte type;
 
     private Byte gender;
 
@@ -68,7 +68,9 @@ public class MemberHistory implements Serializable {
 
     private String email;
 
-    private String reason;
+    private String detailReason;
+
+    private String outReason;
 
     private Integer addUserId;
 
@@ -76,11 +78,7 @@ public class MemberHistory implements Serializable {
 
     private Byte status;
 
-    private String remark1;
-
-    private String remark2;
-
-    private String remark3;
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -132,12 +130,12 @@ public class MemberHistory implements Serializable {
         this.lable = lable == null ? null : lable.trim();
     }
 
-    public Byte getMemberType() {
-        return memberType;
+    public Byte getType() {
+        return type;
     }
 
-    public void setMemberType(Byte memberType) {
-        this.memberType = memberType;
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Byte getGender() {
@@ -276,12 +274,20 @@ public class MemberHistory implements Serializable {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getReason() {
-        return reason;
+    public String getDetailReason() {
+        return detailReason;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
+    public void setDetailReason(String detailReason) {
+        this.detailReason = detailReason == null ? null : detailReason.trim();
+    }
+
+    public String getOutReason() {
+        return outReason;
+    }
+
+    public void setOutReason(String outReason) {
+        this.outReason = outReason == null ? null : outReason.trim();
     }
 
     public Integer getAddUserId() {
@@ -308,27 +314,11 @@ public class MemberHistory implements Serializable {
         this.status = status;
     }
 
-    public String getRemark1() {
-        return remark1;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setRemark1(String remark1) {
-        this.remark1 = remark1 == null ? null : remark1.trim();
-    }
-
-    public String getRemark2() {
-        return remark2;
-    }
-
-    public void setRemark2(String remark2) {
-        this.remark2 = remark2 == null ? null : remark2.trim();
-    }
-
-    public String getRemark3() {
-        return remark3;
-    }
-
-    public void setRemark3(String remark3) {
-        this.remark3 = remark3 == null ? null : remark3.trim();
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

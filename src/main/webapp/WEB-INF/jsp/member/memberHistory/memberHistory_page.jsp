@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.realname ||not empty param.idcard ||not empty param.partyName ||not empty param.branchName ||not empty param._growTime ||not empty param._positiveTime || not empty param.code
-            ||not empty param.memberType||not empty param.gender||not empty param.politicalStatus||not empty param.remark1||not empty param.remark2||not empty param.remark3}"/>
+            ||not empty param.type||not empty param.gender||not empty param.politicalStatus||not empty param.detailReason||not empty param.outReason||not empty param.remark}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==0?'active':''}">
@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>人员类别</label>
-                                <select name="memberType" data-width="150" data-rel="select2"
+                                <select name="type" data-width="150" data-rel="select2"
                                         data-placeholder="请选择">
                                     <option></option>
                                     <c:forEach items="<%=SystemConstants.USER_TYPE_MAP%>" var="entry">
@@ -108,7 +108,7 @@ pageEncoding="UTF-8" %>
                                     </c:forEach>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=memberType]").val('${param.memberType}');
+                                    $("#searchForm select[name=type]").val('${param.type}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -169,10 +169,15 @@ pageEncoding="UTF-8" %>
                                            type="text" name="_positiveTime" value="${param._positiveTime}"/>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>转移至历史党员库详细原因</label>
+                                <input class="form-control search-query" name="detailReason" type="text" value="${param.detailReason}"
+                                       placeholder="请输入移除原因">
+                            </div>
                             <c:if test="${cls==1}">
                                 <div class="form-group">
                                     <label>移除原因</label>
-                                    <input class="form-control search-query" name="reason" type="text" value="${param.reason}"
+                                    <input class="form-control search-query" name="outReason" type="text" value="${param.outReason}"
                                            placeholder="请输入移除原因">
                                 </div>
                             </c:if>
@@ -221,7 +226,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '学工号',name: 'code',float:true},
                 { label: '姓名',name: 'realname',float:true},
-                { label: '人员类别',name: 'memberType',formatter: function (cellvalue,options,rowObject){
+                { label: '人员类别',name: 'type',formatter: function (cellvalue,options,rowObject){
                     return _cMap.USER_TYPE_MAP[cellvalue];
                     },float:true},
                 { label: '性别',name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER,float:true},
@@ -234,8 +239,8 @@ pageEncoding="UTF-8" %>
                     formatoptions: {newformat: 'Y.m.d'}
                 },
                 { label: '年龄',name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
-                { label: '二级党组织名称',name: 'partyName',align:'left',width:450},
-                { label: '党支部名称',name: 'branchName',align:'left',width:450},
+                { label: '二级党组织名称',name: 'partyName',align:'left',width:300},
+                { label: '党支部名称',name: 'branchName',align:'left',width:300},
                 { label: '党籍状态',name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue)
                             return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
@@ -284,13 +289,12 @@ pageEncoding="UTF-8" %>
                 { label: '手机',name: 'phone',width:110},
                 { label: '邮箱',name: 'email'},
             <c:if test="${cls==1}">
-                { label: '移除原因',name: 'reason',width:200},
+                { label: '移除原因',name: 'outReason',width:200},
             </c:if>
             { label: '添加人',name: 'addUser.realname'},
             { label: '添加时间',name: 'addDate',formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-                { label: '备注1',name: 'remark1',width:150},
-                { label: '备注2',name: 'remark2',width:150},
-                { label: '备注3',name: 'remark3',width:150},
+                { label: '转至历史党员库详细原因',name: 'detailReason',width:250},
+                { label: '备注',name: 'remark',width:150},
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -84,7 +84,8 @@ public class MemberHistoryController extends MemberBaseController {
                                    Byte politicalStatus,
                                    @RequestDateRange DateRange _growTime,
                                    @RequestDateRange DateRange _positiveTime,
-                                   String reason,
+                                   String detailReason,
+                                   String outReason,
                                    String remark,
                                    @RequestParam(required = false, defaultValue = "0") Byte cls,
                                    @RequestParam(required = false, defaultValue = "0") int export,
@@ -120,7 +121,7 @@ public class MemberHistoryController extends MemberBaseController {
             criteria.andIdcardLike(SqlUtils.trimLike(idcard));
         }
         if (type != null) {
-            criteria.andMemberTypeEqualTo(type);
+            criteria.andTypeEqualTo(type);
         }
         if (gender != null) {
             criteria.andGenderEqualTo(gender);
@@ -146,8 +147,11 @@ public class MemberHistoryController extends MemberBaseController {
         if (_positiveTime.getEnd() != null) {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
-        if (StringUtils.isNotBlank(reason)) {
-            criteria.andReasonLike(SqlUtils.trimLike(reason));
+        if (StringUtils.isNotBlank(detailReason)) {
+            criteria.andDetailReasonLike(SqlUtils.trimLike(detailReason));
+        }
+        if (StringUtils.isNotBlank(outReason)) {
+            criteria.andOutReasonEqualTo(SqlUtils.trimLike(outReason));
         }
         if (StringUtils.isNotBlank(remark)) {
             criteria.andRemarkLike(SqlUtils.trimLike(remark));
@@ -276,7 +280,7 @@ public class MemberHistoryController extends MemberBaseController {
         int rownum = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"学工号|100","姓名|100","人员类别|100","性别|100","身份证号|160","民族|100","籍贯|100","出生年月|100",
                 "二级党组织名称|350","党支部名称|350", "党籍状态|100","标签|200","组织关系转入时间|100","提交书面申请书时间|100","确定为入党积极分子时间|100","确定为发展对象时间|100",
-                "入党介绍人|100", "入党时间|100","转正时间|100","专业技术职务|100","手机|100","邮箱|100","添加人|100","添加时间|110","备注1|150","备注2|150","备注3|150"}));
+                "入党介绍人|100", "入党时间|100","转正时间|100","专业技术职务|100","手机|100","邮箱|100","添加人|100","添加时间|110","转至党员库详细原因|200","备注|150"}));
         List<List<String>> valuesList = new ArrayList<>();
         if (cls==1){
             titles.add(22, "移除原因|200");
@@ -293,7 +297,7 @@ public class MemberHistoryController extends MemberBaseController {
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                 record.getCode(),
                     record.getRealname(),
-                    SystemConstants.USER_TYPE_MAP.get(record.getMemberType()),
+                    SystemConstants.USER_TYPE_MAP.get(record.getType()),
                     SystemConstants.GENDER_MAP.get(record.getGender()),
                     record.getIdcard(),
                     record.getNation(),
@@ -315,12 +319,11 @@ public class MemberHistoryController extends MemberBaseController {
                     record.getEmail(),
                     record.getAddUser().getRealname(),
                     DateUtils.formatDate(record.getAddDate(), DateUtils.YYYYMMDD_DOT),
-                    record.getRemark1(),
-                    record.getRemark2(),
-                    record.getRemark3()
+                    record.getDetailReason(),
+                    record.getRemark(),
             }));
             if (cls==1){
-                values.add(22, record.getReason());
+                values.add(22, record.getOutReason());
             }
             valuesList.add(values);
         }
@@ -366,16 +369,16 @@ public class MemberHistoryController extends MemberBaseController {
                 throw new OpException("第{0}行姓名为空",row);
             }
             record.setRealname(realname);
-            String _memberType = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(_memberType)){
+            String _type = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_type)){
                 throw new OpException("第{0}行人员类别为空",row);
             }
             for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
-                if (StringUtils.equals(entry.getValue(), _memberType)){
-                    record.setMemberType(entry.getKey());
+                if (StringUtils.equals(entry.getValue(), _type)){
+                    record.setType(entry.getKey());
                 }
             }
-            if (record.getMemberType() == null){
+            if (record.getType() == null){
                 throw new OpException("第{0}行人员类别不存在", row);
             }
 
@@ -425,9 +428,8 @@ public class MemberHistoryController extends MemberBaseController {
             record.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setPhone(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setRemark1(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setRemark2(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setRemark3(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setDetailReason(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
 
             records.add(record);
             row++;

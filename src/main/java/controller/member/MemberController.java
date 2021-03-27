@@ -46,6 +46,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -1774,10 +1775,10 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping(value = "/transferToHistory", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_transferToHistory(Integer[] ids, String lable, HttpServletRequest request){
+    public Map do_transferToHistory(Integer[] ids, String lable, String detailReason, HttpServletRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         if (null != ids && ids.length>0){
-            memberService.transferToHistory(ids, lable);
+            memberService.transferToHistory(ids, lable, detailReason);
             logger.info(log( LogConstants.LOG_PARTY, "将党员转移至历史党员库：%s",StringUtils.join(ids, ",")));
         }
 

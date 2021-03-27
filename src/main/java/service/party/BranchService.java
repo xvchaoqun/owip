@@ -22,6 +22,7 @@ import sys.utils.ContextHelper;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BranchService extends BaseMapper {
@@ -388,26 +389,16 @@ public class BranchService extends BaseMapper {
         return branchList.size() > 0 ? branchList.get(0) : null;
     }
 
-    public List<Integer> overUserBranchCount(Integer partyId) {
+    //党员人数超过50的支部数量
+    public int overUserCountBranchId(Integer partyId) {
 
-        List<Integer> branchIdList = new ArrayList<>();
-        BranchExample branchExample = new BranchExample();
-        BranchExample.Criteria criteria = branchExample.createCriteria().andIsDeletedEqualTo(false);
-        if (partyId != null) {
+        BranchViewExample example = new BranchViewExample();
+        BranchViewExample.Criteria criteria = example.createCriteria().andMemberCountGreaterThan((long) 50).andIsDeletedEqualTo(false);
+        if (partyId != null){
             criteria.andPartyIdEqualTo(partyId);
         }
-        List<Branch> branchList = branchMapper.selectByExample(branchExample);
-        if (branchList.size() > 0) {
-            for (Branch branch : branchList) {
-                Integer branchId= branch.getId();
-                MemberExample memberExample = new MemberExample();
-                memberExample.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL).andBranchIdEqualTo(branchId);
-                if (memberMapper.countByExample(memberExample) > 50) {
-                    branchIdList.add(branchId);
-                }
-            }
-        }
+        List<BranchView> branchViewList = branchViewMapper.selectByExample(example);
 
-        return branchIdList;
+        return branchViewList==null?0:branchViewList.size();
     }
 }

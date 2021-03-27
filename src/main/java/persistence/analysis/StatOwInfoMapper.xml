@@ -68,7 +68,7 @@
     <!-- 教师 正式、预备党员统计 -->
     <select id="member_teacherSort" resultType="bean.StatByteBean" parameterType="map">
         select count(*) as num, t.is_full_time_teacher as groupBy from ow_member_view ow
-        left join sys_teacher_info t on t.user_id=ow.user_id where ow.status=1 and ow.type=1
+        left join sys_teacher_info t on t.user_id=ow.user_id where ow.status=1 and ow.user_type in(1,5)
         <if test="politicalStatus!=null">
             and ow.political_status =#{politicalStatus}
         </if>
@@ -89,7 +89,7 @@
         select count(*) as num, t.is_full_time_teacher as groupBy from ow_member_apply_view ow
         left join sys_teacher_info t on t.user_id=ow.user_id
         LEFT JOIN sys_user_info u ON u.user_id = t.user_id
-        where ow.member_status=1 and ow.is_remove=0 and ow.type = 1
+        where ow.member_status=1 and ow.is_remove=0 and ow.user_type in(1,5)
         <if test="stage!=null">
             and ow.stage =#{stage}
         </if>

@@ -126,6 +126,7 @@ public class BranchController extends BaseController {
                             Boolean isBaseTeam,
                             Boolean _integrity,
 
+                            Integer memberCount,
                             Boolean isSearch,
                             @RequestParam(required = false, defaultValue = "0") int export,
                             String exportType,
@@ -177,7 +178,10 @@ public class BranchController extends BaseController {
         criteria.andIsDeletedEqualTo(cls == 2);
 
         if (isSearch != null && isSearch) {
-            criteria.andIdIn(branchService.overUserBranchCount(null));
+            memberCount = 50;
+        }
+        if (memberCount != null) {
+            criteria.andMemberCountGreaterThan(Long.valueOf(memberCount));
         }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));

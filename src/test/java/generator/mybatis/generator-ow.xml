@@ -37,18 +37,18 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
            -->
-         <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+         <!--<table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-        </table>
+        </table>-->
 
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
        </table>-->
-        <table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
+        <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
         </table>
-
+-->
 
         <!--  <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

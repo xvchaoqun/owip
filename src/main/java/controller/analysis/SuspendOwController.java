@@ -41,9 +41,9 @@ public class SuspendOwController extends MemberBaseController {
     public String suspend_ow(ModelMap modelMap) {
 
 
-        List<Integer> branchIdList = branchService.overUserBranchCount(null);
-        modelMap.put("overUserBranchCount", branchIdList==null?0:branchIdList.size());
-        modelMap.put("isSearch", branchIdList!=null&&branchIdList.size()>0);
+        int branchCount = branchService.overUserCountBranchId(null);
+        modelMap.put("branchCount", branchCount);
+        modelMap.put("isSearch", branchCount>0);
 
         modelMap.put("partyMemberGroupCount", partyMemberGroupService.count(null));
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.count(null));
@@ -70,11 +70,9 @@ public class SuspendOwController extends MemberBaseController {
     @RequiresPermissions("suspend:party")
     public String suspend_party(int partyId, ModelMap modelMap) {
 
-        List<Integer> branchIdList = branchService.overUserBranchCount(partyId);
-        modelMap.put("overUserBranchCount", branchIdList==null?0:branchIdList.size());
-        modelMap.put("isSearch", branchIdList!=null&&branchIdList.size()>0);
-
-        /*modelMap.put("partyMemberGroupCount", partyMemberGroupService.count(partyId));*/
+        int branchCount = branchService.overUserCountBranchId(partyId);
+        modelMap.put("branchCount", branchCount);
+        modelMap.put("isSearch", branchCount>0);
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.count(partyId));
         modelMap.put("studentGrowOdCheckCount", memberApplyService.count(partyId, null,
                 MemberConstants.MEMBER_TYPE_STUDENT, OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));

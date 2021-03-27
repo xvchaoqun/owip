@@ -36,6 +36,7 @@ import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -1004,7 +1005,7 @@ public class MemberService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void transferToHistory(Integer[] ids, String lable) {
+    public void transferToHistory(Integer[] ids, String lable, String detailReason) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         for (Integer id : ids) {
 
@@ -1023,37 +1024,23 @@ public class MemberService extends MemberBaseMapper {
             }
 
             MemberHistory record = new MemberHistory();
-            record.setUserId(id);
-            record.setCode(uv.getCode());
-            record.setRealname(uv.getRealname());
-            record.setIdcard(uv.getIdcard());
+
+            PropertyUtils.copyProperties(record, uv);
+            PropertyUtils.copyProperties(record, member);
+            record.setUserId(null);
             record.setLable(lable);
-            record.setMemberType(uv.getType());
-            record.setGender(uv.getGender());
-            record.setNation(uv.getNation());
-            record.setNativePlace(uv.getNativePlace());
-            record.setBirth(uv.getBirth());
             record.setPartyName(partyName);
             record.setBranchName(branchName);
-            record.setPoliticalStatus(member.getPoliticalStatus());
-            record.setTransferTime(member.getTransferTime());
-            record.setApplyTime(member.getApplyTime());
-            record.setActiveTime(member.getActiveTime());
-            record.setCandidateTime(member.getCandidateTime());
-            record.setSponsor(member.getSponsor());
-            record.setGrowTime(member.getGrowTime());
-            record.setPositiveTime(member.getPositiveTime());
+            record.setDetailReason(detailReason);
             if (teacherInfo != null) {
                 record.setProPost(teacherInfo.getProPost());
             }
-            record.setPhone(uv.getPhone());
-            record.setEmail(uv.getEmail());
             memberHistoryService.insertSelective(record);
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "党员库转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "转移党员"+record.getRealname()+"("+record.getCode()+")至历史党员库");
+                    "将"+record.getRealname()+"转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, detailReason);
         }
     }
 }

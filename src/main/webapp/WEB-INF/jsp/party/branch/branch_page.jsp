@@ -13,7 +13,7 @@
              data-url-co="${ctx}/branch_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._foundTime || not empty param.code
-                                ||not empty param.name ||not empty param.partyId
+                                ||not empty param.name ||not empty param.partyId || not empty param.memberCount
                                 ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
                                 ||not empty param.types ||not empty param.unitTypeId ||not empty param._integrity}"/>
             <div class="tabbable">
@@ -251,6 +251,12 @@
                                         $("#searchForm select[name=isBaseTeam]").val('${param.isBaseTeam}');
                                     </script>
                                 </div>
+                            <div class="form-group">
+                                <label>党支部人数大于</label>
+                                <input class="num" type="text" name="memberCount" style="width:50px"
+                                       value="${param.memberCount}">
+                            </div>
+
                             <c:if test="${_p_owCheckIntegrity}">
                             <div class="form-group">
                                 <label>信息完整度</label>

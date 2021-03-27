@@ -69,7 +69,7 @@ public class MemberHistoryService extends MemberBaseMapper {
 
     @Transactional
     public void updateByPrimaryKeySelective(MemberHistory record){
-        checkAuth(record);
+        checkAuth(record.getId());
         memberHistoryMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -168,7 +168,8 @@ public class MemberHistoryService extends MemberBaseMapper {
         }
     }
 
-    public void checkAuth(MemberHistory record){
+    public void checkAuth(Integer id){
+        MemberHistory record = memberHistoryMapper.selectByPrimaryKey(id);
         boolean isAddUser = record.getAddUserId().equals(ShiroHelper.getCurrentUserId());
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
                 &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser)){

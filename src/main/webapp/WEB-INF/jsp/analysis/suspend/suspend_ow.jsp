@@ -46,12 +46,12 @@
                         </div>
 
                         <div class="infobox infobox-red"
-                             <c:if test="${(overUserBranchCount)>0}">data-url="${ctx}/branch?isSearch=${isSearch}"</c:if>>
+                             <c:if test="${(branchCount)>0}">data-url="${ctx}/branch?isSearch=${isSearch}"</c:if>>
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-sign-out"></i>
                             </div>
                             <div class="infobox-data">
-                                    <span class="infobox-data-number"><span class="count">${overUserBranchCount}</span> <span
+                                    <span class="infobox-data-number"><span class="count">${branchCount}</span> <span
                                             style="font-size: 10pt;">个支部</span></span>
 
                                 <div class="infobox-content">党员数超过50人支部</div>
