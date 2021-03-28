@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -16,7 +17,7 @@ pageEncoding="UTF-8" %>
                         修改</button>
                     <button id="delBtn" data-url="${ctx}/pmd/pmdFee_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
+                            data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
@@ -143,7 +144,13 @@ pageEncoding="UTF-8" %>
                             'data-url="${ctx}/pmd/pmdFee_confirm?id={0}" '
                             +'data-callback="_callback_popup"><i class="fa fa-rmb"></i> 缴费</button>').format(rowObject.id)
                 }, frozen: true},
-                { label: '缴费月份',name: 'payMonth',formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y.m'}, frozen: true},
+                { label: '缴费月份',name: '_payMonth',width: 150, formatter: function (cellvalue, options, rowObject){
+                    var payMonth = $.date(rowObject.startMonth, 'yyyy.MM');
+                    if(rowObject.endMonth != rowObject.startMonth){
+                        payMonth += "~" + $.date(rowObject.endMonth, 'yyyy.MM')
+                    }
+                    return payMonth;
+                    }, frozen: true},
                 { label: '学工号',name: 'user.code', width: 120, frozen: true},
                 { label: '姓名',name: 'user.realname', frozen: true},
                 { label: '所属${_p_partyName}',name: 'partyId',width: 300,align: 'left',formatter: function (cellvalue, options, rowObject) {
@@ -187,7 +194,10 @@ pageEncoding="UTF-8" %>
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var hasPay = (rowData.hasPay == "true");
-            $("#editBtn, #delBtn").prop("disabled", hasPay);
+            $("#delBtn").prop("disabled", hasPay);
+            <shiro:lacksPermission name="${PERMISSION_PMDVIEWALL}">
+            $("#editBtn").prop("disabled", hasPay);
+            </shiro:lacksPermission>
         }
     }
 

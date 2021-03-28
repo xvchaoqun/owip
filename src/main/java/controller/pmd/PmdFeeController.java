@@ -13,19 +13,16 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.LoginUserService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -41,9 +38,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/pmd")
 public class PmdFeeController extends PmdBaseController {
-
-    @Autowired
-    private LoginUserService loginUserService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -150,8 +144,16 @@ public class PmdFeeController extends PmdBaseController {
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
 
-        if (pmdFeeService.idDuplicate(id, record.getUserId(),record.getPayMonth())) {
-            return failed("添加重复");
+        if(record.getEndMonth()==null){
+            record.setEndMonth(record.getStartMonth());
+        }
+
+        if(record.getStartMonth().after(record.getEndMonth())){
+            return failed("缴费月份有误");
+        }
+
+        if (pmdFeeService.idDuplicate(id, record.getUserId(),record.getStartMonth(), record.getEndMonth())) {
+            return failed("存在重复的缴费月份");
         }
 
         if (id == null) {
@@ -248,12 +250,13 @@ public class PmdFeeController extends PmdBaseController {
 
         List<PmdFee> records = pmdFeeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"缴费月份|100","姓名|100","所属分党委|250","所在党支部|200","缴费方式|100","缴费金额|100","缴费类型|100","缴费原因|100","状态|100"};
+        String[] titles = {"缴费起始月份|100", "缴费截止月份|100", "姓名|100","所属分党委|250","所在党支部|200","缴费方式|100","缴费金额|100","缴费类型|100","缴费原因|100","状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PmdFee record = records.get(i);
             String[] values = {
-                            DateUtils.formatDate(record.getPayMonth(), DateUtils.YYYYMM),
+                            DateUtils.formatDate(record.getStartMonth(), DateUtils.YYYYMM),
+                            DateUtils.formatDate(record.getEndMonth(), DateUtils.YYYYMM),
                             record.getUser().getRealname(),
                             record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
                             record.getBranchId() == null ? "" : branchService.findAll().get(record.getBranchId()).getName(),

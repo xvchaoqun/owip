@@ -5,6 +5,8 @@
 
 <c:set value="${_pMap['payTest']=='true'}" var="_p_payTest"/>
 
+<c:set var="PERMISSION_PMDVIEWALL" value="<%=RoleConstants.PERMISSION_PMDVIEWALL%>"/>
+
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_END%>" var="PMD_MONTH_STATUS_END"/>

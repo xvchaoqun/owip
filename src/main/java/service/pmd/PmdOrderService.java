@@ -362,7 +362,7 @@ public class PmdOrderService extends PmdBaseMapper {
 
         if (mustMakeNewOrder) {
             // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
-            String orderNo = createOrderNo(pmdFeeId, PmdConstants.PMD_ORDER_TYPE_FEE, pmdFee.getPayMonth(),
+            String orderNo = createOrderNo(pmdFeeId, PmdConstants.PMD_ORDER_TYPE_FEE, pmdFee.getStartMonth(),
                     false, PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
@@ -370,7 +370,7 @@ public class PmdOrderService extends PmdBaseMapper {
             // 签名
             newOrder.setSign(Pay.getInstance().sign(paramMap));
             newOrder.setParams(JSONUtils.toString(paramMap, false));
-            newOrder.setPayMonth(DateUtils.formatDate(pmdFee.getPayMonth(), "yyyyMM"));
+            newOrder.setPayMonth(DateUtils.formatDate(pmdFee.getStartMonth(), "yyyyMM"));
             newOrder.setRecordId(pmdFeeId);
             int currentUserId = ShiroHelper.getCurrentUserId();
             newOrder.setUserId(currentUserId);

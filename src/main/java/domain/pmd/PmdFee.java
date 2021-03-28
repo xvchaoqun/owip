@@ -23,7 +23,10 @@ public class PmdFee implements Serializable {
     private Integer type;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMM)
-    private Date payMonth;
+    private Date startMonth;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    private Date endMonth;
 
     private Integer userId;
 
@@ -71,12 +74,20 @@ public class PmdFee implements Serializable {
         this.type = type;
     }
 
-    public Date getPayMonth() {
-        return payMonth;
+    public Date getStartMonth() {
+        return startMonth;
     }
 
-    public void setPayMonth(Date payMonth) {
-        this.payMonth = payMonth;
+    public void setStartMonth(Date startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public Date getEndMonth() {
+        return endMonth;
+    }
+
+    public void setEndMonth(Date endMonth) {
+        this.endMonth = endMonth;
     }
 
     public Integer getUserId() {

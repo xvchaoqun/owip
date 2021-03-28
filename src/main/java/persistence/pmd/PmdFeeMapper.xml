@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.pmd.PmdFee">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="pay_month" jdbcType="DATE" property="payMonth" />
+    <result column="start_month" jdbcType="DATE" property="startMonth" />
+    <result column="end_month" jdbcType="DATE" property="endMonth" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
@@ -79,8 +80,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, pay_month, user_id, party_id, branch_id, amt, reason, is_online_pay, is_self_pay, 
-    has_pay, pay_user_id, pay_time, order_no, order_user_id, remark, status
+    id, type, start_month, end_month, user_id, party_id, branch_id, amt, reason, is_online_pay, 
+    is_self_pay, has_pay, pay_user_id, pay_time, order_no, order_user_id, remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdFeeExample" resultMap="BaseResultMap">
     select
@@ -116,18 +117,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pmd_fee (type, pay_month, user_id, 
-      party_id, branch_id, amt, 
-      reason, is_online_pay, is_self_pay, 
-      has_pay, pay_user_id, pay_time, 
-      order_no, order_user_id, remark, 
-      status)
-    values (#{type,jdbcType=INTEGER}, #{payMonth,jdbcType=DATE}, #{userId,jdbcType=INTEGER}, 
-      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{amt,jdbcType=DECIMAL}, 
-      #{reason,jdbcType=VARCHAR}, #{isOnlinePay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, 
-      #{hasPay,jdbcType=BIT}, #{payUserId,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}, 
-      #{orderNo,jdbcType=VARCHAR}, #{orderUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+    insert into pmd_fee (type, start_month, end_month, 
+      user_id, party_id, branch_id, 
+      amt, reason, is_online_pay, 
+      is_self_pay, has_pay, pay_user_id, 
+      pay_time, order_no, order_user_id, 
+      remark, status)
+    values (#{type,jdbcType=INTEGER}, #{startMonth,jdbcType=DATE}, #{endMonth,jdbcType=DATE}, 
+      #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
+      #{amt,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, #{isOnlinePay,jdbcType=BIT}, 
+      #{isSelfPay,jdbcType=BIT}, #{hasPay,jdbcType=BIT}, #{payUserId,jdbcType=INTEGER}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR}, #{orderUserId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdFee">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -138,8 +139,11 @@
       <if test="type != null">
         type,
       </if>
-      <if test="payMonth != null">
-        pay_month,
+      <if test="startMonth != null">
+        start_month,
+      </if>
+      <if test="endMonth != null">
+        end_month,
       </if>
       <if test="userId != null">
         user_id,
@@ -188,8 +192,11 @@
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="payMonth != null">
-        #{payMonth,jdbcType=DATE},
+      <if test="startMonth != null">
+        #{startMonth,jdbcType=DATE},
+      </if>
+      <if test="endMonth != null">
+        #{endMonth,jdbcType=DATE},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -250,8 +257,11 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.payMonth != null">
-        pay_month = #{record.payMonth,jdbcType=DATE},
+      <if test="record.startMonth != null">
+        start_month = #{record.startMonth,jdbcType=DATE},
+      </if>
+      <if test="record.endMonth != null">
+        end_month = #{record.endMonth,jdbcType=DATE},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -304,7 +314,8 @@
     update pmd_fee
     set id = #{record.id,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
-      pay_month = #{record.payMonth,jdbcType=DATE},
+      start_month = #{record.startMonth,jdbcType=DATE},
+      end_month = #{record.endMonth,jdbcType=DATE},
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
@@ -329,8 +340,11 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="payMonth != null">
-        pay_month = #{payMonth,jdbcType=DATE},
+      <if test="startMonth != null">
+        start_month = #{startMonth,jdbcType=DATE},
+      </if>
+      <if test="endMonth != null">
+        end_month = #{endMonth,jdbcType=DATE},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -380,7 +394,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdFee">
     update pmd_fee
     set type = #{type,jdbcType=INTEGER},
-      pay_month = #{payMonth,jdbcType=DATE},
+      start_month = #{startMonth,jdbcType=DATE},
+      end_month = #{endMonth,jdbcType=DATE},
       user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},

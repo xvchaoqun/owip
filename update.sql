@@ -104,7 +104,9 @@ ALTER TABLE `cadre`
 	ADD COLUMN `is_sync_post` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否同步第一主职职务名称，如果存在主职，则保持同步，不可单独修改' AFTER `is_outside`;
 -- 更新cadre_view
 
-
+ALTER TABLE `pmd_fee`
+	CHANGE COLUMN `pay_month` `start_month` DATE NOT NULL COMMENT '缴费起始月份' AFTER `type`,
+	ADD COLUMN `end_month` DATE NULL COMMENT '缴费结束月份' AFTER `start_month`;
 
 20210326
 -- 哈工大

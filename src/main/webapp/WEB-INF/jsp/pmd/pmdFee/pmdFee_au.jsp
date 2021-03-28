@@ -40,23 +40,34 @@ pageEncoding="UTF-8"%>
 				</script>
 			</div>
 		</div>
-
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 缴费月份</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 缴费起始月份</label>
 			<div class="col-xs-6">
-				<div class="input-group" style="width: 264px">
-					<input required class="form-control date-picker" name="payMonth" type="text"
+				<div class="input-group" style="width: 120px">
+					<input required class="form-control date-picker" name="startMonth" type="text"
 						   data-date-format="yyyy.mm" data-date-min-view-mode="1"
-						   value="${cm:formatDate(empty pmdFee.payMonth?now:pmdFee.payMonth,'yyyy.MM')}" />
+						   value="${cm:formatDate(pmdFee.startMonth,'yyyy.MM')}" />
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"> 缴费截止月份</label>
+			<div class="col-xs-6">
+				<div class="input-group" style="width: 120px">
+					<input class="form-control date-picker" name="endMonth" type="text"
+						   data-date-format="yyyy.mm" data-date-min-view-mode="1"
+							value="${cm:formatDate(pmdFee.endMonth,'yyyy.MM')}"/>
+					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+				</div>
+				<span>注：留空与起始月份相同</span>
 			</div>
 		</div>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 缴费金额</label>
 				<div class="col-xs-6">
-                        <input required class="form-control number" type="text" name="amt" value="${cm:stripTrailingZeros(pmdFee.amt)}">
+                        <input required ${pmdFee.hasPay?"disabled":""} class="form-control number" type="text" name="amt" value="${cm:stripTrailingZeros(pmdFee.amt)}">
 				</div>
 			</div>
 			<div class="form-group">

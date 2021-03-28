@@ -257,63 +257,123 @@ public class PmdFeeExample {
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthIsNull() {
-            addCriterion("pay_month is null");
+        public Criteria andStartMonthIsNull() {
+            addCriterion("start_month is null");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthIsNotNull() {
-            addCriterion("pay_month is not null");
+        public Criteria andStartMonthIsNotNull() {
+            addCriterion("start_month is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthEqualTo(Date value) {
-            addCriterionForJDBCDate("pay_month =", value, "payMonth");
+        public Criteria andStartMonthEqualTo(Date value) {
+            addCriterionForJDBCDate("start_month =", value, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthNotEqualTo(Date value) {
-            addCriterionForJDBCDate("pay_month <>", value, "payMonth");
+        public Criteria andStartMonthNotEqualTo(Date value) {
+            addCriterionForJDBCDate("start_month <>", value, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthGreaterThan(Date value) {
-            addCriterionForJDBCDate("pay_month >", value, "payMonth");
+        public Criteria andStartMonthGreaterThan(Date value) {
+            addCriterionForJDBCDate("start_month >", value, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("pay_month >=", value, "payMonth");
+        public Criteria andStartMonthGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("start_month >=", value, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthLessThan(Date value) {
-            addCriterionForJDBCDate("pay_month <", value, "payMonth");
+        public Criteria andStartMonthLessThan(Date value) {
+            addCriterionForJDBCDate("start_month <", value, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("pay_month <=", value, "payMonth");
+        public Criteria andStartMonthLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("start_month <=", value, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthIn(List<Date> values) {
-            addCriterionForJDBCDate("pay_month in", values, "payMonth");
+        public Criteria andStartMonthIn(List<Date> values) {
+            addCriterionForJDBCDate("start_month in", values, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthNotIn(List<Date> values) {
-            addCriterionForJDBCDate("pay_month not in", values, "payMonth");
+        public Criteria andStartMonthNotIn(List<Date> values) {
+            addCriterionForJDBCDate("start_month not in", values, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("pay_month between", value1, value2, "payMonth");
+        public Criteria andStartMonthBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("start_month between", value1, value2, "startMonth");
             return (Criteria) this;
         }
 
-        public Criteria andPayMonthNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("pay_month not between", value1, value2, "payMonth");
+        public Criteria andStartMonthNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("start_month not between", value1, value2, "startMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthIsNull() {
+            addCriterion("end_month is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthIsNotNull() {
+            addCriterion("end_month is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthEqualTo(Date value) {
+            addCriterionForJDBCDate("end_month =", value, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthNotEqualTo(Date value) {
+            addCriterionForJDBCDate("end_month <>", value, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthGreaterThan(Date value) {
+            addCriterionForJDBCDate("end_month >", value, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("end_month >=", value, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthLessThan(Date value) {
+            addCriterionForJDBCDate("end_month <", value, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("end_month <=", value, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthIn(List<Date> values) {
+            addCriterionForJDBCDate("end_month in", values, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthNotIn(List<Date> values) {
+            addCriterionForJDBCDate("end_month not in", values, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("end_month between", value1, value2, "endMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndMonthNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("end_month not between", value1, value2, "endMonth");
             return (Criteria) this;
         }
 

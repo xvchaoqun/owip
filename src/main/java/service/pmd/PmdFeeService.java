@@ -22,12 +22,13 @@ public class PmdFeeService extends PmdBaseMapper {
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
-    public boolean idDuplicate(Integer id, Integer userId, Date payMonth){
+    public boolean idDuplicate(Integer id, Integer userId, Date startMonth, Date endMonth){
 
         PmdFeeExample example = new PmdFeeExample();
         PmdFeeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(PmdConstants.PMD_FEE_STATUS_NORMAL);
         if(id!=null) criteria.andIdNotEqualTo(id);
-        criteria.andUserIdEqualTo(userId).andPayMonthEqualTo(payMonth);
+        criteria.andUserIdEqualTo(userId).andStartMonthGreaterThanOrEqualTo(startMonth)
+                .andEndMonthLessThanOrEqualTo(endMonth);
 
         return pmdFeeMapper.countByExample(example) > 0;
     }
@@ -84,8 +85,9 @@ public class PmdFeeService extends PmdBaseMapper {
         if(!pmdBranchAdminService.adminBranch(loginUserId, pmdFee.getPartyId(), pmdFee.getBranchId())){
             throw new UnauthorizedException();
         }
+
         if(pmdFee.getHasPay()){
-            throw new OpException("已缴费记录不允许更新");
+            pmdFee.setAmt(null); // 已缴费记录不允许更新 金额
         }
 
         pmdFeeMapper.updateByPrimaryKeySelective(record);

@@ -28,7 +28,11 @@
         </c:if>
         <tr>
             <td class="bg-right">缴费月份</td>
-            <td>${cm:formatDate(pmdFee.payMonth, "yyyy年MM月")}</td>
+            <td>${cm:formatDate(pmdFee.startMonth, "yyyy年MM月")}
+            <c:if test="${pmdFee.startMonth!=pmdFee.endMonth}">
+               至 ${cm:formatDate(pmdFee.endMonth, "yyyy年MM月")}
+            </c:if>
+            </td>
         </tr>
         <tr>
             <td class="bg-right">缴费类别</td>
