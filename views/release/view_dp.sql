@@ -5,7 +5,6 @@ select dm.*,sui.gender,sui.birth,sui.nation,sui.native_place,sui.unit,
 t.work_time,t.authorized_type,t.education as high_edu,t.degree as high_degree,
 if(u.type=5, 1, 0) as is_retire,t.retire_time,t.is_honor_retire,
 cv.admin_level,cv.post,t.pro_post
-
 from dp_member dm left join dp_party dp on dp.id = dm.party_id
 left join sys_user u on dm.user_id=u.id
 left join sys_user_info sui on dm.user_id=sui.user_id
