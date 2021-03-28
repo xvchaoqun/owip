@@ -126,14 +126,14 @@
                 <shiro:hasPermission name="cadreEva:*">
                     <li>
                         <a href="javascript:;"
-                           data-url="${ctx}/cadreEva_page?cadreId=${param.cadreId}&_auth=1">年度考核记录</a>
+                           data-url="${ctx}/cadreEva?cadreId=${param.cadreId}&_auth=1">年度考核记录</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cesResult:list">
                     <li>
                  <%--_auth=1 从个人页面跳转到考核结果页面--%>
                         <a href="javascript:;"
-                           data-url="${ctx}/cesResults?cadreId=${param.cadreId}&_auth=1&type=${CES_RESULT_TYPE_CADRE}&unitId=${cadre.unit.id}">年终考核测评结果</a>
+                           data-url="${ctx}/cesResult?cadreId=${param.cadreId}&_auth=1&type=${CES_RESULT_TYPE_CADRE}&unitId=${cadre.unit.id}">年终考核测评结果</a>
                     </li>
                 </shiro:hasPermission>
                 <c:if test="${param.isDp==1}">

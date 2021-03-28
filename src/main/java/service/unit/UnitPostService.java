@@ -6,7 +6,6 @@ import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreView;
 import domain.dispatch.DispatchCadreViewExample;
-import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import domain.unit.*;
 import org.apache.commons.lang3.BooleanUtils;
@@ -536,18 +535,18 @@ public class UnitPostService extends BaseMapper {
 
     public void updateUnitPostRole(List<UnitPostView> records) {
         //行政班子负责人
-        List<SysUserView> admins = sysUserService.findByRole(RoleConstants.ROLE_ADMINISTRATION_PRINCIPAL);
+        List<SysUserView> admins = sysUserService.findByRole(RoleConstants.ROLE_UNIT_ADMIN_XZ);
         //党委班子负责人
-        List<SysUserView> partys = sysUserService.findByRole(RoleConstants.ROLE_PARTY_PRINCIPAL);
+        List<SysUserView> partys = sysUserService.findByRole(RoleConstants.ROLE_UNIT_ADMIN_DW);
 
         for (SysUserView record: admins) {
             if (!records.contains(record)) {
-                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_ADMINISTRATION_PRINCIPAL);
+                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_UNIT_ADMIN_XZ);
             }
         }
         for (SysUserView record: partys) {
             if (!records.contains(record)) {
-                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_PARTY_PRINCIPAL);
+                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_UNIT_ADMIN_DW);
             }
         }
         for (UnitPostView record: records) {
@@ -556,9 +555,9 @@ public class UnitPostService extends BaseMapper {
                 Integer userId = cadre.getUserId();
                 if (userId != null) {
                     if (cadre.getLeaderType() == SystemConstants.UNIT_POST_LEADER_TYPE_DW) {
-                        sysUserService.addRole(userId, RoleConstants.ROLE_PARTY_PRINCIPAL);
+                        sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_DW);
                     } else if (cadre.getLeaderType() == SystemConstants.UNIT_POST_LEADER_TYPE_XZ) {
-                        sysUserService.addRole(userId, RoleConstants.ROLE_ADMINISTRATION_PRINCIPAL);
+                        sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_XZ);
                     }
                 }
             }

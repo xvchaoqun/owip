@@ -21,27 +21,21 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             <div class="form-group">
-                <c:set var="cadre" value="${cm:getCadreById(cadreEva.cadreId)}"/>
-                <label class="col-xs-3 control-label"><span class="star">*</span> 选择干部</label>
-                <div class="col-xs-6">
-                    <c:choose>
-                        <c:when test="${param._auth=='1'}">
-                            <select data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}" data-width="273"
-                                    name="cadreId" data-placeholder="请选择" required disabled>
-                                <option value="${param.cadreId}">${cadreView.user.realname}-${cadreView.user.code}-${cadreView.unit.name}</option>
-                            </select>
-                        </c:when>
-                        <c:otherwise>
-                            <select data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}" data-width="273"
-                                    name="cadreId" data-placeholder="请选择" required>
-                                <option value="${cadreEva.cadreId}">${cadre.user.realname}-${cadre.user.code}-${cadre.user.unit}</option>
-                            </select>
-                        </c:otherwise>
-                    </c:choose>
-
-                </div>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
+                <c:if test="${not empty cadre}">
+                 <div class="col-xs-6 label-text">
+                        ${cadre.realname}
+                 </div>
+                </c:if>
+                <c:if test="${empty cadre}">
+                 <div class="col-xs-6">
+                        <select data-rel="select2-ajax"
+                                data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}" data-width="273"
+                                name="cadreId" data-placeholder="请选择" required>
+                            <option></option>
+                        </select>
+                 </div>
+                </c:if>
             </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>考核情况</label>

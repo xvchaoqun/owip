@@ -86,7 +86,7 @@
             { label: '操作',name: '_op',width:80,formatter: function(cellvalue, options, rowObject){
 
                 return ('<button class="confirm btn btn-xs btn-danger" ' +
-                        'data-url="${ctx}/cet/cetColumnCourse_batchDel?ids={0}" data-msg="确定删除？" '
+                        'data-url="${ctx}/cet/cetColumnCourse_batchDel?ids={0}" data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）" '
                         +'data-callback="_callback_popup"><i class="fa fa-times"></i> 删除</button>').format(rowObject.id)
             }},
         ]

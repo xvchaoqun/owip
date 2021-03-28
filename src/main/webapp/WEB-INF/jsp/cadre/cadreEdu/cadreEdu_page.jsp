@@ -48,7 +48,7 @@
         <shiro:hasPermission name="cadreEdu:del">
             <button data-url="${ctx}/cadreEdu_batchDel"
                     data-title="删除"
-                    data-msg="确定删除这{0}条数据？"
+                    data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                     data-grid-id="#jqGrid_cadreEdu"
                     data-querystr="cadreId=${param.cadreId}"
                     class="jqBatchBtn btn btn-danger btn-sm">
@@ -182,7 +182,7 @@
         <button class="confirm btn btn-xs btn-danger"
                 data-parent="{{=parentRowKey}}"
                 data-url="${ctx}/cadreWork_batchDel?ids={{=id}}&cadreId=${param.cadreId}"
-                data-msg="确定删除该其间经历？"
+                data-msg="确定删除该其间经历？<br/>（删除后无法恢复，请谨慎操作！！）"
                 data-callback="_callback"><i class="fa fa-times"></i> 删除
         </button>
         </shiro:hasPermission>

@@ -554,6 +554,18 @@ public class CadreController extends BaseController {
 
             // 批量排序表
             exportForBatchSort(status, response);
+        }else if (export == 7){
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            //干部工作经历表
+            cadreExportService.workExperience_export(example,status,response);
+            return;
+        }else if (export == 8){
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            //常用格式表
+            cadreExportService.common_export(example,status,response);
+            return;
         }
 
         long count = cadreViewMapper.countByExample(example);

@@ -46,7 +46,7 @@
                         <div class="hidden-sm hidden-xs action-buttons">
                                 <button class="confirm btn btn-danger btn-xs"
                                         data-title="删除"
-                                        data-msg="确定删除？"
+                                        data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                         data-callback="_pop_reload"
                                         data-url="${ctx}/pmMeetingFile_del?id=${pmMeetingFile.id}">
                                     <i class="fa fa-times"></i> 删除

@@ -62,14 +62,17 @@ public class CesResultController extends BaseController {
                 }
             }
         }
-        if (id == null) {
-            CesResult cesResult = cesResultService.get(record.getType(), record.getUnitId(),
+
+        CesResult cesResult = cesResultService.get(record.getType(), record.getUnitId(),
                     record.getCadreId(), record.getYear(), record.getName());
-            if(cesResult!=null){
-                if(id==null || id.intValue() != cesResult.getId()){
-                    return failed("添加重复");
-                }
+        if(cesResult!=null){
+            if(id==null || id.intValue() != cesResult.getId()){
+                return failed("添加重复");
             }
+        }
+
+        if (id == null) {
+
             cesResultService.insertSelective(record);
             logger.info(log( LogConstants.LOG_ADMIN, "添加年终测评结果：{0}", record.getId()));
         } else {
@@ -88,16 +91,10 @@ public class CesResultController extends BaseController {
             CesResult cesResult = cesResultMapper.selectByPrimaryKey(id);
             modelMap.put("cesResult", cesResult);
             unitId = cesResult.getUnitId();
+            cadreId = cesResult.getCadreId();
         }
         if (cadreId != null) {
-            CadreViewExample example = new CadreViewExample();
-            CadreViewExample.Criteria criteria = example.createCriteria();
-            criteria.andIdEqualTo(cadreId);
-            List<CadreView> records = cadreViewMapper.selectByExample(example);
-            if (records.size() > 0) {
-                CadreView record = records.get(0);
-                modelMap.put("user", record.getUser());
-            }
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
         if (unitId != null) {
             modelMap.put("unit", CmTag.getUnit(unitId));
@@ -262,7 +259,7 @@ public class CesResultController extends BaseController {
     }
 
     @RequiresPermissions("cesResult:*")
-    @RequestMapping("/cesResults")
+    @RequestMapping("/cesResult")
     public String cesResults(byte type, Integer cadreId, Integer unitId, ModelMap modelMap) {
         modelMap.put("type", type);
         if (cadreId != null) {
@@ -273,13 +270,13 @@ public class CesResultController extends BaseController {
         if (unitId != null) {
             modelMap.put("unit", CmTag.getUnit(unitId));
         }
-        return "ces/cesResult/cesResult_list";
+        return "ces/cesResult/cesResult_page";
     }
 
     @RequiresPermissions("cesResult:list")
-    @RequestMapping("/cesResults_data")
+    @RequestMapping("/cesResult_data")
     @ResponseBody
-    public void cesResults_data(HttpServletRequest request,HttpServletResponse response,
+    public void cesResult_data(HttpServletRequest request,HttpServletResponse response,
                                 Integer cadreId,
                                 Integer unitId,
                                 byte type,
@@ -311,10 +308,10 @@ public class CesResultController extends BaseController {
             criteria.andYearEqualTo(year);
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameEqualTo(name);
+            criteria.andNameLike(SqlUtils.trimLike(name));
         }
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleEqualTo(title);
+            criteria.andTitleLike(SqlUtils.trimLike(title));
         }
 
         if (export == 1) {

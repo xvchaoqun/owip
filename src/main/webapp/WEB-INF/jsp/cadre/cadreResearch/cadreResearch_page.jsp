@@ -124,7 +124,7 @@
                 <shiro:hasPermission name="cadreResearch:del">
                     <button data-url="${ctx}/cadreResearch_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                             data-grid-id="#jqGrid_cadreResearch_direct"
                             data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
@@ -162,7 +162,7 @@
                 <shiro:hasPermission name="cadreResearch:del">
                     <button data-url="${ctx}/cadreResearch_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                             data-grid-id="#jqGrid_cadreResearch_in"
                             data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
@@ -196,7 +196,7 @@
                 </button>
                 <button data-url="${ctx}/cadreBook_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                         data-grid-id="#jqGrid_cadreBook"
                         data-querystr="cadreId=${param.cadreId}"
                         class="jqBatchBtn btn btn-danger btn-sm">
@@ -229,7 +229,7 @@
                 </button>
                 <button data-url="${ctx}/cadrePaper_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                         data-grid-id="#jqGrid_cadrePaper"
                         data-querystr="cadreId=${param.cadreId}"
                         class="jqBatchBtn btn btn-danger btn-sm">
@@ -263,7 +263,7 @@
             </button>
             <button data-url="${ctx}/cadreReward_batchDel"
                     data-title="删除"
-                    data-msg="确定删除这{0}条数据？"
+                    data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                     data-grid-id="#jqGrid_cadreReward"
                     data-querystr="cadreId=${param.cadreId}"
                     class="jqBatchBtn btn btn-danger btn-sm">

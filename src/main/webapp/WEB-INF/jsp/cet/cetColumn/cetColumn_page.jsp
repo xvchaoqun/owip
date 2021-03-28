@@ -36,7 +36,7 @@
                             <shiro:hasPermission name="cetColumn:del">
                                 <button data-url="${ctx}/cet/cetColumn_batchDel"
                                         data-title="删除"
-                                        data-msg="确定删除这{0}条数据？"
+                                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 删除
@@ -119,7 +119,7 @@
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
             data-url="${ctx}/cet/cetColumn_batchDel?ids={{=id}}"
-            data-msg="确定删除？"
+            data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
             data-callback="_delCallback"><i class="fa fa-times"></i> 删除
     </button>
 </script>

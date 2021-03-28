@@ -23,7 +23,7 @@
                     <shiro:hasPermission name="claAdditionalPost:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/cla/claAdditionalPost_batchDel" data-title="删除"
-                           data-msg="确定删除这{0}个兼审单位吗？"><i class="fa fa-trash"></i> 删除</a>
+                           data-msg="确定删除这{0}个兼审单位吗？<br/>（删除后无法恢复，请谨慎操作！！）"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

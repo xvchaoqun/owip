@@ -107,7 +107,7 @@
                             <shiro:hasPermission name="unit:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/unit_batchDel" data-title="删除单位"
-                                   data-msg="确定删除这{0}个单位吗？"><i class="fa fa-trash"></i> 删除</a>
+                                   data-msg="确定删除这{0}个单位吗？<br/>（删除后无法恢复，请谨慎操作！！）"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>
                             </c:if>
                              <c:if test="${cls==3}">

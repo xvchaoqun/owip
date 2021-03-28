@@ -188,20 +188,7 @@
                                                        data-url="${ctx}/cadreTrain_import">
                                                         <i class="fa fa-file-excel-o"></i> 导入培训情况</a>
                                                 </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadreEva_import">
-                                                        <i class="fa fa-file-excel-o"></i> 导入年度考核结果</a>
-                                                </li>
-                                                <shiro:hasPermission name="cesResult:import">
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cesResult_import?type=${CES_RESULT_TYPE_CADRE}">
-                                                        <i class="fa fa-file-excel-o"></i> 导入年终考核测评数据</a>
-                                                </li>
-                                                </shiro:hasPermission>
+
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
@@ -314,6 +301,8 @@
                                                         <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）</a>
                                                 </li>
                                             </shiro:hasPermission>
+                                            <jsp:include page="${ctx}/ext/cadre_download.jsp"/>
+
                                             <c:if test="${status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ}">
                                                 <shiro:hasPermission name="cadre:list">
                                                     <li role="separator" class="divider"></li>

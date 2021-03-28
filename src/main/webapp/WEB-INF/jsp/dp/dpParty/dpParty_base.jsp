@@ -169,7 +169,7 @@ pageEncoding="UTF-8"%>
 							<shiro:hasPermission name="dpPartyMember:del">
 							<a class="confirm btn btn-danger btn-xs"
 							   data-url="${ctx}/dp/dpPartyAdmin_del?userId=${adminId}&partyId=${dpParty.id}"
-							   data-msg="确定删除该管理员？"
+							   data-msg="确定删除该管理员？<br/>（删除后无法恢复，请谨慎操作！！）"
 							   data-callback="_delAdminCallback">删除</a>
 							</shiro:hasPermission>
 						</td>

@@ -37,7 +37,7 @@
                     <%--_auth=1 从个人页面跳转到考核结果页面--%>
                     <li>
                         <a href="javascript:;"
-                           data-url="${ctx}/cesResults?unitId=${param.id}&_auth=1&type=${CES_RESULT_TYPE_UNIT}">年终考核测评结果</a>
+                           data-url="${ctx}/cesResult?unitId=${param.id}&_auth=1&type=${CES_RESULT_TYPE_UNIT}">年终考核测评结果</a>
                     </li>
                 </shiro:hasPermission>
                  <%--<shiro:hasPermission name="unit:unitTransfer">

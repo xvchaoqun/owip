@@ -39,7 +39,7 @@
             <shiro:hasPermission name="cadrePostInfo:del">
                 <button data-url="${ctx}/cadrePostPro_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                         data-grid-id="#jqGrid_cadrePostPro"
                         data-querystr="cadreId=${param.cadreId}"
                         class="jqBatchBtn btn btn-danger btn-sm">
@@ -75,7 +75,7 @@
             <shiro:hasPermission name="cadrePostInfo:del">
                 <button data-url="${ctx}/cadrePostAdmin_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                         data-grid-id="#jqGrid_cadrePostAdmin"
                         data-querystr="cadreId=${param.cadreId}"
                         class="jqBatchBtn btn btn-danger btn-sm">
@@ -111,7 +111,7 @@
             <shiro:hasPermission name="cadrePostInfo:del">
                 <button data-url="${ctx}/cadrePostWork_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                         data-grid-id="#jqGrid_cadrePostWork"
                         data-querystr="cadreId=${param.cadreId}"
                         class="jqBatchBtn btn btn-danger btn-sm">

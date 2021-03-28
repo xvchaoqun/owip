@@ -44,7 +44,7 @@
                 <shiro:hasPermission name="cadreStatHistory:del">
                     <a class="jqBatchBtn btn btn-danger btn-sm"
                        data-url="${ctx}/cadreStatHistory_batchDel" data-title="删除"
-                       data-msg="确定删除这{0}条记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                       data-msg="确定删除这{0}条记录吗？<br/>（删除后无法恢复，请谨慎操作！！）"><i class="fa fa-trash"></i> 删除</a>
                 </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

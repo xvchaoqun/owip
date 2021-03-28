@@ -68,7 +68,7 @@ pageEncoding="UTF-8" %>
                                 <shiro:hasPermission name="passport:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/abroad/passport_batchDel" data-title="证件删除"
-                                       data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
+                                       data-msg="确定删除这{0}个证件吗？<br/>（删除后无法恢复，请谨慎操作！！）"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                                 <a class="importBtn btn btn-info btn-sm tooltip-info"
                                    data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 批量导入</a>
@@ -134,7 +134,7 @@ pageEncoding="UTF-8" %>
                                 <shiro:hasPermission name="passport:del">
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/abroad/passport_batchDel" data-title="证件删除"
-                                       data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</button>
+                                       data-msg="确定删除这{0}个证件吗？<br/>（删除后无法恢复，请谨慎操作！！）"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

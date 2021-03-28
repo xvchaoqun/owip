@@ -100,7 +100,7 @@
                                 <shiro:hasPermission name="claApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/cla/claApply_batchDel" data-title="删除干部请假申请"
-                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                                       data-msg="确定删除这{0}条申请记录吗？<br/>（删除后无法恢复，请谨慎操作！！）"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${status==-1}">

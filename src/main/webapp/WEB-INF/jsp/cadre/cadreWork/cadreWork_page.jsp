@@ -44,7 +44,7 @@
                 <shiro:hasPermission name="cadreWork:del">
                     <button data-url="${ctx}/cadreWork_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                             data-grid-id="#jqGrid_cadreWork"
                             data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">

@@ -3,7 +3,6 @@ package persistence.member.common;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -71,7 +70,4 @@ public interface StatMemberMapper {
                            @Param("proPostLevel") String proPostLevel,
                            @Param("branchIdList") List<Integer> branchIdList,
                            @Param("partyId") Integer partyId);
-
-    @Select("select count(*) from ow_member_view where status=1 and type =2 and user_type = 3 and edu_level like '%博士%'")
-    Integer getOwBsMemberCount();
 }

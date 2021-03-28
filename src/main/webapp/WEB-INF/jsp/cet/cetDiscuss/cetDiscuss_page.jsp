@@ -38,7 +38,7 @@
                     </button>
                     <button data-url="${ctx}/cet/cetDiscuss_batchDel?planId=${param.planId}"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                             data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除

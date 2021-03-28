@@ -69,10 +69,9 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="drOnline:del">
                         <button data-url="${ctx}/dr/drOnline_batchDel"
                                 data-title="删除"
-                                data-msg="确定删除这{0}条民主推荐数据的相关数据吗？"
+                                data-msg="确定删除这{0}条记录吗？<br/>（该功能会删除该记录的所有相关数据，删除后无法恢复，请谨慎操作！！）"
                                 data-grid-id="#jqGrid"
-                                class="jqBatchBtn btn btn-danger btn-sm"
-                                title="该功能会删除该批次民主推荐的所有相关数据，请谨慎使用！">
+                                class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-times"></i> 完全删除
                         </button>
                     </shiro:hasPermission>

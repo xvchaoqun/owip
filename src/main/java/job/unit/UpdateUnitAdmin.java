@@ -1,4 +1,4 @@
-package job.unitpost;
+package job.unit;
 
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
@@ -11,7 +11,7 @@ import service.unit.UnitPostService;
 import sys.constants.SystemConstants;
 import java.util.List;
 
-public class UpdateUnitPostRoles implements Job {
+public class UpdateUnitAdmin implements Job {
 
     @Autowired
     private UnitPostViewMapper unitPostViewMapper;

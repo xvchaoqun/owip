@@ -66,7 +66,7 @@
                                                                 <c:if test="${cm:isPermitted('feedback:del') || feedback.selfCanEdit}">
                                                                     <button data-url="${ctx}/feedback_del?id=${feedback.id}"
                                                                         data-title="删除"
-                                                                        data-msg="确定删除？"
+                                                                        data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                                                         data-callback="_reloadDetail"
                                                                         class="confirm btn btn-danger btn-xs">
                                                                          <i class="fa fa-times"></i></button>

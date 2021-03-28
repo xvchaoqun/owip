@@ -42,7 +42,7 @@
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
             data-url="${ctx}/dp/dpWork_batchDel?ids={{=id}}&userId=${param.userId}"
-            data-msg="确定删除该工作经历？"
+            data-msg="确定删除该工作经历？<br/>（删除后无法恢复，请谨慎操作！！）"
             data-callback="_callback"><i class="fa fa-times"></i> 删除
     </button>
     </shiro:hasPermission>

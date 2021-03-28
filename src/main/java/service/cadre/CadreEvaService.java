@@ -6,22 +6,18 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.ces.CesResultService;
 import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.utils.ExportHelper;
-import sys.utils.MSUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -187,82 +183,32 @@ public class CadreEvaService extends BaseMapper {
             }
         }
         List<CadreEva> records = cadreEvaMapper.selectByExample(example);
-        List<String> titles = new ArrayList(Arrays.asList("年份|80"));
+        List<String> titles = new ArrayList();
+        titles.add("年份|80");
         titles.add("工作证号|100");
         titles.add("姓名|100");
         titles.add("考核情况|100");
         titles.add("时任职务|250");
         titles.add("备注|200");
 
-        String fileName = "干部年度考核记录";
-        fileName = HtmlUtils.htmlUnescape(fileName);
-        SXSSFWorkbook wb = new SXSSFWorkbook(500);
-        createSheet(null, wb, titles, records);
-        CesResultService.output(wb, fileName + ".xlsx", request, response);
+        int rownum = records.size();
+        List<List<String>> valueList = new ArrayList<>();
+        for (int i = 0; i< rownum; i++){
 
-    }
-
-    public void createSheet(String sheetName, SXSSFWorkbook wb, List<String> titles, List<CadreEva> valuesList) {
-        Sheet sheet = CesResultService.createSafeSheet(wb, sheetName);
-        sheet.setDefaultRowHeightInPoints(30);
-        Row firstRow = sheet.createRow(0);
-
-        CellStyle headStyle2 = MSUtils.getHeadStyle2(wb);
-
-        String[] aligns = new String[titles.size()];
-        int width;
-        for (int i = 0; i < titles.size(); i++) {
-
-            String _title = titles.get(i);
-            String[] split = _title.split("\\|");
-            Cell cell = firstRow.createCell(i);
-            cell.setCellValue(split[0]);
-            cell.setCellStyle(headStyle2);
-            if (split.length > 1) {
-                try {
-                    width = Integer.valueOf(split[1]);
-                    sheet.setColumnWidth(i, (short) (35.7 * width));
-                } catch (Exception e) {
-                    logger.error("export error.", e);
-                }
-            }
-            if (split.length > 2) {
-                aligns[i] = split[2];
-            } else {
-                aligns[i] = null;
-            }
-        }
-        CellStyle centerCellStyle = CesResultService.createCenterCellStyle(wb);
-        int col = 0;
-        for (int i = 0; i < valuesList.size(); i++) {
-            CadreEva record = valuesList.get(i);
-            Row row = sheet.createRow(i + 1);
-            Cell cell = row.createCell(col);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(record.getYear());
-
+            CadreEva record = records.get(i);
+            List<String> values = new ArrayList<>();
+            values.add(record.getYear() + "");
             SysUserView user = record.getCadre().getUser();
-            cell = row.createCell(++col);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(user.getCode());
+            values.add(user.getCode());
+            values.add(user.getRealname());
+            values.add(metaTypeMapper.selectByPrimaryKey(record.getType()).getName());
+            values.add(record.getTitle());
+            values.add(record.getRemark());
 
-            cell = row.createCell(++col);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(user.getRealname());
-
-            cell = row.createCell(++col);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(metaTypeMapper.selectByPrimaryKey(record.getType()).getName());
-
-            cell = row.createCell(++col);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(record.getTitle());
-
-            cell = row.createCell(++col);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(record.getRemark());
-            col = 0;
+            valueList.add(values);
         }
-    }
 
+        String fileName = "干部年度考核记录.xlsx";
+        ExportHelper.export(titles, valueList, fileName, response);
+    }
 }

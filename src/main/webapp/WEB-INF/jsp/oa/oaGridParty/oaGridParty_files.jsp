@@ -33,7 +33,7 @@
                             <c:if test="${oaGridParty.status!=OA_GRID_PARTY_REPORT}">
                                 <button class="confirm btn btn-danger btn-xs"
                                         data-title="删除"
-                                        data-msg="确定删除？"
+                                        data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                         data-callback="_pop_reload"
                                         data-url="${ctx}/oa/oaGridPartyFile_del?id=${oaGridParty.id}&fileName=${fileNames.get(vs.index)}&filePath=${filePath}">
                                     <i class="fa fa-times"></i> 删除

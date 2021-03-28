@@ -28,12 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -53,11 +50,11 @@ public class CadreEvaController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreEva:list")
-    @RequestMapping("/cadreEva_page")
-    public String cadreEva_page(Integer cadreId, ModelMap modelMap) {
+    @RequestMapping("/cadreEva")
+    public String cadreEva(Integer cadreId, ModelMap modelMap) {
         if (cadreId != null) {
             CadreView cadreView = cadreService.get(cadreId);
-            modelMap.put("cadreEva", cadreView);
+            modelMap.put("cadre", cadreView);
         }
         return "cadre/cadreEva/cadreEva_page";
     }
@@ -175,14 +172,13 @@ public class CadreEvaController extends BaseController {
             cadreId = cadreEva.getCadreId();
         }
         if (cadreId != null) {
-            CadreView cadreView = cadreService.get(cadreId);
-            modelMap.put("cadreView", cadreView);
+            modelMap.put("cadre", cadreService.get(cadreId));
         }
         return "cadre/cadreEva/cadreEva_au";
     }
 
     @RequiresPermissions("cadreEva:import")
-    @RequestMapping("/cadreEva_import_page")
+    @RequestMapping("/cadreEva_import")
     public String cadreEva_import() {
 
         return "cadre/cadreEva/cadreEva_import";

@@ -86,7 +86,7 @@
                                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                                 <button data-url="${ctx}/pmMeeting_del"
                                         data-title="删除"
-                                        data-msg="确定删除这{0}条数据？"
+                                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 删除

@@ -46,6 +46,59 @@ ALTER TABLE `ow_member_reg`
 
 -- 删除系统缓存目录
 
+DROP TABLE IF EXISTS `ow_member_history`;
+CREATE TABLE IF NOT EXISTS `ow_member_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned DEFAULT NULL COMMENT '用户id',
+  `code` varchar(20) NOT NULL COMMENT '学工号',
+  `realname` varchar(20) NOT NULL COMMENT '姓名',
+  `idcard` varchar(20) DEFAULT NULL COMMENT '身份证号',
+  `lable` varchar(255) DEFAULT NULL COMMENT '标签 元数据可多选 记录转移至历史库的原因',
+  `type` tinyint(3) unsigned NOT NULL COMMENT '类别，1教职工 2本科生 3硕士研究生 4博士研究生 5离退休教职工',
+  `gender` tinyint(1) unsigned DEFAULT NULL COMMENT '性别 1男 2女',
+  `nation` varchar(50) DEFAULT NULL COMMENT '民族',
+  `native_place` varchar(100) DEFAULT NULL COMMENT '籍贯',
+  `birth` date DEFAULT NULL COMMENT '出生时间',
+  `party_name` varchar(200) DEFAULT NULL COMMENT '二级党组织名称',
+  `branch_name` varchar(200) DEFAULT NULL COMMENT '党支部名称',
+  `political_status` tinyint(1) NOT NULL COMMENT '党籍状态 1 预备党员、2 正式党员',
+  `transfer_time` date DEFAULT NULL COMMENT '组织关系转入时间',
+  `apply_time` date DEFAULT NULL COMMENT '提交书面申请书时间',
+  `active_time` date DEFAULT NULL COMMENT '确定为入党积极分子时间',
+  `candidate_time` date DEFAULT NULL COMMENT '确定为发展对象时间',
+  `sponsor` varchar(20) DEFAULT NULL COMMENT '入党介绍人',
+  `grow_time` date DEFAULT NULL COMMENT '入党时间',
+  `positive_time` date DEFAULT NULL COMMENT '转正时间',
+  `pro_post` varchar(50) DEFAULT NULL COMMENT '专业技术职务',
+  `phone` varchar(100) DEFAULT NULL COMMENT '手机',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
+  `detail_reason` varchar(200) DEFAULT NULL COMMENT '转至历史党员库详细原因',
+  `out_reason` varchar(200) DEFAULT NULL COMMENT '移除原因',
+  `add_user_id` int(10) unsigned NOT NULL COMMENT '添加人',
+  `add_date` date NOT NULL COMMENT '添加时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态 0正常 1已移除',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='历史党员库';
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2605, '标签', '历史党员库', '', 'mc_mh_lable', '', '', '', 2619, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '党员出国境', 'mt_udgxuo', NULL, NULL, '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '失联党员', 'mt_n8hlza', NULL, NULL, '', 1, 1);
+
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`,
+                                 `sort_order`, `create_time`, `is_deleted`) VALUES ('更新党委班子负责人、行政班子负责人角色', '更新党委班子负责人、行政班子负责人角色，每5分钟执行一次',
+                                                                                    'job.unit.UpdateUnitAdmin', '0 0/5 * * * ?', 1, 1, 33, '2021-03-23 18:17:48', 0);
+update sys_resource set url=replace(url, 'cesResults', 'cesResult')  where url like '/cesResults%';
+update sys_resource set url=replace(url, 'cadreEva_page', 'cadreEva')  where url like '/cadreEva_page%';
+
+
+
+-- 2021.3.25 xcq
+UPDATE sys_resource SET permission = 'cesResult:*' WHERE id = 5003
+
+-- 2021.3.26 ly
+UPDATE `db_owip`.`sys_resource` SET `sort_order`='29900',`menu_css`='' WHERE  `id`=2572;
+
+
 20210326
 -- 哈工大
 

@@ -5,41 +5,43 @@
 <div class="col-xs-12">
 <c:set var="_query"
        value="${not empty param.cadreId || not empty param.year || not empty param.type || not empty param.title}"/>
-<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) && param.cls!=1}">
+<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN)}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <div class="jqgrid-vertical-offset buttons">
             <shiro:hasPermission name="cadreEva:edit">
-                <c:if test="${type!=2}">
-                    <button class="popupBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cadreEva_au?cadreId=${param.cadreId}&_auth=${param._auth}">
-                        <i class="fa fa-plus"></i> 添加
-                    </button>
-                </c:if>
+                <button class="popupBtn btn btn-info btn-sm"
+                        data-url="${ctx}/cadreEva_au?cadreId=${param.cadreId}&_auth=${param._auth}">
+                    <i class="fa fa-plus"></i> 添加
+                </button>
                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                         data-url="${ctx}/cadreEva_au" data-querystr="&cadreId=${param.cadreId}&_auth=${param._auth}"
                         data-grid-id="#jqGrid_eva"><i class="fa fa-edit"></i>
                     修改
                 </button>
+                <c:if test="${param._auth!=1}">
                 <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                        data-url="/cadreEva_import_page?cadreId=${param.cadreId}"
+                        data-url="/cadreEva_import?cadreId=${param.cadreId}"
                         data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                     批量导入
                 </button>
+                </c:if>
             </shiro:hasPermission>
             <shiro:hasPermission name="cadreEva:del">
                 <button data-url="${ctx}/cadreEva_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
                         data-grid-id="#jqGrid_eva"
                         class="jqBatchBtn btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i> 删除
                 </button>
             </shiro:hasPermission>
+            <c:if test="${param._auth!=1}">
             <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                     data-url="${ctx}/cadreEva_data?cadreId=${param.cadreId}" data-grid-id="#jqGrid_eva"
                     data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                 <i class="fa fa-download"></i> 导出
             </button>
+            </c:if>
         </div>
     </shiro:lacksPermission>
 
@@ -65,14 +67,22 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label> 姓名</label>
+                            <select data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}"
+                                    name="cadreId" data-placeholder="请选择">
+                                <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>考核情况</label>
-                            <select required data-rel="select2" data-width="273"
+                            <select data-rel="select2" data-width="120"
                                     name="type" data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_cadre_eva"/>
                             </select>
                             <script type="text/javascript">
-                                $("#searchForm form select[name=type]").val(${param.type});
+                                $("#searchForm select[name=type]").val(${param.type});
                             </script>
                         </div>
                         <div class="form-group">
@@ -80,24 +90,15 @@
                             <input class="form-control search-query" name="title" type="text"
                                    value="${param.title}">
                         </div>
-                        <div class="form-group">
-                                <%--                                <c:set var="cadre" value="${cm:getCadreById(cadreEva.cadreId)}"/>--%>
-                            <label> 选择干部</label>
-                            <select data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_LEADER}"
-                                    data-width="256"
-                                    name="cadreId" data-placeholder="请选择">
-                                <option value="${cadreEva.id}">${cadreEva.user.realname}-${cadreEva.user.code}-${cadreEva.user.unit}</option>
-                            </select>
-                        </div>
+
                         <div class="clearfix form-actions center">
                             <a class="jqSearchBtn btn btn-default btn-sm"
-                               data-url="${ctx}/cadreEva_page?cls=1"
+                               data-url="${ctx}/cadreEva?cls=1"
                                data-target="#page-content"
                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                             <c:if test="${_query}">&nbsp;
                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/cadreEva_page?cls=1"
+                                        data-url="${ctx}/cadreEva?cls=1"
                                         data-target="#page-content">
                                     <i class="fa fa-reply"></i> 重置
                                 </button>
@@ -137,7 +138,7 @@
     $.initNavGrid("jqGrid_eva", "jqGridPager_eva");
     $.register.user_select($('#searchForm select[name=cadreId]'));
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
     </script>

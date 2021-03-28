@@ -79,7 +79,7 @@
 
                                     <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=1"
                                             data-title="删除"
-                                            data-msg="确定删除？"
+                                            data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                             data-callback="_reloadDetail"
                                             class="confirm btn btn-danger btn-xs">
                                         <i class="fa fa-times"></i> 删除</button>
@@ -97,7 +97,7 @@
                                        <i class="fa fa-download"></i> 下载</button>
                                    <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=2"
                                         data-title="删除"
-                                        data-msg="确定删除？"
+                                        data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                         data-callback="_reloadDetail"
                                         class="confirm btn btn-danger btn-xs">
                                     <i class="fa fa-times"></i> 删除</button>
@@ -138,7 +138,7 @@
 
                                 <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=1"
                                         data-title="删除"
-                                        data-msg="确定删除？"
+                                        data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                         data-callback="_reloadDetail"
                                         class="confirm btn btn-danger btn-xs">
                                     <i class="fa fa-times"></i> 删除</button>
@@ -154,7 +154,7 @@
                                             <i class="fa fa-download"></i> 下载</button>
                                 <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=2"
                                                 data-title="删除"
-                                                data-msg="确定删除？"
+                                                data-msg="确定删除？<br/>（删除后无法恢复，请谨慎操作！！）"
                                                 data-callback="_reloadDetail"
                                                 class="confirm btn btn-danger btn-xs">
                                             <i class="fa fa-times"></i> 删除</button>

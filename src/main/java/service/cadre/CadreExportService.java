@@ -33,10 +33,7 @@ import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
-import sys.utils.DateUtils;
-import sys.utils.ExcelUtils;
-import sys.utils.ExportHelper;
-import sys.utils.HtmlEscapeUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -667,5 +664,173 @@ public class CadreExportService extends BaseMapper {
 
         String fileName = String.format("%s干部名单", schoolName);
         ExportHelper.output(wb, fileName + ".xlsx", response);
+    }
+
+    public void workExperience_export(CadreViewExample example,Byte status,HttpServletResponse response) {
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
+        int num = 0;
+        SXSSFWorkbook wb = new SXSSFWorkbook(500);
+        CellStyle headStyle2 = MSUtils.getHeadStyle2(wb);
+        CellStyle centerCellStyle = ExportHelper.createCenterCellStyle(wb);
+        Sheet sheet = wb.createSheet();
+        sheet.setColumnWidth(0,5000);
+        sheet.setColumnWidth(1,15000);
+
+        Row row = sheet.createRow(0);
+        row.setHeight((short) 1000);
+        Cell cell = row.createCell(0);
+        cell.setCellStyle(headStyle2);
+        cell.setCellValue("姓名");
+        cell = row.createCell(1);
+        cell.setCellStyle(headStyle2);
+        cell.setCellValue("工作经历");
+
+        for (CadreView record : records) {
+            CadreInfoForm bean = cadreInfoFormService.getCadreInfoForm(record.getId());
+            row = sheet.createRow(num+=1);
+            row.setHeight((short) 7000);
+            cell = row.createCell(0);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(record.getRealname());
+            cell = row.createCell(1);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(cadreAdformService.html2Paragraphs(bean.getWorkDesc(), "\r"));
+
+        }
+        String cadreCategory = CadreConstants.CADRE_STATUS_MAP.get(status);
+        String fileName = CmTag.getSysConfig().getSchoolName() + cadreCategory + "工作经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ").xlsx";
+        ExportHelper.output(wb,fileName,response);
+
+    }
+
+    public void common_export(CadreViewExample example,Byte status,HttpServletResponse response) {
+
+        String[] titles = {"序号|50","单位编号|70","岗位编号|70","单位|200","职务|250","姓名|70","级别|70","性别|50","出生日期|100","出生年月|100",
+                "民族|100","籍贯|150","政治面貌|100","加入党派时间|150","参加工作时间|100","人员类别|50","最高学历|100","最高学位|100","最高学历学位毕业院校|150",
+                "最高学历学位专业|150","全日制学历|100","全日制学位|100","全日制学历学位毕业院校|150","全日制学历学位专业|150",
+                "在职学历|100","在职学位|100","在职学历学位毕业院校|150","在职学历学位专业|150","职称|100","职称评定时间|100","当前职务任职时间|100",
+                "当前职级任职时间|100","当前任期时间|100","备注|100","是否双肩挑|50","业务单位|200","手机号码|100","工号|100","身份证号|150","任职经历|400","岗位备注|200"};
+        List<String[]> valuesList = new ArrayList<>();
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+
+        Integer rowNum = 1;
+
+        for (CadreView record : records) {
+            CadreInfoForm bean = cadreInfoFormService.getCadreInfoForm(record.getId());
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getUserId(), record.getIsOw(), record.getOwGrowTime(), record.getOwPositiveTime(),
+                    record.getDpTypeId(), record.getDpGrowTime(), true);
+            String partyName = cadreParty.get("partyName");
+            String partyAddTime = cadreParty.get("growTime");
+            String title = "";
+            String adminLevel = "";
+
+            String _fullTimeEdu = "";
+            String _fullTimeDegree = "";
+            String _fullTimeMajor = "";
+            String _fullTimeSchool = "";
+
+            String _onjobEdu = "";
+            String _onjobDegree = "";
+            String _onjobSchool = "";
+            String _onjobMajor = "";
+
+            String _highEdu = "";
+            String _highDegree = "";
+            String _highSchool = "";
+            String _highMajor = ""; // 最高毕业院校及专业
+
+            CadreEdu[] cadreEdus = record.getCadreEdus();
+            CadreEdu fulltimeEdu = cadreEdus[0];
+            CadreEdu onjobEdu = cadreEdus[1];
+            if (fulltimeEdu != null) {
+                Integer eduId = fulltimeEdu.getEduId();
+                if(eduId!=null) {
+                    _fullTimeEdu = metaTypeMap.get(eduId).getName();
+                }
+                _fullTimeDegree = StringUtils.trimToEmpty(fulltimeEdu.getDegree());
+                _fullTimeMajor = StringUtils.trimToEmpty(fulltimeEdu.getMajor());
+                _fullTimeSchool = StringUtils.trimToEmpty(fulltimeEdu.getSchool());
+                _highEdu = _fullTimeEdu;
+                _highDegree = _fullTimeDegree;
+                _highSchool = _fullTimeSchool;
+                _highMajor = _fullTimeMajor;
+            }
+
+            if (onjobEdu != null) {
+                Integer eduId = onjobEdu.getEduId();
+                if(eduId!=null) {
+                    _onjobEdu = metaTypeMap.get(eduId).getName();
+                }
+                _onjobDegree = StringUtils.trimToEmpty(onjobEdu.getDegree());
+                _onjobSchool = StringUtils.trimToEmpty(onjobEdu.getSchool());
+                _onjobMajor = StringUtils.trimToEmpty(onjobEdu.getMajor());
+                _highEdu = _onjobEdu;
+                _highDegree = _onjobDegree;
+                _highSchool = _onjobSchool;
+                _highMajor = _onjobMajor;
+            }
+            if (bean != null){
+                title = bean.getTitle() == null ? "" : bean.getTitle();
+                adminLevel = bean.getAdminLevel() == null ? "" : metaTypeService.getName(record.getAdminLevel());
+
+            }
+            String workDesc = "";
+            if (bean != null){
+                workDesc = cadreAdformService.html2Paragraphs(bean.getWorkDesc(), "\r") == null ? "" : cadreAdformService.html2Paragraphs(bean.getWorkDesc(), "\r");
+            }
+            Integer  termDate = 0;
+
+            if(record.getNpWorkTime() != null){
+                termDate = DateUtils.getYear(new Date()) -DateUtils.getYear(record.getNpWorkTime());
+            }
+            String[] values = {
+                    (rowNum++).toString(),
+                    record.getUnit().getId().toString(),
+                    record.getPostType().toString(),
+                    record.getUnit().getName(),
+                    title,
+                    bean.getRealname(),
+                    adminLevel,
+                    record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getBirth() == null ? "" : String.valueOf(DateUtils.formatDate(record.getBirth(),DateUtils.YYYYMMDD_DOT)),
+                    record.getBirth() == null ? "" : String.valueOf(DateUtils.formatDate(record.getBirth(),DateUtils.YYYYMM)),
+                    record.getNation() == null ? "" : record.getNation(),
+                    record.getNativePlace() == null ? "" : record.getNativePlace(),
+                    StringUtils.trimToEmpty(partyName),
+                    StringUtils.trimToEmpty(partyAddTime),
+                    record.getWorkTime() == null ? "" : DateUtils.formatDate(record.getWorkTime(),DateUtils.YYYYMMDD_DOT),
+                    metaTypeService.getName(record.getState()),
+                    _highEdu,
+                    _highDegree,
+                    _highSchool,
+                    _highMajor,
+                    _fullTimeEdu,
+                    _fullTimeDegree,
+                    _fullTimeSchool,
+                    _fullTimeMajor,
+                    _onjobEdu,
+                    _onjobDegree,
+                    _onjobSchool,
+                    _onjobMajor,
+                    record.getProPost() == null ? "" : record.getProPost(),
+                    record.getProPostTime() == null ? "" : DateUtils.formatDate(record.getProPostTime(),DateUtils.YYYYMMDD_DOT),
+                    record.getNpWorkTime() == null ? "" : DateUtils.formatDate(record.getNpWorkTime(),DateUtils.YYYYMMDD_DOT),
+                    record.getsWorkTime() == null ? "" : DateUtils.formatDate(record.getsWorkTime(),DateUtils.YYYYMMDD_DOT),
+                    termDate < 0 ? "未满一年" : termDate+"年",
+                    record.getRemark() == null ? "" :record.getRemark(),
+                    BooleanUtils.isTrue(record.getIsDouble()) ? "是" : "否",
+                    record.getUnit() == null ? "" :record.getUnit().getName(),
+                    record.getMobile() == null ? "" : record.getMobile(),
+                    record.getCode() == null ? "" : record.getCode(),
+                    record.getIdcard() == null ? "" : record.getIdcard(),
+                    workDesc,
+                    record.getUnit() == null ? "" :record.getUnit().getRemark()
+            };
+            valuesList.add(values);
+        }
+        String cadreCategory = CadreConstants.CADRE_STATUS_MAP.get(status);
+        String fileName = CmTag.getSysConfig().getSchoolName() + cadreCategory + "信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }
