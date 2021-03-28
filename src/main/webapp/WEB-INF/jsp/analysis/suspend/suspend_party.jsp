@@ -41,7 +41,7 @@
                                     <span class="infobox-data-number"><span class="count">${branchCount}</span> <span
                                             style="font-size: 10pt;">个支部</span></span>
 
-                                <div class="infobox-content">党员数超过50人支部</div>
+                                <div class="infobox-content">党员人数>50的支部</div>
                             </div>
                         </div>
 
