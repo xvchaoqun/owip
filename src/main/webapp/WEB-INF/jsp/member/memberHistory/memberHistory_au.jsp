@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div style="width: 1200px">
+<div style="width: 900px">
 	<h3>${empty memberHistory?'添加':'修改'}历史党员</h3>
 	<hr/>
 	<form class="form-horizontal" action="${ctx}/member/memberHistory_au" autocomplete="off" disableautocomplete id="memberHistoryForm" method="post">
 		<input type="hidden" name="id" value="${memberHistory.id}">
 		<input type="hidden" name="userId" value="${memberHistory.userId}">
 		<div class="row">
-			<div class="col-xs-7">
+			<div class="col-xs-6">
+
 				<div class="form-group">
 					<label class="col-xs-4 control-label">学工号</label>
 					<div class="col-xs-6">
@@ -73,7 +74,7 @@
 					<label class="col-xs-4 control-label">出生时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_birth" type="text"
+							<input class="form-control date-picker" name="birth" type="text"
 								   data-date-format="yyyy.mm.dd"
 								   value="${cm:formatDate(memberHistory.birth,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -113,9 +114,9 @@
 					<label class="col-xs-4 control-label">组织关系转入时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_transferTime" type="text"
+							<input class="form-control date-picker" name="transferTime" type="text"
 								   data-date-format="yyyy.mm.dd"
-								   value="${cm:formatDate(memberHistory.transferTime,'yyyy.mm.dd')}"/>
+								   value="${cm:formatDate(memberHistory.transferTime,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 						<span class="help-block">注：本校发展党员请留空</span>
@@ -123,13 +124,14 @@
 				</div>
 			</div>
 
-			<div class="col-xs-5">
+			<div class="col-xs-6">
+
 				<div class="form-group">
 					<label class="col-xs-5 control-label">提交书面申请书时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_applyTime" type="text"
-								   data-date-format="yyyy.mm.dd" value="${cm:formatDate(memberHistory.applyTime,'yyyy.mm.dd')}"/>
+							<input class="form-control date-picker" name="applyTime" type="text"
+								   data-date-format="yyyy.mm.dd" value="${cm:formatDate(memberHistory.applyTime,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -138,8 +140,8 @@
 					<label class="col-xs-5 control-label">确定为入党积极分子时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_activeTime" type="text"
-								   data-date-format="yyyy.mm.dd" value="${cm:formatDate(memberHistory.activeTime,'yyyy.mm.dd')}"/>
+							<input class="form-control date-picker" name="activeTime" type="text"
+								   data-date-format="yyyy.mm.dd" value="${cm:formatDate(memberHistory.activeTime,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -148,9 +150,9 @@
 					<label class="col-xs-5 control-label">确定为发展对象时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_candidateTime" type="text"
+							<input class="form-control date-picker" name="candidateTime" type="text"
 								   data-date-format="yyyy.mm.dd"
-								   value="${cm:formatDate(memberHistory.candidateTime,'yyyy.mm.dd')}"/>
+								   value="${cm:formatDate(memberHistory.candidateTime,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -165,8 +167,8 @@
 					<label class="col-xs-5 control-label">入党时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_growTime" type="text"
-								   data-date-format="yyyy.mm.dd" value="${cm:formatDate(memberHistory.growTime,'yyyy.mm.dd')}"/>
+							<input class="form-control date-picker" name="growTime" type="text"
+								   data-date-format="yyyy.mm.dd" value="${cm:formatDate(memberHistory.growTime,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -175,9 +177,9 @@
 					<label class="col-xs-5 control-label">转正时间</label>
 					<div class="col-xs-6">
 						<div  class="input-group" style="width: 170px">
-							<input class="form-control date-picker" name="_positiveTime" type="text"
+							<input class="form-control date-picker" name="positiveTime" type="text"
 								   data-date-format="yyyy.mm.dd"
-								   value="${cm:formatDate(memberHistory.positiveTime,'yyyy.mm.dd')}"/>
+								   value="${cm:formatDate(memberHistory.positiveTime,'yyyy.MM.dd')}"/>
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -200,6 +202,7 @@
 						<input class="form-control" style="width: 170px" type="text" name="email" value="${memberHistory.email}"/>
 					</div>
 				</div>
+
 				<c:if test="${cm:getMetaTypes('mc_mh_lable').size()>0}">
 					<div class="form-group ">
 						<label class="col-xs-5 control-label">标签</label>
@@ -214,7 +217,7 @@
 					</div>
 				</c:if>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">转至历史党员库详细原因</label>
+					<label class="col-xs-5 control-label">转移原因</label>
 					<div class="col-xs-6">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
 								  name="detailReason">${memberHistory.detailReason}</textarea>

@@ -1,6 +1,5 @@
 package service.member;
 
-import com.sun.org.apache.bcel.internal.generic.DADD;
 import controller.global.OpException;
 import domain.member.MemberHistory;
 import domain.member.MemberHistoryExample;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
@@ -60,7 +58,7 @@ public class MemberHistoryService extends MemberBaseMapper {
                 sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                        "移除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "移除历史党员"+record.getRealname());
+                        "移除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "移除");
             }else {
                 throw new OpException("没有权限删除"+record.getRealname()+"("+record.getCode()+")");
             }
@@ -114,13 +112,13 @@ public class MemberHistoryService extends MemberBaseMapper {
                 sysApprovalLogService.add(memberHistory.getId(), ShiroHelper.getCurrentUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                        "导入更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "导入更新历史党员"+memberHistory.getRealname()+"的信息");
+                        "导入更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "导入更新");
             }else {
                 insertSelective(record);
                 sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                        "导入添加", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "导入添加历史党员"+record.getRealname()+"的信息");
+                        "导入添加", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "导入添加");
                 count++;
             }
         }
@@ -128,7 +126,7 @@ public class MemberHistoryService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void out(Integer[] ids) {
+    public void out(Integer[] ids, String reason) {
 
         MemberHistoryExample example = new MemberHistoryExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -145,7 +143,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "移除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "移除历史党员"+record.getRealname());
+                    "移除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, reason);
         }
     }
 
@@ -164,7 +162,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "恢复", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "恢复"+record.getRealname()+"历史党员身份");
+                    "恢复", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "恢复");
         }
     }
 

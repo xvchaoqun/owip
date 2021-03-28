@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-4 control-label">转至历史党员库详细原因</label>
+			<label class="col-xs-4 control-label">转移原因</label>
 			<div class="col-xs-6">
 						<textarea style="width: 252px" class="form-control limited noEnter" type="text" maxlength="100"
 								  name="detailReason"></textarea>

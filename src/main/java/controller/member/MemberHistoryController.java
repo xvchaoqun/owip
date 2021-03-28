@@ -1,15 +1,10 @@
 package controller.member;
 
-import com.sun.deploy.xml.XMLable;
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.dp.DpNpm;
-import domain.dp.DpNpmExample;
 import domain.member.MemberHistory;
 import domain.member.MemberHistoryExample;
 import domain.member.MemberHistoryExample.Criteria;
-import domain.sys.SysApprovalLog;
-import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -19,12 +14,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.aspectj.weaver.ast.And;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.LogConstants;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -240,10 +236,10 @@ public class MemberHistoryController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping(value = "/memberHistory_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberHistory_out(Integer[] ids, HttpServletRequest request){
+    public Map do_memberHistory_out(Integer[] ids, String reason, HttpServletRequest request){
 
         if (null != ids && ids.length>0){
-            memberHistoryService.out(ids);
+            memberHistoryService.out(ids, reason);
             logger.info(log( LogConstants.LOG_PARTY, "将历史党员移至已移除：%s",StringUtils.join(ids, ",")));
         }
 
@@ -280,7 +276,7 @@ public class MemberHistoryController extends MemberBaseController {
         int rownum = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"学工号|100","姓名|100","人员类别|100","性别|100","身份证号|160","民族|100","籍贯|100","出生年月|100",
                 "二级党组织名称|350","党支部名称|350", "党籍状态|100","标签|200","组织关系转入时间|100","提交书面申请书时间|100","确定为入党积极分子时间|100","确定为发展对象时间|100",
-                "入党介绍人|100", "入党时间|100","转正时间|100","专业技术职务|100","手机|100","邮箱|100","添加人|100","添加时间|110","转至党员库详细原因|200","备注|150"}));
+                "入党介绍人|100", "入党时间|100","转正时间|100","专业技术职务|100","手机|100","邮箱|100","添加人|100","添加时间|110","转移原因|200","备注|150"}));
         List<List<String>> valuesList = new ArrayList<>();
         if (cls==1){
             titles.add(22, "移除原因|200");

@@ -17,7 +17,7 @@ pageEncoding="UTF-8" %>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane in active">
+                        <div class="multi-row-head-table tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="memberHistory:edit">
                     <c:if test="${cls==0}">
@@ -55,6 +55,7 @@ pageEncoding="UTF-8" %>
                         data-open-by="page">
                     <i class="fa fa-search"></i> 操作记录
                 </button>
+                <c:if test="${cls==1}">
                 <shiro:hasPermission name="memberHistory:del">
                     <button data-url="${ctx}/member/memberHistory_batchDel?cls=${cls}"
                             data-title="删除"
@@ -64,6 +65,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
+                </c:if>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/member/memberHistory_data?cls=${cls}"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -224,12 +226,12 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/member/memberHistory_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '学工号',name: 'code',float:true},
-                { label: '姓名',name: 'realname',float:true},
+                { label: '学工号',name: 'code',width: 120,frozen:true},
+                { label: '姓名',name: 'realname',frozen:true},
                 { label: '人员类别',name: 'type',formatter: function (cellvalue,options,rowObject){
                     return _cMap.USER_TYPE_MAP[cellvalue];
-                    },float:true},
-                { label: '性别',name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER,float:true},
+                    },frozen:true},
+                { label: '性别',name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER},
                 { label: '身份证号',name: 'idcard',width:160},
                 { label: '民族',name: 'nation',width: 110},
                 { label: '籍贯',name: 'nativePlace',width: 110},
@@ -239,38 +241,26 @@ pageEncoding="UTF-8" %>
                     formatoptions: {newformat: 'Y.m.d'}
                 },
                 { label: '年龄',name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
-                { label: '二级党组织名称',name: 'partyName',align:'left',width:300},
+                { label: '${_p_partyName}名称',name: 'partyName',align:'left',width:300},
                 { label: '党支部名称',name: 'branchName',align:'left',width:300},
                 { label: '党籍状态',name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue)
                             return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                         return "-";
                     }},
-            <c:if test="${cm:getMetaTypes('mc_mh_lable').size()>0}">
-                { label: '标签',name: 'lable',width: 200,formatter:function (cellValue, options, rowObject){
-                        if (cellValue==undefined) return '--';
-                        return ($.map(cellValue.split(","), function(e){
-                            return $.jgrid.formatter.MetaType(e);
-                        })).join("，")
-                    }},
-            </c:if>
-                { label: '组织关系转入时间',name: 'transferTime',
-                    width: 130,
+                { label: '组织关系<br/>转入时间',name: 'transferTime',
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}
                     },
-                { label: '提交书面申请书时间',name: 'applyTime',
-                    width: 130,
+                { label: '提交书面<br/>申请书时间',name: 'applyTime',
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}
                 },
-                { label: '确定为入党积极分子时间',name: 'activeTime',
-                    width: 140,
+                { label: '确定为入党<br/>积极分子时间',name: 'activeTime',
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}
                 },
-                { label: '确定为发展对象时间',name: 'candidateTime',
-                    width: 130,
+                { label: '确定为<br/>发展对象时间',name: 'candidateTime',
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}
                 },
@@ -293,7 +283,15 @@ pageEncoding="UTF-8" %>
             </c:if>
             { label: '添加人',name: 'addUser.realname'},
             { label: '添加时间',name: 'addDate',formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-                { label: '转至历史党员库详细原因',name: 'detailReason',width:250},
+            <c:if test="${cm:getMetaTypes('mc_mh_lable').size()>0}">
+                    { label: '标签',name: 'lable',width: 200,formatter:function (cellValue, options, rowObject){
+                            if (cellValue==undefined) return '--';
+                            return ($.map(cellValue.split(","), function(e){
+                                return $.jgrid.formatter.MetaType(e);
+                            })).join("，")
+                        }},
+                </c:if>
+                { label: '转移原因',name: 'detailReason',width:250},
                 { label: '备注',name: 'remark',width:150},
         ]
     }).jqGrid("setFrozenColumns");
