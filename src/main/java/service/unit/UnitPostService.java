@@ -22,7 +22,6 @@ import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
-import service.sys.SysRoleService;
 import service.sys.SysUserService;
 import sys.constants.DispatchConstants;
 import sys.constants.RoleConstants;
@@ -31,6 +30,7 @@ import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UnitPostService extends BaseMapper {
@@ -50,8 +51,6 @@ public class UnitPostService extends BaseMapper {
     private CadrePostService cadrePostService;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private SysRoleService sysRoleService;
 
     public boolean idDuplicate(Integer id, String code) {
 
@@ -551,16 +550,27 @@ public class UnitPostService extends BaseMapper {
         }
         for (UnitPostView record: records) {
             CadreView cadre = record.getCadre();
+            Byte leaderType = record.getLeaderType();
             if (cadre != null) {
-                Integer userId = cadre.getUserId();
-                if (userId != null) {
-                    if (cadre.getLeaderType() == SystemConstants.UNIT_POST_LEADER_TYPE_DW) {
-                        sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_DW);
-                    } else if (cadre.getLeaderType() == SystemConstants.UNIT_POST_LEADER_TYPE_XZ) {
-                        sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_XZ);
-                    }
+                int userId = cadre.getUserId();
+                if (leaderType == SystemConstants.UNIT_POST_LEADER_TYPE_DW) {
+                    sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_DW);
+                } else if (leaderType == SystemConstants.UNIT_POST_LEADER_TYPE_XZ) {
+                    sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_XZ);
                 }
             }
         }
+    }
+
+    // 查询班子负责人管理的单位
+    public List<Integer> getAdminUnitIds(int cadreId){
+
+        UnitPostViewExample example = new UnitPostViewExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andLeaderTypeIn(Arrays.asList(SystemConstants.UNIT_POST_LEADER_TYPE_DW,
+                        SystemConstants.UNIT_POST_LEADER_TYPE_XZ));
+        List<UnitPostView> unitPosts = unitPostViewMapper.selectByExample(example);
+
+        return unitPosts.stream().map(UnitPostView::getUnitId).collect(Collectors.toList());
     }
 }

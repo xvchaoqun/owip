@@ -51,8 +51,9 @@
                 <div class="widget-main no-padding">
                     <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
+                            <label>年份</label>
                             <div class="input-group" style="width: 120px">
-                                <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                                <input class="form-control date-picker" placeholder="请选择" name="year" type="text"
                                        data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
@@ -62,6 +63,7 @@
                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                    placeholder="请输入测评类别">
                         </div>
+                        <shiro:hasPermission name="cesResult:edit">
                         <c:if test="${param.type==CES_RESULT_TYPE_UNIT}">
                             <div class="form-group">
                                 <label>所属单位</label>
@@ -71,6 +73,7 @@
                                 </select>
                             </div>
                         </c:if>
+                        </shiro:hasPermission>
                         <c:if test="${param.type==CES_RESULT_TYPE_CADRE}">
                             <div class="form-group">
                                 <label> 姓名</label>

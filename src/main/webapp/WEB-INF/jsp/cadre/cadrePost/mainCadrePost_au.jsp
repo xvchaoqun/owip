@@ -120,8 +120,9 @@
                     <label class="col-xs-4 control-label"><span class="star">*</span>职务</label>
                     <div class="col-xs-8">
                         <textarea required class="form-control noEnter" name="post">${cadrePost.post}</textarea>
-
-                        <span class="help-block blue">注：一般与岗位名称相同，可自行修改</span>
+                        <c:if test="${cadre.isSyncPost}">
+                        <span class="help-block blue">注：如果是第一主职，则此职务将同步至该干部的“所在单位及职务”属性</span>
+                        </c:if>
                     </div>
                 </div>
                 <div class="form-group">

@@ -2,7 +2,6 @@ package domain.cadre;
 
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
@@ -693,6 +692,66 @@ public class CadreViewExample {
 
         public Criteria andIsOutsideNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_outside not between", value1, value2, "isOutside");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostIsNull() {
+            addCriterion("is_sync_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostIsNotNull() {
+            addCriterion("is_sync_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostEqualTo(Boolean value) {
+            addCriterion("is_sync_post =", value, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostNotEqualTo(Boolean value) {
+            addCriterion("is_sync_post <>", value, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostGreaterThan(Boolean value) {
+            addCriterion("is_sync_post >", value, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_sync_post >=", value, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostLessThan(Boolean value) {
+            addCriterion("is_sync_post <", value, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_sync_post <=", value, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostIn(List<Boolean> values) {
+            addCriterion("is_sync_post in", values, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostNotIn(List<Boolean> values) {
+            addCriterion("is_sync_post not in", values, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_sync_post between", value1, value2, "isSyncPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSyncPostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_sync_post not between", value1, value2, "isSyncPost");
             return (Criteria) this;
         }
 

@@ -62,6 +62,8 @@ public class CadreReserveView implements Serializable {
 
     private Boolean isOutside;
 
+    private Boolean isSyncPost;
+
     private Integer dispatchCadreId;
 
     private String label;
@@ -372,6 +374,14 @@ public class CadreReserveView implements Serializable {
 
     public void setIsOutside(Boolean isOutside) {
         this.isOutside = isOutside;
+    }
+
+    public Boolean getIsSyncPost() {
+        return isSyncPost;
+    }
+
+    public void setIsSyncPost(Boolean isSyncPost) {
+        this.isSyncPost = isSyncPost;
     }
 
     public Integer getDispatchCadreId() {

@@ -105,13 +105,21 @@
             <label class="col-xs-4 control-label"><c:if
                     test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
             <div class="col-xs-5">
-                <textarea class="form-control" name="title" rows="3">${cadre.title}</textarea>
+                <textarea class="form-control" name="title" rows="3"
+                ${(cadre.isSyncPost && not empty firstMainCadrePost)?"disabled":""} >${cadre.title}</textarea>
             </div>
             <div class="col-xs-3" style="padding-left: 0px">
 				<input type="checkbox" name="isOutside"
 				${cadre.isOutside?'checked':''}
 					   style="width: 15px;height: 15px;margin-top: 8px; vertical-align: -2px"> 校外任职 <span class="prompt" data-title="说明"
 							  data-prompt="如果是校外任职，则任免表上的“现任职务”栏不添加学校名称"><i class="fa fa-question-circle-o"></i></span>
+				<c:if test="${not empty firstMainCadrePost}">
+                <br/>
+                <input type="checkbox" name="isSyncPost"
+				${cadre.isSyncPost?'checked':''}
+					   style="width: 15px;height: 15px;margin-top: 8px; vertical-align: -2px"> 同步第一主职 <span class="prompt" data-title="说明"
+							  data-prompt="如果该干部的任职情况中已有第一主职，则与该主职的职务名称保持同步，不可单独修改"><i class="fa fa-question-circle-o"></i></span>
+                </c:if>
 			</div>
         </div>
 
@@ -195,6 +203,14 @@
     </button>
 </div>
 <script>
+    $('#modalForm input[name=isSyncPost]').on('change', function(event, state) {
+        //console.log($(this).is(":checked"))
+		if($(this).is(":checked")){
+		    $("#modalForm textarea[name=title]").val("${firstMainCadrePost.post}").prop("disabled", true);
+        }else {
+		    $("#modalForm textarea[name=title]").prop("disabled", false);
+        }
+	});
     var doubleUnitIds = '${cadre.doubleUnitIds}';
     $.register.multiselect($('#modalForm select[name=runUnitIds]'), doubleUnitIds.split(","), {
         enableClickableOptGroups: true,

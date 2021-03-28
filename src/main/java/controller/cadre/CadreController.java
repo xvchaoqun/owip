@@ -923,6 +923,7 @@ public class CadreController extends BaseController {
                            HttpServletRequest request) {
 
         record.setIsOutside(BooleanUtils.isTrue(record.getIsOutside()));
+        record.setIsSyncPost(BooleanUtils.isTrue(record.getIsSyncPost()));
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){
             /*if(unitIds==null || unitIds.length==0) {
@@ -933,6 +934,15 @@ public class CadreController extends BaseController {
         record.setLabel(StringUtils.trimToEmpty(record.getLabel()));
 
         Integer id = record.getId();
+        if(id==null) {
+            // 刚添加时，默认同步第一主职职务
+            record.setIsSyncPost(true);
+        }
+        if(record.getIsSyncPost() && id!=null){  // 如果同步第一主职职务
+            CadrePost firstMainCadrePost = cadrePostService.getFirstMainCadrePost(id);
+            record.setTitle(firstMainCadrePost.getPost());
+        }
+
         if (id == null) {
 
             cadreService.insertSelective(record);
@@ -956,6 +966,9 @@ public class CadreController extends BaseController {
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             modelMap.put("cadre", cadre);
             modelMap.put("status", cadre.getStatus());
+
+            CadrePost firstMainCadrePost = cadrePostService.getFirstMainCadrePost(id);
+            modelMap.put("firstMainCadrePost", firstMainCadrePost);
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }

@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -258,7 +260,7 @@ public class CesResultController extends BaseController {
         return "ces/cesResult/cesResult_import";
     }
 
-    @RequiresPermissions("cesResult:*")
+    @RequiresPermissions("cesResult:list")
     @RequestMapping("/cesResult")
     public String cesResults(byte type, Integer cadreId, Integer unitId, ModelMap modelMap) {
         modelMap.put("type", type);
@@ -298,6 +300,28 @@ public class CesResultController extends BaseController {
         CesResultExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("year desc");
         criteria.andTypeEqualTo(type);
+
+        // 权限控制
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)){
+
+            Cadre cadre = CmTag.getCadre(ShiroHelper.getCurrentUserId());
+            if (cadre != null) {
+                if (ShiroHelper.isPermitted("cesResult:unit")) {
+                    List<Integer> adminUnitIds = unitPostService.getAdminUnitIds(cadre.getId());
+                    if(adminUnitIds.size()>0) {
+                        criteria.andUnitIdIn(adminUnitIds);
+                    }else{
+                        criteria.andIdIsNull();
+                    }
+                } else {
+                    // 不是管理员，只能查看本人的信息
+                    criteria.andCadreIdEqualTo(cadre.getId());
+                }
+            } else {
+                criteria.andIdIsNull();
+            }
+        }
+
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
@@ -315,7 +339,10 @@ public class CesResultController extends BaseController {
         }
 
         if (export == 1) {
-            cesResultService.cesResult_export(ids, type, cadreId, unitId, request, response);
+            if(ids!=null && ids.length>0){
+                criteria.andIdIn(Arrays.asList(ids));
+            }
+            cesResultService.cesResult_export(type, example, response);
             return;
         }
 

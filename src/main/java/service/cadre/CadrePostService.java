@@ -1,6 +1,7 @@
 package service.cadre;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
 import domain.unit.UnitPost;
@@ -86,6 +87,14 @@ public class CadrePostService extends BaseMapper {
                 + " and is_main_post=" + record.getIsMainPost()));
         cadrePostMapper.insertSelective(record);
 
+        // 如果设置同步第一主职职务
+        if(record.getIsFirstMainPost() && record.getCadre().getIsSyncPost()){
+            Cadre _cadre = new Cadre();
+            _cadre.setId(record.getCadreId());
+            _cadre.setTitle(record.getPost());
+            cadreMapper.updateByPrimaryKeySelective(_cadre);
+        }
+
         cacheHelper.clearCadreCache(record.getCadreId());
     }
 
@@ -143,6 +152,14 @@ public class CadrePostService extends BaseMapper {
 
        /* record.setIsMainPost(null); */   // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
+
+        // 如果设置同步第一主职职务
+        if(record.getIsFirstMainPost() && record.getCadre().getIsSyncPost()){
+            Cadre _cadre = new Cadre();
+            _cadre.setId(record.getCadreId());
+            _cadre.setTitle(record.getPost());
+            cadreMapper.updateByPrimaryKeySelective(_cadre);
+        }
 
         cacheHelper.clearCadreCache(cadreId);
     }

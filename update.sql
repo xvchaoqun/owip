@@ -90,13 +90,19 @@ INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started
 update sys_resource set url=replace(url, 'cesResults', 'cesResult')  where url like '/cesResults%';
 update sys_resource set url=replace(url, 'cadreEva_page', 'cadreEva')  where url like '/cadreEva_page%';
 
+-- UPDATE sys_resource SET permission = 'cesResult:list' WHERE id = 5003;
+update sys_resource set name='年终考核结果管理', parent_id=5003 where permission='cesResult:*';
+update sys_resource set is_leaf=0 where permission='cesResult:list';
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`,
+                            `sort_order`) VALUES (1191, 0, '查看本单位的结果', '', 'function', '', NULL, 5003, '0/1/5003/', 1, 'cesResult:unit', NULL, NULL, NULL, 1, NULL);
+update sys_resource set sort_order=7204 where permission='cesResult:teamList';
+UPDATE `sys_resource` SET `sort_order`='29900',`menu_css`='' WHERE  `id`=2572;
 
+ALTER TABLE `cadre`
+	ADD COLUMN `is_sync_post` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否同步第一主职职务名称，如果存在主职，则保持同步，不可单独修改' AFTER `is_outside`;
+-- 更新cadre_view
 
--- 2021.3.25 xcq
-UPDATE sys_resource SET permission = 'cesResult:*' WHERE id = 5003
-
--- 2021.3.26 ly
-UPDATE `db_owip`.`sys_resource` SET `sort_order`='29900',`menu_css`='' WHERE  `id`=2572;
 
 
 20210326
@@ -177,7 +183,7 @@ ALTER TABLE `cadre_eva_result`
 	ADD COLUMN `title` VARCHAR(100) NULL DEFAULT NULL COMMENT '时任单位及职务名称' COLLATE 'utf8_general_ci' AFTER `remark`;
 
 ALTER TABLE `cadre_eva_result`
-	CHANGE COLUMN `cadre_id` `cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属干部' AFTER `unit_id`;
+	CHANGE COLUMN `cadre_id`    `cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属干部' AFTER `unit_id`;
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (5003, 0, '考核结果管理', '', 'menu', 'fa fa-street-view', NULL, 1, '0/1/', 0, 'cesResult:menu', 3, NULL, NULL, 1, 7203);

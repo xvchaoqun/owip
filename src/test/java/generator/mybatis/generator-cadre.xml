@@ -25,50 +25,50 @@
         </javaClientGenerator>
 
         <!--干部库-->
-<!--         <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">-->
-<!--               <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-<!--               <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>-->
-<!--         </table>-->
-<!--        <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"-->
-<!--               enableInsert="false" enableUpdateByPrimaryKey="false"-->
-<!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"-->
-<!--               enableDeleteByExample="false">-->
-<!--            <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>-->
-<!--            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>-->
-<!--            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>-->
-<!--            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>-->
-<!--        </table>-->
-<!--        <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"-->
-<!--               mapperName="cadreReserve.CadreReserveViewMapper"-->
-<!--               enableInsert="false" enableUpdateByPrimaryKey="false"-->
-<!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"-->
-<!--               enableDeleteByExample="false">-->
-<!--            <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>-->
-<!--            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>-->
-<!--            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>-->
-<!--            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>-->
-<!--        </table>-->
-<!--        <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"-->
-<!--             enableInsert="false" enableUpdateByPrimaryKey="false"-->
-<!--             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"-->
-<!--             enableDeleteByExample="false">-->
-<!--          <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>-->
-<!--            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>-->
-<!--            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>-->
-<!--            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>-->
-<!--            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>-->
-<!--      </table>-->
+         <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+               <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
+         </table>
+        <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+        </table>
+        <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+               mapperName="cadreReserve.CadreReserveViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+        </table>
+        <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+          <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="party_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="branch_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+      </table>
 
 
         <!--<table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
@@ -119,7 +119,7 @@
                 mapperName="cadre.CadreCompanyFileMapper">
          </table>-->
 
-        <table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
+        <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>
@@ -127,7 +127,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="cadre_course" domainObjectName="cadre.CadreCourse">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

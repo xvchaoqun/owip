@@ -10,7 +10,6 @@ import service.BaseMapper;
 import sys.constants.SystemConstants;
 import sys.utils.ExportHelper;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,23 +82,8 @@ public class CesResultService extends BaseMapper {
         return addCount;
     }
 
-    public void cesResult_export(Integer[] ids, byte type, Integer cadreId, Integer unitId, HttpServletRequest request, HttpServletResponse response) {
+    public void cesResult_export(byte type, CesResultExample example, HttpServletResponse response) {
 
-        CesResultExample example =new CesResultExample();
-        CesResultExample.Criteria criteria =example.createCriteria();
-        example.setOrderByClause("year desc");
-        criteria.andTypeEqualTo(type);
-
-        if(ids != null && ids.length > 0){
-            criteria.andIdIn(Arrays.asList(ids));
-        } else {
-            if (cadreId != null) {
-                criteria.andCadreIdEqualTo(cadreId);
-            }
-            if (unitId != null) {
-                criteria.andUnitIdEqualTo(unitId);
-            }
-        }
         List<CesResult> records = cesResultMapper.selectByExample(example);
         List<String> titles = new ArrayList(Arrays.asList("年份|80"));
         if (type == 1) {
