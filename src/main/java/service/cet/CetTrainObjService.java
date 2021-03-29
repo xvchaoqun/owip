@@ -163,7 +163,8 @@ public class CetTrainObjService extends CetBaseMapper {
             }
 
             if (cetTrainObj != null) {
-                throw new OpException("重复选课。");
+                //throw new OpException("重复选课。");
+                return;
             }
 
             CetTrainObj record = new CetTrainObj();
