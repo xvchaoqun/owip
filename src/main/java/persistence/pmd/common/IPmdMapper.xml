@@ -337,4 +337,14 @@
         </if>
 
     </select>
+
+    <!--统计每个月的缴费总额/人数-->
+    <select id="statPmdFee" resultType="persistence.pmd.common.PmdFeeStatBean" parameterType="map">
+        select if(f.user_type in(2,3,4), 1, if(f.user_type=1, 2, 3)) as userType, count(distinct f.user_id) as num, sum(f.amt) as amt from pmd_fee f, sys_user u
+        where f.user_id=u.id and f.has_pay=1 and date_format(f.pay_time, '%Y.%m')=#{payMonth}
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        group by userType
+    </select>
 </mapper>

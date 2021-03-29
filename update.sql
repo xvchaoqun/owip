@@ -1,6 +1,15 @@
 
-20210328
+20210329
 -- 南航
+
+ALTER TABLE `pmd_fee`
+	ADD COLUMN `user_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '缴费时的人员类型，同sys_user.type' AFTER `user_id`;
+
+update pmd_fee f, sys_user u set f.user_type=u.type where f.user_id=u.id;
+
+
+20210328
+-- 南航、北师大
 
 -- MEMBER_STATUS_TRANSFER ->  MEMBER_STATUS_OUT
 

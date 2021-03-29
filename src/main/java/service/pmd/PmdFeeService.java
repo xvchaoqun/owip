@@ -7,12 +7,17 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.pmd.common.PmdFeeStatBean;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PmdFeeService extends PmdBaseMapper {
@@ -95,5 +100,18 @@ public class PmdFeeService extends PmdBaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_FEE,
                 "更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+    }
+
+    // 统计每个月的缴费总额/人数，以实际缴费成功的时间计算缴费月份
+    public Map<Byte, PmdFeeStatBean> statPmdFee(Integer partyId, Date payMonth){
+
+        String _payMonth = DateUtils.formatDate(payMonth, DateUtils.YYYYMM);
+        List<PmdFeeStatBean> pmdFeeStatBeans = iPmdMapper.statPmdFee(partyId, _payMonth);
+        Map<Byte, PmdFeeStatBean> statMap = new HashMap<>();
+        for (PmdFeeStatBean pmdFeeStatBean : pmdFeeStatBeans) {
+            statMap.put(pmdFeeStatBean.getUserType(), pmdFeeStatBean);
+        }
+
+        return statMap;
     }
 }

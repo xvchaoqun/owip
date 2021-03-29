@@ -6,6 +6,7 @@ import domain.pmd.PmdFee;
 import domain.pmd.PmdFeeExample;
 import domain.pmd.PmdFeeExample.Criteria;
 import domain.pmd.PmdOrder;
+import domain.sys.SysUserView;
 import ext.utils.Pay;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -155,6 +156,8 @@ public class PmdFeeController extends PmdBaseController {
         if (pmdFeeService.idDuplicate(id, record.getUserId(),record.getStartMonth(), record.getEndMonth())) {
             return failed("存在重复的缴费月份");
         }
+        SysUserView uv = CmTag.getUserById(record.getUserId());
+        record.setUserType(uv.getType());
 
         if (id == null) {
 

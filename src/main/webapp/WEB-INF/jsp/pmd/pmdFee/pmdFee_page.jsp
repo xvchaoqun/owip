@@ -32,6 +32,8 @@ pageEncoding="UTF-8" %>
                    data-url="${ctx}/pmd/pmdFee_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
+
+                    <span class="note">注：以实际缴费成功的日期作为缴费月份算入统计报表</span>
                 </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

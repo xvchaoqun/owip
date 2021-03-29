@@ -7,6 +7,7 @@
     <result column="start_month" jdbcType="DATE" property="startMonth" />
     <result column="end_month" jdbcType="DATE" property="endMonth" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_type" jdbcType="TINYINT" property="userType" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="amt" jdbcType="DECIMAL" property="amt" />
@@ -80,8 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, start_month, end_month, user_id, party_id, branch_id, amt, reason, is_online_pay, 
-    is_self_pay, has_pay, pay_user_id, pay_time, order_no, order_user_id, remark, status
+    id, type, start_month, end_month, user_id, user_type, party_id, branch_id, amt, reason, 
+    is_online_pay, is_self_pay, has_pay, pay_user_id, pay_time, order_no, order_user_id, 
+    remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdFeeExample" resultMap="BaseResultMap">
     select
@@ -118,17 +120,19 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pmd_fee (type, start_month, end_month, 
-      user_id, party_id, branch_id, 
-      amt, reason, is_online_pay, 
-      is_self_pay, has_pay, pay_user_id, 
-      pay_time, order_no, order_user_id, 
-      remark, status)
+      user_id, user_type, party_id, 
+      branch_id, amt, reason, 
+      is_online_pay, is_self_pay, has_pay, 
+      pay_user_id, pay_time, order_no, 
+      order_user_id, remark, status
+      )
     values (#{type,jdbcType=INTEGER}, #{startMonth,jdbcType=DATE}, #{endMonth,jdbcType=DATE}, 
-      #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{amt,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, #{isOnlinePay,jdbcType=BIT}, 
-      #{isSelfPay,jdbcType=BIT}, #{hasPay,jdbcType=BIT}, #{payUserId,jdbcType=INTEGER}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR}, #{orderUserId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+      #{userId,jdbcType=INTEGER}, #{userType,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{amt,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, 
+      #{isOnlinePay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, #{hasPay,jdbcType=BIT}, 
+      #{payUserId,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR}, 
+      #{orderUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdFee">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -147,6 +151,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="userType != null">
+        user_type,
       </if>
       <if test="partyId != null">
         party_id,
@@ -200,6 +207,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=TINYINT},
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
@@ -266,6 +276,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=TINYINT},
+      </if>
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
@@ -317,6 +330,7 @@
       start_month = #{record.startMonth,jdbcType=DATE},
       end_month = #{record.endMonth,jdbcType=DATE},
       user_id = #{record.userId,jdbcType=INTEGER},
+      user_type = #{record.userType,jdbcType=TINYINT},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       amt = #{record.amt,jdbcType=DECIMAL},
@@ -348,6 +362,9 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=TINYINT},
       </if>
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
@@ -397,6 +414,7 @@
       start_month = #{startMonth,jdbcType=DATE},
       end_month = #{endMonth,jdbcType=DATE},
       user_id = #{userId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=TINYINT},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       amt = #{amt,jdbcType=DECIMAL},
