@@ -216,6 +216,9 @@ public class CesResultController extends BaseController {
                 title = _title;
             }
             record.setTitle(title);
+            if(StringUtils.isBlank(title) && type==SystemConstants.CES_RESULT_TYPE_UNIT) {
+                record.setTitle(unitName);
+            }
 
             String name = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(name)) {
