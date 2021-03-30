@@ -2,6 +2,8 @@
 -- 2021.3.29 ly
 ALTER TABLE `pm3_meeting`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态， 0 暂存 1 待分党委审核 2 待组织部审核 3 组织部/学工部审核通过 4待学工部审核' AFTER `content`;
+UPDATE pm3_meeting p,ow_party s SET p.STATUS = 4 WHERE p.party_id=s.id AND s.class_id=57;
+UPDATE pm3_meeting p,ow_branch s SET p.STATUS = 4 WHERE p.branch_id=s.id AND s.is_staff=0;
 
 --2020.12.10 ly
 INSERT INTO `base_content_tpl` (`name`, `role_id`, `type`, `code`, `wx_msg_type`, `wx_title`, `wx_url`, `wx_pic`, `content`, `content_type`, `engine`, `param_count`, `param_names`, `param_def_values`, `sort_order`, `user_id`, `create_time`, `update_time`, `is_deleted`, `remark`) VALUES ('组织生活报送提醒', NULL, 1, 'pm_3_notice_branch', NULL, NULL, NULL, NULL, '各位书记/党支部管理员：您好！您管理的党支部%s组织生活月报未报送，请尽快上传报送。[系统短信，请勿回复]', 1, NULL, NULL, NULL, NULL, 69, 100719, '2020-12-10 17:42:57', '2020-12-10 17:56:57', 0, '');

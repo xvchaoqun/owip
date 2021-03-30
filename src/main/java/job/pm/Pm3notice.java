@@ -40,7 +40,7 @@ public class Pm3notice implements Job {
 
             ContentTpl tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_PARTY);
             String notice = String.format(tpl.getContent(), DateUtils.formatDate(pm3Guide.getMeetingMonth(), "yyyy年MM月"));
-            pm3GuideService.noticeUnSubmitParty(pm3Guide.getMeetingMonth(), notice);
+            pm3GuideService.noticeUnSubmitParty(pm3Guide.getMeetingMonth(), null, notice);
         }
     }
 }

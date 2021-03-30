@@ -219,7 +219,7 @@ public class Pm3GuideController extends PmBaseController {
         if (partyIds==null || partyIds.length==0){
 
             ShiroHelper.checkPermission("pm3Guide:edit");
-            modelMap.put("partyList", pm3GuideService.getUnSubmitPartyList(meetingMonth));
+            modelMap.put("partyList", pm3GuideService.getUnSubmitPartyList(meetingMonth, null));
             tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_PARTY);
         }else {
             tpl = CmTag.getContentTpl(ContentTplConstants.PM_3_NOTICE_BRANCH);
@@ -235,20 +235,25 @@ public class Pm3GuideController extends PmBaseController {
     @RequiresPermissions("pm3Guide:list")
     @RequestMapping(value = "/pm3Guide_notice", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pm3Guide_notice(int id, Integer[] partyIds, String notice) {
+    public Map do_pm3Guide_notice(int id,
+                                  boolean isNoticeParty,
+                                  Integer[] _ids, // 分党委ids或者党支部ids
+                                  String notice) {
 
-        Pm3Guide pm3Guide = pm3GuideMapper.selectByPrimaryKey(id);
-        Date meetingMonth = pm3Guide.getMeetingMonth();
+        if (_ids != null && _ids.length >0 ) {
+            Pm3Guide pm3Guide = pm3GuideMapper.selectByPrimaryKey(id);
+            Date meetingMonth = pm3Guide.getMeetingMonth();
 
-        if(partyIds==null || partyIds.length==0) {
+            if (isNoticeParty) {
 
-            ShiroHelper.checkPermission("pm3Guide:edit");
-            pm3GuideService.noticeUnSubmitParty(meetingMonth, notice);
-        }else{
-            pm3GuideService.noticeUnSubmitBranch(meetingMonth, partyIds, notice);
+                ShiroHelper.checkPermission("pm3Guide:edit");
+                pm3GuideService.noticeUnSubmitParty(meetingMonth, _ids, notice);
+            } else {
+                pm3GuideService.noticeUnSubmitBranch(meetingMonth, _ids, notice);
+            }
+
+            logger.info(log(LogConstants.LOG_PM, "给{0}发送组织生活提醒", (_ids == null ? "分党委管理员" : "党支部管理员")));
         }
-
-        logger.info(log(LogConstants.LOG_PM, "给{0}发送组织生活提醒", (partyIds==null?"分党委管理员":"党支部管理员")));
 
         return success(FormUtils.SUCCESS);
     }

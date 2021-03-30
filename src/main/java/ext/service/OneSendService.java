@@ -14,6 +14,7 @@ import shiro.ShiroHelper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lm on 2017/12/11.
@@ -41,6 +42,35 @@ public class OneSendService {
              _oneSend.setType(oneSendResult.getType());
              _oneSend.setIsSuccess(oneSendResult.isSuccess());
              _oneSend.setRet(oneSendResult.getRet());
+        }else{
+            _oneSend.setIsSuccess(false);
+            _oneSend.setRet("test");
+        }
+
+        _oneSend.setSendUserId(ShiroHelper.getCurrentUserId());
+        _oneSend.setContent(content);
+        _oneSend.setRecivers(StringUtils.join(realnameList, ","));
+        _oneSend.setCodes(StringUtils.join(userList, ","));
+        _oneSend.setSendTime(new Date());
+
+        oneSendMapper.insertSelective(_oneSend);
+
+        return _oneSend;
+    }
+
+    // userList格式：工号|手机号 发送信息相同，防止重复发送
+    public OneSend sendMsg(Set<String> userList, Set<String> realnameList, String content) {
+
+        if(userList.size()==0) return null;
+
+        OneSend _oneSend = new OneSend();
+
+        if (springProps.shortMsgSend) {
+            // 发送微信提醒
+            OneSendResult oneSendResult = OneSendUtils.sendWechat(userList.toArray(new String[]{}), "", content);
+            _oneSend.setType(oneSendResult.getType());
+            _oneSend.setIsSuccess(oneSendResult.isSuccess());
+            _oneSend.setRet(oneSendResult.getRet());
         }else{
             _oneSend.setIsSuccess(false);
             _oneSend.setRet("test");

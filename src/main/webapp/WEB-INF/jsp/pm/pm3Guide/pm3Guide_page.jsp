@@ -88,7 +88,7 @@ pageEncoding="UTF-8" %>
                 }},
             <shiro:hasPermission name="pm3Guide:edit">
                 { label: '未完成分党委',name: '_files',width:'115',formatter:function(cellvalue, options, rowObject){
-                        return '<button class="popupBtn btn btn-warning btn-xs" data-width="510"' +
+                        return '<button class="popupBtn btn btn-warning btn-xs" data-width="700px"' +
                             'data-url="${ctx}/pm/pm3Guide_notice?id={0}"><i class="fa fa-info-circle"></i> 提醒</button>'
                                 .format(rowObject.id)
                     }},

@@ -109,12 +109,12 @@ public class Pm3GuideService extends PmBaseMapper {
     }
 
     // 通知还未提交月报的党委
-    public void noticeUnSubmitParty(Date meetingMonth, String notice){
+    public void noticeUnSubmitParty(Date meetingMonth, Integer[] partyIds, String notice){
 
-        List<Party> unSubmitPartyList = getUnSubmitPartyList(meetingMonth);
+        List<Party> unSubmitPartyList = getUnSubmitPartyList(meetingMonth, partyIds);
 
-        List<String> userList = new ArrayList<>();
-        List<String> realnameList = new ArrayList<>();
+        Set<String> userList = new HashSet<>();
+        Set<String> realnameList = new HashSet<>();
         for (Party party : unSubmitPartyList) {
 
             OwAdmin owAdmin = new OwAdmin();
@@ -138,8 +138,8 @@ public class Pm3GuideService extends PmBaseMapper {
 
         List<Branch> unSubmitBranchList = getUnSubmitBranchList(meetingMonth, partyId);
 
-        List<String> userList = new ArrayList<>();
-        List<String> realnameList = new ArrayList<>();
+        Set<String> userList = new HashSet<>();
+        Set<String> realnameList = new HashSet<>();
         for (Branch branch : unSubmitBranchList) {
 
             OwAdmin owAdmin = new OwAdmin();
@@ -159,10 +159,13 @@ public class Pm3GuideService extends PmBaseMapper {
     }
 
     // 查询还未全部提交月报的党支部的所属分党委列表
-    public List<Party> getUnSubmitPartyList(Date meetingMonth){
+    public List<Party> getUnSubmitPartyList(Date meetingMonth, Integer[] partyIds){
 
         PartyExample example = new PartyExample();
-        example.createCriteria().andIsDeletedEqualTo(false);
+        PartyExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
+        if (partyIds != null && partyIds.length > 0) {
+            criteria.andIdIn(Arrays.asList(partyIds));
+        }
         example.setOrderByClause("sort_order desc");
         List<Party> parties = partyMapper.selectByExample(example);
 
