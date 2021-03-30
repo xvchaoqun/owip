@@ -15,4 +15,5 @@
 <c:set value="<%=PmConstants.PM_3_STATUS_PARTY%>" var="PM_3_STATUS_PARTY"/>
 <c:set value="<%=PmConstants.PM_3_STATUS_OW%>" var="PM_3_STATUS_OW"/>
 <c:set value="<%=PmConstants.PM_3_STATUS_PASS%>" var="PM_3_STATUS_PASS"/>
+<c:set value="<%=PmConstants.PM_3_STATUS_STU%>" var="PM_3_STATUS_STU"/>
 

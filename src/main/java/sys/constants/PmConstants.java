@@ -87,6 +87,7 @@ public class PmConstants {
     public final static byte PM_3_STATUS_PARTY = 1;
     public final static byte PM_3_STATUS_OW = 2;
     public final static byte PM_3_STATUS_PASS = 3;
+    public final static byte PM_3_STATUS_STU = 4;
     public final static Map<Byte, String> PM_3_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -94,6 +95,7 @@ public class PmConstants {
         PM_3_STATUS_MAP.put(PM_3_STATUS_PARTY, "待分党委审核");
         PM_3_STATUS_MAP.put(PM_3_STATUS_OW, "待组织部审核");
         PM_3_STATUS_MAP.put(PM_3_STATUS_PASS, "审核通过");
+        PM_3_STATUS_MAP.put(PM_3_STATUS_STU, "待学工部审核");
     }
 
 }

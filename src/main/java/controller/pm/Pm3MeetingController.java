@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pm.common.PmMeetingStat;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.PmConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -57,14 +54,13 @@ public class Pm3MeetingController extends PmBaseController {
                              ModelMap modelMap) {
 
         boolean addPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
-        boolean isPa = ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        modelMap.put("isOw", addPermits);
-        modelMap.put("isPa", isPa);
+        modelMap.put("isOw", addPermits);// 有组织部权限
+        modelMap.put("isPa", ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN));// 有分党委权限
 
-        Map pmInitCount = iPmMapper.selectPmInitCount3(!addPermits,adminPartyIdList, adminBranchIdList);
+        Map pmInitCount = iPmMapper.selectPmInitCount3(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN),adminPartyIdList, adminBranchIdList);
         if (pmInitCount != null) {
             modelMap.putAll(pmInitCount);
         }
@@ -205,6 +201,17 @@ public class Pm3MeetingController extends PmBaseController {
             logger.info(addLog(LogConstants.LOG_PM, "添加组织生活：%s",record.getId()));
 
         } else {
+
+            Pm3Meeting pm3Meeting = pm3MeetingMapper.selectByPrimaryKey(record.getId());
+            byte status = pm3Meeting.getStatus();
+            boolean isStaff = true;
+            if (pm3Meeting.getBranchId() != null) {
+                isStaff = pm3Meeting.getBranch().getIsStaff();
+            }
+            if ((status==PmConstants.PM_3_STATUS_OW&&!isStaff)||status==PmConstants.PM_3_STATUS_STU&&!isStaff){
+                record.setStatus(isStaff?PmConstants.PM_3_STATUS_OW:PmConstants.PM_3_STATUS_STU);
+            }
+
             record.setAbsents(absentIds);
             pm3MeetingService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_PM, "更新组织生活：%s", record.getId()));
@@ -304,7 +311,7 @@ public class Pm3MeetingController extends PmBaseController {
 
         if (null != id){
             pm3MeetingService.submit(id);
-            logger.info(log( LogConstants.LOG_PM, "提交组织生活月报：{0}", id));
+            logger.info(log( LogConstants.LOG_PM, "报送组织生活月报：{0}", id));
         }
 
         return success(FormUtils.SUCCESS);

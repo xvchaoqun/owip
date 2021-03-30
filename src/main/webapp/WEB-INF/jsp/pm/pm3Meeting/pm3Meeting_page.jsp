@@ -15,6 +15,9 @@ pageEncoding="UTF-8" %>
                         <li class="${cls==1?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3Meeting?cls=1"}><i class="fa fa-circle-o"></i> 待分党委审核(${cm:trimToZero(pm_partyCount)})</a>
                         </li>
+                        <li class="${cls==4?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3Meeting?cls=4"}><i class="fa fa-circle-o"></i> 待学工部审核(${cm:trimToZero(pm_stuCount)})</a>
+                        </li>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/pm/pm3Meeting?cls=2"}><i class="fa fa-circle-o"></i> 待组织部审核(${cm:trimToZero(pm_owCount)})</a>
                         </li>
@@ -37,7 +40,7 @@ pageEncoding="UTF-8" %>
                         <c:set var="_query" value="${not empty param._startTime || not empty param._endTime || not empty param.partyId
                         ||not empty param.branchId ||not empty param.year ||not empty param.name ||not empty param.type}"/>
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${cls==PM_3_STATUS_SAVE||(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||(cls==PM_3_STATUS_OW&&isOw)}">
+                            <c:if test="${cls==PM_3_STATUS_SAVE||(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||((cls==PM_3_STATUS_OW||cls==PM_3_STATUS_STU)&&isOw)}">
                                 <shiro:hasPermission name="pm3Meeting:edit">
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                        data-url="${ctx}/pm/pm3Meeting_au?cls=${cls}&edit=true"
@@ -46,19 +49,7 @@ pageEncoding="UTF-8" %>
                                         修改</button>
                                 </shiro:hasPermission>
                             </c:if>
-                            <%--<c:if test="${cls==PM_3_STATUS_SAVE}">
-                                <shiro:hasPermission name="pm3Meeting:edit">
-                                    <button data-url="${ctx}/pm/pm3Meeting_submit"
-                                            data-title="提交"
-                                            data-msg="确定提交这{0}条数据？"
-                                            data-grid-id="#jqGrid"
-                                            data-callback="pm3_reload"
-                                            class="jqBatchBtn btn btn-success btn-sm">
-                                        <i class="fa fa-check"></i> 提交
-                                    </button>
-                                </shiro:hasPermission>
-                            </c:if>--%>
-                            <c:if test="${cls==PM_3_STATUS_SAVE||(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||(cls==PM_3_STATUS_OW&&isOw)}">
+                            <c:if test="${cls==PM_3_STATUS_SAVE||(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||((cls==PM_3_STATUS_OW||cls==PM_3_STATUS_STU)&&isOw)}">
                                 <shiro:hasPermission name="pm3Meeting:del">
                                     <button data-url="${ctx}/pm/pm3Meeting_batchDel"
                                             data-title="删除"
@@ -80,7 +71,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasRole>
                             </c:if>
-                            <c:if test="${(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||(cls==PM_3_STATUS_OW&&isOw)}">
+                            <c:if test="${(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||((cls==PM_3_STATUS_OW||cls==PM_3_STATUS_STU)&&isOw)}">
                                 <shiro:hasPermission name="pm3Meeting:check">
                                     <button data-url="${ctx}/pm/pm3Meeting_check"
                                             data-title="审核"
@@ -230,7 +221,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             <c:if test="${cls==PM_3_STATUS_SAVE}">
                 <shiro:hasPermission name="pm3Meeting:edit">
-                { label: '报送', name: 'submit',width:80,formatter:function (cellvalue,optins,rowObject) {
+                { label: '报送', name: 'submit',width:70,formatter:function (cellvalue,optins,rowObject) {
                         return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="报送" data-msg="确定报送这条数据？" ' +
                             'data-url="${ctx}/pm/pm3Meeting_submit?id={0}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
                             .format(rowObject.id);
@@ -238,15 +229,15 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
             </c:if>
             {
-                label: '年份', name: 'year', width:70, frozen:true
+                label: '年份', name: 'year', width:60, frozen:true
             },
             {
-                label: '月份', name: 'month', width:70, frozen:true
+                label: '月份', name: 'month', width:50, frozen:true
             },
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
                     return $.party(rowObject.partyId);
                 },frozen: true},
-            { label: '所属党支部',  name: 'branchId',align:'left', width: 350,formatter:function(cellvalue, options, rowObject){
+            { label: '所属党支部',  name: 'branchId',align:'left', width: 315,formatter:function(cellvalue, options, rowObject){
                     if ($.trim(cellvalue)==null)
                         return '--';
                     return $.party(null, rowObject.branchId);
@@ -277,17 +268,19 @@ pageEncoding="UTF-8" %>
             { label: '开始时间',name: 'startTime', width:150,formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
             { label: '结束时间',name: 'endTime', width:150,formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
             { label: '地点',name: 'address',align:'left', width: 200},
-            { label: '主持人',name: 'presenter',formatter:function (cellvalue, options, rowObject){
-                    return rowObject.presenterUser.realname;
-                }},
-            { label: '记录人',name: 'recorder',formatter:function (cellvalue, options, rowObject){
-                    return rowObject.recorderUser.realname;
-                }},
-            { label: '应到人数',name: 'dueNum'},
-            { label: '实到人数',name: 'attendNum'},
-            { label: '缺席人数',name: 'absentNum'},
+            { label: '主持人',name: 'presenterUser.realname',width: 80},
+            { label: '记录人',name: 'recorderUser.realname',width: 80},
+            { label: '应到人数',name: 'dueNum',width:70},
+            { label: '实到人数',name: 'attendNum',width:70},
+            { label: '缺席人数',name: 'absentNum',width:70},
             { label: '主要内容',name: 'content',align:'left', width: 200},
-            { label: '缺席人员',name: 'absents',width:175},
+            { label: '缺席人员',name: 'absentList',width:175,formatter:function (cellValue,options,rowObject){
+                if (cellValue==undefined) return "--";
+                return ($.map(cellValue, function(e){
+                    //console.log(e.realname)
+                    return e.realname;
+                })).join(",")
+                }},
             { label: '缺席原因',name: 'absentReason',align:'left', width: 200},
             { label: '审核意见',name: 'checkOpinion',width:175},
             { label: '备注',name: 'remark'}

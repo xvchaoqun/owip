@@ -122,7 +122,7 @@ public class Pm3MeetingService extends PmBaseMapper {
         sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_PM,
-                "提交", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 null);
 
     }
@@ -144,11 +144,16 @@ public class Pm3MeetingService extends PmBaseMapper {
         if (!addPermits&&!isPartyAdmin)
             throw new OpException("权限不足");
 
+        boolean isStaff = true;// 组织部审批
+        if (!PartyHelper.isDirectBranch(record.getPartyId())&&!record.getBranch().getIsStaff()){
+            isStaff = false; // 学工部审批
+        }
+
         if (check){
             if (addPermits){
                 record.setStatus(PmConstants.PM_3_STATUS_PASS);
             }else{
-                record.setStatus(PmConstants.PM_3_STATUS_OW);
+                record.setStatus(isStaff?PmConstants.PM_3_STATUS_OW:PmConstants.PM_3_STATUS_STU);
             }
             record.setIsBack(false);
         }else {
@@ -158,7 +163,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         pm3MeetingMapper.updateByExampleSelective(record, example);
 
-        String stage = addPermits?"组织部":"分党委";
+        String stage = addPermits?(isStaff?"组织部":"学工部"):"分党委";
 
         for (Integer id : ids) {
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
@@ -259,14 +264,14 @@ public class Pm3MeetingService extends PmBaseMapper {
         if (StringUtils.isNotBlank(bean.getAbsents())){
             List<String> realnameList = bean.getAbsentList().stream().map(MemberView::getRealname).collect(Collectors.toList());
             absentName = StringUtils.join(realnameList, ",");
-        }else {
-            absentName = "-";
         }
 
-        if(StringUtils.equals(bean.getAbsentReason(), "无")){
-            dataMap.put("absent", "无");
-        }else{
-            dataMap.put("absent", absentName + "(" + bean.getAbsentReason() + ")");
+        String absentReason = bean.getAbsentReason();
+        if (StringUtils.isBlank(absentName)){
+            dataMap.put("absent", absentReason);
+        }else {
+            absentReason = StringUtils.isNotBlank(absentReason)?("(" + absentReason + ")"):"";
+            dataMap.put("absent", absentName + absentReason);
         }
 
         dataMap.put("remark", bean.getRemark());

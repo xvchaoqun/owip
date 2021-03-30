@@ -55,7 +55,8 @@
         select sum(if(status=0,1,0)) as pm_initCount,
         sum(if(status=1,1,0)) as pm_partyCount ,
          sum(if(status=2,1,0)) as pm_owCount,
-        sum(if(status=3,1,0)) as pm_passCount from pm3_meeting m
+        sum(if(status=3,1,0)) as pm_passCount,
+        sum(if(status=4,1,0)) as pm_stuCount from pm3_meeting m
         where m.is_delete=0
         <include refid="member_selects_permits"/>
     </select>

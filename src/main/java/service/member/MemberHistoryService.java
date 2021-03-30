@@ -126,7 +126,7 @@ public class MemberHistoryService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void out(Integer[] ids, String reason) {
+    public void out(Integer[] ids, String outReason) {
 
         MemberHistoryExample example = new MemberHistoryExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -137,13 +137,14 @@ public class MemberHistoryService extends MemberBaseMapper {
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
                     &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                 continue;
+            record.setOutReason(outReason);
             record.setStatus((byte) 1);
             updateByPrimaryKeySelective(record);
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "移除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, reason);
+                    "移除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, outReason);
         }
     }
 

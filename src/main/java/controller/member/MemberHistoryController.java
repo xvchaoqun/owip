@@ -236,10 +236,10 @@ public class MemberHistoryController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping(value = "/memberHistory_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberHistory_out(Integer[] ids, String reason, HttpServletRequest request){
+    public Map do_memberHistory_out(Integer[] ids, String outReason, HttpServletRequest request){
 
         if (null != ids && ids.length>0){
-            memberHistoryService.out(ids, reason);
+            memberHistoryService.out(ids, outReason);
             logger.info(log( LogConstants.LOG_PARTY, "将历史党员移至已移除：%s",StringUtils.join(ids, ",")));
         }
 
