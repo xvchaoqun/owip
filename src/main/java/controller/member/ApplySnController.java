@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -286,10 +287,10 @@ public class ApplySnController extends MemberBaseController {
         ApplySnExample example = new ApplySnExample();
         Criteria criteria = example.createCriteria();
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)){
+        /*if(ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)){
             // 只有超管才能选往年编码
             criteria.andYearEqualTo(DateUtils.getCurrentYear());
-        }
+        }*/
 
         example.setOrderByClause("year desc, sn asc");
 

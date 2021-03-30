@@ -210,7 +210,7 @@ public class CadreInspectController extends BaseController {
         return "cadreInspect/cadreInspect_pass";
     }
 
-    // 通过常委会任命
+    // 通过任命
     @RequiresPermissions("cadreInspect:edit")
     @RequestMapping(value = "/cadreInspect_pass", method = RequestMethod.POST)
     @ResponseBody
@@ -224,7 +224,7 @@ public class CadreInspectController extends BaseController {
         Cadre cadre = cadreInspectService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
-        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 

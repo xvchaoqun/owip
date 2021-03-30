@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>通过常委会任命</h3>
+    <h3>通过任命</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreInspect_rollback" autocomplete="off" disableautocomplete id="modalForm" method="post">

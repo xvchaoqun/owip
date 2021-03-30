@@ -123,7 +123,7 @@
                                     <shiro:lacksPermission name="cadreInspect:list">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/cadreReserve_inspectPass">
-                                        <i class="fa fa-check"></i> 通过常委会任命
+                                        <i class="fa fa-check"></i> 通过任命
                                     </button>
                                     </shiro:lacksPermission>
                                     <button class="jqBatchBtn btn btn-danger btn-sm"

@@ -38,6 +38,7 @@ public class RoleConstants {
     public static final String PERMISSION_CADREONLYVIEW = "cadre:onlyView"; // 仅允许查看干部信息的权限
     public static final String PERMISSION_CADREADMINSELF = "cadre:adminSelf"; // 仅允许管理本人干部信息的权限
     public static final String PERMISSION_PARTYVIEWALL = "party:viewAll"; // 查看所有基层党组织的权限
+    public static final String PERMISSION_PMVIEWALL = "pm:viewAll"; // 查看所有组织生活审核的权限
     public static final String PERMISSION_PARTYMEMBERARCHIVE = "partyMember:archive"; // 基础党组织成员档案查看权限
     public static final String PERMISSION_DPPARTYVIEWALL = "dp:viewAll"; //看所有民主党派的权限
     public static final String PERMISSION_PMDVIEWALL = "pmd:viewAll"; // 党费收缴查看所有党委、支部的权限

@@ -1697,7 +1697,7 @@ public class Pm3MeetingExample {
         }
         public Pm3MeetingExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
-            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL))
                 return this;
             if(partyIdList==null) partyIdList = new ArrayList<>();
             if(branchIdList==null) branchIdList = new ArrayList<>();

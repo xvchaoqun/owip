@@ -16,6 +16,8 @@ union all
 select distinct user_id from cet_record
 union all
 select distinct user_id from sys_login_log
+union all
+select distinct user_id from ow_member_reg
 )tmp where user_id is not null order by user_id asc
 );
 delete from sys_student_info where user_id not in(

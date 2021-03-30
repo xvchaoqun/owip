@@ -60,7 +60,7 @@ pageEncoding="UTF-8" %>
 
                         <button class="jqOpenViewBtn btn btn-success btn-sm"
                                 data-url="${ctx}/cadreInspect_pass">
-                            <i class="fa fa-check"></i> 通过常委会任命
+                            <i class="fa fa-check"></i> 通过任命
                         </button>
                         <button data-url="${ctx}/cadreInspect_abolish"
                                 data-title="撤销考察对象"

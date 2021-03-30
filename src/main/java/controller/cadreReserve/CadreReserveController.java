@@ -797,7 +797,7 @@ public class CadreReserveController extends BaseController {
         return "cadreReserve/cadreReserve_inspectPass";
     }
 
-    // 通过常委会任命 （没有确定考察对象的模块情况下，直接在年轻干部库-已列为考察对象中进行操作）
+    // 通过任命 （没有确定考察对象的模块情况下，直接在年轻干部库-已列为考察对象中进行操作）
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping(value = "/cadreReserve_inspectPass", method = RequestMethod.POST)
     @ResponseBody
@@ -811,7 +811,7 @@ public class CadreReserveController extends BaseController {
         Cadre cadre = cadreInspectService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
-        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 

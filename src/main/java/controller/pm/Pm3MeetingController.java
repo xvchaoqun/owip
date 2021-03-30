@@ -53,7 +53,7 @@ public class Pm3MeetingController extends PmBaseController {
                              Integer branchId,
                              ModelMap modelMap) {
 
-        boolean addPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
@@ -231,7 +231,7 @@ public class Pm3MeetingController extends PmBaseController {
             pm3Meeting =pm3MeetingMapper.selectByPrimaryKey(id);
 
         } else {
-            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
+            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
             if (!odAdmin) {
 
                 List<Integer> adminPartyIds = loginUserService.adminPartyIdList();
@@ -271,9 +271,10 @@ public class Pm3MeetingController extends PmBaseController {
     public Map pm3Meeting_batchDel(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
+            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
             for (Integer id : ids) {
                 Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
-                if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+                if(!odAdmin && !PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
                     throw new UnauthorizedException();
                 }
             }
@@ -290,9 +291,11 @@ public class Pm3MeetingController extends PmBaseController {
     public Map pm3Meeting_back(HttpServletRequest request, Integer[] ids) {
 
         if (null != ids && ids.length>0){
+
+            boolean odAdmin = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
             for (Integer id : ids) {
                 Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
-                if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+                if(!odAdmin && !PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
                     throw new UnauthorizedException();
                 }
             }
@@ -324,12 +327,7 @@ public class Pm3MeetingController extends PmBaseController {
 
 
         if (null != ids && ids.length>0){
-            for (Integer id : ids) {
-                Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
-                if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
-                    throw new UnauthorizedException();
-                }
-            }
+
             pm3MeetingService.check(ids, check, checkOpinion);
             logger.info(log( LogConstants.LOG_OA, "批量审核组织生活月报：{0}", StringUtils.join(ids, ","), check?"报送":"退回"));
         }
@@ -396,15 +394,15 @@ public class Pm3MeetingController extends PmBaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-        boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
+        boolean needPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        int count = iPmMapper.countPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, addPermits, adminPartyIdList, adminBranchIdList);
+        int count = iPmMapper.countPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, needPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PmMeetingStat> records= iPmMapper.selectPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS,addPermits, adminPartyIdList, adminBranchIdList,new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PmMeetingStat> records= iPmMapper.selectPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, needPermits, adminPartyIdList, adminBranchIdList,new RowBounds((pageNo - 1) * pageSize, pageSize));
         if (export==1){
             pm3MeetingStat_export(records, cls, response);
         }

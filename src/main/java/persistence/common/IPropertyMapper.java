@@ -12,39 +12,27 @@ import java.util.List;
 public interface IPropertyMapper {
 
     // 年级
-    @Select("select distinct grade from ow_member_view where type=2 and grade is not null and grade!='' order by grade asc")
+    @Select("select distinct s.grade from ow_member m, sys_student_info s where m.user_id=s.user_id and s.grade is not null and s.grade!='' order by s.grade asc")
     List<String> studentGrades();
 
     // 学生类别
-    @Select("select distinct student_type from ow_member_view where type=2 and student_type is not null order by student_type asc")
+    @Select("select distinct s.type from ow_member m, sys_student_info s where m.user_id=s.user_id and s.type is not null and s.type!='' order by s.type asc")
     List<String> studentTypes();
-
-    // 民族
-    /*@Select("select distinct nation from ow_member_view where nation is not null and nation!='' order by nation")
-    List<String> nations();*/
 
     // 籍贯
     @Select("select distinct native_place from ow_member_view where native_place is not null and native_place!='' order by native_place")
     List<String> nativePlaces();
 
-    // 学生民族
-    //@Select("select distinct nation from ow_member_view where type=2 and nation is not null and nation!='' order by nation")
-    //List<String> studentNations();
-
     // 学生籍贯
-    @Select("select distinct native_place from ow_member_view where type=2 and native_place is not null and native_place!='' order by native_place")
+    @Select("select distinct u.native_place from ow_member m, sys_user_info u, sys_student_info s where m.user_id=u.user_id and u.user_id=s.user_id and u.native_place is not null and u.native_place!='' order by u.native_place asc")
     List<String> studentNativePlaces();
 
-    // 教师民族
-    //@Select("select distinct nation from sys_user_view where type=1 and nation is not null and nation!='' order by nation")
-    //List<String> teacherNations();
-
     // 教师籍贯
-    @Select("select distinct native_place from ow_member_view where type=1 and native_place is not null and native_place!='' order by native_place")
+    @Select("select distinct native_place from ow_member_view where user_type in(1,5) and native_place is not null and native_place!='' order by native_place")
     List<String> teacherNativePlaces();
 
     // 最高学历
-    @Select("select distinct education from ow_member_view where type=1 and education is not null and education!='' order by education asc")
+    @Select("select distinct education from ow_member_view where user_type in(1,5) and education is not null and education!='' order by education asc")
     List<String> teacherEducationTypes();
 
     // 干部岗位类别
@@ -70,8 +58,4 @@ public interface IPropertyMapper {
     // 编制类别
     @Select("select distinct authorized_type from cadre_view where authorized_type is not null and authorized_type!='' order by authorized_type asc")
     List<String> authorizedTypes();
-
-    // 干部职称级别
-    //@Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
-    //List<String> teacherProPostLevels();
 }

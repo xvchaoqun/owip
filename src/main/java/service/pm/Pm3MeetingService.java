@@ -10,6 +10,7 @@ import domain.party.PartyExample;
 import domain.pm.Pm3Meeting;
 import domain.pm.Pm3MeetingExample;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.LoginUserService;
 import service.common.FreemarkerService;
+import service.party.PartyAdminService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.Pm3Constants;
@@ -41,6 +43,8 @@ public class Pm3MeetingService extends PmBaseMapper {
     private LoginUserService loginUserService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private PartyAdminService partyAdminService;
     @Autowired
     private FreemarkerService freemarkerService;
     @Transactional
@@ -108,8 +112,10 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         if (id == null) return;
 
+        boolean owPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
+
         Pm3Meeting record = pm3MeetingMapper.selectByPrimaryKey(id);
-        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+        if(!owPermits && !PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
             throw new UnauthorizedException();
         }
         if (PartyHelper.isDirectBranch(record.getPartyId())){
@@ -130,46 +136,46 @@ public class Pm3MeetingService extends PmBaseMapper {
     @Transactional
     public void check(Integer[] ids, boolean check, String checkOpinion) {
 
-        Pm3Meeting record = new Pm3Meeting();
-        record.setCheckOpinion(checkOpinion);
-
-        boolean addPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
-        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-
-        Pm3MeetingExample example = new Pm3MeetingExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        List<Pm3Meeting> pm3MeetingList = pm3MeetingMapper.selectByExample(example);
-        List<Integer> partyIdList = pm3MeetingList.stream().map(Pm3Meeting::getPartyId).collect(Collectors.toList());
-        boolean isPartyAdmin = adminPartyIdList.containsAll(partyIdList);
-        if (!addPermits&&!isPartyAdmin)
-            throw new OpException("权限不足");
-
-        boolean isStaff = true;// 组织部审批
-        if (!PartyHelper.isDirectBranch(record.getPartyId())&&!record.getBranch().getIsStaff()){
-            isStaff = false; // 学工部审批
-        }
-
-        if (check){
-            if (addPermits){
-                record.setStatus(Pm3Constants.PM_3_STATUS_PASS);
-            }else{
-                record.setStatus(isStaff?Pm3Constants.PM_3_STATUS_OW:Pm3Constants.PM_3_STATUS_STU);
-            }
-            record.setIsBack(false);
-        }else {
-            record.setStatus(Pm3Constants.PM_3_STATUS_SAVE);
-            record.setIsBack(true);
-        }
-
-        pm3MeetingMapper.updateByExampleSelective(record, example);
-
-        String stage = addPermits?(isStaff?"组织部":"学工部"):"分党委";
+        int currentUserId = ShiroHelper.getCurrentUserId();
+        boolean owPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
 
         for (Integer id : ids) {
+
+            Pm3Meeting pm3Meeting = pm3MeetingMapper.selectByPrimaryKey(id);
+            Branch branch = pm3Meeting.getBranch();
+            int partyId = pm3Meeting.getPartyId();
+
+            if(!owPermits && !partyAdminService.adminParty(currentUserId, partyId)){
+                throw new OpException("权限不足");
+            }
+            boolean isStaff = PartyHelper.isDirectBranch(partyId)
+                    || BooleanUtils.isTrue(branch.getIsStaff()); // 直属党支部默认为教工党支部
+
+            Pm3Meeting record = new Pm3Meeting();
+            record.setId(id);
+            if (check){
+                if (owPermits){
+                    // 组织部或学工部审核
+                    record.setStatus(Pm3Constants.PM_3_STATUS_PASS);
+                }else{
+                    // 分党委审核
+                    record.setStatus(isStaff?Pm3Constants.PM_3_STATUS_OW:Pm3Constants.PM_3_STATUS_STU);
+                }
+                record.setIsBack(false);
+            }else {
+
+                // 审核不通过均返回待审核
+                record.setStatus(Pm3Constants.PM_3_STATUS_SAVE);
+                record.setIsBack(true);
+            }
+
+            pm3MeetingMapper.updateByPrimaryKeySelective(record);
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_PM,
-                    record.getIsBack()?"退回":(stage + "审批通过"), record.getIsBack()?SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK:SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS,
+                    record.getIsBack()?"退回":"审批通过",
+                    record.getIsBack()?SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK
+                            :SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS,
                     checkOpinion);
         }
     }
@@ -191,7 +197,9 @@ public class Pm3MeetingService extends PmBaseMapper {
     public void download(int id, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         Pm3Meeting pm3Meeting = pm3MeetingMapper.selectByPrimaryKey(id);
-        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pm3Meeting.getPartyId(), pm3Meeting.getBranchId())){
+
+        boolean odPermits = ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
+        if(!odPermits && !PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pm3Meeting.getPartyId(), pm3Meeting.getBranchId())){
             throw new UnauthorizedException();
         }
 

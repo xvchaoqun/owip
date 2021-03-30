@@ -1,6 +1,12 @@
 
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (1302, 0, '组织部审核权限', '', 'function', '', NULL, 2555, '0/1/2555/', 1, 'pm:viewAll', NULL, NULL, NULL, 1, NULL);
+
 20210330
--- 珠海
+-- 珠海、南航
 
 ALTER TABLE `pm3_meeting`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态， 0 暂存 1 待分党委审核 2 待组织部审核 3 组织部/学工部审核通过 4待学工部审核' AFTER `content`;
@@ -15,6 +21,8 @@ INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resou
                         `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_unit_admin_xz', '行政班子负责人', '1191,3050,5003,5004,5005', '-1', '-1', '-1', NULL, 0, 1, 69, '');
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`,
                         `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_unit_admin_dw', '党委班子负责人', '1191,3050,5003,5004,5005', '-1', '-1', '-1', NULL, 0, 1, 70, '');
+
+ALTER TABLE `ow_member_reg` DROP COLUMN `type`;
 
 20210329
 -- 南航、吉大
@@ -113,7 +121,7 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`,
                                  `sort_order`, `create_time`, `is_deleted`) VALUES ('更新党委班子负责人、行政班子负责人角色', '更新党委班子负责人、行政班子负责人角色，每5分钟执行一次',
-                                                                                    'job.unit.UpdateUnitAdmin', '0 0/5 * * * ?', 1, 1, 33, '2021-03-23 18:17:48', 0);
+                                                                                    'job.unit.UpdateUnitAdmin', '0 0/5 * * * ?', 0, 1, 33, '2021-03-23 18:17:48', 0);
 update sys_resource set url=replace(url, 'cesResults', 'cesResult')  where url like '/cesResults%';
 update sys_resource set url=replace(url, 'cadreEva_page', 'cadreEva')  where url like '/cadreEva_page%';
 

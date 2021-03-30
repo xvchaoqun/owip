@@ -245,7 +245,7 @@ public class CadreInspectService extends BaseMapper {
         }
     }*/
 
-    // 通过常委会任命
+    // 通过任命
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
@@ -257,12 +257,12 @@ public class CadreInspectService extends BaseMapper {
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
         Integer cadreId = cadre.getId();
         if (cadreInspect.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_NORMAL) {
-            throw new OpException("[通过常委会任命]考察对象"
+            throw new OpException("[通过任命]考察对象"
                     +cadre.getUser().getRealname()+"状态异常：" + cadreInspect.getStatus());
         }
 
         // 记录任免日志
-        cadreAdLogService.addLog(cadreId, "通过常委会任命",
+        cadreAdLogService.addLog(cadreId, "通过任命",
                 CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, cadreInspect.getId());
 
         Byte status = _cadre.getStatus();
@@ -290,7 +290,7 @@ public class CadreInspectService extends BaseMapper {
                 cadreReserveMapper.updateByPrimaryKeySelective(fromTempRecord);
             }
         }
-        // 通过常委会任命
+        // 通过任命
         record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_ASSIGN);
         cadreInspectMapper.updateByPrimaryKeySelective(record);
 

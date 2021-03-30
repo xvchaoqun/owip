@@ -544,16 +544,19 @@ public class PartyController extends BaseController {
                 }
 
                 //管理的所有party
-                PartyExample partyExample = new PartyExample();
-                partyExample.createCriteria().andFidIsNotNull().andFidIn(partyIdList);
-                List<Party> partyList = partyMapper.selectByExample(partyExample);
-                List<Integer> pgbList = partyList.stream().map(Party::getId).collect(Collectors.toList());
-                partyIdList.addAll(pgbList);
+                if (partyIdList.size() > 0) {
+                    PartyExample partyExample = new PartyExample();
+                    partyExample.createCriteria().andFidIsNotNull().andFidIn(partyIdList);
+                    List<Party> partyList = partyMapper.selectByExample(partyExample);
+                    List<Integer> pgbList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+                    partyIdList.addAll(pgbList);
+                }
 
-                if (partyIdList.size() > 0)
+                if (partyIdList.size() > 0) {
                     criteria.andIdIn(partyIdList);
-                else
+                } else {
                     criteria.andIdIsNull();
+                }
             }
         }
 
