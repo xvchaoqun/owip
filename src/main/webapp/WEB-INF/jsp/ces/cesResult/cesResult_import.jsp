@@ -20,9 +20,9 @@
         </div>
   </div>
   <div class="modal-footer">
-       <span class="note">
+      <div class="note">
           注：相同年份和测评类别将执行覆盖操作
-      </span>
+      </div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <button id="submitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>
