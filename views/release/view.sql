@@ -746,7 +746,7 @@ left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_member_group_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_member_group_view` AS
-SELECT bmg.`*`, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
+SELECT bmg.*, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
 from ow_branch_member_group bmg
 left join ow_branch_member obm on obm.is_history=0 and obm.group_id=bmg.id
 left join ow_branch b on bmg.branch_id=b.id

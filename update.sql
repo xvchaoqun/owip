@@ -1,4 +1,6 @@
 
+20210330
+-- 珠海
 
 ALTER TABLE `pm3_meeting`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态， 0 暂存 1 待分党委审核 2 待组织部审核 3 组织部/学工部审核通过 4待学工部审核' AFTER `content`;
@@ -553,7 +555,7 @@ update sys_student_info set student_level=3 where edu_level like '%硕士%';
 update sys_student_info set student_level=4 where edu_level like '%博士%';
 
 -- 重建 update/dp0219.sql 表  并 更新view_dp
-INSERT INTO `base_meta_class` (`id`,  `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`) VALUES (2595, '其他统战人员类别', '统战信息管理', '统战人员信息', 'mc_dp_other_type', '', '', '', 2595);
+replace INTO `base_meta_class` (`id`,  `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`) VALUES (2595, '其他统战人员类别', '统战信息管理', '统战人员信息', 'mc_dp_other_type', '', '', '', 2595);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '华侨、归侨及侨眷', 'mt_dp_other_type_1', NULL, '', '', 1, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '欧美同学会会员', 'mt_dp_other_type_2', NULL, '', '', 2, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2595, '知联会员', 'mt_dp_other_type_3', NULL, '', '', 3, 1);

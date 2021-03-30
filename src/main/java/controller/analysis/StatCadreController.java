@@ -636,10 +636,12 @@ public class StatCadreController extends BaseController {
         cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
         cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
         cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
-        ageCount=totalBean.getNum1()+totalBean.getNum2()+totalBean.getNum3()+totalBean.getNum4()
-                +totalBean.getNum5()+totalBean.getNum6()+totalBean.getNum7();
-        if(totalBean != null && cadreCount != ageCount){
-            cadreAgeMap.put("其他",cadreCount-ageCount);
+        if(totalBean!=null) {
+            ageCount = totalBean.getNum1() + totalBean.getNum2() + totalBean.getNum3() + totalBean.getNum4()
+                    + totalBean.getNum5() + totalBean.getNum6() + totalBean.getNum7();
+            if (totalBean != null && cadreCount != ageCount) {
+                cadreAgeMap.put("其他", cadreCount - ageCount);
+            }
         }
 
         return cadreAgeMap;

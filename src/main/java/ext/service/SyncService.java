@@ -640,7 +640,7 @@ public class SyncService extends BaseMapper {
         // 教工信息
         TeacherInfo record = new TeacherInfo();
         record.setUserId(userId);
-
+        record.setIsTemp("0"); // 防止没更新字段而报错
         ExtJzg extJzg = extService.getExtJzg(code);
         if (extJzg != null) {
 

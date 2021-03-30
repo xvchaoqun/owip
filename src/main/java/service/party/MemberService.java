@@ -165,8 +165,6 @@ public class MemberService extends MemberBaseMapper {
     @Transactional
     public boolean addOrUpdate(Member record, String remark) {
 
-        EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
-
         Integer userId = record.getUserId();
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
