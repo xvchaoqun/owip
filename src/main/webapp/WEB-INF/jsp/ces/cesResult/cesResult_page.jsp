@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
+<c:set var="jqGridId" value="${param._auth!='1'?'jqGrid':'jqGrid_ces'}"/>
+<c:set var="jqGridPagerId" value="${param._auth!='1'?'jqGridPager':'jqGridPager_ces'}"/>
+<c:set var="jqGridClass" value="${param._auth!='1'?'jqGrid':'jqGrid2'}"/>
+<div class="row" <c:if test="${param._auth!='1'}">id="body-content"</c:if>>
     <div class="col-xs-12">
         <c:set var="_query" value="${not empty param.year || not empty param.name || not empty param.title || not empty param.unitId || not empty param.cadreId}"/>
 
@@ -12,7 +15,7 @@
                     <i class="fa fa-plus"></i> 添加</button>
                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                         data-url="${ctx}/cesResult_au?type=${param.type}&_auth=${param._auth}&cadreId=${param.cadreId}&unitId=${param.unitId}"
-                        data-grid-id="#jqGrid_ces"><i class="fa fa-edit"></i>
+                        data-grid-id="#${jqGridId}"><i class="fa fa-edit"></i>
                     修改</button>
                 <c:if test="${param._auth!=1}">
                 <button class="popupBtn btn btn-info btn-sm tooltip-info" data-url="/cesResult_import_page?type=${param.type}&_cadreId=${param.cadreId}&_unitId=${param.unitId}" data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
@@ -24,14 +27,14 @@
                 <button data-url="${ctx}/cesResult_batchDel"
                         data-title="删除"
                         data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
-                        data-grid-id="#jqGrid_ces"
+                        data-grid-id="#${jqGridId}"
                         class="jqBatchBtn btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i> 删除
                 </button>
             </shiro:hasPermission>
             <c:if test="${param._auth!=1}">
              <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                data-url="${ctx}/cesResult_data?type=${param.type}&cadreId=${param.cadreId}&unitId=${param.unitId}" data-grid-id="#jqGrid_ces"
+                data-url="${ctx}/cesResult_data?type=${param.type}&cadreId=${param.cadreId}&unitId=${param.unitId}" data-grid-id="#${jqGridId}"
                 data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                  <i class="fa fa-download"></i> 导出</button>
             </c:if>
@@ -108,24 +111,39 @@
         </div>
         </c:if>
         <div class="space-4"></div>
-        <table id="jqGrid_ces" class="jqGrid2 table-striped"></table>
-        <div id="jqGridPager_ces"></div>
+        <table id="${jqGridId}" class="${jqGridClass} table-striped"></table>
+        <div id="${jqGridPagerId}"></div>
 
     </div>
 </div>
+<c:if test="${param._auth!='1'}">
+    <div id="body-content-view"></div>
+</c:if>
 <script>
+    function _reloadGrid(){
+        $("#${jqGridId}").trigger("reloadGrid");
+    }
     $.register.date($('.date-picker'));
-    $("#jqGrid_ces").jqGrid({
-        pager: "#jqGridPager_ces",
+    $("#${jqGridId}").jqGrid({
+        pager: "#${jqGridPagerId}",
         rownumbers:true,
         url: '${ctx}/cesResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '年份',name: 'year',width: 80, class:"jqgrow"},
-            <c:if test="${param.type==CES_RESULT_TYPE_CADRE}">
+            <c:if test="${param._auth!='1' && param.type==CES_RESULT_TYPE_CADRE}">
             { label: '工作证号',name: 'cadre.code', width:110},
-            { label: '姓名',name: 'cadre.realname'},
+            {
+                label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                    return $.cadre(rowObject.cadre.id, cellvalue);
+                }, frozen: true
+            },
             </c:if>
+            <c:if test="${param._auth!='1'}">
+            { label: '${param.type==CES_RESULT_TYPE_CADRE?"时任单位":"所在单位"}', name: 'unit.id', width: 250, align:'left', formatter:$.jgrid.formatter.unit,frozen:true },
+            </c:if>
+            <c:if test="${param._auth=='1'}">
             { label: '${param.type==CES_RESULT_TYPE_CADRE?"时任单位":"所在单位"}', name: 'unit.name', width:250,align:"left"},
+            </c:if>
             { label: '${param.type==CES_RESULT_TYPE_CADRE?"时任职务":"班子名称"}', name: 'title', width:250,align:"left"},
             { label: '测评类别',name: 'name',width: 250,align:"left"},
             { label:'排名', name:'rank',width: 80},
@@ -133,8 +151,8 @@
             { label: '备注',name: 'remark',width: 350}
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid2');
-    $.initNavGrid("jqGrid_ces", "jqGridPager_ces");
+    $(window).triggerHandler('resize.${jqGridClass}');
+    $.initNavGrid("${jqGridId}", "${jqGridPagerId}");
     $('[data-rel="tooltip"]').tooltip();
     $.register.user_select($('#searchForm select[name=cadreId]'));
     $.register.ajax_select($('#searchForm select[name=unitId]'));

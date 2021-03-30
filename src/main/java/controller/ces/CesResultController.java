@@ -240,6 +240,8 @@ public class CesResultController extends BaseController {
             records.add(record);
         }
 
+        Collections.reverse(records);
+
         int addCount = cesResultService.batchImport(type, records);
         int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
@@ -298,8 +300,14 @@ public class CesResultController extends BaseController {
 
         CesResultExample example = new CesResultExample();
         CesResultExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("year desc");
+        example.setOrderByClause("year desc, id desc");
         criteria.andTypeEqualTo(type);
+
+        if(type==SystemConstants.CES_RESULT_TYPE_CADRE){
+           unitId = null;
+        }else{
+            cadreId = null;
+        }
 
         // 权限控制
         if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)){

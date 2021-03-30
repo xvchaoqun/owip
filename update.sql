@@ -1,9 +1,10 @@
 
-
+20210330
+-- 北师大
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
-                            `count_cache_roles`, `available`, `sort_order`) VALUES (1302, 0, '组织部审核权限', '', 'function', '', NULL, 2555, '0/1/2555/', 1, 'pm:viewAll', NULL, NULL, NULL, 1, NULL);
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (1302, 0, '组织部/学工部审核权限', '', 'function', '', NULL, 2555, '0/1/2555/', 1, 'pm:viewAll', NULL, NULL, NULL, 1, NULL);
 
 20210330
 -- 珠海、南航

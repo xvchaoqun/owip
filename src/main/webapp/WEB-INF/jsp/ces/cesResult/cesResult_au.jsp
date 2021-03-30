@@ -124,8 +124,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
-                        $("#jqGrid_ces").trigger("reloadGrid");
-                        // $("#jqGrid_evaResult").trigger("reloadGrid");
+                        _reloadGrid();
                     }
                     $btn.button('reset');
                 }
