@@ -173,4 +173,7 @@ public interface IPmdMapper {
                                                     @Param("partyId") int partyId,
                                                     // 0 汇总 1 本月按时缴纳党费党员数 2 本月未缴纳党费党员数 3 补缴往月党费党员数
                                                     @Param("type") int type);
+
+    // 按人员类型统计分党委每个月的缴费总额/人数
+    public List<PmdFeeStatBean> statPmdFee(@Param("partyId") Integer partyId, @Param("payMonth") String payMonth);
 }

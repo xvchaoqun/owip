@@ -35,7 +35,7 @@
             <thead>
             <tr>
                 <th colspan="2" style="text-align: center">
-                    {{=failedXlsRows.length}}条失败记录（可能是重复导入）
+                    {{=failedXlsRows.length}}条失败记录（可能原因：学工号不存在或不是参训人员）
                 </th>
             </tr>
             <tr>

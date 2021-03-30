@@ -1,6 +1,21 @@
 
+20210329
+-- 哈工大
+
+update sys_resource set url=replace(url, '?type=', '?cls=') where url like '%stat_cadre_category?type%';
+
+
+20210329
+-- 南航、吉大
+
+ALTER TABLE `pmd_fee`
+	ADD COLUMN `user_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '缴费时的人员类型，同sys_user.type' AFTER `user_id`;
+
+update pmd_fee f, sys_user u set f.user_type=u.type where f.user_id=u.id;
+
+
 20210328
--- 南航
+-- 南航、北师大
 
 -- MEMBER_STATUS_TRANSFER ->  MEMBER_STATUS_OUT
 

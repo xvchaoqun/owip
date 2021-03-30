@@ -30,6 +30,8 @@ public class PmdFee implements Serializable {
 
     private Integer userId;
 
+    private Byte userType;
+
     private Integer partyId;
 
     private Integer branchId;
@@ -96,6 +98,14 @@ public class PmdFee implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Byte getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Byte userType) {
+        this.userType = userType;
     }
 
     public Integer getPartyId() {

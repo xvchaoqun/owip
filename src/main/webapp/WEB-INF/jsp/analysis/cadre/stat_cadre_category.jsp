@@ -30,7 +30,7 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
-                                <input type="hidden" name="type" value="${param.type}">
+                                <input type="hidden" name="cls" value="${param.cls}">
                                 <div class="form-group">
                                     <label>账号</label>
                                     <select data-rel="select2-ajax"
@@ -42,7 +42,7 @@
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
-                                        <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="type=${param.type}">
+                                        <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="cls=${param.cls}">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>
@@ -81,7 +81,7 @@
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
             {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
-            <c:if test="${param.type==1}">
+            <c:if test="${param.cls==1}">
             // 最高学历、最高学位、国（境）外学历、入学时间、毕业时间、毕业/在读学校、院系、所学专业。
             {label: '最高学历', name: 'cadre.eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'cadre.degree'},
@@ -92,25 +92,25 @@
             {label: '院系', name: 'dep', width: 380},
             {label: '所学专业', name: 'major', width: 380},
             </c:if>
-            <c:if test="${param.type==2}">
+            <c:if test="${param.cls==2}">
             // 国（境）外工作开始日期、国（境）外工作结束日期、国（境）外工作单位、担任职务或者专技职务。
             {label: '国（境）外工作开始日期', name: 'startTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '国（境）外工作结束日期', name: 'endTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '国（境）外工作单位及担任职务或者专技职务', name: 'detail', width: 450, align:'left'},
             </c:if>
-            <c:if test="${param.type==3}">
+            <c:if test="${param.cls==3}">
             // 院系工作开始日期、院系工作结束日期、院系工作单位、担任职务或者专技职务。
             {label: '院系工作开始日期', name: 'startTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '院系工作结束日期', name: 'endTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '院系工作单位及担任职务或者专技职务', name: 'detail', width: 450, align:'left'},
             </c:if>
-            <c:if test="${param.type==4}">
+            <c:if test="${param.cls==4}">
             // 机关工作开始日期、机关工作结束日期、机关工作单位、担任职务或者专技职务。
             {label: '机关工作开始日期', name: 'startTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '机关工作结束日期', name: 'endTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '机关工作单位及担任职务或者专技职务', name: 'detail', width: 450, align:'left'},
             </c:if>
-            <c:if test="${param.type==5}">
+            <c:if test="${param.cls==5}">
                 // 挂职开始日期、挂职结束日期、挂职工作单位、担任职务或者专技职务。
             {label: '挂职开始日期', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '挂职结束日期', name: 'realEndDate', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
@@ -134,7 +134,7 @@
             },
             {label: '担任职务或者专技职务', name: 'presentPost', width: 250},
             </c:if>
-            <c:if test="${param.type==6}">
+            <c:if test="${param.cls==6}">
                 // 人才/荣誉称号
             {label: '人才/荣誉称号', name: 'cadre.talentTitle', width: 470, align:'left'},
             </c:if>

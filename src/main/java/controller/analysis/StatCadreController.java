@@ -149,7 +149,7 @@ public class StatCadreController extends BaseController {
 
     @RequiresPermissions("statCadreCategory:list")
     @RequestMapping("/stat_cadre_category_data")
-    public void stat_cadre_category_data(int type, HttpServletResponse response,
+    public void stat_cadre_category_data(int cls, HttpServletResponse response,
                                          CadreCategorySearchBean searchBean,
                                          @RequestParam(required = false, defaultValue = "0") int export,
                                          Integer pageSize, Integer pageNo) throws IOException {
@@ -168,7 +168,7 @@ public class StatCadreController extends BaseController {
         List records = new ArrayList<>();
 
         searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_CJ); // 统计现任干部
-        switch (type) {
+        switch (cls) {
             case 1: // 查找干部的（境外）学习经历
 
                 if (export == 1) {

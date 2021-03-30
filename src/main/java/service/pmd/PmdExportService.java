@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.pmd.common.PmdExcelReportBean;
+import persistence.pmd.common.PmdFeeStatBean;
 import service.sys.SysConfigService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PmdExportService extends PmdBaseMapper {
@@ -30,6 +32,8 @@ public class PmdExportService extends PmdBaseMapper {
     private SysUserService sysUserService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected PmdFeeService pmdFeeService;
 
     public String getSchoolName(){
         return sysConfigService.getSchoolName();
@@ -144,20 +148,27 @@ public class PmdExportService extends PmdBaseMapper {
 
         // 三、往月补缴党费详情
 
+        // 按月补缴统计
+        BigDecimal fee = BigDecimal.ZERO;
+        Map<Byte, PmdFeeStatBean> feeStatMap = pmdFeeService.statPmdFee(null, pmdMonth.getPayMonth());
+        for (PmdFeeStatBean statBean : feeStatMap.values()) {
+            fee = fee.add(statBean.getAmt());
+        }
+
         // 往月应补缴党费数
         row = sheet.getRow(13);
         cell = row.getCell(1);
-        cell.setCellValue(pmdMonth.getHistoryDelayPay().toString());
+        cell.setCellValue(pmdMonth.getHistoryDelayPay().add(fee).toString());
 
         // 往月实补缴党费数
         row = sheet.getRow(13);
         cell = row.getCell(3);
-        cell.setCellValue(pmdMonth.getRealDelayPay().toString());
+        cell.setCellValue(pmdMonth.getRealDelayPay().add(fee).toString());
 
         // 往月线上补缴党费数
         row = sheet.getRow(13);
         cell = row.getCell(5);
-        cell.setCellValue(pmdMonth.getOnlineRealDelayPay().toString());
+        cell.setCellValue(pmdMonth.getOnlineRealDelayPay().add(fee).toString());
 
         // 往月现金缴纳党费数
         row = sheet.getRow(14);
@@ -208,19 +219,42 @@ public class PmdExportService extends PmdBaseMapper {
     }
 
     // 单个分党委报表
-    public XSSFWorkbook reportParty(int monthId) throws IOException {
+    public XSSFWorkbook reportParty(int pmdPartyId) throws IOException {
 
-        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(monthId);
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
         // 报送后允许导出
         if(!pmdParty.getHasReport()) return null;
 
-        int montId = pmdParty.getMonthId();
+        int monthId = pmdParty.getMonthId();
         int partyId = pmdParty.getPartyId();
-        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(montId);
+        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
         String month = DateUtils.formatDate(pmdMonth.getPayMonth(), "yyyy年MM月");
 
         Party party = partyMapper.selectByPrimaryKey(partyId);
         String partyName = party.getName();
+
+        // 按月补缴统计
+        BigDecimal fee = BigDecimal.ZERO;
+        Map<Byte, PmdFeeStatBean> feeStatMap = pmdFeeService.statPmdFee(partyId, pmdMonth.getPayMonth());
+        PmdFeeStatBean teacherFee = feeStatMap.get(PmdConstants.PMD_USER_TYPE_TEACHER);
+        PmdFeeStatBean retireFee = feeStatMap.get(PmdConstants.PMD_USER_TYPE_RETIRE);
+        PmdFeeStatBean studentFee = feeStatMap.get(PmdConstants.PMD_USER_TYPE_STU);
+        int teacherFeeCount = 0;
+        int retireFeeCount = 0;
+        int studentFeeCount = 0;
+        if(teacherFee!=null){
+            fee = fee.add(teacherFee.getAmt());
+            teacherFeeCount = teacherFee.getNum();
+        }
+        if(retireFee!=null){
+            fee = fee.add(retireFee.getAmt());
+            retireFeeCount = retireFee.getNum();
+        }
+        if(studentFee!=null){
+            fee = fee.add(studentFee.getAmt());
+            studentFeeCount = studentFee.getNum();
+        }
+        int totalCount = teacherFeeCount+retireFeeCount+studentFeeCount;
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pmd/report_party.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -251,20 +285,20 @@ public class PmdExportService extends PmdBaseMapper {
         // 填充数据
         for (int i = 0; i < rowCount; i++) {
 
-            PmdExcelReportBean bean = iPmdMapper.getPmdExcelReportBean(montId, partyId, i);
+            PmdExcelReportBean bean = iPmdMapper.getPmdExcelReportBean(monthId, partyId, i);
             int column = 2;
 
             row = sheet.getRow(startRow++);
 
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getTotal());
+            cell.setCellValue(bean.getTotal() + totalCount);
             cell = row.getCell(column++);
             cell.setCellValue(bean.getZj()+bean.getGl()+bean.getGq()+bean.getXp()+bean.getXszl()
-                    +bean.getOther());
+                    +bean.getOther() + teacherFeeCount);
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getLt());
+            cell.setCellValue(bean.getLt() + retireFeeCount);
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getBdx()+bean.getDx());
+            cell.setCellValue(bean.getBdx()+bean.getDx() + studentFeeCount);
 
             column += 3;
             cell = row.getCell(column++);
@@ -280,7 +314,7 @@ public class PmdExportService extends PmdBaseMapper {
 
         startRow = 9;
         row = sheet.getRow(startRow++);
-        BigDecimal _onlineRealPay = pmdParty.getOnlineRealPay().add(pmdParty.getOnlineRealDelayPay());
+        BigDecimal _onlineRealPay = pmdParty.getOnlineRealPay().add(pmdParty.getOnlineRealDelayPay()).add(fee);
         cell = row.getCell(2);
         cell.setCellValue(_onlineRealPay.toString());
         cell = row.getCell(9);
@@ -291,11 +325,12 @@ public class PmdExportService extends PmdBaseMapper {
         cell = row.getCell(12);
         cell.setCellValue(pmdParty.getOnlineRealPay().toString());
 
+        String onlineRealDelayPay = pmdParty.getOnlineRealDelayPay().add(fee).toString();
         row = sheet.getRow(startRow++);
         cell = row.getCell(5);
-        cell.setCellValue(pmdParty.getOnlineRealDelayPay().toString());
+        cell.setCellValue(onlineRealDelayPay);
         cell = row.getCell(12);
-        cell.setCellValue(pmdParty.getOnlineRealDelayPay().toString());
+        cell.setCellValue(onlineRealDelayPay);
 
 
         String delayPay = pmdParty.getDelayPay().toString();
@@ -372,6 +407,13 @@ public class PmdExportService extends PmdBaseMapper {
 
             PmdPartyView bean = pmdPartyViews.get(i);
 
+            // 按月补缴统计
+            BigDecimal fee = BigDecimal.ZERO;
+            Map<Byte, PmdFeeStatBean> feeStatMap = pmdFeeService.statPmdFee(bean.getPartyId(), pmdMonth.getPayMonth());
+            for (PmdFeeStatBean statBean : feeStatMap.values()) {
+                fee = fee.add(statBean.getAmt());
+            }
+
             int column = 0;
             row = sheet.getRow(startRow++);
             // 序号
@@ -384,14 +426,14 @@ public class PmdExportService extends PmdBaseMapper {
 
             if(!isDetail) {
                 // 线上缴纳党费总额
-                BigDecimal onlineRealPay = bean.getOnlineRealPay().add(bean.getOnlineRealDelayPay());
+                BigDecimal onlineRealPay = bean.getOnlineRealPay().add(bean.getOnlineRealDelayPay()).add(fee);
                 cell = row.getCell(column++);
                 cell.setCellValue(onlineRealPay.toString());
                 realOnlinePayTotal = realOnlinePayTotal.add(onlineRealPay);
             }else{
 
                 // 线上缴纳党费总数
-                BigDecimal _onlineRealPay = bean.getOnlineRealPay().add(bean.getOnlineRealDelayPay());
+                BigDecimal _onlineRealPay = bean.getOnlineRealPay().add(bean.getOnlineRealDelayPay()).add(fee);
                 cell = row.getCell(column++);
                 cell.setCellValue(_onlineRealPay.toString());
                 _onlineRealPayTotal = _onlineRealPayTotal.add(_onlineRealPay);
@@ -437,13 +479,13 @@ public class PmdExportService extends PmdBaseMapper {
 
                 // 应补缴党费数
                 cell = row.getCell(column++);
-                cell.setCellValue(bean.getHistoryDelayPay().toString());
-                historyDelayPayTotal = historyDelayPayTotal.add(bean.getHistoryDelayPay());
+                cell.setCellValue(bean.getHistoryDelayPay().add(fee).toString());
+                historyDelayPayTotal = historyDelayPayTotal.add(bean.getHistoryDelayPay().add(fee));
 
                 // 线上补缴党费数
                 cell = row.getCell(column++);
-                cell.setCellValue(bean.getOnlineRealDelayPay().toString());
-                onlineRealDelayPayTotal = onlineRealDelayPayTotal.add(bean.getOnlineRealDelayPay());
+                cell.setCellValue(bean.getOnlineRealDelayPay().add(fee).toString());
+                onlineRealDelayPayTotal = onlineRealDelayPayTotal.add(bean.getOnlineRealDelayPay().add(fee));
 
                 // 现金缴纳党费数
                 cell = row.getCell(column++);
