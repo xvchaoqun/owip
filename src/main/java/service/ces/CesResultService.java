@@ -120,7 +120,7 @@ public class CesResultService extends BaseMapper {
             valueList.add(values);
         }
 
-        String fileName = (type == 1 ? "干部" : "班子") + "年终考核结果.xlsx";
+        String fileName = (type == 1 ? "干部" : "班子") + "年终考核结果";
         ExportHelper.export(titles, valueList, fileName, response);
     }
 }
