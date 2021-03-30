@@ -19,7 +19,7 @@ import service.LoginUserService;
 import service.common.FreemarkerService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
-import sys.constants.PmConstants;
+import sys.constants.Pm3Constants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
@@ -46,7 +46,7 @@ public class Pm3MeetingService extends PmBaseMapper {
     @Transactional
     public void insertSelective(Pm3Meeting record){
 
-        record.setStatus(PmConstants.PM_3_STATUS_SAVE);
+        record.setStatus(Pm3Constants.PM_3_STATUS_SAVE);
         record.setIsBack(false);
         record.setIsDelete(false);
         pm3MeetingMapper.insertSelective(record);
@@ -113,9 +113,9 @@ public class Pm3MeetingService extends PmBaseMapper {
             throw new UnauthorizedException();
         }
         if (PartyHelper.isDirectBranch(record.getPartyId())){
-            record.setStatus(PmConstants.PM_3_STATUS_OW);
+            record.setStatus(Pm3Constants.PM_3_STATUS_OW);
         }else {
-            record.setStatus(PmConstants.PM_3_STATUS_PARTY);
+            record.setStatus(Pm3Constants.PM_3_STATUS_PARTY);
         }
         pm3MeetingMapper.updateByPrimaryKeySelective(record);
 
@@ -151,13 +151,13 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         if (check){
             if (addPermits){
-                record.setStatus(PmConstants.PM_3_STATUS_PASS);
+                record.setStatus(Pm3Constants.PM_3_STATUS_PASS);
             }else{
-                record.setStatus(isStaff?PmConstants.PM_3_STATUS_OW:PmConstants.PM_3_STATUS_STU);
+                record.setStatus(isStaff?Pm3Constants.PM_3_STATUS_OW:Pm3Constants.PM_3_STATUS_STU);
             }
             record.setIsBack(false);
         }else {
-            record.setStatus(PmConstants.PM_3_STATUS_SAVE);
+            record.setStatus(Pm3Constants.PM_3_STATUS_SAVE);
             record.setIsBack(true);
         }
 
@@ -216,7 +216,7 @@ public class Pm3MeetingService extends PmBaseMapper {
     public void batchBack(Integer[] ids) {
 
         Pm3Meeting record = new Pm3Meeting();
-        record.setStatus(PmConstants.PM_3_STATUS_SAVE);
+        record.setStatus(Pm3Constants.PM_3_STATUS_SAVE);
         record.setIsBack(true);
 
         Pm3MeetingExample example = new Pm3MeetingExample();
@@ -237,7 +237,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         Map<String, Object> dataMap = getDataMapOfPm3(id);
         Pm3Meeting pm3Meeting = pm3MeetingMapper.selectByPrimaryKey(id);
-        if (pm3Meeting.getType()==PmConstants.PM_3_BRANCH_COMMITTEE){
+        if (pm3Meeting.getType()==Pm3Constants.PM_3_BRANCH_COMMITTEE){
             freemarkerService.process("/pm/pm3Meeting_1.ftl", dataMap, out);
         }else {
             freemarkerService.process("/pm/pm3Meeting_2.ftl", dataMap, out);
@@ -248,7 +248,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         Map<String, Object> dataMap = new HashMap<>();
         Pm3Meeting bean = pm3MeetingMapper.selectByPrimaryKey(id);
-        dataMap.put("type", PmConstants.PM_3_BRANCH_MAP.get(bean.getType()));
+        dataMap.put("type", Pm3Constants.PM_3_BRANCH_MAP.get(bean.getType()));
         dataMap.put("partyName", bean.getParty().getName());
         dataMap.put("branchName", bean.getBranch().getName());
         dataMap.put("name", bean.getName());
@@ -289,7 +289,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         Pm3MeetingExample example = new Pm3MeetingExample();
         example.createCriteria().andYearEqualTo(DateUtils.getYear(meetingMonth)).andMonthEqualTo(DateUtils.getMonth(meetingMonth))
-                .andBranchIdIsNotNull().andStatusNotEqualTo(PmConstants.PM_3_STATUS_SAVE).andIsDeleteEqualTo(false);
+                .andBranchIdIsNotNull().andStatusNotEqualTo(Pm3Constants.PM_3_STATUS_SAVE).andIsDeleteEqualTo(false);
         List<Pm3Meeting> records = pm3MeetingMapper.selectByExample(example);
 
         if (records != null && records.size() > 0) {
@@ -311,7 +311,7 @@ public class Pm3MeetingService extends PmBaseMapper {
 
         Pm3MeetingExample example = new Pm3MeetingExample();
         example.createCriteria().andYearEqualTo(DateUtils.getYear(meetingMonth)).andMonthEqualTo(DateUtils.getMonth(meetingMonth))
-                .andBranchIdIsNull().andStatusNotEqualTo(PmConstants.PM_3_STATUS_SAVE).andIsDeleteEqualTo(false);
+                .andBranchIdIsNull().andStatusNotEqualTo(Pm3Constants.PM_3_STATUS_SAVE).andIsDeleteEqualTo(false);
         List<Pm3Meeting> records = pm3MeetingMapper.selectByExample(example);
 
         if (records != null && records.size() > 0) {

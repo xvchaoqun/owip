@@ -1,9 +1,18 @@
 
+
+ALTER TABLE `pm3_meeting`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态， 0 暂存 1 待分党委审核 2 待组织部审核 3 组织部/学工部审核通过 4待学工部审核' AFTER `content`;
+
+
 20210329
--- 哈工大
+-- 哈工大、大工
 
 update sys_resource set url=replace(url, '?type=', '?cls=') where url like '%stat_cadre_category?type%';
 
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`,
+                        `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_unit_admin_xz', '行政班子负责人', '1191,3050,5003,5004,5005', '-1', '-1', '-1', NULL, 0, 1, 69, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`,
+                        `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_unit_admin_dw', '党委班子负责人', '1191,3050,5003,5004,5005', '-1', '-1', '-1', NULL, 0, 1, 70, '');
 
 20210329
 -- 南航、吉大

@@ -127,7 +127,7 @@ public class Pm3MeetingController extends PmBaseController {
             criteria.andNameLike(SqlUtils.trimLike(name));
         }
         if (isSum!=null){
-            criteria.andTypeNotEqualTo(PmConstants.PM_3_BRANCH_COMMITTEE);
+            criteria.andTypeNotEqualTo(Pm3Constants.PM_3_BRANCH_COMMITTEE);
         }
         if (type!=null) {
             criteria.andTypeEqualTo(type);
@@ -208,8 +208,8 @@ public class Pm3MeetingController extends PmBaseController {
             if (pm3Meeting.getBranchId() != null) {
                 isStaff = pm3Meeting.getBranch().getIsStaff();
             }
-            if ((status==PmConstants.PM_3_STATUS_OW&&!isStaff)||status==PmConstants.PM_3_STATUS_STU&&!isStaff){
-                record.setStatus(isStaff?PmConstants.PM_3_STATUS_OW:PmConstants.PM_3_STATUS_STU);
+            if ((status==Pm3Constants.PM_3_STATUS_OW&&!isStaff)||status==Pm3Constants.PM_3_STATUS_STU&&!isStaff){
+                record.setStatus(isStaff?Pm3Constants.PM_3_STATUS_OW:Pm3Constants.PM_3_STATUS_STU);
             }
 
             record.setAbsents(absentIds);
@@ -400,11 +400,11 @@ public class Pm3MeetingController extends PmBaseController {
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        int count = iPmMapper.countPm3MeetingStat(cls,year,quarter,month,partyId,branchId,PmConstants.PM_3_STATUS_PASS, addPermits, adminPartyIdList, adminBranchIdList);
+        int count = iPmMapper.countPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PmMeetingStat> records= iPmMapper.selectPm3MeetingStat(cls,year,quarter,month,partyId,branchId,PmConstants.PM_3_STATUS_PASS,addPermits, adminPartyIdList, adminBranchIdList,new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PmMeetingStat> records= iPmMapper.selectPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS,addPermits, adminPartyIdList, adminBranchIdList,new RowBounds((pageNo - 1) * pageSize, pageSize));
         if (export==1){
             pm3MeetingStat_export(records, cls, response);
         }

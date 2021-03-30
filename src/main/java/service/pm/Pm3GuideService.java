@@ -16,7 +16,7 @@ import persistence.party.common.OwAdmin;
 import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
-import sys.constants.PmConstants;
+import sys.constants.Pm3Constants;
 import sys.constants.RoleConstants;
 import sys.utils.DateUtils;
 
@@ -175,7 +175,7 @@ public class Pm3GuideService extends PmBaseMapper {
             int partyId = party.getId();
             if(partyService.isDirectBranch(partyId)){
 
-                if(iPmMapper.unSubmitDirectBranch(year, month, partyId, PmConstants.PM_3_STATUS_OW)!=null){
+                if(iPmMapper.unSubmitDirectBranch(year, month, partyId, Pm3Constants.PM_3_STATUS_OW)!=null){
                     unSubmitPartyList.add(party);
                 }
             }else{
@@ -196,6 +196,6 @@ public class Pm3GuideService extends PmBaseMapper {
         int year = DateUtils.getYear(meetingMonth);
         int month = DateUtils.getMonth(meetingMonth);
 
-        return iPmMapper.selectUnSubmitBranchList(year, month, Arrays.asList(partyIds), PmConstants.PM_3_STATUS_PARTY);
+        return iPmMapper.selectUnSubmitBranchList(year, month, Arrays.asList(partyIds), Pm3Constants.PM_3_STATUS_PARTY);
     }
 }
