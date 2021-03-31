@@ -72,7 +72,7 @@ public class PcsPrListOwController extends PcsBaseController {
         return null;
     }
 
-    // 各分党委党员大会
+    // 各二级党组织党员大会
     @RequiresPermissions("pcsPrListOw:list")
     @RequestMapping("/pcsPrListOw_party")
     public String pcsPrListOw_party_page(ModelMap modelMap) {
@@ -178,7 +178,7 @@ public class PcsPrListOwController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         if (partyId != null) {
-            // 单个分党委
+            // 单个二级党组织
             PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         } else {
@@ -269,7 +269,7 @@ public class PcsPrListOwController extends PcsBaseController {
         return;
     }
 
-    // 单个分党委下的详情
+    // 单个二级党组织下的详情
     @RequiresPermissions("pcsPrListOw:list")
     @RequestMapping("/pcsPrListOw_party_detail_page")
     public String pcsPrListOw_party_detail_page(int partyId, ModelMap modelMap) {

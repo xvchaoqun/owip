@@ -165,7 +165,7 @@ public class PcsPartyController extends PcsBaseController {
 
         if (null != ids && ids.length>0){
             pcsPartyService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_PCS, "批量删除党代会分党委：{0}", StringUtils.join(ids, ",")));
+            logger.info(log( LogConstants.LOG_PCS, "批量删除党代会二级党组织：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -310,7 +310,7 @@ public class PcsPartyController extends PcsBaseController {
 
         pcsPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(LogConstants.LOG_PCS, "[二级党组织管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);

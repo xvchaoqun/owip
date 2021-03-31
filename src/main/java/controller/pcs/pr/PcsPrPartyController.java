@@ -68,11 +68,11 @@ public class PcsPrPartyController extends PcsBaseController {
             case "2":
                 // stage = 1
                 wb = pcsPrExportService.exportPartyCandidates2_stage2(configId, partyId);
-                fileName = "党支部酝酿代表候选人提名汇总表（党支部汇总用表，报分党委、党总支）";
+                fileName = "党支部酝酿代表候选人提名汇总表（党支部汇总用表，报二级党组织、党总支）";
                 break;
             case "3":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
-                fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选名单（“%s”阶段）",
+                fileName = String.format("二级党组织酝酿党员代表大会代表候选人%s人选名单（“%s”阶段）",
                         stage== PcsConstants.PCS_STAGE_FIRST?"初步":"预备",
                         PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
@@ -81,7 +81,7 @@ public class PcsPrPartyController extends PcsBaseController {
                 if(stage==PcsConstants.PCS_STAGE_THIRD)
                     fileName = "党代表数据统计表";
                 else
-                    fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
+                    fileName = String.format("二级党组织酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
                         stage==PcsConstants.PCS_STAGE_FIRST?"初步":"预备",
                         PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
@@ -181,7 +181,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
         pcsPrPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(LogConstants.LOG_PCS, "[二级党组织管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);
@@ -269,7 +269,7 @@ public class PcsPrPartyController extends PcsBaseController {
         List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrPartyService.submit(configId, stage, partyId, recommend, records);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
+        logger.info(addLog(LogConstants.LOG_PCS, "二级党组织提交党代表名单：%s-%s-%s", configId, stage, partyId));
 
         return success(FormUtils.SUCCESS);
     }

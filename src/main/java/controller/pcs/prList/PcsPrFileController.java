@@ -43,7 +43,7 @@ public class PcsPrFileController extends PcsBaseController {
             ShiroHelper.checkPermission("pcsPrFile:list");
         }
 
-        if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
+        if(partyId==null){ // 党代会管理员同时也可以是某个二级党组织管理员
 
             PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
@@ -78,7 +78,7 @@ public class PcsPrFileController extends PcsBaseController {
             ShiroHelper.checkPermission("pcsPrFile:edit");
         }
 
-        if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
+        if(partyId==null){ // 党代会管理员同时也可以是某个二级党组织管理员
 
             PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {

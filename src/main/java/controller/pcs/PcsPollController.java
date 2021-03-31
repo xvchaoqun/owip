@@ -480,7 +480,7 @@ public class PcsPollController extends PcsBaseController {
 
         List<PcsPoll> records = pcsPollMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属二级分党委|100","所属支部|100","投票名称|100","党代会|100","投票阶段 0一下阶段 1二下阶段|100","是否报送|100","代表最大推荐人数|100","党委委员最大推荐人数|100","纪委委员最大推荐人数|100","参评人数量|100","pc端投票说明|100","手机端投票说明|100","账号分发说明|100","投票起始时间|100","投票截止时间|100","备注|100"};
+        String[] titles = {"所属二级二级党组织|100","所属支部|100","投票名称|100","党代会|100","投票阶段 0一下阶段 1二下阶段|100","是否报送|100","代表最大推荐人数|100","党委委员最大推荐人数|100","纪委委员最大推荐人数|100","参评人数量|100","pc端投票说明|100","手机端投票说明|100","账号分发说明|100","投票起始时间|100","投票截止时间|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PcsPoll record = records.get(i);

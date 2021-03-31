@@ -100,7 +100,7 @@ public class PcsPrListController extends PcsBaseController {
             ShiroHelper.checkPermission("pcsPrList:list");
         }
 
-        if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
+        if(partyId==null){ // 党代会管理员同时也可以是某个二级党组织管理员
 
             PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
@@ -140,7 +140,7 @@ public class PcsPrListController extends PcsBaseController {
         List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrListService.submit(configId, partyId, records);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
+        logger.info(addLog(LogConstants.LOG_PCS, "二级党组织提交党代表名单：%s-%s-%s", configId, stage, partyId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -211,7 +211,7 @@ public class PcsPrListController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         if (!pcsPrPartyService.allowModify(partyId, configId, stage)) {
-            return failed("您所在分党委已报送数据。");
+            return failed("您所在二级党组织已报送数据。");
         }
 
         // 检查大会材料是否上传完成
@@ -230,7 +230,7 @@ public class PcsPrListController extends PcsBaseController {
 
         pcsPrPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(LogConstants.LOG_PCS, "[二级党组织管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);

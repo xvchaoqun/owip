@@ -387,7 +387,7 @@ public class PcsRecommendController extends PcsBaseController {
         JSONUtils.write(response, resultMap);
     }
 
-    // 分党委管理员同步党支部推荐结果
+    // 二级党组织管理员同步党支部推荐结果
     @RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_sync", method = RequestMethod.POST)
     @ResponseBody
