@@ -128,7 +128,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void insertSelective(UnitPost record,CadrePost cadrePost) {
+    public void insertSelective(UnitPost record, CadrePost cadrePost) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
         Assert.isTrue(!leaderTypeDuplicate(null, record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
@@ -137,7 +137,6 @@ public class UnitPostService extends BaseMapper {
         unitPostMapper.insertSelective(record);
 
         syncCadrePost(record,null,cadrePost,true);
-
     }
 
     //根据单位编码生成岗位编码
@@ -172,7 +171,7 @@ public class UnitPostService extends BaseMapper {
 
     //批量插入，读一条插入一条
     @Transactional
-    public int singleImport(UnitPost record,CadrePost cadrePost) {
+    public int singleImport(UnitPost record, CadrePost cadrePost) {
 
        /* String name = record.getName();*/
         int addCount = 0;
@@ -183,14 +182,7 @@ public class UnitPostService extends BaseMapper {
             record.setId(unitPost.getId());
         }
         if (record.getId() != null) {
-           /* Byte status = 1;
-            UnitPostExample example = new UnitPostExample();
-            example.createCriteria().andNameEqualTo(name).andUnitIdEqualTo(unitId).andUnitIdEqualTo(record.getUnitId()).andStatusEqualTo(status);
-            List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
-            if (unitPosts.size() == 0) {
-                insertSelective(record);
-                addCount++;
-            } else {*/
+
             CadrePost cp=cadrePostService.getByUnitPostId(record.getId());//原关联干部
             if(cp!=null){
                 oldCadreId=cp.getCadreId();
@@ -198,10 +190,9 @@ public class UnitPostService extends BaseMapper {
                     cadrePost.setCadreId(cp.getCadreId());
                 }
             }
-            updateByPrimaryKeySelective(record,oldCadreId,cadrePost,true);
-           /* }*/
+            updateByPrimaryKeySelective(record, oldCadreId, cadrePost,true);
         } else {
-            insertSelective(record,cadrePost);
+            insertSelective(record, cadrePost);
             addCount++;
         }
         return addCount;
@@ -260,7 +251,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(UnitPost record,Integer oldCadreId,CadrePost cadrePost, boolean isSync) {
+    public void updateByPrimaryKeySelective(UnitPost record, Integer oldCadreId, CadrePost cadrePost, boolean isSync) {
 
         if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
@@ -268,13 +259,13 @@ public class UnitPostService extends BaseMapper {
 
          unitPostMapper.updateByPrimaryKeySelective(record);
 
-         syncCadrePost(record,oldCadreId,cadrePost, isSync);
-
+         syncCadrePost(record, oldCadreId, cadrePost, isSync);
     }
 
     //同步关联干部任职信息
     @Transactional
-    public void syncCadrePost(UnitPost unitPost,Integer oldCadreId,CadrePost record, Boolean isSync) {
+    public void syncCadrePost(UnitPost unitPost, Integer oldCadreId, CadrePost record, Boolean isSync) {
+
         Integer newCadreId=record.getCadreId();
        // Boolean isMainPost=record.getIsMainPost();
         Boolean isFirstMainPost=record.getIsFirstMainPost();
@@ -302,14 +293,10 @@ public class UnitPostService extends BaseMapper {
             }
 
             CadrePost mainCadrePost=cadrePostService.getFirstMainCadrePost(newCadreId);
-            if((BooleanUtils.isTrue(isFirstMainPost)||isFirstMainPost==null)&&mainCadrePost!=null){  //关联岗位更换干部，更新第一主职
+            if((BooleanUtils.isTrue(isFirstMainPost) || isFirstMainPost==null)&&mainCadrePost!=null){  //关联岗位更换干部，更新第一主职
+
                 record.setId(mainCadrePost.getId());
                 cadrePostService.updateByPrimaryKeySelective(record, isSync);
-
-                /*if(record.getNpWorkTime()==null&&record.getLpWorkTime()==null){
-                    commonMapper.excuteSql("update cadre_post set np_dispatch_id=null, " +
-                        "lp_dispatch_id=null, np_work_time=null, lp_work_time=null where id=" + mainCadrePost.getId());
-                }*/
             }else{
                 if(record.getIsMainPost()==null){
                     record.setIsMainPost(true);
