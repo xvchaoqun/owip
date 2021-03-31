@@ -759,6 +759,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                     unitPost.setPostType(metaTypeService.findOrCreate("mc_post", _postType).getId());
                     unitPost.setAdminLevel(adminLevel.getId());
                     unitPost.setPostClass(postClass.getId());
+                    unitPost.setSortOrder(getNextSortOrder("unit_post",
+                            String.format("unit_id=%s and status=%s", unitPost.getUnitId(), unitPost.getStatus())));
                     _unitPostList.add(unitPost);
                     continue;
                 }else {
@@ -1090,7 +1092,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
     }
 
-    //插入单
+    //插入单位
     public Unit insertUnit(String name, String unitCode, Byte status) {
 
         Unit unit = new Unit();
