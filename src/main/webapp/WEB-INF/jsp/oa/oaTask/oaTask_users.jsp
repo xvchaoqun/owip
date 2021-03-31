@@ -55,7 +55,7 @@
                                     <hr class="no-margin-bottom">
                                     <h4>方式三：从人事库中选择</h4>
                                     <select data-rel="select2-ajax" data-width="200"
-                                            data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                            data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                                             name="userId" data-placeholder="请输入账号或姓名或工号">
                                         <option></option>
                                     </select>

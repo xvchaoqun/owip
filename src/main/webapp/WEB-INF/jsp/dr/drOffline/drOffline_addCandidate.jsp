@@ -34,7 +34,7 @@
         <tr>
             <td colspan="2" class="bg-center">
                 <select required data-rel="select2-ajax"
-                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                         data-width="220"
                         name="userId" data-placeholder="请输入账号或姓名或工号">
                     <option value="${candidate.user.id}">${candidate.user.realname}-${candidate.user.code}</option>

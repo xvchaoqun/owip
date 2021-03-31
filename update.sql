@@ -1,9 +1,8 @@
-20210331
--- 戏曲
--- 更新utils
 
-20210330
--- 北师大、哈工大
+20210331
+-- 南航、戏曲-、哈工大、吉大、大工、珠海-、北师大
+
+-- 更新utils
 
 /*INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
