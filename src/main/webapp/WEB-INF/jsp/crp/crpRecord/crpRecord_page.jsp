@@ -100,7 +100,7 @@
                                             <label>姓名</label>
                                             <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
                                                 <select data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                                                         name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>

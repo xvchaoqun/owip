@@ -85,7 +85,7 @@
         <div class="form-group superviceDiv">
             <label class="col-xs-3 control-label">监督人员</label>
             <div class="col-xs-6">
-            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                     name="superviceUserId" data-placeholder="请输入账号或姓名或学工号" data-width="270">
                 <option value="${superviceUser.id}">${superviceUser.realname}-${superviceUser.code}</option>
             </select>

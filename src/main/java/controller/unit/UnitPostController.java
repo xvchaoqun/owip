@@ -517,7 +517,9 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_au(UnitPost record, @RequestParam(defaultValue = "0") boolean isSync,
+    public Map do_unitPost_au(UnitPost record,
+                              Boolean isFirstMainPost, // 关联的干部是否是第一主职
+                              @RequestParam(defaultValue = "0") boolean isSync,
                               Integer cadreId, HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -529,6 +531,8 @@ public class UnitPostController extends BaseController {
 
         CadrePost cadrePost=new CadrePost();
         cadrePost.setCadreId(cadreId);
+        cadrePost.setIsFirstMainPost(isFirstMainPost);
+        cadrePost.setPost(record.getName());
 
         if (unitPostService.idDuplicate(id, record.getCode())) {
 
@@ -546,19 +550,15 @@ public class UnitPostController extends BaseController {
 
         if (id == null) {
             //record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
-            unitPostService.insertSelective(record,cadrePost);
+            unitPostService.insertSelective(record, cadrePost);
             logger.info(addLog( LogConstants.LOG_ADMIN, "添加干部岗位：%s", record.getId()));
         } else {
             Integer oldCadreId=null;
             CadrePost cp=cadrePostService.getByUnitPostId(id);//原关联干部
             if(cp!=null) oldCadreId=cp.getCadreId();
 
-            unitPostService.updateByPrimaryKeySelective(record,oldCadreId, cadrePost, isSync);
+            unitPostService.updateByPrimaryKeySelective(record, oldCadreId, cadrePost, isSync);
             logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s-干部任职情况：%s", record.getId(), cadreId));
-           /* if(BooleanUtils.isTrue(isSync)){
-                  unitPostService.syncCadrePost(record,cadreId);
-                logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部任职情况：%s", record.getId()));
-            }*/
         }
 
         return success(FormUtils.SUCCESS);

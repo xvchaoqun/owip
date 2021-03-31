@@ -41,23 +41,6 @@ public class CadrePostService extends BaseMapper {
         return cadrePosts.size() > 0 ? cadrePosts.get(0) : null;
     }
 
-    // 添加或更新第一主职
-    @Transactional
-    public void addOrUpdateMainCadrePost(CadrePost record){
-
-        record.setIsMainPost(true);
-        record.setIsFirstMainPost(true);
-
-        int cadreId = record.getCadreId();
-        CadrePost mainCadrePost = getFirstMainCadrePost(cadreId);
-        if(mainCadrePost!=null){
-            record.setId(mainCadrePost.getId());
-            updateByPrimaryKeySelective(record, true);
-        }else{
-            insertSelective(record);
-        }
-    }
-
     @Transactional
     public void insertSelective(CadrePost record) {
 
@@ -88,7 +71,8 @@ public class CadrePostService extends BaseMapper {
         cadrePostMapper.insertSelective(record);
 
         // 如果设置同步第一主职职务
-        if(record.getIsFirstMainPost() && record.getCadre().getIsSyncPost()){
+        if(record.getIsFirstMainPost() && record.getCadre().getIsSyncPost()
+                && record.getPost()!=null){
             Cadre _cadre = new Cadre();
             _cadre.setId(record.getCadreId());
             _cadre.setTitle(record.getPost());
@@ -135,6 +119,7 @@ public class CadrePostService extends BaseMapper {
             if(syncUnitPost) {
                 UnitPost unitPost = unitPostMapper.selectByPrimaryKey(record.getUnitPostId());
                 record.setPostName(unitPost.getName());
+                record.setPost(unitPost.getName());
                 record.setIsPrincipal(unitPost.getIsPrincipal());
                 record.setPostType(unitPost.getPostType());
                 record.setPostClassId(unitPost.getPostClass());
@@ -154,7 +139,8 @@ public class CadrePostService extends BaseMapper {
         cadrePostMapper.updateByPrimaryKeySelective(record);
 
         // 如果设置同步第一主职职务
-        if(record.getIsFirstMainPost() && record.getCadre().getIsSyncPost()){
+        if((record.getIsFirstMainPost()==null || record.getIsFirstMainPost())
+                && record.getCadre().getIsSyncPost() && record.getPost()!=null){
             Cadre _cadre = new Cadre();
             _cadre.setId(record.getCadreId());
             _cadre.setTitle(record.getPost());

@@ -74,7 +74,7 @@
                                                 <i class="fa fa-users"></i> ${_type.value}</span>
                                                 <span style="margin-left: 20px">
                                                 <select id="select${_type.key}" data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=MEMBER_POLITICAL_STATUS_POSITIVE&status=${_status}"
+                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${_status}"
                                                         data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
@@ -381,14 +381,12 @@
             formatoptions: {newformat: 'Y.m.d'}
         },
         {
-            label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
-                return '干部';
-            } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
+            label: '职称', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.userType == '${PCS_PR_USER_TYPE_STU}') {
+                    return $.trim(rowObject.eduLevel);
+                }
                 return (rowObject.isRetire) ? "离退休" : $.trim(cellvalue);
             }
-            return $.trim(rowObject.eduLevel);
-        }
         },
         {
             label: '职务',

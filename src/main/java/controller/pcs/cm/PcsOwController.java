@@ -175,7 +175,7 @@ public class PcsOwController extends PcsBaseController {
         return "pcs/pcsOw/pcsOw_party_table_page";
     }
 
-    // 单个分党委下的详情
+    // 单个二级党组织下的详情
     @RequiresPermissions("pcsOw:list")
     @RequestMapping("/pcsOw_party_detail_page")
     public String pcsOw_party_detail_page(int partyId, ModelMap modelMap) {
@@ -184,7 +184,7 @@ public class PcsOwController extends PcsBaseController {
         return "pcs/pcsOw/pcsOw_party_detail_page";
     }
 
-    // 单个分党委下的汇总情况
+    // 单个二级党组织下的汇总情况
     @RequiresPermissions("pcsOw:list")
     @RequestMapping("/pcsOw_party_candidate_page")
     public String pcsOw_candidate_page(int partyId,
@@ -281,7 +281,7 @@ public class PcsOwController extends PcsBaseController {
         // 获得完成推荐的支部（含直属党支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, null,true, new RowBounds());
-        // 非直属党支部的分党委ID - 已推荐支部ID<SET>
+        // 非直属党支部的二级党组织ID - 已推荐支部ID<SET>
         Map<Integer, Set<Integer>> recommendPartyIdMap = new HashMap<>();
         // 直属党支部ID<SET>
         Set<Integer> recommendDirectPartyIdSet = new HashSet<>();
@@ -309,7 +309,7 @@ public class PcsOwController extends PcsBaseController {
         }
         System.out.println("total = " + total);*/
 
-        // 提名该推荐人的分党委（包含直属党支部，只统计已上报）
+        // 提名该推荐人的二级党组织（包含直属党支部，只统计已上报）
         Set<Integer> selectedPartyIdSet = NumberUtils.toIntSet(candidate.getPartyIds(), ",");
         // 提名该推荐人的党支部（不包含直属党支部，只统计已上报）
         Set<Integer> selectedBranchIdSet = new HashSet<>();
@@ -319,7 +319,7 @@ public class PcsOwController extends PcsBaseController {
         }
 
         List<PcsOwBranchBean> beans = new ArrayList<>();
-        // 分党委推荐汇总情况（只统计已上报）
+        // 二级党组织推荐汇总情况（只统计已上报）
         List<PcsPartyBean> pcsPartyBeans = iPcsMapper.selectPcsPartyBeanList(configId, stage, null, true, new RowBounds());
         for (PcsPartyBean pcsPartyBean : pcsPartyBeans) {
 
@@ -517,7 +517,7 @@ public class PcsOwController extends PcsBaseController {
         return;
     }
 
-    // 单个分党委下的支部推荐情况
+    // 单个二级党组织下的支部推荐情况
     @RequiresPermissions("pcsOw:list")
     @RequestMapping("/pcsOw_party_branch_page")
     public String pcsOw_party_branch_page(int partyId, Integer branchId, ModelMap modelMap) {

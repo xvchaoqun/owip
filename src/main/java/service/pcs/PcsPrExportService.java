@@ -344,7 +344,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         return wb;
     }
 
-    // 获取学历、工作时间、职别、职务
+    // 获取学历、工作时间、职称、职务
     public Map<String, String> getUserInfoMap(int userId) {
 
         String workTime = "-";
@@ -354,16 +354,15 @@ public class PcsPrExportService extends PcsBaseMapper {
         if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
 
             TeacherInfo teacherInfo = teacherService.get(userId);
+            proPost = teacherInfo.getProPost();
             CadreView cv = cadreService.dbFindByUserId(userId);
             if (cv != null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())) {
                 // 是干部
                 workTime = DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMM);
                 post = cv.getPost();
-                proPost = "干部";
             } else {
                 // 是普通教师
                 workTime = DateUtils.formatDate(teacherInfo.getWorkTime(), DateUtils.YYYYMM);
-                proPost = teacherInfo.getProPost();
             }
         } else {
             StudentInfo studentInfo = studentService.get(userId);
@@ -985,7 +984,7 @@ public class PcsPrExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
-            // 职别
+            // 职称
             cell = row.getCell(column++);
             cell.setCellValue(userInfoMap.get("proPost"));
 
@@ -1150,7 +1149,7 @@ public class PcsPrExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
-            // 职别
+            // 职称
             cell = row.getCell(column++);
             cell.setCellValue(userInfoMap.get("proPost"));
 
@@ -1287,7 +1286,7 @@ public class PcsPrExportService extends PcsBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
-            // 职别
+            // 职称
             cell = row.getCell(column++);
             cell.setCellValue(userInfoMap.get("proPost"));
 

@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span> 所属干部</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
-                            data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                            data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
 							name="userId" data-placeholder="请输入账号或姓名或工作证号"  data-width="270">
 						<option></option>
 					</select>

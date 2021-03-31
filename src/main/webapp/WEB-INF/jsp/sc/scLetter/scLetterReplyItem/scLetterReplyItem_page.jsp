@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>函询对象</label>
-                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                             </select>

@@ -29,7 +29,7 @@
             <div class="col-xs-6">
                 <c:set var="sysUser" value="${cm:getUserById(cetExpert.userId)}"/>
                 <select name="userId" data-rel="select2-ajax" data-width="272"
-                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                         data-placeholder="请输入账号或姓名或工作证号">
                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>

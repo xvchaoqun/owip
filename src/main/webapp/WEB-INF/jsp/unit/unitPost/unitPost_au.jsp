@@ -193,6 +193,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group" id="cadreDiv">
 				<label class="col-xs-4 control-label">任职干部</label>
 				<div class="col-xs-8">
+					<input type="hidden" name="isFirstMainPost" value="${cadrePost.isFirstMainPost}">
 					<select data-rel="select2-ajax"
 								data-ajax-url="${ctx}/cadre_selects"
 								name="cadreId" data-placeholder="请输入账号或姓名或学工号">

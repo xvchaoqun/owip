@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">召集人</label>
 
 				<div class="col-xs-8">
-					<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+					<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
 							name="holdUserId"
 							data-width="272" data-placeholder="请输入账号或姓名或学工号">
 						<option></option>
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">联络员</label>
 				<div class="col-xs-8">
-					<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+					<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
 							name="linkUserId"
 							data-width="272" data-placeholder="请输入账号或姓名或学工号">
 						<option></option>

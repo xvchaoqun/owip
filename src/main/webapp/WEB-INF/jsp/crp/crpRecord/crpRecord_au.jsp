@@ -40,7 +40,7 @@
                         <label class="col-xs-4 control-label"><span class="star">*</span> 选择教职工</label>
 
                         <div class="col-xs-7">
-                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                                     data-width="220"
                                     name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>

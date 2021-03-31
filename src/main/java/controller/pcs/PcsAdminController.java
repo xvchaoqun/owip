@@ -127,7 +127,7 @@ public class PcsAdminController extends PcsBaseController {
     public Map do_pcsAdmin_sync() {
 
         /*pcsAdminService.syncCurrentPcsAdmin();
-        logger.info(addLog(LogConstants.LOG_PCS, "同步党代会分党委管理员"));*/
+        logger.info(addLog(LogConstants.LOG_PCS, "同步党代会二级党组织管理员"));*/
 
         return success(FormUtils.SUCCESS);
     }
@@ -163,13 +163,13 @@ public class PcsAdminController extends PcsBaseController {
             throw new OpException("该账号不是党代会管理员");
         }
 
-        OwAdmin owAdmin = owAdmins.get(0); // 按分党委顺序仅读取管理的第一个分党委
+        OwAdmin owAdmin = owAdmins.get(0); // 按二级党组织顺序仅读取管理的第一个二级党组织
         int partyId = owAdmin.getPartyId();
 
         record.setPartyId(partyId);
 
         pcsAdminService.addOrUpdate(record);
-        logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党代会分党委管理员补充信息：%s-%s",
+        logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党代会二级党组织管理员补充信息：%s-%s",
                 JSONUtils.toString(record, false), record.getMobile()));
         return success(FormUtils.SUCCESS);
     }
@@ -196,7 +196,7 @@ public class PcsAdminController extends PcsBaseController {
         }
         msg = HtmlUtils.htmlUnescape(msg);
         Map<String, Integer> result = pcsAdminService.sendMsg(type, stage, mobile, msg);
-        logger.info(addLog(LogConstants.LOG_PCS, "发送信息给分党委管理员：%s-%s", msg, mobile));
+        logger.info(addLog(LogConstants.LOG_PCS, "发送信息给二级党组织管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));
@@ -216,7 +216,7 @@ public class PcsAdminController extends PcsBaseController {
         }
         msg = HtmlUtils.htmlUnescape(msg);
         Map<String, Integer> result = pcsAdminService.sendMsg2( mobile, msg);
-        logger.info(addLog(LogConstants.LOG_PCS, "两委委员-下发名单通知，发送给全部的分党委管理员：%s-%s", msg, mobile));
+        logger.info(addLog(LogConstants.LOG_PCS, "两委委员-下发名单通知，发送给全部的二级党组织管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));
@@ -239,7 +239,7 @@ public class PcsAdminController extends PcsBaseController {
         }
         msg = HtmlUtils.htmlUnescape(msg);
         Map<String, Integer> result = pcsAdminService.sendMsg3(partyId, mobile, msg);
-        logger.info(addLog(LogConstants.LOG_PCS, "党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过：%s-%s", msg, mobile));
+        logger.info(addLog(LogConstants.LOG_PCS, "党代表给单个二级党组织的所有管理员发送审核通知，分为审核通过/审核不通过：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));
@@ -252,13 +252,13 @@ public class PcsAdminController extends PcsBaseController {
                                Integer partyId, ModelMap modelMap) {
 
         if(cls==1) {
-            // 发送给还未报送的两委或党代表的分党委管理员
+            // 发送给还未报送的两委或党代表的二级党组织管理员
             return "pcs/pcsAdmin/pcsAdmin_msg";
         }else if(cls==2){
-            // 两委委员-下发名单信息通知，发送给全部的分党委管理员
+            // 两委委员-下发名单信息通知，发送给全部的二级党组织管理员
             return "pcs/pcsAdmin/pcsAdmin_msg2";
         }else if(cls==3){
-            // 党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过
+            // 党代表给单个二级党组织的所有管理员发送审核通知，分为审核通过/审核不通过
             if(partyId!=null){
                 modelMap.put("party", partyService.findAll().get(partyId));
             }
@@ -275,7 +275,7 @@ public class PcsAdminController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsAdminService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会分党委管理员信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会二级党组织管理员信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

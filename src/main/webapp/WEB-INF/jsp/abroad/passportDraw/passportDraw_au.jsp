@@ -153,7 +153,7 @@
                     <div class="col-xs-6">
                         <select data-rel="select2-ajax"
                                 data-width="245"
-                                data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                             <option value="${approvalUser.id}">${approvalUser.realname}-${approvalUser.code}</option>
                         </select>
@@ -175,7 +175,7 @@
                     <div class="col-xs-6">
                         <select data-rel="select2-ajax"
                                 data-width="245"
-                                data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}"
                                 name="drawUserId" data-placeholder="请输入账号或姓名或学工号">
                             <option value="${drawUser.id}">${drawUser.realname}-${drawUser.code}</option>
                         </select>

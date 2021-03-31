@@ -61,7 +61,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         return "pcs/pcsPartyAdmin/pcsPartyAdmin_page";
     }
 
-    // 分党委书记添加/更新其他管理员
+    // 二级党组织书记添加/更新其他管理员
     @RequiresPermissions("pcsPartyAdmin:edit")
     @RequestMapping(value = "/pcsPartyAdmin_au", method = RequestMethod.POST)
     @ResponseBody
@@ -83,7 +83,7 @@ public class PcsPartyAdminController extends PcsBaseController {
             throw new OpException("该账号不是党代会管理员");
         }
 
-        OwAdmin owAdmin = owAdmins.get(0); // 按分党委顺序仅读取管理的第一个分党委
+        OwAdmin owAdmin = owAdmins.get(0); // 按二级党组织顺序仅读取管理的第一个二级党组织
         int partyId = owAdmin.getPartyId();
         if(pcsAdmin.getPartyId().intValue() !=partyId){
             throw new UnauthorizedException();
@@ -91,7 +91,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         record.setPartyId(partyId);
 
         pcsAdminService.addOrUpdate(record);
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员信息：%s-%s"
+        logger.info(addLog(LogConstants.LOG_PCS, "[二级党组织书记]添加/修改党代会二级党组织管理员信息：%s-%s"
                 , JSONUtils.toString(record, false), mobile));
 
         return success(FormUtils.SUCCESS);
@@ -110,7 +110,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         return "pcs/pcsAdmin/pcsAdmin_au";
     }
 
-    // 分党委书记删除其他管理员
+    // 二级党组织书记删除其他管理员
     @RequiresPermissions("pcsPartyAdmin:del")
     @RequestMapping(value = "/pcsPartyAdmin_del", method = RequestMethod.POST)
     @ResponseBody
@@ -127,7 +127,7 @@ public class PcsPartyAdminController extends PcsBaseController {
 
         pcsAdminService.batchDel(new Integer[]{id});
         SysUserView user = admin.getUser();
-        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]删除党代会分党委管理员信息-%s(%s)", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_PCS, "[二级党组织书记]删除党代会二级党组织管理员信息-%s(%s)", user.getRealname(), user.getCode()));
 
         return success(FormUtils.SUCCESS);
     }

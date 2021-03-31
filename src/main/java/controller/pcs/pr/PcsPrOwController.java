@@ -55,7 +55,7 @@ public class PcsPrOwController extends PcsBaseController {
             case "3":
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
-                fileName = String.format("分党委酝酿代表候选人%s名单（%s）",
+                fileName = String.format("二级党组织酝酿代表候选人%s名单（%s）",
                         stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备",
                         party.getName());
                 break;
@@ -65,18 +65,18 @@ public class PcsPrOwController extends PcsBaseController {
                 if(stage==PcsConstants.PCS_STAGE_THIRD)
                     fileName = String.format("党代表数据统计表（%s）",  party.getName());
                 else
-                    fileName = String.format("分党委酝酿代表候选人%s人选统计表（%s）",
+                    fileName = String.format("二级党组织酝酿代表候选人%s人选统计表（%s）",
                             stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备",
                             party.getName());
                 break;
             case "5":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, null);
-                fileName = String.format("各分党委酝酿代表候选人%s名单汇总表",
+                fileName = String.format("各二级党组织酝酿代表候选人%s名单汇总表",
                         stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 break;
             case "6":
                 wb = pcsPrExportService.exportSchoolAllocate(configId, stage);
-                fileName = String.format("各分党委酝酿代表候选人%s人选统计表",
+                fileName = String.format("各二级党组织酝酿代表候选人%s人选统计表",
                         stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 break;
             case "7":
@@ -86,7 +86,7 @@ public class PcsPrOwController extends PcsBaseController {
             case "ow":
                 wb = pcsPrExportService.exportAllPartyAllocate(configId, stage);
                 if (stage != PcsConstants.PCS_STAGE_THIRD)
-                    fileName = String.format("各分党委酝酿代表候选人%s人选统计表",
+                    fileName = String.format("各二级党组织酝酿代表候选人%s人选统计表",
                             stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 else
                     fileName = "全校党代表数据统计表";
@@ -147,7 +147,7 @@ public class PcsPrOwController extends PcsBaseController {
         List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, stage, null,
                 null, null, new RowBounds());
 
-        // 这里读取两委已报送的支部的所在分党委进行统计的党员数和正式党员数，用于和两委数据保持一致
+        // 这里读取两委已报送的支部的所在二级党组织进行统计的党员数和正式党员数，用于和两委数据保持一致
         /*Map<Integer, PcsPartyBean> partyMemberCountMap = pcsPrExportService.getPartyMemberCountMap(configId, stage);
         for (PcsPrPartyBean record : records) {
             PcsPartyBean pcsPartyBean = partyMemberCountMap.get(record.getPartyId());
@@ -188,13 +188,13 @@ public class PcsPrOwController extends PcsBaseController {
                  status? PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS
                         : PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PCS, "[组织部管理员]审核二级党组织推荐-%s-%s-%s-%s",
                 configId, stage, StringUtils.join(partyIds, ","), status));
         return success(FormUtils.SUCCESS);
     }
 
 
-    // 单个分党委下的推荐情况
+    // 单个二级党组织下的推荐情况
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrOw_party_detail")
     public String pcsPrOw_party_detail(int partyId,
@@ -271,7 +271,7 @@ public class PcsPrOwController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         if (partyId != null) {
-            // 单个分党委
+            // 单个二级党组织
             PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         } else {
@@ -286,7 +286,7 @@ public class PcsPrOwController extends PcsBaseController {
         return "pcs/pcsPrOw/pcsPrOw_party_table_page";
     }
 
-    // 各分党委推荐情况
+    // 各二级党组织推荐情况
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrOw_party_data")
     public void pcsPrOw_party_data(HttpServletResponse response,
