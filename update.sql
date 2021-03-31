@@ -1,17 +1,20 @@
+20210331
+-- 戏曲
+-- 更新utils
 
 20210330
 -- 北师大、哈工大
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+/*INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
-                            `count_cache_roles`, `available`, `sort_order`) VALUES (1302, 0, '组织部/学工部审核权限', '', 'function', '', NULL, 2555, '0/1/2555/', 1, 'pm:viewAll', NULL, NULL, NULL, 1, NULL);
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (1302, 0, '组织部/学工部审核权限', '', 'function', '', NULL, 2555, '0/1/2555/', 1, 'pm:viewAll', NULL, NULL, NULL, 1, NULL);*/
 
 20210330
 -- 珠海、南航
 
-ALTER TABLE `pm3_meeting`
+/*ALTER TABLE `pm3_meeting`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态， 0 暂存 1 待分党委审核 2 待组织部审核 3 组织部/学工部审核通过 4待学工部审核' AFTER `content`;
-
+*/
 
 20210329
 -- 哈工大、大工

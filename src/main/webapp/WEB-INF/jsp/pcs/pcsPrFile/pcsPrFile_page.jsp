@@ -162,13 +162,11 @@
             formatoptions: {newformat: 'Y.m.d'}
         },
         {
-            label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
-                return '干部';
-            } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
-                return (rowObject.isRetire) ? "离退休" : $.trim(cellvalue);
+            label: '职称', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
+            if (rowObject.userType == '${PCS_PR_USER_TYPE_STU}') {
+                return $.trim(rowObject.eduLevel);
             }
-            return $.trim(rowObject.eduLevel);
+            return (rowObject.isRetire) ? "离退休" : $.trim(cellvalue);
         }
         },
         {
