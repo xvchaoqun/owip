@@ -42,7 +42,7 @@
     }},
     { label: '岗位级别',name: 'adminLevel', width: 85, formatter:$.jgrid.formatter.MetaType},
     { label: '职务属性',name: 'postType', width: 120, formatter:$.jgrid.formatter.MetaType},
-    { label: '职务<br/>类别',name: 'postClass', width: 50, formatter:$.jgrid.formatter.MetaType},
+    /*{ label: '职务<br/>类别',name: 'postClass', width: 50, formatter:$.jgrid.formatter.MetaType},*/
     { label: '是否占<br/>干部职数',name: 'isCpc', width: 70, formatter: $.jgrid.formatter.TRUEFALSE},
       <c:if test="${param.displayType!=1}">
       {label: '现任职干部', name: '_cadre', width: 120, formatter: function (cellvalue, options, rowObject) {
