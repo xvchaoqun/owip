@@ -60,7 +60,10 @@
                                 <td>
                                     <c:if test="${fn:length(metaClass.options)>0}">
                                         <c:set var="op" value="${metaClass.options.get(metaType.extraAttr)}"/>
-                                        ${op.key}-${op.name}<c:if test="${not empty op.detail && !(op.detail eq op.name)}">|${op.detail}</c:if>
+                                        <c:if test="${not empty op.key}">
+                                        ${op.key} <span class="prompt" data-title="说明"
+							                data-prompt="${op.name}<c:if test="${not empty op.detail && !(op.detail eq op.name)}">|${op.detail}</c:if>"><i class="fa fa-question-circle-o"></i></span>
+                                            </c:if>
                                     </c:if>
                                     <c:if test="${fn:length(metaClass.options)==0}">
                                         ${metaType.extraAttr}

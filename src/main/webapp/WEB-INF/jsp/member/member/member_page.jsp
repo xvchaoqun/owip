@@ -14,7 +14,7 @@
              data-url-page="${ctx}/member"
              data-url-export="${ctx}/member_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
+            <c:set var="_query" value="${not empty param.userId ||not empty param.realname ||not empty param.unitId
              ||not empty param.age ||not empty param.startAge ||not empty param.endAge||not empty param.gender||not empty selectNations||not empty param.nativePlace
              ||not empty param.eduLevel ||not empty param.eduType
              ||not empty param.education ||not empty param.postClass||not empty param.staffStatus
@@ -175,7 +175,17 @@
                                             </script>
                                         </div>
                                         <div class="form-group">
-                                            <label>党员姓名</label>
+                                            <label>姓名/学工号 <span class="prompt" data-title="查询说明"
+							                    data-prompt="按姓名或学工号进行模糊查询"><i class="fa fa-question-circle-o"></i></span></label>
+                                            <div class="input-group">
+                                                <input class="form-control search-query" name="realname" type="text"
+                                                       value="${param.realname}"
+                                                       placeholder="请输入">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>党员姓名<span class="prompt" data-title="查询说明"
+							  data-prompt="按姓名或学工号进行精准查询"><i class="fa fa-question-circle-o"></i></span></label>
                                             <div class="input-group">
                                                 <c:if test="${cls==1 || cls==6}">
                                                     <c:set var="_type" value="${MEMBER_TYPE_STUDENT}"/>

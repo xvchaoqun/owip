@@ -966,6 +966,7 @@ public class MemberController extends MemberBaseController {
                             @RequestParam(defaultValue = "1") int cls,
                             Boolean _integrity,
                             Integer userId,
+                            String realname, // 姓名或学工号
                             Byte userType,
                             Integer unitId,
                             Integer partyId,
@@ -1046,6 +1047,9 @@ public class MemberController extends MemberBaseController {
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (StringUtils.isNotBlank(realname)) {
+            criteria.andCodeOrRealnameLike(realname);
         }
 
         if(userType!=null){

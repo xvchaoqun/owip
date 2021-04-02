@@ -130,8 +130,8 @@
 
 <div class="clearfix form-actions center">
     <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)||_user.id==mta.userId)
-    && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
-        <button class="popupBtn btn btn-primary" ${mta.status!=MODIFY_TABLE_APPLY_STATUS_APPLY?'disabled':''}
+    && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE && mta.status==MODIFY_TABLE_APPLY_STATUS_APPLY}">
+        <button class="popupBtn btn btn-primary"
                 data-url="${ctx}/cadreResearch_au?module=${mta.module}&researchType=${modify.researchType}&toApply=1&cadreId=${cadre.id}&_isUpdate=1&opType=${param.opType}&id=${modify.id}&applyId=${mta.id}"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>

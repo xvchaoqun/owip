@@ -1,6 +1,22 @@
 
+
+-- 更新 unit_post_view
+-- 删除role_unit_admin_dw，role_unit_admin_XZ， 添加 role_unit_admin
+-- 更新导入样表
+
+ALTER TABLE `unit_post`
+	CHANGE COLUMN `post_class` `post_class` INT(10) UNSIGNED NOT NULL COMMENT '职务类别，关联元数据，弃用' AFTER `post_type`;
+ALTER TABLE `unit_post`
+	CHANGE COLUMN `post_class` `post_class` INT(10) UNSIGNED NULL COMMENT '职务类别，关联元数据，弃用' AFTER `post_type`;
+
 20210331
--- 南航、戏曲-、哈工大、吉大、大工、珠海-、北师大
+-- 哈工大、北师大、吉大
+
+/*types=${USER_TYPE_JZG}->types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}*/
+
+
+20210331   17:00
+-- 南航、戏曲-、哈工大、大工、珠海-
 
 -- 更新utils
 

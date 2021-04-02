@@ -3,7 +3,6 @@ package domain.member;
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.utils.SqlUtils;
 
 import java.math.BigDecimal;
@@ -2592,6 +2591,15 @@ public class MemberViewExample {
 
         public Criteria andNationNotLike(String value) {
             addCriterion("nation not like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeOrRealnameLike(String realname) {
+
+            realname = SqlUtils.trimLike(realname);
+            String searchSql = " code like '" + realname + "' or realname like '" + realname + "'";
+
+            addCriterion("(" + searchSql + ")");
             return (Criteria) this;
         }
 

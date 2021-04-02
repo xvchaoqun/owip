@@ -3,7 +3,6 @@ package controller.cadre;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreEva;
 import domain.cadre.CadreEvaExample;
 import domain.cadre.CadreEvaExample.Criteria;
@@ -187,7 +186,7 @@ public class CadreEvaController extends BaseController {
     @RequiresPermissions("cadreEva:import")
     @RequestMapping(value = "/cadreEva_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEva_import(HttpServletRequest request, Integer _cadreId) throws InvalidFormatException, IOException {
+    public Map do_cadreEva_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -196,31 +195,37 @@ public class CadreEvaController extends BaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
+        Map<Integer, String> titleRow = ExcelUtils.getTitleRowData(sheet);
+        int cols = titleRow.size();
+        if(cols < 4){
+            throw new OpException("录入表格式有误。");
+        }
+        Map<Integer, Integer> yearMap = new HashMap<>();
+        for (int i = 3; i < cols; i++) {
+            Integer year = null;
+            String _year = titleRow.get(i);
+            if(StringUtils.isNotBlank(_year) && _year.trim().length()>=4){
+                try {
+                    year = Integer.parseInt(_year.substring(0, 4));
+                }catch (Exception e){}
+            }
+            if(year==null){
+                throw new OpException("第{0}列年份有误。", i+1);
+            }
+            yearMap.put(i, year);
+        }
+
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CadreEva> records = new ArrayList<>();
         int row = 1;
-        int col = 0;
         for (Map<Integer, String> xlsRow : xlsRows) {
-            CadreEva record = new CadreEva();
-            row++;
-            String year = xlsRow.get(col++);
-            if (StringUtils.isBlank(year)) {
-                throw new OpException("第{0}行年份[{1}]不能为空", row, year);
-            }
-            if(year.trim().length() < 4){
-                throw new OpException("第{0}行年份[{1}]格式不正确", row, year);
-            }
-            try {
-                Integer _year = Integer.parseInt(year.substring(0, 4));
-                record.setYear(_year);
-            }catch (Exception e){
-                throw new OpException("第{0}行年份[{1}]格式不正确", row, year);
-            }
 
-            String userCode = StringUtils.trim(xlsRow.get(col++));
+            row++;
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
             if(StringUtils.isBlank(userCode)){
-                throw new OpException("第{0}行工作证号不能为空", row, userCode);
+                continue;
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null){
@@ -230,42 +235,31 @@ public class CadreEvaController extends BaseController {
             if (cv == null){
                 throw new OpException("第{0}行不是干部[{1}]", row, userCode);
             }
-            if (_cadreId != null) {
-                Cadre cadre = CmTag.getCadre(uv.getUserId());
-                if (!_cadreId.equals(cadre.getId())) {
-                    throw new OpException("第{0}行导入的工作证号为[{1}]的记录非干部本人数据", row, userCode);
+            int cadreId = cv.getId();
+            String title = StringUtils.trimToNull(xlsRow.get(2));
+
+            for (Map.Entry<Integer, Integer> yearEntry : yearMap.entrySet()) {
+
+                CadreEva record = new CadreEva();
+                record.setCadreId(cadreId);
+                record.setTitle(title);
+
+                int col = yearEntry.getKey();
+                int year = yearEntry.getValue();
+
+                record.setYear(year);
+
+                String _type = StringUtils.trimToNull(xlsRow.get(col));
+                if(_type!=null) {
+                    MetaType metaType = metaTypeService.findByName("mc_cadre_eva", _type);
+                    if (metaType == null) {
+                        throw new OpException("第{0}行第{1}列考核结果[{2}]不存在", row, col + 1, _type);
+                    }
+                    record.setType(metaType.getId());
+
+                    records.add(record);
                 }
             }
-            int cadreId = cv.getId();
-            record.setCadreId(cadreId);
-
-            String userName = StringUtils.trim(xlsRow.get(col++));
-            if (StringUtils.isBlank(userName)) {
-                throw new OpException("第{0}行姓名[{1}]不能为空", row, userName);
-            } else if (!StringUtils.equals(uv.getRealname(), userName)) {
-                throw new OpException("第{0}行姓名[{1}]与工作证号[{2}]不匹配", row, userName, userCode);
-            }
-
-            String result = StringUtils.trim(xlsRow.get(col++));
-            if (StringUtils.isBlank(result)) {
-                throw new OpException("第{0}行考核情况[{1}]不能为空", row, result);
-            }
-            MetaType metaType = metaTypeService.findByName("mc_cadre_eva", result);
-            if (metaType == null) {
-                throw new OpException("第{0}行第{1}列考核情况[{2}]不存在", row, col + 1, result);
-            }
-            record.setType(metaType.getId());
-
-            String title = StringUtils.trimToNull(xlsRow.get(col++));
-            if(StringUtils.isBlank(title)){
-                title = cv.getTitle();
-            }
-            record.setTitle(title);
-
-            String remark = StringUtils.trimToNull(xlsRow.get(col++));
-            record.setRemark(remark);
-            records.add(record);
-            col = 0;
         }
 
         int addCount = cadreEvaService.batchImport(records);
@@ -275,7 +269,7 @@ public class CadreEvaController extends BaseController {
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部年度考核记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                "导入干部年度考核结果成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;

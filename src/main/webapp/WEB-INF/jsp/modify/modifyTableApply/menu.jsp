@@ -8,7 +8,7 @@
     </li>
   </shiro:hasPermission>
   <li class="${cls==1?"active":""}">
-    <a href="javascript:;" class="hashchange" data-querystr="cls=1&module=${module}"><i class="fa fa-edit"></i> 信息修改</a>
+    <a href="javascript:;" class="hashchange" data-querystr="cls=1&module=${module}"><i class="fa fa-edit"></i> 修改申请</a>
   </li>
   <li class="${cls==2?"active":""}">
     <a href="javascript:;" class="hashchange" data-querystr="cls=2&module=${module}"><i class="fa fa-check"></i> 审核完成</a>

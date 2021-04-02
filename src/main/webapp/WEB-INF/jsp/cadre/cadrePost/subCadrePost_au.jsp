@@ -59,7 +59,7 @@
 						</script>
 					</div>
 				</div>
-				<div class="form-group">
+				<%--<div class="form-group">
 					<label class="col-xs-3 control-label blue"><span class="star">*</span>职务类别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postClassId"
@@ -71,7 +71,7 @@
 							$("#modal form select[name=postClassId]").val(${cadrePost.postClassId});
 						</script>
 					</div>
-				</div>
+				</div>--%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label blue"><span class="star">*</span>兼任单位</label>
 					<div class="col-xs-6">
@@ -180,7 +180,7 @@
 			$('#modalForm textarea[name=post]').val(up.name); // 职务默认为岗位名称
             $("#modalForm select[name=postType]").val(up.postType).trigger("change");
             $("#modalForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
-            $("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");
+            //$("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");
             var option = new Option(up.unitName, up.unitId, true, true);
             $("#modalForm select[name=unitId]").append(option).trigger('change');
             $("input[name=isCpc]").bootstrapSwitch("state", up.isCpc)

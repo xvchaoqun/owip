@@ -172,15 +172,17 @@ public class SystemConstants {
     public static final byte UNIT_POST_STATUS_ABOLISH = 2;
     public static final byte UNIT_POST_STATUS_DELETE = 3;
 
-    //岗位是否班子负责人，0 否 1 党委班子负责人 2 行政班子负责人
+    //岗位是否班子负责人，0 否 1 党委班子负责人 2 行政班子负责人 3 相关部门负责人
     public static final byte UNIT_POST_LEADER_TYPE_DW = 1;
     public static final byte UNIT_POST_LEADER_TYPE_XZ = 2;
+    public static final byte UNIT_POST_LEADER_TYPE_XG = 3;
     public static final byte UNIT_POST_LEADER_TYPE_NOT = 0;
     public final static Map<Byte, String> UNIT_POST_LEADER_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_DW, "党委班子负责人");
         UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_XZ, "行政班子负责人");
+        UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_XG, "相关部门负责人");
         UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_NOT, "否");
     }
 

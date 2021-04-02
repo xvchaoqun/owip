@@ -274,7 +274,9 @@
             //console.log(menuCountMap)
             $.each(menuCountMap, function(key, val){
                 //console.log(key+"="+ val)
-                $("#sidebar ul li[data-permission='"+ key +"'] .badge").html(val);
+                if(val>0) {
+                    $("#sidebar ul li[data-permission='" + key + "'] .badge").html(val).removeClass("hide");
+                }
             })
         })
     </shiro:lacksRole>

@@ -133,7 +133,6 @@ public class UnitPostController extends BaseController {
             }
             if(StringUtils.isBlank(code)){
                 code = unitPostService.generateCode(unitCode);
-                //throw new OpException("第{0}行岗位编号为空", row);
             }
             record.setCode(code);
 
@@ -145,9 +144,9 @@ public class UnitPostController extends BaseController {
             record.setUnitId(unit.getId());
 
             record.setJob(StringUtils.trimToNull(xlsRow.get(3)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(15)));
+
             record.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(4)), "是"));
-            record.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
+            record.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(7)), "是"));
 
             String adminLevel = StringUtils.trimToNull(xlsRow.get(5));
             MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
@@ -159,13 +158,13 @@ public class UnitPostController extends BaseController {
             if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
             record.setPostType(postType.getId());
 
-            String postClass = StringUtils.trimToNull(xlsRow.get(7));
+            /*String postClass = StringUtils.trimToNull(xlsRow.get(7));
             MetaType postClassType = CmTag.getMetaTypeByName("mc_post_class", postClass);
             if (postClassType == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, postClass);
-            record.setPostClass(postClassType.getId());
+            record.setPostClass(postClassType.getId());*/
 
-            String userCode = StringUtils.trim(xlsRow.get(9));
-            String userName = StringUtils.trim(xlsRow.get(10));
+            String userCode = StringUtils.trim(xlsRow.get(8));
+            String userName = StringUtils.trim(xlsRow.get(9));
             if(StringUtils.isNotBlank(userCode)){
                 SysUserView uv = sysUserService.findByCode(userCode);
                 CadreView cadre = cadreService.dbFindByUserId(uv.getId());
@@ -184,12 +183,12 @@ public class UnitPostController extends BaseController {
                     }
             }
             if (cadrePost.getCadreId() != null) {
-                String _adminLevel = StringUtils.trimToNull(xlsRow.get(11));
+                String _adminLevel = StringUtils.trimToNull(xlsRow.get(10));
                 MetaType _adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
                 if (_adminLevelType == null) throw new OpException("第{0}行干部级别[{1}]不存在", row, _adminLevel);
                 cadrePost.setAdminLevel(_adminLevelType.getId());
 
-                String isMainPost = StringUtils.trim(xlsRow.get(12));
+                String isMainPost = StringUtils.trim(xlsRow.get(11));
                 if(StringUtils.isBlank(isMainPost)){
                     throw new OpException("第{0}行任职类型为空", row);
                 }
@@ -204,11 +203,13 @@ public class UnitPostController extends BaseController {
                     cadrePost.setIsFirstMainPost(false);
                 }
 
-                Date lpWorkTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13)));
+                Date lpWorkTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12)));
                 cadrePost.setLpWorkTime(lpWorkTime);
-                Date npWorkTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14)));
+                Date npWorkTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13)));
                 cadrePost.setNpWorkTime(npWorkTime);
             }
+
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(14)));
             record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
             addCount += unitPostService.singleImport(record,cadrePost);
             totalCount++;
@@ -324,6 +325,7 @@ public class UnitPostController extends BaseController {
                               // 1: 显示空缺岗位 2: 显示占干部职数的兼职岗位 3: 超任职年限的干部列表
                               Byte displayType,
                               Integer cadreId,
+                               String realname,
                                Byte gender,
                                Boolean cadreIsPrincipal,
                               Integer cadrePostType,
@@ -426,6 +428,10 @@ public class UnitPostController extends BaseController {
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
+        if(StringUtils.isNotBlank(realname)){
+            criteria.andCadreCodeOrRealnameLike(realname);
+        }
+
         if(gender!=null){
             criteria.andGenderEqualTo(gender);
         }

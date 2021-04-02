@@ -26,9 +26,11 @@
                     <a href="javascript:;" data-url="${ctx}/party/partyPunish?partyId=${param.id}&type=1">党内处分</a>
                 </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="partyMemberGroup:list">
                 <li>
                     <a href="javascript:;" data-url="${ctx}/partyMemberGroup_view?partyId=${param.id}&type=${type}">${type==1?"内设党总支":_p_partyName}领导班子</a>
                 </li>
+                </shiro:hasPermission>
             </ul>
         </div>
     </div>

@@ -114,7 +114,7 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>职务类别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="postClass"
@@ -126,7 +126,7 @@ pageEncoding="UTF-8"%>
 						$("#modal form select[name=postClass]").val(${unitPost.postClass});
 					</script>
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>是否占干部职数</label>
 				<div class="col-xs-8">

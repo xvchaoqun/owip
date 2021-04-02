@@ -75,7 +75,7 @@
                data-prompt="选择某一个参训人员，进行手动结业/取消结业"></i> 手动结业
         </button>
         </c:if>
-        <shiro:hasRole name="${ROLE_SUPER}">
+        <shiro:hasPermission name="cetProject:archive">
          <button data-url="${ctx}/cet/archiveProjectObj?projectId=${cetProject.id}"
                 data-title="归档培训学时"
                 data-msg="确定统计并归档该学员最新的培训学时？"
@@ -87,7 +87,8 @@
             <i class="prompt fa fa-question-circle"
                data-prompt="统计汇总当前培训班中学员的培训学时（已完成学时数）"></i>  归档培训学时
         </button>
-        </shiro:hasRole>
+        </shiro:hasPermission>
+
         <%--<button data-url="${ctx}/cet/cetProjectObj_syncTraineeInfo?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
                 data-title="同步学员信息"
                 data-msg="确定同步学员信息？<br/>（同步最新的行政级别、党派等信息）"

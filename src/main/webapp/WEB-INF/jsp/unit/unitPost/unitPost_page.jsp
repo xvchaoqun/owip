@@ -8,7 +8,8 @@
             <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name
-            ||not empty param.isPrincipal||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
+            ||not empty param.isPrincipal||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc
+            ||not empty param.cadreId ||not empty param.realname
             ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass
             ||not empty param.unitTypes||not empty param.adminLevels
             ||not empty param.startNowPostAge||not empty param.endNowPostAge
@@ -185,7 +186,7 @@
                                     $("#searchForm_post select[name=postType]").val('${param.postType}');
                                 </script>
                             </div>
-                            <div class="form-group">
+                            <%--<div class="form-group">
                                 <label>职务类别</label>
                                 <select data-rel="select2" name="postClass" data-width="100"
                                         data-placeholder="请选择">
@@ -195,7 +196,7 @@
                                 <script type="text/javascript">
                                     $("#searchForm_post select[name=postClass]").val(${param.postClass});
                                 </script>
-                            </div>
+                            </div>--%>
                             <div class="form-group">
                                 <label>是否占干部职数</label>
                                 <select name="isCpc" data-width="100"
@@ -221,13 +222,21 @@
                                 </script>
                             </div>
                             <div class="form-group">
+                                <label>姓名/工号 <span class="prompt" data-title="查询说明"
+                                                                            data-prompt="按现任职干部的姓名或工作证号进行模糊查询"><i class="fa fa-question-circle-o"></i></span></label>
+                                    <input class="form-control search-query" name="realname" type="text"
+                                                                                   value="${param.realname}"
+                                                                                   placeholder="请输入">
+                            </div>
+                            <div class="form-group">
                                 <label>现任职干部</label>
                                 <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/cadre_selects?status=${status}"
-                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                        name="cadreId" data-placeholder="请输入账号或姓名或工号">
                                     <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                 </select>
                             </div>
+
                             <div class="form-group">
                                 <label>任职干部是否占职数</label>
                                 <select name="cpIsCpc" data-width="100"

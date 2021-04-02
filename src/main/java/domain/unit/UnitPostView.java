@@ -88,6 +88,10 @@ public class UnitPostView implements Serializable {
 
     private Boolean cpIsCpc;
 
+    private String cadreCode;
+
+    private String realname;
+
     private Byte gender;
 
     private Integer cadreAdminLevel;
@@ -338,6 +342,22 @@ public class UnitPostView implements Serializable {
 
     public void setCpIsCpc(Boolean cpIsCpc) {
         this.cpIsCpc = cpIsCpc;
+    }
+
+    public String getCadreCode() {
+        return cadreCode;
+    }
+
+    public void setCadreCode(String cadreCode) {
+        this.cadreCode = cadreCode == null ? null : cadreCode.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 
     public Byte getGender() {

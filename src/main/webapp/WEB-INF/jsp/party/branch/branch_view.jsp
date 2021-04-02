@@ -26,11 +26,13 @@
                     <a href="javascript:;" data-url="${ctx}/party/partyPunish?branchId=${param.id}&type=2">党内处分</a>
                 </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="branchMemberGroup:list">
                 <c:if test="${cm:isPresentBranchAdmin(_user.id, branch.partyId, branch.id)}">
                 <li>
                     <a href="javascript:;" data-url="${ctx}/branchMemberGroup_view?branchId=${param.id}">支部委员会</a>
                 </li>
                 </c:if>
+                     </shiro:hasPermission>
             </ul>
         </div>
     </div>

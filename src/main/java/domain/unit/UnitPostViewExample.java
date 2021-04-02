@@ -439,6 +439,15 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public UnitPostViewExample.Criteria andCadreCodeOrRealnameLike(String realname) {
+
+            realname = SqlUtils.trimLike(realname);
+            String searchSql = " cadre_code like '" + realname + "' or realname like '" + realname + "'";
+
+            addCriterion("(" + searchSql + ")");
+            return (UnitPostViewExample.Criteria) this;
+        }
+
         public Criteria search(String value) {
             addCriterion("(name like '" + SqlUtils.like(value) + "' or code like '" + SqlUtils.like(value)+"')");
             return (Criteria) this;
@@ -1966,6 +1975,146 @@ public class UnitPostViewExample {
 
         public Criteria andCpIsCpcNotBetween(Boolean value1, Boolean value2) {
             addCriterion("cp_is_cpc not between", value1, value2, "cpIsCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeIsNull() {
+            addCriterion("cadre_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeIsNotNull() {
+            addCriterion("cadre_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeEqualTo(String value) {
+            addCriterion("cadre_code =", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeNotEqualTo(String value) {
+            addCriterion("cadre_code <>", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeGreaterThan(String value) {
+            addCriterion("cadre_code >", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("cadre_code >=", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeLessThan(String value) {
+            addCriterion("cadre_code <", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeLessThanOrEqualTo(String value) {
+            addCriterion("cadre_code <=", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeLike(String value) {
+            addCriterion("cadre_code like", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeNotLike(String value) {
+            addCriterion("cadre_code not like", value, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeIn(List<String> values) {
+            addCriterion("cadre_code in", values, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeNotIn(List<String> values) {
+            addCriterion("cadre_code not in", values, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeBetween(String value1, String value2) {
+            addCriterion("cadre_code between", value1, value2, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreCodeNotBetween(String value1, String value2) {
+            addCriterion("cadre_code not between", value1, value2, "cadreCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameIsNull() {
+            addCriterion("realname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameIsNotNull() {
+            addCriterion("realname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameEqualTo(String value) {
+            addCriterion("realname =", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameNotEqualTo(String value) {
+            addCriterion("realname <>", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameGreaterThan(String value) {
+            addCriterion("realname >", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameGreaterThanOrEqualTo(String value) {
+            addCriterion("realname >=", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameLessThan(String value) {
+            addCriterion("realname <", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameLessThanOrEqualTo(String value) {
+            addCriterion("realname <=", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameLike(String value) {
+            addCriterion("realname like", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameNotLike(String value) {
+            addCriterion("realname not like", value, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameIn(List<String> values) {
+            addCriterion("realname in", values, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameNotIn(List<String> values) {
+            addCriterion("realname not in", values, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameBetween(String value1, String value2) {
+            addCriterion("realname between", value1, value2, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameNotBetween(String value1, String value2) {
+            addCriterion("realname not between", value1, value2, "realname");
             return (Criteria) this;
         }
 

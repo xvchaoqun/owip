@@ -1,6 +1,7 @@
 package domain.cadre;
 
 import domain.base.MetaType;
+import domain.member.MemberViewExample;
 import org.apache.commons.lang3.StringUtils;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -4491,6 +4492,15 @@ public class CadreViewExample {
         public Criteria andProPostLevelTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("pro_post_level_time not between", value1, value2, "proPostLevelTime");
             return (Criteria) this;
+        }
+
+        public CadreViewExample.Criteria andCodeOrRealnameLike(String realname) {
+
+            realname = SqlUtils.trimLike(realname);
+            String searchSql = " code like '" + realname + "' or realname like '" + realname + "'";
+
+            addCriterion("(" + searchSql + ")");
+            return (CadreViewExample.Criteria) this;
         }
 
         public Criteria andProPostIsNullOrIn(List<String> values) {

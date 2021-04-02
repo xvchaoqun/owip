@@ -2,7 +2,6 @@ package domain.cadreReserve;
 
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
@@ -4950,6 +4949,15 @@ public class CadreReserveViewExample {
         public Criteria andProPostNotLike(String value) {
             addCriterion("pro_post not like", value, "proPost");
             return (Criteria) this;
+        }
+
+        public CadreReserveViewExample.Criteria andCodeOrRealnameLike(String realname) {
+
+            realname = SqlUtils.trimLike(realname);
+            String searchSql = " code like '" + realname + "' or realname like '" + realname + "'";
+
+            addCriterion("(" + searchSql + ")");
+            return (CadreReserveViewExample.Criteria) this;
         }
 
         public Criteria andProPostIsNullOrIn(List<String> values) {

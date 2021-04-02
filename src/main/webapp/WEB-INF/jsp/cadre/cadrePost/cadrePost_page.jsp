@@ -227,7 +227,7 @@
             {label: '职务属性', width: 130, name: 'postType', formatter: $.jgrid.formatter.MetaType, frozen: true},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, frozen: true},
             {label: '是否正职', name: 'isPrincipal', formatter: $.jgrid.formatter.TRUEFALSE},
-            {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
+            /*{label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},*/
             {
                 label: '所在单位', name: 'unitId', formatter: $.jgrid.formatter.unit, width: 250
             },
@@ -334,7 +334,7 @@
             },
             </shiro:lacksPermission>
             {label: '职务属性', width: 120, name: 'postType', formatter: $.jgrid.formatter.MetaType},
-            {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
+            /*{label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},*/
             {
                 label: '兼任职务任职日期',
                 width: 150,
