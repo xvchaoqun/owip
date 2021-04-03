@@ -1,4 +1,35 @@
 
+
+20210403
+-- 戏曲-
+
+ALTER TABLE `pcs_pr_allocate`
+	CHANGE COLUMN `candidate_count` `candidate_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '代表上限，投票阶段每个分党委的推荐代表上限' AFTER `party_id`;
+
+ALTER TABLE `pcs_pr_allocate`
+	ADD COLUMN `pr_count` TEXT NULL COMMENT '代表构成，json格式，{元数据类型:数量,...}' AFTER `candidate_count`;
+
+-- !!!!删除前先更新!!!! pr_count json
+-- 执行 /test/pcs.jsp
+/*ALTER TABLE `pcs_pr_allocate`
+	DROP COLUMN `pro_count`,
+	DROP COLUMN `stu_count`,
+	DROP COLUMN `retire_count`;*/
+
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '代表类型' AFTER `branch_vote`;
+
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`,
+                               `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
+                               VALUES (95, '党代会代表类型', '', '', 'mc_pcs_pr_type', '', '账号类型', '', 2620, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '专业技术人员和干部代表', 'mt_ztjcet', NULL, '1', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '学生代表', 'mt_llqjgb', NULL, '2,3,4', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '离退休代表', 'mt_i2uqrl', NULL, '5', '', 5, 1);
+
+-- 删除 PCS_PR_TYPE_
+-- 删除 PcsPrAlocateService（拼写错误）
+
+
 20210402
 -- 戏曲
 

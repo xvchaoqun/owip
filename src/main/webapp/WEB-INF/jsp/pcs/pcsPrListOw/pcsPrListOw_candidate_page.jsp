@@ -89,10 +89,7 @@
         url: '${ctx}/pcs/pcsPrListOw_candidate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.PCS_PR_TYPE_MAP[cellvalue]
-            }
+                label: '党代表类型', name: 'type', width: 150, formatter:$.jgrid.formatter.MetaType
             },
             {label: '工作证号', name: 'code', width: 120, frozen: true},
             {label: '被推荐人姓名', name: 'realname', width: 120, frozen: true},

@@ -181,7 +181,7 @@ public class PcsPollController extends PcsBaseController {
         if (currentStage == PcsConstants.PCS_POLL_THIRD_STAGE){
             record.setPrNum(0);
         }else {
-            record.setPrNum(pcsPrAlocateService.getPrMaxCount(configId, partyId));
+            record.setPrNum(pcsPrAllocateService.getPrMaxCount(configId, partyId));
         }
 
         try {

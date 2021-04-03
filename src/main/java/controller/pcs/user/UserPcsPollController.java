@@ -195,7 +195,7 @@ public class UserPcsPollController extends PcsBaseController {
             modelMap.put("type", type);
             int num = 0;
             if (type == PcsConstants.PCS_USER_TYPE_PR){
-                num = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
+                num = pcsPrAllocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
             }else if (type == PcsConstants.PCS_USER_TYPE_DW){
                 num = CmTag.getIntProperty("pcs_poll_dw_num");
             }else if (type == PcsConstants.PCS_USER_TYPE_JW){
@@ -248,7 +248,7 @@ public class UserPcsPollController extends PcsBaseController {
             int maxNum = 0;
             if (type == PcsConstants.PCS_USER_TYPE_PR){
                 PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
-                maxNum = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
+                maxNum = pcsPrAllocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
             }else if (type == PcsConstants.PCS_USER_TYPE_DW){
                 maxNum = CmTag.getIntProperty("pcs_poll_dw_num");
             }else if (type == PcsConstants.PCS_USER_TYPE_JW){
@@ -297,7 +297,7 @@ public class UserPcsPollController extends PcsBaseController {
         int maxNum = 0;
         if (type == PcsConstants.PCS_USER_TYPE_PR){
             PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(inspector.getPollId());
-            maxNum = pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
+            maxNum = pcsPrAllocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId());
         }else if (type == PcsConstants.PCS_USER_TYPE_DW){
             maxNum = CmTag.getIntProperty("pcs_poll_dw_num");
         }else if (type == PcsConstants.PCS_USER_TYPE_JW){
@@ -499,7 +499,7 @@ public class UserPcsPollController extends PcsBaseController {
                 }
 
                 if (pcsPoll.getStage() != PcsConstants.PCS_POLL_THIRD_STAGE
-                        && prCount > pcsPrAlocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId())) {
+                        && prCount > pcsPrAllocateService.getPrMaxCount(pcsPoll.getConfigId(), pcsPoll.getPartyId())) {
                     throw new OpException("已选代表超过规定数量，请重新选择");
                 }
                 if (dwCount > CmTag.getIntProperty("pcs_poll_dw_num")){

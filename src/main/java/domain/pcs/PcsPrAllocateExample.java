@@ -344,183 +344,73 @@ public class PcsPrAllocateExample {
             return (Criteria) this;
         }
 
-        public Criteria andProCountIsNull() {
-            addCriterion("pro_count is null");
+        public Criteria andPrCountIsNull() {
+            addCriterion("pr_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andProCountIsNotNull() {
-            addCriterion("pro_count is not null");
+        public Criteria andPrCountIsNotNull() {
+            addCriterion("pr_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProCountEqualTo(Integer value) {
-            addCriterion("pro_count =", value, "proCount");
+        public Criteria andPrCountEqualTo(String value) {
+            addCriterion("pr_count =", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountNotEqualTo(Integer value) {
-            addCriterion("pro_count <>", value, "proCount");
+        public Criteria andPrCountNotEqualTo(String value) {
+            addCriterion("pr_count <>", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountGreaterThan(Integer value) {
-            addCriterion("pro_count >", value, "proCount");
+        public Criteria andPrCountGreaterThan(String value) {
+            addCriterion("pr_count >", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pro_count >=", value, "proCount");
+        public Criteria andPrCountGreaterThanOrEqualTo(String value) {
+            addCriterion("pr_count >=", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountLessThan(Integer value) {
-            addCriterion("pro_count <", value, "proCount");
+        public Criteria andPrCountLessThan(String value) {
+            addCriterion("pr_count <", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountLessThanOrEqualTo(Integer value) {
-            addCriterion("pro_count <=", value, "proCount");
+        public Criteria andPrCountLessThanOrEqualTo(String value) {
+            addCriterion("pr_count <=", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountIn(List<Integer> values) {
-            addCriterion("pro_count in", values, "proCount");
+        public Criteria andPrCountLike(String value) {
+            addCriterion("pr_count like", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountNotIn(List<Integer> values) {
-            addCriterion("pro_count not in", values, "proCount");
+        public Criteria andPrCountNotLike(String value) {
+            addCriterion("pr_count not like", value, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountBetween(Integer value1, Integer value2) {
-            addCriterion("pro_count between", value1, value2, "proCount");
+        public Criteria andPrCountIn(List<String> values) {
+            addCriterion("pr_count in", values, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andProCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("pro_count not between", value1, value2, "proCount");
+        public Criteria andPrCountNotIn(List<String> values) {
+            addCriterion("pr_count not in", values, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andStuCountIsNull() {
-            addCriterion("stu_count is null");
+        public Criteria andPrCountBetween(String value1, String value2) {
+            addCriterion("pr_count between", value1, value2, "prCount");
             return (Criteria) this;
         }
 
-        public Criteria andStuCountIsNotNull() {
-            addCriterion("stu_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountEqualTo(Integer value) {
-            addCriterion("stu_count =", value, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountNotEqualTo(Integer value) {
-            addCriterion("stu_count <>", value, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountGreaterThan(Integer value) {
-            addCriterion("stu_count >", value, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("stu_count >=", value, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountLessThan(Integer value) {
-            addCriterion("stu_count <", value, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountLessThanOrEqualTo(Integer value) {
-            addCriterion("stu_count <=", value, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountIn(List<Integer> values) {
-            addCriterion("stu_count in", values, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountNotIn(List<Integer> values) {
-            addCriterion("stu_count not in", values, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountBetween(Integer value1, Integer value2) {
-            addCriterion("stu_count between", value1, value2, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStuCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("stu_count not between", value1, value2, "stuCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountIsNull() {
-            addCriterion("retire_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountIsNotNull() {
-            addCriterion("retire_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountEqualTo(Integer value) {
-            addCriterion("retire_count =", value, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountNotEqualTo(Integer value) {
-            addCriterion("retire_count <>", value, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountGreaterThan(Integer value) {
-            addCriterion("retire_count >", value, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("retire_count >=", value, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountLessThan(Integer value) {
-            addCriterion("retire_count <", value, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountLessThanOrEqualTo(Integer value) {
-            addCriterion("retire_count <=", value, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountIn(List<Integer> values) {
-            addCriterion("retire_count in", values, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountNotIn(List<Integer> values) {
-            addCriterion("retire_count not in", values, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountBetween(Integer value1, Integer value2) {
-            addCriterion("retire_count between", value1, value2, "retireCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetireCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("retire_count not between", value1, value2, "retireCount");
+        public Criteria andPrCountNotBetween(String value1, String value2) {
+            addCriterion("pr_count not between", value1, value2, "prCount");
             return (Criteria) this;
         }
 

@@ -48,7 +48,7 @@ public class PcsPrCandidate implements Serializable {
 
     private Integer branchVote;
 
-    private Byte type;
+    private Integer type;
 
     private Byte gender;
 
@@ -258,11 +258,11 @@ public class PcsPrCandidate implements Serializable {
         this.branchVote = branchVote;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

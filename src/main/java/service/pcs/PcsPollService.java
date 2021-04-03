@@ -34,7 +34,7 @@ public class PcsPollService extends PcsBaseMapper {
     @Autowired
     private PcsBranchService pcsBranchService;
     @Autowired
-    private PcsPrAlocateService pcsPrAlocateService;
+    private PcsPrAllocateService pcsPrAllocateService;
     @Autowired
     private LoginUserService loginUserService;
 
@@ -221,7 +221,7 @@ public class PcsPollService extends PcsBaseMapper {
                 throw new OpException("党委委员、纪委委员分别至少选1人，否则无法报送");
             }
         }
-        int prMaxCount = pcsPrAlocateService.getPrMaxCount(configId, partyId);
+        int prMaxCount = pcsPrAllocateService.getPrMaxCount(configId, partyId);
         Integer dwMaxCount = CmTag.getIntProperty("pcs_poll_dw_num");
         Integer jwMaxCount = CmTag.getIntProperty("pcs_poll_jw_num");
 

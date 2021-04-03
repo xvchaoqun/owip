@@ -163,10 +163,10 @@ public class PcsPrListController extends PcsBaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+        PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.get(configId, partyId);
         modelMap.put("pcsPrAllocate", pcsPrAllocate);
 
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
+        PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId,
                 PcsConstants.PCS_STAGE_SECOND, partyId, true);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 

@@ -1,8 +1,49 @@
 package domain.pcs;
 
+import com.alibaba.fastjson.JSONObject;
+import domain.base.MetaType;
+import org.apache.commons.lang3.StringUtils;
+import sys.tags.CmTag;
+import sys.utils.NumberUtils;
+
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PcsPrAllocate implements Serializable {
+
+    public int getTotalPrCount(){
+
+        int totalPrCount = 0;
+        Map<Integer, Integer> prCountMap = getPrCountMap();
+        if(prCountMap!=null) {
+            for (Integer value : prCountMap.values()) {
+                totalPrCount += NumberUtils.trimToZero(value);
+            }
+        }
+
+        return totalPrCount;
+    }
+
+    public Map<Integer, Integer> getPrCountMap(){
+
+        if(StringUtils.isBlank(prCount)) return null;
+
+        Map<Integer, Integer> prCountMap = new HashMap<>();
+        Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_pr_type");
+        JSONObject jo = JSONObject.parseObject(prCount);
+        if(jo!=null) {
+            for (MetaType prType : prTypes.values()) {
+                Integer prCount = jo.getInteger(prType.getId() + "");
+                if (prCount != null) {
+                    prCountMap.put(prType.getId(), prCount);
+                }
+            }
+        }
+
+        return prCountMap;
+    }
+
     private Integer id;
 
     private Integer configId;
@@ -11,11 +52,7 @@ public class PcsPrAllocate implements Serializable {
 
     private Integer candidateCount;
 
-    private Integer proCount;
-
-    private Integer stuCount;
-
-    private Integer retireCount;
+    private String prCount;
 
     private Integer femaleCount;
 
@@ -57,28 +94,12 @@ public class PcsPrAllocate implements Serializable {
         this.candidateCount = candidateCount;
     }
 
-    public Integer getProCount() {
-        return proCount;
+    public String getPrCount() {
+        return prCount;
     }
 
-    public void setProCount(Integer proCount) {
-        this.proCount = proCount;
-    }
-
-    public Integer getStuCount() {
-        return stuCount;
-    }
-
-    public void setStuCount(Integer stuCount) {
-        this.stuCount = stuCount;
-    }
-
-    public Integer getRetireCount() {
-        return retireCount;
-    }
-
-    public void setRetireCount(Integer retireCount) {
-        this.retireCount = retireCount;
+    public void setPrCount(String prCount) {
+        this.prCount = prCount == null ? null : prCount.trim();
     }
 
     public Integer getFemaleCount() {

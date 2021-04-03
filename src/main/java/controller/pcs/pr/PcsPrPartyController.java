@@ -2,6 +2,7 @@ package controller.pcs.pr;
 
 import controller.global.OpException;
 import controller.pcs.PcsBaseController;
+import domain.base.MetaType;
 import domain.member.MemberView;
 import domain.pcs.*;
 import mixin.MixinUtils;
@@ -37,7 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import static sys.constants.MemberConstants.*;
-import static sys.constants.PcsConstants.*;
 
 @Controller
 @RequestMapping("/pcs")
@@ -134,13 +134,13 @@ public class PcsPrPartyController extends PcsBaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+        PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.get(configId, partyId);
         modelMap.put("pcsPrAllocate", pcsPrAllocate);
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
+        PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, partyId, null);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 
         return "pcs/pcsPrParty/pcsPrParty_candidate_table_page";
@@ -290,10 +290,12 @@ public class PcsPrPartyController extends PcsBaseController {
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
-        // 读取三类代表
-        Map<Byte, List<PcsPrCandidate>> candidatesMap = new HashMap<>();
-        for (Byte prType : PcsConstants.PCS_PR_TYPE_MAP.keySet()) {
-            candidatesMap.put(prType, pcsPrCandidateService.find(configId, stage, prType, partyId));
+        // 读取各类代表
+        Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_pr_type");
+        Map<Integer, List<PcsPrCandidate>> candidatesMap = new HashMap<>();
+        for (MetaType prType : prTypes.values()) {
+            int type = prType.getId();
+            candidatesMap.put(type, pcsPrCandidateService.find(configId, stage, type, partyId));
         }
         modelMap.put("candidatesMap", candidatesMap);
 
@@ -363,16 +365,10 @@ public class PcsPrPartyController extends PcsBaseController {
     public String do_pcsPrParty_candidate_import(byte stage,MultipartFile xlsx,
                                                    ModelMap modelMap, HttpServletRequest request) throws IOException, InvalidFormatException {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
-        int partyId = pcsAdmin.getPartyId();
-
-        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        int configId = pcsConfig.getId();
-
-        Map<String, Byte> pcsPrUserTypeMap = new HashMap<>();
-        for (Map.Entry<Byte, String> entry : PCS_PR_TYPE_MAP.entrySet()) {
-
-            pcsPrUserTypeMap.put(entry.getValue(), entry.getKey());
+        Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_pr_type");
+        Map<String, Integer> pcsPrUserTypeMap = new HashMap<>();
+        for (MetaType prType : prTypes.values()) {
+            pcsPrUserTypeMap.put(prType.getName(), prType.getId());
         }
 
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
@@ -385,20 +381,6 @@ public class PcsPrPartyController extends PcsBaseController {
         int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
             row++;
-            /*String code = StringUtils.trim(xlsRow.get(0));
-            if (StringUtils.isBlank(code)) {
-                throw new OpException("第{0}行学工号为空", row);
-            }
-            SysUserView uv = sysUserService.findByCode(code);
-            if (uv == null) {
-                throw new OpException("第{0}行工号[{1}]不存在", row, code);
-            }
-            Member member=memberService.get(uv.getId());
-            if (member == null||(member.getPartyId()!=pcsParty.getPartyId()
-                    ||member.getStatus()==MEMBER_STATUS_QUIT
-                    ||member.getPoliticalStatus()!=MEMBER_POLITICAL_STATUS_POSITIVE)) {
-                throw new OpException("第{0}行工号[{1}]不符合党代表的基本条件（正式党员）", row, code);
-            }*/
 
             Integer userId = null;
             String realname = StringUtils.trim(xlsRow.get(0));
@@ -422,7 +404,7 @@ public class PcsPrPartyController extends PcsBaseController {
                 throw new OpException("第{0}行推荐人类型为空", row);
             }
 
-            Byte pcsPrUserType = pcsPrUserTypeMap.get(_type);
+            Integer pcsPrUserType = pcsPrUserTypeMap.get(_type);
             if (pcsPrUserType == null) {
 
                 logger.warn(JSONUtils.toString(xlsRow, false));
@@ -435,14 +417,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
             PcsPrCandidate candidate=pcsPrPartyService.getCandidateInfo(userId, stage);
             candidate.setRealname(realname);
-
-            if(pcsPrUserType==PCS_PR_TYPE_STU){
-                candidate.setType(PCS_PR_TYPE_STU);
-            }else if(pcsPrUserType==PCS_PR_TYPE_RETIRE){
-                candidate.setType(PCS_PR_TYPE_RETIRE);
-            }else{
-               candidate.setType(PCS_PR_TYPE_PRO);
-            }
+            candidate.setType(pcsPrUserType);
             candidate.setBranchVote(_branchVote!=null?Integer.valueOf(_branchVote):null);
             candidate.setVote(_vote!=null?Integer.valueOf(_vote):null);
             candidate.setPositiveVote(_positiveVote!=null?Integer.valueOf(_positiveVote):null);
@@ -468,7 +443,7 @@ public class PcsPrPartyController extends PcsBaseController {
         for (PcsPrCandidate pcsPrCandidate : pcsCandidates) {
 
             int userId = pcsPrCandidate.getUserId();
-            byte pcsUserType = pcsPrCandidate.getType();
+            Integer pcsUserType = pcsPrCandidate.getType();
             Integer _brancVote = pcsPrCandidate.getBranchVote();
             Integer _vote = pcsPrCandidate.getVote();
             Integer _positiveVote = pcsPrCandidate.getPositiveVote();

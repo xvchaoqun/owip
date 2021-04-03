@@ -2,6 +2,7 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.party.Party;
@@ -27,6 +28,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
+import sys.utils.NumberUtils;
 
 import java.util.*;
 
@@ -158,7 +160,7 @@ public class PcsPrPartyService extends PcsBaseMapper {
         if(beans!=null){
             for (PcsPrCandidateFormBean bean : beans) {
 
-                byte type = bean.getType();
+                int type = bean.getType();
                 int userId = bean.getUserId();
                 SysUserView uv = sysUserService.findById(userId);
                 if(uv==null){
@@ -188,33 +190,27 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 if(memberPartyId != partyId && !whiteCodeSet.contains(code)){
                     Party party = partyMapper.selectByPrimaryKey(partyId);
                     Party memberParty = partyMapper.selectByPrimaryKey(memberPartyId);
-                    throw new OpException("账号{0}（工号：{1}，目前所在党组织：{2}）不是{3}的正式党员" + alertMsg,
+                    throw new OpException("{0}（工号：{1}，目前所在党组织：{2}）不是{3}的正式党员" + alertMsg,
                             uv.getRealname(), uv.getCode(), memberParty.getName(), party.getName());
                 }
 
                 // 类型校验
-                if(type ==PcsConstants.PCS_PR_TYPE_PRO){
-
-                    if(uv.getType() != SystemConstants.USER_TYPE_JZG){
-                        throw new OpException("账号{0}不是在职教职工" + alertMsg, uv.getRealname());
-                    }
-                }else if(type ==PcsConstants.PCS_PR_TYPE_RETIRE){
-
-                    if(uv.getType() != SystemConstants.USER_TYPE_RETIRE){
-                        throw new OpException("账号{0}不是离退休教职工" + alertMsg, uv.getRealname());
-                    }
-                }else if(type ==PcsConstants.PCS_PR_TYPE_STU){
-                    if(!uv.isStudent()){
-                        throw new OpException("账号{0}不是学生" + alertMsg, uv.getRealname());
-                    }
+                MetaType prType = CmTag.getMetaType(type);
+                if(prType==null){
+                    throw new OpException("{0}类型不存在" + alertMsg, uv.getRealname());
                 }else{
-                    throw new OpException("账号{0}类型有误" + alertMsg, uv.getRealname());
+                    if(StringUtils.isNotBlank(prType.getExtraAttr())){
+                        Set<Integer> userTypeSet = NumberUtils.toIntSet(prType.getExtraAttr(), ",");
+                        if(!userTypeSet.contains(uv.getType().intValue())){
+                            throw new OpException("{0}类型有误" + alertMsg, uv.getRealname());
+                        }
+                    }
                 }
 
                 PcsPrCandidate pcsPrCandidate = pcsPrCandidateService.find(userId, configId, stage);
                 if(pcsPrCandidate!=null){
                     Party party = partyService.findAll().get(pcsPrCandidate.getPartyId());
-                    throw new OpException("账号{0}已是{1}的被推荐人，不可重复推荐。",
+                    throw new OpException("{0}已是{1}的被推荐人，不可重复推荐。",
                             pcsPrCandidate.getRealname(), party.getName());
                 }
 
@@ -333,10 +329,12 @@ public class PcsPrPartyService extends PcsBaseMapper {
                 candidate.setProPost(teacherInfo.getProPost());
             }
         }else{
-            StudentInfo studentInfo = studentInfoService.get(userId);
             // 学生
             candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_STU);
-            candidate.setEduLevel(studentInfo.getEduLevel());
+            StudentInfo studentInfo = studentInfoService.get(userId);
+            if(studentInfo!=null) {
+                candidate.setEduLevel(studentInfo.getEduLevel());
+            }
         }
 
         Member member = memberService.get(userId);

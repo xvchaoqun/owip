@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class PcsPrAlocateService extends PcsBaseMapper {
+public class PcsPrAllocateService extends PcsBaseMapper {
 
-    //读取分党委的代表最大推荐数量
+    // 读取某个分党委的代表最大推荐数量（投票阶段）
     public int getPrMaxCount(int configId, int partyId) {
 
         PcsPrAllocate pcsPrAllocate = get(configId, partyId);

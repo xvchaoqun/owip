@@ -5,7 +5,7 @@ package controller.pcs.pr;
  */
 public class PcsPrCandidateFormBean {
 
-    private Byte type;
+    private Integer type;
     private Integer userId;
     private Integer branchVote;
     private Integer vote;
@@ -16,11 +16,11 @@ public class PcsPrCandidateFormBean {
     private String mobile; // 三下三上
     private String email; // 三下三上
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

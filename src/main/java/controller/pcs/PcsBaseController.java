@@ -69,7 +69,7 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     protected PcsProposalService pcsProposalService;
 
     @Autowired(required = false)
-    protected PcsPrAlocateService pcsPrAlocateService;
+    protected PcsPrAllocateService pcsPrAllocateService;
     @Autowired(required = false)
     protected PcsPrPartyService pcsPrPartyService;
     @Autowired(required = false)

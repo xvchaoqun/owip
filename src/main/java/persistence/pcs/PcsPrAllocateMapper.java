@@ -2,10 +2,9 @@ package persistence.pcs;
 
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrAllocateExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface PcsPrAllocateMapper {
     long countByExample(PcsPrAllocateExample example);

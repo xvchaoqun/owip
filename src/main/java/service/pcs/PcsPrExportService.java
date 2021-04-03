@@ -1,5 +1,7 @@
 package service.pcs;
 
+import com.alibaba.fastjson.JSONObject;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.pcs.*;
 import domain.sys.StudentInfo;
@@ -26,6 +28,7 @@ import service.sys.TeacherInfoService;
 import sys.constants.CadreConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
@@ -60,7 +63,7 @@ public class PcsPrExportService extends PcsBaseMapper {
     @Autowired
     protected MetaTypeService metaTypeService;
     @Autowired
-    protected PcsPrAlocateService pcsPrAlocateService;
+    protected PcsPrAllocateService pcsPrAllocateService;
     @Autowired
     protected PcsPrCandidateService pcsPrCandidateService;
     @Autowired
@@ -243,8 +246,8 @@ public class PcsPrExportService extends PcsBaseMapper {
                 .replace("stage", stageStr);
         cell.setCellValue(str);
 
-        PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null, null);
+        PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+        PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, null, null);
         renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
 
         row = sheet.getRow(8);
@@ -328,12 +331,12 @@ public class PcsPrExportService extends PcsBaseMapper {
         str = cell.getStringCellValue().replace("stage", stageStr);
         cell.setCellValue(str);
 
-        PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+        PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.get(configId, partyId);
         PcsPrAllocate realPcsPrAllocate = null;
         if (stage == PcsConstants.PCS_STAGE_THIRD)
-            realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, PcsConstants.PCS_STAGE_SECOND, partyId, true);
+            realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, PcsConstants.PCS_STAGE_SECOND, partyId, true);
         else
-            realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
+            realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, partyId, null);
 
         renderParty(sheet, 5, 3, pcsPrAllocate, realPcsPrAllocate);
 
@@ -450,24 +453,28 @@ public class PcsPrExportService extends PcsBaseMapper {
                             int startRow, int startColomn, PcsPrAllocate pcsPrAllocate,
                             PcsPrAllocate realPcsPrAllocate) {
 
+        Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_pr_type");
+
         XSSFRow row = null;
         XSSFCell cell = null;
         int colomn = startColomn;
         int expectTotal = 0;
         if (pcsPrAllocate != null) {
             row = sheet.getRow(startRow);
-            expectTotal = NumberUtils.trimToZero(pcsPrAllocate.getProCount())
-                    + NumberUtils.trimToZero(pcsPrAllocate.getStuCount())
-                    + NumberUtils.trimToZero(pcsPrAllocate.getRetireCount());
+            expectTotal = pcsPrAllocate.getTotalPrCount();
             cell = row.getCell(colomn++);
             if (expectTotal > 0)
                 cell.setCellValue(expectTotal);
-            cell = row.getCell(colomn++);
-            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getProCount()));
-            cell = row.getCell(colomn++);
-            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getStuCount()));
-            cell = row.getCell(colomn++);
-            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getRetireCount()));
+
+            JSONObject jo = JSONObject.parseObject(pcsPrAllocate.getPrCount());
+            if(jo!=null) {
+                for (MetaType prType : prTypes.values()) {
+                    Integer prCount = jo.getInteger(prType.getId() + "");
+                    cell = row.getCell(colomn++);
+                    cell.setCellValue(NumberUtils.trimToEmpty(prCount));
+                }
+            }
+
             cell = row.getCell(colomn++);
             cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getFemaleCount()));
             cell = row.getCell(colomn++);
@@ -478,19 +485,21 @@ public class PcsPrExportService extends PcsBaseMapper {
         int actualTotal = 0;
         if (realPcsPrAllocate != null) {
             row = sheet.getRow(startRow + 1);
-            actualTotal = NumberUtils.trimToZero(realPcsPrAllocate.getProCount())
-                    + NumberUtils.trimToZero(realPcsPrAllocate.getStuCount())
-                    + NumberUtils.trimToZero(realPcsPrAllocate.getRetireCount());
+            actualTotal = realPcsPrAllocate.getTotalPrCount();
             colomn = startColomn;
             cell = row.getCell(colomn++);
             if (actualTotal > 0)
                 cell.setCellValue(actualTotal);
-            cell = row.getCell(colomn++);
-            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getProCount()));
-            cell = row.getCell(colomn++);
-            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getStuCount()));
-            cell = row.getCell(colomn++);
-            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getRetireCount()));
+
+            JSONObject jo = JSONObject.parseObject(realPcsPrAllocate.getPrCount());
+            if(jo!=null) {
+                for (MetaType prType : prTypes.values()) {
+                    Integer prCount = jo.getInteger(prType.getId() + "");
+                    cell = row.getCell(colomn++);
+                    cell.setCellValue(NumberUtils.trimToEmpty(prCount));
+                }
+            }
+
             cell = row.getCell(colomn++);
             cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getFemaleCount()));
             cell = row.getCell(colomn++);
@@ -622,8 +631,8 @@ public class PcsPrExportService extends PcsBaseMapper {
             str = cell.getStringCellValue().replace("stage", stageStr);
             cell.setCellValue(str);
 
-            PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
-            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, isChosen);
+            PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.get(configId, partyId);
+            PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, partyId, isChosen);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
             startRow += 4;
@@ -638,8 +647,8 @@ public class PcsPrExportService extends PcsBaseMapper {
             cell.setCellValue(str);
 
             // 全校汇总
-            PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null, isChosen);
+            PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+            PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, null, isChosen);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
             startRow += 4;
@@ -925,7 +934,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 党代表类型
             cell = row.getCell(column++);
-            cell.setCellValue(PcsConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+            cell.setCellValue(CmTag.getMetaTypeName(bean.getType()));
 
             if (partyId != null) {
                 // 工作证号
@@ -1098,7 +1107,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 党代表类型
             cell = row.getCell(column++);
-            cell.setCellValue(PcsConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+            cell.setCellValue(CmTag.getMetaTypeName(bean.getType()));
 
             // 工作证号
             cell = row.getCell(column++);
@@ -1223,7 +1232,7 @@ public class PcsPrExportService extends PcsBaseMapper {
 
             // 党代表类型
             cell = row.getCell(column++);
-            cell.setCellValue(PcsConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+            cell.setCellValue(CmTag.getMetaTypeName(bean.getType()));
 
             // 工作证号
             cell = row.getCell(column++);
@@ -1338,8 +1347,8 @@ public class PcsPrExportService extends PcsBaseMapper {
         cell.setCellValue(str);
 
 
-        PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
+        PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+        PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId,
                 PcsConstants.PCS_STAGE_SECOND, null, true);
 
         renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
