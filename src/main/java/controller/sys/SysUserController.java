@@ -1085,18 +1085,18 @@ public class SysUserController extends BaseController {
             }
             uv.setType(_type);//账号类别
 
-            uv.setRealname(ContentUtils.trimHtml(StringUtils.trimToNull(xlsRow.get(col++))));
+            uv.setRealname(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++))));
             uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
             uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             uv.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
-            uv.setNation(ContentUtils.trimHtml(StringUtils.trimToNull(xlsRow.get(col++))));//民族
+            uv.setNation(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++))));//民族
             uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//户籍地
             uv.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
 
-            TeacherInfo teacherInfo = new TeacherInfo();
             if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
+                TeacherInfo teacherInfo = new TeacherInfo();
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());
                 }
@@ -1108,16 +1108,14 @@ public class SysUserController extends BaseController {
                 Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setRetireTime(retireTime);
 
+                teacherMap.put(userCode, teacherInfo);
             }
             uv.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setPhone(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
 
-
-
             userMap.put(userCode, uv);
-            teacherMap.put(userCode, teacherInfo);
         }
 
         sysUserService.batchImport(userMap, teacherMap);

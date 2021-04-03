@@ -149,7 +149,8 @@ public class SysUserService extends BaseMapper {
             if (record.getType() == SystemConstants.USER_TYPE_JZG) {
 
                 TeacherInfo teacherInfo = teacherMap.get(userCode);
-                teacherInfoService.get(userId);
+                teacherInfoService.get(userId);//教师表没有信息时，先创建
+                teacherInfo.setIsTemp("0");
                 if (teacherInfo.getUserId() == null) {
                     teacherInfo.setUserId(userId);
                 }
