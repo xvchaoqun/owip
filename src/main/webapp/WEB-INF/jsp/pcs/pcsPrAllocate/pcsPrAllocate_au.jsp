@@ -13,7 +13,9 @@
                     <th width="40" rowspan="2">序号</th>
                     <th rowspan="2">${_p_partyName}、党总支、直属党支部</th>
                     <th rowspan="2" width="60">正式党员数</th>
+                    <shiro:hasPermission name="pcsPoll:list">
                     <th rowspan="2" width="70">投票推荐代表上限</th>
+                    </shiro:hasPermission>
                     <th rowspan="2" width="70">代表总数</th>
                     <th colspan="${prTypeNum}">代表构成</th>
                     <th colspan="3">其中</th>
@@ -47,7 +49,9 @@
                         <td>${vs.count}</td>
                         <td class="partyName">${record.partyName}</td>
                         <td>${record.positiveCount}</td>
+                        <shiro:hasPermission name="pcsPoll:list">
                         <td><input type="text" class="num" maxlength="4" name="candidateCount" value="${record.candidateCount}"></td>
+                        </shiro:hasPermission>
                         <td></td>
 
                         <c:forEach items="${prTypes}" var="prType">
@@ -76,7 +80,9 @@
                 <tr>
                     <th colspan="2" style="text-align: center">合计</th>
                     <th>${positiveCount}</th>
+                    <shiro:hasPermission name="pcsPoll:list">
                     <th>${candidateCount}</th>
+                    </shiro:hasPermission>
                     <th></th>
 
                     <c:forEach items="${prTypes}" var="prType">
@@ -183,7 +189,7 @@
         _calTotal();
     })
 
-    var startCol = 5; // 起始列
+    var startCol = ${cm:isPermitted("pcsPoll:list")?5:4}; // 起始列
     var endCol = startCol + ${prTypeNum};
     $("#submitBtn").click(function () {
 
