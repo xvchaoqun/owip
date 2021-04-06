@@ -60,7 +60,7 @@ public class Pm3MeetingController extends PmBaseController {
         modelMap.put("isOw", addPermits);// 有组织部权限
         modelMap.put("isPa", ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN));// 有分党委权限
 
-        Map pmInitCount = iPmMapper.selectPmInitCount3(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN),adminPartyIdList, adminBranchIdList);
+        Map pmInitCount = iPmMapper.selectPmInitCount3(!addPermits, adminPartyIdList, adminBranchIdList);
         if (pmInitCount != null) {
             modelMap.putAll(pmInitCount);
         }

@@ -362,7 +362,7 @@ public class PcsPollController extends PcsBaseController {
     @RequiresPermissions("pcsPoll:edit")
     @RequestMapping(value = "/pcsPoll_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map pcsPoll_report(HttpServletRequest request, int id, int expectMemberCount, int actualMemberCount) {
+    public Map pcsPoll_report(HttpServletRequest request, int id, Integer expectMemberCount, Integer actualMemberCount) {
 
         //权限判断
         pcsPollService.checkPollEditAuth(id);

@@ -179,6 +179,9 @@ pageEncoding="UTF-8"%>
 	.enterprise{
 		display: none;
 	}
+	<shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+		span.star{color: grey}
+	</shiro:hasPermission>
 </style>
 <script>
 
@@ -187,7 +190,11 @@ pageEncoding="UTF-8"%>
 
 	$.register.date($('.date-picker'), {endDate:'${_today}'});
 
-	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+	$("#submitBtn").click(function(){
+		<shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+			$('input, textarea, select').prop("required", false);
+		</shiro:hasPermission>
+		$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
         	var $btn = $("#submitBtn").button('loading');

@@ -56,8 +56,8 @@ public class PcsRecommendService extends PcsBaseMapper {
     @Transactional
     public void submit(byte stage, int partyId,
                        Integer branchId,
-                       int expectMemberCount,
-                       int actualMemberCount,
+                       Integer expectMemberCount,
+                       Integer actualMemberCount,
                        Boolean isFinish, List<PcsCandidateFormBean> formBeans) {
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
