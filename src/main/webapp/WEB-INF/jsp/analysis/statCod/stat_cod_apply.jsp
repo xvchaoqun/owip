@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
+<%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -50,7 +50,8 @@
                                                     <select name="stage" data-width="200" data-rel="select2"
                                                             data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach items="${OW_APPLY_STAGE_MAP}" var="entity">
+                                                        <c:forEach items="${OW_APPLY_STAGE_MAP}" var="entity" begin="${OW_APPLY_STAGE_PASS}"
+                                                                   end="${_p_ignore_plan_and_draw?OW_APPLY_STAGE_CANDIDATE:OW_APPLY_STAGE_DRAW}">
                                                             <option value="${entity.key}">${entity.value}</option>
                                                         </c:forEach>
                                                     </select>
@@ -164,21 +165,22 @@
         postData:${cm:toJSONObject(pageContext.request.parameterMap)},
         url: '${ctx}/stat/statCod_data?cls=1&callback=?',
         colModel: [
-            {label: '姓名', name: 'user.realname', width: 110, frozen: true},
-            {label: '身份证号码', name: 'user.idcard', width: 160},
-            {label: '性别', name: 'user.gender', width: 100, formatter:$.jgrid.formatter.GENDER},
-            {label: '民族', name: 'user.nation', width: 100},
-            {label: '籍贯', name: 'user.nativePlace',  width: 150},
+            {label: '学工号', name: 'user.code', width: 115, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 90, frozen: true},
+            {label: '身份证号码', name: 'user.idcard', width: 170},
+            {label: '性别', name: 'user.gender', width: 50, formatter:$.jgrid.formatter.GENDER},
+            {label: '民族', name: 'user.nation', width: 60},
+            {label: '籍贯', name: 'user.nativePlace',  width: 110},
             {label: '出生日期', name: 'user.birth', width: 100,formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             {label: '学历', name: 'edu',  width: 100},
-            {label: '人员状态', name: 'stage',  width: 100,formatter: function (cellvalue, options, rowObject) {
+            {label: '发展阶段', name: 'stage',  width: 100,formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
-                    if (_cMap.OW_APPLY_STAGE_MAP[cellvalue] == undefined) return '--';
+                    if (cellvalue == ${OW_APPLY_STAGE_PASS}){
+                        cellvalue = ${OW_APPLY_STAGE_INIT}
+                    }
                     return _cMap.OW_APPLY_STAGE_MAP[cellvalue];
-
                 }
-
             },
             {label: '入党申请时间', name: 'applyTime',  width: 100,formatter: $.jgrid.formatter.date},
             {label: '确定为积极分子时间', name: 'activeTime', width: 150,formatter: $.jgrid.formatter.date},
@@ -186,7 +188,6 @@
             {label: '所在党组织', name: 'partyId',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
-
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },

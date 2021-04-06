@@ -1,12 +1,17 @@
 package service.analysis;
 
 import domain.member.*;
+import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.member.MemberApplyViewMapper;
 import persistence.member.MemberViewMapper;
+import persistence.party.PartyMapper;
+import service.BaseMapper;
 import service.base.MetaTypeService;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -18,7 +23,7 @@ import java.util.List;
 
 
 @Service
-public class StatCodService {
+public class StatCodService extends BaseMapper {
 
     @Autowired
     protected MetaTypeService metaTypeService;
@@ -93,51 +98,46 @@ public class StatCodService {
     public void codApplyExport(MemberApplyViewExample example, HttpServletResponse response){
         List<MemberApplyView> memberApplyViews = memberApplyViewMapper.selectByExample(example);
         int rownum = memberApplyViews.size();
-        String[] titles = {"姓名|150","公民身份证号码|250","性别|100","民族|150","籍贯|100",
+        String[] titles = {"学工号|150","姓名|150","公民身份证号码|250","性别|100","民族|150","籍贯|100",
                 "出生日期|150","学历|100","人员类别|100","入党申请时间|150","确定为积极分子时间|150","确定为发展对象时间|250",
                 "所在党组织|250","入党时间|150", "转正时间|150","工作岗位|150","现居住地|100","移动电话|150",
                 "联系电话|150","党员档案所在单位|150","从事专业技术职务|150","新社会阶层类型|250","一线情况|200"
         };
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            MemberApplyView memberApplyView = memberApplyViews.get(i);
-            String name = "";
-            String idCard = "";
-            String gender = "";
-            String nation = "";
-            String nativePlace = "";
-            String birthday = "";
-            String stage = "";
-            String post = "";
-            String phone = "";
-            if (memberApplyView.getUser() != null){
-                name = memberApplyView.getUser().getRealname() == null ? "" : memberApplyView.getUser().getRealname();
-                idCard = memberApplyView.getUser().getIdcard() == null ? "" : memberApplyView.getUser().getIdcard();
-                if (memberApplyView.getUser().getGender()!=null && memberApplyView.getUser().getGender()==1){
-                    gender = "男";
-                }else if (memberApplyView.getUser().getGender()!=null && memberApplyView.getUser().getGender()==2){
-                    gender = "女";
-                }
-                nation = memberApplyView.getUser().getNation() == null ? "" : memberApplyView.getUser().getNation();
-                nativePlace = memberApplyView.getUser().getNativePlace() == null ? "" : memberApplyView.getUser().getNativePlace();
-                birthday = DateUtils.formatDate(memberApplyView.getUser().getBirth(),DateUtils.YYYYMM);
-                post = memberApplyView.getUser().getPost() == null ?"" : memberApplyView.getUser().getPost();
-                phone = memberApplyView.getUser().getPhone() == null ? "" : memberApplyView.getUser().getPhone();
+            MemberApplyView record = memberApplyViews.get(i);
+            SysUserView uv = CmTag.getUserById(record.getUserId());
+            String _stage = "";
+            if (record.getStage() == OwConstants.OW_APPLY_STAGE_INIT || record.getStage() == OwConstants.OW_APPLY_STAGE_PASS){
+                _stage = OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT);
+            }else {
+                _stage = OwConstants.OW_APPLY_STAGE_MAP.get(record.getStage());
             }
-            stage = OwConstants.OW_APPLY_STAGE_MAP.get(memberApplyView.getStage());
 
+            String partyName = record.getPartyId()==null?"":partyMapper.selectByPrimaryKey(record.getPartyId()).getName();
+            String branchName = "";
+            if (record.getBranchId() != null) {
+                branchName="-"+branchMapper.selectByPrimaryKey(record.getBranchId()).getName();
+            }
             String[] values = {
-                    name,idCard,gender,nation,nativePlace,birthday,"",//学历
-                    stage,
-                    DateUtils.formatDate(memberApplyView.getApplyTime(),DateUtils.YYYYMM),
-                    DateUtils.formatDate(memberApplyView.getActiveTime(),DateUtils.YYYYMM),
-                    DateUtils.formatDate(memberApplyView.getCandidateTime(),DateUtils.YYYYMM),
-                    CmTag.getMetaTypeName(memberApplyView.getPartyId() == null ? 0 : memberApplyView.getPartyId()),
-                    DateUtils.formatDate(memberApplyView.getPassTime(),DateUtils.YYYYMM),
-                    DateUtils.formatDate(memberApplyView.getPositiveTime(),DateUtils.YYYYMM),
-                    post,
+                    uv.getCode(),
+                    uv.getRealname(),
+                    uv.getIdcard(),
+                    uv.getGender()==null?"": SystemConstants.GENDER_MAP.get(uv.getGender()),
+                    uv.getNation(),
+                    uv.getNativePlace(),
+                    uv.getBirth()==null?"":DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMM),
+                    "",//学历
+                    _stage,
+                    record.getApplyTime()==null?"":DateUtils.formatDate(record.getApplyTime(),DateUtils.YYYYMM),
+                    record.getActiveTime()==null?"":DateUtils.formatDate(record.getActiveTime(),DateUtils.YYYYMM),
+                    record.getCandidateTime()==null?"":DateUtils.formatDate(record.getCandidateTime(),DateUtils.YYYYMM),
+                    partyName+branchName,
+                    record.getPassTime()==null?"":DateUtils.formatDate(record.getPassTime(),DateUtils.YYYYMM),
+                    record.getPositiveTime()==null?"":DateUtils.formatDate(record.getPositiveTime(),DateUtils.YYYYMM),
+                    uv.getPost(),
                     "",//居住地址
-                    phone,
+                    uv.getPhone(),
                     "",//联系电话
                     "",//党员档案所在单位
                     "",//从事专业技术职务

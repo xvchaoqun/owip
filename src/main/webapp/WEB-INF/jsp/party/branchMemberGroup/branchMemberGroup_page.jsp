@@ -60,6 +60,7 @@
                                 <c:if test="${status==1}">
                                     <shiro:hasPermission name="sysMsg:list">
                                         <a class="jqBatchBtn btn btn-warning btn-sm tooltip-success"
+                                           data-callback="_isSendSuccess"
                                            data-url="/sys/sysMsg_branchRemind" date-title="提醒支部委员会换届" data-msg="确定发送提醒这{0}个支部委员会换届吗？"><i
                                                 class="fa fa fa-info-circle"></i> 换届提醒</a>
                                     </shiro:hasPermission>
@@ -253,6 +254,14 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    function _isSendSuccess($btn, ret){
+        if (ret.success){
+            SysMsg.success('换届提醒发送成功。', '成功');
+        }else {
+            SysMsg.warning('换届提醒发送失败,请重新发送。', '失败');
+        }
+    }
+
     $.register.multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
 
     $("#jqGrid").jqGrid({

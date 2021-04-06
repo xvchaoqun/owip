@@ -80,7 +80,7 @@ public class statCodController extends BaseController {
                              Integer[] ids, // 导出的记录
                              Integer userId,
                              Integer gender,
-                             Integer stage,
+                             Byte stage,
                              Byte userType,
                              Integer partyId,
                              Integer branchId,
@@ -98,21 +98,24 @@ public class statCodController extends BaseController {
             //中组部申请人
             Map resultMap = new HashMap();
             MemberApplyViewExample example = new MemberApplyViewExample();
-            MemberApplyViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
-            example.setOrderByClause("branch_sort_order desc");
+            MemberApplyViewExample.Criteria criteria = example.createCriteria()
+                    .andStageGreaterThanOrEqualTo(OwConstants.OW_APPLY_STAGE_INIT).andIsRemoveEqualTo(false);
+            example.setOrderByClause("party_sort_order desc,branch_sort_order desc");
 
-            if (export == 1){
-                if (ids!=null && ids.length>0){
-                   criteria.andUserIdIn(Arrays.asList(ids));
-                }
-                statCodService.codApplyExport(example,response);
-                return ;
+            if (CmTag.getBoolProperty("ignore_plan_and_draw")){
+                criteria.andStageLessThanOrEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+            }else {
+                criteria.andStageLessThanOrEqualTo(OwConstants.OW_APPLY_STAGE_DRAW);
             }
             if (userId != null){
                 criteria.andUserIdEqualTo(userId);
             }
             if (stage != null){
-                criteria.andStageEqualTo(stage.byteValue());
+                if (stage == OwConstants.OW_APPLY_STAGE_INIT){
+                    criteria.andStageIn(Arrays.asList(new Byte[]{OwConstants.OW_APPLY_STAGE_INIT,OwConstants.OW_APPLY_STAGE_PASS}));
+                }else {
+                    criteria.andStageEqualTo(stage);
+                }
             }
             if (userType != null){
                 criteria.andUserTypeEqualTo(userType);
@@ -124,6 +127,13 @@ public class statCodController extends BaseController {
                 criteria.andBranchIdEqualTo(branchId);
             }
 
+            if (export == 1){
+                if (ids!=null && ids.length>0){
+                    criteria.andUserIdIn(Arrays.asList(ids));
+                }
+                statCodService.codApplyExport(example,response);
+                return ;
+            }
             long count = memberApplyViewMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
                 pageNo = Math.max(1, pageNo - 1);

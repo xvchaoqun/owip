@@ -1,34 +1,68 @@
 package service.member;
 
+import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controller.global.OpException;
+import domain.base.ApiKey;
+import domain.base.ApiKeyExample;
 import domain.member.*;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
 import domain.sys.SysUserView;
+import ext.domain.ExtYjs;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
+import service.base.ApiKeyService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.sys.LogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
+import sys.utils.ContentUtils;
+import sys.utils.DateUtils;
+import sys.utils.JSONUtils;
+import sys.utils.MD5Util;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberApplyService extends MemberBaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SysUserService sysUserService;
@@ -46,6 +80,10 @@ public class MemberApplyService extends MemberBaseMapper {
     protected ApplyApprovalLogService applyApprovalLogService;
     @Autowired
     protected ApplySnService applySnService;
+    @Autowired
+    protected ApiKeyService apiKeyService;
+    @Autowired
+    protected LogService logService;
 
     @Transactional
     public int batchImport(List<MemberApply> records) {
@@ -922,5 +960,132 @@ public class MemberApplyService extends MemberBaseMapper {
                     remark);
 
         }
+    }
+
+    @Transactional
+    public void acceptSmisData(String url, String app) throws IOException, IntrospectionException, InvocationTargetException, IllegalAccessException {
+
+        List<Byte> typeIds = new ArrayList<>();
+        typeIds.add(SystemConstants.USER_TYPE_BKS);
+        typeIds.add(SystemConstants.USER_TYPE_SS);
+        typeIds.add(SystemConstants.USER_TYPE_BS);
+        SysUserExample example = new SysUserExample();
+        example.createCriteria().andTypeIn(typeIds).andLockedEqualTo(false);
+        List<SysUser> sysUserList = sysUserMapper.selectByExample(example);
+        List<String> codeList = sysUserList.stream().map(SysUser::getCode).collect(Collectors.toList());
+
+        ApiKeyExample apiKeyExample = new ApiKeyExample();
+        apiKeyExample.createCriteria().andAppEqualTo(app);
+        List<ApiKey> apiKeyList = apiKeyMapper.selectByExample(apiKeyExample);
+        if (apiKeyList == null && apiKeyList.size() == 0)
+            throw new OpException("推送学生党员发展接口数据异常");
+
+        String key = apiKeyList.get(0).getSecret();
+        for (String code : codeList) {
+
+            SysUserView sysUser = sysUserService.findByCode(code);
+            Integer userId = sysUser.getUserId();
+            MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);//组工data
+            String stage = null;
+            if (_memberApply != null) {
+                stage = _memberApply.getStage()+"";
+            }
+
+            String _signStr = String.format("app=%s&code=%s&key=%s", app, code, key);
+            String sign = MD5Util.md5Hex(_signStr, "utf-8");
+
+            List<BasicNameValuePair> urlParameters = new ArrayList<>();
+            urlParameters.add(new BasicNameValuePair("stage", stage));
+            urlParameters.add(new BasicNameValuePair("code", code));
+            urlParameters.add(new BasicNameValuePair("app", app));
+            urlParameters.add(new BasicNameValuePair("sign", sign));
+            HttpEntity postParams = new UrlEncodedFormEntity(urlParameters);
+
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpPost httppost = new HttpPost(url);
+            httppost.setEntity(postParams);
+            CloseableHttpResponse res = httpclient.execute(httppost);
+
+            Map map= JSON.parseObject(EntityUtils.toString(res.getEntity()), Map.class);
+            if (StringUtils.equals(map.get("Success").toString(), "false")) continue;
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            MemberApply memberApply = gson.fromJson(map.get("bean").toString(), MemberApply.class);
+            if (_memberApply != null && _memberApply.getStage()>memberApply.getStage()){
+                logger.info(logService.log(LogConstants.LOG_MEMBER,
+                        "发展阶段有误，未推送学生党员发展信息："+memberApply.getUserId()));
+                continue;
+            }
+
+            String partyCode = map.get("partyCode").toString();
+            String branchCode = map.get("branchCode").toString();
+            Party party = partyService.getByCode(partyCode);
+            Integer partyId = party.getId();
+            memberApply.setPartyId(partyId);
+            if (!PartyHelper.isDirectBranch(partyId) && org.apache.commons.lang.StringUtils.isNotBlank(branchCode)){
+                Branch branch = branchService.getByCode(branchCode);
+                memberApply.setBranchId(branch.getId());
+            }
+
+            if (_memberApply == null) {
+                memberApply.setUserId(userId);
+                memberApply.setFillTime(new Date());
+                memberApply.setIsRemove(false);
+                memberApplyMapper.insertSelective(memberApply);
+            }
+
+            List<String> hasChangeField = new ArrayList<>();
+            int count = 0;
+
+            // 判断是否有需要更新的字段
+            Class clazz = memberApply.getClass();
+            PropertyDescriptor[] pds = Introspector.getBeanInfo(clazz,
+                    Object.class).getPropertyDescriptors();
+            for (PropertyDescriptor pd : pds) {// 所有的属性
+
+                String name = pd.getName();// 属性名
+                String columnName = ContentUtils.camelToUnderline(name);
+
+                Method readMethod = pd.getReadMethod();// get方法
+                // 在memberApply上调用get方法等同于获得memberApply的属性值
+                Object o1 = readMethod.invoke(memberApply);
+                // 在_memberApply上调用get方法等同于获得_memberApply的属性值
+                Object o2 = readMethod.invoke(_memberApply);
+
+                if (o1 instanceof Date) {
+                    o1 = DateUtils.formatDate((Date) o1, DateUtils.YYYY_MM_DD_HH_MM_CHINA);
+                }
+                if (o2 instanceof Date) {
+                    o2 = DateUtils.formatDate((Date) o2, DateUtils.YYYY_MM_DD_HH_MM_CHINA);
+                }
+
+                if (o1 == null && o2 == null) {
+                    continue;
+                } else if (o1 == null && o2 != null) {// 只有这几个值为空时需要置空，其他的直接跳过
+                    if (o1 instanceof Date || org.apache.commons.lang.StringUtils.equals(columnName, "branch_id")) {
+                        commonMapper.excuteSql("update ow_member_apply set " + columnName + "=null where user_id=" + userId);
+                        hasChangeField.add(columnName);
+                        count++;
+                    }
+                    continue;
+                }
+                if (!o1.equals(o2)) {// 比较这两个值是否相等,不等放入list
+                    hasChangeField.add(columnName);
+                }
+            }
+
+            if (hasChangeField.size() - count > 0){
+                memberApply.setUserId(userId);
+                MemberApplyExample memberApplyExample = new MemberApplyExample();
+                memberApplyExample.createCriteria().andUserIdEqualTo(userId);
+                memberApplyMapper.updateByExampleSelective(memberApply, memberApplyExample);
+            }
+
+            if (hasChangeField.size() > 0){
+                logger.info(logService.log(LogConstants.LOG_MEMBER,
+                        "推送学生党员发展信息："+memberApply.getUserId()+",更新字段为："+StringUtils.join(hasChangeField, ",")));
+            }
+        }
+
+        logger.info("推送学生党员发展信息成功");
     }
 }

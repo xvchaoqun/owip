@@ -63,6 +63,7 @@
                                     <c:if test="${status==1}">
                                         <shiro:hasPermission name="sysMsg:list">
                                             <a class="jqBatchBtn btn btn-warning btn-sm tooltip-success"
+                                               data-callback="_isSendSuccess"
                                                data-url="/sys/sysMsg_partyRemind" date-title="提醒班子换届" data-msg="确定发送提醒这{0}个领导班子换届吗？"><i
                                                     class="fa fa fa-info-circle"></i> 换届提醒</a>
                                         </shiro:hasPermission>
@@ -215,6 +216,15 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
+    function _isSendSuccess($btn, ret){
+        if (ret.success){
+            SysMsg.success('换届提醒发送成功。', '成功');
+        }else {
+            SysMsg.info('换届提醒发送失败，请重新发送。', '提醒');
+        }
+    }
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/partyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
