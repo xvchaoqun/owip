@@ -169,6 +169,8 @@ public class Pm3MeetingService extends PmBaseMapper {
                 record.setIsBack(true);
             }
 
+            record.setCheckOpinion(checkOpinion);
+
             pm3MeetingMapper.updateByPrimaryKeySelective(record);
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,

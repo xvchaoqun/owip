@@ -1,7 +1,10 @@
 
 
-20210403
--- 戏曲-
+20210406
+-- 珠海-
+
+20210405
+-- 戏曲
 
 ALTER TABLE `pcs_pr_allocate`
 	CHANGE COLUMN `candidate_count` `candidate_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '代表上限，投票阶段每个分党委的推荐代表上限' AFTER `party_id`;
