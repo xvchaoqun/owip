@@ -121,7 +121,7 @@ public class PcsPollService extends PcsBaseMapper {
 
     // 党支部报送
     @Transactional
-    public void report(int pollId, int expectMemberCount, int actualMemberCount) {
+    public void report(int pollId, Integer expectMemberCount, Integer actualMemberCount) {
 
         PcsPoll pcsPoll = pcsPollMapper.selectByPrimaryKey(pollId);
 

@@ -26,6 +26,17 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '学生代表', 'mt_llqjgb', NULL, '2,3,4', '', 4, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '离退休代表', 'mt_i2uqrl', NULL, '5', '', 5, 1);
 
+
+ALTER TABLE `pcs_recommend`
+	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NULL COMMENT '应参会党员数' AFTER `branch_id`,
+	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NULL COMMENT '实际参会党员数' AFTER `expect_member_count`;
+
+ALTER TABLE `pcs_pr_recommend`
+	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NULL COMMENT '应参会党员数，三下三上不填' AFTER `party_id`,
+	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NULL COMMENT '实参会党员数，三下三上不填' AFTER `expect_member_count`,
+	CHANGE COLUMN `expect_positive_member_count` `expect_positive_member_count` INT(10) UNSIGNED NULL COMMENT '应参会正式党员数' AFTER `actual_member_count`,
+	CHANGE COLUMN `actual_positive_member_count` `actual_positive_member_count` INT(10) UNSIGNED NULL COMMENT '实参会正式党员数' AFTER `expect_positive_member_count`;
+
 -- 删除 PCS_PR_TYPE_
 -- 删除 PcsPrAlocateService（拼写错误）
 

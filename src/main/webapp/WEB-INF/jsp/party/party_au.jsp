@@ -234,11 +234,17 @@
     .enterprise {
         display: none;
     }
+    <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+		span.star{color: grey}
+	</shiro:hasPermission>
 </style>
 <script>
     $("#modal :checkbox").bootstrapSwitch();
     $.register.date($('.input-group.date'));
     $("#submitBtn").click(function () {
+        <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+			$('input, textarea, select').prop("required", false);
+		</shiro:hasPermission>
         $("#modalForm").submit();
         return false;
     });

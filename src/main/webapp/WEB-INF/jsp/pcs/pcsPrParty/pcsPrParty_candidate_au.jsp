@@ -241,15 +241,11 @@
                 实参会党员数<span class="count">{{=actualMemberCount}}</span>人，
                 其中正式党员<span class="count">{{=actualPositiveMemberCount}}</span>人
             </li>
+            <c:forEach items="${prTypes}" var="_type">
             <li>
-                已填报专业技术人员和干部<span class="count">{{=proCount}}</span>人
+                已填报${_type.value.name} <span class="count" data-type="${_type.key}"> {{=prCount[${_type.key}]}}</span> 人
             </li>
-            <li>
-                已填报学生代表<span class="count">{{=stuCount}}</span>人
-            </li>
-            <li>
-                已填报离退休代表代表<span class="count">{{=retireCount}}</span>人
-            </li>
+            </c:forEach>
         </ul>
         <div>请确认以上信息准确无误后提交</div>
     </div>
@@ -483,14 +479,17 @@
 
     function _confirmSubmit(form) {
 
+        var prCount = [];
+        <c:forEach items="${prTypes}" var="_type">
+        prCount[${_type.key}] = $("#jqGrid${_type.key}").jqGrid("getDataIDs").length;
+        </c:forEach>
+
         var msg = _.template($("#confirmTpl").html())({
             expectMemberCount: $("#recommendForm input[name=expectMemberCount]").val(),
             expectPositiveMemberCount: $("#recommendForm input[name=expectPositiveMemberCount]").val(),
             actualMemberCount: $("#recommendForm input[name=actualMemberCount]").val(),
             actualPositiveMemberCount: $("#recommendForm input[name=actualPositiveMemberCount]").val(),
-            proCount: $("#jqGrid1").jqGrid("getDataIDs").length,
-            stuCount: $("#jqGrid2").jqGrid("getDataIDs").length,
-            retireCount: $("#jqGrid3").jqGrid("getDataIDs").length
+            prCount: prCount
         })
 
         bootbox.confirm({

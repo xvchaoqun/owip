@@ -31,6 +31,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
     public PcsPrAllocate statRealPcsPrAllocate(int configId, Byte stage, Integer partyId, Boolean isChosen){
 
         PcsPrAllocate pcsPrAllocate = iPcsMapper.statRealPcsPrAllocate2(configId, stage, partyId, isChosen);
+        if(pcsPrAllocate==null) return null;
 
         Map<Integer, Integer> prCountMap = new HashMap<>();
         List<Map> map = iPcsMapper.statRealPcsPrAllocate1(configId, stage, partyId, isChosen);
