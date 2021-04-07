@@ -19,11 +19,11 @@
                                 class="fa fa-circle-o-notch"></i> 账号管理</a>
                     </li>
                     <c:if test="${_p_hasPartyModule}">
-                    <li class="<c:if test="${cls==2}">active</c:if>">
+                    <%--<li class="<c:if test="${cls==2}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/sysUser?cls=2"><i
                                 class="fa fa-vcard-o "></i> 注册账号</a>
-                    </li>
+                    </li>--%>
                     </c:if>
                     <li class="<c:if test="${cls==3}">active</c:if>">
                         <a href="javascript:;" class="loadPage"

@@ -3,10 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>组织关系转出-撤销已完成审批</h3>
+    <h3>组织关系暂留-撤销已完成审批</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberOut_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberStay_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
             <label class="col-xs-1 control-label"></label>
@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">申请人</label>
             <div class="col-xs-6 label-text">
-                <c:set var="sysUser" value="${cm:getUserById(memberOut.userId)}"/>
+                <c:set var="sysUser" value="${cm:getUserById(memberStay.userId)}"/>
                 ${sysUser.realname}
             </div>
         </div>

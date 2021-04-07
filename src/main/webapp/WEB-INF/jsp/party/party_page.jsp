@@ -18,8 +18,9 @@ pageEncoding="UTF-8" %>
             || not empty param.code ||not empty param._integrity}"/>
 
             <div class="tabbable">
+                <shiro:hasPermission name="party:edit">
                 <jsp:include page="menu.jsp"/>
-
+                </shiro:hasPermission>
                 <div class="tab-content">
                     <div class="tab-pane in active multi-row-head-table">
 
@@ -66,8 +67,10 @@ pageEncoding="UTF-8" %>
                         </button>
                     </shiro:hasPermission>
 
+                    <shiro:hasPermission name="party:edit">
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+                    </shiro:hasPermission>
 
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"

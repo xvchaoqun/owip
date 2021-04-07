@@ -32,7 +32,7 @@
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${cls!=6&&cls!=7}">
+                            <c:if test="${cls<6}">
                                 <shiro:hasPermission name="member:changeCode">
                                     <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
                                        data-url="${ctx}/member_changeCode"
@@ -58,12 +58,12 @@
                                         <i class="fa fa-info-circle"></i> 修改基础信息
                                     </button>
                                 </shiro:hasPermission>
-                            </c:if>
                             <shiro:hasPermission name="memberHistory:edit">
                                 <a class="jqOpenViewBatchBtn btn btn-info btn-sm"
                                    data-url="${ctx}/transferToHistory" data-title="转移至历史党员库"
                                    data-msg="确定转移这{0}个党员至历史党员吗？"><i class="fa fa-random"></i> 转移至历史党员库</a>
                             </shiro:hasPermission>
+                                </c:if>
                             <shiro:hasPermission name="member:edit">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/memberModify"
@@ -114,7 +114,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <c:if test="${cls!=6&&cls!=7}">
+                            <c:if test="${cls<6}">
                                 <shiro:hasPermission name="member:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/member_batchDel" data-title="删除"
@@ -137,7 +137,7 @@
                                         <input type="hidden" name="cols">
                                         <input type="hidden" name="cls" value="${cls}">
                                         <input type="hidden" name="userType" value="${param.userType}">
-                                        <c:if test="${cls!=6&&cls!=7}">
+                                        <c:if test="${cls<6}">
                                             <div class="form-group">
                                                 <label>所在${_p_partyName} <span class="prompt" data-title="查询说明"
 							  data-prompt="选择${_p_partyName}后，会出现党支部的选择（二级联动）"><i class="fa fa-question-circle-o"></i></span></label>
@@ -464,7 +464,7 @@
                                             <label>备注3</label>
                                             <input type="text" name="remark3" value="${param.remark3}" style="width: 80px">
                                         </div>
-                                        <div class="form-group">
+                                        <%--<div class="form-group">
                                             <label>备注4</label>
                                             <input type="text" name="remark4" value="${param.remark4}" style="width: 80px">
                                         </div>
@@ -475,7 +475,7 @@
                                         <div class="form-group">
                                             <label>备注6</label>
                                             <input type="text" name="remark6" value="${param.remark6}" style="width: 80px">
-                                        </div>
+                                        </div>--%>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
@@ -569,13 +569,12 @@
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 120},
             {label: '年龄', name: 'birth', width: 75,sortable: true, formatter: $.jgrid.formatter.AGE},
-            <c:if test="${cls!=6&&cls!=7}">
+
                 {
                     label: '所在党组织', name: 'party', width: 550, formatter: function (cellvalue, options, rowObject) {
                         return $.party(rowObject.partyId, rowObject.branchId);
                     }, sortable: true, align: 'left'
                 },
-            </c:if>
             {
                 label: '党籍状态', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue)
@@ -627,9 +626,9 @@
             {label: '备注1', name: 'remark1', width: 150,align:'left'},
             {label: '备注2', name: 'remark2', width: 150,align:'left'},
             {label: '备注3', name: 'remark3', width: 150,align:'left'},
-            {label: '备注4', name: 'remark4', width: 150,align:'left'},
+            /*{label: '备注4', name: 'remark4', width: 150,align:'left'},
             {label: '备注5', name: 'remark5', width: 150,align:'left'},
-            {label: '备注6', name: 'remark6', width: 150,align:'left'},
+            {label: '备注6', name: 'remark6', width: 150,align:'left'},*/
             /*{label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
             {label: '所在院系', name: 'unit', width: 180, align: 'left'},*/
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
