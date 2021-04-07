@@ -449,7 +449,7 @@
                                             </c:if>
                                         <div class="form-group">
                                             <label>备注<span class="prompt" data-title="查询说明"
-							  data-prompt="从“备注1”至“备注6”中查询"><i class="fa fa-question-circle-o"></i></span></label>
+							  data-prompt="从“备注1”至“备注3”中查询"><i class="fa fa-question-circle-o"></i></span></label>
                                             <input type="text" name="remark" value="${param.remark}" style="width: 80px">
                                         </div>
                                         <div class="form-group">

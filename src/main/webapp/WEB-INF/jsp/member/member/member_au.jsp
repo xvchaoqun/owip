@@ -220,7 +220,7 @@
                                   name="remark3" value="${member.remark3}"/>
                 </div>
             </div>
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label class="col-xs-3 control-label">备注4</label>
                 <div class="col-xs-8">
                     <input class="form-control" type="text"  maxlength="100"
@@ -240,7 +240,7 @@
                     <input class="form-control" type="text"  maxlength="100"
                                   name="remark6" value="${member.remark6}"/>
                 </div>
-            </div>
+            </div>--%>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>增加类型</label>
                 <div class="col-xs-8">

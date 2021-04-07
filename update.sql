@@ -1,4 +1,6 @@
 
+20210407
+-- 测试
 
 ALTER TABLE `ow_member_stay`
 	ADD COLUMN `check_time` DATETIME NULL DEFAULT NULL COMMENT '审批时间' AFTER `create_time`;
