@@ -88,6 +88,12 @@
                         </label>
                     </div>
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input type="radio" name="roleType" id="roleType2" value="2">
+                        <label for="roleType2">
+                            党员
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input checked type="radio" name="roleType" id="roleType0" value="0">
                         <label for="roleType0">
                             混合

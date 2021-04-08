@@ -791,7 +791,7 @@ public class SysUserController extends BaseController {
             Integer birthCol,
             byte colType, // 0：身份证 1：姓名
             int col,
-            byte roleType, // 1: 干部  0: 混合
+            byte roleType, // 0: 混合 1: 干部 2: 党员
             @RequestParam(required = false, defaultValue = "0") byte type, // 类别 教职工、本科生、研究生  0： 混合
             Integer addCol, //工号插入列数
             @RequestParam(required = false, defaultValue = "1") int sheetNo,
