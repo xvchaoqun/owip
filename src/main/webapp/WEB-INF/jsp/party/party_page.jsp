@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-url-au="${ctx}/party_au?type=${type}"
              data-url-page="${ctx}/party?type=${type}"
-             data-url-export="${ctx}/party_data"
+             data-url-export="${ctx}/party_data?type=${type}"
              data-url-co="${ctx}/party_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._foundTime || not empty param.code ||not empty param.name ||not empty param.unitId

@@ -150,18 +150,19 @@ public class PartyMemberGroupController extends BaseController {
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             List<Integer> adminPartyIdList = new ArrayList<>();//存储可以查看的二级党委和内设党总支id
 
-            if (type == 1){
-                criteria1.andFidIn(partyIdList);
-                List<Party> partyList = partyMapper.selectByExample(partyExample);
-                adminPartyIdList = partyList.stream().map(Party::getId).collect(Collectors.toList());
-            }else {
-                adminPartyIdList.addAll(partyIdList);
+            if (partyIdList!=null&&partyIdList.size()>0) {
+                if (type == 1) {
+                    criteria1.andFidIn(partyIdList);
+                    List<Party> partyList = partyMapper.selectByExample(partyExample);
+                    adminPartyIdList = partyList.stream().map(Party::getId).collect(Collectors.toList());
+                } else {
+                    adminPartyIdList.addAll(partyIdList);
+                }
             }
 
             if (adminPartyIdList.size() > 0)
                 criteria.andPartyIdIn(adminPartyIdList);
             else criteria.andPartyIdIsNull();
-            //}
         }else {
 
             PartyExample partyExample = new PartyExample();
@@ -217,7 +218,7 @@ public class PartyMemberGroupController extends BaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            partyMemberGroup_export(example, response);
+            partyMemberGroup_export(type, example, response);
             return;
         }
 
@@ -466,12 +467,15 @@ public class PartyMemberGroupController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void partyMemberGroup_export(PartyMemberGroupViewExample example, HttpServletResponse response) {
+    public void partyMemberGroup_export(Byte type, PartyMemberGroupViewExample example, HttpServletResponse response) {
 
         List<PartyMemberGroupView> records = partyMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|350|left", "所属分党委|350|left", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
-        List<String[]> valuesList = new ArrayList<>();
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"名称|350|left", "所属分党委|350|left", "应换届时间|100", "任命时间|100"}));
+        if (type!=1){
+            titles.add(3, "实际换届时间|110");
+        }
+        List<List<String>> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyMemberGroupView record = records.get(i);
             Integer partyId = record.getPartyId();
@@ -483,16 +487,18 @@ public class PartyMemberGroupController extends BaseController {
                 if (dispatch != null)
                     dispatchCode = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear());
             }
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getName(),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT)
-            };
+            }));
+            if (type != 1) {
+                values.add(3, DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT));
+            }
             valuesList.add(values);
         }
-        String fileName = "领导班子_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = (type==1?"内设党总支领导班子_":CmTag.getStringProperty("partyName")+"领导班子_") + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

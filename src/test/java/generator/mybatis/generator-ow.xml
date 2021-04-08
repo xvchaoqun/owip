@@ -25,12 +25,12 @@
         </javaClientGenerator>
 
 
-        <!--<table tableName="ow_member_history" domainObjectName="member.MemberHistory">
+        <table tableName="ow_member_history" domainObjectName="member.MemberHistory">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="gender" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="political_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>-->
+        </table>
 
         <!--党建工作-->
         <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">

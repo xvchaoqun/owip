@@ -250,7 +250,7 @@ public class PartyController extends BaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            party_export(example, response);
+            party_export(type, example, response);
             return;
         }
 
@@ -443,29 +443,30 @@ public class PartyController extends BaseController {
         return resultMap;
     }
 
-    public void party_export(PartyViewExample example, HttpServletResponse response) {
+    public void party_export(Byte type, PartyViewExample example, HttpServletResponse response) {
 
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号|200","名称|350|left","简称|250|left","党总支类别|100",
-                "支部数量","党员总数","在职教职工数量|100","离退休党员数量|100","学生数量","是否已设立现任委员会|80",
-                "任命时间|100","应换届时间|100", "实际换届时间|100",
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"编号|200","名称|350|left","简称|250|left","党总支类别|100",
+                "是否已设立现任委员会|80", "任命时间|100","应换届时间|100", "实际换届时间|100",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
-                "组织类别|100","关联单位|250|left","关联单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"};
-        List<String[]> valuesList = new ArrayList<>();
+                "组织类别|100","关联单位|250|left","关联单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"}));
+        if (type != 1){
+            titles.add(4, "支部数量");
+            titles.add(5, "党员总数");
+            titles.add(6, "在职教职工数量|100");
+            titles.add(7, "离退休党员数量|100");
+            titles.add(8, "学生数量");
+        }
+        List<List<String>> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyView record = records.get(i);
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),
                     record.getName(),
                     record.getShortName(),
                     metaTypeService.getName(record.getClassId()),
 
-                    record.getBranchCount()==null?"0":record.getBranchCount()+"",
-                    record.getMemberCount()==null?"0":record.getMemberCount()+"",
-                    record.getTeacherMemberCount()==null?"0":record.getTeacherMemberCount()+"",
-                    record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
-                    record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
                     (record.getPresentGroupId()!=null &&record.getPresentGroupId() > 0) ? "是" : "否",
 
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
@@ -484,10 +485,17 @@ public class PartyController extends BaseController {
                     record.getFax(),
                     record.getEmail(),
                     DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),
-            };
+            }));
+            if (type!=1){
+                values.add(4,record.getBranchCount()==null?"0":record.getBranchCount()+"");
+                values.add(5,record.getMemberCount()==null?"0":record.getMemberCount()+"");
+                values.add(6,record.getTeacherMemberCount()==null?"0":record.getTeacherMemberCount()+"");
+                values.add(7,record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"");
+                values.add(8,record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"");
+            }
             valuesList.add(values);
         }
-        String fileName = "基层党组织(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
+        String fileName = (type==1?"内设党总支(":"基层党组织(") + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

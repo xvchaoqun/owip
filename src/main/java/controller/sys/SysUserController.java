@@ -1089,7 +1089,7 @@ public class SysUserController extends BaseController {
             uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
             uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             uv.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
-            uv.setNation(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++))));//民族
+            uv.setNation(ExtCommonService.formatNation(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++)))));//民族
             uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//户籍地

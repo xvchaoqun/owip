@@ -8,7 +8,7 @@
             <div class="myTableDiv"
                  data-url-au="${ctx}/partyMemberGroup_au?type=${type}"
                  data-url-page="${ctx}/partyMemberGroup?type=${type}"
-                 data-url-export="${ctx}/partyMemberGroup_data"
+                 data-url-export="${ctx}/partyMemberGroup_data?type=${type}"
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.classId||not empty param.partyId
@@ -56,10 +56,10 @@
                                     </c:if>
                                     </c:if>
                                 </shiro:hasPermission>
-                                <c:if test="${type==0}">
                                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                             class="fa fa-download"></i> 导出</a>
+                                <c:if test="${type==0}">
                                     <c:if test="${status==1}">
                                         <shiro:hasPermission name="sysMsg:list">
                                             <a class="jqBatchBtn btn btn-warning btn-sm tooltip-success"
