@@ -121,7 +121,7 @@ public class SyncController extends BaseController {
 
         SysUserView sysUser = sysUserService.findById(userId);
         String code = sysUser.getCode();
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (sysUser.isTeacher()) {
             extJzgImport.byCode(code);
 
             ExtJzgExample example = new ExtJzgExample();

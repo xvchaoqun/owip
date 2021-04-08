@@ -22,7 +22,7 @@ public class TeacherInfoService extends BaseMapper {
 
         if (teacherInfo == null) {
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
-            if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+            if (sysUser.isTeacher()) {
                 teacherInfo = new TeacherInfo();
                 teacherInfo.setUserId(userId);
                 teacherInfoMapper.insertSelective(teacherInfo);

@@ -1,9 +1,19 @@
 package domain.sys;
 
+import sys.constants.SystemConstants;
+import sys.utils.NumberUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class SysUser implements Serializable {
+
+    public boolean isTeacher(){
+        return NumberUtils.contains(type,
+                SystemConstants.USER_TYPE_JZG,
+                SystemConstants.USER_TYPE_RETIRE);
+    }
+
     private Integer id;
 
     private String username;

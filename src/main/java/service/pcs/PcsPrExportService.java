@@ -354,7 +354,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         String proPost = "-";
         String post = "-";
         SysUserView uv = sysUserService.findById(userId);
-        if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (uv.isTeacher()) {
 
             TeacherInfo teacherInfo = teacherService.get(userId);
             proPost = teacherInfo.getProPost();

@@ -49,7 +49,7 @@ public class MemberBaseInfoController extends MemberBaseController {
         SysUserView uv = sysUserService.findById(userId);
         modelMap.put("uv", uv);
 
-        if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (uv.isTeacher()) {
             // 如果是现任干部，不允许修改籍贯、户籍地、出生地、手机号
             CadreView cv = CmTag.getCadreByUserId(userId);
             if(cv!=null && NumberUtils.contains(cv.getStatus(),
@@ -69,7 +69,7 @@ public class MemberBaseInfoController extends MemberBaseController {
             modelMap.put("teacherInfo", teacherInfo);
 
             return "sys/userInfo/baseInfo_au";
-        }else if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
+        }else if (uv.isTeacher()) {
 
             // 系统教职工账号（注册或后台添加）基础信息维护
             TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
@@ -114,7 +114,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     private void filterCadreReserveInfo(int userId, SysUserInfo record){
 
         SysUserView sysUser = sysUserService.findById(userId);
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (sysUser.isTeacher()) {
 
             CadreView cv = CmTag.getCadreByUserId(userId);
             if(cv!=null && NumberUtils.contains(cv.getStatus(),
