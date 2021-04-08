@@ -308,7 +308,7 @@ public class PmdSendMsgService extends PmdBaseMapper {
         bean.setRelateId(tpl.getId());
         bean.setType(tpl.getName());
         String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(),
-                uv.getType() == SystemConstants.USER_TYPE_JZG ? "老师" : "同学",
+                uv.isTeacher() ? "老师" : "同学",
                 DateUtils.formatDate(payMonth, "yyyy年MM月"), branchName);
         bean.setContent(msg);
         bean.setMobile(mobile);

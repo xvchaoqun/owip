@@ -132,7 +132,7 @@ public class SysUserController extends BaseController {
         SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("uv", sysUser);
 
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (sysUser.isTeacher()) {
 
             // 系统教职工账号（注册或后台添加）基础信息维护
             TeacherInfo teacherInfo = teacherInfoService.get(userId);
@@ -1095,7 +1095,7 @@ public class SysUserController extends BaseController {
             uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//户籍地
             uv.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
 
-            if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
+            if(uv.isTeacher()) {
                 TeacherInfo teacherInfo = new TeacherInfo();
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());

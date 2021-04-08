@@ -1,7 +1,15 @@
+20210408
+-- 戏曲
 
+20210407
+-- 测试
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `check_time` DATETIME NULL DEFAULT NULL COMMENT '审批时间' AFTER `create_time`;
+-- 更新 ow_member_stay_view
 
 20210406
--- 珠海-
+-- 珠海-  北师大
 
 20210405
 -- 戏曲

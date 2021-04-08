@@ -146,7 +146,7 @@ public class SysUserService extends BaseMapper {
                 sysUserInfoMapper.updateByPrimaryKeySelective(userInfo);
             }
 
-            if (record.getType() == SystemConstants.USER_TYPE_JZG) {
+            if (record.isTeacher()) {
 
                 TeacherInfo teacherInfo = teacherMap.get(userCode);
                 teacherInfoService.get(userId);//教师表没有信息时，先创建
@@ -180,7 +180,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfo.setUserId(userId);
             sysUserInfoMapper.insertSelective(sysUserInfo);
         }
-        if (record.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (record.isTeacher()) {
             addRole(userId, RoleConstants.ROLE_TEACHER);
         }
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
@@ -315,7 +315,7 @@ public class SysUserService extends BaseMapper {
         sysUserMapper.updateByPrimaryKeySelective(user);
 
         if (user.getType() != null) {
-            if (user.getType() == SystemConstants.USER_TYPE_JZG) {
+            if (user.isTeacher()) {
                 addRole(userId, RoleConstants.ROLE_TEACHER);
             } else {
                 delRole(userId, RoleConstants.ROLE_TEACHER);

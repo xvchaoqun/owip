@@ -861,7 +861,7 @@ public class MemberController extends MemberBaseController {
                          String[] nation,
                          String[] nativePlace,
                          Byte userType,
-                         // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
+                         // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 8 历史 9 暂留 -1 全部
                          Integer cls,
                          ModelMap modelMap) {
 
@@ -947,7 +947,7 @@ public class MemberController extends MemberBaseController {
             modelMap.put("studentGrades", CmTag.getPropertyCaches("studentGrades"));
             modelMap.put("studentTypes", CmTag.getPropertyCaches("studentTypes"));
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("studentNativePlaces"));
-        } else if (cls == 10) {
+        } else if (cls == -1) {
 
             titles = getCommonExportTitles();
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("nativePlaces"));
@@ -1198,7 +1198,13 @@ public class MemberController extends MemberBaseController {
                           SystemConstants.USER_TYPE_RETIRE))
                         .andStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
                 break;
-            case 10:
+            case 8:
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_HISTORY);
+                break;
+            case 9:
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_STAY);
+                break;
+            case -1:
                 criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
                 break;
             default:

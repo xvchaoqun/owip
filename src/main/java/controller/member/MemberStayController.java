@@ -2,14 +2,11 @@ package controller.member;
 
 import controller.global.OpException;
 import domain.member.MemberStay;
-import domain.member.MemberStayExample;
 import domain.member.MemberStayView;
 import domain.member.MemberStayViewExample;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -175,8 +172,6 @@ public class MemberStayController extends MemberBaseController {
     public void memberStay_data(@RequestParam(defaultValue = "1") Byte cls,
                                 @RequestParam(defaultValue = MemberConstants.MEMBER_STAY_TYPE_ABROAD+"")Byte type,
                                     HttpServletResponse response,
-                                    @SortParam(required = false, defaultValue = "id", tableName = "ow_member_stay") String sort,
-                                    @OrderParam(required = false, defaultValue = "desc") String order,
                                     Byte status,
                                     Boolean isBack,
                                     Integer userId,
@@ -204,7 +199,7 @@ public class MemberStayController extends MemberBaseController {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("check_time desc, id desc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -527,20 +522,30 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_transfer_au";
     }
 
-  /*  @RequiresPermissions("memberStay:del")
-    @RequestMapping(value = "/memberStay_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberStay_del(HttpServletRequest request, Integer id) {
+    @RequiresPermissions("memberStay:abolish")
+    @RequestMapping("/memberStay_abolish")
+    public String memberStay_abolish(Integer id, ModelMap modelMap) {
 
         if (id != null) {
+            MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+            modelMap.put("memberStay", memberStay);
+        }
+        return "member/memberStay/memberStay_abolish";
+    }
 
-            memberStayService.del(id);
-            logger.info(addLog(LogConstants.LOG_MEMBER, "删除暂留：%s", id));
+    @RequiresPermissions("memberStay:abolish")
+    @RequestMapping(value = "/memberStay_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberStay_abolish(HttpServletRequest request, Integer id, String remark) {
+
+        if (id != null) {
+            memberStayService.abolish(id, remark); // 默认组织部撤销
+            logger.info(addLog(LogConstants.LOG_MEMBER, "撤销已完成的暂留审批：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
-    @RequiresPermissions({"memberStay:del", RoleConstants.PERMISSION_PARTYVIEWALL})
+    /*@RequiresPermissions({"memberStay:del", RoleConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/memberStay_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -555,7 +560,7 @@ public class MemberStayController extends MemberBaseController {
             logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除暂留：%s", JSONUtils.toString(memberStays,false)));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     /*public void memberStay_export(byte type, MemberStayViewExample example, HttpServletResponse response) {
 

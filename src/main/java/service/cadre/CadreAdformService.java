@@ -755,10 +755,10 @@ public class CadreAdformService extends BaseMapper {
             text = texts[0] + "）\r\n（" + texts[1];
         }
 
-        String _blankEndDate = "";
+        String _blankEndDate = "  "; // 默认留2个空格
         String[] textArray = text.trim().split("\\s", 2);
         if (textArray[0].trim().endsWith("—")) {
-            _blankEndDate = "       "; // 简历中结束时间为空，留7个空格
+            _blankEndDate = "         "; // 简历中结束时间为空，留9个空格
         }
 
         text = text.replaceFirst("[ |\\s]+", _blankEndDate /*+ "  "*/).replaceAll("—", "--");

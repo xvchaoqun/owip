@@ -22,7 +22,6 @@ import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -241,7 +240,7 @@ public class MemberStayService extends MemberBaseMapper {
 
     // 分党委审核通过
     @Transactional
-    public void check2(int id, int branchId, Integer orgBranchAdminId, String orgBranchAdminPhone) {
+    public void check2(int id, Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone) {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
@@ -257,7 +256,7 @@ public class MemberStayService extends MemberBaseMapper {
         updateByPrimaryKeySelective(record);
 
         // 支部转移
-        if (memberStay.getBranchId() != branchId) {
+        if (branchId!=null && memberStay.getBranchId() != branchId) {
             Map<Integer, Branch> branchMap = branchService.findAll();
             Branch branch = branchMap.get(branchId);
             if (branch == null || branch.getPartyId().intValue() != memberStay.getPartyId()) {
@@ -279,12 +278,20 @@ public class MemberStayService extends MemberBaseMapper {
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
             throw new OpException("状态异常");
 
+        int userId = memberStay.getUserId();
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
-        record.setUserId(memberStay.getUserId());
+        record.setUserId(userId);
         record.setIsBack(false);
+        record.setCheckTime(new Date());
         updateByPrimaryKeySelective(record);
+
+        // 转移至暂留党员库
+        Member member = new Member();
+        member.setUserId(userId);
+        member.setStatus(MemberConstants.MEMBER_STATUS_STAY);
+        memberMapper.updateByPrimaryKeySelective(member);
     }
 
     @Transactional
@@ -326,7 +333,7 @@ public class MemberStayService extends MemberBaseMapper {
         return memberStayMapper.insertSelective(record);
     }
 
-    @Transactional
+    /*@Transactional
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
@@ -334,7 +341,7 @@ public class MemberStayService extends MemberBaseMapper {
         MemberStayExample example = new MemberStayExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         memberStayMapper.deleteByExample(example);
-    }
+    }*/
 
     @Transactional
     public int updateByPrimaryKeySelective(MemberStay record) {
@@ -426,36 +433,58 @@ public class MemberStayService extends MemberBaseMapper {
                 status = MemberConstants.MEMBER_STAY_STATUS_APPLY;
             }
 
-            back(memberStay, status, loginUserId, reason);
+            byte _status = memberStay.getStatus();
+            if (_status == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY
+                    ||_status == MemberConstants.MEMBER_STAY_STATUS_ARCHIVE) {
+                throw new OpException("审核流程已经完成，不可以退回。");
+            }
+            if (status > _status || status < MemberConstants.MEMBER_STAY_STATUS_BACK) {
+                throw new OpException("参数有误。");
+            }
+
+            Integer userId = memberStay.getUserId();
+            iMemberMapper.memberStay_back(id, status);
+
+            MemberStay record = new MemberStay();
+            record.setId(id);
+            record.setUserId(userId);
+            record.setReason(reason);
+            record.setIsBack(true);
+            updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(id,
+                    memberStay.getPartyId(), memberStay.getBranchId(), userId,
+                    loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, MemberConstants.MEMBER_STAY_STATUS_MAP.get(status),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
         }
     }
 
-    // 单条记录退回至某一状态
-    private void back(MemberStay memberStay, byte status, int loginUserId, String reason) {
+    @Transactional
+    public void abolish(Integer id, String remark) {
 
-        byte _status = memberStay.getStatus();
-        if (_status == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY
-                ||_status == MemberConstants.MEMBER_STAY_STATUS_ARCHIVE) {
-            throw new OpException("审核流程已经完成，不可以退回。");
-        }
-        if (status > _status || status < MemberConstants.MEMBER_STAY_STATUS_BACK) {
-            throw new OpException("参数有误。");
-        }
-        Integer id = memberStay.getId();
-        Integer userId = memberStay.getUserId();
-        iMemberMapper.memberStay_back(id, status);
-
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        int userId = memberStay.getUserId();
         MemberStay record = new MemberStay();
         record.setId(id);
         record.setUserId(userId);
-        record.setReason(reason);
+        record.setReason(remark);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_BACK);
         record.setIsBack(true);
         updateByPrimaryKeySelective(record);
 
-        applyApprovalLogService.add(id,
-                memberStay.getPartyId(), memberStay.getBranchId(), userId,
-                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, MemberConstants.MEMBER_STAY_STATUS_MAP.get(status),
-                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+        // 撤销操作 转移至党员库
+        Member member = new Member();
+        member.setUserId(userId);
+        member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
+        memberMapper.updateByPrimaryKeySelective(member);
+
+        applyApprovalLogService.add(memberStay.getId(),
+                memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
+                ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                "撤销",
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                remark);
     }
 }

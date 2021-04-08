@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.crs.common.ICrsExpert;
 import sys.constants.CisConstants;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -281,7 +280,7 @@ public class CrsExpertController extends CrsBaseController {
                 SysUserView uv = sysUserService.findById(crsExpert.getUserId());
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
+                    if (uv.isTeacher()) {
                         option.put("unit", uv.getUnit());
                     }
                 }
