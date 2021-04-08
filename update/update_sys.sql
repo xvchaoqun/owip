@@ -1,6 +1,7 @@
 
--- 2021.4.5 ly
-INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES ('smis推送发展党员数据', '', 'job.party.UpdateMemberApplyJob', '0 0 8 * * ?', 0, 0, 33, '2021-03-31 09:55:32', 0);
+-- 2021.4.8 ly
+INSERT INTO `base_api_key` (`app`, `secret`, `request_uri`, `valid_ip`, `remark`)
+VALUES ('ma', '04acf931d0d58b6d3240407c3b168d68', '/api/member/memberApply_sync', '', '学生发张党员信息推送接口');
 
 -- 2021.3.27 xcq
 INSERT INTO `sys_scheduler_job` (`id`, `name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES (32, '更新党委班子负责人、行政班子负责人角色', '更新党委班子负责人、行政班子负责人角色，每5分钟执行一次', 'job.unitpost.UpdateUnitPostRoles', '0 0/5 * * * ?', 1, 1, 33, '2021-03-23 18:17:48', 0);

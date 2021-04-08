@@ -39,6 +39,9 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <table tableName="cet_project_file" domainObjectName="cet.CetProjectFile" mapperName="cet.CetProjectFileMapper">
+        </table>
+
         <!--干部教育培训系统-->
         <!--<table tableName="cet_annual" domainObjectName="cet.CetAnnual" mapperName="cet.CetAnnualMapper">
         </table>-->
@@ -178,7 +181,7 @@
         <!--<table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
+        <!--<table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
                mapperName="cet.CetTrainObjViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -189,7 +192,7 @@
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>-->
