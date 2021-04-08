@@ -1,5 +1,11 @@
 20210408
--- 戏曲
+-- 戏曲、哈工大
+
+update sys_resource set url='/member?cls=-1' where permission='member:list';
+update sys_resource set url='/memberReg?cls=3' where permission='memberReg:list';
+
+update ow_member_stay wms left join ow_member om
+on wms.user_id=om.user_id set om.`status`=5 where om.`status`=1 and wms.`status`=3;
 
 20210407
 -- 测试

@@ -220,6 +220,7 @@ public class SysUserService extends BaseMapper {
         }
 
         if (teacherInfo != null) {
+            teacherInfo.setTitleLevel("0"); // 防止没字段更新而报错
             teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
             if(isRetire!=null){
                 updateUserType(userId, BooleanUtils.isTrue(isRetire)?SystemConstants.USER_TYPE_RETIRE

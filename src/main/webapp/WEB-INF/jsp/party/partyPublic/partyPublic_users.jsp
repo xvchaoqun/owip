@@ -76,8 +76,8 @@
         colModel: [
             { label:'工作证号', name: 'user.code', width: 120,frozen:true},
             { label:'姓名', name: 'user.realname',frozen:true},
-            { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
-                return _cMap.MEMBER_TYPE_MAP[cellvalue];
+            { label:'类别', name: 'userType', width: 80, formatter:function(cellvalue, options, rowObject){
+                return _cMap.USER_TYPE_MAP[cellvalue];
             },frozen:true },
             {
                 label: '所在支部', name: '_branch', align:'left',  width: 450, formatter:function(cellvalue, options, rowObject){
