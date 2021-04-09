@@ -1538,7 +1538,7 @@ public class MemberController extends MemberBaseController {
 
     private List<String> getCommonExportTitles() {
 
-        return new ArrayList<>(Arrays.asList(new String[]{"学工号|100", "姓名|80", "性别|50", "出生日期|100", "年龄|50", "身份证号|150",
+        return new ArrayList<>(Arrays.asList(new String[]{"姓名|80", "学工号|100", "人员类别|100","性别|50", "出生日期|100", "年龄|50", "身份证号|150",
                 "民族|100", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
@@ -1571,8 +1571,9 @@ public class MemberController extends MemberBaseController {
             Integer branchId = record.getBranchId();
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
-                    record.getCode(),//学工号
                     record.getRealname(),//姓名
+                    record.getCode(),//学工号
+                    SystemConstants.USER_TYPE_MAP.get(record.getUserType()),//人员类别
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),//性别
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),//出生日期
                     record.getBirth() != null ? DateUtils.intervalYearsUntilNow(record.getBirth()) + "" : "",//年龄
