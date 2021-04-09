@@ -65,6 +65,7 @@ pageEncoding="UTF-8" %>
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？(数据删除后不可恢复，请谨慎操作)"
                             data-grid-id="#jqGrid"
+                            data-callback="_reload"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>

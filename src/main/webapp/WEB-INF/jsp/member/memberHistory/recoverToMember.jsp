@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>${_p_partyName}</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> 关联${_p_partyName}</label>
 				<div class="col-xs-6">
 					<select required class="form-control" data-rel="select2-ajax"
 							data-ajax-url="${ctx}/party_selects?auth=1"
@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-				<label class="col-xs-3 control-label"><span class="star">*</span>党支部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> 关联党支部</label>
 				<div class="col-xs-6">
 					<select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
 							name="branchId" data-placeholder="请选择" data-width="270">

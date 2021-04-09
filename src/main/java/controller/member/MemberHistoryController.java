@@ -100,7 +100,7 @@ public class MemberHistoryController extends MemberBaseController {
 
         MemberHistoryExample example = new MemberHistoryExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(cls);
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("add_date desc");
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
             if (ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)){
                 criteria.andAddUserIdEqualTo(ShiroHelper.getCurrentUserId());

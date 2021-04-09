@@ -43,6 +43,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
+                        _reload();
                     }
                     $btn.button('reset');
                 }
