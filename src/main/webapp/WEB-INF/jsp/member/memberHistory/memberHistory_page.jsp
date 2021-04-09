@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                            data-callback="_reload"
                            data-url="${ctx}/member/recoverToMember" data-title="恢复党员身份"
                            data-msg="确定恢复这{0}个人员的党员身份吗？"><i class="fa fa-reply"></i> 恢复党员身份</a>
-                        <a class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                            data-callback="_reload"
                            data-url="${ctx}/member/memberHistory_out?cls=${cls}" data-title="从历史党员库移除"
                            data-msg="确定移除这{0}个历史党员吗？"><i class="fa fa-history"></i> 移除</a>

@@ -58,10 +58,18 @@ public class MemberHistoryController extends MemberBaseController {
                                 ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-
-        int total = (int) memberHistoryMapper.countByExample(new MemberHistoryExample());
         MemberHistoryExample example = new MemberHistoryExample();
-        example.createCriteria().andStatusEqualTo((byte) 0);
+        MemberHistoryExample.Criteria criteria = example.createCriteria();
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+            if (ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)) {
+                criteria.andAddUserIdEqualTo(ShiroHelper.getCurrentUserId());
+            }else {
+                throw new UnauthorizedException();
+            }
+        }
+
+        int total = (int) memberHistoryMapper.countByExample(example);
+        criteria.andStatusEqualTo((byte) 0);
         modelMap.put("total", total);
         modelMap.put("normalCount", memberHistoryMapper.countByExample(example));
 
