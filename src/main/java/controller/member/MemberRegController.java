@@ -51,12 +51,10 @@ public class MemberRegController extends MemberBaseController {
 
     @RequiresPermissions("memberReg:list")
     @RequestMapping("/memberReg")
-    public String memberReg(@RequestParam(defaultValue = "1") Integer cls,
-                            Integer userId,
+    public String memberReg(Integer userId,
                             Integer importUserId,
                             Integer partyId, ModelMap modelMap) {
 
-        modelMap.put("cls", cls);
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
@@ -67,15 +65,13 @@ public class MemberRegController extends MemberBaseController {
         if (partyId != null) {
             modelMap.put("party", partyMap.get(partyId));
         }
-        // 分党委党总支直属党支部待审核总数
-        modelMap.put("partyApprovalCount", memberRegService.count(null));
 
         return "member/memberReg/memberReg_page";
     }
 
     @RequiresPermissions("memberReg:list")
     @RequestMapping("/memberReg_data")
-    public void memberReg_data(@RequestParam(defaultValue = "1") Integer cls, HttpServletResponse response,
+    public void memberReg_data(HttpServletResponse response,
                                Integer userId,
                                String username,
                                Integer partyId,
@@ -96,7 +92,7 @@ public class MemberRegController extends MemberBaseController {
         pageNo = Math.max(1, pageNo);
 
         MemberRegExample example = new MemberRegExample();
-        MemberRegExample.Criteria criteria = example.createCriteria();
+        MemberRegExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.USER_REG_STATUS_PASS);
         example.setOrderByClause("create_time desc");
 
         if (partyId != null)
@@ -122,14 +118,6 @@ public class MemberRegController extends MemberBaseController {
         }
         if(importSeq!=null){
             criteria.andImportSeqEqualTo(importSeq);
-        }
-
-        if (cls == 1) {
-            criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_APPLY);
-        } else if (cls == 2) {
-            criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_DENY);
-        } else {
-            criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_PASS);
         }
 
         if (export == 1) {
@@ -158,7 +146,7 @@ public class MemberRegController extends MemberBaseController {
         return;
     }
 
-    @RequiresPermissions("memberReg:list")
+    /*@RequiresPermissions("memberReg:list")
     @RequestMapping("/memberReg_approval")
     public String memberReg_approval(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
@@ -247,7 +235,7 @@ public class MemberRegController extends MemberBaseController {
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, null);
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("memberReg:edit")
     @RequestMapping(value = "/memberReg_au", method = RequestMethod.POST)
@@ -277,9 +265,10 @@ public class MemberRegController extends MemberBaseController {
             }
 
             MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
-            if(memberReg.getStatus()!=SystemConstants.USER_REG_STATUS_APPLY){
+            /*if(memberReg.getStatus()!=SystemConstants.USER_REG_STATUS_APPLY){
                 return failed("注册账号状态有误，不可修改。");
-            }
+            }*/
+            memberReg.setStatus(SystemConstants.USER_REG_STATUS_PASS);
 
             Integer partyId = memberReg.getPartyId();
             // 只能修改本党委的注册账号信息，但可以修改为联系其他分党委

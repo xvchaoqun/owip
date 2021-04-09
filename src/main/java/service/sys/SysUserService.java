@@ -85,7 +85,7 @@ public class SysUserService extends BaseMapper {
 
         SysUserExample example = new SysUserExample();
         
-        if (StringUtils.isNotBlank(code)) {
+        if (StringUtils.isNotBlank(username)) {
             SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
             if (userId != null) criteria.andIdNotEqualTo(userId);
 
@@ -861,7 +861,7 @@ public class SysUserService extends BaseMapper {
         }
     }
 
-    //根据身份证号或姓名找到对应的学工号
+    // 根据身份证号或姓名找到对应的学工号 <可能性最大的学工号，学工号List>
     public Map<String, List<String>> getCodes(Byte roleType, //0：混合 1：干部 2：党员
                                               Byte colType, //0：身份证 1：姓名
                                               String searchKey, //colType=0:idcard colType=1：realname

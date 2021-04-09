@@ -706,7 +706,7 @@ public class MemberService extends MemberBaseMapper {
                     throw new OpException("第{0}行身份证号和学工号都为空", row);
                 }
                 Byte _type = 0;
-                //提取学工号
+                //提取学工号 param（混合，身份证，身份证号，混合，null）
                 codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
                 if (codeMap.size()==0)
                     continue;

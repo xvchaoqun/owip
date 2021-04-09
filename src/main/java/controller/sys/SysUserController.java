@@ -1100,6 +1100,8 @@ public class SysUserController extends BaseController {
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());
                 }
+                teacherInfo.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
+                teacherInfo.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称/专业技术职务
                 teacherInfo.setProPostLevel(ExtCommonService.formatProPostLevel(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
