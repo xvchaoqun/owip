@@ -423,10 +423,14 @@ public class MemberHistoryController extends MemberBaseController {
             if (uv == null) {
                 throw new OpException("第{0}行学工号为不存在",row);
             }
+            record.setUserId(uv.getUserId());
             record.setCode(code);
             String realname = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(realname)) {
                 throw new OpException("第{0}行姓名为空",row);
+            }
+            if (!StringUtils.equals(realname, uv.getRealname())){
+                throw new OpException("第{0}行姓名与系统中学工号对应的姓名不一致", row);
             }
             record.setRealname(realname);
             String _type = StringUtils.trimToNull(xlsRow.get(col++));
@@ -470,7 +474,7 @@ public class MemberHistoryController extends MemberBaseController {
             String _lable = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isNotBlank(_lable)){
                 List<Integer> lableList= new ArrayList<>();
-                List<String> _lableList = new ArrayList<>(Arrays.asList(StringUtils.split(_lable, ",")));
+                List<String> _lableList = new ArrayList<>(Arrays.asList(StringUtils.split(_lable, ",|，")));
                 for (String str : _lableList) {
                     if (lableValueList.contains(str)){
                         lableList.add(metaTypeService.findByName("mc_mh_lable", str).getId());

@@ -65,9 +65,9 @@ public class MemberHistoryService extends MemberBaseMapper {
             MemberHistory record = memberHistoryMapper.selectByPrimaryKey(id);
             boolean isAddUser = record.getAddUserId().equals(ShiroHelper.getCurrentUserId());
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                    &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
+                    &&!(ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                 continue;
-            if ((ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&record.getAddUserId().equals(ShiroHelper.getCurrentUserId()))
+            if ((ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser)
                     ||ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
                 memberHistoryMapper.deleteByPrimaryKey(id);
                 sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
@@ -119,11 +119,12 @@ public class MemberHistoryService extends MemberBaseMapper {
                 //更新时，检查权限
                 boolean isAddUser = record.getAddUserId().equals(ShiroHelper.getCurrentUserId());
                 if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                        &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
+                        &&!(ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                     continue;
 
                 MemberHistoryExample example = new MemberHistoryExample();
-                MemberHistoryExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(record.getRealname()).andCodeEqualTo(record.getCode());
+                MemberHistoryExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(record.getRealname())
+                        .andCodeEqualTo(record.getCode()).andStatusEqualTo((byte) 0);
                 if (record.getId() != null){
                     criteria.andIdcardEqualTo(record.getIdcard());
                 }
@@ -156,7 +157,7 @@ public class MemberHistoryService extends MemberBaseMapper {
 
             boolean isAddUser = record.getAddUserId().equals(ShiroHelper.getCurrentUserId());
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                    &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
+                    &&!(ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                 continue;
             record.setOutReason(outReason);
             record.setStatus((byte) 1);
@@ -176,7 +177,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             MemberHistory record = memberHistoryMapper.selectByPrimaryKey(id);
             boolean isAddUser = record.getAddUserId().equals(ShiroHelper.getCurrentUserId());
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                    &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
+                    &&!(ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                 continue;
             record.setStatus((byte) 0); // 0 正常
             updateByPrimaryKeySelective(record);
@@ -192,7 +193,7 @@ public class MemberHistoryService extends MemberBaseMapper {
         MemberHistory record = memberHistoryMapper.selectByPrimaryKey(id);
         boolean isAddUser = record.getAddUserId().equals(ShiroHelper.getCurrentUserId());
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser)){
+                &&!(ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser)){
             throw new UnauthorizedException();
         }
     }
@@ -205,7 +206,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             MemberHistory memberHistory = memberHistoryMapper.selectByPrimaryKey(id);
             boolean isAddUser = memberHistory.getAddUserId().equals(ShiroHelper.getCurrentUserId());
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                    &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
+                    &&!(ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                 continue;
             memberHistory.setStatus((byte) 1);
             memberHistoryMapper.updateByPrimaryKeySelective(memberHistory);
