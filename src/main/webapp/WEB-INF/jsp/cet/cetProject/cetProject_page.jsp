@@ -245,7 +245,7 @@ pageEncoding="UTF-8" %>
                         return $.jgrid.formatter.MetaType(category);
                     })).join("，")
                 }},
-            {label: '培训课件', name: '_file', formatter: function (cellvalue, options, rowObject) {
+            {label: '培训材料', name: '_file', formatter: function (cellvalue, options, rowObject) {
                     return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}" data-width="800"' +
                         'class="popupBtn btn btn-xs btn-primary"><i class="ace-icon fa fa-files-o"></i> 查看({1})</button>')
                         .format(rowObject.id, Math.trimToZero(rowObject.fileCount))

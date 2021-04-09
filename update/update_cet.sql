@@ -1,3 +1,9 @@
+
+
+-- 2021.4.9 ly
+ALTER TABLE `cet_project_file`
+	ADD COLUMN `website` VARCHAR(200) NULL DEFAULT NULL COMMENT '培训材料网址' AFTER `file_path`;
+
 -- 2021.1.7 sxx
 ALTER TABLE `cet_train_obj`
     ADD CONSTRAINT `FK_cet_train_obj_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;

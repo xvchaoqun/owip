@@ -59,7 +59,7 @@
                                     </button>
                                 </shiro:hasPermission>
                             <shiro:hasPermission name="memberHistory:edit">
-                                <a class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                <a class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/transferToHistory" data-title="转移至历史党员库"
                                    data-msg="确定转移这{0}个党员至历史党员吗？"><i class="fa fa-random"></i> 转移至历史党员库</a>
                             </shiro:hasPermission>

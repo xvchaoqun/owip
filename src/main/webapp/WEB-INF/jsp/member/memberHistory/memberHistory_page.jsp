@@ -38,6 +38,10 @@ pageEncoding="UTF-8" %>
                         </button>
                         <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                            data-callback="_reload"
+                           data-url="${ctx}/member/recoverToMember" data-title="恢复党员身份"
+                           data-msg="确定恢复这{0}个人员的党员身份吗？"><i class="fa fa-reply"></i> 恢复党员身份</a>
+                        <a class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                           data-callback="_reload"
                            data-url="${ctx}/member/memberHistory_out?cls=${cls}" data-title="从历史党员库移除"
                            data-msg="确定移除这{0}个历史党员吗？"><i class="fa fa-history"></i> 移除</a>
                     </c:if>
@@ -240,7 +244,6 @@ pageEncoding="UTF-8" %>
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}
                 },
-                { label: '年龄',name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
                 { label: '${_p_partyName}名称',name: 'partyName',align:'left',width:300},
                 { label: '党支部名称',name: 'branchName',align:'left',width:300},
                 { label: '党籍状态',name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
@@ -276,7 +279,7 @@ pageEncoding="UTF-8" %>
                     formatoptions: {newformat: 'Y.m.d'}
                 },
                 { label: '专业技术职务',name: 'proPost'},
-                { label: '手机',name: 'phone',width:110},
+                { label: '手机',name: 'mobile',width:110},
                 { label: '邮箱',name: 'email'},
             <c:if test="${cls==1}">
                 { label: '移除原因',name: 'outReason',width:200},

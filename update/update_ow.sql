@@ -1,4 +1,8 @@
 
+-- 2021.4.9 ly
+ALTER TABLE `ow_member_history`
+	CHANGE COLUMN `phone` `mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机' COLLATE 'utf8_general_ci' AFTER `pro_post`;
+
 -- 2021.3.27 ly
 DROP TABLE IF EXISTS `ow_member_history`;
 CREATE TABLE IF NOT EXISTS `ow_member_history` (

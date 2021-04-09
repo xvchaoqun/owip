@@ -1,18 +1,25 @@
 package service.member;
 
 import controller.global.OpException;
+import domain.member.Member;
+import domain.member.MemberExample;
 import domain.member.MemberHistory;
 import domain.member.MemberHistoryExample;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.party.MemberService;
 import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service
@@ -20,11 +27,16 @@ public class MemberHistoryService extends MemberBaseMapper {
 
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private SysUserService sysUserService;
 
     public boolean isDuplicate(String realname, String code, String idcard){
 
         MemberHistoryExample example = new MemberHistoryExample();
-        MemberHistoryExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(realname).andCodeEqualTo(code);
+        MemberHistoryExample.Criteria criteria = example.createCriteria().andRealnameEqualTo(realname).andCodeEqualTo(code)
+                .andStatusEqualTo((byte) 0);
         if (StringUtils.isNotBlank(idcard)) {
             criteria.andIdcardEqualTo(idcard);
         }
@@ -37,8 +49,11 @@ public class MemberHistoryService extends MemberBaseMapper {
 
         record.setAddUserId(ShiroHelper.getCurrentUserId());
         record.setAddDate(new Date());
-        record.setStatus((byte) 0);
+        record.setStatus((byte) 0);// 0 正常
         memberHistoryMapper.insertSelective(record);
+
+        // 更新党员状态和角色
+        updateMemberStatus(record.getUserId());
     }
 
     @Transactional
@@ -69,6 +84,12 @@ public class MemberHistoryService extends MemberBaseMapper {
     public void updateByPrimaryKeySelective(MemberHistory record){
         checkAuth(record.getId());
         memberHistoryMapper.updateByPrimaryKeySelective(record);
+
+        if (record.getStatus()==0) return;// 0正常
+
+        // 更新党员状态和角色
+        updateMemberStatus(record.getUserId());
+
     }
 
     public Map<Integer, MemberHistory> findAll() {
@@ -139,7 +160,7 @@ public class MemberHistoryService extends MemberBaseMapper {
                 continue;
             record.setOutReason(outReason);
             record.setStatus((byte) 1);
-            updateByPrimaryKeySelective(record);
+            memberHistoryMapper.updateByPrimaryKeySelective(record);
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
@@ -157,7 +178,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
                     &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
                 continue;
-            record.setStatus((byte) 0);
+            record.setStatus((byte) 0); // 0 正常
             updateByPrimaryKeySelective(record);
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
@@ -174,5 +195,60 @@ public class MemberHistoryService extends MemberBaseMapper {
                 &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser)){
             throw new UnauthorizedException();
         }
+    }
+
+    @Transactional
+    public void recoverToMember(Integer[] ids, Integer partyId, Integer branchId) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+
+        for (Integer id : ids) {
+
+            MemberHistory memberHistory = memberHistoryMapper.selectByPrimaryKey(id);
+            boolean isAddUser = memberHistory.getAddUserId().equals(ShiroHelper.getCurrentUserId());
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
+                    &&(!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&isAddUser))
+                continue;
+            memberHistory.setStatus((byte) 1);
+            memberHistoryMapper.updateByPrimaryKeySelective(memberHistory);
+
+            Member record = new Member();
+            record.setPartyId(partyId);
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
+            if (branchId != null) {
+                record.setBranchId(branchId);
+            }
+
+            Integer userId = memberHistory.getUserId();
+            record.setUserId(userId);
+
+            MemberExample example = new MemberExample();
+            example.createCriteria().andUserIdEqualTo(userId);
+            if (memberMapper.countByExample(example) > 0){
+                memberMapper.updateByPrimaryKeySelective(record);
+            }else {
+                PropertyUtils.copyProperties(record, memberHistory);
+                record.setUserId(userId);
+                record.setSource(MemberConstants.MEMBER_SOURCE_ADMIN);
+                memberService.addOrUpdate(record, "从历史党员库移至党员库");
+            }
+
+            sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
+
+            sysApprovalLogService.add(memberHistory.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
+                    "恢复党员身份", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "恢复党员身份");
+        }
+    }
+
+    // 更新完历史党员库，判断是否更新党员状态
+    public void updateMemberStatus(Integer userId){
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if (member == null) return;
+        if (member.getStatus() == MemberConstants.MEMBER_STATUS_HISTORY) return;
+        member.setStatus(MemberConstants.MEMBER_STATUS_HISTORY);
+        memberMapper.updateByPrimaryKeySelective(member);
+
+        sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
     }
 }

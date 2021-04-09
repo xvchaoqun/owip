@@ -1009,7 +1009,6 @@ public class MemberService extends MemberBaseMapper {
             memberMapper.updateByPrimaryKeySelective(member);
 
             SysUserView uv = sysUserService.findById(id);
-            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(id);
             Party party = partyMapper.selectByPrimaryKey(member.getPartyId());
             String partyName = party.getName();
             String branchName = "";
@@ -1022,14 +1021,10 @@ public class MemberService extends MemberBaseMapper {
 
             PropertyUtils.copyProperties(record, uv);
             PropertyUtils.copyProperties(record, member);
-            record.setUserId(null);
             record.setLable(lable);
             record.setPartyName(partyName);
             record.setBranchName(branchName);
             record.setDetailReason(detailReason);
-            if (teacherInfo != null) {
-                record.setProPost(teacherInfo.getProPost());
-            }
             memberHistoryService.insertSelective(record);
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),

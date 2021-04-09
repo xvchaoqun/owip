@@ -1,5 +1,6 @@
 package controller.cet;
 
+import controller.global.OpException;
 import domain.cet.CetProjectFile;
 import domain.cet.CetProjectFileExample;
 import domain.cet.CetProjectFileExample.Criteria;
@@ -79,11 +80,16 @@ public class CetProjectFileController extends CetBaseController {
     public Map do_cetProjectFile_au(Integer projectId,
                                     MultipartFile _file,
                                     String fileName,
+                                    String website,
                                     HttpServletRequest request) throws IOException, InterruptedException {
 
-        CetProjectFile record = new CetProjectFile();
-        record.setProjectId(projectId);
+        CetProjectFile record = null;
+        if (_file == null && StringUtils.isBlank(website)) {
+            throw new OpException("请上传培训材料或者填写培训材料网址");
+        }
         if (_file != null) {
+            record = new CetProjectFile();
+            record.setProjectId(projectId);
             String originalFilename = _file.getOriginalFilename();
             String savePath = upload(_file, "cetProjectFile");
             record.setFilePath(savePath);
@@ -93,8 +99,24 @@ public class CetProjectFileController extends CetBaseController {
                 record.setFileName(fileName + FileUtils.getExtention(originalFilename));
             }
         }
-        cetProjectFileService.insertSelective(record);
-        logger.info(log( LogConstants.LOG_CET, "添加培训课件：{0}", record.getId()));
+        CetProjectFile record1 = null;
+        if (StringUtils.isNotBlank(website)) {
+            record1 = new CetProjectFile();
+            record1.setProjectId(projectId);
+            if (StringUtils.isBlank(fileName)){
+                record1.setFileName(website);
+            }else {
+                record1.setFileName(fileName);
+            }
+            // 处理url
+            if (!StringUtils.contains(website, "http")){
+                website = "http://"+website;
+            }
+            record1.setWebsite(website);
+        }
+        // 网址和文件分开存
+        cetProjectFileService.insertSelective(record, record1);
+        logger.info(log( LogConstants.LOG_CET, "添加培训材料：{0},{1}", record!=null?record.getId():"", record1!=null?record1.getId():""));
 
         return success(FormUtils.SUCCESS);
     }

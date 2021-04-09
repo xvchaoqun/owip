@@ -8,11 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class CetProjectFileService extends CetBaseMapper {
 
     @Transactional
-    public void insertSelective(CetProjectFile record){
+    public void insertSelective(CetProjectFile record, CetProjectFile record1){
 
-        int projectId = record.getProjectId();
-        record.setSortOrder(getNextSortOrder("cet_project_file", "project_id=" + projectId));
-        cetProjectFileMapper.insertSelective(record);
+        int projectId = record==null? record1.getProjectId() : record.getProjectId();
+        if (record != null) {
+            record.setSortOrder(getNextSortOrder("cet_project_file", "project_id=" + projectId));
+            cetProjectFileMapper.insertSelective(record);
+        }
+
+        if (record1 != null) {
+            record1.setSortOrder(getNextSortOrder("cet_project_file", "project_id=" + projectId));
+            cetProjectFileMapper.insertSelective(record1);
+        }
 
         iCetMapper.refreshFileCount(projectId);
     }
