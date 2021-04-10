@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label class="col-xs-4 control-label"> 培训课件网址</label>
                                 <div class="col-xs-6">
-                                    <input class="form-control" type="text" name="website"/>
+                                    <input class="form-control url" type="text" name="website"/>
                                 </div>
                             </div>
                             <div class="clearfix form-actions">

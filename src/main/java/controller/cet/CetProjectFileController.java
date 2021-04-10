@@ -108,10 +108,6 @@ public class CetProjectFileController extends CetBaseController {
             }else {
                 record1.setFileName(fileName);
             }
-            // 处理url
-            if (!StringUtils.contains(website, "http")){
-                website = "http://"+website;
-            }
             record1.setWebsite(website);
         }
         // 网址和文件分开存
