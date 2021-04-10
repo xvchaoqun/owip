@@ -1,12 +1,9 @@
 package service.party;
 
 import controller.global.OpException;
-import domain.member.MemberExample;
 import domain.party.*;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.omg.PortableServer.LIFESPAN_POLICY_ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,13 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.MemberConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class BranchService extends BaseMapper {
@@ -138,6 +134,7 @@ public class BranchService extends BaseMapper {
 
         PartyHelper.checkAuth(record.getPartyId());
 
+        dealShortName(record);
         record.setIsDeleted(false);
         record.setCode(genCode(record.getPartyId()));
         record.setSortOrder(getNextSortOrder("ow_branch",
@@ -204,6 +201,7 @@ public class BranchService extends BaseMapper {
         Branch branch = branchMapper.selectByPrimaryKey(record.getId());
         PartyHelper.checkAuth(branch.getPartyId(), record.getId());
 
+        dealShortName(record);
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return branchMapper.updateByPrimaryKeySelective(record);
@@ -400,5 +398,24 @@ public class BranchService extends BaseMapper {
         List<BranchView> branchViewList = branchViewMapper.selectByExample(example);
 
         return branchViewList==null?0:branchViewList.size();
+    }
+
+    // 处理简称，保证简称不为空
+    public void dealShortName(Branch record){
+
+        String shortName = record.getShortName();
+        String name = record.getName();
+        if (StringUtils.isNotBlank(shortName)) return;
+
+        shortName = name;
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        if (StringUtils.isBlank(schoolName)) return;
+
+        if (!StringUtils.contains(name, schoolName)) return;
+        String[] strArray = name.split(schoolName);
+        if (strArray.length==2) {
+            shortName = strArray[1];
+        }
+        record.setShortName(shortName);
     }
 }

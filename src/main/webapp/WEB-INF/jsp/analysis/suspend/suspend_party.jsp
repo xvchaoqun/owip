@@ -31,20 +31,20 @@
                                     <div class="infobox-content">应换届支部委员会</div>
                                 </div>
                             </div>
+                        <c:if test="${(branchCount)>0}">
+                            <div class="infobox infobox-red"
+                                 data-url="${ctx}/branch?partyId=${param.partyId}&isSearch=${isSearch}">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-sign-out"></i>
+                                </div>
+                                <div class="infobox-data">
+                                        <span class="infobox-data-number"><span class="count">${branchCount}</span> <span
+                                                style="font-size: 10pt;">个支部</span></span>
 
-                        <div class="infobox infobox-red"
-                             <c:if test="${(branchCount)>0}">data-url="${ctx}/branch?partyId=${param.partyId}&isSearch=${isSearch}"</c:if>>
-                            <div class="infobox-icon">
-                                <i class="ace-icon fa fa-sign-out"></i>
+                                    <div class="infobox-content">党员人数>50的支部</div>
+                                </div>
                             </div>
-                            <div class="infobox-data">
-                                    <span class="infobox-data-number"><span class="count">${branchCount}</span> <span
-                                            style="font-size: 10pt;">个支部</span></span>
-
-                                <div class="infobox-content">党员人数>50的支部</div>
-                            </div>
-                        </div>
-
+                        </c:if>
                         <c:if test="${!_ignore_plan_and_draw}">
                             <div class="infobox infobox-pink">
                                 <div class="infobox-icon">

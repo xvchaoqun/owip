@@ -790,22 +790,23 @@ var _modal_width;
         },
         party: function (partyId, branchId) { // 显示组织名称
 
+            _p_ow_show_full_name = _p_ow_show_full_name==null?true:_p_ow_show_full_name;
             var party = _cMap.partyMap[partyId];
             var _partyView = null;
             if (party != undefined) {
-                _partyView = party.name;
+                _partyView = _p_ow_show_full_name?party.name:party.shortName;
                 if ($.inArray("party:list", _permissions) >= 0 || $.inArray("party:*", _permissions) >= 0)
                     _partyView = '<a href="javascript:;" class="openView" data-url="{2}/party_view?id={0}">{1}</a>'
-                        .format(party.id, party.name, ctx);
+                        .format(party.id, _p_ow_show_full_name?party.name:party.shortName, ctx);
             }
 
             var branch = (branchId == undefined) ? undefined : _cMap.branchMap[branchId];
             var _branchView = null;
             if (branch != undefined) {
-                var _branchView = branch.name;
+                _branchView = _p_ow_show_full_name?branch.name:branch.shortName;
                 if ($.inArray("branch:list", _permissions) >= 0 || $.inArray("branch:*", _permissions) >= 0)
                     _branchView = '<a href="javascript:;" class="openView" data-url="{2}/branch_view?id={0}">{1}</a>'
-                        .format(branch.id, branch.name, ctx);
+                        .format(branch.id, _p_ow_show_full_name?branch.name:branch.shortName, ctx);
             }
 
             if (_partyView != null && _branchView != null) {

@@ -146,6 +146,8 @@ public class PartyService extends BaseMapper {
     @CacheEvict(value = "Party:ALL", allEntries = true)
     public int insertSelective(Party record) {
 
+        // 处理简称，保证简称有值
+        dealShortName(record);
         //Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0"));
         record.setIsDeleted(false);
@@ -232,6 +234,9 @@ public class PartyService extends BaseMapper {
     @Transactional
     @CacheEvict(value = "Party:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(Party record) {
+
+        // 处理简称，保证简称有值
+        dealShortName(record);
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return partyMapper.updateByPrimaryKeySelective(record);
@@ -426,5 +431,24 @@ public class PartyService extends BaseMapper {
         List<Party> partyList = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return partyList.size() > 0 ? partyList.get(0) : null;
+    }
+
+    // 处理简称，保证简称不为空
+    public void dealShortName(Party record){
+
+        String shortName = record.getShortName();
+        String name = record.getName();
+        if (StringUtils.isNotBlank(shortName)) return;
+
+        shortName = name;
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        if (StringUtils.isBlank(schoolName)) return;
+
+        if (!StringUtils.contains(name, schoolName)) return;
+        String[] strArray = name.split(schoolName);
+        if (strArray.length==2) {
+            shortName = strArray[1];
+        }
+        record.setShortName(shortName);
     }
 }

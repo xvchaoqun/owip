@@ -72,13 +72,15 @@ pageEncoding="UTF-8" %>
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     </shiro:hasPermission>
 
-                    <shiro:hasPermission name="party:del">
-                        <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-callback="updateCache"
-                           data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
-                           data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
-                        【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
-                    </shiro:hasPermission>
+                    <c:if test="${cls==1}">
+                        <shiro:hasPermission name="party:del">
+                            <a class="jqBatchBtn btn btn-danger btn-sm"
+                               data-callback="updateCache"
+                               data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
+                               data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
+                            【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
+                        </shiro:hasPermission>
+                    </c:if>
                 </c:if>
                 <c:if test="${type==1}">
                     <shiro:hasPermission name="party:del">

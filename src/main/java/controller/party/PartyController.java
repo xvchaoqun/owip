@@ -599,6 +599,10 @@ public class PartyController extends BaseController {
         List<Map<String, Object>> options = new ArrayList<>();
         for(PartyView party:records){
 
+            // 分党委选择框显示简称
+            if (!CmTag.getBoolProperty("ow_show_full_name")){
+                party.setName(party.getShortName());
+            }
             Map<String, Object> option = new HashMap<>();
             option.put("text", party.getName());
             option.put("id", party.getId());

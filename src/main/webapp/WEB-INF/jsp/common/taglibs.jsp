@@ -41,6 +41,7 @@
 <c:set value="${_pMap['show_msg_btns']=='true'}" var="_show_msg_btns" />
 <c:set value="${empty _pMap['avatarWidth']?135:_pMap['avatarWidth']}" var="_p_avatarWidth"/>
 <c:set value="${empty _pMap['label_adminLevelNone']?'无行政级别':_pMap['label_adminLevelNone']}" var="_p_label_adminLevelNone"/>
+<c:set value="${_pMap['ow_show_full_name']=='true'}" var="_p_ow_show_full_name"/>
 
 <c:set var="mt_direct_branch" value="mt_direct_branch"/>
 <c:set var="directBranchTypeId" value="${cm:getMetaTypeByCode(mt_direct_branch).id}"/>

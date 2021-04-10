@@ -14,4 +14,6 @@ public class PartyOptionMixin extends OptionMixin {
     public String mailbox;
     @JsonProperty
     public String phone;
+    @JsonProperty
+    public String shortName;
 }
