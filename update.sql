@@ -1,5 +1,14 @@
+
+
+
+ALTER TABLE `cet_project_file`
+	ADD COLUMN `website` VARCHAR(200) NULL DEFAULT NULL COMMENT '培训材料网址' AFTER `file_path`;
+
+ALTER TABLE `ow_member_history`
+	CHANGE COLUMN `phone` `mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机' COLLATE 'utf8_general_ci' AFTER `pro_post`;
+
 20210408
--- 戏曲、哈工大
+-- 戏曲、哈工大、北师大
 
 update sys_resource set url='/member?cls=-1' where permission='member:list';
 update sys_resource set url='/memberReg?cls=3' where permission='memberReg:list';
@@ -767,7 +776,7 @@ ALTER TABLE `ow_branch_member`
 -- 更新 ow_member_view
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2572, 0, '历史党员管理', '', 'url', 'fa fa-star-o', '/member/memberHistory', 105, '0/1/105/', 0, 'memberHistory:list', 2, NULL, NULL, 1, 7537);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2633, 0, '删除', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2633, 0, '删除', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:del', 2, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2573, 0, '编辑', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:edit', 2, NULL, NULL, 1, NULL);
 
 DROP TABLE IF EXISTS `ow_member_history`;

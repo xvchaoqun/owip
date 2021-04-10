@@ -171,7 +171,7 @@ public class MemberHistoryService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void recover(Integer[] ids) {
+    public void recover(Integer[] ids, String remark) {
 
         for (Integer id :ids){
             MemberHistory record = memberHistoryMapper.selectByPrimaryKey(id);
@@ -185,7 +185,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "恢复", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "恢复");
+                    "返回历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
         }
     }
 
@@ -199,7 +199,7 @@ public class MemberHistoryService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void recoverToMember(Integer[] ids, Integer partyId, Integer branchId) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void recoverToMember(Integer[] ids, int partyId, Integer branchId, String remark) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         for (Integer id : ids) {
 
@@ -211,16 +211,17 @@ public class MemberHistoryService extends MemberBaseMapper {
             memberHistory.setStatus((byte) 1);
             memberHistoryMapper.updateByPrimaryKeySelective(memberHistory);
 
+            Integer userId = memberHistory.getUserId();
+
             Member record = new Member();
             record.setPartyId(partyId);
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
-            if (branchId != null) {
-                record.setBranchId(branchId);
+            record.setBranchId(branchId);
+            if (branchId == null) {
+                commonMapper.excuteSql("update ow_member set branch_id=null where user_id=" + userId);
             }
 
-            Integer userId = memberHistory.getUserId();
             record.setUserId(userId);
-
             MemberExample example = new MemberExample();
             example.createCriteria().andUserIdEqualTo(userId);
             if (memberMapper.countByExample(example) > 0){
@@ -237,7 +238,7 @@ public class MemberHistoryService extends MemberBaseMapper {
             sysApprovalLogService.add(memberHistory.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "恢复党员身份", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "恢复党员身份");
+                    "返回党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
         }
     }
 

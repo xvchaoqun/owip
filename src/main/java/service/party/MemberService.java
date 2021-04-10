@@ -1030,7 +1030,7 @@ public class MemberService extends MemberBaseMapper {
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "将"+record.getRealname()+"转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, detailReason);
+                    "转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, detailReason);
         }
     }
 }

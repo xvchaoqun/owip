@@ -608,7 +608,8 @@
             {label: '编制类别', name: 'authorizedType'},
             {label: '人员类别', name: 'staffType'},
             /*{label: '岗位类别', name: 'postClass'},*/
-            {label: '专业技术职务', name: 'proPost', width: 150},
+            {label: '专业技术职务', name: 'proPost'},
+            {label: '职称级别', name: 'proPostLevel', width: 80},
             {label: '联系手机', name: 'mobile', width: 110},
             </c:if>
             <c:if test="${cls==6 || cls==7}">

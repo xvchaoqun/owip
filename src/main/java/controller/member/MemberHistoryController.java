@@ -295,10 +295,10 @@ public class MemberHistoryController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping(value = "/memberHistory_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberHistory_recover(Integer[] ids,
+    public Map do_memberHistory_recover(Integer[] ids, String remark,
                              HttpServletRequest request){
         if (null != ids && ids.length>0){
-            memberHistoryService.recover(ids);
+            memberHistoryService.recover(ids, remark);
         }
         return success(FormUtils.SUCCESS);
     }
@@ -313,10 +313,10 @@ public class MemberHistoryController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping(value = "/recoverToMember", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_recoverToMember(Integer[] ids, Integer partyId, Integer branchId, HttpServletRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public Map do_recoverToMember(Integer[] ids, Integer partyId, Integer branchId, String remark, HttpServletRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         if (null != ids && ids.length>0){
-            memberHistoryService.recoverToMember(ids, partyId, branchId);
+            memberHistoryService.recoverToMember(ids, partyId, branchId, remark);
         }
         return success(FormUtils.SUCCESS);
     }

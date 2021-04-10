@@ -348,7 +348,7 @@
             pcc.sort_order asc
         </if>
         <if test="isChosen==null or !isChosen">
-            leader_sort_order desc, branch_count desc, total_vote desc, total_positive_vote desc
+            /*leader_sort_order desc, */branch_count desc, total_vote desc, total_positive_vote desc
         </if>
     </select>
 
@@ -395,7 +395,7 @@
         left join cadre c on c.user_id=pc.user_id
         <include refid="searchBranchCandidates"/>
         group by pc.user_id
-        order by leader_sort_order desc, branch_count desc, total_vote desc, total_positive_vote desc
+        order by /*leader_sort_order desc, */branch_count desc, total_vote desc, total_positive_vote desc
     </select>
 
     <select id="countBranchCandidateList" parameterType="map" resultType="java.lang.Integer">
