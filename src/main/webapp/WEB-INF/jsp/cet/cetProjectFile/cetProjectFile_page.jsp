@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label"> 培训课件网址</label>
+                                <label class="col-xs-4 control-label"> 网址</label>
                                 <div class="col-xs-6">
                                     <input class="form-control url" type="text" name="website"/>
                                 </div>
@@ -66,7 +66,7 @@
             <table class="table table-striped table-bordered table-center">
                 <thead>
                 <tr>
-                    <th>课件名称</th>
+                    <th>材料名称</th>
                     <c:if test="${param.view!=1}">
                         <th nowrap width="40">排序</th>
                     </c:if>
