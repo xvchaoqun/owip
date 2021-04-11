@@ -7,6 +7,8 @@ ALTER TABLE `cet_project_file`
 ALTER TABLE `ow_member_history`
 	CHANGE COLUMN `phone` `mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机' COLLATE 'utf8_general_ci' AFTER `pro_post`;
 
+-- 更新utils、ext
+
 20210408
 -- 戏曲、哈工大、北师大
 
