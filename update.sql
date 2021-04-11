@@ -1,4 +1,8 @@
 
+20210411
+-- 大工
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `authorized` VARCHAR(50) NULL DEFAULT NULL COMMENT '编制' AFTER `regular_time`;
 
 20210411
 -- 吉大、西工大

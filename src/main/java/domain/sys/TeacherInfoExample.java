@@ -1052,6 +1052,76 @@ public class TeacherInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andAuthorizedIsNull() {
+            addCriterion("authorized is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedIsNotNull() {
+            addCriterion("authorized is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedEqualTo(String value) {
+            addCriterion("authorized =", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedNotEqualTo(String value) {
+            addCriterion("authorized <>", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedGreaterThan(String value) {
+            addCriterion("authorized >", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedGreaterThanOrEqualTo(String value) {
+            addCriterion("authorized >=", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedLessThan(String value) {
+            addCriterion("authorized <", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedLessThanOrEqualTo(String value) {
+            addCriterion("authorized <=", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedLike(String value) {
+            addCriterion("authorized like", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedNotLike(String value) {
+            addCriterion("authorized not like", value, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedIn(List<String> values) {
+            addCriterion("authorized in", values, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedNotIn(List<String> values) {
+            addCriterion("authorized not in", values, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedBetween(String value1, String value2) {
+            addCriterion("authorized between", value1, value2, "authorized");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedNotBetween(String value1, String value2) {
+            addCriterion("authorized not between", value1, value2, "authorized");
+            return (Criteria) this;
+        }
+
         public Criteria andAuthorizedTypeIsNull() {
             addCriterion("authorized_type is null");
             return (Criteria) this;
