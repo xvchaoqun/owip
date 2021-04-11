@@ -1014,17 +1014,17 @@ public class SysUserController extends BaseController {
 
     // 批量导入/更新系统账号信息
     @RequiresPermissions("sysUser:edit")
-    @RequestMapping("/sysUser_batchImport")
-    public String sysUser_batchImport() {
+    @RequestMapping("/importUserAllInfo")
+    public String importUserAllInfo() {
 
-        return "sys/sysUser/sysUser_batchImport";
+        return "sys/sysUser/importUserAllInfo";
     }
 
     //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行添加账号信息操作；若账号为空，则跳过该账号。如果是教师同时会更新教师表
     @RequiresPermissions("sysUser:edit")
-    @RequestMapping(value = "/sysUser_batchImport", method = RequestMethod.POST)
+    @RequestMapping(value = "/importUserAllInfo", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_batchImport(HttpServletRequest request) throws InvalidFormatException, IOException, ReflectiveOperationException {
+    public Map do_importUserAllInfo(HttpServletRequest request) throws InvalidFormatException, IOException, ReflectiveOperationException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");

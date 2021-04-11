@@ -225,4 +225,16 @@ pageEncoding="UTF-8"%>
 
     $('[data-rel="tooltip"]').tooltip();
 	$.register.del_select($('#modalForm select[name=partyId]'));
+
+	//自动填充党支部的简称
+	$('#modalForm textarea[name=name]').blur(function (){
+		//console.log("111");
+		var $this = $(this).val();
+		if ($.trim($this)=='') return;
+		$('#modalForm input[name=shortName]').val($this);
+		var nameArray = $this.split('${cm:getSysConfig().schoolName}');
+		if (nameArray.length==2){
+			$('#modalForm input[name=shortName]').val(nameArray[1]);
+		}
+	})
 </script>

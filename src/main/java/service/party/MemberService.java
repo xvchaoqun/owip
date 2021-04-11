@@ -842,6 +842,7 @@ public class MemberService extends MemberBaseMapper {
                     branch.setCreateTime(now);
                     branch.setSortOrder(getNextSortOrder("ow_branch",
                             "is_deleted=0 and party_id=" + partyId));
+                    branchService.dealShortName(branch);
                     branchMapper.insert(branch);
                     branchAdd++;
                 }
