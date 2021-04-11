@@ -1,7 +1,7 @@
 
 
 20210411
--- 吉大
+-- 吉大、西工大
 
 ALTER TABLE `cet_project_file`
 	ADD COLUMN `website` VARCHAR(200) NULL DEFAULT NULL COMMENT '培训材料网址' AFTER `file_path`;
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `ow_member_history` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='历史党员库';
-INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2605, '标签', '历史党员库', '', 'mc_mh_lable', '', '', '', 2619, 0);
+replace INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2605, '标签', '历史党员库', '', 'mc_mh_lable', '', '', '', 2619, 0);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '党员出国境', 'mt_udgxuo', NULL, NULL, '', 2, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '失联党员', 'mt_n8hlza', NULL, NULL, '', 1, 1);
 
@@ -393,11 +393,6 @@ ALTER TABLE `ow_member_out`
 
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `member_type` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`;
-
-/*update  ow_member_out mo, ow_member m
-left join sys_teacher_info t on t.user_id = m.user_id
-set mo.member_type=if(t.is_retire, 3, m.type), mo.check_time=mo.apply_time
-where mo.user_id=m.user_id;*/
 
 ALTER TABLE `ow_member_out`
 	CHANGE COLUMN `member_type` `member_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`,
