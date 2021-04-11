@@ -1,5 +1,7 @@
 
 
+20210411
+-- 吉大
 
 ALTER TABLE `cet_project_file`
 	ADD COLUMN `website` VARCHAR(200) NULL DEFAULT NULL COMMENT '培训材料网址' AFTER `file_path`;
@@ -8,6 +10,14 @@ ALTER TABLE `ow_member_history`
 	CHANGE COLUMN `phone` `mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机' COLLATE 'utf8_general_ci' AFTER `pro_post`;
 
 -- 更新utils、ext
+
+
+UPDATE ow_party p,sys_config s SET p.short_name=SUBSTRING_INDEX(p.name,s.school_name,-1) WHERE (p.short_name IS NULL OR p.short_name='') AND s.id=4;
+UPDATE ow_branch p,sys_config s SET p.short_name=SUBSTRING_INDEX(p.name,s.school_name,-1) WHERE (p.short_name IS NULL OR p.short_name='') AND s.id=4;
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+    VALUES ('ow_show_full_name', '党组织显示全称', 'true', 3, 99, '页面显示的党组织和党组织的select标签中，是：分党委和党支部显示全称；否：分党委和党支部显示简称；');
+
+
 
 20210408
 -- 戏曲、哈工大、北师大

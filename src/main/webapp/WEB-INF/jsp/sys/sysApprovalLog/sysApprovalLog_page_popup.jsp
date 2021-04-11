@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
+<c:set var="sysUser" value="${cm:getUserById(param.userId)}"/>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
   <h3>操作记录<c:if test="${not empty sysUser}">（${sysUser.realname}）</c:if></h3>
@@ -15,7 +16,7 @@
     multiselect:false,
     ondblClickRow:function(){},
     pager:"jqGridPager_popup",
-    url: "${ctx}/sysApprovalLog_data?callback=?&id=${param.id}&type=${type}",
+    url: "${ctx}/sysApprovalLog_data?callback=?&id=${param.id}&type=${param.type}",
     colModel: [
       { label: '操作内容',  name: 'stage', width: ${param.hideStatus==1?230:150} },
       { label: '操作时间',  name: 'createTime', width: 150 },

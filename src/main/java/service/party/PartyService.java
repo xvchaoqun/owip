@@ -442,13 +442,16 @@ public class PartyService extends BaseMapper {
 
         shortName = name;
         String schoolName = CmTag.getSysConfig().getSchoolName();
-        if (StringUtils.isBlank(schoolName)) return;
+        if (StringUtils.isNotBlank(schoolName)) {
 
-        if (!StringUtils.contains(name, schoolName)) return;
-        String[] strArray = name.split(schoolName);
-        if (strArray.length==2) {
-            shortName = strArray[1];
+            if (StringUtils.contains(name, schoolName)) {
+                String[] strArray = name.split(schoolName, 1);
+                if (strArray.length == 2) {
+                    shortName = strArray[1];
+                }
+            }
         }
+
         record.setShortName(shortName);
     }
 }

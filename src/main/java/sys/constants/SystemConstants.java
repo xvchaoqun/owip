@@ -367,7 +367,8 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_ANNUAL = 9; // 年度学习档案
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN = 10; // 二级党委培训
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_PROJECT = 11; // 过程培训
-    public final static byte SYS_APPROVAL_LOG_TYPE_CR_APPLICANT = 12; // 干部招聘2-报名审核
+    public final static byte SYS_APPROVAL_LOG_TYPE_CR1 = 12; // 干部选任1
+    public final static byte SYS_APPROVAL_LOG_TYPE_CR2 = 15; // 干部选任2
     public final static byte SYS_APPROVAL_LOG_TYPE_OA_GRID_PARTY = 13;//党统
     public final static byte SYS_APPROVAL_LOG_TYPE_PMD_USER = 14; // 党费收缴(用户)
     public final static byte SYS_APPROVAL_LOG_PM = 20;//三会一课操作
@@ -380,7 +381,8 @@ public class SystemConstants {
     static {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国境审批");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘");
-        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CR_APPLICANT, "干部招聘2");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CR1, "干部选任"); // 平级调整
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CR2, "干部选任"); // 副处选任
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_FEE, "其他党费");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_OBJ, "参训人员");

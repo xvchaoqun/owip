@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-xs-12">
     <div id="body-content" class="myTableDiv"
-         data-url-page="${ctx}/sysApprovalLog?displayType=${displayType}&type=${type}"
+         data-url-page="${ctx}/sysApprovalLog?displayType=${param.displayType}&type=${param.type}"
          data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
       <c:set var="_query" value="${not empty param.userId}"/>
 
