@@ -490,7 +490,7 @@
                         <c:if test="${param.admin!=1}">
                         $.hideView();
                         </c:if>
-                        $("#submitBtn").button("reset");
+
                     } else if(_isFinish == 0){
                         /*$.tip({
                             $target: $("#saveBtn"),
@@ -507,6 +507,7 @@
                         SysMsg.info("修改成功。")
                     }
                 }
+                $("#submitBtn").button("reset");
                 $("#saveBtn").button("reset");
                 $("#updateBtn").button("reset");
             }
