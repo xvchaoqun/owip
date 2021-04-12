@@ -150,7 +150,7 @@ public class MemberBaseInfoController extends MemberBaseController {
         record.setExpectGraduateTime(_expectGraduateTime);
         record.setActualGraduateTime(actualGraduateTime);
 
-        studentInfoService.updateByPrimaryKeySelective(record);
+        studentInfoService.insertOrUpdateSelective(record);
         logger.info(log(LogConstants.LOG_MEMBER, "更新学生党员基本信息：{0}", record.getUserId()));
 
         // 更新基本信息
