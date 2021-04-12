@@ -19,10 +19,11 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
+            <c:if test="${!cm:getHtmlFragment('hf_cadre_edu').isDeleted}">
             <button class="popupBtn btn btn-warning btn-sm"
                data-width="800"
                data-url="${ctx}/hf_content?code=hf_cadre_edu">
-                <i class="fa fa-info-circle"></i> 填写说明</button>
+                <i class="fa fa-info-circle"></i> 填写说明</button></c:if>
             <%--<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-url="${ctx}/cadreEdu_rule?cadreId=${param.cadreId}"><i class="fa fa-search"></i>

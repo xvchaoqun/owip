@@ -858,10 +858,12 @@
                 </div>
             </div>
             <div class="clearfix form-actions center">
+                <c:if test="${!cm:getHtmlFragment('hf_cadre_base_info').isDeleted}">
                 <a class="popupBtn btn btn-warning"
                    data-width="800"
                    data-url="${ctx}/hf_content?code=hf_cadre_base_info">
                     <i class="fa fa-info-circle"></i> 填写说明</a>
+                </c:if>
                 &nbsp; &nbsp; &nbsp;
                 <button id="updateBtn" class="btn btn-info"
                         data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
