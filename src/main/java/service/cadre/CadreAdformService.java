@@ -183,14 +183,17 @@ public class CadreAdformService extends BaseMapper {
                     DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "adforms";
             FileUtils.mkdirs(tmpdir, false);
 
+            String _preStr = StringUtils.isBlank(preStr)?preStr:(preStr+" ");
             Set<String> filenameSet = new HashSet<>();
-            for (int cadreId : cadreIds) {
+            for (int i = 0; i < cadreIds.length; i++) {
+
+                int cadreId = cadreIds[i];
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = null;
                 String filepath = null;
                 if (isWord) {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".docx";
+                            + " " + _preStr +  (i+1) + ".干部任免审批表 " + cadre.getRealname() + ".docx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {
@@ -208,7 +211,7 @@ public class CadreAdformService extends BaseMapper {
                     exportDocxUtils(zipFile, document, adform.getAvatar(), fop);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".lrmx";
+                            + " " + _preStr + (i+1) + ".干部任免审批表 " + cadre.getRealname() + ".lrmx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {

@@ -13,6 +13,25 @@ ALTER TABLE `sys_user_info`
 	DROP COLUMN `post`;
 -- 更新 sys_user_view
 
+-- 更新 导入样表
+
+-- 更新 utils
+
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
+    VALUES (2606, '出党类别', '党建综合管理', '党员出党', 'mc_member_quit_type', '是否需要审批', '', '', 2621, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '自动退党', 'mt_quit_self', 1, NULL, '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '开除党籍', 'mt_quit_dismiss', 1, NULL, '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '党员去世', 'mt_quit_withgod', 0, NULL, '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '不予承认党员身份', 'mt_quit_deny', 1, NULL, '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '学生毕业', 'mt_quit_graduate', 1, NULL, '', 5, 1);
+ALTER TABLE `ow_member_quit`
+	CHANGE COLUMN `type` `type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '类别，元数据出党类型' AFTER `branch_name`;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_graduate') WHERE TYPE=5;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_deny') WHERE TYPE=4;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_withgod') WHERE TYPE=3;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_dismiss') WHERE TYPE=2;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_self') WHERE TYPE=1;
+
 
 
 20210412
