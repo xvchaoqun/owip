@@ -33,9 +33,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                         <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                             <option></option>
-                            <c:forEach items="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>" var="quitType">
-                                <option value="${quitType.key}">${quitType.value}</option>
-                            </c:forEach>
+                            <c:import url="/metaTypes?__code=mc_member_quit_type"/>
                         </select>
                     <script>
                         $("#modalForm select[name=type]").val("${memberQuit.type}");

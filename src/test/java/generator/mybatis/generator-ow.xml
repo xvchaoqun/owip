@@ -33,9 +33,9 @@
         </table>-->
 
         <!--党建工作-->
-         <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
+         <!--<table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
          <!--<table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
@@ -72,8 +72,8 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
         </table>-->
-        <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
-        </table>-->
+        <table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
+        </table>
 
         <!--<table tableName="ow_apply_approval_log" domainObjectName="member.ApplyApprovalLog">
         <columnOverride column="remark" jdbcType="VARCHAR"/>

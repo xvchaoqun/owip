@@ -20,7 +20,7 @@ public class MemberQuit implements Serializable {
 
     private String branchName;
 
-    private Byte type;
+    private Integer type;
 
     private String remark;
 
@@ -76,11 +76,11 @@ public class MemberQuit implements Serializable {
         this.branchName = branchName == null ? null : branchName.trim();
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

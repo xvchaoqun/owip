@@ -1,4 +1,21 @@
 
+-- 2021.4.13 ly
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
+    VALUES (2606, '出党类别', '党建综合管理', '党员出党', 'mc_member_quit_type', '是否需要审批', '', '', 2621, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '自动退党', 'mt_quit_self', 1, NULL, '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '开除党籍', 'mt_quit_dismiss', 1, NULL, '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '党员去世', 'mt_quit_withgod', 0, NULL, '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '不予承认党员身份', 'mt_quit_deny', 1, NULL, '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '学生毕业', 'mt_quit_graduate', 1, NULL, '', 5, 1);
+ALTER TABLE `ow_member_quit`
+	CHANGE COLUMN `type` `type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '类别，元数据出党类型' AFTER `branch_name`;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_graduate') WHERE TYPE=5;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_deny') WHERE TYPE=4;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_withgod') WHERE TYPE=3;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_dismiss') WHERE TYPE=2;
+UPDATE ow_member_quit SET TYPE=(SELECT id FROM base_meta_type WHERE CODE='mt_quit_self') WHERE TYPE=1;
+
+
 -- 2021.4.12 LY
 ALTER TABLE `ow_member_transfer`
 	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(20) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `to_branch_id`,
@@ -6,7 +23,6 @@ ALTER TABLE `ow_member_transfer`
 	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
 	CHANGE COLUMN `from_handle_time` `from_handle_time` DATE NULL COMMENT '转出办理时间' AFTER `valid_days`,
 	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-2本人撤回 -1返回修改 0申请 1转出分党委审批 2转入分党委审批' AFTER `from_handle_time`;
-
 
 -- 2021.4.10 ly
 -- 更新分党委、党支部的简称
