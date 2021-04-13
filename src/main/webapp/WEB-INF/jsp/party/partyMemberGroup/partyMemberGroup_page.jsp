@@ -266,7 +266,7 @@
                 width: 380,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    return $.party(rowObject.partyId);
+                    return $.party(rowObject.partyId, null, 1);
                 }
             },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

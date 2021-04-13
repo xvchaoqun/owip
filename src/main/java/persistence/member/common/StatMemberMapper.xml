@@ -147,13 +147,8 @@
             </foreach>
         </if>
         <if test="proPostLevel!=null">
-            and pro_post_level
-            <if test="proPostLevel=='other'">
-                not REGEXP '副高|正高'
-            </if>
-            <if test="proPostLevel!='other'">
-                REGEXP #{proPostLevel}
-            </if>
+            and pro_post_level = #{proPostLevel} and user_id in(
+            select user_id from sys_teacher_info where is_full_time_teacher=1)
         </if>
     </select>
 

@@ -112,6 +112,7 @@ public class MemberInfoFormService extends BaseMapper {
             TeacherInfo teacherInfo = teacherInfoService.get(userId);
             memberInfoForm.setWorkTime(teacherInfo.getWorkTime());
             memberInfoForm.setProPost(teacherInfo.getProPost());
+            memberInfoForm.setPost(teacherInfo.getPost());
 
         }
         memberInfoForm.setRealname(CmTag.realnameWithEmpty(uv.getRealname()));
@@ -196,7 +197,6 @@ public class MemberInfoFormService extends BaseMapper {
         memberInfoForm.setPartyName(String.format("%s-%s", party.getName(), branch.getShortName()!=null?branch.getName():branch.getShortName()));
 
         memberInfoForm.setMobile(uv.getMobile());
-        memberInfoForm.setPost(uv.getPost());
 
         if (resume(userId).size() > 0){
             _resume = StringUtils.trimToNull(freemarkerService.freemarker(resume(userId),
@@ -537,9 +537,13 @@ public class MemberInfoFormService extends BaseMapper {
     public void update(Integer userId, String mobile, String post){
         SysUserInfo uv = sysUserInfoMapper.selectByPrimaryKey(userId);
         uv.setMobile(mobile);
-        uv.setPost(post);
 
         sysUserInfoMapper.updateByPrimaryKeySelective(uv);
+
+        TeacherInfo teacherInfo = teacherInfoService.get(userId);
+        teacherInfo.setPost(post);
+
+        teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
 
         SysUser _sysUser = sysUserService.dbFindById(userId);
         cacheHelper.clearUserCache(_sysUser);

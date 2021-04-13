@@ -1045,18 +1045,23 @@ public class SysUserController extends BaseController {
                 continue; // 学工号为空则忽略行
             }
             String type = StringUtils.trimToNull(xlsRow.get(col++));
-            byte _type = 0;
-            if (StringUtils.isNotBlank(type)){
-                for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
-                    if (StringUtils.equals(type, entry.getValue())) {
-                        _type = entry.getKey();
+            Byte _type = null;
+            SysUserView userByCode = sysUserService.findByUsername(userCode);
+            if (userByCode == null) {
+                if (StringUtils.isNotBlank(type)) {
+                    for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
+                        if (StringUtils.equals(type, entry.getValue())) {
+                            _type = entry.getKey();
+                        }
                     }
+                    if (_type == 0) {
+                        throw new OpException("第{0}行账号类别[{1}]不存在", row, type);
+                    }
+                } else {
+                    throw new OpException("第{0}行账号类别为空", row);
                 }
-                if (_type == 0){
-                    throw new OpException("第{0}行账号类别[{1}]不存在", row, type);
-                }
-            }else {
-                throw new OpException("第{0}行账号类别为空", row);
+            }else{
+                _type = userByCode.getType();
             }
 
             String passwd = StringUtils.trimToNull(xlsRow.get(col++));
@@ -1086,20 +1091,29 @@ public class SysUserController extends BaseController {
             uv.setType(_type);//账号类别
 
             uv.setRealname(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++))));
-            uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
+
+            Byte gender = null;
+            String _gender = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.equals(_gender, "男")){
+                gender = SystemConstants.GENDER_MALE;
+            }
+            if (StringUtils.equals(_gender, "女")){
+                gender = SystemConstants.GENDER_FEMALE;
+            }
+            uv.setGender(gender);
             uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             uv.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setNation(ExtCommonService.formatNation(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++)))));//民族
             uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//户籍地
-            uv.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
 
             if(uv.isTeacher()) {
                 TeacherInfo teacherInfo = new TeacherInfo();
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());
                 }
+                teacherInfo.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
                 teacherInfo.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称/专业技术职务
@@ -1111,6 +1125,8 @@ public class SysUserController extends BaseController {
                 teacherInfo.setRetireTime(retireTime);
 
                 teacherMap.put(userCode, teacherInfo);
+            }else {
+                col += 9;
             }
             uv.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));

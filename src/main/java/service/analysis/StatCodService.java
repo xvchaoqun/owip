@@ -3,6 +3,7 @@ package service.analysis;
 import domain.member.*;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.member.MemberApplyViewMapper;
@@ -119,6 +120,11 @@ public class StatCodService extends BaseMapper {
             if (record.getBranchId() != null) {
                 branchName="-"+branchMapper.selectByPrimaryKey(record.getBranchId()).getName();
             }
+            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(uv.getUserId());
+            String post = "";
+            if (teacherInfo != null){
+                post = teacherInfo.getPost();
+            }
             String[] values = {
                     uv.getCode(),
                     uv.getRealname(),
@@ -135,7 +141,7 @@ public class StatCodService extends BaseMapper {
                     partyName+branchName,
                     record.getPassTime()==null?"":DateUtils.formatDate(record.getPassTime(),DateUtils.YYYYMM),
                     record.getPositiveTime()==null?"":DateUtils.formatDate(record.getPositiveTime(),DateUtils.YYYYMM),
-                    uv.getPost(),
+                    post,
                     "",//居住地址
                     uv.getPhone(),
                     "",//联系电话

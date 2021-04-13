@@ -307,7 +307,7 @@
             { label: '编号', name: 'code',width:140, frozen:true },
             { label: '名称',  name: 'name',align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
 
-                return $.party(null, rowObject.id);
+                return $.party(null, rowObject.id, 1);
             }, frozen:true },
             <shiro:hasPermission name="branchGroup:*">
             {
@@ -335,7 +335,7 @@
                 },sortable: true, align: 'left'},
             </c:if>
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
-                return $.party(rowObject.partyId);
+                return $.party(rowObject.partyId, null, 1);
             }},
             <shiro:hasPermission name="branch:edit">
             { label:'支部转移<br/>记录', name: 'transferCount', width: 80, formatter:function(cellvalue, options, rowObject){

@@ -425,8 +425,8 @@ public class PartyService extends BaseMapper {
         PartyExample example = new PartyExample();
 
         // fid:控制其他模块不会查到内设党总支，后续如果党支部和党员用到内设党总支，再做修改  CmTag.getBoolProperty("use_inside_pgb")
-        example.or().andNameEqualTo(name).andFidIsNull();
-        example.or().andShortNameEqualTo(name).andFidIsNull();
+        example.or().andNameEqualTo(name).andFidIsNull().andIsDeletedEqualTo(false);
+        example.or().andShortNameEqualTo(name).andFidIsNull().andIsDeletedEqualTo(false);
 
         List<Party> partyList = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 

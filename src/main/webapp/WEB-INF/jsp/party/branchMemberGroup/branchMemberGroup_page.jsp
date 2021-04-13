@@ -290,7 +290,7 @@
             {
                 label: '所在党组织', name: 'party', align: 'left', width: 650,
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId, 1);
                 }, frozen: true
             },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

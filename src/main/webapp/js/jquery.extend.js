@@ -788,25 +788,32 @@ var _modal_width;
         getEvent: function () {
             return window.event || arguments.callee.caller.arguments[0];
         },
-        party: function (partyId, branchId) { // 显示组织名称
+        party: function (partyId, branchId, showFullName) { // 显示组织名称 第三个参数控制分党委和党支部一直显示全称
 
-            _p_ow_show_full_name = _p_ow_show_full_name==null?true:_p_ow_show_full_name;
             var party = _cMap.partyMap[partyId];
             var _partyView = null;
             if (party != undefined) {
-                _partyView = _p_ow_show_full_name?party.name:party.shortName;
+                if (showFullName == 1){
+                    _partyView = party.name;
+                }else if(showFullName == undefined){
+                    _partyView = _p_ow_show_full_name?party.name:party.shortName;
+                }
                 if ($.inArray("party:list", _permissions) >= 0 || $.inArray("party:*", _permissions) >= 0)
                     _partyView = '<a href="javascript:;" class="openView" data-url="{2}/party_view?id={0}">{1}</a>'
-                        .format(party.id, _p_ow_show_full_name?party.name:party.shortName, ctx);
+                        .format(party.id,_partyView, ctx);
             }
 
             var branch = (branchId == undefined) ? undefined : _cMap.branchMap[branchId];
             var _branchView = null;
             if (branch != undefined) {
-                _branchView = _p_ow_show_full_name?branch.name:branch.shortName;
+                if (showFullName == 1){
+                    _branchView = branch.name;
+                }else if (showFullName == undefined){
+                    _branchView = _p_ow_show_full_name?branch.name:branch.shortName;
+                }
                 if ($.inArray("branch:list", _permissions) >= 0 || $.inArray("branch:*", _permissions) >= 0)
                     _branchView = '<a href="javascript:;" class="openView" data-url="{2}/branch_view?id={0}">{1}</a>'
-                        .format(branch.id, _p_ow_show_full_name?branch.name:branch.shortName, ctx);
+                        .format(branch.id, _branchView, ctx);
             }
 
             if (_partyView != null && _branchView != null) {

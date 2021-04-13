@@ -1,4 +1,13 @@
 
+-- 2021.4.12 LY
+ALTER TABLE `ow_member_transfer`
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(20) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `to_branch_id`,
+	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_fax`,
+	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
+	CHANGE COLUMN `from_handle_time` `from_handle_time` DATE NULL COMMENT '转出办理时间' AFTER `valid_days`,
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-2本人撤回 -1返回修改 0申请 1转出分党委审批 2转入分党委审批' AFTER `from_handle_time`;
+
+
 -- 2021.4.10 ly
 -- 更新分党委、党支部的简称
 UPDATE ow_party p,sys_config s SET p.short_name=SUBSTRING_INDEX(p.name,s.school_name,-1) WHERE (p.short_name IS NULL OR p.short_name='') AND s.id=4;

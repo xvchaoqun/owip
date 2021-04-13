@@ -3,6 +3,7 @@ package persistence.member.common;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -70,4 +71,9 @@ public interface StatMemberMapper {
                            @Param("proPostLevel") String proPostLevel,
                            @Param("branchIdList") List<Integer> branchIdList,
                            @Param("partyId") Integer partyId);
+
+    // 既是专任教师，又是党员的人数
+    @Select("select count(*) from ow_member_view where user_id in(" +
+            "select user_id from sys_teacher_info where is_full_time_teacher=1) and status=1 and user_type=1;")
+    Integer isMemberAndFullTime();
 }

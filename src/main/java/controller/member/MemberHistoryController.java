@@ -454,7 +454,15 @@ public class MemberHistoryController extends MemberBaseController {
                 throw new OpException("第{0}行人员类别不存在", row);
             }
 
-            record.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
+            Byte gender = null;
+            String _gender = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.equals(_gender, "男")){
+                gender = SystemConstants.GENDER_MALE;
+            }
+            if (StringUtils.equals(_gender, "女")){
+                gender = SystemConstants.GENDER_FEMALE;
+            }
+            uv.setGender(gender);
             record.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
 
             record.setNation(StringUtils.trimToNull(xlsRow.get(col++)));
