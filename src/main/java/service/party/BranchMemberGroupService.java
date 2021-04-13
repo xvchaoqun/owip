@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.party.common.OwAdmin;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.sys.SysUserService;
@@ -17,7 +18,9 @@ import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
+import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BranchMemberGroupService extends BaseMapper {
@@ -309,5 +312,87 @@ public class BranchMemberGroupService extends BaseMapper {
         }
 
         return (int) branchMemberGroupViewMapper.countByExample(example);
+    }
+
+    // 得到afterMonths月后需要换届的党支部id
+    public List<Integer> getTranBranchIds(int afterMonths){
+
+        Date afterMonthDate = DateUtils.getDateBeforeOrAfterMonthes(new Date(), afterMonths);
+        BranchMemberGroupExample example = new BranchMemberGroupExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andTranTimeEqualTo(afterMonthDate);
+        List<BranchMemberGroup> groupList = branchMemberGroupMapper.selectByExample(example);
+
+        return groupList==null?null:groupList.stream().map(BranchMemberGroup::getBranchId).collect(Collectors.toList());
+    }
+
+    // 支部委员会换届提醒
+    @Transactional
+    public void tranRemind() throws UnknownHostException {
+
+        // 到期前6个月提醒一次
+        List<Integer> afterSixMonth = getTranBranchIds(6);
+        if (afterSixMonth != null && afterSixMonth.size() > 0) {
+            for (Integer branchId : afterSixMonth) {
+                sendMsg(branchId, "6个月后将换届");
+            }
+        }
+
+        // 到期前3个月提醒一次
+        List<Integer> afterThreeMonth = getTranBranchIds(3);
+        if (afterThreeMonth!=null&& afterThreeMonth.size()>0) {
+            for (Integer branchId : afterThreeMonth) {
+                sendMsg(branchId, "3个月后将换届");
+            }
+        }
+
+        // 到期后，每个月提醒一次
+        BranchMemberGroupExample example1 = new BranchMemberGroupExample();
+        example1.createCriteria().andIsDeletedEqualTo(false).andTranTimeLessThan(new Date());
+        List<BranchMemberGroup> groupList1 = branchMemberGroupMapper.selectByExample(example1);
+        if (groupList1 != null && groupList1.size() > 0) {
+            for (BranchMemberGroup group : groupList1) {
+                Date tranTime = group.getTranTime();
+                int diffMonth = DateUtils.monthDiff(tranTime, new Date());
+                if (DateUtils.compareDate(tranTime, DateUtils.getDateBeforeOrAfterMonthes(tranTime, diffMonth)))
+                    System.out.println(tranTime);
+                    sendMsg(group.getBranchId(), "已过换届时间");
+            }
+        }
+
+        // 没填应换届时间，每个月提醒一次
+        List<Integer> hasNoTranTime = new ArrayList<>();
+        BranchMemberGroupExample example = new BranchMemberGroupExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andTranTimeIsNull();
+        List<BranchMemberGroup> groupList = branchMemberGroupMapper.selectByExample(example);
+        if (DateUtils.compareDate(DateUtils.getFirstDateOfMonth(new Date()), new Date())) {
+            if (groupList != null && groupList.size() > 0) {
+                hasNoTranTime.addAll(groupList.stream().map(BranchMemberGroup::getBranchId).collect(Collectors.toList()));
+                for (Integer branchId : hasNoTranTime) {
+                    sendMsg(branchId, "未填写换届时间");
+                }
+            }
+        }
+    }
+
+    // 微信提醒
+    @Transactional
+    public void sendMsg(Integer branchId, String msg) throws UnknownHostException {
+        Branch branch = branchMapper.selectByPrimaryKey(branchId);
+        OwAdmin owAdmin = new OwAdmin();
+        owAdmin.setBranchId(branchId);
+        List<OwAdmin> records = iPartyMapper.selectBranchAdminList(owAdmin, new RowBounds());
+        if (records != null && records.size() > 0) {
+            for (OwAdmin record : records) {
+                /*SysMsg sysMsg = new SysMsg();
+                sysMsg.setUserId(record.getUserId());
+                sysMsg.setTitle("支部委员会换届提醒");
+                sysMsg.setContent("您管理的支部委员会"+branch.getName()+msg+"，请及时在系统的组织机构管理中操作。");
+                sysMsg.setSendTime(new Date());
+                sysMsg.setSendUserId(ShiroHelper.getCurrentUserId());
+                sysMsg.setStatus(SystemConstants.SYS_MSG_STATUS_UNCONFIRM);
+                sysMsg.setIp(InetAddress.getLocalHost().getHostAddress());
+                sysMsgMapper.insertSelective(sysMsg);*/
+            }
+        }
     }
 }

@@ -1,7 +1,8 @@
 
 -- 2021.4.12 ly
 ALTER TABLE `sys_user_info`
-	DROP COLUMN `post`,
+	DROP COLUMN `post`;
+ALTER TABLE `sys_teacher_info`
 	CHANGE COLUMN `is_full_time_teacher` `is_full_time_teacher` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
 -- 更新sys_user_view、ow_member_view
 

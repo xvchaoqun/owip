@@ -476,6 +476,8 @@
             {label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation', width: 60},
             {label: '籍贯', name: 'nativePlace', width: 120},
+            {label: '出生地', name: 'user.homeplace', width: 120},
+            {label: '户籍地', name: 'user.household', width: 120},
             {label: '身份证号', name: 'idcard', width: 160},
             {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
