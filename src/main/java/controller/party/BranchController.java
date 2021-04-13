@@ -632,6 +632,10 @@ public class BranchController extends BaseController {
 
         List<Map<String, Object>> options = new ArrayList<>();
         for (BranchView branch : branchs) {
+            // 党支部选择框显示简称
+            if (!CmTag.getBoolProperty("ow_show_full_name")){
+                branch.setName(branch.getShortName());
+            }
             Map<String, Object> option = new HashMap<>();
             option.put("text", branch.getName());
             option.put("id", branch.getId());

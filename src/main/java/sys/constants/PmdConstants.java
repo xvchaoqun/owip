@@ -1,5 +1,7 @@
 package sys.constants;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -100,6 +102,48 @@ public class PmdConstants {
         PMD_ORDER_TYPE_MAP.put(PMD_ORDER_TYPE_FEE, "其他党费");
     }
 
+    // 缴费订单号类别
+    public final static byte PMD_ORDER_NO_TYPE_MONTH_ONE = 1;
+    public final static byte PMD_ORDER_NO_TYPE_MONTH_BATCH = 2;
+    public final static byte PMD_ORDER_NO_TYPE_FEE_ONE = 3;
+    public final static byte PMD_ORDER_NO_TYPE_FEE_BATCH = 4;
+    public final static Map<Byte, String> PMD_ORDER_NO_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_ORDER_NO_TYPE_MAP.put(PMD_ORDER_NO_TYPE_MONTH_ONE, "每月个人缴费");
+        PMD_ORDER_NO_TYPE_MAP.put(PMD_ORDER_NO_TYPE_MONTH_BATCH, "每月批量缴费");
+        PMD_ORDER_NO_TYPE_MAP.put(PMD_ORDER_NO_TYPE_FEE_ONE, "其他个人党费");
+        PMD_ORDER_NO_TYPE_MAP.put(PMD_ORDER_NO_TYPE_FEE_BATCH, "其他批量党费");
+    }
+
+    // PMD_ORDER_NO_TYPE_MAP
+    // 订单号第8位： 2/4是批量代缴  1/3单个缴费   1/2是每个月党费  3/4是单独补缴党费
+    public static byte getOrderType(String orderNo){
+
+        return Byte.valueOf(orderNo.substring(8, 9));
+
+    }
+
+    // 是否单独补缴党费
+    public static boolean isFeeOrder(String orderNo){
+
+        byte orderType = getOrderType(orderNo);
+        return orderType==PmdConstants.PMD_ORDER_NO_TYPE_FEE_ONE
+                || orderType==PmdConstants.PMD_ORDER_NO_TYPE_FEE_BATCH;
+    }
+
+    // 是否批量缴费
+    public static boolean isBatchOrder(String orderNo){
+
+        byte orderType = getOrderType(orderNo);
+        return orderType==PmdConstants.PMD_ORDER_NO_TYPE_MONTH_BATCH
+                || orderType==PmdConstants.PMD_ORDER_NO_TYPE_FEE_BATCH;
+    }
+
+    // 是否延迟缴费
+    public static boolean isDelayOrder(String orderNo){
+        return StringUtils.equals(orderNo.substring(6, 7), "1");
+    }
+
     // 其他党费记录状态
     public final static byte PMD_FEE_STATUS_NORMAL = 0;
     public final static byte PMD_FEE_STATUS_DELETED = 1;
@@ -118,10 +162,6 @@ public class PmdConstants {
         PMD_PAY_WAY_MAP.put(PMD_PAY_WAY_CAMPUSCARD, "校园卡");
     }
 
-    // 党费收缴管理员类型， 1 党建管理员（同步过来的） 4 其他管理员
-    /*public final static byte PMD_ADMIN_TYPE_SECRETARY = 1;
-    public final static byte PMD_ADMIN_TYPE_VICE_SECRETARY = 2;
-    public final static byte PMD_ADMIN_TYPE_COMMISSARY = 3;*/
     public final static byte PMD_ADMIN_TYPE_OW = 1;
     public final static byte PMD_ADMIN_TYPE_ADD = 4;
     public final static Map<Byte, String> PMD_ADMIN_TYPE_MAP = new LinkedHashMap<>();

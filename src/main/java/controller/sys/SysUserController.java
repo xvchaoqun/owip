@@ -132,7 +132,7 @@ public class SysUserController extends BaseController {
         SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("uv", sysUser);
 
-        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (sysUser.isTeacher()) {
 
             // 系统教职工账号（注册或后台添加）基础信息维护
             TeacherInfo teacherInfo = teacherInfoService.get(userId);
@@ -791,7 +791,7 @@ public class SysUserController extends BaseController {
             Integer birthCol,
             byte colType, // 0：身份证 1：姓名
             int col,
-            byte roleType, // 1: 干部  0: 混合
+            byte roleType, // 0: 混合 1: 干部 2: 党员
             @RequestParam(required = false, defaultValue = "0") byte type, // 类别 教职工、本科生、研究生  0： 混合
             Integer addCol, //工号插入列数
             @RequestParam(required = false, defaultValue = "1") int sheetNo,
@@ -1014,17 +1014,17 @@ public class SysUserController extends BaseController {
 
     // 批量导入/更新系统账号信息
     @RequiresPermissions("sysUser:edit")
-    @RequestMapping("/sysUser_batchImport")
-    public String sysUser_batchImport() {
+    @RequestMapping("/importUserAllInfo")
+    public String importUserAllInfo() {
 
-        return "sys/sysUser/sysUser_batchImport";
+        return "sys/sysUser/importUserAllInfo";
     }
 
     //批量导入系统账号，如果账号存在，执行更新操作；账号不存在，执行添加账号信息操作；若账号为空，则跳过该账号。如果是教师同时会更新教师表
     @RequiresPermissions("sysUser:edit")
-    @RequestMapping(value = "/sysUser_batchImport", method = RequestMethod.POST)
+    @RequestMapping(value = "/importUserAllInfo", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_batchImport(HttpServletRequest request) throws InvalidFormatException, IOException, ReflectiveOperationException {
+    public Map do_importUserAllInfo(HttpServletRequest request) throws InvalidFormatException, IOException, ReflectiveOperationException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -1085,21 +1085,23 @@ public class SysUserController extends BaseController {
             }
             uv.setType(_type);//账号类别
 
-            uv.setRealname(ContentUtils.trimHtml(StringUtils.trimToNull(xlsRow.get(col++))));
+            uv.setRealname(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++))));
             uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
             uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             uv.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
-            uv.setNation(ContentUtils.trimHtml(StringUtils.trimToNull(xlsRow.get(col++))));//民族
+            uv.setNation(ExtCommonService.formatNation(StringUtils.trimToNull(ContentUtils.trimHtml(xlsRow.get(col++)))));//民族
             uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setHousehold(StringUtils.trimToNull(xlsRow.get(col++)));//户籍地
             uv.setPost(StringUtils.trimToNull(xlsRow.get(col++)));//行政职务
 
-            TeacherInfo teacherInfo = new TeacherInfo();
-            if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
+            if(uv.isTeacher()) {
+                TeacherInfo teacherInfo = new TeacherInfo();
                 if (uv.getId() != null){
                     teacherInfo.setUserId(uv.getId());
                 }
+                teacherInfo.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
+                teacherInfo.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));//职称/专业技术职务
                 teacherInfo.setProPostLevel(ExtCommonService.formatProPostLevel(StringUtils.trimToNull(xlsRow.get(col++))));
                 teacherInfo.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
@@ -1108,16 +1110,14 @@ public class SysUserController extends BaseController {
                 Date retireTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
                 teacherInfo.setRetireTime(retireTime);
 
+                teacherMap.put(userCode, teacherInfo);
             }
             uv.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setPhone(StringUtils.trimToNull(xlsRow.get(col++)));
             uv.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
 
-
-
             userMap.put(userCode, uv);
-            teacherMap.put(userCode, teacherInfo);
         }
 
         sysUserService.batchImport(userMap, teacherMap);

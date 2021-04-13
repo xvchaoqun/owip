@@ -18,10 +18,11 @@
     </li>
 <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <div class="buttons" style="position:absolute;left: 360px;">
+        <c:if test="${!cm:getHtmlFragment('hf_cadre_post').isDeleted}">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=hf_cadre_post">
-            <i class="fa fa-info-circle"></i> 填写说明</a>
+            <i class="fa fa-info-circle"></i> 填写说明</a></c:if>
     </div>
 </shiro:lacksPermission>
 </ul>
@@ -227,7 +228,7 @@
             {label: '职务属性', width: 130, name: 'postType', formatter: $.jgrid.formatter.MetaType, frozen: true},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, frozen: true},
             {label: '是否正职', name: 'isPrincipal', formatter: $.jgrid.formatter.TRUEFALSE},
-            {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
+            /*{label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},*/
             {
                 label: '所在单位', name: 'unitId', formatter: $.jgrid.formatter.unit, width: 250
             },
@@ -334,7 +335,7 @@
             },
             </shiro:lacksPermission>
             {label: '职务属性', width: 120, name: 'postType', formatter: $.jgrid.formatter.MetaType},
-            {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
+            /*{label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},*/
             {
                 label: '兼任职务任职日期',
                 width: 150,

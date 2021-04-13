@@ -44,17 +44,6 @@ public class PcsConstants {
         PCS_STAGE_MAP.put(PCS_STAGE_THIRD, "三下三上");
     }
 
-    // 党代表类型，1 专业技术人员和干部 2 学生代表 3 离退休代表
-    public final static byte PCS_PR_TYPE_PRO = 1;
-    public final static byte PCS_PR_TYPE_STU = 2;
-    public final static byte PCS_PR_TYPE_RETIRE = 3;
-    public final static Map<Byte, String> PCS_PR_TYPE_MAP = new LinkedHashMap<>();
-
-    static {
-        PCS_PR_TYPE_MAP.put(PCS_PR_TYPE_PRO, "专业技术人员和干部");
-        PCS_PR_TYPE_MAP.put(PCS_PR_TYPE_STU, "学生代表");
-        PCS_PR_TYPE_MAP.put(PCS_PR_TYPE_RETIRE, "离退休代表");
-    }
     // 党代表用户类型，1 干部 2 普通教师 3 学生
     public final static byte PCS_PR_USER_TYPE_CADRE = 1;
     public final static byte PCS_PR_USER_TYPE_TEACHER = 2;

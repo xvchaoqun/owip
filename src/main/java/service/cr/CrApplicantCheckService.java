@@ -70,7 +70,7 @@ public class CrApplicantCheckService extends CrBaseMapper {
         CrRequireRule crRequireRule = crRequireRuleMapper.selectByPrimaryKey(ruleId);
         sysApprovalLogService.add(oldRecord.getId(), oldRecord.getUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CR_APPLICANT,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CR1,
                 crRequireRule.getName() + "-审核"+(isFirstPost?"(第一志愿)":"(第二志愿)"), status ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
                         : SystemConstants.SYS_APPROVAL_LOG_STATUS_DENY,
                 JSONUtils.toString(oldRecord, MixinUtils.baseMixins(), false));
@@ -99,7 +99,7 @@ public class CrApplicantCheckService extends CrBaseMapper {
 
         sysApprovalLogService.add(oldRecord.getId(), oldRecord.getUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CR_APPLICANT,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CR1,
                 "资格审核" + (isFirstPost?"(第一志愿)":"(第二志愿)"), status ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
                         : SystemConstants.SYS_APPROVAL_LOG_STATUS_DENY, remark);
     }

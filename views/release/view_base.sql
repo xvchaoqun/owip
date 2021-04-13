@@ -7,7 +7,7 @@ LEFT JOIN base_meta_class cmc ON cmt.class_id=cmc.id;
 --  View definition for `sys_user_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `sys_user_view`;
-CREATE ALGORITHM = UNDEFINED  VIEW `sys_user_view`
+CREATE ALGORITHM = UNDEFINED SQL SECURITY INVOKER VIEW `sys_user_view`
 AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
 
 -- ----------------------------
@@ -44,7 +44,7 @@ left join (select count(*) as num,branch_id from ow_branch_group group by branch
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_abroad_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ow_member_abroad_view` AS
-select ea.`*`, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id
+select ea.*, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id
 from ext_abroad ea , sys_user_view u, ow_member m where ea.gzzh=u.code and u.id=m.user_id ;
 
 -- 只统计“现有岗位”中的“占干部职数”的岗位

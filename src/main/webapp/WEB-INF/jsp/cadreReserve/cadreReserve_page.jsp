@@ -14,7 +14,7 @@
              data-url-co="${ctx}/cadreReserve_changeOrder"
              data-url-export="${ctx}/cadreReserve_data?reserveType=${reserveType}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender ||not empty param.nation
+            <c:set var="_query" value="${not empty param.cadreId ||not empty param.realname ||not empty param.gender ||not empty param.nation
                 ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
                 ||not empty param.startNowPostAge||not empty param.endNowPostAge
                 ||not empty param.startPostMonth||not empty param.endPostMonth
@@ -327,11 +327,12 @@
                                         <input name="reserveStatus" type="hidden" value="${reserveStatus}">
                                         <div class="columns">
                                             <div class="column">
-                                                <label>姓名</label>
+                                                <label>姓名 <span class="prompt" data-title="查询说明"
+							  data-prompt="根据当前库中的姓名或工号进行精准查询"><i class="fa fa-question-circle-o"></i></span></label>
                                                 <div class="input">
                                                     <select data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/cadreReserve_selects?reserveStatus=${reserveStatus}&reserveType=${reserveType}"
-                                                            name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                            name="cadreId" data-placeholder="请输入账号或姓名或工号">
                                                         <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                                     </select>
                                                 </div>

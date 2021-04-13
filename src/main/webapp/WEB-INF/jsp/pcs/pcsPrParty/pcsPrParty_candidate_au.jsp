@@ -52,29 +52,15 @@
                             </table>
                             <div id="accordion">
 
-                                <c:forEach items="${PCS_PR_TYPE_MAP}" var="_type">
-                                    <c:if test="${_type.key==PCS_PR_TYPE_PRO}">
-                                        <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
-                                        <c:set var="_isRetire" value="0"/>
-                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"/>
-                                    </c:if>
-                                    <c:if test="${_type.key==PCS_PR_TYPE_STU}">
-                                        <c:set var="_memberType" value="${MEMBER_TYPE_STUDENT}"/>
-                                        <c:set var="_isRetire" value=""/>
-                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
-                                    </c:if>
-                                    <c:if test="${_type.key==PCS_PR_TYPE_RETIRE}">
-                                        <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
-                                        <c:set var="_isRetire" value="1"/>
-                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"/>
-                                    </c:if>
+                                <c:forEach items="${prTypes}" var="_type" varStatus="vs">
+
                                     <div class="panel panel-default" id="panel${_type.key}">
                                         <div class="panel-heading">
                                             <h3 class="panel-title"><span class="title">
-                                                <i class="fa fa-users"></i> ${_type.value}</span>
+                                                <i class="fa fa-users"></i> ${_type.value.name}</span>
                                                 <span style="margin-left: 20px">
                                                 <select id="select${_type.key}" data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${_status}"
+                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&types=${_type.value.extraAttr}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL}"
                                                         data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
@@ -96,14 +82,14 @@
                                                         class="count">${fn:length(candidatesMap.get(_type.key))}</span>人，可拖拽行进行排序</span>
                                                 <div class="panel-toolbar">
                                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse${_type.key}">
-                                                        <i class="ace-icon fa fa-chevron-${_type.key==PCS_PR_TYPE_PRO?"up":"down"}"></i>
+                                                        <i class="ace-icon fa fa-chevron-${vs.first?"up":"down"}"></i>
                                                     </a>
                                                 </div>
                                             </h3>
 
                                         </div>
                                         <div id="collapse${_type.key}"
-                                             class="panel-collapse collapse ${_type.key==PCS_PR_TYPE_PRO?"in":""}">
+                                             class="panel-collapse collapse ${vs.first?"in":""}">
                                             <div class="panel-body">
                                                 <table id="jqGrid${_type.key}" data-width-reduce="30"
                                                        class="jqGrid4 table-striped"></table>
@@ -116,8 +102,6 @@
                         <div class="modal-footer center" style="margin-top: 20px">
 
                             <button ${!allowModify?"disabled":""} onclick="_clearUsers()"
-                                   <%-- data-title="清空"
-                                    data-msg="确定清空全部党代表？"--%>
                                     class="btn btn-danger btn-lg">
                                 <i class="fa fa-times"></i> 清空</button>
 
@@ -257,15 +241,11 @@
                 实参会党员数<span class="count">{{=actualMemberCount}}</span>人，
                 其中正式党员<span class="count">{{=actualPositiveMemberCount}}</span>人
             </li>
+            <c:forEach items="${prTypes}" var="_type">
             <li>
-                已填报专业技术人员和干部<span class="count">{{=proCount}}</span>人
+                已填报${_type.value.name} <span class="count" data-type="${_type.key}"> {{=prCount[${_type.key}]}}</span> 人
             </li>
-            <li>
-                已填报学生代表<span class="count">{{=stuCount}}</span>人
-            </li>
-            <li>
-                已填报离退休代表代表<span class="count">{{=retireCount}}</span>人
-            </li>
+            </c:forEach>
         </ul>
         <div>请确认以上信息准确无误后提交</div>
     </div>
@@ -282,12 +262,10 @@
 
     function _clearUsers(){
         SysMsg.confirm("确定清空全部党代表？", "操作确认", function () {
-             $("#jqGrid"+${PCS_PR_TYPE_STU}).jqGrid("clearGridData");
-              _showCount(${PCS_PR_TYPE_STU});
-              $("#jqGrid"+${PCS_PR_TYPE_PRO}).jqGrid("clearGridData");
-              _showCount(${PCS_PR_TYPE_PRO});
-               $("#jqGrid"+${PCS_PR_TYPE_RETIRE}).jqGrid("clearGridData");
-              _showCount(${PCS_PR_TYPE_RETIRE});
+            <c:forEach items="${prTypes}" var="_type">
+             $("#jqGrid"+${_type.key}).jqGrid("clearGridData");
+              _showCount(${_type.key});
+            </c:forEach>
         });
     }
     function _showCount(type){
@@ -401,7 +379,7 @@
         }, {hidden: true, key: true, name: 'userId'}
     ];
 
-    <c:forEach items="${PCS_PR_TYPE_MAP}" var="_type">
+    <c:forEach items="${prTypes}" var="_type">
     var candidates_${_type.key} = ${cm:toJSONArray(candidatesMap.get(_type.key))};
     var jqGrid = $("#jqGrid${_type.key}").jqGrid({
         pager: null,
@@ -469,7 +447,7 @@
     function _ajaxSubmit(form) {
 
         var items = [];
-        <c:forEach items="${PCS_PR_TYPE_MAP}" var="_type">
+        <c:forEach items="${prTypes}" var="_type">
         $.each($("#jqGrid${_type.key}").jqGrid("getDataIDs"), function (i, userId) {
             var $row = $("[role='row'][id=" + userId + "]", "#jqGrid${_type.key}");
             var item = {};
@@ -501,14 +479,17 @@
 
     function _confirmSubmit(form) {
 
+        var prCount = [];
+        <c:forEach items="${prTypes}" var="_type">
+        prCount[${_type.key}] = $("#jqGrid${_type.key}").jqGrid("getDataIDs").length;
+        </c:forEach>
+
         var msg = _.template($("#confirmTpl").html())({
             expectMemberCount: $("#recommendForm input[name=expectMemberCount]").val(),
             expectPositiveMemberCount: $("#recommendForm input[name=expectPositiveMemberCount]").val(),
             actualMemberCount: $("#recommendForm input[name=actualMemberCount]").val(),
             actualPositiveMemberCount: $("#recommendForm input[name=actualPositiveMemberCount]").val(),
-            proCount: $("#jqGrid1").jqGrid("getDataIDs").length,
-            stuCount: $("#jqGrid2").jqGrid("getDataIDs").length,
-            retireCount: $("#jqGrid3").jqGrid("getDataIDs").length
+            prCount: prCount
         })
 
         bootbox.confirm({

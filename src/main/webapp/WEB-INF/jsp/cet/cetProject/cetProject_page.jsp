@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
                 </c:if>
                 <c:if test="${cls==1||cls==2||status==_PASS}">
-                <shiro:hasRole name="${ROLE_SUPER}">
+                <shiro:hasPermission name="cetProject:archive">
                 <button data-url="${ctx}/cet/archiveProject"
                         data-title="归档培训学时"
                         data-msg="确定统计并归档该培训班中所有学员最新的培训学时？"
@@ -111,7 +111,7 @@ pageEncoding="UTF-8" %>
                      <i class="prompt fa fa-question-circle"
                data-prompt="统计汇总培训班中所有学员的培训学时（已完成学时数）"></i> 归档培训学时
                 </button>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetProject_data?cls=${cls}&status=${status}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -245,7 +245,7 @@ pageEncoding="UTF-8" %>
                         return $.jgrid.formatter.MetaType(category);
                     })).join("，")
                 }},
-            {label: '培训课件', name: '_file', formatter: function (cellvalue, options, rowObject) {
+            {label: '培训材料', name: '_file', formatter: function (cellvalue, options, rowObject) {
                     return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}" data-width="800"' +
                         'class="popupBtn btn btn-xs btn-primary"><i class="ace-icon fa fa-files-o"></i> 查看({1})</button>')
                         .format(rowObject.id, Math.trimToZero(rowObject.fileCount))

@@ -63,7 +63,7 @@
             <th nowrap>分管工作</th>
             <th nowrap>所在单位</th>
             <th nowrap>岗位级别</th>
-            <th nowrap>职务类别</th>
+            <%--<th nowrap>职务类别</th>--%>
         </tr>
         </thead>
         <tbody>
@@ -87,7 +87,7 @@
                 <td nowrap>${unitPost.job}</td>
                 <td nowrap>${cm:getUnitById(unitPost.unitId).name}</td>
                 <td nowrap>${cm:getMetaType(unitPost.adminLevel).name}</td>
-                <td nowrap>${cm:getMetaType(unitPost.postClass).name}</td>
+                <%--<td nowrap>${cm:getMetaType(unitPost.postClass).name}</td>--%>
             </tr>
         </c:forEach>
         </tbody>

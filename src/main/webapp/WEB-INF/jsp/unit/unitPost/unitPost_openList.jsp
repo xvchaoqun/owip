@@ -100,7 +100,7 @@
                                         $("#searchForm select[name=postType]").val('${param.postType}');
                                     </script>
                                 </div>
-                                <div class="form-group">
+                                <%--<div class="form-group">
                                     <label>职务类别</label>
                                     <select data-rel="select2" name="postClass" data-placeholder="请选择">
                                         <option></option>
@@ -109,7 +109,7 @@
                                     <script type="text/javascript">
                                         $("#searchForm select[name=postClass]").val(${param.postClass});
                                     </script>
-                                </div>
+                                </div>--%>
                                 <c:if test="${param.displayType==1}">
                                     <div class="form-group">
                                         <label>是否占干部职数</label>

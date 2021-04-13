@@ -17,7 +17,7 @@ import java.util.*;
 public class PcsPollReportService extends PcsBaseMapper {
 
     @Autowired
-    private PcsPrAlocateService pcsPrAlocateService;
+    private PcsPrAllocateService pcsPrAllocateService;
 
     public List<PcsPollReport> getReport(PcsPoll pcsPoll, Byte type) {
 
@@ -90,7 +90,7 @@ public class PcsPollReportService extends PcsBaseMapper {
 
             int requiredCount = 0;
             if (type == PcsConstants.PCS_USER_TYPE_PR) {
-                requiredCount = pcsPrAlocateService.getPrMaxCount(configId, partyId);
+                requiredCount = pcsPrAllocateService.getPrMaxCount(configId, partyId);
             } else if (type == PcsConstants.PCS_USER_TYPE_DW) {
                 requiredCount = CmTag.getIntProperty("pcs_poll_dw_num");
             } else if (type == PcsConstants.PCS_USER_TYPE_JW) {

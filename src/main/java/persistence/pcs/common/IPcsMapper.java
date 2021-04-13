@@ -91,12 +91,14 @@ public interface IPcsMapper {
             @Param("hasReport") Boolean hasReport,
             @Param("recommendStatus") Byte recommendStatus);
 
-    // 全校 应选代表情况
-    public PcsPrAllocate schoolPcsPrAllocate(@Param("configId") int configId);
-
-    // 候选人初步人选数据统计
-    public PcsPrAllocate statRealPcsPrAllocate(@Param("configId") int configId,
-                                               @Param("stage") byte stage,
+    // 候选人初步人选数据统计 （统计各类代表的人数），仅传configId时是全校 应选代表情况
+    public List<Map> statRealPcsPrAllocate1(@Param("configId") int configId,
+                                               @Param("stage") Byte stage,
+                                               @Param("partyId") Integer partyId,
+                                               @Param("isChosen") Boolean isChosen);
+    // 候选人初步人选数据统计 （仅统计其中的妇女代表、少数民族、50岁以下的人数），仅传configId时是全校 应选代表情况
+    public PcsPrAllocate statRealPcsPrAllocate2(@Param("configId") int configId,
+                                               @Param("stage") Byte stage,
                                                @Param("partyId") Integer partyId,
                                                @Param("isChosen") Boolean isChosen);
 

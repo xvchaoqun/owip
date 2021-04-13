@@ -6,6 +6,7 @@
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, file_name, file_path, sort_order
+    id, project_id, file_name, file_path, website, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectFileExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetProjectFile">
     insert into cet_project_file (id, project_id, file_name, 
-      file_path, sort_order)
+      file_path, website, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, 
-      #{filePath,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{filePath,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectFile">
     insert into cet_project_file
@@ -119,6 +122,9 @@
       </if>
       <if test="filePath != null">
         file_path,
+      </if>
+      <if test="website != null">
+        website,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -136,6 +142,9 @@
       </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -163,6 +172,9 @@
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.website != null">
+        website = #{record.website,jdbcType=VARCHAR},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -177,6 +189,7 @@
       project_id = #{record.projectId,jdbcType=INTEGER},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       file_path = #{record.filePath,jdbcType=VARCHAR},
+      website = #{record.website,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,6 +207,9 @@
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
       </if>
+      <if test="website != null">
+        website = #{website,jdbcType=VARCHAR},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -205,6 +221,7 @@
     set project_id = #{projectId,jdbcType=INTEGER},
       file_name = #{fileName,jdbcType=VARCHAR},
       file_path = #{filePath,jdbcType=VARCHAR},
+      website = #{website,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

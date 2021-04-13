@@ -197,8 +197,7 @@ public interface IMemberMapper {
 
     // 党员出国：退回
     @Update("update ow_member_stay set status= #{status}"
-            + " where id=#{id} and status >= #{status} and status<"
-            + MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY)
+            + " where id=#{id} and status >= #{status}")
     void memberStay_back(@Param("id") int id, @Param("status") byte status);
 
     // 校内转接：退回

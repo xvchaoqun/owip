@@ -35,9 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -519,32 +517,32 @@ public class UnitPostService extends BaseMapper {
         ExportHelper.output(wb, schoolName + filename + ".xlsx", response);
     }
 
-    public void updateUnitPostRole(List<UnitPostView> records) {
-        //行政班子负责人
-        List<SysUserView> admins = sysUserService.findByRole(RoleConstants.ROLE_UNIT_ADMIN_XZ);
-        //党委班子负责人
-        List<SysUserView> partys = sysUserService.findByRole(RoleConstants.ROLE_UNIT_ADMIN_DW);
+    // 更新党委/行政/相关部门班子负责人的角色
+    public void updateUnitAdminRoles() {
 
+        UnitPostViewExample example = new UnitPostViewExample();
+        UnitPostViewExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL)
+                .andLeaderTypeGreaterThan(SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+                .andCadreIdIsNotNull(); // 查找有班子负责人配备的岗位
+        List<UnitPostView> unitPostViewList = unitPostViewMapper.selectByExample(example);
+
+        Set<Integer> userIdSet = new HashSet<>();
+
+        // 添加班子负责人的角色
+        for (UnitPostView unitPostView : unitPostViewList) {
+
+            CadreView cv = unitPostView.getCadre();
+            int userId = cv.getUserId();
+            userIdSet.add(userId);
+            sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN);
+        }
+
+        // 删除已不是班子负责人的角色
+        List<SysUserView> admins = sysUserService.findByRole(RoleConstants.ROLE_UNIT_ADMIN);
         for (SysUserView record: admins) {
-            if (!records.contains(record)) {
-                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_UNIT_ADMIN_XZ);
-            }
-        }
-        for (SysUserView record: partys) {
-            if (!records.contains(record)) {
-                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_UNIT_ADMIN_DW);
-            }
-        }
-        for (UnitPostView record: records) {
-            CadreView cadre = record.getCadre();
-            Byte leaderType = record.getLeaderType();
-            if (cadre != null) {
-                int userId = cadre.getUserId();
-                if (leaderType == SystemConstants.UNIT_POST_LEADER_TYPE_DW) {
-                    sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_DW);
-                } else if (leaderType == SystemConstants.UNIT_POST_LEADER_TYPE_XZ) {
-                    sysUserService.addRole(userId, RoleConstants.ROLE_UNIT_ADMIN_XZ);
-                }
+            if (!userIdSet.contains(record.getId())) {
+                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_UNIT_ADMIN);
             }
         }
     }
@@ -555,7 +553,8 @@ public class UnitPostService extends BaseMapper {
         UnitPostViewExample example = new UnitPostViewExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andLeaderTypeIn(Arrays.asList(SystemConstants.UNIT_POST_LEADER_TYPE_DW,
-                        SystemConstants.UNIT_POST_LEADER_TYPE_XZ));
+                        SystemConstants.UNIT_POST_LEADER_TYPE_XZ,
+                        SystemConstants.UNIT_POST_LEADER_TYPE_XG));
         List<UnitPostView> unitPosts = unitPostViewMapper.selectByExample(example);
 
         return unitPosts.stream().map(UnitPostView::getUnitId).collect(Collectors.toList());

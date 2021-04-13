@@ -48,6 +48,7 @@
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="print_count" jdbcType="INTEGER" property="printCount" />
     <result column="last_print_time" jdbcType="TIMESTAMP" property="lastPrintTime" />
     <result column="last_print_user_id" jdbcType="INTEGER" property="lastPrintUserId" />
@@ -116,7 +117,7 @@
     name1, relate1, unit1, post1, phone1, mobile1, email1, name2, relate2, unit2, post2, 
     phone2, mobile2, email2, letter, country, school, start_time, end_time, over_date, 
     abroad_type, save_start_time, save_end_time, pay_time, type, status, is_back, reason, 
-    create_time, print_count, last_print_time, last_print_user_id
+    create_time, check_time, print_count, last_print_time, last_print_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberStayExample" resultMap="BaseResultMap">
     select
@@ -148,48 +149,51 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.member.MemberStay">
-    insert into ow_member_stay (id, code, user_id, 
-      party_id, branch_id, to_branch_id, 
-      org_branch_admin_id, org_branch_admin_phone, 
-      user_type, stay_reason, mobile, 
-      phone, weixin, email, 
-      qq, in_address, out_address, 
-      name1, relate1, unit1, 
-      post1, phone1, mobile1, 
-      email1, name2, relate2, 
-      unit2, post2, phone2, 
-      mobile2, email2, letter, 
-      country, school, start_time, 
-      end_time, over_date, abroad_type, 
-      save_start_time, save_end_time, pay_time, 
-      type, status, is_back, reason, 
-      create_time, print_count, last_print_time, 
+  <insert id="insert" parameterType="domain.member.MemberStay">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ow_member_stay (code, user_id, party_id, 
+      branch_id, to_branch_id, org_branch_admin_id, 
+      org_branch_admin_phone, user_type, stay_reason, 
+      mobile, phone, weixin, 
+      email, qq, in_address, 
+      out_address, name1, relate1, 
+      unit1, post1, phone1, 
+      mobile1, email1, name2, 
+      relate2, unit2, post2, 
+      phone2, mobile2, email2, 
+      letter, country, school, 
+      start_time, end_time, over_date, 
+      abroad_type, save_start_time, save_end_time, 
+      pay_time, type, status, 
+      is_back, reason, create_time, 
+      check_time, print_count, last_print_time, 
       last_print_user_id)
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, 
-      #{orgBranchAdminId,jdbcType=INTEGER}, #{orgBranchAdminPhone,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=INTEGER}, #{stayReason,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{qq,jdbcType=VARCHAR}, #{inAddress,jdbcType=VARCHAR}, #{outAddress,jdbcType=VARCHAR}, 
-      #{name1,jdbcType=VARCHAR}, #{relate1,jdbcType=VARCHAR}, #{unit1,jdbcType=VARCHAR}, 
-      #{post1,jdbcType=VARCHAR}, #{phone1,jdbcType=VARCHAR}, #{mobile1,jdbcType=VARCHAR}, 
-      #{email1,jdbcType=VARCHAR}, #{name2,jdbcType=VARCHAR}, #{relate2,jdbcType=VARCHAR}, 
-      #{unit2,jdbcType=VARCHAR}, #{post2,jdbcType=VARCHAR}, #{phone2,jdbcType=VARCHAR}, 
-      #{mobile2,jdbcType=VARCHAR}, #{email2,jdbcType=VARCHAR}, #{letter,jdbcType=VARCHAR}, 
-      #{country,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, 
-      #{endTime,jdbcType=DATE}, #{overDate,jdbcType=DATE}, #{abroadType,jdbcType=TINYINT}, 
-      #{saveStartTime,jdbcType=DATE}, #{saveEndTime,jdbcType=DATE}, #{payTime,jdbcType=DATE}, 
-      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, 
+    values (#{code,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, #{orgBranchAdminId,jdbcType=INTEGER}, 
+      #{orgBranchAdminPhone,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{stayReason,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{inAddress,jdbcType=VARCHAR}, 
+      #{outAddress,jdbcType=VARCHAR}, #{name1,jdbcType=VARCHAR}, #{relate1,jdbcType=VARCHAR}, 
+      #{unit1,jdbcType=VARCHAR}, #{post1,jdbcType=VARCHAR}, #{phone1,jdbcType=VARCHAR}, 
+      #{mobile1,jdbcType=VARCHAR}, #{email1,jdbcType=VARCHAR}, #{name2,jdbcType=VARCHAR}, 
+      #{relate2,jdbcType=VARCHAR}, #{unit2,jdbcType=VARCHAR}, #{post2,jdbcType=VARCHAR}, 
+      #{phone2,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{email2,jdbcType=VARCHAR}, 
+      #{letter,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{overDate,jdbcType=DATE}, 
+      #{abroadType,jdbcType=TINYINT}, #{saveStartTime,jdbcType=DATE}, #{saveEndTime,jdbcType=DATE}, 
+      #{payTime,jdbcType=DATE}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, 
       #{lastPrintUserId,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.member.MemberStay">
+  <insert id="insertSelective" parameterType="domain.member.MemberStay">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ow_member_stay
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="code != null">
         code,
       </if>
@@ -325,6 +329,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
       <if test="printCount != null">
         print_count,
       </if>
@@ -336,9 +343,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
@@ -473,6 +477,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
       </if>
       <if test="printCount != null">
         #{printCount,jdbcType=INTEGER},
@@ -632,6 +639,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.checkTime != null">
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.printCount != null">
         print_count = #{record.printCount,jdbcType=INTEGER},
       </if>
@@ -694,6 +704,7 @@
       is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       print_count = #{record.printCount,jdbcType=INTEGER},
       last_print_time = #{record.lastPrintTime,jdbcType=TIMESTAMP},
       last_print_user_id = #{record.lastPrintUserId,jdbcType=INTEGER}
@@ -839,6 +850,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="printCount != null">
         print_count = #{printCount,jdbcType=INTEGER},
       </if>
@@ -898,6 +912,7 @@
       is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
       print_count = #{printCount,jdbcType=INTEGER},
       last_print_time = #{lastPrintTime,jdbcType=TIMESTAMP},
       last_print_user_id = #{lastPrintUserId,jdbcType=INTEGER}

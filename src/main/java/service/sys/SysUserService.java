@@ -3,6 +3,8 @@ package service.sys;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import domain.member.MemberView;
+import domain.member.MemberViewExample;
 import domain.sys.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.BooleanUtils;
@@ -83,7 +85,7 @@ public class SysUserService extends BaseMapper {
 
         SysUserExample example = new SysUserExample();
         
-        if (StringUtils.isNotBlank(code)) {
+        if (StringUtils.isNotBlank(username)) {
             SysUserExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username);
             if (userId != null) criteria.andIdNotEqualTo(userId);
 
@@ -146,10 +148,11 @@ public class SysUserService extends BaseMapper {
                 sysUserInfoMapper.updateByPrimaryKeySelective(userInfo);
             }
 
-            if (record.getType() == SystemConstants.USER_TYPE_JZG) {
+            if (record.isTeacher()) {
 
                 TeacherInfo teacherInfo = teacherMap.get(userCode);
-                teacherInfoService.get(userId);
+                teacherInfoService.get(userId);//教师表没有信息时，先创建
+                teacherInfo.setIsTemp("0");
                 if (teacherInfo.getUserId() == null) {
                     teacherInfo.setUserId(userId);
                 }
@@ -179,7 +182,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfo.setUserId(userId);
             sysUserInfoMapper.insertSelective(sysUserInfo);
         }
-        if (record.getType() == SystemConstants.USER_TYPE_JZG) {
+        if (record.isTeacher()) {
             addRole(userId, RoleConstants.ROLE_TEACHER);
         }
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
@@ -219,6 +222,7 @@ public class SysUserService extends BaseMapper {
         }
 
         if (teacherInfo != null) {
+            teacherInfo.setTitleLevel("0"); // 防止没字段更新而报错
             teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
             if(isRetire!=null){
                 updateUserType(userId, BooleanUtils.isTrue(isRetire)?SystemConstants.USER_TYPE_RETIRE
@@ -314,7 +318,7 @@ public class SysUserService extends BaseMapper {
         sysUserMapper.updateByPrimaryKeySelective(user);
 
         if (user.getType() != null) {
-            if (user.getType() == SystemConstants.USER_TYPE_JZG) {
+            if (user.isTeacher()) {
                 addRole(userId, RoleConstants.ROLE_TEACHER);
             } else {
                 delRole(userId, RoleConstants.ROLE_TEACHER);
@@ -857,8 +861,8 @@ public class SysUserService extends BaseMapper {
         }
     }
 
-    //根据身份证号或姓名找到对应的学工号
-    public Map<String, List<String>> getCodes(Byte roleType, //0：混合 1：干部
+    // 根据身份证号或姓名找到对应的学工号 <可能性最大的学工号，学工号List>
+    public Map<String, List<String>> getCodes(Byte roleType, //0：混合 1：干部 2：党员
                                               Byte colType, //0：身份证 1：姓名
                                               String searchKey, //colType=0:idcard colType=1：realname
                                               @RequestParam(required = false, defaultValue = "0") Byte type, //类别 教职工、本科生、研究生  0： 混合
@@ -867,7 +871,37 @@ public class SysUserService extends BaseMapper {
         List<String> codeList = new ArrayList<>();
         Map<String, List<String>> codeMap = new HashMap<>();
         String unit = "";
-        if (roleType == 1) {
+        if (roleType == 2){
+            MemberViewExample example = new MemberViewExample();
+            MemberViewExample.Criteria criteria = example.createCriteria();
+            if (colType == 0){
+                // 身份证
+                criteria.andIdcardEqualTo(searchKey);
+            } else {
+                // 姓名
+                criteria.andRealnameEqualTo(searchKey);
+            }
+            if (type != 0) {
+                criteria.andUserTypeEqualTo(type);
+            }
+            example.setOrderByClause("code desc");
+
+
+            List<MemberView> mvList = memberViewMapper.selectByExample(example);
+            if (mvList.size() >= 1) {
+                for (MemberView mv : mvList) {
+                    SysUserView uv = CmTag.getUserById(mv.getUserId());
+                    unit = StringUtils.isBlank(uv.getUnit()) ? "" : "|" + uv.getUnit();
+                    if (null != birthKey) {
+                        if (birthKey.equals(DateUtils.formatDate(mv.getBirth(), "yyyyMM"))) {
+                            codeList.add(mv.getCode() + unit);
+                        }
+                    } else {
+                        codeList.add(mv.getCode() + unit);
+                    }
+                }
+            }
+        }else if (roleType == 1) {
 
             CadreViewExample example = new CadreViewExample();
             CadreViewExample.Criteria criteria = example.createCriteria();
@@ -907,7 +941,7 @@ public class SysUserService extends BaseMapper {
                 criteria.andTypeEqualTo(type);
             }
 
-            // 按账号类别 教职工、研究生、本科生的排序
+            // 按账号类别 在职教职工、里退休教职工、博士研究生、硕士研究生、本科生的排序
             example.setOrderByClause("field(type, 1,5,4,3,2) asc");
 
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);

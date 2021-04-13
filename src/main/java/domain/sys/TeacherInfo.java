@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TeacherInfo implements Serializable {
-
     private Integer userId;
 
     private String extPhone;
@@ -32,6 +31,8 @@ public class TeacherInfo implements Serializable {
     private String workBreak;
 
     private Date regularTime;
+
+    private String authorized;
 
     private String authorizedType;
 
@@ -203,6 +204,14 @@ public class TeacherInfo implements Serializable {
 
     public void setRegularTime(Date regularTime) {
         this.regularTime = regularTime;
+    }
+
+    public String getAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(String authorized) {
+        this.authorized = authorized == null ? null : authorized.trim();
     }
 
     public String getAuthorizedType() {

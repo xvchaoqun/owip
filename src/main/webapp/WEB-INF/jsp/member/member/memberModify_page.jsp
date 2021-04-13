@@ -46,9 +46,6 @@
       { label:'党籍状态',name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
           return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
       }},
-      { label:'类别',name: 'type', formatter:function(cellvalue, options, rowObject){
-          return _cMap.MEMBER_TYPE_MAP[cellvalue];
-      }},
       { label:'状态',name: 'status', formatter:function(cellvalue, options, rowObject){
         return _cMap.MEMBER_STATUS_MAP[cellvalue];
       }},

@@ -8,14 +8,18 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
+import service.base.ApiKeyService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.sys.LogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
@@ -24,11 +28,12 @@ import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
-
 import java.util.*;
 
 @Service
 public class MemberApplyService extends MemberBaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SysUserService sysUserService;
@@ -46,6 +51,10 @@ public class MemberApplyService extends MemberBaseMapper {
     protected ApplyApprovalLogService applyApprovalLogService;
     @Autowired
     protected ApplySnService applySnService;
+    @Autowired
+    protected ApiKeyService apiKeyService;
+    @Autowired
+    protected LogService logService;
 
     @Transactional
     public int batchImport(List<MemberApply> records) {

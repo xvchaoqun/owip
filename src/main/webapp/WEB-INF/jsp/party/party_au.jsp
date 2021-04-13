@@ -234,11 +234,17 @@
     .enterprise {
         display: none;
     }
+    <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+		span.star{color: grey}
+	</shiro:hasPermission>
 </style>
 <script>
     $("#modal :checkbox").bootstrapSwitch();
     $.register.date($('.input-group.date'));
     $("#submitBtn").click(function () {
+        <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+			$('input, textarea, select').prop("required", false);
+		</shiro:hasPermission>
         $("#modalForm").submit();
         return false;
     });
@@ -293,4 +299,16 @@
     <c:if test="${_p_use_inside_pgb&&param.type==1}">
         $.register.del_select($('#modalForm select[name=fid]'));
     </c:if>
+
+    //自动填充分党委的简称
+    $('#modalForm textarea[name=name]').blur(function (){
+        //console.log("111");
+        var $this = $(this).val();
+        if ($.trim($this)=='') return;
+        $('#modalForm input[name=shortName]').val($this);
+        var nameArray = $this.split('${cm:getSysConfig().schoolName}');
+        if (nameArray.length==2){
+            $('#modalForm input[name=shortName]').val(nameArray[1]);
+        }
+    })
 </script>

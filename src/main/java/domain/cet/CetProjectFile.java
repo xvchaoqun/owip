@@ -11,6 +11,8 @@ public class CetProjectFile implements Serializable {
 
     private String filePath;
 
+    private String website;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +47,14 @@ public class CetProjectFile implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath == null ? null : filePath.trim();
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website == null ? null : website.trim();
     }
 
     public Integer getSortOrder() {

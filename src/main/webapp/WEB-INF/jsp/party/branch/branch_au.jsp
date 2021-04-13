@@ -179,6 +179,9 @@ pageEncoding="UTF-8"%>
 	.enterprise{
 		display: none;
 	}
+	<shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+		span.star{color: grey}
+	</shiro:hasPermission>
 </style>
 <script>
 
@@ -187,7 +190,11 @@ pageEncoding="UTF-8"%>
 
 	$.register.date($('.date-picker'), {endDate:'${_today}'});
 
-	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+	$("#submitBtn").click(function(){
+		<shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+			$('input, textarea, select').prop("required", false);
+		</shiro:hasPermission>
+		$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
         	var $btn = $("#submitBtn").button('loading');
@@ -218,4 +225,16 @@ pageEncoding="UTF-8"%>
 
     $('[data-rel="tooltip"]').tooltip();
 	$.register.del_select($('#modalForm select[name=partyId]'));
+
+	//自动填充党支部的简称
+	$('#modalForm textarea[name=name]').blur(function (){
+		//console.log("111");
+		var $this = $(this).val();
+		if ($.trim($this)=='') return;
+		$('#modalForm input[name=shortName]').val($this);
+		var nameArray = $this.split('${cm:getSysConfig().schoolName}');
+		if (nameArray.length==2){
+			$('#modalForm input[name=shortName]').val(nameArray[1]);
+		}
+	})
 </script>

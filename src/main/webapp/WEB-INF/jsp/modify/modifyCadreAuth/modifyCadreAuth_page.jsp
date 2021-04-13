@@ -6,6 +6,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/modifyCadreAuth"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <div class="note">注：在此列表中的人员，有直接修改本人干部信息的权限，无须审批</div>
             <c:set var="_query" value="${not empty param.userId || not empty param.cadreStatus || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="modifyCadreAuth:edit">

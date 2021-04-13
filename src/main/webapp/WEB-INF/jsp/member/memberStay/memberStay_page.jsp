@@ -171,15 +171,15 @@
                                         data-open-by="page">
                                     <i class="fa fa-search"></i> 审批记录
                                 </button>
-
-                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                                    <button class="jqBatchBtn btn btn-danger btn-sm"
-                                            data-title="删除"
-                                            data-msg="确定删除这{0}条记录吗？"
-                                            data-url="${ctx}/memberStay_batchDel">
-                                        <i class="fa fa-trash"></i> 删除
+                                <c:if test="${cls==3}">
+                                注：审批通过后，将转移至暂留党员库
+                                </c:if>
+                                <c:if test="${cls==5}">
+                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                                    data-url="${ctx}/memberStay_abolish">
+                                        <i class="fa fa-reply"></i> 撤销
                                     </button>
-                                </shiro:hasAnyRoles>
+                                </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">

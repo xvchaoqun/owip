@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"> 标题</label>
+				<label class="col-xs-3 control-label"> 主题</label>
 				<div class="col-xs-6">
                         <input class="form-control" type="text" name="title" value="${sysMsg.title}">
 				</div>

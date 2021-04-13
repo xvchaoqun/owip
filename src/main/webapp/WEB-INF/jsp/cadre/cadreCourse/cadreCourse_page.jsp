@@ -18,12 +18,13 @@
     </shiro:lacksPermission>
     </shiro:hasPermission>
 <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${!cm:getHtmlFragment('hf_cadre_course').isDeleted}">
     <div class="buttons" style="position:absolute;left: 500px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=hf_cadre_course">
             <i class="fa fa-info-circle"></i> 填写说明</a>
-    </div>
+    </div></c:if>
 </shiro:lacksPermission>
 </ul>
 

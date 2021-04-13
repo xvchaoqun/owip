@@ -133,7 +133,7 @@ public class PcsRecommendController extends PcsBaseController {
     @RequestMapping(value = "/pcsRecommend_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsRecommend_au(byte stage, int partyId, Integer branchId,
-                                  int expectMemberCount, int actualMemberCount, Boolean isFinish,
+                                  Integer expectMemberCount, Integer actualMemberCount, Boolean isFinish,
                                   String items,
                                   HttpServletRequest request) throws UnsupportedEncodingException {
 

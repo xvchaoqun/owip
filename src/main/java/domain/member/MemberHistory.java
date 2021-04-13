@@ -64,7 +64,7 @@ public class MemberHistory implements Serializable {
 
     private String proPost;
 
-    private String phone;
+    private String mobile;
 
     private String email;
 
@@ -258,12 +258,12 @@ public class MemberHistory implements Serializable {
         this.proPost = proPost == null ? null : proPost.trim();
     }
 
-    public String getPhone() {
-        return phone;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public String getEmail() {

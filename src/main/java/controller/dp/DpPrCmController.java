@@ -219,7 +219,7 @@ public class DpPrCmController extends DpBaseController {
             DpPrCm dpPrCm = dpPrCmMapper.selectByPrimaryKey(id);
             Integer userId = dpPrCm.getUserId();
             SysUserView sysUserView = CmTag.getUserById(userId);
-            if (sysUserView.getType() == SystemConstants.USER_TYPE_JZG){
+            if (sysUserView.isTeacher()){
                 modelMap.put("sysUser", sysUserView);
             }
 

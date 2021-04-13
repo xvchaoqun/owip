@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<h3>修改学生党员基础信息</h3>
+<h3>修改基础信息</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/studentInfo_au" autocomplete="off" disableautocomplete id="baseInfoForm"
       method="post">
-    <input type="hidden" name="userId" value="${student.userId}">
+    <input type="hidden" name="userId" value="${param.userId}">
     <div class="row">
         <div class="col-xs-6">
             <div class="form-group">
-                <label class="col-xs-3 control-label">系统账号</label>
+                <label class="col-xs-3 control-label">学号</label>
                 <div class="col-xs-6 label-text">
                     ${uv.code}
                 </div>
             </div>
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>账号类别</label>
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="syncSource" data-placeholder="请选择">
@@ -26,7 +26,7 @@
                         $("#baseInfoForm select[name=syncSource]").val(${student.syncSource});
                     </script>
                 </div>
-            </div>
+            </div>--%>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
                 <div class="col-xs-6">

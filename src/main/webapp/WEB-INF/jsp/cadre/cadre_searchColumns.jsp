@@ -3,6 +3,15 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${empty _pMap['label_staffType']?'个人身份':_pMap['label_staffType']}" var="_p_label_staffType"/>
 <div class="column">
+    <label>姓名/工号 <span class="prompt" data-title="查询说明"
+							                    data-prompt="按姓名或工作证号进行模糊查询"><i class="fa fa-question-circle-o"></i></span></label>
+    <div class="input">
+        <input class="form-control search-query" name="realname" type="text"
+                                                       value="${param.realname}"
+                                                       placeholder="请输入">
+    </div>
+</div>
+<div class="column">
     <label>性别</label>
     <div class="input">
         <select name="gender" data-width="100" data-rel="select2"

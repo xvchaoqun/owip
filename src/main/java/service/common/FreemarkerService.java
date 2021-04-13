@@ -105,6 +105,26 @@ public class FreemarkerService {
 
         return process(tpl, dataMap);
     }
+    // 按段落读取textarea（不处理空格）
+    public String genTextareaSegment2(String content, String tpl) throws IOException, TemplateException {
+
+        if (StringUtils.isBlank(content)) return null;
+
+        List<String> rows = new ArrayList();
+
+        String[] strings = content.split("\n");
+        for (String str : strings) {
+            String plainText = HtmlUtils.htmlEscapeDecimal(str);
+            if(StringUtils.isBlank(plainText)) continue;
+
+            rows.add(plainText);
+        }
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("dataList", rows);
+
+        return process(tpl, dataMap);
+    }
 
     // 一行末尾带冒号，则认为是标题行。
     // needHanging: 从第二行开始进行缩进

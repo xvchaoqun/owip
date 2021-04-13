@@ -117,12 +117,14 @@
         colModel: [
 
             {label: '党支部名称', name: 'name', width: 500, align: 'left'},
+            <shiro:hasPermission name="pcsBranch:admin">
             { label: '管理员',name: '_detail', width: 80,formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.isDirectBranch)  return "--";
                     return ' <button data-url="${ctx}/pcs/pcs_admin?partyId={0}&branchId={1}" class="jqOpenViewBtn btn btn-warning btn-xs"> <i class="fa fa-user"></i> 编辑</button>'
                             .format(rowObject.partyId,rowObject.branchId);
                 }
             },
+            </shiro:hasPermission>
             <c:if test="${cls==2}">
             { label: '同步',name: 'sync', width: 80, formatter:function(cellvalue, options, rowObject){
                     return '<button class="confirm btn btn-success btn-xs"data-msg="确定同步当前党支部的信息？（数据来源：基层党组织-党支部（已撤销支部除外））"  data-callback="_reload"' +

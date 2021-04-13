@@ -1,28 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
         <div class="allocateTable">
             <div class="search">
-                院系级党委、党总支、直属党支部：<input type="text" id="searchInput"> <a href="javascript:;" id="clearBtn"><i class="fa fa-times-circle fa-lg grey"></i></a>
+                ${_p_partyName}、党总支、直属党支部：<input type="text" id="searchInput"> <a href="javascript:;" id="clearBtn"><i class="fa fa-times-circle fa-lg grey"></i></a>
             </div>
             <table class="table table-bordered table-striped" data-offset-top="132">
-
                 <thead class="multi">
-
                 <tr>
                     <th width="40" rowspan="2">序号</th>
-                    <th rowspan="2">院系级党委、党总支、直属党支部</th>
+                    <th rowspan="2">${_p_partyName}、党总支、直属党支部</th>
                     <th rowspan="2" width="60">正式党员数</th>
-                    <th rowspan="2" width="70">推荐代表总数</th>
+                    <shiro:hasPermission name="pcsPoll:list">
+                    <th rowspan="2" width="70">投票推荐代表上限</th>
+                    </shiro:hasPermission>
                     <th rowspan="2" width="70">代表总数</th>
-                    <th colspan="3">代表构成</th>
+                    <th colspan="${prTypeNum}">代表构成</th>
                     <th colspan="3">其中</th>
                 </tr>
                 <tr>
-                    <th width="110">专业技术人员和干部代表</th>
-                    <th width="70">学生代表</th>
-                    <th width="60">离退休代表</th>
+                    <c:forEach items="${prTypes}" var="prType">
+                        <th width="70">${prType.value.name}</th>
+                    </c:forEach>
                     <th width="70">妇女代表</th>
                     <th width="70">少数民族代表</th>
                     <th width="70">50岁以下代表</th>
@@ -30,21 +31,17 @@
                 </thead>
                 <tbody>
                 <c:set var="positiveCount" value="0"/>
-                <c:set var="rowCount" value="0"/>
                 <c:set var="candidateCount" value="0"/>
-                <c:set var="proCount" value="0"/>
-                <c:set var="stuCount" value="0"/>
-                <c:set var="retireCount" value="0"/>
+
                 <c:set var="femaleCount" value="0"/>
                 <c:set var="minorityCount" value="0"/>
                 <c:set var="underFiftyCount" value="0"/>
+
                 <c:forEach items="${records}" var="record" varStatus="vs">
-                    <c:set var="_rowCount" value="${record.proCount + record.stuCount + record.retireCount}"/>
+
                     <c:set var="positiveCount" value="${positiveCount + record.positiveCount}"/>
                     <c:set var="candidateCount" value="${candidateCount + record.candidateCount}"/>
-                    <c:set var="proCount" value="${proCount + record.proCount}"/>
-                    <c:set var="stuCount" value="${stuCount + record.stuCount}"/>
-                    <c:set var="retireCount" value="${retireCount + record.retireCount}"/>
+
                     <c:set var="femaleCount" value="${femaleCount + record.femaleCount}"/>
                     <c:set var="minorityCount" value="${minorityCount + record.minorityCount}"/>
                     <c:set var="underFiftyCount" value="${underFiftyCount + record.underFiftyCount}"/>
@@ -52,18 +49,18 @@
                         <td>${vs.count}</td>
                         <td class="partyName">${record.partyName}</td>
                         <td>${record.positiveCount}</td>
+                        <shiro:hasPermission name="pcsPoll:list">
                         <td><input type="text" class="num" maxlength="4" name="candidateCount" value="${record.candidateCount}"></td>
-                        <td>${_rowCount}</td>
-                        <td>
-                            <input type="text" class="num" maxlength="4" name="proCount" value="${record.proCount}">
-                        </td>
-                        <td>
-                            <input type="text" class="num" maxlength="4" name="stuCount" value="${record.stuCount}">
-                        </td>
-                        <td>
-                            <input type="text" class="num" maxlength="4" name="retireCount"
-                                   value="${record.retireCount}">
-                        </td>
+                        </shiro:hasPermission>
+                        <td></td>
+
+                        <c:forEach items="${prTypes}" var="prType">
+                            <td class="prType">
+                                <input type="text" class="num" maxlength="4"
+                                       data-type="${prType.key}" value="${record.prCountMap.get(prType.key)}">
+                            </td>
+                        </c:forEach>
+
                         <td>
                             <input type="text" class="num" maxlength="4" name="femaleCount"
                                    value="${record.femaleCount}">
@@ -83,17 +80,21 @@
                 <tr>
                     <th colspan="2" style="text-align: center">合计</th>
                     <th>${positiveCount}</th>
+                    <shiro:hasPermission name="pcsPoll:list">
                     <th>${candidateCount}</th>
-                    <th>${proCount+stuCount+retireCount}</th>
-                    <th>${proCount}</th>
-                    <th>${stuCount}</th>
-                    <th>${retireCount}</th>
+                    </shiro:hasPermission>
+                    <th></th>
+
+                    <c:forEach items="${prTypes}" var="prType">
+                        <th></th>
+                    </c:forEach>
+
                     <th>${femaleCount}</th>
                     <th>${minorityCount}</th>
                     <th>${underFiftyCount}</th>
                 </tr>
                 <tr>
-                    <th colspan="11">
+                    <th colspan="${8+prTypeNum}">
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"
@@ -130,11 +131,6 @@
         text-align: center;
     }
 
-    /*.allocateTable .table thead tr {
-        background-image: none !important;
-        background-color: #f2f2f2 !important;
-    }*/
-
     .allocateTable .table tr th, .allocateTable .table tr td {
         border-bottom-width: inherit;
         text-align: center;
@@ -151,14 +147,10 @@
 </style>
 <script>
     function _calTotal(){
-        //console.log($("tfoot tr:eq(0)").find("th:eq(1)").text())
-        //console.log($("th", "tfoot tr:eq(0)").length)
         $("th", "tfoot tr:eq(0)").each(function(){
             var idx = $(this).index();
-            //console.log(idx)
             if(idx==0) return true;
             var total = 0;
-            //console.log(idx + "="+ $("td:eq("+(idx+1)+")", "tbody tr").length)
             $("td:eq("+(idx+1)+")", $("tbody tr").not(":hidden")).each(function(){
                 var val;
                 if(idx==1 || idx==2){
@@ -177,7 +169,6 @@
         var txt = $.trim($(this).val());
         if (txt != '') {
             $("#clearBtn").show();
-            //$("tfoot tr:eq(0)").hide();
         } else {
             $("#clearBtn").hide();
         }
@@ -194,10 +185,12 @@
     $("#clearBtn").click(function () {
         $("#searchInput").val('');
         $("tbody tr").show();
-        //$("tfoot  tr:eq(0)").show();
         $(this).hide();
         _calTotal();
     })
+
+    var startCol = ${cm:isPermitted("pcsPoll:list")?5:4}; // 起始列
+    var endCol = startCol + ${prTypeNum};
     $("#submitBtn").click(function () {
 
         var items = [];
@@ -206,16 +199,25 @@
             var $this = $(this);
             var item = {};
             item.partyId = $this.data("party-id");
-            item.candidateCount = $("input[type=text]", $this.find("td:eq(3)")).val();
-            item.proCount = $("input[type=text]", $this.find("td:eq(5)")).val();
-            item.stuCount = $("input[type=text]", $this.find("td:eq(6)")).val();
-            item.retireCount = $("input[type=text]", $this.find("td:eq(7)")).val();
-            item.femaleCount = $("input[type=text]", $this.find("td:eq(8)")).val();
-            item.minorityCount = $("input[type=text]", $this.find("td:eq(9)")).val();
-            item.underFiftyCount = $("input[type=text]", $this.find("td:eq(10)")).val();
+            item.candidateCount = $("input[type=text]", $this.find("td:eq("+ (startCol-2) +")")).val();
+
+            var prCount = {};
+            for (var i=startCol; i < endCol ; i++) {
+                var $input = $("input[type=text]", $this.find("td:eq("+ i +")"));
+                var type = $input.data("type");
+                var count = $.trim($input.val());
+                if(count!='') {
+                    prCount[type] = count;
+                }
+            }
+            item.prCount = JSON.stringify(prCount);
+
+            item.femaleCount = $("input[type=text]", $this.find("td:eq(" + (endCol) + ")")).val();
+            item.minorityCount = $("input[type=text]", $this.find("td:eq(" + (endCol+1) + ")")).val();
+            item.underFiftyCount = $("input[type=text]", $this.find("td:eq(" + (endCol+2) + ")")).val();
             items.push(item);
         })
-        console.log(items)
+        //console.log(items)
         $.post("${ctx}/pcs/pcsPrAllocate_au", {items: $.base64.encode(JSON.stringify(items))}, function (ret) {
             if (ret.success) {
                 SysMsg.success("保存成功。");
@@ -225,32 +227,38 @@
     $(".allocateTable").on("keyup", "tbody input", function () {
 
         var $tr = $(this).closest("tr");
-        var $horizon = $tr.find("td:eq(4)");
-        //console.log($horizon.html())
-        //$horizon.css("background-color", "red")
-        var horizon = 0;
-        $("input[type=text]", $tr.find("td:eq(5),td:eq(6),td:eq(7)")).each(function () {
-            if ($(this).val() > 0)
-                horizon += parseInt($(this).val());
+        var $rowTotal = $tr.find("td:eq("+ (startCol-1) +")");
+        var rowTotal = 0;
+        $("input[type=text]", $tr.find("td.prType")).each(function () {
+            if ($(this).val() > 0) {
+                rowTotal += parseInt($(this).val());
+            }
         })
-        $horizon.html(horizon);
+        if(rowTotal>0) {
+            $rowTotal.html(rowTotal);
+        }
 
         var idx = $(this).parent().index();
-        var vertical = 0;
+        var colTotal = 0;
         $("input[type=text]", $("tr").find("td:eq(" + idx + ")")).each(function () {
 
-            if ($(this).val() > 0)
-                vertical += parseInt($(this).val());
+            if ($(this).val() > 0) {
+                colTotal += parseInt($(this).val());
+            }
             //console.log(vertical)
         })
         var $footTr = $(".allocateTable table tfoot tr");
-        $footTr.find("th:eq(" + (idx - 1) + ")").html(vertical);
+        $footTr.find("th:eq(" + (idx - 1) + ")").html(colTotal);
 
         var total = 0;
-        total += parseInt($footTr.find("th:eq(4)").text());
-        total += parseInt($footTr.find("th:eq(5)").text());
-        total += parseInt($footTr.find("th:eq(6)").text());
-        $footTr.find("th:eq(3)").html(total)
-    })
+        for (var i = startCol-1; i < endCol-1 ; i++) {
+            var colTotal = parseInt($footTr.find("th:eq("+ i +")").text());
+            if(colTotal > 0) {
+                total += colTotal;
+            }
+        }
+        $footTr.find("th:eq("+ (startCol-2) +")").html(total)
+    });
+    $("input[type=text]", ".allocateTable tbody tr").keyup();
     stickheader();
 </script>

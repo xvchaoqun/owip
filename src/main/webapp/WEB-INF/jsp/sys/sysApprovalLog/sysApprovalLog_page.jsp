@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
+<c:set var="sysUser" value="${cm:getUserById(param.userId)}"/>
 <div class="widget-box transparent" id="useLogs">
   <div class="widget-header">
     <h4 class="widget-title lighter smaller">
@@ -33,7 +34,7 @@
     multiselect:false,
     ondblClickRow:function(){},
     pager:"jqGridPager2",
-    url: "${ctx}/sysApprovalLog_data?callback=?&id=${param.id}&type=${type}",
+    url: "${ctx}/sysApprovalLog_data?callback=?&id=${param.id}&type=${param.type}",
     colModel: [
       { label: '操作内容',  name: 'stage', width: 200 },
       { label: '操作时间',  name: 'createTime', width: 200 },

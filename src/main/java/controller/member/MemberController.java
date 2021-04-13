@@ -207,7 +207,7 @@ public class MemberController extends MemberBaseController {
 
         if (inSchool) {
             resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
-        } else if (all) {
+        } else if (all) {//党员一张表导入
             resultMap = memberService.importMemberAllInfo(workbook, sheet, xlsRows, politicalStatusMap, startCode);
         }else {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
@@ -861,7 +861,7 @@ public class MemberController extends MemberBaseController {
                          String[] nation,
                          String[] nativePlace,
                          Byte userType,
-                         // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
+                         // 1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 8 历史 9 暂留 -1 全部
                          Integer cls,
                          ModelMap modelMap) {
 
@@ -947,7 +947,7 @@ public class MemberController extends MemberBaseController {
             modelMap.put("studentGrades", CmTag.getPropertyCaches("studentGrades"));
             modelMap.put("studentTypes", CmTag.getPropertyCaches("studentTypes"));
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("studentNativePlaces"));
-        } else if (cls == 10) {
+        } else if (cls == -1) {
 
             titles = getCommonExportTitles();
             modelMap.put("nativePlaces", CmTag.getPropertyCaches("nativePlaces"));
@@ -966,6 +966,7 @@ public class MemberController extends MemberBaseController {
                             @RequestParam(defaultValue = "1") int cls,
                             Boolean _integrity,
                             Integer userId,
+                            String realname, // 姓名或学工号
                             Byte userType,
                             Integer unitId,
                             Integer partyId,
@@ -1046,6 +1047,9 @@ public class MemberController extends MemberBaseController {
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (StringUtils.isNotBlank(realname)) {
+            criteria.andCodeOrRealnameLike(realname);
         }
 
         if(userType!=null){
@@ -1194,7 +1198,13 @@ public class MemberController extends MemberBaseController {
                           SystemConstants.USER_TYPE_RETIRE))
                         .andStatusEqualTo(MemberConstants.MEMBER_STATUS_OUT);
                 break;
-            case 10:
+            case 8:
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_HISTORY);
+                break;
+            case 9:
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_STAY);
+                break;
+            case -1:
                 criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
                 break;
             default:
@@ -1248,7 +1258,7 @@ public class MemberController extends MemberBaseController {
                 student_export(cls, example, cols, response);
             } else if (cls == 2 || cls == 3 || cls == 7) {
                 teacher_export(cls, example, cols, response);
-            }else if (cls == 10){
+            }else if (cls == -1){
                 commcon_export(cls, example, cols, response);
             }
             return;
@@ -1314,14 +1324,14 @@ public class MemberController extends MemberBaseController {
     private List<String> getTeacherExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
-                "编制类别|80", "人员类别|100", "人员状态|80", /*"在岗情况|80", "岗位类别|80", "主岗等级|120",*/
+                "编制类别|80", "人员分类|100", "人员状态|80", /*"在岗情况|80", "岗位类别|80", "主岗等级|120",*/
                 "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", /*"国家/地区|80",*/ "证件号码|150",
                 "政治面貌|80", "所属" + CmTag.getStringProperty("partyName", "党委") + "|300", "所在党支部|300", "所在单位|200",
                 "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
-                "专业技术职务|120", /*"职称级别|120", "管理岗位等级|120","任职级别|120",*/
-                /*"行政职务|180", */"学历|120", "毕业学校|200", /*"学位授予学校|200",*/
+                "专业技术职务|120", "职称级别|120", /*"管理岗位等级|120",*/
+                "行政职务|180", "任职级别|120","学历|120", "毕业学校|200", /*"学位授予学校|200",*/
                 "学位|100", /*"人员结构|100", "人才类型|100", "人才称号|200",*/ "手机号码|100","备注1|150","备注2|150","备注3|150"}));
     }
 
@@ -1363,8 +1373,7 @@ public class MemberController extends MemberBaseController {
             SysUserView uv = sysUserService.findById(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
-            if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
-                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) {
+            if (cadre != null && (CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus()))) {
                 post = cadre.getTitle();
                 if (cadre.getAdminLevel() != null) adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();
             }
@@ -1401,10 +1410,10 @@ public class MemberController extends MemberBaseController {
 
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
-                    /*record.getProPostLevel(),*/ //职称级别
-                    /*record.getManageLevel(), // 管理岗位等级
-                    adminLevel, // 任职级别 -- 行政级别*/
-                    /*post, // 行政职务 -- 职务*/
+                    record.getProPostLevel(), //职称级别
+                    /*record.getManageLevel(), // 管理岗位等级*/
+                    post, // 行政职务 -- 职务
+                    adminLevel, // 任职级别 -- 行政级别
                     record.getEducation(), // 学历
                     record.getSchool(), // 毕业学校
                     /*record.getDegreeSchool(),*/
@@ -1528,7 +1537,7 @@ public class MemberController extends MemberBaseController {
 
     private List<String> getCommonExportTitles() {
 
-        return new ArrayList<>(Arrays.asList(new String[]{"学工号|100", "姓名|80", "性别|50", "出生日期|100", "年龄|50", "身份证号|150",
+        return new ArrayList<>(Arrays.asList(new String[]{"姓名|80", "学工号|100", "人员类别|100","性别|50", "出生日期|100", "年龄|50", "身份证号|150",
                 "民族|100", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
@@ -1561,8 +1570,9 @@ public class MemberController extends MemberBaseController {
             Integer branchId = record.getBranchId();
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
-                    record.getCode(),//学工号
                     record.getRealname(),//姓名
+                    record.getCode(),//学工号
+                    SystemConstants.USER_TYPE_MAP.get(record.getUserType()),//人员类别
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),//性别
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),//出生日期
                     record.getBirth() != null ? DateUtils.intervalYearsUntilNow(record.getBirth()) + "" : "",//年龄

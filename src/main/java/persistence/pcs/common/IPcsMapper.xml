@@ -78,25 +78,31 @@
         <include refid="selectPrList_where"/>
     </select>
 
-    <!--全校 应选代表情况-->
-    <select id="schoolPcsPrAllocate" parameterType="map" resultMap="persistence.pcs.PcsPrAllocateMapper.BaseResultMap">
-        select sum(pro_count) as pro_count,
-            sum(stu_count) as stu_count,
-            sum(retire_count) as retire_count,
-            sum(female_count) as female_count, sum(minority_count) as minority_count,
-            sum(under_fifty_count) as under_fifty_count
-        from pcs_pr_allocate
-        where config_id=#{configId}
+    <!-- 候选人初步人选数据统计 （统计各类代表的人数） -->
+    <select id="statRealPcsPrAllocate1" parameterType="map" resultType="map">
+        select type, count(*) as type_count
+        from pcs_pr_candidate where config_id=#{configId}
+        <if test="stage!=null">
+            and stage=#{stage}
+        </if>
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        <if test="isChosen!=null">
+            and is_chosen=#{isChosen}
+        </if>
+        group by type
     </select>
-
-    <!-- 党代表候选人初步人选数据统计 partyId=null时是全校统计-->
-    <select id="statRealPcsPrAllocate" parameterType="map"
+    <!-- -->
+    <select id="statRealPcsPrAllocate2" parameterType="map"
             resultMap="persistence.pcs.PcsPrAllocateMapper.BaseResultMap">
-        select sum(if(type=1, 1, 0)) pro_count, sum(if(type=2, 1, 0)) stu_count,
-        sum(if(type=3, 1, 0)) retire_count, sum(if(gender=2, 1, 0)) female_count,
+        select sum(if(gender=2, 1, 0)) female_count,
         sum(if(nation not like '%汉%', 1,0)) minority_count,
         sum(if( TIMESTAMPDIFF(YEAR, birth, now()) <![CDATA[<]]> 50, 1, 0)) under_fifty_count
-        from pcs_pr_candidate where config_id=#{configId} and stage=#{stage}
+        from pcs_pr_candidate where config_id=#{configId}
+        <if test="stage!=null">
+            and stage=#{stage}
+        </if>
         <if test="partyId!=null">
             and party_id=#{partyId}
         </if>
@@ -172,8 +178,7 @@
 
     <select id="selectPcsPrAllocateBeanList" resultMap="PcsPrAllocateBaseResultMap" parameterType="map">
         select ppa.id, op.party_id, op.name as party_name, op.member_count, op.positive_count,
-        op.config_id, ppa.candidate_count, ppa.pro_count,
-        ppa.stu_count, ppa.retire_count, ppa.female_count, ppa.minority_count, ppa.under_fifty_count
+        op.config_id, ppa.candidate_count, ppa.pr_count, ppa.female_count, ppa.minority_count, ppa.under_fifty_count
         from pcs_party op
         left join pcs_pr_allocate ppa on op.config_id=ppa.config_id and op.party_id=ppa.party_id
         where op.config_id=#{configId}
@@ -343,7 +348,7 @@
             pcc.sort_order asc
         </if>
         <if test="isChosen==null or !isChosen">
-            leader_sort_order desc, branch_count desc, total_vote desc, total_positive_vote desc
+            /*leader_sort_order desc, */branch_count desc, total_vote desc, total_positive_vote desc
         </if>
     </select>
 
@@ -390,7 +395,7 @@
         left join cadre c on c.user_id=pc.user_id
         <include refid="searchBranchCandidates"/>
         group by pc.user_id
-        order by leader_sort_order desc, branch_count desc, total_vote desc, total_positive_vote desc
+        order by /*leader_sort_order desc, */branch_count desc, total_vote desc, total_positive_vote desc
     </select>
 
     <select id="countBranchCandidateList" parameterType="map" resultType="java.lang.Integer">

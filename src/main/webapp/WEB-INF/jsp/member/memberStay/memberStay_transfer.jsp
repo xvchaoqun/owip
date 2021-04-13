@@ -32,16 +32,6 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>请选择暂留所在党支部</label>
-            <div class="col-xs-6">
-                <select required class="form-control"  data-rel="select2-ajax"
-                        data-ajax-url="${ctx}/branch_selects?partyId=${party.id}&del=0"
-                        name="branchId" data-placeholder="请选择" data-width="320">
-                    <option value=""></option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>原支部负责人</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
@@ -54,6 +44,16 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-4 control-label"><span class="star">*</span>原支部负责人联系电话</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="orgBranchAdminPhone">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">请选择暂留所在党支部</label>
+            <div class="col-xs-6">
+                <select class="form-control"  data-rel="select2-ajax"
+                        data-ajax-url="${ctx}/branch_selects?partyId=${party.id}&del=0"
+                        name="branchId" data-placeholder="请选择" data-width="320">
+                    <option value=""></option>
+                </select>
             </div>
         </div>
     </form>

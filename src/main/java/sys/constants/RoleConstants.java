@@ -17,8 +17,7 @@ public class RoleConstants {
     public static final String ROLE_PM_ADMIN = "role_pm_admin"; // 组织生活管理员
     public static final String ROLE_DP_ADMIN = "role_dp_admin"; // 统战管理员
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
-    public static final String ROLE_UNIT_ADMIN_XZ = "role_unit_admin_xz"; // 行政班子负责人
-    public static final String ROLE_UNIT_ADMIN_DW = "role_unit_admin_dw"; // 党委班子负责人
+    public static final String ROLE_UNIT_ADMIN = "role_unit_admin"; // 班子负责人
 
     public static boolean isCadreAdmin(){
         return ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN);

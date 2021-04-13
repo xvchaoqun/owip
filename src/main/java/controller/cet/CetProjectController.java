@@ -45,7 +45,7 @@ public class CetProjectController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetProject:list")
+    @RequiresPermissions("cetProject:archive")
     @RequestMapping("/archiveProjectObj")
     @ResponseBody
     public Map archiveProjectObj( int projectId, int objId, ModelMap modelMap) {

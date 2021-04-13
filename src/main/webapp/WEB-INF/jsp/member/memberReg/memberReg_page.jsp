@@ -11,7 +11,7 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.username||not empty param.realname
                 ||not empty param.partyId ||not empty param.idcard|| not empty param.importUserId || not empty param.importSeq}"/>
-                <div class="tabbable">
+                <%--<div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=1" }><i
@@ -27,57 +27,50 @@
                         </li>
                         <div class="buttons pull-left" style="left: 30px; position: relative">
                         <shiro:hasPermission name="memberReg:edit">
-                             <a class="editBtn btn btn-info btn-sm" style="margin-right: 5px"><i class="fa fa-plus"></i> 添加</a>
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="memberReg:import">
-                            <button class="popupBtn btn btn-success btn-sm tooltip-info"
-                                    data-url="${ctx}/memberReg_import"
-                                    data-rel="tooltip" data-placement="top" title="批量生成系统注册账号"><i
-                                    class="fa fa-upload"></i>
-                                批量生成账号
-                            </button>
-                        </shiro:hasPermission>
+                                    <a class="editBtn btn btn-info btn-sm" style="margin-right: 5px"><i class="fa fa-plus"></i> 添加</a>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="memberReg:import">
+                                    <button class="popupBtn btn btn-success btn-sm tooltip-info"
+                                            data-url="${ctx}/memberReg_import"
+                                            data-rel="tooltip" data-placement="top" title="批量生成系统注册账号"><i
+                                            class="fa fa-upload"></i>
+                                        批量生成账号
+                                    </button>
+                                </shiro:hasPermission>
                             </div>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane in active">
+                        <div class="tab-pane in active">--%>
                             <div class="jqgrid-vertical-offset buttons">
-
                                 <shiro:hasPermission name="memberReg:edit">
-                                    <c:if test="${cls==1}">
-                                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm">
-                                            <i class="fa fa-edit"></i> 修改信息
-                                        </button>
-                                    </c:if>
+                                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                                 </shiro:hasPermission>
-                                <c:if test="${cls==1}">
-                                    <shiro:hasPermission name="memberReg:check">
-                                        <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
-                                                class="jqOpenViewBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/memberReg_approval"
-                                                data-open-by="page"
-                                                data-need-id="false"
-                                                data-count="${partyApprovalCount}">
-                                            <i class="fa fa-check-square-o"></i> 审核（${partyApprovalCount}）
-                                        </button>
-                                    </shiro:hasPermission>
-                                </c:if>
-
-                                <c:if test="${cls==3}">
-                                    <shiro:hasPermission name="memberReg:changepw">
-                                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                                data-url="${ctx}/memberReg_changepw">
-                                            <i class="fa fa-edit"></i> 修改登录密码
-                                        </button>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="memberReg:import">
-                                        <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                                data-url="${ctx}/memberReg_data"
-                                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
-                                            <i class="fa fa-download"></i> 导出
-                                        </button>
-                                    </shiro:hasPermission>
-                                </c:if>
+                                <shiro:hasPermission name="memberReg:edit">
+                                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm">
+                                        <i class="fa fa-edit"></i> 修改信息
+                                    </button>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="memberReg:import">
+                                    <button class="popupBtn btn btn-success btn-sm tooltip-info"
+                                            data-url="${ctx}/memberReg_import"
+                                            data-rel="tooltip" data-placement="top" title="批量生成系统注册账号"><i
+                                            class="fa fa-upload"></i>
+                                        批量生成账号
+                                    </button>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="memberReg:changepw">
+                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/memberReg_changepw">
+                                        <i class="fa fa-edit"></i> 修改登录密码
+                                    </button>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="memberReg:import">
+                                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                            data-url="${ctx}/memberReg_data"
+                                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                                        <i class="fa fa-download"></i> 导出
+                                    </button>
+                                </shiro:hasPermission>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG%>"
@@ -164,9 +157,9 @@
                             <div class="space-4"></div>
                             <table id="jqGrid" class="jqGrid table-striped"></table>
                             <div id="jqGridPager"></div>
-                        </div>
+                        <%--</div>
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
         <div id="body-content-view">
@@ -175,7 +168,7 @@
     </div>
 </div>
 <script>
-    function goto_next(goToNext) {
+    /*function goto_next(goToNext) {
         if (goToNext) {
             if ($("#next").hasClass("disabled") && $("#last").hasClass("disabled"))
                 $.hashchange();
@@ -202,7 +195,7 @@
                 }
             });
         });
-    }
+    }*/
 
     $("#jqGrid").jqGrid({
         url: '${ctx}/memberReg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

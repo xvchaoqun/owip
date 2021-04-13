@@ -380,7 +380,8 @@ public class CommonController extends BaseController {
     public Map member_selects(Integer pageSize,
                               Integer partyId,
                               Integer branchId,
-                              Byte type, // 党员类别
+                              Byte type, // 人员类别
+                              Byte[] types, // 人员类别
                               Boolean isRetire,
                               Byte politicalStatus,
                               Byte[] status, // 党员状态
@@ -427,6 +428,9 @@ public class CommonController extends BaseController {
                 criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
                             SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
             }
+        }
+        if(types!=null){
+            criteria.andUserTypeIn(Arrays.asList(types));
         }
 
         if(isRetire!=null){

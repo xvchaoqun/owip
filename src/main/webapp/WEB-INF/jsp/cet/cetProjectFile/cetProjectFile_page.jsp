@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>培训课件</h3>
+    <h3>培训材料</h3>
 </div>
 <div id="cpfDiv" class="modal-body">
     <c:if test="${param.view!=1}">
@@ -11,7 +11,7 @@
             <div class="widget-box">
                 <div class="widget-header">
                     <h4 class="widget-title">
-                        添加培训课件
+                        添加培训材料
                     </h4>
                 </div>
                 <div class="widget-body">
@@ -20,15 +20,21 @@
                               autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="projectId" value="${param.projectId}">
                             <div class="form-group">
-                                <label class="col-xs-4 control-label"> 课件名称</label>
+                                <label class="col-xs-4 control-label"> 材料名称</label>
                                 <div class="col-xs-6 label-text">
                                     <input class="form-control" type="text" name="fileName">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label"><span class="star">*</span> 培训课件</label>
+                                <label class="col-xs-4 control-label"> 培训材料</label>
                                 <div class="col-xs-6" id="hasFile">
                                     <input class="form-control" type="file" name="_file"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label"> 网址</label>
+                                <div class="col-xs-6">
+                                    <input class="form-control url" type="text" name="website"/>
                                 </div>
                             </div>
                             <div class="clearfix form-actions">
@@ -60,7 +66,7 @@
             <table class="table table-striped table-bordered table-center">
                 <thead>
                 <tr>
-                    <th>课件名称</th>
+                    <th>材料名称</th>
                     <c:if test="${param.view!=1}">
                         <th nowrap width="40">排序</th>
                     </c:if>
@@ -71,7 +77,12 @@
                 <c:forEach items="${cetProjectFiles}" var="cetProjectFile" varStatus="st">
                     <tr>
                         <td nowrap style="text-align: left">
+                            <c:if test="${not empty cetProjectFile.filePath}">
                                 ${cetProjectFile.fileName}
+                            </c:if>
+                            <c:if test="${empty cetProjectFile.filePath}">
+                                <a href="${cetProjectFile.website}" target="_blank">${cetProjectFile.fileName}</a>
+                            </c:if>
                         </td>
                         <c:if test="${param.view!=1}">
                             <td nowrap>
@@ -142,15 +153,15 @@
     $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
-            var _file = $("#modalForm input[name=_file]").val();
+            /*var _file = $("#modalForm input[name=_file]").val();
             if($.trim(_file)==''){
                 $.tip({
                     $target: $("#hasFile"),
                     at: 'right center', my: 'left center',
-                    msg: "请选择上传的培训课件。"
+                    msg: "请选择上传的培训材料。"
                 });
                 return;
-            }
+            }*/
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {

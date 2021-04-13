@@ -13,7 +13,7 @@
             <div class="col-xs-10 label-text red" style="font-size: large; font-weight: bolder; ">
                 撤销之后：
                 <ul>
-                    <li>该用户将重新成为党员</li>
+                    <li>该用户将重新进入党员库</li>
                     <li>申请被退回，可在"未通过"标签中查看之前的审批记录</li>
                 </ul>
             </div>

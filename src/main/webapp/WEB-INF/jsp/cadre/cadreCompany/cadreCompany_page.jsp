@@ -15,12 +15,13 @@ pageEncoding="UTF-8" %>
     </li>
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+        <c:if test="${!cm:getHtmlFragment('hf_cadre_company').isDeleted}">
         <div class="buttons" style="position:absolute;left:250px;">
             <a class="popupBtn btn btn-warning btn-sm"
                data-width="800"
                data-url="${ctx}/hf_content?code=hf_cadre_company">
                 <i class="fa fa-info-circle"></i> 填写说明</a>
-        </div>
+        </div></c:if>
     </shiro:lacksPermission>
     </c:if>
 </ul>
@@ -28,10 +29,6 @@ pageEncoding="UTF-8" %>
 <div class="jqgrid-vertical-offset buttons">
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-    <%--<a class="popupBtn btn btn-warning btn-sm"
-       data-width="800"
-       data-url="${ctx}/hf_content?code=hf_cadre_company">
-        <i class="fa fa-info-circle"></i> 填写说明</a>--%>
     <shiro:hasPermission name="cadreCompany:edit">
 
         <button class="popupBtn btn btn-success btn-sm" data-width="800"

@@ -70,7 +70,7 @@
                 formatoptions:{on:'正职', off:'副职'}},
             {label: '行政级别', name: 'unitPost.adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'unitPost.postType', width: 150, formatter: $.jgrid.formatter.MetaType},
-            {label: '职务类别', name: 'unitPost.postClass', formatter: $.jgrid.formatter.MetaType},
+            /*{label: '职务类别', name: 'unitPost.postClass', formatter: $.jgrid.formatter.MetaType},*/
             {label: '是否占干部职数', name: 'unitPost.isCpc', width: 120, formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '备注', name: 'remark', align:'left', width: 250}
         ]

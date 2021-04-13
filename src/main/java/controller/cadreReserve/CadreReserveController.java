@@ -361,6 +361,7 @@ public class CadreReserveController extends BaseController {
                                   Boolean hasCrp, // 是否有干部挂职经历
                                   Boolean hasAbroadEdu, // 是否有国外学习经历
                                   Integer cadreId,
+                                  String realname,
                                   String staffStatus,
                                   String isTemp,
                                   String sortBy, // 自定义排序
@@ -623,6 +624,10 @@ public class CadreReserveController extends BaseController {
         }
         if (cadreId != null) {
             criteria.andIdEqualTo(cadreId);
+        }
+
+        if(StringUtils.isNotBlank(realname)){
+            criteria.andCodeOrRealnameLike(realname);
         }
 
         if (unitTypes != null) {

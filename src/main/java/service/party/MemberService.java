@@ -706,7 +706,7 @@ public class MemberService extends MemberBaseMapper {
                     throw new OpException("第{0}行身份证号和学工号都为空", row);
                 }
                 Byte _type = 0;
-                //提取学工号
+                //提取学工号 param（混合，身份证，身份证号，混合，null）
                 codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
                 if (codeMap.size()==0)
                     continue;
@@ -842,6 +842,7 @@ public class MemberService extends MemberBaseMapper {
                     branch.setCreateTime(now);
                     branch.setSortOrder(getNextSortOrder("ow_branch",
                             "is_deleted=0 and party_id=" + partyId));
+                    branchService.dealShortName(branch);
                     branchMapper.insert(branch);
                     branchAdd++;
                 }
@@ -900,9 +901,6 @@ public class MemberService extends MemberBaseMapper {
             record.setRemark1(xlsRow.get(col++));
             record.setRemark2(xlsRow.get(col++));
             record.setRemark3(xlsRow.get(col++));
-            record.setRemark4(xlsRow.get(col++));
-            record.setRemark5(xlsRow.get(col++));
-            record.setRemark6(xlsRow.get(col++));
             record.setCreateTime(now);
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
 
@@ -1012,7 +1010,6 @@ public class MemberService extends MemberBaseMapper {
             memberMapper.updateByPrimaryKeySelective(member);
 
             SysUserView uv = sysUserService.findById(id);
-            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(id);
             Party party = partyMapper.selectByPrimaryKey(member.getPartyId());
             String partyName = party.getName();
             String branchName = "";
@@ -1025,20 +1022,16 @@ public class MemberService extends MemberBaseMapper {
 
             PropertyUtils.copyProperties(record, uv);
             PropertyUtils.copyProperties(record, member);
-            record.setUserId(null);
             record.setLable(lable);
             record.setPartyName(partyName);
             record.setBranchName(branchName);
             record.setDetailReason(detailReason);
-            if (teacherInfo != null) {
-                record.setProPost(teacherInfo.getProPost());
-            }
             memberHistoryService.insertSelective(record);
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY,
-                    "将"+record.getRealname()+"转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, detailReason);
+                    "转移至历史党员库", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, detailReason);
         }
     }
 }

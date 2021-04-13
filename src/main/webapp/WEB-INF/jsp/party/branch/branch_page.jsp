@@ -17,8 +17,9 @@
                                 ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
                                 ||not empty param.types ||not empty param.unitTypeId ||not empty param._integrity}"/>
             <div class="tabbable">
+                <shiro:hasPermission name="branch:edit">
                 <jsp:include page="menu.jsp"/>
-
+                </shiro:hasPermission>
                 <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
@@ -66,6 +67,7 @@
                     <i class="fa fa-random"></i> 支部转移</a>
                 </shiro:hasPermission>
 
+                <shiro:hasPermission name="branch:edit">
                 <div class="btn-group">
                     <button data-toggle="dropdown"
                             data-rel="tooltip" data-placement="top" data-html="true"
@@ -78,12 +80,14 @@
                             <a href="javascript:;" class="jqExportBtn"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                         </li>
+                        <shiro:hasPermission name="branchMemberGroup:list">
                         <li role="separator" class="divider"></li>
                         <li>
                             <a class="jqExportBtn"
                                data-querystr="exportType=secretary"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党支部书记</a>
                         </li>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="branchGroup:*">
                         <li role="separator" class="divider"></li>
                         <li>
@@ -102,6 +106,7 @@
                         </shiro:hasPermission>
                     </ul>
                 </div>
+                </shiro:hasPermission>
                 </c:if>
 
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -314,9 +319,11 @@
                         .format(rowObject.id, cellvalue==undefined?"0":cellvalue);
                 },frozen:true},
             </shiro:hasPermission>
+            <shiro:hasPermission name="branch:changeOrder">
             <c:if test="${cls==1 && !_query && empty param.sortBy}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
+            </shiro:hasPermission>
             <c:if test="${_p_owCheckIntegrity}">
             {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
@@ -330,10 +337,12 @@
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
             }},
+            <shiro:hasPermission name="branch:edit">
             { label:'支部转移<br/>记录', name: 'transferCount', width: 80, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined||cellvalue==0) return '--';
                 return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/branchTransferLog?branchId={0}" class="openView">查看({1})</a>'.format(rowObject.id, cellvalue);
             }},
+            </shiro:hasPermission>
             { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
 
                 if(cellvalue==undefined|| cellvalue==0) return 0;

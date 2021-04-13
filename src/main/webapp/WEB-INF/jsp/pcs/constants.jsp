@@ -16,6 +16,9 @@
 <c:set value="${_pMap['pcs_poll_site_name']}" var="_p_pcsSiteName"/>
 <c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
 
+<c:set var="prTypes" value="${cm:getMetaTypes('mc_pcs_pr_type')}"/>
+<c:set var="prTypeNum" value="${fn:length(prTypes)}"/>
+
 <c:set value="<%=RoleConstants.ROLE_PCS_ADMIN%>" var="ROLE_PCS_ADMIN"/>
 
 <c:set value="<%=PcsConstants.RESULT_STATUS_MAP%>" var="RESULT_STATUS_MAP"/>
@@ -38,11 +41,6 @@
 <c:set value="<%=PcsConstants.PCS_STAGE_SECOND%>" var="PCS_STAGE_SECOND"/>
 <c:set value="<%=PcsConstants.PCS_STAGE_THIRD%>" var="PCS_STAGE_THIRD"/>
 <c:set value="<%=PcsConstants.PCS_STAGE_MAP%>" var="PCS_STAGE_MAP"/>
-
-<c:set value="<%=PcsConstants.PCS_PR_TYPE_PRO%>" var="PCS_PR_TYPE_PRO"/>
-<c:set value="<%=PcsConstants.PCS_PR_TYPE_STU%>" var="PCS_PR_TYPE_STU"/>
-<c:set value="<%=PcsConstants.PCS_PR_TYPE_RETIRE%>" var="PCS_PR_TYPE_RETIRE"/>
-<c:set value="<%=PcsConstants.PCS_PR_TYPE_MAP%>" var="PCS_PR_TYPE_MAP"/>
 
 <c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_MAP%>" var="PCS_PR_USER_TYPE_MAP"/>
 <c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_CADRE%>" var="PCS_PR_USER_TYPE_CADRE"/>

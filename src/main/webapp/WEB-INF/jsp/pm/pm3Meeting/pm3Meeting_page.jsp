@@ -228,6 +228,7 @@ pageEncoding="UTF-8" %>
                     },frozen: true},
                 </shiro:hasPermission>
             </c:if>
+            { label: '审核意见',name: 'checkOpinion',width:175},
             {
                 label: '年份', name: 'year', width:60, frozen:true
             },
@@ -282,7 +283,7 @@ pageEncoding="UTF-8" %>
                 })).join(",")
                 }},
             { label: '缺席原因',name: 'absentReason',align:'left', width: 200},
-            { label: '审核意见',name: 'checkOpinion',width:175},
+
             { label: '备注',name: 'remark'}
         ]
     }).jqGrid("setFrozenColumns");

@@ -142,6 +142,7 @@
                 }
             },
             {label: '唯一标识', name: 'code', frozen: true, align: 'left', width: 250},
+            {label: '备注', name: 'remark', width: 200},
             {
                 label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/attachFile_changeOrder"}
@@ -164,8 +165,7 @@
                     return _cMap.ATTACH_FILE_TYPE_MAP[cellvalue];
                 }
             },
-            {label: '上传路径', name: 'path', width: 200},
-            {label: '备注', name: 'remark', width: 200},
+
             {
                 label: '上传人', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
                     return $.user(rowObject.userId, cellvalue);

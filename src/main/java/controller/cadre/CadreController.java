@@ -210,6 +210,7 @@ public class CadreController extends BaseController {
                            HttpServletRequest request,
                            @RequestParam(required = false, defaultValue = CADRE_STATUS_CJ + "") Byte status,
                            Integer cadreId,
+                           String realname,
                            Byte gender,
                            Integer startAge,
                            Integer endAge,
@@ -362,6 +363,10 @@ public class CadreController extends BaseController {
         if (cadreId != null) {
             criteria.andIdEqualTo(cadreId);
         }
+        if(StringUtils.isNotBlank(realname)){
+            criteria.andCodeOrRealnameLike(realname);
+        }
+
         if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }

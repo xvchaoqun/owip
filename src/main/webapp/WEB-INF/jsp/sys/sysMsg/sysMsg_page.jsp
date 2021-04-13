@@ -2,6 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="<%=SystemConstants.SYS_MSG_STATUS_UNCONFIRM%>" var="SYS_MSG_STATUS_UNCONFIRM"/>
+<c:set value="<%=SystemConstants.SYS_MSG_STATUS_CONFIRM%>" var="SYS_MSG_STATUS_CONFIRM"/>
 <c:set value="<%=SystemConstants.SYS_MSG_STATUS_MAP%>" var="SYS_MSG_STATUS_MAP"/>
 <div class="row">
     <div class="col-xs-12">
@@ -140,7 +141,7 @@ pageEncoding="UTF-8" %>
                 { label: '学工号',name: 'user.code',width:120},
                 { label: '接收人',name: 'user.realname'},
             </c:if>
-            { label: '标题', name: 'title',width: 250,align: 'left'},
+            { label: '主题', name: 'title',width: 250,align: 'left'},
             { label: '内容',name: 'content',width:548,align:"left"/*,formatter: function (cellvalue, options, rowObject) {
 
                 return ('<button class="popupBtn btn btn-primary btn-xs"' +
@@ -160,12 +161,11 @@ pageEncoding="UTF-8" %>
                 }},
             <c:if test="${page==1&&cls==2}">
                 { label: '确认',name: '_confirm',width:70,formatter:function (cellvalue, options, rowObject){
-                    var ids = new Array();
-                    ids.push(rowObject.id);
-                        return ('<button class="jqBatchBtn btn btn-success btn-xs" {1} data-title="确认" data-msg="确定已完成该提醒？" '+
-                            'data-url="${ctx}/sys/sysMsg_confirm?ids={0}"><i class="fa fa-hand-paper-o"></i> 确认</button>')
-                            .format(ids, rowObject.status==${SYS_MSG_STATUS_UNCONFIRM}? '' : 'disabled');
-                    }},
+                    if (rowObject.status == ${SYS_MSG_STATUS_CONFIRM}) return '--';
+                    return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="确认" data-msg="确定已完成该提醒？" '+
+                        'data-url="${ctx}/sys/sysMsg_confirm?ids={0}"><i class="fa fa-hand-paper-o"></i> 确认</button>')
+                        .format(rowObject.id);
+                }},
             </c:if>
             { label: '确认时间',name: 'confirmTime', width:130, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y.m.d H:i'}},

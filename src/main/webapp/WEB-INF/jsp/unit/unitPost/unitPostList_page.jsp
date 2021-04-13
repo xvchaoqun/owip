@@ -146,7 +146,7 @@
                         $("#searchForm2 select[name=postType]").val('${param.postType}');
                     </script>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label>职务类别</label>
                     <select data-rel="select2" name="postClass" data-width="100" data-placeholder="请选择">
                         <option></option>
@@ -155,7 +155,7 @@
                     <script type="text/javascript">
                         $("#searchForm2 select[name=postClass]").val(${param.postClass});
                     </script>
-                </div>
+                </div>--%>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
                        data-url="${ctx}/unitPostList?cls=${cls}&unitId=${param.unitId}"

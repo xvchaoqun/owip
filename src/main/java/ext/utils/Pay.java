@@ -171,7 +171,7 @@ public class Pay implements IPay {
         return result;
     }
 
-    public Map<String, String> orderParamMap(String orderNo, String amount, String code, boolean isMobile){
+    public Map<String, String> orderParamMap(int[] recordIds, String orderNo, String amount, String code, boolean isMobile){
 
         // 元 -> 分
         BigDecimal fen = new BigDecimal(amount).multiply(BigDecimal.valueOf(100));
@@ -194,11 +194,11 @@ public class Pay implements IPay {
     }
 
     // amount 单位：人民币元
-    public OrderFormBean createOrder(String orderNo, String amount, String code, boolean isMobile) {
+    public OrderFormBean createOrder(int[] recordIds, String orderNo, String amount, String code, boolean isMobile) {
 
         OrderFormBean bean = new OrderFormBean();
 
-        Map<String, String> paramMap = orderParamMap(orderNo, amount, code, isMobile);
+        Map<String, String> paramMap = orderParamMap(recordIds, orderNo, amount, code, isMobile);
 
         bean.setParamMap(paramMap);
         //bean.setSign(sign(paramMap));

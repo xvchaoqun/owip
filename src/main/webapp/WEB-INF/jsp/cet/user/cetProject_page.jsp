@@ -88,7 +88,7 @@ pageEncoding="UTF-8" %>
 
                 return '--';
             }},
-            {label: '培训课件', name: '_file', width: 80, formatter: function (cellvalue, options, rowObject) {
+            {label: '培训材料', name: '_file', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                     if(rowObject.fileCount<=0) return '--'
                     return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}&view=1" data-width="800"' +

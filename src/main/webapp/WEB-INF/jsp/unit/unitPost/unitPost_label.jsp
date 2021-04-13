@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender ||not empty param.nation
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.realname ||not empty param.gender ||not empty param.nation
                 ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
                 ||not empty param.startNowPostAge||not empty param.endNowPostAge
                 ||not empty param.startPostMonth||not empty param.endPostMonth
@@ -87,11 +87,12 @@ pageEncoding="UTF-8" %>
                                 <input type="hidden" name="status" value="${status}">
                                 <div class="columns">
                                     <div class="column">
-                                        <label>姓名</label>
+                                        <label>姓名 <span class="prompt" data-title="查询说明"
+							  data-prompt="根据干部库中的姓名或工号进行精准查询"><i class="fa fa-question-circle-o"></i></span></label>
                                         <div class="input">
                                             <select data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/cadre_selects?status=${status}"
-                                                    name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                    name="cadreId" data-placeholder="请输入账号或姓名或工号">
                                                 <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                             </select>
                                         </div>

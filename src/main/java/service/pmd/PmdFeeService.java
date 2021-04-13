@@ -72,7 +72,7 @@ public class PmdFeeService extends PmdBaseMapper {
 
             PmdFee record = new PmdFee();
             record.setId(id);
-            record.setStatus(PmdConstants.PMD_FEE_STATUS_NORMAL);
+            record.setStatus(PmdConstants.PMD_FEE_STATUS_DELETED);
             pmdFeeMapper.updateByPrimaryKeySelective(record);
 
             sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),

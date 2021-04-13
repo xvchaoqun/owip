@@ -1,8 +1,10 @@
 package service.pcs;
 
+import com.alibaba.fastjson.JSONObject;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.MemberView;
+import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrRecommend;
@@ -15,6 +17,7 @@ import sys.constants.CadreConstants;
 import sys.constants.PcsConstants;
 import sys.tags.CmTag;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,27 @@ import java.util.Map;
 public class PcsPrCandidateService extends PcsBaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_candidate";
+
+    // 党代表候选人初步人选数据统计 partyId=null时是全校统计
+    public PcsPrAllocate statRealPcsPrAllocate(int configId, Byte stage, Integer partyId, Boolean isChosen){
+
+        PcsPrAllocate pcsPrAllocate = iPcsMapper.statRealPcsPrAllocate2(configId, stage, partyId, isChosen);
+        if(pcsPrAllocate==null) return null;
+
+        Map<Integer, Integer> prCountMap = new HashMap<>();
+        List<Map> map = iPcsMapper.statRealPcsPrAllocate1(configId, stage, partyId, isChosen);
+
+        if(map!=null) {
+            for (Map entity : map) {
+                int type = ((Long) entity.get("type")).intValue();
+                int count = ((Long) entity.get("type_count")).intValue();
+                prCountMap.put(type, count);
+            }
+            pcsPrAllocate.setPrCount(JSONObject.toJSONString(prCountMap));
+        }
+
+        return pcsPrAllocate;
+    }
 
     // 获得某个分党委入选名单列表
     public Map<Integer, PcsPrCandidate> findSelectedMap(int configId, byte stage, int partyId){
@@ -60,7 +84,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
         }
         //example.setOrderByClause("party_sort_order desc, type asc, leader_sort_order desc, vote desc, positive_vote desc, sort_order asc");
         //example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
-        example.setOrderByClause("leader_sort_order desc, branch_vote desc, vote desc, positive_vote desc");
+        example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -69,7 +93,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
     }
 
     // 获得分党委某个类型下的被推荐人
-    public List<PcsPrCandidate> find(int configId, byte stage, byte type, int partyId){
+    public List<PcsPrCandidate> find(int configId, byte stage, int type, int partyId){
 
         PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(stage)
@@ -77,7 +101,7 @@ public class PcsPrCandidateService extends PcsBaseMapper {
 
         //example.setOrderByClause("sort_order asc");
         //example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
-        example.setOrderByClause("leader_sort_order desc, branch_vote desc, vote desc, positive_vote desc");
+        example.setOrderByClause("branch_vote desc, vote desc, positive_vote desc");
 
         return pcsPrCandidateMapper.selectByExample(example);
     }

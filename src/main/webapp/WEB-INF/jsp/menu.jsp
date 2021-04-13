@@ -27,9 +27,8 @@
         <a href="javascript:;" class="dropdown-toggle">
             <i class="menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>"></i>
             <span class="menu-text"> ${menu.name} </span>
-            <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
-                <span class="badge badge-danger">${cacheCount}</span>
-            </c:if>
+            <c:set var="displayBadge" value="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}"/>
+            <span class="badge badge-danger ${displayBadge?'':'hide'}">${cacheCount}</span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
@@ -46,9 +45,8 @@
             </c:if>
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>
                 <span class="menu-text"> ${menu.name} </span>
-                <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
-                    <span class="badge badge-warning">${cacheCount}</span>
-                </c:if>
+                <c:set var="displayBadge" value="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}"/>
+                <span class="badge badge-danger ${displayBadge?'':'hide'}">${cacheCount}</span>
             </a>
             <b class="arrow"></b>
         </li>

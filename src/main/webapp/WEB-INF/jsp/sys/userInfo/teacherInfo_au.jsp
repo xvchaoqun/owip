@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
-    <h3>修改教职工党员人事信息</h3>
+    <h3>修改基础信息</h3>
     <hr/>
     <form class="form-horizontal" action="${ctx}/teacherInfo_au" autocomplete="off" disableautocomplete id="baseInfoForm"
           method="post">
@@ -10,7 +9,7 @@
         <div class="row">
             <div class="col-xs-4">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">系统账号</label>
+                    <label class="col-xs-3 control-label">工号</label>
                     <div class="col-xs-6 label-text">
                         ${uv.code}
                     </div>
@@ -63,7 +62,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label"><span class="star">*</span> 民族</label>
                     <div class="col-xs-6">
-                         <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
+                         <select required name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
                              <option></option>
                             <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
                             <option value="${nation.name}">${nation.name}</option>

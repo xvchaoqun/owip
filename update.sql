@@ -1,6 +1,111 @@
 
+20210411
+-- 大工
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `authorized` VARCHAR(50) NULL DEFAULT NULL COMMENT '编制' AFTER `regular_time`;
+
+20210411
+-- 吉大、西工大
+
+ALTER TABLE `cet_project_file`
+	ADD COLUMN `website` VARCHAR(200) NULL DEFAULT NULL COMMENT '培训材料网址' AFTER `file_path`;
+
+ALTER TABLE `ow_member_history`
+	CHANGE COLUMN `phone` `mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机' COLLATE 'utf8_general_ci' AFTER `pro_post`;
+
+-- 更新utils、ext
+
+
+UPDATE ow_party p,sys_config s SET p.short_name=SUBSTRING_INDEX(p.name,s.school_name,-1) WHERE (p.short_name IS NULL OR p.short_name='') AND s.id=4;
+UPDATE ow_branch p,sys_config s SET p.short_name=SUBSTRING_INDEX(p.name,s.school_name,-1) WHERE (p.short_name IS NULL OR p.short_name='') AND s.id=4;
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+    VALUES ('ow_show_full_name', '党组织显示全称', 'true', 3, 99, '页面显示的党组织和党组织的select标签中，是：分党委和党支部显示全称；否：分党委和党支部显示简称；');
+
+
+
+20210408
+-- 戏曲、哈工大、北师大
+
+update sys_resource set url='/member?cls=-1' where permission='member:list';
+update sys_resource set url='/memberReg?cls=3' where permission='memberReg:list';
+
+update ow_member_stay wms left join ow_member om
+on wms.user_id=om.user_id set om.`status`=5 where om.`status`=1 and wms.`status`=3;
+
+20210407
+-- 测试
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `check_time` DATETIME NULL DEFAULT NULL COMMENT '审批时间' AFTER `create_time`;
+-- 更新 ow_member_stay_view
+
+20210406
+-- 珠海-  北师大
+
+20210405
+-- 戏曲
+
+ALTER TABLE `pcs_pr_allocate`
+	CHANGE COLUMN `candidate_count` `candidate_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '代表上限，投票阶段每个分党委的推荐代表上限' AFTER `party_id`;
+
+ALTER TABLE `pcs_pr_allocate`
+	ADD COLUMN `pr_count` TEXT NULL COMMENT '代表构成，json格式，{元数据类型:数量,...}' AFTER `candidate_count`;
+
+-- !!!!删除前先更新!!!! pr_count json
+-- 执行 /test/pcs.jsp
+/*ALTER TABLE `pcs_pr_allocate`
+	DROP COLUMN `pro_count`,
+	DROP COLUMN `stu_count`,
+	DROP COLUMN `retire_count`;*/
+
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '代表类型' AFTER `branch_vote`;
+
+INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`,
+                               `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
+                               VALUES (95, '党代会代表类型', '', '', 'mc_pcs_pr_type', '', '账号类型', '', 2620, 0);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '专业技术人员和干部代表', 'mt_ztjcet', NULL, '1', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '学生代表', 'mt_llqjgb', NULL, '2,3,4', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (95, '离退休代表', 'mt_i2uqrl', NULL, '5', '', 5, 1);
+
+
+ALTER TABLE `pcs_recommend`
+	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NULL COMMENT '应参会党员数' AFTER `branch_id`,
+	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NULL COMMENT '实际参会党员数' AFTER `expect_member_count`;
+
+ALTER TABLE `pcs_pr_recommend`
+	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NULL COMMENT '应参会党员数，三下三上不填' AFTER `party_id`,
+	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NULL COMMENT '实参会党员数，三下三上不填' AFTER `expect_member_count`,
+	CHANGE COLUMN `expect_positive_member_count` `expect_positive_member_count` INT(10) UNSIGNED NULL COMMENT '应参会正式党员数' AFTER `actual_member_count`,
+	CHANGE COLUMN `actual_positive_member_count` `actual_positive_member_count` INT(10) UNSIGNED NULL COMMENT '实参会正式党员数' AFTER `expect_positive_member_count`;
+
+-- 删除 PCS_PR_TYPE_
+-- 删除 PcsPrAlocateService（拼写错误）
+
+
+20210402
+-- 戏曲
+
+-- 更新 unit_post_view
+-- 删除 role_unit_admin_dw，role_unit_admin_XZ -> role_unit_admin
+-- 更新导入样表、utils
+
+ALTER TABLE `unit_post`
+	CHANGE COLUMN `post_class` `post_class` INT(10) UNSIGNED NOT NULL COMMENT '职务类别，关联元数据，弃用' AFTER `post_type`;
+ALTER TABLE `unit_post`
+	CHANGE COLUMN `post_class` `post_class` INT(10) UNSIGNED NULL COMMENT '职务类别，关联元数据，弃用' AFTER `post_type`;
+
+update sys_role set code='role_unit_admin', name='班子负责人' where code='role_unit_admin_xz';
+delete from sys_role where code='role_unit_admin_dw';
+
 20210331
--- 南航、戏曲-、哈工大、吉大、大工、珠海-、北师大
+-- 哈工大、北师大、吉大
+
+/*types=${USER_TYPE_JZG}->types=${USER_TYPE_JZG},${USER_TYPE_RETIRE}*/
+
+
+20210331   17:00
+-- 南航、戏曲-、哈工大、大工、珠海-
 
 -- 更新utils
 
@@ -118,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `ow_member_history` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='历史党员库';
-INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2605, '标签', '历史党员库', '', 'mc_mh_lable', '', '', '', 2619, 0);
+replace INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`) VALUES (2605, '标签', '历史党员库', '', 'mc_mh_lable', '', '', '', 2619, 0);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '党员出国境', 'mt_udgxuo', NULL, NULL, '', 2, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '失联党员', 'mt_n8hlza', NULL, NULL, '', 1, 1);
 
@@ -292,11 +397,6 @@ ALTER TABLE `ow_member_out`
 
 ALTER TABLE `ow_member_out`
 	ADD COLUMN `member_type` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`;
-
-/*update  ow_member_out mo, ow_member m
-left join sys_teacher_info t on t.user_id = m.user_id
-set mo.member_type=if(t.is_retire, 3, m.type), mo.check_time=mo.apply_time
-where mo.user_id=m.user_id;*/
 
 ALTER TABLE `ow_member_out`
 	CHANGE COLUMN `member_type` `member_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '用户类别，1 学生 2 在职教职工 3 离退休' AFTER `sn`,
@@ -687,7 +787,7 @@ ALTER TABLE `ow_branch_member`
 -- 更新 ow_member_view
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2572, 0, '历史党员管理', '', 'url', 'fa fa-star-o', '/member/memberHistory', 105, '0/1/105/', 0, 'memberHistory:list', 2, NULL, NULL, 1, 7537);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2633, 0, '删除', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:', 2, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2633, 0, '删除', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:del', 2, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2573, 0, '编辑', '', 'function', '', NULL, 2572, '0/1/105/2572/', 1, 'memberHistory:edit', 2, NULL, NULL, 1, NULL);
 
 DROP TABLE IF EXISTS `ow_member_history`;

@@ -265,19 +265,19 @@ public class SystemController extends BaseController {
         FileUtils.mkdirs(tmpdir, false);
         String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
 
-        boolean backup = MySqlUtils.backup(host, PropertiesUtils.getString("jdbc_user"),
+        MySqlUtils.BackupResult backupResult = MySqlUtils.dbBackup(host, PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, db);
 
         // 打成压缩包下载
         Map<String, File> fileMap = new LinkedHashMap<>();
         fileMap.put(fileName, new File(tmpdir + File.separator + fileName));
-        if(backup) {
-            DownloadUtils.addFileDownloadCookieHeader(response);
-        }
+
+        DownloadUtils.addFileDownloadCookieHeader(response);
         DownloadUtils.zip(fileMap, fileName, request, response);
         // 下载后从服务器删除
         FileUtils.deleteDir(new File(tmpdir));
 
-        logger.debug(addLog(LogConstants.LOG_ADMIN, "下载备份数据库：" + db));
+        logger.info(log(LogConstants.LOG_ADMIN, "下载备份数据库：{0}，结果：{1}，{2}",
+                db, backupResult.success, backupResult.msg));
     }
 }

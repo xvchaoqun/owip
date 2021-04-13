@@ -52,7 +52,7 @@ public class PcsPrAllocateController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        pcsPrAlocateService.batchUpdate(configId, records);
+        pcsPrAllocateService.batchUpdate(configId, records);
 
         logger.info(addLog(LogConstants.LOG_PCS, "更新党代表分配方案：%s", JSONUtils.toString(records,false)));
 

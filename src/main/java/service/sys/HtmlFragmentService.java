@@ -86,7 +86,6 @@ public class HtmlFragmentService extends BaseMapper {
             @CacheEvict(value = "HtmlFragment:Code:ALL", allEntries = true),
             @CacheEvict(value = "HtmlFragment:Code:Tree", allEntries = true)
     })
-
     //彻底删除系统说明
     public void doBatchDel(Integer[] ids) {
 
@@ -98,6 +97,11 @@ public class HtmlFragmentService extends BaseMapper {
     }
 
     //删除系统说明
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "HtmlFragment:Code:ALL", allEntries = true),
+            @CacheEvict(value = "HtmlFragment:Code:Tree", allEntries = true)
+    })
     public void batchDel(Integer[] ids) {
         if (ids == null || ids.length == 0) return;
 
@@ -111,6 +115,11 @@ public class HtmlFragmentService extends BaseMapper {
     }
 
     //返回系统说明
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "HtmlFragment:Code:ALL", allEntries = true),
+            @CacheEvict(value = "HtmlFragment:Code:Tree", allEntries = true)
+    })
     public void batchUnDel(Integer[] ids) {
         if (ids == null || ids.length == 0) return;
 

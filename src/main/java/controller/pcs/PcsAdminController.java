@@ -25,7 +25,6 @@ import persistence.party.common.OwAdmin;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -281,7 +280,7 @@ public class PcsAdminController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsPartyList:admin")
+    @RequiresPermissions("pcsBranch:admin")
     @RequestMapping("/pcs_admin")
     public String pcs_admin(Integer partyId,Integer branchId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
 

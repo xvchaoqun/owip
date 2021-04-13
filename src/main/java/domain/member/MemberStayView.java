@@ -111,6 +111,8 @@ public class MemberStayView implements Serializable {
 
     private Date createTime;
 
+    private Date checkTime;
+
     private Integer printCount;
 
     private Date lastPrintTime;
@@ -487,6 +489,14 @@ public class MemberStayView implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(Date checkTime) {
+        this.checkTime = checkTime;
     }
 
     public Integer getPrintCount() {

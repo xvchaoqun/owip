@@ -50,7 +50,13 @@ public class StudentInfoService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(StudentInfo record){
+    public int insertOrUpdateSelective(StudentInfo record){
+
+        Integer userId = record.getUserId();
+        StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
+        if(studentInfo==null){
+            return studentInfoMapper.insertSelective(record);
+        }
 
         return studentInfoMapper.updateByPrimaryKeySelective(record);
     }

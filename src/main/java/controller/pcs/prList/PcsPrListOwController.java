@@ -179,15 +179,15 @@ public class PcsPrListOwController extends PcsBaseController {
 
         if (partyId != null) {
             // 单个二级党组织
-            PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+            PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.get(configId, partyId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         } else {
             // 全校
-            PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
+            PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         }
 
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
+        PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId,
                 PcsConstants.PCS_STAGE_SECOND, partyId, true);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 

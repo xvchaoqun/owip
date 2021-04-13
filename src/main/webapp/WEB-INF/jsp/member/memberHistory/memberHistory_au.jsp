@@ -2,11 +2,12 @@
 		 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div style="width: 900px">
-	<h3>${empty memberHistory?'添加':'修改'}历史党员</h3>
+	<h3>${(empty memberHistory||param.autoFill==1)?'添加':'修改'}历史党员</h3>
 	<hr/>
 	<form class="form-horizontal" action="${ctx}/member/memberHistory_au" autocomplete="off" disableautocomplete id="memberHistoryForm" method="post">
 		<input type="hidden" name="id" value="${memberHistory.id}">
 		<input type="hidden" name="userId" value="${memberHistory.userId}">
+		<input type="hidden" name="status" value="${memberHistory.status}">
 		<div class="row">
 			<div class="col-xs-6">
 
@@ -14,6 +15,12 @@
 					<label class="col-xs-4 control-label">学工号</label>
 					<div class="col-xs-6">
 						<input class="form-control" style="width: 170px" type="text" name="code" value="${memberHistory.code}"/>
+						<div style="position: absolute;left: 190px;top: 0px;">
+							<a href="javascript:;" id="fillBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 填充中..."
+							   class="btn btn-success btn-sm">
+								<i class="fa fa-search"></i> 自动填充
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -193,7 +200,7 @@
 				<div class="form-group">
 					<label class="col-xs-5 control-label">手机</label>
 					<div class="col-xs-6">
-						<input class="form-control mobile" style="width: 170px" type="text" name="phone" value="${memberHistory.phone}"/>
+						<input class="form-control mobile" style="width: 170px" type="text" name="mobile" value="${memberHistory.mobile}"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -249,6 +256,41 @@
 </div>
 <script>
 
+	$("#memberHistoryForm #fillBtn").click(function () {
+
+		var $this = $(this);
+		var $fillbtn = $("#memberHistoryForm #fillBtn").button('loading');
+		var code = $("#memberHistoryForm input[name=code]").val();
+		if (code == '') {
+			$.tip({$form: $("#memberHistoryForm"), field: "code", msg: "请先填写学工号", my: 'bottom center', at: 'top center'});
+			$fillbtn.button('reset');
+			return;
+		}
+		$.post("${ctx}/member/memberHistory_fill", {code: code}, function (ret) {
+
+			if (ret.success) {
+				var msg = "<span class='text-success'><i class='fa fa-check'></i> 自动填充成功。<span>";
+				switch(ret.result){
+					case 1:
+						msg = "<span class='text-danger'> 请先填写学工号。<span>";
+						break;
+					case 2:
+						msg = "<span class='text-danger'> 学工号不存在。<span>";
+						break;
+					case 3:
+						$("#body-content-view").load("${ctx}/member/memberHistory_au?autoFill=1&code="+code)
+						break;
+				}
+				$.tip({
+					$target: $this, $container: $("#body-content-view"),
+					msg: msg, my: 'bottom center', at: 'top center'
+				})
+
+			}
+		});
+		$fillbtn.button('reset');
+	})
+
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'), {endDate: '${_today}'});
 
@@ -265,6 +307,7 @@
 						//SysMsg.success('提交成功。', '成功',function(){
 						$("#jqGrid").trigger("reloadGrid");
 						$.hideView();
+						_reload();
 						//});
 					}
 					$btn.button('reset');

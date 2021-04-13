@@ -39,6 +39,8 @@
                                     <td width="200">${pcsBranchBean.name}</td>
                                     <td>党员数：</td>
                                     <td width="60">${pcsBranchBean.memberCount}</td>
+                                    <td>正式党员数：</td>
+                                    <td width="60">${pcsBranchBean.positiveCount}</td>
                                     <td>应参会党员数：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
@@ -488,7 +490,7 @@
                         <c:if test="${param.admin!=1}">
                         $.hideView();
                         </c:if>
-                        $("#submitBtn").button("reset");
+
                     } else if(_isFinish == 0){
                         /*$.tip({
                             $target: $("#saveBtn"),
@@ -505,6 +507,7 @@
                         SysMsg.info("修改成功。")
                     }
                 }
+                $("#submitBtn").button("reset");
                 $("#saveBtn").button("reset");
                 $("#updateBtn").button("reset");
             }

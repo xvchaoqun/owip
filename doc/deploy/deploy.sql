@@ -16,6 +16,9 @@ mysqldump  -uroot -p123 --default-character-set=utf8 -t -B db_owip --tables base
 mysqldump  -uroot -p123 --default-character-set=utf8 -t -B db_owip --tables sys_user -w "username='zzbgz'" >> D:/tmp/db_owip.sql
 #替换 `db_owip`.
 
+# 提取部分表结构
+mysqldump  -uroot -p123 --default-character-set=utf8 -t -B db_owip --tables ext_jzg ext_bks ext_yjs  >> /tmp/t.sql
+
 
 -- 统一修改干部的称谓（仅更新还没设置称谓的）
 update sys_user_info ui, cadre c set ui.msg_title=concat(left(ui.realname,1), '老师')

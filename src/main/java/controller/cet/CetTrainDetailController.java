@@ -175,16 +175,6 @@ public class CetTrainDetailController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail/stat")
-    public String stat(int trainId, ModelMap modelMap) {
-
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        modelMap.put("cetTrain", cetTrain);
-
-        return "cet/cetTrain/cetTrain_detail/stat";
-    }
-
-    @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/time")
     public String time(Integer trainId, Integer projectId, ModelMap modelMap) {
 

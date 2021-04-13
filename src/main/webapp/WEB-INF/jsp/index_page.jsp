@@ -2,6 +2,19 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="widget-box transparent" style="margin-top: -41px">
+    <shiro:hasPermission name="sysMsg:list">
+        <c:if test="${sysMsgCount>0}">
+            <a href="${ctx}/#/sys/sysMsg?cls=2">
+        <div class="alert alert-block alert-danger" style="font-size: large">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <i class="ace-icon fa fa-envelope"></i>
+            您有${sysMsgCount}条未确认的系统提醒。
+        </div>
+                </a>
+        </c:if>
+    </shiro:hasPermission>
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             &nbsp;
@@ -48,17 +61,7 @@
             </ul>
         </div>
     </div>
-    <shiro:hasPermission name="sysMsg:list">
-        <c:if test="${sysMsgCount>0}">
-        <div class="alert alert-block alert-success" id="sysMsg">
-            <button type="button" class="close" data-dismiss="alert">
-                <i class="ace-icon fa fa-times"></i>
-            </button>
-            <i class="ace-icon fa fa-envelope<c:if test="${sysMsgCount==0}">-open-o</c:if>"></i>
-            <a href="${ctx}/#/sys/sysMsg?cls=2">您有${sysMsgCount}条未确认的系统提醒</a>。
-        </div>
-        </c:if>
-    </shiro:hasPermission>
+
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8" id="index-content">
@@ -68,15 +71,3 @@
     </div><!-- /.widget-body -->
 </div>
 <!-- /.widget-box -->
-<div style="clear: both"></div>
-<style>
-    /*#sysMsg a{
-        color: orange;
-    }*/
-    #sysMsg{
-        height: 40px;
-        padding:7px 15px;
-        margin-bottom: 5px;
-        /*color: orange;*/
-    }
-</style>

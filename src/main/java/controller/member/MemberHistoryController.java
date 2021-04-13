@@ -2,10 +2,11 @@ package controller.member;
 
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.member.MemberHistory;
-import domain.member.MemberHistoryExample;
+import domain.member.*;
 import domain.member.MemberHistoryExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -40,6 +41,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Controller
@@ -56,10 +58,18 @@ public class MemberHistoryController extends MemberBaseController {
                                 ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-
-        int total = (int) memberHistoryMapper.countByExample(new MemberHistoryExample());
         MemberHistoryExample example = new MemberHistoryExample();
-        example.createCriteria().andStatusEqualTo((byte) 0);
+        MemberHistoryExample.Criteria criteria = example.createCriteria();
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+            if (ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)) {
+                criteria.andAddUserIdEqualTo(ShiroHelper.getCurrentUserId());
+            }else {
+                throw new UnauthorizedException();
+            }
+        }
+
+        int total = (int) memberHistoryMapper.countByExample(example);
+        criteria.andStatusEqualTo((byte) 0);
         modelMap.put("total", total);
         modelMap.put("normalCount", memberHistoryMapper.countByExample(example));
 
@@ -98,7 +108,7 @@ public class MemberHistoryController extends MemberBaseController {
 
         MemberHistoryExample example = new MemberHistoryExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(cls);
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("add_date desc");
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
             if (ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)){
                 criteria.andAddUserIdEqualTo(ShiroHelper.getCurrentUserId());
@@ -187,6 +197,14 @@ public class MemberHistoryController extends MemberBaseController {
                                    HttpServletRequest request) {
 
         Integer id = record.getId();
+        String code = record.getCode();
+        if (StringUtils.isNotBlank(code)){
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null){
+                throw new OpException("学工号不存在");
+            }
+            record.setUserId(uv.getUserId());
+        }
 
         if (id == null) {
 
@@ -217,11 +235,39 @@ public class MemberHistoryController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping("/memberHistory_au")
     public String memberHistory_au(Integer id,
-                                   ModelMap modelMap) {
+                                   String code,
+                                   ModelMap modelMap) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         if (id != null) {
             MemberHistory memberHistory = memberHistoryMapper.selectByPrimaryKey(id);
             modelMap.put("memberHistory", memberHistory);
+        }
+
+        if (StringUtils.isNotBlank(code)){
+
+            MemberHistory memberHistory = new MemberHistory();
+
+            SysUserView uv = sysUserService.findByCode(code);
+            MemberViewExample example = new MemberViewExample();
+            example.createCriteria().andUserIdEqualTo(uv.getId());
+            List<MemberView> memberViewList = memberViewMapper.selectByExample(example);
+            if (memberViewList == null || memberViewList.size() == 0) {
+                PropertyUtils.copyProperties(memberHistory, uv);
+            }else {
+                MemberView memberView = memberViewList.get(0);
+                PropertyUtils.copyProperties(memberHistory, memberView);
+                memberHistory.setType(memberView.getUserType());
+                memberHistory.setPartyName(memberView.getPartyName());
+                memberHistory.setBranchName(memberView.getBranchName());
+            }
+            memberHistory.setStatus((byte) 1);
+            if (id!=null){
+                memberHistory.setId(id);
+            }else {
+                memberHistory.setId(null);
+            }
+            modelMap.put("memberHistory", memberHistory);
+
         }
         return "member/memberHistory/memberHistory_au";
     }
@@ -249,10 +295,28 @@ public class MemberHistoryController extends MemberBaseController {
     @RequiresPermissions("memberHistory:edit")
     @RequestMapping(value = "/memberHistory_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberHistory_recover(Integer[] ids,
+    public Map do_memberHistory_recover(Integer[] ids, String remark,
                              HttpServletRequest request){
         if (null != ids && ids.length>0){
-            memberHistoryService.recover(ids);
+            memberHistoryService.recover(ids, remark);
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping("/recoverToMember")
+    public String recoverToMember(){
+
+        return "member/memberHistory/recoverToMember";
+    }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping(value = "/recoverToMember", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_recoverToMember(Integer[] ids, Integer partyId, Integer branchId, String remark, HttpServletRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+
+        if (null != ids && ids.length>0){
+            memberHistoryService.recoverToMember(ids, partyId, branchId, remark);
         }
         return success(FormUtils.SUCCESS);
     }
@@ -311,7 +375,7 @@ public class MemberHistoryController extends MemberBaseController {
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYYMMDD_DOT),
                     record.getProPost(),
-                    record.getPhone(),
+                    record.getMobile(),
                     record.getEmail(),
                     record.getAddUser().getRealname(),
                     DateUtils.formatDate(record.getAddDate(), DateUtils.YYYYMMDD_DOT),
@@ -359,10 +423,22 @@ public class MemberHistoryController extends MemberBaseController {
         for (Map<Integer, String> xlsRow : xlsRows){
             int col = 0;
             MemberHistory record = new MemberHistory();
-            record.setCode(StringUtils.trimToNull(xlsRow.get(col++)));
+            String code = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(code)){
+                throw new OpException("第{0}行学工号为空",row);
+            }
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号为不存在",row);
+            }
+            record.setUserId(uv.getUserId());
+            record.setCode(code);
             String realname = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(realname)) {
                 throw new OpException("第{0}行姓名为空",row);
+            }
+            if (!StringUtils.equals(realname, uv.getRealname())){
+                throw new OpException("第{0}行姓名与系统中学工号对应的姓名不一致", row);
             }
             record.setRealname(realname);
             String _type = StringUtils.trimToNull(xlsRow.get(col++));
@@ -406,7 +482,7 @@ public class MemberHistoryController extends MemberBaseController {
             String _lable = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isNotBlank(_lable)){
                 List<Integer> lableList= new ArrayList<>();
-                List<String> _lableList = new ArrayList<>(Arrays.asList(StringUtils.split(_lable, ",")));
+                List<String> _lableList = new ArrayList<>(Arrays.asList(StringUtils.split(_lable, ",|，")));
                 for (String str : _lableList) {
                     if (lableValueList.contains(str)){
                         lableList.add(metaTypeService.findByName("mc_mh_lable", str).getId());
@@ -422,7 +498,7 @@ public class MemberHistoryController extends MemberBaseController {
             record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setPhone(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setDetailReason(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -441,6 +517,33 @@ public class MemberHistoryController extends MemberBaseController {
         logger.info(log(LogConstants.LOG_MEMBER,
                 "导入历史党员成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount-addCount));
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("memberHistory:edit")
+    @RequestMapping(value = "memberHistory_fill", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberHistory_fill(String code){
+
+        Map<String, Object> resultMap = success();
+
+        int result = 0;
+        if (StringUtils.isBlank(code)){
+            result = 1; // 学工号为空
+            resultMap.put("result", result);
+            return resultMap;
+        }
+        SysUserView uv = sysUserService.findByCode(code);
+
+        if (uv == null) {
+            result = 2; // 学工号不存在
+        }
+        if (uv != null) {
+            result = 3; // 该学工号存在，可以添加
+        }
+
+        resultMap.put("result", result);
 
         return resultMap;
     }

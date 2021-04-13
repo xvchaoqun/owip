@@ -29,22 +29,30 @@
   <li class="${cls==3?'active':''}">
   <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=3"}><i class="fa fa-th${cls==3?'-large':''}"></i> 离退休党员(${cm:trimToZero(teacher_retireCount)})</a>
   </li>
-  <li class="${cls==10?'active':''}">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=10"}><i class="fa fa-th${cls==10?'-large':''}"></i>
+  <li class="${cls==-1?'active':''}">
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=-1"}><i class="fa fa-th${cls==-1?'-large':''}"></i>
       全部党员</a>
   </li>
     <shiro:hasPermission name="memberOut:list">
-  <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
+  <li class="dropdown <c:if test="${cls>=6}">active</c:if>" >
     <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-      <i class="fa fa-sign-out"></i> 已转出党员${cls==6?"(学生)":(cls==7)?"(教职工)":""}
+      <i class="fa fa-sign-out"></i> 已转移党员${cls>=6?"(":""}${cls==6?"转出学生":cls==7?"转出教职工":cls==8?"历史党员":cls==9?"暂留党员":""}${cls>=6?")":""}
       <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 100px"  role="menu">
       <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6"><i class="fa fa-hand-o-right"></i>  学生（${cm:trimToZero(student_transferCount)}）</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6"><i class="fa fa-hand-o-right"></i>  已转出学生党员</a>
       </li>
       <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=7"><i class="fa fa-hand-o-right"></i>  教职工（${cm:trimToZero(teacher_transferCount)}）</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=7"><i class="fa fa-hand-o-right"></i>  已转出教职工党员</a>
+      </li>
+        <shiro:hasPermission name="memberHistory:edit">
+      <li>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=8"><i class="fa fa-hand-o-right"></i>  已转移至历史党员库</a>
+      </li>
+        </shiro:hasPermission>
+      <li>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=9"><i class="fa fa-hand-o-right"></i>  已转移至暂留党员库</a>
       </li>
     </ul>
   </li>
