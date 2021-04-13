@@ -1,4 +1,8 @@
 
+ALTER TABLE `cadre_ad_log`
+	CHANGE COLUMN `admin_level` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别' AFTER `cadre_id`,
+	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性' AFTER `admin_level`;
+
 20210413
 -- 哈工大
 
