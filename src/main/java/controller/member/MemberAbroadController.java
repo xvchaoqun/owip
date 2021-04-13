@@ -224,7 +224,7 @@ public class MemberAbroadController extends MemberBaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"教工号|100", "姓名|100", "所在分党委|300|left",
+        String[] titles = {"教工号|100", "姓名|100", "所在党组织|300|left",
                 "所在党支部|300|left", "国家|100", "实际出发时间|100", "实归时间|100"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);

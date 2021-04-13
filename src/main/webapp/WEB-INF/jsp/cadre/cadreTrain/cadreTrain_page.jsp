@@ -22,7 +22,8 @@
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=hf_cadre_train">
-            <i class="fa fa-info-circle"></i> 填写说明</a></c:if>
+            <i class="fa fa-info-circle"></i> 填写说明</a>
+</c:if>
 
         <shiro:hasPermission name="cadreTrain:edit">
             <button class="popupBtn btn btn-success btn-sm"

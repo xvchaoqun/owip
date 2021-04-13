@@ -19,14 +19,11 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import static sys.constants.SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED;
 
 @Service
 public class MemberTransferService extends MemberBaseMapper {
@@ -185,7 +182,7 @@ public class MemberTransferService extends MemberBaseMapper {
         updateByPrimaryKeySelective(record);
     }*/
 
-    // 当前所在分党委审核通过
+    // 当前所在党组织审核通过
     @Transactional
     public void check1(int userId){
 
@@ -393,6 +390,7 @@ public class MemberTransferService extends MemberBaseMapper {
         int addCount = 0;
         for (MemberTransfer record : records) {
 
+            updateImportStatus(record);
             Integer userId = record.getUserId();
             record.setIsBack(false);
             MemberTransferExample example = new MemberTransferExample();
@@ -401,34 +399,35 @@ public class MemberTransferService extends MemberBaseMapper {
             if (memberTransferList == null || memberTransferList.size() == 0){
 
                 record.setApplyTime(new Date());
-                authAndStatus(record);
                 memberTransferMapper.insert(record);
                 addCount++;
             }else {
 
                 MemberTransfer memberTransfer = memberTransferList.get(0);
-                Integer id = memberTransfer.getId();
-                record.setId(id);
+                record.setId(memberTransfer.getId());
                 if (memberTransfer.getStatus()<MemberConstants.MEMBER_TRANSFER_STATUS_APPLY){
                     record.setApplyTime(new Date());
                 }
-                authAndStatus(record);
                 memberTransferMapper.updateByPrimaryKeySelective(record);
             }
 
             // 导入时，转入申请通过的话，需要判断修改党员库中党员的状态
             if (record.getStatus() == MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
-                Member member = memberService.get(userId);
-                if (member.getStatus() != MemberConstants.MEMBER_STATUS_NORMAL){
-                    member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
-                    memberMapper.updateByPrimaryKeySelective(member);
 
-                    sysApprovalLogService.add(member.getUserId(), ShiroHelper.getCurrentUserId(),
-                            SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                            SystemConstants.SYS_APPROVAL_LOG_PM,
-                            "转为正常党员",SYS_APPROVAL_LOG_STATUS_NONEED,
-                            "校内组织关系转接导入改变党员状态");
-                }
+                Member _member = new Member();
+                _member.setUserId(userId);
+                _member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 所有的转入都成为正常党员
+                _member.setPartyId(record.getToPartyId());
+                _member.setBranchId(record.getToBranchId());
+
+                memberService.updateByPrimaryKeySelective(_member, "批量导入校内组织关系转接");
+
+                applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                        MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus()),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "批量导入校内组织关系转接");
             }
         }
         return addCount;
@@ -438,7 +437,7 @@ public class MemberTransferService extends MemberBaseMapper {
     * 先判断权限：党建管理员导入，直接通过；分党委管理员导入，到转入党委审批阶段；其他导入，到申请阶段
     * 修改党员状态
     * */
-    public void authAndStatus(MemberTransfer record){
+    public void updateImportStatus(MemberTransfer record){
 
         Byte status = null;
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
@@ -447,19 +446,18 @@ public class MemberTransferService extends MemberBaseMapper {
             Integer loginUserId = ShiroHelper.getCurrentUserId();
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-
             boolean isToAdmin = partyMemberService.isPresentAdmin(loginUserId, record.getToPartyId());
 
             if(!isAdmin && !isToAdmin) {
-                record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
+                status = MemberConstants.MEMBER_TRANSFER_STATUS_APPLY;
             }else {
-                record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+                status = MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY;
                 record.setFromHandleTime(new Date());
             }
         }else {
             status = MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY;
         }
-        record.setStatus(status);
 
+        record.setStatus(status);
     }
 }

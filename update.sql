@@ -1,4 +1,22 @@
 
+ALTER TABLE `ow_member_transfer`
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(20) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `to_branch_id`,
+	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_fax`,
+	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
+	CHANGE COLUMN `from_handle_time` `from_handle_time` DATE NULL COMMENT '转出办理时间' AFTER `valid_days`,
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-2本人撤回 -1返回修改 0申请 1转出分党委审批 2转入分党委审批' AFTER `from_handle_time`;
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `is_full_time_teacher` `is_full_time_teacher` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
+
+ALTER TABLE `sys_user_info`
+	DROP COLUMN `post`;
+-- 更新 sys_user_view
+
+
+
+20210412
+-- 吉大、哈工大
 20210411
 -- 大工
 ALTER TABLE `sys_teacher_info`
@@ -87,7 +105,12 @@ ALTER TABLE `pcs_pr_recommend`
 -- 戏曲
 
 -- 更新 unit_post_view
--- 删除 role_unit_admin_dw，role_unit_admin_XZ -> role_unit_admin
+delete from sys_role  where code='role_unit_admin_dw';
+update sys_role set code='role_unit_admin' where code='role_unit_admin_xz';
+replace INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`, `m_resource_ids_minus`,
+                        `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`)
+                        VALUES ('role_unit_admin', '班子负责人', '1191,3050,5003,5004,5005', '-1', '-1', '-1', NULL, 0, 1, 69, '');
+
 -- 更新导入样表、utils
 
 ALTER TABLE `unit_post`

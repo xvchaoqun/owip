@@ -551,7 +551,7 @@ public class MemberApplyService extends MemberBaseMapper {
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
 
         Member member = memberService.get(userId);
-        // 修改党员发展申请人员的所在分党委和支部，如果是在预备或正式党员中修改，则相应的要修改党员信息
+        // 修改党员发展申请人员的所在党组织和支部，如果是在预备或正式党员中修改，则相应的要修改党员信息
         if (record.getPartyId() != null) {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);

@@ -607,7 +607,7 @@ public class PmdExtService {
     public void extJzgSalary_export(String salaryMonth, List<ExtJzgSalary> records, HttpServletResponse response) {
 
         int rownum = records.size();
-        String[] titles = {"日期|100","工号|100","姓名|50","所在分党委|350|left","所在党支部|350|left","校聘工资|80", "薪级工资|80",
+        String[] titles = {"日期|100","工号|100","姓名|50","所在党组织|350|left","所在党支部|350|left","校聘工资|80", "薪级工资|80",
                 "岗位工资|80","岗位津贴|80","职务补贴|80","职务补贴1|80","生活补贴|80",
                 "书报费|80","洗理费|80","工资冲销|80","失业个人|80","养老个人|80",
                 "医疗个人|80","年金个人|80","住房公积金|80","在职人员工资合计|80","校聘人员工资合计|80"};
@@ -670,7 +670,7 @@ public class PmdExtService {
     public void extRetireSalary_export(String salaryMonth, List<ExtRetireSalary> records, HttpServletResponse response) {
 
         int rownum = records.size();
-        String[] titles = {"日期|100","工号|100","姓名|50","所在分党委|350|left","所在党支部|350|left","党费计算基数|80"};
+        String[] titles = {"日期|100","工号|100","姓名|50","所在党组织|350|left","所在党支部|350|left","党费计算基数|80"};
         List<String[]> valuesList = new ArrayList<>();
 
         Map<Integer, Party> partyMap = partyService.findAll();
