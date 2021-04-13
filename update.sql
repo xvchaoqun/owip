@@ -1,4 +1,7 @@
 
+20210413
+-- 哈工大
+
 ALTER TABLE `ow_member_transfer`
 	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(20) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `to_branch_id`,
 	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_fax`,
