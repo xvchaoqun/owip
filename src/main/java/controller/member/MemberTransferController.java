@@ -325,9 +325,7 @@ public class MemberTransferController extends MemberBaseController {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
-        /*if(member.getPartyId().byteValue() == record.getToPartyId()){
-            return failed("转入不能是当前所在分党委");
-        }*/
+
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
 
@@ -477,8 +475,9 @@ public class MemberTransferController extends MemberBaseController {
 
         List<MemberTransfer> records = memberTransferMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100","姓名|100","所在分党委|300|left","所在党支部|300|left", "转入分党委|300|left",
-                "转入党支部|300|left", "介绍信有效期天数|100","转出办理时间|100","状态|150"};
+        String[] titles = {"学工号|100","姓名|100","所在党组织|300|left","所在党支部|300|left", "转入党组织|300|left",
+                "转入党支部|300|left", "转出单位联系电话|100","转出单位传真|100",
+                "党费缴纳至年月|100", "介绍信有效期天数|100","转出办理时间|100","状态|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberTransfer record = records.get(i);
@@ -502,8 +501,11 @@ public class MemberTransferController extends MemberBaseController {
                     branch==null?"":branch.getName(),
                     toPartyId==null?"":partyService.findAll().get(toPartyId).getName(),
                     toBranch==null?"":toBranch.getName(),
+                    record.getFromPhone(),
+                    record.getFromFax(),
+                    DateUtils.formatDate(record.getPayTime(), DateUtils.YYYYMM),
                     record.getValidDays()+"",
-                    DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYYMMDD_DOT),
                     record.getStatus()==null?"":MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus())
             };
             valuesList.add(values);
@@ -561,28 +563,21 @@ public class MemberTransferController extends MemberBaseController {
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
 
-            Byte status = MemberConstants.MEMBER_TRANSFER_STATUS_APPLY;
             if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
                 if (!adminPartyIdSet.contains(member.getPartyId())) {
                     if (member.getBranchId() == null || !adminBranchIdSet.contains(member.getBranchId())) {
                         throw new OpException("第{0}行学工号[{1}]没有权限导入", row, userCode);
                     }
-                }else {
-                    status = MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY;
                 }
-            }else {
-                status = MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY;
             }
-            record.setStatus(status);
-
 
             String _toParty = StringUtils.trimToNull(xlsRow.get(2));
             if (StringUtils.isBlank(_toParty)){
-                throw new OpException("第{0}行转入分党委为空", row);
+                throw new OpException("第{0}行转入二级党委为空", row);
             }
             Party toParty = partyService.getByName(_toParty);
             if (toParty == null) {
-                throw new OpException("第{0}行转入分党委[{1}]不存在", row, _toParty);
+                throw new OpException("第{0}行转入二级党委[{1}]不存在", row, _toParty);
             }
             Integer toPartyId = toParty.getId();
             record.setToPartyId(toPartyId);
@@ -611,7 +606,7 @@ public class MemberTransferController extends MemberBaseController {
                 throw new OpException("第{0}行介绍信有效期天数请填写阿拉伯数字", row);
             }
             record.setValidDays(Integer.valueOf(validDays));
-
+            record.setFromHandleTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             records.add(record);
         }
 

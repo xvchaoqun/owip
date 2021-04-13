@@ -234,7 +234,7 @@
 								<input class="form-control" type="file" name="file1"/>
 								<input class="form-control" type="file" name="file2" />
 							</div>
-							<span class="help-block" style="font-size: 10px;"><span class="star">*</span>每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
+							<span class="help-block" style="font-size: 10px;"><span class="star">*</span>每个文件大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
 						</div>
 					</div>
 				<div class="form-group">
@@ -291,15 +291,15 @@
 
 <script>
 	$.fileInput($('#modalForm input[type=file]'),{
-		no_file:'请选择证书图片 ...',
+		no_file:'请上传pdf或图片文件 ...',
 		btn_choose:'选择',
 		btn_change:'更改',
 		droppable:false,
 		onchange:null,
 		thumbnail:false, //| true | large
 		maxSize:${_uploadMaxSize/2},
-		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+		allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
+		allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 	});
 	//$("#modal .checkbox").bootstrapSwitch();
 	function isHighDegreeChange(){

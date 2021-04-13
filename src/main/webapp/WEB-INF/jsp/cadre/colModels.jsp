@@ -415,9 +415,20 @@
                 var filesArray = [];
                 if (rowObject.signCertificates != undefined) {
                     var filePaths = rowObject.signCertificates.split(",");
-                    filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证书{1}</a>'.format(filePaths[0], 1, rowObject.id));
-                    if (filePaths.length == 2)
-                        filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证书{1}</a>'.format(filePaths[1], 2, rowObject.id));
+                    var certificate = rowObject.certificate.split(",");
+                    if(certificate[0].toLowerCase().endWith('.pdf')){
+                        filesArray.push($.pdfPreview(filePaths[0], "证书1"));
+                    }else{
+                        filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证书{1}</a>'.format(filePaths[0], 1, rowObject.id));
+                    }
+                    if (filePaths.length == 2){
+
+                        if(certificate[1].toLowerCase().endWith('.pdf')){
+                            filesArray.push($.pdfPreview(filePaths[1], "证书2"));
+                        }else{
+                            filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证书{1}</a>'.format(filePaths[1], 2, rowObject.id));
+                        }
+                    }
                 }
 
                 return filesArray.join("，");

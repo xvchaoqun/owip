@@ -80,14 +80,14 @@ public class MemberStayExportService extends MemberBaseMapper {
         if(type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
             titles = new String[]{"编号", "学号", "姓名", "性别", "民族",
                     "出生年月", "入党时间", "培养层次", "籍贯", "身份证号",
-                    "党籍状况", "手机", "微信号", "电子邮箱", "组织关系所在分党委名称",
+                    "党籍状况", "手机", "微信号", "电子邮箱", "组织关系所在党组织名称",
                     "保留组织关系期间所在党支部名称", "留学起始时间", "预计回国时间", "留学国家", "留学学校（院系）",
                     "留学方式", "是否转出", "转出时间", "转入单位"};
         }else{
             titles = new String[]{"编号", "学号", "姓名", "性别", "民族",
                     "出生年月", "入党时间", "培养层次", "籍贯", "身份证号",
                     "党籍状况", "手机", "微信号", "QQ", "电子邮箱",
-                    "组织关系所在分党委名称", "保留组织关系期间所在党支部名称", "暂留原因", "暂留起始时间", "预计转出时间",
+                    "组织关系所在党组织名称", "保留组织关系期间所在党支部名称", "暂留原因", "暂留起始时间", "预计转出时间",
                      "是否转出", "转出时间", "转入单位"};
         }
 
@@ -152,7 +152,7 @@ public class MemberStayExportService extends MemberBaseMapper {
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 300));
 
-            sheet.setColumnWidth(columnIndex++, (short) (35.7 * 350)); // 组织关系所在分党委名称
+            sheet.setColumnWidth(columnIndex++, (short) (35.7 * 350)); // 组织关系所在党组织名称
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 300));
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
