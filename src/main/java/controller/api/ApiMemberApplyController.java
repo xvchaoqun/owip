@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.member.MemberApplyMapper;
+import service.member.ApplyApprovalLogService;
+import shiro.ShiroHelper;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
@@ -40,6 +42,8 @@ public class ApiMemberApplyController extends BaseController {
 
     @Autowired
     private MemberApplyMapper memberApplyMapper;
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -161,21 +165,24 @@ public class ApiMemberApplyController extends BaseController {
                     memberApplyMapper.updateByExampleSelective(_bean, memberApplyExample);
                 }
 
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(_bean.getStage()),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, "学生党员发展系统数据推送");
+
                 if (hasChangeField.size() > 0){
 
-                    logger.info("推送学生党员发展信息："+memberApply.getUserId()+",更新字段为："+ StringUtils.join(hasChangeField, ","));
+                    logger.info("推送学生党员发展信息："+memberApply.getUserId()+",更新字段为："
+                            + StringUtils.join(hasChangeField, ","));
                     result.put("Message", "组工系统更新为最新数据");
                     result.put("Success", true);
                     log(result, request);
                     JSONUtils.write(response, result, false);
                     return;
                 }else {
-                    sysApprovalLogService.add(memberApply.getUserId(), memberApply.getUserId(),
-                            SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                            SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                            "学生党员发展数据推送成功",
-                            SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                            "");
+
                     result.put("Message", "1");
                     result.put("Success", true);
                     log(result, request);
