@@ -209,7 +209,7 @@ public class MemberStayReportController extends MemberBaseController {
             Party _party = partyMap.get(ga.getPartyId());
             if (_party != null) party = _party.getName();
         }
-        map.put("party", party); // 所属分党委
+        map.put("party", party); // 所在党组织
 
         String branch = "";
         Map<Integer, Branch> branchMap = branchService.findAll();

@@ -7,6 +7,7 @@ import domain.base.MetaType;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
@@ -151,6 +152,8 @@ public class StatService extends BaseMapper {
         for (String branchType : branchTypes) {
 
             for (String type : branchType.split(",")) {
+
+                if(StringUtils.isBlank(type)) continue;
 
                 Integer key = Integer.parseInt(type);
                 Integer value = branchTypeMap.get(key);

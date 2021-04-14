@@ -592,11 +592,11 @@ public class MemberApplyController extends MemberBaseController {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, oldPartyId);
             if (isAdmin) {
-                // 分党委管理员不能修改所属分党委
+                // 分党委管理员不能修改所在党组织
                 if (_memberApply != null) partyId = null;
             } else {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, oldPartyId, oldBranchId);
-                // 支部管理员不能修改所属分党委及所属党支部
+                // 支部管理员不能修改所在党组织及所属党支部
                 if (isAdmin && _memberApply != null) {
                     partyId = null;
                     branchId = null;
@@ -668,7 +668,7 @@ public class MemberApplyController extends MemberBaseController {
             record.setBranchId(branchId);
             if (partyId != null && partyId.intValue() != oldPartyId) {
                 Map<Integer, Party> partyMap = partyService.findAll();
-                _remark.append("所属分党委由" + partyMap.get(oldPartyId).getName() + "修改为"
+                _remark.append("所在党组织由" + partyMap.get(oldPartyId).getName() + "修改为"
                         + partyMap.get(partyId).getName() + ";");
             }
 
@@ -1443,7 +1443,7 @@ public class MemberApplyController extends MemberBaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"账号|100", "所属分党委|300|left", "所属党支部|300|left", "类型|150"};
+        String[] titles = {"账号|100", "所在党组织|300|left", "所属党支部|300|left", "类型|150"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -1489,7 +1489,7 @@ public class MemberApplyController extends MemberBaseController {
         List<MemberApplyView> records = memberApplyViewMapper.selectByExample(example);
         int rownum = records.size();
 
-        String[] titles = {"学号|100", "所属分党委|100", "所属党支部|100", "提交书面申请时间|100", "信息填报时间|100", "备注|100",
+        String[] titles = {"学号|100", "所在党组织|100", "所属党支部|100", "提交书面申请时间|100", "信息填报时间|100", "备注|100",
                 "阶段|100", "不通过原因|100", "通过时间|100","确定为入党积极分子时间|100", "参加培训开始时间|100", "参加培训结束时间|100","积极分子结业考试成绩|100",
                 "确定为发展对象时间|100", "参加培训开始时间|100","参加培训结束时间|100", "发展对象结业考试成绩|100", "发展对象审核状态|100",
                 "列入发展计划时间|100", "列入计划审核状态|100", "领取志愿书时间|100", "志愿书领取审核状态|100", "关联志愿书编码|100", "志愿书编码|100",
@@ -1503,7 +1503,7 @@ public class MemberApplyController extends MemberBaseController {
 
             String[] values = {
                     uv.getCode(),//学号
-                    String.valueOf(record.getPartyId()),//所属分党委
+                    String.valueOf(record.getPartyId()),//所在党组织
                     String.valueOf(record.getBranchId() == null ? "" : record.getBranchId()),//所属党支部
                     DateUtils.formatDate(record.getApplyTime(), DateUtils.YYYYMMDD_DOT),//提交书面申请时间
                     DateUtils.formatDate(record.getFillTime(), DateUtils.YYYYMMDD_DOT),//信息填报时间

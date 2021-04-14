@@ -1,4 +1,7 @@
-
+20210414
+-- 大工
+20210413
+-- 北航
 ALTER TABLE `cadre_ad_log`
 	CHANGE COLUMN `admin_level` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别' AFTER `cadre_id`,
 	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性' AFTER `admin_level`;

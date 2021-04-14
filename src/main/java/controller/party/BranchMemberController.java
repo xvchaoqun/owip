@@ -421,11 +421,11 @@ public class BranchMemberController extends BaseController {
 
             String partyCode = StringUtils.trimToNull(xlsRow.get(1));
             if (StringUtils.isBlank(partyCode)) {
-                throw new OpException("第{0}行所属分党委编码为空", row);
+                throw new OpException("第{0}行所在党组织编码为空", row);
             }
             Party party = partyService.getByCode(partyCode);
             if (party == null) {
-                throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
+                throw new OpException("第{0}行所在党组织编码[{1}]不存在", row, partyCode);
             }
 
             PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(party.getId());

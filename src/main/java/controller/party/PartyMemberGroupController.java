@@ -352,11 +352,11 @@ public class PartyMemberGroupController extends BaseController {
 
             String partyName = StringUtils.trimToNull(xlsRow.get(1));
             if (StringUtils.isBlank(partyName)) {
-                throw new OpException("第{0}行所属分党委名称为空", row);
+                throw new OpException("第{0}行所在党组织名称为空", row);
             }
             Party party = partyService.getByName(partyName);
             if (party == null) {
-                throw new OpException("第{0}行所属分党委[{1}]不存在", row, partyName);
+                throw new OpException("第{0}行所在党组织[{1}]不存在", row, partyName);
             }
             record.setPartyId(party.getId());
 
@@ -471,7 +471,7 @@ public class PartyMemberGroupController extends BaseController {
 
         List<PartyMemberGroupView> records = partyMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
-        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"名称|350|left", "所属分党委|350|left", "应换届时间|100", "任命时间|100"}));
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"名称|350|left", "所在党组织|350|left", "应换届时间|100", "任命时间|100"}));
         if (type!=1){
             titles.add(3, "实际换届时间|110");
         }
