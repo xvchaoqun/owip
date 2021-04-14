@@ -1,5 +1,6 @@
 
 2021041
+-- 南航
 
 -- 以下已更新北邮
 UPDATE `sys_resource` SET `url`='/cadrePositionReport?admin=1&type=1' WHERE  `id`=2708;

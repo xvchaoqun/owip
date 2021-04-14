@@ -14,23 +14,16 @@
                     ${uv.code}
                 </div>
             </div>
-            <%--<div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>账号类别</label>
-                <div class="col-xs-6">
-                    <select required data-rel="select2" name="syncSource" data-placeholder="请选择">
-                        <option></option>
-                        <option value="${USER_SOURCE_BKS}">本科生</option>
-                        <option value="${USER_SOURCE_YJS}">研究生</option>
-                    </select>
-                    <script>
-                        $("#baseInfoForm select[name=syncSource]").val(${student.syncSource});
-                    </script>
-                </div>
-            </div>--%>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="realname" value="${uv.realname}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
+                <div class="col-xs-6">
+                    <input required class="form-control" type="text" name="idcard" value="${uv.idcard}">
                 </div>
             </div>
             <div class="form-group">
@@ -45,12 +38,6 @@
                             </label>
                         </c:forEach>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
-                <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="idcard" value="${uv.idcard}">
                 </div>
             </div>
             <div class="form-group">
