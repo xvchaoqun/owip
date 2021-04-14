@@ -26,6 +26,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
@@ -53,7 +54,7 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
         long count = iSysMapper.countUserList(searchStr, types);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -138,7 +139,7 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
         if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         Set<Byte> cadreStatusSet = new HashSet<>();
@@ -226,7 +227,7 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
         int count = iCadreMapper.countNotCadreList(searchStr, CadreConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
@@ -271,7 +272,7 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
         if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         int count = iCadreMapper.countCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null,null);
@@ -321,6 +322,8 @@ public class CommonController extends BaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
+
+        searchStr = ContentUtils.trimAll(searchStr);
 
         CadreReserveViewExample example = new CadreReserveViewExample();
         example.setOrderByClause("reserve_sort_order desc");
@@ -453,7 +456,7 @@ public class CommonController extends BaseController {
             criteria.andUserIdNotIn(Arrays.asList(excludeUserIds));
         }
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
         if (searchStr != null) {
             criteria.andUserLike(searchStr);
         }
@@ -530,7 +533,7 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
         if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         boolean addPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
@@ -582,7 +585,7 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = StringUtils.trimToNull(searchStr);
+        searchStr = ContentUtils.trimAll(searchStr);
 
         int count = iMemberMapper.countNotMemberList(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
