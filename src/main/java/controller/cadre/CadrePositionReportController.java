@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -42,8 +41,8 @@ public class CadrePositionReportController extends BaseController {
 
     @RequiresPermissions("cadrePositionReport:list")
     @RequestMapping("/cadrePositionReport")
-    public String cadrePositionReport(Integer admin,Integer year,
-                                      Integer cadreId, ModelMap modelMap) {
+    public String cadrePositionReport(Integer admin,Byte type,  //type  1 述职报告    2述职报告（任期考核）
+                                      Integer year, Integer cadreId, ModelMap modelMap) {
         if (cadreId!=null) {
             CadreView cadre=CmTag.getCadreById(cadreId);
             modelMap.put("cadre",cadre);
@@ -56,6 +55,7 @@ public class CadrePositionReportController extends BaseController {
     @ResponseBody
     public void cadrePositionReport_data(@CurrentUser SysUserView loginUser, HttpServletResponse response, Integer admin, Integer year,
                                          Integer cadreId,
+                                         Byte type,    //type  1 述职报告    2述职报告（任期考核）
                                          Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -78,7 +78,9 @@ public class CadrePositionReportController extends BaseController {
             CadreView cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             criteria.andCadreIdEqualTo(cadre.getId());
         }
-
+        if (type!=null) {
+            criteria.andTypeEqualTo(type);
+        }
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
@@ -111,7 +113,8 @@ public class CadrePositionReportController extends BaseController {
         Integer id = record.getId();
         Integer cadreId = record.getCadreId();
         Integer year = record.getYear();
-        if (cadrePositionReportService.idDuplicate(id,cadreId,year)) {
+        byte type = record.getType();
+        if (cadrePositionReportService.idDuplicate(id,cadreId, type, year)) {
             return failed("添加重复");
         }
         if (id == null) {
@@ -129,11 +132,14 @@ public class CadrePositionReportController extends BaseController {
 
     @RequiresPermissions("cadrePositionReport:edit")
     @RequestMapping("/cadrePositionReport_au")
-    public String cadrePositionReport_au(@CurrentUser SysUserView loginUser,Integer id,Boolean edit, Integer admin,ModelMap modelMap) {
+    public String cadrePositionReport_au(@CurrentUser SysUserView loginUser,Integer id,Byte type,Boolean edit, Integer admin,ModelMap modelMap) {
 
         if (id != null) {
             CadrePositionReport cadrePositionReport = cadrePositionReportMapper.selectByPrimaryKey(id);
             modelMap.put("cadrePositionReport", cadrePositionReport);
+
+            type = cadrePositionReport.getType();
+
         }else if(admin==0&&ShiroHelper.isPermitted("cadrePositionReport:menu")){
 
             CadrePositionReport cadrePositionReport=new CadrePositionReport();
@@ -148,6 +154,7 @@ public class CadrePositionReportController extends BaseController {
         }
         modelMap.put("edit",edit);
         modelMap.put("admin",admin);
+        modelMap.put("type", type);
         return "cadre/cadrePositionReport/cadrePositionReport_au";
     }
 
@@ -199,7 +206,11 @@ public class CadrePositionReportController extends BaseController {
         }
         //输出文件
         CadrePositionReport cpr = cadrePositionReportMapper.selectByPrimaryKey(id);
-        String filename = String.format("述职报告(%s)", cpr.getCadre().getUser().getRealname());
+        String filename = String.format("处级干部年度考核登记表(%s)", cpr.getCadre().getUser().getRealname());
+
+        if(cpr.getType()==2){
+            filename = String.format("处级干部任期考核登记表(%s)", cpr.getCadre().getUser().getRealname());
+        }
         DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
                 "attachment;filename=" +  DownloadUtils.encodeFilename(request, filename + ".doc"));

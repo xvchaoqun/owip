@@ -14,6 +14,8 @@ public class CadrePositionReport implements Serializable {
 
     private Integer cadreId;
 
+    private Byte type;
+
     private Integer year;
 
     private String title;
@@ -38,6 +40,14 @@ public class CadrePositionReport implements Serializable {
 
     public void setCadreId(Integer cadreId) {
         this.cadreId = cadreId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Integer getYear() {

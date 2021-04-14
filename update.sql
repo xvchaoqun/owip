@@ -1,3 +1,20 @@
+
+2021041
+
+-- 以下已更新北邮
+UPDATE `sys_resource` SET `url`='/cadrePositionReport?admin=1&type=1' WHERE  `id`=2708;
+UPDATE `sys_resource` SET `url`='/cadrePositionReport?admin=0&type=1' WHERE  `id`=2709;
+
+ALTER TABLE `cadre_position_report`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类型  1 述职报告  2 述职报告（任期考核）' AFTER `cadre_id`;
+
+update cadre_position_report set type=1;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2797, 0, '述职报告（任期考核）', '干部工作管理员（目录1）', 'url', '', '/cadrePositionReport?admin=1&type=2', 88, '0/1/88/', 1, 'cadrePositionReport:adminMenu2', NULL, NULL, NULL, 1, 1850);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2798, 0, '述职报告(任期考核)', '处级干部', 'url', '', '/cadrePositionReport?admin=0&type=2', 353, '0/1/353/', 1, 'cadrePositionReport:menu2', NULL, NULL, NULL, 1, 400);
+-- -
+
 20210414
 -- 大工
 20210413

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+
 <div class="widget-box transparent">
 	<div class="widget-header">
 		<h4 class="widget-title lighter smaller">
@@ -13,8 +14,8 @@ pageEncoding="UTF-8"%>
 		<div class="widget-main" style="width: 900px">
 			<form class="form-horizontal" action="${ctx}/cadrePositionReport_au" id="modalForm" method="post">
 				<table class="table table-bordered table-unhover">
-					<input class="form-control" type="hidden" name="id"
-						   value="${param.id}">
+					<input class="form-control" type="hidden" name="id" value="${param.id}">
+					<input class="form-control" type="hidden" name="type" value="${type}">
 					<tr>
 						<td width="20%"><span class="star">*</span>年度</td>
 						<td colspan="3">
@@ -77,9 +78,9 @@ pageEncoding="UTF-8"%>
 								${cadrePositionReport.title}
 							</c:if>
 							<c:if test="${edit}">
-								<c:if test="${admin==0}">
-									<span>${cadrePositionReport.title==null?cadrePositionReport.cadre.title:""}</span>
-									<input hidden type="text" name="title" value="${cadrePositionReport.title==null?cadrePositionReport.cadre.title:""}">
+								<c:if test="${admin!=1}">
+									<span>${cadrePositionReport.title==null?cadrePositionReport.cadre.title:cadrePositionReport.title}</span>
+									<input hidden type="text" name="title" value="${cadrePositionReport.title==null?cadrePositionReport.cadre.title:cadrePositionReport.title}">
 								</c:if>
 								<c:if test="${admin==1}">
 									<input required class="form-control" type="text" name="title" style="width: 300px"value="${cadrePositionReport.title}">
@@ -90,12 +91,12 @@ pageEncoding="UTF-8"%>
 					</tr>
 
 					<tr>
-						<td style="height: 500px"><span class="star">*</span>个人述职<br/>（1500字以内）</td>
+						<td style="height: 500px"><span class="star">*</span>
+							个人述职<br/>（${type==2 ?2000:1500}字以内）
+						</td>
 						<td colspan="3">
 							<c:if test="${!edit}">
-								<pre style="text-indent:2em;white-space: pre-wrap!important;
-word-wrap: break-word!important;
-*white-space:normal!important;">${cadrePositionReport.content}</pre>
+								<pre style="text-indent:2em;white-space: pre-wrap!important;word-wrap: break-word!important;*white-space:normal!important;">${cadrePositionReport.content}</pre>
 							</c:if>
 							<c:if test="${edit}">
                             <textarea  required name="content" rows="20" class="limited canEnter"
@@ -184,9 +185,9 @@ word-wrap: break-word!important;
     $('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
-	$('textarea.limited').inputlimiter({
-		limit: 1500,
+	/*$('textarea.limited').inputlimiter({
+		limit: ${limitNum},
 		remText: '当前剩余%n字，',
 		limitText: '最多输入%n字.'
-	});
+	});*/
 </script>

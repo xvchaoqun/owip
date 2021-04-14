@@ -22,12 +22,13 @@ public class CadrePositionReportService extends BaseMapper {
     @Autowired
     FreemarkerService freemarkerService;
 
-    public boolean idDuplicate(Integer id,Integer cadreId, Integer year){
+    public boolean idDuplicate(Integer id,Integer cadreId, byte type, Integer year){
 
         Assert.isTrue(year!=null, "null");
 
         CadrePositionReportExample example = new CadrePositionReportExample();
-        CadrePositionReportExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andYearEqualTo(year);
+        CadrePositionReportExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andTypeEqualTo(type).andYearEqualTo(year);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return cadrePositionReportMapper.countByExample(example) > 0;
@@ -39,7 +40,7 @@ public class CadrePositionReportService extends BaseMapper {
         if(!ShiroHelper.isPermitted("cadrePositionReport:adminMenu")&&!cadre.getId().equals(record.getCadreId())){
             throw new UnauthorizedException();
         }
-        Assert.isTrue(!idDuplicate(null, record.getCadreId(),record.getYear()), "duplicate");
+        Assert.isTrue(!idDuplicate(null, record.getCadreId(), record.getType(), record.getYear()), "duplicate");
         record.setCreateTime(new Date());
         cadrePositionReportMapper.insertSelective(record);
     }
@@ -73,8 +74,11 @@ public class CadrePositionReportService extends BaseMapper {
         if(!ShiroHelper.isPermitted("cadrePositionReport:adminMenu")&&!cadre.getId().equals(record.getCadreId())){
             throw new UnauthorizedException();
         }
-        if(record.getYear()!=null)
-            Assert.isTrue(!idDuplicate(record.getId(),record.getCadreId(), record.getYear()), "duplicate");
+        if(record.getYear()!=null) {
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(),
+                    record.getType(),
+                    record.getYear()), "duplicate");
+        }
         record.setCreateTime(new Date());
         cadrePositionReportMapper.updateByPrimaryKeySelective(record);
     }
@@ -92,8 +96,12 @@ public class CadrePositionReportService extends BaseMapper {
 
         cpr.setContent(freemarkerService.genTextareaSegment(cpr.getContent(), "/common/editor2.ftl"));
         dataMap.put("cpr",cpr);
+        String ftlPath ="cadre/cadrePositionReport.ftl";
+        if(cpr.getType() ==2){
+            ftlPath ="cadre/cadrePositionReport2.ftl";
+        }
 
-        freemarkerService.process("cadre/cadrePositionReport.ftl", dataMap, out);
+        freemarkerService.process(ftlPath , dataMap, out);
         out.close();
     }
     public Map<Integer, CadrePositionReport> findAll() {

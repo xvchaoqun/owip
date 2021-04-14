@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadrePositionReport">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, year, title, create_time, content
+    id, cadre_id, type, year, title, create_time, content
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePositionReportExample" resultMap="BaseResultMap">
     select
@@ -101,12 +102,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadrePositionReport">
-    insert into cadre_position_report (id, cadre_id, year, 
-      title, create_time, content
-      )
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}
-      )
+    insert into cadre_position_report (id, cadre_id, type, 
+      year, title, create_time, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{year,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePositionReport">
     insert into cadre_position_report
@@ -116,6 +117,9 @@
       </if>
       <if test="cadreId != null">
         cadre_id,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="year != null">
         year,
@@ -136,6 +140,9 @@
       </if>
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
@@ -166,6 +173,9 @@
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
@@ -187,6 +197,7 @@
     update cadre_position_report
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
       year = #{record.year,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -200,6 +211,9 @@
     <set>
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
@@ -219,6 +233,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePositionReport">
     update cadre_position_report
     set cadre_id = #{cadreId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
       year = #{year,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

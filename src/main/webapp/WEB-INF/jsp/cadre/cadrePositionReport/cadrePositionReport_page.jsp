@@ -8,10 +8,10 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cadrePositionReport:edit">
                     <button class="openView btn btn-info btn-sm"
-                            data-url="${ctx}/cadrePositionReport_au?edit=true&admin=${param.admin}">
+                            data-url="${ctx}/cadrePositionReport_au?edit=true&admin=${param.admin}&type=${param.type}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cadrePositionReport_au?edit=true&admin=${param.admin}"
+                       data-url="${ctx}/cadrePositionReport_au?edit=true&admin=${param.admin}&type=${param.type}"
                        data-grid-id="#jqGrid" data-open-by="page"><i class="fa fa-edit"></i>
                         修改</button>
                    <%-- <a class="jqLinkItemBtn btn btn-success btn-sm"
@@ -24,7 +24,7 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="cadrePositionReport:adminMenu">
                     <button data-url="${ctx}/cadrePositionReport_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
+                            data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
