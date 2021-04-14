@@ -108,7 +108,7 @@ public class ApiMemberApplyController extends BaseController {
 
                 if (_bean != null && memberApply.getStage() > _bean.getStage()){
 
-                    logger.info("发展阶段有误，未推送学生党员发展信息："+memberApply.getUserId());
+                    logger.info("推送失败，组工系统发展阶段超前："+memberApply.getUserId());
                     result.put("Message", "2");
                     log(result, request);
                     JSONUtils.write(response, result, false);
@@ -164,12 +164,18 @@ public class ApiMemberApplyController extends BaseController {
                 if (hasChangeField.size() > 0){
 
                     logger.info("推送学生党员发展信息："+memberApply.getUserId()+",更新字段为："+ StringUtils.join(hasChangeField, ","));
-                    result.put("Message", "更新为最新数据");
+                    result.put("Message", "组工系统更新为最新数据");
                     result.put("Success", true);
                     log(result, request);
                     JSONUtils.write(response, result, false);
                     return;
                 }else {
+                    sysApprovalLogService.add(memberApply.getUserId(), memberApply.getUserId(),
+                            SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                            SystemConstants.SYS_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                            "学生党员发展数据推送成功",
+                            SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                            "");
                     result.put("Message", "1");
                     result.put("Success", true);
                     log(result, request);
