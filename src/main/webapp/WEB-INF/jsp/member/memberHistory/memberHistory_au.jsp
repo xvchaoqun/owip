@@ -12,15 +12,22 @@
 			<div class="col-xs-6">
 
 				<div class="form-group">
-					<label class="col-xs-4 control-label">学工号</label>
+					<label class="col-xs-4 control-label">学工号
+						<span class="prompt" data-title="账号说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>此处填写完账号，点击“自动填充”，系统会自动填充已有的表单信息</li>
+							  <li>此处历史党员如果不存在账号，勾选“自动生成账号”，系统会为历史党员生成一个账号</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
+					</label>
 					<div class="col-xs-6">
 						<input class="form-control" style="width: 170px" type="text" name="code" value="${memberHistory.code}"/>
 						<div style="position: absolute;left: 190px;top: 0px;">
-							<a href="javascript:;" id="fillBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 填充中..."
+							<a href="javascript:;" id="fillBtn" title="根据学工号自动填充表单" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 填充中..."
 							   class="btn btn-success btn-sm">
 								<i class="fa fa-search"></i> 自动填充
 							</a>
 						</div>
+						<input style="vertical-align: -2px" type="checkbox" name="generalUser" id="generalUser"><label for="generalUser">自动生成账号</label>
 					</div>
 				</div>
 				<div class="form-group">
@@ -192,8 +199,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">专业技术职务</label>
-					<div class="col-xs-6">
+					<label class="col-xs-5 control-label">专业技术职务</br>(仅教职工填写)</label>
+					<div class="col-xs-6" style="margin-top: 10px">
 						<input class="form-control" style="width: 170px" type="text" name="proPost" value="${memberHistory.proPost}"/>
 					</div>
 				</div>
@@ -214,7 +221,7 @@
 					<div class="form-group ">
 						<label class="col-xs-5 control-label">标签</label>
 						<div class="col-xs-6 input-group" style="padding-left: 12px">
-							<select class="multiselect" multiple="" name="lable" data-width="230">
+							<select class="multiselect" multiple="" name="lable" data-width="207">
 								<c:import url="/metaTypes?__code=mc_mh_lable"/>
 								<script type="text/javascript">
 									$.register.multiselect($('#memberHistoryForm select[name=lable]'), '${memberHistory.lable}'.split(","));
@@ -301,7 +308,9 @@
 	$("#memberHistoryForm").validate({
 		submitHandler: function (form) {
 			var $btn = $("#body-content-view button[type=submit]").button('loading');
+			var _generalUser = $('#memberHistoryForm input[name=generalUser]').is(":checked")?1:0;
 			$(form).ajaxSubmit({
+				data: {_generalUser: _generalUser},
 				success: function (ret) {
 					if (ret.success) {
 						//SysMsg.success('提交成功。', '成功',function(){
@@ -336,6 +345,18 @@
 			$('#positiveTimeDiv').hide();
 		}else {
 			$('#positiveTimeDiv').show();
+		}
+	})
+
+	$('#memberHistoryForm input[name=generalUser]').on("click", function (){
+		if($(this).is(":checked")){
+			$('#memberHistoryForm input[name=code]').val('');
+
+			$('#memberHistoryForm input[name=code]').prop("disabled", "true");
+			$('#memberHistoryForm #fillBtn').attr("disabled",true).css("pointer-events","none");//通过鼠标事件控制超链接能不能被点击
+		}else {
+			$('#memberHistoryForm input[name=code]').prop("disabled", "");
+			$('#memberHistoryForm #fillBtn').removeAttr("disabled").css("pointer-events","auto");
 		}
 	})
 </script>
