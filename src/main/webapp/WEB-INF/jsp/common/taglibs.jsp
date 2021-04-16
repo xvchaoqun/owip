@@ -62,10 +62,12 @@
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 
-<c:set var="PERMISSION_CADREADMIN" value="<%=RoleConstants.PERMISSION_CADREADMIN%>"/>
+<c:set var="PERMISSION_COMPANYAPPLY" value="<%=RoleConstants.PERMISSION_COMPANYAPPLY%>"/>
 <c:set var="PERMISSION_PARTYVIEWALL" value="<%=RoleConstants.PERMISSION_PARTYVIEWALL%>"/>
 <c:set var="PERMISSION_CADREONLYVIEW" value="<%=RoleConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=RoleConstants.PERMISSION_CADREADMINSELF%>"/>
+<c:set var="PERMISSION_CADREADMIN" value="<%=RoleConstants.PERMISSION_CADREADMIN%>"/>
+
 
 <c:set var="USER_SOURCE_JZG" value="<%=SystemConstants.USER_SOURCE_JZG%>"/>
 <c:set var="USER_SOURCE_BKS" value="<%=SystemConstants.USER_SOURCE_BKS%>"/>
@@ -95,6 +97,7 @@
 <c:set value="<%=CadreConstants.CADRE_CATEGORY_CJ%>" var="CADRE_CATEGORY_CJ"/>
 <c:set value="<%=CadreConstants.CADRE_CATEGORY_KJ%>" var="CADRE_CATEGORY_KJ"/>
 <c:set value="<%=CadreConstants.CADRE_CATEGORY_MAP%>" var="CADRE_CATEGORY_MAP"/>
+<c:set value="<%=ParttimeConstants.PARTTIME_TYPE_MAP%>" var="PARTTIME_TYPE_MAP"/>
 
 <c:set var="MEMBER_SOURCE_MAP" value="<%=MemberConstants.MEMBER_SOURCE_MAP%>"/>
 
@@ -120,3 +123,11 @@
 <c:set value="<%=SystemConstants.CES_RESULT_TYPE_CADRE%>" var="CES_RESULT_TYPE_CADRE"/>
 <c:set value="<%=SystemConstants.CES_RESULT_TYPE_UNIT%>" var="CES_RESULT_TYPE_UNIT"/>
 <c:set value="点击此搜索条的任意位置可展开/收起搜索框" var="note_searchbar"/>
+
+<c:set var="PARTTIME_APPROVER_TYPE_UNIT" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_UNIT%>"/>
+<c:set var="PARTTIME_APPROVER_TYPE_LEADER" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_LEADER%>"/>
+<c:set var="PARTTIME_APPROVER_TYPE_MAP" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_MAP%>"/>
+<c:set var="PARTTIME_APPLY_FIRST_MAP" value="<%=ParttimeConstants.PARTTIME_APPLY_FIRST_MAP%>"/>
+<c:set var="PARTTIME_APPLY_BACKGROUND_MAP" value="<%=ParttimeConstants.PARTTIME_APPLY_BACKGROUND_MAP%>"/>
+<c:set var="PARTTIME_APPLY_HAS_PAY_MAP" value="<%=ParttimeConstants.PARTTIME_APPLY_HAS_PAY_MAP%>"/>
+<c:set var="PARTTIME_APPROVER_TYPE_FOREIGN" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_FOREIGN%>"/>

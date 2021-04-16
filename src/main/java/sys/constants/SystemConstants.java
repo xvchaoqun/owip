@@ -375,6 +375,7 @@ public class SystemConstants {
     public final static byte SYS_DP_LOG_TYPE_PARTY = 21;//民主党派操作
     public final static byte SYS_APPROVAL_LOG_TYPE_BASE_APIKEY = 22;//接口管理
     public final static byte SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY = 23;//历史党员库
+    public final static byte SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY = 24;//兼职申报
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
@@ -399,6 +400,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_DP_LOG_TYPE_PARTY, "民主党派");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_BASE_APIKEY,"接口管理");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_MEMBER_HISTORY, "历史党员库");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY, "兼职申报");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员

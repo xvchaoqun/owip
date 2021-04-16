@@ -6,6 +6,8 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cla.*;
 import domain.leader.LeaderUnitView;
+import domain.parttime.ParttimeApply;
+import domain.parttime.ParttimeApplyExample;
 import domain.sys.SysUserView;
 import ext.service.ShortMsgService;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -21,6 +23,7 @@ import persistence.cla.common.ClaApplySearchBean;
 import persistence.cla.common.ClaApprovalResult;
 import persistence.cla.common.ClaApprovalTdBean;
 import persistence.cla.common.ClaApproverTypeBean;
+import persistence.parttime.ParttimeApplyMapper;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
@@ -70,6 +73,8 @@ public class ClaApplyService extends ClaBaseMapper {
     protected UserBeanService userBeanService;
     @Autowired
     protected SpringProps springProps;
+    @Autowired
+    private ParttimeApplyMapper parttimeApplyMapper;
 
     // 查找审批人
     public List<SysUserView> findApprovers(int cadreId/*被审批干部*/, int approvalTypeId) {
@@ -798,12 +803,12 @@ public class ClaApplyService extends ClaBaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        ClaApplyExample example = new ClaApplyExample();
+        ParttimeApplyExample example = new ParttimeApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
-        ClaApply record = new ClaApply();
+        ParttimeApply record = new ParttimeApply();
         record.setIsDeleted(false);
-        claApplyMapper.updateByExampleSelective(record, example);
+        parttimeApplyMapper.updateByExampleSelective(record, example);
     }
 
     // 真删除（只能删除已经被逻辑删除的记录）
