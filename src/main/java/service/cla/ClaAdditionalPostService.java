@@ -56,10 +56,10 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         return cadreList;
     }
 
-    class CadrePostBean {
+    public static class CadrePostBean {
         private int cadreId;
         private int postId;
-        private boolean additional;
+        public boolean additional;
 
         public CadrePostBean(int cadreId, int postId, boolean additional) {
             this.cadreId = cadreId;

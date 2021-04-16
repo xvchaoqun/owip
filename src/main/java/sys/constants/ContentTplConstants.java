@@ -55,8 +55,11 @@ public class ContentTplConstants {
     public final static String CONTENT_TPL_CLA_APPLY_PASS_INFO = "ct_cla_apply_pass_info"; // 干部请假申请通过全部领导审批，通知管理员
     public final static String CONTENT_TPL_CLA_APPLY_PASS = "ct_cla_apply_pass";
     public final static String CONTENT_TPL_CLA_APPLY_UNPASS = "ct_cla_apply_unpass";
-
     public final static String CONTENT_TPL_CLA_APPLY_BACK = "ct_cla_apply_back"; // 干部销假提醒
+
+    /**兼职申报**/
+    public final static String CONTENT_TPL_PARTTIME_APPLY_SUBMIT_INFO = "ct_parttime_apply_submit_info"; // 干部提交请假申请，通知管理员
+    public final static String CONTENT_TPL_PARTTIME_APPLY_PASS_INFO = "ct_parttime_apply_pass_info"; // 干部请假申请通过全部领导审批，通知管理员
 
     // 本单位正职（一人）审批通知
     public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_UNIT_1 = "ct_cla_apply_approval_unit_1";
@@ -68,6 +71,8 @@ public class ContentTplConstants {
     public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_SECRETARY = "ct_cla_apply_approval_secretary";
     // 校长审批通知
     public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_MASTER = "ct_cla_apply_approval_master";
+    // 院系党组织通知
+    public final static String CONTENT_TPL_PARTTIME_APPLY_APPROVAL_MASTER = "part_branch_parttime_master";
 
 
     /**因私出国境**/

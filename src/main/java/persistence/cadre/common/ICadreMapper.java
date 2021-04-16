@@ -3,6 +3,7 @@ package persistence.cadre.common;
 import controller.analysis.CadreCategorySearchBean;
 import domain.cadre.*;
 import domain.crp.CrpRecord;
+import domain.parttime.ParttimeApprovalOrder;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -247,6 +248,14 @@ public interface ICadreMapper {
 
     //更新临时表的排序字段,并根据临时表的排序更新干部库的排序
     public void updateCadreByTmpSort(@Param("count")int count);
+
+    @Select("select count(*) from parttime_approval_order where applicate_type_id=#{applicatTypeId}")
+    int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
+
+    @ResultMap("persistence.parttime.ParttimeApprovalOrderMapper.BaseResultMap")
+    @Select("select aao.* from parttime_approval_order aao, parttime_approver_type aat " +
+            "where aao.applicate_type_id=#{applicatTypeId} and aao.approver_type_id = aat.id order by aat.sort_order desc")
+    List<ParttimeApprovalOrder> selectApprovalOrderList(@Param("applicatTypeId") int applicatTypeId, RowBounds rowBounds);
 }
 
 

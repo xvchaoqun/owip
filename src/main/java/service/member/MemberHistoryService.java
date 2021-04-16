@@ -5,7 +5,9 @@ import domain.member.Member;
 import domain.member.MemberExample;
 import domain.member.MemberHistory;
 import domain.member.MemberHistoryExample;
+import domain.sys.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import service.party.MemberService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
+import shiro.PasswordHelper;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -31,6 +37,10 @@ public class MemberHistoryService extends MemberBaseMapper {
     private MemberService memberService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private PasswordHelper passwordHelper;
+    @Autowired
+    private ApplyApprovalLogService applyApprovalLogService;
 
     public boolean isDuplicate(String realname, String code, String idcard){
 
@@ -47,6 +57,10 @@ public class MemberHistoryService extends MemberBaseMapper {
     @Transactional
     public void insertSelective(MemberHistory record){
 
+        if (isDuplicate(record.getRealname(), record.getCode(), record.getIdcard())) {
+            throw new OpException("添加重复");
+        }
+
         record.setAddUserId(ShiroHelper.getCurrentUserId());
         record.setAddDate(new Date());
         record.setStatus((byte) 0);// 0 正常
@@ -54,6 +68,68 @@ public class MemberHistoryService extends MemberBaseMapper {
 
         // 更新党员状态和角色
         updateMemberStatus(record.getUserId());
+    }
+
+    @Transactional
+    public void generalInsert(MemberHistory record, Integer generalUser){
+
+        // 是否生成账号
+        if (generalUser == 1) {
+            String prefix = CmTag.getStringProperty("memberRegPrefix", "dy");
+            String code = sysUserService.genCode(prefix);
+            String passwd = RandomStringUtils.randomNumeric(6);
+
+            SysUser sysUser = new SysUser();
+            sysUser.setUsername(code);
+            sysUser.setCode(code);
+            sysUser.setLocked(false);
+            SaltPassword encrypt = passwordHelper.encryptByRandomSalt(passwd);
+            sysUser.setSalt(encrypt.getSalt());
+            sysUser.setPasswd(encrypt.getPassword());
+            sysUser.setCreateTime(new Date());
+            sysUser.setType(record.getType());
+            sysUser.setSource(SystemConstants.USER_SOURCE_REG);
+            sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
+            sysUserService.insertSelective(sysUser);
+
+            SysUserInfo sysUserInfo = new SysUserInfo();
+            sysUserInfo.setUserId(sysUser.getId());
+            sysUserInfo.setRealname(record.getRealname());
+            sysUserInfo.setIdcard(record.getIdcard());
+            sysUserInfo.setGender(record.getGender());
+            sysUserInfo.setBirth(record.getBirth());
+            sysUserInfo.setNation(record.getNation());
+            sysUserInfo.setNativePlace(record.getNativePlace());
+            sysUserInfo.setMobile(record.getMobile());
+            sysUserInfo.setEmail(record.getEmail());
+            sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
+
+            if (record.getType() == SystemConstants.USER_TYPE_JZG
+                    || record.getType() == SystemConstants.USER_TYPE_RETIRE){
+
+                TeacherInfo teacherInfo = new TeacherInfo();
+                teacherInfo.setUserId(sysUser.getId());
+                teacherInfo.setProPost(record.getProPost());
+                teacherInfo.setExtPhone(record.getMobile());
+                teacherInfoMapper.insertSelective(teacherInfo);
+            }else {
+                StudentInfo studentInfo = new StudentInfo();
+                studentInfo.setUserId(sysUser.getId());
+                studentInfo.setSyncSource((byte) 0);
+                studentInfo.setCreateTime(new Date());
+                studentInfoMapper.insertSelective(studentInfo);
+            }
+
+            applyApprovalLogService.add(record.getId(),
+                    null, null, record.getUserId(),
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "后台添加",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+
+            record.setCode(code);
+        }
+
+        insertSelective(record);
     }
 
     @Transactional

@@ -238,6 +238,11 @@
 		<function-class>sys.helper.ClaHelper</function-class>
 		<function-signature>domain.cla.ClaApprovalLog getClaApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
+	<function>
+		<name>getParttimeApprovalLog</name>
+		<function-class>sys.helper.ParttimeHelper</function-class>
+		<function-signature>domain.parttime.ParttimeApprovalLog getParttimeApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
+	</function>
 
 	<!--因私出国境-->
 	<function>

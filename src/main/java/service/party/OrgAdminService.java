@@ -191,28 +191,42 @@ public class OrgAdminService extends BaseMapper {
                 }
             }
 
-            if (type == 2) {
-                OrgAdmin orgAdmin = (OrgAdmin) getAdmin(id, isPartyAdmin);
+            delAdmin(id, type, isPartyAdmin);
+            // 既是普通管理员，又是委员会管理员，需要删除第二遍
+            type = (type==2?1:2);
+            id = str[0]+"_"+userId+"_"+type;
+            delAdmin(id, type, isPartyAdmin);
+        }
 
-                if (isPartyAdmin){
-                    PartyHelper.checkAuth(orgAdmin.getPartyId());
-                }else {
-                    int branchId = orgAdmin.getBranchId();
-                    Branch branch =  branchService.findAll().get(branchId);
-                    PartyHelper.checkAuth(branch.getPartyId(), branchId);
-                }
-                del(orgAdmin.getId(), orgAdmin.getUserId());
+    }
+
+    public void delAdmin(String id, int type, boolean isPartyAdmin){
+
+        if (type == 2) {
+            OrgAdmin orgAdmin = (OrgAdmin) getAdmin(id, isPartyAdmin);
+
+            if (orgAdmin == null) return;
+            if (isPartyAdmin){
+                PartyHelper.checkAuth(orgAdmin.getPartyId());
             }else {
-                if (isPartyAdmin){
-                    PartyMemberView pmv = (PartyMemberView) getAdmin(id, isPartyAdmin);
+                int branchId = orgAdmin.getBranchId();
+                Branch branch =  branchService.findAll().get(branchId);
+                PartyHelper.checkAuth(branch.getPartyId(), branchId);
+            }
+            del(orgAdmin.getId(), orgAdmin.getUserId());
+        }else {
+            if (isPartyAdmin){
+                PartyMemberView pmv = (PartyMemberView) getAdmin(id, isPartyAdmin);
+                if (pmv != null) {
                     partyAdminService.setPartyAdmin(pmv.getId(), false);
-                }else {
-                    BranchMemberView bmv = (BranchMemberView) getAdmin(id,isPartyAdmin);
+                }
+            }else {
+                BranchMemberView bmv = (BranchMemberView) getAdmin(id,isPartyAdmin);
+                if (bmv != null) {
                     branchAdminService.setBranchAdmin(bmv.getId(), false);
                 }
             }
         }
-
     }
 
     public Object getAdmin(String owAdminId, boolean isPartyAdmin){

@@ -1,4 +1,10 @@
 
+-- 2021-04-15 llb
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4010, 0, '常用工作表格下载', '', 'menu', '', NULL, 105, '0/1/105/', 0, 'commonSheet:list', NULL, NULL, NULL, 1, 29750);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4009, 0, '党员（含预备党员）', '', 'url', '', '/commonSheet/csMember', 4010, '0/1/105/4010/', 1, 'csMember:*', NULL, NULL, NULL, 1, 1000);
+
+
+
 -- 2021.4.13 ly
 INSERT INTO `base_meta_class` (`id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `is_deleted`)
     VALUES (2606, '出党类别', '党建综合管理', '党员出党', 'mc_member_quit_type', '是否需要审批', '', '', 2621, 0);

@@ -134,8 +134,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, is_outside, 
-    is_sync_post, dispatch_cadre_id, label, profile, remark, original_post, appoint_date, 
+    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, is_outside,
+    is_sync_post, dispatch_cadre_id, label, profile, remark, original_post, appoint_date,
     depose_date, sort_order, status, unit_id, admin_level, post_type, post, is_committee_member, 
     msg_title, mobile, phone, home_phone, email, code, realname, gender, nation, native_place, 
     idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, 
