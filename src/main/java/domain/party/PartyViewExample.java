@@ -1,9 +1,11 @@
 package domain.party;
 
+import domain.member.MemberViewExample;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -367,7 +369,8 @@ public class PartyViewExample {
         }
 
         public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+            addCriterion(MessageFormat.format("(name like {0} or short_name like {0})",
+                    "'"+value + "%'"));
             return (Criteria) this;
         }
 

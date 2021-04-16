@@ -92,7 +92,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-       <!-- <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+        <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
@@ -102,7 +102,7 @@
              <columnOverride column="m_res_ids_add" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
          <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
              <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="res_ids_add" jdbcType="VARCHAR"></columnOverride>
@@ -113,9 +113,9 @@
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->
-        <table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
+        <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

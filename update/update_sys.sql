@@ -1,4 +1,11 @@
 
+-- 2021.4.12 ly
+ALTER TABLE `sys_user_info`
+	DROP COLUMN `post`;
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `is_full_time_teacher` `is_full_time_teacher` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否专任教师' AFTER `post`;
+-- 更新sys_user_view、ow_member_view
+
 -- 2021.4.8 ly
 INSERT INTO `base_api_key` (`app`, `secret`, `request_uri`, `valid_ip`, `remark`)
 VALUES ('ma', '04acf931d0d58b6d3240407c3b168d68', '/api/member/memberApply_sync', '', '学生发张党员信息推送接口');

@@ -98,7 +98,7 @@ public class UserMemberTransferController extends MemberBaseController {
            return failed("不允许修改");
 
         if(userBean.getPartyId().byteValue() == record.getToPartyId()){
-            return failed("转入不能是当前所在分党委");
+            return failed("转入不能是当前所在党组织");
         }
 
         Member member = memberService.get(userId);

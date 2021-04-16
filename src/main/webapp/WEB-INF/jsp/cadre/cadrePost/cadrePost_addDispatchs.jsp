@@ -5,9 +5,9 @@ pageEncoding="UTF-8" %>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>关联任免文件（从“任命”记录中选择）</h3>
 </div>
-<div class="modal-body" style="overflow-x: scroll;">
+<div class="modal-body">
     <c:if test="${fn:length(dispatchCadres)>0}">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-center table-hover">
             <thead>
             <tr>
                 <c:if test="${type=='edit'}">
@@ -21,15 +21,15 @@ pageEncoding="UTF-8" %>
                     </shiro:lacksPermission>
                 </c:if>
                 <th nowrap>年份</th>
-                <th nowrap>发文号</th>
+                <th>发文号</th>
                 <th nowrap>类别</th>
                 <th nowrap>任免方式</th>
                 <th nowrap>任免日期</th>
                 <th nowrap>姓名</th>
-                <th nowrap>所在单位及职务</th>
-                <th nowrap>职务属性</th>
+                <th>所在单位及职务</th>
+                <th>职务属性</th>
                 <th nowrap>行政级别</th>
-                <th nowrap>所属单位</th>
+                <th>所属单位</th>
                 <th nowrap>任免文件</th>
             </tr>
             </thead>
@@ -49,15 +49,15 @@ pageEncoding="UTF-8" %>
                     </c:if>
                     <c:set value="${cm:getDispatch(dispatchCadre.dispatchId)}" var="dispatch"/>
                     <td nowrap>${dispatch.year}</td>
-                    <td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
+                    <td>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
                     <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
                     <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
                     <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
                     <td nowrap>${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId).realname}</td>
-                    <td nowrap>${dispatchCadre.post}</td>
-                    <td nowrap>${cm:getMetaType(dispatchCadre.postType).name}</td>
+                    <td>${dispatchCadre.post}</td>
+                    <td>${cm:getMetaType(dispatchCadre.postType).name}</td>
                     <td nowrap>${cm:getMetaType(dispatchCadre.adminLevel).name}</td>
-                    <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
+                    <td>${unitMap.get(dispatchCadre.unitId).name}</td>
                     <td nowrap><c:if test="${not empty dispatch.fileName}">
                         <a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path=${cm:sign(dispatch.file)}&filename=${dispatch.fileName}"
            class="downloadBtn">下载</a>

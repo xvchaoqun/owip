@@ -15,6 +15,10 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,24 +28,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Controller
 public class MemberTransferController extends MemberBaseController {
@@ -200,7 +205,7 @@ public class MemberTransferController extends MemberBaseController {
             return;
         }
 
-        int count = memberTransferMapper.countByExample(example);
+        int count = (int) memberTransferMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -320,9 +325,7 @@ public class MemberTransferController extends MemberBaseController {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
-        /*if(member.getPartyId().byteValue() == record.getToPartyId()){
-            return failed("转入不能是当前所在分党委");
-        }*/
+
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
 
@@ -472,8 +475,9 @@ public class MemberTransferController extends MemberBaseController {
 
         List<MemberTransfer> records = memberTransferMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100","姓名|100","所在分党委|300|left","所在党支部|300|left", "转入分党委|300|left",
-                "转入党支部|300|left", "介绍信有效期天数|100","转出办理时间|100","状态|150"};
+        String[] titles = {"学工号|100","姓名|100","所在党组织|300|left","所在党支部|300|left", "转入党组织|300|left",
+                "转入党支部|300|left", "转出单位联系电话|100","转出单位传真|100",
+                "党费缴纳至年月|100", "介绍信有效期天数|100","转出办理时间|100","状态|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberTransfer record = records.get(i);
@@ -482,20 +486,141 @@ public class MemberTransferController extends MemberBaseController {
             Integer branchId = record.getBranchId();
             Integer toPartyId = record.getToPartyId();
             Integer toBranchId = record.getToBranchId();
+            Branch branch = null;
+            if (branchId != null){
+                branch = branchService.findAll().get(branchId);
+            }
+            Branch toBranch = null;
+            if (toBranchId != null){
+                toBranch = branchService.findAll().get(toBranchId);
+            }
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    branch==null?"":branch.getName(),
                     toPartyId==null?"":partyService.findAll().get(toPartyId).getName(),
-                    toBranchId==null?"":branchService.findAll().get(toBranchId).getName(),
+                    toBranch==null?"":toBranch.getName(),
+                    record.getFromPhone(),
+                    record.getFromFax(),
+                    DateUtils.formatDate(record.getPayTime(), DateUtils.YYYYMM),
                     record.getValidDays()+"",
-                    DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYYMMDD_DOT),
                     record.getStatus()==null?"":MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus())
             };
             valuesList.add(values);
         }
         String fileName = "校内组织关系转接_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("memberTransfer:edit")
+    @RequestMapping("/memberTransfer_import")
+    public String memberTransfer_import(ModelMap modelMap) {
+
+        return "member/memberTransfer/memberTransfer_import";
+    }
+
+    // 导入
+    @RequiresPermissions("memberTransfer:edit")
+    @RequestMapping(value = "/memberTransfer_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberTransfer_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        Set<Integer> adminPartyIdSet = new HashSet<>(loginUserService.adminPartyIdList());
+        Set<Integer> adminBranchIdSet = new HashSet<>(loginUserService.adminBranchIdList());
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<MemberTransfer> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            MemberTransfer record = new MemberTransfer();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                continue;
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            Member member = memberService.get(uv.getId());
+            if (member == null) {
+                throw new OpException("第{0}行学工号[{1}]不在党员库中", row, userCode);
+            }
+            record.setPartyId(member.getPartyId());
+            record.setBranchId(member.getBranchId());
+
+            if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+                if (!adminPartyIdSet.contains(member.getPartyId())) {
+                    if (member.getBranchId() == null || !adminBranchIdSet.contains(member.getBranchId())) {
+                        throw new OpException("第{0}行学工号[{1}]没有权限导入", row, userCode);
+                    }
+                }
+            }
+
+            String _toParty = StringUtils.trimToNull(xlsRow.get(2));
+            if (StringUtils.isBlank(_toParty)){
+                throw new OpException("第{0}行转入二级党委为空", row);
+            }
+            Party toParty = partyService.getByName(_toParty);
+            if (toParty == null) {
+                throw new OpException("第{0}行转入二级党委[{1}]不存在", row, _toParty);
+            }
+            Integer toPartyId = toParty.getId();
+            record.setToPartyId(toPartyId);
+
+            //非直属党支部
+            if (!PartyHelper.isDirectBranch(toPartyId)) {
+                String _toBranch = StringUtils.trimToNull(xlsRow.get(3));
+                if (StringUtils.isBlank(_toBranch)) {
+                    throw new OpException("第{0}行转入党支部为空", row);
+                }
+                Branch toBranch = branchService.getByName(_toBranch);
+                if (toBranch == null) {
+                    throw new OpException("第{0}行转入党支部[{1}]不存在", row, _toBranch);
+                }
+                record.setToBranchId(toBranch.getId());
+            }
+
+            int col = 4;
+            record.setFromPhone(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setFromFax(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPayTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+            String validDays = StringUtils.trimToNull(xlsRow.get(col++));
+            Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+            if (!pattern.matcher(validDays).matches()){
+                throw new OpException("第{0}行介绍信有效期天数请填写阿拉伯数字", row);
+            }
+            record.setValidDays(Integer.valueOf(validDays));
+            record.setFromHandleTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            records.add(record);
+        }
+
+        int addCount = memberTransferService.batchImport(records);
+        int totalCount = records.size();
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入组织关系转接记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
+        return resultMap;
     }
 }

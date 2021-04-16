@@ -101,7 +101,7 @@ public interface HttpResponseMethod {
                 }else{
                     cmd = PdfUtils.pdf2jpg(springProps.uploadPath, path, resolution, PropertiesUtils.getString("gs.command"), pageNo);
                 }
-                logger.info(cmd);
+                //logger.info(cmd);
             } catch (Exception e) {
                 logger.error("gs {}, {}", pdfFilePath, e.getMessage());
             }

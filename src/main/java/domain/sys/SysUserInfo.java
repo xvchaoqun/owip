@@ -46,8 +46,6 @@ public class SysUserInfo implements Serializable {
 
     private String mobile;
 
-    private String post;
-
     private String msgMobile;
 
     private Boolean notSendMsg;
@@ -222,14 +220,6 @@ public class SysUserInfo implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile == null ? null : mobile.trim();
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
     }
 
     public String getMsgMobile() {

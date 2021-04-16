@@ -7,6 +7,7 @@ import domain.base.MetaType;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
@@ -151,6 +152,8 @@ public class StatService extends BaseMapper {
         for (String branchType : branchTypes) {
 
             for (String type : branchType.split(",")) {
+
+                if(StringUtils.isBlank(type)) continue;
 
                 Integer key = Integer.parseInt(type);
                 Integer value = branchTypeMap.get(key);
@@ -582,12 +585,15 @@ public class StatService extends BaseMapper {
         modelMap.put("totalCount", statMemberMapper.getMemberCount(null, null, null, partyId));
         //教工党员总数
         modelMap.put("teacherCount", statMemberMapper.getMemberCount(teacherTypes, null, null, partyId));
+        List<Byte> teacherTypes1 = Arrays.asList(SystemConstants.USER_TYPE_JZG);
         //正高级
-        modelMap.put("chiefCount", statMemberMapper.getMemberCount(teacherTypes, "正高", branchIdList, partyId));
+        int chiefCount = statMemberMapper.getMemberCount(teacherTypes1, "正高", branchIdList, partyId);
+        modelMap.put("chiefCount", chiefCount);
         //副高级
-        modelMap.put("deputyCount", statMemberMapper.getMemberCount(teacherTypes, "副高", branchIdList, partyId));
+        int deputyCount = statMemberMapper.getMemberCount(teacherTypes1, "副高", branchIdList, partyId);
+        modelMap.put("deputyCount", deputyCount);
         //中级及以下
-        modelMap.put("middleCount", statMemberMapper.getMemberCount(teacherTypes, "other", branchIdList, partyId));
+        modelMap.put("middleCount", statMemberMapper.isMemberAndFullTime() - chiefCount - deputyCount);
         //离退休教工党员总数
         modelMap.put("retireTeacherCount", statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_RETIRE), null, null, partyId));
         //本科生党员

@@ -21,7 +21,8 @@ pageEncoding="UTF-8" %>
                data-width="800"
                data-url="${ctx}/hf_content?code=hf_cadre_company">
                 <i class="fa fa-info-circle"></i> 填写说明</a>
-        </div></c:if>
+        </div>
+        </c:if>
     </shiro:lacksPermission>
     </c:if>
 </ul>

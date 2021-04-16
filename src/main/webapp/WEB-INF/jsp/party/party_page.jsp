@@ -296,7 +296,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '编号',name: 'code',frozen:true,width:120},
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
-                return $.party(rowObject.id);
+                return $.party(rowObject.id, null, 1);
             },frozen:true },
             <shiro:hasPermission name="party:changeOrder">
             <c:if test="${cls==1 && !_query && empty param.sortBy}">

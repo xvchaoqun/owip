@@ -181,8 +181,9 @@ public class CadrePartyService extends BaseMapper {
             cadrePartyMapper.updateByPrimaryKeySelective(record);
         }
 
-        dpCommonService.updateMemberRole(userId);
-        //updateRole(userId);
+        if(dpCommonService!=null) {
+            dpCommonService.updateMemberRole(userId);
+        }
 
         cacheHelper.clearCadreCache(cv.getId());
     }
@@ -207,8 +208,9 @@ public class CadrePartyService extends BaseMapper {
             }
             addOrUpdateCadreParty(record);
 
-            dpCommonService.updateMemberRole(userId);
-            //updateRole(userId);
+             if(dpCommonService!=null) {
+                dpCommonService.updateMemberRole(userId);
+            }
         }
     }
 

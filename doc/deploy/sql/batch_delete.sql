@@ -15,6 +15,8 @@ select distinct user_id from cadre
 union all
 select distinct user_id from cet_record
 union all
+select distinct user_id from crp_record
+union all
 select distinct user_id from sys_login_log
 union all
 select distinct user_id from ow_member_reg

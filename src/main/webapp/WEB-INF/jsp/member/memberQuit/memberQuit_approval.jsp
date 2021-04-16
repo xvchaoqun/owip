@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_QUIT_TYPE_MAP" value="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>"/>
 <c:set var="MEMBER_QUIT_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_QUIT_STATUS_SELF_BACK%>"/>
 <c:set var="MEMBER_QUIT_STATUS_BACK" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BACK%>"/>
 <c:set var="MEMBER_QUIT_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY%>"/>
@@ -75,7 +74,7 @@
                                     <div class="profile-info-name"> 类别 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${MEMBER_QUIT_TYPE_MAP.get(memberQuit.type)}</span>
+                                        <span class="editable" >${cm:getMetaType(memberQuit.type).name}</span>
                                     </div>
                                 </div>
 

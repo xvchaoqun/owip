@@ -43,7 +43,6 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -455,7 +454,7 @@ public class MemberInController extends MemberBaseController {
 
         List<MemberIn> records = memberInMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100", "姓名|50", "身份证号码|180", "性别|50", "出生日期|100", "民族|80", "类别|50", "所在分党委|300|left", "所在党支部|300|left",
+        String[] titles = {"学工号|100", "姓名|50", "身份证号码|180", "性别|50", "出生日期|100", "民族|80", "类别|50", "所在党组织|300|left", "所在党支部|300|left",
                 "转出单位|280|left", "转出单位抬头|280|left", "介绍信有效期天数|120", "转出办理时间|100", "转入办理时间|100", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

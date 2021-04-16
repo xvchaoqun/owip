@@ -32,6 +32,12 @@
                                 <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberTransfer_au">
                                     <i class="fa fa-plus"></i> 添加</a>
                            </shiro:hasPermission>
+                            <shiro:hasPermission name="memberTransfer:edit">
+                                <button class="popupBtn btn btn-success btn-sm tooltip-primary"
+                                        data-url="${ctx}/memberTransfer_import"
+                                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                    批量导入</button>
+                            </shiro:hasPermission>
                         </div>
                     </ul>
                     <div class="tab-content">

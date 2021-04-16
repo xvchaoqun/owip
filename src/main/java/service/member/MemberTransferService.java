@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
+import service.party.MemberService;
+import service.party.PartyMemberService;
 import service.party.PartyService;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
@@ -19,6 +22,7 @@ import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +34,12 @@ public class MemberTransferService extends MemberBaseMapper {
     private PartyService partyService;
     @Autowired
     private MemberOpService memberOpService;
+    @Autowired
+    private PartyMemberService partyMemberService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
     
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
@@ -60,7 +70,7 @@ public class MemberTransferService extends MemberBaseMapper {
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
-        return memberTransferMapper.countByExample(example);
+        return (int) memberTransferMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
@@ -172,7 +182,7 @@ public class MemberTransferService extends MemberBaseMapper {
         updateByPrimaryKeySelective(record);
     }*/
 
-    // 当前所在分党委审核通过
+    // 当前所在党组织审核通过
     @Transactional
     public void check1(int userId){
 
@@ -369,5 +379,85 @@ public class MemberTransferService extends MemberBaseMapper {
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+    }
+
+    /*
+    * 导入时，如果通过，将党员库党员状态改为1，未通过不修改；转出分党委审批通过的数据，状态为1
+    * */
+    @Transactional
+    public int batchImport(List<MemberTransfer> records) {
+
+        int addCount = 0;
+        for (MemberTransfer record : records) {
+
+            updateImportStatus(record);
+            Integer userId = record.getUserId();
+            record.setIsBack(false);
+            MemberTransferExample example = new MemberTransferExample();
+            example.createCriteria().andUserIdEqualTo(userId).andStatusLessThan(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+            List<MemberTransfer> memberTransferList = memberTransferMapper.selectByExample(example);
+            if (memberTransferList == null || memberTransferList.size() == 0){
+
+                record.setApplyTime(new Date());
+                memberTransferMapper.insert(record);
+                addCount++;
+            }else {
+
+                MemberTransfer memberTransfer = memberTransferList.get(0);
+                record.setId(memberTransfer.getId());
+                if (memberTransfer.getStatus()<MemberConstants.MEMBER_TRANSFER_STATUS_APPLY){
+                    record.setApplyTime(new Date());
+                }
+                memberTransferMapper.updateByPrimaryKeySelective(record);
+            }
+
+            // 导入时，转入申请通过的话，需要判断修改党员库中党员的状态
+            if (record.getStatus() == MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
+
+                Member _member = new Member();
+                _member.setUserId(userId);
+                _member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 所有的转入都成为正常党员
+                _member.setPartyId(record.getToPartyId());
+                _member.setBranchId(record.getToBranchId());
+
+                memberService.updateByPrimaryKeySelective(_member, "批量导入校内组织关系转接");
+
+                applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                        MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus()),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "批量导入校内组织关系转接");
+            }
+        }
+        return addCount;
+    }
+
+    /*
+    * 先判断权限：党建管理员导入，直接通过；分党委管理员导入，到转入党委审批阶段；其他导入，到申请阶段
+    * 修改党员状态
+    * */
+    public void updateImportStatus(MemberTransfer record){
+
+        Byte status = null;
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+
+            Integer partyId = record.getPartyId();
+            Integer loginUserId = ShiroHelper.getCurrentUserId();
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            boolean isToAdmin = partyMemberService.isPresentAdmin(loginUserId, record.getToPartyId());
+
+            if(!isAdmin && !isToAdmin) {
+                status = MemberConstants.MEMBER_TRANSFER_STATUS_APPLY;
+            }else {
+                status = MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY;
+                record.setFromHandleTime(new Date());
+            }
+        }else {
+            status = MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY;
+        }
+
+        record.setStatus(status);
     }
 }

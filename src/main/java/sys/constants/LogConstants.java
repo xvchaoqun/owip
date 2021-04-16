@@ -51,6 +51,7 @@ public class LogConstants {
     public static final int LOG_OP = 530;//组织处理管理
     public static final int LOG_CG = 550; // 委员会和领导小组
     public static final int LOG_SP = 560;//八类代表
+    public static final int LOG_PARTTIME_APPLY = 570;//兼职申报
 
     public final static Map<Integer, String> LOG_MAP = new LinkedHashMap<>();
     static {
@@ -101,5 +102,6 @@ public class LogConstants {
         LOG_MAP.put(LOG_CG, "委员会和领导小组");
 
         LOG_MAP.put(LOG_SP,"八类代表");
+        LOG_MAP.put(LOG_PARTTIME_APPLY, "兼职申报");
     }
 }

@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.member.Member;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
@@ -87,7 +88,7 @@ public class MemberQuitController extends MemberBaseController {
                                     Integer userId,
                                     Byte status,
                                     Boolean isBack,
-                                    Byte type,
+                                    Integer type,
                                 @RequestDateRange DateRange _quitTime,
                                 @RequestDateRange DateRange  _growTime,
                                     Integer partyId,
@@ -166,7 +167,7 @@ public class MemberQuitController extends MemberBaseController {
             return;
         }
 
-        int count = memberQuitMapper.countByExample(example);
+        int count = (int) memberQuitMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -333,7 +334,8 @@ public class MemberQuitController extends MemberBaseController {
         MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
         if (memberQuit == null) {
 
-            if(record.getType()==MemberConstants.MEMBER_QUIT_TYPE_WITHGOD){ // 离世 直接出党
+            MetaType metaType = CmTag.getMetaTypeByCode("mt_quit_withgod");
+            if(record.getType()==metaType.getId()){ // 离世 直接出党
                 record.setStatus(MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY);
                 record.setCreateTime(new Date());
                 memberQuitService.insertSelective(record);
@@ -396,7 +398,7 @@ public class MemberQuitController extends MemberBaseController {
                     sysUser.getRealname(),
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
-                    record.getType()==null?"":MemberConstants.MEMBER_QUIT_TYPE_MAP.get(record.getType()),
+                    record.getType()==null?"":metaTypeMapper.selectByPrimaryKey(record.getType()).getName(),
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getQuitTime(), DateUtils.YYYY_MM_DD),
                     record.getStatus()==null?"":MemberConstants.MEMBER_QUIT_STATUS_MAP.get(record.getStatus())

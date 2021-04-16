@@ -194,6 +194,7 @@ public class MemberHistoryController extends MemberBaseController {
     @RequestMapping(value = "/memberHistory_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberHistory_au(MemberHistory record,
+                                   Integer _generalUser,// 1生成账号 0不生成账号
                                    HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -206,12 +207,13 @@ public class MemberHistoryController extends MemberBaseController {
             record.setUserId(uv.getUserId());
         }
 
+        if (StringUtils.isBlank(code)&&_generalUser==0){
+            throw new OpException("请填写学工号或者勾选“自动生成账号”");
+        }
+
         if (id == null) {
 
-            if (memberHistoryService.isDuplicate(record.getRealname(),record.getCode(), record.getIdcard())){
-                throw new OpException("添加重复");
-            }
-            memberHistoryService.insertSelective(record);
+            memberHistoryService.generalInsert(record, _generalUser);
             logger.info(log( LogConstants.LOG_MEMBER, "添加历史党员：{0}", record.getId()));
 
             sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
@@ -454,7 +456,15 @@ public class MemberHistoryController extends MemberBaseController {
                 throw new OpException("第{0}行人员类别不存在", row);
             }
 
-            record.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "男") ? 1 : 2));
+            Byte gender = null;
+            String _gender = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.equals(_gender, "男")){
+                gender = SystemConstants.GENDER_MALE;
+            }
+            if (StringUtils.equals(_gender, "女")){
+                gender = SystemConstants.GENDER_FEMALE;
+            }
+            uv.setGender(gender);
             record.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
 
             record.setNation(StringUtils.trimToNull(xlsRow.get(col++)));

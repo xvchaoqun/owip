@@ -479,7 +479,7 @@ public class BranchMemberGroupController extends BaseController {
         List<BranchMemberGroupView> records = branchMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
 
-        List<String> titles = new ArrayList<>(Arrays.asList("名称|250|left", "所属分党委|250|left", "所属党支部|250|left",
+        List<String> titles = new ArrayList<>(Arrays.asList("名称|250|left", "所在党组织|250|left", "所属党支部|250|left",
                  "应换届时间|100", "实际换届时间|100", "任命时间|100"));
 
         Map<Integer, MetaType> branchMemberTypeMap = metaTypeService.metaTypes("mc_branch_member_type");

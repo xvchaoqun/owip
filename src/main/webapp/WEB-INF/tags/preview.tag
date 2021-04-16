@@ -12,7 +12,7 @@
 <%@ attribute name="np" type="java.lang.Boolean" required="false" %>
 <%@ attribute name="nd" type="java.lang.Boolean" required="false" %>
 <c:if test="${not empty filePath}">
-    <c:if test="${fn:endsWith(fn:toLowerCase(filePath), '.pdf')}"><a href="javascript:;" class="popupBtn" data-url="${ctx}/pdf_preview?path=${cm:sign(filePath)}&filename=${cm:encodeURI(fileName)}&np=${np}&nd=${nd}">${empty label?"查看":label}</a></c:if>
+    <c:if test="${fn:endsWith(fn:toLowerCase(filePath), '.pdf')}"><a href="javascript:;" class="popupBtn" data-width="900" data-url="${ctx}/pdf_preview?path=${cm:sign(filePath)}&filename=${cm:encodeURI(fileName)}&np=${np}&nd=${nd}">${empty label?"查看":label}</a></c:if>
     <c:if test="${!fn:endsWith(fn:toLowerCase(filePath), '.pdf')}">
         <c:set var="isImage" value="${cm:isImage(_uploadPath, filePath)}"/>
         <c:if test="${isImage}">

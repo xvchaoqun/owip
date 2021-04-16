@@ -566,7 +566,7 @@ public class MemberStayController extends MemberBaseController {
 
         List<MemberStayView> records = memberStayViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号", "姓名", "所在分党委", "所在党支部",
+        String[] titles = {"学工号", "姓名", "所在党组织", "所在党支部",
                 "留学国家", "留学学校（院系）",
                 "留学起止时间（年/月）", "留学起止时间（年/月）", "手机号码", "状态"};
         List<String[]> valuesList = new ArrayList<>();

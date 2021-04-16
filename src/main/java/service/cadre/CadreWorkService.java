@@ -198,7 +198,7 @@ public class CadreWorkService extends BaseMapper {
             CadreResume crpResume = new CadreResume();
             crpResume.setIsWork(false);
             crpResume.setStartDate(record.getStartDate());
-            crpResume.setEndDate(record.getEndDate());
+            crpResume.setEndDate(record.getRealEndDate());
             crpResume.setDetail(detail);
 
             insertSubResume(crpResume, resumes);

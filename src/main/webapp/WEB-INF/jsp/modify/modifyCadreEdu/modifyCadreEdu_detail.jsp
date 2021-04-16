@@ -109,7 +109,7 @@
                     <td class="bg-left">
                         <c:if test="${not empty modify.certificate}">
                     <c:forEach items="${fn:split(modify.certificate, ',')}" var="filePath" varStatus="vs">
-                        <a class="various" rel="group${modify.id}" title="证件${vs.index+1}" data-fancybox-type="image" data-path="${cm:sign(filePath)}" href="${ctx}/pic?path=${cm:sign(filePath)}">证件${vs.index+1}</a>
+                            <t:preview filePath="${filePath}" fileName="证件${vs.index+1}" label="证件${vs.index+1}"/>
                         ${vs.last?'':'，'}
                     </c:forEach>
                         </c:if>

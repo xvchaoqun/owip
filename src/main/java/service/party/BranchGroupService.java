@@ -97,7 +97,7 @@ public class BranchGroupService extends BaseMapper {
     // 导出党小组成员
     public void branch_groupMember_export(BranchViewExample example, HttpServletResponse response) {
 
-        String[] titles = {"所属分党委|300","所属支部|200","党校小组名称|250","学工号|150","姓名|100","类别|100"};
+        String[] titles = {"所在党组织|300","所属支部|200","党校小组名称|250","学工号|150","姓名|100","类别|100"};
         List<String[]> valuesList = new ArrayList<>();
         Map<Integer,Party> partyMap = partyService.findAll();
 

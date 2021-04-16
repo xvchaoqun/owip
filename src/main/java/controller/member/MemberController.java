@@ -1578,7 +1578,7 @@ public class MemberController extends MemberBaseController {
                     record.getBirth() != null ? DateUtils.intervalYearsUntilNow(record.getBirth()) + "" : "",//年龄
                     record.getIdcard(),//身份证号
                     record.getNation(),//身份证号
-                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),//所属分党委
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),//所在党组织
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),//所属党支部
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),

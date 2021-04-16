@@ -123,8 +123,8 @@
         colModel: [
             {label: '学工号', name: 'code', width: 120, frozen: true},
             {label: '姓名', name: 'realname', width: 90, frozen: true},
-            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             <c:if test="${type==OW_ORG_ADMIN_PARTY}">
+            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '所在${_p_partyName}',
                 name: 'partyId',
@@ -136,6 +136,7 @@
             },
             </c:if>
             <c:if test="${type==OW_ORG_ADMIN_BRANCH}">
+            {label: '职务', name: 'types', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '所在党组织',
                 name: '_party',

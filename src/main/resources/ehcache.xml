@@ -950,4 +950,41 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- 兼职申报审批-->
+    <cache name="ParttimeApplicatType:ALL"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="parttimeApproverType:ALL"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="ParttimeApprovalOrder:ALL"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="ParttimeApproverBlackList"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
+
+
 </ehcache> 

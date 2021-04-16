@@ -430,7 +430,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         List<MemberOutflowView> records = memberOutflowViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100","姓名|100","所在分党委|300|left","所在党支部|300|left","原职业|150|left","外出流向|150|left",
+        String[] titles = {"学工号|100","姓名|100","所在党组织|300|left","所在党支部|300|left","原职业|150|left","外出流向|150|left",
                 "流出时间","流出省份|100|left","流出原因|100|left","是否持有《中国共产党流动党员活动证》|150","组织关系状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

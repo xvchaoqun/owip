@@ -153,9 +153,7 @@
                                                         <label>减员原因</label>
                                                             <select class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                                                                 <option></option>
-                                                                <c:forEach items="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>" var="quitType">
-                                                                    <option value="${quitType.key}">${quitType.value}</option>
-                                                                </c:forEach>
+                                                                <c:import url="/metaTypes?__code=mc_member_quit_type"/>
                                                             </select>
                                                             <script>
                                                                 $("#searchForm select[name=type]").val("${param.type}");
@@ -285,9 +283,8 @@
                 }, frozen:true
             },
             {label: '减员时间', name: 'quitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '减员原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.MEMBER_QUIT_TYPE_MAP[rowObject.type];
-            }},{label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
+            {label: '减员原因', name: 'type', width: 150, formatter: $.jgrid.formatter.MetaType},
+            {label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_QUIT_STATUS_MAP[rowObject.status];
             }}
                 <c:if test="${cls!=3}">

@@ -2,13 +2,12 @@ package persistence.member;
 
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface MemberQuitMapper {
-    int countByExample(MemberQuitExample example);
+    long countByExample(MemberQuitExample example);
 
     int deleteByExample(MemberQuitExample example);
 

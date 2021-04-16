@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="spring.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}"/>
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+<!--        <table tableName="parttime_apply" domainObjectName="parttime.ParttimeApply" mapperName="parttime.ParttimeApplyMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_applicat_type" domainObjectName="parttime.ParttimeApplicatType" mapperName="parttime.ParttimeApplicatTypeMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_applicat_cadre" domainObjectName="parttime.ParttimeApplicatCadre" mapperName="parttime.ParttimeApplicatCadreMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_apply_file" domainObjectName="parttime.ParttimeApplyFile" mapperName="parttime.ParttimeApplyFileMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_approval_order" domainObjectName="parttime.ParttimeApprovalOrder" mapperName="parttime.ParttimeApprovalOrderMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_approver_type" domainObjectName="parttime.ParttimeApproverType" mapperName="parttime.ParttimeApproverTypeMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_approver" domainObjectName="parttime.ParttimeApprover" mapperName="parttime.ParttimeApproverMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+        <table tableName="parttime_approval_log" domainObjectName="parttime.ParttimeApprovalLog" mapperName="parttime.ParttimeApprovalLogMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+<!--        <table tableName="parttime_approver_black_list" domainObjectName="parttime.ParttimeApproverBlackList" mapperName="parttime.ParttimeApproverBlackListMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="parttime_apply_modify" domainObjectName="parttime.ParttimeApplyModify" mapperName="parttime.ParttimeApplyModifyMapper">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+
+
+
+
+    </context>
+</generatorConfiguration>

@@ -43,7 +43,7 @@ public class RoleConstants {
     public static final String PERMISSION_PMDVIEWALL = "pmd:viewAll"; // 党费收缴查看所有党委、支部的权限
     public static final String PERMISSION_ABROADADMIN = "abroad:admin"; // 因私管理员权限
     public static final String PERMISSION_CLAADMIN = "cla:admin"; // 请假管理员权限
-    public static final String PERMISSION_COMPANYAPPLY = "cadre:companyApply";//兼职申报权限
+    public static final String PERMISSION_COMPANYAPPLY = "parttime:companyApply";//兼职申报权限
 
     //系统自动赋予的角色
     public static final String ROLE_GUEST = "guest";

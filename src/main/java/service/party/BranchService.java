@@ -381,7 +381,7 @@ public class BranchService extends BaseMapper {
     public Branch getByName(String name){
 
         BranchExample example = new BranchExample();
-        example.createCriteria().andNameEqualTo(name);
+        example.createCriteria().andNameEqualTo(name).andIsDeletedEqualTo(false);
         List<Branch> branchList = branchMapper.selectByExample(example);
 
         return branchList.size() > 0 ? branchList.get(0) : null;

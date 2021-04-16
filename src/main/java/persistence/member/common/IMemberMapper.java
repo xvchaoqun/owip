@@ -170,7 +170,7 @@ public interface IMemberMapper {
     int updateToDirectBranch(@Param("tableName") String tableName, @Param("idName") String idName,
                              @Param("id") int id, @Param("partyId") int partyId);
 
-    // 支部整建转移之后，需要修改关联表的支部所属分党委id
+    // 支部整建转移之后，需要修改关联表的支部所在党组织id
     @Update("update ${tableName} tmp, ow_branch ob set tmp.party_id=ob.party_id where " +
             "ob.id in (${brachIds}) and tmp.branch_id=ob.id")
     void batchTransfer(@Param("tableName") String tableName, @Param("brachIds") String brachIds);

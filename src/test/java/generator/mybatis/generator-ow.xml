@@ -25,18 +25,17 @@
         </javaClientGenerator>
 
 
-        <table tableName="ow_member_history" domainObjectName="member.MemberHistory">
+        <!--<table tableName="ow_member_history" domainObjectName="member.MemberHistory">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="gender" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="political_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>
+        </table>-->
 
         <!--党建工作-->
-        <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          </table>
-           -->
+         <!--<table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>-->
          <!--<table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
@@ -65,16 +64,16 @@
         </table>-->
         <!--<table tableName="ow_member_abroad_view" domainObjectName="member.MemberAbroadView">
         </table>-->
-        <table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
+        <!--<table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView" mapperName="member.MemberStayViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
-        <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
         </table>-->
+        <table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
+        </table>
 
         <!--<table tableName="ow_apply_approval_log" domainObjectName="member.ApplyApprovalLog">
         <columnOverride column="remark" jdbcType="VARCHAR"/>

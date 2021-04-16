@@ -158,7 +158,7 @@ public class Pm3GuideService extends PmBaseMapper {
         }
     }
 
-    // 查询还未全部提交月报的党支部的所属分党委列表
+    // 查询还未全部提交月报的党支部的所在党组织列表
     public List<Party> getUnSubmitPartyList(Date meetingMonth, Integer[] partyIds){
 
         PartyExample example = new PartyExample();

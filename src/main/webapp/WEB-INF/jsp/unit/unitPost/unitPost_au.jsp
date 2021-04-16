@@ -167,7 +167,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 			</c:if>
-		    <c:if test="${cadrePost!=null}">
+		    <c:if test="${not empty cadrePost}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>是否同步<br/>任职情况</label>
 				<div class="col-xs-8">
@@ -190,6 +190,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             </c:if>
+
 			<div class="form-group" id="cadreDiv">
 				<label class="col-xs-4 control-label">任职干部</label>
 				<div class="col-xs-8">
@@ -199,10 +200,11 @@ pageEncoding="UTF-8"%>
 								name="cadreId" data-placeholder="请输入账号或姓名或学工号">
 							<option value="${cadrePost.cadre.id}">${cadrePost.cadre.realname}-${cadrePost.cadre.code}</option>
 					</select>
-					<c:if test="${cadrePost!=null}">
+					<c:if test="${not empty cadrePost}">
 					<span class="help-block blue">注：如发生变更，前后两个干部的任职信息也将更新。</span>
 					</c:if>
-					<c:if test="${cadrePost==null}">
+					<c:if test="${empty cadrePost}">
+						<input type="hidden" name="isSync" value="1">
 					<span class="help-block blue">注：如果该干部已存在主职，将被覆盖。</span>
 					</c:if>
 				</div>
@@ -243,6 +245,7 @@ pageEncoding="UTF-8"%>
     $.register.ajax_select($("#modalForm select[name=unitId]"))
     $.register.user_select($("#modalForm select[name=cadreId]"));
     $('#modalForm [data-rel="select2"]').select2();
+    <c:if test="${not empty cadrePost}">
 	$("#modalForm input[name=isSync]").change(function(){
 		var isSnyc = $("#modalForm input[name=isSync]:checked").val();
 		if(isSnyc=='1') {
@@ -251,4 +254,5 @@ pageEncoding="UTF-8"%>
 			$("#cadreDiv").hide();
 		}
 	}).change();
+	</c:if>
 </script>

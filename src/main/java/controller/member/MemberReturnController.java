@@ -421,7 +421,7 @@ public class MemberReturnController extends MemberBaseController {
 
         List<MemberReturn> records = memberReturnMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100","姓名|100", "所属分党委|250|left","所属党支部|250|left","确定为入党积极分子时间",
+        String[] titles = {"学工号|100","姓名|100", "所在党组织|250|left","所属党支部|250|left","确定为入党积极分子时间",
                 "确定为发展对象时间|100","入党时间|100","转正时间|100","状态|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

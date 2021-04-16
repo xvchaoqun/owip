@@ -22,7 +22,8 @@
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=hf_cadre_post">
-            <i class="fa fa-info-circle"></i> 填写说明</a></c:if>
+            <i class="fa fa-info-circle"></i> 填写说明</a>
+        </c:if>
     </div>
 </shiro:lacksPermission>
 </ul>
