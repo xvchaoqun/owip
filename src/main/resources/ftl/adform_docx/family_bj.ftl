@@ -1,54 +1,35 @@
-<w:tr w:rsidR="00CF4831"
-      w14:paraId="0E624FE9"
-      w14:textId="77777777"
-      w:rsidTr="008E5125">
+<w:tr w:rsidR="00466809">
     <w:trPr>
         <w:cantSplit/>
-        <w:trHeight w:hRule="exact"
-                    w:val="624"/>
+        <w:trHeight w:hRule="exact" w:val="583"/>
         <w:jc w:val="center"/>
     </w:trPr>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="1289"
-                   w:type="dxa"/>
+            <w:tcW w:w="1289" w:type="dxa"/>
             <w:vMerge/>
             <w:textDirection w:val="tbRlV"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="14823A5A"
-             w14:textId="77777777"
-             w:rsidR="00E759EF"
-             w:rsidRPr="008E5125"
-             w:rsidRDefault="00E759EF"
-             w:rsidP="00E759EF">
-            <w:pPr>
-                <w:spacing w:line="0"
-                           w:lineRule="atLeast"/>
-                <w:ind w:left="113"
-                       w:right="113"/>
-                <w:jc w:val="center"/>
-            </w:pPr>
-        </w:p>
+        <w:p w:rsidR="00466809" w:rsidRDefault="00466809"/>
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="1231"
-                   w:type="dxa"/>
+            <w:tcW w:w="1231" w:type="dxa"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="6305562D"
-             w14:textId="2CACDB34"
-             w:rsidR="00E759EF"
-             w:rsidRPr="008E5125"
-             w:rsidRDefault="001C5FE0"
-             w:rsidP="008F3577">
+        <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
             <w:pPr>
                 <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体"/>
+                    <w:sz w:val="24"/>
+                </w:rPr>
             </w:pPr>
             <w:r>
                 <w:rPr>
-                    <w:rFonts w:hint="eastAsia"/>
+                    <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
                 <w:t>${ftitle!}</w:t>
             </w:r>
@@ -56,23 +37,22 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="1298"
-                   w:type="dxa"/>
+            <w:tcW w:w="1080" w:type="dxa"/>
             <w:gridSpan w:val="2"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="5EC7E120"
-             w14:textId="7BD2206E"
-             w:rsidR="00E759EF"
-             w:rsidRPr="008E5125"
-             w:rsidRDefault="00E759EF"
-             w:rsidP="008F3577">
+        <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
             <w:pPr>
                 <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体"/>
+                    <w:sz w:val="24"/>
+                </w:rPr>
             </w:pPr>
             <w:r>
                 <w:rPr>
-                    <w:rFonts w:hint="eastAsia"/>
+                    <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
                 <w:t>${fname!}</w:t>
             </w:r>
@@ -80,23 +60,21 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="1298"
-                   w:type="dxa"/>
-            <w:gridSpan w:val="2"/>
+            <w:tcW w:w="1080" w:type="dxa"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="35146E3B"
-             w14:textId="04D85F71"
-             w:rsidR="00E759EF"
-             w:rsidRPr="008E5125"
-             w:rsidRDefault="00E759EF"
-             w:rsidP="00E759EF">
+        <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
             <w:pPr>
                 <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体"/>
+                    <w:sz w:val="24"/>
+                </w:rPr>
             </w:pPr>
             <w:r>
                 <w:rPr>
-                    <w:rFonts w:hint="eastAsia"/>
+                    <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
                 <w:t>${fage!}</w:t>
             </w:r>
@@ -104,22 +82,22 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="1690"
-                   w:type="dxa"/>
+            <w:tcW w:w="1260" w:type="dxa"/>
+            <w:gridSpan w:val="2"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="6BD58C99"
-             w14:textId="772295C3"
-             w:rsidR="00E759EF"
-             w:rsidRPr="008E5125"
-             w:rsidRDefault="00E759EF"
-             w:rsidP="00E759EF">
+        <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
             <w:pPr>
                 <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体"/>
+                    <w:sz w:val="24"/>
+                </w:rPr>
             </w:pPr>
             <w:r>
                 <w:rPr>
-                    <w:rFonts w:hint="eastAsia"/>
+                    <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
                 <w:t>${fps!}</w:t>
             </w:r>
@@ -127,22 +105,22 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="3476"
-                   w:type="dxa"/>
+            <w:tcW w:w="4320" w:type="dxa"/>
+            <w:gridSpan w:val="2"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="7A7FA823"
-             w14:textId="7CA8E9E9"
-             w:rsidR="00E759EF"
-             w:rsidRPr="008E5125"
-             w:rsidRDefault="00E759EF"
-             w:rsidP="008F3577">
+        <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
             <w:pPr>
+                <w:spacing w:line="260" w:lineRule="exact"/>
                 <w:jc w:val="left"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体"/>
+                </w:rPr>
             </w:pPr>
             <w:r>
                 <w:rPr>
-                    <w:rFonts w:hint="eastAsia"/>
+                    <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
                 <w:t>${fpost!}</w:t>
             </w:r>
