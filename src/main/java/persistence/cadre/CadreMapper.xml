@@ -81,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, is_outside,
+    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, is_outside, 
     is_sync_post, dispatch_cadre_id, label, profile, remark, original_post, appoint_date, 
     depose_date, sort_order, status
   </sql>
@@ -119,18 +119,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre (user_id, type, has_crp,
-      is_double, double_unit_ids, state,
-      title, is_outside, is_sync_post,
-      dispatch_cadre_id, label, profile,
-      remark, original_post, appoint_date,
+    insert into cadre (user_id, type, has_crp, 
+      is_double, double_unit_ids, state, 
+      title, is_outside, is_sync_post, 
+      dispatch_cadre_id, label, profile, 
+      remark, original_post, appoint_date, 
       depose_date, sort_order, status
       )
-    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{hasCrp,jdbcType=BIT},
-      #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER},
-      #{title,jdbcType=VARCHAR}, #{isOutside,jdbcType=BIT}, #{isSyncPost,jdbcType=BIT},
-      #{dispatchCadreId,jdbcType=INTEGER}, #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR},
-      #{remark,jdbcType=VARCHAR}, #{originalPost,jdbcType=VARCHAR}, #{appointDate,jdbcType=DATE},
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{hasCrp,jdbcType=BIT}, 
+      #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{isOutside,jdbcType=BIT}, #{isSyncPost,jdbcType=BIT}, 
+      #{dispatchCadreId,jdbcType=INTEGER}, #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{originalPost,jdbcType=VARCHAR}, #{appointDate,jdbcType=DATE}, 
       #{deposeDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
       )
   </insert>

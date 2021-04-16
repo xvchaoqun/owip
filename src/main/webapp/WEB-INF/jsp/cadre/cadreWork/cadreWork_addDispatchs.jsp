@@ -59,7 +59,7 @@ pageEncoding="UTF-8" %>
                                 <td>${dispatchCadre.post}</td>
                                 <td>${cm:getMetaType(dispatchCadre.postType).name}</td>
 								<td nowrap>${cm:getMetaType(dispatchCadre.adminLevel).name}</td>
-								<td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
+								<td>${unitMap.get(dispatchCadre.unitId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">
                                     <a href="javascript:;" data-type="download"
                                        data-url="${ctx}/attach_download?path=${cm:sign(dispatch.file)}&filename=${dispatch.fileName}"

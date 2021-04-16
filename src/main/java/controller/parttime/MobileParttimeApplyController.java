@@ -1,10 +1,7 @@
 package controller.parttime;
 
-import controller.BaseController;
 import controller.global.OpException;
 import domain.cadre.CadreView;
-import domain.cla.ClaApply;
-import domain.cla.ClaApplyFile;
 import domain.parttime.ParttimeApply;
 import domain.parttime.ParttimeApplyFile;
 import domain.sys.SysUserView;
@@ -13,17 +10,12 @@ import interceptor.SortParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import persistence.cla.common.ClaApprovalResult;
-import persistence.cla.common.ClaApproverTypeBean;
-import persistence.parttime.ParttimeApplyMapper;
 import persistence.parttime.common.ParttimeApprovalResult;
 import persistence.parttime.common.ParttimeApproverTypeBean;
-import service.parttime.ParttimeApplyService;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
@@ -40,13 +32,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/m/parttime")
-public class MobileParttimeApplyController extends BaseController {
+public class MobileParttimeApplyController extends ParttimeBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private ParttimeApplyMapper parttimeApplyMapper;
-    @Autowired
-    private ParttimeApplyService parttimeApplyService;
 
     @RequiresPermissions("parttimeApply:list")
     //@RequiresPermissions(RoleConstants.PERMISSION_CLAADMIN)

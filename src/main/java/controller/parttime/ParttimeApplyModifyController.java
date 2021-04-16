@@ -1,7 +1,5 @@
 package controller.parttime;
 
-import domain.cla.ClaApplyModify;
-import domain.cla.ClaApplyModifyExample;
 import domain.parttime.ParttimeApplyModify;
 import domain.parttime.ParttimeApplyModifyExample;
 import mixin.MixinUtils;
@@ -12,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.parttime.ParttimeApplyModifyMapper;
 import service.SpringProps;
-import sys.constants.ClaConstants;
 import sys.constants.ParttimeConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -25,9 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ParttimeApplyModifyController {
-    @Autowired
-    private ParttimeApplyModifyMapper parttimeApplyModifyMapper;
+public class ParttimeApplyModifyController extends ParttimeBaseController {
+
     @Autowired
     private SpringProps springProps;
 

@@ -1,12 +1,13 @@
 package persistence.parttime.common;
 
-import domain.cla.ClaApply;
 import domain.parttime.ParttimeApply;
+import domain.parttime.ParttimeApprovalOrder;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
-import persistence.cla.common.ClaApplySearchBean;
 import sys.constants.AbroadConstants;
+
 import java.util.List;
 import java.util.Map;
 
@@ -60,5 +61,11 @@ public interface IParttimeMapper {
             @Param("flowUserId") Integer flowUserId,
             RowBounds rowBounds);
 
+    @Select("select count(*) from parttime_approval_order where applicate_type_id=#{applicatTypeId}")
+    int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
 
+    @ResultMap("persistence.parttime.ParttimeApprovalOrderMapper.BaseResultMap")
+    @Select("select aao.* from parttime_approval_order aao, parttime_approver_type aat " +
+            "where aao.applicate_type_id=#{applicatTypeId} and aao.approver_type_id = aat.id order by aat.sort_order desc")
+    List<ParttimeApprovalOrder> selectApprovalOrderList(@Param("applicatTypeId") int applicatTypeId, RowBounds rowBounds);
 }

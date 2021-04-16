@@ -275,4 +275,32 @@ public class CadreConstants {
     public final static byte CADRETREE_KEY_CADREID = 1;
     public final static byte CADRETREE_KEY_USERID = 2;
     public final static byte CADRETREE_KEY_CADREID_UNITID = 3;
+
+    //兼职单位类别 0. 社会团体 1.基金会 2.民办非企业单位 3.企业
+    public final static byte CADRE_PARTTIME_TYPE_SOCIETY = 0;
+    public final static byte CADRE_PARTTIME_TYPE_FOUNDATION = 1;
+    public final static byte CADRE_PARTTIME_TYPE_NOT_BUSINESS = 2;
+    public final static byte CADRE_PARTTIME_TYPE_BUSINESS = 3;
+    public final static Map<Byte, String> CADRE_PARTTIME_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        CADRE_PARTTIME_TYPE_MAP.put(CADRE_PARTTIME_TYPE_SOCIETY, "社会团体");
+        CADRE_PARTTIME_TYPE_MAP.put(CADRE_PARTTIME_TYPE_FOUNDATION, "基金会");
+        CADRE_PARTTIME_TYPE_MAP.put(CADRE_PARTTIME_TYPE_NOT_BUSINESS, "民办非企业单位");
+        CADRE_PARTTIME_TYPE_MAP.put(CADRE_PARTTIME_TYPE_BUSINESS, "企业");
+    }
+
+    //兼职申报状态 0. 申请中 1. 同意申请 2. 不同意申请 3.已删除
+    public final static byte CADRE_PARTTIME_TYPE_APPLY = 0;
+    public final static byte CADRE_PARTTIME_TYPE_PASS = 1;
+    public final static byte CADRE_PARTTIME_TYPE_NOT_PASS = 2;
+    public final static byte CADRE_PARTTIME_TYPE_DELETED = 3;
+    public final static Map<Byte, String> CADRE_PARTTIME_STATUS_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        CADRE_PARTTIME_STATUS_TYPE_MAP.put(CADRE_PARTTIME_TYPE_APPLY, "申请中");
+        CADRE_PARTTIME_STATUS_TYPE_MAP.put(CADRE_PARTTIME_TYPE_PASS, "同意申请");
+        CADRE_PARTTIME_STATUS_TYPE_MAP.put(CADRE_PARTTIME_TYPE_NOT_PASS, "不同意申请");
+        CADRE_PARTTIME_STATUS_TYPE_MAP.put(CADRE_PARTTIME_TYPE_DELETED, "已删除");
+    }
+
+
 }

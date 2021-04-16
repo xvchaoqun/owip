@@ -1,16 +1,10 @@
 package controller.parttime;
 
 import bean.ShortMsgBean;
-import controller.BaseController;
 import controller.global.OpException;
-import domain.abroad.ApprovalLog;
-import domain.abroad.ApprovalLogExample;
-import domain.abroad.ApproverType;
-import domain.cadre.*;
-import domain.cla.*;
+import domain.cadre.CadreView;
 import domain.parttime.*;
 import domain.sys.SysUserView;
-import ext.service.ShortMsgService;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +13,6 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,26 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import persistence.abroad.ApprovalLogMapper;
-import persistence.abroad.common.ApprovalResult;
-import persistence.cla.common.ClaApprovalResult;
-import persistence.cla.common.ClaApproverTypeBean;
-import persistence.parttime.ParttimeApplyFileMapper;
-import persistence.parttime.ParttimeApplyMapper;
-import persistence.parttime.ParttimeApprovalLogMapper;
 import persistence.parttime.common.ParttimeApprovalResult;
 import persistence.parttime.common.ParttimeApproverTypeBean;
-import service.abroad.ApprovalLogService;
-import service.abroad.ApproverTypeService;
-import service.cla.ClaApplyService;
-import service.cla.ClaShortMsgService;
-import service.parttime.ParttimeApplyService;
-import service.parttime.ParttimeApprovalLogService;
-import service.parttime.ParttimeApproverTypeService;
-import service.parttime.ParttimeShortMsgService;
 import shiro.ShiroHelper;
 import sys.constants.*;
-import sys.helper.ClaHelper;
 import sys.helper.ParttimeHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -59,22 +36,9 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class ParttimeApplyController extends BaseController {
+public class ParttimeApplyController extends ParttimeBaseController {
+
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private ParttimeApplyMapper parttimeApplyMapper;
-    @Autowired
-    private ParttimeApplyService parttimeApplyService;
-    @Autowired
-    private ParttimeApprovalLogMapper parttimeApprovalLogMapper;
-    @Autowired
-    private ParttimeApplyFileMapper parttimeApplyFileMapper;
-    @Autowired
-    private ParttimeApproverTypeService parttimeApproverTypeService;
-    @Autowired
-    private ParttimeShortMsgService parttimeShortMsgService;
-    @Autowired
-    private ParttimeApprovalLogService parttimeApprovalLogService;
 
     @RequiresPermissions("parttimeApply:list")
     @RequestMapping("/parttime/parttimeApply_page")

@@ -1,7 +1,7 @@
 package controller.parttime;
 
-import controller.BaseController;
-import domain.cadre.*;
+import domain.cadre.Cadre;
+import domain.cadre.CadreExample;
 import domain.parttime.ParttimeApplicatType;
 import domain.parttime.ParttimeApplicatTypeExample;
 import domain.parttime.ParttimeApprovalOrder;
@@ -10,16 +10,12 @@ import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.parttime.ParttimeApplicatTypeMapper;
-import service.parttime.ParttimeApplicatTypeService;
-import service.parttime.ParttimeApprovalOrderService;
 import sys.constants.LogConstants;
 import sys.constants.ParttimeConstants;
 import sys.tool.paging.CommonList;
@@ -32,13 +28,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class ParttimeApplicatTypeController extends BaseController {
-    @Autowired
-    private ParttimeApplicatTypeMapper parttimeApplicatTypeMapper;
-    @Autowired
-    private ParttimeApplicatTypeService parttimeApplicatTypeService;
-    @Autowired
-    private ParttimeApprovalOrderService parttimeApprovalOrderService;
+public class ParttimeApplicatTypeController extends ParttimeBaseController {
 
     @RequiresPermissions("parttimeApproveAuth:*")
     @RequestMapping("/parttimeApplicatType")
@@ -275,12 +265,12 @@ public class ParttimeApplicatTypeController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
 
-        int count = iCadreMapper.countApprovalOrders(id);
+        int count = iParttimeMapper.countApprovalOrders(id);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ParttimeApprovalOrder> approvalOrders = iCadreMapper.selectApprovalOrderList(id,
+        List<ParttimeApprovalOrder> approvalOrders = iParttimeMapper.selectApprovalOrderList(id,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("approvalOrders", approvalOrders);
 

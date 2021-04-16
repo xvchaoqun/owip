@@ -1,25 +1,19 @@
 package controller.parttime;
 
-import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.leader.Leader;
 import domain.parttime.ParttimeApproverBlackList;
 import domain.parttime.ParttimeApproverType;
 import domain.parttime.ParttimeApproverTypeExample;
-import domain.leader.Leader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.parttime.ParttimeApproverTypeMapper;
-import service.abroad.ApproverTypeService;
-import service.parttime.ParttimeApproverTypeService;
-import service.leader.LeaderService;
 import sys.constants.LogConstants;
 import sys.constants.ParttimeConstants;
 import sys.tags.CmTag;
@@ -27,19 +21,14 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.SqlUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class ParttimeApproverTypeController extends BaseController {
-    @Autowired
-    private ParttimeApproverTypeMapper parttimeApproverTypeMapper;
-    @Autowired
-    private ParttimeApproverTypeService parttimeApproverTypeService;
-    @Autowired
-    private LeaderService cadreLeaderService;
+public class ParttimeApproverTypeController extends ParttimeBaseController {
 
     @RequiresPermissions("parttimeApproveAuth:*")
     @RequestMapping("/parttimeApproverType")
