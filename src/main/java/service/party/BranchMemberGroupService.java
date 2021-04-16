@@ -333,7 +333,7 @@ public class BranchMemberGroupService extends BaseMapper {
         List<Integer> afterSixMonth = getTranBranchIds(6);
         if (afterSixMonth != null && afterSixMonth.size() > 0) {
             for (Integer branchId : afterSixMonth) {
-                sendMsg(branchId, "6个月后将换届");
+                sendMsg(branchId, "您所在支部委员会6个月后将换届");
             }
         }
 
