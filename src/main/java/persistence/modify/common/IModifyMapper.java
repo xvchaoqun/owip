@@ -74,7 +74,7 @@ public interface IModifyMapper {
     ICadreInfoCheck cadreInfoExistCheck(@Param("cadreId") int cadreId, @Param("tableName") String tableName);
 
     //unFormalCount：不完整的记录，且未提交修改申请（待审核）， formalCount：正常记录，  modifyCount：修改记录，且还未审核
-    @Select("select sum(if(cf.status=0 and cf.realname is not null and cf.birthday is not null and cf.unit is not null, 1, 0)) as formalCount," +
+    @Select("select sum(if(cf.status=0 and cf.realname is not null and (cf.with_god=1 or cf.birthday is not null) and cf.unit is not null, 1, 0)) as formalCount," +
             "sum(if(cf.status=0 and (cf.realname is null or (cf.with_god=0 and cf.birthday is null) or cf.unit is null) " +
             "and not exists(select 1 from modify_table_apply where original_id=cf.id and table_name='cadre_family' and status=0),1,0)) as unFormalCount, " +
             "sum(if(cf.status=1, 1, 0)) as modifyCount  from cadre_family cf " +

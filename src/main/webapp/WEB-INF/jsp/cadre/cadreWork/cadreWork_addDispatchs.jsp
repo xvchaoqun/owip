@@ -5,9 +5,9 @@ pageEncoding="UTF-8" %>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>关联任免文件</h3>
 </div>
-<div class="modal-body" style="overflow-x: scroll;">
+<div class="modal-body">
             <c:if test="${fn:length(dispatchCadres)>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
+                <table class="table table-actived table-striped table-center table-bordered table-hover">
                     <thead>
                     <tr>
                         <c:if test="${type=='edit'}">
@@ -51,13 +51,13 @@ pageEncoding="UTF-8" %>
                             </c:if>
                                 <c:set value="${cm:getDispatch(dispatchCadre.dispatchId)}" var="dispatch"/>
 								<td nowrap>${dispatch.year}</td>
-								<td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
+								<td>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
                                 <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
                                 <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
                                 <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
                                 <td nowrap>${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId).realname}</td>
-                                <td nowrap>${dispatchCadre.post}</td>
-                                <td nowrap>${cm:getMetaType(dispatchCadre.postType).name}</td>
+                                <td>${dispatchCadre.post}</td>
+                                <td>${cm:getMetaType(dispatchCadre.postType).name}</td>
 								<td nowrap>${cm:getMetaType(dispatchCadre.adminLevel).name}</td>
 								<td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">

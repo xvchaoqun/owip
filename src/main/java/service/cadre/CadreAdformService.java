@@ -183,17 +183,14 @@ public class CadreAdformService extends BaseMapper {
                     DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "adforms";
             FileUtils.mkdirs(tmpdir, false);
 
-            String _preStr = StringUtils.isBlank(preStr)?preStr:(preStr+" ");
             Set<String> filenameSet = new HashSet<>();
-            for (int i = 0; i < cadreIds.length; i++) {
-
-                int cadreId = cadreIds[i];
+            for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = null;
                 String filepath = null;
                 if (isWord) {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " " + _preStr +  (i+1) + ".干部任免审批表 " + cadre.getRealname() + ".docx";
+                            + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".docx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {
@@ -211,7 +208,7 @@ public class CadreAdformService extends BaseMapper {
                     exportDocxUtils(zipFile, document, adform.getAvatar(), fop);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " " + _preStr + (i+1) + ".干部任免审批表 " + cadre.getRealname() + ".lrmx";
+                            + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".lrmx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {
@@ -288,6 +285,7 @@ public class CadreAdformService extends BaseMapper {
         bean.setNation(cadre.getNation());
         bean.setNativePlace(cadre.getNativePlace());
 
+        bean.setMobile(cadre.getMobile());
         bean.setHomeplace(uv.getHomeplace());
         bean.setWorkTime(cadre.getWorkTime()); // 参加工作时间
 
@@ -1121,25 +1119,24 @@ public class CadreAdformService extends BaseMapper {
                 Byte degreeType = null;
                 String degree = "";
                 Integer eduId = null;
-                String desc = resumeRow.desc;
-                if (StringUtils.contains(desc, "中专")) {
+                if (StringUtils.contains(resumeRow.desc, "中专")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_zz").getId();
-                } else if (StringUtils.containsAny(desc, "大专", "专科")) {
+                } else if (StringUtils.containsAny(resumeRow.desc, "大专", "专科")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_zk").getId();
-                } else if (StringUtils.contains(desc, "进修")) {
+                } else if (StringUtils.contains(resumeRow.desc, "进修")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_jxxx").getId();
-                } else if (StringUtils.contains(desc, "课程班")) {
+                } else if (StringUtils.contains(resumeRow.desc, "课程班")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_yjskcb").getId();
-                } else if (StringUtils.containsAny(desc, "博士", "硕博连读", "本硕博连读")) {
+                } else if (StringUtils.containsAny(resumeRow.desc, "博士", "硕博连读", "本硕博连读")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_doctor").getId();
                     degreeType = SystemConstants.DEGREE_TYPE_BS;
                     degree = "博士学位";
-                } else if (StringUtils.contains(desc, "同等")
-                        && StringUtils.contains(desc, "硕士")) { // 硕士同等学历、同等学历硕士
+                } else if (StringUtils.contains(resumeRow.desc, "同等")
+                        && StringUtils.contains(resumeRow.desc, "硕士")) { // 硕士同等学历、同等学历硕士
                     eduId = CmTag.getMetaTypeByCode("mt_edu_sstd").getId();
                     degreeType = SystemConstants.DEGREE_TYPE_SS;
                     degree = "硕士学位";
-                } else if (StringUtils.containsAny(desc, "硕士", "研究生", "直硕", "本硕连读")) {
+                } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生", "直硕", "本硕连读")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_master").getId();
                     degreeType = SystemConstants.DEGREE_TYPE_SS;
                     degree = "硕士学位";
@@ -1152,18 +1149,17 @@ public class CadreAdformService extends BaseMapper {
                 cadreEdu.setEduId(eduId);
                 cadreEdu.setEnrolTime(resumeRow.start);
                 cadreEdu.setFinishTime(resumeRow.end);
-                cadreEdu.setIsGraduated(resumeRow.end!=null && !StringUtils.contains(desc, "在读"));
+                cadreEdu.setIsGraduated(resumeRow.end!=null && !StringUtils.contains(resumeRow.desc, "在读"));
                 cadreEdu.setIsHighEdu(false);
                 cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
 
                 //处理学校/学院/专业字段
-
-                analysisEdu(cadreEdu, StringUtils.replace(desc, ",|，", ""));
+                analysisEdu(cadreEdu, resumeRow.desc);
 
                 byte schoolType = CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC;
-                if (StringUtils.containsAny(desc, "留学", "国外", "日本", "韩国", "美国", "英国", "法国")) {
+                if (StringUtils.containsAny(resumeRow.desc, "留学", "国外", "日本", "韩国", "美国", "英国", "法国")) {
                     schoolType = CadreConstants.CADRE_SCHOOL_TYPE_ABROAD;
-                } else if (StringUtils.containsAny(desc,
+                } else if (StringUtils.containsAny(resumeRow.desc,
                         CmTag.getSysConfig().getSchoolName(),
                         CmTag.getSysConfig().getSchoolShortName())) {
                     schoolType = CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL;
@@ -1187,9 +1183,9 @@ public class CadreAdformService extends BaseMapper {
                     cadreEdu.setDegreeType(degreeType);
                     if (schoolType != CadreConstants.CADRE_SCHOOL_TYPE_ABROAD) {
                         cadreEdu.setDegreeCountry("中国");
-                    }else if (StringUtils.containsAny(desc,  "日本", "韩国", "美国", "英国", "法国")){
+                    }else if (StringUtils.containsAny(resumeRow.desc,  "日本", "韩国", "美国", "英国", "法国")){
                         Pattern pattern = Pattern.compile("日本|韩国|美国|英国|法国|加拿大");
-                        Matcher matcher = pattern.matcher(desc);
+                        Matcher matcher = pattern.matcher(resumeRow.desc);
                         if (matcher.find()) {
                             cadreEdu.setDegreeCountry(matcher.group());
                         }
