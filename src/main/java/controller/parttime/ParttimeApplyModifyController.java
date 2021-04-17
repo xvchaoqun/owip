@@ -38,7 +38,7 @@ public class ParttimeApplyModifyController extends ParttimeBaseController {
     }
 
     @RequiresPermissions("parttimeApply:modifyLog")
-    @RequestMapping("/parttimeApplyModify")
+    @RequestMapping("/parttime/parttimeApplyModify")
     public String parttimeApplyModify(int applyId, ModelMap modelMap) {
 
         // 获取第一条原始记录

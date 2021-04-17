@@ -17,8 +17,8 @@ pageEncoding="UTF-8"%>
 
 	<div class="tab-content">
 		<div class="tab-pane in active">
-			<form class="form-horizontal" action="${ctx}/parttime/parttimeApply_au" id="applyForm" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="id" value="${parttimeApply.id}">
+			<form class="form-horizontal" action="${ctx}/user/parttime/parttimeApply_au" id="applyForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="${ParttimeApply.id}">
 				<input type="hidden" name="cadreId" value="${param.cadreId}">
 				<div class="form-group">
 					<label class="col-xs-4 control-label">兼职单位类别</label>
@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
 						<div class="input-group"  style="width: 255px">
 							<input required class="form-control  date-range-picker" data-rel="date-range-picker"
 								   data-date-format="yyyy-mm-dd" name="startTime" type="text"
-								   value="${cm:formatDate(parttimeApply.endTime,'yyyy-MM-dd')}" />
+								   value="${cm:formatDate(parttimeApply.startTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -83,6 +83,17 @@ pageEncoding="UTF-8"%>
 									连任
 								</label>
 							</div>
+							<c:if test="${parttimeApply!=null}">
+							<script>
+								var isFirst = ${parttimeApply.isFirst ? 1 : 0};
+								var element = $("input[name=isFirst]");
+								for (var i in element) {
+									if (element[i].value == isFirst) {
+										$(element[i]).attr("checked", true);
+									}
+								}
+							</script>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -102,6 +113,17 @@ pageEncoding="UTF-8"%>
 									是
 								</label>
 							</div>
+							<c:if test="${parttimeApply!=null}">
+							<script>
+								var background = ${parttimeApply.background ? 1 : 0};
+								var element = $("input[name=background]");
+								for (var i in element) {
+									if (element[i].value == background) {
+										$(element[i]).attr("checked", true);
+									}
+								}
+							</script>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -122,6 +144,17 @@ pageEncoding="UTF-8"%>
 									是
 								</label>
 							</div>
+							<c:if test="${parttimeApply!=null}">
+							<script>
+								var hasPay = ${parttimeApply.hasPay ? 1 : 0};
+								var element = $("input[name=hasPay]");
+								for (var i in element) {
+									if (element[i].value == hasPay) {
+										$(element[i]).attr("checked", true);
+									}
+								}
+							</script>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -207,10 +240,11 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
+
 	function _delFile(id, name){
 
 		SysMsg.confirm("确定删除'"+name+"'吗？", "操作确认", function () {
-			$.post("${ctx}/user/parttime/parttimeApplyFile_del",{id:id},function(ret){
+			$.post("${ctx}/user/Parttime/ParttimeApplyFile_del",{id:id},function(ret){
 				if(ret.success){
 					SysMsg.success("删除成功",'',function(){
 						$("#file"+id).remove();
@@ -237,7 +271,7 @@ pageEncoding="UTF-8"%>
 				{
 					placeholder:tag_input.attr('placeholder'),
 					//enable typeahead by specifying the source array
-					<%--source: ${countryList}--%>
+					source: ${countryList}
 				}
 		)
 	} catch(e) {
@@ -249,6 +283,7 @@ pageEncoding="UTF-8"%>
 	$("#submitBtn").click(function(){$("#applyForm").submit();return false;});
     $("#applyForm").validate({
         submitHandler: function (form) {
+
 			var type = $("#applyForm select[name=type]").val();
 			if(type==''){
 				SysMsg.info("请选择兼职单位类别");
@@ -284,6 +319,7 @@ pageEncoding="UTF-8"%>
 					return;
 				}
 			}
+
 			var $btn = $("#submitBtn").button('loading');
 			//setTimeout(function () { $btn.button('reset'); },1000);
             $(form).ajaxSubmit({
@@ -303,6 +339,7 @@ pageEncoding="UTF-8"%>
     $('#applyForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 	$.register.date($('.date-range-picker'));
+	// $.register.datetime($('.datetime-picker'));
 	$.register.user_select($('[data-rel="select2-ajax"]'));
 	$('textarea.limited').inputlimiter();
 </script>

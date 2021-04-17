@@ -58,7 +58,7 @@
                                 </shiro:hasPermission>
                             </c:if>
                             <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                    data-url="${ctx}/parttimeApplyModify"
+                                    data-url="${ctx}/parttime/parttimeApplyModify"
                                     data-id-name="applyId"
                                     data-open-by="page">
                                 <i class="fa fa-search"></i> 变更记录
@@ -340,6 +340,7 @@
                     var approvalStr = "";
                     for (var index in list) {
                         var tdBean = rowObject.approvalTdBeanMap[list[index].id];
+                        console.log(tdBean)
                         var res = processTdBean(tdBean);
                         //正职
                         var record = list[index];
@@ -463,7 +464,6 @@
      return html;
      }*/
     function processTdBean(tdBean) {
-
         if (tdBean == undefined) return '--';
         var type = tdBean.tdType;
         var html = "";
@@ -493,7 +493,6 @@
     }
 
     function _approval(approvalTdBeanMap, isDeleted) {
-
         var html = "-";
         $.each(approvalTdBeanMap, function (i, tdBean) {
             //console.log(tdBean)

@@ -248,4 +248,55 @@ public class ParttimeShortMsgService {
 
         return resultMap;
     }
+
+    // 干部提交干部请假，给干部管理员发短信提醒
+    @Async
+    public void sendApplySubmitMsgToCadreAdmin(int applyId, String ip){
+
+        /*try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            logger.error("异常", e);
+        }
+        System.out.println("发送短信开始。。。");*/
+
+        ParttimeApplyService parttimeApplyService = ApplicationContextSupport.getContext().getBean(ParttimeApplyService.class);
+        ParttimeApply parttimeApply = parttimeApplyService.get(applyId);
+        SysUserView applyUser = parttimeApply.getUser();
+
+        CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
+        String cadreTitle = cadre.getTitle();
+
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PARTTIME_APPLY_SUBMIT_INFO);
+        List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
+
+        for (SysUserView uv : receivers) {
+            try {
+                int userId = uv.getId();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
+
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                        cadreTitle, applyUser.getRealname());
+
+                ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
+                bean.setSender(applyUser.getId());
+                bean.setReceiver(userId);
+                bean.setMobile(mobile);
+                bean.setContent(msg);
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
+                bean.setTypeStr(tpl.getName());
+
+                shortMsgService.send(bean, ip);
+            }catch (Exception ex){
+                logger.error("异常", ex);
+                logger.error("干部提交兼职申报，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
+                        applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
+                });
+            }
+        }
+    }
 }
