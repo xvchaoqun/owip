@@ -530,7 +530,7 @@ public class ParttimeApplyService extends BaseMapper {
                 String[] _approverTypeIds = flowNodes.split(",");
                 if (_approverTypeIds.length > 0) {
                     for (String _approverTypeId : _approverTypeIds) {
-                        if (org.apache.commons.lang3.StringUtils.isBlank(_approverTypeId)) continue;
+                        if (StringUtils.isBlank(_approverTypeId)) continue;
                         int approverTypeId = Integer.valueOf(_approverTypeId);
                         if (approverTypeId > 0) {
                             needApprovalTypeSet.add(approverTypeId);
@@ -546,7 +546,7 @@ public class ParttimeApplyService extends BaseMapper {
                 List<ParttimeApplicatCadre> applicatCadres = parttimeApplicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
                     CadreView cv = apply.getCadre();
-                    logger.error("请假审批数据错误，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
+                    logger.error("数据错误，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ParttimeApplicatCadre applicatCadre = applicatCadres.get(0);
@@ -582,12 +582,12 @@ public class ParttimeApplyService extends BaseMapper {
                 Integer value = null;
                 if (approvalLog.getTypeId() == null) {
                     if (approvalLog.getOdType() == 0) { // 初审
-                        typeId = ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST;
+                        typeId = ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST;
                         value = approvalLog.getStatus() ? 1 : 0;
                         //approvalResult.put(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST, approvalLog.getStatus() ? 1 : 0);
                     }
                     if (approvalLog.getOdType() == 1) { // 终审
-                        typeId = ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST;
+                        typeId = ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST;
                         value = approvalLog.getStatus() ? 1 : 0;
                         //approvalResult.put(ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST, approvalLog.getStatus() ? 1 : 0);
                     }
@@ -602,8 +602,8 @@ public class ParttimeApplyService extends BaseMapper {
         }
 
 
-        approvalResultMap.put(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST, new ParttimeApprovalResult(resultMap.get(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST),
-                approvalLogMap.get(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST))); // 初审
+        approvalResultMap.put(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST, new ParttimeApprovalResult(resultMap.get(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST),
+                approvalLogMap.get(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST))); // 初审
 
         Map<Integer, ParttimeApproverType> approverTypeMap = parttimeApproverTypeService.findAll();
 
@@ -626,8 +626,8 @@ public class ParttimeApplyService extends BaseMapper {
                 approvalResultMap.put(approverType.getId(), new ParttimeApprovalResult(-1, null));
         }
 
-        approvalResultMap.put(ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST, new ParttimeApprovalResult(resultMap.get(ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST),
-                approvalLogMap.get(ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST))); // 终审
+        approvalResultMap.put(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST, new ParttimeApprovalResult(resultMap.get(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST),
+                approvalLogMap.get(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST))); // 终审
 
         // value: -1不需要审批 0未通过 1通过 null未审批
         return approvalResultMap;
@@ -917,6 +917,7 @@ public class ParttimeApplyService extends BaseMapper {
                         boolean canApproval = canApproval(currentUserId, applyId, 0);
                         bean.setCanApproval(canApproval);
                         bean.setTdType(4);
+
                     }
                 } else if (lastVal.getValue() == 0) {
                     bean.setTdType(5);

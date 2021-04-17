@@ -135,7 +135,7 @@
 </div>
 <script type="text/template" id="remark_tpl">
     <button class="popupBtn btn btn-xs btn-primary"
-            data-url="${ctx}/cla/claApplyModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
+            data-url="${ctx}/parttime/parttimeApplyModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
     </button>
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
@@ -167,7 +167,8 @@
             <c:if test="${status==0}">
             {
                 label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
+                console.log(rowObject)
+                    return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
             }, frozen: true},
             </c:if>
             {
@@ -196,11 +197,12 @@
             {
                 label: '审批', name: 'approver', width: 150,align: 'left',
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    var list = ${cm:toJSONObject(approverTypeMap)};
-                    for (var index in list) {
-                        var tdBean = rowObject.approvalTdBeanMap[list[index].id];
-                        return approverTdAttrs(tdBean);
-                    }
+
+                    <%--var list = ${cm:toJSONObject(approverTypeMap)};--%>
+                    <%--for (var index in list) {--%>
+                    <%--    var tdBean = rowObject.approvalTdBeanMap[list[index].id];--%>
+                    <%--    return approverTdAttrs(tdBean);--%>
+                    <%--}--%>
                 }, formatter: function (cellvalue, options, rowObject) {
                     var list = ${cm:toJSONObject(approverTypeMap)};
                     var approvalStr = "";
@@ -306,7 +308,7 @@
                 case 4:
                 {
                     html = "<button {0} class=\"openView btn {1} btn-xs\"" +
-                            "        data-url=\"${ctx}/cla/claApply_view?type=approval&id={2}&approvalTypeId={3}\">" +
+                            "        data-url=\"${ctx}/parttime/parttimeApply_view?type=approval&id={2}&approvalTypeId={3}\">" +
                             "        <i class=\"fa fa-edit\"></i> 审批" +
                             "        </button>";
                     //console.log(html)

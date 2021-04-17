@@ -27,6 +27,8 @@ import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.helper.ParttimeHelper;
 import sys.shiro.CurrentUser;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -174,9 +176,9 @@ public class ParttimeApplyController extends ParttimeBaseController {
             record.setStatus(true);
             Date date = new Date();
             record.setCreateTime(date);
-            record.setApplyTime(DateUtils.parseDate(DateUtils.formatDate(date, "yyyy-MM-dd")));
+            record.setApplyTime(date);
             record.setIp(IpUtils.getRealIp(request));
-            record.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST);
             parttimeApplyMapper.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "提交兼职申报申请：%s", record.getId()));
 
@@ -197,7 +199,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
             }
             record.setCadreId(null);
             record.setStatus(true);// 重新提交
-            record.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST);
             record.setIsFinish(false);
 
             ParttimeApprovalLogExample example = new ParttimeApprovalLogExample();
@@ -609,6 +611,34 @@ public class ParttimeApplyController extends ParttimeBaseController {
         }
 
         return "parttime/parttimeApply/parttimeApplyList_page";
+    }
+
+    // 非管理员  审批人身份 审批记录
+    @RequiresPermissions("parttimeApply:approvalList")
+    @RequestMapping("/parttime/parttimeApplyList_data")
+    public void parttimeApplyList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
+                                  Integer cadreId,
+                                  @RequestDateRange DateRange _applyDate,
+                                  Byte type, // 出行时间范围
+                                  // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+                                  @RequestParam(required = false, defaultValue = "0") int status,
+                                  Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
+
+
+        Map map = parttimeApplyService.findApplyList(loginUser.getId(), cadreId, _applyDate,
+                type, status, pageNo, springProps.pageSize);
+        CommonList commonList = (CommonList) map.get("commonList");
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", map.get("applys"));
+        resultMap.put("records", commonList.recNum);
+        resultMap.put("page", commonList.pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        request.setAttribute("isView", false);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
 

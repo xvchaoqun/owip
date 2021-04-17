@@ -16,6 +16,7 @@ import persistence.parttime.common.ParttimeApprovalResult;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.ClaConstants;
+import sys.constants.ParttimeConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -192,7 +193,7 @@ public class ParttimeApprovalLogService {
                 if(nextFlowNode == null){
                     nextFlowNode = flowNode;
                 }
-                if(flowNode == ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST)
+                if(flowNode == ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST)
                     break; // 还没经过组织部初审
                 else
                     continue;
@@ -208,12 +209,12 @@ public class ParttimeApprovalLogService {
         apply.setFlowNode(nextFlowNode); // 下一个审批身份
         apply.setApprovalRemark(record.getRemark());
         if(!record.getStatus()) // 如果上一个领导未通过，应该下面的领导都不需要审批了，直接转到组织部终审。
-            apply.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST);
+            apply.setFlowNode(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST);
 
         apply.setFlowNodes(StringUtils.join(flowNodes, ",")); // 已完成审批的 审批身份
         apply.setFlowUsers(StringUtils.join(flowUsers, ",")); // 已完成审批（未通过或通过）的 审批人
 
-        if(record.getTypeId()==null && record.getOdType()==ClaConstants.CLA_APPROVER_LOG_OD_TYPE_LAST){
+        if(record.getTypeId()==null && record.getOdType()==ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST){
             apply.setIsFinish(true); // 终审完成
             apply.setIsAgreed(record.getStatus());
         }
@@ -221,7 +222,7 @@ public class ParttimeApprovalLogService {
         parttimeApplyService.doApproval(apply);
 
         // 如果通过审批，且下一个审批身份是管理员，则短信通知管理员
-        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST){
+        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST){
             parttimeShortMsgService.sendClaApplyPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
         }
     }

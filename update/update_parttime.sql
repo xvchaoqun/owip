@@ -1,3 +1,8 @@
+
+20210417 xcq
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (5012, 0, '兼职申报申请', '', 'menu', 'fa fa-sign-out', NULL, 1, '0/1/', 0, 'parttime:user', NULL, NULL, NULL, 1, 5400);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (5013, 0, '兼职申报申请', '', 'url', '', '/user/parttime/parttimeApply', 5012, '0/1/5012/', 1, 'userParttimeApply:*', NULL, NULL, NULL, 1, 400);
+
 20210416 xcq
 
 CREATE TABLE `parttime_applicat_cadre` (
