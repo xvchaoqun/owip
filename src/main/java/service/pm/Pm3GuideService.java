@@ -129,7 +129,7 @@ public class Pm3GuideService extends PmBaseMapper {
         }
 
         if(userList.size()>0) {
-            oneSendService.sendMsg(userList, realnameList, notice);
+            oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, notice);
         }
     }
 
@@ -154,7 +154,7 @@ public class Pm3GuideService extends PmBaseMapper {
         }
 
         if(userList.size()>0) {
-            oneSendService.sendMsg(userList, realnameList, notice);
+            oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, notice);
         }
     }
 

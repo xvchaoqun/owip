@@ -202,6 +202,8 @@ public class CadreBookService extends BaseMapper {
                 // 删除原纪录
                 cadreBookMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【出版著作】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreBook modify = new CadreBook();

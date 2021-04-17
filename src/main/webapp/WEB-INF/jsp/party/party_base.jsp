@@ -37,17 +37,42 @@ pageEncoding="UTF-8"%>
 						<td >
 							${party.code}
 						</td>
-						<td>
-							网址
+						<td >
+							成立时间
 						</td>
-						<td style="min-width: 80px">
-							<c:if test="${not empty party.url}">
-								<a href="${party.url}" target="_blank">${party.url}</a>
-							</c:if>
+						<td>
+							${cm:formatDate(party.foundTime,'yyyy-MM-dd')}
+						</td>
+					</tr>
+
+					<tr>
+						<td >
+							支部数量
+						</td>
+						<td>
+							${party.branchCount}
+						</td>
+						<td>
+							党员总数
+						</td>
+						<td>
+							${party.memberCount}
+						</td>
+						<td >
+							正式党员总数
+						</td>
+						<td>
+							${party.positiveCount}
+						</td>
+						<td >
+							预备党员总数
+						</td>
+						<td>
+							${party.memberCount-party.positiveCount}
 						</td>
 					</tr>
 					<tr>
-						
+
 						<td>
 							联系电话
 						</td>
@@ -63,14 +88,8 @@ pageEncoding="UTF-8"%>
 						<td >
 							邮箱
 						</td>
-						<td>
+						<td colspan="3">
 							<span class="email"><t:mask src="${party.email}" type="email"/></span>
-						</td>
-						<td >
-							成立时间
-						</td>
-						<td>
-							${cm:formatDate(party.foundTime,'yyyy-MM-dd')}
 						</td>
 					</tr>
 					</tbody>
@@ -78,7 +97,7 @@ pageEncoding="UTF-8"%>
 
 
 </div></div></div>
-<c:if test="${type==0}">
+
 <div class="widget-box transparent">
 
 	<div class="widget-header widget-header-flat">
@@ -195,4 +214,3 @@ pageEncoding="UTF-8"%>
 		$("ul[data-target=\"#party-content\"] li.active a").click();
 	}
 </script>
-</c:if>

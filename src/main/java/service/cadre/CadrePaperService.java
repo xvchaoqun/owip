@@ -205,6 +205,8 @@ public class CadrePaperService extends BaseMapper {
                 // 删除原纪录
                 cadrePaperMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【发表论文】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadrePaper modify = new CadrePaper();

@@ -244,6 +244,8 @@ public class CadreCompanyService extends BaseMapper {
                 // 删除原纪录
                 cadreCompanyMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【企业、社团兼职】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreCompany modify = new CadreCompany();

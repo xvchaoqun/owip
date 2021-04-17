@@ -142,12 +142,7 @@ pageEncoding="UTF-8" %>
                 { label: '接收人',name: 'user.realname'},
             </c:if>
             { label: '主题', name: 'title',width: 250,align: 'left'},
-            { label: '内容',name: 'content',width:548,align:"left"/*,formatter: function (cellvalue, options, rowObject) {
-
-                return ('<button class="popupBtn btn btn-primary btn-xs"' +
-                    'data-url="${ctx}/sysMsg_view?id={0}&cls=${cls}">'+
-                    '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)
-                }*/},
+            { label: '内容',name: 'content',width:548,align:"left", classes:'can-wrap'},
             { label: '发送人',name: 'sendUser.realname',width:90},
             { label: '发送时间',name: 'sendTime', width:130, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y.m.d H:i'}},

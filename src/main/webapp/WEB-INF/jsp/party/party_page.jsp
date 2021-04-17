@@ -333,7 +333,7 @@ pageEncoding="UTF-8" %>
                 { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined|| cellvalue==0) return 0;
                      <shiro:hasPermission name="member:list">
-                    return '<a href="#${ctx}/member?cls=10&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    return '<a href="#${ctx}/member?cls=-1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                         </shiro:hasPermission>
                         <shiro:lacksPermission name="member:list">
                         return cellvalue;
@@ -342,7 +342,7 @@ pageEncoding="UTF-8" %>
                 { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined|| cellvalue==0) return 0;
                      <shiro:hasPermission name="member:list">
-                    return '<a href="#${ctx}/member?cls=10&partyId={0}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    return '<a href="#${ctx}/member?cls=-1&partyId={0}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                         </shiro:hasPermission>
                         <shiro:lacksPermission name="member:list">
                         return cellvalue;

@@ -632,12 +632,14 @@ public class CadreAdformService extends BaseMapper {
             adFormType = CmTag.getByteProperty("adFormType",
                     CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
         }
+        String _resumeDesc = bean.getResumeDesc();
         if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
 
-            maxFamilyCount = 5;
+            _resumeDesc = StringUtils.replace(_resumeDesc, "—", "－");
+            maxFamilyCount = 7;
             adFormFtl = "/adform_docx/adform_bj.ftl";
-            titleEditorFtl = "/common/titleEditor.ftl";
-            rewardFtl = "/common/titleEditor2.ftl";
+            titleEditorFtl = "/adform_docx/titleEditor_bj.ftl";
+            rewardFtl = "/adform_docx/editor_bj.ftl";
             familyFtl = "/adform_docx/family_bj.ftl";
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
             maxFamilyCount = 7;
@@ -661,7 +663,7 @@ public class CadreAdformService extends BaseMapper {
         //dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360));
         //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
 
-        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360, titleEditorFtl);
+        String resumeDesc = freemarkerService.genTitleEditorSegment(null, _resumeDesc, true, 360, titleEditorFtl);
         /*if(StringUtils.isBlank(resumeDesc)){
             resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360))
                     + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
@@ -1509,7 +1511,11 @@ public class CadreAdformService extends BaseMapper {
         if(cf!=null && cf.getBirthday()!=null){
             fage = DateUtils.calAge(cf.getBirthday());
         }*/
-        dataMap.put("fage", cf == null ? "" : DateUtils.formatDate(cf.getBirthday(), DateUtils.YYYYMM));
+         if (cf != null) {
+             Date birth = cf.getBirthday();
+             dataMap.put("fage", birth == null ? "" : DateUtils.formatDate(birth, DateUtils.YYYYMM));
+             dataMap.put("fage2", birth == null ? "" : DateUtils.yearOffNow(DateUtils.getFirstDayOfMonth(birth)));
+         }
 
         String fps = "";
         if (cf != null && cf.getPoliticalStatus() != null) {

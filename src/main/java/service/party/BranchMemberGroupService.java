@@ -2,6 +2,8 @@ package service.party;
 
 import controller.global.OpException;
 import domain.party.*;
+import domain.sys.SysUserView;
+import ext.service.OneSendService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -15,10 +17,12 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
 import java.net.UnknownHostException;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,9 +32,9 @@ public class BranchMemberGroupService extends BaseMapper {
     @Autowired
     private LoginUserService loginUserService;
     @Autowired
-    private SysUserService sysUserService;
+    private OneSendService oneSendService;
     @Autowired
-    private BranchAdminService branchAdminService;
+    private SysUserService sysUserService;
 
     // 查找现任委员会
     public BranchMemberGroup getPresentGroup(int branchId) {
@@ -327,13 +331,17 @@ public class BranchMemberGroupService extends BaseMapper {
 
     // 支部委员会换届提醒
     @Transactional
-    public void tranRemind() throws UnknownHostException {
+    public int tranRemind() throws UnknownHostException {
 
+        int count = 0 ; // 此次提示的委员个数
         // 到期前6个月提醒一次
         List<Integer> afterSixMonth = getTranBranchIds(6);
         if (afterSixMonth != null && afterSixMonth.size() > 0) {
             for (Integer branchId : afterSixMonth) {
-                sendMsg(branchId, "6个月后将换届");
+                BranchMemberGroup presentGroup = getPresentGroup(branchId);
+                if(presentGroup!=null) {
+                    count += sendMsg(branchId, "您所在的支部委员会【{0}】6个月后将换届，换届后请登录组工系统及时操作。", presentGroup.getName());
+                }
             }
         }
 
@@ -341,7 +349,10 @@ public class BranchMemberGroupService extends BaseMapper {
         List<Integer> afterThreeMonth = getTranBranchIds(3);
         if (afterThreeMonth!=null&& afterThreeMonth.size()>0) {
             for (Integer branchId : afterThreeMonth) {
-                sendMsg(branchId, "3个月后将换届");
+                BranchMemberGroup presentGroup = getPresentGroup(branchId);
+                if(presentGroup!=null) {
+                    count += sendMsg(branchId, "您所在的支部委员会【{0}】3个月后将换届，换届后请登录组工系统及时操作。", presentGroup.getName());
+                }
             }
         }
 
@@ -352,47 +363,55 @@ public class BranchMemberGroupService extends BaseMapper {
         if (groupList1 != null && groupList1.size() > 0) {
             for (BranchMemberGroup group : groupList1) {
                 Date tranTime = group.getTranTime();
-                int diffMonth = DateUtils.monthDiff(tranTime, new Date());
-                if (DateUtils.compareDate(tranTime, DateUtils.getDateBeforeOrAfterMonthes(tranTime, diffMonth)))
-                    System.out.println(tranTime);
-                    sendMsg(group.getBranchId(), "已过换届时间");
+                int tranDay = DateUtils.getDay(tranTime);
+                int day = DateUtils.getDay(new Date());
+                if (tranDay == day) {
+                    count += sendMsg(group.getBranchId(), "您所在的支部委员会【{0}】换届时间已过，如已换届，请登录组工系统及时操作。", group.getName());
+                }
             }
         }
 
         // 没填应换届时间，每个月提醒一次
         List<Integer> hasNoTranTime = new ArrayList<>();
         BranchMemberGroupExample example = new BranchMemberGroupExample();
-        example.createCriteria().andIsDeletedEqualTo(false).andTranTimeIsNull();
+        example.createCriteria().andIsDeletedEqualTo(false).andAppointTimeIsNull();
         List<BranchMemberGroup> groupList = branchMemberGroupMapper.selectByExample(example);
         if (DateUtils.compareDate(DateUtils.getFirstDateOfMonth(new Date()), new Date())) {
             if (groupList != null && groupList.size() > 0) {
                 hasNoTranTime.addAll(groupList.stream().map(BranchMemberGroup::getBranchId).collect(Collectors.toList()));
                 for (Integer branchId : hasNoTranTime) {
-                    sendMsg(branchId, "未填写换届时间");
+                    count += sendMsg(branchId, "您所在的支部委员会未填写任命时间，请登录组工系统及时操作。");
                 }
             }
         }
+
+        return count;
     }
 
     // 微信提醒
-    @Transactional
-    public void sendMsg(Integer branchId, String msg) throws UnknownHostException {
-        Branch branch = branchMapper.selectByPrimaryKey(branchId);
+    private int sendMsg(Integer branchId, String msg, String... params) throws UnknownHostException {
+
         OwAdmin owAdmin = new OwAdmin();
         owAdmin.setBranchId(branchId);
         List<OwAdmin> records = iPartyMapper.selectBranchAdminList(owAdmin, new RowBounds());
         if (records != null && records.size() > 0) {
+
+            msg = MessageFormat.format(msg, params);
+            List<String> userList = new ArrayList<>();
+            List<String> realnameList = new ArrayList<>();
             for (OwAdmin record : records) {
-                /*SysMsg sysMsg = new SysMsg();
-                sysMsg.setUserId(record.getUserId());
-                sysMsg.setTitle("支部委员会换届提醒");
-                sysMsg.setContent("您管理的支部委员会"+branch.getName()+msg+"，请及时在系统的组织机构管理中操作。");
-                sysMsg.setSendTime(new Date());
-                sysMsg.setSendUserId(ShiroHelper.getCurrentUserId());
-                sysMsg.setStatus(SystemConstants.SYS_MSG_STATUS_UNCONFIRM);
-                sysMsg.setIp(InetAddress.getLocalHost().getHostAddress());
-                sysMsgMapper.insertSelective(sysMsg);*/
+
+                SysUserView uv = sysUserService.findById(record.getUserId());
+                userList.add(uv.getCode());
+                realnameList.add(uv.getRealname());
+
+                CmTag.sendMsg(uv.getUserId(), msg);
             }
+
+            oneSendService.sendMsg(null, userList, realnameList, msg);
+            return userList.size();
         }
+
+        return 0;
     }
 }

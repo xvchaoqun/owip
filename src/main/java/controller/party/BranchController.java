@@ -56,7 +56,7 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_base")
     public String branch_base(Integer id, ModelMap modelMap) {
 
-        Branch branch = branchMapper.selectByPrimaryKey(id);
+        BranchView branch = branchService.getBranchView(id);
         modelMap.put("branch", branch);
         BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(id);
         modelMap.put("presentGroup", presentGroup);
@@ -79,7 +79,7 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_view")
     public String branch_view(int id, HttpServletResponse response, ModelMap modelMap) {
 
-        Branch branch = branchMapper.selectByPrimaryKey(id);
+        BranchView branch = branchService.getBranchView(id);
         modelMap.put("branch", branch);
 
         return "party/branch/branch_view";
