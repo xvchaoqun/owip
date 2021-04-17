@@ -154,15 +154,11 @@ pageEncoding="UTF-8" %>
                                         </div>
                                     </div>
                                 </div>
+                                 <c:if test="${!_ignore_plan_and_draw}">
                                 <div class="widget-box">
                                     <div class="widget-header">
                                         <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i>
-                                            <c:if test="${_ignore_plan_and_draw}">
-                                                预备党员信息导出
-                                            </c:if>
-                                            <c:if test="${!_ignore_plan_and_draw}">
                                                 领取志愿书信息导出
-                                            </c:if>
                                         </h4>
                                         <div class="widget-toolbar">
                                             <a href="javascript:;" data-action="collapse">
@@ -185,18 +181,17 @@ pageEncoding="UTF-8" %>
                                                         </div>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${!_ignore_plan_and_draw}">
-                                                    <div class="form-group">
-                                                        <label>领取志愿书时间</label>
-                                                        <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                            <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                                                   type="text" name="_drawTime" value="${param._drawTime}"/>
-                                                        </div>
+
+                                                <div class="form-group">
+                                                    <label>领取志愿书时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar bigger-110"></i>
+                                                        </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_drawTime" value="${param._drawTime}"/>
                                                     </div>
-                                                </c:if>
+                                                </div>
                                                 <div class="form-group">
                                                     <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
@@ -234,6 +229,7 @@ pageEncoding="UTF-8" %>
                                                         </li>
                                                     </ul>
                                                 </div>
+
                                             </form>
                                                 <div class="clearfix form-actions center" style="margin-top: 0;margin-bottom: 0;">
                                                     <button class="btn btn-primary btn-sm"  onclick="_exportApply3(this,'${MEMBER_TYPE_STUDENT}')">
@@ -249,6 +245,7 @@ pageEncoding="UTF-8" %>
                                         </div>
                                     </div>
                                 </div>
+                                 </c:if>
 
                                 <div class="widget-box">
                                     <div class="widget-header">

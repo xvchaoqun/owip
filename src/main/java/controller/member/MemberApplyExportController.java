@@ -58,6 +58,9 @@ public class MemberApplyExportController extends MemberBaseController {
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria()
                 .andIsRemoveEqualTo(false);
+
+        criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
+
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         example.setOrderByClause("create_time desc");
 
