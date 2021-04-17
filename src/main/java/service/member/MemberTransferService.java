@@ -62,13 +62,15 @@ public class MemberTransferService extends MemberBaseMapper {
 
         if(type==1){ //转出分党委审核
             criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+            if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
         } else if(type==2){ //转入分党委审核
             criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            if(partyId!=null) criteria.andToPartyIdEqualTo(partyId);
+            if(branchId!=null) criteria.andToBranchIdEqualTo(branchId);
         }else{
             throw new OpException("审核类型错误");
         }
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
-        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
         return (int) memberTransferMapper.countByExample(example);
     }

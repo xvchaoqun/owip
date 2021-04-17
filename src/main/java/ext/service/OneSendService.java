@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.base.OneSendMapper;
 import service.SpringProps;
-import shiro.ShiroHelper;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +29,7 @@ public class OneSendService {
     private OneSendMapper oneSendMapper;
 
     // userList格式：工号|手机号
-    public OneSend sendMsg(List<String> userList, List<String> realnameList, String content) {
+    public OneSend sendMsg(Integer sendUserId, List<String> userList, List<String> realnameList, String content) {
 
         if(userList.size()==0) return null;
 
@@ -47,7 +46,7 @@ public class OneSendService {
             _oneSend.setRet("test");
         }
 
-        _oneSend.setSendUserId(ShiroHelper.getCurrentUserId());
+        _oneSend.setSendUserId(sendUserId);
         _oneSend.setContent(content);
         _oneSend.setRecivers(StringUtils.join(realnameList, ","));
         _oneSend.setCodes(StringUtils.join(userList, ","));
@@ -59,7 +58,7 @@ public class OneSendService {
     }
 
     // userList格式：工号|手机号 发送信息相同，防止重复发送
-    public OneSend sendMsg(Set<String> userList, Set<String> realnameList, String content) {
+    public OneSend sendMsg(int sendUserId, Set<String> userList, Set<String> realnameList, String content) {
 
         if(userList.size()==0) return null;
 
@@ -76,7 +75,7 @@ public class OneSendService {
             _oneSend.setRet("test");
         }
 
-        _oneSend.setSendUserId(ShiroHelper.getCurrentUserId());
+        _oneSend.setSendUserId(sendUserId);
         _oneSend.setContent(content);
         _oneSend.setRecivers(StringUtils.join(realnameList, ","));
         _oneSend.setCodes(StringUtils.join(userList, ","));

@@ -284,6 +284,8 @@ public class CadrePostProService extends BaseMapper {
                 // 删除原纪录
                 cadrePostProMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【专技岗位过程信息】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadrePostPro modify = new CadrePostPro();

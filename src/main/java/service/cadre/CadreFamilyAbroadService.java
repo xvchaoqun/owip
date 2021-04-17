@@ -201,6 +201,8 @@ public class CadreFamilyAbroadService extends BaseMapper {
                 // 删除原纪录
                 cadreFamilyAbroadMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【家庭成员移居国（境）外情况】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreFamilyAbroad modify = new CadreFamilyAbroad();

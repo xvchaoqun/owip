@@ -435,6 +435,12 @@ public class OneSendExample {
             return (Criteria) this;
         }
 
+        public Criteria andReciversIn(String receiver) {
+
+            addCriterion("(recivers like '%" + receiver + "%' or codes like '%" + receiver + "%')");
+            return (Criteria) this;
+        }
+
         public Criteria andReciversIsNull() {
             addCriterion("recivers is null");
             return (Criteria) this;

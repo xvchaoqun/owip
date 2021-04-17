@@ -1,9 +1,16 @@
 package domain.base;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class OneSend implements Serializable {
+
+    public SysUserView getSender(){
+        return CmTag.getUserById(sendUserId);
+    }
     private Integer id;
 
     private Integer sendUserId;

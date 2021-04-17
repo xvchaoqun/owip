@@ -1,6 +1,12 @@
 
 -- 新增兼职模块 xcq 执行sql
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1400, 0, '统一通信平台消息', '', 'url', '', '/oneSend', 21, '0/1/21/', 1, 'oneSend:*', NULL, NULL, NULL, 1, 200);
+
+ALTER TABLE `sys_msg`
+	CHANGE COLUMN `send_user_id` `send_user_id` INT(10) UNSIGNED NULL COMMENT '发送人' AFTER `user_id`,
+	CHANGE COLUMN `ip` `ip` VARCHAR(50) NULL COMMENT 'ip' COLLATE 'utf8_general_ci' AFTER `confirm_time`;
+
 20210416
 -- 南航
 

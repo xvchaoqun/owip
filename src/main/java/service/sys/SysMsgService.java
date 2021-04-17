@@ -16,8 +16,8 @@ import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.utils.ContextHelper;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -34,9 +34,8 @@ public class SysMsgService extends BaseMapper {
     public void insertSelective(SysMsg record) {
 
         record.setSendTime(new Date());
-        record.setSendUserId(ShiroHelper.getCurrentUserId());
         record.setStatus(SystemConstants.SYS_MSG_STATUS_UNCONFIRM);
-        record.setIp(ContextHelper.getRealIp());
+
         sysMsgMapper.insertSelective(record);
     }
 
@@ -79,6 +78,25 @@ public class SysMsgService extends BaseMapper {
         return count;
     }
 
+    /**
+     * 发送系统提醒
+     *
+     * @param userId 接收方
+     * @param sendUserId
+     * @param title
+     * @param content
+     */
+    public void send(int userId, Integer sendUserId, String title, String content, String... params){
+
+        SysMsg sysMsg = new SysMsg();
+        sysMsg.setUserId(userId);
+        sysMsg.setSendUserId(sendUserId);
+        sysMsg.setTitle(title);
+        sysMsg.setContent(MessageFormat.format(content, params));
+
+        insertSelective(sysMsg);
+    }
+
     @Transactional
     public void batchConfirm(Integer[] ids) {
 
@@ -107,11 +125,10 @@ public class SysMsgService extends BaseMapper {
                 List<OwAdmin> records = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
                 if (records != null && records.size() > 0) {
                     for (OwAdmin record : records) {
-                        SysMsg sysMsg = new SysMsg();
-                        sysMsg.setUserId(record.getUserId());
-                        sysMsg.setTitle("领导班子换届提醒");
-                        sysMsg.setContent("您管理的领导班子即将换届，请及时在系统的组织机构管理中进行换届操作。");
-                        insertSelective(sysMsg);
+
+                        send(record.getUserId(), ShiroHelper.getCurrentUserId(),
+                                "领导班子换届提醒",
+                                "您管理的领导班子即将换届，请及时在系统的组织机构管理中进行换届操作。");
                     }
                 }
             }
@@ -132,11 +149,9 @@ public class SysMsgService extends BaseMapper {
                 List<OwAdmin> records = iPartyMapper.selectBranchAdminList(owAdmin, new RowBounds());
                 if (records != null && records.size() > 0) {
                     for (OwAdmin record : records) {
-                        SysMsg sysMsg = new SysMsg();
-                        sysMsg.setUserId(record.getUserId());
-                        sysMsg.setTitle("支部委员会换届提醒");
-                        sysMsg.setContent("您管理的支部委员会即将换届，请及时在系统的组织机构管理中进行换届操作。");
-                        insertSelective(sysMsg);
+
+                        send(record.getUserId(), ShiroHelper.getCurrentUserId(),
+                                "支部委员会换届提醒", "您管理的支部委员会即将换届，请及时在系统的组织机构管理中进行换届操作。");
                     }
                 }
             }

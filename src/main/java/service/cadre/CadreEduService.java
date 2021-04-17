@@ -719,6 +719,8 @@ public class CadreEduService extends BaseMapper {
 
             // 调整最高学位
             adjustHighDegree(id, cadreId, isSecondHighDegree);
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【学习经历】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreEdu modify = new CadreEdu();

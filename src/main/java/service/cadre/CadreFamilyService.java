@@ -329,6 +329,8 @@ public class CadreFamilyService extends BaseMapper {
                 // 删除原纪录
                 cadreFamilyMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【家庭成员信息】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreFamily modify = new CadreFamily();

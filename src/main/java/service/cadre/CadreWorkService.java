@@ -592,6 +592,8 @@ public class CadreWorkService extends BaseMapper {
                 // 删除原纪录
                 batchDel(new Integer[]{originalId}, mta.getCadre().getId());
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【工作经历】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreWork modify = new CadreWork();

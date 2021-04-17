@@ -56,7 +56,7 @@ public class PartyController extends BaseController {
     @RequestMapping("/party_base")
     public String party_base(Integer id, ModelMap modelMap) {
 
-        Party party = partyMapper.selectByPrimaryKey(id);
+        PartyView party = partyService.getPartyView(id);
         modelMap.put("party", party);
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(id);
         modelMap.put("presentGroup", presentGroup);

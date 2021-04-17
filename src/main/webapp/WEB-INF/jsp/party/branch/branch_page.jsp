@@ -347,7 +347,7 @@
 
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 <shiro:hasPermission name="member:list">
-                return '<a href="#${ctx}/member?cls=10&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
+                return '<a href="#${ctx}/member?cls=-1&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
                 </shiro:hasPermission>
                     <shiro:lacksPermission name="member:list">
                     return cellvalue;
