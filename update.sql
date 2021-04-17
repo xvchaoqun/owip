@@ -1,3 +1,5 @@
+20210417
+-- 北师大
 
 -- 新增兼职模块 xcq 执行sql
 
@@ -6,6 +8,10 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 ALTER TABLE `sys_msg`
 	CHANGE COLUMN `send_user_id` `send_user_id` INT(10) UNSIGNED NULL COMMENT '发送人' AFTER `user_id`,
 	CHANGE COLUMN `ip` `ip` VARCHAR(50) NULL COMMENT 'ip' COLLATE 'utf8_general_ci' AFTER `confirm_time`;
+
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES ('支委会换届提醒', '6月前、3月前、换届后每月、未填写任命时间对支部管理员进行提醒', 'job.party.BranchTranMsgJob', '0 0 8 * * ?', 0, 0, 34, '2021-04-17 09:51:03', 0);
+
+
 
 20210416
 -- 南航

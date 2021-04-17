@@ -355,14 +355,12 @@ td.bolder{font-weight: bolder}
 
         <span>称  谓</span>
       </td>
+
       <td class="td2 center bolder" colspan="2">
         <span>姓  名</span>
       </td>
       <td class="td2 center bolder">
-        <span>出生</span>
-        <div>
-          <span>年月</span>
-        </div>
+        <span>年龄</span>
       </td>
       <td class="td2 center bolder" colspan="2">
         <span>政  治</span>
@@ -385,7 +383,7 @@ td.bolder{font-weight: bolder}
         </td>
         <td class="td14 center">
           <c:if test="${f.birthday!=null}">
-            ${cm:formatDate(f.birthday, "yyyy.MM")}
+            ${cm:intervalYearsUntilNow(cm:getFirstDayOfMonth(f.birthday))}
           </c:if>
         </td>
         <td class="td2 center" colspan="2">

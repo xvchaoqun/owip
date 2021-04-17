@@ -1511,7 +1511,11 @@ public class CadreAdformService extends BaseMapper {
         if(cf!=null && cf.getBirthday()!=null){
             fage = DateUtils.calAge(cf.getBirthday());
         }*/
-        dataMap.put("fage", cf == null ? "" : DateUtils.formatDate(cf.getBirthday(), DateUtils.YYYYMM));
+         if (cf != null) {
+             Date birth = cf.getBirthday();
+             dataMap.put("fage", birth == null ? "" : DateUtils.formatDate(birth, DateUtils.YYYYMM));
+             dataMap.put("fage2", birth == null ? "" : DateUtils.yearOffNow(DateUtils.getFirstDayOfMonth(birth)));
+         }
 
         String fps = "";
         if (cf != null && cf.getPoliticalStatus() != null) {
