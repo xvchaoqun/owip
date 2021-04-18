@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
@@ -43,6 +44,7 @@ public class CadreBaseInfoController extends BaseController {
     @RequestMapping(value = "/cadreBaseInfo", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreBaseInfo(int cadreId,
+                                MultipartFile _avatar, // 直接上传图片
                                 String base64Avatar,
                                 Integer dpTypeId,
                                 String _dpAddTime,
@@ -126,7 +128,10 @@ public class CadreBaseInfoController extends BaseController {
         }
         SysUserInfo record = new SysUserInfo();
 
-        String avatar = avatarService.saveBase64Avatar(base64Avatar);
+        String avatar = avatarService.uploadAvatar(_avatar);
+        if(StringUtils.isBlank(avatar) && StringUtils.isNotBlank(base64Avatar)) {
+            avatar = avatarService.saveBase64Avatar(base64Avatar);
+        }
         record.setAvatar(avatar);
 
         record.setAvatarUploadTime(new Date());

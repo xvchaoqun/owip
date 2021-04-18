@@ -1,3 +1,11 @@
+20210418
+-- 北航
+
+-- 北航需要更新
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('_uploadAvatarStyle', '上传头像样式', '1', 2, 100, '1：直接上传图片 2：裁剪上传');
+--
+
 20210417
 -- 北师大
 

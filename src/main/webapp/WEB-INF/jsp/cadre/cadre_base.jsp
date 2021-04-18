@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['postTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_postTimeFormat"/>
 <c:set value="${_pMap['birthToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_birthFormat"/>
+<c:set value="${_pMap['_uploadAvatarStyle']}" var="_p_uploadAvatarStyle"/>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
 <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)&&!cm:isPermitted(PERMISSION_CADREONLYVIEW))
 	|| hasDirectModifyCadreAuth}">
@@ -516,14 +517,27 @@
                                 <td rowspan="5" style="text-align: center;
 				                         width: 50px;background-color: #fff;">
                                     <div id="avatarDiv" style="width:145px">
-                                       <img width="135"  src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"/>
+                                        <c:if test="${_p_uploadAvatarStyle==1}">
+                                        <input type="file" name="_avatar" id="_avatar"/>
+                                        </c:if>
+                                        <c:if test="${_p_uploadAvatarStyle!=1}">
+                                        <img width="135"  src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"/>
+                                        </c:if>
                                     </div>
                                     <div style="margin-top: 5px">
                                         <input type="hidden" name="base64Avatar">
+                                        <c:if test="${_p_uploadAvatarStyle==1}">
+                                        <button type="button" class="btn btn-xs btn-primary"
+                                                onclick='$("#_avatar").click()'>
+                                            <i class="fa fa-upload"></i> 重传
+                                        </button>
+                                            </c:if>
+                                        <c:if test="${_p_uploadAvatarStyle!=1}">
                                         <button type="button" class="popupBtn btn btn-xs btn-info" data-width="1050"
                                                 data-url="${ctx}/avatar_select?path=${cm:sign(uv.avatar)}&op=保存">
                                             <i class="fa fa-edit"></i> 重传
                                         </button>
+                                            </c:if>
                                         <shiro:hasPermission name="avatar:sync">
                                         <button type="button" class="runBtn btn btn-xs btn-warning"
                                                 data-url="${ctx}/avatar/sync?userId=${uv.id}"
@@ -531,12 +545,6 @@
                                             <i class="fa fa-refresh"></i> 同步
                                         </button>
                                         </shiro:hasPermission>
-                                        <%--<label class="btn btn-warning btn-upload btn-xs" for="selectAvatar" title="选择一张照片">
-                                            <input type="file" class="sr-only" id="selectAvatar" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
-                                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="选择一张照片">
-                                              <span class="fa fa-upload"></span> 替换
-                                            </span>
-                                        </label>--%>
                                     </div>
                                 </td>
                                 <td class="bg-right">
@@ -875,6 +883,7 @@
         </form>
     </c:if>
     <script>
+        <c:if test="${_p_uploadAvatarStyle!=1}">
         $('#selectAvatar').change(function () {
             var $selectAvatar = $(this)
             var files = this.files;
@@ -896,7 +905,35 @@
                 }
             }
         });
+        </c:if>
+        <c:if test="${_p_uploadAvatarStyle==1}">
+        $.fileInput($("#_avatar"), {
+            style: 'well',
+            btn_choose: '更换头像',
+            btn_change: null,
+            no_icon: 'ace-icon fa fa-picture-o',
+            thumbnail: 'large',
+            maxSize:${_uploadMaxSize},
+            droppable: true,
+            previewWidth: 135,
+            previewHeight: 180,
+            allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+            allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        })
+        $('#modalForm button[type=reset]').on(ace.click_event, function () {
+            //$('#user-profile input[type=file]').ace_file_input('reset_input');
+            $("#_avatar").ace_file_input('show_file_list', [{
+                type: 'image',
+                name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>'
+            }]);
+        });
+        $("#_avatar").ace_file_input('show_file_list', [{
+            type: 'image',
+            name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>'
+        }]);
+        </c:if>
 
+        <shiro:hasPermission name="avatar:sync">
         function _avatarSync(btn, ret){
             if(!ret.success || $.trim(ret.photoBase64)==''){
                 SysMsg.info("头像接口读取失败，无此人头像");
@@ -910,6 +947,7 @@
                 $("input[name=base64Avatar]").val(ret.photoBase64)
             }, 200)
         }
+        </shiro:hasPermission>
 
         <shiro:hasPermission name="cadre:updateWithoutRequired">
         $('span.star').css("color", "gray");
