@@ -1331,7 +1331,7 @@ public class MemberController extends MemberBaseController {
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
                 "专业技术职务|120", "职称级别|120", /*"管理岗位等级|120",*/
-                "行政职务|180", "任职级别|120","学历|120", "毕业学校|200", /*"学位授予学校|200",*/
+                "行政职务|180", "任职级别|120","学历|120", "毕业学校|200", "专业|200", /*"学位授予学校|200",*/
                 "学位|100", /*"人员结构|100", "人才类型|100", "人才称号|200",*/ "手机号码|100","备注1|150","备注2|150","备注3|150"}));
     }
 
@@ -1416,6 +1416,7 @@ public class MemberController extends MemberBaseController {
                     adminLevel, // 任职级别 -- 行政级别
                     record.getEducation(), // 学历
                     record.getSchool(), // 毕业学校
+                    record.getMajor(),
                     /*record.getDegreeSchool(),*/
                     record.getDegree(), // 学位
                     /*record.getFromType(),*/ // 人员结构

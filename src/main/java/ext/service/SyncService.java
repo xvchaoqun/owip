@@ -25,6 +25,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.IdcardUtils;
 import sys.utils.SqlUtils;
 
 import java.util.Date;
@@ -221,7 +222,6 @@ public class SyncService extends BaseMapper {
         SysUser record = new SysUser();
         record.setUsername(code);
         record.setCode(code);
-        record.setType(SystemConstants.USER_TYPE_JZG);
         record.setSource(SystemConstants.USER_SOURCE_JZG);
         record.setLocked(false);
 
@@ -236,6 +236,10 @@ public class SyncService extends BaseMapper {
         }
         try {
             if (sysUser == null) {
+
+                // 为空时才设定类别
+                record.setType(SystemConstants.USER_TYPE_JZG);
+
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
                 record.setSalt(encrypt.getSalt());
                 record.setPasswd(encrypt.getPassword());
@@ -628,6 +632,26 @@ public class SyncService extends BaseMapper {
         }
     }
 
+    // 根据身份证号更新性别、出生日期
+    private void checkGenderAndBirthByIdcard(SysUserInfo ui, SysUserView uv) {
+
+        if (ui.getIdcard() != null) {
+            if (ui.getBirth() == null && uv.getBirth() == null) {
+                Date birth = IdcardUtils.getBirth(ui.getIdcard());
+                ui.setBirth(birth);
+            }
+            if (ui.getGender() == null && uv.getGender() == null) {
+                String gender = IdcardUtils.getGender(ui.getIdcard());
+                if (StringUtils.contains(gender, "男")) {
+                    ui.setGender(SystemConstants.GENDER_MALE);
+                }
+                if (StringUtils.contains(gender, "女")) {
+                    ui.setGender(SystemConstants.GENDER_FEMALE);
+                }
+            }
+        }
+    }
+
     // 同步教职工信息
     public void snycTeacherInfo(int userId, String code) {
 
@@ -654,6 +678,9 @@ public class SyncService extends BaseMapper {
             ui.setBirth(extJzg.getCsrq());
             ui.setIdcardType(extJzg.getName());
             ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
+
+            checkGenderAndBirthByIdcard(ui, uv);
+
             ui.setNativePlace(extJzg.getJg());
             ui.setNation(extCommonService.formatNation(extJzg.getMz()));
             ui.setCountry(extJzg.getGj());
@@ -789,6 +816,9 @@ public class SyncService extends BaseMapper {
                 if (StringUtils.isNotBlank(extBks.getCsrq()))
                     ui.setBirth(DateUtils.parseStringToDate(extBks.getCsrq()));
                 ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
+
+                checkGenderAndBirthByIdcard(ui, uv);
+
                 //ui.setMobile(StringUtils.trim(extBks.getYddh()));
                 //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
                 ui.setNation(extCommonService.formatNation(extBks.getMz()));
@@ -834,6 +864,9 @@ public class SyncService extends BaseMapper {
                 if (StringUtils.isNotBlank(extYjs.getCsrq()))
                     ui.setBirth(DateUtils.parseStringToDate(extYjs.getCsrq()));
                 ui.setIdcard(StringUtils.trim(extYjs.getSfzh()));
+
+                checkGenderAndBirthByIdcard(ui, uv);
+
                 //ui.setMobile(StringUtils.trim(extYjs.getYddh()));
                 //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
                 ui.setNation(extCommonService.formatNation(extYjs.getMz()));

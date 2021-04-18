@@ -1,5 +1,5 @@
 20210418
--- 北航
+-- 北航 、大工
 
 -- 北航需要更新
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
