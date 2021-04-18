@@ -382,7 +382,7 @@ td.bolder{font-weight: bolder}
             ${f.realname}
         </td>
         <td class="td14 center">
-          <c:if test="${f.birthday!=null}">
+          <c:if test="${f.birthday!=null && !f.withGod}">
             ${cm:intervalYearsUntilNow(cm:getFirstDayOfMonth(f.birthday))}
           </c:if>
         </td>
