@@ -1,6 +1,6 @@
 
 20210419
--- 北师大XXXX
+-- 大工、北师大
 
 ALTER TABLE `ow_branch_member_group`
 	CHANGE COLUMN `tran_time` `tran_time` DATE NULL DEFAULT NULL COMMENT '应换届时间，任命时间基础上自动加3年' AFTER `name`;

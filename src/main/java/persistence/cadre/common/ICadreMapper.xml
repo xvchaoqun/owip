@@ -117,7 +117,7 @@
             left join cm_member cm on cm.user_id=c.user_id and cm.is_quit=0
             left join base_meta_type pc_post on cm.post=pc_post.id and pc_post.bool_attr=1
         </if>
-        , sys_user_view u where u.type=1 and c.user_id= u.id
+        , sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql"/>
         order by c.sort_order desc
     </select>
@@ -127,7 +127,7 @@
             left join cm_member cm on cm.user_id=c.user_id and cm.is_quit=0
             left join base_meta_type pc_post on cm.post=pc_post.id and pc_post.bool_attr=1
         </if>
-        , sys_user_view u where u.type=1 and c.user_id= u.id
+        , sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql"/>
     </select>
 
@@ -151,7 +151,7 @@
         </if>
     </sql>
     <select id="selectNotCadreList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
-        select id, realname, username, code, type,create_time, role_ids from (<include refid="userSearchSql"/>) u where u.type=1 and not exists(select 1 from cadre
+        select id, realname, username, code, type,create_time, role_ids from (<include refid="userSearchSql"/>) u where u.type in(1,5) and not exists(select 1 from cadre
         where user_id = u.id
         <if test="cadreStatusList.size>0">
             and status in
@@ -166,7 +166,7 @@
     </select>
 
     <select id="countNotCadreList" parameterType="map" resultType="java.lang.Integer">
-        select count(id) from (<include refid="userSearchSql"/>) u where u.type=1 and not exists(select 1 from cadre
+        select count(id) from (<include refid="userSearchSql"/>) u where u.type in(1,5) and not exists(select 1 from cadre
         where user_id = u.id
         <if test="cadreStatusList.size>0">
             and status in
