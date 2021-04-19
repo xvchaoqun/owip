@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.member.common.MemberApplyCount;
+import persistence.member.common.SponsorBean;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
 import sys.constants.*;
@@ -958,12 +959,13 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
+
     //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate_sponsor")
     public String apply_candidate_sponsor(Integer[] ids, ModelMap modelMap) {
 
-        byte inSchool = 1; // 默认校内
         if(ids.length==1) {
+
             int userId = ids[0];
             if(!ShiroHelper.isPermitted("memberApply:admin")
                 && userId!=ShiroHelper.getCurrentUserId()){
@@ -971,25 +973,12 @@ public class MemberApplyController extends MemberBaseController {
             }
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(memberApply!=null) {
-                String _userIds = memberApply.getSponsorUserIds();
-                String _users = memberApply.getSponsorUsers();
-                if (StringUtils.isBlank(_userIds)
-                        && StringUtils.isNotBlank(_users)) {
-                    inSchool = 0;
-                    if (StringUtils.isNotBlank(_users)) {
-                        String[] users = _users.split(",");
-                        modelMap.put("users", users);
-                    }
-                } else {
-
-                    Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
-                    modelMap.put("userIds", userIds.toArray());
-                }
+                SponsorBean bean = SponsorBean.toBean(memberApply.getSponsorUserIds());
+                modelMap.put("bean", bean);
             }
         }else{
             ShiroHelper.checkPermission("memberApply:admin");
         }
-        modelMap.put("inSchool", inSchool);
 
         return "member/memberApply/apply_candidate_sponsor";
     }
@@ -998,8 +987,7 @@ public class MemberApplyController extends MemberBaseController {
     //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate_sponsor", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_candidate_sponsor(Integer[] ids, Integer[] userIds,
-                                       String[] users, HttpServletRequest request) {
+    public Map do_apply_candidate_sponsor(Integer[] ids, String sponsorUserIds, HttpServletRequest request) {
 
         if(ids.length==1) {
             int userId = ids[0];
@@ -1011,18 +999,19 @@ public class MemberApplyController extends MemberBaseController {
             ShiroHelper.checkPermission("memberApply:admin");
         }
 
-        String sponsorUsers = memberApplyOpService.apply_candidate_sponsor(ids, userIds, users);
+        SponsorBean bean = SponsorBean.toBean(sponsorUserIds);
+        if(bean!=null){
+            if(bean.getUserId1()!=null && bean.getUserId2()!=null &&
+            bean.getUserId1().intValue()==bean.getUserId2()){
+              return failed("不可选择相同的入党介绍人");
+            }
+        }
+
+        String sponsorUsers = memberApplyOpService.apply_candidate_sponsor(ids, sponsorUserIds);
         Map<String, Object> resultMap = success();
         resultMap.put("sponsorUsers", sponsorUsers);
-        // 添加时赋值
-        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
-            if(userIds.length==2&& userIds[1]!=null){
-                if(userIds[0].intValue()==userIds[1]){
-                    return failed("不可选择相同的入党介绍人");
-                }
-            }
-            resultMap.put("sponsorUserIds", StringUtils.join(userIds, ","));
-        }
+        resultMap.put("sponsorUserIds", sponsorUserIds);
+
         return resultMap;
     }
 

@@ -11,6 +11,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.member.common.SponsorBean;
 import service.party.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -247,23 +248,26 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
      // 发展对象：确定入党介绍人
     @Transactional
-    public String apply_candidate_sponsor(Integer[] userIds, Integer[] sponsorUserIds, String[] sponsorUsers){
+    public String apply_candidate_sponsor(Integer[] userIds, String sponsorUserIds){
 
         String _sponsorUsers = "";
-        String _sponsorUserIds = "";
-        if (ArrayUtils.getLength(sponsorUserIds) > 0 && sponsorUserIds[0] != null) {
-
-            List<String> users = new ArrayList<>();
-            for (Integer sponsorUserId : sponsorUserIds) {
-                SysUserView uv = CmTag.getUserById(sponsorUserId);
-                if (uv != null) {
-                    users.add(uv.getRealname());
-                }
+        SponsorBean bean = SponsorBean.toBean(sponsorUserIds);
+        if(bean!=null){
+            if(bean.getInSchool1()==1){
+                SysUserView uv = CmTag.getUserById(bean.getUserId1());
+                _sponsorUsers = uv.getRealname();
+            }else{
+                _sponsorUsers = bean.getUser1();
             }
-            _sponsorUsers = StringUtils.join(users, ",");
-            _sponsorUserIds = StringUtils.join(sponsorUserIds, ",");
-        } else {
-            _sponsorUsers = StringUtils.join(sponsorUsers, ",");
+            if(bean.getInSchool2()!=null) {
+                if (bean.getInSchool2() == 1) {
+                    SysUserView uv = CmTag.getUserById(bean.getUserId2());
+                    _sponsorUsers += "," + uv.getRealname();
+                } else {
+                    _sponsorUsers += "," + bean.getUser2();
+                }
+
+            }
         }
 
         for (int userId : userIds) {
@@ -272,7 +276,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
             MemberApply memberApply = memberApplyService.get(userId);
             MemberApply record = new MemberApply();
             record.setSponsorUsers(_sponsorUsers);
-            record.setSponsorUserIds(_sponsorUserIds);
+            record.setSponsorUserIds(sponsorUserIds);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
