@@ -72,7 +72,7 @@
             </if>
         </if>
         <include refid="member_selects_permits"/>
-        <if test="search != null">
+        <if test="search!=null and search.length>0">
             and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
         </if>
         order by m.flow_time desc
@@ -92,7 +92,7 @@
             </if>
         </if>
         <include refid="member_selects_permits"/>
-        <if test="search != null">
+        <if test="search!=null and search.length>0">
             and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
         </if>
     </select>
@@ -121,18 +121,18 @@
     </select>
 
     <sql id="userSearchSql">
-        select * from sys_user_view
-        <if test="query != null">
+        select id, realname, username, code, type,create_time, role_ids from sys_user_view
+        <if test="query!=null and query.length>0">
             <where>
                 and username like '${query}%'
             </where>
             union
-            select * from sys_user_view
+            select id, realname, username, code, type,create_time, role_ids  from sys_user_view
             <where>
                 and realname like '${query}%'
             </where>
             union
-            select * from sys_user_view
+            select id, realname, username, code, type,create_time, role_ids  from sys_user_view
             <where>
                 and code like '${query}%'
             </where>
@@ -140,7 +140,7 @@
     </sql>
 
     <select id="selectNotMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
-        select * from (<include refid="userSearchSql" />) u
+        select id, realname, username, code, type,create_time, role_ids from (<include refid="userSearchSql" />) u
         where not exists(select 1 from ow_member m left join ow_party p on p.id = m.party_id
         left join ow_branch b on b.id = m.branch_id  where m.user_id=u.id and m.status=1 and p.is_deleted=0 and b.is_deleted=0)
         and role_ids not like "%${regRoleStr}%"

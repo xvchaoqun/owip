@@ -676,50 +676,50 @@ public class SyncService extends BaseMapper {
                     StringUtils.trim(extJzg.getXmpy())));
             ui.setGender(NumberUtils.toByte(extJzg.getXbm()));
             ui.setBirth(extJzg.getCsrq());
-            ui.setIdcardType(extJzg.getName());
-            ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
+            ui.setIdcardType(StringUtils.trimToNull(extJzg.getName()));
+            ui.setIdcard(StringUtils.trimToNull(extJzg.getSfzh()));
 
             checkGenderAndBirthByIdcard(ui, uv);
 
-            ui.setNativePlace(extJzg.getJg());
-            ui.setNation(extCommonService.formatNation(extJzg.getMz()));
-            ui.setCountry(extJzg.getGj());
-            ui.setUnit(extJzg.getDwmc());
-            ui.setEmail(extJzg.getDzxx());
-            ui.setMobile(extJzg.getYddh());
-            ui.setHomePhone(extJzg.getJtdh());
+            ui.setNativePlace(StringUtils.trimToNull(extJzg.getJg()));
+            ui.setNation(extCommonService.formatNation(StringUtils.trimToNull(extJzg.getMz())));
+            ui.setCountry(StringUtils.trimToNull(extJzg.getGj()));
+            ui.setUnit(StringUtils.trimToNull(extJzg.getDwmc()));
+            ui.setEmail(StringUtils.trimToNull(extJzg.getDzxx()));
+            ui.setMobile(StringUtils.trimToNull(extJzg.getYddh()));
+            ui.setHomePhone(StringUtils.trimToNull(extJzg.getJtdh()));
 
             //+++++++++++++ 同步后面一系列属性
 
-            record.setExtPhone(extJzg.getYddh());
-            record.setEducation(extJzg.getZhxlmc());
-            record.setDegree(extJzg.getZhxw());
+            record.setExtPhone(StringUtils.trimToNull(extJzg.getYddh()));
+            record.setEducation(StringUtils.trimToNull(extJzg.getZhxlmc()));
+            record.setDegree(StringUtils.trimToNull(extJzg.getZhxw()));
             //teacher.setDegreeTime(); 学位授予日期
             //teacher.setMajor(extJzg.getz); 所学专业
-            record.setSchool(extJzg.getXlbyxx()); // 学历毕业学校
-            record.setDegreeSchool(extJzg.getXwsyxx()); // 学位授予学校
+            record.setSchool(StringUtils.trimToNull(extJzg.getXlbyxx())); // 学历毕业学校
+            record.setDegreeSchool(StringUtils.trimToNull(extJzg.getXwsyxx())); // 学位授予学校
             //teacher.setSchoolType(); 毕业学校类型
             if (extJzg.getLxrq() != null)
                 record.setArriveTime(extJzg.getLxrq());
-            record.setAuthorizedType(extJzg.getBzlx());
-            record.setStaffType(extJzg.getRylx());
+            record.setAuthorizedType(StringUtils.trimToNull(extJzg.getBzlx()));
+            record.setStaffType(StringUtils.trimToNull(extJzg.getRylx()));
             record.setStaffStatus(StringUtils.equals(extJzg.getSfzg(), "离休")?"离休":extJzg.getRyzt()); // 离退
-            record.setPostClass(extJzg.getGwlx()); // 岗位类型
-            record.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
-            record.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
-            if (StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
-                record.setWorkStartTime(DateUtils.parseStringToDate(extJzg.getGlqsrq()));
-            record.setWorkBreak(extJzg.getJdgl()); // 间断工龄
-            if (StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
-                record.setRegularTime(DateUtils.parseStringToDate(extJzg.getZzdjsj()));
-            record.setOnJob(extJzg.getSfzg());
-            record.setPersonnelStatus(extJzg.getRszf());
-            record.setProPost(extJzg.getZc()); // 职称？？
+            record.setPostClass(StringUtils.trimToNull(extJzg.getGwlx())); // 岗位类型
+            record.setSubPostClass(StringUtils.trimToNull(extJzg.getGwzlbmc())); // 岗位子类别
+            record.setMainPostLevel(StringUtils.trimToNull(extJzg.getZgdjmmc())); // 主岗等级
+            if (StringUtils.isNotBlank(StringUtils.trimToNull(extJzg.getGlqsrq()))) // 工龄起算日期
+                record.setWorkStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(extJzg.getGlqsrq())));
+            record.setWorkBreak(StringUtils.trimToNull(extJzg.getJdgl())); // 间断工龄
+            if (StringUtils.isNotBlank(StringUtils.trimToNull(extJzg.getZzdjsj()))) // 转正定级时间
+                record.setRegularTime(DateUtils.parseStringToDate(StringUtils.trimToNull(extJzg.getZzdjsj())));
+            record.setOnJob(StringUtils.trimToNull(extJzg.getSfzg()));
+            record.setPersonnelStatus(StringUtils.trimToNull(extJzg.getRszf()));
+            record.setProPost(StringUtils.trimToNull(extJzg.getZc())); // 职称？？
             //teacher.setTitleLevel(extJzg.get); // 职称级别
-            //teacher.setPost(extJzg.getXzjb());  行政职务
+            //teacher.setPost(StringUtils.trimToNull(extJzg.getXzjb()));  行政职务
             // teacher.setPostLevel(); 任职级别
-            record.setTalentTitle(extJzg.getRcch());
-            record.setTalentType(extJzg.getRclx());
+            record.setTalentTitle(StringUtils.trimToNull(extJzg.getRcch()));
+            record.setTalentType(StringUtils.trimToNull(extJzg.getRclx()));
             // teacher.setAddress(extJzg.getjz); 居住地址
             // teacher.setMaritalStatus(); 婚姻状况
 
@@ -819,27 +819,27 @@ public class SyncService extends BaseMapper {
 
                 checkGenderAndBirthByIdcard(ui, uv);
 
-                //ui.setMobile(StringUtils.trim(extBks.getYddh()));
-                //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
-                ui.setNation(extCommonService.formatNation(extBks.getMz()));
-                ui.setNativePlace(extBks.getSf()); // 籍贯
+                //ui.setMobile(StringUtils.trim(StringUtils.trimToNull(extBks.getYddh())));
+                //ui.setEmail(StringUtils.trim(StringUtils.trimToNull(extBks.getDzxx())));
+                ui.setNation(extCommonService.formatNation(StringUtils.trimToNull(extBks.getMz())));
+                ui.setNativePlace(StringUtils.trimToNull(extBks.getSf())); // 籍贯
 
                 //+++++++++++++ 同步后面一系列属性
-                record.setType(extBks.getKslb());
-                //student.setEduLevel(extBks.getPycc()); 培养层次
-                //student.setEduType(extBks.getPylx()); 培养类型
-                //student.setEduCategory(extBks.getJylb()); 培养级别
-                record.setEduWay(extBks.getPyfs());
+                record.setType(StringUtils.trimToNull(extBks.getKslb()));
+                //student.setEduLevel(StringUtils.trimToNull(extBks.getPycc())); 培养层次
+                //student.setEduType(StringUtils.trimToNull(extBks.getPylx())); 培养类型
+                //student.setEduCategory(StringUtils.trimToNull(extBks.getJylb())); 培养级别
+                record.setEduWay(StringUtils.trimToNull(extBks.getPyfs()));
                 //student.setIsFullTime(extBks.get); 是否全日制
                 record.setEnrolYear(extBks.getNj()+""); // 招生年度
                 //student.setPeriod(extBks.getXz()+""); 学制
-                //record.setGrade(extBks.getNj());
-                //student.setActualEnrolTime(DateUtils.parseStringToDate(extBks.getSjrxny())); 实际入学年月
-                //student.setExpectGraduateTime(DateUtils.parseStringToDate(extBks.getYjbyny())); 预计毕业年月
-                //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
-                //student.setActualGraduateTime(DateUtils.parseStringToDate(extBks.getSjbyny())); 实际毕业年月
+                //record.setGrade(StringUtils.trimToNull(extBks.getNj()));
+                //student.setActualEnrolTime(DateUtils.parseStringToDate(StringUtils.trimToNull(extBks.getSjrxny()))); 实际入学年月
+                //student.setExpectGraduateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(extBks.getYjbyny()))); 预计毕业年月
+                //student.setDelayYear(StringUtils.trimToNull(extBks.getYqbynx())); 预计毕业年限
+                //student.setActualGraduateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(extBks.getSjbyny()))); 实际毕业年月
 
-                record.setXjStatus(extBks.getXjzt());
+                record.setXjStatus(StringUtils.trimToNull(extBks.getXjzt()));
 
                 ui.setUserStatus(record.getXjStatus());
                 extCommonService.syncFilter(ui, null, studentInfo==null?null:record);
@@ -863,21 +863,22 @@ public class SyncService extends BaseMapper {
                 ui.setGender(NumberUtils.toByte(extYjs.getXbm()));
                 if (StringUtils.isNotBlank(extYjs.getCsrq()))
                     ui.setBirth(DateUtils.parseStringToDate(extYjs.getCsrq()));
-                ui.setIdcard(StringUtils.trim(extYjs.getSfzh()));
+                ui.setIdcard(StringUtils.trimToNull(extYjs.getSfzh()));
 
                 checkGenderAndBirthByIdcard(ui, uv);
 
-                //ui.setMobile(StringUtils.trim(extYjs.getYddh()));
-                //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
-                ui.setNation(extCommonService.formatNation(extYjs.getMz()));
-                ui.setNativePlace(StringUtils.defaultIfBlank(extYjs.getSyszd(), extYjs.getHkszd()));
+                //ui.setMobile(StringUtils.trim(StringUtils.trimToNull(extYjs.getYddh())));
+                //ui.setEmail(StringUtils.trim(StringUtils.trimToNull(extYjs.getDzxx())));
+                ui.setNation(extCommonService.formatNation(StringUtils.trimToNull(extYjs.getMz())));
+                ui.setNativePlace(StringUtils.defaultIfBlank(StringUtils.trimToNull(extYjs.getSyszd()),
+                        StringUtils.trimToNull(extYjs.getHkszd())));
 
                 //+++++++++++++ 同步后面一系列属性
-                record.setType(extYjs.getXslb());
-                record.setEduLevel(extYjs.getPycc());
-                record.setEduType(extYjs.getPylx());
-                record.setEduCategory(extYjs.getJylb());
-                record.setEduWay(extYjs.getPyfs());
+                record.setType(StringUtils.trimToNull(extYjs.getXslb()));
+                record.setEduLevel(StringUtils.trimToNull(extYjs.getPycc()));
+                record.setEduType(StringUtils.trimToNull(extYjs.getPylx()));
+                record.setEduCategory(StringUtils.trimToNull(extYjs.getJylb()));
+                record.setEduWay(StringUtils.trimToNull(extYjs.getPyfs()));
                 //student.setIsFullTime(extYjs.get); 是否全日制
                 record.setEnrolYear(extYjs.getZsnd() + "");
                 record.setPeriod(extYjs.getXz() + "");
@@ -888,7 +889,7 @@ public class SyncService extends BaseMapper {
                 record.setDelayYear(extYjs.getYqbynx());
                 record.setActualGraduateTime(DateUtils.parseStringToDate(extYjs.getSjbyny()));
 
-                record.setXjStatus(extYjs.getZt());
+                record.setXjStatus(StringUtils.trimToNull(extYjs.getZt()));
 
                 ui.setUserStatus(record.getXjStatus());
                 extCommonService.syncFilter(ui, null, studentInfo==null?null:record);

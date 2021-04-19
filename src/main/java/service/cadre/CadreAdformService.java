@@ -650,7 +650,7 @@ public class CadreAdformService extends BaseMapper {
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
             maxFamilyCount = 7;
             adFormFtl = "/adform_docx/adform_zzb.ftl";
-            titleEditorFtl = "/common/titleEditor3.ftl";
+            titleEditorFtl = "/adform_docx/titleEditor_zzb.ftl";
             rewardFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform_docx/family_zzb.ftl";
         }

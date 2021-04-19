@@ -11,7 +11,7 @@
     </update>
 
     <sql id="typesSearchSql">
-        <if test="types != null and types.length>0">
+        <if test="types!=null and types.length>0">
             and type IN
             <foreach collection="types" item="type" separator="," open="(" close=")">
                 #{type}
@@ -19,25 +19,25 @@
         </if>
     </sql>
     <sql id="userSearchSql">
-        select * from sys_user_view
-        <if test="query == null">
+        select id, realname, username, code, type, create_time from sys_user_view
+        <if test="query==null">
             <where>
                 <include refid="typesSearchSql" />
             </where>
         </if>
-        <if test="query != null">
+        <if test="query!=null and query.length>0">
         <where>
             <include refid="typesSearchSql" />
             and username like '${query}%'
         </where>
         union
-        select * from sys_user_view
+        select id, realname, username, code, type, create_time from sys_user_view
         <where>
             <include refid="typesSearchSql" />
             and realname like '${query}%'
         </where>
         union
-        select * from sys_user_view
+        select id, realname, username, code, type, create_time from sys_user_view
         <where>
             <include refid="typesSearchSql" />
             and code like '${query}%'

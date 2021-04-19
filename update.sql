@@ -1,3 +1,12 @@
+20210419
+-- 南航
+
+ALTER TABLE `sys_user`
+	CHANGE COLUMN `role_ids` `role_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '所属角色，格式：,1,' COLLATE 'utf8_general_ci' AFTER `salt`,
+	ADD INDEX `role_ids` (`role_ids`);
+
+-- 更新  cadre_view
+
 20210418
 -- 北航 、大工
 

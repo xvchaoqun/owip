@@ -25,10 +25,10 @@ SELECT c.*,
 	, dp.remark as dp_remark
 	, ow.id as ow_id
 	-- 判断是否是中共党员
-	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
+	, if(!isnull(ow.id) or om.status=1, 1, 0) as is_ow
 	-- 优先以党员库中的入党时间为准
-     ,if(isnull(_vgt.verify_grow_time), if(om.status=1 or om.status=4, om.grow_time, ow.grow_time), _vgt.verify_grow_time) as ow_grow_time
-     ,DATE_ADD(if(isnull(_vgt.verify_grow_time), if(om.status=1 or om.status=4, om.grow_time, ow.grow_time), _vgt.verify_grow_time), INTERVAL 1 YEAR) as ow_positive_time
+     ,if(isnull(_vgt.verify_grow_time), if(om.status=1, om.grow_time, ow.grow_time), _vgt.verify_grow_time) as ow_grow_time
+     ,DATE_ADD(if(isnull(_vgt.verify_grow_time), if(om.status=1, om.grow_time, ow.grow_time), _vgt.verify_grow_time), INTERVAL 1 YEAR) as ow_positive_time
 	, ow.remark as ow_remark
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`
