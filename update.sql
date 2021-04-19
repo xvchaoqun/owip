@@ -1,3 +1,42 @@
+
+20210419
+-- 北师大XXXX
+
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `tran_time` `tran_time` DATE NULL DEFAULT NULL COMMENT '应换届时间，任命时间基础上自动加3年' AFTER `name`;
+update ow_branch_member_group set tran_time = date_add(appoint_time, interval 3 YEAR);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (84, '校内升学', 'mt_r1mekj', 0, 'none', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (84, '留校任职', 'mt_xg1pk5', 0, 'none', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+ VALUES (84, '学工号变更', 'mt_myqmdl', 0, 'none', '', 5, 1);
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `to_title` `to_title` VARCHAR(100) NULL COMMENT '转入单位抬头' COLLATE 'utf8_general_ci' AFTER `type`,
+	CHANGE COLUMN `to_unit` `to_unit` VARCHAR(100) NULL COMMENT '转入单位' COLLATE 'utf8_general_ci' AFTER `to_title`,
+	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL COMMENT '转出单位，默认为中共北京师范大学+分党委名称' COLLATE 'utf8_general_ci' AFTER `to_unit`,
+	CHANGE COLUMN `from_address` `from_address` VARCHAR(100) NULL COMMENT '转出单位地址，默认同上' COLLATE 'utf8_general_ci' AFTER `from_unit`,
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(100) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `from_address`,
+	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(100) NULL COMMENT '转出单位邮编，默认为100875' COLLATE 'utf8_general_ci' AFTER `from_fax`,
+	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_post_code`,
+	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
+	CHANGE COLUMN `handle_time` `handle_time` DATE NULL COMMENT '办理时间' AFTER `valid_days`,
+	CHANGE COLUMN `print_count` `print_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '打印次数' AFTER `check_time`;
+
+ALTER TABLE `ow_member_in`
+	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL COMMENT '转出单位' COLLATE 'utf8_general_ci' AFTER `branch_id`,
+	CHANGE COLUMN `from_title` `from_title` VARCHAR(100) NULL COMMENT '转出单位抬头' COLLATE 'utf8_general_ci' AFTER `from_unit`,
+	CHANGE COLUMN `from_address` `from_address` VARCHAR(100) NULL COMMENT '转出单位地址，默认同上' COLLATE 'utf8_general_ci' AFTER `from_title`,
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(50) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `from_address`,
+	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(10) NULL COMMENT '转出单位邮编' COLLATE 'utf8_general_ci' AFTER `from_fax`,
+	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_post_code`,
+	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
+	CHANGE COLUMN `from_handle_time` `from_handle_time` DATE NULL COMMENT '转出办理时间' AFTER `valid_days`,
+	CHANGE COLUMN `handle_time` `handle_time` DATE NULL COMMENT '转入办理时间，默认为填报信息当天' AFTER `from_handle_time`;
+
+
 20210419
 -- 南航
 

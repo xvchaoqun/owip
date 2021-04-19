@@ -71,6 +71,7 @@ public class CommonController extends BaseController {
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {
             for (SysUserView uv : uvs) {
+                uv = CmTag.getUserById(uv.getId());
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", uv.getId() + "");
                 option.put("text", uv.getRealname());

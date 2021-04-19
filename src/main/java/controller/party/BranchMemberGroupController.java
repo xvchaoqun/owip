@@ -260,17 +260,21 @@ public class BranchMemberGroupController extends BaseController {
     @RequestMapping(value = "/branchMemberGroup_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branchMemberGroup_au(BranchMemberGroup record,
-                                       String _tranTime,
+                                       //String _tranTime,
                                        String _appointTime,
                                        HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (StringUtils.isNotBlank(_tranTime)) {
+        /*if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
-        }
+        }*/
         if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
+
+            // 应换届时间: 任命时间基础上自动加3年
+            Date tranDate = DateUtils.getDateBeforeOrAfterYears(record.getAppointTime(), 3);
+            record.setTranTime(tranDate);
         }
 
         BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(record.getBranchId());

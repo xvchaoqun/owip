@@ -63,10 +63,10 @@ pageEncoding="UTF-8" %>
                                                         <li>不选${_p_partyName}、党支部则导出全部</li>
                                                         <li>
                                                             <c:if test="${_ignore_plan_and_draw}">
-                                                                导出结果中包含申请至发展对象这三个阶段的数据
+                                                                导出结果中包含申请（支部审核通过）至发展对象这三个阶段的数据
                                                             </c:if>
                                                             <c:if test="${!_ignore_plan_and_draw}">
-                                                                导出结果中包含申请至领取志愿书这五个阶段的数据
+                                                                导出结果中包含申请（支部审核通过）至领取志愿书这五个阶段的数据
                                                             </c:if>
                                                         </li>
                                                     </ul>

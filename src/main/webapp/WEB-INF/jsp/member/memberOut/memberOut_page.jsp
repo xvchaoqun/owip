@@ -139,20 +139,24 @@
                                     <c:if test="${cls==3}">
                                         <shiro:hasPermission name="memberOut:print">
                                         <c:forEach items="${printTypeList}" var="_type">
+                                            <c:if test="${_type.extraAttr!='none'}">
                                         <button class="print print${_type.id} jqOpenViewBatchBtn btn btn-primary btn-sm"
                                                 data-url="${ctx}/report/printPreview"
                                                 data-querystr="type=${JASPER_PRINT_TYPE_LETTER_PRINT}"
                                                 data-open-by="page">
                                             <i class="fa fa-print"></i> 批量打印介绍信(${_type.name})
                                         </button>
+                                            </c:if>
                                         </c:forEach>
                                         <c:forEach items="${fillPrintTypeList}" var="_type">
+                                            <c:if test="${_type.extraAttr!='none'}">
                                         <button class="print print${_type.id} fill jqOpenViewBatchBtn btn btn-warning btn-sm"
                                                          data-url="${ctx}/report/printPreview"
                                                          data-querystr="type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}"
                                                          data-open-by="page">
                                             <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
                                         </button>
+                                            </c:if>
                                         </c:forEach>
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="memberOutSelfPrint:edit">
@@ -429,7 +433,12 @@
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
             <shiro:hasPermission name="memberOut:print">
-            { label: '后台打印', width: 110, formatter:function(cellvalue, options, rowObject){
+            { label: '打印', width: 110, formatter:function(cellvalue, options, rowObject){
+
+                //console.log(_cMap.metaTypeMap[rowObject.type].extraAttr)
+                if(_cMap.metaTypeMap[rowObject.type].extraAttr=='none'){
+                    return "--"
+                }
 
                 var isFillPrint = _cMap.metaTypeMap[rowObject.type].boolAttr;
                 if(!isFillPrint){

@@ -10,4 +10,6 @@ public class MetaTypeOptionMixin extends OptionMixin {
     public String code;
     @JsonProperty
     public Boolean boolAttr;
+    @JsonProperty
+    public Boolean extraAttr;
 }
