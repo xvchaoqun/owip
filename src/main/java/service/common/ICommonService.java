@@ -27,13 +27,13 @@ import java.util.stream.Collectors;
 public abstract class ICommonService {
 
     @Autowired
-    private SysUserService sysUserService;
+    protected SysUserService sysUserService;
     @Autowired
-    private SysUserInfoMapper sysUserInfoMapper;
+    protected SysUserInfoMapper sysUserInfoMapper;
     @Autowired
-    private ExtService extService;
+    protected ExtService extService;
     @Autowired
-    private CadreEvaMapper cadreEvaMapper;
+    protected CadreEvaMapper cadreEvaMapper;
 
     // 同步用户头像
     public String syncAvatar(Integer userId){
