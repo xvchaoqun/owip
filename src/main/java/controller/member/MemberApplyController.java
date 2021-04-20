@@ -1143,52 +1143,58 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_grow_contact")
     public String apply_grow_contact(Integer[] ids, ModelMap modelMap) {
 
-        byte inSchool = 1; // 默认校内
         if(ids.length==1) {
-            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
-            String _userIds = memberApply.getGrowContactUserIds();
-            String _users = memberApply.getGrowContactUsers();
-            if(StringUtils.isBlank(_userIds)
-                    &&StringUtils.isNotBlank(_users)){
-                inSchool = 0;
-                if(StringUtils.isNotBlank(_users)){
-                    String[] users = _users.split(",");
-                    modelMap.put("users", users);
-                }
-            }else{
 
-                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
-                modelMap.put("userIds", userIds.toArray());
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
             }
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(memberApply!=null) {
+                SponsorBean bean = SponsorBean.toBean(memberApply.getGrowContactUserIds());
+                modelMap.put("bean", bean);
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
         }
-        modelMap.put("inSchool", inSchool);
 
         return "member/memberApply/apply_grow_contact";
     }
 
     // 提交 确定培养联系人
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_grow_contact", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_grow_contact(Integer[] ids, Integer[] userIds,
-                                       String[] users, HttpServletRequest request) {
+    public Map do_apply_grow_contact(Integer[] ids, String growContactUserIds, HttpServletRequest request) {
 
-        String growContactUsers = memberApplyOpService.apply_grow_contact(ids, userIds, users);
+        if(ids.length==1) {
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
+        }
+
+        SponsorBean bean = SponsorBean.toBean(growContactUserIds);
+        if(bean!=null){
+            if(bean.getUserId1()!=null && bean.getUserId2()!=null &&
+            bean.getUserId1().intValue()==bean.getUserId2()){
+              return failed("不可选择相同的培养联系人");
+            }
+        }
+
+        String growContactUsers = memberApplyOpService.apply_grow_contact(ids, growContactUserIds);
         Map<String, Object> resultMap = success();
         resultMap.put("growContactUsers", growContactUsers);
-        // 添加时赋值
-        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
-            if(userIds.length==2&& userIds[1]!=null){
-                if(userIds[0].intValue()==userIds[1]){
-                    return failed("不可选择相同的培养联系人");
-                }
-            }
-            resultMap.put("growContactUserIds", StringUtils.join(userIds, ","));
-        }
+        resultMap.put("growContactUserIds", growContactUserIds);
+
         return resultMap;
     }
 

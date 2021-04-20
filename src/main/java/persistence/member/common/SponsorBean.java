@@ -2,7 +2,7 @@ package persistence.member.common;
 
 import org.apache.commons.lang3.StringUtils;
 
-// 入党介绍人
+// 入党介绍人/培养联系人
 public class SponsorBean {
 
     // 1##userId,0##张三，1：校内 0：校外
@@ -58,10 +58,10 @@ public class SponsorBean {
        return sponsorUserIds;
     }
 
-    private Byte inSchool1; // 入党介绍人1类型，默认校内， 1：校内 0：校外
+    private Byte inSchool1; // 第1个人类型，默认校内， 1：校内 0：校外
     private Integer userId1;
     private String user1;
-    private Byte inSchool2; // 入党介绍人2类型，默认校内
+    private Byte inSchool2; // 第2个人类型，默认校内
     private Integer userId2;
     private String user2;
 
