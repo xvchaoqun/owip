@@ -41,8 +41,6 @@ public class ParttimeBaseController extends ParttimeBaseMapper implements HttpRe
     @Autowired
     protected ParttimeApplyService parttimeApplyService;
     @Autowired
-    protected ParttimeShortMsgService parttimeShortMsgService;
-    @Autowired
     protected ParttimeApprovalLogService parttimeApprovalLogService;
     @Autowired
     protected ParttimeExportService parttimeExportService;

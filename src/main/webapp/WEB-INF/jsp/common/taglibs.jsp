@@ -62,7 +62,7 @@
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 
-<c:set var="PERMISSION_COMPANYAPPLY" value="<%=RoleConstants.PERMISSION_COMPANYAPPLY%>"/>
+<c:set var="PERMISSION_PARTTIMEAPPLY_ADMIN" value="<%=RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN%>"/>
 <c:set var="PERMISSION_PARTYVIEWALL" value="<%=RoleConstants.PERMISSION_PARTYVIEWALL%>"/>
 <c:set var="PERMISSION_CADREONLYVIEW" value="<%=RoleConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=RoleConstants.PERMISSION_CADREADMINSELF%>"/>

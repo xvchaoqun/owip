@@ -1,13 +1,11 @@
 package service.parttime;
 
 import bean.ShortMsgBean;
-import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
-import domain.cla.*;
 import domain.leader.LeaderUnitView;
 import domain.parttime.*;
 import domain.sys.SysUserView;
@@ -23,25 +21,15 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.abroad.*;
-import persistence.abroad.common.ApprovalResult;
-import persistence.abroad.common.ApprovalTdBean;
-import persistence.abroad.common.ApproverTypeBean;
-import persistence.cla.ClaAdditionalPostMapper;
-import persistence.cla.common.*;
-import persistence.parttime.*;
-import persistence.parttime.common.*;
-import service.BaseMapper;
-import service.abroad.ApproverBlackListService;
-import service.abroad.ApproverService;
-import service.abroad.ApproverTypeService;
+import persistence.parttime.common.ParttimeApplySearchBean;
+import persistence.parttime.common.ParttimeApprovalResult;
+import persistence.parttime.common.ParttimeApprovalTdBean;
+import persistence.parttime.common.ParttimeApproverTypeBean;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadrePostService;
 import service.cadre.CadreService;
-import service.cla.ClaAdditionalPostService;
-import service.cla.ClaApplyService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
@@ -61,10 +49,10 @@ import java.text.MessageFormat;
 import java.util.*;
 
 @Service
-public class ParttimeApplyService extends BaseMapper {
+public class ParttimeApplyService extends ParttimeBaseMapper {
+
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private ParttimeApplyMapper parttimeApplyMapper;
+
     @Autowired
     private CadreService cadreService;
     @Autowired
@@ -74,40 +62,13 @@ public class ParttimeApplyService extends BaseMapper {
     @Autowired
     private UserBeanService userBeanService;
     @Autowired
-    private ParttimeApplyModifyMapper parttimeApplyModifyMapper;
-    @Autowired
-    private ParttimeApproverTypeMapper parttimeApproverTypeMapper;
-    @Autowired
-    private ParttimeApproverBlackListMapper parttimeApproverBlackListMapper;
-    @Autowired
     private CadreCommonService cadreCommonService;
-    @Autowired
-    private ClaAdditionalPostService claAdditionalPostService;
-    @Autowired
-    private ParttimeApproverMapper parttimeApproverMapper;
-    @Autowired
-    private ParttimeApprovalLogMapper parttimeApprovalLogMapper;
-    @Autowired
-    private ParttimeApplyFileMapper parttimeApplyFileMapper;
-    @Autowired
-    private ParttimeApplicatCadreMapper parttimeApplicatCadreMapper;
-    @Autowired
-    private ParttimeApprovalOrderMapper parttimeApprovalOrderMapper;
     @Autowired
     private ParttimeApproverTypeService parttimeApproverTypeService;
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
-    private IParttimeMapper iParttimeMapper;
-    @Autowired
-    private ClaAdditionalPostMapper claAdditionalPostMapper;
-    @Autowired
     private CadrePostService cadrePostService;
-    @Autowired
-    private IClaMapper iClaMapper;
-
-
-
 
     public Map findApplyList(ParttimeApply parttimeApply, String applyTime, String parttime,
                              byte status,
@@ -394,14 +355,6 @@ public class ParttimeApplyService extends BaseMapper {
                                 && (mainPostBlackList.get(_cadre.getId()) == null))  // 排除本单位正职黑名单（不包括兼审单位正职）
                             _users.add(_cadre.getUser());
                     }
-
-                    List<CadreView> additionalPost = claAdditionalPostService.findAdditionalPost(unitId);
-                    for (CadreView _cadre : additionalPost) {
-                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
-                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
-                            _users.add(_cadre.getUser());
-                        }
-                    }
                 }
 
                 return _users;
@@ -684,16 +637,6 @@ public class ParttimeApplyService extends BaseMapper {
 
             if (BooleanUtils.isTrue(cadre.getIsPrincipal())) {
                 unitIds.add(cadre.getUnitId());
-            }
-        }
-        {
-            // 兼任职务所在单位
-            ClaAdditionalPostExample example = new ClaAdditionalPostExample();
-            example.createCriteria().andCadreIdEqualTo(cadre.getId());
-            List<ClaAdditionalPost> cPosts = claAdditionalPostMapper.selectByExample(example);
-            for (ClaAdditionalPost cPost : cPosts) {
-
-                unitIds.add(cPost.getUnitId());
             }
         }
 

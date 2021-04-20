@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
 <div class="tabbable" style="width: 800px;">
 	<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
 		<div style="margin-bottom: 8px">
@@ -18,10 +18,10 @@ pageEncoding="UTF-8"%>
 	<div class="tab-content">
 		<div class="tab-pane in active">
 			<form class="form-horizontal" action="${ctx}/user/parttime/parttimeApply_au" id="applyForm" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="id" value="${ParttimeApply.id}">
+				<input type="hidden" name="id" value="${parttimeApply.id}">
 				<input type="hidden" name="cadreId" value="${param.cadreId}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">兼职单位类别</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 兼职单位类别</label>
 					<div class="col-xs-6" style="margin-top:3px">
 						<select name="type" data-rel="select2" data-width="255"
 								data-placeholder="请选择" required>
@@ -37,14 +37,14 @@ pageEncoding="UTF-8"%>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-4 control-label">兼职单位及职务</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 兼职单位及职务</label>
 					<div class="col-xs-8">
-						<input required type="text" name="title" value="${parttimeApply.title}"  style="width: 255px" />
+						<textarea required name="title" class="form-control"  style="width: 255px" >${parttimeApply.title}</textarea>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-4 control-label">兼职开始日期</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 兼职开始日期</label>
 					<div class="col-xs-8">
 						<div class="input-group"  style="width: 255px">
 							<input required class="form-control  date-range-picker" data-rel="date-range-picker"
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-4 control-label">兼职结束日期</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 兼职结束日期</label>
 					<div class="col-xs-8">
 						<div class="input-group"  style="width: 255px">
 							<input required class="form-control date-range-picker" data-rel="date-range-picker"
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-4 control-label">首次/连任</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 首次/连任</label>
 					<div class="col-xs-8">
 						<div class="input-group">
 							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -98,21 +98,22 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">是否有国境外背景</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 是否有国境外背景</label>
 					<div class="col-xs-8">
 						<div class="input-group">
-							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-								<input required type="radio" name="background" id="no" value="0">
-								<label for="no">
-									否
-								</label>
-							</div>
 							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
 								<input required type="radio" name="background" id="yes" value="1">
 								<label for="yes">
 									是
 								</label>
 							</div>
+							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+								<input required type="radio" name="background" id="no" value="0">
+								<label for="no">
+									否
+								</label>
+							</div>
+
 							<c:if test="${parttimeApply!=null}">
 							<script>
 								var background = ${parttimeApply.background ? 1 : 0};
@@ -129,32 +130,22 @@ pageEncoding="UTF-8"%>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-4 control-label">是否取酬</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 是否取酬</label>
 					<div class="col-xs-8">
 						<div class="input-group">
 							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-								<input required type="radio" name="hasPay" id="notincome" value="0">
-								<label for="notincome">
-									否
-								</label>
-							</div>
-							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-								<input required type="radio" name="hasPay" id="income" value="1">
+								<input required type="radio" ${not empty parttimeApply && parttimeApply.hasPay?"checked":""} name="hasPay" id="income" value="1">
 								<label for="income">
 									是
 								</label>
 							</div>
-							<c:if test="${parttimeApply!=null}">
-							<script>
-								var hasPay = ${parttimeApply.hasPay ? 1 : 0};
-								var element = $("input[name=hasPay]");
-								for (var i in element) {
-									if (element[i].value == hasPay) {
-										$(element[i]).attr("checked", true);
-									}
-								}
-							</script>
-							</c:if>
+							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+								<input required type="radio" ${not empty parttimeApply && !parttimeApply.hasPay?"checked":""} name="hasPay" id="notincome" value="0">
+								<label for="notincome">
+									否
+								</label>
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -162,14 +153,14 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">取酬金额</label>
 					<div class="col-xs-8">
-						<input type="text" name="balance" value="${parttimeApply.balance}"  style="width: 255px" />
+						<input type="text" class="number" name="balance" value="${parttimeApply.balance}"  style="width: 255px" />
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="col-xs-4 control-label">申请理由</label>
 					<div class="col-xs-8">
-						<input type="text" name="reason" value="${parttimeApply.reason}"  style="width: 255px" />
+						<textarea name="reason" class="form-control"  style="width: 255px" >${parttimeApply.reason}</textarea>
 					</div>
 				</div>
 
@@ -244,7 +235,7 @@ pageEncoding="UTF-8"%>
 	function _delFile(id, name){
 
 		SysMsg.confirm("确定删除'"+name+"'吗？", "操作确认", function () {
-			$.post("${ctx}/user/Parttime/ParttimeApplyFile_del",{id:id},function(ret){
+			$.post("${ctx}/user/Parttime/parttimeApplyFile_del",{id:id},function(ret){
 				if(ret.success){
 					SysMsg.success("删除成功",'',function(){
 						$("#file"+id).remove();
@@ -265,63 +256,22 @@ pageEncoding="UTF-8"%>
 		$.fileInput(_file);
 		return false;
 	}
-	var tag_input = $('#form-field-tags');
-	try{
-		tag_input.tag(
-				{
-					placeholder:tag_input.attr('placeholder'),
-					//enable typeahead by specifying the source array
-					source: ${countryList}
-				}
-		)
-	} catch(e) {
-		//display a textarea for old IE, because it doesn't support this plugin or another one I tried!
-		tag_input.after('<textarea id="'+tag_input.attr('id')+'" name="'+tag_input.attr('name')+'" rows="3">'+tag_input.val()+'</textarea>').remove();
-		//autosize($('#form-field-tags'));
-	}
+
+	$("#applyForm input[name=hasPay]").change(function(){
+
+		var hasPay = $("#applyForm input[name=hasPay]:checked").val();
+		if(hasPay==1){
+			$("#applyForm input[name=balance]").requireField(true);
+		}else{
+			$("#applyForm input[name=balanc	e]").requireField(false);
+		}
+	})
 
 	$("#submitBtn").click(function(){$("#applyForm").submit();return false;});
     $("#applyForm").validate({
         submitHandler: function (form) {
 
-			var type = $("#applyForm select[name=type]").val();
-			if(type==''){
-				SysMsg.info("请选择兼职单位类别");
-				$("input[name=type]").val('').focus();
-				return;
-			}
-
-			var title = $("#applyForm input[name=title]").val();
-			if(title==''){
-				SysMsg.info("请填写兼职单位及职务");
-				$("input[name=title]").val('').focus();
-				return;
-			}
-			var startTime = $("#applyForm input[name=startTime]").val();
-			var endTime = $("#applyForm input[name=endTime]").val();
-			if (startTime == '' || endTime == '') {
-				SysMsg.info("请选择兼职开始日期和结束时间");
-				return;
-			}
-
-			var hasPay = $("#applyForm input[name=hasPay]:checked").val();
-			var balance = $("#applyForm input[name=balance]").val();
-			if (hasPay == 1) {
-				if (balance == '') {
-					SysMsg.info("请填写取酬金额");
-					$("input[name=balance]").val('').focus();
-					return;
-				}
-			} else if (hasPay == 0) {
-				if (balance != '' && balance > 0) {
-					SysMsg.info("未取酬时取酬金额应为0或空");
-					$("input[name=balance]").val('').focus();
-					return;
-				}
-			}
-
 			var $btn = $("#submitBtn").button('loading');
-			//setTimeout(function () { $btn.button('reset'); },1000);
             $(form).ajaxSubmit({
 				dataType:'json',
                 success:function(ret){

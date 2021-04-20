@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -11,35 +11,21 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._applyDate }"/>
             <div class="jqgrid-vertical-offset buttons">
-                <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/parttime/parttimeApply_au"><i
-                        class="fa fa-plus"></i> 兼职申报申请</a>
                 <a class="popupBtn btn btn-info btn-sm"
                    data-width="650"
                    data-url="${ctx}/hf_content?code=hf_parttime_apply_note">
                     <i class="fa fa-info-circle"></i> 申请说明</a>
-                <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                        data-url="${ctx}/user/parttime/parttimeApply_view"
-                        data-open-by="page">
-                    <i class="fa fa-info-circle"></i> 详情
-                </button>
-                <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                        data-url="${ctx}/parttime/parttimeApplyModify"
-                        data-id-name="applyId"
-                        data-open-by="page">
-                    <i class="fa fa-search"></i> 变更记录
-                </button>
-                <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm tooltip-info"
+                <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/parttime/parttimeApply_au"><i
+                        class="fa fa-plus"></i> 申请</a>
+                <button class="jqEditBtn btn btn-primary btn-sm tooltip-info"
                         data-url="${ctx}/user/parttime/parttimeApply_au"
-                        data-open-by="page"
-                        data-querystr="&edit=1"
-                        data-rel="tooltip" data-placement="bottom"
-                        title="当请假申请未审批或者初审未通过时，修改相关信息重新申请。">
-                    <i class="fa fa-edit"></i> 重新申请
+                        data-open-by="page">
+                    <i class="fa fa-edit"></i> 修改
                 </button>
                 <button id="abolishBtn" class="jqItemBtn btn btn-danger btn-sm"
                         data-url="${ctx}/user/parttime/parttimeApply_del" data-title="撤销申请"
                         data-msg="确定撤销该申请吗？">
-                    <i class="fa fa-trash"></i> 撤销申请
+                    <i class="fa fa-trash"></i> 撤销
                 </button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -73,23 +59,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                        <%--                                                                            <div class="col-xs-4">--%>
-                                        <%--                                                                                <div class="form-group">--%>
-                                        <%--                                                                                    <label class="col-xs-4 control-label">类别</label>--%>
-                                        <%--                                                                                    <div class="col-xs-6">--%>
-                                        <%--                                                                                        <select name="type" data-rel="select2" data-placeholder="请选择">--%>
-                                        <%--                                                                                            <option></option>--%>
-                                        <%--                                                                                            <c:forEach items="${Parttime_APPLY_TYPE_MAP}" var="type">--%>
-                                        <%--                                                                                                <option value="${type.key}">${type.value}</option>--%>
-                                        <%--                                                                                            </c:forEach>--%>
-                                        <%--                                                                                        </select>--%>
-                                        <%--                                                                                        <script>--%>
-                                        <%--                                                                                            $("#searchForm select[name=type]").val('${param.type}');--%>
-                                        <%--                                                                                        </script>--%>
-                                        <%--                                                                                    </div>--%>
-                                        <%--                                                                                </div>--%>
-                                        <%--                                                                            </div>--%>
-
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -122,10 +91,7 @@
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
-        //forceFit:true,
-        ondblClickRow: function (rowid, iRow, iCol, e) {
-            $(".jqOpenViewBtn").click();
-        },
+
         url: '${ctx}/user/parttime/parttimeApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
@@ -149,48 +115,15 @@
                     return processTdBean(tdBean)
                 }
             },
-            <%--            <c:forEach items="${approverTypeMap}" var="type">--%>
-            <%--            { label:'${type.value.name}审批', name: 'approver${type.key}', width: 150,--%>
-            <%--                cellattr:function(rowId, val, rowObject, cm, rdata) {--%>
-            <%--                    var tdBean = rowObject.approvalTdBeanMap['${type.key}'];--%>
-            <%--                    if(tdBean!=undefined && tdBean.tdType==2)--%>
-            <%--                        return "class='not_approval'"--%>
-            <%--                }, formatter:function(cellvalue, options, rowObject){--%>
-            <%--                var tdBean = rowObject.approvalTdBeanMap['${type.key}'];--%>
-            <%--                return processTdBean(tdBean)--%>
-            <%--            } },--%>
-            <%--            </c:forEach>--%>
             {
-                label: '审批', name: 'approver', width: 150, align: 'left',
-                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                label: '审批', name: 'approver', width: 90,
+                formatter: function (cellvalue, options, rowObject) {
 
-                }, formatter: function (cellvalue, options, rowObject) {
-                    var list = ${cm:toJSONObject(approverTypeMap)};
-                    var approvalStr = "";
-                    for (var index in list) {
-                        var tdBean = rowObject.approvalTdBeanMap[list[index].id];
-                        var res = processTdBean(tdBean);
-                        //正职
-                        var record = list[index];
-                        if (rowObject.cadre.isPrincipal) {
-                            if (record.type == ${PARTTIME_APPROVER_TYPE_LEADER}) {
-                                approvalStr += record.name + " : " + res + '<br/>';
-                            }
-                        } else {
-                            //副职
-                            if (record.type == ${PARTTIME_APPROVER_TYPE_UNIT}) {
-                                approvalStr += record.name + " : " + res + '<br/>';
-                            }
-                        }
-                        if (rowObject.background) {
-                            if (record.type == ${PARTTIME_APPROVER_TYPE_FOREIGN}) {
-                                approvalStr += record.name + " : " + res + '<br/>';
-                            }
-                        }
-                    }
-                    return approvalStr;
-                }, classes: 'can-wrap'
+                    return ('<button data-url="${ctx}/parttime/parttimeApply_view?id={0}" class="openView btn btn-warning btn-xs">'
+                               + '<i class="fa fa-info-circle"></i> 详情</button>').format(rowObject.id);
+                }
             },
+
             {
                 label: '组织部终审', name: 'approver0', cellattr: function (rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap[0];
@@ -224,18 +157,7 @@
                     else return '--'
                 }
             }
-        ],
-        onSelectRow: function (id, status) {
-            saveJqgridSelected("#" + this.id);
-            var data = $(this).getRowData(id);
-            //console.log(status + "  " +  data.isFinish + "  " +  data.isAgreed + "  " + (data.isAgreed==0))
-
-            //$("#editBtn").prop("disabled",status &&data.isFinish==1&&data.isAgreed!=0)
-            var firstType = data.firstType;
-            //console.log(firstType)
-            $("#abolishBtn").prop("disabled", status && firstType != 3 && firstType != 4);
-            $("#editBtn").prop("disabled", status && firstType != 3 && firstType != 4 && firstType != 5)
-        }
+        ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 

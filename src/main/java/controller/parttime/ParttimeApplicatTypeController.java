@@ -30,7 +30,7 @@ import java.util.*;
 @Controller
 public class ParttimeApplicatTypeController extends ParttimeBaseController {
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApplicatType")
     public String parttimeApplicatType(HttpServletResponse response,
                                            @SortParam(required = false, defaultValue = "sort_order", tableName = "parttime_applicat_type") String sort,
@@ -97,7 +97,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
     }
 
     // 查看某类申请人身份下的干部
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApplicatType/selectCadres")
     public String selectCadres(int id, ModelMap modelMap) throws IOException {
 
@@ -107,7 +107,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
     }
 
     // 更新某类申请人身份下的干部
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
     public Map selectCadres(Integer id, Integer[] cadreIds) {
@@ -116,7 +116,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApplicatType_au")
     public String parttimeApplicatType_au(Integer id, ModelMap modelMap) {
 
@@ -128,7 +128,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
     }
 
     // 查询还没有分配申请人身份的干部
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApplicatType/selectCadresEscape")
     public String selectCadresEscape() throws IOException {
 
@@ -136,7 +136,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
     }
 
     // 查询还没有分配申请人身份的干部
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApplicatType/selectCadresEscape_tree")
     @ResponseBody
     public Map selectCadresEscape_tree() throws IOException {
@@ -160,7 +160,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType_au", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApplicatType_au(ParttimeApplicatType record, HttpServletRequest request) {
@@ -182,7 +182,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType_del", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApplicatType_del(HttpServletRequest request, Integer id) {
@@ -194,7 +194,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApplicatType_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -208,7 +208,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApplicatType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -219,7 +219,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
     }
 
     // 查看某类申请人身份下的干部
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApplicatType/selectCadres_tree")
     @ResponseBody
     public Map selectCadres_tree(int id) throws IOException {
@@ -235,7 +235,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttime/parttimeApprovalOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApprovalOrder(Integer approverTypeId, Integer applicatTypeId) {
@@ -252,7 +252,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttime/parttimeApprovalOrder")
     public String parttimeApprovalOrder(int id, Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -288,7 +288,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return "parttime/parttimeApplicatType/parttimeApproval_order";
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType/parttimeApprovalOrder_del", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApprovalOrder_del(int id) {
@@ -297,7 +297,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApplicatType/parttimeApprovalOrder_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApprovalOrder_changeOrder(int applicatTypeId, Integer id, Integer addNum, HttpServletRequest request) {

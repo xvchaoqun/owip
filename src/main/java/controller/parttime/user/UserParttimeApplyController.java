@@ -182,12 +182,6 @@ public class UserParttimeApplyController extends ParttimeBaseController {
         for (MultipartFile _file : _files) {
 
             String originalFilename = _file.getOriginalFilename();
-            /*String fileName = UUID.randomUUID().toString();
-            String realPath =  FILE_SEPARATOR
-                    + "cla_apply" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
 
             String savePath = upload(_file, "parttime_apply");
 
@@ -217,13 +211,10 @@ public class UserParttimeApplyController extends ParttimeBaseController {
             parttimeApplyMapper.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CLA, "提交干部请假申请：%s", record.getId()));
 
-            // 给干部管理员发消息提醒
-            parttimeShortMsgService.sendApplySubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
-
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
-                    "提交干部请假申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY,
+                    "提交干部兼职申报申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(record, MixinUtils.baseMixins(), false));
         }else{
 
@@ -247,7 +238,7 @@ public class UserParttimeApplyController extends ParttimeBaseController {
 
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY,
                     "修改兼职申报申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(parttimeApply, MixinUtils.baseMixins(), false));
         }
@@ -287,7 +278,7 @@ public class UserParttimeApplyController extends ParttimeBaseController {
     @RequestMapping("/parttimeApply_au")
     public String parttimeApply_au(Integer cadreId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_COMPANYAPPLY)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

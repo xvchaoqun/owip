@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
 <div class="tabbable">
   <ul class="preview title nav nav-tabs padding-12 tab-color-blue background-blue" style="padding-right: 20px">
 
@@ -68,7 +68,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="5" class="bg-left">兼职时间： ${cm:formatDate(parttimeApply.startTime, "yyyy年 MM月 dd日  HH:mm")}  至  ${cm:formatDate(parttimeApply.endTime, "yyyy年 MM月 dd日  HH:mm")}</td>
+          <td colspan="5" class="bg-left">兼职时间： ${cm:formatDate(parttimeApply.startTime, "yyyy年 MM月 dd日")}  至  ${cm:formatDate(parttimeApply.endTime, "yyyy年 MM月 dd日")}</td>
         </tr>
         <tr>
           <td class="bg-right">是否有国境外背景</td>

@@ -63,6 +63,10 @@ public class ParttimeConstants {
     public final static int PARTTIME_APPROVER_TYPE_ID_OD_FIRST = -1; // 初审管理员，伪ID
     public final static int PARTTIME_APPROVER_TYPE_ID_OD_LAST = 0; // 终审管理员，伪ID
 
+    // 管理员审批类型，0初审，1终审（type_id为null时）
+    public final static byte PARTTIME_APPROVER_LOG_OD_TYPE_FIRST = 0;
+    public final static byte PARTTIME_APPROVER_LOG_OD_TYPE_LAST = 1;
+
     //是否首次
     public final static byte PARTTIME_IS_FIRST = 0;
     public final static byte PARTTIME_NO_IS_FIRST = 1;

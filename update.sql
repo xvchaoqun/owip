@@ -1,10 +1,12 @@
 
+20210419
+-- 哈工大
 ALTER TABLE `ow_member_apply`
 	CHANGE COLUMN `sponsor_user_ids` `sponsor_user_ids` VARCHAR(50) NULL DEFAULT NULL COMMENT '入党介绍人，1##userId,0##张三，1：校内 0：校外 ' COLLATE 'utf8_general_ci' AFTER `candidate_status`;
 
 
 20210419
--- 大工、北师大、哈工大
+-- 大工、北师大
 
 ALTER TABLE `ow_branch_member_group`
 	CHANGE COLUMN `tran_time` `tran_time` DATE NULL DEFAULT NULL COMMENT '应换届时间，任命时间基础上自动加3年' AFTER `name`;

@@ -10,10 +10,10 @@ public class ParttimeBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected IParttimeMapper iParttimeMapper;
 
+     @Autowired
+    protected ParttimeApplyMapper parttimeApplyMapper;
     @Autowired
     protected ParttimeApplicatTypeMapper parttimeApplicatTypeMapper;
-    @Autowired
-    protected ParttimeApplyMapper parttimeApplyMapper;
     @Autowired
     protected ParttimeApprovalLogMapper parttimeApprovalLogMapper;
     @Autowired
@@ -22,4 +22,12 @@ public class ParttimeBaseMapper extends CoreBaseMapper {
     protected ParttimeApplyModifyMapper parttimeApplyModifyMapper;
     @Autowired
     protected ParttimeApproverTypeMapper parttimeApproverTypeMapper;
+    @Autowired
+    protected ParttimeApproverBlackListMapper parttimeApproverBlackListMapper;
+    @Autowired
+    protected ParttimeApproverMapper parttimeApproverMapper;
+    @Autowired
+    protected ParttimeApplicatCadreMapper parttimeApplicatCadreMapper;
+    @Autowired
+    protected ParttimeApprovalOrderMapper parttimeApprovalOrderMapper;
 }
