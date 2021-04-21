@@ -133,19 +133,23 @@ public class ParttimeApprovalLogService {
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
             record.setOdType(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_FIRST); // 初审
-            if (!pass) { // 不通过，退回申请
-                ParttimeApply apply = new ParttimeApply();
-                apply.setId(applyId);
-                apply.setStatus(false); // 退回
-                apply.setApprovalRemark(remark);
-                //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。
-                // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
-                apply.setIsFinish(true);
-                parttimeApplyService.doApproval(apply);
-            }
+        }
+        if (!pass) { // 不通过，退回申请
+            ParttimeApply apply = new ParttimeApply();
+            apply.setId(applyId);
+            apply.setStatus(false); // 退回
+            apply.setApprovalRemark(remark);
+            apply.setIsAgreed(false);
+            apply.setIsFinish(true);
+            parttimeApplyService.doApproval(apply);
         }
         if (approvalTypeId == 0) {
             record.setOdType(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST); // 终审
+            ParttimeApply apply = new ParttimeApply();
+            apply.setId(applyId);
+            apply.setIsFinish(true);
+            apply.setIsAgreed(pass);
+            parttimeApplyService.doApproval(apply);
         }
         record.setStatus(pass);
         record.setRemark(remark);

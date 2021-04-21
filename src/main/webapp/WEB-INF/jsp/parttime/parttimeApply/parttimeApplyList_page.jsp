@@ -91,7 +91,6 @@
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/parttime/parttimeApplyList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -108,6 +107,7 @@
             </c:if>
             {
                 label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {
+                    console.log(rowObject)
                 return "L{0}".format(rowObject.id);
             }, frozen: true
             },

@@ -149,7 +149,6 @@
 
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-
     $("#jqGrid").jqGrid({
         url: '${ctx}/parttime/parttimeApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -217,6 +216,13 @@
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     return approverTdAttrs(tdBean);
                 }, formatter: function (cellvalue, options, rowObject) {
+                    var map = rowObject.approvalTdBeanMap;
+                    for (var i in map) {
+                        var m = map[i];
+                        if (m.tdType == 5 && m.approvalTypeId != 0) {
+                            return "--";
+                        }
+                    }
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     return processTdBean(tdBean)
                 }

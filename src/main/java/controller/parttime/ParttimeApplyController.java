@@ -293,16 +293,16 @@ public class ParttimeApplyController extends ParttimeBaseController {
         }
         modelMap.put("needExport", needExport);
 
-        return "parttime/user/parttimeApply_view";
+        return "parttime/user/parttimeApply/parttimeApply_view";
     }
 
     @RequiresPermissions("parttimeApply:download")
     @RequestMapping("/parttime/parttimeApply_download")
-    public void claApply_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void parttimeApply_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ParttimeApplyFile pApplyFile = parttimeApplyFileMapper.selectByPrimaryKey(id);
 
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)) { // 干部管理员有下载权限
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
             Integer applyId = pApplyFile.getApplyId();
@@ -333,11 +333,11 @@ public class ParttimeApplyController extends ParttimeBaseController {
     @RequiresPermissions("parttimeApply:view")
     @RequestMapping("/parttime/parttimeApply_yearLogs_data")
     @ResponseBody
-    public void claApply_yearLogs_data(@CurrentUser SysUserView loginUser, Integer cadreId, Integer year,
+    public void parttimeApply_yearLogs_data(@CurrentUser SysUserView loginUser, Integer cadreId, Integer year,
                                        Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -405,7 +405,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         if (null != ids && ids.length > 0) {
             parttimeApplyService.doBatchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CLA, "批量删除[真删除]兼职申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "批量删除[真删除]兼职申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -437,7 +437,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         //int userId = ShiroHelper.getCurrentUserId();
         if(BooleanUtils.isTrue(isAdmin)){
-            ShiroHelper.checkPermission(RoleConstants.PERMISSION_CLAADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
         }else{

@@ -33,7 +33,10 @@ import service.cadre.CadreService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.constants.*;
+import sys.constants.CadreConstants;
+import sys.constants.ContentTplConstants;
+import sys.constants.ParttimeConstants;
+import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.spring.DateRange;
 import sys.tags.CmTag;
@@ -88,6 +91,7 @@ public class ParttimeApplyService extends ParttimeBaseMapper {
             criteria.andStatusEqualTo(true);
             criteria.andIsDeletedEqualTo(false);
             criteria.andIsFinishEqualTo(false);
+            criteria.andIsAgreedIsNull();
         }
         //同意申请
         if (status == 1) {
@@ -159,7 +163,7 @@ public class ParttimeApplyService extends ParttimeBaseMapper {
     @Async
     public void sendApplySubmitMsgToCadreAdmin(int applyId, String ip){
 
-        ParttimeApplyService claApplyService = ApplicationContextSupport.getContext().getBean(ParttimeApplyService.class);
+        ParttimeApplyService parttimeApplyService = ApplicationContextSupport.getContext().getBean(ParttimeApplyService.class);
         ParttimeApply parttimeApply = get(applyId);
         SysUserView applyUser = parttimeApply.getUser();
 
@@ -394,9 +398,9 @@ public class ParttimeApplyService extends ParttimeBaseMapper {
         ParttimeApprovalLogExample example = new ParttimeApprovalLogExample();
         ParttimeApprovalLogExample.Criteria criteria = example.createCriteria().andApplyIdEqualTo(applySefId);
         if(approverTypeId==-1){
-            criteria.andTypeIdIsNull().andOdTypeEqualTo(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_FIRST);
+            criteria.andTypeIdIsNull().andOdTypeEqualTo(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_FIRST);
         }else if(approverTypeId==0){
-            criteria.andTypeIdIsNull().andOdTypeEqualTo(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_LAST);
+            criteria.andTypeIdIsNull().andOdTypeEqualTo(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST);
         }else{
             criteria.andTypeIdEqualTo(approverTypeId);
         }
@@ -439,10 +443,10 @@ public class ParttimeApplyService extends ParttimeBaseMapper {
     public Map<Integer, ParttimeApproverType> findAll() {
         ParttimeApproverTypeExample example = new ParttimeApproverTypeExample();
         example.setOrderByClause("sort_order desc");
-        List<ParttimeApproverType> claApproverTypees = parttimeApproverTypeMapper.selectByExample(example);
+        List<ParttimeApproverType> parttimeApproverTypees = parttimeApproverTypeMapper.selectByExample(example);
         Map<Integer, ParttimeApproverType> map = new LinkedHashMap<>();
-        for (ParttimeApproverType claApproverType : claApproverTypees) {
-            map.put(claApproverType.getId(), claApproverType);
+        for (ParttimeApproverType parttimeApproverType : parttimeApproverTypees) {
+            map.put(parttimeApproverType.getId(), parttimeApproverType);
         }
         return map;
     }

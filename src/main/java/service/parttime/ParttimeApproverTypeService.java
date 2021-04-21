@@ -1,9 +1,13 @@
 package service.parttime;
 
 import domain.base.MetaType;
+import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.parttime.*;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,9 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
+import service.cla.ClaAdditionalPostService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import sys.constants.CadreConstants;
 import sys.constants.ParttimeConstants;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -153,6 +160,15 @@ public class ParttimeApproverTypeService extends ParttimeBaseMapper {
         return null;
     }
 
+    // 获得其他身份
+    public ParttimeApproverType getOtherApproverType(){
+        ParttimeApproverTypeExample example = new ParttimeApproverTypeExample();
+        example.createCriteria().andTypeEqualTo(ParttimeConstants.PARTTIME_APPROVER_TYPE_FOREIGN);
+        List<ParttimeApproverType> approverTypes = parttimeApproverTypeMapper.selectByExample(example);
+        if(approverTypes.size()>0) return approverTypes.get(0);
+        return null;
+    }
+
     @Cacheable(value="ParttimeApproverBlackList", key = "#approverTypeId")
     public Map<Integer, ParttimeApproverBlackList> findAllBlackList(int approverTypeId) {
 
@@ -228,6 +244,42 @@ public class ParttimeApproverTypeService extends ParttimeBaseMapper {
         }
     }
 
+    public static class CadrePostBean {
+        private int cadreId;
+        private int postId;
+        public boolean additional;
+
+        public CadrePostBean(int cadreId, int postId, boolean additional) {
+            this.cadreId = cadreId;
+            this.postId = postId;
+            this.additional = additional;
+        }
+
+        public int getCadreId() {
+            return cadreId;
+        }
+
+        public void setCadreId(int cadreId) {
+            this.cadreId = cadreId;
+        }
+
+        public int getPostId() {
+            return postId;
+        }
+
+        public void setPostId(int postId) {
+            this.postId = postId;
+        }
+
+        public boolean isAdditional() {
+            return additional;
+        }
+
+        public void setAdditional(boolean additional) {
+            this.additional = additional;
+        }
+    }
+
     public TreeNode getMainPostCadreTree() {
         TreeNode root = new TreeNode();
         root.title = "现任干部库";
@@ -238,14 +290,71 @@ public class ParttimeApproverTypeService extends ParttimeBaseMapper {
         root.children = rootChildren;
 
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-
+        Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
+        for (Cadre cadre : cadreService.getCadres()) {
+            CadreView cv = CmTag.getCadreById(cadre.getId());
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                    && BooleanUtils.isTrue(cv.getIsPrincipal())) {
+                List<CadrePostBean> list = null;
+                Integer unitId = cv.getUnitId();
+                if (unitIdCadresMap.containsKey(unitId)) {
+                    list = unitIdCadresMap.get(unitId);
+                }
+                if (null == list) list = new ArrayList<>();
+                CadrePostBean bean = new CadrePostBean(cadre.getId(), cv.getPostType(), false);
+                list.add(bean);
+                unitIdCadresMap.put(unitId, list);
+            }
+        }
 
         // 排序
         Map<Integer, Unit> unitMap = unitService.findAll();
+        Map<String, List<CadrePostBean>> unitCadresMap = new LinkedHashMap<>();
+        for (Unit unit : unitMap.values()) {
+            if (unitIdCadresMap.containsKey(unit.getId()))
+                unitCadresMap.put(unit.getName(), unitIdCadresMap.get(unit.getId()));
+        }
 
         ParttimeApproverType mainPostApproverType = getMainPostApproverType();
         Map<Integer, ParttimeApproverBlackList> blackListMap = findAllBlackList(mainPostApproverType.getId());
+        for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
 
+            List<CadrePostBean> entryValue = entry.getValue();
+            TreeNode titleNode = new TreeNode();
+
+            titleNode.isFolder = true;
+            titleNode.hideCheckbox = true;
+            titleNode.unselectable = true;
+            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+            titleNode.children = titleChildren;
+
+            int blackCount = 0;
+            for (CadrePostBean bean : entryValue) {
+
+                int cadreId = bean.getCadreId();
+                TreeNode node = new TreeNode();
+                CadreView cadre = CmTag.getCadreById(cadreId);
+                SysUserView uv = sysUserService.findById(cadre.getUserId());
+                node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName();
+                if (bean.additional) {
+                    node.unselectable = true;
+                } else {
+                    node.key = cadreId + "";
+                }
+                node.select = true;
+
+                // 本单位正职黑名单
+                if (blackListMap.get(cadreId) != null) {
+                    node.select = false;
+                    blackCount++;
+                }
+                titleChildren.add(node);
+            }
+            int selectCount = entryValue.size() - blackCount;
+            titleNode.title = entry.getKey() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + ")";
+            rootChildren.add(titleNode);
+        }
         return root;
     }
 

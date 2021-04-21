@@ -72,7 +72,7 @@
 						if(!node.data.isFolder && !node.data.unselectable && !node.isSelected()) {
 							cadreIds.push(node.data.key);
 						}
-                        console.log(cadreIds)
+
 					});
 					</c:if>
 					$(form).ajaxSubmit({

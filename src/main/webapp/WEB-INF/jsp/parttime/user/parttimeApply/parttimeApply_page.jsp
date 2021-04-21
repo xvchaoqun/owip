@@ -126,10 +126,19 @@
 
             {
                 label: '组织部终审', name: 'approver0', cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    // var map = rowObject.approvalTdBeanMap;
+
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     if (tdBean != undefined && tdBean.tdType == 2)
                         return "class='not_approval'"
                 }, formatter: function (cellvalue, options, rowObject) {
+                    var map = rowObject.approvalTdBeanMap;
+                    for (var i in map) {
+                        var m = map[i];
+                        if (m.tdType == 5 && m.approvalTypeId != 0) {
+                            return "--";
+                        }
+                    }
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     return processTdBean(tdBean)
                 }

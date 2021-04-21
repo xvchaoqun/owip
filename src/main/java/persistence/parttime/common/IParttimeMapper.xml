@@ -23,7 +23,7 @@
                 <if test="approverTypeUnitIdListMap != null">or</if>
                 <!--根据后台设定的审批身份顺序，则查询当前操作人的职务属性所属身份可以审批的记录-->
                 <foreach collection="approverTypeCadreIdListMap" index="approverTypeId" item="cadreIdList" separator="or">
-                    (aas.flow_node = #{approverTypeId} and bc.id in
+                    (aas.flow_node = #{approverTypeId} and bc.post_type in
                     <foreach collection="cadreIdList" item="cadreId" separator="," open="(" close=")">
                         #{cadreId}
                     </foreach>

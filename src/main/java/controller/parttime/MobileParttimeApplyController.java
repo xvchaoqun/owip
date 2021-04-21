@@ -119,7 +119,7 @@ public class MobileParttimeApplyController extends ParttimeBaseController {
         Integer cadreId = parttimeApply.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if(cadre.getId().intValue()!=cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();

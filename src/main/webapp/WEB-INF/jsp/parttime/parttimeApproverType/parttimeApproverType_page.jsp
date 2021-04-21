@@ -39,7 +39,7 @@ pageEncoding="UTF-8" %>
                     <c:forEach items="${approverTypes}" var="approverType" varStatus="st">
                         <tr>
 								<td>${approverType.name}</td>
-								<td>${CADRE_APPROVER_TYPE_MAP.get(approverType.type)}</td>
+								<td>${PARTTIME_APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
                                     <c:if test="${approverType.type==CADRE_APPROVER_TYPE_UNIT || approverType.type==CADRE_APPROVER_TYPE_LEADER}">
                                         <button data-url="${ctx}/parttimeApproverType/selectCadres?type=${approverType.type}"

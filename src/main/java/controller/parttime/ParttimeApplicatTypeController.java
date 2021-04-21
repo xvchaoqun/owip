@@ -172,11 +172,11 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
         }
         if (id == null) {
             parttimeApplicatTypeService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CLA, "添加申请人身份：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "添加申请人身份：%s", record.getId()));
         } else {
 
             parttimeApplicatTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_CLA, "更新申请人身份：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "更新申请人身份：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -214,7 +214,7 @@ public class ParttimeApplicatTypeController extends ParttimeBaseController {
     public Map parttimeApplicatType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         parttimeApplicatTypeService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_CLA, "申请人身份调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "申请人身份调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

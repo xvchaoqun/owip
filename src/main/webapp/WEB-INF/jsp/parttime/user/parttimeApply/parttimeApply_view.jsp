@@ -18,11 +18,11 @@
       </div>
       <div class="buttons pull-right">
 
-      <%--  <c:if test="${needExport}">
-        <button class="linkBtn btn btn-primary btn-sm"
-                data-url="${ctx}/cla/claApply_export?applyId=${claApply.id}">
+<%--      <c:if test="${needExport}">--%>
+        <button class="downloadBtn btn btn-primary btn-sm"
+                data-url="${ctx}/parttime/parttimeApply_export?applyId=${parttimeApply.id}">
           <i class="fa fa-file-excel-o"></i>  导出</button>
-        </c:if>--%>
+<%--        </c:if>--%>
         <button class="openView btn btn-info btn-sm"
                 data-url="${ctx}/parttime/parttimeApply_yearLogs?id=${parttimeApply.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
                 style="margin-left: 10px">
