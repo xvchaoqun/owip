@@ -101,7 +101,6 @@
             <c:if test="${status==0}">
             {
                 label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
-                console.log(rowObject)
                     return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
             }, frozen: true},
             </c:if>
@@ -148,6 +147,13 @@
                         return "class='not_approval'"
                 },
                 formatter: function (cellvalue, options, rowObject) {
+                    var map = rowObject.approvalTdBeanMap;
+                    for (var i in map) {
+                        var m = map[i];
+                        if (m.tdType == 5 && m.approvalTypeId != 0) {
+                            return "--";
+                        }
+                    }
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     return processTdBean(tdBean)
                 }

@@ -487,7 +487,7 @@ public class ParttimeApplyService extends ParttimeBaseMapper {
                 String[] _approverTypeIds = flowNodes.split(",");
                 if (_approverTypeIds.length > 0) {
                     for (String _approverTypeId : _approverTypeIds) {
-                        if (StringUtils.isBlank(_approverTypeId)) continue;
+                        if (StringUtils.isBlank(_approverTypeId) || _approverTypeId == null) continue;
                         int approverTypeId = Integer.valueOf(_approverTypeId);
                         if (approverTypeId > 0) {
                             needApprovalTypeSet.add(approverTypeId);

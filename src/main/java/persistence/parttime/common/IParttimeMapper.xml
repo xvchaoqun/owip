@@ -49,7 +49,7 @@
     </sql>
 
     <sql id="Where_hasApprovalList">
-        where aas.is_deleted=0 and aas.cadre_id=bc.id and aas.status=1
+        where aas.is_deleted=0 and aas.cadre_id=bc.id and aas.status = 1
         and (
         concat(',',aas.flow_users,',') like '%,${flowUserId},%'
         <if test="approverTypeUnitIdListMap != null">
@@ -65,7 +65,7 @@
         <if test="approverTypeCadreIdListMap != null">
             or
             <foreach collection="approverTypeCadreIdListMap" index="approverTypeId" item="cadreIdList" separator="or">
-                (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.id in
+                (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.post_type in
                 <foreach collection="cadreIdList" item="cadreId" separator="," open="(" close=")">
                     #{cadreId}
                 </foreach>

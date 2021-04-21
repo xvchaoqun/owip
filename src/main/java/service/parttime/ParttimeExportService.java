@@ -54,7 +54,8 @@ public class ParttimeExportService extends ParttimeBaseMapper {
         parttimeApprovalLogExample.setOrderByClause("create_time desc");
         parttimeApprovalLogExample.createCriteria().andApplyIdEqualTo(parttimeApply.getId());
         List<ParttimeApprovalLog> list2 = parttimeApprovalLogMapper.selectByExample(parttimeApprovalLogExample);
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        dataMap.put("applyDate", simpleDateFormat.format(parttimeApply.getApplyTime()));
         if (cadreView != null) {
             SysUserView sysUserView = cadreView.getUser();
             String userName = sysUserView.getRealname();
@@ -63,7 +64,7 @@ public class ParttimeExportService extends ParttimeBaseMapper {
             dataMap.put("code", code);
             dataMap.put("sex", sysUserView.getGender() == 1 ? "男" : "女");
             dataMap.put("idCard", sysUserView.getIdcard());
-            dataMap.put("phone", sysUserView.getPhone());
+            dataMap.put("phone", cadreView.getMobile());
             dataMap.put("isFirst", parttimeApply.getIsFirst() ? "是" : "否");
             dataMap.put("background", parttimeApply.getBackground() ? "是" : "否");
             dataMap.put("hasPay", parttimeApply.getHasPay() ? "是": "否");
@@ -74,16 +75,17 @@ public class ParttimeExportService extends ParttimeBaseMapper {
                 dataMap.put("files", list.get(0).getFileName());
             }
             dataMap.put("username", userName);
+            dataMap.put("title", cadreView.getTitle());
+            dataMap.put("level", CmTag.getMetaType(cadreView.getAdminLevel()).getName());
         }
 
         Map<Integer, ParttimeApproverType> map = parttimeApproverTypeService.findAll();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
         for (ParttimeApprovalLog parttimeApprovalLog: list2) {
-            System.out.println(parttimeApprovalLog.getTypeId());
             if (parttimeApprovalLog != null) {
                 String remark = parttimeApprovalLog.getRemark();
                 SysUserView sysUserView = sysUserService.findById(parttimeApprovalLog.getUserId());
                 Integer typeId = parttimeApprovalLog.getTypeId();
+                boolean status = parttimeApprovalLog.getStatus();
                 if (typeId != null) {
                     String name = map.get(typeId).getName();
                     if (StringUtils.isNotBlank(name)) {
@@ -91,26 +93,30 @@ public class ParttimeExportService extends ParttimeBaseMapper {
                             dataMap.put("approvalOrganze", remark);
                             dataMap.put("approvalOrganzeUser", sysUserView.getRealname());
                             dataMap.put("approvalOrganzeDate", simpleDateFormat.format(parttimeApprovalLog.getCreateTime()));
+                            dataMap.put("approvalOrganzeResult", status ? "通过" : "未通过");
                         } else if (name.equals(ParttimeConstants.PARTTIME_APPROVER_TYPE_MAP.get(ParttimeConstants.PARTTIME_APPROVER_TYPE_FOREIGN))) {
                             dataMap.put("approvalForign", remark);
                             dataMap.put("approvalForignUser", sysUserView.getRealname());
                             dataMap.put("approvalForignDate", simpleDateFormat.format(parttimeApprovalLog.getCreateTime()));
+                            dataMap.put("approvalForignResult", status ? "通过" : "未通过");
                         } else if (name.equals(ParttimeConstants.PARTTIME_APPROVER_TYPE_MAP.get(ParttimeConstants.PARTTIME_APPROVER_TYPE_LEADER))) {
                             dataMap.put("approvalLeader", remark);
                             dataMap.put("approvalLeaderUser", sysUserView.getRealname());
                             dataMap.put("approvalLeaderDate", simpleDateFormat.format(parttimeApprovalLog.getCreateTime()));
+                            dataMap.put("approvalLeaderResult", status ? "通过" : "未通过");
                         }
                     }
                 }
-
                 if (parttimeApprovalLog.getOdType() == ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_FIRST) {
                     dataMap.put("approvalFirst", remark);
                     dataMap.put("approvalFirstUser", sysUserView.getRealname());
                     dataMap.put("approvalFirstDate", simpleDateFormat.format(parttimeApprovalLog.getCreateTime()));
+                    dataMap.put("approvalFirstResult", status ? "通过" : "未通过");
                 } else if (parttimeApprovalLog.getOdType() == ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST) {
                     dataMap.put("approvalEnd", remark);
                     dataMap.put("approvalEndUser", sysUserView.getRealname());
                     dataMap.put("approvalEndDate", simpleDateFormat.format(parttimeApprovalLog.getCreateTime()));
+                    dataMap.put("approvalEndResult", status ? "通过" : "未通过");
                 }
             }
         }

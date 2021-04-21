@@ -1428,6 +1428,128 @@
                         </w:p>
                     </w:tc>
                 </w:tr>
+
+                <w:tr wsp:rsidR="008423E6" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                    <w:trPr>
+                        <w:trHeight w:val="454"/>
+                        <w:jc w:val="center"/>
+                    </w:trPr>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="1129" w:type="dxa"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>工作单位及职务</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="2977" w:type="dxa"/>
+                            <w:gridSpan w:val="4"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${title!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="2977" w:type="dxa"/>
+                            <w:gridSpan w:val="4"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>行政级别</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="2268" w:type="dxa"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${level!}</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                </w:tr>
+
+
                 <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
@@ -2145,7 +2267,16 @@
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>${username!}</w:t>
+                                <w:t>${username!}        </w:t>
+                            </w:r>
+
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>申请日期：${applyDate!}</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
@@ -2245,6 +2376,54 @@
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
+
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:wordWrap w:val="off"/>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:ind w:right="420"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>审批</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>结果：     </w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${approvalFirstResult!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>            </w:t>
+                            </w:r>
+                        </w:p>
+
                         <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:wordWrap w:val="off"/>
@@ -2338,7 +2517,7 @@
                                 <w:t>院级党组织意见：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2396,6 +2575,89 @@
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:wordWrap w:val="off"/>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:ind w:right="420"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>审批</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>结果：     </w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${approvalOrganzeResult!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>            </w:t>
+                            </w:r>
+                        </w:p>
+
+                        <w:p wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>负责人签字：   </w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${approvalOrganzeUser!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                        </w:p>
                         <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:wordWrap w:val="off"/>
@@ -2413,49 +2675,10 @@
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>负责人签字：     </w:t>
+                                <w:t>  </w:t>
                             </w:r>
                             <w:proofErr w:type="spellStart"/>
                             <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${approvalOrganzeUser!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>      </w:t>
-                            </w:r>
-                        </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="105"/>
-                                <w:jc w:val="right"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2478,7 +2701,7 @@
                             <w:gridSpan w:val="6"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2489,14 +2712,22 @@
                             </w:pPr>
                             <w:r wsp:rsidRPr="00941B31">
                                 <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>外事部门意见</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>外事部门意见：</w:t>
+                                <w:t>：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2534,7 +2765,7 @@
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00941B31" wsp:rsidRDefault="008371A3" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2554,9 +2785,11 @@
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
                             <w:pPr>
-                                <w:jc w:val="left"/>
+                                <w:wordWrap w:val="off"/>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:ind w:right="420"/>
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2565,22 +2798,69 @@
                             </w:pPr>
                             <w:r wsp:rsidRPr="00941B31">
                                 <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>审批</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>负责人签字：   </w:t>
+                                <w:t>结果：     </w:t>
                             </w:r>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${approvalForignResult!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>            </w:t>
+                            </w:r>
+                        </w:p>
+
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:wordWrap w:val="off"/>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:ind w:right="420"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t></w:t>
+                                <w:t>负责</w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>人签字：   </w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2589,18 +2869,19 @@
                                 <w:t>${approvalForignUser!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>     </w:t>
+                                <w:t>            </w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
                             <w:pPr>
-                                <w:ind w:first-line-chars="1500" w:first-line="3150"/>
+                                <w:wordWrap w:val="off"/>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
                                 <w:jc w:val="right"/>
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
@@ -2609,14 +2890,6 @@
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
                             <w:r wsp:rsidRPr="00941B31">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
@@ -2710,6 +2983,53 @@
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                            <w:pPr>
+                                <w:wordWrap w:val="off"/>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:ind w:right="420"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>审批</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>结果：     </w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${approvalLeaderResult!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>            </w:t>
+                            </w:r>
+                        </w:p>
+
                         <w:p wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
                             <w:pPr>
                                 <w:jc w:val="left"/>

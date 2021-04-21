@@ -133,15 +133,14 @@ public class ParttimeApprovalLogService {
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
             record.setOdType(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_FIRST); // 初审
-        }
-        if (!pass) { // 不通过，退回申请
-            ParttimeApply apply = new ParttimeApply();
-            apply.setId(applyId);
-            apply.setStatus(false); // 退回
-            apply.setApprovalRemark(remark);
-            apply.setIsAgreed(false);
-            apply.setIsFinish(true);
-            parttimeApplyService.doApproval(apply);
+            if (!pass) {
+                ParttimeApply apply = new ParttimeApply();
+                apply.setId(applyId);
+                apply.setStatus(false); // 退回
+                apply.setApprovalRemark(remark);
+                apply.setIsFinish(true);
+                parttimeApplyService.doApproval(apply);
+            }
         }
         if (approvalTypeId == 0) {
             record.setOdType(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST); // 终审
@@ -212,6 +211,10 @@ public class ParttimeApprovalLogService {
         if(record.getTypeId()==null && record.getOdType()==ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST){
             apply.setIsFinish(true); // 终审完成
             apply.setIsAgreed(record.getStatus());
+        }
+        if (!record.getStatus()) {
+            apply.setIsAgreed(false);
+            apply.setIsFinish(true);
         }
         // 立刻更新申请记录的相关审批结果字段（供查询使用）
         parttimeApplyService.doApproval(apply);

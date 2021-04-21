@@ -109,7 +109,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
     @RequiresPermissions("parttimeApply:list")
     @RequestMapping("/parttimeApply_au_page")
     public String parttime_au_page() {
-        return "parttime/parttimeApply/parttimeApply_au_page";
+        return "parttime/user/parttimeApply/parttimeApply_au";
     }
 
     @RequiresPermissions("parttimeApply:list")
