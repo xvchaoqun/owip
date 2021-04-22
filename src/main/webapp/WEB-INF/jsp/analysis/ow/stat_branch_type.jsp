@@ -40,7 +40,8 @@
                 legendData.push(item);
                 seriesData.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type:key
                 });
             });
 
@@ -51,7 +52,7 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    formatter: '{a} <br/>{b}:{d}%'
                 },
                 legend: {
                     orient: 'vertical',
@@ -105,5 +106,14 @@
             };
             branchTypeChart.setOption(option,true);
             branchTypeChart.hideLoading();
+
+            <shiro:hasPermission name="branch:list">
+            branchTypeChart.on('click', function (params) {
+                //console.log(params.data);
+                var url = "#${ctx}/branch?partyId=${partyId}&_type={0}"
+                    .format($.trim(params.data._type));
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
         })
 </script>

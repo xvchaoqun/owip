@@ -34,7 +34,8 @@
                 legendData.push(item);
                 seriesData.push({
                     name: item,
-                    value: value
+                    value: value,
+                    tranYear:key
                 });
             });
 
@@ -45,7 +46,7 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    formatter: '{a} <br/>{b}: {d}%'
                 },
                 legend: {
                     orient: 'vertical',
@@ -99,5 +100,14 @@
             };
             partyTranTimeChart.setOption(option,true);
             partyTranTimeChart.hideLoading();
+
+            <shiro:hasPermission name="party:list">
+            partyTranTimeChart.on('click', function (params) {
+                //console.log(params.data);
+                var url = "#${ctx}/party?tranYear={0}"
+                    .format($.trim(params.data.tranYear));
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
         })
 </script>

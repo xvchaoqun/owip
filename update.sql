@@ -1,4 +1,12 @@
 
+
+-- 删除民族 “其他”
+delete bmt.* from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_nation' and bmt.class_id=bmc.id and bmt.name='其他';
+update sys_user_info set nation='汉族' where nation='汉';
+update sys_user_info set nation=null where nation is not null and nation not in(
+select bmt.name from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_nation' and bmt.class_id=bmc.id
+);
+
 20210419
 -- 哈工大
 ALTER TABLE `ow_member_apply`

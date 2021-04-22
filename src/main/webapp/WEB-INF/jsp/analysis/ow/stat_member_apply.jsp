@@ -39,14 +39,15 @@
                 legendData.push(item);
                 seriesData.push({
                     name: item,
-                    value: value
+                    value: value,
+                    stage:key
                 });
             });
 
             var option = {
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    formatter: '{a} <br/>{b}: {d}%'
                 },
                 legend: {
                     orient: 'vertical',
@@ -100,5 +101,14 @@
             };
             memberApplyChart.setOption(option, true);
             memberApplyChart.hideLoading();
+
+            <shiro:hasPermission name="memberApply:admin">
+            memberApplyChart.on('click', function (params) {
+                //console.log(params.data);
+                var url = "#${ctx}/memberApply?partyId=${partyId}&stage={0}"
+                    .format($.trim(params.data.stage));
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
         })
 </script>

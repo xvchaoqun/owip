@@ -853,6 +853,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("member:list")
     @RequestMapping("/member")
     public String member(HttpServletResponse response,
                          Integer userId,
@@ -968,15 +969,18 @@ public class MemberController extends MemberBaseController {
                             Integer userId,
                             String realname, // 姓名或学工号
                             Byte userType,
+                            Byte memberType,
                             Integer unitId,
                             Integer partyId,
                             Integer branchId,
                             Byte politicalStatus,
                             Byte gender,
+                            String _gender,
                             Byte age,
                             Integer startAge,
                             Integer endAge,
                             String[] nation,
+                            String _nation,
                             String[] nativePlace,
                             @RequestDateRange DateRange _growTime,
                             @RequestDateRange DateRange _positiveTime,
@@ -1066,16 +1070,37 @@ public class MemberController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
 
+        if(StringUtils.contains(_gender, "男")){
+            gender = SystemConstants.GENDER_MALE;
+        }else if(StringUtils.contains(_gender, "女")){
+            gender = SystemConstants.GENDER_FEMALE;
+        }else if(StringUtils.contains(_gender, "无数据")){
+            criteria.andGenderIsNull();
+        }
         if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }
         if (politicalStatus != null) {
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
-        if (nation != null) {
-            List<String> selectNations = Arrays.asList(nation);
+
+        List<String> selectNations = null;
+        if(StringUtils.isNotBlank(_nation)) {
+            if (StringUtils.contains(_nation, "少数民族")) {
+                criteria.andNationNotIn(Arrays.asList("汉族", "其他"));
+            }else if (StringUtils.contains(_nation, "无数据")) {
+                criteria.andNationIsNull();
+            }else{
+                selectNations = Arrays.asList(_nation);
+            }
+        }
+        if(nation != null){
+            selectNations = Arrays.asList(nation);
+        }
+        if (selectNations != null && selectNations.size()>0) {
             criteria.andNationIn(selectNations);
         }
+
         if (nativePlace != null) {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             criteria.andNativePlaceIn(selectNativePlaces);
@@ -1171,8 +1196,18 @@ public class MemberController extends MemberBaseController {
             criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
         }
 
+        if(memberType!=null) {
+            if (memberType == MemberConstants.MEMBER_TYPE_TEACHER) {
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                        SystemConstants.USER_TYPE_RETIRE));
+            } else if (memberType == MemberConstants.MEMBER_TYPE_STUDENT) {
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                            SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
+            }
+        }
+
         /*
-           1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
+           1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 -1全部
          */
         switch (cls) {
             case 1:

@@ -550,7 +550,7 @@
                 }, frozen: true
             },
             {label: '学工号', name: 'code', width: 120, frozen: true},
-            <c:if test="${cls==10}">
+            <c:if test="${cls==-1}">
                 {label: '人员类别', name: 'userType', formatter : function (cellvalue, options, rowObject) {
                     return _cMap.USER_TYPE_MAP[cellvalue];
                 }},

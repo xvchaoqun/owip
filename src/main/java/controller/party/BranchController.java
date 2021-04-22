@@ -115,9 +115,11 @@ public class BranchController extends BaseController {
                             String code,
                             String name,
                             Integer partyId,
+                            String _type,
                             Integer[] types,
                             Integer unitTypeId,
                             @RequestDateRange DateRange _foundTime,
+                            String tranYear, // 换届年份
                             Boolean isStaff,
                             Boolean isPrefessional,
                             Boolean isBaseTeam,
@@ -201,6 +203,19 @@ public class BranchController extends BaseController {
             else criteria.andPartyIdIsNull();
         }*/
 
+        if(StringUtils.isNotBlank(_type)){
+            if(_type.equals("其他")){
+                criteria.andTypesIsNull();
+            }else{
+                MetaType branchType = CmTag.getMetaTypeByName("mc_branch_type", _type);
+                if(branchType!=null){
+                    criteria.andTypesContain(new HashSet<>(Arrays.asList(branchType.getId())));
+                }else {
+                    criteria.andIdIsNull();
+                }
+            }
+        }
+
         if (types != null) {
             criteria.andTypesContain(new HashSet<>(Arrays.asList(types)));
         }
@@ -223,6 +238,17 @@ public class BranchController extends BaseController {
 
         if (_foundTime.getEnd() != null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
+        }
+
+        if(tranYear!=null){
+            if(tranYear.equals("无数据")){
+                criteria.andTranTimeIsNull();
+            }else if(StringUtils.isNumeric(tranYear)){
+                criteria.andTranTimeGreaterThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "0101"))
+                        .andTranTimeLessThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "1231"));
+            }else{
+                criteria.andIdIsNull();
+            }
         }
 
         if (_integrity != null){

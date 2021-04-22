@@ -130,6 +130,7 @@ public class PartyController extends BaseController {
                                     Boolean isBg,
                                     String sortBy, // 自定义排序
                                     @RequestDateRange DateRange _foundTime,
+                                  String tranYear, // 换届年份
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -236,6 +237,17 @@ public class PartyController extends BaseController {
 
         if (_foundTime.getEnd()!=null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
+        }
+
+        if(tranYear!=null){
+            if(tranYear.equals("无数据")){
+                criteria.andTranTimeIsNull();
+            }else if(StringUtils.isNumeric(tranYear)){
+                criteria.andTranTimeGreaterThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "0101"))
+                        .andTranTimeLessThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "1231"));
+            }else{
+                criteria.andIdIsNull();
+            }
         }
 
         if (_integrity != null){

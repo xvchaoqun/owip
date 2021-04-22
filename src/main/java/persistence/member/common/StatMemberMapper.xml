@@ -11,7 +11,7 @@
     </sql>
     <!--统计党员分布情况（按预备、正式分类）-->
     <select id="member_groupByPoliticalStatus" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, political_status as groupBy from ow_member where status=1
+        select count(*) as num, political_status as groupBy from ow_member_view where status=1
         <include refid="Where_ow"/> group by groupBy
     </select>
 
@@ -104,13 +104,13 @@
 
     <!-- 统计党员中汉族的人数 -->
     <select id="countHan" resultType="java.lang.Integer" parameterType="map">
-        select count(*) from ow_member_view where status=1 and nation like '汉%'
+        select count(*) from ow_member_view where status=1 and nation = '汉族'
         <include refid="Where_ow"/>
     </select>
 
     <!-- 统计党员中少数民族的人数 -->
     <select id="countMinority" resultType="java.lang.Integer" parameterType="map">
-        select count(*) from ow_member_view where status=1 and nation not like '汉%' and nation is not null
+        select count(*) from ow_member_view where status=1 and nation !='汉族' and nation is not null
         <include refid="Where_ow"/>
     </select>
 

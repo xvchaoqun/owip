@@ -2,8 +2,6 @@ package controller.analysis;
 
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.party.Branch;
-import domain.party.BranchExample;
 import domain.party.Party;
 import domain.party.PartyExample;
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.member.common.MemberStatByPartyBean;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -28,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class StatOwController extends BaseController {
@@ -74,16 +70,18 @@ public class StatOwController extends BaseController {
 
         Map<Byte, Integer> statGrowMap = new LinkedHashMap<>();
         Map<Byte, Integer> statPositiveMap = new LinkedHashMap<>();
+        Map<Byte, Integer> statMap = new LinkedHashMap<>();
         if (type == null){
             statGrowMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId);
             statPositiveMap = statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId);
         }else if (type != null && type ==3){
-            statPositiveMap = statService.typeMap(null, partyId, branchId);
+            statMap = statService.typeMap(null, partyId, branchId);
         }
 
         resultMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
         resultMap.put("statGrowMap", statGrowMap);
         resultMap.put("statPositiveMap", statPositiveMap);
+        resultMap.put("statMap", statMap);
 
         return resultMap;
     }

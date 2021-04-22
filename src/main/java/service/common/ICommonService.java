@@ -198,26 +198,22 @@ public abstract class ICommonService {
     // 人事库中的民族转换成标准格式
     public static String formatNation(String mz){
 
-        if(StringUtils.isBlank(mz)
-                || StringUtils.equalsAnyIgnoreCase(mz.trim(),
-                "无", "空", "null", "未知", "其他", "其它")
-        ) return null;
+        mz = StringUtils.trim(mz);
 
-        mz = mz.trim();
-        if(mz.contains("族")){
-
-            if(!mz.endsWith("族")){
-                mz = mz.substring(0, mz.indexOf("族")+1);
-            }
-            return mz;
+        // 处理加备注的民族，比如：回族（区内）
+        if(mz.contains("族") && !mz.endsWith("族")){
+            mz = mz.substring(0, mz.indexOf("族"));
         }
+
+        mz = StringUtils.appendIfMissing(mz.trim(), "族");
 
         Map<Integer, MetaType> nations = CmTag.getMetaTypes("mc_nation");
         Set<String> nationSet = nations.values().stream().map(MetaType::getName).collect(Collectors.toSet());
-        if(nationSet.contains(mz+"族")){
-            return mz+"族";
+        if(nationSet.contains(mz)){
+            return mz;
         }
-        return mz;
+
+        return null;
     }
 
     // 人事库中的职级转换成标准格式

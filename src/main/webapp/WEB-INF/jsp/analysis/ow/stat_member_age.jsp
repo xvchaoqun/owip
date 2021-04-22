@@ -73,14 +73,15 @@
             legendData.push(item);
             seriesData.push({
                 name: item,
-                value: value
+                value: value,
+                age: key
             });
         });
 
         var option = {
             tooltip: {
                 trigger: 'item',
-                formatter: '{a} <br/>{b} : {c} ({d}%)'
+                formatter: '{a} <br/>{b}:{d}%'
             },
             legend: {
                 orient: 'vertical',
@@ -134,5 +135,14 @@
         };
         memberAgeChart.setOption(option, true);
         memberAgeChart.hideLoading();
+
+        <shiro:hasPermission name="member:list">
+        memberAgeChart.on('click', function (params) {
+            //console.log(params.data);
+            var url = "#${ctx}/member?cls=-1&partyId=${partyId}&branchId=${branchId}&memberType=${type}&age={0}"
+                .format($.trim(params.data.age));
+            window.open(url, "_blank");
+        });
+        </shiro:hasPermission>
     })
 </script>
