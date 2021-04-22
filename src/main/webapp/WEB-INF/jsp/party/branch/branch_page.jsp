@@ -121,11 +121,8 @@
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党小组成员</a>--%>
                 <c:if test="${cls==1}">
                     <shiro:hasPermission name="branch:del">
-                        <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-callback="updateCache"
-                           data-url="${ctx}/branch_batchDel" data-title="撤销党支部"
-                           data-msg="确定撤销这{0}个党支部吗？"><i class="fa fa-history"></i> 撤销</a>
-                        【注：撤销操作将同时删除其下的支部委员会及相关管理员权限，请谨慎操作！】
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/branch_batchDel"><i class="fa fa-history"></i> 撤销</a>
                     </shiro:hasPermission>
                 </c:if>
                 <c:if test="${cls==2}">
@@ -391,6 +388,8 @@
                         return "class='danger'";
                 }},
             { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
+
+             <c:if test="${cls==1}">
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
@@ -403,13 +402,10 @@
                         }
                     }
                 }},
+
+            </c:if>
             <c:if test="${cls==2}">
-            {
-                label: '实际换届<br/>时间',
-                name: 'actualTranTime',
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
-            },
+            {label: '撤销时间', name: 'abolishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             </shiro:hasPermission>
             { label:'简称', name: 'shortName', align:'left', width: 180},

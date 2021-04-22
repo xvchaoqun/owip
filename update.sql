@@ -10,6 +10,26 @@ select bmt.name from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
 ('adForm1_family_birth', '北京任免表显示家庭成员出生日期', '1', 2, 101, '1：显示出生日期， 2：显示年龄');
 
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `unit_code` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位编码' AFTER `unit`;
+ALTER TABLE `ow_party`
+	ADD COLUMN `unit_ids` VARCHAR(300) NULL DEFAULT NULL COMMENT '关联单位2' AFTER `unit_id`;
+-- 更新 sys_user_view
+
+ALTER TABLE `ow_party`
+	ADD COLUMN `abolish_time` DATE NULL DEFAULT NULL COMMENT '撤销时间，撤销后is_deleted=1' AFTER `found_time`,
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `update_time`;
+-- 更新 ow_party_view
+
+ALTER TABLE `ow_branch`
+	ADD COLUMN `abolish_time` DATE NULL DEFAULT NULL COMMENT '撤销时间，撤销后is_deleted=1' AFTER `found_time`,
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `update_time`;
+-- 更新 ow_branch_view
+
+ALTER TABLE `ow_party_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否换届' AFTER `sort_order`;
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否换届' AFTER `sort_order`;
 
 
 20210419

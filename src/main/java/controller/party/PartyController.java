@@ -17,6 +17,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -359,19 +360,28 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request,
-                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
-                        Integer[] ids, ModelMap modelMap) {
+    public Map do_party_batchDel(HttpServletRequest request,
+                                            @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)Date abolishTime,
+                                         @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
+                                         Integer[] ids, ModelMap modelMap) {
 
-
-        if (null != ids && ids.length>0){
-            partyService.batchDel(ids, isDeleted);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
+        if (null != ids && ids.length > 0) {
+            partyService.batchDel(ids, isDeleted, abolishTime);
+            logger.info(addLog(LogConstants.LOG_PARTY, "撤销基层党组织：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("party:del")
+    @RequestMapping("/party_batchDel")
+    public String party_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("party", partyMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/party_batchDel";
+    }
 
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
@@ -485,7 +495,7 @@ public class PartyController extends BaseController {
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"编号|200","名称|350|left","简称|250|left","党总支类别|100",
-                "是否已设立现任委员会|80", "任命时间|100","应换届时间|100", "实际换届时间|100",
+                "是否已设立现任委员会|80", "任命时间|100","应换届时间|100",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
                 "组织类别|100","关联单位|250|left","关联单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"}));
         if (type != 1){
@@ -508,7 +518,6 @@ public class PartyController extends BaseController {
 
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
 
                     BooleanUtils.isTrue(record.getIsEnterpriseBig()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsEnterpriseNationalized()) ? "是" : "否",

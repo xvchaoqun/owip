@@ -157,7 +157,7 @@ public class PartyMemberGroupService extends BaseMapper {
             if(!isDeleted){ // 恢复班子
                 Party party = partyMapper.selectByPrimaryKey(partyId);
                 if(party.getIsDeleted())
-                    throw new OpException(String.format("恢复班子失败，班子所属的分党委【%s】已删除。", party.getName()));
+                    throw new OpException(String.format("恢复班子失败，班子所属的党组织【%s】已撤销。", party.getName()));
 
                 PartyMemberGroup presentGroup = getPresentGroup(partyId);
                 if(presentGroup!=null){

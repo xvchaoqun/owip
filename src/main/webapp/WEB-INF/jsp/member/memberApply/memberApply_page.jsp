@@ -45,11 +45,6 @@
                                                 <i class="fa fa-eraser"></i> 已移除的申请
                                             </a>
                                         </li>
-                                        <li class="<c:if test="${stage==OW_APPLY_STAGE_OUT}">active</c:if>">
-                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${OW_APPLY_STAGE_OUT}'>
-                                                <i class="fa fa-outdent"></i>  已转出的申请
-                                            </a>
-                                        </li>
                                         <c:set value="${0}" var="index"/>
                                         <c:forEach items="#{OW_APPLY_STAGE_MAP}" var="applyStage">
                                             <c:choose>

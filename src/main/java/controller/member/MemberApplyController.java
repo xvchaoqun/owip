@@ -419,6 +419,7 @@ public class MemberApplyController extends MemberBaseController {
                                  @RequestParam(defaultValue = MemberConstants.MEMBER_TYPE_STUDENT + "") Byte type,
                                  @RequestParam(defaultValue = "0") Byte stage,
                                  @RequestParam(required = false, defaultValue = "1") Boolean isApply,
+                                 Byte applyStatus, // 申请阶段查询
                                  Byte growStatus, // 领取志愿书阶段查询
                                  Byte positiveStatus, // 预备党员阶段查询
                                  String applySn, // 志愿书编码
@@ -457,7 +458,11 @@ public class MemberApplyController extends MemberBaseController {
                 criteria.andStageEqualTo(stage);
             }
 
-            if (stage == OwConstants.OW_APPLY_STAGE_DRAW) {
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT) {
+                if (applyStatus != null) {
+                    criteria.andStageEqualTo(applyStatus);
+                }
+            }else if (stage == OwConstants.OW_APPLY_STAGE_DRAW) {
                 if (growStatus != null && growStatus >= 0)
                     criteria.andGrowStatusEqualTo(growStatus);
                 if (growStatus != null && growStatus == -1)
@@ -467,13 +472,6 @@ public class MemberApplyController extends MemberBaseController {
                     criteria.andPositiveStatusEqualTo(positiveStatus);
                 if (positiveStatus != null && positiveStatus == -1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
-            }
-
-            // 考虑已经转出的情况 2016-12-19
-            if (stage == OwConstants.OW_APPLY_STAGE_OUT) {
-                criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
-            } else {
-                criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
             }
 
             // 已移除的记录

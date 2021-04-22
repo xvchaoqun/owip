@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/jsp/party/constants.jsp" %>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <li  class="<c:if test="${status==1&&type==0}">active</c:if>">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=1"><i class="fa fa-list"></i> 分党委领导班子</a>
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=1"><i class="fa fa-list"></i> 领导班子</a>
   </li>
   <c:if test="${_p_use_inside_pgb}">
     <li  class="<c:if test="${status==1&&type==1}">active</c:if>">
@@ -16,7 +16,7 @@
   </li>
   <shiro:hasPermission name="party:list">
   <li  class="<c:if test="${status==-1}">active</c:if>">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=-1"><i class="fa fa-history"></i> 已撤销领导班子</a>
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=-1"><i class="fa fa-history"></i> 已换届领导班子</a>
   </li>
   </shiro:hasPermission>
 </ul>

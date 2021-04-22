@@ -118,10 +118,6 @@ public class MemberApplyView implements Serializable {
 
     private Byte userType;
 
-    private Byte status;
-
-    private Integer memberStatus;
-
     private String edu;
 
     private Integer partySortOrder;
@@ -464,22 +460,6 @@ public class MemberApplyView implements Serializable {
 
     public void setUserType(Byte userType) {
         this.userType = userType;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getMemberStatus() {
-        return memberStatus;
-    }
-
-    public void setMemberStatus(Integer memberStatus) {
-        this.memberStatus = memberStatus;
     }
 
     public String getEdu() {

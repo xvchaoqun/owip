@@ -36,6 +36,26 @@ pageEncoding="UTF-8" %>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>确定为入党积极分子时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_activeTime" value="${param._activeTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>确定为发展对象时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_candidateTime" value="${param._candidateTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
@@ -328,10 +348,12 @@ pageEncoding="UTF-8" %>
     function _exportApply1(btn, type){
 
         var _applyTime = $("input[name=_applyTime]", "#exportForm1").val();
+        var _activeTime = $("input[name=_activeTime]", "#exportForm1").val();
+        var _candidateTime = $("input[name=_candidateTime]", "#exportForm1").val();
         var partyId = $("select[name=partyId]", "#exportForm1").val();
         var branchId = $("select[name=branchId]", "#exportForm1").val();
-        var url="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&t={4}"
-                .format(type, partyId, branchId, _applyTime, new Date().getTime());
+        var url="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&_activeTime={4}&_candidateTime={5}&t={6}"
+                .format(type, partyId, branchId, _applyTime, _activeTime, _candidateTime, new Date().getTime());
         $(btn).download(url);
     }
 

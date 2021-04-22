@@ -60,6 +60,9 @@ public class Party implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date foundTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date abolishTime;
+
     private Integer sortOrder;
 
     private Date createTime;
@@ -246,6 +249,14 @@ public class Party implements Serializable {
 
     public void setFoundTime(Date foundTime) {
         this.foundTime = foundTime;
+    }
+
+    public Date getAbolishTime() {
+        return abolishTime;
+    }
+
+    public void setAbolishTime(Date abolishTime) {
+        this.abolishTime = abolishTime;
     }
 
     public Integer getSortOrder() {

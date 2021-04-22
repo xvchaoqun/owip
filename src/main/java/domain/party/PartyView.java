@@ -57,6 +57,8 @@ public class PartyView implements Serializable {
 
     private Date foundTime;
 
+    private Date abolishTime;
+
     private Integer sortOrder;
 
     private Date createTime;
@@ -265,6 +267,14 @@ public class PartyView implements Serializable {
 
     public void setFoundTime(Date foundTime) {
         this.foundTime = foundTime;
+    }
+
+    public Date getAbolishTime() {
+        return abolishTime;
+    }
+
+    public void setAbolishTime(Date abolishTime) {
+        this.abolishTime = abolishTime;
     }
 
     public Integer getSortOrder() {

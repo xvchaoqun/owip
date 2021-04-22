@@ -1499,6 +1499,66 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andAbolishTimeIsNull() {
+            addCriterion("abolish_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeIsNotNull() {
+            addCriterion("abolish_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time =", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time <>", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("abolish_time >", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time >=", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeLessThan(Date value) {
+            addCriterionForJDBCDate("abolish_time <", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time <=", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("abolish_time in", values, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("abolish_time not in", values, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("abolish_time between", value1, value2, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("abolish_time not between", value1, value2, "abolishTime");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

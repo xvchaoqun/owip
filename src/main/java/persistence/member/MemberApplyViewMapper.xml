@@ -44,8 +44,6 @@
     <result column="is_remove" jdbcType="BIT" property="isRemove" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="user_type" jdbcType="TINYINT" property="userType" />
-    <result column="_status" jdbcType="TINYINT" property="status" />
-    <result column="member_status" jdbcType="INTEGER" property="memberStatus" />
     <result column="edu" jdbcType="VARCHAR" property="edu" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="branch_sort_order" jdbcType="INTEGER" property="branchSortOrder" />
@@ -87,7 +85,7 @@
     plan_time, plan_status, draw_time, draw_status, apply_sn_id, apply_sn, draw_acceptor, 
     grow_public_id, grow_time, grow_status, grow_contact_user_ids, grow_contact_users, 
     positive_public_id, positive_time, positive_status, is_remove, create_time, user_type, 
-    _status, member_status, edu, party_sort_order, branch_sort_order
+    edu, party_sort_order, branch_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberApplyViewExample" resultMap="BaseResultMap">
     select

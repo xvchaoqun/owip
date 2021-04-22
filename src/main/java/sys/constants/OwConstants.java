@@ -86,7 +86,6 @@ public class OwConstants {
     // 申请入党阶段
     //0不通过 1申请  2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书 6预备党员 7正式党员
     public final static byte OW_APPLY_STAGE_REMOVE = -3; // 已移除的申请
-    public final static byte OW_APPLY_STAGE_OUT = -2; // 已转出的申请
     public final static byte OW_APPLY_STAGE_DENY = -1; // 未通过
     public final static byte OW_APPLY_STAGE_INIT = 0; // 申请
     public final static byte OW_APPLY_STAGE_PASS = 1; // 通过
@@ -113,7 +112,6 @@ public class OwConstants {
     public final static Map<Byte, String> OW_APPLY_ALLSTAGE_MAP = new LinkedHashMap<>();
     static {
         OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_REMOVE, "已移除的申请");
-        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_OUT, "已转出的申请");
         OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_DENY, "未通过");
         OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_INIT, "申请(待支部审核)");
         OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_PASS, "申请(支部审核通过)");

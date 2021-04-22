@@ -348,7 +348,7 @@ public class MemberApplyService extends MemberBaseMapper {
     public int count(Integer partyId, Integer branchId, Byte applyType, Byte stage, Byte status) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
-        MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
+        MemberApplyViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -407,7 +407,7 @@ public class MemberApplyService extends MemberBaseMapper {
     public MemberApply next(Byte applyType, Byte stage, Byte status, MemberApply memberApply) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
-        MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
+        MemberApplyViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -471,7 +471,7 @@ public class MemberApplyService extends MemberBaseMapper {
     public MemberApply last(Byte applyType, Byte stage, Byte status, MemberApply memberApply) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
-        MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
+        MemberApplyViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 

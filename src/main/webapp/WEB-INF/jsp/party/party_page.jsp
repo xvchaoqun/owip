@@ -74,11 +74,8 @@ pageEncoding="UTF-8" %>
 
                     <c:if test="${cls==1}">
                         <shiro:hasPermission name="party:del">
-                            <a class="jqBatchBtn btn btn-danger btn-sm"
-                               data-callback="updateCache"
-                               data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
-                               data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
-                            【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
+                            <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                               data-url="${ctx}/party_batchDel"><i class="fa fa-history"></i> 撤销</a>
                         </shiro:hasPermission>
                     </c:if>
                 </c:if>
@@ -387,6 +384,8 @@ pageEncoding="UTF-8" %>
                         return "class='danger'";
                 }},
             { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+
+             <c:if test="${cls==1}">
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
@@ -399,6 +398,10 @@ pageEncoding="UTF-8" %>
                         }
                     }
                 }},
+            </c:if>
+             <c:if test="${cls==2}">
+            {label: '撤销时间', name: 'abolishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            </c:if>
             </shiro:hasPermission>
             /*{
                 label: '实际换届<br/>时间',
