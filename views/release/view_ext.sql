@@ -18,7 +18,11 @@ left join base_meta_type _unittype on unit.type_id = _unittype.id
 , sys_user u, sys_user_info ui
 where c.user_id = u.id and (c.status = 1 or c.status=6) and ui.user_id = u.id order by field(c.status, 2,5,3,1,4,6) desc;
 
-
+DROP VIEW IF EXISTS `ext_party_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ext_party_view` AS
+select p.code, p.name, bmt.name as type , p.short_name, p.found_time, p.is_deleted, p.sort_order as weight from ow_party p
+left join base_meta_type bmt on bmt.id = p.class_id where fid is null
+order by p.is_deleted asc, weight desc ;
 -- ----------------------------
 --  View definition for `ext_branch_view`
 -- ----------------------------
